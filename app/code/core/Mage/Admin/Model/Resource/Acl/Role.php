@@ -20,104 +20,26 @@
  *
  * @category    Mage
  * @package     Mage_Admin
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 
 /**
  * ACL role resource
  *
+ * @deprecated
  * @category    Mage
  * @package     Mage_Admin
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Resource_Acl_Role
+class Mage_Admin_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
-     * @var unknown
-     */
-    protected $_roleTable;
-
-    /**
-     * Enter description here ...
-     *
-     * @var unknown
-     */
-    protected $_read;
-
-    /**
-     * Enter description here ...
-     *
-     * @var unknown
-     */
-    protected $_write;
-
-    /**
-     * Enter description here ...
+     * Define main table
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        $this->_roleTable = Mage::getSingleton('core/resource')->getTableName('admin/role');
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('admin_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('admin_write');
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param unknown_type $roleId
-     * @return unknown
-     */
-    public function load($roleId)
-    {
-        $select = $this->_read->select()->from($this->_roleTable)
-            ->where("role_id=?", $roleId);
-        return $this->_read->fetchRow($select);
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param Mage_Admin_Model_Acl_Role $role
-     * @return unknown
-     */
-    public function save(Mage_Admin_Model_Acl_Role $role)
-    {
-        $data = $role->getData();
-        
-        $this->_write->beginTransaction();
-
-        try {
-            if ($role->getId()) {
-                $condition = $this->_write->quoteInto('role_id=?', $role->getRoleId());
-                $this->_write->update($this->_roleTable, $data, $condition);
-            } else { 
-                $data['created'] = now();
-                $this->_write->insert($this->_roleTable, $data);
-                $role->setRoleId($this->_write->lastInsertId());
-            }
-
-            $this->_write->commit();
-        }
-        catch (Mage_Core_Exception $e)
-        {
-            $this->_write->rollback();
-            throw $e;
-        }
-        
-        return $role;
-    }
-
-    /**
-     * Enter description here ...
-     *
-     */
-    public function delete()
-    {
-        
+        $this->_init('admin/role', 'role_id');
     }
 }

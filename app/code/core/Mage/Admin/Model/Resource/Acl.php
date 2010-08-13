@@ -32,32 +32,17 @@
  * @package     Mage_Admin
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Resource_Acl
+class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 {
     const ACL_ALL_RULES= 'all';
 
     /**
-     * Read resource connection
-     *
-     * @var mixed
-     */
-    protected $_read;
-
-    /**
-     * Write resource connection
-     *
-     * @var mixed
-     */
-    protected $_write;
-
-    /**
-     * Initialize resource connections
+     * Initialize resource
      *
      */
-    public function __construct()
+    public function _construct()
     {
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('admin_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('admin_write');
+        $this->_init('admin/role', 'role_id');
     }
 
     /**
@@ -71,14 +56,28 @@ class Mage_Admin_Model_Resource_Acl
 
         Mage::getSingleton('admin/config')->loadAclResources($acl);
 
-        $roleTable = Mage::getSingleton('core/resource')->getTableName('admin/role');
-        $rolesArr = $this->_read->fetchAll("select * from $roleTable order by tree_level");
+        $roleTable   = $this->getTable('admin/role');
+        $ruleTable   = $this->getTable('admin/rule');
+        $assertTable = $this->getTable('admin/assert');
+
+        $select = $this->_getReadAdapter()->select()
+            ->from($roleTable)
+            ->order('tree_level');
+
+        $rolesArr = $this->_getReadAdapter()->fetchAll($select);
+
         $this->loadRoles($acl, $rolesArr);
 
-        $ruleTable = Mage::getSingleton('core/resource')->getTableName('admin/rule');
-        $assertTable = Mage::getSingleton('core/resource')->getTableName('admin/assert');
-        $rulesArr = $this->_read->fetchAll("select r.*, a.assert_type, a.assert_data
-            from $ruleTable r left join $assertTable a on a.assert_id=r.assert_id");
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('r' => $ruleTable))
+            ->joinLeft(
+                array('a' => $assertTable),
+                'a.assert_id = r.assert_id',
+                array('assert_type', 'assert_data')
+            );
+
+        $rulesArr = $this->_getReadAdapter()->fetchAll($select);
+
         $this->loadRules($acl, $rulesArr);
 
         return $acl;

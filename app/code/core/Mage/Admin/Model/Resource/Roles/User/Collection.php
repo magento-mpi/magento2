@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Admin role users collection
  *
  * @category    Mage
  * @package     Mage_Admin
@@ -35,7 +35,7 @@
 class Mage_Admin_Model_Resource_Roles_User_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource model
      *
      */
     protected function _construct()
@@ -44,13 +44,16 @@ class Mage_Admin_Model_Resource_Roles_User_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Initialize select
      *
+     * @return Mage_Admin_Model_Resource_Roles_User_Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
 
         $this->getSelect()->where("user_id > 0");
+
+        return $this;
     }
 }

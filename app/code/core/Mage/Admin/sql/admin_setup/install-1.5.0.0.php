@@ -46,7 +46,7 @@ $table = $installer->getConnection()
         ), 'Assert Type')
     ->addColumn('assert_data', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Assert Data')
-    ->setOption('comment', 'Admin Assert Table');
+    ->setComment('Admin Assert Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -92,7 +92,7 @@ $table = $installer->getConnection()
         array('parent_id', 'sort_order'))
     ->addIndex($installer->getIdxName('admin/role', array('tree_level')),
         array('tree_level'))
-    ->setOption('comment', 'Admin Role Table');
+    ->setComment('Admin Role Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -135,7 +135,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('admin/rule', 'role_id', 'admin/role', 'role_id'),
         'role_id', $installer->getTable('admin/role'), 'role_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setOption('comment', 'Admin Rule Table');
+    ->setComment('Admin Rule Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -193,7 +193,7 @@ $table = $installer->getConnection()
         ), 'User Extra Data')
     ->addIndex($installer->getIdxName('admin/user', array('username'), true),
         array('username'), array('unique' => true))
-    ->setOption('comment', 'Admin User Table');
+    ->setComment('Admin User Table');
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

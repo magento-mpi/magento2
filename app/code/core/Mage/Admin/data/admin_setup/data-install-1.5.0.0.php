@@ -46,19 +46,3 @@ Mage::getModel('admin/rules')->setData(array(
     'permission'    => 'allow'
     ))
     ->save();
-
-/**
- * Create default administrator
- *
- * @todo remove this
- */
-Mage::getModel('admin/user')->setData(array(
-    'firstname' => 'Store',
-    'lastname'  => 'Owner',
-    'email'     => 'user@magentocommerce.com',
-    'username'  => 'admin',
-    'password'  => 'c74ee8a143b59f37a6a88a2b0608eae0:qm',
-    ))
-    ->save()
-    ->setRoleIds(array($admGroupRole->getId()))
-    ->saveRelations();

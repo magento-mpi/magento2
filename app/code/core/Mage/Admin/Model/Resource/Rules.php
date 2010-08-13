@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Admin rule resource model
  *
  * @category    Mage
  * @package     Mage_Admin
@@ -35,7 +35,7 @@
 class Mage_Admin_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -51,9 +51,16 @@ class Mage_Admin_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstra
     public function saveRel(Mage_Admin_Model_Rules $rule)
     {
         try {
-            $this->_getWriteAdapter()->beginTransaction();
+            $adapter = $this->_getWriteAdapter();
+            $adapter->beginTransaction();
             $roleId = $rule->getRoleId();
-            $this->_getWriteAdapter()->delete($this->getMainTable(), "role_id = {$roleId}");
+
+            $condition = array(
+                'role_id = ?' => (int) $roleId,
+            );
+
+            $adapter->delete($this->getMainTable(), $condition);
+
             $postedResources = $rule->getResources();
             if ($postedResources) {
                 $row = array(
@@ -67,22 +74,22 @@ class Mage_Admin_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstra
 
                 // If all was selected save it only and nothing else.
                 if ($postedResources === array('all')) {
-                    $this->_getWriteAdapter()->insert($this->getMainTable(), $row);
+                    $adapter->insert($this->getMainTable(), $row);
                 } else {
                     foreach (Mage::getModel('admin/roles')->getResourcesList2D() as $index => $resName) {
                         $row['permission']  = (in_array($resName, $postedResources) ? 'allow' : 'deny');
                         $row['resource_id'] = trim($resName, '/');
-                        $this->_getWriteAdapter()->insert($this->getMainTable(), $row);
+                        $adapter->insert($this->getMainTable(), $row);
                     }
                 }
             }
 
-            $this->_getWriteAdapter()->commit();
+            $adapter->commit();
         } catch (Mage_Core_Exception $e) {
-            $this->_getWriteAdapter()->rollBack();
+            $adapter->rollBack();
             throw $e;
         } catch (Exception $e){
-            $this->_getWriteAdapter()->rollBack();
+            $adapter->rollBack();
             Mage::logException($e);
         }
     }

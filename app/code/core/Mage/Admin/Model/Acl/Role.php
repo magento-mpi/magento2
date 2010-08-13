@@ -32,7 +32,14 @@
  * @package    Mage_Admin
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Acl_Role extends Varien_Object 
+class Mage_Admin_Model_Acl_Role extends Mage_Core_Model_Abstract 
 {
-
+    /**
+     * Initialize resource model
+     * 
+     */
+    protected function _construct()
+    {
+        $this->_init('admin/acl_role');
+    }
 }

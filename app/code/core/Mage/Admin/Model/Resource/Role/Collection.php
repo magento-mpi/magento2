@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Admin role collection
  *
  * @category    Mage
  * @package     Mage_Admin
@@ -35,7 +35,7 @@
 class Mage_Admin_Model_Resource_Role_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource model
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_Admin_Model_Resource_Role_Collection extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here...
+     * Add user filter
      *
      * @param int $userId
      * @return Mage_Admin_Model_Resource_Role_Collection
@@ -57,7 +57,7 @@ class Mage_Admin_Model_Resource_Role_Collection extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Set roles filter
      *
      * @return Mage_Admin_Model_Resource_Role_Collection
      */

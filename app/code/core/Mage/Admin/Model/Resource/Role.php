@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Admin role resource model
  *
  * @category    Mage
  * @package     Mage_Admin
@@ -35,7 +35,7 @@
 class Mage_Admin_Model_Resource_Role extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_Admin_Model_Resource_Role extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
-     * Enter description here ...
+     * Process role before saving
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Admin_Model_Resource_Role
@@ -52,25 +52,9 @@ class Mage_Admin_Model_Resource_Role extends Mage_Core_Model_Resource_Db_Abstrac
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if ( !$object->getId() ) {
-            $object->setCreated(now());
+            $object->setCreated($this->formatDate(true));
         }
-        $object->setModified(now());
+        $object->setModified($this->formatDate(true));
         return $this;
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param Mage_Core_Model_Abstract $object
-     * @param unknown_type $value
-     * @param unknown_type $field
-     * @return unknown
-     */
-    public function load(Mage_Core_Model_Abstract $object, $value, $field = null)
-    {
-        if (!intval($value) && is_string($value)) {
-            $field = 'role_id';
-        }
-        return parent::load($object, $value, $field);
     }
 }

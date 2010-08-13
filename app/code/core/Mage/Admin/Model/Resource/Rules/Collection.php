@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Rules collection
  *
  * @category    Mage
  * @package     Mage_Admin
@@ -35,7 +35,7 @@
 class Mage_Admin_Model_Resource_Rules_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource model
      *
      */
     protected function _construct()
@@ -44,26 +44,27 @@ class Mage_Admin_Model_Resource_Rules_Collection extends Mage_Core_Model_Resourc
     }
 
     /**
-     * Enter description here ...
+     * Get rules by role id
      *
-     * @param unknown_type $id
+     * @param int $id
      * @return Mage_Admin_Model_Resource_Rules_Collection
      */
     public function getByRoles($id)
     {
-        $this->getSelect()->where("role_id = ?", (int)$id);
+        $this->addFieldToFilter('role_id', (int) $id);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Sort by length
      *
      * @return Mage_Admin_Model_Resource_Rules_Collection
      */
     public function addSortByLength()
     {
-        $this->getSelect()->columns(array('length' => 'LENGTH(resource_id)'))
-            ->order('length desc');
+        $this->addExpressionFieldToSelect('length', 'LENGTH({{resource_id}})', 'resource_id');
+        $this->getSelect()->order('length desc');
+
         return $this;
     }
 }

@@ -32,25 +32,14 @@
  * @package     Mage_Admin
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Resource_Acl_Role_Collection extends Varien_Data_Collection_Db
+class Mage_Admin_Model_Resource_Acl_Role_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
-     * @var unknown
-     */
-    protected $_roleTable;
-
-    /**
-     * Enter description here ...
+     * Initialize resource
      *
      */
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('admin_read'));
-        $this->_roleTable = Mage::getSingleton('core/resource')->getTableName('admin/role');
-        $this->_select->from($this->_roleTable);
-        
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('admin/acl_role'));
+        $this->_init('admin/acl_role');
     }
 }

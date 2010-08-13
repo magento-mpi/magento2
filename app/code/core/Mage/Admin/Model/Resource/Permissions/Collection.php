@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Admin permissions collection
  *
  * @category    Mage
  * @package     Mage_Admin
@@ -35,7 +35,7 @@
 class Mage_Admin_Model_Resource_Permissions_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource
      *
      */
     protected function _construct()

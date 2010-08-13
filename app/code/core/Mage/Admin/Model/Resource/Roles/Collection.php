@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Admin roles collection
  *
  * @category    Mage
  * @package     Mage_Admin
@@ -35,7 +35,7 @@
 class Mage_Admin_Model_Resource_Roles_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource model
      *
      */
     protected function _construct()
@@ -44,19 +44,23 @@ class Mage_Admin_Model_Resource_Roles_Collection extends Mage_Core_Model_Resourc
     }
 
     /**
-     * Enter description here ...
+     * Init select
      *
+     * @return Mage_Admin_Model_Resource_Roles_Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()->where("main_table.role_type='G'");
+
+        $this->getSelect()->where("main_table.role_type = ?", 'G');
+
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Convert to option array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
