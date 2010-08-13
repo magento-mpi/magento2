@@ -91,6 +91,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $tracks = $this->getRequest()->getPost('tracking');
             if ($tracks) {
                 foreach ($tracks as $data) {
+                    if (empty($data['number'])) {
+                        Mage::throwException($this->__('Tracking number cannot be empty.'));
+                    }
                     $track = Mage::getModel('sales/order_shipment_track')
                         ->addData($data);
                     $shipment->addTrack($track);
