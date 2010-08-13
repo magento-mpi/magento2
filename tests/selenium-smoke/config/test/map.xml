@@ -5,6 +5,11 @@
             <customer>
                 <managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
             </customer>
+            <catalog>
+                <categories>
+                    <managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
+                </categories>
+            </catalog>
             <system>
                 <permissions>
                     <users>//li[a/span="Permissions"]//li[a/span="Users"]/a</users>
@@ -12,6 +17,26 @@
             </system>
         </topmenu>
         <pages>
+            <catalog>
+                <categories>
+                    <managecategories>
+                        <buttons>
+                            <addrootcategory>add_root_category_button</addrootcategory>
+                            <addsubcategory>add_subcategory_button</addsubcategory>
+                            <savecategory>//button[contains(span,"Save Category")]</savecategory>
+                        </buttons>
+                        <inputs>
+                            <name>group_3name</name>
+                        </inputs>
+                        <selectors>
+                            <isactive>group_3is_active</isactive>
+                        </selectors>
+                        <messages>
+                            <categorysaved>//div[@id="messages"]//li[@class="success-msg"]</categorysaved>
+                        </messages>
+                    </managecategories>
+                </categories>
+            </catalog>
             <system>
                 <permissions>
                     <users>
