@@ -36,12 +36,12 @@ abstract class Test_Admin_Abstract extends Test_Abstract
         $this->clickAndWait($this->getUiElement("admin/pages/login/buttons/loginbutton"));
 
         if ($this->isTextPresent($this->getUiElement("admin/pages/login/messages/invalidlogin"))) {
-            $this->setVerificationErrors("Check 1 failed: Invalid login name/passsword");
-
+            $this->setVerificationErrors("adminLogin check 1 failed: Invalid login name/passsword");
         }
-        if ($this->isElementPresent($this->getUiElement("admin/pages/login/images/mainlogo"))) {
-            $this->setVerificationErrors("Check 1 failed: Dashboard wasn't loaded");
-    }
+        
+        if (!$this->waitForElement($this->getUiElement("admin/pages/login/images/mainlogo"), 60)) {
+                $this->setVerificationErrors("adminLogin Check 2 failed: Dashboard wasn't loaded");
+        } 
     }
     /**
      * Await appearing and disappearing "Please wait" gif-image
