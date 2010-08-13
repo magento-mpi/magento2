@@ -35,21 +35,21 @@
 class Mage_Core_Model_Resource_History
 {
     /**
-     * Enter description here ...
+     * Table with data change
      *
      * @var unknown
      */
     protected $_changeTable        = null;
 
     /**
-     * Enter description here ...
+     * Table with info cahnge
      *
      * @var unknown
      */
     protected $_changeInfoTable    = null;
 
     /**
-     * Enter description here ...
+     * Constructor
      *
      */
     public function __construct()

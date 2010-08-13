@@ -51,14 +51,14 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     /**
      * Database read connection
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var Varien_Db_Adapter_Interface
      */
     protected $_read;
 
     /**
      * Database write connection
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var Varien_Db_Adapter_Interface
      */
     protected $_write;
 
@@ -72,7 +72,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     protected $_automaticCleaningFactor    = 50;
 
     /**
-     * Enter description here ...
+     * Constructor
      *
      */
     public function __construct()
@@ -83,7 +83,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     }
 
     /**
-     * Enter description here ...
+     * Destrucor
      *
      */
     public function __destruct()
@@ -92,9 +92,9 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     }
 
     /**
-     * Enter description here ...
+     * Retrieve session life time
      *
-     * @return unknown
+     * @return int
      */
     public function getLifeTime()
     {
@@ -123,8 +123,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
         if (!$this->_read) {
             return false;
         }
-        $tables = $this->_read->fetchAssoc('show tables');
-        if (!isset($tables[$this->_sessionTable])) {
+        if (!$this->_read->isTableExists($this->_sessionTable)) {
             return false;
         }
 
@@ -132,7 +131,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     }
 
     /**
-     * Enter description here ...
+     * Setup save handler
      *
      * @return Mage_Core_Model_Resource_Session
      */
@@ -185,11 +184,16 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function read($sessId)
     {
-        $data = $this->_read->fetchOne(
-            "SELECT session_data FROM $this->_sessionTable
-             WHERE session_id = ? AND session_expires > ?",
-            array($sessId, time())
+        $select = $this->_read->select()
+                ->from($this->_sessionTable)
+                ->where('session_id = :session_id')
+                ->where('session_expires > :session_expires');
+        $bind = array(
+            'session_id'      => $sessId,
+            'session_expires' => time()
         );
+        
+        $data = $this->_read->fetchOne($select, $bind);
 
         return $data;
     }
@@ -203,16 +207,18 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function write($sessId, $sessData)
     {
+        $bindValues = array(
+            'session_id'      => $sessId
+        );
+        $select = $this->_write->select()
+                ->from($this->_sessionTable)
+                ->where('session_id = :session_id');
+        $exists = $this->_read->fetchOne($select, $bindValues);
+
         $bind = array(
-            'session_expires'=>time() + $this->getLifeTime(),
-            'session_data'=>$sessData
+            'session_expires' => time() + $this->getLifeTime(),
+            'session_data' => $sessData
         );
-
-        $exists = $this->_write->fetchOne(
-            "SELECT session_id FROM `{$this->_sessionTable}`
-             WHERE session_id = ?", array($sessId)
-        );
-
         if ($exists) {
             $where = $this->_write->quoteInto('session_id=?', $sessId);
             $this->_write->update($this->_sessionTable, $bind, $where);
@@ -232,7 +238,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function destroy($sessId)
     {
-        $this->_write->query("DELETE FROM `{$this->_sessionTable}` WHERE `session_id` = ?", array($sessId));
+        $this->_write->delete($this->_sessionTable, array('`session_id` = ?' => $sessId));
         return true;
     }
 
@@ -246,8 +252,8 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     {
         if ($this->_automaticCleaningFactor > 0) {
             if ($this->_automaticCleaningFactor == 1 ||
-                rand(1, $this->_automaticCleaningFactor)==1) {
-                $this->_write->query("DELETE FROM `{$this->_sessionTable}` WHERE `session_expires` < ?", array(time()));
+                rand(1, $this->_automaticCleaningFactor) == 1) {
+                $this->_write->delete($this->_sessionTable, array('session_expires < ?' => time()));
             }
         }
         return true;

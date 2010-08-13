@@ -26,46 +26,46 @@
 
 
 /**
- * Mysql Model for module
+ * Core Resource Resource Model
  *
  * @category    Mage
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Resource_Resource
+class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Database read connection
      *
-     * @var unknown
+     * @var Varien_Db_Adapter_Interface
      */
-    protected $_read                   = null;
+    //protected $_read                   = null;
 
     /**
-     * Enter description here ...
+     * Database write connection
      *
-     * @var unknown
+     * @var Varien_Db_Adapter_Interface
      */
-    protected $_write                  = null;
+    //protected $_write                  = null;
 
     /**
-     * Enter description here ...
+     * Resource table name
      *
-     * @var unknown
+     * @var string
      */
-    protected $_resTable               = null;
+    //protected $_resTable               = null;
 
     /**
-     * Enter description here ...
+     * Database versions
      *
-     * @var unknown
+     * @var array
      */
     protected static $_versions        = null;
 
     /**
-     * Enter description here ...
+     * Resource data versions cache array
      *
-     * @var unknown
+     * @var array
      */
     protected static $_dataVersions    = null;
 
@@ -73,12 +73,40 @@ class Mage_Core_Model_Resource_Resource
      * Class constructor
      *
      */
-    public function __construct()
+    /*public function __construct()
     {
         $this->_resTable = Mage::getSingleton('core/resource')->getTableName('core/resource');
         $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+    }*/
+
+    protected function _construct()
+    {
+        $this->_init('core/resource', 'store_id');
     }
+
+    /**
+     * Fill static versions arrays
+     *
+     */
+    protected function _loadVersionData()
+    {
+        if (is_null(self::$_versions) || is_null(self::$_dataVersions)) {
+            self::$_versions     = array();
+            self::$_dataVersions = array();
+
+            if ($this->_getReadAdapter()->isTableExists($this->getMainTable())) {
+                $select = $this->_getReadAdapter()->select()
+                    ->from($this->getMainTable(), array('code', 'version', 'data_version'));
+                $rowset = $this->_getReadAdapter()->fetchAll($select);
+                foreach ($rowset as $row) {
+                    self::$_versions[$row['code']] = $row['version'];
+                    self::$_dataVersions[$row['code']] = $row['data_version'];
+                }
+            }
+        }
+    }
+
 
     /**
      * Get Module version from DB
@@ -88,27 +116,17 @@ class Mage_Core_Model_Resource_Resource
      */
     public function getDbVersion($resName)
     {
-        if (!$this->_read) {
+        if (!$this->_getReadAdapter()) {
             return false;
         }
-
-        if (is_null(self::$_versions)) {
-            // if Core module not instaled
-            try {
-                $select = $this->_read->select()->from($this->_resTable, array('code', 'version'));
-                self::$_versions = $this->_read->fetchPairs($select);
-            }
-            catch (Exception $e){
-                self::$_versions = array();
-            }
-        }
+        $this->_loadVersionData();
         return isset(self::$_versions[$resName]) ? self::$_versions[$resName] : false;
     }
 
     /**
-     * Set module wersion into DB
+     * Set module version into DB
      *
-     * @param unknown_type $resName
+     * @param string $resName
      * @param string $version
      * @return int
      */
@@ -121,12 +139,13 @@ class Mage_Core_Model_Resource_Resource
 
         if ($this->getDbVersion($resName)) {
             self::$_versions[$resName] = $version;
-            $condition = $this->_write->quoteInto('code=?', $resName);
-            return $this->_write->update($this->_resTable, $dbModuleInfo, $condition);
+            return $this->_getWriteAdapter()->update($this->getMainTable(),
+                    $dbModuleInfo,
+                    array('code=?' => $resName));
         }
         else {
             self::$_versions[$resName] = $version;
-            return $this->_write->insert($this->_resTable, $dbModuleInfo);
+            return $this->_getWriteAdapter()->insert($this->getMainTable(), $dbModuleInfo);
         }
     }
 
@@ -138,13 +157,12 @@ class Mage_Core_Model_Resource_Resource
      */
     public function getDataVersion($resName)
     {
-        if (!$this->_read) {
+        if (!$this->_getReadAdapter()) {
             return false;
         }
-        if (is_null(self::$_dataVersions)) {
-            $select = $this->_read->select()->from($this->_resTable, array('code', 'data_version'));
-            self::$_dataVersions = $this->_read->fetchPairs($select);
-        }
+
+        $this->_loadVersionData();
+
         return isset(self::$_dataVersions[$resName]) ? self::$_dataVersions[$resName] : false;
     }
 
@@ -157,15 +175,18 @@ class Mage_Core_Model_Resource_Resource
      */
     public function setDataVersion($resName, $version)
     {
-        $data = array('code' => $resName, 'data_version' => $version);
+        $data = array(
+            'code' => $resName,
+            'data_version' => $version
+        );
 
         if ($this->getDbVersion($resName) || $this->getDataVersion($resName)) {
             self::$_dataVersions[$resName] = $version;
-            $this->_write->update($this->_resTable, $data, array('code=?' => $resName));
+            $this->_getWriteAdapter()->update($this->getMainTable(), $data, array('code=?' => $resName));
         }
         else {
             self::$_dataVersions[$resName] = $version;
-            $this->_write->insert($this->_resTable, $data);
+            $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
         }
         return $this;
     }

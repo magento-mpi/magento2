@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Core Website Resource Model
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -58,7 +58,7 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
     }
 
     /**
-     * Perform actions before object save
+     * Validate website code before object save
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Core_Model_Resource_Website
@@ -81,33 +81,30 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         if ($object->getIsDefault()) {
-            $this->_getWriteAdapter()->update(
-                $this->getMainTable(),
-                array('is_default' => 0),
-                1
-            );
-            $this->_getWriteAdapter()->update(
-                $this->getMainTable(),
-                array('is_default' => 1),
-                $this->_getWriteAdapter()->quoteInto('website_id=?', $object->getId())
-            );
+            $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 0));
+            $where = array('website_id=?' => $object->getId());
+            $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 1), $where);
         }
         return parent::_afterSave($object);
     }
 
     /**
-     * Enter description here ...
+     * Remove core configuration data after delete website
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Website
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $model)
     {
-        $this->_getWriteAdapter()->delete(
-            $this->getTable('core/config_data'),
-            $this->_getWriteAdapter()->quoteInto("scope = 'websites' AND scope_id = ?", $model->getWebsiteId())
+        $where = array(
+            'scope=?'  => 'websites',
+            'scope_id=?' => $model->getWebsiteId()
         );
+
+        $this->_getWriteAdapter()->delete($this->getTable('core/config_data'), $where);
+
         return $this;
+
     }
 
     /**
@@ -115,13 +112,17 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
      * Select fields website_id, store_id
      *
      *
-     * @param unknown_type $withDefault
+     * @param $withDefault include/exclude default admin website
      * @return Varien_Db_Select
      */
     public function getDefaultStoresSelect($withDefault = false)
     {
+        $ifNull  = $this->_getReadAdapter()
+            ->getCheckSql('store_group_table.default_store_id IS NULL', '0', 'store_group_table.default_store_id');
         $select = $this->_getReadAdapter()->select()
-            ->from(array('website_table' => $this->getTable('core/website')), array('website_id'))
+            ->from(
+                array('website_table' => $this->getTable('core/website')),
+                array('website_id'))
             ->joinLeft(
                 array('store_group_table' => $this->getTable('core/store_group')),
                 '`website_table`.`website_id`=`store_group_table`.`website_id`'

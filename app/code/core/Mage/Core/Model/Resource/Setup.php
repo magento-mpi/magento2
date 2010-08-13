@@ -25,8 +25,10 @@
  */
 
 /**
- * Resource setup model
+ * Resource Setup Model
  *
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Resource_Setup
@@ -99,7 +101,7 @@ class Mage_Core_Model_Resource_Setup
     protected $_setupCache = array();
 
     /**
-     * Flag wich allow to detect that some schema update was applied dueting request
+     * Flag which allow to detect that some schema update was applied dueting request
      *
      * @var bool
      */
@@ -214,7 +216,7 @@ class Mage_Core_Model_Resource_Setup
 
         $resources = Mage::getConfig()->getNode('global/resources')->children();
         $afterApplyUpdates = array();
-        foreach ($resources as $resName=>$resource) {
+        foreach ($resources as $resName => $resource) {
             if (!$resource->setup) {
                 continue;
             }
@@ -240,6 +242,7 @@ class Mage_Core_Model_Resource_Setup
 
     /**
      * Apply database data updates whenever needed
+     *
      */
     static public function applyAllDataUpdates()
     {
@@ -291,7 +294,7 @@ class Mage_Core_Model_Resource_Setup
         $dbVer = $this->_getResource()->getDbVersion($this->_resourceName);
         $configVer = (string)$this->_moduleConfig->version;
         // Module is installed
-        if ($dbVer!==false) {
+        if ($dbVer !== false) {
              $status = version_compare($configVer, $dbVer);
              switch ($status) {
                 case self::VERSION_COMPARE_LOWER:
@@ -304,7 +307,7 @@ class Mage_Core_Model_Resource_Setup
                     return true;
                     break;
              }
-        } elseif ($configVer) {
+        } else if ($configVer) {
             $this->_installResourceDb($configVer);
         }
         return $this;
@@ -377,7 +380,7 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Uninstall resource
      *
-     * @param     $version existing resource version
+     * @param  string  $version existing resource version
      * @return    bool
      */
 
@@ -652,7 +655,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function getTableRow($table, $idField, $id, $field=null, $parentField=null, $parentId=0)
     {
-        if (strpos($table, '/')!==false) {
+        if (strpos($table, '/') !== false) {
             $table = $this->getTable($table);
         }
 
@@ -675,7 +678,7 @@ class Mage_Core_Model_Resource_Setup
     }
 
     
-	/**
+     /**
      * Delete table row
      *
      * @param   string $table
@@ -753,7 +756,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function updateTable($table, $conditionExpr, $valueExpr)
     {
-        if (strpos($table, '/')!==false) {
+        if (strpos($table, '/') !== false) {
             $table = $this->getTable($table);
         }
         $query = sprintf('UPDATE %s SET %s WHERE %s',
@@ -796,7 +799,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function addConfigField($path, $label, array $data=array(), $default=null)
     {
-	return $this;
+        return $this;
 //        $data['level'] = sizeof(explode('/', $path));
 //        $data['path'] = $path;
 //        $data['frontend_label'] = $label;
@@ -831,7 +834,7 @@ class Mage_Core_Model_Resource_Setup
 //        return $this;
     }
 
-	/**
+    /**
      * Save configuration data
      *
      * @param string $path
@@ -840,7 +843,7 @@ class Mage_Core_Model_Resource_Setup
      * @param int $scopeId
      * @return Mage_Core_Model_Resource_Setup
      */
-    public function setConfigData($path, $value, $scope='default', $scopeId=0, $inherit=0)
+    public function setConfigData($path, $value, $scope = 'default', $scopeId = 0, $inherit=0)
     {
         $table = $this->getTable('core/config_data');
         // this is a fix for mysql 4.1

@@ -70,7 +70,7 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-            ->where($this->getMainTable().'.code = ?', $code);
+            ->where($this->getMainTable() . '.code = ?', $code);
         if ($withValue) {
             $this->_addValueToSelect($select, $storeId);
         }
@@ -131,6 +131,11 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _addValueToSelect(Zend_Db_Select $select, $storeId = 0)
     {
+        $ifNullPlainValue = $this->_getReadAdapter()
+            ->getCheckSql('store.plain_value IS NULL', 'default.plain_value', 'store.plain_value');
+        $ifNullHtmlValue  = $this->_getReadAdapter()
+            ->getCheckSql('store.html_value IS NULL', 'default.html_value', 'store.html_value');
+
         $select->joinLeft(
                 array('default' => $this->getTable('core/variable_value')),
                 'default.variable_id = '.$this->getMainTable().'.variable_id AND default.store_id = 0',
@@ -139,9 +144,12 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
                 array('store' => $this->getTable('core/variable_value')),
                 'store.variable_id = default.variable_id AND store.store_id = ' . $storeId,
                 array())
-            ->columns(array('plain_value' => new Zend_Db_Expr('IFNULL(store.plain_value, default.plain_value)'),
-                'html_value' => new Zend_Db_Expr('IFNULL(store.html_value, default.html_value)'),
-                'store_plain_value' => 'store.plain_value', 'store_html_value' => 'store.html_value'));
+            ->columns(array(
+                'plain_value'       => $ifNullPlainValue,
+                'html_value'        => $ifNullHtmlValue,
+                'store_plain_value' => 'store.plain_value',
+                'store_html_value'  => 'store.html_value'
+            ));
         return $this;
     }
 }

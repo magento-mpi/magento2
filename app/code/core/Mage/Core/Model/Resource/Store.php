@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Core Store Resource Model
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -58,7 +58,7 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
-     * Enter description here ...
+     * Check store code before save
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Store
@@ -74,7 +74,7 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
-     * Enter description here ...
+     * Update Store Group data after save store
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Core_Model_Resource_Store
@@ -89,45 +89,54 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
-     * Enter description here ...
+     * Remove core configuration data after delete store
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Store
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $model)
     {
+        $where = array(
+            'scope=?'    => 'stores',
+            'scope_id=?' => $model->getStoreId()
+        );
+
         $this->_getWriteAdapter()->delete(
             $this->getTable('core/config_data'),
-            $this->_getWriteAdapter()->quoteInto("scope = 'stores' AND scope_id = ?", $model->getStoreId())
+            $where
         );
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Update Default store for Store Group
      *
-     * @param unknown_type $groupId
-     * @param unknown_type $store_id
+     * @param int $groupId
+     * @param int $storeId
      * @return Mage_Core_Model_Resource_Store
      */
-    protected function _updateGroupDefaultStore($groupId, $store_id)
+    protected function _updateGroupDefaultStore($groupId, $storeId)
     {
         $write = $this->_getWriteAdapter();
-        $cnt   = $write->fetchOne($write->select()
-            ->from($this->getTable('core/store'), array('count'=>'COUNT(*)'))
-            ->where($write->quoteInto('group_id=?', $groupId)),
-            'count');
-        if ($cnt == 1) {
-            $write->update($this->getTable('core/store_group'),
-                array('default_store_id' => $store_id),
-                $write->quoteInto('group_id=?', $groupId)
-            );
+        $bindValues = array(
+            'group_id' => $write->quote($groupId)
+        );
+        $select = $write->select()
+            ->from($this->getMainTable(), array('count'=>'COUNT(*)'))
+            ->where('group_id=:group_id');
+        $count  = $this->_getWriteAdapter()->fetchOne($select, $bindValues);
+
+        if ($count == 1) {
+            $bind  = array('default_store_id' => $storeId);
+            $where = array('group_id=?' => $groupId);
+            $this->_getWriteAdapter()->update($this->getTable('core/store_group'), $bind, $where);
         }
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Change store group for store
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Store
@@ -136,35 +145,32 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     {
         if ($model->getOriginalGroupId() && $model->getGroupId() != $model->getOriginalGroupId()) {
             $write = $this->_getWriteAdapter();
-            $storeId = $write->fetchOne($write->select()
+            $select = $write->select()
                 ->from($this->getTable('core/store_group'), 'default_store_id')
-                ->where($write->quoteInto('group_id=?', $model->getOriginalGroupId())),
-                'default_store_id'
-            );
+                ->where($write->quoteInto('group_id=?', $model->getOriginalGroupId()));
+            $storeId = $write->fetchOne($select, 'default_store_id');
+
             if ($storeId == $model->getId()) {
-                $write->update($this->getTable('core/store_group'),
-                    array('default_store_id'=>0),
-                    $write->quoteInto('group_id=?', $model->getOriginalGroupId()));
+                $bind = array('default_store_id' => 0);
+                $where = array('group_id=?' => $model->getOriginalGroupId());
+                $this->_getWriteAdapter()->update($this->getTable('core/store_group'), $bind, $where);
             }
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Retrieve select object for load object data
      *
-     * @param unknown_type $field
-     * @param unknown_type $value
-     * @param unknown_type $object
-     * @return unknown
+     * @param string $field
+     * @param mixed $value
+     * @param Mage_Core_Model_Abstract $object
+     * @return Varien_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where($field.'=?', $value)
-            ->order('sort_order ASC');
-
+        $select = parent::_getLoadSelect($field, $value, $object);
+        $select->order('sort_order ASC');
         return $select;
     }
 }

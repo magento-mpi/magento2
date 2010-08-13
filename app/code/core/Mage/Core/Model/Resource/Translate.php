@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,63 +44,52 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
     }
 
     /**
-     * Enter description here ...
+     * Retrieve translation array for store / locale code
      *
-     * @param unknown_type $storeId
-     * @param unknown_type $locale
-     * @return unknown
+     * @param int $storeId
+     * @param string $locale
+     * @return array
      */
     public function getTranslationArray($storeId = null, $locale = null)
     {
-        if(!Mage::isInstalled()) {
+        if (!Mage::isInstalled()) {
             return array();
         }
 
         if (is_null($storeId)) {
             $storeId = Mage::app()->getStore()->getId();
         }
-
+        
         $read = $this->_getReadAdapter();
         if (!$read) {
             return array();
         }
 
-//        $select = $read->select()
-//            ->from(array('main'=>$this->getMainTable()), array(
-//                    'string',
-//                    new Zend_Db_Expr('IFNULL(store.translate, main.translate)')
-//                ))
-//            ->joinLeft(array('store'=>$this->getMainTable()),
-//                $read->quoteInto('store.string=main.string AND store.store_id=?', $storeId),
-//                'string')
-//            ->where('main.store_id=0');
-//
-//        $result = $read->fetchPairs($select);
-//
         $select = $read->select()
             ->from($this->getMainTable())
-            ->where('store_id in (?)', array(0, $storeId))
-            ->where('locale=?', $locale)
+            ->where('store_id IN (:store_id)')
+            ->where('locale=:locale')
             ->order('store_id');
+        
+        $bind = array(
+            'locale' => $read->quote($locale),
+            'store_id' => $read->quote(array(0, $storeId))
+        );
 
-        $result = array();
-        foreach ($read->fetchAll($select) as $row) {
-            $result[$row['string']] = $row['translate'];
-        }
+        return $read->fetchPairs($select, $bind);
 
-        return $result;
     }
 
     /**
-     * Enter description here ...
+     * Retrieve translations array by strings
      *
      * @param array $strings
-     * @param unknown_type $storeId
-     * @return unknown
+     * @param int_type $storeId
+     * @return array
      */
     public function getTranslationArrayByStrings(array $strings, $storeId = null)
     {
-        if(!Mage::isInstalled()) {
+        if (!Mage::isInstalled()) {
             return array();
         }
 
@@ -116,23 +105,24 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
         if (empty($strings)) {
             return array();
         }
-
+ 
+        $bind = array(
+            'tr_strings' => $read->quote($strings),
+            'store_id' => $read->quote($storeId)
+        );
         $select = $read->select()
             ->from($this->getMainTable())
             ->where('string in (:tr_strings)')
-            ->where('store_id = ?', $storeId);
-        $result = array();
-        foreach ($read->fetchAll($select, array('tr_strings'=>$read->quote($strings))) as $row) {
-            $result[$row['string']] = $row['translate'];
-        }
+            ->where('store_id = :store_id');
 
-        return $result;
+        return $read->fetchPairs($select, $bind);
     }
 
     /**
-     * Enter description here ...
+     * Retrieve table checksum
      *
-     * @return unknown
+     * @param string $table
+     * @return int
      */
     public function getMainChecksum()
     {

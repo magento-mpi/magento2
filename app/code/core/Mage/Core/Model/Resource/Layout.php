@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Core layout update resource model
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -48,16 +48,16 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
      *
      * @param string $handle
      * @param array $params
-     * @return unknown
+     * @return string
      */
     public function fetchUpdatesByHandle($handle, $params = array())
     {
         $storeId = isset($params['store_id']) ? $params['store_id'] : Mage::app()->getStore()->getId();
-        $area = isset($params['area']) ? $params['area'] : Mage::getSingleton('core/design_package')->getArea();
+        $area    = isset($params['area']) ? $params['area'] : Mage::getSingleton('core/design_package')->getArea();
         $package = isset($params['package']) ? $params['package'] : Mage::getSingleton('core/design_package')->getPackageName();
-        $theme = isset($params['theme']) ? $params['theme'] : Mage::getSingleton('core/design_package')->getTheme('layout');
+        $theme   = isset($params['theme']) ? $params['theme'] : Mage::getSingleton('core/design_package')->getTheme('layout');
 
-        $updateStr = '';
+        $result = '';
 
         $readAdapter = $this->_getReadAdapter();
         if ($readAdapter) {
@@ -71,10 +71,8 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
                 ->where('layout_update.handle = ?', $handle)
                 ->order('layout_update.sort_order ASC');
 
-            foreach ($readAdapter->fetchAll($select) as $update) {
-                $updateStr .= $update['xml'];
-            }
+            $result = join('', $adapter->fetchCol($select));
         }
-        return $updateStr;
+        return $result;
     }
 }
