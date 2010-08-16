@@ -51,6 +51,19 @@ $installer->getConnection()->query("
 ");
 
 $installer->getConnection()->query("
+    create or replace function checksum(owner varchar2, table_name varchar2, row_id rowid)
+    return number as
+    pragma autonomous_transaction;
+        n number;
+    begin
+        n := owa_opt_lock.checksum(owner, table_name, row_id);
+        commit;
+        return n;
+    end;
+");
+
+
+$installer->getConnection()->query("
     CREATE OR REPLACE FUNCTION FIND_IN_SET(p_what_search IN VARCHAR2, p_where_search IN VARCHAR2) RETURN NUMBER
     AS LANGUAGE JAVA
     NAME 'StringFuctions.findInSet (java.lang.String, java.lang.String)

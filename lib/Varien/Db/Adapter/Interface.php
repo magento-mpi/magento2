@@ -878,5 +878,5 @@ interface Varien_Db_Adapter_Interface
     /**
      *
      */
-    public function getTablesChecksum($tableNames);
+    public function getTablesChecksum($tableNames, $schemaName = null);
 }
