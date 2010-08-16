@@ -76,5 +76,11 @@
             <container>Enterprise_PageCache_Model_Container_Blackhole</container>
             <cache_lifetime>86400</cache_lifetime>
         </poll_activepoll>
+        <store_language>
+            <block>page/switch</block>
+            <placeholder>STORE_LANGUAGE</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Urlsid</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </store_language>
     </placeholders>
 </config>

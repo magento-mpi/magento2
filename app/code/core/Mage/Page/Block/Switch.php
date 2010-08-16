@@ -50,6 +50,42 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
         return Mage::app()->getStore()->getId();
     }
 
+    /**
+     * Get cache key informative items
+     *
+     * @return array
+     */
+    public function getCacheKeyInfo()
+    {
+        $arr = parent::getCacheKeyInfo() + array(
+            'sid_name' =>  Mage::getSingleton('core/session')->getSessionName(),
+            'url_path' => Mage::app()->getRequest()->getOriginalRequest()->getRequestUri(),
+        );
+        return $arr;
+    }
+
+    /**
+     * Get Key for caching block content
+     *
+     * @return string
+     */
+    public function getCacheKey()
+    {
+        if ($this->hasData('cache_key')) {
+            return $this->getData('cache_key');
+        }
+        /**
+         * don't prevent recalculation by saving generated cache key
+         * because of ability to render single block instance with different data
+         */
+        $key = parent::getCacheKeyInfo();
+        //ksort($key);  // ignore order
+        $key = array_values($key);  // ignore array keys
+        $key = implode('|', $key);
+        $key = sha1($key);
+        return $key;
+    }
+
     public function getRawGroups()
     {
         if (!$this->hasData('raw_groups')) {

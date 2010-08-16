@@ -95,7 +95,6 @@ class Enterprise_PageCache_Model_Observer
          * Check if request will be cached
          */
         if ($this->_processor->canProcessRequest($request)) {
-            Mage::app()->setUseSessionInUrl(false); // disable SID
             Mage::app()->getCacheInstance()->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
         }
         $this->_getCookie()->updateCustomerCookies();
