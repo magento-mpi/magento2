@@ -277,7 +277,11 @@ class Enterprise_Cms_Model_Observer
         $appendToNodes = array();
         $sortOrder = array();
         if ($nodesData) {
-            $nodesData = Mage::helper('core')->jsonDecode($page->getNodesData());
+            try{
+                $nodesData = Mage::helper('core')->jsonDecode($page->getNodesData());
+            } catch (Zend_Json_Exception $e) {
+                $nodesData=null;
+            }
             if (!empty($nodesData)) {
                 foreach ($nodesData as $row) {
                     if (isset($row['page_exists']) && $row['page_exists']) {

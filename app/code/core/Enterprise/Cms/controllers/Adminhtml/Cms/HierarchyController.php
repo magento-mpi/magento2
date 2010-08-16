@@ -133,7 +133,11 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
 
             try {
                 if (!empty($data['nodes_data'])) {
-                    $nodesData = Mage::helper('core')->jsonDecode($data['nodes_data']);
+                    try{
+                        $nodesData = Mage::helper('core')->jsonDecode($data['nodes_data']);
+                    }catch (Zend_Json_Exception $e){
+                        $nodesData = array();
+                    }
                 } else {
                     $nodesData = array();
                 }

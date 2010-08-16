@@ -368,7 +368,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
         $nodeModel = Mage::registry('current_hierarchy_node');
         // restore data is exists
-        $data = Mage::helper('core')->jsonDecode($nodeModel->getNodesData());
+        try{
+            $data = Mage::helper('core')->jsonDecode($nodeModel->getNodesData());
+        }catch (Zend_Json_Exception $e){
+            $data = null;
+        }
         if (is_array($data)) {
             foreach ($data as $v) {
                 $node = array(

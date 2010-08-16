@@ -68,7 +68,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     public function getNodes() {
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
-            $data = Mage::helper('core')->jsonDecode($this->getPage()->getNodesData());
+            try{
+                $data = Mage::helper('core')->jsonDecode($this->getPage()->getNodesData());
+            }catch (Zend_Json_Exception $e){
+                $data = null;
+            }
 
             $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
                 ->joinCmsPage()
