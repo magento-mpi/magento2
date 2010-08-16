@@ -39,6 +39,7 @@
                         <selectors>
                             <isactive>group_3is_active</isactive>
 							<isanchor>group_9is_anchor</isanchor>
+							<storeswitcher>store_switcher</storeswitcher>
                         </selectors>
 						<tabs>
 							<displaysettings>link=Display Settings</displaysettings>
