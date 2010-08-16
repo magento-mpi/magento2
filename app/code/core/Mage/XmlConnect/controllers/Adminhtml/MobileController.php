@@ -714,7 +714,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if (!isset($arr['conf']['native']['pages'])) {
                 $arr['conf']['native']['pages'] = array();
             }
-            $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $new_pages);
+            foreach ($new_pages as $key => $page) {
+                if (empty($page['id']) || empty($page['label'])) {
+                    unset($new_pages[$key]);
+                }
+            }
+            if (!empty($new_pages)) {
+                $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $new_pages);
+            }
             unset($arr['conf']['new_pages']);
         }
 

@@ -39,7 +39,15 @@
             <table class="header-buttons">
                 <tr>
                     <td class="info"><img src="<?php echo $this->getPreviewImagesUrl('info.png') ?>" width="20" height="20" /></td>
-                    <td class="logo-small"><img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getPreviewImagesUrl('smallIcon.png'); ?>"/></td>
+		    <td class="logo-small">
+                    	<img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getPreviewImagesUrl('smallIcon.png'); ?>"/>
+			<span class="sh-title">
+			    <span class="sh-title1" style="font:bold <?php echo $this->getData('conf/fonts/Title1/size'); ?>px/44px <?php echo $this->getData('conf/fonts/Title1/name'); ?>;">
+				<span class="sh-title2" style="color: <?php echo $this->getData('conf/fonts/Title1/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__("Home"); ?></span>
+				<?php echo Mage::helper('xmlconnect')->__("Home"); ?>
+			    </span>
+			</span>
+		    </td>
                     <td class="login-btn">
                         <div class="login-left"></div>
                         <div class="login-body"><span><?php echo Mage::helper('xmlconnect')->__("Log In"); ?></span></div>

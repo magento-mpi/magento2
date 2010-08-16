@@ -110,7 +110,7 @@ body { margin:0; padding:0; }
 {
 	text-align:center;
     vertical-align:middle;
-    width:47px;
+    width:51px;
     height:42px;
 }
 .logo-small 
@@ -121,6 +121,21 @@ body { margin:0; padding:0; }
     text-align:center;
     vertical-align:middle;
 }
+
+.logo-small div
+{
+    width:200px;
+    height:41px;
+    overflow:hidden;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.logo-small img { vertical-align:middle; }
+.logo-small .sh-title { text-align:left; height:30px; vertical-align:middle; }
+.logo-small .sh-title1, 
+.logo-small .sh-title2 { font:bold 16px/44px arial !important; color:#000; position:relative; }
+.logo-small .sh-title2 { color:#fff; position:absolute; top:-13px; left:-1px; }
 
 .login-btn
 {
