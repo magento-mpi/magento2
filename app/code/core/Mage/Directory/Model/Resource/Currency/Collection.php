@@ -35,7 +35,6 @@
  */
 class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
-
     /**
      * Currency name table
      *
@@ -50,6 +49,11 @@ class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_
      */
     protected $_currencyRateTable;
 
+    /**
+     * Define resource model and tables
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('directory/currency');
@@ -66,11 +70,14 @@ class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_
      */
     public function joinRates($currency)
     {
-        $alias = $currency.'_rate';
-        $this->_select->joinLeft(array($alias=>$this->_currencyRateTable),
-            $this->getConnection()
-                ->quoteInto("$alias.currency_to=main_table.currency_code AND $alias.currency_from=?", $currency),
-            'rate');
+        $alias = sprintf('%s_rate', $currency);
+        $this->addBindParam($alias, $currency);
+        $this->_select
+            ->joinLeft(
+                array($alias => $this->_currencyRateTable),
+                "{$alias}.currency_to = main_table.currency_code AND {$alias}.currency_from=:{$alias}",
+                'rate');
+
         return $this;
     }
 
@@ -85,8 +92,7 @@ class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_
         if (is_null($lang)) {
             $lang = Mage::app()->getStore()->getLanguageCode();
         }
-        $this->addFieldToFilter('main_table.language_code', $lang);
-        return $this;
+        return $this->addFieldToFilter('main_table.language_code', $lang);
     }
 
     /**
@@ -98,11 +104,11 @@ class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_
     public function addCodeFilter($code)
     {
         if (is_array($code)) {
-            $this->addFieldToFilter("main_table.currency_code", array( 'in' => $code));
+            $this->addFieldToFilter("main_table.currency_code", array('in' => $code));
+        } else {
+            $this->addFieldToFilter("main_table.currency_code", $code);
         }
-        else {
-            $this->addFilter("code_$code", "main_table.currency_code",'$code');
-        }
+
         return $this;
     }
 

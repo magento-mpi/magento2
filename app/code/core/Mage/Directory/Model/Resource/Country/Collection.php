@@ -52,7 +52,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
     {
         $allowCountries = explode(',', (string)Mage::getStoreConfig('general/country/allow'));
         if (!empty($allowCountries)) {
-            $this->addFieldToFilter("country_id", array('in'=>$allowCountries));
+            $this->addFieldToFilter("country_id", array('in' => $allowCountries));
         }
         return $this;
     }
@@ -114,7 +114,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
     {
         if (!empty($countryId)) {
             if (is_array($countryId)) {
-                $this->addFieldToFilter("country_id", array('in'=>$countryId));
+                $this->addFieldToFilter("country_id", array('in' => $countryId));
             } else {
                 $this->addFieldToFilter("country_id", $countryId);
             }
@@ -133,7 +133,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
         $options = $this->_toOptionArray('country_id', 'name', array('title'=>'iso2_code'));
 
         $sort = array();
-        foreach ($options as $index=>$data) {
+        foreach ($options as $data) {
             $name = Mage::app()->getLocale()->getCountryTranslation($data['value']);
             if (!empty($name)) {
                 $sort[$name] = $data['value'];
@@ -149,9 +149,10 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
             );
         }
 
-        if (count($options)>0 && $emptyLabel !== false) {
-            array_unshift($options, array('value'=>'', 'label'=>$emptyLabel));
+        if (count($options) > 0 && $emptyLabel !== false) {
+            array_unshift($options, array('value' => '', 'label' => $emptyLabel));
         }
+
         return $options;
     }
 }

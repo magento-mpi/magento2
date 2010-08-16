@@ -51,13 +51,12 @@ class Mage_Directory_Model_Resource_Country_Format_Collection extends Mage_Core_
      */
     public function setCountryFilter($country)
     {
-        if(is_object($country)) {
+        if ($country instanceof Mage_Directory_Model_Country) {
             $countryId = $country->getId();
         } else {
             $countryId = $country;
         }
 
-        $this->addFieldToFilter('country_id', $countryId);
-        return $this;
+        return $this->addFieldToFilter('country_id', $countryId);
     }
 }
