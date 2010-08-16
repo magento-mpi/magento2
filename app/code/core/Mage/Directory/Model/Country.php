@@ -104,7 +104,6 @@ T: {{telephone}}";
     /**
      * Retrive formats for
      *
-     * @deprecated  since 1.5.0.0
      * @return Mage_Directory_Model_Resource_Country_Format_Collection
      */
     public function getFormats()
