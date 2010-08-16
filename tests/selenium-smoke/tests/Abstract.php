@@ -63,13 +63,6 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
     protected $_storeName = "";
 
     /**
-     * site rootcategory name
-     *
-     * @var string
-     */
-    protected $_rootCategory = "";
-
-     /**
      * site storeview name
      *
      * @var string
