@@ -51,6 +51,23 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
+     * Process page data before deleting
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Cms_Model_Resource_Page
+     */
+    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
+    {
+        $condition = array(
+            'page_id = ?'     => (int) $object->getId(),
+        );
+
+        $this->_getWriteAdapter()->delete($this->getTable('cms/page_store'), $condition);
+
+        return parent::_beforeDelete($object);
+    }
+
+    /**
      * Process page data before saving
      *
      * @param Mage_Core_Model_Abstract $object
@@ -77,12 +94,14 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             Mage::throwException(Mage::helper('cms')->__('The page URL key cannot consist only of numbers.'));
         }
 
-        if (! $object->getId()) {
+        // modify create / update dates
+        if ($object->isObjectNew()) {
             $object->setCreationTime(Mage::getSingleton('core/date')->gmtDate());
         }
 
         $object->setUpdateTime(Mage::getSingleton('core/date')->gmtDate());
-        return $this;
+
+        return parent::_beforeSave($object);
     }
 
     /**

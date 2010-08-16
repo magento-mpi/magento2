@@ -116,8 +116,7 @@ $table = $installer->getConnection()
         'default'   => '',
         ), 'Resource ID')
     ->addColumn('privileges', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'Privileges')
     ->addColumn('assert_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,

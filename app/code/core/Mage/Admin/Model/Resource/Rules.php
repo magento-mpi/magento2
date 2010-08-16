@@ -74,12 +74,16 @@ class Mage_Admin_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstra
 
                 // If all was selected save it only and nothing else.
                 if ($postedResources === array('all')) {
-                    $adapter->insert($this->getMainTable(), $row);
+                    $insertData = $this->_prepareDataForTable(new Varien_Object($row), $this->getMainTable());
+
+                    $adapter->insert($this->getMainTable(), $insertData);
                 } else {
                     foreach (Mage::getModel('admin/roles')->getResourcesList2D() as $index => $resName) {
                         $row['permission']  = (in_array($resName, $postedResources) ? 'allow' : 'deny');
                         $row['resource_id'] = trim($resName, '/');
-                        $adapter->insert($this->getMainTable(), $row);
+
+                        $insertData = $this->_prepareDataForTable(new Varien_Object($row), $this->getMainTable());
+                        $adapter->insert($this->getMainTable(), $insertData);
                     }
                 }
             }

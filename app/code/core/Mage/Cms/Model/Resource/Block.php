@@ -44,6 +44,23 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
+     * Process block data before deleting
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Cms_Model_Resource_Page
+     */
+    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
+    {
+        $condition = array(
+            'block_id = ?'     => (int) $object->getId(),
+        );
+
+        $this->_getWriteAdapter()->delete($this->getTable('cms/block_store'), $condition);
+
+        return parent::_beforeDelete($object);
+    }
+
+    /**
      * Perform operations before object save
      *
      * @param Mage_Core_Model_Abstract $object

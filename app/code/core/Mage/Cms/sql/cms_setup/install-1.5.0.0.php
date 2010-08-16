@@ -42,11 +42,9 @@ $table = $installer->getConnection()
         ), 'Block ID')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
-        'default'   => '',
         ), 'Block Title')
     ->addColumn('identifier', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
-        'default'   => '',
         ), 'Block String Identifier')
     ->addColumn('content', Varien_Db_Ddl_Table::TYPE_TEXT, '2M', array(
         ), 'Block Content')
@@ -116,7 +114,6 @@ $table = $installer->getConnection()
         ), 'Page String Identifier')
     ->addColumn('content_heading', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => true,
-        'default'   => '',
         ), 'Page Content Heading')
     ->addColumn('content', Varien_Db_Ddl_Table::TYPE_TEXT, '2M', array(
         ), 'Page Content')
@@ -133,18 +130,22 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Page Sort Order')
     ->addColumn('layout_update_xml', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+        'nullable'  => true,
         ), 'Page Layout Update Content')
     ->addColumn('custom_theme', Varien_Db_Ddl_Table::TYPE_TEXT, 100, array(
+        'nullable'  => true,
         ), 'Page Custom Theme')
     ->addColumn('custom_root_template', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => true,
-        'default'   => '',
         ), 'Page Custom Template')
     ->addColumn('custom_layout_update_xml', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+        'nullable'  => true,
         ), 'Page Custom Layout Update Content')
     ->addColumn('custom_theme_from', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
+        'nullable'  => true,
         ), 'Page Custom Theme Active From Date')
     ->addColumn('custom_theme_to', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
+        'nullable'  => true,
         ), 'Page Custom Theme Active To Date')
     ->addIndex($installer->getIdxName('cms/page', array('identifier')),
         array('identifier'))

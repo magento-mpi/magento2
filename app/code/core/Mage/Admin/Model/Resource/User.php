@@ -260,21 +260,24 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
                     $row = array('tree_level' => 0);
                 }
 
-                $data = array(
+                $data = new Varien_Object(array(
                     'parent_id'     => $rid,
                     'tree_level'    => $row['tree_level'] + 1,
                     'sort_order'    => 0,
                     'role_type'     => 'U',
                     'user_id'       => $user->getId(),
                     'role_name'     => $user->getFirstname()
-                );
-                $adapter->insert($this->getTable('admin/role'), $data);
+                ));
+
+                $insertData = $this->_prepareDataForTable($data, $this->getTable('admin/role'));
+                $adapter->insert($this->getTable('admin/role'), $insertData);
             }
             $adapter->commit();
         } catch (Mage_Core_Exception $e) {
             throw $e;
         } catch (Exception $e){
             $adapter->rollBack();
+            throw $e;
         }
     }
 
@@ -341,7 +344,8 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             $role = new Varien_Object();
             $role->setTreeLevel(0);
         }
-        $dbh->insert($this->getTable('admin/role'), array(
+
+        $data = new Varien_Object(array(
             'parent_id' => $user->getRoleId(),
             'tree_level'=> ($role->getTreeLevel() + 1),
             'sort_order'=> 0,
@@ -349,6 +353,10 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             'user_id'   => $user->getUserId(),
             'role_name' => $user->getFirstname()
         ));
+
+        $insertData = $this->_prepareDataForTable($data, $this->getTable('admin/role'));
+
+        $dbh->insert($this->getTable('admin/role'), $insertData);
 
         return $this;
     }
