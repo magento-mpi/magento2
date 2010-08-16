@@ -13,6 +13,14 @@ final class Core
     private static $_magentoEnv = 'test';
 
     /**
+     * Manage debug function outputs.
+     * 0 - silent function
+     * 9 - all debug information printed
+     * @var int
+     */
+    protected static $_debugLevel  = 2;
+
+    /**
      * System config container
      *
      * @var array
@@ -93,9 +101,10 @@ final class Core
     public static function getEnvConfig($configPath, $default = null)
     {
         if (!$configPath) {
+            self::debug("getEnvConfig(".$configPath."): returned null",7);
             return null;
         }
-
+        self::debug("getEnvConfig(".'environment/config/'.$configPath."): ".self::getConfig('environment/config/' . $configPath),7);
         return self::getConfig('environment/config/' . $configPath);
     }
 
@@ -198,6 +207,17 @@ final class Core
         }
 
         return $config;
+    }
+
+    /**
+     * Debug function
+     * Puts debug $line to output
+     */
+    public static function debug($line, $level=5)
+    {
+        if ($level>=self::$_debugLevel) {
+            echo $line."\n";
+        }
     }
 
 }
