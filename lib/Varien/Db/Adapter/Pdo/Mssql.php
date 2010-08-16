@@ -3336,4 +3336,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         return $query;
     }
+
+    /**
+     *
+     */
+    public function getTablesChecksum($tableNames)
+    {        
+        return array();
+    }
 }

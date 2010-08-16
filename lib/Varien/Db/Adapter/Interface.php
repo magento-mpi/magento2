@@ -874,4 +874,9 @@ interface Varien_Db_Adapter_Interface
      * @return string|int
      */
     public function deleteFromSelect(Varien_Db_Select $select, $table);
+
+    /**
+     *
+     */
+    public function getTablesChecksum($tableNames);
 }

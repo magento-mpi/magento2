@@ -697,7 +697,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $schemaName
      * @return Varien_Db_Adapter_Interface
      */
-    protected  function _modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
+    public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $columnName, $schemaName)) {
             throw new Zend_Db_Adapter_Oracle_Exception(
@@ -3366,5 +3366,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $select->assemble()
         );
         return $query;
+    }
+
+    /**
+     *
+     */
+    public function getTablesChecksum($tableNames)
+    {
+        return array();
     }
 }

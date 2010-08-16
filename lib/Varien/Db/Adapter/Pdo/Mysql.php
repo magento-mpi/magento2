@@ -2738,4 +2738,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
         return $query;
     }
+
+    /**
+     *
+     */
+    public function getTablesChecksum($tableNames)
+    {
+        return array();
+    }
 }
