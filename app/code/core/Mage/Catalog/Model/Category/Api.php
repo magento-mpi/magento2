@@ -55,7 +55,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             try {
                 $website = Mage::app()->getWebsite($website);
                 if (null === $store) {
-                    if (null === categoryId) {
+                    if (null === $categoryId) {
                         foreach ($website->getStores() as $store) {
                             /* @var $store Mage_Core_Model_Store */
                             $ids[] = $store->getRootCategoryId();
@@ -283,7 +283,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
-        
+
         return $category->getId();
     }
 
@@ -327,7 +327,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
-        
+
         return true;
     }
 
@@ -353,7 +353,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         if( strpos($parent_category->getPath(), $category->getPath()) === 0) {
             $this->_fault('not_moved', "Operation do not allow to move a parent category to any of children category");
         }
-        
+
         try {
             $category->move($parentId, $afterId);
         } catch (Mage_Core_Exception $e) {
