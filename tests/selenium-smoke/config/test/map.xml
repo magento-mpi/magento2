@@ -25,6 +25,9 @@
             <catalog>
                 <categories>
                     <managecategories>
+						<locators>
+							<parentcategory>//div[contains(@class,'tree-holder') ]//a[contains(span,'%s')]</parentcategory>
+						</locators>
                         <buttons>
                             <addrootcategory>add_root_category_button</addrootcategory>
                             <addsubcategory>add_subcategory_button</addsubcategory>
@@ -35,7 +38,11 @@
                         </inputs>
                         <selectors>
                             <isactive>group_3is_active</isactive>
+							<isanchor>group_9is_anchor</isanchor>
                         </selectors>
+						<tabs>
+							<displaysettings>link=Display Settings</displaysettings>
+						</tabs>
                         <messages>
                             <categorysaved>//div[@id="messages"]//li[@class="success-msg"]</categorysaved>
                         </messages>
