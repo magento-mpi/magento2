@@ -84,7 +84,7 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      * 9 - all debug information printed
      * @var int 
      */
-    protected $_debugLevel  = "";
+    protected $_debugLevel  = 7;
 
 
     /**
@@ -112,11 +112,13 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
             $this->debug("No elements found in UIMap for key: ".$elem);
         }
         if (is_array($arg)) {
+            $this->debug(vsprintf($element, $arg),7);
             return vsprintf($element, $arg);
         } elseif (null !== $arg) {
-            $this->debug(sprintf($element, $arg));
+            $this->debug(sprintf($element, $arg),7);
             return sprintf($element, $arg);
         } else {
+            $this->debug($element,7);
             return $element;
         }
     }
