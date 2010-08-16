@@ -71,7 +71,7 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
                 ->where('layout_update.handle = ?', $handle)
                 ->order('layout_update.sort_order ASC');
 
-            $result = join('', $adapter->fetchCol($select));
+            $result = join('', $readAdapter->fetchCol($select));
         }
         return $result;
     }
