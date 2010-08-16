@@ -17,23 +17,25 @@
         </customer>
         <managestores>
             <site>
-                <name>Name1</name>
-                <code>code1</code>
-                <sortorder>order1</sortorder>
+                <name>SmokeTestSite</name>
+                <code>st-sitecode</code>
+                <sortorder>1</sortorder>
             </site>
- <!--        <store>
-                
+            <store>
+                <storename>st-storename</storename>
+                <rootcat>st-rootcat</rootcat>
             </store>
             <storeview>
-                
+                <name>SmokeTestStoreView</name>
+                <code>st-svcode</code>
+                <order>1</order>
+                <status>label=Enabled</status>
             </storeview>
-   -->
         </managestores>
         <managecategories>
-                <rootname>SLRootTestCategory</rootname>
-                <subcategoryname>SLSubTestCategory</subcategoryname>
-                <parentsubcategoryname>SLRootTestCategory</parentsubcategoryname>
-                <storeview>All Store Views</storeview>
+                <rootname>st-rootcat</rootname>
+                <subcategoryname>st-subcat</subcategoryname>
+                <parentsubcategoryname>st-rootcat</parentsubcategoryname>
         </managecategories>
 		
     </backend>
