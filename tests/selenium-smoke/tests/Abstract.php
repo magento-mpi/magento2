@@ -71,17 +71,28 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
     protected $_parentSubCategoryName  = "";
 
     /**
-     * subCategory name
+     * storeView name
      *
      * @var string
      */
-    protected $_subCategoryName  = "";
+    protected $_storeView  = "";
+
+
+    /**
+     * Manage debug function outputs.
+     * 0 - silent function
+     * 9 - all debug information printed
+     * @var int 
+     */
+    protected $_debugLevel  = "";
+
 
     /**
      * Add an error to the stack
      *
      * @param string $error
      */
+
     function setVerificationErrors($error)
     {
         array_push($this->verificationErrors, $error);
@@ -150,9 +161,11 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      * Debug function
      * Puts debug $line to output
      */
-    function debug($line)
+    function debug($line, $level=5)
     {
-        echo $line."\n";
+        if ($level>=$this->_debugLevel) {
+            echo $line."\n";
+        }
     }
 
 }
