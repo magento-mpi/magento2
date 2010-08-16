@@ -24,7 +24,7 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
         $this->_siteCode = Core::getEnvConfig('backend/managestores/site/code');
         $this->_siteOrder = Core::getEnvConfig('backend/managestores/site/sortorder');
         $this->_storeName = Core::getEnvConfig('backend/managestores/store/storename');
-        $this->_rootCategory = Core::getEnvConfig('backend/managestores/store/rootcat');
+        $this->_rootCategoryName = Core::getEnvConfig('backend/managecategories/rootname');
 
         $this->_storeviewName = Core::getEnvConfig('backend/managestores/storeview/name');
         $this->_storeviewCode = Core::getEnvConfig('backend/managestores/storeview/code');
@@ -46,34 +46,28 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
         $this->clickAndWait($this->getUiElement("admin/pages/system/managestores/createsite/buttons/save"));
 
         //check for successful message
-        if ($this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
-            $this->setVerificationErrors("Check 1 : Site was successfully created");
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
+            $this->setVerificationErrors("Check 1 : No successfull message");
 
         }
-        if ($this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/buttons/save"))) {
-            $this->setVerificationErrors("Check 1 failed: website wasn't created");
-    }
-    }
+     }
  /**
      * Admin-System-Store Management: New Store Creation
      *
      */
-     public function adminStoreCreation($sitename, $storename, $rootcat) {
+     public function adminStoreCreation($sitename, $storename, $rootname) {
         $this->clickAndWait ($this->getUiElement("admin/topmenu/system/managestores/link/openpage"));     
         $this->clickAndWait ($this->getUiElement("admin/pages/system/managestores/createsite/buttons/createwebstore"));
         $this->select($this->getUiElement("admin/pages/system/managestores/createsite/select/site"), $sitename);
         $this->type($this->getUiElement("admin/pages/system/managestores/createsite/inputs/storename"), $storename);
-        $this->select($this->getUiElement("admin/pages/system/managestores/createsite/select/rootcategory"), $rootcat);
+        $this->select($this->getUiElement("admin/pages/system/managestores/createsite/select/rootcategory"), $rootname);
         $this->clickAndWait($this->getUiElement("admin/pages/system/managestores/createsite/buttons/savestore"));
 
         //check for successful message
-        if ($this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
-            $this->setVerificationErrors("Check 1 : Store was successfully created");
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
+            $this->setVerificationErrors("Check 1 :  No successfull message");
 
-        }
-        if ($this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/buttons/savestore"))) {
-            $this->setVerificationErrors("Check 1 failed: webstore wasn't created");
-    }
+        }       
     }
  /**
      * Admin-System-Store Management: New StoreView Creation
@@ -89,13 +83,10 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
         $this->clickAndWait($this->getUiElement("admin/pages/system/managestores/createsite/buttons/savestoreview"));
 
         //check for successful message
-        if ($this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
-            $this->setVerificationErrors("Check 1 : Site was successfully created");
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
+            $this->setVerificationErrors("Check 1 :  No successfull message");
 
-        }
-        if ($this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/buttons/savestoreview"))) {
-            $this->setVerificationErrors("Check 1 failed: website wasn't created");
-    }
+        }       
     }
 }
 

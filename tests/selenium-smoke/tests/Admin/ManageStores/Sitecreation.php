@@ -16,6 +16,5 @@ class Admin_ManageStores_Sitecreation extends Test_Admin_ManageStores_Abstract
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
         $this->adminSiteCreation($this->_siteName, $this->_siteCode, $this->_siteOrder);
         $this->debug("testSiteCreation finished");
-        sleep(10);
     }
 }
