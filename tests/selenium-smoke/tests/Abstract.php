@@ -55,6 +55,41 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $_siteOrder = "";
     
+     /**
+     * site store name
+     *
+     * @var string
+     */
+    protected $_storeName = "";
+
+    /**
+     * site rootcategory name
+     *
+     * @var string
+     */
+    protected $_rootCategory = "";
+
+     /**
+     * site storeview name
+     *
+     * @var string
+     */
+    protected $_storeviewName= "";
+
+    /**
+     * storeview code
+     *
+     * @var string
+     */
+    protected $_storeviewCode = "";
+
+    /**
+     * _storeviewStatus
+     *
+     * @var string
+     */
+    protected $_storeviewStatus = "";
+
     /**
      * Root category name
      * 
@@ -70,15 +105,7 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $_parentSubCategoryName  = "";
 
-    /**
-     * storeView name
-     *
-     * @var string
-     */
-    protected $_storeView  = "";
-
-
-    /**
+   /**
      * Manage debug function outputs.
      * 0 - silent function
      * 9 - all debug information printed
