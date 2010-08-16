@@ -15,5 +15,19 @@
         <customer>
             <id>102</id>
         </customer>
+        <managestores>
+            <site>
+                <name>Name1</name>
+                <code>code1</code>
+                <sortorder>order1</sortorder>
+            </site>
+ <!--        <store>
+                
+            </store>
+            <storeview>
+                
+            </storeview>
+   -->
+        </managestores>
     </backend>
 </config>
