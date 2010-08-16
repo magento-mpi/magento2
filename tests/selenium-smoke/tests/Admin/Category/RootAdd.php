@@ -1,4 +1,9 @@
 <?php
+/**
+ * Abstract test class for Admin/Category/Add module
+ *
+ * @author Magento Inc.
+ */
 
 class Admin_Category_RootAdd extends Test_Admin_Category_Abstract
 {
@@ -12,7 +17,7 @@ class Admin_Category_RootAdd extends Test_Admin_Category_Abstract
 
        // Get test parameters
        $this->_rootCategoryName  = Core::getEnvConfig('backend/managecategories/rootname');
-       $this->_storeView = Core::getEnvConfig('backend/managecategories/storeview');
+       $this->_storeView = Core::getEnvConfig('backend/managestores/storeview/name');
     }
 
     /**
@@ -21,10 +26,10 @@ class Admin_Category_RootAdd extends Test_Admin_Category_Abstract
      */
 
     function testRootCategoryCreation() {
-        $this->debug("testRootCategoryCreation started");
+        Core::debug("testRootCategoryCreation started");
         // Test Flow
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
         $this->addRootCategory( $this->_rootCategoryName,  $this->_storeView );
-        $this->debug("testRootCategoryCreation finished");
+        Core::debug("testRootCategoryCreation finished");
     }
 }

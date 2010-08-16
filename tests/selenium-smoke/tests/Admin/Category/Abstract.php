@@ -29,7 +29,7 @@ abstract class Test_Admin_Category_Abstract extends Test_Admin_Abstract
      * 
      */
     public function addSubCategory($categoryName, $parentCategoryName, $storeViewName) {
-      $this->debug("addSubCategory started");
+      Core::debug("addSubCategory started");
       // Open Manage Categories Page
       $this->clickAndWait ($this->getUiElement("admin/topmenu/catalog/categories/managecategories"));
       //Select Parent Category
@@ -40,6 +40,7 @@ abstract class Test_Admin_Category_Abstract extends Test_Admin_Abstract
       // Fill all fields
       $this->type($this->getUiElement("admin/pages/catalog/categories/managecategories/inputs/name"),$categoryName);
       $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/isactive"),"label=Yes");
+//      $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/storeswitcher"),"label=".$storeViewName);
       $this->click($this->getUiElement("admin/pages/catalog/categories/managecategories/tabs/displaysettings"));
       $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/isanchor"),"label=Yes");
       // Save category
@@ -49,7 +50,7 @@ abstract class Test_Admin_Category_Abstract extends Test_Admin_Abstract
       if (!$this->isElementPresent($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/categorysaved"))) {
         $this->setVerificationErrors("addRootCategory check 1: no success message");
       } 
-      $this->debug("addSubCategory finished");
+      Core::debug("addSubCategory finished");
     }
 
     /**
@@ -59,7 +60,7 @@ abstract class Test_Admin_Category_Abstract extends Test_Admin_Abstract
      *
      */
     public function addRootCategory($categoryName, $storeViewName) {
-      $this->debug("addRootCategory started");
+      Core::debug("addRootCategory started");
       // Open Manage Categories Page
       $this->clickAndWait ($this->getUiElement("admin/topmenu/catalog/categories/managecategories"));
       // Add new root ca
@@ -68,6 +69,7 @@ abstract class Test_Admin_Category_Abstract extends Test_Admin_Abstract
       // Fill all fields
       $this->type($this->getUiElement("admin/pages/catalog/categories/managecategories/inputs/name"),$categoryName);
       $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/isactive"),"label=Yes");
+//      $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/storeswitcher"),"label=".$storeViewName);
       // Save category
       $this->clickAndWait($this->getUiElement("admin/pages/catalog/categories/managecategories/buttons/savecategory"));
       $this->pleaseWait();
@@ -75,7 +77,7 @@ abstract class Test_Admin_Category_Abstract extends Test_Admin_Abstract
       if (!$this->isElementPresent($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/categorysaved"))) {
         $this->setVerificationErrors("addRootCategory check 1: no success message");
       }
-      $this->debug("addRootCategory finished");
+      Core::debug("addRootCategory finished");
     }
 
 }

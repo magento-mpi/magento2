@@ -13,8 +13,9 @@ class Admin_Category_Add extends Test_Admin_Category_Abstract
         // Get test parameters
         $this->_subCategoryName = Core::getEnvConfig('backend/managecategories/subcategoryname');
         $this->_parentSubCategoryName = Core::getEnvConfig('backend/managecategories/parentsubcategoryname');
-        $this->_storeview = Core::getEnvConfig('backend/managecategories/storeview');
+        $this->_storeViewName = Core::getEnvConfig('backend/managestores/storeview/name');
     }
+
 
     /**
      * Test addion new sub category to the $StoreView store view
@@ -22,10 +23,10 @@ class Admin_Category_Add extends Test_Admin_Category_Abstract
      */
 
     function testSubCategoryCreation() {
-        $this->debug("testSubCategoryCreation started");
+        Core::debug("testSubCategoryCreation started");
         // Test Flow
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->addSubCategory(  $this->_subCategoryName, $this->_parentSubCategoryName, $this->_storeview );
-        $this->debug("testSubCategoryCreation finished");
+        $this->addSubCategory(  $this->_subCategoryName, $this->_parentSubCategoryName, $this->_storeViewName );
+        Core::debug("testSubCategoryCreation finished");
     }
 }
