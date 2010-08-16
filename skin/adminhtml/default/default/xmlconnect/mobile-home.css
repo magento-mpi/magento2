@@ -103,44 +103,29 @@ body { margin:0; padding:0; }
 	height:1px;
 }
 
+.header-buttons,
+.header-buttons td { height:40px !important; padding:0 !important; margin:0 !important; }
+
 .info 
 {
-	position:relative;
-	width:35px;
-    height:31px;
-    margin:13px 0 0 14px;
-	float:left;
+	text-align:center;
+    vertical-align:middle;
+    width:47px;
+    height:42px;
 }
 .logo-small 
 {
-    float:left;
 	width:200px;
     height:44px;
     overflow:hidden;
-}
-
-.logo-small div
-{
-    width:200px;
-    height:44px;
     text-align:center;
-    overflow:hidden;
-    display:table-cell;
     vertical-align:middle;
-}
-
-.logo-small p
-{
-    margin:0 !important;
-    padding:0 !important;
 }
 
 .login-btn
 {
-    float:right;
     height:30px;
     width:68px;
-    margin-top:7px;
     font:bold 11px/30px arial;
     color:#e9e9e9;
 }
@@ -229,20 +214,18 @@ body { margin:0; padding:0; }
 
 .bottom-buttons .gradient { 
     position:absolute;
+    width:320px;
     background:url(../images/xmlconnect/mobile_preview/gradients/footer.png) 0 0 no-repeat !important;
 }
 
 .bottom-button 
 {
-	width:64px;
 	height:26px;
-	margin-top:7px;
-	float:left;
 }
 .bottom-button p 
 {
 	text-align:center;
 	font:normal 10px/11px arial;
 	color:#9f9f9f;
-    margin-top:28px;
+    margin-top:32px;
 }

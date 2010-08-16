@@ -368,20 +368,18 @@ body { margin: 0; padding: 0 }
 
 .bottom-buttons .gradient { 
     position:absolute;
+    width:320px;
     background:url(../images/xmlconnect/mobile_preview/gradients/footer.png) 0 0 no-repeat !important;
 }
 
 .bottom-button 
 {
-    width:64px;
     height:26px;
-    margin-top:7px;
-    float:left;
 }
 .bottom-button p 
 {
     text-align:center;
     font:normal 10px/11px arial;
     color:#9f9f9f;
-    margin-top:28px;
+    margin-top:32px;
 }

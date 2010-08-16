@@ -24,14 +24,16 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php if (($buttons = $this->getTabItems()) && is_array($buttons)) :?>
+<?php if (($buttons = $this->getTabItems()) && is_array($buttons) && ($buttonsCount = count($buttons))) :?>
 <div class="bottom-buttons">
     <div class="gradient">
+    <table style="width:100%"><tr>
     <?php foreach ($buttons as $button) : ?>
-        <div class="bottom-button" style="background:url('<?php echo isset($button['image']) ? $button['image'] : ''; ?>') top center no-repeat;">
+        <td class="bottom-button" style="width:<?php echo (100/$buttonsCount) ?>%;background:url('<?php echo isset($button['image']) ? $button['image'] : ''; ?>') center 7px no-repeat;">
             <p><?php echo isset($button['label']) ? $button['label'] : '&nbsp;'; ?></p>
-        </div>
+        </td>
     <?php endforeach; ?>
+    </tr></table>
     </div>  
 </div>
 <?php endif; ?>
