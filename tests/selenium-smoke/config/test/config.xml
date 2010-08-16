@@ -29,5 +29,12 @@
             </storeview>
    -->
         </managestores>
+        <managecategories>
+                <rootname>SLRootTestCategory</rootname>
+                <subcategoryname>SLSubTestCategory</subcategoryname>
+                <parentsubcategoryname>SLRootTestCategory</parentsubcategoryname>
+                <storeview>All Store Views</storeview>
+        </managecategories>
+		
     </backend>
 </config>
