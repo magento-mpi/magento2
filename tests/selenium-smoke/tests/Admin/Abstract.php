@@ -23,6 +23,9 @@ abstract class Test_Admin_Abstract extends Test_Abstract
         $this->_baseUrl = Core::getEnvConfig('backend/baseUrl');
         $this->_userName = Core::getEnvConfig('backend/auth/username');
         $this->_password = Core::getEnvConfig('backend/auth/password');
+        $this->_siteName = Core::getEnvConfig('backend/managestores/site/name');
+        $this->_siteCode = Core::getEnvConfig('backend/managestores/site/code');
+        $this->_siteOrder = Core::getEnvConfig('backend/managestores/site/sortorder');
     }
 
     /**
@@ -38,16 +41,14 @@ abstract class Test_Admin_Abstract extends Test_Abstract
         if ($this->isTextPresent($this->getUiElement("admin/pages/login/messages/invalidlogin"))) {
             $this->setVerificationErrors("adminLogin check 1 failed: Invalid login name/passsword");
         }
-        
-        if (!$this->waitForElement($this->getUiElement("admin/pages/login/images/mainlogo"), 60)) {
-                $this->setVerificationErrors("adminLogin Check 2 failed: Dashboard wasn't loaded");
-        } 
+        if (!$this->waitForElement($this->getUiElement("admin/pages/login/images/mainlogo"), 30)) {
+            $this->setVerificationErrors("Check 1 failed: Dashboard wasn't loaded");
+            }
     }
-    /**
+      /**
      * Await appearing and disappearing "Please wait" gif-image
      *
      */
-    
     public  function pleaseWait()
     {
         //
