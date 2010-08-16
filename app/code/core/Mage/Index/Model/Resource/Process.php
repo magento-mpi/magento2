@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Index Process Resource Model
  *
  * @category    Mage
  * @package     Mage_Index
@@ -104,8 +104,8 @@ class Mage_Index_Model_Resource_Process extends Mage_Core_Model_Resource_Db_Abst
      * Update process status field
      *
      *
-     * @param unknown_type $process
-     * @param unknown_type $status
+     * @param Mage_Index_Model_Process $process
+     * @param string $status
      * @return Mage_Index_Model_Resource_Process
      */
     public function updateStatus($process, $status)

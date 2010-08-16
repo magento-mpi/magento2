@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Index Event Collection
  *
  * @category    Mage
  * @package     Mage_Index
@@ -52,9 +52,9 @@ class Mage_Index_Model_Resource_Event_Collection extends Mage_Core_Model_Resourc
     public function addEntityFilter($entity)
     {
         if (is_array($entity) && !empty($entity)) {
-            $this->getSelect()->where('entity IN (?)', $entity);
+            $this->addFieldToFilter('entity', array('in'=>$entity));
         } else {
-            $this->getSelect()->where('entity = ?', $entity);
+            $this->addFieldToFilter('entity', $entity);
         }
         return $this;
     }
@@ -68,9 +68,9 @@ class Mage_Index_Model_Resource_Event_Collection extends Mage_Core_Model_Resourc
     public function addTypeFilter($type)
     {
         if (is_array($type) && !empty($type)) {
-            $this->getSelect()->where('type IN (?)', $type);
+            $this->addFieldToFilter('type', array('in'=>$type));
         } else {
-            $this->getSelect()->where('type = ?', $type);
+            $this->addFieldToFilter('type', $type);
         }
         return $this;
     }
@@ -78,23 +78,23 @@ class Mage_Index_Model_Resource_Event_Collection extends Mage_Core_Model_Resourc
     /**
      * Add filter by process and status to events collection
      *
-     * @param  $process
-     * @param  $status
+     * @param int|array|Mage_Index_Model_Process $process
+     * @param string $status
      * @return Mage_Index_Model_Resource_Event_Collection
      */
     public function addProcessFilter($process, $status = null)
     {
         $this->_joinProcessEventTable();
         if ($process instanceof Mage_Index_Model_Process) {
-            $this->getSelect()->where('process_event.process_id = ?', $process->getId());
+            $this->addFieldToFilter('process_event.process_id', $process->getId());
         } elseif (is_array($process) && !empty($process)) {
-            $this->getSelect()->where('process_event.process_id IN (?)', $process);
+            $this->addFieldToFilter('process_event.process_id', array('in'=>$process));
         } else {
-            $this->getSelect()->where('process_event.process_id = ?', $process);
+            $this->addFieldToFilter('process_event.process_id', $process);
         }
 
         if ($status !== null) {
-            $this->getSelect()->where('process_event.status = ?', $status);
+            $this->addFieldToFilter('process_event.status', $status);
         }
         return $this;
     }

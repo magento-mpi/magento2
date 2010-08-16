@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Index Process Collection
  *
  * @category    Mage
  * @package     Mage_Index
@@ -35,7 +35,7 @@
 class Mage_Index_Model_Resource_Process_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource
      *
      */
     protected function _construct()

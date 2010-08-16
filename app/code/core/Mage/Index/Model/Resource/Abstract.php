@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Abstract resource model. Can be used as base for indexer resources
  *
@@ -45,7 +44,7 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
     protected $_isNeedUseIdxTable  = false;
 
     /**
-     * Enter description here ...
+     * Reindex all
      *
      * @return Mage_Index_Model_Resource_Abstract
      */
@@ -58,7 +57,7 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
     /**
      * Get DB adapter for index data processing
      *
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @return Varien_Db_Adapter_Interface
      */
     protected function _getIndexAdapter()
     {
@@ -103,7 +102,8 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
     /**
      * Create temporary table for index data pregeneration
      *
-     * @param unknown_type $asOriginal
+     * @deprecated since 1.5.0.0
+     * @param bool $asOriginal
      * @return Mage_Index_Model_Resource_Abstract
      */
     public function cloneIndexTable($asOriginal = false)
@@ -112,8 +112,7 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
         $idxTable   = $this->getIdxTable();
         $idxAdapter = $this->_getIndexAdapter();
 
-        $sql = 'DROP TABLE IF EXISTS ' . $idxAdapter->quoteIdentifier($idxTable);
-        $idxAdapter->query($sql);
+        $idxAdapter->dropTable($idxTable);
         if ($asOriginal) {
             $sql = 'CREATE TABLE ' . $idxAdapter->quoteIdentifier($idxTable)
                 . ' LIKE ' . $idxAdapter->quoteIdentifier($this->getMainTable());
@@ -141,7 +140,7 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
             $columns = $this->_getIndexAdapter()->describeTable($sourceTable);
         }
         $columns = array_keys($columns);
-        $select = 'SELECT * FROM ' . $sourceTable;
+        $select = $this->_getIndexAdapter()->select()->from($sourceTable);
         return $this->insertFromSelect($select, $destTable, $columns, $readToIndex);
     }
 
@@ -164,10 +163,9 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
             $from   = $this->_getIndexAdapter();
             $to     = $this->_getWriteAdapter();
         }
-        $to->query("ALTER TABLE {$destTable} DISABLE KEYS");
+        $to->disableTableKeys($destTable);
         if ($from === $to) {
-            $sql = 'INSERT INTO ' . $destTable . ' ' . $select;
-            $to->query($sql);
+            $to->insertFromSelect($select, $destTable, $columns);
         } else {
             $stmt = $from->query($select);
             $data = array();
@@ -185,7 +183,7 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
                 $to->insertArray($destTable, $columns, $data);
             }
         }
-        $to->query("ALTER TABLE {$destTable} ENABLE KEYS");
+        $to->enableTableKeys($destTable);
         return $this;
     }
 

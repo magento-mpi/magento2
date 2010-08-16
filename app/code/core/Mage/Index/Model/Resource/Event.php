@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Index Event Resource Model
  *
  * @category    Mage
  * @package     Mage_Index

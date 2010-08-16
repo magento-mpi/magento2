@@ -61,7 +61,8 @@ class Mage_Index_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
             $indexCodes[] = $code;
         }
         $table = $this->getTable('index/process');
-        $existingIndexes = $connection->fetchCol('SELECT indexer_code FROM '.$table);
+        $select = $connection->select()->from($table,'indexer_code');
+        $existingIndexes = $connection->fetchCol($select);
         $delete = array_diff($existingIndexes, $indexCodes);
         $insert = array_diff($indexCodes, $existingIndexes);
 
