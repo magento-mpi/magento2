@@ -56,9 +56,31 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
     protected $_siteOrder = "";
     
     /**
-     * Add an error to the stack
+     * Root category name
      * 
-     * @param string $error 
+     * @var string
+     */
+
+    protected $_rootCategoryName = "";
+
+    /**
+     * Parent subcategory name
+     *
+     * @var string
+     */
+    protected $_parentSubCategoryName  = "";
+
+    /**
+     * subCategory name
+     *
+     * @var string
+     */
+    protected $_subCategoryName  = "";
+
+    /**
+     * Add an error to the stack
+     *
+     * @param string $error
      */
     function setVerificationErrors($error)
     {
@@ -81,6 +103,7 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
         if (is_array($arg)) {
             return vsprintf($element, $arg);
         } elseif (null !== $arg) {
+            $this->debug(sprintf($element, $arg));
             return sprintf($element, $arg);
         } else {
             return $element;
