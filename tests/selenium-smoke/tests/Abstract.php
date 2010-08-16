@@ -129,16 +129,16 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
     {
         $element = Core::getEnvMap($elem);
         if ($element==null) {
-            $this->debug("No elements found in UIMap for key: ".$elem);
+            Core::debug("No elements found in UIMap for key: ".$elem);
         }
         if (is_array($arg)) {
-            $this->debug(vsprintf($element, $arg),7);
+            Core::debug("getUiElement(...): ".vsprintf($element, $arg),7);
             return vsprintf($element, $arg);
         } elseif (null !== $arg) {
-            $this->debug(sprintf($element, $arg),7);
+            Core::debug("getUiElement(...): ".sprintf($element, $arg),7);
             return sprintf($element, $arg);
         } else {
-            $this->debug($element,7);
+            Core::debug("getUiElement(...): ".$element,7);
             return $element;
         }
     }
@@ -178,17 +178,6 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
         $this->_testId = strtoupper(get_class($this));
     }
 
-
-    /**
-     * Debug function
-     * Puts debug $line to output
-     */
-    function debug($line, $level=5)
-    {
-        if ($level>=$this->_debugLevel) {
-            echo $line."\n";
-        }
-    }
 
 }
 
