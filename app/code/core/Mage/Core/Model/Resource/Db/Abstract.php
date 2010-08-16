@@ -398,9 +398,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
              * Not auto increment primary key support
              */
             if ($this->_isPkAutoIncrement) {
-                $data = $this->_prepareDataForSave($object);
-                unset($data[$this->getIdFieldName()]);
-                $this->_getWriteAdapter()->update($this->getMainTable(), $data, $condition);
+                $this->_getWriteAdapter()->update($this->getMainTable(), $this->_prepareDataForSave($object), $condition);
             } else {
                 $select = $this->_getWriteAdapter()->select()
                     ->from($this->getMainTable(), array($this->getIdFieldName()))
@@ -542,6 +540,34 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     protected function _prepareDataForSave(Mage_Core_Model_Abstract $object)
     {
         return $this->_prepareDataForTable($object, $this->getMainTable());
+    }
+
+    /**
+     * Prepare data for passed table
+     *
+     * @param Varien_Object $object
+     * @param string $table
+     * @return array
+     */
+    protected function _prepareDataForTable(Varien_Object $object, $table)
+    {
+        $data = array();
+        $fields = $this->_getWriteAdapter()->describeTable($table);
+        foreach (array_keys($fields) as $field) {
+            if ($object->hasData($field)) {
+                $fieldValue = $object->getData($field);
+                if ($fieldValue instanceof Zend_Db_Expr) {
+                    $data[$field] = $fieldValue;
+                } else {
+                    if (null !== $fieldValue) {
+                        $data[$field] = $this->_prepareValueForSave($fieldValue, $fields[$field]['DATA_TYPE']);
+                    } elseif (!empty($fields[$field]['NULLABLE'])) {
+                        $data[$field] = null;
+                    }
+                }
+            }
+        }
+        return $data;
     }
 
     /**
