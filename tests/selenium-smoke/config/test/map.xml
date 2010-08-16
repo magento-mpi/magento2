@@ -79,13 +79,27 @@
                     <createsite>
                         <buttons>
                             <createwebsite>//button[span="Create Website"]</createwebsite>
+                            <createwebstore>//button[span="Create Store"]</createwebstore>
+                            <createstoreview>//button[span="Create Store View"]</createstoreview>
                             <save>//button[span="Save Website"]</save>
+                            <savestore>//button[span="Save Store"]</savestore>
+                            <savestoreview>//button[span="Save Store View"]</savestoreview>
                         </buttons>
                         <inputs>
                             <name>//input[@id='website_name']</name>
+                            <storename>//input[@id='group_name']</storename>
+                            <storeviewname>//input[@id='store_name']</storeviewname>
                             <code>//input[@id='website_code']</code>
+                            <storeviewcode>//input[@id='store_code']</storeviewcode>
                             <order>//input[@id='website_sort_order']</order>
+                            <storevieworder>//input[@id='store_sort_order']</storevieworder>
                         </inputs>
+                        <select>
+                            <site>group_website_id</site>
+                            <store>store_group_id</store>
+                            <storestatus>store_is_active</storestatus>
+                            <rootcategory>group_root_category_id</rootcategory>
+                        </select>
                         <messages>
                             <saved>//li[@class='success-msg']</saved>
                         </messages>
