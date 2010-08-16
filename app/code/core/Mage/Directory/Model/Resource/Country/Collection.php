@@ -85,7 +85,6 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
         if (!empty($countryCode)) {
             if (is_array($countryCode)) {
                 if (is_array($iso)) {
-                    $i = 0;
                     foreach ($iso as $iso_curr) {
                         $this->addFieldToFilter("{$iso_curr}_code", array('in'=>$countryCode));
                     }
@@ -94,7 +93,6 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
                 }
             } else {
                 if (is_array($iso)) {
-                    $i = 0;
                     foreach ($iso as $iso_curr) {
                         $this->addFieldToFilter("{$iso_curr}_code", $countryCode);
                     }

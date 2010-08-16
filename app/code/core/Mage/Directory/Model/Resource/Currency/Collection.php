@@ -28,6 +28,7 @@
 /**
  * Directory currency collection model
  *
+ * @deprecated  since 1.5.0.0
  * @category    Mage
  * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
