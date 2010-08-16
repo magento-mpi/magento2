@@ -18,16 +18,15 @@
         <managestores>
             <site>
                 <name>SmokeTestSite</name>
-                <code>st-sitecode</code>
+                <code>stsitecode</code>
                 <sortorder>1</sortorder>
             </site>
             <store>
-                <storename>st-storename</storename>
-                <rootcat>st-rootcat</rootcat>
+                <storename>ststorename</storename>               
             </store>
             <storeview>
                 <name>SmokeTestStoreView</name>
-                <code>st-svcode</code>
+                <code>stsvcode</code>
                 <order>1</order>
                 <status>label=Enabled</status>
             </storeview>
