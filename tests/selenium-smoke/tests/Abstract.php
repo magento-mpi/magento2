@@ -35,6 +35,27 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
     protected $_testId = "";
 
     /**
+     * site name
+     *
+     * @var string
+     */
+    protected $_siteName = "";
+
+    /**
+     * Site code name
+     *
+     * @var string
+     */
+    protected $_siteCode = "";
+
+    /**
+     * site sort order
+     *
+     * @var string
+     */
+    protected $_siteOrder = "";
+    
+    /**
      * Add an error to the stack
      * 
      * @param string $error 
