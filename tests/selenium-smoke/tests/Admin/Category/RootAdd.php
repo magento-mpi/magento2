@@ -9,6 +9,10 @@ class Admin_Category_RootAdd extends Test_Admin_Category_Abstract
      */
     function setUp() {
         parent::setUp();
+
+       // Get test parameters
+       $this->_rootCategoryName  = Core::getEnvConfig('backend/managecategories/rootname');
+       $this->_storeView = Core::getEnvConfig('backend/managecategories/storeview');
     }
 
     /**
@@ -18,12 +22,9 @@ class Admin_Category_RootAdd extends Test_Admin_Category_Abstract
 
     function testRootCategoryCreation() {
         $this->debug("testRootCategoryCreation started");
-        //Test Data
-        $rootCategoryName = "SLRootTestCategory";
-        $storeViewName = "All Store Views";
         // Test Flow
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->addRootCategory($rootCategoryName, $storeViewName );
+        $this->addRootCategory( $this->_rootCategoryName,  $this->_storeView );
         $this->debug("testRootCategoryCreation finished");
     }
 }
