@@ -14,6 +14,11 @@
                 <permissions>
                     <users>//li[a/span="Permissions"]//li[a/span="Users"]/a</users>
                 </permissions>
+                <managestores>
+                    <link>
+                        <openpage>link=Manage Stores</openpage>
+                    </link>                   
+                </managestores>
             </system>
         </topmenu>
         <pages>
@@ -63,6 +68,22 @@
                         </user>
                     </users>
                 </permissions>
+                <managestores>
+                    <createsite>
+                        <buttons>
+                            <createwebsite>//button[span="Create Website"]</createwebsite>
+                            <save>//button[span="Save Website"]</save>
+                        </buttons>
+                        <inputs>
+                            <name>//input[@id='website_name']</name>
+                            <code>//input[@id='website_code']</code>
+                            <order>//input[@id='website_sort_order']</order>
+                        </inputs>
+                        <messages>
+                            <saved>//li[@class='success-msg']</saved>
+                        </messages>
+                    </createsite>
+                </managestores>
             </system>
             <login>
                 <messages>
