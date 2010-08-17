@@ -125,9 +125,9 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
                 array('website_id'))
             ->joinLeft(
                 array('store_group_table' => $this->getTable('core/store_group')),
-                '`website_table`.`website_id`=`store_group_table`.`website_id`'
-                    . ' AND `website_table`.`default_group_id`=`store_group_table`.`group_id`',
-                array('store_id' => 'IFNULL(`store_group_table`.`default_store_id`, 0)')
+                'website_table.website_id=store_group_table.website_id'
+                    . ' AND website_table.default_group_id = store_group_table.group_id',
+                array('store_id' => $ifNull)
             );
         if (!$withDefault) {
             $select->where('`website_table`.`website_id` <> ?', 0);
