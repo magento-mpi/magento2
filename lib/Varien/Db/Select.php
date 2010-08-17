@@ -45,10 +45,8 @@ class Varien_Db_Select extends Zend_Db_Select
     public function __construct(Zend_Db_Adapter_Abstract $adapter)
     {
         parent::__construct($adapter);
-        if (!in_array(self::STRAIGHT_JOIN_ON, self::$_joinTypes)) {
-            self::$_joinTypes[] = self::STRAIGHT_JOIN_ON;
-            self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
-        }
+        self::$_joinTypes[] = self::STRAIGHT_JOIN_ON;
+        self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
     }
 
     /**
@@ -85,6 +83,9 @@ class Varien_Db_Select extends Zend_Db_Select
      */
     public function where($cond, $value = null, $type = null)
     {
+        if (is_null($value) && is_null($type)) {
+            $value = '';
+        }
         if (is_array($value)) {
             $cond = $this->_adapter->quoteInto($cond, $value);
             $value = null;
