@@ -67,7 +67,6 @@ abstract class Test_Admin_Product_Abstract extends Test_Admin_Abstract
       // Check for success message
       if (!$this->waitForElement($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/messages/productsaved"),10)) {
           $this->setVerificationErrors("addSimpleProduct check 1: no success message");
-
           //Check for some specific validation errors:
           // sku must be unique
           if ($this->isElementPresent($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/messages/skumustbeunique"),2)) {
@@ -78,5 +77,61 @@ abstract class Test_Admin_Product_Abstract extends Test_Admin_Abstract
     }
 
 
+   /**
+     * Open product for the editing
+     * @param $sku - contains reurn
+     * @returns true on success
+     * @returns false and setVerificationErrors() on
+     */
+    public function doOpenProduct($sku = null)
+    {
+        $this->click($this->getUiElement("admin/topmenu/catalog/manageproducts"));
+        $this->waitForPageToLoad("90000");
+        $this->click($this->getUiElement("admin/pages/catalog/categories/manageproducts/buttons/resetFilter"));
+        $this->pleaseWait();
+        $this->type ($this->getUiElement("admin/pages/catalog/categories/manageproducts/inputs/filter_sku"),$sku);
+        $this->click($this->getUiElement("admin/pages/catalog/categories/manageproducts/buttons/search"));
+        $this->pleaseWait();
+
+        if ($this->waitForElement($this->getUiElement('admin/pages/catalog/categories/manageproducts/elements/filteredProduct',$sku),30)) {
+            $this->click($this->getUiElement('admin/pages/catalog/categories/manageproducts/elements/filteredProduct',$sku));
+            $this->waitForPageToLoad("90000");
+            return true;
+        } else {
+            $this->setVerificationErrors("Product with sku=" . $sku . " could not be loaded");
+            return false;
+        }
+    }
+
+    /**
+     * Duplicate product with specified @sku
+     * @param $sku - original product Sku
+     * @param $duplicatedSku - duplicated product Sku
+     *
+     */
+    public function duplicate($sku, $duplicatedSku)
+    {
+      //Open source product
+      $this->doOpenProduct($sku);
+      //Duplicate
+      $this->clickAndWait($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/buttons/duplicate"));
+      // Check for success message
+      if (!$this->waitForElement($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/messages/productDuplicated"),20)) {
+          $this->setVerificationErrors("duplicate check 1: no success duplicated message");
+      }
+      //Change SKU
+      $this->type ($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/inputs/sku"),$duplicatedSku);
+      //Save product
+      $this->click($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/buttons/save"));
+      // Check for success message
+      if (!$this->waitForElement($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/messages/productsaved"),20)) {
+          $this->setVerificationErrors("duplicate check 2: no success saved message");
+      }
+      //Check for some specific validation errors:
+      // sku must be unique
+      if ($this->isElementPresent($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/messages/skumustbeunique"),2)) {
+        $this->setVerificationErrors("duplicate check 3: SKU must be unique");
+      }
+    }
 }
 
