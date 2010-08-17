@@ -15,6 +15,11 @@
         <customer>
             <id>102</id>
         </customer>
+		<createproduct>
+			<sku>st-01</sku>
+			<productname>st-01</productname>
+			<price>10</price>
+		</createproduct>
         <managestores>
             <site>
                 <name>SmokeTestSite</name>
