@@ -65,6 +65,8 @@
 								<weight>weight</weight>
 								<price>price</price>
 								<inventory_qty>inventory_qty</inventory_qty>
+								<website>//*[text()='%s']</website>
+								<category>//div[@id='product-categories']//a[contains(span,'%s')]</category>
 							</inputs>
 							<selectors>
 								<status>status</status>
@@ -74,7 +76,16 @@
 							<tabs>
 								<price>link=Prices</price>
 								<inventory>link=Inventory</inventory>
+								<websites>link=Websites</websites>
+								<categories>//a[@id='product_info_tabs_categories']/span</categories>
 							</tabs>
+							<buttons>
+								<save>//button[span="Save"]</save>
+							</buttons>
+							<messages>
+								<productsaved>//div[@id="messages"]//li[@class="success-msg"]</productsaved>
+								<skumustbeunique>//*[@id='advice-validate-ajax-sku']</skumustbeunique>
+							</messages>
 						</product>
 					</manageproducts>						
                 </categories>
