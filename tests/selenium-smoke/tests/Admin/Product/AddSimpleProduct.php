@@ -33,15 +33,21 @@ class Admin_Category_Add extends Test_Admin_Product_Abstract
     function testSimpleProductCreation() {
         Core::debug("testSimpleProductCreation started");
         // Test Dara
-        $sku = Core::getEnvConfig('backend/createproduct/sku');
-        $productName = Core::getEnvConfig('backend/createproduct/productname');
-        $price = Core::getEnvConfig('backend/createproduct/price');
-        $categoryName = Core::getEnvConfig('backend/managecategories/subcategoryname');
-        $webSiteName = Core::getEnvConfig('backend/managestores/site/name');
-        $storeViewName = Core::getEnvConfig('backend/managecategories/storeview');
+        $paramArray = array (
+            "sku" => Core::getEnvConfig('backend/createproduct/sku'),
+            "productName" =>  Core::getEnvConfig('backend/createproduct/productname'),
+            "description" =>  Core::getEnvConfig('backend/createproduct/productname')." description",
+            "short_description" =>  Core::getEnvConfig('backend/createproduct/productname')." short description",
+            "weight" => "10",
+            "price" => Core::getEnvConfig('backend/createproduct/price'),
+            "quantity" => "1000",
+            "categoryName" => Core::getEnvConfig('backend/managecategories/subcategoryname'),
+            "webSiteName" => Core::getEnvConfig('backend/managestores/site/name')
+        );
+        
         // Test Flow
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->addSimpleProduct($sku, $productName, $categoryName, $webSiteName, $storeViewName, $price);
+        $this->addSimpleProduct($paramArray);
         Core::debug("testSimpleProductCreation finished");
     }
 }
