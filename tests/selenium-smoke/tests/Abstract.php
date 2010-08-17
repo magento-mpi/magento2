@@ -153,14 +153,14 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
     public function waitForElement($xpath, $timeforwait) {
         for ($second = 0; ; $second++) {
             if ($second >= $timeforwait) {
-                $this->fail("element could not be found: " . $xpath);
+                 //$this->fail("element could not be found: " . $xpath);
+                  return false;
             }
             try {
                 if ($this->isElementPresent($xpath)) {
                     return true;
                 }
             } catch (Exception $e) {
-
             }
             sleep(1);
         }
