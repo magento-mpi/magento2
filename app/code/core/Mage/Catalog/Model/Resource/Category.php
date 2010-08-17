@@ -747,6 +747,10 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
         $data = array('path' => $newPath, 'level' => $newLevel,
             'position'=>$position, 'parent_id'=>$newParent->getId());
         $adapter->update($table, $data, $adapter->quoteInto('entity_id=?', $category->getId()));
+
+        // Update category object to new data
+        $category->addData($data);
+
         return $this;
     }
 

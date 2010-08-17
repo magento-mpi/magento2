@@ -197,8 +197,24 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             $select->where('category_id IS NULL');
         }
         elseif ($categoryIds) {
-            $select->where('category_id IN(?)', $categoryIds);
+            $catIds = is_array($categoryIds) ? $categoryIds : array($categoryIds);
+
+            // Check maybe we request products and root category id is within categoryIds,
+            // it's a separate case because root category products are stored with NULL categoryId
+            if ($productIds) {
+                $addNullCategory = in_array($this->getStores($storeId)->getRootCategoryId(), $catIds);
+            } else {
+                $addNullCategory = false;
+            }
+
+            // Compose optimal condition
+            if ($addNullCategory) {
+                $select->where('category_id IN(?) OR category_id IS NULL', $catIds);
+            } else {
+                $select->where('category_id IN(?)', $catIds);
+            }
         }
+
         if (is_null($productIds)) {
             $select->where('product_id IS NULL');
         }
@@ -612,7 +628,6 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _getCategories($categoryIds, $storeId = null, $path = null)
     {
-        //$isActiveAttribute = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_category', 'is_active');
         $isActiveAttribute = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_active');
         $categories = array();
 
@@ -624,6 +639,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             ->from(array('main_table' => $this->getTable('catalog/category')), array(
                 'main_table.entity_id',
                 'main_table.parent_id',
+                'main_table.level',
                 'is_active' => 'IF(c.value_id>0, c.value, d.value)',
                 'main_table.path'));
 
@@ -699,7 +715,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
-     * Retrieve categories data objects by ids
+     * Retrieve categories data objects by their ids. Return only categories that belong to specified store.
      *
      * @param int|array $categoryIds
      * @param int $storeId
@@ -948,8 +964,8 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      * Remove unused rewrites for product - called after we created all needed rewrites for product and know the categories
      * where the product is contained ($excludeCategoryIds), so we can remove all invalid product rewrites that have other category ids
      *
-     * Notice: this routine is not identical to clearCategoryProduc(), because after checking all categories this one removes rewrites
-     * for product still contained within category, but when the category was moved away from store's category path to other root category.
+     * Notice: this routine is not identical to clearCategoryProduct(), because after checking all categories this one removes rewrites
+     * for product still contained within categories.
      *
      * @param int $productId Product entity Id
      * @param int $storeId Store Id for rewrites
@@ -959,20 +975,23 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     public function clearProductRewrites($productId, $storeId, $excludeCategoryIds = array())
     {
         $adapter = $this->_getWriteAdapter();
+
         $where = $adapter->quoteInto('product_id=?', $productId);
         $where.= $adapter->quoteInto(' AND store_id=?', $storeId);
-        $where.= ' AND category_id IS NOT NULL';
+
         if (!empty($excludeCategoryIds)) {
             $where.= $adapter->quoteInto(' AND category_id NOT IN (?)', $excludeCategoryIds);
+            $where.= ' AND category_id IS NOT NULL'; // If there's at least one category to skip, also skip root category, because product belongs to website
         }
+
         $adapter->delete($this->getMainTable(), $where);
 
         return $this;
     }
 
     /**
-     * Finds and deletes old category and category/product rewrites for store
-     * left from the times when store had some other root category
+     * Finds and deletes all old category and category/product rewrites for store
+     * left from the times when categories/products belonged to store
      *
      * @param int $storeId
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
@@ -1084,16 +1103,22 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     public function deleteCategoryProductStoreRewrites($categoryId, $productIds = null, $storeId = null)
     {
         $adapter = $this->_getWriteAdapter();
+
+        // Notice that we don't include category_id = NULL in case of root category,
+        // because product removed from all categories but assigned to store's website is still
+        // assumed to be in root cat. Unassigned products must be removed by other routine.
         $condition = $adapter->quoteInto('category_id=?', $categoryId);
         if (empty($productIds)) {
             $condition.= ' AND product_id IS NOT NULL';
         } else {
             $condition.= $adapter->quoteInto(' AND product_id IN (?)', $productIds);
         }
+
         if ($storeId !== null) {
             $condition.= $adapter->quoteInto(' AND store_id IN(?)', $storeId);
         }
-        $this->_getWriteAdapter()->delete($this->getMainTable(), $condition);
+
+        $adapter->delete($this->getMainTable(), $condition);
         return $this;
     }
 

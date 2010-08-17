@@ -63,6 +63,13 @@ class Mage_Catalog_Model_Url
     protected $_categories = array();
 
     /**
+     * Store root categories cache
+     *
+     * @var array
+     */
+    protected $_rootCategories = array();
+
+    /**
      * Rewrite cache
      *
      * @var array
@@ -96,6 +103,45 @@ class Mage_Catalog_Model_Url
      * @var bool
      */
     protected $_saveRewritesHistory = null;
+
+     /**
+     * Singleton of category model for building URL path
+     *
+     * @var Mage_Catalog_Model_Category
+     */
+    static protected $_categoryForUrlPath;
+
+    /**
+     * Adds url_path property for non-root category - to ensure that url path is not empty.
+     *
+     * Sometimes attribute 'url_path' can be empty, because url_path hasn't been generated yet,
+     * in this case category is loaded with empty url_path and we should generate it manually.
+     *
+     * @param Varien_Object $category
+     * @return void
+     */
+    protected function _addCategoryUrlPath($category)
+    {
+        if (!($category instanceof Varien_Object) || $category->getUrlPath()) {
+            return;
+        }
+
+        // This routine is not intended to be used with root categories, but handle 'em gracefully - ensure them to have empty path.
+        if ($category->getLevel() <= 1) {
+            $category->setUrlPath('');
+            return;
+        }
+
+        if (self::$_categoryForUrlPath === null) {
+            self::$_categoryForUrlPath = Mage::getModel('catalog/category');
+        }
+
+        // Generate url_path
+        $urlPath = self::$_categoryForUrlPath
+            ->setData($category->getData())
+            ->getUrlPath();
+        $category->setUrlPath($urlPath);
+    }
 
     /**
      * Retrieve stores array or store model
@@ -139,6 +185,24 @@ class Mage_Catalog_Model_Url
     public function getProductModel()
     {
         return $this->getResource()->getProductModel();
+    }
+
+    /**
+     * Returns store root category, uses caching for it
+     *
+     * @return Varien_Object
+     */
+    public function getStoreRootCategory($storeId) {
+        if (!array_key_exists($storeId, $this->_rootCategories)) {
+            $category = null;
+            $store = $this->getStores($storeId);
+            if ($store) {
+                $rootCategoryId = $store->getRootCategoryId();
+                $category = $this->getResource()->getCategory($rootCategoryId, $storeId);
+            }
+            $this->_rootCategories[$storeId] = $category;
+        }
+        return $this->_rootCategories[$storeId];
     }
 
     /**
@@ -276,12 +340,11 @@ class Mage_Catalog_Model_Url
 
         $idPath      = $this->generatePath('id', $product, $category);
         $targetPath  = $this->generatePath('target', $product, $category);
-        //$requestPath = $this->generatePath('request', $product, $category);
         $requestPath = $this->getProductRequestPath($product, $category);
 
         $categoryId = null;
         $updateKeys = true;
-        if ($category->getUrlPath()) {
+        if ($category->getLevel() > 1) {
             $categoryId = $category->getId();
             $updateKeys = false;
         }
@@ -340,9 +403,13 @@ class Mage_Catalog_Model_Url
                 break;
             }
 
-            $this->_rewrites = $this->getResource()->prepareRewrites($category->getStoreId(), $category->getId(), array_keys($products));
+            // Prepare rewrites for generation
+            $rootCategory = $this->getStoreRootCategory($category->getStoreId());
+            $categoryIds = array($category->getId(), $rootCategory->getId());
+            $this->_rewrites = $this->getResource()->prepareRewrites($category->getStoreId(), $categoryIds, array_keys($products));
 
             foreach ($products as $product) {
+                $this->_refreshProductRewrite($product, $rootCategory); // Product always must have rewrite in root category
                 $this->_refreshProductRewrite($product, $category);
             }
             $firstIteration = false;
@@ -374,6 +441,8 @@ class Mage_Catalog_Model_Url
         if (!$category) {
             return $this;
         }
+
+        // Load all childs and refresh all categories
         $category = $this->getResource()->loadCategoryChilds($category);
         $categoryIds = array($category->getId());
         if ($category->getAllChilds()) {
@@ -389,7 +458,7 @@ class Mage_Catalog_Model_Url
     }
 
     /**
-     * Refresh product and categories urls
+     * Refresh product rewrite urls for one store or all stores
      * Called as a reaction on product change that affects rewrites
      *
      * @param int $productId
@@ -408,26 +477,34 @@ class Mage_Catalog_Model_Url
         $product = $this->getResource()->getProduct($productId, $storeId);
         if ($product) {
             $store = $this->getStores($storeId);
-            $storeRootCategoryId    = $store->getRootCategoryId();
-            $storeRootCategoryPath  = $store->getRootCategoryPath();
-            $categories             = $this->getResource()->getCategories($product->getCategoryIds(), $storeId);
-            $this->_rewrites        = $this->getResource()->prepareRewrites($storeId, '', $productId);
+            $storeRootCategoryId = $store->getRootCategoryId();
+            $storeRootCategoryPath = $store->getRootCategoryPath();
+            $categories = $this->getResource()->getCategories($product->getCategoryIds(), $storeId); // List of categories the product is assigned to, filtered by being within the store's categories root
+            $this->_rewrites = $this->getResource()->prepareRewrites($storeId, '', $productId);
 
-            if (!isset($categories[$storeRootCategoryId])) {
-                $categories[$storeRootCategoryId] = $this->getResource()->getCategory($storeRootCategoryId, $storeId);
-            }
+            // Add rewrites for all needed categories
+            if ($categories) {
+                // If product is assigned to any of store's categories - we also should use store root category to create root product url rewrite
+                if (!isset($categories[$storeRootCategoryId]))
+                    $categories[$storeRootCategoryId] = $this->getResource()->getCategory($storeRootCategoryId, $storeId);
 
-            foreach ($categories as $category) {
-                $subRoot = strpos($category['path'], $storeRootCategoryPath . '/') === 0;
-                if ($category['path'] != $storeRootCategoryPath && $subRoot) {
+                // Create product url rewrites
+                foreach ($categories as $category) {
                     $this->_refreshProductRewrite($product, $category);
                 }
             }
 
-            $this->getResource()->clearProductRewrites($productId, $storeId, array_keys($categories));
+            // Remove all other product rewrites created earlier for this store - they're invalid now.
+            // Always leave root categroy, as far as product is found it means that it's assigned to store's website,
+            // so this product must have root url rewrite
+            $excludeCategoryIds = $categories ? array_keys($categories) : array($storeRootCategoryId);
+            $this->getResource()->clearProductRewrites($productId, $storeId, $excludeCategoryIds);
 
             unset($categories);
             unset($product);
+        } else {
+            // Product doesn't belong to this store - clear all its url rewrites including root one
+            $this->getResource()->clearProductRewrites($productId, $storeId, array());
         }
 
         return $this;
@@ -613,7 +690,8 @@ class Mage_Catalog_Model_Url
         /**
          * Prepare product base request path
          */
-        if ($category->getUrlPath()) {
+        if ($category->getLevel() > 1) {
+            $this->_addCategoryUrlPath($category); // To ensure, that category has path either from attribute or generated now
             $categoryUrl = Mage::helper('catalog/category')->getCategoryUrlPath($category->getUrlPath(), false, $storeId);
             $requestPath = $categoryUrl . '/' . $urlKey;
         } else {
@@ -626,7 +704,7 @@ class Mage_Catalog_Model_Url
 
         $this->_rewrite = null;
         /**
-         * Chack $requestPath should be unique
+         * Check $requestPath should be unique
          */
         if (isset($this->_rewrites[$idPath])) {
             $this->_rewrite = $this->_rewrites[$idPath];
@@ -688,7 +766,7 @@ class Mage_Catalog_Model_Url
             if (!$product) {
                 return 'category/' . $category->getId();
             }
-            if ($category && $category->getUrlPath()) {
+            if ($category && $category->getLevel() > 1) {
                 return 'product/' . $product->getId() . '/' . $category->getId();
             }
             return 'product/' . $product->getId();
@@ -731,7 +809,8 @@ class Mage_Catalog_Model_Url
                 $urlKey = $this->getProductModel()->formatUrlKey($product->getUrlKey());
             }
             $productUrlSuffix  = $this->getProductUrlSuffix($category->getStoreId());
-            if ($category->getUrlPath()) {
+            if ($category->getLevel() > 1) {
+                $this->_addCategoryUrlPath($category); // To ensure, that category has url path either from attribute or generated now
                 $categoryUrl = Mage::helper('catalog/category')->getCategoryUrlPath($category->getUrlPath(), false, $category->getStoreId());
                 return $this->getUnusedPath($category->getStoreId(), $categoryUrl . '/' . $urlKey . $productUrlSuffix,
                     $this->generatePath('id', $product, $category)
@@ -748,7 +827,7 @@ class Mage_Catalog_Model_Url
         if (!$product) {
             return 'catalog/category/view/id/' . $category->getId();
         }
-        if ($category && $category->getUrlPath()) {
+        if ($category && $category->getLevel() > 1) {
             return 'catalog/product/view/id/' . $product->getId() . '/category/' . $category->getId();
         }
         return 'catalog/product/view/id/' . $product->getId();

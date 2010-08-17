@@ -225,7 +225,9 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             Mage::dispatchEvent('catalog_category_tree_move_after', $eventParams);
             $this->_getResource()->commit();
 
+            // Set data for indexer
             $this->setAffectedCategoryIds(array($this->getId(), $this->getParentId(), $parentId));
+
             $moveComplete = true;
         } catch (Exception $e) {
             $this->_getResource()->rollBack();
@@ -492,7 +494,8 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getUrlPath()
     {
-        if ($path = $this->getData('url_path')) {
+        $path = $this->getData('url_path');
+        if ($path) {
             return $path;
         }
 
