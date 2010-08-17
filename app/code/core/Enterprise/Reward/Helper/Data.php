@@ -324,9 +324,9 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
             }
         } else if (isset($this->_ratesArray[0])) {
             if (isset($this->_ratesArray[0][$websiteId])) {
-                $rate = isset($this->_ratesArray[0][$websiteId]);
+                $rate = $this->_ratesArray[0][$websiteId];
             } else if (isset($this->_ratesArray[0][0])) {
-                $rate = isset($this->_ratesArray[0][0]);
+                $rate = $this->_ratesArray[0][0];
             }
         }
         if ($rate !== null) {
