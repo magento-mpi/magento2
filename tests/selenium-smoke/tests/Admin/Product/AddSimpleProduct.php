@@ -23,23 +23,26 @@ class Admin_Category_Add extends Test_Admin_Product_Abstract
     /**
      * Test addion new sub category to the $StoreView store view
      *
-     *@param $productName
-     *@param $categoryName
-     *@param $webSiteName
-     *@param $storeViewName
+     *@param sku
+     *@param productName
+     *@param categoryName
+     *@param webSiteName
+     *@param storeViewName
      */
 
-    function testSubCategoryCreation() {
-        Core::debug("testSubCategoryCreation started");
+    function testSimpleProductCreation() {
+        Core::debug("testSimpleProductCreation started");
         // Test Dara
+        $sku = Core::getEnvConfig('backend/createproduct/sku');
         $productName = Core::getEnvConfig('backend/createproduct/productname');
+        $price = Core::getEnvConfig('backend/createproduct/price');
         $categoryName = Core::getEnvConfig('backend/managecategories/subcategoryname');
         $webSiteName = Core::getEnvConfig('backend/managestores/site/name');
         $storeViewName = Core::getEnvConfig('backend/managecategories/storeview');
         // Test Flow
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->addSimpleProduct(  $productName, $categoryName, $webSiteName, $storeViewName);
-        Core::debug("testSubCategoryCreation finished");
+        $this->addSimpleProduct($sku, $productName, $categoryName, $webSiteName, $storeViewName, $price);
+        Core::debug("testSimpleProductCreation finished");
     }
 }
 ?>
