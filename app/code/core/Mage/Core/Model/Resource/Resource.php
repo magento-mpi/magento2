@@ -35,27 +35,6 @@
 class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Database read connection
-     *
-     * @var Varien_Db_Adapter_Interface
-     */
-    //protected $_read                   = null;
-
-    /**
-     * Database write connection
-     *
-     * @var Varien_Db_Adapter_Interface
-     */
-    //protected $_write                  = null;
-
-    /**
-     * Resource table name
-     *
-     * @var string
-     */
-    //protected $_resTable               = null;
-
-    /**
      * Database versions
      *
      * @var array
@@ -70,16 +49,9 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
     protected static $_dataVersions    = null;
 
     /**
-     * Class constructor
+     * Define main table
      *
      */
-    /*public function __construct()
-    {
-        $this->_resTable = Mage::getSingleton('core/resource')->getTableName('core/resource');
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
-    }*/
-
     protected function _construct()
     {
         $this->_init('core/resource', 'store_id');
@@ -111,7 +83,7 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
     /**
      * Get Module version from DB
      *
-     * @param unknown_type $resName
+     * @param string $resName
      * @return string
      */
     public function getDbVersion($resName)
@@ -153,7 +125,7 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
      * Get resource data version
      *
      * @param string $resName
-     * @return string | false
+     * @return string|false
      */
     public function getDataVersion($resName)
     {
