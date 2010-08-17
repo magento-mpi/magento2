@@ -72,11 +72,10 @@ class Mage_Core_Model_Resource_Cache extends Mage_Core_Model_Resource_Db_Abstrac
      */
     public function saveAllOptions($options)
     {
-        if (!$this->_getWriteAdapter()) {
+        $adapter = $this->_getWriteAdapter();
+        if (!$adapter) {
             return $this;
         }
-        
-        $data = array();
 
         $data = array();
         foreach ($options as $code => $value) {

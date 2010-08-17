@@ -34,37 +34,76 @@
 abstract class Mage_Core_Model_Resource_Helper_Abstract
 {
     /**
+     * Read adapter instance
+     *
+     * @var Varien_Db_Adapter_Interface
+     */
+    protected $_readAdapter;
+
+    /**
+     * Write adapter instance
+     *
+     * @var Varien_Db_Adapter_Interface
+     */
+    protected $_writeAdapter;
+
+    /**
+     * Resource helper module prefix
+     *
+     * @var string
+     */
+    protected $_modulePrefix;
+
+    /**
+     * Initialize resource helper instance
+     *
+     * @param string $module
+     */
+    public function __construct($module)
+    {
+        $this->_modulePrefix = $module;
+    }
+
+    /**
      * Retrieve connection for read data
      *
-     * @return Zend_Db_Adapter_Abstract
+     * @return Varien_Db_Adapter_Interface
      */
     protected function _getReadAdapter()
     {
-        return $this->_getConnection('read');
+        if (is_null($this->_readAdapter)) {
+            $this->_readAdapter = $this->_getConnection('read');
+        }
+
+        return $this->_readAdapter;
     }
 
     /**
      * Retrieve connection for write data
      *
-     * @return Zend_Db_Adapter_Abstract
+     * @return Varien_Db_Adapter_Interface
      */
     protected function _getWriteAdapter()
     {
-        return $this->_getConnection('write');
+        if (is_null($this->_writeAdapter)) {
+            $this->_writeAdapter = $this->_getConnection('write');
+        }
+
+        return $this->_writeAdapter;
     }
 
     /**
      * Create connection to resource
      *
      * @param string $name
-     * @return Zend_Db_Adapter_Abstract
+     * @return Varien_Db_Adapter_Interface
      */
     protected function _getConnection($name)
     {
+        $connection = sprintf('%s_%s', $this->_modulePrefix, $name);
+        /* @var $resource Mage_Core_Model_Resource */
         $resource   = Mage::getSingleton('core/resource');
-        /* @see Mage_Core_Model_Resource */
-        $connection = $resource->getConnection($name);
 
-        return $connection;
+        return $resource->getConnection($connection);
     }
 }
