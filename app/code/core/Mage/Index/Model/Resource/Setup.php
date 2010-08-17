@@ -37,6 +37,7 @@ class Mage_Index_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
     /**
      * Apply Index module DB updates and sync indexes declaration
      *
+     * @return void
      */
     public function applyUpdates()
     {
@@ -61,7 +62,7 @@ class Mage_Index_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
             $indexCodes[] = $code;
         }
         $table = $this->getTable('index/process');
-        $select = $connection->select()->from($table,'indexer_code');
+        $select = $connection->select()->from($table, 'indexer_code');
         $existingIndexes = $connection->fetchCol($select);
         $delete = array_diff($existingIndexes, $indexCodes);
         $insert = array_diff($indexCodes, $existingIndexes);
