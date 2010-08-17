@@ -3373,14 +3373,21 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getTablesChecksum($tableNames, $schemaName = null)
     {
+        $result = array();
         if (!$schemaName) {
             $schemaName = $this->_getSchemaName();
         }
-        $query = sprintf("SELECT SUM(CHECKSUM('%s', '%s', ROWID)) AS CHECKSUM FROM %s",
-                    $schemaName,
-                    $tableNames,
-                    $this->_getTableName($tableName, $schemaName)
-                );
-        return $this->fetchOne($query);
+        if(!is_array($tableNames)){
+            $tableNames = array($tableNames);
+        }
+        foreach($tableNames as $tableName){
+            $query = sprintf("SELECT SUM(CHECKSUM('%s', '%s', ROWID)) AS CHECKSUM FROM %s",
+                $schemaName,
+                $tableName,
+                $this->_getTableName($tableName, $schemaName)
+            );
+            $result[] = array($tableName, $this->fetchOne($query));
+        }
+        return $result;
     }
 }

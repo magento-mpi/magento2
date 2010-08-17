@@ -3340,8 +3340,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      *
      */
-    public function getTablesChecksum($tableNames)
-    {        
-        return array();
+    public function getTablesChecksum($tableNames, $schemaName = null)
+    {
+        $result = array();
+        if(!is_array($tableNames)){
+            $tableNames = array($tableNames);
+        }
+        foreach($tableNames as $tableName){
+            $query = sprintf("SELECT CHECKSUM_AGG(BINARY_CHECKSUM(*)) AS CHECKSUM FROM %s",
+                $this->_getTableName($tableName, $schemaName)
+            );
+            $result[] = array($tableName, $this->fetchOne($query));
+        }
+        return $result;
     }
 }
