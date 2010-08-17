@@ -392,9 +392,14 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         if (!isset($payment['method'])) {
             Mage::throwException(Mage::helper('checkout')->__('Payment method is not defined'));
         }
-        $this->getQuote()->getPayment()
-            ->importData($payment);
-        $this->getQuote()->save();
+        $quote = $this->getQuote();
+        $quote->getPayment()->importData($payment);
+        // shipping totals may be affected by payment method
+        if (!$quote->isVirtual() && $quote->getShippingAddress()) {
+            $quote->getShippingAddress()->setCollectShippingRates(true);
+            $quote->setTotalsCollectedFlag(false)->collectTotals();
+        }
+        $quote->save();
         return $this;
     }
 

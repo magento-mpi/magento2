@@ -548,22 +548,22 @@ class Mage_Checkout_Model_Type_Onepage
         if (empty($data)) {
             return array('error' => -1, 'message' => $this->_helper->__('Invalid data.'));
         }
-        if ($this->getQuote()->isVirtual()) {
-            $this->getQuote()->getBillingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+        $quote = $this->getQuote();
+        if ($quote->isVirtual()) {
+            $quote->getBillingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
         } else {
-            $this->getQuote()->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+            $quote->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
         }
 
-        $payment = $this->getQuote()->getPayment();
+        $payment = $quote->getPayment();
         $payment->importData($data);
 
         // shipping totals may be affected by payment method
-        if (!$this->getQuote()->isVirtual() && $this->getQuote()->getShippingAddress()) {
-            $this->getQuote()->getShippingAddress()
-                ->setCollectShippingRates(true)
-                ->collectTotals();
+        if (!$quote->isVirtual() && $quote->getShippingAddress()) {
+            $quote->getShippingAddress()->setCollectShippingRates(true);
+            $quote->setTotalsCollectedFlag(false)->collectTotals();
         }
-        $this->getQuote()->save();
+        $quote->save();
 
         $this->getCheckout()
             ->setStepData('payment', 'complete', true)
