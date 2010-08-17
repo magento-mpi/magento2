@@ -108,19 +108,6 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
      */
     public function cloneIndexTable($asOriginal = false)
     {
-        $mainTable  = $this->getMainTable();
-        $idxTable   = $this->getIdxTable();
-        $idxAdapter = $this->_getIndexAdapter();
-
-        $idxAdapter->dropTable($idxTable);
-        if ($asOriginal) {
-            $sql = 'CREATE TABLE ' . $idxAdapter->quoteIdentifier($idxTable)
-                . ' LIKE ' . $idxAdapter->quoteIdentifier($this->getMainTable());
-        } else {
-            $sql = 'CREATE TABLE ' . $idxAdapter->quoteIdentifier($idxTable)
-                . ' SELECT * FROM ' . $idxAdapter->quoteIdentifier($mainTable) . ' LIMIT 0';
-        }
-        $idxAdapter->query($sql);
         return $this;
     }
 
@@ -191,7 +178,7 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
      * Set or get what either "_idx" or "_tmp" suffixed temporary index table need to use
      *
      * @param bool $value
-     * @return Mage_Index_Model_Resource_Abstract
+     * @return bool
      */
     public function useIdxTable($value = null)
     {

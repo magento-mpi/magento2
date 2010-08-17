@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Index Setup Model
  *
  * @category    Mage
  * @package     Mage_Index
@@ -35,7 +35,7 @@
 class Mage_Index_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
 {
     /**
-     * Apply Index moduke DB updates and sync indexes declaration
+     * Apply Index module DB updates and sync indexes declaration
      *
      */
     public function applyUpdates()
@@ -70,15 +70,15 @@ class Mage_Index_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
             $connection->delete($table, $connection->quoteInto('indexer_code IN (?)', $delete));
         }
         if (!empty($insert)) {
-            $inserData = array();
+            $insertData = array();
             foreach ($insert as $code) {
-                $inserData[] = array(
+                $insertData[] = array(
                     'indexer_code' => $code,
                     'status' => Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX
                 );
             }
             if (method_exists($connection, 'insertArray')) {
-                $connection->insertArray($table, array('indexer_code', 'status'), $inserData);
+                $connection->insertArray($table, array('indexer_code', 'status'), $insertData);
             }
         }
     }
