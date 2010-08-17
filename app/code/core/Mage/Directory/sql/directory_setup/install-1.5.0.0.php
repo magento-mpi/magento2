@@ -38,16 +38,16 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         'default'   => '',
-        ), 'country Id in iso-2')
+        ), 'Сountry Id in ISO-2')
     ->addColumn('iso2_code', Varien_Db_Ddl_Table::TYPE_TEXT, 2, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'country iso-2 format')
+        ), 'Сountry ISO-2 format')
     ->addColumn('iso3_code', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'country iso-3')
-    ->setComment('directory country');
+        ), 'Country ISO-3')
+    ->setComment('Directory Country');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -60,21 +60,21 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
-        ), 'country format id')
+        ), 'Country Format Id')
     ->addColumn('country_id', Varien_Db_Ddl_Table::TYPE_TEXT, 2, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'country id in iso-2')
+        ), 'Country Id in ISO-2')
     ->addColumn('type', Varien_Db_Ddl_Table::TYPE_TEXT, 30, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'country format type')
+        ), 'Country Format Type')
     ->addColumn('format', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
-        ), 'country format')
+        ), 'Country Format')
     ->addIndex($installer->getIdxName('directory/country_format', array('country_id', 'type'), true),
         array('country_id', 'type'), array('unique' => true))
-     ->setComment('directory country format');
+     ->setComment('Directory Country Format');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -87,20 +87,20 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
-        ), 'region id')
+        ), 'Region Id')
     ->addColumn('country_id', Varien_Db_Ddl_Table::TYPE_TEXT, 4, array(
         'nullable'  => false,
         'default'   => '0',
-        ), 'country id in iso-2')
+        ), 'Country Id in ISO-2')
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'region code')
+        ), 'Region code')
     ->addColumn('default_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'region name')
+        ), 'Region Name')
     ->addIndex($installer->getIdxName('directory/country_region', array('country_id')),
         array('country_id'))
-    ->setComment('directory country region');
+    ->setComment('Directory Country Region');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -112,23 +112,23 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         'default'   => '',
-        ), 'locale')
+        ), 'Locale')
     ->addColumn('region_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         'default'   => '0',
-        ), 'region Id')
+        ), 'Region Id')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'region name')
+        ), 'Region Name')
     ->addIndex($installer->getIdxName('directory/country_region_name', array('region_id')),
         array('region_id'))
     ->addForeignKey($installer->getFkName('directory/country_region_name', 'region_id', 'directory/country_region', 'region_id'),
         'region_id', $installer->getTable('directory/country_region'), 'region_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('directory country region name');
+    ->setComment('Directory Country Region Name');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -140,19 +140,19 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         'default'   => '',
-        ), 'currency code convert from')
+        ), 'Currency Code Convert From')
     ->addColumn('currency_to', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
         'nullable'  => false,
         'primary'   => true,
         'default'   => '',
-        ), 'currency code convert to')
+        ), 'Currency Code Convert To')
     ->addColumn('rate', Varien_Db_Ddl_Table::TYPE_DECIMAL, '24,12', array(
         'nullable'  => false,
         'default'   => '0.000000000000',
-        ), 'currency conversion rate')
+        ), 'Currency Conversion Rate')
     ->addIndex($installer->getIdxName('directory/currency_rate', array('currency_to')),
         array('currency_to'))
-    ->setComment('directory currency rate');
+    ->setComment('Directory Currency Rate');
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

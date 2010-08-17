@@ -39,25 +39,25 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
-        ), 'event id')
+        ), 'Event Id')
     ->addColumn('type', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
         'nullable'  => false,
-        ), 'type')
+        ), 'Type')
     ->addColumn('entity', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
         'nullable'  => false,
-        ), 'entity')
+        ), 'Entity')
     ->addColumn('entity_pk', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
-        ), 'entity primary key')
+        ), 'Entity Primary Key')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
-        ), 'creation time')
+        ), 'Creation Time')
     ->addColumn('old_data', Varien_Db_Ddl_Table::TYPE_TEXT, '2M', array(
-        ), 'old data')
+        ), 'Old Data')
     ->addColumn('new_data', Varien_Db_Ddl_Table::TYPE_TEXT, '2M', array(
-        ), 'new data')
+        ), 'New Data')
     ->addIndex($installer->getIdxName('index/event', array('type', 'entity', 'entity_pk'), true),
         array('type', 'entity', 'entity_pk'), array('unique' => true))
-    ->setComment('index event');
+    ->setComment('Index Event');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -70,25 +70,25 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
-        ), 'process id')
+        ), 'Process Id')
     ->addColumn('indexer_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
-        ), 'indexer code')
+        ), 'Indexer Code')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 15, array(
         'nullable'  => false,
         'default'   => 'pending',
-        ), 'status')
+        ), 'Status')
     ->addColumn('started_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        ), 'started at')
+        ), 'Started At')
     ->addColumn('ended_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        ), 'ended at')
+        ), 'Ended At')
     ->addColumn('mode', Varien_Db_Ddl_Table::TYPE_TEXT, 9, array(
         'nullable'  => false,
         'default'   => 'real_time',
-        ), 'mode')
+        ), 'Mode')
     ->addIndex($installer->getIdxName('index/process', array('indexer_code'), true),
         array('indexer_code'), array('unique' => true))
-    ->setComment('index process');
+    ->setComment('Index Process');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -100,16 +100,16 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
-        ), 'process id')
+        ), 'Process Id')
     ->addColumn('event_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
-        ), 'event id')
+        ), 'Event Id')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 7, array(
         'nullable'  => false,
         'default'   => 'new',
-        ), 'status')
+        ), 'Status')
     ->addIndex($installer->getIdxName('index/process_event', array('event_id')),
         array('event_id'))
     ->addForeignKey($installer->getFkName('index/process_event', 'event_id', 'index/event', 'event_id'),
@@ -118,7 +118,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('index/process_event', 'process_id', 'index/process', 'process_id'),
         'process_id', $installer->getTable('index/process'), 'process_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('index process event');
+    ->setComment('Index Process Event');
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();
