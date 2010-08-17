@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,11 +44,11 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Load
      *
      * @param Mage_Core_Model_Abstract $object
-     * @param unknown_type $value
-     * @param unknown_type $field
+     * @param String $value
+     * @param String $field
      * @return unknown
      */
     public function load(Mage_Core_Model_Abstract $object, $value, $field = null)
@@ -68,11 +68,11 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Retrieve select for load
      *
-     * @param unknown_type $field
-     * @param unknown_type $value
-     * @param unknown_type $object
+     * @param String $field
+     * @param String $value
+     * @param Mage_Core_Model_Abstract $object
      * @return unknown
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -83,79 +83,85 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * After translation loading
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     public function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        $connection = $this->_getReadAdapter();
-        $select = $connection->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->getMainTable(), array('store_id', 'translate'))
             ->where('string=:translate_string');
-        $translations = $connection->fetchPairs($select, array('translate_string' => $object->getString()));
+        $translations = $adapter->fetchPairs($select, array('translate_string' => $object->getString()));
         $object->setStoreTranslations($translations);
         return parent::_afterLoad($object);
     }
 
     /**
-     * Enter description here ...
+     * Before save
      *
      * @param Mage_Core_Model_Abstract $object
      * @return unknown
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $connection = $this->_getWriteAdapter();
-        $select = $connection->select()
+        $adapter = $this->_getWriteAdapter();
+        $select = $adapter->select()
             ->from($this->getMainTable(), 'key_id')
-            ->where('string=?', $object->getString())
-            ->where('store_id=?', 0);
+            ->where('string = :string')
+            ->where('store_id = :store_id');
 
-        $object->setId($connection->fetchOne($select));
+        $bind = array(
+            'string'   => $object->getString(),
+            'store_id' => 0
+        );
+
+        $object->setId($adapter->fetchOne($select, $bind));
         return parent::_beforeSave($object);
     }
 
     /**
-     * Enter description here ...
+     * After save
      *
      * @param Mage_Core_Model_Abstract $object
      * @return unknown
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $connection = $this->_getWriteAdapter();
-        $select = $connection->select()
+        $adapter = $this->_getWriteAdapter();
+        $select = $adapter->select()
             ->from($this->getMainTable(), array('store_id', 'key_id'))
-            ->where('string=?', $object->getString());
-        $stors = $connection->fetchPairs($select);
+            ->where('string = :string');
+        $stores = $adapter->fetchPairs($select, array('string' => $object->getString()));
 
         $translations = $object->getStoreTranslations();
 
         if (is_array($translations)) {
             foreach ($translations as $storeId => $translate) {
-                $condition = $connection->quoteInto('store_id=? AND ', $storeId) .
-                    $connection->quoteInto('string=?', $object->getString());
-
                 if (is_null($translate) || $translate=='') {
-                    $connection->delete($this->getMainTable(), $condition);
+                     $where = array(
+                        'store_id=?'    => $storeId,
+                        'string=?'      => $object->getString()
+                    );
+                    $adapter->delete($this->getMainTable(), $where);
                 }
                 else {
                     $data = array(
                        'store_id'  => $storeId,
                        'string'    => $object->getString(),
-                       'translate' =>$translate,
+                       'translate' => $translate,
                     );
 
-                    if (isset($stors[$storeId])) {
-                        $connection->update(
+                    if (isset($stores[$storeId])) {
+                        $adapter->update(
                            $this->getMainTable(),
                            $data,
-                           $connection->quoteInto('key_id=?', $stors[$storeId]));
+                           array('key_id=?' => $stores[$storeId]));
                     }
                     else {
-                        $connection->insert($this->getMainTable(), $data);
+                        $adapter->insert($this->getMainTable(), $data);
                     }
                 }
             }
@@ -178,15 +184,14 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
         }
 
         $where = array(
-            $this->_getWriteAdapter()->quoteInto('locale=?', $locale),
-            $this->_getWriteAdapter()->quoteInto('string=?', $string),
+            'locale=?' => $locale,
+            'string=?' => $string
         );
 
         if ($storeId === false) {
-            $where[] = $this->_getWriteAdapter()->quoteInto('store_id>?', 0);
-        }
-        elseif (!is_null($storeId)) {
-            $where[] = $this->_getWriteAdapter()->quoteInto('store_id=?', $storeId);
+            $where['store_id>?'] = 0;
+        } else if (!is_null($storeId)) {
+            $where['store_id>?'] = $storeId;
         }
 
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
@@ -195,12 +200,12 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Save translation
      *
-     * @param unknown_type $string
-     * @param unknown_type $translate
-     * @param unknown_type $locale
-     * @param unknown_type $storeId
+     * @param String $string
+     * @param String $translate
+     * @param String $locale
+     * @param int|null $storeId
      * @return Mage_Core_Model_Resource_Translate_String
      */
     public function saveTranslate($string, $translate, $locale = null, $storeId = null)
@@ -218,26 +223,32 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
 
         $select = $write->select()
             ->from($table, array('key_id', 'translate'))
-            ->where('store_id=?', $storeId)
-            ->where('locale=?', $locale)
-            ->where('string=?', $string)
+            ->where('store_id = :store_id')
+            ->where('locale = :locale')
+            ->where('string = :string')
         ;
-        if ($row = $write->fetchRow($select)) {
+        $bind = array(
+            'store_id' => $storeId,
+            'locale'   => $string,
+            'string'   => $string
+        );
+
+        if ($row = $write->fetchRow($select, $bind)) {
             $original = $string;
-            if (strpos($original, '::')!==false) {
+            if (strpos($original, '::') !== false) {
                 list($scope, $original) = explode('::', $original);
             }
             if ($original == $translate) {
-                $write->delete($table, 'key_id='.(int)$row['key_id']);
-            } elseif ($row['translate']!=$translate) {
-                $write->update($table, array('translate'=>$translate), 'key_id='.(int)$row['key_id']);
+                $write->delete($table, array('key_id=?' => $row['key_id']));
+            } elseif ($row['translate'] != $translate) {
+                $write->update($table, array('translate' => $translate), array('key_id=?' => $row['key_id']));
             }
         } else {
             $write->insert($table, array(
-                'store_id'=>$storeId,
-                'locale'=>$locale,
-                'string'=>$string,
-                'translate'=>$translate,
+                'store_id'  => $storeId,
+                'locale'    => $locale,
+                'string'    => $string,
+                'translate' => $translate,
             ));
         }
 

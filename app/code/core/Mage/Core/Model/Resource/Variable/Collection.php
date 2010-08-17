@@ -35,14 +35,14 @@
 class Mage_Core_Model_Resource_Variable_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Store Id
      *
-     * @var unknown
+     * @var int
      */
     protected $_storeId    = 0;
 
     /**
-     * Constructor
+     *  Define resource model
      *
      */
     protected function _construct()
@@ -83,9 +83,9 @@ class Mage_Core_Model_Resource_Variable_Collection extends Mage_Core_Model_Resou
         $this->getSelect()
             ->join(
                 array('value_table' => $this->getTable('core/variable_value')),
-                $this->getConnection()->quoteInto('value_table.variable_id = main_table.variable_id AND store_id = ?', $this->getStoreId()),
-                array())
-            ->columns(array('value' => 'value_table.value'));
+                'value_table.variable_id = main_table.variable_id',
+                array('value_table.value'));
+        $this->addFieldToFilter('value_table.store_id', array('eq' => $this->getStoreId()));
         return $this;
     }
 

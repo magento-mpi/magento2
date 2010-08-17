@@ -80,6 +80,7 @@ class Mage_Core_Model_Resource
             return $this->_connections[$name];
         }
         $connConfig = Mage::getConfig()->getResourceConnectionConfig($name);
+
         if (!$connConfig) {
             $this->_connections[$name] = $this->_getDefaultConnection($name);
             return $this->_connections[$name];

@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Convert_Profile extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_Core_Model_Resource_Convert_Profile extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Before save
      *
      * @param Mage_Core_Model_Abstract $object
      */

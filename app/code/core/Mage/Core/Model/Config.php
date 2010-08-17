@@ -1139,6 +1139,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         } else {
             if (!empty($config)) {
                 $className = $config->getClassName();
+                $connModel = $this->_getResourceConnectionModel();
             }
             if (empty($className)) {
                 $className = 'mage_'.$group.'_'.$groupType;
@@ -1242,7 +1243,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             Varien_Profiler::stop('CORE::create_object_of::'.$className);
             return $obj;
         } else {
-            #throw Mage::exception('Mage_Core', Mage::helper('core')->__('Model class does not exist: %s.', $modelClass));
+            //throw Mage::exception('Mage_Core', Mage::helper('core')->__('Model class does not exist: %s.', $modelClass));
             return false;
         }
     }

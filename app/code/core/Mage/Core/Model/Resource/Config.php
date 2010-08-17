@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Core Resource Resource Model
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -51,7 +51,7 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function getChecksum($tables)
     {
-        if (is_string($tables)) {
+        /*if (is_string($tables)) {
             $tablesArr = explode(',', $tables);
             $tables = array();
             foreach ($tablesArr as $table) {
@@ -65,7 +65,9 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
             return false;
         }
         $checksumArr = $this->_getReadAdapter()->fetchAll('checksum table '.join(',', $tables));
-        $checksum = 0;
+        $checksum = 0;*/
+        $checksumArr = $this->_getReadAdapter()->getTablesChecksum($tables);
+        var_dump($checksumArr); die();
         foreach ($checksumArr as $r) {
             $checksum += $r['Checksum'];
         }
@@ -76,10 +78,10 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
      * Load configuration values into xml config object
      *
      * @param Mage_Core_Model_Config $xmlConfig
-     * @param string $cond
+     * @param string $condition
      * @return Mage_Core_Model_Resource_Config
      */
-    public function loadToXml(Mage_Core_Model_Config $xmlConfig, $cond = null)
+    public function loadToXml(Mage_Core_Model_Config $xmlConfig, $condition = null)
     {
         $read = $this->_getReadAdapter();
         if (!$read) {
@@ -87,16 +89,21 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
         }
 
         $websites = array();
-        $rows = $read->fetchAssoc("select website_id, code, name from ".$this->getTable('website'));
-        foreach ($rows as $w) {
+        $select = $read->select()
+            ->from($this->getTable('core/website'), array('website_id', 'code', 'name'));
+        $rowset = $read->fetchAssoc($select);
+        foreach ($rowset as $w) {
             $xmlConfig->setNode('websites/'.$w['code'].'/system/website/id', $w['website_id']);
             $xmlConfig->setNode('websites/'.$w['code'].'/system/website/name', $w['name']);
-            $websites[$w['website_id']] = array('code'=>$w['code']);
+            $websites[$w['website_id']] = array('code' => $w['code']);
         }
 
         $stores = array();
-        $rows = $read->fetchAssoc("select store_id, code, name, website_id from ".$this->getTable('store')." order by sort_order asc");
-        foreach ($rows as $s) {
+        $select = $read->select()
+            ->from($this->getTable('core/store'), array('store_id', 'code', 'name', 'website_id'))
+            ->order('sort_order ASC');
+        $rowset = $read->fetchAssoc($select);
+        foreach ($rowset as $s) {
             if (!isset($websites[$s['website_id']])) {
                 continue;
             }
@@ -112,16 +119,22 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
         $subst_to = array();
 
         // load all configuration records from database, which are not inherited
-        $rows = $read->fetchAll("select scope, scope_id, path, value from ".$this->getMainTable().($cond ? ' where '.$cond : ''));
+        $select = $read->select()
+            ->from($this->getMainTable(), array('scope', 'scope_id', 'path', 'value'));
+        if (!is_null($condition)) {
+            $select->where($condition);
+        }
+        $rowset = $read->fetchAssoc($select);
 
         // set default config values from database
-        foreach ($rows as $r) {
-            if ($r['scope']!=='default') {
+        foreach ($rowset as $r) {
+            if ($r['scope'] !== 'default') {
                 continue;
             }
             $value = str_replace($subst_from, $subst_to, $r['value']);
             $xmlConfig->setNode('default/'.$r['path'], $value);
         }
+
         // inherit default config values to all websites
         $extendSource = $xmlConfig->getNode('default');
         foreach ($websites as $id=>$w) {
@@ -131,15 +144,14 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
 
         $deleteWebsites = array();
         // set websites config values from database
-        foreach ($rows as $r) {
+        foreach ($rowset as $r) {
             if ($r['scope']!=='websites') {
                 continue;
             }
             $value = str_replace($subst_from, $subst_to, $r['value']);
             if (isset($websites[$r['scope_id']])) {
                 $xmlConfig->setNode('websites/'.$websites[$r['scope_id']]['code'].'/'.$r['path'], $value);
-            }
-            else {
+            } else {
                 $deleteWebsites[$r['scope_id']] = $r['scope_id'];
             }
         }
@@ -160,30 +172,29 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
 
         $deleteStores = array();
         // set stores config values from database
-        foreach ($rows as $r) {
-            if ($r['scope']!=='stores') {
+        foreach ($rowset as $r) {
+            if ($r['scope'] !== 'stores') {
                 continue;
             }
             $value = str_replace($subst_from, $subst_to, $r['value']);
             if (isset($stores[$r['scope_id']])) {
                 $xmlConfig->setNode('stores/'.$stores[$r['scope_id']]['code'].'/'.$r['path'], $value);
-            }
-            else {
+            } else {
                 $deleteStores[$r['scope_id']] = $r['scope_id'];
             }
         }
 
         if ($deleteWebsites) {
             $this->_getWriteAdapter()->delete($this->getMainTable(), array(
-                $this->_getWriteAdapter()->quoteInto('scope=?', 'websites'),
-                $this->_getWriteAdapter()->quoteInto('scope_id IN(?)', $deleteWebsites),
+                'scope=?' => 'websites',
+                'scope_id IN(?)' => $deleteWebsites,
             ));
         }
 
         if ($deleteStores) {
             $this->_getWriteAdapter()->delete($this->getMainTable(), array(
-                $this->_getWriteAdapter()->quoteInto('scope=?', 'stores'),
-                $this->_getWriteAdapter()->quoteInto('scope_id IN(?)', $deleteStores),
+                'scope=?' => 'stores',
+                'scope_id IN(?)' => $deleteStores,
             ));
         }
 
@@ -217,10 +228,9 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
         );
 
         if ($row) {
-            $whereCondition = $writeAdapter->quoteInto($this->getIdFieldName() . '=?', $row[$this->getIdFieldName()]);
+            $whereCondition = array($this->getIdFieldName() . '=?' => $row[$this->getIdFieldName()]);
             $writeAdapter->update($this->getMainTable(), $newData, $whereCondition);
-        }
-        else {
+        } else {
             $writeAdapter->insert($this->getMainTable(), $newData);
         }
         return $this;

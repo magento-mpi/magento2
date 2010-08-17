@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Design package collection
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Design_Package_Collection extends Varien_Object
 {
     /**
-     * Enter description here ...
+     * Load design package collection
      *
      * @return Mage_Core_Model_Resource_Design_Package_Collection
      */
@@ -51,18 +51,18 @@ class Mage_Core_Model_Resource_Design_Package_Collection extends Varien_Object
     }
 
     /**
-     * Enter description here ...
+     * Convert to option array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
         $options = array();
         $packages = $this->getData('packages');
         foreach ($packages as $package) {
-            $options[] = array('value'=>$package, 'label'=>$package);
+            $options[] = array('value' => $package, 'label' => $package);
         }
-        array_unshift($options, array('value'=>'', 'label'=>''));
+        array_unshift($options, array('value' => '', 'label' => ''));
 
         return $options;
     }

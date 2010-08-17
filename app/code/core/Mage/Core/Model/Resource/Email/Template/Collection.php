@@ -32,7 +32,7 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Resource_Email_Template_Collection extends Varien_Data_Collection_Db
+class Mage_Core_Model_Resource_Email_Template_Collection extends  Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Template table name
@@ -42,24 +42,17 @@ class Mage_Core_Model_Resource_Email_Template_Collection extends Varien_Data_Col
     protected $_templateTable;
 
     /**
-     * Enter description here ...
+     * Define resource table
      *
      */
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('core_read'));
-        $this->_templateTable = Mage::getSingleton('core/resource')->getTableName('core/email_template');
-        $this->_select->from($this->_templateTable, array('template_id','template_code',
-                                                             'template_type',
-                                                             'template_subject','template_sender_name',
-                                                             'template_sender_email',
-                                                             'added_at',
-                                                             'modified_at'));
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('core/email_template'));
+        $this->_init('core/email_template');
+        $this->_templateTable = $this->getMainTable();
     }
 
     /**
-     * Enter description here ...
+     * Convert collection items to select options array
      *
      * @return unknown
      */

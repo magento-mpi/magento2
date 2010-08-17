@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Convert_History_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()

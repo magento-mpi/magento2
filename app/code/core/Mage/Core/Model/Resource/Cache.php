@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Core Cache resource model
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Cache extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -75,13 +75,26 @@ class Mage_Core_Model_Resource_Cache extends Mage_Core_Model_Resource_Db_Abstrac
         if (!$this->_getWriteAdapter()) {
             return $this;
         }
-        $this->_getWriteAdapter()->delete($this->getMainTable());
+        
+        $data = array();
+
+        $data = array();
         foreach ($options as $code => $value) {
-            $this->_getWriteAdapter()->insert($this->getMainTable(), array(
-                'code'  => $code,
-                'value' => $value
-            ));
+            $data[] = array($code, $value);
         }
+
+        $adapter->beginTransaction();
+        try {
+            $this->_getWriteAdapter()->delete($this->getMainTable());
+            if ($data) {
+                $this->_getWriteAdapter()->insertArray($this->getMainTable(), array('code', 'value'), $data);
+            }
+        } catch (Exception $e) {
+            $adapter->rollback();
+            throw $e;
+        }
+        $adapter->commit();
+
         return $this;
     }
 }

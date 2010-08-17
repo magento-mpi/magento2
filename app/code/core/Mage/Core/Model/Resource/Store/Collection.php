@@ -35,51 +35,53 @@
 class Mage_Core_Model_Resource_Store_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Load default flag
      *
-     * @var unknown
+     * @deprecated since 1.5.0.0
+     * @var boolean
      */
     protected $_loadDefault    = false;
 
     /**
-     * Enter description here ...
+     *  Define resource model
      *
      */
     protected function _construct()
     {
+        $this->setFlag('load_default_store', false);
         $this->_init('core/store');
     }
 
     /**
-     * Enter description here ...
+     * Set flag for load default (admin) store
      *
-     * @param unknown_type $loadDefault
+     * @param boolean $loadDefault
      * @return Mage_Core_Model_Resource_Store_Collection
      */
     public function setLoadDefault($loadDefault)
     {
-        $this->_loadDefault = $loadDefault;
+        $this->setFlag('load_default_store', (bool)$loadDefault);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Is load default (admin) store
      *
-     * @return unknown
+     * @return boolean
      */
     public function getLoadDefault()
     {
-        return $this->_loadDefault;
+        return $this->getFlag('load_default_store');
     }
 
     /**
-     * Enter description here ...
+     * Add disable default store filter to collection
      *
      * @return Mage_Core_Model_Resource_Store_Collection
      */
     public function setWithoutDefaultFilter()
     {
-        $this->getSelect()->where($this->getConnection()->quoteInto('main_table.store_id>?', 0));
+        $this->addFieldToFilter('main_table.store_id', array('gt' => 0));
         return $this;
     }
 
@@ -92,52 +94,29 @@ class Mage_Core_Model_Resource_Store_Collection extends Mage_Core_Model_Resource
      */
     public function addGroupFilter($groupId)
     {
-        if (is_array($groupId)) {
-            $condition = $this->getConnection()->quoteInto("main_table.group_id IN (?)", $groupId);
-        } else {
-            $condition = $this->getConnection()->quoteInto("main_table.group_id = ?",$groupId);
-        }
-
-        $this->addFilter('group_id', $condition, 'string');
-        return $this;
+        return $this->addFieldToFilter('main_table.group_id', array('in' => $groupId));
     }
 
     /**
-     * Enter description here ...
+     * Add store id(s) filter to collection
      *
-     * @param unknown_type $store
+     * @param int|array $store
      * @return Mage_Core_Model_Resource_Store_Collection
      */
     public function addIdFilter($store)
     {
-        if (is_array($store)) {
-            $condition = $this->getConnection()->quoteInto("main_table.store_id IN (?)", $store);
-        }
-        else {
-            $condition = $this->getConnection()->quoteInto("main_table.store_id=?",$store);
-        }
-
-        $this->addFilter('store_id', $condition, 'string');
-        return $this;
+        return $this->addFieldToFilter('main_table.store_id', array('in' => $store));
     }
 
     /**
-     * Enter description here ...
+     * Add filter by website to collection
      *
-     * @param unknown_type $website
+     * @param int|array $website
      * @return Mage_Core_Model_Resource_Store_Collection
      */
     public function addWebsiteFilter($website)
     {
-        if (is_array($website)) {
-            $condition = $this->getConnection()->quoteInto("main_table.website_id IN (?)", $website);
-        }
-        else {
-            $condition = $this->getConnection()->quoteInto("main_table.website_id=?",$website);
-        }
-
-        $this->addFilter('website_id', $condition, 'string');
-        return $this;
+        return $this->addFieldToFilter('main_table.website_id', array('in' => $website));
     }
 
     /**
@@ -155,9 +134,9 @@ class Mage_Core_Model_Resource_Store_Collection extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Convert items array to array for select options
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
@@ -165,9 +144,9 @@ class Mage_Core_Model_Resource_Store_Collection extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Convert items array to hash for select options
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionHash()
     {
@@ -175,22 +154,24 @@ class Mage_Core_Model_Resource_Store_Collection extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Load collection data
      *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
+     * @param boolean $printQuery
+     * @param boolean $logQuery
      * @return Mage_Core_Model_Resource_Store_Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
         if (!$this->getLoadDefault()) {
-            $this->getSelect()->where($this->getConnection()->quoteInto('main_table.store_id>?', 0));
+            $this->setWithoutDefaultFilter();
         }
-        $this->addOrder('CASE WHEN main_table.store_id = 0 THEN 0 ELSE 1 END', 'ASC')
-            ->addOrder('main_table.sort_order', 'ASC')
-            ->addOrder('main_table.name', 'ASC');
-        parent::load($printQuery, $logQuery);
-        return $this;
+
+        if (!$this->isLoaded()) {
+            $this->addOrder('CASE WHEN main_table.store_id = 0 THEN 0 ELSE 1 END', 'ASC')
+                ->addOrder('main_table.sort_order', 'ASC')
+                ->addOrder('main_table.name', 'ASC');
+        }
+        return parent::load($printQuery, $logQuery);
     }
 
     /**
@@ -201,29 +182,28 @@ class Mage_Core_Model_Resource_Store_Collection extends Mage_Core_Model_Resource
      */
     public function loadByCategoryIds(array $categories)
     {
-        $this->setLoadDefault(true);
-        $condition = $this->getConnection()->quoteInto('group_table.root_category_id IN(?)', $categories);
-        $this->_select->joinLeft(
-            array('group_table' => $this->getTable('core/store_group')),
-            'main_table.group_id=group_table.group_id',
-            array('root_category_id')
-        )->where($condition);
+        $this->addRootCategoryIdAttribute();
+        $this->addFieldToFilter('group_table.root_category_id', array('in' => $categories));
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add store root category data to collection
      *
      * @return Mage_Core_Model_Resource_Store_Collection
      */
     public function addRootCategoryIdAttribute()
     {
-        $this->_select->joinLeft(
-            array('group_table' => $this->getTable('core/store_group')),
-            'main_table.group_id=group_table.group_id',
-            array('root_category_id')
-        );
+        if (!$this->getFlag('core_store_group_table_joined')) {
+            $this->getSelect()->join(
+                array('group_table' => $this->getTable('core/store_group')),
+                'main_table.group_id = group_table.group_id',
+                array('root_category_id')
+            );
+            $this->setFlag('core_store_group_table_joined', true);
+        }
+
         return $this;
     }
 }

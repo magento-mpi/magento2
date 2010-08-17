@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Abstract Core Resource Collection
  *
  * @category    Mage
  * @package     Mage_Core
@@ -382,7 +382,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      * Standard resource collection initalization
      *
      * @param string $model
-     * @param unknown_type $resourceModel
+     * @param  Mage_Core_Model_Resource_Db_Abstract $resourceModel
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _init($model, $resourceModel = null)
@@ -422,9 +422,9 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     }
 
     /**
-     * Enter description here ...
+     *  Set resource model name for collection items
      *
-     * @param unknown_type $model
+     * @param Syting $model
      */
     public function setResourceModel($model)
     {
@@ -432,9 +432,9 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     }
 
     /**
-     * Enter description here ...
+     *  Retrieve resource model name
      *
-     * @return unknown
+     * @return String
      */
     public function getResourceModelName()
     {
@@ -455,10 +455,10 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     }
 
     /**
-     * Enter description here ...
+     * Retrieve table name
      *
-     * @param unknown_type $table
-     * @return unknown
+     * @param string $table
+     * @return string
      */
     public function getTable($table)
     {
@@ -466,7 +466,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     }
 
     /**
-     * Retrive all ids for collection
+     * Retrieve all ids for collection
      *
      * @return array
      */
@@ -477,24 +477,37 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
         $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $idsSelect->reset(Zend_Db_Select::COLUMNS);
-        $idsSelect->columns(
-            'main_table.' . $this->getResource()->getIdFieldName()
-        );
-        return $this->getConnection()->fetchCol($idsSelect, $this->_bindParams);
+
+        $idsSelect->columns($this->getResource()->getIdFieldName(), 'main_table');
+        return $this->getConnection()->fetchCol($idsSelect);
     }
 
     /**
-     * Enter description here ...
+     * Join table to collection select
      *
-     * @param unknown_type $table
-     * @param unknown_type $cond
-     * @param unknown_type $cols
+     * @param string $table
+     * @param string $cond
+     * @param string $cols
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     public function join($table, $cond, $cols = '*')
     {
-        if (!isset($this->_joinedTables[$table])) {
-            $this->getSelect()->join(array($table=>$this->getTable($table)), $cond, $cols);
+        if (is_array($table)) {
+            foreach ($table as $k => $v) {
+                $alias = $k;
+                $table = $v;
+                break;
+            }
+        } else {
+            $alias = $table;
+        }
+
+        if (!isset($this->_joinedTables[$alias])) {
+            $this->getSelect()->join(
+                array($alias => $this->getTable($table)),
+                $cond,
+                $cols
+            );
             $this->_joinedTables[$table] = true;
         }
         return $this;
@@ -615,5 +628,17 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
         $tags[] = Mage_Core_Model_App::CACHE_TAG;
         $tags[] = self::CACHE_TAG;
         return $tags;
+    }
+
+    /**
+     * Format Date to internal database date format
+     *
+     * @param int|string|Zend_Date $date
+     * @param boolean $includeTime
+     * @return string
+     */
+    public function formatDate($date, $includeTime = true)
+    {
+        return Varien_Date::formatDate($date, $includeTime);
     }
 }

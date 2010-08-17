@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Config_Data_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define resource model
      *
      */
     protected function _construct()
@@ -44,44 +44,42 @@ class Mage_Core_Model_Resource_Config_Data_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Add scope filter to collection
      *
-     * @param unknown_type $scope
-     * @param unknown_type $scopeId
-     * @param unknown_type $section
+     * @param string $scope
+     * @param int $scopeId
+     * @param string $section
      * @return Mage_Core_Model_Resource_Config_Data_Collection
      */
     public function addScopeFilter($scope, $scopeId, $section)
     {
-        $this->_select
-            ->where('scope=?', $scope)
-            ->where('scope_id=?', $scopeId)
-            ->where('path like ?', $section . '/%');
+        $this->addFieldToFilter('scope', $scope);
+        $this->addFieldToFilter('scope_id', $scopeId);
+        $this->addFieldToFilter('path', array('like' => $section . '/%'));
         return $this;
     }
 
     /**
-     * Enter description here ...
+     *  Add path filter
      *
      * @param unknown_type $section
      * @return Mage_Core_Model_Resource_Config_Data_Collection
      */
     public function addPathFilter($section)
     {
-        $this->_select
-            ->where('path like ?', $section . '/%');
+        $this->addFieldToFilter('path', array('like' => $section . '/%'));
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add value filter
      *
      * @param unknown_type $value
      * @return Mage_Core_Model_Resource_Config_Data_Collection
      */
     public function addValueFilter($value)
     {
-        $this->getSelect()->where('value=?', $value);
+        $this->addFieldToFilter('value', $value);
         return $this;
     }
 }

@@ -35,14 +35,14 @@
 class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Tag table
      *
      * @var unknown
      */
     protected $_tagTable;
 
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -86,7 +86,7 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
 
         if (!is_null($object->getStoreId())) {
             $select->where('store_id IN(?)', array(0, $object->getStoreId()));
-            $select->order('store_id desc');
+            $select->order('store_id DESC');
             $select->limit(1);
         }
 
@@ -111,10 +111,15 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
         $select = $this->_getReadAdapter()->select();
         /* @var $select Zend_Db_Select */
         $select->from(array('main_table' => $this->getMainTable()), 'request_path')
-            ->where('main_table.store_id = ?', $storeId)
-            ->where('main_table.id_path = ?', $idPath)
+            ->where('main_table.store_id = :store_id')
+            ->where('main_table.id_path = :id_path')
             ->limit(1);
 
-        return $this->_getReadAdapter()->fetchOne($select);
+        $bind = array(
+            'store_id' => $storeId,
+            'id_path'  => $idPath
+        );
+
+        return $this->_getReadAdapter()->fetchOne($select, $bind);
     }
 }

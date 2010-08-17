@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Core Language Resource collection
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Language_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define resource model
      *
      */
     protected function _construct()
@@ -44,9 +44,9 @@ class Mage_Core_Model_Resource_Language_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Enter description here ...
+     *  Convert collection items to array of select options
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
@@ -54,9 +54,9 @@ class Mage_Core_Model_Resource_Language_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Enter description here ...
+     * Convert items array to hash for select options
      *
-     * @return unknown
+     * @return  array
      */
     public function toOptionHash()
     {

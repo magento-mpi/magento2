@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Store_Group extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_Core_Model_Resource_Store_Group extends Mage_Core_Model_Resource_Db_A
     }
 
     /**
-     * Enter description here ...
+     * Update default store group for website
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Store_Group
@@ -59,30 +59,29 @@ class Mage_Core_Model_Resource_Store_Group extends Mage_Core_Model_Resource_Db_A
     }
 
     /**
-     * Enter description here ...
+     * Update default store group for website
      *
-     * @param unknown_type $websiteId
-     * @param unknown_type $groupId
+     * @param int $websiteId
+     * @param int $groupId
      * @return Mage_Core_Model_Resource_Store_Group
      */
     protected function _updateWebsiteDefaultGroup($websiteId, $groupId)
     {
-        $write = $this->_getWriteAdapter();
-        $cnt   = $write->fetchOne($write->select()
-            ->from($this->getTable('core/store_group'), array('count'=>'COUNT(*)'))
-            ->where($write->quoteInto('website_id=?', $websiteId)),
-            'count');
-        if ($cnt == 1) {
-            $write->update($this->getTable('core/website'),
-                array('default_group_id' => $groupId),
-                $write->quoteInto('website_id=?', $websiteId)
-            );
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getMainTable(), 'COUNT(*)')
+            ->where('website_id=:website');
+        $count  = $this->_getWriteAdapter()->fetchOne($select, array('website' => $websiteId));
+
+        if ($count == 1) {
+            $bind  = array('default_group_id' => $groupId);
+            $where = array('website_id=?' => $websiteId);
+            $write->update($this->getTable('core/website'), $bind, $where);
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Change store group website
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Store_Group
@@ -90,50 +89,48 @@ class Mage_Core_Model_Resource_Store_Group extends Mage_Core_Model_Resource_Db_A
     protected function _changeWebsite(Mage_Core_Model_Abstract $model)
     {
         if ($model->getOriginalWebsiteId() && $model->getWebsiteId() != $model->getOriginalWebsiteId()) {
-            $write = $this->_getWriteAdapter();
-            $groupId = $write->fetchOne($write->select()
-                ->from($this->getTable('core/website'), 'default_group_id')
-                ->where($write->quoteInto('website_id=?', $model->getOriginalWebsiteId())),
-                'default_group_id'
-            );
+            $select = $this->_getWriteAdapter()->select()
+               ->from($this->getTable('core/website'), 'default_group_id')
+               ->where('website_id=:website_id');
+            $groupId = $this->_getWriteAdapter()->fetchOne($select, array('website_id' => $model->getOriginalWebsiteId()));
+
             if ($groupId == $model->getId()) {
-                $write->update($this->getTable('core/website'),
-                    array('default_group_id'=>0),
-                    $write->quoteInto('website_id=?', $model->getOriginalWebsiteId()));
+                $bind  = array('default_group_id' => 0);
+                $where = array('website_id=?' => $model->getOriginalWebsiteId());
+                $this->_getWriteAdapter()->update($this->getTable('core/website'), $bind, $where);
             }
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Update website for stores that assigned to store group
      *
-     * @param unknown_type $groupId
-     * @param unknown_type $websiteId
+     * @param int $groupId
+     * @param int $websiteId
      * @return Mage_Core_Model_Resource_Store_Group
      */
     protected function _updateStoreWebsite($groupId, $websiteId)
     {
-        $write = $this->_getWriteAdapter();
-        $bind = array('website_id'=>$websiteId);
-        $condition = $write->quoteInto('group_id=?', $groupId);
-        $this->_getWriteAdapter()->update($this->getTable('core/store'), $bind, $condition);
+        $bind  = array('website_id' => $websiteId);
+        $where = array('group_id=?' => $groupId);
+        $this->_getWriteAdapter()->update($this->getTable('core/store'), $bind, $where);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Save default store for store group
      *
-     * @param unknown_type $groupId
-     * @param unknown_type $storeId
+     * @param int $groupId
+     * @param int $storeId
      * @return Mage_Core_Model_Resource_Store_Group
      */
     protected function _saveDefaultStore($groupId, $storeId)
     {
-        $write = $this->_getWriteAdapter();
-        $bind = array('default_store_id'=>$storeId);
-        $condition = $write->quoteInto('group_id=?', $groupId);
-        $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $condition);
+        $bind  = array('default_store_id' => $storeId);
+        $where = array('group_id=?' => $groupId);
+        $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
+
         return $this;
     }
 }

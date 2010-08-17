@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Core config data resource model
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Config_Data extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,14 +44,16 @@ class Mage_Core_Model_Resource_Config_Data extends Mage_Core_Model_Resource_Db_A
     }
 
     /**
-     * Enter description here ...
+     * Convert array to comma separated value
      *
      * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Core_Model_Resource_Config_Data
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (is_array($object->getValue())) {
             $object->setValue(join(',', $object->getValue()));
         }
+        return parent::_beforeSave($object);
     }
 }
