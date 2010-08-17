@@ -46,7 +46,7 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
         $this->clickAndWait($this->getUiElement("admin/pages/system/managestores/createsite/buttons/save"));
 
         //check for successful message
-        if (!$this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
+        if (!$this->isElementPresent($this->getUiElement("admin/messages/success"))) {
             $this->setVerificationErrors("Check 1 : No successfull message");
 
         }
@@ -67,7 +67,7 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
         $this->clickAndWait($this->getUiElement("admin/pages/system/managestores/createsite/buttons/savestore"));
 
         //check for successful message
-        if (!$this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
+        if (!$this->isElementPresent($this->getUiElement("admin/messages/success"))) {
             $this->setVerificationErrors("Check 1 :  No successfull message");
         }
         Core::debug("adminStoreCreation finished");
@@ -88,7 +88,7 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
         $this->clickAndWait($this->getUiElement("admin/pages/system/managestores/createsite/buttons/savestoreview"));
 
         //check for successful message
-        if (!$this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
+        if (!$this->isElementPresent($this->getUiElement("admin/messages/success"))) {
             $this->setVerificationErrors("Check 1 :  No successfull message");
         }
         Core::debug("adminStoreViewCreation finished");
