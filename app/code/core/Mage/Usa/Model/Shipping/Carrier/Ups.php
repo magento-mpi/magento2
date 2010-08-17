@@ -962,10 +962,15 @@ XMLAuth;
      */
     public function getAllowedMethods()
     {
-        $allowed = explode(',', $this->getConfigData('allowed_methods'));
         $arr = array();
-        foreach ($allowed as $k) {
-            $arr[$k] = $this->getCode('method', $k);
+        $allowedMethods=$this->getConfigData('allowed_methods');
+        if($allowedMethods){
+            $allowed = explode(',', $allowedMethods);
+            $originShipment=$this->getConfigData('origin_shipment');
+            $originShipmentCodes=$this->getCode('originShipment', $originShipment);
+            foreach ($allowed as $k) {
+                $arr[$k] = $originShipmentCodes[$k];
+            }
         }
         return $arr;
     }

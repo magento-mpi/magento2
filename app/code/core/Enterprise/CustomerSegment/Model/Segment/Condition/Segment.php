@@ -135,7 +135,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     public function getValueParsed()
     {
         $value = $this->getData('value');
-        $value = explode(',',$value);
+        $value = array_map('trim', explode(',',$value));
         return $value;
     }
 
