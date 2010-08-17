@@ -44,7 +44,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
                     Mage::helper('xmlconnect')->getSkinImagesUrl('mobile_preview/' . $tab->image);
             }
         }
-        parent::setConf($conf);
+        $this->setData('conf', $conf);
     }
 
    /**
