@@ -1195,13 +1195,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceHelper($moduleName)
     {
-        $model = $this->_getResourceConnectionModel($moduleName);
-
-        $moduleName .= '/helper_' . $model;
-
-        $resourceHelperName = $this->_getResourceModelFactoryClassName($moduleName);
-        if ($resourceHelperName) {
-            return $this->getModelInstance($resourceHelperName);
+        $connectionModel = $this->_getResourceConnectionModel($moduleName);
+        $helperClass     = sprintf('%s/helper_%s', $moduleName, $connectionModel);
+        $helperClassName = $this->_getResourceModelFactoryClassName($helperClass);
+        if ($helperClassName) {
+            return $this->getModelInstance($helperClassName, $moduleName);
         }
 
         return false;
@@ -1466,10 +1464,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param string $moduleName
      * @return string
      */
-    protected function _getResourceConnectionModel($moduleName)
+    protected function _getResourceConnectionModel($moduleName = null)
     {
-        $setupResource = $moduleName . '_setup';
-        $config = $this->getResourceConnectionConfig($setupResource);
+        $config = null;
+        if (!is_null($moduleName)) {
+            $setupResource = $moduleName . '_setup';
+            $config        = $this->getResourceConnectionConfig($setupResource);
+        }
         if (!$config) {
             $config = $this->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         }

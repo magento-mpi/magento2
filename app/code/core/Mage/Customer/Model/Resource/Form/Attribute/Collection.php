@@ -34,8 +34,6 @@
  */
 class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
-    const SORT_ORDER_ASC= 'ASC';
-
     /**
      * Current store instance
      *
@@ -126,7 +124,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
      * @param string $direction
      * @return Mage_Customer_Model_Resource_Form_Attribute_Collection
      */
-    public function setSortOrder($direction = 'ASC')
+    public function setSortOrder($direction = self::SORT_ORDER_ASC)
     {
         $this->setOrder('ea.is_user_defined', self::SORT_ORDER_ASC);
         return $this->setOrder('ca.sort_order', $direction);
