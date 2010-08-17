@@ -21,6 +21,8 @@
                         <openpage>link=Manage Stores</openpage>
                     </link>                   
                 </managestores>
+                <configuration>link=Configuration</configuration>
+                <indexmanagement>link=Index Management</indexmanagement>
             </system>
         </topmenu>
         <pages>
@@ -141,11 +143,44 @@
                             <storestatus>store_is_active</storestatus>
                             <rootcategory>group_root_category_id</rootcategory>
                         </select>
-                        <messages>
-                            <saved>//li[@class='success-msg']</saved>
-                        </messages>
                     </createsite>
                 </managestores>
+                <reindex>
+                    <buttons>
+                        <selectall>link=Select All</selectall>
+                        <submit>//button[span="Submit"]</submit>
+                    </buttons>
+                    <messages>
+                        <allsuccess>Total of 9 index(es) have reindexed data</allsuccess>
+                    </messages>
+                </reindex>
+                <configuration>
+                    <selectors>
+                        <store>store_switcher</store>
+                    </selectors>
+                    <buttons>
+                        <web>link=Web</web>
+                        <secure>web_secure-head</secure>
+                        <unsecure>web_unsecure-head</unsecure>
+                        <save>//button[span="Save Config"]</save>
+                    </buttons>
+                    <checkboxes>
+                        <secure>
+                            <baselink>web_secure_base_link_url_inherit</baselink>
+                        </secure>
+                        <unsecure>
+                            <baselink>web_unsecure_base_link_url_inherit</baselink>
+                        </unsecure>
+                    </checkboxes>
+                    <inputs>
+                        <secure>
+                            <baselink>web_secure_base_link_url</baselink>
+                        </secure>
+                        <unsecure>
+                            <baselink>web_unsecure_base_link_url</baselink>
+                        </unsecure>
+                    </inputs>
+               </configuration>
             </system>
             <login>
                 <messages>
@@ -163,5 +198,8 @@
                 </buttons>
             </login>
         </pages>
+        <messages>
+            <success>//li[@class="success-msg"]</success>
+        </messages>
     </admin>
 </map>
