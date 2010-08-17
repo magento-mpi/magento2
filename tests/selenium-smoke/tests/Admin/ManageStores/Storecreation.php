@@ -12,10 +12,10 @@ class Admin_ManageStores_Storecreation extends Test_Admin_ManageStores_Abstract
     }
 
     function testStoreCreation() {
-        $this->debug("testStoreCreation started");
+        Core::debug("testStoreCreation started");
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);       
         $this->adminStoreCreation($this->_siteName, $this->_storeName, $this->_rootCategoryName);
-        $this->debug("testSiteCreation finished");
+        Core::debug("testSiteCreation finished");
     }
 }
 

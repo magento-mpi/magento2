@@ -36,8 +36,8 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
      * Admin-System-Store Management: New Site Creation
      *
      */
-
      public function adminSiteCreation($sitename, $code, $sortorder) {
+        Core::debug("adminSiteCreation started");
         $this->clickAndWait ($this->getUiElement("admin/topmenu/system/managestores/link/openpage"));
         $this->clickAndWait ($this->getUiElement("admin/pages/system/managestores/createsite/buttons/createwebsite"));
         $this->type($this->getUiElement("admin/pages/system/managestores/createsite/inputs/name"), $sitename);
@@ -50,12 +50,15 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
             $this->setVerificationErrors("Check 1 : No successfull message");
 
         }
+        Core::debug("adminSiteCreation finished");
      }
- /**
+
+    /**
      * Admin-System-Store Management: New Store Creation
      *
      */
      public function adminStoreCreation($sitename, $storename, $rootname) {
+        Core::debug("adminStoreCreation started");
         $this->clickAndWait ($this->getUiElement("admin/topmenu/system/managestores/link/openpage"));     
         $this->clickAndWait ($this->getUiElement("admin/pages/system/managestores/createsite/buttons/createwebstore"));
         $this->select($this->getUiElement("admin/pages/system/managestores/createsite/select/site"), $sitename);
@@ -66,14 +69,16 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
         //check for successful message
         if (!$this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
             $this->setVerificationErrors("Check 1 :  No successfull message");
-
-        }       
+        }
+        Core::debug("adminStoreCreation finished");
     }
- /**
+
+    /**
      * Admin-System-Store Management: New StoreView Creation
      *
      */
-         public function adminStoreViewCreation($storename, $storeviewname, $storeviewcode, $storeviewstatus) {
+     public function adminStoreViewCreation($storename, $storeviewname, $storeviewcode, $storeviewstatus) {
+        Core::debug("adminStoreViewCreation started");
         $this->clickAndWait ($this->getUiElement("admin/topmenu/system/managestores/link/openpage"));
         $this->clickAndWait ($this->getUiElement("admin/pages/system/managestores/createsite/buttons/createstoreview"));
         $this->select($this->getUiElement("admin/pages/system/managestores/createsite/select/store"), $storename);
@@ -85,8 +90,8 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
         //check for successful message
         if (!$this->isElementPresent($this->getUiElement("admin/pages/system/managestores/createsite/messages/saved"))) {
             $this->setVerificationErrors("Check 1 :  No successfull message");
-
-        }       
+        }
+        Core::debug("adminStoreViewCreation finished");
     }
 }
 

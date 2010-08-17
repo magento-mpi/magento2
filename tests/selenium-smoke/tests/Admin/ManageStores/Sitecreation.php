@@ -12,9 +12,9 @@ class Admin_ManageStores_Sitecreation extends Test_Admin_ManageStores_Abstract
     }
 
     function testSiteCreation() {
-        $this->debug("testSiteCreation started");
+        Core::debug("testSiteCreation started");
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
         $this->adminSiteCreation($this->_siteName, $this->_siteCode, $this->_siteOrder);
-        $this->debug("testSiteCreation finished");
+        Core::debug("testSiteCreation finished");
     }
 }
