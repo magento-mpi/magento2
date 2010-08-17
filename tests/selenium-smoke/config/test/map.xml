@@ -9,6 +9,8 @@
                 <categories>
                     <managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
                 </categories>
+				<manageproducts>//div[@class="nav-bar"]//a[span="Manage Products"]</manageproducts>
+				
             </catalog>
             <system>
                 <permissions>
@@ -48,6 +50,33 @@
                             <categorysaved>//div[@id="messages"]//li[@class="success-msg"]</categorysaved>
                         </messages>
                     </managecategories>
+					<manageproducts>
+						<buttons>
+							<addproduct>//button[span="Add Product"]</addproduct>
+							<addproductcontinue>//button[span="Continue"]</addproductcontinue>			
+						</buttons>
+						<!-- related pages-->
+						<product>					
+							<inputs>	
+								<name>name</name>
+								<description>description</description>
+								<short_description>short_description</short_description>
+								<sku>sku</sku>
+								<weight>weight</weight>
+								<price>price</price>
+								<inventory_qty>inventory_qty</inventory_qty>
+							</inputs>
+							<selectors>
+								<status>status</status>
+								<tax_class>tax_class_id</tax_class>
+								<inventory_stock_availability>inventory_stock_availability</inventory_stock_availability>
+							</selectors>
+							<tabs>
+								<price>link=Prices</price>
+								<inventory>link=Inventory</inventory>
+							</tabs>
+						</product>
+					</manageproducts>						
                 </categories>
             </catalog>
             <system>
