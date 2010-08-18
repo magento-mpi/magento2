@@ -17,6 +17,7 @@
         </customer>
 		<createproduct>
 			<sku>st-01</sku>
+			<duplicatedSku>st-01d</duplicatedSku>			
 			<productname>st-01</productname>
 			<price>10</price>
 		</createproduct>
