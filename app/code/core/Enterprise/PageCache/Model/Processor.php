@@ -148,6 +148,10 @@ class Enterprise_PageCache_Model_Processor
         if (isset($_GET['no_cache'])) {
             return false;
         }
+        $sidCookieName = $this->getMetadata('sid_cookie_name');
+        if ($sidCookieName && !isset($_COOKIE[$sidCookieName])) {
+            return false;
+        }
         return true;
     }
 
@@ -260,6 +264,14 @@ class Enterprise_PageCache_Model_Processor
         } else {
             $isProcessed = false;
         }
+
+        /**
+         * restore session_id in content whether content is completely processed or not
+         */
+        $sidCookieName = $this->getMetadata('sid_cookie_name');
+        $sidCookieValue = ($sidCookieName && isset($_COOKIE[$sidCookieName]) ? $_COOKIE[$sidCookieName] : '');
+        Enterprise_PageCache_Helper_Url::restoreSid($content, $sidCookieValue);
+
         if ($isProcessed) {
             return $content;
         } else {
@@ -329,6 +341,11 @@ class Enterprise_PageCache_Model_Processor
                 $cacheId = $this->prepareCacheId($processor->getPageIdInApp($this));
                 $content = $processor->prepareContent($response);
 
+                /**
+                 * Replace all occurrences of session_id with unique marker
+                 */
+                Enterprise_PageCache_Helper_Url::replaceSid($content);
+
                 if (function_exists('gzcompress')) {
                     $content = gzcompress($content);
                 }
@@ -340,6 +357,8 @@ class Enterprise_PageCache_Model_Processor
                 $this->setMetadata('routing_requested_controller',
                     Mage::app()->getRequest()->getRequestedControllerName());
                 $this->setMetadata('routing_requested_action', Mage::app()->getRequest()->getRequestedActionName());
+
+                $this->setMetadata('sid_cookie_name', Mage::getSingleton('core/session')->getSessionName());
 
                 $this->_saveMetadata();
             }

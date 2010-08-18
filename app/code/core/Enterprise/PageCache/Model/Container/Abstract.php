@@ -163,6 +163,12 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
             $lifetime = $this->_placeholder->getAttribute('cache_lifetime') ?
                 $this->_placeholder->getAttribute('cache_lifetime') : false;
         }
+
+        /**
+         * Replace all occurrences of session_id with unique marker
+         */
+        Enterprise_PageCache_Helper_Url::replaceSid($data);
+
         Mage::app()->getCache()->save($data, $id, $tags, $lifetime);
         return $this;
     }
