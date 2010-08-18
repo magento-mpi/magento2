@@ -190,6 +190,10 @@
                             <baselink>web_unsecure_base_link_url</baselink>
                         </unsecure>
                     </inputs>
+                    <tabs>
+                        <visibledsecure>//fieldset[@id='web_secure' and @style='']</visibledsecure>
+                        <visibledunsecure>//fieldset[@id='web_unsecure' and @style='']</visibledunsecure>
+                    </tabs>
                </configuration>
             </system>
             <login>
