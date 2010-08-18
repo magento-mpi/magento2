@@ -49,11 +49,8 @@ abstract class Mage_Dataflow_Model_Resource_Batch_Abstract extends Mage_Core_Mod
         $ids = array();
         $select = $this->_getWriteAdapter()->select()
             ->from($this->getMainTable(), array($this->getIdFieldName()))
-            ->where('batch_id=?', $object->getBatchId());
-        $query = $this->_getWriteAdapter()->query($select);
-        while ($row = $query->fetch()) {
-            $ids[] = $row[$this->getIdFieldName()];
-        }
+            ->where('batch_id = :batch_id');
+        $ids = $this->_getWriteAdapter()->fetchCol($select, array('batch_id' => $object->getBatchId()));
         return $ids;
     }
 
@@ -69,9 +66,7 @@ abstract class Mage_Dataflow_Model_Resource_Batch_Abstract extends Mage_Core_Mod
             return $this;
         }
 
-        $this->_getWriteAdapter()->delete($this->getMainTable(),
-            $this->_getWriteAdapter()->quoteInto('batch_id=?', $object->getBatchId())
-        );
+        $this->_getWriteAdapter()->delete($this->getMainTable(), array('batch_id=?' => $object->getBatchId()));
         return $this;
     }
 }

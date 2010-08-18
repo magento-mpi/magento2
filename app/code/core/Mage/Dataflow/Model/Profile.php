@@ -54,7 +54,6 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         parent::_beforeSave();
-
         $actionsXML = $this->getData('actions_xml');
         if (strlen($actionsXML) < 0 && @simplexml_load_string('<data>'.$actionsXML.'</data>', null, LIBXML_NOERROR) === false) {
             Mage::throwException(Mage::helper("dataflow")->__("Actions XML is not valid."));
@@ -88,14 +87,26 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 
     protected function _afterSave()
     {
+
+
         if (is_string($this->getGuiData())) {
             $this->setGuiData(unserialize($this->getGuiData()));
         }
 
-        Mage::getModel('dataflow/profile_history')
+
+
+        $profileHistory = Mage::getModel('dataflow/profile_history');
+
+        $adminUserId = $this->getAdminUserId();
+        if($adminUserId) {
+            $profileHistory->setUserId($adminUserId);
+        }
+
+        $profileHistory
             ->setProfileId($this->getId())
             ->setActionCode($this->getOrigData('profile_id') ? 'update' : 'create')
             ->save();
+
 
         if (isset($_FILES['file_1']['tmp_name']) || isset($_FILES['file_2']['tmp_name']) || isset($_FILES['file_3']['tmp_name'])) {
             for ($index = 0; $index < 3; $index++) {

@@ -35,7 +35,7 @@
 class Mage_Dataflow_Model_Resource_Batch_Export extends Mage_Dataflow_Model_Resource_Batch_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()

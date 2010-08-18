@@ -35,7 +35,7 @@
 class Mage_Dataflow_Model_Resource_Profile_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define resource model and model
      *
      */
     protected function _construct()

@@ -35,17 +35,16 @@
 class Mage_Dataflow_Model_Resource_Profile_History_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define resource model and model
      *
      */
     protected function _construct()
     {
         $this->_init('dataflow/profile_history');
-        parent::_construct();
     }
 
     /**
-     * Enter description here ...
+     * Joins admin data to select
      *
      * @return Mage_Dataflow_Model_Resource_Profile_History_Collection
      */

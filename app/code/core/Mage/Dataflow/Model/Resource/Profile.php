@@ -35,7 +35,7 @@
 class Mage_Dataflow_Model_Resource_Profile extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_Dataflow_Model_Resource_Profile extends Mage_Core_Model_Resource_Db_A
     }
 
     /**
-     * Enter description here ...
+     * Setting up created_at and updarted_at
      *
      * @param Mage_Core_Model_Abstract $object
      */
@@ -58,21 +58,24 @@ class Mage_Dataflow_Model_Resource_Profile extends Mage_Core_Model_Resource_Db_A
     }
 
     /**
-     * Enter description here ...
+     * Returns true if profile with name exists
      *
-     * @param unknown_type $name
-     * @param unknown_type $id
-     * @return unknown
+     * @param string $name
+     * @param int $id
+     * @return bool
      */
     public function isProfileExists($name, $id = null)
     {
+        $bind = array('name' => $name);
         $select = $this->_getReadAdapter()->select();
         $select
             ->from($this->getMainTable(), 'count(*)')
-            ->where('name = ?', $name);
-        if ($id)
-            $select->where("{$this->getIdFieldName()} <> ?", $id);
-
-        return $this->_getReadAdapter()->fetchOne($select);
+            ->where('name = :name');
+        if ($id) {
+            $select->where("{$this->getIdFieldName()} <> :id");
+            $bind['id'] = $id;
+        }
+        $result = $this->_getReadAdapter()->fetchOne($select,$bind) ? true : false;
+        return $result;
     }
 }

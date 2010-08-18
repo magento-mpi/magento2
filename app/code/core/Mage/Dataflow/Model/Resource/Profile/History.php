@@ -35,7 +35,7 @@
 class Mage_Dataflow_Model_Resource_Profile_History extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_Dataflow_Model_Resource_Profile_History extends Mage_Core_Model_Resou
     }
 
     /**
-     * Enter description here ...
+     * Sets up performed at time if needed
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Dataflow_Model_Resource_Profile_History

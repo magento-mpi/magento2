@@ -35,11 +35,11 @@
 class Mage_Dataflow_Model_Resource_Import_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define resource model and model
      *
      */
     protected function _construct()
     {
-        $this->_init('dataflow/import', 'import_id');
+        $this->_init('dataflow/import');
     }
 }

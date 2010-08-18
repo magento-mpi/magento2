@@ -35,7 +35,7 @@
 class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,10 +44,10 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Enter description here ...
+     * Returns all import data select by session id
      *
-     * @param unknown_type $sessionId
-     * @return unknown
+     * @param int $sessionId
+     * @return Varien_Db_Select
      */
     public function select($sessionId)
     {
@@ -58,54 +58,69 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Enter description here ...
+     * Load all import data by session id
      *
-     * @param unknown_type $sessionId
-     * @param unknown_type $min
-     * @param unknown_type $max
-     * @return unknown
+     * @param int $sessionId
+     * @param int $min
+     * @param int $max
+     * @return array
      */
     public function loadBySessionId($sessionId, $min = 0, $max = 100)
     {
         if (!is_numeric($min) || !is_numeric($max)) {
             return array();
         }
+        $bind = array(
+            'status'     => 0,
+            'session_id' => $sessionId,
+            'min_id'     => (int)$min,
+            'max_id'     => (int)$max,
+        );
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getTable('dataflow/import'), '*')
-            ->where('import_id between '.(int)$min.' and '.(int)$max)
-            ->where('status=?', '0')
-            ->where('session_id=?', $sessionId);
-        return $read->fetchAll($select);
+        $select = $read->select()->from($this->getTable('dataflow/import'))
+            ->where('import_id >= :min_id')
+            ->where('import_id >= :max_id')
+            ->where('status= :status')
+            ->where('session_id = :session_id');
+        return $read->fetchAll($select,$bind);
     }
 
     /**
-     * Enter description here ...
+     * Load total import data by session id
      *
-     * @param unknown_type $sessionId
-     * @return unknown
+     * @param int $sessionId
+     * @return array
      */
     public function loadTotalBySessionId($sessionId)
     {
+        $bind = array(
+            'status'    => 0,
+            'session_id' => $sessionId
+        );
         $read = $this->_getReadAdapter();
         $select = $read->select()->from($this->getTable('dataflow/import'),
         array('max'=>'max(import_id)','min'=>'min(import_id)', 'cnt'=>'count(*)'))
-            ->where('status=?', '0')
-            ->where('session_id=?', $sessionId);
-        return $read->fetchRow($select);
+            ->where('status = :status')
+            ->where('session_id = :$session_id');
+        return $read->fetchRow($select,$bind);
     }
 
     /**
-     * Enter description here ...
+     * Load import data by id
      *
-     * @param unknown_type $importId
-     * @return unknown
+     * @param int $importId
+     * @return array
      */
     public function loadById($importId)
     {
+        $bind = array(
+            'status'    => 0,
+            'import_id' => $importId
+        );
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getTable('dataflow/import'),'*')
-            ->where('status=?', 0)
-            ->where('import_id=?', $importId);
-        return $read->fetchRow($select);
+        $select = $read->select()->from($this->getTable('dataflow/import'))
+            ->where('status = :status')
+            ->where('import_id = :import_id');
+        return $read->fetchRow($select,$bind);
     }
 }
