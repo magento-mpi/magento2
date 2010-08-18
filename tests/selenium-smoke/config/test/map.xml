@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map>
-    <admin>
+	<!-- Front Section-->
+	<frontend>
+		<pages>
+			<home>
+				<links>
+					<myAccount>link=My Account</myAccount>
+				</links>
+			</home>
+			<login>
+				<buttons>
+					<register>//button[contains(span,"Register")]</register>
+					<login>//button[contains(span,"Login")]</login>
+				</buttons>
+			</login>
+			<register>
+				<inputs>
+					<firstName>firstname</firstName>
+					<lastName>lastname</lastName>
+					<email>email_address</email>
+					<signUpForNewsletter>is_subscribed</signUpForNewsletter>
+					<password>password</password>
+					<confirmation>confirmation</confirmation>
+				</inputs>
+				<buttons>
+					<register>//button[contains(span,"Register")]</register>
+					<submit>//button[contains(span,"Submit")]</submit>
+					<login>//button[contains(span,"Login")]</login>
+				</buttons>
+				<messages>
+                    <customerRegistered>//*[contains(@class,"messages")]//li[@class="success-msg"]</customerRegistered>				
+					<alreadyExists>There is already an account with this email address</alreadyExists>
+				</messages>
+			</register>
+		</pages>
+	</frontend>
+	<!-- Admin Section-->
+    <admin>	
         <topmenu>
             <customer>
                 <managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
