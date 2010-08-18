@@ -34,12 +34,18 @@ abstract class Test_Admin_Siteconfiguration_Abstract extends Test_Admin_Abstract
         $this->selectAndWait($this->getUiElement("admin/pages/system/configuration/selectors/store"), $this->_siteName);
         $this->clickAndWait($this->getUiElement("admin/pages/system/configuration/buttons/web"));
         $this->click($this->getUiElement("admin/pages/system/configuration/buttons/secure"));
-        $this->click($this->getUiElement("admin/pages/system/configuration/checkboxes/secure/baselink"));
-        $this->waitForElement($this->getUiElement("admin/pages/system/configuration/inputs/secure/baselink"), 30);
+        if ($this->isElementPresent("//fieldset[@id='web_secure' and @style='display: none']")) {
+            $this->click($this->getUiElement("admin/pages/system/configuration/checkboxes/secure/baselink"));
+        }
+
+        //$this->waitForElement($this->getUiElement("admin/pages/system/configuration/tabs/visibledsecure"), 30);
         $this->type($this->getUiElement("admin/pages/system/configuration/inputs/secure/baselink"), '{{secure_base_url}}' . $this->_siteCode . '/');
         $this->click($this->getUiElement("admin/pages/system/configuration/buttons/unsecure"));
-        $this->click($this->getUiElement("admin/pages/system/configuration/checkboxes/unsecure/baselink"));
-        $this->waitForElement($this->getUiElement("admin/pages/system/configuration/inputs/unsecure/baselink"), 30);
+        if ($this->isElementPresent("//fieldset[@id='web_unsecure' and @style='display: none']")) {
+            $this->click($this->getUiElement("admin/pages/system/configuration/checkboxes/unsecure/baselink"));
+        }
+        
+//        $this->waitForElement($this->getUiElement("admin/pages/system/configuration/tabs/visibledunsecure"), 30);
         $this->type($this->getUiElement("admin/pages/system/configuration/inputs/unsecure/baselink"), '{{unsecure_base_url}}' . $this->_siteCode . '/');
         $this->click($this->getUiElement("admin/pages/system/configuration/buttons/save"));
         $this->waitForElement($this->getUiElement("admin/messages/success"), 30);
@@ -65,7 +71,7 @@ abstract class Test_Admin_Siteconfiguration_Abstract extends Test_Admin_Abstract
         $this->clickAndWait($this->getUiElement("admin/topmenu/system/indexmanagement"));
         $this->click($this->getUiElement("admin/pages/system/reindex/buttons/selectall"));
         $this->click($this->getUiElement("admin/pages/system/reindex/buttons/submit"));
-        $this->waitForElement($this->getUiElement("admin/messages/success"), 30);
+        $this->waitForElement($this->getUiElement("admin/messages/success"), 60);
 
         //check for successful message
         if (!$this->isElementPresent($this->getUiElement("admin/messages/success"))) {
