@@ -4,6 +4,12 @@
 
     <frontend>
         <baseUrl>http://kq.varien.com/enterprise/1.8.0.0/index.php/</baseUrl>
+        <auth>
+            <firstname>Smoke</firstname>
+			<lastname>Test</lastname>
+            <email>st1-user@varein.com</email>
+            <password>123123</password>
+        </auth>		
     </frontend>
 
     <backend>
