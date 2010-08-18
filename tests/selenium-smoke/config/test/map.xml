@@ -55,8 +55,16 @@
 					<manageproducts>
 						<buttons>
 							<addproduct>//button[span="Add Product"]</addproduct>
-							<addproductcontinue>//button[span="Continue"]</addproductcontinue>			
+							<addproductcontinue>//button[span="Continue"]</addproductcontinue>	
+							<resetFilter>//div[@id='productGrid']//button[contains(span,'Reset Filter')]</resetFilter>
+							<search>//div[@id='productGrid']//button[contains(span,'Search')]</search>
 						</buttons>
+						<inputs>
+							<filter_sku>//*[@id='product_filter_sku']</filter_sku>
+						</inputs>
+						<elements>
+							<filteredProduct>//table[@id='productGrid_table']//td[contains(text(),'%s')]</filteredProduct>
+						</elements>
 						<!-- related pages-->
 						<product>					
 							<inputs>	
@@ -83,9 +91,11 @@
 							</tabs>
 							<buttons>
 								<save>//button[span="Save"]</save>
+								<duplicate>//button[span="Duplicate"]</duplicate>
 							</buttons>
 							<messages>
-								<productsaved>//div[@id="messages"]//li[@class="success-msg"]</productsaved>
+								<productsaved>//div[@id="messages"]//li[contains(@class,"success-msg")]//li[contains(.,'The product has been saved')]</productsaved>
+								<productDuplicated>//div[@id="messages"]//li[contains(@class,"success-msg")]//li[contains(.,'The product has been duplicated')]</productDuplicated>
 								<skumustbeunique>//*[@id='advice-validate-ajax-sku']</skumustbeunique>
 							</messages>
 						</product>
