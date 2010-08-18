@@ -996,7 +996,8 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      * @param int $storeId
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
      */
-    public function clearStoreCategoriesInvalidRewrites($storeId) {
+    public function clearStoreCategoriesInvalidRewrites($storeId)
+    {
         // Form a list of all current store categories ids
         $store = $this->getStores($storeId);
         $category = $this->getCategory($store->getRootCategoryId(), $storeId);
@@ -1032,7 +1033,8 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      * @param int|array|null $productId
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
      */
-    public function clearStoreProductsInvalidRewrites($storeId, $productId = null) {
+    public function clearStoreProductsInvalidRewrites($storeId, $productId = null)
+    {
         $store = $this->getStores($storeId);
         $read = $this->_getReadAdapter();
         $select = $read->select()
