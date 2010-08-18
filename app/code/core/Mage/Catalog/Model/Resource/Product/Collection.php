@@ -1173,7 +1173,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                     $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition, $joinType);
                 }
                 $conditionSql = '('.join(') OR (', $sqlArr).')';
-                $this->getSelect()->where($conditionSql);
+                $this->getSelect()->where($conditionSql, null, Varien_Db_Select::TYPE_CONDITION);
                 return $this;
             }
 

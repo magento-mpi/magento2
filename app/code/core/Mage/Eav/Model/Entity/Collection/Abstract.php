@@ -306,7 +306,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         }
 
         if (!empty($conditionSql)) {
-            $this->getSelect()->where($conditionSql);
+            $this->getSelect()->where($conditionSql, null, Varien_Db_Select::TYPE_CONDITION);
         } else {
             Mage::throwException('Invalid attribute identifier for filter ('.get_class($attribute).')');
         }

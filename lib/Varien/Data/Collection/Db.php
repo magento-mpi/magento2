@@ -350,7 +350,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     public function addFieldToFilter($field, $condition=null)
     {
         $field = $this->_getMappedField($field);
-        $this->_select->where($this->_getConditionSql($field, $condition));
+        $this->_select->where($this->_getConditionSql($field, $condition), null, Varien_Db_Select::TYPE_CONDITION);
         return $this;
     }
 
