@@ -35,8 +35,7 @@
 class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     public function _construct()
     {
@@ -53,26 +52,28 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Re
      */
     public function addOptionValueToCollection($collection, $attribute, $valueExpr)
     {
-        $adminStore    = Mage_Core_Model_App::ADMIN_STORE_ID;
-        $attributeCode = $attribute->getAttributeCode();
-        $optionTable1  = $attributeCode . '_option_value_t1';
-        $optionTable2  = $attributeCode . '_option_value_t2';
+        $adapter        = $this->_getReadAdapter();
+        $attributeCode  = $attribute->getAttributeCode();
+        $optionTable1   = $attributeCode . '_t1';
+        $optionTable2   = $attributeCode . '_t2';
+        $tableJoinCond1 = $adapter->quoteInto("{$optionTable1}.option_id={$valueExpr} AND {$optionTable1}.store_id=?",
+            0);
+        $tableJoinCond2 = $adapter->quoteInto("{$optionTable2}.option_id={$valueExpr} AND {$optionTable2}.store_id=?",
+            $collection->getStoreId());
+        $valueExpr      = $adapter->getCheckSql("{$optionTable2}.value_id IS NULL",
+            "{$optionTable1}.value",
+            "{$optionTable2}.value");
 
-        $collection->getSelect()->joinLeft(
-            array($optionTable1 => $this->getTable('eav/attribute_option_value')),
-            "`{$optionTable1}`.`option_id`={$valueExpr}"
-            . " AND `{$optionTable1}`.`store_id`='{$adminStore}'",
-            ($collection->getStoreId() != $adminStore) ? array() : array($attributeCode.'_value' => "{$optionTable1}.value")
-        );
-
-        if ($collection->getStoreId() != $adminStore) {
-            $collection->getSelect()->joinLeft(
+        $collection->getSelect()
+            ->joinLeft(
+                array($optionTable1 => $this->getTable('eav/attribute_option_value')),
+                $tableJoinCond1,
+                array())
+            ->joinLeft(
                 array($optionTable2 => $this->getTable('eav/attribute_option_value')),
-                "`{$optionTable2}`.`option_id`={$valueExpr}"
-                . " AND `{$optionTable1}`.`store_id`='{$collection->getStoreId()}'",
-                array($attributeCode.'_value' => "IFNULL(`{$optionTable2}`.`value`, `{$optionTable1}`.`value`)")
+                $tableJoinCond2,
+                array($attributeCode => $valueExpr)
             );
-        }
 
         return $this;
     }
@@ -85,52 +86,54 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Re
      * @param bool $hasValueField flag which require option value
      * @return Varien_Db_Select
      */
-    public function getFlatUpdateSelect(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $store, 
+    public function getFlatUpdateSelect(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $store,
         $hasValueField = true)
     {
+        $adapter        = $this->_getReadAdapter();
         $attributeTable = $attribute->getBackend()->getTable();
         $attributeCode  = $attribute->getAttributeCode();
 
-        $joinCondition = "`e`.`entity_id`=`t1`.`entity_id`";
+        $joinCondition = 'e.entity_id = t1.entity_id';
         if ($attribute->getFlatAddChildData()) {
-            $joinCondition .= " AND `e`.`child_id`=`t1`.`entity_id`";
+            $joinCondition .= ' AND e.child_id = t1.entity_id';
         }
 
-        $valueExpr = new Zend_Db_Expr("IF(t2.value_id>0, t2.value, t1.value)");
-        $select = $this->_getReadAdapter()->select()
+        $valueExpr  = $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
+        $select     = $adapter->select()
             ->joinLeft(
                 array('t1' => $attributeTable),
                 $joinCondition,
-                array()
-                )
+                array())
             ->joinLeft(
                 array('t2' => $attributeTable),
-                "`t2`.`entity_id`=`t1`.`entity_id`"
-                    . " AND `t1`.`entity_type_id`=`t2`.`entity_type_id`"
-                    . " AND `t1`.`attribute_id`=`t2`.`attribute_id`"
-                    . " AND `t2`.`store_id`={$store}",
+                $adapter->quoteInto("t2.entity_id = t1.entity_id"
+                    . " AND t1.entity_type_id = t2.entity_type_id"
+                    . " AND t1.attribute_id = t2.attribute_id"
+                    . " AND t2.store_id =?", $store),
                 array($attributeCode => $valueExpr));
+
         if (($attribute->getFrontend()->getInputType() != 'multiselect') && $hasValueField) {
+            $valueExpr  = $adapter->getCheckSql('to2.value_id > 0', 'to1.value', 'to2.value');
             $select->joinLeft(
                 array('to1' => $this->getTable('eav/attribute_option_value')),
-                "`to1`.`option_id`={$valueExpr}"
-                . " AND `to1`.`store_id`='0'",
+                "to1.option_id = {$valueExpr} AND to1.store_id = 0",
                 array())
             ->joinLeft(
                 array('to2' => $this->getTable('eav/attribute_option_value')),
-                "`to2`.`option_id`={$valueExpr}"
-                . " AND `to2`.`store_id`='{$store}'",
-                array($attributeCode . '_value' => "IFNULL(`to2`.`value`, `to1`.`value`)")
+                $adapter->quoteInto("to2.option_id = {$valueExpr} AND to2.store_id =?", $store),
+                array($attributeCode . '_value' => $valueExpr)
             );
         }
+
         $select
-            ->where('t1.entity_type_id=?', $attribute->getEntityTypeId())
-            ->where('t1.attribute_id=?', $attribute->getId())
-            ->where('t1.store_id=?', 0);
+            ->where('t1.entity_type_id =?', $attribute->getEntityTypeId())
+            ->where('t1.attribute_id =?', $attribute->getId())
+            ->where('t1.store_id =?', 0);
 
         if ($attribute->getFlatAddChildData()) {
-            $select->where("e.is_child=?", 0);
+            $select->where("e.is_child =?", 0);
         }
+
         return $select;
     }
 }

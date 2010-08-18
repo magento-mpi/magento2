@@ -35,15 +35,14 @@
 class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Option value table
      *
-     * @var unknown
+     * @var string
      */
     protected $_optionValueTable;
 
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     public function _construct()
     {
@@ -52,99 +51,102 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Co
     }
 
     /**
-     * Enter description here ...
+     * Set attribute filter
      *
-     * @param unknown_type $setId
+     * @param int $setId
      * @return Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection
      */
     public function setAttributeFilter($setId)
     {
-        $this->getSelect()->where('main_table.attribute_id=?', $setId);
-        return $this;
+        return $this->addFieldToFilter('attribute_id', $setId);
     }
 
+
     /**
-     * Enter description here ...
+     * Add store filter to collection
      *
-     * @param unknown_type $storeId
-     * @param unknown_type $useDefaultValue
+     * @param int $storeId
+     * @param bolean $useDefaultValue
      * @return Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection
      */
     public function setStoreFilter($storeId = null, $useDefaultValue = true)
     {
-        if (is_null($storeId)) {
+        if ($storeId !== null) {
             $storeId = Mage::app()->getStore()->getId();
         }
-        $sortBy = 'store_default_value';
+
+        $adapter = $this->getConnection();
         if ($useDefaultValue) {
             $this->getSelect()
-                ->join(array('store_default_value'=>$this->_optionValueTable),
-                    'store_default_value.option_id=main_table.option_id',
-                    array('default_value'=>'value'))
-                ->joinLeft(array('store_value'=>$this->_optionValueTable),
-                    'store_value.option_id=main_table.option_id AND '.$this->getConnection()->quoteInto('store_value.store_id=?', $storeId),
-                    array('store_value'=>'value',
-                    'value' => new Zend_Db_Expr('IF(store_value.value_id>0, store_value.value,store_default_value.value)')))
-                ->where($this->getConnection()->quoteInto('store_default_value.store_id=?', 0));
-        }
-        else {
-            $sortBy = 'store_value';
+                ->join(
+                    array('tdv' => $this->_optionValueTable),
+                    'tdv.option_id = main_table.option_id',
+                    array('default_value' => 'value'))
+                ->joinLeft(
+                    array('tsv' => $this->_optionValueTable),
+                    $adapter->quoteInto('tsv.option_id = main_table.option_id AND tsv.store_id = ?', $storeId),
+                    array(
+                        'store_default_value' => 'value',
+                        'value'               => $adapter->getCheckSql('tsv.value_id > 0', 'tsv.value', 'tdv.value')
+                    ))
+                ->where('tdv.store_id = ?', 0);
+        } else {
             $this->getSelect()
-                ->joinLeft(array('store_value'=>$this->_optionValueTable),
-                    'store_value.option_id=main_table.option_id AND '.$this->getConnection()->quoteInto('store_value.store_id=?', $storeId),
+                ->joinLeft(
+                    array('tsv' => $this->_optionValueTable),
+                    $adapter->quoteInto('tsv.option_id = main_table.option_id AND tsv.store_id = ?', $storeId),
                     'value')
-                ->where($this->getConnection()->quoteInto('store_value.store_id=?', $storeId));
+                ->where('tsv.store_id = ?', $storeId);
         }
-        $this->setOrder("{$sortBy}.value", 'ASC');
+
+        $this->setOrder("tsv.value", self::SORT_ORDER_ASC);
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add option id(s) frilter to collection
      *
-     * @param unknown_type $id
+     * @param int|array $optionId
      * @return Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection
      */
-    public function setIdFilter($id)
+    public function setIdFilter($optionId)
     {
-        if (is_array($id)) {
-            $this->getSelect()->where('main_table.option_id IN (?)', $id);
-        }
-        else {
-            $this->getSelect()->where('main_table.option_id=?', $id);
-        }
-        return $this;
+        return $this->addFieldToFilter('option_id', array('in' => $optionId));
     }
 
     /**
-     * Enter description here ...
+     * Convert collection items to select options array
      *
-     * @param unknown_type $valueKey
-     * @return unknown
+     * @param string $valueKey
+     * @return array
      */
     public function toOptionArray($valueKey = 'value')
     {
         return $this->_toOptionArray('option_id', $valueKey);
     }
 
+
     /**
-     * Enter description here ...
+     * Set order by position or alphabetically by values in admin
      *
-     * @param unknown_type $dir
-     * @param unknown_type $sortAlpha
+     * @param string $dir derection
+     * @param boolean $sortAlpha sort alphabetically by values in admin
      * @return Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection
      */
-    public function setPositionOrder($dir = 'ASC', $sortAlpha = false)
+    public function setPositionOrder($dir = self::SORT_ORDER_ASC, $sortAlpha = false)
     {
         $this->setOrder('main_table.sort_order', $dir);
         // sort alphabetically by values in admin
         if ($sortAlpha) {
-            $this->getSelect()->joinLeft(array('sort_alpha_value' => $this->_optionValueTable),
-                'sort_alpha_value.option_id=main_table.option_id AND sort_alpha_value.store_id=0', 'value'
-            );
+            $this->getSelect()
+                ->joinLeft(
+                    array('sort_alpha_value' => $this->_optionValueTable),
+                    'sort_alpha_value.option_id = main_table.option_id AND sort_alpha_value.store_id = 0',
+                    array('value'));
             $this->setOrder('sort_alpha_value.value', $dir);
         }
+
         return $this;
     }
 }

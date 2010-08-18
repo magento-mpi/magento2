@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Eav attribute group resource collection
  *
  * @category    Mage
  * @package     Mage_Eav
@@ -51,8 +51,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection extends Mage_Cor
      */
     public function setAttributeSetFilter($setId)
     {
-        $this->getSelect()->where('main_table.attribute_set_id=?', $setId);
-        $this->getSelect()->order('main_table.sort_order');
+        $this->addFieldToFilter('attribute_set_id', array('eq' => $setId));
+        $this->setOrder('sort_order');
         return $this;
     }
 }

@@ -34,7 +34,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
      */
     public function getAllOptions()
     {
-        if (is_null($this->_options)) {
+        if ($this->_options === null) {
             $this->_options = array(
                 array(
                     'label' => Mage::helper('eav')->__('Yes'),
@@ -89,7 +89,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
     {
         $columns = array();
         $columns[$this->getAttribute()->getAttributeCode()] = array(
-            'type'      => 'tinyint(1)',
+            'type'      => array(Varien_Db_Ddl_Table::TYPE_SMALLINT, '1'),
             'unsigned'  => false,
             'is_null'   => true,
             'default'   => null,

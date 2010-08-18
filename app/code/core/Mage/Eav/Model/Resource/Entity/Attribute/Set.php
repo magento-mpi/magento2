@@ -74,6 +74,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
                 $attribute->deleteEntity();
             }
         }
+
         return parent::_afterSave($object);
     }
 
@@ -81,25 +82,27 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
      * Validate attribute set name
      *
      * @param Mage_Eav_Model_Entity_Attribute_Set $object
-     * @param string $name
+     * @param string $attributeSetName
      * @return bool
      */
-    public function validate($object, $name)
+    public function validate($object, $attributeSetName)
     {
-        $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getMainTable())
-            ->where("attribute_set_name=?",$name)
-            ->where("entity_type_id=?",$object->getEntityTypeId());
+        $adapter = $this->_getReadAdapter();
+        $bind    = array(
+            'attribute_set_name' => $attributeSetName,
+            'entity_type_id'     => $object->getEntityTypeId()
+        );
+        $select = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('attribute_set_name = :attribute_set_name')
+            ->where('entity_type_id = :entity_type_id');
 
         if ($object->getId()) {
-            $select->where("attribute_set_id!=?",$object->getId());
+            $bind['attribute_set_id'] = $object->getId();
+            $select->where('attribute_set_id != :attribute_set_id');
         }
 
-        if (!$read->fetchOne($select)) {
-           return true;
-        }
-
-        return false;
+        return $adapter->fetchOne($select, $bind) > 0;
     }
 
     /**
@@ -111,22 +114,26 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
      */
     public function getSetInfo(array $attributeIds, $setId = null)
     {
-        $setInfo            = array();
-        $attributeToSetInfo = array();
+        $setInfo = $attributeToSetInfo = array();
+
         if (count($attributeIds) > 0) {
+            $bind   = array(
+                'attribute_ids' => $attributeIds
+            );
             $select = $this->_getReadAdapter()->select()
                 ->from(
                     array('entity' => $this->getTable('entity_attribute')),
-                    array('attribute_id','attribute_set_id', 'attribute_group_id', 'sort_order'))
+                    array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order'))
                 ->joinLeft(
                     array('group' => $this->getTable('attribute_group')),
-                    'entity.attribute_group_id=group.attribute_group_id',
+                    'entity.attribute_group_id = group.attribute_group_id',
                     array('group_sort_order' => 'sort_order'))
-                ->where('entity.attribute_id IN (?)', $attributeIds);
+                ->where('entity.attribute_id IN (:attribute_ids)');
             if (is_numeric($setId)) {
-                $select->where('entity.attribute_set_id=?', $setId);
+                $bind['attribute_set_id'] = $setId;
+                $select->where('entity.attribute_set_id = :attribute_set_id');
             }
-            $result = $this->_getReadAdapter()->fetchAll($select);
+            $result = $this->_getReadAdapter()->fetchAll($select, $bind);
 
             foreach ($result as $row) {
                 $data = array(
@@ -155,11 +162,15 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
      */
     public function getDefaultGroupId($setId)
     {
+        $bind   = array(
+            'attribute_set_id' => (int)$setId,
+            'default_id'       => 1
+        );
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('eav/attribute_group'), 'attribute_group_id')
-            ->where('attribute_set_id = ?', $setId)
-            ->where('default_id = ?', 1)
+            ->where('attribute_set_id = :attribute_set_id')
+            ->where('default_id = :default_id')
             ->limit(1);
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $this->_getReadAdapter()->fetchOne($select, $bind);
     }
 }

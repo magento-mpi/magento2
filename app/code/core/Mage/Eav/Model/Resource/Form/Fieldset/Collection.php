@@ -34,8 +34,6 @@
  */
 class Mage_Eav_Model_Resource_Form_Fieldset_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
-    const SORT_ORDER_ASC= 'ASC';
-
     /**
      * Store scope ID
      *
@@ -64,9 +62,7 @@ class Mage_Eav_Model_Resource_Form_Fieldset_Collection extends Mage_Core_Model_R
             $type = $type->getId();
         }
 
-        $this->addFieldToFilter('type_id', $type);
-
-        return $this;
+        return $this->addFieldToFilter('type_id', $type);
     }
 
     /**
@@ -77,7 +73,6 @@ class Mage_Eav_Model_Resource_Form_Fieldset_Collection extends Mage_Core_Model_R
     public function setSortOrder()
     {
         $this->setOrder('sort_order', self::SORT_ORDER_ASC);
-
         return $this;
     }
 
@@ -109,23 +104,30 @@ class Mage_Eav_Model_Resource_Form_Fieldset_Collection extends Mage_Core_Model_R
     /**
      * Initialize select object
      *
+     * @return Mage_Eav_Model_Resource_Form_Fieldset_Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-
-        $this->getSelect()->join(
+        $select = $this->getSelect();
+        $select->join(
             array('default_label' => $this->getTable('eav/form_fieldset_label')),
-            'main_table.fieldset_id=default_label.fieldset_id AND default_label.store_id=0',
+            'main_table.fieldset_id = default_label.fieldset_id AND default_label.store_id = 0',
             array());
         if ($this->getStoreId() == 0) {
-            $this->getSelect()->columns('label', 'default_label');
+            $select->columns('label', 'default_label');
         } else {
-            $this->getSelect()->joinLeft(
+            $labelExpr = $select->getAdapter()
+                ->getCheckSql('store_label.label IS NULL', 'default_label.label', 'store_label.label');
+            $this->addBindParam('store_label_store_id', (int)$this->getStoreId());
+
+            $select->joinLeft(
                 array('store_label' => $this->getTable('eav/form_fieldset_label')),
-                'main_table.fieldset_id=store_label.fieldset_id AND store_label.store_id='.(int)$this->getStoreId(),
-                array('label' => new Zend_Db_Expr('IFNULL(store_label.label, default_label.label)'))
+                'main_table.fieldset_id = store_label.fieldset_id AND store_label.store_id = :store_label_store_id',
+                array('label' => $labelExpr)
             );
         }
+
+        return $this;
     }
 }

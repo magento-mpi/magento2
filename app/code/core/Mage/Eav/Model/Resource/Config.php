@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Eav Resource Config model
  *
  * @category    Mage
  * @package     Mage_Eav
@@ -35,22 +35,21 @@
 class Mage_Eav_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Array of entity types
      *
-     * @var unknown
+     * @var array
      */
     protected static $_entityTypes   = array();
 
     /**
-     * Enter description here ...
+     * Array of attributes
      *
-     * @var unknown
+     * @var array
      */
     protected static $_attributes    = array();
 
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -64,14 +63,16 @@ class Mage_Eav_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstrac
      */
     protected function _loadTypes()
     {
-        if (!$this->_getReadAdapter()) {
+        $adapter = $this->_getReadAdapter();
+        if (!$adapter) {
             self::$_entityTypes = array();
             return $this;
         }
         if (is_null(self::$_entityTypes)) {
             self::$_entityTypes = array();
-            $select = $this->_getReadAdapter()->select()->from($this->getMainTable());
-            $data = $this->_getReadAdapter()->fetchAll($select);
+
+            $select = $adapter->select()->from($this->getMainTable());
+            $data   = $adapter->fetchAll($select);
             foreach ($data as $row) {
                 self::$_entityTypes['by_id'][$row['entity_type_id']] = $row;
                 self::$_entityTypes['by_code'][$row['entity_type_code']] = $row;
@@ -82,48 +83,55 @@ class Mage_Eav_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
-     * Enter description here ...
+     * Load attribute types
      *
-     * @param unknown_type $typeId
-     * @return unknown
+     * @param ind $typeId
+     * @return array
      */
     protected function _loadTypeAttributes($typeId)
     {
         if (!isset(self::$_attributes[$typeId])) {
-            $select = $this->_getReadAdapter()->select()->from($this->getTable('eav/attribute'))
-                ->where('entity_type_id=?', $typeId);
-            self::$_attributes[$typeId] = $this->_getReadAdapter()->fetchAll($select);
+            $adapter = $thit->_getReadAdapter();
+            $bind    = array('entity_type_id' => $typeId);
+            $select  = $adapter->select()
+                ->from($this->getTable('eav/attribute'))
+                ->where('entity_type_id = :entity_type_id');
+
+            self::$_attributes[$typeId] = $adapter->fetchAll($select, $bind);
         }
+
         return self::$_attributes[$typeId];
     }
 
     /**
-     * Enter description here ...
+     * Retreive entity type data
      *
-     * @param unknown_type $entityType
-     * @return unknown
+     * @param string $entityType
+     * @return array
      */
     public function fetchEntityTypeData($entityType)
     {
         $this->_loadTypes();
 
         if (is_numeric($entityType)) {
-            $info = isset(self::$_entityTypes['by_id'][$entityType]) ? self::$_entityTypes['by_id'][$entityType] : null;
-        }
-        else {
-            $info = isset(self::$_entityTypes['by_code'][$entityType]) ? self::$_entityTypes['by_code'][$entityType] : null;
+            $info = isset(self::$_entityTypes['by_id'][$entityType])
+                ? self::$_entityTypes['by_id'][$entityType] : null;
+        } else {
+            $info = isset(self::$_entityTypes['by_code'][$entityType])
+                ? self::$_entityTypes['by_code'][$entityType] : null;
         }
 
         $data = array();
         if ($info) {
-            $data['entity'] = $info;
-            $attributes = $this->_loadTypeAttributes($info['entity_type_id']);
+            $data['entity']     = $info;
+            $attributes         = $this->_loadTypeAttributes($info['entity_type_id']);
             $data['attributes'] = array();
             foreach ($attributes as $attribute) {
                 $data['attributes'][$attribute['attribute_id']] = $attribute;
                 $data['attributes'][$attribute['attribute_code']] = $attribute['attribute_id'];
             }
         }
+
         return $data;
     }
 }

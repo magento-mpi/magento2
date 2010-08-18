@@ -53,6 +53,11 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     const CACHE_TAG         = 'EAV_ATTRIBUTE';
     protected $_cacheTag    = 'EAV_ATTRIBUTE';
 
+    /**
+     * Retreive default attribute backend model by attribute code
+     *
+     * @return string
+     */
     protected function _getDefaultBackendModel()
     {
         switch ($this->getAttributeCode()) {
@@ -69,44 +74,61 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                 return 'eav/entity_attribute_backend_increment';
         }
 
-
-
         return parent::_getDefaultBackendModel();
     }
 
+    /**
+     * Retreive default attribute frontend model
+     *
+     * @return string
+     */
     protected function _getDefaultFrontendModel()
     {
         return parent::_getDefaultFrontendModel();
     }
 
+    /**
+     * Retreive default attribute source model
+     *
+     * @return string
+     */
     protected function _getDefaultSourceModel()
     {
-        switch ($this->getAttributeCode()) {
-            case 'store_id':
-                return 'eav/entity_attribute_source_store';
+        if ($this->getAttributeCode() == 'store_id') {
+            return 'eav/entity_attribute_source_store';
         }
         return parent::_getDefaultSourceModel();
     }
 
+    /**
+     * Delete entity
+     *
+     * @return Mage_Eav_Model_Resource_Entity_Attribute
+     */
     public function deleteEntity()
     {
         return $this->_getResource()->deleteEntity($this);
     }
 
+    /**
+     * Prepare data for save
+     *
+     * @return Mage_Eav_Model_Entity_Attribute
+     */
     protected function _beforeSave()
     {
         // prevent overriding product data
         if (isset($this->_data['attribute_code'])
             && Mage::getModel('catalog/product')->isReservedAttribute($this)) {
-            Mage::throwException(Mage::helper('eav')->__('The attribute code \'%s\' is reserved by system. Please try another attribute code.', $this->_data['attribute_code']));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('The attribute code \'%s\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
         }
 
-        $defaultValue = $this->getDefaultValue();
+        $defaultValue   = $this->getDefaultValue();
         $hasDefaultValue = ((string)$defaultValue != '');
 
         if ($this->getBackendType() == 'decimal' && $hasDefaultValue) {
             if (!Zend_Locale_Format::isNumber($defaultValue, array('locale' => Mage::app()->getLocale()->getLocaleCode()))) {
-                throw new Exception('Invalid default decimal value.');
+                 throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid default decimal value'));
             }
             try {
                 $filter = new Zend_Filter_LocalizedToNormalized(
@@ -114,7 +136,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                 );
                 $this->setDefaultValue($filter->filter($defaultValue));
             } catch (Exception $e) {
-                throw new Exception('Invalid default decimal value.');
+                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid default decimal value'));
             }
         }
 
@@ -134,7 +156,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                     $defaultValue = Mage::app()->getLocale()->date($defaultValue, $format, null, false)->toValue();
                     $this->setDefaultValue($defaultValue);
                 } catch (Exception $e) {
-                    throw new Exception('Invalid default date.');
+                    throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid default date'));
                 }
             }
         }
@@ -148,17 +170,21 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
         return parent::_beforeSave();
     }
 
+    /**
+     * Save additional data
+     *
+     * @return Mage_Eav_Model_Entity_Attribute
+     */
     protected function _afterSave()
     {
         $this->_getResource()->saveInSetIncluding($this);
-
         return parent::_afterSave();
     }
 
     protected function _beforeDelete()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            Mage::throwException(Mage::helper('eav')->__('This attribute is used in configurable products.'));
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('This attribute is used in configurable products'));
         }
         return parent::_beforeDelete();
     }
@@ -171,36 +197,35 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
      */
     public function getBackendTypeByInput($type)
     {
+        $field = '';
         switch ($type) {
             case 'text':
             case 'gallery':
             case 'media_image':
             case 'multiselect':
-                return 'varchar';
+                $field = 'varchar';
+                break;
 
             case 'image':
             case 'textarea':
-                return 'text';
+                $field = 'text';
+                break;
 
             case 'date':
-                return 'datetime';
+                $field = 'datetime';
+                break;
 
             case 'select':
             case 'boolean':
-                return 'int';
-
+                $field = 'int';
+                break;
 
             case 'price':
-                return 'decimal';
-/*
-            default:
-                Mage::dispatchEvent('eav_attribute_get_backend_type_by_input', array('model'=>$this, 'type'=>$type));
-                if ($this->hasBackendTypeByInput()) {
-                    return $this->getData('backend_type_by_input');
-                }
-                Mage::throwException('Unknown frontend input type');
-*/
+                $field = 'decimal';
+                break;
         }
+
+        return $field;
     }
 
     /**
@@ -236,18 +261,17 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
             case 'boolean':
                 $field = 'default_value_yesno';
                 break;
-/*
-            default:
-                Mage::dispatchEvent('eav_attribute_get_default_value_by_input', array('model'=>$this, 'type'=>$type));
-                if ($this->hasBackendTypeByInput()) {
-                    return $this->getData('backend_type_by_input');
-                }
-                Mage::throwException('Unknown frontend input type');
-*/
         }
 
         return $field;
     }
+
+    /**
+     * Retreive attribute codes by frontend type
+     *
+     * @param string $type
+     * @return array
+     */
     public function getAttributeCodesByFrontendType($type)
     {
         return $this->getResource()->getAttributeCodesByFrontendType($type);
@@ -261,7 +285,8 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     public function getStoreLabels()
     {
         if (!$this->getData('store_labels')) {
-            $this->setData('store_labels', $this->getResource()->getStoreLabelsByAttributeId($this->getId()));
+            $storeLabel = $this->getResource()->getStoreLabelsByAttributeId($this->getId());
+            $this->setData('store_labels', $storeLabel);
         }
         return $this->getData('store_labels');
     }

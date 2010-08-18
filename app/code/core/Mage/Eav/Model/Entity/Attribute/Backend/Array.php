@@ -33,6 +33,12 @@
  */
 class Mage_Eav_Model_Entity_Attribute_Backend_Array extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    /**
+     * Prepare data for save
+     *
+     * @param Varien_Object $object
+     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     */
     public function beforeSave($object)
     {
         $data = $object->getData($this->getAttribute()->getAttributeCode());

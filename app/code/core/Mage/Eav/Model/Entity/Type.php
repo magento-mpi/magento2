@@ -34,31 +34,29 @@
  */
 class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
 {
-
     /**
-     * Enter description here...
+     * Collection of attributes
      *
      * @var Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
      */
     protected $_attributes;
 
     /**
-     * Enter description here...
+     * Array of attributes
      *
      * @var array
      */
-    protected $_attributesBySet = array();
+    protected $_attributesBySet             = array();
 
     /**
-     * Enter description here...
+     * Collection of sets
      *
      * @var Mage_Eav_Model_Mysql4_Entity_Attribute_Set_Collection
      */
     protected $_sets;
 
     /**
-     * Enter description here...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -66,7 +64,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Load type by code
      *
      * @param string $code
      * @return Mage_Eav_Model_Entity_Type
@@ -86,14 +84,13 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
      */
     public function getAttributeCollection($setId = null)
     {
-        if (is_null($setId)) {
-            if (is_null($this->_attributes)) {
+        if ($setId === null) {
+            if ($this->_attributes === null) {
                 $this->_attributes = $this->_getAttributeCollection()
                     ->setEntityTypeFilter($this);
             }
             $collection = $this->_attributes;
-        }
-        else {
+        } else {
             if (!isset($this->_attributesBySet[$setId])) {
                 $this->_attributesBySet[$setId] = $this->_getAttributeCollection()
                     ->setEntityTypeFilter($this)
@@ -101,20 +98,23 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
             }
             $collection = $this->_attributesBySet[$setId];
         }
+
         return $collection;
     }
 
     /**
-     * Enter description here...
+     * Init and retreive attribute collection
      *
      * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
      */
     protected function _getAttributeCollection()
     {
         $collection = Mage::getModel('eav/entity_attribute')->getCollection();
-        if ($objectsModel = $this->getAttributeModel()) {
+        $objectsModel = $this->getAttributeModel();
+        if ($objectsModel) {
             $collection->setModel($objectsModel);
         }
+
         return $collection;
     }
 
@@ -133,26 +133,22 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retreive new incrementId
      *
      * @param int $storeId
      * @return string
      */
-    public function fetchNewIncrementId($storeId=null)
+    public function fetchNewIncrementId($storeId = null)
     {
         if (!$this->getIncrementModel()) {
             return false;
         }
 
-        if (!$this->getIncrementPerStore()) {
-            $storeId = 0;
-        }
-        elseif (is_null($storeId)) {
+        if (!$this->getIncrementPerStore() || ($storeId === null)) {
             /**
              * store_id null we can have for entity from removed store
              */
             $storeId = 0;
-            //throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Valid store_id is expected.'));
         }
 
         // Start transaction to run SELECT ... FOR UPDATE
@@ -192,9 +188,9 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retreive entity id field
      *
-     * @return string
+     * @return string|null
      */
     public function getEntityIdField()
     {
@@ -202,9 +198,9 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retreive entity table name
      *
-     * @return string
+     * @return string|null
      */
     public function getEntityTable()
     {
@@ -212,7 +208,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retreive value table prefix
      *
      * @return string
      */
@@ -227,7 +223,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     /**
      * Get default attribute set identifier for etity type
      *
-     * @return string
+     * @return string|null
      */
     public function getDefaultAttributeSetId()
     {
@@ -235,20 +231,30 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retreive entity type id
      *
-     * @return string
+     * @return string|null
      */
     public function getEntityTypeId()
     {
         return isset($this->_data['entity_type_id']) ? $this->_data['entity_type_id'] : null;
     }
 
+    /**
+     * Retreive entity type code
+     *
+     * @return string|null
+     */
     public function getEntityTypeCode()
     {
         return isset($this->_data['entity_type_code']) ? $this->_data['entity_type_code'] : null;
     }
 
+    /**
+     * Retreive attribute codes
+     *
+     * @return array|null
+     */
     public function getAttributeCodes()
     {
         return isset($this->_data['attribute_codes']) ? $this->_data['attribute_codes'] : null;
@@ -264,11 +270,15 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         if (empty($this->_data['attribute_model'])) {
             return Mage_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL;
         }
-        else {
-            return $this->_data['attribute_model'];
-        }
+
+        return $this->_data['attribute_model'];
     }
 
+    /**
+     * Retreive resource entity object
+     *
+     * @return Mage_Core_Model_Resource_Abstract
+     */
     public function getEntity()
     {
         return Mage::getResourceSingleton($this->_data['entity_model']);
@@ -281,7 +291,8 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
      */
     public function getEntityAttributeCollection()
     {
-        if ($collection = $this->_getData('entity_attribute_collection')) {
+        $collection = $this->_getData('entity_attribute_collection');
+        if ($collection) {
             return $collection;
         }
         return 'eav/entity_attribute_collection';

@@ -26,7 +26,7 @@
 
 
 /**
- * EAV attribute model
+ * EAV attribute resource model
  *
  * @category    Mage
  * @package     Mage_Eav
@@ -35,14 +35,14 @@
 class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Eav Entity attributes cache
      *
-     * @var unknown
+     * @var array
      */
-    protected static $_entityAttributes    = null;
+    protected static $_entityAttributes     = array();
 
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -58,33 +58,38 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     protected function _initUniqueFields()
     {
         $this->_uniqueFields = array(array(
-            'field' => array('attribute_code','entity_type_id'),
+            'field' => array('attribute_code', 'entity_type_id'),
             'title' => Mage::helper('eav')->__('Attribute with the same code')
         ));
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Load all entity type attributes
      *
-     * @param unknown_type $entityTypeId
+     * @param int $entityTypeId
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
     protected function _loadTypeAttributes($entityTypeId)
     {
         if (!isset(self::$_entityAttributes[$entityTypeId])) {
-            $select = $this->_getReadAdapter()->select()->from($this->getMainTable())
-                ->where('entity_type_id=?', $entityTypeId);
-            $data = $this->_getReadAdapter()->fetchAll($select);
+            $adapter = $this->_getReadAdapter();
+            $bind    = array('entity_type_id' => $entityTypeId);
+            $select  = $adapter->select()
+                ->from($this->getMainTable())
+                ->where('entity_type_id = :entity_type_id');
+
+            $data = $adapter->fetchAll($select, $bind);
             foreach ($data as $row) {
                 self::$_entityAttributes[$entityTypeId][$row['attribute_code']] = $row;
             }
         }
+
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Load attribute data by attribute code
      *
      * @param Mage_Core_Model_Abstract $object
      * @param int $entityTypeId
@@ -93,9 +98,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     public function loadByCode(Mage_Core_Model_Abstract $object, $entityTypeId, $code)
     {
+        $bind   = array('entity_type_id' => $entityTypeId);
         $select = $this->_getLoadSelect('attribute_code', $code, $object)
-            ->where('entity_type_id=?', $entityTypeId);
-        $data = $this->_getReadAdapter()->fetchRow($select);
+            ->where('entity_type_id = :entity_type_id');
+        $data = $this->_getReadAdapter()->fetchRow($select, $bind);
 
         if ($data) {
             $object->setData($data);
@@ -106,43 +112,49 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here...
+     * Retrieve Max Sort order for attribute in group
      *
      * @param Mage_Core_Model_Abstract $object
      * @return int
      */
     private function _getMaxSortOrder(Mage_Core_Model_Abstract $object)
     {
-        if( intval($object->getAttributeGroupId()) > 0 ) {
-            $read = $this->_getReadAdapter();
-            $select = $read->select()
-                ->from($this->getTable('entity_attribute'), new Zend_Db_Expr("MAX(`sort_order`)"))
-                ->where("{$this->getTable('entity_attribute')}.attribute_set_id = ?", $object->getAttributeSetId())
-                ->where("{$this->getTable('entity_attribute')}.attribute_group_id = ?", $object->getAttributeGroupId());
-            $maxOrder = $read->fetchOne($select);
-            return $maxOrder;
+        if (intval($object->getAttributeGroupId()) > 0) {
+            $adapter = $this->_getReadAdapter();
+            $bind = array(
+                'attribute_set_id'   => $object->getAttributeSetId(),
+                'attribute_group_id' => $object->getAttributeGroupId()
+            );
+            $select = $adapter->select()
+                ->from($this->getTable('entity_attribute'), new Zend_Db_Expr("MAX(sort_order)"))
+                ->where('attribute_set_id = :attribute_set_id')
+                ->where('attribute_group_id = :attribute_group_id');
+
+            return $adapter->fetchOne($select, $bind);
         }
 
         return 0;
     }
 
     /**
-     * Enter description here...
+     * Delete entity
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
     public function deleteEntity(Mage_Core_Model_Abstract $object)
     {
-        $write = $this->_getWriteAdapter();
-        $condition = $write->quoteInto($this->getTable('entity_attribute').'.entity_attribute_id = ?', $object->getEntityAttributeId());
+        $adapter = $this->_getWriteAdapter();
+
+
         /**
          * Delete attribute values
          */
-        $select = $write->select()
+        $bind   = array('entity_attribute_id' => $object->getEntityAttributeId());
+        $select = $adapter->select()
             ->from($this->getTable('entity_attribute'))
-            ->where($condition);
-        $data = $write->fetchRow($select);
+            ->where('entity_attribute_id = :entity_attribute_id');
+        $data = $adapter->fetchRow($select, $bind);
         if (!empty($data)) {
             /**
              * @todo !!!! need fix retrieving attribute entity, this realization is temprary
@@ -152,27 +164,31 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
                 ->setEntity(Mage::getSingleton('catalog/product')->getResource());
 
             if ($this->isUsedBySuperProducts($attribute, $data['attribute_set_id'])) {
-                Mage::throwException(Mage::helper('eav')->__("Attribute '%s' used in configurable products.", $attribute->getAttributeCode()));
+                Mage::throwException(Mage::helper('eav')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));
             }
+            $backendTable = $attribute->getBackend()->getTable();
+            if ($backendTable) {
+                $select = $adapter->select()
+                    ->from($attribute->getEntity()->getEntityTable(), 'entity_id')
+                    ->where('attribute_set_id=?', $data['attribute_set_id']);
 
-            if ($backendTable = $attribute->getBackend()->getTable()) {
                 $clearCondition = array(
-                    $write->quoteInto('entity_type_id=?',$attribute->getEntityTypeId()),
-                    $write->quoteInto('attribute_id=?',$attribute->getId()),
-                    $write->quoteInto('entity_id IN (
-                        SELECT entity_id FROM '.$attribute->getEntity()->getEntityTable().' WHERE attribute_set_id=?)',
-                        $data['attribute_set_id'])
+                    'entity_type_id =?' => $attribute->getEntityTypeId(),
+                    'attribute_id =?'   => $attribute->getId(),
+                    'entity_id IN (?)'  => $select
                 );
-                $write->delete($backendTable, $clearCondition);
+                $adapter->delete($backendTable, $clearCondition);
             }
         }
 
-        $write->delete($this->getTable('entity_attribute'), $condition);
+        $condition = array('entity_attribute_id =?' => $object->getEntityAttributeId());
+        $adapter->delete($this->getTable('entity_attribute'), $condition);
+
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Validate attribute data before save
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
@@ -181,18 +197,18 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     {
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
-            if (!isset($frontendLabel[0]) || is_null($frontendLabel[0]) || $frontendLabel[0]=='') {
-                Mage::throwException(Mage::helper('eav')->__('Frontend label is not defined.'));
+            if (!isset($frontendLabel[0]) || is_null($frontendLabel[0]) || $frontendLabel[0] == '') {
+                Mage::throwException(Mage::helper('eav')->__('Frontend label is not defined'));
             }
-            $object->setFrontendLabel($frontendLabel[0]);
-            $object->setStoreLabels($frontendLabel);
+            $object->setFrontendLabel($frontendLabel[0])
+                   ->setStoreLabels($frontendLabel);
         }
 
         /**
          * @todo need use default source model of entity type !!!
          */
         if (!$object->getId()) {
-            if ($object->getFrontendInput()=='select') {
+            if ($object->getFrontendInput() == 'select') {
                 $object->setSourceModel('eav/entity_attribute_source_table');
             }
         }
@@ -201,7 +217,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here...
+     * Save additional attribute data after save attribute
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
@@ -209,9 +225,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         $this->_saveStoreLabels($object)
-            ->_saveAdditionalAttributeData($object)
-            ->saveInSetIncluding($object)
-            ->_saveOption($object);
+             ->_saveAdditionalAttributeData($object)
+             ->saveInSetIncluding($object)
+             ->_saveOption($object);
+
         return parent::_afterSave($object);
     }
 
@@ -225,24 +242,24 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     {
         $storeLabels = $object->getStoreLabels();
         if (is_array($storeLabels)) {
+            $write = $this->_getWriteAdapter();
             if ($object->getId()) {
-                $condition = $this->_getWriteAdapter()->quoteInto('attribute_id = ?', $object->getId());
-                $this->_getWriteAdapter()->delete($this->getTable('eav/attribute_label'), $condition);
+                $condition = array('attribute_id=?' => $object->getId());
+                $write->delete($this->getTable('eav/attribute_label'), $condition);
             }
             foreach ($storeLabels as $storeId => $label) {
                 if ($storeId == 0 || !strlen($label)) {
                     continue;
                 }
-                $this->_getWriteAdapter()->insert(
-                    $this->getTable('eav/attribute_label'),
-                    array(
-                        'attribute_id' => $object->getId(),
-                        'store_id' => $storeId,
-                        'value' => $label
-                    )
+                $bind = array (
+                    'attribute_id' => $object->getId(),
+                    'store_id'     => $storeId,
+                    'value'        => $label
                 );
+                $write->insert($this->getTable('eav/attribute_label'), $bind);
             }
         }
+
         return $this;
     }
 
@@ -254,66 +271,73 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     protected function _saveAdditionalAttributeData(Mage_Core_Model_Abstract $object)
     {
-        if ($additionalTable = $this->getAdditionalAttributeTable($object->getEntityTypeId())) {
-            $describe = $this->describeTable($this->getTable($additionalTable));
-            $data = array();
+        $additionalTable = $this->getAdditionalAttributeTable($object->getEntityTypeId());
+        if ($additionalTable) {
+            $adapter    = $this->_getWriteAdapter();
+            $describe   = $this->describeTable($this->getTable($additionalTable));
+            $data       = array();
             foreach (array_keys($describe) as $field) {
-                if (null !== ($value = $object->getData($field))) {
+                $value = $object->getData($field);
+                if ($value !== null) {
                     $data[$field] = $value;
                 }
             }
-            $select = $this->_getWriteAdapter()->select()
+            $bind   = array('attribute_id' => $object->getId());
+            $select = $adapter->select()
                 ->from($this->getTable($additionalTable), array('attribute_id'))
-                ->where('attribute_id = ?', $object->getId());
-            if ($this->_getWriteAdapter()->fetchOne($select)) {
-                $this->_getWriteAdapter()->update(
-                    $this->getTable($additionalTable),
-                    $data,
-                    $this->_getWriteAdapter()->quoteInto('attribute_id = ?', $object->getId())
-                );
+                ->where('attribute_id = :attribute_id');
+
+            $result = $adapter->fetchOne($select, $bind);
+            if ($result) {
+                $where = array('attribute_id =?' => $object->getId());
+                $adapter->update($this->getTable($additionalTable), $data, $where);
             } else {
-                $this->_getWriteAdapter()->insert($this->getTable($additionalTable), $data);
+                $adapter->insert($this->getTable($additionalTable), $data);
             }
         }
+
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Save in set including
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
     public function saveInSetIncluding(Mage_Core_Model_Abstract $object)
     {
-        $attrId = $object->getId();
-        $setId  = (int) $object->getAttributeSetId();
-        $groupId= (int) $object->getAttributeGroupId();
+        $attributeId = (int) $object->getId();
+        $setId       = (int) $object->getAttributeSetId();
+        $groupId     = (int) $object->getAttributeGroupId();
 
         if ($setId && $groupId && $object->getEntityTypeId()) {
-            $write = $this->_getWriteAdapter();
+            $adapter = $this->_getWriteAdapter();
             $table = $this->getTable('entity_attribute');
 
-
+            $sortOrder = (($object->getSortOrder()) ? $object->getSortOrder() : $this->_getMaxSortOrder($object) + 1);
             $data = array(
-                'entity_type_id' => $object->getEntityTypeId(),
-                'attribute_set_id' => $setId,
+                'entity_type_id'     => $object->getEntityTypeId(),
+                'attribute_set_id'   => $setId,
                 'attribute_group_id' => $groupId,
-                'attribute_id' => $attrId,
-                'sort_order' => (($object->getSortOrder()) ? $object->getSortOrder() : $this->_getMaxSortOrder($object) + 1),
+                'attribute_id'       => $attributeId,
+                'sort_order'         => $sortOrder
             );
 
-            $condition = "$table.attribute_id = '$attrId'
-                AND $table.attribute_set_id = '$setId'";
-            $write->delete($table, $condition);
-            $write->insert($table, $data);
+            $where = array(
+                'attribute_id =?'           => $attributeId,
+                'table.attribute_set_id =?' => $setId
+            );
 
+            $adapter->delete($table, $where);
+            $adapter->insert($table, $data);
         }
+
         return $this;
     }
 
     /**
-     * Enter description here...
+     *  Save attribute options
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
@@ -322,13 +346,14 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     {
         $option = $object->getOption();
         if (is_array($option)) {
-            $write = $this->_getWriteAdapter();
+            $adapter = $this->_getWriteAdapter();
             $optionTable        = $this->getTable('attribute_option');
             $optionValueTable   = $this->getTable('attribute_option_value');
-            $stores = Mage::getModel('core/store')
-                ->getResourceCollection()
-                ->setLoadDefault(true)
-                ->load();
+
+            $select = $adapter->select()
+                ->from($this->getTable('core/store'), 'store_id');
+
+            $stores = $adapter->fetchCol($select);
 
             if (isset($option['value'])) {
                 $attributeDefaultValue = array();
@@ -340,26 +365,25 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
                     $intOptionId = (int) $optionId;
                     if (!empty($option['delete'][$optionId])) {
                         if ($intOptionId) {
-                            $condition = $write->quoteInto('option_id=?', $intOptionId);
-                            $write->delete($optionTable, $condition);
+                            $adapter->delete($optionTable, array('option_id=?' => $intOptionId));
                         }
 
                         continue;
                     }
 
+                    $sortOrder = isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0;
                     if (!$intOptionId) {
+
                         $data = array(
                            'attribute_id'  => $object->getId(),
-                           'sort_order'    => isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0,
+                           'sort_order'    => $sortOrder
                         );
-                        $write->insert($optionTable, $data);
-                        $intOptionId = $write->lastInsertId();
-                    }
-                    else {
-                        $data = array(
-                           'sort_order'    => isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0,
-                        );
-                        $write->update($optionTable, $data, $write->quoteInto('option_id=?', $intOptionId));
+                        $adapter->insert($optionTable, $data);
+                        $intOptionId = $write->lastInsertId($optionTable);
+                    } else {
+                        $data  = array('sort_order'    => $sortOrder);
+                        $where = array('option_id =?' => $intOptionId);
+                        $adapter->update($optionTable, $data, $where);
                     }
 
                     if (in_array($optionId, $object->getDefault())) {
@@ -370,61 +394,66 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
                         }
                     }
 
-
                     // Default value
                     if (!isset($values[0])) {
-                        Mage::throwException(Mage::helper('eav')->__('Default option value is not defined.'));
+                        Mage::throwException(Mage::helper('eav')->__('Default option value is not defined'));
                     }
 
-                    $write->delete($optionValueTable, $write->quoteInto('option_id=?', $intOptionId));
+                    $adapter->delete($optionValueTable, array('option_id=?' => $intOptionId));
                     foreach ($stores as $store) {
-                        if (isset($values[$store->getId()]) && (!empty($values[$store->getId()]) || $values[$store->getId()] == "0")) {
+                        if (isset($values[$store->getId()])
+                            && (!empty($values[$store->getId()])
+                            || $values[$store->getId()] == "0"))
+                        {
                             $data = array(
                                 'option_id' => $intOptionId,
                                 'store_id'  => $store->getId(),
                                 'value'     => $values[$store->getId()],
                             );
-                            $write->insert($optionValueTable, $data);
+                            $adapter->insert($optionValueTable, $data);
                         }
                     }
                 }
-
-                $write->update($this->getMainTable(), array(
-                    'default_value' => implode(',', $attributeDefaultValue)
-                ), $write->quoteInto($this->getIdFieldName() . '=?', $object->getId()));
+                $bind  = array('default_value' => implode(',', $attributeDefaultValue));
+                $where = array('attribute_id =?' => $object->getId());
+                $adapter->update($this->getMainTable(), $bind, $where);
             }
         }
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Defines is Attribute used by siper products
      *
      * @param Mage_Core_Model_Abstract $object
-     * @param unknown_type $attributeSet
-     * @return unknown
+     * @param int $attributeSet
+     * @return int
      */
     public function isUsedBySuperProducts(Mage_Core_Model_Abstract $object, $attributeSet = null)
     {
-        $read = $this->_getReadAdapter();
-        $attrTable = $this->getTable('catalog/product_super_attribute');
+        $adapter      = $this->_getReadAdapter();
+        $attrTable    = $this->getTable('catalog/product_super_attribute');
         $productTable = $this->getTable('catalog/product');
-        $select = $read->select()
+
+        $bind = array('attribute_id' => $object->getAttributeId());
+        $select = $adapter->select()
             ->from(array('_main_table' => $attrTable), 'COUNT(*)')
-            ->join(array('_entity'=> $productTable), '_main_table.product_id = _entity.entity_id')
-            ->where("_main_table.attribute_id = ?", $object->getAttributeId())
+            ->join(array('_entity' => $productTable), '_main_table.product_id = _entity.entity_id')
+            ->where('_main_table.attribute_id = :attribute_id')
             ->group('_main_table.attribute_id')
             ->limit(1);
 
-        if (!is_null($attributeSet)) {
-            $select->where('_entity.attribute_set_id = ?', $attributeSet);
+        if ($attributeSet !== null) {
+            $bind['attribute_set_id'] = $attributeSet;
+            $select->where('_entity.attribute_set_id = :attribute_set_id');
         }
-        $valueCount = $read->fetchOne($select);
-        return $valueCount;
+
+        return $adapter->fetchOne($select, $bind);
     }
 
     /**
-     * Return attribute id
+     * Retrieve attribute id by entity type code and attribute code
      *
      * @param string $entityType
      * @param string $code
@@ -432,74 +461,79 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     public function getIdByCode($entityType, $code)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('a'=>$this->getTable('eav/attribute')), array('a.attribute_id'))
-            ->join(array('t'=>$this->getTable('eav/entity_type')), 'a.entity_type_id = t.entity_type_id', array())
-            ->where('t.entity_type_code = ?', $entityType)
-            ->where('a.attribute_code = ?', $code);
+        $adapter = $this->_getReadAdapter();
+        $bind    = array(
+            'entity_type_code' => $entityType,
+            'attribute_code'   => $code
+        );
+        $select = $adapter->select()
+            ->from(array('a' => $this->getTable('eav/attribute')), array('a.attribute_id'))
+            ->join(
+                array('t' => $this->getTable('eav/entity_type')),
+                'a.entity_type_id = t.entity_type_id',
+                array())
+            ->where('t.entity_type_code = :entity_type_code')
+            ->where('a.attribute_code = :attribute_code');
 
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $adapter->fetchOne($select, $bind);
     }
 
     /**
-     * Enter description here ...
+     * Retrieve attribute codes by front-end type
      *
-     * @param unknown_type $type
-     * @return unknown
+     * @param string $type
+     * @return array
      */
-    public function getAttributeCodesByFrontendType($type)
+    public function getAttributeCodesByFrontendType($frontendType)
     {
-        $select = $this->_getReadAdapter()->select();
-        $select
+        $adapter = $this->_getReadAdapter();
+        $bind    = array('frontend_input' => $frontendType);
+        $select  = $adapter->select()
             ->from($this->getTable('eav/attribute'), 'attribute_code')
-            ->where('frontend_input = ?', $type);
+            ->where('frontend_input = :frontend_input');
 
-        $result = $this->_getReadAdapter()->fetchCol($select);
-
-        if ($result) {
-            return $result;
-        } else {
-            return array();
-        }
+        return $adapter->fetchCol($select, $bind);
     }
 
     /**
      * Retrieve Select For Flat Attribute update
      *
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param int $store
+     * @param int $storeId
      * @return Varien_Db_Select
      */
-    public function getFlatUpdateSelect(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $store)
+    public function getFlatUpdateSelect(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $storeId)
     {
-        $joinCondition = "`e`.`entity_id`=`t1`.`entity_id`";
+        $joinCondition = 'e.entity_id = t1.entity_id';
         if ($attribute->getFlatAddChildData()) {
-            $joinCondition .= " AND `e`.`child_id`=`t1`.`entity_id`";
+            $joinCondition .= ' AND e.child_id = t1.entity_id';
         }
-        $select = $this->_getReadAdapter()->select()
+
+        $valueExpr = $this->_getReadAdapter()->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
+        $select    = $this->_getReadAdapter()->select()
             ->joinLeft(
                 array('t1' => $attribute->getBackend()->getTable()),
                 $joinCondition,
-                array()
-                )
+                array())
             ->joinLeft(
                 array('t2' => $attribute->getBackend()->getTable()),
-                "t2.entity_id = t1.entity_id"
-                    . " AND t1.entity_type_id = t2.entity_type_id"
-                    . " AND t1.attribute_id = t2.attribute_id"
-                    . " AND t2.store_id = {$store}",
-                array($attribute->getAttributeCode() => "IF(t2.value_id>0, t2.value, t1.value)"))
-            ->where("t1.entity_type_id=?", $attribute->getEntityTypeId())
-            ->where("t1.attribute_id=?", $attribute->getId())
-            ->where("t1.store_id=?", 0);
+                't2.entity_id = t1.entity_id'
+                    . ' AND t1.entity_type_id = t2.entity_type_id'
+                    . ' AND t1.attribute_id = t2.attribute_id'
+                    . " AND t2.store_id = {$storeId}",
+                array($attribute->getAttributeCode() => $valueExpr))
+            ->where("t1.entity_type_id = ?", $attribute->getEntityTypeId())
+            ->where("t1.attribute_id = ?", $attribute->getId())
+            ->where("t1.store_id = ?", 0);
         if ($attribute->getFlatAddChildData()) {
-            $select->where("e.is_child=?", 0);
+            $select->where("e.is_child = ?", 0);
         }
+
         return $select;
     }
 
     /**
-     * Describe table
+     * Returns the column descriptions for a table
      *
      * @param string $table
      * @return array
@@ -529,19 +563,26 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        if ($entityType = $object->getData('entity_type')) {
+        $entityType = $object->getData('entity_type');
+        if ($entityType) {
             $additionalTable = $entityType->getAdditionalAttributeTable();
         } else {
             $additionalTable = $this->getAdditionalAttributeTable($object->getEntityTypeId());
         }
+
         if ($additionalTable) {
-            $select = $this->_getReadAdapter()->select()
+            $adapter = $this->_getReadAdapter();
+            $bind = array('attribute_id' =>  $object->getId());
+            $select = $adapter->select()
                 ->from($this->getTable($additionalTable))
-                ->where('attribute_id = ?', $object->getId());
-            if ($result = $this->_getReadAdapter()->fetchRow($select)) {
+                ->where('attribute_id = :attribute_id');
+
+            $result = $adapter->fetchRow($select, $bind);
+            if ($result) {
                 $object->addData($result);
             }
         }
+
         return $this;
     }
 
@@ -553,14 +594,13 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     public function getStoreLabelsByAttributeId($attributeId)
     {
-        $values = array();
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('eav/attribute_label'))
-            ->where('attribute_id = ?', $attributeId);
-        foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
-            $values[$row['store_id']] = $row['value'];
-        }
-        return $values;
+        $adapter   = $this->_getReadAdapter();
+        $bind      = array('attribute_id', $attributeId);
+        $select    = $adapter->select()
+            ->from($this->getTable('eav/attribute_label'), array('store_id', 'value'))
+            ->where('attribute_id = :attribute_id');
+
+        return $adapter->fetchPairs($select, $bind);
     }
 
     /**
@@ -571,9 +611,12 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     public function getValidAttributeIds($attributeIds)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter   = $this->_getReadAdapter();
+        $bind      = array('atribute_ids' => $attributeIds);
+        $select    = $adapter->select()
             ->from($this->getMainTable(), array('attribute_id'))
-            ->where('attribute_id in (?)', $attributeIds);
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('attribute_id IN (:attribute_ids)');
+
+        return $adapter->fetchCol($select, $bind);
     }
 }

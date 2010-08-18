@@ -34,11 +34,8 @@
  */
 class Mage_Eav_Model_Resource_Form_Element_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
-    const SORT_ORDER_ASC= 'ASC';
-
     /**
      * Initialize collection model
-     *
      */
     protected function _construct()
     {
@@ -57,9 +54,7 @@ class Mage_Eav_Model_Resource_Form_Element_Collection extends Mage_Core_Model_Re
             $type = $type->getId();
         }
 
-        $this->addFieldToFilter('type_id', $type);
-
-        return $this;
+        return $this->addFieldToFilter('type_id', $type);
     }
 
     /**
@@ -74,9 +69,7 @@ class Mage_Eav_Model_Resource_Form_Element_Collection extends Mage_Core_Model_Re
             $fieldset = $fieldset->getId();
         }
 
-        $this->addFieldToFilter('main_table.fieldset_id', $fieldset);
-
-        return $this;
+        return $this->addFieldToFilter('fieldset_id', $fieldset);
     }
 
     /**
@@ -91,9 +84,7 @@ class Mage_Eav_Model_Resource_Form_Element_Collection extends Mage_Core_Model_Re
             $attribute = $attribute->getId();
         }
 
-        $this->addFieldToFilter('main_table.attribute_id', $attribute);
-
-        return $this;
+        return $this->addFieldToFilter('attribute_id', $attribute);
     }
 
     /**
@@ -103,7 +94,7 @@ class Mage_Eav_Model_Resource_Form_Element_Collection extends Mage_Core_Model_Re
      */
     public function setSortOrder()
     {
-        $this->setOrder('main_table.sort_order', self::SORT_ORDER_ASC);
+        $this->setOrder('sort_order', self::SORT_ORDER_ASC);
 
         return $this;
     }
@@ -117,7 +108,7 @@ class Mage_Eav_Model_Resource_Form_Element_Collection extends Mage_Core_Model_Re
     {
         $this->getSelect()->join(
             array('eav_attribute' => $this->getTable('eav/attribute')),
-            'main_table.attribute_id=eav_attribute.attribute_id',
+            'main_table.attribute_id = eav_attribute.attribute_id',
             array('attribute_code', 'entity_type_id')
         );
 
@@ -127,8 +118,8 @@ class Mage_Eav_Model_Resource_Form_Element_Collection extends Mage_Core_Model_Re
     /**
      * Load data (join attribute data)
      *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
+     * @param boolean $printQuery
+     * @param boolean $logQuery
      * @return Mage_Eav_Model_Resource_Form_Element_Collection
      */
     public function load($printQuery = false, $logQuery = false)

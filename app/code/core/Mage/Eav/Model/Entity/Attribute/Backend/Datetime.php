@@ -26,19 +26,28 @@
 
 class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    /**
+     * Format date
+     *
+     * @param Varien_Object $object
+     * @throws Mage_Eav_Exception
+     * @return Mage_Eav_Model_Entity_Attribute_Backend_Datetime
+     */
     public function beforeSave($object)
     {
         $attributeName = $this->getAttribute()->getName();
-        $_formated = $object->getData($attributeName . '_is_formated');
+        $_formated     = $object->getData($attributeName . '_is_formated');
         if (!$_formated && $object->hasData($attributeName)) {
             try {
                 $value = $this->formatDate($object->getData($attributeName));
             } catch (Exception $e) {
-                throw new Exception("Invalid date.");
+                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid date'));
             }
             $object->setData($attributeName, $value);
             $object->setData($attributeName . '_is_formated', true);
         }
+
+        return $this;
     }
 
     /**
@@ -73,5 +82,4 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_En
         }
         return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
     }
-
 }

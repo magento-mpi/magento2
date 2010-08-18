@@ -25,7 +25,6 @@
  */
 class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype
 {
-
     public function toOptionArray()
     {
         return array(
@@ -37,5 +36,4 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype
             array('value' => 'select', 'label' => Mage::helper('eav')->__('Dropdown'))
         );
     }
-
 }

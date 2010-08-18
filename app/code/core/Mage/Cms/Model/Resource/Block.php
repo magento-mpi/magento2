@@ -121,7 +121,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Load an object using 'identifier' field if there's no field specified and value is not numeric 
+     * Load an object using 'identifier' field if there's no field specified and value is not numeric
      *
      * @param Mage_Core_Model_Abstract $object
      * @param mixed $value

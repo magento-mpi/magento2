@@ -33,10 +33,18 @@
  */
 class Mage_Eav_Model_Entity_Attribute_Backend_Increment extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    /**
+     * Set new increment id
+     *
+     * @param Varien_Object $object
+     * @return Mage_Eav_Model_Entity_Attribute_Backend_Increment
+     */
     public function beforeSave($object)
     {
         if (!$object->getId()) {
             $this->getAttribute()->getEntity()->setNewIncrementId($object);
         }
+
+        return $this;
     }
 }

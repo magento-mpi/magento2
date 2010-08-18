@@ -24,9 +24,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Enter description here ...
+ * Eav Resource Attribute Set Collection
  *
  * @category    Mage
  * @package     Mage_Eav
@@ -35,7 +34,7 @@
 class Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     public function _construct()
@@ -44,21 +43,20 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection extends Mage_Core_
     }
 
     /**
-     * Enter description here ...
+     * Add filter by entity type id to collection
      *
-     * @param unknown_type $typeId
+     * @param int $typeId
      * @return Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection
      */
     public function setEntityTypeFilter($typeId)
     {
-        $this->getSelect()->where('main_table.entity_type_id=?', $typeId);
-        return $this;
+        return $this->addFieldToFilter('entity_type_id', $typeId);
     }
 
     /**
-     * Enter description here ...
+     * Convert collection items to select options array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
@@ -66,9 +64,9 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection extends Mage_Core_
     }
 
     /**
-     * Enter description here ...
+     * Convert collection items to select options hash array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionHash()
     {

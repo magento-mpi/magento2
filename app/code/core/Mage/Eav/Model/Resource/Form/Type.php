@@ -71,13 +71,17 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
      */
     public function getEntityTypes($object)
     {
-        if (!$object->getId()) {
+        $objectId = $object->getId();
+        if (!$objectId) {
             return array();
         }
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $bind    = array('type_id' => $objectId);
+        $select  = $adapter->select()
             ->from($this->getTable('eav/form_type_entity'), 'entity_type_id')
-            ->where('type_id=?', $object->getId());
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('type_id = :type_id');
+
+        return $adapter->fetchCol($select, $bind);
     }
 
     /**
@@ -114,11 +118,12 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
                     $write->insertMultiple($this->getTable('eav/form_type_entity'), $data);
                 }
             }
+
             if (!empty($delete)) {
-                $where = join(' AND ', array(
-                    $write->quoteInto('type_id=?', $object->getId()),
-                    $write->quoteInto('entity_type_id IN(?)', $delete)
-                ));
+                $where = array(
+                    'entity_type_id IN (?)' => $delete,
+                    'type_id =?'            => $object->getId()
+                );
                 $write->delete($this->getTable('eav/form_type_entity'), $where);
             }
         }
@@ -140,9 +145,11 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
         if (!$attribute) {
             return array();
         }
+        $bind   = array('attribute_id' => $attribute);
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('eav/form_element'))
-            ->where('attribute_id = ?', $attribute);
-        return $this->_getReadAdapter()->fetchAll($select);
+            ->where('attribute_id = :attribute_id');
+
+        return $this->_getReadAdapter()->fetchAll($select, $bind);
     }
 }

@@ -24,9 +24,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Enter description here ...
+ * Eav Resource Entity Attribute Group
  *
  * @category    Mage
  * @package     Mage_Eav
@@ -35,8 +34,7 @@
 class Mage_Eav_Model_Resource_Entity_Attribute_Group extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -51,14 +49,17 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Group extends Mage_Core_Model_Res
      */
     public function itemExists($object)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter   = $this->_getReadAdapter();
+        $bind      = array(
+            'attribute_set_id'      => $object->getAttributeSetId(),
+            'attribute_group_name'  => $object->getAttributeGroupName()
+        );
+        $select = $adapter->select()
             ->from($this->getMainTable())
-            ->where('attribute_set_id = ?', $object->getAttributeSetId())
-            ->where('attribute_group_name = ?', $object->getAttributeGroupName());
-        if ($this->_getReadAdapter()->fetchRow($select)) {
-            return true;
-        }
-        return false;
+            ->where('attribute_set_id = :attribute_set_id')
+            ->where('attribute_group_name = :attribute_group_name');
+
+        return $adapter->fetchRow($select, $bind) > 0;
     }
 
     /**
@@ -89,37 +90,51 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Group extends Mage_Core_Model_Res
                 $attribute->save();
             }
         }
+
         return parent::_afterSave($object);
     }
 
     /**
-     * Enter description here ...
+     * Retreive max sort order
      *
-     * @param unknown_type $object
-     * @return unknown
+     * @param Mage_Core_Model_Abstract $object
+     * @return int
      */
-    private function _getMaxSortOrder($object)
+    protected function _getMaxSortOrder($object)
     {
-        $read = $this->_getReadAdapter();
-        $select = $read->select()
-            ->from($this->getMainTable(), new Zend_Db_Expr("MAX(`sort_order`)"))
-            ->where("{$this->getMainTable()}.attribute_set_id = ?", $object->getAttributeSetId());
-        $maxOrder = $read->fetchOne($select);
-        return $maxOrder;
+        $adapter = $this->_getReadAdapter();
+        $bind    = array('attribute_set_id' => $object->getAttributeSetId());
+        $select  = $adapter->select()
+            ->from($this->getMainTable(), new Zend_Db_Expr("MAX(sort_order)"))
+            ->where('attribute_set_id = :attribute_set_id');
+
+        return $adapter->fetchOne($select, $bind);
     }
 
     /**
      * Set any group default if old one was removed
      *
      * @param integer $attributeSetId
-     * @return Mage_Eav_Model_Resource_Entity_Attribute_Group
+     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Group
      */
     public function updateDefaultGroup($attributeSetId)
     {
-        $this->_getWriteAdapter()->query(
-            "UPDATE `{$this->getMainTable()}` SET default_id = 1 WHERE attribute_set_id = :attribute_set_id ORDER BY default_id DESC LIMIT 1",
-            array('attribute_set_id' => $attributeSetId)
-        );
+        $adapter = $this->_getWriteAdapter();
+        $bind    = array('attribute_set_id' => $attributeSetId);
+        $select  = $adapter->select()
+            ->from($this->getMainTable(), $this->getIdFieldName())
+            ->where('attribute_set_id = :attribute_set_id')
+            ->order('default_id ' . Varien_Db_Select::SQL_DESC)
+            ->limit(1);
+
+        $groupId = $adapter->fetchOne($select, $bind);
+
+        if ($groupId) {
+            $bind  = array('default_id' => 1);
+            $where = array('attribute_group_id =?' => $groupId);
+            $adapter->update($this->getMainTable(), $bind, $where);
+        }
+
         return $this;
     }
 }

@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Eav Entity store resource model
  *
  * @category    Mage
  * @package     Mage_Eav
@@ -35,8 +35,7 @@
 class Mage_Eav_Model_Resource_Entity_Store extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -47,19 +46,23 @@ class Mage_Eav_Model_Resource_Entity_Store extends Mage_Core_Model_Resource_Db_A
      * Load an object by entity type and store
      *
      * @param Varien_Object $object
-     * @param unknown_type $entityTypeId
-     * @param unknown_type $storeId
+     * @param int $entityTypeId
+     * @param string $field field to load by (defaults to model id)
      * @return boolean
      */
     public function loadByEntityStore(Mage_Core_Model_Abstract $object, $entityTypeId, $storeId)
     {
-        $read = $this->_getWriteAdapter();
-
-        $select = $read->select()->from($this->getMainTable())
+        $adapter = $this->_getWriteAdapter();
+        $bind    = array(
+            'entity_type_id' => $entityTypeId,
+            'store_id'       => $storeId
+        );
+        $select = $adapter->select()
+            ->from($this->getMainTable())
             ->forUpdate(true)
-            ->where('entity_type_id=?', $entityTypeId)
-            ->where('store_id=?', $storeId);
-        $data = $read->fetchRow($select);
+            ->where('entity_type_id = :entity_type_id')
+            ->where('store_id = :store_id');
+        $data = $adapter->fetchRow($select, $bind);
 
         if (!$data) {
             return false;
