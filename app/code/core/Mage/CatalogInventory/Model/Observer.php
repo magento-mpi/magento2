@@ -456,7 +456,7 @@ class Mage_CatalogInventory_Model_Observer
                 if ($item->getProduct()) {
                     $stockItem = $item->getProduct()->getStockItem();
                 }
-                if (isset($item[$productId])) {
+                if (isset($items[$productId])) {
                     $items[$productId]['qty'] += $item->getTotalQty();
                 } else {
                     $items[$productId] = array(
