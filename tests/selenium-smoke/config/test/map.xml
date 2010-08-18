@@ -33,6 +33,63 @@
 					<alreadyExists>There is already an account with this email address</alreadyExists>
 				</messages>
 			</register>
+			<product>
+				<inputs>
+					<qty>qty</qty>
+				</inputs>	
+				<buttons>
+					<addToCart>//button[contains(span,'Add to Cart')]</addToCart>
+				</buttons>
+			</product>
+			<shoppingCart>
+				<buttons>
+					<proceedToCheckout>//button[contains(span,'Proceed to Checkout')]</proceedToCheckout>
+				</buttons>
+			</shoppingCart>
+			<onePageCheckout>
+				<tabs>
+					<checkoutMethod>
+						<inputs>
+							<asGuest>//input[@id='login:guest']</asGuest>
+							<register>//input[@id='login:guest']</register>
+						</inputs>
+						<buttons>
+							<continue>//button[contains(span,'Continue')]</continue>
+							<login>//button[contains(span,'Login')]</login>
+						</buttons>
+					</checkoutMethod>
+					<billingAddress>
+						<inputs>
+						</inputs>
+						<buttons>
+						</buttons>					
+					</billingAddress>
+					<shippingAddress>
+						<inputs>
+						</inputs>
+						<buttons>
+						</buttons>					
+					</shippingAddress>
+					<shippingMethod>
+						<inputs>
+						</inputs>
+						<buttons>
+						</buttons>					
+					</shippingMethod>					
+					<paymentInfo>
+						<inputs>
+						</inputs>
+						<buttons>
+						</buttons>					
+					</paymentInfo>						
+					<orderReview>
+						<inputs>
+						</inputs>
+						<buttons>
+						</buttons>					
+					</orderReview>							
+				</tabs>					
+			</onePageCheckout>
 		</pages>
 	</frontend>
 	<!-- Admin Section-->
