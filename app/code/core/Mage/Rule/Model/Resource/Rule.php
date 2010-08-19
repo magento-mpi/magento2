@@ -26,7 +26,7 @@
 
 
 /**
- * Quote rule mysql4 resource model
+ * Quote rule resource model
  *
  * @category    Mage
  * @package     Mage_Rule
@@ -35,7 +35,7 @@
 class Mage_Rule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()

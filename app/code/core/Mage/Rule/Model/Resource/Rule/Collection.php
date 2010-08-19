@@ -42,7 +42,7 @@ class Mage_Rule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_
     protected $_env;
 
     /**
-     * Enter description here ...
+     * Define resource model and model
      *
      */
     protected function _construct()
@@ -98,7 +98,7 @@ class Mage_Rule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_
     {
         $e = $this->getEnv()->getData();
 
-        $this->_select->where("is_active=1");
+        $this->addFieldToFilter('is_active', 1);
 
         if (!empty($e['now'])) {
             if (!is_numeric($e['now'])) {
@@ -108,7 +108,9 @@ class Mage_Rule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_
         } else {
             $now = date("Y-m-d H:i:s");
         }
-        $this->_select->where("start_at<='$now' and expire_at>='$now'");
+
+        $this->addFieldToFilter('start_at', array('to'=>$now));
+        $this->addFieldToFilter('expire_at', array('from'=>$now));
 
         return $this;
     }
@@ -131,7 +133,7 @@ class Mage_Rule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Walk across collection after load
      *
      */
     protected function _afterLoad()

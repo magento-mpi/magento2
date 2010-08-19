@@ -345,7 +345,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         $this->_isReadonly = (boolean) $value;
         return $this;
     }
-    
+
     /**
      * Validates data for rule
      * @param Varien_Object $object
@@ -354,10 +354,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
      */
     public function validateData(Varien_Object $object)
     {
-        if($object->getData('from_date') && $object->getData('to_date')){
+        if ($object->getData('from_date') && $object->getData('to_date')) {
             $dateStart = new Zend_Date($object->getData('from_date'), Varien_Date::DATE_INTERNAL_FORMAT);
             $dateEnd = new Zend_Date($object->getData('to_date'), Varien_Date::DATE_INTERNAL_FORMAT);
-            
+
             if ($dateStart->compare($dateEnd)===1) {
                 return array(Mage::helper('rule')->__("End Date should be greater than Start Date"));
             }

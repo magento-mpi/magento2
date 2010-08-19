@@ -25,7 +25,7 @@
  */
 
 
-class Mage_Rule_Model_Environment extends Varien_Object 
+class Mage_Rule_Model_Environment extends Varien_Object
 {
     /**
      * Collect application environment for rules filtering
@@ -38,7 +38,7 @@ class Mage_Rule_Model_Environment extends Varien_Object
         $this->setNow(time());
 
         Mage::dispatchEvent('rule_environment_collect', array('env'=>$this));
-        
+
         return $this;
     }
 }
