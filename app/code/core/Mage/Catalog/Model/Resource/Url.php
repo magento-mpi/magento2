@@ -665,8 +665,9 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             if (!is_null($storeId)) {
                 // Check the category to be either store's root or its descendant
                 // First - check that category's start is the same as root category
-                if (substr($row['path'], 0, $rootCategoryPathLength) != $rootCategoryPath)
+                if (substr($row['path'], 0, $rootCategoryPathLength) != $rootCategoryPath) {
                     continue;
+                }
                 // Second - check non-root category - that it's really a descendant, not a simple string match
                 if ((strlen($row['path']) > $rootCategoryPathLength) && ($row['path'][$rootCategoryPathLength] != '/')) {
                     continue;
