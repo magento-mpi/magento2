@@ -1668,6 +1668,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function reset()
     {
+        foreach ($this->_data as $data){
+            if (is_object($data) && method_exists($data, 'reset')){
+                $data->reset();
+            }
+        }
+
         $this->setData(array());
         $this->setOrigData();
         $this->_customOptions       = array();
