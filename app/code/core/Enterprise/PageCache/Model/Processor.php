@@ -268,9 +268,26 @@ class Enterprise_PageCache_Model_Processor
         /**
          * restore session_id in content whether content is completely processed or not
          */
-        $sidCookieName = $this->getMetadata('sid_cookie_name');
-        $sidCookieValue = ($sidCookieName && isset($_COOKIE[$sidCookieName]) ? $_COOKIE[$sidCookieName] : '');
-        Enterprise_PageCache_Helper_Url::restoreSid($content, $sidCookieValue);
+        if (!$this->getMetadata('prevent_restore_sid')) {
+            $sidCookieName = $this->getMetadata('sid_cookie_name');
+            $sidCookieValue = ($sidCookieName && isset($_COOKIE[$sidCookieName]) ? $_COOKIE[$sidCookieName] : '');
+            $isSidRestored = Enterprise_PageCache_Helper_Url::restoreSid($content, $sidCookieValue);
+            if (!$isSidRestored && $isProcessed) {
+                /**
+                 * No replacements occur and whole content is loaded from the cache,
+                 * so it's useless to attempt to substitute non-existing SID markers further
+                 */
+                $this->setMetadata('prevent_restore_sid', true);
+                $this->_saveMetadata();
+            }
+        } else if (!$isProcessed) {
+            /**
+             * Some containers will re-render and SID may appear,
+             * so our flag is not valid anymore
+             */
+            $this->setMetadata('prevent_restore_sid', false);
+            $this->_saveMetadata();
+        }
 
         if ($isProcessed) {
             return $content;
