@@ -150,7 +150,8 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      * @param int $timeforwait
      * @return boolean
      */
-    public function waitForElement($xpath, $timeforwait) {
+    public function waitForElement($xpath, $timeforwait = 30) {
+        Core::debug("waitForElement: waiting for ".$xpath,7);
         for ($second = 0; ; $second++) {
             if ($second >= $timeforwait) {
                  //$this->fail("element could not be found: " . $xpath);
@@ -178,6 +179,55 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
         $this->_testId = strtoupper(get_class($this));
     }
 
+    /**
+     * Select $countryName in countries dropdown
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $countryName - country name
+     * @return boolean
+     */
+    public function selectCountry($selectorID, $countryName)
+    {
+        $paramsArray = array (
+            "$selectorID" => $selectorID,
+            "$countryName"  => $countryName
+        );
+        Core::debug($this->getUiElement('elements/selectedCountry',$paramsArray));
+        if (!$this->isElementPresent($this->getUiElement('elements/selectedCountry',$paramsArray))) {
+            $this->select($selectorID, $countryName);
+//            Required  for Admin !
+//            $this->pleaseWait();
+            return true;
+        } else {
+            $this->select($selectorID, $countryName);
+           return false;
+        }
+    }
 
+   /**
+     * Select $regionName in region dropdown
+     * @param $selectorID - xpath for element
+     * @param $regionName - region name
+     * @return boolean
+     */
+    public function selectRegion($selectorID, $regionName)
+    {
+        $paramsArray = array (
+            "$selectorID" => $selectorID,
+            "$regionName" => $regionName
+        );
+        if ($this->isElementPresent("//select[@id='" . $selectorID . "' and contains(@style,'display: none')]")) {
+            // region selector is input
+            Core::debug("region field is input\n".$selectorID."\n",5);
+            $this->type("billing:region",$regionName);
+            return true;
+        } else {
+            // region selector have "dropdown" type
+            Core::debug("region field is dropdown",5);
+            if (!$this->isElementPresent($this->getUiElement('elements/selectedRegion',$paramsArray))) {
+                $this->select($selectorID, $regionName);
+             return false;
+            }
+        }
+    }
 }
 

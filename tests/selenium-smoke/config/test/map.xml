@@ -60,33 +60,71 @@
 					</checkoutMethod>
 					<billingAddress>
 						<inputs>
+							<firstName>billing:firstname</firstName>
+							<lastName>billing:lastname</lastName>
+							<company>billing:company</company>
+							<email>billing:email</email>
+							<street1>billing:street1</street1>
+							<street2>billing:street2</street2>
+							<city>billing:city</city>
+							<postcode>billing:postcode</postcode>
+							<telephone>billing:telephone</telephone>
+							<fax>billing:fax</fax>
+							<use_for_shipping>billing:use_for_shipping_yes</use_for_shipping>
+							<not_use_for_shipping>billing:use_for_shipping_no</not_use_for_shipping>
 						</inputs>
+						<selectors>
+							<region>billing:region_id</region>
+							<country>billing:country_id</country>
+						</selectors>
 						<buttons>
-						</buttons>					
+							<continue>//li[@id='opc-billing']//button[contains(span,'Continue')]</continue>
+						</buttons>
+						<elements>
+							<pleaseWait>billing-please-wait</pleaseWait>
+						</elements>
 					</billingAddress>
 					<shippingAddress>
 						<inputs>
 						</inputs>
 						<buttons>
 						</buttons>					
+						<elements>
+							<pleaseWait>shipping-please-wait</pleaseWait>
+						</elements>						
 					</shippingAddress>
 					<shippingMethod>
 						<inputs>
+							<freeShipping>s_method_freeshipping_freeshipping</freeShipping>
 						</inputs>
 						<buttons>
-						</buttons>					
+							<continue>//li[@id='opc-shipping_method']//button[contains(span,'Continue')]</continue>
+						</buttons>
+						<elements>
+							<pleaseWait>shipping-method-please-wait</pleaseWait>
+						</elements>
 					</shippingMethod>					
 					<paymentInfo>
 						<inputs>
+							<check>p_method_checkmo</check>
 						</inputs>
 						<buttons>
-						</buttons>					
+							<continue>//li[@id='opc-payment']//button[contains(span,'Continue')]</continue>						
+						</buttons>
+						<elements>
+							<pleaseWait>payment-please-wait</pleaseWait>
+						</elements>						
 					</paymentInfo>						
 					<orderReview>
 						<inputs>
 						</inputs>
 						<buttons>
-						</buttons>					
+							<placeOrder>//li[@id='opc-review']//button[contains(span,'Place Order')]</placeOrder>
+						</buttons>
+						<elements>
+							<pleaseWait>review-please-wait</pleaseWait>
+						</elements>						
+						
 					</orderReview>							
 				</tabs>					
 			</onePageCheckout>
@@ -309,4 +347,9 @@
             <success>//li[@class="success-msg"]</success>
         </messages>
     </admin>
+	<!-- Miscelaneous usefull elements -->
+		<elements>
+			<selectedCountry>//select[@id='%s']//option[@selected='selected' and contains(text(),'%s')]</selectedCountry>
+			<selectedRegion>//select[@id='%s']//option[@selected='selected' and contains(text(),'%s')]</selectedRegion>
+		</elements>	
 </map>

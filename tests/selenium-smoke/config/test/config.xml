@@ -16,13 +16,16 @@
 			<firstName>Guest First Name</firstName>
 			<lastName>Guest Last Name</lastName>
 			<email>st2-user@varien.com</email>
-			<address1>Address Line1</address1>
-			<address2>Address Line2</address2>
+			<company>The Smokers</company>
+			<street1>Address Line1</street1>
+			<street2>Address Line2</street2>
 			<city>City</city>
 			<region>California</region>
-			<country>United States of America</country>
+			<country2>United States</country2>
+			<country>Afghanistan</country>						
 			<postcode>900034</postcode>
-			<phone>900034</phone>
+			<telephone>555-55-55</telephone>
+			<fax>555-55-57</fax>
 		</checkout>
     </frontend>
 
