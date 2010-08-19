@@ -326,12 +326,12 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     public function addExpressionFieldToSelect($alias, $expression, $fields)
     {
         // validate alias
-        if(!is_array($fields)) {
+        if (!is_array($fields)) {
             $fields = array($fields=>$fields);
         }
 
         $fullExpression = $expression;
-        foreach($fields as $fieldKey=>$fieldItem) {
+        foreach ($fields as $fieldKey=>$fieldItem) {
             $fullExpression = str_replace('{{' . $fieldKey . '}}', $fieldItem, $fullExpression);
         }
 
@@ -382,7 +382,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      * Standard resource collection initalization
      *
      * @param string $model
-     * @param  Mage_Core_Model_Resource_Db_Abstract $resourceModel
+     * @param Mage_Core_Model_Resource_Db_Abstract $resourceModel
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _init($model, $resourceModel = null)

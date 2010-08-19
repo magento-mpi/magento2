@@ -54,8 +54,6 @@ class Mage_Core_Model_Resource_Design_Collection extends Mage_Core_Model_Resourc
             array('cs' => $this->getTable('core/store')),
             'cs.store_id = main_table.store_id',
             array('cs.name'));
-
-        return $this;
     }
 
     /**

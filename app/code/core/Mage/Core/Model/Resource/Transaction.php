@@ -110,9 +110,9 @@ class Mage_Core_Model_Resource_Transaction
     /**
      * Adding object for using in transaction
      *
-     * @param   Mage_Core_Model_Abstract $object
-     * @param   string $alias
-     * @return  Mage_Core_Model_Resource_Transaction
+     * @param Mage_Core_Model_Abstract $object
+     * @param string $alias
+     * @return Mage_Core_Model_Resource_Transaction
      */
     public function addObject(Mage_Core_Model_Abstract $object, $alias='')
     {
@@ -124,10 +124,10 @@ class Mage_Core_Model_Resource_Transaction
     }
 
     /**
-     * Add callback funtion which will be called befor commit transactions
+     * Add callback function which will be called before commit transactions
      *
-     * @param   callback $callback
-     * @return  Mage_Core_Model_Resource_Transaction
+     * @param callback $callback
+     * @return Mage_Core_Model_Resource_Transaction
      */
     public function addCommitCallback($callback)
     {

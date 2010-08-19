@@ -47,30 +47,28 @@ class Mage_Core_Model_Resource_Setup
 
     /**
      * Setup resource name
-     *
      * @var string
      */
     protected $_resourceName;
+
     /**
      * Setup resource configuration object
      *
      * @var Varien_Simplexml_Object
      */
     protected $_resourceConfig;
+
     /**
      * Connection configuration object
      *
      * @var Varien_Simplexml_Object
      */
     protected $_connectionConfig;
-	
 
     /**
      * Setup module configuration object
-
      *
      * @var Varien_Simplexml_Object
-
      */
     protected $_moduleConfig;
 
@@ -106,16 +104,18 @@ class Mage_Core_Model_Resource_Setup
      * @var bool
      */
     protected static $_hadUpdates;
+
     /**
      * Flag which allow run data install or upgrade
      *
      * @var bool
      */
     protected static $_schemaUpdatesChecked;
+
     /**
      * Initialize resource configurations, setup connection, etc
      *
-     * @param string $resourceName  the setup resource name
+     * @param string $resourceName the setup resource name
      */
     public function __construct($resourceName)
     {
@@ -136,7 +136,7 @@ class Mage_Core_Model_Resource_Setup
          * If module setup configuration wasn't loaded
          */
         if (!$connection) {
-            $connection = Mage::getSingleton('core/resource')->getConnection('core_setup');
+            $connection = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
         }
         $this->_conn = $connection;
     }
@@ -167,8 +167,8 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Get table name by table placeholder
      *
-     * @param   string $tableName
-     * @return  string
+     * @param string $tableName
+     * @return string
      */
     public function getTable($tableName)
     {
@@ -207,7 +207,7 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Apply database updates whenever needed
      *
-     * @return  boolean
+     * @return boolean
      */
     static public function applyAllUpdates()
     {
@@ -342,8 +342,8 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Run resource installation file
      *
-     * @param     string $version
-     * @return    boolean
+     * @param string $newVersion
+     * @return boolean
      */
     protected function _installResourceDb($newVersion)
     {
@@ -369,9 +369,7 @@ class Mage_Core_Model_Resource_Setup
      *
      * @param string $newVersion
      * @param string $oldVersion
-
      */
-
     protected function _rollbackResourceDb($newVersion, $oldVersion)
     {
         $this->_modifyResourceDb(self::TYPE_DB_ROLLBACK, $newVersion, $oldVersion);
@@ -380,24 +378,21 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Uninstall resource
      *
-     * @param  string  $version existing resource version
-     * @return    bool
+     * @param string $version existing resource version
+     * @return bool
      */
-
     protected function _uninstallResourceDb($version)
     {
         $this->_modifyResourceDb(self::TYPE_DB_UNINSTALL, $version, '');
-    }	
-	
+    }
+
     /**
      * Retrieve available Database install/upgrade files for current module
-
      *
      * @param string $actionType
      * @param string $fromVersion
      * @param string $toVersion
      * @return array
-
      */
     protected function _getAvailableDbFiles($actionType, $fromVersion, $toVersion)
     {
@@ -444,11 +439,8 @@ class Mage_Core_Model_Resource_Setup
      * @return array
      */
     protected function _getAvailableDataFiles($actionType, $fromVersion, $toVersion)
-
     {
-
         $modName    = (string)$this->_moduleConfig[0]->getName();
-
         $filesDir   = Mage::getModuleDir('data', $modName) . DS . $this->_resourceName;
         if (!is_dir($filesDir) || !is_readable($filesDir)) {
             return array();
@@ -517,10 +509,10 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Run module modification files. Return version of last applied upgrade (false if no upgrades applied)
      *
-     * @param     string $actionType self::TYPE_*
-     * @param     string $fromVersion
-     * @param     string $toVersion
-     * @return    string | false
+     * @param string $actionType self::TYPE_*
+     * @param string $fromVersion
+     * @param string $toVersion
+     * @return string|false
      */
 
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
@@ -588,8 +580,8 @@ class Mage_Core_Model_Resource_Setup
      * @param string $actionType
      * @param string $fromVersion
      * @param string $toVersion
-     * @param array  $arrFiles
-     * @return    array
+     * @param array $arrFiles
+     * @return array
      */
     protected function _getModifySqlFiles($actionType, $fromVersion, $toVersion, $arrFiles)
     {
@@ -612,14 +604,14 @@ class Mage_Core_Model_Resource_Setup
             case self::TYPE_DATA_UPGRADE:
                 uksort($arrFiles, 'version_compare');
                 foreach ($arrFiles as $version => $file) {
-                    $version_info = explode('-', $version);
+                    $versionInfo = explode('-', $version);
 
                     // In array must be 2 elements: 0 => version from, 1 => version to
-                    if (count($version_info)!=2) {
+                    if (count($versionInfo)!=2) {
                         break;
                     }
-                    $infoFrom = $version_info[0];
-                    $infoTo   = $version_info[1];
+                    $infoFrom = $versionInfo[0];
+                    $infoTo   = $versionInfo[1];
                     if (version_compare($infoFrom, $fromVersion) !== self::VERSION_COMPARE_LOWER
                         && version_compare($infoTo, $toVersion) !== self::VERSION_COMPARE_GREATER) {
                         $arrRes[] = array(
@@ -660,14 +652,19 @@ class Mage_Core_Model_Resource_Setup
         }
 
         if (empty($this->_setupCache[$table][$parentId][$id])) {
+            $idField = $this->getConnection()->quoteIdentifier($idField);
             $select = $this->getConnection()->select()
                 ->from($table)
-                ->where("{$idField}=?", $id);
-       
+                ->where($idField . '=:id_field');
+            $parentField = $this->getConnection()->quoteIdentifier($parentField);
             if (!is_null($parentField)) {
-                $select->where("{$parentField}=?", $parentId);
+                $select->where($parentField . '=:parent_id');
             }
-            $this->_setupCache[$table][$parentId][$id] = $this->getConnection()->fetchRow($select);
+            $bind = array(
+                'id_field'  => $id,
+                'parent_id' => $parentId
+            );
+            $this->_setupCache[$table][$parentId][$id] = $this->getConnection()->fetchRow($select, $bind);
         }
         if (is_null($field)) {
             return $this->_setupCache[$table][$parentId][$id];
@@ -681,12 +678,12 @@ class Mage_Core_Model_Resource_Setup
      /**
      * Delete table row
      *
-     * @param   string $table
-     * @param   string $idField
-     * @param   string|int $id
-     * @param   null|string $parentField
-     * @param   int|string $parentId
-     * @return  Mage_Core_Model_Resource_Setup
+     * @param string $table
+     * @param string $idField
+     * @param string|int $id
+     * @param null|string $parentField
+     * @param int|string $parentId
+     * @return Mage_Core_Model_Resource_Setup
      */
     public function deleteTableRow($table, $idField, $id, $parentField = null, $parentId = 0)
     {
@@ -694,7 +691,7 @@ class Mage_Core_Model_Resource_Setup
             $table = $this->getTable($table);
         }
 
-        $where = array("{$idField}=?" => $id);
+        $where = array($this->quoteIdentifier($idField) . "=?" => $id);
         if (!is_null($parentField)) {
             $where["{$parentField}=?"] = $parentId;
         }
@@ -731,7 +728,8 @@ class Mage_Core_Model_Resource_Setup
         } else {
             $data = array($field => $value);
         }
-        $where = array("{$idField}=?" => $id);
+
+        $where = array($this->quoteIdentifier($idField) . "=?" => $id);
         $this->getConnection()->update($table, $data, $where);
 
         if (isset($this->_setupCache[$table][$parentId][$id])) {
@@ -747,12 +745,12 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Update table data
      *
-     * @deprecated since 1.4.0.1
-     *
      * @param string $table
      * @param Zend_Db_Expr $conditionExpr
      * @param Zend_Db_Expr $valueExpr
      * @return Mage_Core_Model_Resource_Setup
+     *
+     * @deprecated since 1.4.0.1
      */
     public function updateTable($table, $conditionExpr, $valueExpr)
     {
@@ -790,12 +788,12 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Undefined
      *
-     * @deprecated since 1.4.0.1
      * @param string $path
      * @param string $label
      * @param array $data
      * @param string $default
      * @return Mage_Core_Model_Resource_Setup
+     * @deprecated since 1.4.0.1
      */
     public function addConfigField($path, $label, array $data=array(), $default=null)
     {
@@ -841,6 +839,7 @@ class Mage_Core_Model_Resource_Setup
      * @param string $value
      * @param int|string $scope
      * @param int $scopeId
+     * @param int $inherit
      * @return Mage_Core_Model_Resource_Setup
      */
     public function setConfigData($path, $value, $scope = 'default', $scopeId = 0, $inherit=0)
@@ -862,9 +861,9 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Delete config field values
      *
-     * @param   string $path
-     * @param   string $scope (default|stores|websites|config)
-     * @return  Mage_Core_Model_Resource_Setup
+     * @param string $path
+     * @param string $scope (default|stores|websites|config)
+     * @return Mage_Core_Model_Resource_Setup
      */
     public function deleteConfigData($path, $scope=null)
     {
@@ -937,7 +936,7 @@ class Mage_Core_Model_Resource_Setup
         return Mage::getSingleton('core/resource')
             ->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
-	
+
     /**
      * Check call afterApplyAllUpdates method for setup class
      *

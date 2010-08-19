@@ -34,6 +34,12 @@
  */
 class Mage_Core_Model_Resource_Type_Db_Mysqli extends Mage_Core_Model_Resource_Type_Db
 {
+    /**
+     * Get Connection
+     *
+     * @param Array $config
+     * @return Varien_Db_Adapter_Mysqli 
+     */
     public function getConnection($config)
     {
         $configArr = (array)$config;

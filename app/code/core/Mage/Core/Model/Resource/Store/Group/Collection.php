@@ -92,13 +92,13 @@ class Mage_Core_Model_Resource_Store_Group_Collection extends Mage_Core_Model_Re
      * @param boolean $logQuery
      * @return Mage_Core_Model_Resource_Store_Group_Collection
      */
-    public function load($printQuery = false, $logQuery = false)
+    public function _beforeLoad()
     {
         if (!$this->getLoadDefault()) {
             $this->setWithoutDefaultFilter();
         }
-        $this->addOrder('main_table.name', 'ASC');
-        return parent::load($printQuery, $logQuery);
+        $this->addOrder('main_table.name',  self::SORT_ORDER_ASC);
+        return $this;
     }
 
     /**

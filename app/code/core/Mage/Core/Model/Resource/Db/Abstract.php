@@ -468,8 +468,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
             unset($bind[$this->getIdFieldName()]);
             $condition = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName().'=?', $object->getId());
             $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $condition);
-        }
-        else {
+        } else {
             $this->_getWriteAdapter()->insertOnDuplicate($this->getMainTable(), $bind, $this->_fieldsForUpdate);
             $object->setId($this->_getWriteAdapter()->lastInsertId($this->getMainTable()));
         }
@@ -507,7 +506,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
         if (is_null($this->_uniqueFields)) {
             $this->_initUniqueFields();
         }
-        if(is_array($this->_uniqueFields) ) {
+        if (is_array($this->_uniqueFields) ) {
             $this->_uniqueFields[] = $field;
         }
         return $this;
@@ -640,11 +639,10 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
 
     /**
      * Check for unique values existence
-     *
-     * @throws Mage_Core_Exception
-     *
+
      * @param Varien_Object $object
      * @return Mage_Core_Model_Resource_Db_Abstract
+     * @throws Mage_Core_Exception
      */
     protected function _checkUnique(Mage_Core_Model_Abstract $object)
     {
@@ -670,8 +668,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
                     foreach ($unique['field'] as $field) {
                         $select->where($field.'=?', $data->getData($field));
                     }
-                }
-                else {
+                } else {
                     $select->where( $unique['field'] . ' = ?', $data->getData($unique['field']) );
                 }
 
@@ -688,8 +685,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
         if (!empty($existent)) {
             if (count($existent) == 1 ) {
                 $error = Mage::helper('core')->__('%s already exists.', $existent[0]);
-            }
-            else {
+            } else {
                 $error = Mage::helper('core')->__('%s already exist.', implode(', ', $existent));
             }
             Mage::throwException($error);
@@ -778,24 +774,18 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Retrieve table checksum
      *
-     * @param string $table
-     * @return int
+     * @param string|array $table
+     * @return int|array
      */
-    /*public function getChecksum($table)
+    public function getChecksum($table)
     {
-        if (!$this->_getConnection('read')) {
+    	if (!$this->_getConnection('read')) {
             return false;
         }
-
-        if (is_array($table)) {
-            $table = implode(',', $table);
-        }
-
-        $data = $this->_getConnection('read')->fetchAll('checksum table '.$table);
-        $checksum = 0;
-        foreach ($data as $row) {
-            $checksum+= $row[self::CHECKSUM_KEY_NAME];
+        $checksum = $this->_getConnection('read')->getTablesChecksum($table);   
+        if (count($checksum) == 1) {
+        	return $checksum[$table];
         }
         return $checksum;
-    }*/
+    }
 }

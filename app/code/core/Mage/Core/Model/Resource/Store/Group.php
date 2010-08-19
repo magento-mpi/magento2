@@ -75,7 +75,7 @@ class Mage_Core_Model_Resource_Store_Group extends Mage_Core_Model_Resource_Db_A
         if ($count == 1) {
             $bind  = array('default_group_id' => $groupId);
             $where = array('website_id=?' => $websiteId);
-            $write->update($this->getTable('core/website'), $bind, $where);
+            $this->_getWriteAdapter()->update($this->getTable('core/website'), $bind, $where);
         }
         return $this;
     }

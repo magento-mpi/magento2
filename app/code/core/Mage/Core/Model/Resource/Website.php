@@ -65,7 +65,7 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        if(!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
+        if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
             Mage::throwException(Mage::helper('core')->__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
         }
 
@@ -110,9 +110,8 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
     /**
      * Retrieve default stores select object
      * Select fields website_id, store_id
-     *
-     *
-     * @param $withDefault include/exclude default admin website
+     * 
+     * @param boolean $withDefault include/exclude default admin website
      * @return Varien_Db_Select
      */
     public function getDefaultStoresSelect($withDefault = false)

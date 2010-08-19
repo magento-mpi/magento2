@@ -52,10 +52,18 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function fetchUpdatesByHandle($handle, $params = array())
     {
-        $storeId = isset($params['store_id']) ? $params['store_id'] : Mage::app()->getStore()->getId();
-        $area    = isset($params['area']) ? $params['area'] : Mage::getSingleton('core/design_package')->getArea();
-        $package = isset($params['package']) ? $params['package'] : Mage::getSingleton('core/design_package')->getPackageName();
-        $theme   = isset($params['theme']) ? $params['theme'] : Mage::getSingleton('core/design_package')->getTheme('layout');
+        $bind = array(
+            'store_id' => Mage::app()->getStore()->getId(),
+            'area' => Mage::getSingleton('core/design_package')->getArea(),
+            'package' => Mage::getSingleton('core/design_package')->getPackageName(),
+            'theme' => Mage::getSingleton('core/design_package')->getTheme('layout')
+        );
+
+        foreach ($params as $key => $value) {
+            if (isset($bind[$key])) {
+                $bind[$key] = $value;
+            }
+        }
 
         $result = '';
 
@@ -63,15 +71,17 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
         if ($readAdapter) {
             $select = $readAdapter->select()
                 ->from(array('layout_update'=>$this->getMainTable()), array('xml'))
-                ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=layout_update.layout_update_id', '')
-                ->where('link.store_id IN (0, ?)', $storeId)
-                ->where('link.area=?', $area)
-                ->where('link.package=?', $package)
-                ->where('link.theme=?', $theme)
-                ->where('layout_update.handle = ?', $handle)
+                ->join(array('link'=>$this->getTable('core/layout_link')), 
+                        'link.layout_update_id=layout_update.layout_update_id',
+                        '')
+                ->where('link.store_id IN (0, :store_id)')
+                ->where('link.area=:area')
+                ->where('link.package=:package')
+                ->where('link.theme=:theme')
+                ->where('layout_update.handle=:handle')
                 ->order('layout_update.sort_order ASC');
 
-            $result = join('', $readAdapter->fetchCol($select));
+            $result = join('', $readAdapter->fetchCol($select, $bind));
         }
         return $result;
     }

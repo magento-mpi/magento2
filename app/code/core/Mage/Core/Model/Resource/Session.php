@@ -77,9 +77,10 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function __construct()
     {
-        $this->_sessionTable = Mage::getSingleton('core/resource')->getTableName('core/session');
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $resource = Mage::getSingleton('core/resource');
+        $this->_sessionTable = $resource->getTableName('core/session');
+        $this->_read = $resource->getConnection('core_read');
+        $this->_write = $resource->getConnection('core_write');
     }
 
     /**
@@ -220,7 +221,9 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
             'session_data' => $sessData
         );
         if ($exists) {
-            $where = $this->_write->quoteInto('session_id=?', $sessId);
+            $where = array(
+                'session_id=?' => $sessId
+            );
             $this->_write->update($this->_sessionTable, $bind, $where);
         } else {
             $bind['session_id'] = $sessId;
@@ -238,7 +241,8 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function destroy($sessId)
     {
-        $this->_write->delete($this->_sessionTable, array('`session_id` = ?' => $sessId));
+        $where = array('session_id=?' => $sessId);
+        $this->_write->delete($this->_sessionTable, $where);
         return true;
     }
 
@@ -253,7 +257,8 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
         if ($this->_automaticCleaningFactor > 0) {
             if ($this->_automaticCleaningFactor == 1 ||
                 rand(1, $this->_automaticCleaningFactor) == 1) {
-                $this->_write->delete($this->_sessionTable, array('session_expires < ?' => time()));
+                $where = array('session_expires<?' => time());
+                $this->_write->delete($this->_sessionTable, $where);
             }
         }
         return true;

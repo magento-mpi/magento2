@@ -24,18 +24,28 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 abstract class Mage_Core_Model_Resource_Entity_Abstract
 {
     protected $_name = null;
     protected $_config = array();
 
+    /**
+     * Set config
+     *
+     * @param SimpleXML $config
+     */
     public function __construct($config)
     {
         $this->_config = $config;
     }
 
-    public function getConfig($key='')
+    /**
+     * Get config by key
+     *
+     * @param <type> $key
+     * @return String|boolean
+     */
+    public function getConfig($key = '')
     {
         if (''===$key) {
             return $this->_config;

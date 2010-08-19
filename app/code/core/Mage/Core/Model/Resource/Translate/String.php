@@ -61,8 +61,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
             $object->setData($result);
             $this->_afterLoad($object);
             return $result;
-        }
-        else {
+        } else {
             return parent::load($object, $value, $field);
         }
     }
@@ -146,8 +145,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
                         'string=?'      => $object->getString()
                     );
                     $adapter->delete($this->getMainTable(), $where);
-                }
-                else {
+                } else {
                     $data = array(
                        'store_id'  => $storeId,
                        'string'    => $object->getString(),
@@ -159,8 +157,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
                            $this->getMainTable(),
                            $data,
                            array('key_id=?' => $stores[$storeId]));
-                    }
-                    else {
+                    } else {
                         $adapter->insert($this->getMainTable(), $data);
                     }
                 }

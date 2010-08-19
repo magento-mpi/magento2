@@ -35,14 +35,13 @@ class Mage_Core_Model_Resource_Iterator extends Varien_Object
      * Walk over records fetched from query one by one using callback function
      *
      * @param Zend_Db_Statement_Interface|Zend_Db_Select|string $query
-     * @param array|string $callback
+     * @param array|string $callbacks
      * @param array $args
      * @return Mage_Core_Model_Resource_Activerecord
      */
     public function walk($query, array $callbacks, array $args=array())
     {
         $stmt = $this->_getStatement($query);
-
         $args['idx'] = 0;
         while ($row = $stmt->fetch()) {
             $args['row'] = $row;
@@ -75,11 +74,9 @@ class Mage_Core_Model_Resource_Iterator extends Varien_Object
             return $query->query();
         }
 
-        $hlp = Mage::helper('core');
-
         if (is_string($query)) {
             if (!$conn instanceof Zend_Db_Adapter_Abstract) {
-                Mage::throwException($hlp->__('Invalid connection'));
+                Mage::throwException(Mage::helper('core')->__('Invalid connection'));
             }
             return $conn->query($query);
         }

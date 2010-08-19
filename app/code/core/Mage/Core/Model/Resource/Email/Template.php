@@ -111,14 +111,13 @@ class Mage_Core_Model_Resource_Email_Template extends Mage_Core_Model_Resource_D
      */
     public function getSystemConfigByPathsAndTemplateId($paths, $templateId)
     {
-        $adapter = $this->_getReadAdapter();
         $orWhere = array();
         $pathesCounter = 1;
         $bind = array();
         foreach ($paths as $path) {
-            $pathAlias = 'path_' . $pathesCounter;
-            $orWhere[] = 'path = :' . $pathAlias;
+            $orWhere[] = 'path = :' . 'path_' . $pathesCounter;
             $bind[$pathAlias] = $path;
+            $pathesCounter++;
         }
         $bind['template_id'] = $templateId;
         $select = $this->_getReadAdapter()->select()

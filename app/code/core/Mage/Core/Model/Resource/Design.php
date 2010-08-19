@@ -51,22 +51,20 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         if ($date = $object->getDateFrom()) {
-            $date = Mage::app()->getLocale()->date($date, $format, null, false);
-            $object->setDateFrom($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+            $object->setDateFrom($this->formatDate($date));
         } else {
             $object->setDateFrom(null);
         }
 
         if ($date = $object->getDateTo()) {
-            $date = Mage::app()->getLocale()->date($date, $format, null, false);
-            $object->setDateTo($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+            $object->setDateTo($this->formatDate($date));
         } else {
             $object->setDateTo(null);
         }
 
-        if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo()) && strtotime($object->getDateFrom()) > strtotime($object->getDateTo())){
+        if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo()) 
+                && Varien_Date::toTimestamp($object->getDateFrom()) > Varien_Date::toTimestamp($object->getDateTo())) {
             Mage::throwException(Mage::helper('core')->__('Start date cannot be greater than end date.'));
         }
 
@@ -77,8 +75,9 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
             $object->getId()
         );
 
-        if ($check){
-            Mage::throwException(Mage::helper('core')->__('Your design change for the specified store intersects with another one, please specify another date range.'));
+        if ($check) {
+            Mage::throwException(
+                Mage::helper('core')->__('Your design change for the specified store intersects with another one, please specify another date range.'));
         }
 
         if (is_null($object->getDateFrom()))
@@ -97,15 +96,15 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
      * @param date $dateFrom
      * @param date $dateTo
      * @param int $currentId
-     * @return unknown
+     * @return Array
      */
     protected function _checkIntersection($storeId, $dateFrom, $dateTo, $currentId)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from(array('main_table'=>$this->getTable('design_change')))
-            ->where('main_table.store_id = ?', $storeId)
-            ->where('main_table.design_change_id <> ?', $currentId);
+            ->where('main_table.store_id = :store_id')
+            ->where('main_table.design_change_id <> :current_id');
 
         $dateConditions = array('date_to IS NULL AND date_from IS NULL');
 
@@ -147,34 +146,34 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
         }
         
         $bind = array(
-            'date_to'   => $dateFrom,
-            'date_from' => $dateTo
+            'date_to'    => $dateFrom,
+            'date_from'  => $dateTo,
+        	'store_id'   => $storeId,
+        	'current_id' => $currentId,
         );
 
         $result = $this->_getReadAdapter()->fetchOne($select, $bind);
-        var_dump($result);
-
         return $result;
     }
 
     /**
-     * Enter description here ...
+     * Load cache
      *
-     * @param unknown_type $storeId
-     * @param unknown_type $date
-     * @return unknown
+     * @param int $storeId
+     * @param String $date
+     * @return Array
      */
     public function loadChange($storeId, $date = null)
     {
         if (is_null($date)) {
-            $date = now();
+            $date = Varien_Date::now();
         }
 
         $select = $this->_getReadAdapter()->select()
             ->from(array('main_table'=>$this->getTable('design_change')))
             ->where('store_id = :store_id')
-            ->where('(date_from <= :date or date_from IS NULL)')
-            ->where('(date_to >= :date or date_to IS NULL)');
+            ->where('date_from <= :date or date_from IS NULL')
+            ->where('date_to >= :date or date_to IS NULL');
 
         $bind = array(
             'store_id' => $storeId,

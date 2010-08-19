@@ -72,8 +72,8 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
             ->order('store_id');
         
         $bind = array(
-            'locale' => $read->quote($locale),
-            'store_id' => $read->quote(array(0, $storeId))
+            'locale'   => $locale,
+            'store_id' => implode(',', array(0, $storeId))
         );
 
         return $read->fetchPairs($select, $bind);
@@ -107,12 +107,12 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
         }
  
         $bind = array(
-            'tr_strings' => $read->quote($strings),
-            'store_id' => $read->quote($storeId)
+            'tr_strings' => $strings,
+            'store_id'   => $storeId
         );
         $select = $read->select()
             ->from($this->getMainTable())
-            ->where('string in (:tr_strings)')
+            ->where('string IN (:tr_strings)')
             ->where('store_id = :store_id');
 
         return $read->fetchPairs($select, $bind);
@@ -121,11 +121,10 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
     /**
      * Retrieve table checksum
      *
-     * @param string $table
      * @return int
      */
     public function getMainChecksum()
     {
-        return parent::getChecksum($this->getMainTable());
+        return $this->getChecksum($this->getMainTable());
     }
 }

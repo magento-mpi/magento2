@@ -33,6 +33,9 @@
  */
 abstract class Mage_Core_Model_Resource_Abstract
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->_construct();
@@ -122,9 +125,9 @@ abstract class Mage_Core_Model_Resource_Abstract
     /**
      * Format date to internal format
      *
-     * @param   string | Zend_Date $date
-     * @param   bool $includeTime
-     * @return  string
+     * @param string|Zend_Date $date
+     * @param bool $includeTime
+     * @return string
      */
     public function formatDate($date, $includeTime=true)
     {
@@ -139,7 +142,7 @@ abstract class Mage_Core_Model_Resource_Abstract
      */
     public function mktime($str)
     {
-        return  strtotime($str);
+        return Varien_Date::formatDate($str);
     }
 
     /**

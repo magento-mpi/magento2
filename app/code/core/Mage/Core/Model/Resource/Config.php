@@ -44,37 +44,6 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
-     * Get checksum for one or more tables
-     *
-     * @param string|array $tables string is separated by comma
-     * @return integer|boolean
-     */
-    public function getChecksum($tables)
-    {
-        /*if (is_string($tables)) {
-            $tablesArr = explode(',', $tables);
-            $tables = array();
-            foreach ($tablesArr as $table) {
-                $table = $this->getTable(trim($table));
-                if (!empty($table)) {
-                    $tables[] = $table;
-                }
-            }
-        }
-        if (empty($tables) || !$this->_getReadAdapter()) {
-            return false;
-        }
-        $checksumArr = $this->_getReadAdapter()->fetchAll('checksum table '.join(',', $tables));
-        $checksum = 0;*/
-        $checksumArr = $this->_getReadAdapter()->getTablesChecksum($tables);
-        var_dump($checksumArr); die();
-        foreach ($checksumArr as $r) {
-            $checksum += $r['Checksum'];
-        }
-        return $checksum;
-    }
-
-    /**
      * Load configuration values into xml config object
      *
      * @param Mage_Core_Model_Config $xmlConfig
@@ -115,8 +84,8 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
             $websites[$s['website_id']]['stores'][$s['store_id']] = $s['code'];
         }
 
-        $subst_from = array();
-        $subst_to = array();
+        $substFrom = array();
+        $substTo = array();
 
         // load all configuration records from database, which are not inherited
         $select = $read->select()
@@ -131,7 +100,7 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
             if ($r['scope'] !== 'default') {
                 continue;
             }
-            $value = str_replace($subst_from, $subst_to, $r['value']);
+            $value = str_replace($substFrom, $substTo, $r['value']);
             $xmlConfig->setNode('default/'.$r['path'], $value);
         }
 
@@ -148,7 +117,7 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
             if ($r['scope']!=='websites') {
                 continue;
             }
-            $value = str_replace($subst_from, $subst_to, $r['value']);
+            $value = str_replace($substFrom, $substTo, $r['value']);
             if (isset($websites[$r['scope_id']])) {
                 $xmlConfig->setNode('websites/'.$websites[$r['scope_id']]['code'].'/'.$r['path'], $value);
             } else {
