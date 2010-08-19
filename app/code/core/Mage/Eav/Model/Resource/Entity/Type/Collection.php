@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Eav Resource Entity Type Collection Model
  *
  * @category    Mage
  * @package     Mage_Eav

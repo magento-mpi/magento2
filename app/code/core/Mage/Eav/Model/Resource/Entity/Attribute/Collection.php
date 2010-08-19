@@ -422,7 +422,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
 
         $this->getSelect()->joinLeft(
             array('al' => $this->getTable('eav/attribute_label')),
-            'al.attribute_id=main_table.attribute_id AND al.store_id = :al_store_id',
+            'al.attribute_id = main_table.attribute_id AND al.store_id = :al_store_id',
             array('store_label' => $labelExpr)
         );
 

@@ -130,9 +130,9 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Group extends Mage_Core_Model_Res
         $groupId = $adapter->fetchOne($select, $bind);
 
         if ($groupId) {
-            $bind  = array('default_id' => 1);
+            $data  = array('default_id' => 1);
             $where = array('attribute_group_id =?' => $groupId);
-            $adapter->update($this->getMainTable(), $bind, $where);
+            $adapter->update($this->getMainTable(), $data, $where);
         }
 
         return $this;

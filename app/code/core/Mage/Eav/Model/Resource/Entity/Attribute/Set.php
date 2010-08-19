@@ -163,13 +163,12 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
     public function getDefaultGroupId($setId)
     {
         $bind   = array(
-            'attribute_set_id' => (int)$setId,
-            'default_id'       => 1
+            'attribute_set_id' => (int)$setId
         );
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('eav/attribute_group'), 'attribute_group_id')
             ->where('attribute_set_id = :attribute_set_id')
-            ->where('default_id = :default_id')
+            ->where('default_id =?', 1)
             ->limit(1);
         return $this->_getReadAdapter()->fetchOne($select, $bind);
     }
