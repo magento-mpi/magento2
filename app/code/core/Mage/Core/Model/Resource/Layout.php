@@ -64,7 +64,7 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
                 $bind[$key] = $value;
             }
         }
-
+        $bind['layout_update_handle'] = $handle;
         $result = '';
 
         $readAdapter = $this->_getReadAdapter();
@@ -78,7 +78,7 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
                 ->where('link.area=:area')
                 ->where('link.package=:package')
                 ->where('link.theme=:theme')
-                ->where('layout_update.handle=:handle')
+                ->where('layout_update.handle=:layout_update_handle')
                 ->order('layout_update.sort_order ASC');
 
             $result = join('', $readAdapter->fetchCol($select, $bind));
