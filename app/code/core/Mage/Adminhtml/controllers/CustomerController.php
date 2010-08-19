@@ -466,7 +466,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 ->setWebsite(Mage::app()->getWebsite($websiteId))
                 ->loadByCustomer(Mage::registry('current_customer'));
             $item = $quote->getItemById($deleteItemId);
-            if ($item->getId()) {
+            if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
                 $quote->collectTotals()->save();
             }
