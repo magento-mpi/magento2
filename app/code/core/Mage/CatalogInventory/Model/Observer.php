@@ -413,7 +413,7 @@ class Mage_CatalogInventory_Model_Observer
 
     /**
      * Adds stock item qty to $items (creates new entry or increments existing one)
-     * $items is array of following structure:
+     * $items is array with following structure:
      * array(
      *  $productId  => array(
      *      'qty'   => $qty,
@@ -424,7 +424,8 @@ class Mage_CatalogInventory_Model_Observer
      * @param Mage_Sales_Model_Quote_Item $quoteItem
      * @param array &$items
      */
-    protected function _addItemToQtyArray($quoteItem, &$items) {
+    protected function _addItemToQtyArray($quoteItem, &$items)
+    {
         $productId = $quoteItem->getProductId();
         if (!$productId)
             return;
