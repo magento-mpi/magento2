@@ -96,7 +96,6 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     private $_designAttributes  = array(
         'custom_design',
-        'custom_design_apply',
         'custom_design_from',
         'custom_design_to',
         'page_layout',
@@ -829,6 +828,16 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getChildrenCategories()
     {
         return $this->getResource()->getChildrenCategories($this);
+    }
+
+    /**
+     * Return parent category of current category with own custom design settings
+     *
+     * @return Mage_Catalog_Model_Category
+     */
+    public function getParentDesignCategory()
+    {
+        return $this->getResource()->getParentDesignCategory($this);
     }
 
     /**

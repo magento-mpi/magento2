@@ -181,6 +181,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
      */
     protected function _inheritDesign($object, $calledFrom = 0)
     {
+        $useParentSettings = false;
         if ($object instanceof Mage_Catalog_Model_Product) {
             $category = $object->getCategory();
 
@@ -209,10 +210,11 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
             }
         }
 
-        $design = $object->getCustomDesign();
-        $date   = $object->getCustomDesignDate();
-
-        $this->_isApplyDesign($design, $date);
+        if (!$useParentSettings) {
+            $design = $object->getCustomDesign();
+            $date   = $object->getCustomDesignDate();
+            $this->_isApplyDesign($design, $date);
+        }
 
         return $this;
     }
@@ -300,5 +302,61 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
             }
         }
         return $this;
+    }
+
+    /**
+     * Get custom layout settings
+     *
+     * @param Mage_Catalog_Model_Category|Mage_Catalog_Model_Product $object
+     * @return array
+     */
+    public function getCustomLayoutSettings($object)
+    {
+        if ($object instanceof Mage_Catalog_Model_Product) {
+            $currentCategory = $object->getCategory();
+        } else {
+            $currentCategory = $object;
+        }
+
+        $category = null;
+        if ($currentCategory) {
+            $category = $currentCategory->getParentDesignCategory($currentCategory);
+        }
+
+        if ($object instanceof Mage_Catalog_Model_Product) {
+            if ($category && $category->getCustomApplyToProducts()) {
+                return $this->_extractCustomLayoutSettings($category);
+            } else {
+                return $this->_extractCustomLayoutSettings($object);
+            }
+        } else {
+             return $this->_extractCustomLayoutSettings($category);
+        }
+    }
+
+    /**
+     * Extract custom layout settings from category or product object
+     *
+     * @param Mage_Catalog_Model_Category|Mage_Catalog_Model_Product $object
+     * @return array
+     */
+    protected function _extractCustomLayoutSettings($object)
+    {
+        $settings = array();
+        if (!$object) {
+            return $settings;
+        }
+        $date = $object->getCustomDesignDate();
+
+        if (array_key_exists('from', $date) && array_key_exists('to', $date)
+            && Mage::app()->getLocale()->isStoreDateInInterval(null, $date['from'], $date['to'])) {
+            if ($object->getPageLayout()) {
+                $settings['layout'] = $object->getPageLayout();
+            }
+            if ($object->getCustomLayoutUpdate()) {
+                $settings['update'] = $object->getCustomLayoutUpdate();
+            }
+        }
+        return $settings;
     }
 }

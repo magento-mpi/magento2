@@ -579,7 +579,31 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     }
 
     /**
-     * Enter description here...
+     * Return parent category of current category with own custom design settings
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return Mage_Catalog_Model_Category
+     */
+    public function getParentDesignCategory($category)
+    {
+        $pathIds = array_reverse(explode(',', $category->getPathInStore()));
+        $collection = $category->getCollection()
+            ->setStore(Mage::app()->getStore())
+            ->addAttributeToSelect('custom_design')
+            ->addAttributeToSelect('custom_design_from')
+            ->addAttributeToSelect('custom_design_to')
+            ->addAttributeToSelect('page_layout')
+            ->addAttributeToSelect('custom_layout_update')
+            ->addAttributeToSelect('custom_apply_to_products')
+            ->addFieldToFilter('entity_id', array('in' => $pathIds))
+            ->addFieldToFilter('custom_use_parent_settings', 0)
+            ->setOrder('level', 'DESC')
+            ->load();
+        return $collection->getFirstItem();
+    }
+
+    /**
+     * Return child categories
      *
      * @param Mage_Catalog_Model_Category $category
      * @return unknown

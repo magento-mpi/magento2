@@ -35,6 +35,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     /**
      * Current applied design settings
      *
+     * @deprecated after 1.4.2.0
      * @var array
      */
     protected $_designProductSettingsApplied = array();
@@ -109,30 +110,19 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $update->addHandle('PRODUCT_TYPE_'.$product->getTypeId());
         $update->addHandle('PRODUCT_'.$product->getId());
 
-        // look for category/product custom design
-        $category = $product->getCategory();
-        if ($category && $category->getId()) {
-            $this->_applyCustomDesignSettings($category, $update);
-        }
-        $this->_applyCustomDesignSettings($product, $update);
-
-        // note: applyHandle() in such a way is here for legacy purposes. Consider removing it.
-        if (isset($this->_designProductSettingsApplied['layout'])) {
-            $this->getLayout()->helper('page/layout')->applyHandle($this->_designProductSettingsApplied['layout']);
-        }
-
         $this->loadLayoutUpdates();
+        // look for category/product custom design
+        $layoutSettings = Mage::getSingleton('catalog/design')->getCustomLayoutSettings($product);
 
         // apply custom layout update once layout is loaded
-        if (isset($this->_designProductSettingsApplied['update'])) {
-            $update->addUpdate($this->_designProductSettingsApplied['update']);
+        if (isset($layoutSettings['update'])) {
+            $update->addUpdate($layoutSettings['update']);
         }
 
         $this->generateLayoutXml()->generateLayoutBlocks();
-
         // apply custom layout (page) template once the blocks are generated
-        if (isset($this->_designProductSettingsApplied['layout'])) {
-            $this->getLayout()->helper('page/layout')->applyTemplate($this->_designProductSettingsApplied['layout']);
+        if (isset($layoutSettings['layout'])) {
+            $this->getLayout()->helper('page/layout')->applyTemplate($layoutSettings['layout']);
         }
 
         $currentCategory = Mage::registry('current_category');
@@ -151,6 +141,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
      * category custom_use_for_products option is setted to 1.
      * If not or product shows not in category - applyes product's internal settings
      *
+     * @deprecated after 1.4.2.0, functionality moved to Mage_Catalog_Model_Design
      * @param Mage_Catalog_Model_Category|Mage_Catalog_Model_Product $object
      * @param Mage_Core_Model_Layout_Update $update
      */
@@ -201,7 +192,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             }
 
             Mage::getSingleton('catalog/session')->setLastViewedProductId($product->getId());
-            Mage::getModel('catalog/design')->applyDesign($product, Mage_Catalog_Model_Design::APPLY_FOR_PRODUCT);
+            Mage::getSingleton('catalog/design')->applyDesign($product, Mage_Catalog_Model_Design::APPLY_FOR_PRODUCT);
 
             $this->_initProductLayout($product);
             $this->_initLayoutMessages('catalog/session');

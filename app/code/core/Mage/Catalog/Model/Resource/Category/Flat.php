@@ -1142,6 +1142,24 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     }
 
     /**
+     * Return parent category of current category with own custom design settings
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return Mage_Catalog_Model_Category
+     */
+    public function getParentDesignCategory($category)
+    {
+        $pathIds = array_reverse(explode(',', $category->getPathInStore()));
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('main_table' => $this->getMainStoreTable($category->getStoreId())), '*')
+            ->where('entity_id IN (?)', $pathIds)
+            ->where('custom_use_parent_settings = ?', 0)
+            ->order('level DESC');
+        $result = $this->_getReadAdapter()->fetchRow($select);
+        return Mage::getModel('catalog/category')->setData($result);
+    }
+
+    /**
      * Return children categories of category
      *
      * @param Mage_Catalog_Model_Category $category
@@ -1254,7 +1272,6 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                 array(
                     'main_table.entity_id',
                     'main_table.custom_design',
-                    'main_table.custom_design_apply',
                     'main_table.custom_design_from',
                     'main_table.custom_design_to',
                 )
