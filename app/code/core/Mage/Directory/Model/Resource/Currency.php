@@ -229,13 +229,12 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array(
-            'currency_from' => $code,
-            'to_currecies'  => $toCurrencies
+            'currency_from' => $code
         );
         $select  = $adapter->select()
             ->from($this->getTable('directory/currency_rate'), array('currency_to', 'rate'))
             ->where('currency_from = :currency_from')
-            ->where('currency_to IN(:to_currecies)');
+            ->where('currency_to IN(?)', $toCurrencies);
         $rowSet  = $adapter->fetchAll($select, $bind);
         $result  = array();
 
