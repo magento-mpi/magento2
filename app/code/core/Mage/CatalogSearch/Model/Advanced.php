@@ -43,7 +43,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     /**
      * Current search engine
      *
-     * @var object | Mage_CatalogSearch_Model_Mysql4_Fulltext_Engine | Enterprise_Search_Model_Resource_Engine
+     * @var object | Mage_CatalogSearch_Model_Mysql4_Fulltext_Engine
      */
     protected $_engine = null;
 
@@ -263,7 +263,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     /**
      * Retrieve advanced search product collection
      *
-     * @return Mage_CatalogSearch_Model_Mysql4_Advanced_Collection | Enterprise_Search_Model_Resource_Collection
+     * @return Mage_CatalogSearch_Model_Mysql4_Advanced_Collection
      */
     public function getProductCollection(){
         if (is_null($this->_productCollection)) {
@@ -281,7 +281,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     /**
      * Prepare product collection
      *
-     * @param Mage_CatalogSearch_Model_Mysql4_Advanced_Collection | Enterprise_Search_Model_Resource_Collection $collection
+     * @param Mage_CatalogSearch_Model_Mysql4_Advanced_Collection $collection
      * @return Mage_Catalog_Model_Layer
      */
     public function prepareProductCollection($collection)
