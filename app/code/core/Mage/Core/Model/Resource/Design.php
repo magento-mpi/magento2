@@ -172,12 +172,12 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
         $select = $this->_getReadAdapter()->select()
             ->from(array('main_table'=>$this->getTable('design_change')))
             ->where('store_id = :store_id')
-            ->where('date_from <= :date or date_from IS NULL')
-            ->where('date_to >= :date or date_to IS NULL');
+            ->where('date_from <= :required_date or date_from IS NULL')
+            ->where('date_to >= :required_date or date_to IS NULL');
 
         $bind = array(
-            'store_id' => $storeId,
-            'date'     => $date
+            'store_id'      => $storeId,
+            'required_date' => $date
         );
 
         return $this->_getReadAdapter()->fetchRow($select, $bind);
