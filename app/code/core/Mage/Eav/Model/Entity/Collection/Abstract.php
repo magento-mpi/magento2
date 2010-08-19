@@ -343,20 +343,20 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         }
         if (isset($this->_joinAttributes[$attribute])) {
             $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
-            $entityField = $this->_getAttributeTableAlias($attribute).'.'.$attrInstance->getAttributeCode();
+            $entityField = $this->_getAttributeTableAlias($attribute) . '.' . $attrInstance->getAttributeCode();
         } else {
             $attrInstance = $this->getEntity()->getAttribute($attribute);
-            $entityField = 'e.'.$attribute;
+            $entityField = 'e.' . $attribute;
         }
         if ($attrInstance) {
             if ($attrInstance->getBackend()->isStatic()) {
-                $this->getSelect()->order($entityField.' '.$dir);
+                $this->getSelect()->order($entityField . ' ' . $dir);
             } else {
                 $this->_addAttributeJoin($attribute, 'left');
                 if (isset($this->_joinAttributes[$attribute])) {
-                    $this->getSelect()->order($attribute.' '.$dir);
+                    $this->getSelect()->order($attribute . ' ' . $dir);
                 } else {
-                    $this->getSelect()->order($this->_getAttributeTableAlias($attribute).'.value '.$dir);
+                    $this->getSelect()->order($this->_getAttributeTableAlias($attribute) . '.value ' . $dir);
                 }
             }
         }
@@ -1195,7 +1195,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
 
         $condArr = array("$pk = $fk");
         if (!$attribute->getBackend()->isStatic()) {
-            $condArr[] = $this->getConnection()->quoteInto('$attrTable.attribute_id =?', $attribute->getId());
+            $condArr[] = $this->getConnection()->quoteInto($attrTable . '.attribute_id =?', $attribute->getId());
         }
 
         /**
@@ -1262,7 +1262,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             $entity      = $this->getAttribute($attribute)->getEntity();
             $entityTable = $entity->getEntityTable();
         } else {
-            $entity = $this->getEntity();
+            $entity      = $this->getEntity();
             $entityTable = 'e';
         }
 
@@ -1272,8 +1272,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             $this->_addAttributeJoin($attribute, $joinType);
             if (isset($this->_joinAttributes[$attribute]['condition_alias'])) {
                 $field = $this->_joinAttributes[$attribute]['condition_alias'];
-            }
-            else {
+            } else {
                 $field = $this->_getAttributeTableAlias($attribute) . '.value';
             }
             $conditionSql = $this->_getConditionSql($field, $condition);

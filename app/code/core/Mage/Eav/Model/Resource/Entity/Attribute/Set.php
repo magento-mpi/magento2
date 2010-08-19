@@ -118,7 +118,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
 
         if (count($attributeIds) > 0) {
             $bind   = array(
-                'attribute_ids' => $attributeIds
+                'attribute_ids' => implode(',', $attributeIds)
             );
             $select = $this->_getReadAdapter()->select()
                 ->from(

@@ -54,6 +54,36 @@ class Varien_Db_Select extends Zend_Db_Select
     }
 
     /**
+     * Add variable to bind list
+     *
+     * @param array $bind
+     * @return Zend_Db_Select
+     */
+    public function bind($bind)
+    {
+        if (!empty($this->_bind)) {
+            if (is_array($bind)) {
+                $this->_bind = array_merge($this->_bind, $bind);
+            }
+        }
+
+        return parent::bind($bind);
+    }
+
+    /**
+     * Add variable to bind list
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return Varien_Db_Select
+     */
+    public function addBindParam($name, $value)
+    {
+        $this->_bind[$name] = $value;
+        return $this;
+    }
+
+    /**
      * Adds a WHERE condition to the query by AND.
      *
      * If a value is passed as the second param, it will be quoted
@@ -268,7 +298,7 @@ class Varien_Db_Select extends Zend_Db_Select
      * @param string|array $table
      * @return string
      */
-    public function crossUpdateFromSelect($table) 
+    public function crossUpdateFromSelect($table)
     {
         return $this->getAdapter()->updateFromSelect($this, $table);
     }
@@ -306,7 +336,7 @@ class Varien_Db_Select extends Zend_Db_Select
      * @param string $table The table name or alias
      * @return string
      */
-    public function deleteFromSelect($table) 
+    public function deleteFromSelect($table)
     {
         return $this->getAdapter()->deleteFromSelect($this, $table);
     }

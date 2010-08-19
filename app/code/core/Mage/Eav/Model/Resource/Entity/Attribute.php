@@ -612,7 +612,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     public function getValidAttributeIds($attributeIds)
     {
         $adapter   = $this->_getReadAdapter();
-        $bind      = array('atribute_ids' => $attributeIds);
+        $bind      = array('atribute_ids' => implode(',', $attributeIds));
         $select    = $adapter->select()
             ->from($this->getMainTable(), array('attribute_id'))
             ->where('attribute_id IN (:attribute_ids)');

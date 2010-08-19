@@ -328,7 +328,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             $attributeToSetInfo = array();
 
             if (count($attributeIds) > 0) {
-                $bind   = array('attribute_ids', $attributeIds);
+                $bind   = array('attribute_ids', implode(',', $attributeIds));
                 $select = $this->getConnection()->select()
                     ->from(
                         array('entity' => $this->getTable('entity_attribute')),

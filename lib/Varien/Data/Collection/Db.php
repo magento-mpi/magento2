@@ -514,7 +514,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             $this->_renderFilters()
                  ->_renderOrders()
                  ->_renderLimit();
-            $this->_data = $this->_fetchAll($this->_select);
+            $this->_data = $this->_fetchAll($this->_select, $this->_bindParams);
             $this->_afterLoadData();
         }
         return $this->_data;
