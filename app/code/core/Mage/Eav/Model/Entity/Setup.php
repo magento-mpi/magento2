@@ -625,8 +625,8 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         if (!empty($attr['group']) || empty($attr['user_defined'])) {
             $select = $this->_conn->select()
                 ->from($this->getTable('eav/attribute_set'))
-                ->where('entity_type_id=?', $entityTypeId);
-            $sets = $this->_conn->fetchAll($select);
+                ->where('entity_type_id = :entity_type_id');
+            $sets = $this->_conn->fetchAll($select, array('entity_type_id' => $entityTypeId));
             foreach ($sets as $set) {
                 if (!empty($attr['group'])) {
                     $this->addAttributeGroup($entityTypeId, $set['attribute_set_id'],
