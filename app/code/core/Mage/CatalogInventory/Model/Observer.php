@@ -412,6 +412,37 @@ class Mage_CatalogInventory_Model_Observer
     }
 
     /**
+     * Adds stock item qty to $items (creates new entry or increments existing one)
+     * $items is array of following structure:
+     * array(
+     *  $productId  => array(
+     *      'qty'   => $qty,
+     *      'item'  => $stockItems|null
+     *  )
+     * )
+     *
+     * @param Mage_Sales_Model_Quote_Item $quoteItem
+     * @param array &$items
+     */
+    protected function _addItemToQtyArray($quoteItem, &$items) {
+        $productId = $quoteItem->getProductId();
+        if (!$productId)
+            return;
+        if (isset($items[$productId])) {
+            $items[$productId]['qty'] += $quoteItem->getTotalQty();
+        } else {
+            $stockItem = null;
+            if ($quoteItem->getProduct()) {
+                $stockItem = $quoteItem->getProduct()->getStockItem();
+            }
+            $items[$productId] = array(
+                'item' => $stockItem,
+                'qty' => $quoteItem->getTotalQty()
+            );
+        }
+    }
+
+    /**
      * Prepare array with iformation about used product qty and product stock item
      * result is:
      * array(
@@ -431,39 +462,13 @@ class Mage_CatalogInventory_Model_Observer
             if (!$productId) {
                 continue;
             }
-            $children   = $item->getChildrenItems();
+            $children = $item->getChildrenItems();
             if ($children) {
                 foreach ($children as $childItem) {
-                    $childProductId = $childItem->getProductId();
-                    if (!$childProductId) {
-                        continue;
-                    }
-                    $childStockItem = null;
-                    if ($childItem->getProduct()) {
-                        $childStockItem = $childItem->getProduct()->getStockItem();
-                    }
-                    if (isset($items[$childProductId])) {
-                        $items[$childProductId]['qty'] += $childItem->getTotalQty();
-                    } else {
-                        $items[$childProductId] = array(
-                            'item'=> $childStockItem,
-                            'qty' => $childItem->getTotalQty()
-                        );
-                    }
+                    $this->_addItemToQtyArray($childItem, $items);
                 }
             } else {
-                $stockItem = null;
-                if ($item->getProduct()) {
-                    $stockItem = $item->getProduct()->getStockItem();
-                }
-                if (isset($items[$productId])) {
-                    $items[$productId]['qty'] += $item->getTotalQty();
-                } else {
-                    $items[$productId] = array(
-                        'item'=> $stockItem,
-                        'qty' => $item->getTotalQty()
-                    );
-                }
+                $this->_addItemToQtyArray($item, $items);
             }
         }
         return $items;
@@ -632,13 +637,6 @@ class Mage_CatalogInventory_Model_Observer
 
         return $this;
     }
-
-
-
-
-
-
-
 
     /**
      * Lock DB rows for order products
