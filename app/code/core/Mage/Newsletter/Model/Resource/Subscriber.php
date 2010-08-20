@@ -49,13 +49,6 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
     protected $_write;
 
     /**
-     * Name of subscriber DB table
-     *
-     * @var string
-     */
-    protected $_subscriberTable;
-
-    /**
      * Name of subscriber link DB table
      *
      * @var string
@@ -77,8 +70,7 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
     protected function _construct()
     {
         $this->_init('newsletter/subscriber', 'subscriber_id');
-        $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName("newsletter/subscriber");
-        $this->_subscriberLinkTable = Mage::getSingleton('core/resource')->getTableName("newsletter/queue_link");
+        $this->_subscriberLinkTable = $this->getTable('newsletter/queue_link');
         $this->_read = $this->_getReadAdapter();
         $this->_write = $this->_getWriteAdapter();
     }
@@ -102,12 +94,12 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
     public function loadByEmail($subscriberEmail)
     {
         $select = $this->_read->select()
-            ->from($this->_subscriberTable)
-            ->where('subscriber_email=?',$subscriberEmail);
+            ->from($this->getMainTable())
+            ->where('subscriber_email=:subscriber_email');
 
-        $result = $this->_read->fetchRow($select);
+        $result = $this->_read->fetchRow($select, array('subscriber_email'=>$subscriberEmail));
 
-        if(!$result) {
+        if (!$result) {
             return array();
         }
 
@@ -123,20 +115,20 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
     public function loadByCustomer(Mage_Customer_Model_Customer $customer)
     {
         $select = $this->_read->select()
-            ->from($this->_subscriberTable)
-            ->where('customer_id=?',$customer->getId());
+            ->from($this->getMainTable())
+            ->where('customer_id=:customer_id');
 
-        $result = $this->_read->fetchRow($select);
+        $result = $this->_read->fetchRow($select, array('customer_id'=>$customer->getId()));
 
         if ($result) {
             return $result;
         }
 
         $select = $this->_read->select()
-            ->from($this->_subscriberTable)
-            ->where('subscriber_email=?',$customer->getEmail());
+            ->from($this->getMainTable())
+            ->where('subscriber_email=:subscriber_email');
 
-        $result = $this->_read->fetchRow($select);
+        $result = $this->_read->fetchRow($select, array('subscriber_email'=>$customer->getEmail()));
 
         if ($result) {
             return $result;
@@ -156,7 +148,7 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Updates data when subscriber received
      *
      * @param Mage_Newsletter_Model_Subscriber $subscriber
      * @param Mage_Newsletter_Model_Queue $queue
@@ -165,12 +157,12 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
     public function received(Mage_Newsletter_Model_Subscriber $subscriber, Mage_Newsletter_Model_Queue $queue)
     {
         $this->_write->beginTransaction();
-         try {
-             $data['letter_sent_at'] = now();
-            $this->_write->update($this->_subscriberLinkTable,
-                                  $data,
-                                  array($this->_write->quoteInto('subscriber_id=?', $subscriber->getId()),
-                                          $this->_write->quoteInto('queue_id=?', $queue->getId())));
+        try {
+            $data['letter_sent_at'] = now();
+            $this->_write->update($this->_subscriberLinkTable, $data, array(
+                'subscriber_id = ?' => $subscriber->getId(),
+                'queue_id = ?' => $queue->getId()
+            ));
             $this->_write->commit();
         }
         catch (Exception $e) {

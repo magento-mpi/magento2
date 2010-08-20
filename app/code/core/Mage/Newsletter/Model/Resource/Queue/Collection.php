@@ -35,14 +35,14 @@
 class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * True when subscribers info joined
      *
-     * @var unknown
+     * @var bool
      */
     protected $_addSubscribersFlag   = false;
 
     /**
-     * Enter description here ...
+     * True when filtered by store
      *
      * @var bool
      */
@@ -69,45 +69,50 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     {
         $this->getSelect()->joinLeft(array('template'=>$this->getTable('template')),
             'template.template_id=main_table.template_id',
-            array('template_subject','template_sender_name','template_sender_email'));
-           $this->_joinedTables['template'] = true;
-           return $this;
+            array('template_subject','template_sender_name','template_sender_email')
+        );
+        $this->_joinedTables['template'] = true;
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Adds subscribers info to selelect
      *
      * @return Mage_Newsletter_Model_Resource_Queue_Collection
      */
     protected function _addSubscriberInfoToSelect()
     {
-        $this->_addSubscribersFlag = true;
-        $this->getSize(); // Executing of count query!
-        $select = $this->getConnection()
-                    ->select()
-                        ->from(array('link_total' => $this->getTable('queue_link')), 'COUNT(DISTINCT `link_total`.`queue_link_id`)')
-                        ->where('`main_table`.`queue_id` = `link_total`.`queue_id`');
-        $this->getSelect()
-             ->joinLeft(array('link_sent'=>$this->getTable('queue_link')),
-                                     'main_table.queue_id=link_sent.queue_id and link_sent.letter_sent_at IS NOT NULL',
-                                     array(
-                                         new Zend_Db_Expr('COUNT(DISTINCT `link_sent`.`queue_link_id`) AS `subscribers_sent`'),
-                                         new Zend_Db_Expr('(' . $select . ') AS `subscribers_total`')
-                                     ))
-            ->group('main_table.queue_id');
+        if (!$this->_addSubscribersFlag) {
+            $this->_addSubscribersFlag = true;
+            //Possibel solution with join select
+            $select = $this->getConnection()->select()
+                ->from(array('qlt' => $this->getTable('newsletter/queue_link')), 'COUNT(qlt.queue_link_id)')
+                ->where('qlt.queue_id = main_table.queue_id');
+            $totalExpr = new Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
+            $select = $this->getConnection()->select()
+                ->from(array('qls' => $this->getTable('newsletter/queue_link')), 'COUNT(qls.queue_link_id)')
+                ->where('qls.queue_id = main_table.queue_id')
+                ->where('qls.letter_sent_at IS NOT NULL');
+            $sentExpr  = new Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
+
+            $this->getSelect()->columns(array(
+                'subscribers_sent'  => $sentExpr,
+                'subscribers_total' => $totalExpr
+            ));
+        }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Adds subscribers info to select and loads collection
      *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
-     * @return unknown
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return Mage_Newsletter_Model_Resource_Queue_Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
-        if($this->_addSubscribersFlag && !$this->isLoaded()) {
+        if ($this->_addSubscribersFlag && !$this->isLoaded()) {
             $this->_addSubscriberInfoToSelect();
         }
         return parent::load($printQuery, $logQuery);
@@ -125,15 +130,16 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Checks if field is 'subscribers_total', 'subscribers_sent'
+     * to add specific filter or adds reguler filter
      *
-     * @param unknown_type $field
-     * @param unknown_type $condition
+     * @param string $field
+     * @param mixed $condition
      * @return Mage_Newsletter_Model_Resource_Queue_Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {
-        if(in_array($field, array('subscribers_total', 'subscribers_sent'))) {
+        if (in_array($field, array('subscribers_total', 'subscribers_sent'))) {
             $this->addFieldToFilter('main_table.queue_id', array('in'=>$this->_getIdsFromLink($field, $condition)));
             return $this;
         } else {
@@ -142,26 +148,26 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Returns ids from queue_link table
      *
-     * @param unknown_type $field
-     * @param unknown_type $condition
-     * @return unknown
+     * @param string $field
+     * @param mixed $condition
+     * @return array
      */
     protected function _getIdsFromLink($field, $condition)
     {
         $select = $this->getConnection()->select()
-            ->from($this->getTable('queue_link'), array('queue_id', 'COUNT(queue_link_id) as total'))
+            ->from($this->getTable('newsletter/queue_link'), array('queue_id', 'COUNT(queue_link_id) as total'))
             ->group('queue_id')
             ->having($this->_getConditionSql('total', $condition));
 
-        if($field == 'subscribers_sent') {
+        if ($field == 'subscribers_sent') {
             $select->where('letter_sent_at IS NOT NULL');
         }
 
         $idList = $this->getConnection()->fetchCol($select);
 
-        if(count($idList)) {
+        if (count($idList)) {
             return $idList;
         }
 
@@ -176,12 +182,11 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
      */
     public function addSubscriberFilter($subscriberId)
     {
-        $this->getSelect()
-            ->join(array('link'=>$this->getTable('queue_link')),
-                                     'main_table.queue_id=link.queue_id',
-                                     array('letter_sent_at')
-                                     )
-             ->where('link.subscriber_id = ?', $subscriberId);
+        $this->getSelect()->join(array('link'=>$this->getTable('newsletter/queue_link')),
+            'main_table.queue_id=link.queue_id',
+            array('letter_sent_at')
+        )
+        ->where('link.subscriber_id = ?', $subscriberId);
 
         return $this;
     }
@@ -209,16 +214,15 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
      */
     public function addOnlyUnsentFilter()
     {
-        $this->getSelect()
-            ->where('main_table.queue_status = ?',    Mage_Newsletter_Model_Queue::STATUS_NEVER);
+        $this->addFieldToFilter('main_table.queue_status', Mage_Newsletter_Model_Queue::STATUS_NEVER);
 
            return $this;
     }
 
     /**
-     * Enter description here ...
+     * Returns options array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
@@ -234,7 +238,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     public function addStoreFilter($storeIds)
     {
         if (!$this->_isStoreFilter) {
-            $this->getSelect()->joinInner(array('store_link' => $this->getTable('queue_store_link')),
+            $this->getSelect()->joinInner(array('store_link' => $this->getTable('newsletter/queue_store_link')),
                 'main_table.queue_id = store_link.queue_id', array()
             )
             ->where('store_link.store_id IN (?)', $storeIds)

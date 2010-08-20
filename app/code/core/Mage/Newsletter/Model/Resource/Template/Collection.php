@@ -32,31 +32,15 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Resource_Template_Collection extends Varien_Data_Collection_Db
+class Mage_Newsletter_Model_Resource_Template_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Template table name
-     *
-     * @var string
-     */
-    protected $_templateTable;
-
-    /**
-     * Enter description here ...
+     * Define resource model and model
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('newsletter_read'));
-        $this->_templateTable = Mage::getSingleton('core/resource')->getTableName('newsletter/template');
-        $this->_select->from($this->_templateTable, array('template_id','template_code',
-                                                             'template_type',
-                                                             'template_subject','template_sender_name',
-                                                             'template_sender_email',
-                                                             'added_at',
-                                                             'modified_at'
-                                                             ));
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/template'));
+        $this->_init('newsletter/template');
     }
 
     /**
@@ -66,15 +50,15 @@ class Mage_Newsletter_Model_Resource_Template_Collection extends Varien_Data_Col
      */
     public function useOnlyActual()
     {
-        $this->_select->where('template_actual=?', 1);
-        
+        $this->addFieldToFilter('template_actual', 1);
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Returns options array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {

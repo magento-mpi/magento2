@@ -34,12 +34,6 @@
  */
 class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
-    /**
-     * Subscribers table name
-     *
-     * @var string
-     */
-    protected $_subscriberTable;
 
     /**
      * Queue link table name
@@ -72,7 +66,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
     /**
      * Filter for count
      *
-     * @var unknown_type
+     * @var array
      */
     protected $_countFilterPart    = array();
 
@@ -84,9 +78,8 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
     protected function _construct()
     {
         parent::_construct();
-        $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName('newsletter/subscriber');
-        $this->_queueLinkTable = Mage::getSingleton('core/resource')->getTableName('newsletter/queue_link');
-        $this->_storeTable = Mage::getSingleton('core/resource')->getTableName('core/store');
+        $this->_queueLinkTable = $this->getTable('newsletter/queue_link');
+        $this->_storeTable = $this->getTable('core/store');
         $this->_init('newsletter/subscriber');
 
         // defining mapping for fields represented in several tables
@@ -106,7 +99,8 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function useQueue(Mage_Newsletter_Model_Queue $queue)
     {
-        $this->getSelect()->join(array('link'=>$this->_queueLinkTable), "link.subscriber_id = main_table.subscriber_id", array())
+        $this->getSelect()
+            ->join(array('link'=>$this->_queueLinkTable), "link.subscriber_id = main_table.subscriber_id", array())
             ->where("link.queue_id = ? ", $queue->getId());
         $this->_queueJoinedFlag = true;
         return $this;
@@ -119,7 +113,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function useOnlyUnsent()
     {
-        if($this->_queueJoinedFlag) {
+        if ($this->_queueJoinedFlag) {
             $this->getSelect()->where("link.letter_sent_at IS NULL");
         }
 
@@ -150,14 +144,14 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
                  AND customer_lastname_table.attribute_id = '.(int) $lastname->getAttributeId() . '
                  ',
                 array('customer_lastname'=>'value')
-             )
-             ->joinLeft(
+            )
+            ->joinLeft(
                 array('customer_firstname_table'=>$firstname->getBackend()->getTable()),
                 'customer_firstname_table.entity_id=main_table.customer_id
                  AND customer_firstname_table.attribute_id = '.(int) $firstname->getAttributeId() . '
                  ',
                 array('customer_firstname'=>'value')
-             );
+            );
 
         return $this;
     }
@@ -181,7 +175,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function showStoreInfo()
     {
-        $this->getSelect()->join(
+        $this->join(
             array('store' => $this->_storeTable),
             'store.store_id = main_table.store_id',
             array('group_id', 'website_id')
@@ -191,7 +185,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Enter description here ...
+     * Returns field table alias
      *
      * @deprecated after 1.4.0.0-rc1
      *
@@ -200,15 +194,15 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function _getFieldTableAlias($field)
     {
-        if (strpos($field,'customer') === 0) {
+        if (strpos($field, 'customer') === 0) {
            return $field .'_table.value';
         }
 
-        if($field=='type') {
+        if ($field == 'type') {
             return new Zend_Db_Expr('IF(main_table.customer_id = 0, 1, 2)');
         }
 
-        if(in_array($field, array('website_id','group_id'))) {
+        if (in_array($field, array('website_id', 'group_id'))) {
             return 'store.' . $field;
         }
 
@@ -216,9 +210,9 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Enter description here ...
+     * Returns select count sql
      *
-     * @return unknown
+     * @return string
      */
     public function getSelectCountSql()
     {
@@ -235,10 +229,8 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
             $countSelect->where($where);
         }
 
-
-        // TODO: $ql->from('table',new Zend_Db_Expr('COUNT(*)'));
+        $countSelect->columns(new Zend_Db_Expr('COUNT(*)'));
         $sql = $countSelect->__toString();
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(*) from ', $sql);
 
         return $sql;
     }
@@ -262,7 +254,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function useOnlySubscribed()
     {
-        $this->getSelect()->where("main_table.subscriber_status = ?", Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
+        $this->addFieldToFilter('main_table.subscriber_status', Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
 
         return $this;
     }
@@ -275,7 +267,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function addStoreFilter($storeIds)
     {
-        $this->getSelect()->where('main_table.store_id IN (?)', $storeIds);
+        $this->addFieldToFilter('main_table.store_id', array('in'=>$storeIds));
         return $this;
     }
 }

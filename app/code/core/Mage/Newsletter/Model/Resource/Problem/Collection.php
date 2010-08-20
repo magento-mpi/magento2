@@ -35,21 +35,21 @@
 class Mage_Newsletter_Model_Resource_Problem_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * True when subscribers info joined
      *
-     * @var unknown
+     * @var bool
      */
     protected $_subscribersInfoJoinedFlag  = false;
 
     /**
-     * Enter description here ...
+     * True when grouped
      *
-     * @var unknown
+     * @var bool
      */
     protected $_problemGrouped             = false;
 
     /**
-     * Enter description here ...
+     * Define resource model and model
      *
      */
     protected function _construct()
@@ -58,32 +58,35 @@ class Mage_Newsletter_Model_Resource_Problem_Collection extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Adds subscribers info
      *
      * @return Mage_Newsletter_Model_Resource_Problem_Collection
      */
     public function addSubscriberInfo()
     {
-        $this->getSelect()
-            ->joinLeft(array('subscriber'=>$this->getTable('subscriber')),'main_table.subscriber_id = subscriber.subscriber_id',
-                       array('subscriber_email','customer_id','subscriber_status'));
+        $this->getSelect()->joinLeft(array('subscriber'=>$this->getTable('newsletter/subscriber')),
+            'main_table.subscriber_id = subscriber.subscriber_id',
+            array('subscriber_email','customer_id','subscriber_status')
+        );
         $this->_subscribersInfoJoinedFlag = true;
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Adds queue info
      *
      * @return Mage_Newsletter_Model_Resource_Problem_Collection
      */
     public function addQueueInfo()
     {
-        $this->getSelect()
-            ->joinLeft(array('queue'=>$this->getTable('queue')),'main_table.queue_id = queue.queue_id',
-                       array('queue_start_at', 'queue_finish_at'))
-            ->joinLeft(array('template'=>$this->getTable('template')),'main_table.queue_id = queue.queue_id',
-                       array('template_subject','template_code','template_sender_name','template_sender_email'));
+        $this->getSelect()->joinLeft(array('queue'=>$this->getTable('newsletter/queue')),
+            'main_table.queue_id = queue.queue_id',
+            array('queue_start_at', 'queue_finish_at')
+        )
+        ->joinLeft(array('template'=>$this->getTable('newsletter/template')), 'main_table.queue_id = queue.queue_id',
+            array('template_subject','template_code','template_sender_name','template_sender_email')
+        );
         return $this;
     }
 
@@ -96,12 +99,12 @@ class Mage_Newsletter_Model_Resource_Problem_Collection extends Mage_Core_Model_
         $customersIds = array();
 
         foreach ($this->getItems() as $item) {
-            if($item->getCustomerId()) {
+            if ($item->getCustomerId()) {
                 $customersIds[] = $item->getCustomerId();
             }
         }
 
-        if(count($customersIds) == 0) {
+        if (count($customersIds) == 0) {
             return;
         }
 
@@ -111,7 +114,7 @@ class Mage_Newsletter_Model_Resource_Problem_Collection extends Mage_Core_Model_
 
         $customers->load();
 
-        foreach($customers->getItems() as $customer) {
+        foreach ($customers->getItems() as $customer) {
             $problems = $this->getItemsByColumnValue('customer_id', $customer->getId());
             foreach ($problems as $problem) {
                 $problem->setCustomerName($customer->getName())
@@ -122,16 +125,16 @@ class Mage_Newsletter_Model_Resource_Problem_Collection extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Loads collecion and adds customers info
      *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
+     * @param bool $printQuery
+     * @param bool $logQuery
      * @return Mage_Newsletter_Model_Resource_Problem_Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
         parent::load($printQuery, $logQuery);
-        if($this->_subscribersInfoJoinedFlag && !$this->isLoaded()) {
+        if ($this->_subscribersInfoJoinedFlag && !$this->isLoaded()) {
             $this->_addCustomersData();
         }
         return $this;

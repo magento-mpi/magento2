@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Newsletter>
-            <version>0.8.3</version>
+            <version>1.5.0.0</version>
         </Mage_Newsletter>
     </modules>
     <global>

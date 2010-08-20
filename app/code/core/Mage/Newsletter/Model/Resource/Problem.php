@@ -35,7 +35,7 @@
 class Mage_Newsletter_Model_Resource_Problem extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()

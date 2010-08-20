@@ -55,8 +55,8 @@ class Mage_Newsletter_Model_Resource_Template extends Mage_Core_Model_Resource_D
         $read = $this->_getReadAdapter();
         if ($read && !is_null($templateCode)) {
             $select = $this->_getLoadSelect('template_code', $templateCode, $object)
-                ->where('template_actual=?', 1);
-            $data = $read->fetchRow($select);
+                ->where('template_actual = :template_actual');
+            $data = $read->fetchRow($select, array('template_actual'=>1));
 
             if ($data) {
                 $object->setData($data);
@@ -79,16 +79,14 @@ class Mage_Newsletter_Model_Resource_Template extends Mage_Core_Model_Resource_D
         if ($template->getTemplateActual() !== 0 && !$template->getIsSystem()) {
             $select = $this->_getReadAdapter()->select()
                 ->from($this->getTable('newsletter/queue'), new Zend_Db_Expr('COUNT(queue_id)'))
-                ->where('template_id=?',$template->getId());
+                ->where('template_id = :template_id');
 
-            $countOfQueue = $this->_getReadAdapter()->fetchOne($select);
+            $countOfQueue = $this->_getReadAdapter()->fetchOne($select, array('template_id'=>$template->getId()));
 
             return $countOfQueue > 0;
-        }
-        elseif ($template->getIsSystem()) {
+        } elseif ($template->getIsSystem()) {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
@@ -102,13 +100,18 @@ class Mage_Newsletter_Model_Resource_Template extends Mage_Core_Model_Resource_D
     public function checkCodeUsage(Mage_Newsletter_Model_Template $template)
     {
         if ($template->getTemplateActual() != 0 || is_null($template->getTemplateActual())) {
+            $bind = array(
+                'template_id'     => $template->getId(),
+                'template_code'   => $template->getTemplateCode(),
+                'template_actual' => 1
+            );
             $select = $this->_getReadAdapter()->select()
                 ->from($this->getMainTable(), new Zend_Db_Expr('COUNT(template_id)'))
-                ->where('template_id!=?',$template->getId())
-                ->where('template_code=?',$template->getTemplateCode())
-                ->where('template_actual=?',1);
+                ->where('template_id != :template_id')
+                ->where('template_code = :template_code')
+                ->where('template_actual = :template_actual');
 
-            $countOfCodes = $this->_getReadAdapter()->fetchOne($select);
+            $countOfCodes = $this->_getReadAdapter()->fetchOne($select, $bind);
 
             return $countOfCodes > 0;
         } else {
