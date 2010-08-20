@@ -122,7 +122,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'ACCT'           => 'credit_card_number',
         'EXPDATE'        => 'credit_card_expiration_date',
         'CVV2'           => 'credit_card_cvv2',
-        'CARDSTART'      => 'maestro_solo_issue_date', // MMYYYY, always six chars, including leading zero
+        'CARDSTART'      => 'maestro_solo_issue_date', // MMYY, including leading zero
         'CARDISSUE'    => 'maestro_solo_issue_number',
         'CVV2MATCH'      => 'cvv2_check_result',
         // cardinal centinel
