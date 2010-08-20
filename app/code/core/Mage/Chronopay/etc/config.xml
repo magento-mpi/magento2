@@ -78,16 +78,6 @@
                         <name>enRoute</name>
                         <order>63</order>
                     </ENR>
-                    <SM>
-                        <code>SM</code>
-                        <name>Maestro/Switch</name>
-                        <order>64</order>
-                    </SM>
-                    <SO>
-                        <code>SO</code>
-                        <name>Solo</name>
-                        <order>65</order>
-                    </SO>
                 </types>
             </cc>
         </payment>
