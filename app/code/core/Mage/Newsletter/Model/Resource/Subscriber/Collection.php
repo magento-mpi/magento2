@@ -26,7 +26,7 @@
 
 
 /**
- * Newsletter Subscribers Collection
+ * Newsletter subscribers collection
  *
  * @category    Mage
  * @package     Mage_Newsletter
@@ -127,29 +127,22 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function showCustomerInfo()
     {
+        $adapter = $this->getConnection();
         $customer = Mage::getModel('customer/customer');
-        /* @var $customer Mage_Customer_Model_Customer */
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
-
-//        $customersCollection = Mage::getModel('customer/customer')->getCollection();
-//        /* @var $customersCollection Mage_Customer_Model_Resource_Customer_Collection */
-//        $firstname = $customersCollection->getAttribute('firstname');
-//        $lastname  = $customersCollection->getAttribute('lastname');
 
         $this->getSelect()
             ->joinLeft(
                 array('customer_lastname_table'=>$lastname->getBackend()->getTable()),
-                'customer_lastname_table.entity_id=main_table.customer_id
-                 AND customer_lastname_table.attribute_id = '.(int) $lastname->getAttributeId() . '
-                 ',
+                $adapter->quoteInto('customer_lastname_table.entity_id=main_table.customer_id
+                 AND customer_lastname_table.attribute_id = ?', (int)$lastname->getAttributeId()),
                 array('customer_lastname'=>'value')
             )
             ->joinLeft(
                 array('customer_firstname_table'=>$firstname->getBackend()->getTable()),
-                'customer_firstname_table.entity_id=main_table.customer_id
-                 AND customer_firstname_table.attribute_id = '.(int) $firstname->getAttributeId() . '
-                 ',
+                $adapter->quoteInto('customer_firstname_table.entity_id=main_table.customer_id
+                 AND customer_firstname_table.attribute_id = ?', (int)$firstname->getAttributeId()),
                 array('customer_firstname'=>'value')
             );
 
@@ -175,7 +168,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function showStoreInfo()
     {
-        $this->join(
+        $this->getSelect()->join(
             array('store' => $this->_storeTable),
             'store.store_id = main_table.store_id',
             array('group_id', 'website_id')
@@ -216,23 +209,13 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function getSelectCountSql()
     {
-        $this->_renderFilters();
 
+        $select = parent::getSelectCountSql();
         $countSelect = clone $this->getSelect();
 
         $countSelect->reset(Zend_Db_Select::HAVING);
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
 
-        foreach ($this->_countFilterPart as $where) {
-            $countSelect->where($where);
-        }
-
-        $countSelect->columns(new Zend_Db_Expr('COUNT(*)'));
-        $sql = $countSelect->__toString();
-
-        return $sql;
+        return $select;
     }
 
     /**

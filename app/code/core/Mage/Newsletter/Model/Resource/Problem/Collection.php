@@ -26,7 +26,7 @@
 
 
 /**
- * Newsletter problem model collection
+ * Newsletter problems collection
  *
  * @category    Mage
  * @package     Mage_Newsletter

@@ -26,7 +26,7 @@
 
 
 /**
- * Templates collection
+ * Newsletter templates collection
  *
  * @category    Mage
  * @package     Mage_Newsletter

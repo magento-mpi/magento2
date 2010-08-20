@@ -26,7 +26,7 @@
 
 
 /**
- * Template db resource
+ * Newsletter template resource model
  *
  * @category    Mage
  * @package     Mage_Newsletter

@@ -26,7 +26,7 @@
 
 
 /**
- * Newsletter queue saver
+ * Newsletter queue resource model
  *
  * @category    Mage
  * @package     Mage_Newsletter
@@ -59,13 +59,15 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
             Mage::throwException(Mage::helper('newsletter')->__('Invalid queue selected.'));
         }
 
-        $select = $this->_getWriteAdapter()->select();
+        $adapter = $this->_getWriteAdapter();
+
+        $select = $adapter->select();
         $select->from($this->getTable('newsletter/queue_link'), 'subscriber_id')
             ->where('queue_id = ?', $queue->getId())
             ->where('subscriber_id in (?)', $subscriberIds);
 
-        $usedIds = $this->_getWriteAdapter()->fetchCol($select);
-        $this->_getWriteAdapter()->beginTransaction();
+        $usedIds = $adapter->fetchCol($select);
+        $adapter->beginTransaction();
         try {
             foreach ($subscriberIds as $subscriberId) {
                 if (in_array($subscriberId, $usedIds)) {
@@ -74,12 +76,12 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
                 $data = array();
                 $data['queue_id'] = $queue->getId();
                 $data['subscriber_id'] = $subscriberId;
-                $this->_getWriteAdapter()->insert($this->getTable('newsletter/queue_link'), $data);
+                $adapter->insert($this->getTable('newsletter/queue_link'), $data);
             }
-            $this->_getWriteAdapter()->commit();
+            $adapter->commit();
         }
         catch (Exception $e) {
-            $this->_getWriteAdapter()->rollBack();
+            $adapter->rollBack();
         }
     }
 
@@ -90,8 +92,9 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
      */
     public function removeSubscribersFromQueue(Mage_Newsletter_Model_Queue $queue)
     {
+        $adapter = $this->_getWriteAdapter();
         try {
-            $this->_getWriteAdapter()->delete(
+            $adapter->delete(
                 $this->getTable('newsletter/queue_link'),
                 array(
                     'queue_id = ?' => $queue->getId(),
@@ -99,10 +102,10 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
                 )
             );
 
-            $this->_getWriteAdapter()->commit();
+            $adapter->commit();
         }
         catch (Exception $e) {
-            $this->_getWriteAdapter()->rollBack();
+            $adapter->rollBack();
         }
     }
 
@@ -114,23 +117,22 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
      */
     public function setStores(Mage_Newsletter_Model_Queue $queue)
     {
-        $this->_getWriteAdapter()
-            ->delete(
-                $this->getTable('newsletter/queue_store_link'),
-                array('queue_id = ?' => $queue->getId())
-            );
+        $adapter = $this->_getWriteAdapter();
+        $adapter->delete(
+            $this->getTable('newsletter/queue_store_link'),
+            array('queue_id = ?' => $queue->getId())
+        );
 
-        if (!is_array($queue->getStores())) {
+        $stores = $queue->getStores();
+        if (!is_array($stores)) {
             $stores = array();
-        } else {
-            $stores = $queue->getStores();
         }
 
         foreach ($stores as $storeId) {
             $data = array();
             $data['store_id'] = $storeId;
             $data['queue_id'] = $queue->getId();
-            $this->_getWriteAdapter()->insert($this->getTable('newsletter/queue_store_link'), $data);
+            $adapter->insert($this->getTable('newsletter/queue_store_link'), $data);
         }
         $this->removeSubscribersFromQueue($queue);
 
@@ -164,11 +166,11 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
      */
     public function getStores(Mage_Newsletter_Model_Queue $queue)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('newsletter/queue_store_link'), 'store_id')
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()->from($this->getTable('newsletter/queue_store_link'), 'store_id')
             ->where('queue_id = :queue_id');
 
-        if (!($result = $this->_getReadAdapter()->fetchCol($select, array('queue_id'=>$queue->getId())))) {
+        if (!($result = $adapter->fetchCol($select, array('queue_id'=>$queue->getId())))) {
             $result = array();
         }
 

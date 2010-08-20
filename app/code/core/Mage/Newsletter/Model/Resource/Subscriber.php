@@ -26,7 +26,7 @@
 
 
 /**
- * Newsletter subscriber model for MySQL4
+ * Newsletter subscriber resource model
  *
  * @category    Mage
  * @package     Mage_Newsletter
