@@ -26,22 +26,132 @@ abstract class Test_Frontend_Checkout_Abstract extends Test_Frontend_Abstract
     }
 
     /**
-     * Login to the FrontEnd
-     *
+     * Perform Checkout as a Guest from FrontEnd
+     * @param - array wirh expecteded values:
+     *       productUrl
+     *       qty"firstName
+     *       lastName
+     *       company
+     *       email
+     *       street1
+     *       street2
+     *       city
+     *       "country
+     *       region
+     *       postcode
+     *       telephone
+     *       fax
      */
     public function guestCheckout($params) {
+
+        //Open ProductPage, place one to ShoppingCart, Press "Proceed to Checkout"
+        $this->startCheckout($params);
+
+        //Select "...as Guest"
+        $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/checkoutMethod/inputs/asGuest"));
+        $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/checkoutMethod/buttons/continue"));
+
+        // Fill billing address tab
+        $this->fillBillingTab($params);
+
+        //Press Continue
+        $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/buttons/continue"));
+        $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/elements/pleaseWait"));
+         
+        //Perform rest of Checkout steps
+        $this->shippingMethodPaymentPlaceOrderSteps($params);
+    }
+
+    /**
+     * Perform Checkout witg Sign In from FrontEnd
+     * @param - array wirh expecteded values:
+     *       password
+     *       productUrl
+     *       qty"firstName
+     *       lastName
+     *       company
+     *       email
+     *       street1
+     *       street2
+     *       city
+     *       "country
+     *       region
+     *       postcode
+     *       telephone
+     *       fax
+     */
+    public function signInCheckout($params) {
+
+        //Open ProductPage, place one to ShoppingCart, Press "Proceed to Checkout"
+        $this->startCheckout($params);
+
+        //Select "...as Guest"
+        $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/checkoutMethod/inputs/register"));
+        $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/checkoutMethod/buttons/continue"));
+
+        // Fill billing address tab
+        $this->fillBillingTab($params);
+        //Specify password with confirmation
+        $this->type($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/inputs/password"),$params["password"]);
+        $this->type($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/inputs/confirm"),$params["password"]);
+
+        //Press Continue
+        $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/buttons/continue"));
+        $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/elements/pleaseWait"));
+        $alert ='';
+
+
+        if ($this->isAlertPresent()) {
+                $this->storeAlert($alert);
+                $this->setVerificationErrors("Check 2: BillingInfo tab could not be saved. Customer email already exists ?");
+        } else {
+            //Perform rest of Checkout steps
+            $this->shippingMethodPaymentPlaceOrderSteps($params);
+        }
+    }
+
+    /* Test-specific utilitary function
+     *
+     */
+
+    /*
+     * Open product page, place one to ShoppingCart, Proceed to Checkout
+     * @params - array with expected values of:
+     * productUrl
+     * qty
+     */
+    function startCheckout($params)
+    {
         //Open product page
         $this->open($params["productUrl"]);
 
         // Place product to the cart
         $this->type($this->getUiElement("frontend/pages/product/inputs/qty"),$params["qty"]);
         $this->clickAndWait($this->getUiElement("frontend/pages/product/buttons/addToCart"));
-        
+
         //Proceed to checkout
         $this->clickAndWait($this->getUiElement("frontend/pages/shoppingCart/buttons/proceedToCheckout"));
-        //Select "...as Guest"
-        $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/checkoutMethod/inputs/asGuest"));
-        $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/checkoutMethod/buttons/continue"));
+    }
+
+
+    /*
+     * Sequentally fill all fields in the BillingInformation Checkout Step
+     * @params - array with expected values of:
+     * firstName
+     * lastName
+     * company
+     * email
+     * street1
+     * street2
+     * city
+     * postcode
+     * telephone
+     * fax
+     * country
+     * region
+     */
+    function fillBillingTab($params)
+    {
          //Fill billing address Tab
          $this->type($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/inputs/firstName"),$params["firstName"]);
          $this->type($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/inputs/lastName"),$params["lastName"]);
@@ -58,24 +168,46 @@ abstract class Test_Frontend_Checkout_Abstract extends Test_Frontend_Abstract
          $this->selectRegion($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/selectors/region"),$params["region"]);
          //Use billing address for shipping
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/inputs/use_for_shipping"));
-         //Press Continue
-         $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/buttons/continue"));
-         $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/elements/pleaseWait"));
+    }
+
+    /*
+     *  Sequentally fill all fields in the ShippingMethod, PaymentInfo, OrderReview Checkout Steps
+     *  used free shipping and check/money order options
+     */
+    function shippingMethodPaymentPlaceOrderSteps($params)
+    {
          //Fill Shipping Method Tab
-         $this->waitForElement($this->getUiElement("frontend/pages/onePageCheckout/tabs/shippingMethod/inputs/freeShipping"));
+         if (!$this->waitForElement($this->getUiElement("frontend/pages/onePageCheckout/tabs/shippingMethod/inputs/freeShipping"),10)) {
+            $this->setVerificationErrors("Check 3: no Free shipping method available.");
+            return false;
+         }
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/shippingMethod/inputs/freeShipping"));
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/shippingMethod/buttons/continue"));
          $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/shippingMethod/elements/pleaseWait"));
          //Fill Payment Information Tab
+         if (!$this->waitForElement($this->getUiElement("frontend/pages/onePageCheckout/tabs/paymentInfo/inputs/check"),10)) {
+            $this->setVerificationErrors("Check 4: 'Check / MoneyOrder' payment method is not available.");
+            return false;
+         }
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/paymentInfo/inputs/check"));
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/paymentInfo/buttons/continue"));
          $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/paymentInfo/elements/pleaseWait"));
          //Place Order
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/orderReview/buttons/placeOrder"));
          $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/orderReview/elements/pleaseWait"));
-        //$this->clickAndWait($this->getUiElement("frontend/pages/home/links/myAccount"));
+         // Check for success message
+         if (!$this->isTextPresent($this->getUiElement("frontend/pages/onePageCheckout/messages/orderPlaced"))) {
+            $this->setVerificationErrors("Check 1: no Order Placed  message");
+            return false;
+         }
+         return true;
     }
 
+    /*
+     * wait for appearance and disappearence of "Loading Next step..." block during frontend checkout
+     * Since all steps has unique block id, its should be passed as parameter
+     * @param - ID of "$element-please-wait" block
+     */
     public function pleaseWaitStep($element)
     {
         Core::debug("pleaseWaitStep started :" . $element);

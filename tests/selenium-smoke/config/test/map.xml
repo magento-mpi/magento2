@@ -29,14 +29,14 @@
 					<login>//button[contains(span,"Login")]</login>
 				</buttons>
 				<messages>
-                    <customerRegistered>//*[contains(@class,"messages")]//li[@class="success-msg"]</customerRegistered>				
+					<customerRegistered>//*[contains(@class,"messages")]//li[@class="success-msg"]</customerRegistered>
 					<alreadyExists>There is already an account with this email address</alreadyExists>
 				</messages>
 			</register>
 			<product>
 				<inputs>
 					<qty>qty</qty>
-				</inputs>	
+				</inputs>
 				<buttons>
 					<addToCart>//button[contains(span,'Add to Cart')]</addToCart>
 				</buttons>
@@ -51,7 +51,7 @@
 					<checkoutMethod>
 						<inputs>
 							<asGuest>//input[@id='login:guest']</asGuest>
-							<register>//input[@id='login:guest']</register>
+							<register>//input[@id='login:register']</register>
 						</inputs>
 						<buttons>
 							<continue>//button[contains(span,'Continue')]</continue>
@@ -72,6 +72,8 @@
 							<fax>billing:fax</fax>
 							<use_for_shipping>billing:use_for_shipping_yes</use_for_shipping>
 							<not_use_for_shipping>billing:use_for_shipping_no</not_use_for_shipping>
+							<password>billing:customer_password</password>
+							<confirm>billing:confirm_password</confirm>
 						</inputs>
 						<selectors>
 							<region>billing:region_id</region>
@@ -88,10 +90,10 @@
 						<inputs>
 						</inputs>
 						<buttons>
-						</buttons>					
+						</buttons>
 						<elements>
 							<pleaseWait>shipping-please-wait</pleaseWait>
-						</elements>						
+						</elements>	
 					</shippingAddress>
 					<shippingMethod>
 						<inputs>
@@ -103,18 +105,18 @@
 						<elements>
 							<pleaseWait>shipping-method-please-wait</pleaseWait>
 						</elements>
-					</shippingMethod>					
+					</shippingMethod>
 					<paymentInfo>
 						<inputs>
 							<check>p_method_checkmo</check>
 						</inputs>
 						<buttons>
-							<continue>//li[@id='opc-payment']//button[contains(span,'Continue')]</continue>						
+							<continue>//li[@id='opc-payment']//button[contains(span,'Continue')]</continue>
 						</buttons>
 						<elements>
 							<pleaseWait>payment-please-wait</pleaseWait>
-						</elements>						
-					</paymentInfo>						
+						</elements>
+					</paymentInfo>
 					<orderReview>
 						<inputs>
 						</inputs>
@@ -123,66 +125,68 @@
 						</buttons>
 						<elements>
 							<pleaseWait>review-please-wait</pleaseWait>
-						</elements>						
-						
-					</orderReview>							
-				</tabs>					
+						</elements>
+					</orderReview>
+				</tabs>
+				<messages>
+					<orderPlaced>Your order has been received</orderPlaced>
+				</messages>
 			</onePageCheckout>
 		</pages>
 	</frontend>
 	<!-- Admin Section-->
-    <admin>	
-        <topmenu>
-            <customer>
-                <managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
-            </customer>
-            <catalog>
-                <categories>
-                    <managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
-                </categories>
+	<admin>	
+		<topmenu>
+			<customer>
+				<managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
+			</customer>
+			<catalog>
+				<categories>
+					<managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
+				</categories>
 				<manageproducts>//div[@class="nav-bar"]//a[span="Manage Products"]</manageproducts>
 				
-            </catalog>
-            <system>
-                <permissions>
-                    <users>//li[a/span="Permissions"]//li[a/span="Users"]/a</users>
-                </permissions>
-                <managestores>
-                    <link>
-                        <openpage>link=Manage Stores</openpage>
-                    </link>                   
-                </managestores>
-                <configuration>link=Configuration</configuration>
-                <indexmanagement>link=Index Management</indexmanagement>
-            </system>
-        </topmenu>
-        <pages>
-            <catalog>
-                <categories>
-                    <managecategories>
+			</catalog>
+			<system>
+				<permissions>
+					<users>//li[a/span="Permissions"]//li[a/span="Users"]/a</users>
+				</permissions>
+				<managestores>
+					<link>
+						<openpage>link=Manage Stores</openpage>
+					</link>                   
+				</managestores>
+				<configuration>link=Configuration</configuration>
+				<indexmanagement>link=Index Management</indexmanagement>
+			</system>
+		</topmenu>
+		<pages>
+			<catalog>
+				<categories>
+					<managecategories>
 						<locators>
 							<parentcategory>//div[contains(@class,'tree-holder') ]//a[contains(span,'%s')]</parentcategory>
 						</locators>
-                        <buttons>
-                            <addrootcategory>add_root_category_button</addrootcategory>
-                            <addsubcategory>add_subcategory_button</addsubcategory>
-                            <savecategory>//button[contains(span,"Save Category")]</savecategory>
-                        </buttons>
-                        <inputs>
-                            <name>group_3name</name>
-                        </inputs>
-                        <selectors>
-                            <isactive>group_3is_active</isactive>
+						<buttons>
+							<addrootcategory>add_root_category_button</addrootcategory>
+							<addsubcategory>add_subcategory_button</addsubcategory>
+							<savecategory>//button[contains(span,"Save Category")]</savecategory>
+						</buttons>
+						<inputs>
+							<name>group_3name</name>
+						</inputs>
+						<selectors>
+							<isactive>group_3is_active</isactive>
 							<isanchor>group_9is_anchor</isanchor>
 							<storeswitcher>store_switcher</storeswitcher>
-                        </selectors>
+						</selectors>
 						<tabs>
 							<displaysettings>link=Display Settings</displaysettings>
 						</tabs>
-                        <messages>
-                            <categorysaved>//div[@id="messages"]//li[@class="success-msg"]</categorysaved>
-                        </messages>
-                    </managecategories>
+						<messages>
+							<categorysaved>//div[@id="messages"]//li[@class="success-msg"]</categorysaved>
+						</messages>
+					</managecategories>
 					<manageproducts>
 						<buttons>
 							<addproduct>//button[span="Add Product"]</addproduct>
@@ -230,123 +234,123 @@
 								<skumustbeunique>//*[@id='advice-validate-ajax-sku']</skumustbeunique>
 							</messages>
 						</product>
-					</manageproducts>						
-                </categories>
-            </catalog>
-            <system>
-                <permissions>
-                    <users>
-                        <manageusers>
-                            <buttons>
-                                <addnewuser>//button[span="Add New User"]</addnewuser>
-                            </buttons>
-                        </manageusers>
-                        <user>
-                            <inputs>
-                                <username>user_username</username>
-                                <firstname>user_firstname</firstname>
-                                <lastname>user_lastname</lastname>
-                                <email>user_email</email>
-                                <password>user_password</password>
-                                <confirmation>user_confirmation</confirmation>
-                            </inputs>
-                            <buttons>
-                                <saveuser>//button[span="Save User"]</saveuser>
-                            </buttons>
-                            <messages>
-                                <usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
-                            </messages>
-                        </user>
-                    </users>
-                </permissions>
-                <managestores>
-                    <createsite>
-                        <buttons>
-                            <createwebsite>//button[span="Create Website"]</createwebsite>
-                            <createwebstore>//button[span="Create Store"]</createwebstore>
-                            <createstoreview>//button[span="Create Store View"]</createstoreview>
-                            <save>//button[span="Save Website"]</save>
-                            <savestore>//button[span="Save Store"]</savestore>
-                            <savestoreview>//button[span="Save Store View"]</savestoreview>
-                        </buttons>
-                        <inputs>
-                            <name>//input[@id='website_name']</name>
-                            <storename>//input[@id='group_name']</storename>
-                            <storeviewname>//input[@id='store_name']</storeviewname>
-                            <code>//input[@id='website_code']</code>
-                            <storeviewcode>//input[@id='store_code']</storeviewcode>
-                            <order>//input[@id='website_sort_order']</order>
-                            <storevieworder>//input[@id='store_sort_order']</storevieworder>
-                        </inputs>
-                        <select>
-                            <site>group_website_id</site>
-                            <store>store_group_id</store>
-                            <storestatus>store_is_active</storestatus>
-                            <rootcategory>group_root_category_id</rootcategory>
-                        </select>
-                    </createsite>
-                </managestores>
-                <reindex>
-                    <buttons>
-                        <selectall>link=Select All</selectall>
-                        <submit>//button[span="Submit"]</submit>
-                    </buttons>
-                    <messages>
-                        <allsuccess>Total of 9 index(es) have reindexed data</allsuccess>
-                    </messages>
-                </reindex>
-                <configuration>
-                    <selectors>
-                        <store>store_switcher</store>
-                    </selectors>
-                    <buttons>
-                        <web>link=Web</web>
-                        <secure>web_secure-head</secure>
-                        <unsecure>web_unsecure-head</unsecure>
-                        <save>//button[span="Save Config"]</save>
-                    </buttons>
-                    <checkboxes>
-                        <secure>
-                            <baselink>web_secure_base_link_url_inherit</baselink>
-                        </secure>
-                        <unsecure>
-                            <baselink>web_unsecure_base_link_url_inherit</baselink>
-                        </unsecure>
-                    </checkboxes>
-                    <inputs>
-                        <secure>
-                            <baselink>web_secure_base_link_url</baselink>
-                        </secure>
-                        <unsecure>
-                            <baselink>web_unsecure_base_link_url</baselink>
-                        </unsecure>
-                    </inputs>
-                    <tabs>
-                        <visibledsecure>//fieldset[@id='web_secure' and @style='']</visibledsecure>
-                        <visibledunsecure>//fieldset[@id='web_unsecure' and @style='']</visibledunsecure>
-                    </tabs>
-               </configuration>
-            </system>
-            <login>
-                <messages>
-                    <invalidlogin>Invalid Username or Password.</invalidlogin>
-                </messages>
-                <images>
-                    <mainlogo>//img[@class='logo']</mainlogo>
-                </images>
-                <fields>
-                    <username>//input[@id='username']</username>
-                    <password>//input[@id='login']</password>
-                </fields>
-                <buttons>
-                    <loginbutton>//input[@title='Login']</loginbutton>
-                </buttons>
-            </login>
-        </pages>
-        <messages>
-            <success>//li[@class="success-msg"]</success>
-        </messages>
-    </admin>
+					</manageproducts>
+				</categories>
+			</catalog>
+			<system>
+				<permissions>
+					<users>
+						<manageusers>
+							<buttons>
+								<addnewuser>//button[span="Add New User"]</addnewuser>
+							</buttons>
+						</manageusers>
+						<user>
+							<inputs>
+								<username>user_username</username>
+								<firstname>user_firstname</firstname>
+								<lastname>user_lastname</lastname>
+								<email>user_email</email>
+								<password>user_password</password>
+								<confirmation>user_confirmation</confirmation>
+							</inputs>
+							<buttons>
+								<saveuser>//button[span="Save User"]</saveuser>
+							</buttons>
+							<messages>
+								<usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
+							</messages>
+						</user>
+					</users>
+				</permissions>
+				<managestores>
+					<createsite>
+						<buttons>
+							<createwebsite>//button[span="Create Website"]</createwebsite>
+							<createwebstore>//button[span="Create Store"]</createwebstore>
+							<createstoreview>//button[span="Create Store View"]</createstoreview>
+							<save>//button[span="Save Website"]</save>
+							<savestore>//button[span="Save Store"]</savestore>
+							<savestoreview>//button[span="Save Store View"]</savestoreview>
+						</buttons>
+						<inputs>
+							<name>//input[@id='website_name']</name>
+							<storename>//input[@id='group_name']</storename>
+							<storeviewname>//input[@id='store_name']</storeviewname>
+							<code>//input[@id='website_code']</code>
+							<storeviewcode>//input[@id='store_code']</storeviewcode>
+							<order>//input[@id='website_sort_order']</order>
+							<storevieworder>//input[@id='store_sort_order']</storevieworder>
+						</inputs>
+						<select>
+							<site>group_website_id</site>
+							<store>store_group_id</store>
+							<storestatus>store_is_active</storestatus>
+							<rootcategory>group_root_category_id</rootcategory>
+						</select>
+					</createsite>
+				</managestores>
+				<reindex>
+					<buttons>
+						<selectall>link=Select All</selectall>
+						<submit>//button[span="Submit"]</submit>
+					</buttons>
+					<messages>
+						<allsuccess>Total of 9 index(es) have reindexed data</allsuccess>
+					</messages>
+				</reindex>
+				<configuration>
+					<selectors>
+						<store>store_switcher</store>
+					</selectors>
+					<buttons>
+						<web>link=Web</web>
+						<secure>web_secure-head</secure>
+						<unsecure>web_unsecure-head</unsecure>
+						<save>//button[span="Save Config"]</save>
+					</buttons>
+					<checkboxes>
+						<secure>
+							<baselink>web_secure_base_link_url_inherit</baselink>
+						</secure>
+						<unsecure>
+							<baselink>web_unsecure_base_link_url_inherit</baselink>
+						</unsecure>
+					</checkboxes>
+					<inputs>
+						<secure>
+							<baselink>web_secure_base_link_url</baselink>
+						</secure>
+						<unsecure>
+							<baselink>web_unsecure_base_link_url</baselink>
+						</unsecure>
+					</inputs>
+					<tabs>
+						<visibledsecure>//fieldset[@id='web_secure' and @style='']</visibledsecure>
+						<visibledunsecure>//fieldset[@id='web_unsecure' and @style='']</visibledunsecure>
+					</tabs>
+				</configuration>
+			</system>
+			<login>
+				<messages>
+					<invalidlogin>Invalid Username or Password.</invalidlogin>
+				</messages>
+				<images>
+					<mainlogo>//img[@class='logo']</mainlogo>
+				</images>
+				<fields>
+					<username>//input[@id='username']</username>
+					<password>//input[@id='login']</password>
+				</fields>
+				<buttons>
+					<loginbutton>//input[@title='Login']</loginbutton>
+				</buttons>
+			</login>
+		</pages>
+		<messages>
+			<success>//li[@class="success-msg"]</success>
+		</messages>
+	</admin>
 	<!-- Miscelaneous usefull elements -->
 		<elements>
 			<selectedCountry>//select[@id='%s']//option[@selected='selected' and contains(text(),'%s')]</selectedCountry>
