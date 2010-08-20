@@ -95,7 +95,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     {
         $attrFilterArray = array();
         $attrFilterArray ['name']           = 'like';
-        $attrFilterArray ['sku']            = 'like';
+        $attrFilterArray ['sku']            = 'startsWith';
         $attrFilterArray ['type']           = 'eq';
         $attrFilterArray ['attribute_set']  = 'eq';
         $attrFilterArray ['visibility']     = 'eq';
