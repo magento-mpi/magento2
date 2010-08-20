@@ -52,7 +52,11 @@ class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_
     public function canAddRewardPoints()
     {
         $subscriber = $this->getEntity();
-        if ($subscriber->getData('subscriber_status') != Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED) {
+        $subscriberStatuses = array(
+            Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED,
+            Mage_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED
+        );
+        if (!in_array($subscriber->getData('subscriber_status'), $subscriberStatuses)) {
             return false;
         }
 
