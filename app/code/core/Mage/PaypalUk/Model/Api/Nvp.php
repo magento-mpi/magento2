@@ -504,4 +504,18 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
     {
         return $requestFields;
     }
+
+    /**
+     * Adopt specified request array to be compatible with Paypal
+     * Puerto Rico should be as state of USA and not as a country
+     *
+     * @param array $request
+     */
+    protected function _applyCountryWorkarounds(&$request)
+    {
+        if (isset($request['SHIPTOCOUNTRY']) && $request['SHIPTOCOUNTRY'] == 'PR') {
+            $request['SHIPTOCOUNTRY'] = 'US';
+            $request['SHIPTOSTATE']   = 'PR';
+        }
+    }
 }
