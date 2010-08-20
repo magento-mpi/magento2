@@ -35,8 +35,7 @@
 class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * Initiate resources
-     *
+     * Resource initialization
      */
     public function __construct()
     {
@@ -66,31 +65,35 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     /**
      * Check customer scope, email and confirmation key before saving
      *
-     * @throws Mage_Core_Exception
-     *
-     * @param Varien_Object $customer
+     * @param Mage_Customer_Model_Customer $customer
+     * @throws Mage_Customer_Exception
      * @return Mage_Customer_Model_Resource_Customer
      */
-    protected function _beforeSave(Varien_Object $customer)
+    protected function _beforeSave(Mage_Customer_Model_Customer $customer)
     {
         parent::_beforeSave($customer);
 
         if (!$customer->getEmail()) {
-            Mage::throwException(Mage::helper('customer')->__('Customer email is required.'));
+            throw Mage::exception('Mage_Customer', Mage::helper('customer')->__('Customer email is required'));
         }
+        $bind = array('email' => $customer->getEmail());
+
 
         $select = $this->_getWriteAdapter()->select()
             ->from($this->getEntityTable(), array($this->getEntityIdField()))
-            ->where('email=?', $customer->getEmail());
+            ->where('email = :email');
         if ($customer->getSharingConfig()->isWebsiteScope()) {
-            $select->where('website_id=?', (int) $customer->getWebsiteId());
+            $bind['website_id'] = (int)$customer->getWebsiteId();
+            $select->where('website_id = :website_id');
         }
         if ($customer->getId()) {
-            $select->where('entity_id !=?', $customer->getId());
+            $bind['entity_id'] = (int)$customer->getId();
+            $select->where('entity_id != :entity_id');
         }
 
-        if ($this->_getWriteAdapter()->fetchOne($select)) {
-            throw Mage::exception('Mage_Core', Mage::helper('customer')->__('This customer email already exists.'),
+        $result = $this->_getWriteAdapter()->fetchOne($select, $bind);
+        if ($result) {
+            throw Mage::exception('Mage_Customer', Mage::helper('customer')->__('This customer email already exists'),
                 Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS
             );
         }
@@ -98,8 +101,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
         // set confirmation key logic
         if ($customer->getForceConfirmed()) {
             $customer->setConfirmation(null);
-        }
-        elseif ((!$customer->getId()) && ($customer->isConfirmationRequired())) {
+        } elseif (!$customer->getId() && $customer->isConfirmationRequired()) {
             $customer->setConfirmation($customer->getRandomConfirmationKey());
         }
         // remove customer confirmation key from database, if empty
@@ -162,6 +164,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
         if ($customer->dataHasChangedFor('default_shipping')) {
             $this->saveAttribute($customer, 'default_shipping');
         }
+
         return $this;
     }
 
@@ -170,14 +173,15 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      *
      * @param Varien_Object $object
      * @param mixed $rowId
-     * @return Zend_Db_Select
+     * @return Varien_Db_Select
      */
-    protected function _getLoadRowSelect($object, $rowId)
+    protected function _getLoadRowSelect(Varien_Object $object, $rowId)
     {
         $select = parent::_getLoadRowSelect($object, $rowId);
         if ($object->getWebsiteId() && $object->getSharingConfig()->isWebsiteScope()) {
-            $select->where('website_id=?', (int) $object->getWebsiteId());
+            $select->where('website_id =?', (int)$object->getWebsiteId());
         }
+
         return $select;
     }
 
@@ -193,29 +197,33 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly = false)
     {
+        $bind   = array('customer_email' => $email);
         $select = $this->_getReadAdapter()->select()
             ->from($this->getEntityTable(), array($this->getEntityIdField()))
-            //->where('email=?', $email);
-            ->where('email=:customer_email');
+            ->where('email = :customer_email');
+
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
-                Mage::throwException(Mage::helper('customer')->__('Customer website ID must be specified when using the website scope.'));
+                Mage::throwException(
+                    Mage::helper('customer')->__('Customer website ID must be specified when using the website scope')
+                );
             }
-            $select->where('website_id=?', (int)$customer->getWebsiteId());
+            $bind['website_id'] = (int)$customer->getWebsiteId();
+            $select->where('website_id = :website_id');
         }
 
-        if ($id = $this->_getReadAdapter()->fetchOne($select, array('customer_email' => $email))) {
-            $this->load($customer, $id);
-        }
-        else {
+        $customerId = $this->_getReadAdapter()->fetchOne($select, $bind);
+        if ($customerId) {
+            $this->load($customer, $customerId);
+        } else {
             $customer->setData(array());
         }
+
         return $this;
     }
 
     /**
      * Change customer password
-     *
      *
      * @param Mage_Customer_Model_Customer $customer
      * @param string $newPassword
@@ -235,10 +243,14 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     public function findEmailDuplicates()
     {
-        $lookup = $this->_getReadAdapter()->fetchRow("SELECT email, COUNT(*) AS `qty`
-            FROM `{$this->getTable('customer/entity')}`
-            GROUP BY 1 ORDER BY 2 DESC LIMIT 1
-        ");
+        $adapter = $this->_getReadAdapter();
+        $select  = $adapter->select()
+            ->from($this->getTable('customer/entity'), array('email', 'COUNT(*) AS qty'))
+            ->group(1)
+            ->order('2 '. Varien_Db_Select::SQL_DESC)
+            ->limit(1);
+
+        $lookup = $adapter->fetchRow($select);
         if (empty($lookup)) {
             return false;
         }
@@ -253,11 +265,14 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     public function checkCustomerId($customerId)
     {
+        $bind   = array('entity_id', (int)$customerId);
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('customer/entity'), 'entity_id')
-            ->where('entity_id=?', $customerId)
+            ->where('entity_id = :entity_id')
             ->limit(1);
-        if ($this->_getReadAdapter()->fetchOne($select)) {
+
+        $result = $this->_getReadAdapter()->fetchOne($select, $bind);
+        if ($result) {
             return true;
         }
         return false;
@@ -271,10 +286,12 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     public function getWebsiteId($customerId)
     {
+        $bind = array('entity_id', (int)$customerId);
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('customer/entity'), 'website_id')
-            ->where('entity_id=?', $customerId);
-        return $this->_getReadAdapter()->fetchOne($select);
+            ->where('entity_id = :entity_id');
+
+        return $this->_getReadAdapter()->fetchOne($select, $bind);
     }
 
     /**

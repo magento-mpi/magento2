@@ -35,8 +35,7 @@
 class Mage_Customer_Model_Resource_Group extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -58,24 +57,25 @@ class Mage_Customer_Model_Resource_Group extends Mage_Core_Model_Resource_Db_Abs
     }
 
     /**
-     * Enter description here ...
+     * Check if group uses as default
      *
-     * @param Mage_Core_Model_Abstract $group
-     * @return unknown
+     * @param  Mage_Core_Model_Abstract $group
+     * @throws Mage_Core_Exception
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeDelete(Mage_Core_Model_Abstract $group)
     {
         if ($group->usesAsDefault()) {
-            Mage::throwException(Mage::helper('customer')->__('The group "%s" cannot be deleted.', $group->getCode()));
+            Mage::throwException(Mage::helper('customer')->__('The group "%s" cannot be deleted', $group->getCode()));
         }
         return parent::_beforeDelete($group);
     }
 
     /**
-     * Enter description here ...
+     * Method set default group id to the customers collection
      *
      * @param Mage_Core_Model_Abstract $group
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $group)
     {

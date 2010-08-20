@@ -51,13 +51,14 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'min_text_length'           => $this->_getValue($attr, 'min_text_length', 0),
             'max_text_length'           => $this->_getValue($attr, 'max_text_length', 0)
         ));
+
         return $data;
     }
 
     /**
-     * Enter description here ...
+     * Retreive default entities: customer, customer_address
      *
-     * @return unknown
+     * @return array
      */
     public function getDefaultEntities()
     {
@@ -226,7 +227,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                     ),
                     'street' => array(
                         'type'          => 'text',
-                        'backend'       => 'customer_entity/address_attribute_backend_street',
+                        'backend'       => 'customer/entity_address_attribute_backend_street',
                         'input'         => 'multiline',
                         'label'         => 'Street Address',
                         'sort_order'    => 40,
@@ -240,11 +241,11 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'input'         => 'select',
                         'label'         => 'Country',
                         'class'         => 'countries',
-                        'source'        => 'customer_entity/address_attribute_source_country',
+                        'source'        => 'customer/entity_address_attribute_source_country',
                         'sort_order'    => 60,
                     ),
                     'region' => array(
-                        'backend'       => 'customer_entity/address_attribute_backend_region',
+                        'backend'       => 'customer/entity_address_attribute_backend_region',
                         'label'         => 'State/Province',
                         'class'         => 'regions',
                         'sort_order'    => 70,
@@ -252,7 +253,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                     'region_id' => array(
                         'type'          => 'int',
                         'input'         => 'hidden',
-                        'source'        => 'customer_entity/address_attribute_source_region',
+                        'source'        => 'customer/entity_address_attribute_source_region',
                         'required'      => 'false',
                         'sort_order'    => 80,
                         'label'         => 'State/Province'

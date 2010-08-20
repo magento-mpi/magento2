@@ -35,8 +35,7 @@
 class Mage_Customer_Model_Resource_Address_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -44,17 +43,16 @@ class Mage_Customer_Model_Resource_Address_Collection extends Mage_Eav_Model_Ent
     }
 
     /**
-     * Enter description here ...
+     * Set customer filter
      *
-     * @param unknown_type $customer
+     * @param Mage_Customer_Model_Customer $customer
      * @return Mage_Customer_Model_Resource_Address_Collection
      */
     public function setCustomerFilter($customer)
     {
         if ($customer->getId()) {
             $this->addAttributeToFilter('parent_id', $customer->getId());
-        }
-        else {
+        } else {
             $this->addAttributeToFilter('parent_id', '-1');
         }
         return $this;

@@ -49,8 +49,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
     protected $_entityType;
 
     /**
-     * Define resource model
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -76,7 +75,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
      */
     public function getStore()
     {
-        if (is_null($this->_store)) {
+        if ($this->_store === null) {
             $this->_store = Mage::app()->getStore();
         }
         return $this->_store;
@@ -101,7 +100,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
      */
     public function getEntityType()
     {
-        if (is_null($this->_entityType)) {
+        if ($this->_entityType === null) {
             $this->setEntityType('customer');
         }
         return $this->_entityType;
@@ -137,6 +136,8 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
      */
     protected function _beforeLoad()
     {
+        $select     = $this->getSelect();
+        $connection = $this->getConnection();
         $entityType = $this->getEntityType();
         $this->setItemObjectClass($entityType->getAttributeModel());
 
@@ -144,15 +145,13 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
         $caColumns  = array();
         $saColumns  = array();
 
-        $eaDescribe = $this->getConnection()->describeTable($this->getTable('eav/attribute'));
+        $eaDescribe = $connection->describeTable($this->getTable('eav/attribute'));
+        unset($eaDescribe['attribute_id']);
         foreach (array_keys($eaDescribe) as $columnName) {
-            if ($columnName == 'attribute_id') {
-                continue;
-            }
             $eaColumns[$columnName] = $columnName;
         }
 
-        $this->_select->join(
+        $select->join(
             array('ea' => $this->getTable('eav/attribute')),
             'main_table.attribute_id = ea.attribute_id',
             $eaColumns
@@ -161,15 +160,13 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
         // join additional attribute data table
         $additionalTable = $entityType->getAdditionalAttributeTable();
         if ($additionalTable) {
-            $caDescribe = $this->getConnection()->describeTable($this->getTable($additionalTable));
+            $caDescribe = $connection->describeTable($this->getTable($additionalTable));
+            unset($caDescribe['attribute_id']);
             foreach (array_keys($caDescribe) as $columnName) {
-                if ($columnName == 'attribute_id') {
-                    continue;
-                }
                 $caColumns[$columnName] = $columnName;
             }
 
-            $this->_select->join(
+            $select->join(
                 array('ca' => $this->getTable($additionalTable)),
                 'main_table.attribute_id = ca.attribute_id',
                 $caColumns
@@ -177,11 +174,10 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
         }
 
         // add scope values
-        $saDescribe = $this->getConnection()->describeTable($this->getTable('customer/eav_attribute_website'));
+        $saDescribe = $connection->describeTable($this->getTable('customer/eav_attribute_website'));
+        unset($saDescribe['attribute_id']);
         foreach (array_keys($saDescribe) as $columnName) {
-            if ($columnName == 'attribute_id') {
-                continue;
-            } else if ($columnName == 'website_id') {
+            if ($columnName == 'website_id') {
                 $saColumns['scope_website_id'] = $columnName;
             } else {
                 if (isset($eaColumns[$columnName])) {
@@ -198,27 +194,29 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
 
         $store = $this->getStore();
 
-        $this->_select->joinLeft(
+        $select->joinLeft(
             array('sa' => $this->getTable('customer/eav_attribute_website')),
             'main_table.attribute_id = sa.attribute_id AND sa.website_id = :scope_website_id',
             $saColumns
         );
-        $this->addBindParam(':scope_website_id', $store->getWebsiteId());
+        $this->addBindParam('scope_website_id', (int)$store->getWebsiteId());
 
         // add store attribute label
         if ($store->isAdmin()) {
-            $this->_select->columns(array('store_label' => 'ea.frontend_label'));
+            $select->columns(array('store_label' => 'ea.frontend_label'));
         } else {
-            $this->_select->joinLeft(
+            $storeLabelExpr = $connection->getCheckSql('al.value IF NULL', 'ea.frontend_label', 'al.value');
+            $select->joinLeft(
                 array('al' => $this->getTable('eav/attribute_label')),
                 'al.attribute_id = main_table.attribute_id AND al.store_id = :label_store_id',
-                array('store_label' => new Zend_Db_Expr('IFNULL(al.value, ea.frontend_label)'))
+                array('store_label' => $storeLabelExpr)
             );
-            $this->addBindParam(':label_store_id', $store->getId());
+            $this->addBindParam('label_store_id', (int)$store->getId());
         }
 
+        $this->addBindParam('ea_entity_type_id', (int)$entityType->getId());
         // add entity type filter
-        $this->_select->where('ea.entity_type_id = ?', (int)$entityType->getId());
+        $select->where('ea.entity_type_id = :ea_entity_type_id');
 
         return parent::_beforeLoad();
     }

@@ -51,9 +51,11 @@ class Mage_Customer_Model_Resource_Form_Attribute extends Mage_Core_Model_Resour
      */
     public function getFormAttributeIds($formCode)
     {
+        $bind   = array('form_code' => $formCode);
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'attribute_id')
-            ->where('form_code=?', $formCode);
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('form_code = :form_code');
+
+        return $this->_getReadAdapter()->fetchCol($select, $bind);
     }
 }

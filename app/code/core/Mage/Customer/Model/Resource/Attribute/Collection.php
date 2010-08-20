@@ -62,7 +62,7 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
      */
     public function getEntityType()
     {
-        if (is_null($this->_entityType)) {
+        if ($this->_entityType === null) {
             $this->_entityType = Mage::getSingleton('eav/config')->getEntityType($this->_entityTypeCode);
         }
         return $this->_entityType;
@@ -77,7 +77,7 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
     public function setWebsite($website)
     {
         $this->_website = Mage::app()->getWebsite($website);
-        $this->addBindParam(':scope_website_id', $this->_website->getId());
+        $this->addBindParam('scope_website_id', $this->_website->getId());
         return $this;
     }
 
@@ -88,7 +88,7 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
      */
     public function getWebsite()
     {
-        if (is_null($this->_website)) {
+        if ($this->_website === null) {
             $this->_website = Mage::app()->getStore()->getWebsite();
         }
         return $this->_website;
@@ -101,6 +101,8 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
      */
     protected function _initSelect()
     {
+        $select         = $this->getSelect();
+        $connection     = $this->getConnection();
         $entityType     = $this->getEntityType();
         $extraTable     = $entityType->getAdditionalAttributeTable();
         $mainDescribe   = $this->getConnection()->describeTable($this->getResource()->getMainTable());
@@ -110,10 +112,10 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
             $mainColumns[$columnName] = $columnName;
         }
 
-        $this->getSelect()->from(array('main_table' => $this->getResource()->getMainTable()), $mainColumns);
+        $select->from(array('main_table' => $this->getResource()->getMainTable()), $mainColumns);
 
         // additional attribute data table
-        $extraDescribe  = $this->getConnection()->describeTable($this->getTable($extraTable));
+        $extraDescribe  = $connection->describeTable($this->getTable($extraTable));
         $extraColumns   = array();
         foreach (array_keys($extraDescribe) as $columnName) {
             if (isset($mainColumns[$columnName])) {
@@ -122,20 +124,21 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
             $extraColumns[$columnName] = $columnName;
         }
 
-        $this->getSelect()->join(
-            array('additional_table' => $this->getTable($extraTable)),
-            'additional_table.attribute_id = main_table.attribute_id',
-            $extraColumns)
-        ->where('main_table.entity_type_id = ?', $entityType->getId());
+        $this->addBindParam('mt_entity_type_id', (int)$entityType->getId());
+        $select
+            ->join(
+                array('additional_table' => $this->getTable($extraTable)),
+                'additional_table.attribute_id = main_table.attribute_id',
+                $extraColumns)
+            ->where('main_table.entity_type_id = mt_entity_type_id');
 
         // scope values
 
-        $scopeDescribe  = $this->getConnection()->describeTable($this->getTable('customer/eav_attribute_website'));
+        $scopeDescribe  = $connection->describeTable($this->getTable('customer/eav_attribute_website'));
+        unset($scopeDescribe['attribute_id']);
         $scopeColumns   = array();
         foreach (array_keys($scopeDescribe) as $columnName) {
-            if ($columnName == 'attribute_id') {
-                continue;
-            } else if ($columnName == 'website_id') {
+            if ($columnName == 'website_id') {
                 $scopeColumns['scope_website_id'] = $columnName;
             } else {
                 if (isset($mainColumns[$columnName])) {
@@ -154,12 +157,12 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
             }
         }
 
-        $this->getSelect()->joinLeft(
+        $select->joinLeft(
             array('scope_table' => $this->getTable('customer/eav_attribute_website')),
             'scope_table.attribute_id = main_table.attribute_id AND scope_table.website_id = :scope_website_id',
             $scopeColumns
         );
-        $this->addBindParam(':scope_website_id', $this->getWebsite()->getId());
+        $this->addBindParam('scope_website_id', (int)$this->getWebsite()->getId());
 
         return $this;
     }
@@ -168,7 +171,7 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
      * Specify attribute entity type filter
      * Entity type is defined
      *
-     * @param unknown_type $type
+     * @param mixed $type
      * @return Mage_Customer_Model_Resource_Attribute_Collection
      */
     public function setEntityTypeFilter($type)
@@ -183,8 +186,7 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
      */
     public function addVisibleFilter()
     {
-        $this->addFieldToFilter('is_visible', 1);
-        return $this;
+        return $this->addFieldToFilter('is_visible', 1);
     }
 
     /**
@@ -195,8 +197,7 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
     public function addSystemHiddenFilter()
     {
         $field = '(CASE WHEN additional_table.is_system = 1 AND additional_table.is_visible = 0 THEN 1 ELSE 0 END)';
-        $this->addFieldToFilter($field, 0);
-        return $this;
+        return $this->addFieldToFilter($field, 0);
     }
 
     /**

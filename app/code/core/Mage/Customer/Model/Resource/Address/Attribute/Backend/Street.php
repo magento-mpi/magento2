@@ -36,14 +36,17 @@ class Mage_Customer_Model_Resource_Address_Attribute_Backend_Street
     extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Enter description here ...
+     * Prepare object for save
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
+     * @return Mage_Customer_Model_Resource_Address_Attribute_Backend_Street
      */
     public function beforeSave($object)
     {
-        if ($street = $object->getStreet(-1)) {
+        $street = $object->getStreet(-1);
+        if ($street) {
             $object->implodeStreetAddress();
         }
+        return $this;
     }
 }

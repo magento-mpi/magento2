@@ -35,10 +35,9 @@
 class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
-    public function __construct()
+    protected function _construct()
     {
         $resource = Mage::getSingleton('core/resource');
         $this->setType('customer_address')->setConnection(
@@ -48,7 +47,7 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
     }
 
     /**
-     * Enter description here ...
+     * Set default shipping to address
      *
      * @param Varien_Object $address
      * @return Mage_Customer_Model_Resource_Address
@@ -78,25 +77,23 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
      * @deprecated
      *
      * @param Mage_Customer_Model_Address $object
-     * @return integer
+     * @return int
      */
     public function getCustomerId($object)
     {
-        return $object->getData('customer_id') ? $object->getData('customer_id') :$object->getParentId();
+        return $object->getData('customer_id') ? $object->getData('customer_id') : $object->getParentId();
     }
 
     /**
      * Set customer id
      * @deprecated
      *
-     * @param Mage_Customer_Model_Address $object
-     * @param integer $id
+     * @param  Mage_Customer_Model_Address $object
+     * @param  int $id
      * @return Mage_Customer_Model_Address
      */
     public function setCustomerId($object, $id)
     {
-        $object->setParentId($id);
-        $object->setData('customer_id', $id);
-        return $object;
+        return $this;
     }
 }

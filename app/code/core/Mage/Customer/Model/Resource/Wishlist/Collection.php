@@ -35,8 +35,7 @@
 class Mage_Customer_Model_Resource_Wishlist_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Set entity
      */
     protected function _construct()
     {

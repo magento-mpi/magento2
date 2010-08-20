@@ -35,8 +35,7 @@
 class Mage_Customer_Model_Resource_Customer_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -44,32 +43,33 @@ class Mage_Customer_Model_Resource_Customer_Collection extends Mage_Eav_Model_En
     }
 
     /**
-     * Enter description here ...
+     * Group result by customer email
      *
      * @return Mage_Customer_Model_Resource_Customer_Collection
      */
     public function groupByEmail()
     {
         $this->getSelect()
-            ->from(array('email'=>$this->getEntity()->getEntityTable()),
-                array('email_count'=>new Zend_Db_Expr('COUNT(email.entity_id)'))
+            ->from(array('email' => $this->getEntity()->getEntityTable()),
+                array('email_count' => new Zend_Db_Expr('COUNT(email.entity_id)'))
             )
-            ->where('email.entity_id=e.entity_id')
+            ->where('email.entity_id = e.entity_id')
             ->group('email.email');
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add Name to select
      *
      * @return Mage_Customer_Model_Resource_Customer_Collection
      */
     public function addNameToSelect()
     {
         $fields = array();
-        foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
+        $customerAccount = Mage::getConfig()->getFieldset('customer_account');
+        foreach ($customerAccount as $code => $node) {
             if ($node->is('name')) {
-                //$this->addAttributeToSelect($code);
                 $fields[$code] = $code;
             }
         }

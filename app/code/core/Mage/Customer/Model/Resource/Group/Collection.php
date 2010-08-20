@@ -35,8 +35,7 @@
 class Mage_Customer_Model_Resource_Group_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -44,62 +43,65 @@ class Mage_Customer_Model_Resource_Group_Collection extends Mage_Core_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * Set tax group filter
      *
-     * @param unknown_type $classId
+     * @param mixed $classId
      * @return Mage_Customer_Model_Resource_Group_Collection
      */
     public function setTaxGroupFilter($classId)
     {
         $taxClassGroupTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class_group');
-        $this->_select->joinLeft($taxClassGroupTable, "{$taxClassGroupTable}.class_group_id=main_table.customer_group_id");
-        $this->_select->where("{$taxClassGroupTable}.class_parent_id = ?", $classId);
+        $this->getSelect()
+            ->joinLeft(
+                $taxClassGroupTable,
+                "{$taxClassGroupTable}.class_group_id = main_table.customer_group_id"
+            )
+            ->where("{$taxClassGroupTable}.class_parent_id =?", $classId);
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set ignore ID filter
      *
-     * @param unknown_type $indexes
+     * @param array $indexes
      * @return Mage_Customer_Model_Resource_Group_Collection
      */
     public function setIgnoreIdFilter($indexes)
     {
-        if( !count($indexes) > 0 ) {
-            return $this;
+        if (count($indexes)) {
+            $this->getSelect()->where('main_table.customer_group_id NOT IN (?)', $indexes);
         }
-        $this->_select->where('main_table.customer_group_id NOT IN(?)', $indexes);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set real groups filter
      *
      * @return Mage_Customer_Model_Resource_Group_Collection
      */
     public function setRealGroupsFilter()
     {
-        $this->addFieldToFilter('customer_group_id', array('gt'=>0));
-        return $this;
+        return $this->addFieldToFilter('customer_group_id', array('gt' => 0));
     }
 
     /**
-     * Enter description here ...
+     * Add tax class
      *
      * @return Mage_Customer_Model_Resource_Group_Collection
      */
     public function addTaxClass()
     {
         $taxClassTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class');
-        $this->_select->joinLeft($taxClassTable, "main_table.tax_class_id = {$taxClassTable}.class_id");
+        $this->getSelect()->joinLeft($taxClassTable, "main_table.tax_class_id = {$taxClassTable}.class_id");
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Retreive option array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
@@ -107,9 +109,9 @@ class Mage_Customer_Model_Resource_Group_Collection extends Mage_Core_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * Retreive option hash
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionHash()
     {

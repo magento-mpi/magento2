@@ -35,9 +35,9 @@
 class Mage_Customer_Model_Resource_Address_Attribute_Source_Region extends Mage_Eav_Model_Entity_Attribute_Source_Table
 {
     /**
-     * Enter description here ...
+     * Retreive all region options
      *
-     * @return unknown
+     * @return array
      */
     public function getAllOptions()
     {
