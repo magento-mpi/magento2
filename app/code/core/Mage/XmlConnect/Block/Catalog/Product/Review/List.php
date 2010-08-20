@@ -78,7 +78,9 @@ class Mage_XmlConnect_Block_Catalog_Product_Review_List extends Mage_XmlConnect_
                 return null;
             }
             $collection = Mage::getResourceModel('review/review_collection')
-                ->addEntityFilter('product', $product->getId());
+                ->addEntityFilter('product', $product->getId())
+                ->addStoreFilter(Mage::app()->getStore()->getId())
+                ->addStatusFilter('approved');
 
             /**
              * Apply offset and count
