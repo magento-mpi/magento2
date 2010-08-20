@@ -62,9 +62,12 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_initCheckout();
 
             $customer = Mage::getSingleton('customer/session')->getCustomer();
+
+            $shippingAddress = clone $this->_getQuote()->getShippingAddress();
             if ($customer && $customer->getId()) {
                 $this->_checkout->setCustomer($customer);
             }
+            $this->_getQuote()->setShippingAddress($shippingAddress);
 
             // billing agreement
             $customerId = Mage::getSingleton('customer/session')->getCustomerId();
