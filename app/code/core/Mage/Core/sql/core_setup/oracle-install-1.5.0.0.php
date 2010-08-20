@@ -50,14 +50,144 @@ $installer->getConnection()->query("
     }
 ");
 
+
+$installer->getConnection()->query("
+   create or replace function checksum_string( p_buff in clob ) return number
+   is
+      l_sum       number default 0;
+      l_n         number;
+      l_nu        number;
+      l_nl        number;
+   begin
+      for i in 1 .. trunc(length(p_buff||'x')/2) loop
+         if ascii(substr(p_buff||'x', 1+(i-1)*2, 1))>255 then
+            --2byte char + (1byte char or 2byte char)
+            l_nu:=0;
+            l_nl:=ascii(substr(p_buff||'x', 1+(i-1)*2, 1));
+            l_n := l_nl;
+            l_sum := mod( l_sum+l_n, 4294967296);
+
+            if ascii(substr(p_buff||'x', 2+(i-1)*2, 1))>255 then
+               --2byte char + 2byte char
+               l_nu:=0;
+               l_nl:=ascii(substr(p_buff||'x', 2+(i-1)*2, 1));
+               l_n := l_nl;
+               l_sum := mod( l_sum+l_n, 4294967296);
+            else
+               --2byte char + 1byte char
+               l_nu:=ascii(substr(p_buff||'x', 2+(i-1)*2, 1));
+               l_nl:=ascii('x');
+               l_n := l_nu*256 + l_nl;
+               l_sum := mod( l_sum+l_n, 4294967296);
+            end if;
+
+            elsif ascii(substr(p_buff||'x', 2+(i-1)*2, 1))>255 then
+               --1byte char + 2byte char
+               l_nu:=0;
+               l_nl:=ascii(substr(p_buff||'x', 2+(i-1)*2, 1));
+               l_n := l_nl;
+               l_sum := mod( l_sum+l_n, 4294967296);
+
+               l_nu:=ascii('x');
+               l_nl:=ascii(substr(p_buff||'x', 2+(i-1)*2, 1));
+               l_n := l_nu*256 + l_nl;
+               l_sum := mod( l_sum+l_n, 4294967296);
+
+            else
+               --1byte char + 1byte char
+               l_nu:=ascii(substr(p_buff||'x', 1+(i-1)*2, 1));
+               l_nl:=ascii(substr(p_buff||'x', 2+(i-1)*2, 1));
+               l_n := l_nu*256 + l_nl;
+               l_sum := mod( l_sum+l_n, 4294967296);
+
+               -- dbms_output.put_line('l_n : '||l_n);
+            end if;
+         end loop;
+
+         -- dbms_output.put_line('l_sum : '||l_sum);
+
+         while ( l_sum > 65536 ) loop
+            -- l_sum := bitand( l_sum, 65535 ) + trunc(l_sum/65536);
+            l_sum := mod( l_sum, 65536 ) + trunc(l_sum/65536);
+         end loop;
+      return l_sum;
+   end checksum_string;
+   ");
+
+$installer->getConnection()->query("
+   create or replace function calculate_checksum(
+     p_owner in varchar2,
+     p_tname in varchar2,
+     p_rowid in rowid )
+   return  number
+   is
+      l_theQuery     varchar2(32000) default NULL;
+      l_cursor       integer;
+      l_variable     number;
+      l_status       number;
+      l_column_name  varchar2(255);
+      p_schema       varchar2(30) := upper(p_owner);
+      p_obj          varchar2(30) := upper(p_tname);
+   begin
+      l_cursor := dbms_sql.open_cursor;
+      DBMS_SQL.parse(
+               l_cursor,
+               'select column_name
+                  from all_tab_columns
+                where owner = :p_schema
+                and table_name = :p_obj
+                order by column_id', dbms_sql.native);
+      dbms_sql.bind_variable(l_cursor, ':p_schema', p_schema);
+      dbms_sql.bind_variable(l_cursor, ':p_obj', p_obj);
+      dbms_sql.define_column(l_cursor, 1, l_column_name, 255);
+
+      l_status := dbms_sql.execute(l_cursor);
+      loop
+          l_status := dbms_sql.fetch_rows(l_cursor);
+         if (l_status <= 0) then
+             exit;
+          end if;
+          dbms_sql.column_value(l_cursor, 1, l_column_name);
+          if (l_theQuery is NULL) then
+             l_theQuery := 'select checksum_string(';
+          else
+             l_theQuery := l_theQuery || '||';
+          end if;
+          l_theQuery := l_theQuery || l_column_name;
+--           dbms_output.put_line(l_theQuery);
+      end loop;
+      dbms_sql.close_cursor(l_cursor);
+
+      l_theQuery := l_theQuery || ') from ' || p_schema || '.' || p_obj ||
+                    ' where rowid = :x1 ';-- for update
+
+      l_cursor := dbms_sql.open_cursor;
+--       dbms_output.put_line(l_theQuery);
+--       dbms_output.put_line(p_rowid);
+
+      DBMS_SQL.parse( l_cursor, l_theQuery, dbms_sql.v7);
+      dbms_sql.bind_variable( l_cursor, ':x1', p_rowid );
+      dbms_sql.define_column( l_cursor, 1, l_variable );
+
+      l_status := dbms_sql.execute(l_cursor);
+      l_status := dbms_sql.fetch_rows(l_cursor);
+      dbms_sql.column_value( l_cursor, 1, l_variable );
+      dbms_sql.close_cursor( l_cursor );
+
+      return l_variable;
+   end;
+   ");
+
 $installer->getConnection()->query("
     create or replace function checksum(owner varchar2, table_name varchar2, row_id rowid)
     return number as
-    pragma autonomous_transaction;
+    -- pragma autonomous_transaction;
         n number;
     begin
-        n := owa_opt_lock.checksum(owner, table_name, row_id);
-        commit;
+
+        n := calculate_checksum(owner, table_name, row_id);
+        -- n := owa_opt_lock.checksum(owner, table_name, row_id);
+        -- commit;
         return n;
     end;
 ");
