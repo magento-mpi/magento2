@@ -59,7 +59,7 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
         if (is_null($storeId)) {
             $storeId = Mage::app()->getStore()->getId();
         }
-        
+
         $read = $this->_getReadAdapter();
         if (!$read) {
             return array();
@@ -67,13 +67,13 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
 
         $select = $read->select()
             ->from($this->getMainTable())
-            ->where('store_id IN (:store_id)')
+            ->where('store_id IN (0 , :store_id)')
             ->where('locale=:locale')
             ->order('store_id');
-        
+
         $bind = array(
             'locale'   => $locale,
-            'store_id' => implode(',', array(0, $storeId))
+            'store_id' => $storeId
         );
 
         return $read->fetchPairs($select, $bind);
@@ -105,7 +105,7 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
         if (empty($strings)) {
             return array();
         }
- 
+
         $bind = array(
             'tr_strings' => $strings,
             'store_id'   => $storeId
