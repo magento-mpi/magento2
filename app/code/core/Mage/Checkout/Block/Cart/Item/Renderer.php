@@ -239,7 +239,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     public function getIsInStock()
     {
         if ($this->getItem()->getProduct()->isSaleable()) {
-            if ($this->getItem()->getProduct()->getQty()>=$this->getItem()->getQty()) {
+            if ($this->getItem()->getProduct()->getStockItem()->getQty() >= $this->getItem()->getQty()) {
                 return true;
             }
         }
