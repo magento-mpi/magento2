@@ -91,7 +91,7 @@ class Mage_Eav_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstrac
     protected function _loadTypeAttributes($typeId)
     {
         if (!isset(self::$_attributes[$typeId])) {
-            $adapter = $thit->_getReadAdapter();
+            $adapter = $this->_getReadAdapter();
             $bind    = array('entity_type_id' => $typeId);
             $select  = $adapter->select()
                 ->from($this->getTable('eav/attribute'))
