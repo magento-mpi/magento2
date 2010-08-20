@@ -484,6 +484,7 @@ final class Mage
     public static function getResourceSingleton($modelClass = '', array $arguments = array())
     {
         $registryKey = '_resource_singleton/'.$modelClass;
+//        echo $registryKey; die();
         if (!self::registry($registryKey)) {
             self::register($registryKey, self::getResourceModel($modelClass, $arguments));
         }
@@ -577,7 +578,7 @@ final class Mage
             self::$_app = new Mage_Core_Model_App();
             self::setRoot();
             self::$_events = new Varien_Event_Collection();
-            self::$_config = new Mage_Core_Model_Config();
+            self::$_config = new Mage_Core_Model_Config($options);
 
             Varien_Profiler::start('self::app::init');
             self::$_app->init($code, $type, $options);
@@ -601,7 +602,7 @@ final class Mage
             self::setRoot();
             self::$_app    = new Mage_Core_Model_App();
             self::$_events = new Varien_Event_Collection();
-            self::$_config = new Mage_Core_Model_Config();
+            self::$_config = new Mage_Core_Model_Config();    
             self::$_app->run(array(
                 'scope_code' => $code,
                 'scope_type' => $type,
@@ -646,11 +647,11 @@ final class Mage
             if (is_string($options)) {
                 $options = array('etc_dir' => $options);
             }
-            $etcDir = 'etc';
+            $etcDir = self::getRoot() . DS . 'etc';
             if (!empty($options['etc_dir'])) {
                 $etcDir = $options['etc_dir'];
             }
-            $localConfigFile = self::getRoot() . DS . $etcDir . DS . 'local.xml';
+            $localConfigFile = $etcDir . DS . 'local.xml';
 
             self::$_isInstalled = false;
 

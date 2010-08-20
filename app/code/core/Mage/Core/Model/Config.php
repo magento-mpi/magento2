@@ -189,7 +189,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function __construct($sourceData=null)
     {
         $this->setCacheId('config_global');
-        $this->_options         = new Mage_Core_Model_Config_Options();
+        $this->_options         = new Mage_Core_Model_Config_Options($sourceData);
         $this->_prototype       = new Mage_Core_Model_Config_Base();
         $this->_cacheChecksum   = null;
         parent::__construct($sourceData);
@@ -282,7 +282,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadModulesCache()
     {
-        if (Mage::isInstalled()) {
+        if (Mage::isInstalled(array('etc_dir' => $this->getOptions()->getEtcDir()))) {
             if ($this->_canUseCacheForInit()) {
                 Varien_Profiler::start('mage::app::init::config::load_cache');
                 $loaded = $this->loadCache();
@@ -636,7 +636,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 }
             }
         }
-        return parent::getNode($path);
+        return  parent::getNode($path);
     }
 
     /**
