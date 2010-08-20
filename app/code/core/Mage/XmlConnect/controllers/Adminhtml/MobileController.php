@@ -706,10 +706,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
             $new_pages = array();
             foreach ($arr['conf']['new_pages']['ids'] as $key=>$value) {
-                $new_pages[$key]['id'] = $value;
+                $new_pages[$key]['id'] = trim($value);
             }
             foreach ($arr['conf']['new_pages']['labels'] as $key=>$value) {
-                $new_pages[$key]['label'] = $value;
+                $new_pages[$key]['label'] = trim($value);
             }
             if (!isset($arr['conf']['native']['pages'])) {
                 $arr['conf']['native']['pages'] = array();

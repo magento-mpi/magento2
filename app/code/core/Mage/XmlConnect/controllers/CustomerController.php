@@ -267,7 +267,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     } else {
                         $session->setCustomerAsLoggedIn($customer);
                         $customer->sendNewAccountEmail('registered');
-                        $this->_message(Mage::helper('xmlconnect')->__('Register and Authentification complete.'), self::MESSAGE_STATUS_SUCCESS);
+                        $this->_message(Mage::helper('xmlconnect')->__('Thank you for registering!'), self::MESSAGE_STATUS_SUCCESS);
                         return;
                     }
                 } else {
