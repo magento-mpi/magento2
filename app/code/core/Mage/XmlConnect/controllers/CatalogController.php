@@ -111,8 +111,8 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     public function searchAction()
     {
         $_helper = Mage::helper('catalogsearch');
-        $this->getRequest()->setParam($_helper->getQueryParamName(), $this->getRequest()->getParam('query'));
-
+        $queryParam = str_replace('%20', ' ', $this->getRequest()->getParam('query'));
+        $this->getRequest()->setParam($_helper->getQueryParamName(), $queryParam);
         $query = $_helper->getQuery();
         /* @var $query Mage_CatalogSearch_Model_Query */
 
