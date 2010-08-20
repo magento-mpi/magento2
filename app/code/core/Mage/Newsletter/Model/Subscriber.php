@@ -36,7 +36,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
     const STATUS_SUBSCRIBED     = 1;
     const STATUS_NOT_ACTIVE     = 2;
     const STATUS_UNSUBSCRIBED   = 3;
-    const STATUS_UNCONFIRMED = 4;
+    const STATUS_UNCONFIRMED    = 4;
 
     const XML_PATH_CONFIRM_EMAIL_TEMPLATE       = 'newsletter/subscription/confirm_email_template';
     const XML_PATH_CONFIRM_EMAIL_IDENTITY       = 'newsletter/subscription/confirm_email_identity';
@@ -313,7 +313,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
 
         try {
             $this->save();
-            if ($isConfirmNeed === true 
+            if ($isConfirmNeed === true
                 && $isOwnSubscribes === false
             ) {
                 $this->sendConfirmationRequestEmail();
@@ -364,24 +364,29 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             $this->setSubscriberConfirmCode($this->randomSequence());
         }
 
+       /*
+        * Logical mismatch between customer registration confirmation code and customer password confirmation
+        */
+       $confirmation = null;
+       if ($customer->isConfirmationRequired() && ($customer->getConfirmation() != $customer->getPassword())) {
+           $confirmation = $customer->getConfirmation();
+       }
+
         $subscribed_on_confirm = false;
         if($customer->hasIsSubscribed()) {
-            $status = $customer->getIsSubscribed() ? (!is_null($customer->getConfirmation()) ? self::STATUS_UNCONFIRMED : self::STATUS_SUBSCRIBED) : self::STATUS_UNSUBSCRIBED;
-        } elseif (($this->getStatus() == self::STATUS_UNCONFIRMED) && (is_null($customer->getConfirmation()))) {
+            $status = $customer->getIsSubscribed() ? (!is_null($confirmation) ? self::STATUS_UNCONFIRMED : self::STATUS_SUBSCRIBED) : self::STATUS_UNSUBSCRIBED;
+        } elseif (($this->getStatus() == self::STATUS_UNCONFIRMED) && (is_null($confirmation))) {
             $status = self::STATUS_SUBSCRIBED;
             $subscribed_on_confirm = true;
         } else {
             $status = ($this->getStatus() == self::STATUS_NOT_ACTIVE ? self::STATUS_UNSUBSCRIBED : $this->getStatus());
         }
 
-
         if($status != $this->getStatus()) {
             $this->setIsStatusChanged(true);
         }
 
         $this->setStatus($status);
-
-
 
         if(!$this->getId()) {
             $this->setStoreId($customer->getStoreId())
@@ -518,10 +523,10 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
 
         return $this;
     }
-    
+
     /**
      * Retrieve Subscribers Full Name if it was set
-     * 
+     *
      * @return string|null
      */
     public function getSubscriberFullName()
