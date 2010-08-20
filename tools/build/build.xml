@@ -239,6 +239,18 @@
         </exec>
     </target>
 
+    <target name="branch-sync-mmdb" description="Sync Branches (MMDB solver).">
+        <exec dir="${dir.src}" executable="svn" failonerror="true">
+            <arg line="co ${vcsroot.branch.url} --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache ."/>
+        </exec>
+        <exec dir="${dir.src}" executable="svn" failonerror="true">
+            <arg line="revert -R --quiet --username ${usr.user} --password ${svn.password} --no-auth-cache ."/>
+        </exec>
+        <exec executable="./update-branch.php" failonerror="true">
+            <arg line="${dir.src} ${svn.user} ${svn.password} mmdb-resolver.php"/>
+        </exec>
+    </target>
+
     <target name="dbschema" description="Generate DB schema documentation.">
 	<exec executable="/bin/sh" failonerror="false">
             <arg value="schema_generator"/>
