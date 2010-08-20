@@ -93,7 +93,8 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
         if (!is_null($condition)) {
             $select->where($condition);
         }
-        $rowset = $read->fetchAssoc($select);
+        $rowset = $read->fetchAll($select);
+
 
         // set default config values from database
         foreach ($rowset as $r) {
@@ -166,7 +167,6 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
                 'scope_id IN(?)' => $deleteStores,
             ));
         }
-
         return $this;
     }
 
