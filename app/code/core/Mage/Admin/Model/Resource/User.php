@@ -232,7 +232,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      * TODO: unify _saveRelations() and add() methods, they make same things
      *
      * @param Mage_Core_Model_Abstract $user
-     * @return unknown
+     * @return Mage_Admin_Model_Resource_User
      */
     public function _saveRelations(Mage_Core_Model_Abstract $user)
     {
@@ -279,6 +279,8 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             $adapter->rollBack();
             throw $e;
         }
+
+        return $this;
     }
 
     /**

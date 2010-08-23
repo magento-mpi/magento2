@@ -151,7 +151,7 @@ class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstra
      * Update role users ACL
      *
      * @param Mage_Admin_Model_Roles $role
-     * @return unknown
+     * @return bool
      */
     private function _updateRoleUsersAcl(Mage_Admin_Model_Roles $role)
     {
