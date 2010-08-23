@@ -50,7 +50,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'multiline_count'           => $this->_getValue($attr, 'multiline_count', 0),
             'validate_rules'            => $this->_getValue($attr, 'validate_rules', null),
             'data_model'                => $this->_getValue($attr, 'data', null),
-            'sort_order'                => $this->_getValue($attr, 'position', null)
+            'sort_order'                => $this->_getValue($attr, 'position', 0)
         ));
 
         return $data;
