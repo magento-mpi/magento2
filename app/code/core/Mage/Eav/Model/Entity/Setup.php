@@ -34,7 +34,6 @@
  */
 class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 {
-
     /**
      * General Attribute Group Name
      *
@@ -1193,9 +1192,9 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                     'nullable'  => false,
                     'default'   => '1',
                 ), 'Defines Is Entity Active')
-                ->addIndex($installer->getIdxName($baseTableName, array('entity_type_id')),
+                ->addIndex($this->getIdxName($baseTableName, array('entity_type_id')),
                     array('entity_type_id'))
-                ->addIndex($installer->getIdxName($baseTableName, array('store_id')),
+                ->addIndex($this->getIdxName($baseTableName, array('store_id')),
                     array('store_id'))
                 ->addForeignKey($this->getFkName($baseTableName, 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
                     'entity_type_id', $this->getTable('eav/entity_type'), 'entity_type_id',
