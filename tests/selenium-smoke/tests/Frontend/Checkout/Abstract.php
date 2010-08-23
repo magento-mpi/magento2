@@ -110,6 +110,35 @@ abstract class Test_Frontend_Checkout_Abstract extends Test_Frontend_Abstract
         }
     }
 
+    /**
+     * Perform Checkout with login from FrontEnd
+     * @param - array wirh expecteded values:
+     *       password
+     *       email
+     */
+    public function loginCheckout($params) {
+
+        //Open ProductPage, place one to ShoppingCart, Press "Proceed to Checkout"
+        $this->startCheckout($params);
+
+        //Select "...as login"
+        $this->type($this->getUiElement("frontend/pages/onePageCheckout/tabs/checkoutMethod/inputs/loginEmail"),$params["email"]);
+        $this->type($this->getUiElement("frontend/pages/onePageCheckout/tabs/checkoutMethod/inputs/password"),$params["password"]);
+        $this->clickAndWait($this->getUiElement("frontend/pages/onePageCheckout/tabs/checkoutMethod/buttons/login"));
+        $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/elements/pleaseWait"));
+
+        // Fill billing address tab
+        if ($this->waitForElement($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/elements/tabLoaded"), 5)) {
+            $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/inputs/use_for_shipping"));
+        };
+
+        //Press Continue
+        $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/billingAddress/buttons/continue"));
+
+        //Perform rest of Checkout steps
+        $this->shippingMethodPaymentPlaceOrderSteps($params);
+    }
+
     /* Test-specific utilitary function
      *
      */
@@ -184,6 +213,7 @@ abstract class Test_Frontend_Checkout_Abstract extends Test_Frontend_Abstract
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/shippingMethod/inputs/freeShipping"));
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/shippingMethod/buttons/continue"));
          $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/shippingMethod/elements/pleaseWait"));
+
          //Fill Payment Information Tab
          if (!$this->waitForElement($this->getUiElement("frontend/pages/onePageCheckout/tabs/paymentInfo/inputs/check"),10)) {
             $this->setVerificationErrors("Check 4: 'Check / MoneyOrder' payment method is not available.");
@@ -192,12 +222,13 @@ abstract class Test_Frontend_Checkout_Abstract extends Test_Frontend_Abstract
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/paymentInfo/inputs/check"));
          $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/paymentInfo/buttons/continue"));
          $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/paymentInfo/elements/pleaseWait"));
+
          //Place Order
-         $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/orderReview/buttons/placeOrder"));
-         $this->pleaseWaitStep($this->getUiElement("frontend/pages/onePageCheckout/tabs/orderReview/elements/pleaseWait"));
+         $this->clickAndWait($this->getUiElement("frontend/pages/onePageCheckout/tabs/orderReview/buttons/placeOrder"));
+
          // Check for success message
-         if (!$this->isTextPresent($this->getUiElement("frontend/pages/onePageCheckout/messages/orderPlaced"))) {
-            $this->setVerificationErrors("Check 1: no Order Placed  message");
+         if (!$this->waitForElement($this->getUiElement("frontend/pages/onePageCheckout/messages/orderPlaced"),10)) {
+            $this->setVerificationErrors('Check 1: no "Order Placed"  message');
             return false;
          }
          return true;

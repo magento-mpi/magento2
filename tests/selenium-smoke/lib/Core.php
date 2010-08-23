@@ -18,7 +18,7 @@ final class Core
      * 9 - all debug information printed
      * @var int
      */
-    protected static $_debugLevel  = 2;
+    protected static $_debugLevel  = 7;
 
     /**
      * System config container
@@ -215,7 +215,7 @@ final class Core
      */
     public static function debug($line, $level=5)
     {
-        if ($level>=self::$_debugLevel) {
+        if ($level<=self::$_debugLevel) {
             echo $line."\n";
         }
     }

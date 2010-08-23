@@ -52,6 +52,8 @@
 						<inputs>
 							<asGuest>//input[@id='login:guest']</asGuest>
 							<register>//input[@id='login:register']</register>
+							<loginEmail>//input[@id='login-email']</loginEmail>
+							<password>//input[@id='login-password']</password>
 						</inputs>
 						<buttons>
 							<continue>//button[contains(span,'Continue')]</continue>
@@ -78,12 +80,14 @@
 						<selectors>
 							<region>billing:region_id</region>
 							<country>billing:country_id</country>
+							<address>//select[@id='billing-address-select']</address>
 						</selectors>
 						<buttons>
 							<continue>//li[@id='opc-billing']//button[contains(span,'Continue')]</continue>
 						</buttons>
 						<elements>
 							<pleaseWait>billing-please-wait</pleaseWait>
+							<tabLoaded>//li[@id='opc-billing' and contains(@class,"allow") and contains (@class,'active')]</tabLoaded>
 						</elements>
 					</billingAddress>
 					<shippingAddress>
@@ -129,7 +133,7 @@
 					</orderReview>
 				</tabs>
 				<messages>
-					<orderPlaced>Your order has been received</orderPlaced>
+					<orderPlaced>//*[contains(text(),'Your order has been received')]</orderPlaced>
 				</messages>
 			</onePageCheckout>
 		</pages>
