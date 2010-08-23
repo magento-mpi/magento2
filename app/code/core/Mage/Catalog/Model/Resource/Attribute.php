@@ -48,4 +48,78 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
         }
         return parent::_beforeSave($object);
     }
+    
+    /**
+     * Delete entity
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Catalog_Model_Resource_Attribute
+     */
+    public function deleteEntity(Mage_Core_Model_Abstract $object)
+    {
+        if (!$object->getEntityAttributeId()) {
+            return $this;
+        }
+
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('eav/entity_attribute'))
+            ->where('entity_attribute_id = ?', (int)$object->getEntityAttributeId());
+        $result = $this->_getReadAdapter()->fetchRow($select);
+
+        if ($result) {
+            $attribute = Mage::getSingleton('eav/config')
+                ->getAttribute('catalog_product', $result['attribute_id']);
+                
+            if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {
+                Mage::throwException(Mage::helper('eav')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));
+            }
+            $backendTable = $attribute->getBackend()->getTable();
+            if ($backendTable) {
+                $select = $this->_getWriteAdapter()->select()
+                    ->from($attribute->getEntity()->getEntityTable(), 'entity_id')
+                    ->where('attribute_set_id =?', $result['attribute_set_id']);
+
+                $clearCondition = array(
+                    'entity_type_id =?' => $attribute->getEntityTypeId(),
+                    'attribute_id =?'   => $attribute->getId(),
+                    'entity_id IN (?)'  => $select
+                );
+                $this->_getWriteAdapter()->delete($backendTable, $clearCondition);
+            }    
+        }
+        
+        $condition = array('entity_attribute_id =?' => $object->getEntityAttributeId());
+        $this->_getWriteAdapter()->delete($this->getTable('entity_attribute'), $condition);
+
+        return $this;
+    }
+    
+    /**
+     * Defines is Attribute used by siper products
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @param int $attributeSet
+     * @return int
+     */
+    public function isUsedBySuperProducts(Mage_Core_Model_Abstract $object, $attributeSet = null)
+    {
+        $adapter      = $this->_getReadAdapter();
+        $attrTable    = $this->getTable('catalog/product_super_attribute');
+        $productTable = $this->getTable('catalog/product');
+
+        $bind = array('attribute_id' => $object->getAttributeId());
+        $select = $adapter->select()
+            ->from(array('_main_table' => $attrTable), 'COUNT(*)')
+            ->join(array('_entity' => $productTable), '_main_table.product_id = _entity.entity_id')
+            ->where('_main_table.attribute_id = :attribute_id')
+            ->group('_main_table.attribute_id')
+            ->limit(1);
+
+        if ($attributeSet !== null) {
+            $bind['attribute_set_id'] = $attributeSet;
+            $select->where('_entity.attribute_set_id = :attribute_set_id');
+        }
+
+        return $adapter->fetchOne($select, $bind);
+    }
 }
