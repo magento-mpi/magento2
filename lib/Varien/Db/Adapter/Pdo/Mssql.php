@@ -2451,10 +2451,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function getDateAddSql($date, $interval, $unit)
     {
-        if (!isset($this->_intervalUnits[$unit])) {
-            throw new Varien_Db_Exception(sprintf('Undefined interval unit "%s" specified', $unit));
-        }
-        return new Zend_Db_Expr(sprintf('DATEADD(%s, %d, %s)', $this->_intervalUnits[$unit], $interval, $date));
+        return new Zend_Db_Expr(sprintf('DATEADD(%s, %d, %s)', $unit, $interval, $this->quote($date)));
     }
 
     /**
