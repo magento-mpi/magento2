@@ -80,7 +80,7 @@ abstract class Test_Frontend_Checkout_Abstract extends Test_Frontend_Abstract
      *       telephone
      *       fax
      */
-    public function signInCheckout($params) {
+    public function registerCheckout($params) {
 
         //Open ProductPage, place one to ShoppingCart, Press "Proceed to Checkout"
         $this->startCheckout($params);

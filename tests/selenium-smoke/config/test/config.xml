@@ -26,12 +26,12 @@
 				<lastName>Guest Last Name</lastName>
 				<email>st2-user@varien.com</email>
 			</guest>
-			<signIn>
+			<register>
 				<firstName>SigIn First Name</firstName>
 				<lastName>SigIn Last Name</lastName>
-				<email>st8-user@varien.com</email>
+				<email>st10-user@varien.com</email>
 				<password>123123</password>
-			</signIn>
+			</register>
 			<login>
 				<email>st8-user@varien.com</email>
 				<password>123123</password>
