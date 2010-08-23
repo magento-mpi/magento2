@@ -1712,7 +1712,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getProductsForMassStatus(array $productIds)
     {
         /** @var Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $products */
-        $products = Mage::getModel('catalog/product')->getCollection()
+        $products = $this->getCollection()
                 ->addAttributeToSelect('sku')
                 ->addIdFilter($productIds);
         return $products;
