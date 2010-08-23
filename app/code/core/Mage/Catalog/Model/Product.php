@@ -1702,4 +1702,19 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
         return $tags;
     }
+
+    /**
+     * Get products for mass status through theirs identifiers
+     *
+     * @param  array $productIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function getProductsForMassStatus(array $productIds)
+    {
+        /** @var Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $products */
+        $products = Mage::getModel('catalog/product')->getCollection()
+                ->addAttributeToSelect('sku')
+                ->addIdFilter($productIds);
+        return $products;
+    }
 }

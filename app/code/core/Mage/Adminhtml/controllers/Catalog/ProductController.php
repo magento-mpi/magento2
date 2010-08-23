@@ -882,6 +882,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $status     = (int)$this->getRequest()->getParam('status');
 
         try {
+            $this->_validateMassStatus($productIds, $status); 
             Mage::getSingleton('catalog/product_action')
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 
@@ -892,11 +893,33 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         catch (Mage_Core_Model_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
+        catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
         catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('An error occurred while updating the product(s) status.'));
         }
 
         $this->_redirect('*/*/', array('store'=> $storeId));
+    }
+
+    /**
+     * Validate batch of products before theirs status will be set
+     *
+     * @throws Mage_Core_Exception
+     * @param  array $productIds
+     * @param  int $status
+     * @return void
+     */
+    public function _validateMassStatus(array $productIds, $status)
+    {
+        if ($status == Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
+            foreach (Mage::getModel('catalog/product')->getProductsForMassStatus($productIds) as $product) {
+                if (!$product->getSku()) {
+                    throw new Mage_Core_Exception('Some of the processed products have no SKU value. Please fill it.');
+                }
+            }
+        }
     }
 
     /**
