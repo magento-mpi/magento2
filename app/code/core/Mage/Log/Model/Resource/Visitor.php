@@ -35,7 +35,7 @@
 class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,40 +44,45 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
-     * Enter description here ...
+     * Prepare data for save
      *
      * @param Mage_Core_Model_Abstract $visitor
-     * @return unknown
+     * @return array
      */
     protected function _prepareDataForSave(Mage_Core_Model_Abstract $visitor)
     {
         return array(
-            'session_id'    => $visitor->getSessionId(),
-            'first_visit_at'=> $visitor->getFirstVisitAt(),
-            'last_visit_at' => $visitor->getLastVisitAt(),
-            'last_url_id'   => $visitor->getLastUrlId() ? $visitor->getLastUrlId() : 0,
-            'store_id'      => Mage::app()->getStore()->getId(),
+            'session_id'        => $visitor->getSessionId(),
+            'first_visit_at'    => $visitor->getFirstVisitAt(),
+            'last_visit_at'     => $visitor->getLastVisitAt(),
+            'last_url_id'       => $visitor->getLastUrlId() ? $visitor->getLastUrlId() : 0,
+            'store_id'          => Mage::app()->getStore()->getId(),
         );
     }
 
     /**
      * Saving information about url
      *
-     * @param Mage_Log_Model_Visitor $visitor
-     * @return Mage_Log_Model_Resource_Visitor
+     * @param   Mage_Log_Model_Visitor $visitor
+     * @return  Mage_Log_Model_Resource_Visitor
      */
     protected function _saveUrlInfo($visitor)
     {
-        $this->_getWriteAdapter()->insert($this->getTable('log/url_info_table'), array(
+        $data = new Varien_Object(array(
             'url'    => Mage::helper('core/string')->substr($visitor->getUrl(), 0, 250),
             'referer'=> Mage::helper('core/string')->substr($visitor->getHttpReferer(), 0, 250)
         ));
-        $visitor->setLastUrlId($this->_getWriteAdapter()->lastInsertId());
+        $bind = $this->_prepareDataForTable($data, $this->getTable('log/url_info_table'));
+
+        $this->_getWriteAdapter()->insert($this->getTable('log/url_info_table'), $bind);
+
+        $visitor->setLastUrlId($this->_getWriteAdapter()->lastInsertId($this->getTable('log/url_info_table')));
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Save url info before save
      *
      * @param Mage_Core_Model_Abstract $visitor
      * @return Mage_Log_Model_Resource_Visitor
@@ -91,7 +96,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
-     * Enter description here ...
+     * Actions after save
      *
      * @param Mage_Core_Model_Abstract $visitor
      * @return Mage_Log_Model_Resource_Visitor
@@ -101,8 +106,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
         if ($visitor->getIsNewVisitor()) {
             $this->_saveVisitorInfo($visitor);
             $visitor->setIsNewVisitor(false);
-        }
-        else {
+        } else {
             $this->_saveVisitorUrl($visitor);
             if ($visitor->getDoCustomerLogin() || $visitor->getDoCustomerLogout()) {
                 $this->_saveCustomerInfo($visitor);
@@ -117,8 +121,8 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
     /**
      * Saving visitor information
      *
-     * @param Mage_Log_Model_Visitor $visitor
-     * @return Mage_Log_Model_Resource_Visitor
+     * @param   Mage_Log_Model_Visitor $visitor
+     * @return  Mage_Log_Model_Resource_Visitor
      */
     protected function _saveVisitorInfo($visitor)
     {
@@ -134,89 +138,107 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
         $language   = $stringHelper->cleanString($visitor->getHttpAcceptLanguage());
         $language   = $stringHelper->substr($language, 0, 255);
 
-        $write = $this->_getWriteAdapter();
-        $data = array(
+        $adapter = $this->_getWriteAdapter();
+        $data = new Varien_Object(array(
             'visitor_id'            => $visitor->getId(),
-            'http_referer'          => $stringHelper->substr($visitor->getHttpReferer(), 0, 255),
-            'http_user_agent'       => $stringHelper->substr($visitor->getHttpUserAgent(), 0, 255),
-            'http_accept_charset'   => $stringHelper->substr($visitor->getHttpAcceptCharset(), 0, 255),
-            'http_accept_language'  => $stringHelper->substr($visitor->getHttpAcceptLanguage(), 0, 255),
+            'http_referer'          => $referer,
+            'http_user_agent'       => $userAgent,
+            'http_accept_charset'   => $charset,
+            'http_accept_language'  => $language,
             'server_addr'           => $visitor->getServerAddr(),
             'remote_addr'           => $visitor->getRemoteAddr(),
-        );
+        ));
+        $bind = $this->_prepareDataForTable($data, $this->getTable('log/visitor_info'));
 
-        $write->insert($this->getTable('log/visitor_info'), $data);
+        $adapter->insert($this->getTable('log/visitor_info'), $bind);
         return $this;
     }
 
     /**
      * Saving visitor and url relation
      *
-     * @param Mage_Log_Model_Visitor $visitor
-     * @return Mage_Log_Model_Resource_Visitor
+     * @param   Mage_Log_Model_Visitor $visitor
+     * @return  Mage_Log_Model_Resource_Visitor
      */
     protected function _saveVisitorUrl($visitor)
     {
-        $write = $this->_getWriteAdapter();
-        $write->insert($this->getTable('log/url_table'), array(
-            'url_id'    => $visitor->getLastUrlId(),
-            'visitor_id'=> $visitor->getId(),
-            'visit_time'=> now(),
+        $data = new Varien_Object(array(
+            'url_id'        => $visitor->getLastUrlId(),
+            'visitor_id'    => $visitor->getId(),
+            'visit_time'    => Mage::getSingleton('core/date')->gmtDate()
         ));
+        $bind = $this->_prepareDataForTable($data, $this->getTable('log/url_table'));
+
+        $this->_getWriteAdapter()->insert($this->getTable('log/url_table'), $bind);
         return $this;
     }
 
     /**
      * Saving information about customer
      *
-     * @param Mage_Log_Model_Visitor $visitor
-     * @return Mage_Log_Model_Resource_Visitor
+     * @param   Mage_Log_Model_Visitor $visitor
+     * @return  Mage_Log_Model_Resource_Visitor
      */
     protected function _saveCustomerInfo($visitor)
     {
-        $write = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
 
         if ($visitor->getDoCustomerLogin()) {
-            $write->insert($this->getTable('log/customer'), array(
+            $data = new Varien_Object(array(
                 'visitor_id'    => $visitor->getVisitorId(),
                 'customer_id'   => $visitor->getCustomerId(),
-                'login_at'      => now(),
-                'store_id'      => Mage::app()->getStore()->getId(),
+                'login_at'      => Mage::getSingleton('core/date')->gmtDate(),
+                'store_id'      => Mage::app()->getStore()->getId()
             ));
-            $visitor->setCustomerLogId($write->lastInsertId());
+            $bind = $this->_prepareDataForTable($data, $this->getTable('log/customer'));
+
+            $adapter->insert($this->getTable('log/customer'), $bind);
+            $visitor->setCustomerLogId($adapter->lastInsertId($this->getTable('log/customer')));
             $visitor->setDoCustomerLogin(false);
         }
 
         if ($visitor->getDoCustomerLogout() && $logId = $visitor->getCustomerLogId()) {
-            $write->update($this->getTable('log/customer'),
-                array(
-                    'logout_at' => now(),
-                    'store_id'  => Mage::app()->getStore()->getId(),
-                ),
-                $write->quoteInto('log_id=?', $logId)
+            $data = new Varien_Object(array(
+                'logout_at' => Mage::getSingleton('core/date')->gmtDate(),
+                'store_id'  => (int)Mage::app()->getStore()->getId(),
+            ));
+
+            $bind = $this->_prepareDataForTable($data, $this->getTable('log/customer'));
+
+            $condition = array(
+                'log_id = ?' => (int) $logId,
             );
+
+            $adapter->update($this->getTable('log/customer'), $bind, $condition);
+
             $visitor->setDoCustomerLogout(false);
             $visitor->setCustomerId(null);
             $visitor->setCustomerLogId(null);
         }
+
         return $this;
     }
 
     /**
      * Saving information about quote
      *
-     * @param Mage_Log_Model_Visitor $visitor
-     * @return Mage_Log_Model_Resource_Visitor
+     * @param   Mage_Log_Model_Visitor $visitor
+     * @return  Mage_Log_Model_Resource_Visitor
      */
     protected function _saveQuoteInfo($visitor)
     {
-        $write = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         if ($visitor->getDoQuoteCreate()) {
-            $write->insert($this->getTable('log/quote_table'), array(
-                'quote_id'  => $visitor->getQuoteId(),
-                'visitor_id'=> $visitor->getId(),
-                'created_at'=> now()
+            $data = new Varien_Object(array(
+                'quote_id'      => (int) $visitor->getQuoteId(),
+                'visitor_id'    => (int) $visitor->getId(),
+                'created_at'    => Mage::getSingleton('core/date')->gmtDate()
             ));
+
+            $bind = $this->_prepareDataForTable($data, $this->getTable('log/quote_table'));
+
+            $adapter->insert($this->getTable('log/quote_table'), $bind);
+
             $visitor->setDoQuoteCreate(false);
         }
 
@@ -225,13 +247,12 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
              * We have delete quote from log because if original quote was
              * deleted and Mysql restarted we will get key duplication error
              */
-            $write->delete($this->getTable('log/quote_table'),
-                $write->quoteInto('quote_id=?', $visitor->getQuoteId())
+            $condition = array(
+                'quote_id = ?' => (int) $visitor->getQuoteId(),
             );
-//            $write->update($this->getTable('log/quote_table'),
-//                array('deleted_at'=> now()),
-//                $write->quoteInto('quote_id=?', $visitor->getQuoteId())
-//            );
+
+            $adapter->delete($this->getTable('log/quote_table'), $condition);
+
             $visitor->setDoQuoteDestroy(false);
             $visitor->setQuoteId(null);
         }

@@ -28,11 +28,12 @@
 /**
  * Customer log resource
  *
- * @category    Mage
- * @package     Mage_Log
+ * @category   Mage
+ * @package    Mage_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Log_Model_Resource_Customer
+
+class Mage_Log_Model_Resource_Customer extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Visitor data table name
@@ -76,57 +77,51 @@ class Mage_Log_Model_Resource_Customer
      */
     protected $_quoteTable;
 
-    /**
-     * Database read connection
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    protected $_read;
-
-    /**
-     * Database write connection
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    protected $_write;
-
-    /**
-     * Enter description here ...
-     *
-     */
-    public function __construct()
+    protected function _construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $this->_init('log/customer', 'log_id');
 
-        $this->_visitorTable    = $resource->getTableName('log/visitor');
-        $this->_visitorInfoTable= $resource->getTableName('log/visitor_info');
-        $this->_urlTable        = $resource->getTableName('log/url_table');
-        $this->_urlInfoTable    = $resource->getTableName('log/url_info_table');
-        $this->_customerTable   = $resource->getTableName('log/customer');
-        $this->_quoteTable      = $resource->getTableName('log/quote_table');
-
-        $this->_read = $resource->getConnection('log_read');
-        $this->_write = $resource->getConnection('log_write');
+        $this->_visitorTable    = $this->getTable('log/visitor');
+        $this->_visitorInfoTable= $this->getTable('log/visitor_info');
+        $this->_urlTable        = $this->getTable('log/url_table');
+        $this->_urlInfoTable    = $this->getTable('log/url_info_table');
+        $this->_customerTable   = $this->getTable('log/customer');
+        $this->_quoteTable      = $this->getTable('log/quote_table');
     }
 
     /**
-     * Enter description here ...
+     * Load an object
      *
-     * @param unknown_type $object
-     * @param unknown_type $customerId
-     * @return unknown
+     * @param  Mage_Core_Model_Abstract $object
+     * @param  mixed $id
+     * @param  string $field field to load by (defaults to model id)
+     * @return Mage_Core_Model_Abstract
      */
-    public function load($object, $customerId)
+    public function load(Mage_Core_Model_Abstract $object, $id, $field = null)
     {
-        $select = $this->_read->select();
-        $select->from($this->_customerTable, array('login_at', 'logout_at'))
-            ->joinInner($this->_visitorTable, $this->_visitorTable.'.visitor_id='.$this->_customerTable.'.visitor_id', array('last_visit_at'))
-            ->joinInner($this->_visitorInfoTable, $this->_visitorTable.'.visitor_id='.$this->_visitorInfoTable.'.visitor_id', array('http_referer', 'remote_addr'))
-            ->joinInner($this->_urlInfoTable, $this->_urlInfoTable.'.url_id='.$this->_visitorTable.'.last_url_id', array('url'))
-            ->where($this->_read->quoteInto($this->_customerTable.'.customer_id=?', $customerId))
-            ->order($this->_customerTable.'.login_at desc')
+        $adapter = $this->_getReadAdapter();
+
+        $select = $adapter->select()
+            ->from(array('ct' => $this->getMainTable()), array('login_at', 'logout_at') )
+            ->joinInner(
+                array('vt' => $this->_visitorTable),
+                'vt.visitor_id=ct.visitor_id',
+                array('last_visit_at'))
+            ->joinInner(
+                array('vit' => $this->_visitorInfoTable),
+                'vt.visitor_id=vit.visitor_id',
+                array('http_referer', 'remote_addr'))
+            ->joinInner(
+                array('uit' => $this->_urlInfoTable),
+                'uit.url_id=vt.last_url_id',
+                array('url'))
+            ->where('ct.customer_id = :customer_id')
+            ->order('ct.login_at desc')
             ->limit(1);
-        $object->setData($this->_read->fetchRow($select));
+
+        $binds = array('customer_id' => $customerId);
+
+        $object->setData($adapter->fetchRow($select, $binds));
         return $object;
     }
 }

@@ -127,7 +127,7 @@ class Mage_Log_Model_Resource_Visitor_Online_Collection extends Mage_Core_Model_
      *
      * @see self::_getConditionSql for $condition
      *
-     * @param unknown_type $field
+     * @param string $field
      * @param null|string|array $condition
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
