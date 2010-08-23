@@ -1205,9 +1205,9 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             $storeBind   = 'store_id' . $storeId;
             $catBind     = 'category_id' . $catId;
             $cond  = join(' AND ', array(
-                $adapter->quoteInto('i.product_id=:' . $productBind),
-                $adapter->quoteInto('i.store_id=:' . $storeBind),
-                $adapter->quoteInto('i.category_id=:' . $catBind),
+                'i.product_id=:' . $productBind,
+                'i.store_id=:' . $storeBind,
+                'i.category_id=:' . $catBind,
             ));
             $bind[$productBind] = $productId;
             $bind[$storeBind]   = $storeId;
