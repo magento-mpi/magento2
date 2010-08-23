@@ -77,11 +77,19 @@ class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstra
         }
 
         if ($role->getPid() > 0) {
-            $row = $this->load($role->getPid());
+            $select = $this->_getReadAdapter()->select()
+                ->from($this->getMainTable(), array('tree_level'))
+                ->where("{$this->getIdFieldName()} = :pid");
+
+            $binds = array(
+                'pid' => (int) $role->getPid(),
+            );
+
+            $treeLevel = $this->_getReadAdapter()->fetchOne($select, $binds);
         } else {
-            $row = array('tree_level' => 0);
+            $treeLevel = 0;
         }
-        $role->setTreeLevel($row['tree_level'] + 1);
+        $role->setTreeLevel($treeLevel + 1);
         $role->setRoleName($role->getName());
         return $this;
     }
