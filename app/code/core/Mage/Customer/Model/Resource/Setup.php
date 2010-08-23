@@ -35,7 +35,7 @@
 class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
 {
     /**
-     * Prepare customer attribute values to save
+     * Prepare customer attribute values to save in additional table
      *
      * @param array $attr
      * @return array
@@ -45,11 +45,12 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         $data = parent::_prepareValues($attr);
         $data = array_merge($data, array(
             'is_visible'                => $this->_getValue($attr, 'visible', 1),
-            'is_visible_on_front'       => $this->_getValue($attr, 'visible_on_front', 0),
-            'input_filter'              => $this->_getValue($attr, 'input_filter', ''),
-            'lines_to_divide_multiline' => $this->_getValue($attr, 'lines_to_divide', 0),
-            'min_text_length'           => $this->_getValue($attr, 'min_text_length', 0),
-            'max_text_length'           => $this->_getValue($attr, 'max_text_length', 0)
+            'is_system'                 => $this->_getValue($attr, 'system', 1),
+            'input_filter'              => $this->_getValue($attr, 'input_filter', null),
+            'multiline_count'           => $this->_getValue($attr, 'multiline_count', 0),
+            'validate_rules'            => $this->_getValue($attr, 'validate_rules', null),
+            'data_model'                => $this->_getValue($attr, 'data', null),
+            'sort_order'                => $this->_getValue($attr, 'position', null)
         ));
 
         return $data;
