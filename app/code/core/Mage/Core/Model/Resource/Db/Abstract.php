@@ -572,34 +572,6 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     }
 
     /**
-     * Prepare data for passed table
-     *
-     * @param Varien_Object $object
-     * @param string $table
-     * @return array
-     */
-    protected function _prepareDataForTable(Varien_Object $object, $table)
-    {
-        $data = array();
-        $fields = $this->_getWriteAdapter()->describeTable($table);
-        foreach (array_keys($fields) as $field) {
-            if ($object->hasData($field)) {
-                $fieldValue = $object->getData($field);
-                if ($fieldValue instanceof Zend_Db_Expr) {
-                    $data[$field] = $fieldValue;
-                } else {
-                    if (null !== $fieldValue) {
-                        $data[$field] = $this->_prepareValueForSave($fieldValue, $fields[$field]['DATA_TYPE']);
-                    } elseif (!empty($fields[$field]['NULLABLE'])) {
-                        $data[$field] = null;
-                    }
-                }
-            }
-        }
-        return $data;
-    }
-
-    /**
      * Check that model data fields that can be saved
      * has really changed comparing with origData
      *

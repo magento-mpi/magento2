@@ -2120,7 +2120,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             return new Zend_Db_Expr('NULL');
         }
 
-        return new Zend_Db_Expr($this->quote($date));
+        return $date;
     }
 
     /**
