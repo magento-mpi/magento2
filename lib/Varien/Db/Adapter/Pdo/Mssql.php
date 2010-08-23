@@ -243,8 +243,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             return;
         }
 
-        $this->_lobAsString = true;
-
         $this->_debugTimer();
         parent::_connect();
 
@@ -786,7 +784,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function truncateTable($tableName, $schemaName = null)
     {
@@ -923,7 +921,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $columnName
      * @param array|string $definition  string specific or universal array DB Server definition
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function addColumn($tableName, $columnName, $definition, $schemaName = null)
     {
@@ -962,7 +960,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param array|string $definition
      * @param boolean $flushData        flush table statistic for MyS
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
         $schemaName = null)
@@ -986,7 +984,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $oldColumnName
      * @param string $newColumnName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     protected function _renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName = null)
     {
@@ -1022,7 +1020,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param array|string $definition
      * @param boolean $flushData
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
@@ -1218,7 +1216,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $fields        the validated and queted columns list (SQL)
      * @param string $indexType     the index type
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     protected function _createIndex($tableName, $keyName, $indexType, $fields, $schemaName = null)
     {
@@ -1254,7 +1252,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string|array $fields  the table column name or array of ones
      * @param string $indexType     the index type
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function addIndex($tableName, $indexName, $fields,
         $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX, $schemaName = null)
@@ -1299,7 +1297,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function dropIndex($tableName, $keyName, $schemaName = null)
     {
@@ -1464,7 +1462,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param boolean $purge            trying remove invalid data
      * @param string $schemaName
      * @param string $refSchemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
         $onDelete = Varien_Db_Adapter_Interface::FK_ACTION_CASCADE,
@@ -1502,7 +1500,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $tableName
      * @param string $fkName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function dropForeignKey($tableName, $fkName, $schemaName = null)
     {
@@ -1959,7 +1957,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * Executes a SQL statement(s)
      *
      * @param string $sql
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function multiQuery($sql)
     {
@@ -1999,7 +1997,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Run additional environment before setup
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function startSetup()
     {
@@ -2009,7 +2007,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Run additional environment after setup
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function endSetup()
     {
@@ -2020,7 +2018,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * Set cache adapter
      *
      * @param Zend_Cache_Backend_Interface $adapter
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function setCacheAdapter($adapter)
     {
@@ -2082,7 +2080,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Allow DDL caching
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function allowDdlCache()
     {
@@ -2093,7 +2091,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Disallow DDL caching
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function disallowDdlCache()
     {
@@ -2107,7 +2105,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableName
      * @param string $schemaName OPTIONAL
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function resetDdlCache($tableName = null, $schemaName = null)
     {
@@ -2143,7 +2141,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableCacheKey
      * @param int $ddlType
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function saveDdlCache($tableCacheKey, $ddlType, $data)
     {
@@ -3073,7 +3071,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function disableTableKeys($tableName, $schemaName = null)
     {
@@ -3098,7 +3096,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function enableTableKeys($tableName, $schemaName = null)
     {
@@ -3353,5 +3351,15 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $result[] = array($tableName, $this->fetchOne($query));
         }
         return $result;
+    }
+
+    /**
+     * Check if the database support STRAIGHT JOIN
+     *
+     * @return boolean
+     */
+    public function supportStraightJoin()
+    {
+        return false;
     }
 }

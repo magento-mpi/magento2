@@ -508,7 +508,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string $tableName
      * @param string $fkName
      * @param string $shemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function dropForeignKey($tableName, $fkName, $schemaName = null)
     {
@@ -530,7 +530,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function dropKey($tableName, $keyName, $schemaName = null)
     {
@@ -684,10 +684,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param array|string $definition
      * @param boolean $flushData        flush table statistic
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
-
-
-
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
         $schemaName = null)
@@ -724,7 +721,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param array|string $definition
      * @param boolean $flushData
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
@@ -1876,7 +1873,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function truncateTable($tableName, $schemaName = null)
     {
@@ -1939,7 +1936,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string|array $fields  the table column name or array of ones
      * @param string $indexType     the index type
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function addIndex($tableName, $indexName, $fields,
         $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX, $schemaName = null)
@@ -2021,7 +2018,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function dropIndex($tableName, $keyName, $schemaName = null)
     {
@@ -2071,7 +2068,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param boolean $purge            trying remove invalid data
      * @param string $schemaName
      * @param string $refSchemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
         $onDelete = Varien_Db_Adapter_Interface::FK_ACTION_CASCADE,
@@ -2126,7 +2123,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     /**
      * Run additional environment before setup
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function startSetup()
     {
@@ -2140,7 +2137,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     /**
      * Run additional environment after setup
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function endSetup()
     {
@@ -2572,7 +2569,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function disableTableKeys($tableName, $schemaName = null)
     {
@@ -2589,7 +2586,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Pdo_Mysql
      */
     public function enableTableKeys($tableName, $schemaName = null)
     {
@@ -2745,5 +2742,15 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     public function getTablesChecksum($tableNames, $schemaName = null)
     {
         return array();
+    }
+
+    /**
+     * Check if the database support STRAIGHT JOIN
+     *
+     * @return boolean
+     */
+    public function supportStraightJoin()
+    {
+        return true;
     }
 }

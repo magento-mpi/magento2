@@ -35,20 +35,19 @@ class Varien_Db_Select extends Zend_Db_Select
 {
     const TYPE_CONDITION    = 'TYPE_CONDITION';
 
-    const STRAIGHT_JOIN_ON  = 'straight_join';
     const STRAIGHT_JOIN     = 'straightjoin';
     const SQL_STRAIGHT_JOIN = 'STRAIGHT_JOIN';
 
     /**
      * Class constructor
+     * Add straight join support
      *
      * @param Zend_Db_Adapter_Abstract $adapter
      */
     public function __construct(Zend_Db_Adapter_Abstract $adapter)
     {
         parent::__construct($adapter);
-        if (!in_array(self::STRAIGHT_JOIN_ON, self::$_joinTypes)) {
-            self::$_joinTypes[] = self::STRAIGHT_JOIN_ON;
+        if (!isset(self::$_partsInit[self::STRAIGHT_JOIN])) {
             self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
         }
     }
@@ -359,26 +358,6 @@ class Varien_Db_Select extends Zend_Db_Select
     }
 
     /**
-     * Add a STRAIGHT_JOIN table and colums to the query (MySQL only).
-     * STRAIGHT_JOIN is similar to JOIN, except that the left table
-     * is always read before the right table. This can be used for those
-     * (few) cases for which the join optimizer puts the tables in the wrong order
-     *
-     * The $name and $cols parameters follow the same logic
-     * as described in the from() method.
-     *
-     * @param  array|string|Zend_Db_Expr $name The table name.
-     * @param  string $cond Join on this condition.
-     * @param  array|string $cols The columns to select from the joined table.
-     * @param  string $schema The database name to specify, if any.
-     * @return Zend_Db_Select This Zend_Db_Select object.
-     */
-    public function joinStraight($name, $cond, $cols = self::SQL_WILDCARD, $schema = null)
-    {
-        return $this->_join(self::STRAIGHT_JOIN_ON, $name, $cond, $cols, $schema);
-    }
-
-    /**
      * Use a STRAIGHT_JOIN for the SQL Select
      *
      * @param bool $flag Whether or not the SELECT use STRAIGHT_JOIN (default true).
@@ -399,7 +378,7 @@ class Varien_Db_Select extends Zend_Db_Select
      */
     protected function _renderStraightjoin($sql)
     {
-        if (!empty($this->_parts[self::STRAIGHT_JOIN])) {
+        if ($this->_adapter->supportStraightJoin() && !empty($this->_parts[self::STRAIGHT_JOIN])) {
             $sql .= ' ' . self::SQL_STRAIGHT_JOIN;
         }
 

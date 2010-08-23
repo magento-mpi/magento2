@@ -879,4 +879,11 @@ interface Varien_Db_Adapter_Interface
      *
      */
     public function getTablesChecksum($tableNames, $schemaName = null);
+
+    /**
+     * Check if the database support STRAIGHT JOIN
+     *
+     * @return boolean
+     */
+    public function supportStraightJoin();
 }

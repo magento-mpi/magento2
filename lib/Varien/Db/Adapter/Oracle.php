@@ -604,7 +604,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $columnName
      * @param array|string $definition  string specific or universal array DB Server definition
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function addColumn($tableName, $columnName, $definition, $schemaName = null)
     {
@@ -617,7 +617,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         if (empty($definition['COMMENT'])) {
-            throw new Zend_Db_Exception("Impossible to create a column without comment"); 
+            throw new Zend_Db_Exception("Impossible to create a column without comment");
         }
 
         $query = sprintf('ALTER TABLE %s ADD %s %s',
@@ -661,7 +661,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $oldColumnName
      * @param string $newColumnName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     protected function _renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName = null)
     {
@@ -696,7 +696,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param array|string $definition
      * @param boolean $flushData
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
@@ -733,13 +733,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param array|string $definition
      * @param boolean $flushData        flush table statistic
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
         $schemaName = null)
     {
         if (empty($definition['COMMENT']) && !$this->_checkComentExists($tableName, self::EXTPROP_COMMENT_COLUMN)) {
-            throw new Zend_Db_Exception("Impossible to create a column without comment"); 
+            throw new Zend_Db_Exception("Impossible to create a column without comment");
         }
         $this
             ->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName)
@@ -755,7 +755,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $tableName
      * @param string $columnName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function dropColumn($tableName, $columnName, $schemaName = null)
     {
@@ -844,7 +844,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function dropIndex($tableName, $keyName, $schemaName = null)
     {
@@ -978,7 +978,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param boolean $purge            trying remove invalid data
      * @param string $schemaName
      * @param string $refSchemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
         $onDelete = self::FK_ACTION_CASCADE, $onUpdate = self::FK_ACTION_CASCADE,
@@ -1067,7 +1067,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $tableName
      * @param string $fkName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function dropForeignKey($tableName, $fkName, $schemaName = null)
     {
@@ -1494,7 +1494,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * Executes a SQL statement(s)
      *
      * @param string $sql
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function multiQuery($sql)
     {
@@ -1534,7 +1534,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     /**
      * Run additional environment before setup
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function startSetup()
     {
@@ -1544,7 +1544,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     /**
      * Run additional environment after setup
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function endSetup()
     {
@@ -1555,7 +1555,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * Set cache adapter
      *
      * @param Zend_Cache_Backend_Interface $adapter
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function setCacheAdapter($adapter)
     {
@@ -1566,7 +1566,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     /**
      * Allow DDL caching
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function allowDdlCache()
     {
@@ -1577,7 +1577,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     /**
      * Disallow DDL caching
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function disallowDdlCache()
     {
@@ -1603,7 +1603,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param string $tableName
      * @param string $schemaName OPTIONAL
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function resetDdlCache($tableName = null, $schemaName = null)
     {
@@ -1639,7 +1639,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param string $tableCacheKey
      * @param int $ddlType
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function saveDdlCache($tableCacheKey, $ddlType, $data)
     {
@@ -2054,7 +2054,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function truncateTable($tableName, $schemaName = null)
     {
@@ -2600,7 +2600,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         return $this;
     }
-    
+
     /**
      * Set comment on the column
      *
@@ -2639,10 +2639,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 ->where('cc.table_name = ?', $this->quoteIdentifier($tableName))
                 ->where('cc.column_name = ?', $this->quoteIdentifier($columnName))
                 ->columns(array('qty' => new Zend_Db_Expr('COUNT(1)')));
-        } 
+        }
         return ($this->raw_fetchRow($query, 'qty') != 0);
     }
-    
+
     /**
      * Retrieve table unique constraints definition array for create table
      *
@@ -2773,7 +2773,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             }
             if (!empty($columnData['COMMENT'])) {
                 $this->_addColumnComment($table->getName(), $columnData['COLUMN_NAME'], $columnData['COMMENT']);
-            }            
+            }
         }
         return $result;
     }
@@ -3062,7 +3062,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function disableTableKeys($tableName, $schemaName = null)
     {
@@ -3083,7 +3083,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Varien_Db_Adapter_Oracle
      */
     public function enableTableKeys($tableName, $schemaName = null)
     {
@@ -3390,5 +3390,15 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $result[] = array($tableName, $this->fetchOne($query));
         }
         return $result;
+    }
+
+    /**
+     * Check if the database support STRAIGHT JOIN
+     *
+     * @return boolean
+     */
+    public function supportStraightJoin()
+    {
+        return false;
     }
 }
