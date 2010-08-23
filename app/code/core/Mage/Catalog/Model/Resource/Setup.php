@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     }
 
     /**
-     * Enter description here...
+     * Default entites and attributes
      *
      * @return array
      */
@@ -1109,7 +1109,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'used_in_product_listing' => true,
                         'unique'            => false,
                     ),
-                    'tax_class_id' => array(
+                    /*'tax_class_id' => array(
                         'group'             => 'Prices',
                         'type'              => 'int',
                         'backend'           => '',
@@ -1131,7 +1131,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'used_in_product_listing' => true,
                         'unique'            => false,
                         'apply_to'          => 'simple,configurable,virtual',
-                    ),
+                    ),*/
                     'url_key' => array(
                         'label'             => 'URL key',
                         'backend'           => 'catalog/product_attribute_backend_urlkey',
@@ -1446,7 +1446,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     }
 
     /**
-     * Enter description here...
+     * Converts old tree to new
      *
      * @return Mage_Catalog_Model_Resource_Setup
      */
@@ -1476,7 +1476,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                     ->update(
                         $this->getTable('catalog/category'),
                         array('path' => $path),
-                        "entity_id = {$category['entity_id']}"
+                        array('entity_id = ?' => $category['entity_id'])
                     );
             }
         }
@@ -1484,7 +1484,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     }
 
     /**
-     * Enter description here...
+     * Returns category entity row by category id
      *
      * @param int $id
      * @return array
@@ -1494,13 +1494,13 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         $select = $this->getConnection()->select();
 
         $select->from($this->getTable('catalog/category'));
-        $select->where('entity_id = ?', $id);
+        $select->where('entity_id = :entity_id');
 
-        return $this->getConnection()->fetchRow($select);
+        return $this->getConnection()->fetchRow($select, array('entity_id'=>$id));
     }
 
     /**
-     * Enter description here...
+     * Returns category path as array
      *
      * @param array $category
      * @param array $path
@@ -1539,7 +1539,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 ->update(
                     $this->getTable('catalog/category'),
                     array('level' => $level),
-                    "entity_id = {$category['entity_id']}"
+                    array('entity_id = ?' => $category['entity_id'])
                 );
         }
         return $this;

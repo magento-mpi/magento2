@@ -42,9 +42,9 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
     protected $_entityTypeId;
 
     /**
-     * Enter description here ...
+     * Store id
      *
-     * @var unknown
+     * @var int
      */
     protected $_storeId          = null;
 
@@ -103,6 +103,11 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
      */
     public function getAttributesUsedInListing()
     {
+        $bind = array(
+            'store_id'         => (int) $this->getStoreId(),
+            'entity_type_id'   => $this->getEntityTypeId(),
+            'used_in_product_listing' => 1
+        );
         $select = $this->_getReadAdapter()->select()
             ->from(array('main_table' => $this->getTable('eav/attribute')))
             ->join(
@@ -110,13 +115,13 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
                 'main_table.attribute_id = additional_table.attribute_id'
             )
             ->joinLeft(
-                 array('al' => $this->getTable('eav/attribute_label')),
-                'al.attribute_id = main_table.attribute_id AND al.store_id = ' . (int) $this->getStoreId(),
+                array('al' => $this->getTable('eav/attribute_label')),
+                'al.attribute_id = main_table.attribute_id AND al.store_id = :store_id',
                 array('store_label' => new Zend_Db_Expr('IFNULL(al.value, main_table.frontend_label)'))
             )
-            ->where('main_table.entity_type_id=?', $this->getEntityTypeId())
-            ->where('additional_table.used_in_product_listing=?', 1);
-        return $this->_getReadAdapter()->fetchAll($select);
+            ->where('main_table.entity_type_id=:entity_type_id')
+            ->where('additional_table.used_in_product_listing=:used_in_product_listing');
+        return $this->_getReadAdapter()->fetchAll($select, $bind);
     }
 
     /**
@@ -126,6 +131,11 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
      */
     public function getAttributesUsedForSortBy()
     {
+        $bind = array(
+            'store_id'         => (int) $this->getStoreId(),
+            'entity_type_id'   => $this->getEntityTypeId(),
+            'used_for_sort_by' => 1
+        );
         $select = $this->_getReadAdapter()->select()
             ->from(array('main_table' => $this->getTable('eav/attribute')))
             ->join(
@@ -134,12 +144,12 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
                 array()
             )
             ->joinLeft(
-                 array('al' => $this->getTable('eav/attribute_label')),
-                'al.attribute_id = main_table.attribute_id AND al.store_id = ' . (int) $this->getStoreId(),
+                array('al' => $this->getTable('eav/attribute_label')),
+                'al.attribute_id = main_table.attribute_id AND al.store_id = :store_id',
                 array('store_label' => new Zend_Db_Expr('IFNULL(al.value, main_table.frontend_label)'))
             )
-            ->where('main_table.entity_type_id=?', $this->getEntityTypeId())
-            ->where('additional_table.used_for_sort_by=?', 1);
-        return $this->_getReadAdapter()->fetchAll($select);
+            ->where('main_table.entity_type_id=:entity_type_id')
+            ->where('additional_table.used_for_sort_by=:used_for_sort_by');
+        return $this->_getReadAdapter()->fetchAll($select, $bind);
     }
 }
