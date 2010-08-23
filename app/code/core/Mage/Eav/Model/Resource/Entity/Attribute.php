@@ -144,45 +144,13 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     public function deleteEntity(Mage_Core_Model_Abstract $object)
     {
-        $adapter = $this->_getWriteAdapter();
-
-
-        /**
-         * Delete attribute values
-         */
-        $bind   = array('entity_attribute_id' => $object->getEntityAttributeId());
-        $select = $adapter->select()
-            ->from($this->getTable('entity_attribute'))
-            ->where('entity_attribute_id = :entity_attribute_id');
-        $data = $adapter->fetchRow($select, $bind);
-        if (!empty($data)) {
-            /**
-             * @todo !!!! need fix retrieving attribute entity, this realization is temprary
-             */
-            $attribute = Mage::getModel('eav/entity_attribute')
-                ->load($data['attribute_id'])
-                ->setEntity(Mage::getSingleton('catalog/product')->getResource());
-
-            if ($this->isUsedBySuperProducts($attribute, $data['attribute_set_id'])) {
-                Mage::throwException(Mage::helper('eav')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));
-            }
-            $backendTable = $attribute->getBackend()->getTable();
-            if ($backendTable) {
-                $select = $adapter->select()
-                    ->from($attribute->getEntity()->getEntityTable(), 'entity_id')
-                    ->where('attribute_set_id =?', $data['attribute_set_id']);
-
-                $clearCondition = array(
-                    'entity_type_id =?' => $attribute->getEntityTypeId(),
-                    'attribute_id =?'   => $attribute->getId(),
-                    'entity_id IN (?)'  => $select
-                );
-                $adapter->delete($backendTable, $clearCondition);
-            }
+        if (!$object->getEntityAttributeId()) {
+            return $this;
         }
 
-        $condition = array('entity_attribute_id =?' => $object->getEntityAttributeId());
-        $adapter->delete($this->getTable('entity_attribute'), $condition);
+        $this->_getWriteAdapter()->delete($this->getTable('eav/entity_attribute'), array(
+            'entity_attribute_id = ?' => $object->getEntityAttributeId()
+        ));
 
         return $this;
     }
@@ -379,7 +347,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
                            'sort_order'    => $sortOrder
                         );
                         $adapter->insert($optionTable, $data);
-                        $intOptionId = $write->lastInsertId($optionTable);
+                        $intOptionId = $adapter->lastInsertId($optionTable);
                     } else {
                         $data  = array('sort_order'    => $sortOrder);
                         $where = array('option_id =?' => $intOptionId);
@@ -423,34 +391,6 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
         return $this;
     }
 
-    /**
-     * Defines is Attribute used by siper products
-     *
-     * @param Mage_Core_Model_Abstract $object
-     * @param int $attributeSet
-     * @return int
-     */
-    public function isUsedBySuperProducts(Mage_Core_Model_Abstract $object, $attributeSet = null)
-    {
-        $adapter      = $this->_getReadAdapter();
-        $attrTable    = $this->getTable('catalog/product_super_attribute');
-        $productTable = $this->getTable('catalog/product');
-
-        $bind = array('attribute_id' => $object->getAttributeId());
-        $select = $adapter->select()
-            ->from(array('_main_table' => $attrTable), 'COUNT(*)')
-            ->join(array('_entity' => $productTable), '_main_table.product_id = _entity.entity_id')
-            ->where('_main_table.attribute_id = :attribute_id')
-            ->group('_main_table.attribute_id')
-            ->limit(1);
-
-        if ($attributeSet !== null) {
-            $bind['attribute_set_id'] = $attributeSet;
-            $select->where('_entity.attribute_set_id = :attribute_set_id');
-        }
-
-        return $adapter->fetchOne($select, $bind);
-    }
 
     /**
      * Retrieve attribute id by entity type code and attribute code
@@ -481,7 +421,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Retrieve attribute codes by front-end type
      *
-     * @param string $type
+     * @param string $frontendType
      * @return array
      */
     public function getAttributeCodesByFrontendType($frontendType)
@@ -622,11 +562,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     public function getValidAttributeIds($attributeIds)
     {
         $adapter   = $this->_getReadAdapter();
-        $bind      = array('atribute_ids' => implode(',', $attributeIds));
         $select    = $adapter->select()
             ->from($this->getMainTable(), array('attribute_id'))
-            ->where('attribute_id IN (:attribute_ids)');
+            ->where('attribute_id IN (?)', $attributeIds);
 
-        return $adapter->fetchCol($select, $bind);
+        return $adapter->fetchCol($select);
     }
 }
