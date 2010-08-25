@@ -23,16 +23,16 @@ class Frontend_Checkout_SignIn extends Test_Frontend_Checkout_Abstract
      *
      */
 
-    function testRegisterCheckout() {
+    function testMultiShippingRegisterCheckout() {
         // Test Dara
         $paramArray = array (
-            "firstName" => Core::getEnvConfig('frontend/checkout/register/firstName'),
-            "lastName" => Core::getEnvConfig('frontend/checkout/register/lastName'),
-            "password" =>  Core::getEnvConfig('frontend/checkout/register/password'),
-            "email" => Core::getEnvConfig('frontend/checkout/register/email'),
+            "firstName" => Core::getEnvConfig('frontend/checkout/mulitiShippingRegister/firstName'),
+            "lastName" => Core::getEnvConfig('frontend/checkout/mulitiShippingRegister/lastName'),
+            "password" =>  Core::getEnvConfig('frontend/checkout/mulitiShippingRegister/password'),
+            "email" => Core::getEnvConfig('frontend/checkout/mulitiShippingRegister/email'),
             "company" => Core::getEnvConfig('frontend/checkout/company'),
-            "productUrl" => Core::getEnvConfig('frontend/checkout/productUrl'),
-            "qty" => Core::getEnvConfig('frontend/checkout/qty'),
+            "productUrl" => Core::getEnvConfig('frontend/checkout/mulitiShippingRegister/productUrl'),
+            "qty" => Core::getEnvConfig('frontend/checkout/mulitiShippingRegister/qty'),
             "street1" => Core::getEnvConfig('frontend/checkout/street1'),
             "street2" => Core::getEnvConfig('frontend/checkout/street2'),
             "city" => Core::getEnvConfig('frontend/checkout/city'),
@@ -42,6 +42,6 @@ class Frontend_Checkout_SignIn extends Test_Frontend_Checkout_Abstract
             "telephone" =>  Core::getEnvConfig('frontend/checkout/telephone'),
             "fax" =>  Core::getEnvConfig('frontend/checkout/fax'),
         );
-        $this->registerCheckout($paramArray);
+        $this->multiShippingRegisterCheckout($paramArray);
     }
 }

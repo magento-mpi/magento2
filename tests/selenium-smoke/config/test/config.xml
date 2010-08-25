@@ -36,6 +36,14 @@
 				<email>st8-user@varien.com</email>
 				<password>123123</password>
 			</login>
+			<mulitiShippingRegister>
+				<firstName>MS-Register First Name</firstName>
+				<lastName>MS-Last Name</lastName>
+				<email>st16-user@varien.com</email>
+				<password>123123</password>
+				<productUrl>http://kq.varien.com/enterprise/1.8.0.0/smoke/st-01.html</productUrl>
+				<qty>2</qty>
+			</mulitiShippingRegister>
 		</checkout>
 	</frontend>
 	<backend>

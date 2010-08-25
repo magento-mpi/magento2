@@ -20,5 +20,11 @@
         <name>SmokeTest: 4.1 Sub Category Creation</name>
         <testClass></testClass>
     </testCase>
+    <testCase>
+        <id>S-11</id>
+        <name>SmokeTest: 9.3 Login checkout</name>
+        <testClass></testClass>
+    </testCase>
+
 
 </references>

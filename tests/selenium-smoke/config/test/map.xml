@@ -45,6 +45,9 @@
 				<buttons>
 					<proceedToCheckout>//button[contains(span,'Proceed to Checkout')]</proceedToCheckout>
 				</buttons>
+				<links>
+					<multipleShippingCheckout>//a[contains(text(),'Checkout with Multiple Addresses')]</multipleShippingCheckout>
+				</links>
 			</shoppingCart>
 			<onePageCheckout>
 				<tabs>
@@ -136,6 +139,111 @@
 					<orderPlaced>//*[contains(text(),'Your order has been received')]</orderPlaced>
 				</messages>
 			</onePageCheckout>
+			<multiShippingCheckout>
+				<checkoutMethod>
+					<inputs>
+						<loginEmail>//input[@id='email']</loginEmail>
+						<password>//input[@id='pass']</password>
+					</inputs>
+					<buttons>
+						<register>//button[contains(span,'Register')]</register>
+						<login>//button[contains(span,'Login')]</login>
+					</buttons>
+				</checkoutMethod>
+				<createAccount>
+					<inputs>
+						<firstName>firstname</firstName>
+						<lastName>lastname</lastName>
+						<company>company</company>
+						<email>email_address</email>
+						<street1>street_1</street1>
+						<street2>street_2</street2>
+						<city>city</city>
+						<postcode>zip</postcode>
+						<telephone>telephone</telephone>
+						<fax>fax</fax>
+						<use_for_shipping>use_for_shipping_yes</use_for_shipping>
+						<not_use_for_shipping>use_for_shipping_no</not_use_for_shipping>
+						<password>password</password>
+						<confirm>confirmation</confirm>
+					</inputs>
+					<selectors>
+						<region>region_id</region>
+						<country>country</country>
+					</selectors>
+					<buttons>
+						<submit>//button[contains(span,'Submit')]</submit>
+					</buttons>
+					<messages>
+						<alreadyExists>//li[contains(@class,'error-msg')]//*[contains(text(),'There is already an account with this email address. ')]</alreadyExists>
+						<success>//*[contains(@class,'messages')]//*[contains(@class,'success-msg')]</success>
+					</messages>
+				</createAccount>
+				<tabs>
+					<selectAddresses>
+						<buttons>
+							<continue>//button[contains(span,'Continue to Shipping Information')]</continue>
+							<enterNewAddress>//button[contains(span,'Enter a New Address')]</enterNewAddress>
+						</buttons>
+						<elements>
+								<firstShippingAddress>//table[@id='multiship-addresses-table']//tbody/tr[contains(@class,'first odd')]//td[starts-with(select/@id,'ship')]/select</firstShippingAddress>
+								<lastShippingAddress>//table[@id='multiship-addresses-table']//tbody/tr[contains(@class,'last even')]//td[starts-with(select/@id,'ship')]/select</lastShippingAddress>
+						</elements>
+					</selectAddresses>
+					<createShippingAddress>
+						<inputs>
+							<firstName>firstname</firstName>
+							<lastName>lastname</lastName>
+							<company>company</company>
+							<email>email_address</email>
+							<street1>street_1</street1>
+							<street2>street_2</street2>
+							<city>city</city>
+							<postcode>zip</postcode>
+							<telephone>telephone</telephone>
+							<fax>fax</fax>
+							<primary_billing>primary_billing</primary_billing>
+							<primary_shipping>primary_shipping</primary_shipping>
+						</inputs>
+						<selectors>
+							<region>region_id</region>
+							<country>country</country>
+						</selectors>
+						<buttons>
+							<saveAddress>//button[contains(span,'Save Address')]</saveAddress>
+						</buttons>
+						<messages>
+							<success>//*[contains(@class,'messages')]//*[contains(@class,'success-msg')]</success>
+						</messages>
+					</createShippingAddress>
+					<shippingInformation>
+						<buttons>
+							<continue>//button[contains(span,'Continue to Billing Information')]</continue>
+						</buttons>
+						<elements>
+							<addressPane>//fieldset[contains(@class,'multiple-checkout')]//div[contains(@class,'col2-set')]</addressPane>
+						</elements>
+					</shippingInformation>
+					<billingInformation>
+						<inputs>
+							<check>p_method_checkmo</check>
+						</inputs>
+						<buttons>
+							<continue>//button[contains(span,'Continue to Review Your Order')]</continue>
+						</buttons>
+					</billingInformation>
+					<placeOrder>
+						<buttons>
+							<placeOrder>//button[contains(span,'Place Order')]</placeOrder>
+						</buttons>
+					</placeOrder>
+					<orderSuccess>
+						<messages>
+							<orderSuccess>//*[contains(text(),'Thank you for your purchase!')]</orderSuccess>
+						</messages>
+					</orderSuccess>
+				</tabs>
+			</multiShippingCheckout>
 		</pages>
 	</frontend>
 	<!-- Admin Section-->

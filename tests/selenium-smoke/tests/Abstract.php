@@ -231,5 +231,26 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
             }
         }
     }
+
+    public function findAddressByMask($selector, $mask)
+    {
+            core::debug('findAddressByMask() started',7);
+            $addressCount = $this->getXpathCount($selector.'/option');
+            core::debug($addressCount . ' addresses founded',7);
+
+            for ($i=1;$i<=$addressCount;$i++) {
+                core::debug($i . ' address: ', 7);
+                $xpath = $selector . "/option[".$i."]";
+                core::debug('PROBING: ' . $xpath, 7);
+                $addressValue = $this->getText($xpath);
+                core::debug('result: ' . $addressValue, 7);
+                if (preg_match($mask, $addressValue)) {
+                    core::debug('matched: ' . $xpath, 7);
+                    return $i;
+                }
+            };
+            core::debug('NOT matched', 7);
+            return -1;
+    }
 }
 
