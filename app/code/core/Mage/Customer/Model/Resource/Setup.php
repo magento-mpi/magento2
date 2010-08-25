@@ -65,21 +65,13 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     {
         return array(
             'customer' => array(
-                'entity_model'          =>'customer/customer',
-                'table'                 => 'customer/entity',
-                'increment_model'       => 'eav/entity_increment_numeric',
-                'increment_per_store'   => false,
-                'additional_attribute_table' => 'customer/eav_attribute',
-                'entity_attribute_collection' => 'customer/attribute_collection',
+                'entity_model'                  =>'customer/customer',
+                'table'                         => 'customer/entity',
+                'increment_model'               => 'eav/entity_increment_numeric',
+                'increment_per_store'           => false,
+                'additional_attribute_table'    => 'customer/eav_attribute',
+                'entity_attribute_collection'   => 'customer/attribute_collection',
                 'attributes' => array(
-//                    'entity_id'         => array('type'=>'static'),
-//                    'entity_type_id'    => array('type'=>'static'),
-//                    'attribute_set_id'  => array('type'=>'static'),
-//                    'increment_id'      => array('type'=>'static'),
-//                    'created_at'        => array('type'=>'static'),
-//                    'updated_at'        => array('type'=>'static'),
-//                    'is_active'         => array('type'=>'static'),
-
                     'website_id' => array(
                         'type'          => 'static',
                         'label'         => 'Associate to Website',
@@ -275,5 +267,76 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
         );
+    }
+
+    /**
+     * Add customer attributes to customer forms
+     *
+     * @return void
+     */
+    public function installCustomerForms()
+    {
+        $customer           = (int)$this->getEntityTypeId('customer');
+        $customerAddress    = (int)$this->getEntityTypeId('customer_address');
+
+        $attributeIds       = array();
+        $select = $this->getConnection()->select()
+            ->from(
+                array('ea' => $this->getTable('eav/attribute')),
+                array('entity_type_id', 'attribute_code', 'attribute_id'))
+            ->where('ea.entity_type_id IN(?)', array($customer, $customerAddress));
+        foreach ($this->getConnection()->fetchAll($select) as $row) {
+            $attributeIds[$row['entity_type_id']][$row['attribute_code']] = $row['attribute_id'];
+        }
+
+        $data       = array();
+        $entities   = $this->getDefaultEntities();
+        $attributes = $entities['customer']['attributes'];
+        foreach ($attributes as $attributeCode => $attribute) {
+            $attributeId = $attributeIds[$customer][$attributeCode];
+            if (false === ($attribute['system'] == true && $attribute['visible'] == false)) {
+                $usedInForms = array(
+                    'customer_account_create',
+                    'customer_account_edit',
+                    'checkout_register',
+                );
+                if (!empty($attribute['form_adminhtml_only'])) {
+                    $usedInForms = array('adminhtml_customer');
+                } else {
+                    $usedInForms[] = 'adminhtml_customer';
+                }
+                if (!empty($attribute['form_admin_checkout'])) {
+                    $usedInForms[] = 'adminhtml_checkout';
+                }
+                foreach ($usedInForms as $formCode) {
+                    $data[] = array(
+                        'form_code'     => $formCode,
+                        'attribute_id'  => $attributeId
+                    );
+                }
+            }
+        }
+
+        $attributes = $entities['customer_address']['attributes'];
+        foreach ($attributes as $attributeCode => $attribute) {
+            $attributeId = $attributeIds[$customerAddress][$attributeCode];
+            if (false === ($attribute['system'] == true && $attribute['visible'] == false)) {
+                $usedInForms = array(
+                    'adminhtml_customer_address',
+                    'customer_address_edit',
+                    'customer_register_address'
+                );
+                foreach ($usedInForms as $formCode) {
+                    $data[] = array(
+                        'form_code'     => $formCode,
+                        'attribute_id'  => $attributeId
+                    );
+                }
+            }
+        }
+
+        if ($data) {
+            $this->getConnection()->insertMultiple($this->getTable('customer/form_attribute'), $data);
+        }
     }
 }
