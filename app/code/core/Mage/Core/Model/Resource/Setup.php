@@ -532,9 +532,6 @@ class Mage_Core_Model_Resource_Setup
         if (empty($files) || !$this->getConnection()) {
             return false;
         }
-        echo '<pre>';
-        var_dump($files);
-        echo '</pre>';
 
         $version = false;
 
