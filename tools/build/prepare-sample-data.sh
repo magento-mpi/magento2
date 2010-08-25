@@ -17,4 +17,6 @@ check_failure $?
 rm -rf magento-sample-data-1.2.0
 check_failure $?
 
+sed -i 's/db_prefix//g' "$BUILD_TOOLS/local.xml.template"
+
 cd $OLDPWD

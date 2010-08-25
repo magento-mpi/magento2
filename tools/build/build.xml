@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="magento">
-    <property name="dir.src" value="${teamcity.build.checkoutDir}" />
-    <property name="dir.build" value="${dir.src}/build" />
-    <property name="dir.artifacts" value="${dir.src}/artifacts" />
-    <property name="dir.reports" value="${dir.artifacts}/reports" />
-    <property name="dir.docs" value="${dir.artifacts}/docs" />
+    <property name="dir.src" value="${teamcity.build.checkoutDir}"/>
+    <property name="dir.build" value="${dir.src}/build"/>
+    <property name="dir.artifacts" value="${dir.src}/artifacts"/>
+    <property name="dir.reports" value="${dir.artifacts}/reports"/>
+    <property name="dir.docs" value="${dir.artifacts}/docs"/>
     <property name="dir.websites" value="${dir.src}/websites"/>
- 
+
     <!-- SVN User credentials -->
     <property name="svn.user" value="teamcity"/>
     <property name="svn.password" value="JbnJ1lm53V3"/>
- 
+
     <target name="install" description="Installing Magento instance.">
         <exec executable="/bin/sh" failonerror="true">
-    	    <arg value="install.sh"/>
-    	    <arg value="${teamcity.buildConfName}"/>
+            <arg value="install.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
             <arg value="${build.number}"/>
-	</exec>
+        </exec>
     </target>
-    
+
     <target name="clean" description="Removes all data which can be created by build script.">
         <delete dir="${dir.artifacts}"/>
         <delete dir="${dir.websites}"/>
-    </target>   
- 
+    </target>
+
     <target name="prepare" depends="clean" description="prepare basic (clean) ENV for instance.">
         <mkdir dir="${dir.websites}"/>
         <chmod dir="${dir.websites}" perm="777"/>
@@ -42,8 +42,9 @@
             <arg value="${build.number}"/>
         </exec>
     </target>
-    
-    <target name="copy-previous-env" depends="prepare" description="Prepare ENV (DB, websites folder) from previous instance.">
+
+    <target name="copy-previous-env" depends="prepare"
+            description="Prepare ENV (DB, websites folder) from previous instance.">
         <exec executable="/bin/sh" failonerror="true">
             <arg value="prepare-previous.sh"/>
             <arg value="${teamcity.buildConfName}"/>
@@ -52,45 +53,48 @@
         </exec>
     </target>
 
-    <target name="prepare-sample-data-ce" depends="prepare" description="Prepare ENV with sample data for CE instance.">      
+    <target name="prepare-sample-data-ce" depends="prepare" description="Prepare ENV with sample data for CE instance.">
         <exec executable="/bin/sh" failonerror="true">
-            <arg value="prepare-sample-data.sh" />
-            <arg value="${teamcity.buildConfName}" />
-            <arg value="${build.number}" />
+            <arg value="prepare-sample-data.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
         </exec>
     </target>
 
-    <target name="prepare-sample-data-ee" depends="prepare" description="Prepare ENV with sample data for EE instance."/>
-    <target name="prepare-sample-data-pe" depends="prepare" description="Prepare ENV with sample data for PE instance."/>
+    <target name="prepare-sample-data-ee" depends="prepare"
+            description="Prepare ENV with sample data for EE instance."/>
+    <target name="prepare-sample-data-pe" depends="prepare"
+            description="Prepare ENV with sample data for PE instance."/>
 
     <target name="brutetest" description="Basic validation for Magento installation.">
         <exec executable="/bin/sh" failonerror="true">
             <arg value="brutetest.sh"/>
             <arg value="${teamcity.buildConfName}"/>
             <arg value="${build.number}"/>
-        </exec>	
+        </exec>
     </target>
-    
+
     <target name="update-current" description="Update 'current' symlink and successful in scope of build name.">
         <exec executable="/bin/sh" failonerror="true">
             <arg value="finalize.sh"/>
             <arg value="${teamcity.buildConfName}"/>
             <arg value="${build.number}"/>
             <arg value="${teamcity.buildType.id}"/>
-        </exec> 
+        </exec>
     </target>
-    
+
     <target name="archive-builds" description="Arcvhive all builds in scope of build name.">
-	<exec executable="/bin/sh" failonerror="false">
+        <exec executable="/bin/sh" failonerror="false">
             <arg value="archive.sh"/>
             <arg value="${teamcity.buildConfName}"/>
             <arg value="${build.number}"/>
-        </exec>    
+        </exec>
     </target>
 
     <!-- targets to clean current checkout for specific build type -->
     <target name="prepare-trunk" description="Prepare trunk checkout.">
-        <copy file="XEnterprise_Enabler.xml" tofile="${dir.src}/app/etc/modules/XEnterprise_Enabler.xml" failonerror="true"/>
+        <copy file="XEnterprise_Enabler.xml" tofile="${dir.src}/app/etc/modules/XEnterprise_Enabler.xml"
+              failonerror="true"/>
     </target>
 
     <target name="clean-unreleased" description="Cleaning checkout from unreleased things">
@@ -122,9 +126,9 @@
     <target name="clean-ce" depends="clean-unreleased" description="Clean checkout from specific stuff for CE."/>
 
     <target name="clean-ee" depends="clean-unreleased" description="Clean checkout from specific stuff for EE.">
-	<exec executable="svn" failonerror="true" dir="${dir.src}">
+        <exec executable="svn" failonerror="true" dir="${dir.src}">
             <arg value="rm"/>
-	    <arg value="app/design/frontend/pro"/>
+            <arg value="app/design/frontend/pro"/>
             <arg value="app/design/install/default/pro"/>
             <arg value="skin/adminhtml/default/pro"/>
             <arg value="skin/frontend/pro"/>
@@ -148,9 +152,10 @@
                         --exclude tests
                         --min-tokens 50
                         --min-lines 3
-                        ." />
+                        ."/>
         </exec>
-        <xslt in="${dir.reports}/cpd-report.xml" style="${dir.build}/cpd-report.xlst" out="${dir.reports}/cpd-report.html" />
+        <xslt in="${dir.reports}/cpd-report.xml" style="${dir.build}/cpd-report.xlst"
+              out="${dir.reports}/cpd-report.html"/>
         <echo>##teamcity[publishArtifacts '${dir.reports}/cpd-report.html']</echo>
     </target>
 
@@ -164,7 +169,7 @@
                         --optimization=best
                         . "/>
         </exec>
-        <xslt in="${dir.reports}/depend.xml" style="${dir.build}/depend.xsl" out="${dir.reports}/depend.html" />
+        <xslt in="${dir.reports}/depend.xml" style="${dir.build}/depend.xsl" out="${dir.reports}/depend.html"/>
         <copy file="depend-charts.html" tofile="${dir.reports}/depend-charts.html" failonerror="true"/>
         <echo>##teamcity[publishArtifacts '${dir.reports}/depend-charts.html']</echo>
         <echo>##teamcity[publishArtifacts '${dir.reports}/depend.html']</echo>
@@ -177,7 +182,8 @@
                         --reportfile ${dir.reports}/pmd-report.xml
                         --ignore lib/Zend,lib/PEAR,lib/phpseclib,lib/googlecheckout,downloader/lib,lib/Apache,tools,tests"/>
         </exec>
-        <xslt in="${dir.reports}/pmd-report.xml" style="${dir.build}/pmd-report.xlst" out="${dir.reports}/pmd-report.html" />
+        <xslt in="${dir.reports}/pmd-report.xml" style="${dir.build}/pmd-report.xlst"
+              out="${dir.reports}/pmd-report.html"/>
         <echo>##teamcity[importData type='pmd' path='${dir.reports}/pmd-report.xml']</echo>
         <echo>##teamcity[publishArtifacts '${dir.reports}/pmd-report.html']</echo>
     </target>
@@ -185,12 +191,12 @@
     <target name="phpunit" description="Run All PHPunit Tests">
         <exec dir="${dir.src}" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${dir.reports}/phpunit.xml tests/AllTests.php"/>
-<!--
-                       overage-clover ${dir.reports}/clover.xml
-                       coverage-html ${dir.reports}/coverage"/>
--->
+            <!--
+                                   overage-clover ${dir.reports}/clover.xml
+                                   coverage-html ${dir.reports}/coverage"/>
+            -->
         </exec>
-	<echo>##teamcity[importData type='junit' path='${dir.reports}/phpunit.xml']</echo>
+        <echo>##teamcity[importData type='junit' path='${dir.reports}/phpunit.xml']</echo>
     </target>
 
     <target name="code-analyze-in-parallel" description="Gather code stats in parallel mode.">
@@ -200,19 +206,19 @@
             <antcall target="pdepend"/>
         </parallel>
     </target>
-    
+
     <target name="docs-in-parallel" description="Gather project dodumentation in parallel mode.">
-	<parallel>
-	    <antcall target="phpdoc"/>
-	    <antcall target="dbschema"/>
-	</parallel>
+        <parallel>
+            <antcall target="phpdoc"/>
+            <antcall target="dbschema"/>
+        </parallel>
     </target>
 
     <target name="phpdoc" description="Generate phpDoc files.">
         <property name="phpdoc" value="${teamcity.buildConfName}-${build.number}-phpdoc"/>
 
         <exec dir="${dir.src}" executable="phpdoc" failonerror="true">
-	    <arg line="-d lib/Varien -t ${dir.docs}/phpdoc/Varien -o HTML:frames:default -ti 'Varien Lib Documentation (phpdoc)' -q"/>
+            <arg line="-d lib/Varien -t ${dir.docs}/phpdoc/Varien -o HTML:frames:default -ti 'Varien Lib Documentation (phpdoc)' -q"/>
         </exec>
         <exec dir="${dir.src}" executable="phpdoc" failonerror="true">
             <arg line="-d app/code/core/Mage,app/code/core/Enterprise -t ${dir.docs}/phpdoc/ -o HTML:frames:default -ti 'Magento Documentation (phpdoc)' -q"/>
@@ -223,17 +229,18 @@
 
         <tar destfile="${dir.docs}/${phpdoc}.tar" basedir="${dir.docs}/phpdoc"/>
         <gzip destfile="${dir.docs}/${phpdoc}.tar.gz" src="${dir.docs}/${phpdoc}.tar"/>
-	<delete file="${dir.docs}/${phpdoc}.tar"/>
+        <delete file="${dir.docs}/${phpdoc}.tar"/>
 
         <echo>##teamcity[publishArtifacts '${dir.docs}/${phpdoc}.tar.gz']</echo>
     </target>
 
-    <target name="make-tag" description="Create tag for this build." />
-    <target name="update-branch" description="Merge all available revisions from other branches." />
-    
-    <target name="build-nightly" description="Installs Magento nightly build." depends="copy-previous-env, install, brutetest"/>
+    <target name="make-tag" description="Create tag for this build."/>
+    <target name="update-branch" description="Merge all available revisions from other branches."/>
+
+    <target name="build-nightly" description="Installs Magento nightly build."
+            depends="copy-previous-env, install, brutetest"/>
     <target name="build" description="Installs Magento clean build." depends="prepare, install, brutetest"/>
-    
+
     <target name="branch-sync" description="Sync Branches.">
         <exec dir="${dir.src}" executable="svn" failonerror="true">
             <arg line="co ${vcsroot.branch.url} --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache ."/>
@@ -259,7 +266,7 @@
     </target>
 
     <target name="dbschema" description="Generate DB schema documentation.">
-	<exec executable="/bin/sh" failonerror="false">
+        <exec executable="/bin/sh" failonerror="false">
             <arg value="schema_generator"/>
             <arg value="${teamcity.buildConfName}"/>
             <arg value="${build.number}"/>
@@ -270,6 +277,6 @@
     </target>
 
     <target name="load-test-controller">
-        
+
     </target>
 </project>
