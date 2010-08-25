@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages>
+    <catalog>
+        <categories>
+            <managecategories>
+                <locators>
+                    <parentcategory>//div[contains(@class,'tree-holder') ]//a[contains(span,'%s')]</parentcategory>
+                </locators>
+                <buttons>
+                    <addrootcategory>add_root_category_button</addrootcategory>
+                    <addsubcategory>add_subcategory_button</addsubcategory>
+                    <savecategory>//button[contains(span,"Save Category")]</savecategory>
+                </buttons>
+                <inputs>
+                    <name>group_3name</name>
+                </inputs>
+                <selectors>
+                    <isactive>group_3is_active</isactive>
+                    <isanchor>group_9is_anchor</isanchor>
+                    <storeswitcher>store_switcher</storeswitcher>
+                </selectors>
+                <tabs>
+                    <displaysettings>link=Display Settings</displaysettings>
+                </tabs>
+                <messages>
+                    <categorysaved>//div[@id="messages"]//li[@class="success-msg"]</categorysaved>
+                </messages>
+            </managecategories>
+            <manageproducts>
+                <buttons>
+                    <addproduct>//button[span="Add Product"]</addproduct>
+                    <addproductcontinue>//button[span="Continue"]</addproductcontinue>
+                </buttons>
+                                        <!-- related pages-->
+                <product>
+                    <inputs>
+                        <name>name</name>
+                        <description>description</description>
+                        <short_description>short_description</short_description>
+                        <sku>sku</sku>
+                        <weight>weight</weight>
+                        <price>price</price>
+                        <inventory_qty>inventory_qty</inventory_qty>
+                        <website>//*[text()='%s']</website>
+                        <category>//div[@id='product-categories']//a[contains(span,'%s')]</category>
+                    </inputs>
+                    <selectors>
+                        <status>status</status>
+                        <tax_class>tax_class_id</tax_class>
+                        <inventory_stock_availability>inventory_stock_availability</inventory_stock_availability>
+                    </selectors>
+                    <tabs>
+                        <price>link=Prices</price>
+                        <inventory>link=Inventory</inventory>
+                        <websites>link=Websites</websites>
+                        <categories>//a[@id='product_info_tabs_categories']/span</categories>
+                    </tabs>
+                    <buttons>
+                        <save>//button[span="Save"]</save>
+                    </buttons>
+                    <messages>
+                        <productsaved>//div[@id="messages"]//li[@class="success-msg"]</productsaved>
+                        <skumustbeunique>//*[@id='advice-validate-ajax-sku']</skumustbeunique>
+                    </messages>
+                </product>
+            </manageproducts>
+        </categories>
+    </catalog>
+    <system>
+        <permissions>
+            <users>
+                <manageusers>
+                    <buttons>
+                        <addnewuser>//button[span="Add New User"]</addnewuser>
+                    </buttons>
+                </manageusers>
+                <user>
+                    <inputs>
+                        <username>user_username</username>
+                        <firstname>user_firstname</firstname>
+                        <lastname>user_lastname</lastname>
+                        <email>user_email</email>
+                        <password>user_password</password>
+                        <confirmation>user_confirmation</confirmation>
+                    </inputs>
+                    <buttons>
+                        <saveuser>//button[span="Save User"]</saveuser>
+                    </buttons>
+                    <messages>
+                        <usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
+                    </messages>
+                </user>
+            </users>
+        </permissions>
+        <managestores>
+            <createsite>
+                <buttons>
+                    <createwebsite>//button[span="Create Website"]</createwebsite>
+                    <createwebstore>//button[span="Create Store"]</createwebstore>
+                    <createstoreview>//button[span="Create Store View"]</createstoreview>
+                    <save>//button[span="Save Website"]</save>
+                    <savestore>//button[span="Save Store"]</savestore>
+                    <savestoreview>//button[span="Save Store View"]</savestoreview>
+                </buttons>
+                <inputs>
+                    <name>//input[@id='website_name']</name>
+                    <storename>//input[@id='group_name']</storename>
+                    <storeviewname>//input[@id='store_name']</storeviewname>
+                    <code>//input[@id='website_code']</code>
+                    <storeviewcode>//input[@id='store_code']</storeviewcode>
+                    <order>//input[@id='website_sort_order']</order>
+                    <storevieworder>//input[@id='store_sort_order']</storevieworder>
+                </inputs>
+                <select>
+                    <site>group_website_id</site>
+                    <store>store_group_id</store>
+                    <storestatus>store_is_active</storestatus>
+                    <rootcategory>group_root_category_id</rootcategory>
+                </select>
+                <messages>
+                    <saved>//li[@class='success-msg']</saved>
+                </messages>
+            </createsite>
+        </managestores>
+    </system>
+    <login>
+        <messages>
+            <invalidlogin>Invalid Username or Password.</invalidlogin>
+        </messages>
+        <images>
+            <mainlogo>//img[@class='logo']</mainlogo>
+        </images>
+        <fields>
+            <username>//input[@id='username']</username>
+            <password>//input[@id='login']</password>
+        </fields>
+        <buttons>
+            <loginbutton>//input[@title='Login']</loginbutton>
+        </buttons>
+    </login>
+</pages>

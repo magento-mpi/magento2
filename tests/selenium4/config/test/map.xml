@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+    <admin>
+        <topmenu>#include maps/admin-topmenu.xml</topmenu>
+        <pages>#include maps/admin-pages.xml</pages>
+    </admin>
+</map>

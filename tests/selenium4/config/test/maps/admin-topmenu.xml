@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  -->
+<topmenu>
+    <customer>
+        <managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
+    </customer>
+    <catalog>
+        <categories>
+            <managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
+        </categories>
+        <manageproducts>//div[@class="nav-bar"]//a[span="Manage Products"]</manageproducts>
+    </catalog>
+    <system>
+        <permissions>
+            <users>//li[a/span="Permissions"]//li[a/span="Users"]/a</users>
+        </permissions>
+        <managestores>
+            <link>
+                <openpage>link=Manage Stores</openpage>
+            </link>
+        </managestores>
+    </system>
+</topmenu>

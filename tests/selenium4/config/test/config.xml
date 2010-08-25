@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <browser>*chrome</browser>
+    <host>127.0.0.1</host>
+    <port>5555</port>
+
+    <frontend>
+        <baseUrl>http://kq.varien.com/enterprise/1.8.0.0/index.php/</baseUrl>
+    </frontend>
+
+    <backend>
+        <baseUrl>http://kq.varien.com/enterprise/1.8.0.0/index.php/control/index/</baseUrl>
+
+        <auth>
+            <username>admin</username>
+            <password>123123q</password>
+        </auth>
+
+        <customer>
+            <id>102</id>
+        </customer>
+
+        <createproduct>
+            <sku>st-01</sku>
+            <productname>st-01</productname>
+            <price>10</price>
+        </createproduct>
+
+        <scope>
+            <site>
+                <name>SmokeTestSite</name>
+                <code>stsitecode</code>
+                <sortorder>1</sortorder>
+            </site>
+
+            <store>
+                <storename>ststorename</storename>
+            </store>
+
+            <storeview>
+                <name>SmokeTestStoreView</name>
+                <code>stsvcode</code>
+                <order>1</order>
+                <status>label=Enabled</status>
+            </storeview>
+        </scope>
+
+        <managecategories>
+            <rootname>st-rootcat</rootname>
+            <subcategoryname>st-subcat</subcategoryname>
+            <parentsubcategoryname>st-rootcat</parentsubcategoryname>
+        </managecategories>
+    </backend>
+</config>
