@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="magento">
     <property name="dir.src" value="${teamcity.build.checkoutDir}" />
-    <property name="dir.build" value="${teamcity.build.workingDir}" />
+    <property name="dir.build" value="${dir.src}/build" />
     <property name="dir.artifacts" value="${dir.src}/artifacts" />
     <property name="dir.reports" value="${dir.artifacts}/reports" />
     <property name="dir.docs" value="${dir.artifacts}/docs" />
@@ -51,8 +51,15 @@
             <arg value="${teamcity.buildType.id}"/>
         </exec>
     </target>
-    
-    <target name="prepare-sample-data-ce" depends="prepare" description="Prepare ENV with sample data for CE instance."/>
+
+    <target name="prepare-sample-data-ce" depends="prepare" description="Prepare ENV with sample data for CE instance.">      
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="prepare-sample-data.sh" />
+            <arg value="${teamcity.buildConfName}" />
+            <arg value="${build.number}" />
+        </exec>
+    </target>
+
     <target name="prepare-sample-data-ee" depends="prepare" description="Prepare ENV with sample data for EE instance."/>
     <target name="prepare-sample-data-pe" depends="prepare" description="Prepare ENV with sample data for PE instance."/>
 
@@ -221,8 +228,8 @@
         <echo>##teamcity[publishArtifacts '${dir.docs}/${phpdoc}.tar.gz']</echo>
     </target>
 
-    <target name="make-tag" description="Create tag for this build."></target>
-    <target name="update-branch" description="Merge all available revisions from other branches."></target>
+    <target name="make-tag" description="Create tag for this build." />
+    <target name="update-branch" description="Merge all available revisions from other branches." />
     
     <target name="build-nightly" description="Installs Magento nightly build." depends="copy-previous-env, install, brutetest"/>
     <target name="build" description="Installs Magento clean build." depends="prepare, install, brutetest"/>
@@ -260,5 +267,9 @@
         </exec>
         <!-- tar -->
         <!-- publish artifact -->
+    </target>
+
+    <target name="load-test-controller">
+        
     </target>
 </project>

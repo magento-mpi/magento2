@@ -1,12 +1,12 @@
 #!/bin/sh
 OLDPWD=`pwd`
 PHP_BIN="/usr/bin/php"
-PWD="/opt/builds/$1"
+PWD="../"
 OLDIFS=$IFS
 
 BUILD_NAME="$1"
 BUILD_NUMBER="$2"
-CHECKOUT="/opt/builds/$1/$2"
+
 MAGENTO_FIRSTNAME="John"
 MAGENTO_LASTNAME="Lake"
 MAGENTO_EMAIL="qa51@varien.com"
@@ -21,7 +21,7 @@ DB_USER="qa_setup"
 DB_PASS="qa_setup"
 DB_PREFIX="prefix_"
 
-BUILD_TOOLS="/opt/builds/build"
+BUILD_TOOLS="$OLDPWD/build"
 
 DB_NAME="builds-$BUILD_NAME-$BUILD_NUMBER"
 DB_NAME=${DB_NAME//-/_}
