@@ -2737,13 +2737,26 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
+     * Calculate checksum for table or for group of tables
      *
+     * @param array|string $tableNames array of tables names | table name
+     * @param string $schemaName schema name
+     * @return arrray
      */
     public function getTablesChecksum($tableNames, $schemaName = null)
     {
-        return array();
+        $result = array();
+        if(!is_array($tableNames)){
+            $tableNames = array($tableNames);
+        }
+        foreach($tableNames as $tableName){
+            $query = sprintf("CHECKSUM TABLE %s",
+                $this->_getTableName($tableName, $schemaName)
+            );
+            $result[] = $this->fetchRow($query);
+        }
+        return $result;
     }
-
     /**
      * Check if the database support STRAIGHT JOIN
      *
