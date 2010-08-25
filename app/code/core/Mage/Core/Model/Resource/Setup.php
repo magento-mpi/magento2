@@ -652,20 +652,18 @@ class Mage_Core_Model_Resource_Setup
         }
 
         if (empty($this->_setupCache[$table][$parentId][$id])) {
-            $idField = $this->getConnection()->quoteIdentifier($idField);
-            $select = $this->getConnection()->select()
+            $adapter = $this->getConnection();
+            $bind    = array('id_field' => $id);
+            $select  = $adapter->select()
                 ->from($table)
-                ->where($idField . '=:id_field');
-            $parentField = $this->getConnection()->quoteIdentifier($parentField);
+                ->where($adapter->quoteIdentifier($idField) . '=:id_field');
             if (!is_null($parentField)) {
-                $select->where($parentField . '=:parent_id');
+                $select->where($adapter->quoteIdentifier($parentField) . '=:parent_id');
+                $bind['parent_id'] = $parentId;
             }
-            $bind = array(
-                'id_field'  => $id,
-                'parent_id' => $parentId
-            );
-            $this->_setupCache[$table][$parentId][$id] = $this->getConnection()->fetchRow($select, $bind);
+            $this->_setupCache[$table][$parentId][$id] = $adapter->fetchRow($select, $bind);
         }
+
         if (is_null($field)) {
             return $this->_setupCache[$table][$parentId][$id];
         }
@@ -674,7 +672,7 @@ class Mage_Core_Model_Resource_Setup
             : false;
     }
 
-    
+
      /**
      * Delete table row
      *
@@ -691,12 +689,13 @@ class Mage_Core_Model_Resource_Setup
             $table = $this->getTable($table);
         }
 
-        $where = array($this->quoteIdentifier($idField) . "=?" => $id);
+        $adapter = $this->getConnection();
+        $where = array($adapter->quoteIdentifier($idField) . '=?' => $id);
         if (!is_null($parentField)) {
-            $where["{$parentField}=?"] = $parentId;
+            $where[$adapter->quoteIdentifier($parentField) . '=?'] = $parentId;
         }
 
-        $this->getConnection()->delete($table, $where);
+        $adapter->delete($table, $where);
 
         if (isset($this->_setupCache[$table][$parentId][$id])) {
             unset($this->_setupCache[$table][$parentId][$id]);
@@ -729,8 +728,9 @@ class Mage_Core_Model_Resource_Setup
             $data = array($field => $value);
         }
 
-        $where = array($this->quoteIdentifier($idField) . "=?" => $id);
-        $this->getConnection()->update($table, $data, $where);
+        $adapter = $this->getConnection();
+        $where = array($adapter->quoteIdentifier($idField) . '=?' => $id);
+        $adapter->update($table, $data, $where);
 
         if (isset($this->_setupCache[$table][$parentId][$id])) {
             if (is_array($field)) {
@@ -739,6 +739,7 @@ class Mage_Core_Model_Resource_Setup
                 $this->_setupCache[$table][$parentId][$id][$field] = $value;
             }
         }
+
         return $this;
     }
 
