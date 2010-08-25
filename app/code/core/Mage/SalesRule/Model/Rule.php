@@ -35,6 +35,17 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     const COUPON_TYPE_AUTO      = 3;
 
     /**
+     * Rule type actions
+     */
+    const TO_PERCENT_ACTION = 'to_percent';
+    const BY_PERCENT_ACTION = 'by_percent';
+    const TO_FIXED_ACTION   = 'to_fixed';
+    const BY_FIXED_ACTION   = 'by_fixed';
+    const CART_FIXED_ACTION = 'cart_fixed';
+    const BUY_X_GET_Y_ACTION = 'buy_x_get_y';
+
+
+    /**
      * @var Mage_SalesRule_Model_Coupon_CodegeneratorInterface
      */
     protected static $_couponCodeGenerator;
