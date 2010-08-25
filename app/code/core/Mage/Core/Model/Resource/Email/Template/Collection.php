@@ -54,7 +54,7 @@ class Mage_Core_Model_Resource_Email_Template_Collection extends  Mage_Core_Mode
     /**
      * Convert collection items to select options array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {

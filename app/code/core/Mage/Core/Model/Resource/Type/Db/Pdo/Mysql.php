@@ -29,7 +29,7 @@ class Mage_Core_Model_Resource_Type_Db_Pdo_Mysql extends Mage_Core_Model_Resourc
 {
 
     /**
-     * Enter description here...
+     * Get connection
      *
      * @param array $config Connection config
      * @return Varien_Db_Adapter_Pdo_Mysql

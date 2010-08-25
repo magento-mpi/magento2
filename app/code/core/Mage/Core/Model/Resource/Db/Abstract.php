@@ -112,7 +112,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Fields of main table
      *
-     * @var unknown
+     * @var array
      */
     protected $_mainTableFields;
 
@@ -666,7 +666,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * After load
      *
      * @param Mage_Core_Model_Abstract $object
      */

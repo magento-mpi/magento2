@@ -49,7 +49,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
      * @param Mage_Core_Model_Abstract $object
      * @param String $value
      * @param String $field
-     * @return unknown
+     * @return array
      */
     public function load(Mage_Core_Model_Abstract $object, $value, $field = null)
     {
@@ -72,7 +72,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
      * @param String $field
      * @param String $value
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Varien_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -102,7 +102,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
      * Before save
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Translate_String
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
@@ -125,7 +125,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
      * After save
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Translate_String
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {

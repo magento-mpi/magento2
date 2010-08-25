@@ -67,7 +67,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      * value zero means no automatic cleaning, one means automatic cleaning each time a session is closed, and x>1 means
      * cleaning once in x calls
      *
-     * @var unknown
+     * @var int
      */
     protected $_automaticCleaningFactor    = 50;
 

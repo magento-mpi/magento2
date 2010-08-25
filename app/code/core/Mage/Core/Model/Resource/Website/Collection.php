@@ -42,7 +42,7 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
     /**
      * Map field to alias
      *
-     * @var unknown
+     * @var array
      */
     protected $_map = array('fields' => array('website_id' => 'main_table.website_id'));
 
@@ -102,7 +102,7 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
     /**
      * Add website filter to collection
      *
-     * @param unknown_type $ids
+     * @param int $ids|array
      * @return Mage_Core_Model_Resource_Website_Collection
      */
     public function addIdFilter($ids)

@@ -89,7 +89,7 @@ class Mage_Core_Model_Resource_Url_Rewrite_Collection extends Mage_Core_Model_Re
     /**
      *  Add filter by catalog product Id
      *
-     * @param unknown_type $productId
+     * @param int $productId
      * @return Mage_Core_Model_Resource_Url_Rewrite_Collection
      */
     public function filterAllByProductId($productId)

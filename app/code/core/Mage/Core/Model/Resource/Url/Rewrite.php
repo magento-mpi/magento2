@@ -37,7 +37,7 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
     /**
      * Tag table
      *
-     * @var unknown
+     * @var string
      */
     protected $_tagTable;
 
@@ -52,7 +52,7 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
     }
 
     /**
-     * Initialize unique fields
+     * Initialize array fields
      *
      * @return Mage_Core_Model_Resource_Url_Rewrite
      */
@@ -76,7 +76,7 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
      *
      * @param string $field
      * @param mixed $value
-     * @param unknown_type $object
+     * @param Mage_Core_Model_Abstract $object
      * @return Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
