@@ -3387,7 +3387,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 $tableName,
                 $this->_getTableName($tableName, $schemaName)
             );
-            $result[] = array($tableName, $this->fetchOne($query));
+            $result[$tableName] = $this->fetchOne($query);
         }
         return $result;
     }

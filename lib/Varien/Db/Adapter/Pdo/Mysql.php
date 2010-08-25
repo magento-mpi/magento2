@@ -2753,10 +2753,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $query = sprintf("CHECKSUM TABLE %s",
                 $this->_getTableName($tableName, $schemaName)
             );
-            $result[] = $this->fetchRow($query);
+            $checkSumArray = $this->fetchRow($query);
+            $result[$tableName] = $checkSumArray["Checksum"];
         }
         return $result;
     }
+    
     /**
      * Check if the database support STRAIGHT JOIN
      *

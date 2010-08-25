@@ -1895,6 +1895,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         // build the statement
         $columns = array_map(array($this, 'quoteIdentifier'), $columns);
+
         $sql = sprintf("INSERT INTO %s (%s) %s",
             $this->quoteIdentifier($table, true),
             implode(',', $columns), implode(' UNION ', $vals));
@@ -3345,7 +3346,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $query = sprintf("SELECT CHECKSUM_AGG(BINARY_CHECKSUM(*)) AS CHECKSUM FROM %s",
                 $this->_getTableName($tableName, $schemaName)
             );
-            $result[] = array($tableName, $this->fetchOne($query));
+            $checksum = $this->fetchOne($query);
+            $result[$tableName] = is_null($checksum) ? 0 : $checksum;
         }
         return $result;
     }
