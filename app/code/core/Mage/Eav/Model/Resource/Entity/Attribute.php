@@ -545,7 +545,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     public function getStoreLabelsByAttributeId($attributeId)
     {
         $adapter   = $this->_getReadAdapter();
-        $bind      = array('attribute_id', $attributeId);
+        $bind      = array('attribute_id' => $attributeId);
         $select    = $adapter->select()
             ->from($this->getTable('eav/attribute_label'), array('store_id', 'value'))
             ->where('attribute_id = :attribute_id');
