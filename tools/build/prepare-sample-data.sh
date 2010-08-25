@@ -9,7 +9,7 @@ wget -q -O sample-data.tar.bz2 http://www.magentocommerce.com/downloads/assets/1
 check_failure $?
 tar -xjf sample-data.tar.bz2
 log "Preparing media ..."
-mv -f magento-sample-data-1.2.0/media ./
+mv -f magento-sample-data-1.2.0/media/* ./media
 check_failure $?
 log "Copying DB..."
 mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $DB_NAME < magento-sample-data-1.2.0/magento_sample_data_for_1.2.0.sql
