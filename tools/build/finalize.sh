@@ -6,7 +6,7 @@
 cd $PWD
 
 ch_baseurl "current" $DB_NAME
-clean_cache $BUILD_NUMBER
+clean_cache ../$BUILD_NUMBER
 
 if [ -L "current" ]; then 
     log "Removing previous 'current' link..."
@@ -14,7 +14,7 @@ if [ -L "current" ]; then
     check_failure $?
 fi
 log "Creating 'currect' link..."
-ln -sf $BUILD_NUMBER current
+ln -sf ../$BUILD_NUMBER ../current
 check_failure $?
 
 if [ "$SB" != "" ]; then
@@ -22,9 +22,5 @@ if [ "$SB" != "" ]; then
     ch_baseurl $SB $SB_DB
     clean_cache $SB
 fi
-
-#log "Saving last successful build flag..."
-#echo "$BUILD_NUMBER" > "$SUCCESSFUL_BUILDS/$BUILD_NAME"
-#check_failure $?
 
 cd $OLDPWD

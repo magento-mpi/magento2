@@ -21,7 +21,7 @@ DB_USER="qa_setup"
 DB_PASS="qa_setup"
 DB_PREFIX="prefix_"
 
-BUILD_TOOLS="$OLDPWD/build"
+BUILD_TOOLS="$OLDPWD"
 
 DB_NAME="builds-$BUILD_NAME-$BUILD_NUMBER"
 DB_NAME=${DB_NAME//-/_}

@@ -6,11 +6,11 @@
 cd "$PWD"
 
 # Copying local.xml.template
-cp -f "$BUILD_TOOLS/local.xml.template" "$BUILD_NUMBER/app/etc/local.xml.template"
+cp -f "$BUILD_TOOLS/local.xml.template" "app/etc/local.xml.template"
 check_failure $?
 
 # Installing build...
-$PHP_BIN -f $BUILD_NUMBER/install.php -- --license_agreement_accepted yes \
+$PHP_BIN -f install.php -- --license_agreement_accepted yes \
 --locale en_US --timezone "America/Los_Angeles" --default_currency USD \
 --db_host "$DB_HOST:$DB_PORT" --db_name "$DB_NAME"  --db_user "$DB_USER" --db_pass "$DB_PASS" \
 --db_prefix "$DB_PREFIX" \
@@ -27,16 +27,16 @@ check_failure $?
 
 # Changing permission to cache folder as it was created by user which runs install
 log "Changing permission for var/cache folder"
-chmod -R 777 $BUILD_NUMBER/var/cache
+chmod -R 777 var/cache
 check_failure $?
 
 
 log "Changing permission for media folder"
-chmod -R 777 $BUILD_NUMBER/media
+chmod -R 777 media
 check_failure $?
 
 # Reverting local.xml.template 
-svn revert $BUILD_NUMBER/app/etc/local.xml.template
+svn revert app/etc/local.xml.template
 check_failure $?
 
 cd $OLDPWD

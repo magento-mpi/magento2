@@ -7,13 +7,13 @@ cd $PWD
 
     if [ -d "$SB/websites" ]; then
         log "Copying websites..."
-	cp -af "$SB/websites" "$BUILD_NUMBER"
+	cp -af "$SB/websites" ./
 	check_failure $?
     fi
 
     if [ -d "$SB/media" ]; then
         log "Copying media..."
-	cp -af "$SB/media" "$BUILD_NUMBER" 
+	cp -af "$SB/media" ./ 
         check_failure $?
     fi
 
