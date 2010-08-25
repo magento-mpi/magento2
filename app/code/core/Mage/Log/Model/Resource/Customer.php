@@ -81,47 +81,42 @@ class Mage_Log_Model_Resource_Customer extends Mage_Core_Model_Resource_Db_Abstr
     {
         $this->_init('log/customer', 'log_id');
 
-        $this->_visitorTable    = $this->getTable('log/visitor');
-        $this->_visitorInfoTable= $this->getTable('log/visitor_info');
-        $this->_urlTable        = $this->getTable('log/url_table');
-        $this->_urlInfoTable    = $this->getTable('log/url_info_table');
-        $this->_customerTable   = $this->getTable('log/customer');
-        $this->_quoteTable      = $this->getTable('log/quote_table');
+        $this->_visitorTable        = $this->getTable('log/visitor');
+        $this->_visitorInfoTable    = $this->getTable('log/visitor_info');
+        $this->_urlTable            = $this->getTable('log/url_table');
+        $this->_urlInfoTable        = $this->getTable('log/url_info_table');
+        $this->_customerTable       = $this->getTable('log/customer');
+        $this->_quoteTable          = $this->getTable('log/quote_table');
     }
 
     /**
-     * Load an object
-     *
-     * @param  Mage_Core_Model_Abstract $object
-     * @param  mixed $id
-     * @param  string $field field to load by (defaults to model id)
-     * @return Mage_Core_Model_Abstract
+     * @param string $field
+     * @param mixed $value
+     * @param Mage_Log_Model_Customer $object
+     * @return Varien_Db_Select
      */
-    public function load(Mage_Core_Model_Abstract $object, $id, $field = null)
+    protected function _getLoadSelect($field, $value, $object)
     {
-        $adapter = $this->_getReadAdapter();
-
-        $select = $adapter->select()
-            ->from(array('ct' => $this->getMainTable()), array('login_at', 'logout_at') )
-            ->joinInner(
-                array('vt' => $this->_visitorTable),
-                'vt.visitor_id=ct.visitor_id',
-                array('last_visit_at'))
-            ->joinInner(
-                array('vit' => $this->_visitorInfoTable),
-                'vt.visitor_id=vit.visitor_id',
-                array('http_referer', 'remote_addr'))
-            ->joinInner(
-                array('uit' => $this->_urlInfoTable),
-                'uit.url_id=vt.last_url_id',
-                array('url'))
-            ->where('ct.customer_id = :customer_id')
-            ->order('ct.login_at desc')
-            ->limit(1);
-
-        $binds = array('customer_id' => $customerId);
-
-        $object->setData($adapter->fetchRow($select, $binds));
-        return $object;
+        $select = parent::_getLoadSelect($field, $value, $object);
+        if ($field == 'customer_id') {
+            // load additional data by last login
+            $table  = $this->getMainTable();
+            $select
+                ->joinInner(
+                    array('lvt' => $this->_visitorTable),
+                    "lvt.visitor_id = {$table}.visitor_id",
+                    array('last_visit_at'))
+                ->joinInner(
+                    array('lvit' => $this->_visitorInfoTable),
+                    'lvt.visitor_id = lvit.visitor_id',
+                    array('http_referer', 'remote_addr'))
+                ->joinInner(
+                    array('luit' => $this->_urlInfoTable),
+                    'luit.url_id = vti.last_url_id',
+                    array('url'))
+                ->order("{$table}.login_at DESC")
+                ->limit(1);
+        }
+        return $select;
     }
 }

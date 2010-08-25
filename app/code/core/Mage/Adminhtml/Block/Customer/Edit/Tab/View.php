@@ -57,12 +57,16 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
         }
     }
 
+    /**
+     * Load Customer Log model
+     *
+     * @return Mage_Log_Model_Customer
+     */
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
             $this->_customerLog = Mage::getModel('log/customer')
-                ->load($this->getCustomer()->getId());
-
+                ->loadByCustomer($this->getCustomer()->getId());
         }
         return $this->_customerLog;
     }

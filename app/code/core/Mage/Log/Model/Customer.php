@@ -33,23 +33,43 @@
  */
 class Mage_Log_Model_Customer extends Mage_Core_Model_Abstract
 {
-    public function __construct()
+    /**
+     * Define resource model
+     *
+     */
+    protected function _construct()
     {
-        parent::__construct();
-        $this->_setResourceModel('log/customer');
+        parent::_construct();
+        $this->_init('log/customer');
     }
 
-    public function load($customerId, $field=null)
+    /**
+     * Load last log by customer id
+     *
+     * @param Mage_Customer_Model_Customer|int $customer
+     * @return Mage_Log_Model_Customer
+     */
+    public function loadByCustomer($customer)
     {
-        $this->_getResource()->load($this, $customerId);
-        return $this;
+        if ($customer instanceof Mage_Customer_Model_Customer) {
+            $customer = $customer->getId();
+        }
+
+        return $this->load($customer, 'customer_id');
     }
 
+    /**
+     * Return last login at in Unix time format
+     *
+     * @return int
+     */
     public function getLoginAtTimestamp()
     {
-        if ($date = $this->getLoginAt()) {
-            return strtotime($date);
+        $loginAt = $this->getLoginAt();
+        if ($loginAt) {
+            return Varien_Date::toTimestamp($loginAt);
         }
+
         return null;
     }
 }
