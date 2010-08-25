@@ -234,6 +234,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     /**
      * Check item is in stock
      *
+     * @deprecated after 1.4.2.0-beta1
      * @return bool
      */
     public function getIsInStock()
