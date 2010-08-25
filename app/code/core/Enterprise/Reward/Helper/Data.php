@@ -34,9 +34,15 @@
  */
 class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * XML configuration paths
+     */
     const XML_PATH_SECTION_GENERAL = 'enterprise_reward/general/';
     const XML_PATH_SECTION_POINTS = 'enterprise_reward/points/';
     const XML_PATH_SECTION_NOTIFICATIONS = 'enterprise_reward/notification/';
+    const XML_PATH_ENABLED = 'enterprise_reward/general/is_enabled';
+    const XML_PATH_LANDING_PAGE = 'enterprise_reward/general/landing_page';
+    const XML_PATH_AUTO_REFUND = 'enterprise_reward/general/refund_automatically';
 
     protected $_expiryConfig;
     protected $_hasRates = true;
@@ -71,7 +77,7 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag('enterprise_reward/general/is_enabled');
+        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
     }
 
     /**
@@ -201,7 +207,7 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getLandingPageUrl()
     {
-        $pageIdentifier = Mage::getStoreConfig('enterprise_reward/general/landing_page');
+        $pageIdentifier = Mage::getStoreConfig(self::XML_PATH_LANDING_PAGE);
         return Mage::getUrl('', array('_direct' => $pageIdentifier));
     }
 
@@ -342,6 +348,6 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isAutoRefundEnabled()
     {
-        return Mage::getStoreConfigFlag('enterprise_reward/general/refund_automatically');
+        return Mage::getStoreConfigFlag(self::XML_PATH_AUTO_REFUND);
     }
 }
