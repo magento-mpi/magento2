@@ -92,7 +92,7 @@ class Mage_Eav_Model_Resource_Form_Fieldset extends Mage_Core_Model_Resource_Db_
 
             if (!empty($delete)) {
                 $where = array(
-                    'fieldset_id =?' => $object->getId(),
+                    'fieldset_id = ?' => $object->getId(),
                     'store_id IN(?)' => $delete
                 );
                 $adapter->delete($this->getTable('eav/form_fieldset_label'), $where);

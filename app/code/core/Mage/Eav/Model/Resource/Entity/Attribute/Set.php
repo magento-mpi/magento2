@@ -114,12 +114,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
      */
     public function getSetInfo(array $attributeIds, $setId = null)
     {
-        $setInfo = $attributeToSetInfo = array();
+        $setInfo = array();
+        $attributeToSetInfo = array();
 
         if (count($attributeIds) > 0) {
-            $bind   = array(
-                'attribute_ids' => implode(',', $attributeIds)
-            );
             $select = $this->_getReadAdapter()->select()
                 ->from(
                     array('entity' => $this->getTable('entity_attribute')),
@@ -128,7 +126,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
                     array('group' => $this->getTable('attribute_group')),
                     'entity.attribute_group_id = group.attribute_group_id',
                     array('group_sort_order' => 'sort_order'))
-                ->where('entity.attribute_id IN (:attribute_ids)');
+                ->where('entity.attribute_id IN (?)', $attributeIds);
+            $bind = array();    
             if (is_numeric($setId)) {
                 $bind['attribute_set_id'] = $setId;
                 $select->where('entity.attribute_set_id = :attribute_set_id');

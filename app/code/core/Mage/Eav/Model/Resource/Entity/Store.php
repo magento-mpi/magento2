@@ -47,7 +47,7 @@ class Mage_Eav_Model_Resource_Entity_Store extends Mage_Core_Model_Resource_Db_A
      *
      * @param Varien_Object $object
      * @param int $entityTypeId
-     * @param string $field field to load by (defaults to model id)
+     * @param int $storeId
      * @return boolean
      */
     public function loadByEntityStore(Mage_Core_Model_Abstract $object, $entityTypeId, $storeId)

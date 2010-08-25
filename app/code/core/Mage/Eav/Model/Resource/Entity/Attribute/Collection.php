@@ -274,7 +274,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
     public function addHasOptionsFilter()
     {
         $orWhere = implode(' OR ', array(
-            $this->getConnection()->quoteInto('(main_table.frontend_input = ? and ao.option_id > 0)', 'select'),
+            $this->getConnection()->quoteInto('(main_table.frontend_input = ? AND ao.option_id > 0)', 'select'),
             $this->getConnection()->quoteInto('(main_table.frontend_input <> ?)', 'select'),
             '(main_table.is_user_defined = 0)'
         ));
@@ -328,7 +328,6 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             $attributeToSetInfo = array();
 
             if (count($attributeIds) > 0) {
-                $bind   = array('attribute_ids', implode(',', $attributeIds));
                 $select = $this->getConnection()->select()
                     ->from(
                         array('entity' => $this->getTable('entity_attribute')),
@@ -339,8 +338,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
                         'entity.attribute_group_id = group.attribute_group_id',
                         array('group_sort_order' => 'sort_order')
                     )
-                    ->where('attribute_id IN (:attribute_ids)');
-                $result = $this->getConnection()->fetchAll($select, $bind);
+                    ->where('attribute_id IN (?)', $attributeIds);
+                $result = $this->getConnection()->fetchAll($select);
 
                 foreach ($result as $row) {
                     $data = array(
@@ -416,13 +415,13 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
      */
     public function addStoreLabel($storeId)
     {
-        $this->addBindParam('al_store_id', (int) $storeId);
+        $joinExpression = $this->getConnection()
+            ->quoteInto('al.attribute_id = main_table.attribute_id AND al.store_id = ?', (int) $storeId);
         $labelExpr = $this->getSelect()->getAdapter()
             ->getCheckSql('al.value IS NULL', 'main_table.frontend_label', 'al.value');
-
         $this->getSelect()->joinLeft(
             array('al' => $this->getTable('eav/attribute_label')),
-            'al.attribute_id = main_table.attribute_id AND al.store_id = :al_store_id',
+            $joinExpression,
             array('store_label' => $labelExpr)
         );
 

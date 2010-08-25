@@ -65,13 +65,12 @@ class Mage_Eav_Model_Resource_Form_Type_Collection extends Mage_Core_Model_Resou
             $entity = $entity->getId();
         }
 
-        $this->addBindParam('form_type_entity_id', $entity);
         $this->getSelect()
             ->join(
                 array('form_type_entity' => $this->getTable('eav/form_type_entity')),
                 'main_table.type_id = form_type_entity.type_id',
                 array())
-            ->where('form_type_entity.entity_type_id = :form_type_entity_id');
+            ->where('form_type_entity.entity_type_id = ?', $entity);
 
         return $this;
     }

@@ -71,11 +71,12 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Co
      */
     public function setStoreFilter($storeId = null, $useDefaultValue = true)
     {
-        if ($storeId !== null) {
-            $storeId = Mage::app()->getStore($storeId)->getId();
+        if (is_null($storeId)) {
+            $storeId = Mage::app()->getStore()->getId();
         }
 
-        $this->getSelect()->addBindParam('tsv_store_id', $storeId);
+        $joinCondition = $this->getConnection()
+            ->quoteInto('tsv.option_id = main_table.option_id AND tsv.store_id = ?', $storeId);
 
         $adapter = $this->getConnection();
         if ($useDefaultValue) {
@@ -86,7 +87,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Co
                     array('default_value' => 'value'))
                 ->joinLeft(
                     array('tsv' => $this->_optionValueTable),
-                    'tsv.option_id = main_table.option_id AND tsv.store_id = :tsv_store_id',
+                    $joinCondition,
                     array(
                         'store_default_value' => 'value',
                         'value'               => $adapter->getCheckSql('tsv.value_id > 0', 'tsv.value', 'tdv.value')
@@ -96,9 +97,9 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Co
             $this->getSelect()
                 ->joinLeft(
                     array('tsv' => $this->_optionValueTable),
-                    'tsv.option_id = main_table.option_id AND tsv.store_id = :tsv_store_id',
+                    $joinCondition,
                     'value')
-                ->where('tsv.store_id = :tsv_store_id');
+                ->where('tsv.store_id = ?', $storeId);
         }
 
         $this->setOrder('tsv.value', self::SORT_ORDER_ASC);
