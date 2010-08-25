@@ -485,8 +485,9 @@ class Mage_Catalog_Model_Url
             // Add rewrites for all needed categories
             if ($categories) {
                 // If product is assigned to any of store's categories - we also should use store root category to create root product url rewrite
-                if (!isset($categories[$storeRootCategoryId]))
+                if (!isset($categories[$storeRootCategoryId])) {
                     $categories[$storeRootCategoryId] = $this->getResource()->getCategory($storeRootCategoryId, $storeId);
+                }
 
                 // Create product url rewrites
                 foreach ($categories as $category) {

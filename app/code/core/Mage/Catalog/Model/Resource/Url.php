@@ -63,6 +63,13 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     protected $_productLimit         = 250;
 
     /**
+     * Cache of root category children ids
+     *
+     * @var array
+     */
+    protected $_rootChildrenIds = array();
+
+    /**
      * Load core Url rewrite model
      *
      */
@@ -811,6 +818,38 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
+     * Retrieves all children ids of root category tree
+     * Actually this routine can be used to get children ids of any category, not only root.
+     * But as far as result is cached in memory, it's not recommended to do so.
+     *
+     * @param Varien_Object $category
+     * @return Varien_Object
+     */
+    public function getRootChildrenIds($categoryId, $categoryPath, $includeStart = true)
+    {
+        if (!isset($this->_rootChildrenIds[$categoryId])) {
+            // Select all descedant category ids
+            $adapter = $this->_getReadAdapter();
+            $select = $adapter->select()
+                ->from(array($this->getTable('catalog/category')), array('entity_id'))
+                ->where('path LIKE ?', $categoryPath . '/%');
+
+            $categoryIds = array();
+            $rowSet = $adapter->fetchAll($select);
+            foreach ($rowSet as $row) {
+                $categoryIds[$row['entity_id']] = $row['entity_id'];
+            }
+            $this->_rootChildrenIds[$categoryId] = $categoryIds;
+        }
+
+        $categoryIds = $this->_rootChildrenIds[$categoryId];
+        if ($includeStart) {
+            $categoryIds[$categoryId] = $categoryId;
+        }
+        return $categoryIds;
+    }
+
+    /**
      * Retrieve category parent path
      *
      * @param Varien_Object $category
@@ -1042,16 +1081,11 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     {
         // Form a list of all current store categories ids
         $store = $this->getStores($storeId);
-        $category = $this->getCategory($store->getRootCategoryId(), $storeId);
-        if (!$category) {
+        $rootCategoryId = $store->getRootCategoryId();
+        if (!$rootCategoryId) {
             return $this;
         }
-        $category = $this->loadCategoryChilds($category);
-        $categoryIds = array($category->getId());
-        $children = $category->getAllChilds();
-        if ($children) {
-            $categoryIds = array_merge($categoryIds, array_keys($children));
-        }
+        $categoryIds = $this->getRootChildrenIds($rootCategoryId, $store->getRootCategoryPath());
 
         // Remove all store catalog rewrites that are for some category or cartegory/product not within store categories
         $adapter = $this->_getWriteAdapter();
