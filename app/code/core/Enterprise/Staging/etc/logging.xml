@@ -48,9 +48,18 @@
                 <action>rollback</action>
             </adminhtml_staging_backup_rollbackPost>
 
-            <adminhtml_staging_backup_backupDelete>
+            <adminhtml_staging_backup_delete>
                 <action>delete</action>
-            </adminhtml_staging_backup_backupDelete>
+                <expected_models>
+                    <enterprise_staging__staging_action/>
+                </expected_models>
+            </adminhtml_staging_backup_delete>
+            <adminhtml_staging_backup_massDelete>
+                <action>massDelete</action>
+                <expected_models>
+                    <enterprise_staging__staging_action/>
+                </expected_models>
+            </adminhtml_staging_backup_massDelete>
         </actions>
     </enterprise_staging>
 </logging>

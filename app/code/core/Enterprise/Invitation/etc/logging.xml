@@ -50,6 +50,7 @@
 
             <adminhtml_invitation_massResend>
                 <action>massUpdate</action>
+                <post_dispatch>Enterprise_Invitation_Model_Observer::postDispatchInvitationMassUpdate</post_dispatch>
             </adminhtml_invitation_massResend>
         </actions>
     </enterprise_invitation>

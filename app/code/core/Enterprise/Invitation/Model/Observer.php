@@ -68,6 +68,24 @@ class Enterprise_Invitation_Model_Observer
     }
 
     /**
+     * Handler for invitation mass update
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchInvitationMassUpdate($config, $eventModel)
+    {
+        $messages = Mage::getSingleton('admin/session')->getMessages();
+        $errors = $messages->getErrors();
+        $notices = $messages->getItemsByType(Mage_Core_Model_Message::NOTICE);
+        $status = (empty($errors) && empty($notices))
+            ? Enterprise_Logging_Model_Event::RESULT_SUCCESS : Enterprise_Logging_Model_Event::RESULT_FAILURE;
+        return $eventModel->setStatus($status)
+            ->setInfo(Mage::app()->getRequest()->getParam('invitations'));
+    }
+
+    /**
      * Custom log invitation log action
      *
      * @deprecated after 1.6.0.0
