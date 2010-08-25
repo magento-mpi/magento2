@@ -441,22 +441,21 @@ class Mage_Core_Model_Resource_Setup
     protected function _getAvailableDataFiles($actionType, $fromVersion, $toVersion)
     {
         $modName    = (string)$this->_moduleConfig[0]->getName();
-        $filesDir   = Mage::getModuleDir('data', $modName) . DS . $this->_resourceName;
-        if (!is_dir($filesDir) || !is_readable($filesDir)) {
-            return array();
-        }
-
         $files      = array();
-        $regExp     = sprintf('#^%s-(.*)\.php$#i', $actionType);
-        $handlerDir = dir($filesDir);
-        while (false !== ($file = $handlerDir->read())) {
-            $matches = array();
-            if (preg_match($regExp, $file, $matches)) {
-                $files[$matches[1]] = $filesDir . DS . $file;
-            }
 
+        $filesDir   = Mage::getModuleDir('data', $modName) . DS . $this->_resourceName;
+        if (is_dir($filesDir) && is_readable($filesDir)) {
+            $regExp     = sprintf('#^%s-(.*)\.php$#i', $actionType);
+            $handlerDir = dir($filesDir);
+            while (false !== ($file = $handlerDir->read())) {
+                $matches = array();
+                if (preg_match($regExp, $file, $matches)) {
+                    $files[$matches[1]] = $filesDir . DS . $file;
+                }
+
+            }
+            $handlerDir->close();
         }
-        $handlerDir->close();
 
         // search data files in old location
         $filesDir   = Mage::getModuleDir('sql', $modName) . DS . $this->_resourceName;
@@ -464,7 +463,7 @@ class Mage_Core_Model_Resource_Setup
             $regExp     = sprintf('#^%s-%s-(.*)\.php$#i', $this->_connectionConfig->model, $actionType);
             $handlerDir = dir($filesDir);
 
-
+            echo $regExp;
 
             while (false !== ($file = $handlerDir->read())) {
                 $matches = array();
@@ -533,6 +532,9 @@ class Mage_Core_Model_Resource_Setup
         if (empty($files) || !$this->getConnection()) {
             return false;
         }
+        echo '<pre>';
+        var_dump($files);
+        echo '</pre>';
 
         $version = false;
 
