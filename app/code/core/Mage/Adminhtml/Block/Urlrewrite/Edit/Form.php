@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             }
         }
         else {
-            $fieldset->addField('store_id', ($model->getId() ? 'hidden' : 'select'), array(
+            $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'store_id',
                 'value'     => Mage::app()->getStore(true)->getId()
             ));
