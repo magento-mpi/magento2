@@ -68,7 +68,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
      */
     protected $_eventObject = 'subscriber';
 
-
+    /**
+     * True if data changed
+     *
+     * @var bool
+     */
     protected $_isStatusChanged = false;
 
     /**
@@ -118,10 +122,14 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         return Mage::helper('newsletter')->getConfirmationUrl($this);
     }
 
+    /**
+     * Returns Insubscribe url
+     *
+     * @return string
+     */
     public function getUnsubscriptionLink() {
         return Mage::helper('newsletter')->getUnsubscribeUrl($this);
     }
-
 
     /**
      * Alias for setSubscriberConfirmCode()
@@ -157,7 +165,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
      * Set the error messages scope for subscription
      *
      * @param boolean $scope
-     * @return unknown
+     * @return Mage_Newsletter_Model_Subscriber
      */
 
     public function setMessagesScope($scope)
@@ -254,7 +262,12 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         return $this;
     }
 
-
+    /**
+     * Returns sting of random chars
+     *
+     * @param int $length
+     * @return string
+     */
     public function randomSequence($length=32)
     {
         $id = '';
@@ -269,6 +282,13 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         return $id;
     }
 
+    /**
+     * Subscribes by email
+     *
+     * @param string $email
+     * @throws Exception
+     * @return int
+     */
     public function subscribe($email)
     {
         $this->loadByEmail($email);
@@ -328,6 +348,10 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         }
     }
 
+    /**
+     * Unsubscribes loaded subscription
+     *
+     */
     public function unsubscribe()
     {
         if ($this->hasCheckCode() && $this->getCode() != $this->getCheckCode()) {
@@ -438,6 +462,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Sends out confirmation email
+     *
+     * @return Mage_Newsletter_Model_Subscriber
+     */
     public function sendConfirmationRequestEmail()
     {
         if ($this->getImportMode()) {
@@ -467,6 +496,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Sends out confirmation success email
+     *
+     * @return Mage_Newsletter_Model_Subscriber
+     */
     public function sendConfirmationSuccessEmail()
     {
         if ($this->getImportMode()) {
@@ -496,6 +530,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Sends out unsubsciption email
+     *
+     * @return Mage_Newsletter_Model_Subscriber
+     */
     public function sendUnsubscriptionEmail()
     {
         if ($this->getImportMode()) {

@@ -157,7 +157,10 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     protected function _getIdsFromLink($field, $condition)
     {
         $select = $this->getConnection()->select()
-            ->from($this->getTable('newsletter/queue_link'), array('queue_id', 'COUNT(queue_link_id) as total'))
+            ->from(
+                $this->getTable('newsletter/queue_link'),
+                array('queue_id', 'total' => new Zend_Db_Expr('COUNT(queue_link_id)'))
+            )
             ->group('queue_id')
             ->having($this->_getConditionSql('total', $condition));
 

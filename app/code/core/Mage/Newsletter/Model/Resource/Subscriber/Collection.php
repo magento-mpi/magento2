@@ -114,7 +114,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
     public function useOnlyUnsent()
     {
         if ($this->_queueJoinedFlag) {
-            $this->getSelect()->where("link.letter_sent_at IS NULL");
+            $this->addFieldToFilter('link.letter_sent_at', array('null' => 1));
         }
 
         return $this;
@@ -192,7 +192,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
         }
 
         if ($field == 'type') {
-            return new Zend_Db_Expr('IF(main_table.customer_id = 0, 1, 2)');
+            return $this->getConnection()->getCheckSql('main_table.customer_id = 0', 1, 2);
         }
 
         if (in_array($field, array('website_id', 'group_id'))) {
@@ -225,7 +225,7 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
      */
     public function useOnlyCustomers()
     {
-        $this->getSelect()->where("main_table.customer_id > 0");
+        $this->addFieldToFilter('main_table.customer_id', array('gt' => 0));
 
         return $this;
     }
