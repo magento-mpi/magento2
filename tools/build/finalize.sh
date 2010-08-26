@@ -1,11 +1,10 @@
 #!/bin/bash
 
 . include.sh
+
+cd $PWD
+
 . take-previous.sh
-
-cd $PWD/../
-
-pwd
 
 ch_baseurl "current" $DB_NAME
 clean_cache $BUILD_NUMBER

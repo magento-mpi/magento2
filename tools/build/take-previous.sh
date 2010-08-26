@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd $PWD/../
-
 log "Searching for last successful build..."
 SB=`wget -q -O - http://guest:@kn.varien.com/teamcity/httpAuth/app/rest/buildTypes/id:$3/builds/status:SUCCESS/number`
 if [ -d $SB ]; then
@@ -14,6 +12,4 @@ else
     log "Not found"
     exit 1
 fi
-
-cd $OLDPWD
 

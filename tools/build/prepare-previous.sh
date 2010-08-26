@@ -1,28 +1,29 @@
 #!/bin/bash
 
 . include.sh
-. take-previous.sh
 
 cd $PWD/../
 
-    if [ -d "$SB/websites" ]; then
-        log "Copying websites..."
-        cp -af "$SB/websites" ./
-        check_failure $?
-    fi
+. take-previous.sh
 
-    if [ -d "$SB/media" ]; then
-        log "Copying media..."
-        cp -af "$SB/media" ./
-        check_failure $?
-    fi
+if [ -d "$SB/websites" ]; then
+    log "Copying websites..."
+    cp -af "$SB/websites" ./
+    check_failure $?
+fi
 
-    echo 'SHOW DATABASES;' | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS | grep $SB_DB > /dev/null
-    if [ "$?" -eq 0 ] ; then
-        log "Copying DB..."
-        mysqldump -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $SB_DB | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $DB_NAME
-        check_failure $? 
-        ch_baseurl $BUILD_NUMBER $DB_NAME
-    fi
+if [ -d "$SB/media" ]; then
+    log "Copying media..."
+    cp -af "$SB/media" ./
+    check_failure $?
+fi
+
+echo 'SHOW DATABASES;' | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS | grep $SB_DB > /dev/null
+if [ "$?" -eq 0 ] ; then
+    log "Copying DB..."
+    mysqldump -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $SB_DB | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $DB_NAME
+    check_failure $?
+    ch_baseurl $BUILD_NUMBER $DB_NAME
+fi
 
 cd $OLDPWD
