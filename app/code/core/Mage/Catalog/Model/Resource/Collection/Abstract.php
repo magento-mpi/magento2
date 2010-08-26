@@ -36,16 +36,16 @@
 class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Current scope (store Id)
      *
-     * @var unknown
+     * @var int
      */
-    protected $_storeId    = null;
+    protected $_storeId;
 
     /**
-     * Enter description here ...
+     * Set store scope
      *
-     * @param unknown_type $store
+     * @param int|string|Mage_Core_Model_Store $store
      * @return Mage_Catalog_Model_Resource_Collection_Abstract
      */
     public function setStore($store)
@@ -55,9 +55,9 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
     }
 
     /**
-     * Enter description here ...
+     * Set store scope
      *
-     * @param unknown_type $storeId
+     * @param int|string|Mage_Core_Model_Store $storeId
      * @return Mage_Catalog_Model_Resource_Collection_Abstract
      */
     public function setStoreId($storeId)
@@ -70,9 +70,9 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
     }
 
     /**
-     * Enter description here ...
+     * Return current store id
      *
-     * @return unknown
+     * @return int
      */
     public function getStoreId()
     {
@@ -83,9 +83,9 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
     }
 
     /**
-     * Enter description here ...
+     * Retrieve default store id
      *
-     * @return unknown
+     * @return int
      */
     public function getDefaultStoreId()
     {
@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
      * Retrieve attributes load select
      *
      * @param string $table
-     * @param unknown_type $attributeIds
+     * @param array|int $attributeIds
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     protected function _getLoadAttributesSelect($table, $attributeIds = array())
@@ -104,31 +104,36 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
         if (empty($attributeIds)) {
             $attributeIds = $this->_selectAttributes;
         }
-        if ((int) $this->getStoreId()) {
-            $entityIdField = $this->getEntity()->getEntityIdField();
-            $joinCondition = 'store.attribute_id=default.attribute_id
-                AND store.entity_id=default.entity_id
-                AND store.store_id='.(int) $this->getStoreId();
+        $storeId = $this->getStoreId();
 
-            $select = $this->getConnection()->select()
-                ->from(array('default'=>$table), array($entityIdField, 'attribute_id', 'default_value'=>'value'))
+        if ($storeId) {
+            $adapter        = $this->getConnection();
+            $entityIdField  = $this->getEntity()->getEntityIdField();
+            $joinCondition  = array(
+                't_s.attribute_id = t_d.attribute_id',
+                't_s.entity_id = t_d.entity_id',
+                $adapter->quoteInto('t_s.store_id = ?', $storeId)
+            );
+            $valueExpr      = $adapter->getCheckSql('t_s.value_id IS NULL', 't_d.value', 't_s.value');
+
+            $select = $adapter->select()
+                ->from(array('t_d' => $table), array($entityIdField, 'attribute_id', 'default_value' => 'value'))
                 ->joinLeft(
-                    array('store'=>$table),
-                    $joinCondition,
+                    array('t_s' => $table),
+                    join(' AND ', $joinCondition),
                     array(
-                        'store_value' => 'value',
-                        'value' => new Zend_Db_Expr('IF(store.value_id>0, store.value, default.value)')
-                    )
-                )
-                ->where('default.entity_type_id=?', $this->getEntity()->getTypeId())
-                ->where("default.$entityIdField in (?)", array_keys($this->_itemsById))
-                ->where('default.attribute_id in (?)', $attributeIds)
-                ->where('default.store_id = 0');
-        }
-        else {
+                        'store_value'   => 'value',
+                        'value'         => $valueExpr
+                    ))
+                ->where('t_d.entity_type_id = ?', $this->getEntity()->getTypeId())
+                ->where("t_d.{$entityIdField} IN (?)", array_keys($this->_itemsById))
+                ->where('t_d.attribute_id IN (?)', $attributeIds)
+                ->where('t_d.store_id = ?', 0);
+        } else {
             $select = parent::_getLoadAttributesSelect($table)
-                ->where('store_id=?', $this->getDefaultStoreId());
+                ->where('store_id = ?', $this->getDefaultStoreId());
         }
+
         return $select;
     }
 
@@ -159,7 +164,6 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
              */
             $defCondition = '('.join(') AND (', $condition).')';
             $defAlias     = $tableAlias.'_default';
-            $defFieldCode = $fieldCode.'_default';
             $defFieldAlias= str_replace($tableAlias, $defAlias, $fieldAlias);
 
             $defCondition = str_replace($tableAlias, $defAlias, $defCondition);
@@ -172,11 +176,11 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
             );
 
             $method = 'joinLeft';
-            $fieldAlias = new Zend_Db_Expr("IF($tableAlias.value_id>0, $fieldAlias, $defFieldAlias)");
+            $fieldAlias = $this->getConnection()->getCheckSql("{$tableAlias}.value_id > 0",
+                $fieldAlias, $defFieldAlias);
             $this->_joinAttributes[$fieldCode]['condition_alias'] = $fieldAlias;
             $this->_joinAttributes[$fieldCode]['attribute']       = $attribute;
-        }
-        else {
+        } else {
             $store_id = $this->getDefaultStoreId();
         }
         $condition[] = $this->getConnection()->quoteInto("$tableAlias.store_id=?", $store_id);
