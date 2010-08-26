@@ -16,17 +16,17 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Entity Type Id')
     ->addColumn('entity_type_code', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        'nullable'  => true,
+        'nullable'  => false,
         'default'   => '',
         ), 'Entity Type Code')
     ->addColumn('entity_model', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
+        'nullable'  => false,
         ), 'Entity Model')
     ->addColumn('attribute_model', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => true,
         ), 'Attribute Model')
     ->addColumn('entity_table', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
+        'nullable'  => true,
         'default'   => '',
         ), 'Entity Table')
     ->addColumn('value_table_prefix', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(

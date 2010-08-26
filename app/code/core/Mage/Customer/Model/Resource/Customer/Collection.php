@@ -74,13 +74,26 @@ class Mage_Customer_Model_Resource_Customer_Collection extends Mage_Eav_Model_En
             }
         }
 
-        $expr = 'CONCAT('
-            .(isset($fields['prefix']) ? 'IF({{prefix}} IS NOT NULL AND {{prefix}} != "", CONCAT({{prefix}}," "), ""),' : '')
-            .'{{firstname}}'.(isset($fields['middlename']) ?  ',IF({{middlename}} IS NOT NULL AND {{middlename}} != "", CONCAT(" ",{{middlename}}), "")' : '').'," ",{{lastname}}'
-            .(isset($fields['suffix']) ? ',IF({{suffix}} IS NOT NULL AND {{suffix}} != "", CONCAT(" ",{{suffix}}), "")' : '')
-        .')';
+        $adapter = $this->getConnection();
+        $concatenate = array();
+        if (isset($fields['prefix'])) {
+            $concatenate[] = $adapter->getCheckSql('{{prefix}} IS NOT NULL AND {{prefix}} != \'\'', "{{prefix}}", "''");
+        }
+        $concatenate[] = '{{firstname}}';
+        if (isset($fields['middlename'])) {
+            $concatenate[] = $adapter
+                ->getCheckSql('{{middlename}} IS NOT NULL AND {{middlename}} != \'\'', "{{middlename}}", "''");
+        }
+        $concatenate[] = '{{lastname}}';
+        if (isset($fields['suffix'])) {
+            $concatenate[] = $adapter
+                ->getCheckSql('{{suffix}} IS NOT NULL AND {{suffix}} != \'\'', "{{suffix}}", "''");
+        }
 
-        $this->addExpressionAttributeToSelect('name', $expr, $fields);
+        $nameExpr = $adapter->getConcatSql($concatenate, ' ');
+
+        $this->addExpressionAttributeToSelect('name', $nameExpr, $fields);
+        
         return $this;
     }
 
@@ -91,18 +104,10 @@ class Mage_Customer_Model_Resource_Customer_Collection extends Mage_Eav_Model_En
      */
     public function getSelectCountSql()
     {
-        $this->_renderFilters();
+        $select = parent::getSelectCountSql();
+        $select->resetJoinLeft();
 
-        $countSelect = clone $this->getSelect();
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
-
-        $countSelect->columns('COUNT(*)');
-        $countSelect->resetJoinLeft();
-
-        return $countSelect;
+        return $select;
     }
 
     /**

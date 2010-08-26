@@ -501,10 +501,13 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         if ($this->_dataTable === null) {
             if ($this->isStatic()) {
                 $this->_dataTable = $this->getEntityType()->getValueTablePrefix();
-            } elseif ($backendTable = trim($this->_getData('backend_table'))) {
-                $this->_dataTable = $backendTable;
             } else {
-                $this->_dataTable = $this->getEntity()->getValueTablePrefix() . '_' . $this->getBackendType();
+                $backendTable = trim($this->_getData('backend_table'));
+                if (empty($backendTable)) {
+                    $entityTable  = array($this->getEntity()->getEntityTablePrefix(), $this->getBackendType());
+                    $backendTable = $this->getResource()->getTable($entityTable);
+                }
+                $this->_dataTable = $backendTable;
             }
         }
         return $this->_dataTable;
@@ -533,7 +536,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
                 $size = ($prop['LENGTH'] ? $prop['LENGTH'] : null);
 
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => array($type, $size),
+                    'type'      => $type . $size,
                     'unsigned'  => $prop['UNSIGNED'] ? true: false,
                     'is_null'   => $prop['NULLABLE'],
                     'default'   => $prop['DEFAULT'],

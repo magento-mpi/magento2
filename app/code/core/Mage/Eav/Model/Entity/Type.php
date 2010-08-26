@@ -208,18 +208,36 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retreive value table prefix
+     * Retrieve entity table prefix name
      *
      * @return string
      */
     public function getValueTablePrefix()
     {
-        if (empty($this->_data['value_table_prefix'])) {
-            $this->_data['value_table_prefix'] = $this->_getResource()->getTable($this->getEntityTable());
+        $prefix = $this->getEntityTablePrefix();
+        if ($prefix) {
+            return $this->getResource()->getTable($prefix);
         }
-        return $this->_data['value_table_prefix'];
+
+        return null;
     }
 
+    /**
+     * Retrieve entity table prefix
+     *
+     * @return string
+     */
+    public function getEntityTablePrefix()
+    {
+        $tablePrefix = trim($this->_data['value_table_prefix']);
+
+        if (empty($tablePrefix)) {
+            $tablePrefix = $this->getEntityTable();
+        }
+
+        return $tablePrefix;
+    }
+    
     /**
      * Get default attribute set identifier for etity type
      *

@@ -56,8 +56,13 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      * @var string
      */
     protected $_defaultGroupName         = 'Default';
-
-    protected $_attributeTableFields;
+    
+    /**
+     * Default attribute set name
+     *
+     * @var string
+     */
+    protected $_defaultAttributeSetName  = 'Default';
 
     /**
      * Clean cache
@@ -128,7 +133,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $this->_conn->insert($this->getTable('eav/entity_type'), $data);
         }
 
-        $this->addAttributeSet($code, $this->_defaultGroupName);
+        $this->addAttributeSet($code, $this->_defaultAttributeSetName);
         $this->addAttributeGroup($code, $this->_defaultGroupName, $this->_generalGroupName);
 
         return $this;

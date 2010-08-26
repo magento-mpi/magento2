@@ -126,6 +126,12 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     protected $_valueTablePrefix;
 
+    /* Entity table string
+     *
+     * @var string
+     */
+    protected $_entityTablePrefix;
+    
     /**
      * Partial load flag
      *
@@ -745,6 +751,28 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
 
         return $this->_valueTablePrefix;
     }
+    
+    /**
+     * Get entity table prefix for value
+     *
+     * @return string
+     */
+    public function getEntityTablePrefix()
+    {
+        if (empty($this->_entityTablePrefix)) {
+            $prefix = $this->getEntityType()->getEntityTablePrefix();
+            if (empty($prefix)) {
+                $prefix = $this->getEntityType()->getEntityTable();
+                if (empty($prefix)) {
+                    $prefix = Mage_Eav_Model_Entity::DEFAULT_ENTITY_TABLE;
+                }
+            }
+            $this->_entityTablePrefix = $prefix;
+        }
+
+        return $this->_entityTablePrefix;
+    }
+    
 
     /**
      * Check whether the attribute is a real field in entity table

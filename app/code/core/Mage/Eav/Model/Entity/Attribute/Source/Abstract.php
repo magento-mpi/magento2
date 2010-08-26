@@ -46,7 +46,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
      *
      * @var array
      */
-    protected $_options                 = array();
+    protected $_options                 = null;
 
     /**
      * Set attribute instance
@@ -108,7 +108,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
      * @param string $dir direction
      * @return Mage_Eav_Model_Entity_Attribute_Source_Abstract
      */
-    public function addValueSortToCollection($collection, $dir = Varien_Db_Select::SQL_ASC) {
+    public function addValueSortToCollection($collection, $dir = Varien_Data_Collection::SORT_ORDER_DESC) {
         return $this;
     }
 
