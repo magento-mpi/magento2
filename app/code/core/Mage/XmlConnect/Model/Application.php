@@ -540,7 +540,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 Mage::throwException(Mage::helper('xmlconnect')->__('Please select at least one Country.'));
             }
             if ($this->getIsResubmitAction()) {
-                $params['key'] = trim(isset($params['resubmission_activation_key']) ? $params['resubmission_activation_key'] : '');
+                $params['key'] = isset($params['resubmission_activation_key']) ? trim($params['resubmission_activation_key']) : '';
             } else {
                 $params['key'] = isset($params['key']) ? trim($params['key']) : '';
             }

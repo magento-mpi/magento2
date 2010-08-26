@@ -536,7 +536,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('mobile');
+        return Mage::getSingleton('admin/session')->isAllowed('xmlconnect');
     }
 
     /**

@@ -60,6 +60,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $item->addChild('entity_id', $product->getId());
             $item->addChild('name', $item->xmlentities(strip_tags($product->getName())));
             $item->addChild('entity_type', $product->getTypeId());
+            $item->addChild('short_description', $product->getShortDescription());
             $item->addChild('description', $item->xmlentities($product->getDescription()));
 
             $icon = clone Mage::helper('catalog/image')->init($product, 'image')
