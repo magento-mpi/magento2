@@ -31,6 +31,7 @@ class magentoTest:
     __checkout_orders   = 0
     
     __home              = None
+    __reportOutput      = None
     __base_url          = None
     __ssh_keys          = {}
     
@@ -69,15 +70,19 @@ class magentoTest:
         parser = OptionParser()
         parser.add_option('-c', '--config', metavar='FILE', help='use config file')
         parser.add_option('-m', '--mode', default='run', choices=('run','report'), help='test mode: one of \'run\', \'report\' [default: %default]')
+        parser.add_option('-o', '--output', help='path for report output directory')
         (options, args) = parser.parse_args()
-        
         if options.config == None:
             parser.print_help()
             print ''
             print 'Error: config file is required option'
             exit(1)
         
-        cfgFile = '%s%s%s' % (os.getcwd(), os.sep, options.config)
+        if os.path.exists(options.config) != 0:
+            cfgFile = options.config
+        else:
+            cfgFile = '%s%s%s' % (options.path, os.sep, options.config)
+            
         if os.path.exists(cfgFile) == 0:
             print 'Error: Invalid config file "%s"' % (options.config)
             exit(1)
@@ -88,6 +93,10 @@ class magentoTest:
         config.read([cfgFile])
         
         self.__home = os.getcwd()
+        if options.output != None and os.path.exists(options.output):
+            self.__reportOutput = options.output
+        else:
+            self.__reportOutput = os.getcwd()
         
         options = dict(config.items('options'))
         sshkeys = dict(config.items('sshkeys'))
@@ -599,7 +608,7 @@ class magentoTest:
             os.unlink(self.__clean_sql_file)
         
     def createReport(self):
-        path = '%s%s%s' % (self.__home, os.sep, self.__code)
+        path = '%s%s%s' % (self.__reportOutput, os.sep, self.__code)
         if os.path.exists(path) == 0:
             os.mkdir(path)
             os.chmod(path, 0755)
