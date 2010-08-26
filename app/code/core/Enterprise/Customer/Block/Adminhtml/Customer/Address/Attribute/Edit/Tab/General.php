@@ -208,6 +208,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
         // apply scopes
         foreach ($helper->getAttributeElementScopes() as $elementId => $scope) {
             $element = $form->getElement($elementId);
+            if ($element->getDisabled()) {
+                continue;
+            }
             $element->setScope($scope);
             if ($this->getAttributeObject()->getWebsite()->getId()) {
                 $element->setName('scope_' . $element->getName());
