@@ -41,9 +41,6 @@ RETURNS BIT AS
 BEGIN
     DECLARE @hr         int
     DECLARE @objRegExp  int
-    DECLARE @objMatches int
-    DECLARE @objMatch   int
-    DECLARE @count      int
     DECLARE @results    int
 
     EXEC @hr = sp_OACreate 'VBScript.RegExp', @objRegExp OUTPUT
@@ -84,6 +81,71 @@ BEGIN
 
     RETURN @results;
 END;
+");
+
+
+
+$installer->getConnection()->query("
+    CREATE FUNCTION dbo.regexp_replace
+    (
+        @source		varchar(max),
+        @pattern	varchar(max),
+        @replacement	varchar(max),
+        @ignorecase bit = 0
+    )
+    RETURNS VARCHAR(8000) AS
+    BEGIN
+        DECLARE @hr         int
+        DECLARE @objRegExp  int
+        DECLARE @results    varchar(8000)
+
+        EXEC @hr = sp_OACreate 'VBScript.RegExp', @objRegExp OUTPUT
+        IF @hr <> 0 BEGIN
+            SET @results = ''
+            RETURN @results
+        END;
+
+        EXEC @hr = sp_OASetProperty @objRegExp, 'Pattern', @pattern
+        IF @hr <> 0 BEGIN
+            SET @results = ''
+            RETURN @results
+        END;
+
+        EXEC @hr = sp_OASetProperty @objRegExp, 'Global', 1
+        IF @hr <> 0 BEGIN
+            SET @results = ''
+            RETURN @results
+        END;
+
+            EXEC @hr= sp_OASetProperty @objRegExp, 'MultiLine', 1
+        IF @hr <> 0 BEGIN
+            SET @results = ''
+            RETURN @results
+        END;
+
+
+        EXEC @hr = sp_OASetProperty @objRegExp, 'IgnoreCase', @ignorecase
+        IF @hr <> 0 BEGIN
+            SET @results = ''
+            RETURN @results
+        END;
+
+        EXEC @hr = sp_OAMethod @objRegExp, 'Replace', @results OUTPUT,
+                    @source, @replacement
+
+        IF @hr <> 0 BEGIN
+            SET @results = ''
+            RETURN @results
+        END;
+
+        EXEC @hr = sp_OADestroy @objRegExp
+        IF @hr <> 0 BEGIN
+            SET @results = ''
+            RETURN @results
+        END;
+
+        RETURN @results;
+    END;
 ");
 
 $installer->getConnection()->query("
