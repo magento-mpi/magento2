@@ -218,12 +218,25 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
              */
             $attributesWeights = array();
             $needToReplaceSeparator = ($this->_separator != ' ');
+            $store = Mage::app()->getStore($index['store_id']);
             foreach ($index as $code => $value) {
+                $weight = 0;
+
                 if (!empty($attributeParams[$code])) {
-                    if ($needToReplaceSeparator && $attributeParams[$code]['frontendInput'] == 'multiselect') {
-                        $value = str_replace($this->_separator, ' ', $value);
-                    }
                     $weight = $attributeParams[$code]['searchWeight'];
+                    $frontendInput = $attributeParams[$code]['frontendInput'];
+                } elseif ((substr($code, 0, 6) == '#price' && !empty($attributeParams['price']))) {
+                    $weight = $attributeParams['price']['searchWeight'];
+                    $frontendInput = 'price';
+                }
+
+                if ($weight) {
+                    if ($needToReplaceSeparator && $frontendInput == 'multiselect') {
+                        $value = str_replace($this->_separator, ' ', $value);
+                    } elseif ($code == 'price' || $frontendInput == 'price') {
+                        $value = $store->formatPrice($value, false);
+                    }
+
                     $attributesWeights['fulltext' . $weight][] = $value;
                 }
             }
@@ -648,23 +661,27 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected function _implodeIndexData($indexData, $separator = ' ')
     {
-        $_index = array();
-        if (is_string($indexData)) {
-            return $indexData;
-        }
-        if (!is_array($indexData)) {
-            $indexData = array($indexData);
-        }
         if (!$indexData) {
             return '';
         }
-        foreach ($indexData as $key => $value) {
+        if (is_string($indexData)) {
+            return $indexData;
+        }
+
+        $_index = array();
+        if (!is_array($indexData)) {
+            $indexData = array($indexData);
+        }
+
+        foreach ($indexData as $value) {
             if (!is_array($value)) {
                 $_index[] = $value;
             } else {
                 $_index = array_merge($_index, $value);
             }
         }
+        $_index = array_unique($_index);
+
         return implode($separator, $_index);
     }
 

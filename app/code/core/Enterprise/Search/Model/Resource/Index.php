@@ -35,6 +35,13 @@
 class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Mysql4_Fulltext
 {
     /**
+     * Define product count processed at one iteration
+     *
+     * @var int
+     */
+    protected $_limit = 100;
+
+    /**
      * Update category'es products indexes
      *
      * @param array $productIds
@@ -44,8 +51,8 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
     {
         foreach (Mage::app()->getStores(false) as $store) {
             $index = $this->_getCatalogCategoryData($store->getId(), $productIds, false);
-            foreach (array_chunk($index, 100, true) as $indexPart) {
-                $this->_engine->saveEntityIndexes($store->getId(), $indexPart, $entityType = 'product');
+            foreach (array_chunk($index, $this->_limit, true) as $indexPart) {
+                $this->_engine->saveEntityIndexes($store->getId(), $indexPart, 'product');
             }
         }
 
@@ -61,8 +68,8 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
     {
         foreach (Mage::app()->getStores(false) as $store) {
             $index = $this->_getCatalogProductPriceData();
-            foreach (array_chunk($index, 100, true) as $indexPart) {
-                $this->_engine->saveEntityIndexes($store->getId(), $indexPart, $entityType = 'product');
+            foreach (array_chunk($index, $this->_limit, true) as $indexPart) {
+                $this->_engine->saveEntityIndexes($store->getId(), $indexPart, 'product');
             }
         }
 
@@ -143,7 +150,7 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
                 $result[$row['entity_id']] = array();
             }
             $key = sprintf('%sprice_%s_%s', $prefix, $row['customer_group_id'], $row['website_id']);
-            $result[$row['entity_id']][$key] = $row['min_price'];
+            $result[$row['entity_id']][$key] = round($row['min_price'], 2);
         }
 
         return $result;
