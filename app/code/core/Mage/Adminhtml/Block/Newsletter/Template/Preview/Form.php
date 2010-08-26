@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview_Form extends Mage_Adminht
     /**
      * Preparing from for revision page
      *
-     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Form
+     * @return Mage_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()
     {
