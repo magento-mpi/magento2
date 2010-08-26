@@ -182,7 +182,9 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getSuggestUrl()
     {
-        return $this->_getUrl('catalogsearch/ajax/suggest');
+        return $this->_getUrl('catalogsearch/ajax/suggest', array(
+            '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+        ));
     }
 
     /**
