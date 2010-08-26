@@ -26,17 +26,21 @@ $PHP_BIN -f install.php -- --license_agreement_accepted yes \
 check_failure $?
 
 # Changing permission to cache folder as it was created by user which runs install
-log "Changing permission for var/cache folder"
+log "Changing permission for var/cache folder ..."
 chmod -R 777 var/cache
 check_failure $?
 
 
-log "Changing permission for media folder"
+log "Changing permission for media folder ..."
 chmod -R 777 media
 check_failure $?
 
 # Reverting local.xml.template 
 svn revert app/etc/local.xml.template
+check_failure $?
+
+log "Rebuilding indexes ..."
+php -f indexer.php -- reindexall
 check_failure $?
 
 cd $OLDPWD

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd $PWD
+cd $PWD/../
 
 log "Searching for last successful build..."
 SB=`wget -q -O - http://guest:@kn.varien.com/teamcity/httpAuth/app/rest/buildTypes/id:$3/builds/status:SUCCESS/number`
