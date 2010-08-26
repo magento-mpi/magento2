@@ -482,7 +482,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Defines Is Unique')
     ->addColumn('note', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
         ), 'Note')
     ->addIndex($installer->getIdxName('eav/attribute', array('entity_type_id', 'attribute_code'), true),
         array('entity_type_id', 'attribute_code'), array('unique' => true))
