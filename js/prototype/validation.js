@@ -503,10 +503,10 @@ Validation.addAllThese([
     ['validate-clean-url', 'Please enter a valid URL. For example http://www.example.com or www.example.com', function (v) {
                 return Validation.get('IsEmpty').test(v) || /^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v) || /^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v)
             }],
-    ['validate-identifier', 'Please enter a valid URL Key. For example "example-page", "example-page.html" or "anotherlevel/example-page"', function (v) {
+    ['validate-identifier', 'Please enter a valid URL Key. For example "example-page", "example-page.html" or "anotherlevel/example-page".', function (v) {
                 return Validation.get('IsEmpty').test(v) || /^[A-Z0-9][A-Z0-9_\/-]+(\.[A-Z0-9_-]+)*$/i.test(v)
             }],
-    ['validate-xml-identifier', 'Please enter a valid XML-identifier. For example something_1, block5, id-4', function (v) {
+    ['validate-xml-identifier', 'Please enter a valid XML-identifier. For example something_1, block5, id-4.', function (v) {
                 return Validation.get('IsEmpty').test(v) || /^[A-Z][A-Z0-9_\/-]*$/i.test(v)
             }],
     ['validate-ssn', 'Please enter a valid social security number. For example 123-45-6789.', function(v) {
@@ -600,7 +600,7 @@ Validation.addAllThese([
                 }
                 return validateCreditCard(v);
             }],
-    ['validate-cc-type', 'Credit card number doesn\'t match credit card type', function(v, elm) {
+    ['validate-cc-type', 'Credit card number does not match credit card type.', function(v, elm) {
                 // remove credit card number delimiters such as "-" and space
                 elm.value = removeDelimiters(elm.value);
                 v         = removeDelimiters(v);
@@ -640,7 +640,7 @@ Validation.addAllThese([
 
                 return true;
             }],
-     ['validate-cc-type-select', 'Card type doesn\'t match credit card number', function(v, elm) {
+     ['validate-cc-type-select', 'Card type does not match credit card number.', function(v, elm) {
                 var ccNumberContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_type')) + '_cc_number');
                 if (Validation.isOnChange && Validation.get('IsEmpty').test(ccNumberContainer.value)) {
                     return true;
@@ -650,7 +650,7 @@ Validation.addAllThese([
                 }
                 return Validation.get('validate-cc-type').test(ccNumberContainer.value, ccNumberContainer);
             }],
-     ['validate-cc-exp', 'Incorrect credit card expiration date', function(v, elm) {
+     ['validate-cc-exp', 'Incorrect credit card expiration date.', function(v, elm) {
                 var ccExpMonth   = v;
                 var ccExpYear    = $(elm.id.substr(0,elm.id.indexOf('_expiration')) + '_expiration_yr').value;
                 var currentTime  = new Date();
@@ -687,13 +687,13 @@ Validation.addAllThese([
                 }
                 return true;
             }],
-     ['validate-css-length', 'Please input a valid CSS-length. For example 100px or 77pt or 20em or .5ex or 50%', function (v) {
+     ['validate-css-length', 'Please input a valid CSS-length. For example 100px or 77pt or 20em or .5ex or 50%.', function (v) {
                 if (v != '' && v) {
                     return /^[0-9\.]+(px|pt|em|ex|%)?$/.test(v) && (!(/\..*\./.test(v))) && !(/\.$/.test(v));
                 }
                 return true;
             }],
-     ['validate-length', 'Text length doesn\'t satisfy specified text range.', function (v, elm) {
+     ['validate-length', 'Text length does not satisfy specified text range.', function (v, elm) {
                 var reMax = new RegExp(/^maximum-length-[0-9]+$/);
                 var reMin = new RegExp(/^minimum-length-[0-9]+$/);
                 var result = true;
@@ -709,7 +709,7 @@ Validation.addAllThese([
                 });
                 return result;
             }],
-     ['validate-percents', 'Please enter a number lower than 100', {max:100}],
+     ['validate-percents', 'Please enter a number lower than 100.', {max:100}],
      ['required-file', 'Please select a file', function(v, elm) {
          var result = !Validation.get('IsEmpty').test(v);
          if (result === false) {
