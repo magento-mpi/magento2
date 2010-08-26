@@ -1781,6 +1781,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 $query = $this->quoteInto("FIND_IN_SET(?, {$fieldName})", $condition['finset']);
             } else if (isset($condition['regexp'])) {
                 $query = $this->quoteInto("REGEXP_LIKE({$fieldName}, ?)", $condition['regexp']);
+            } else if (isset($condition['regexp_replace'])) {
+                $query = $this->quoteInto("REGEXP_REPLACE({$fieldName}, ?, ?)", $condition['pattern'], $condition['replacement']);
             } else {
                 $queries = array();
                 foreach ($condition as $orCondition) {
