@@ -743,8 +743,6 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Position')
-    ->addIndex($installer->getIdxName('catalog/category_product', array('category_id', 'product_id'), true),
-        array('category_id', 'product_id'), array('unique' => true))
     ->addIndex($installer->getIdxName('catalog/category_product', array('category_id')),
         array('category_id'))
     ->addIndex($installer->getIdxName('catalog/category_product', array('product_id')),
@@ -793,8 +791,6 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Visibility')
-    ->addIndex($installer->getIdxName('catalog/category_product_index', array('category_id', 'product_id', 'store_id'), true),
-        array('category_id', 'product_id', 'store_id'), array('unique' => true))
     ->addIndex($installer->getIdxName('catalog/category_product_index', array('category_id')),
         array('category_id'))
     ->addIndex($installer->getIdxName('catalog/category_product_index', array('product_id', 'store_id', 'category_id', 'visibility')),
@@ -850,9 +846,9 @@ $table = $installer->getConnection()
         array('customer_id', 'product_id'))
     ->addIndex($installer->getIdxName('catalog/compare_item', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('catalog/compare_item', 'customer_id', 'customer/entity', 'entity_id'),
+/*    ->addForeignKey($installer->getFkName('catalog/compare_item', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer/entity'), 'entity_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)*/
     ->addForeignKey($installer->getFkName('catalog/compare_item', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog/product'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -868,7 +864,6 @@ $installer->getConnection()->createTable($table);
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog/product_website'))
     ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -911,8 +906,6 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Visibility')
-    ->addIndex($installer->getIdxName('catalog/product_enabled_index', array('product_id', 'store_id'), true),
-        array('product_id', 'store_id'), array('unique' => true))
     ->addIndex($installer->getIdxName('catalog/product_enabled_index', array('product_id', 'store_id', 'visibility')),
         array('product_id', 'store_id', 'visibility'))
     ->addIndex($installer->getIdxName('catalog/product_enabled_index', array('store_id')),
@@ -1327,9 +1320,9 @@ $table = $installer->getConnection()
         array('customer_group_id'))
     ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('catalog/product_attribute_tier_price', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+/*    ->addForeignKey($installer->getFkName('catalog/product_attribute_tier_price', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer/customer_group'), 'customer_group_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)*/
     ->addForeignKey($installer->getFkName('catalog/product_attribute_tier_price', 'entity_id', 'catalog/product', 'entity_id'),
         'entity_id', $installer->getTable('catalog/product'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -1674,7 +1667,6 @@ $installer->getConnection()->createTable($table);
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog/eav_attribute'))
     ->addColumn('attribute_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -1742,7 +1734,7 @@ $table = $installer->getConnection()
         'default'   => '1',
         ), 'Is Configurable')
     ->addColumn('apply_to', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
+        'nullable'  => true,
         ), 'Apply To')
     ->addColumn('is_visible_in_advanced_search', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
@@ -1927,9 +1919,9 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addIndex($installer->getIdxName('catalog/product_index_price', array('min_price')),
         array('min_price'))
-    ->addForeignKey($installer->getFkName('catalog/product_index_price', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+/*    ->addForeignKey($installer->getFkName('catalog/product_index_price', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer/customer_group'), 'customer_group_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)*/
     ->addForeignKey($installer->getFkName('catalog/product_index_price', 'entity_id', 'catalog/product', 'entity_id'),
         'entity_id', $installer->getTable('catalog/product'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -1968,9 +1960,9 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('catalog/product_index_tier_price', 'entity_id', 'catalog/product', 'entity_id'),
         'entity_id', $installer->getTable('catalog/product'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog/product_index_tier_price', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+/*    ->addForeignKey($installer->getFkName('catalog/product_index_tier_price', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer/customer_group'), 'customer_group_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)*/
     ->addForeignKey($installer->getFkName('catalog/product_index_tier_price', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core/website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -1987,13 +1979,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Website ID')
-    ->addColumn('date', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
-        ), 'Date')
+    ->addColumn('website_date', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
+        ), 'Website Date')
     ->addColumn('rate', Varien_Db_Ddl_Table::TYPE_FLOAT, null, array(
         'default'   => '1.0000',
         ), 'Rate')
-    ->addIndex($installer->getIdxName('catalog/product_index_website', array('date')),
-        array('date'))
+    ->addIndex($installer->getIdxName('catalog/product_index_website', array('website_date')),
+        array('website_date'))
     ->addForeignKey($installer->getFkName('catalog/product_index_website', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core/website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
