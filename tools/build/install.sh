@@ -40,7 +40,7 @@ svn revert app/etc/local.xml.template
 check_failure $?
 
 log "Rebuilding indexes ..."
-php -f indexer.php -- reindexall
+php -f shell/indexer.php -- reindexall
 check_failure $?
 
 cd $OLDPWD
