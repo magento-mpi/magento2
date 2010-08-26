@@ -3,18 +3,18 @@
 . include.sh
 . take-previous.sh
 
-cd $PWD
+cd $PWD/../
 
 ch_baseurl "current" $DB_NAME
-clean_cache ../$BUILD_NUMBER
+clean_cache $BUILD_NUMBER
 
-if [ -L "current" ]; then 
+if [ -L "current" ]; then
     log "Removing previous 'current' link..."
     rm current
     check_failure $?
 fi
 log "Creating 'currect' link..."
-ln -sf ../$BUILD_NUMBER ../current
+ln -sf $BUILD_NUMBER current
 check_failure $?
 
 if [ "$SB" != "" ]; then
