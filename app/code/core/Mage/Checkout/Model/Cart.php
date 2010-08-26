@@ -302,6 +302,48 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     }
 
     /**
+     * Returns suggested quantities for items.
+     * Can be used to automatically fix user entered quantities before updating cart
+     * so that cart contains valit qty values
+     *
+     * $data is an array of ($quoteItemId => (item info array with 'qty' key), ...)
+     *
+     * @param   array $data
+     * @return  array
+     */
+    public function suggestItemsQty($data)
+    {
+        foreach ($data as $itemId => $itemInfo) {
+            if (!isset($itemInfo['qty'])) {
+                continue;
+            }
+            $qty = (float) $itemInfo['qty'];
+            if ($qty <= 0) {
+                continue;
+            }
+
+            $quoteItem = $this->getQuote()->getItemById($itemId);
+            if (!$quoteItem) {
+                continue;
+            }
+
+            $product = $quoteItem->getProduct();
+            if (!$product) {
+                continue;
+            }
+
+            /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+            $stockItem = $product->getStockItem();
+            if (!$stockItem) {
+                continue;
+            }
+
+            $data[$itemId]['qty'] = $stockItem->suggestQty($qty);
+        }
+        return $data;
+    }
+
+    /**
      * Update cart items information
      *
      * @param   array $data

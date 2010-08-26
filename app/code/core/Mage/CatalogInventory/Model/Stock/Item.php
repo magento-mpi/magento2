@@ -413,6 +413,52 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Returns suggested qty increments for the item based on requested qty
+     *
+     * @param int|float $qty
+     * @return int|float
+     */
+    public function suggestQty($qty)
+    {
+        $origQty = $qty;
+        $qty = (float) $qty;
+
+        // Maybe some wrong value
+        if ($qty <= 0) {
+            return $origQty;
+        }
+
+        // We do not manage stock
+        if (!$this->getManageStock()) {
+            return $origQty;
+        }
+
+        // No qty increments enabled
+        $qtyIncrements = $this->getQtyIncrements();
+        $qtyIncrements = (int) $qtyIncrements; // Currently only integer increments supported
+        if (!$qtyIncrements || ($qtyIncrements == 1)) {
+            return $origQty;
+        }
+
+        // Fix qty to be integer if needed
+        if (!$this->getIsQtyDecimal()) {
+            $qty = (int) $qty;
+        }
+
+        // Maybe qty is evenly divided - no fixture needed
+        if ($qty % $qtyIncrements == 0) {
+            return $qty;
+        }
+
+        $qty = round($qty / $qtyIncrements) * $qtyIncrements;
+        if (!$qty) {
+            // Value was closer to zero, so suggest first lowest minimal increment
+            $qty = $qtyIncrements;
+        }
+        return $qty;
+    }
+
+    /**
      * Checking quote item quantity
      *
      * @param mixed $qty quantity of this item (item qty x parent item qty)
