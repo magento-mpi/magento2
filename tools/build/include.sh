@@ -1,7 +1,5 @@
 #!/bin/sh
 
-pwd
-
 OLDPWD=`pwd`
 PHP_BIN="/usr/bin/php"
 PWD="../"
