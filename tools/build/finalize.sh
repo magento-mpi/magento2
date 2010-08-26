@@ -2,9 +2,9 @@
 
 . include.sh
 
-cd $PWD
+cd $PWD/../
 
-. take-previous.sh
+$BUILD_TOOLS/take-previous.sh
 
 ch_baseurl "current" $DB_NAME
 clean_cache $BUILD_NUMBER

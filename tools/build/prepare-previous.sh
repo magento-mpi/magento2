@@ -4,7 +4,7 @@
 
 cd $PWD/../
 
-. take-previous.sh
+$BUILD_TOOLS/take-previous.sh
 
 if [ -d "$SB/websites" ]; then
     log "Copying websites..."
