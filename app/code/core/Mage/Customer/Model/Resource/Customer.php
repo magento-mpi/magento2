@@ -69,7 +69,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      * @throws Mage_Customer_Exception
      * @return Mage_Customer_Model_Resource_Customer
      */
-    protected function _beforeSave(Mage_Customer_Model_Customer $customer)
+    protected function _beforeSave(Varien_Object $customer)
     {
         parent::_beforeSave($customer);
 
@@ -175,7 +175,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      * @param mixed $rowId
      * @return Varien_Db_Select
      */
-    protected function _getLoadRowSelect(Varien_Object $object, $rowId)
+    protected function _getLoadRowSelect($object, $rowId)
     {
         $select = parent::_getLoadRowSelect($object, $rowId);
         if ($object->getWebsiteId() && $object->getSharingConfig()->isWebsiteScope()) {
