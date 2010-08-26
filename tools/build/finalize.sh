@@ -5,6 +5,8 @@
 
 cd $PWD/../
 
+pwd
+
 ch_baseurl "current" $DB_NAME
 clean_cache $BUILD_NUMBER
 
