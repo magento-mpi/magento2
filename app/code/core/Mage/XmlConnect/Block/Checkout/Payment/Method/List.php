@@ -63,29 +63,67 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     protected function _toHtml()
     {
         $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<payment_methods></payment_methods>');
-
         $methodBlocks = $this->getChild();
+        $usedCodes = array();
+
         foreach ($methodBlocks as $block) {
             if (!$block) {
                 continue;
             }
+            $code = $this->_addToXml($block, $methodsXmlObj, $usedCodes);
+            if ($code !== false) {
+                $usedCodes[] = $code; 
+            }
+            /*
+             * adding all ccsave childs
+             */
+            if ($block instanceOf Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave) {
+                $paymentMethodList =  Mage::helper('payment')->getPaymentMethodList();
+                foreach ($paymentMethodList as $methodCode => $methodTitle) {
+                    if (in_array($methodCode, $usedCodes)) {
+                        continue;
+                    }
+                    $methodInstance = Mage::helper('payment')->getMethodInstance($methodCode);
+                    if (is_subclass_of($methodInstance, 'Mage_Payment_Model_Method_Cc')) {
+                        $block->setData('method', $methodInstance);
+                        $code = $this->_addToXml($block, $methodsXmlObj, $usedCodes);
+                        if ($code !== false) {
+                            $usedCodes[] = $code;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return $methodsXmlObj->asNiceXml();
+    }
+
+    /**
+     * Create child payment method xml node 
+     * @param  Mage_Core_Block_Template                     $block
+     * @param  Mage_XmlConnect_Model_Simplexml_Element      $methodsXmlObj
+     * @param  array                                        $used codes
+     * @return string|bool
+     */
+    protected function _addToXml($block, $methodsXmlObj, $usedCodes)
+    {
             $method = $block->getMethod();
-            if (!$this->_canUseMethod($method)) {
-                continue;
+            if (!$this->_canUseMethod($method) || in_array($method->getCode(), $usedCodes)) {
+                return false;
             }
             $this->_assignMethod($method);
 
             $methodItemXmlObj = $methodsXmlObj->addChild('method');
             $methodItemXmlObj->addAttribute('post_name', 'payment[method]');
+
             $methodItemXmlObj->addAttribute('code', $method->getCode());
             $methodItemXmlObj->addAttribute('label', $methodsXmlObj->xmlentities(strip_tags($method->getTitle())));
             if ($this->getQuote()->getPayment()->getMethod() == $method->getCode()) {
                 $methodItemXmlObj->addAttribute('selected', 1);
             }
             $block->addPaymentFormToXmlObj($methodItemXmlObj);
-        }
-
-        return $methodsXmlObj->asNiceXml();
+        return $method->getCode();
     }
 
     /**

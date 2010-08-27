@@ -69,6 +69,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
 
         $categoryCollection = Mage::getResourceModel('xmlconnect/category_collection');
         $categoryCollection->setStoreId(Mage::app()->getStore()->getId())
+            ->setOrder('position', 'ASC')
             ->addParentIdFilter($categoryId);
 
         if (sizeof($categoryCollection)) {
