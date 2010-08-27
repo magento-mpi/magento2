@@ -914,9 +914,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function _validateMassStatus(array $productIds, $status)
     {
         if ($status == Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
-            foreach (Mage::getModel('catalog/product')->getProductsForMassStatus($productIds) as $product) {
+            $products = Mage::getModel('catalog/product')->getProductsForMassStatus($productIds);
+            foreach ($products as $product) {
                 if (!$product->getSku()) {
-                    throw new Mage_Core_Exception('Some of the processed products have no SKU value. Please fill it.');
+                    throw new Mage_Core_Exception($this->__('Some of the processed products have no SKU value. Please fill it.'));
                 }
             }
         }
