@@ -50,6 +50,12 @@
 				<buttons>
 					<addToCart>//button[contains(span,'Add to Cart')]</addToCart>
 				</buttons>
+				<elements>
+					<productImage>//*[contains(@class,'product-image')]//img</productImage>
+					<breadcrumb>//div[contains(@class,'breadcrumbs')]//li[contains(@class,'product')]//*[contains(text(),'%s')]</breadcrumb>
+					<name>//*[contains(@class,'product-name')]//*[text()='%s']</name>
+					<price>//*[contains(@class,'price-box')]//span[starts-with(@class,'price')]</price>
+				</elements>
 			</product>
 			<shoppingCart>
 				<buttons>
