@@ -106,13 +106,18 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $_debugLevel  = 7;
 
+    /**
+     * Attribute Set name
+     *
+     * @var string
+     */
+    protected $_attributeSetName  = "";
 
     /**
      * Add an error to the stack
      *
      * @param string $error
      */
-
     function setVerificationErrors($error)
     {
         array_push($this->verificationErrors, $error);
