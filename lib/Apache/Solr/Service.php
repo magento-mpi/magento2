@@ -38,8 +38,8 @@
 
 // See Issue #1 (http://code.google.com/p/solr-php-client/issues/detail?id=1)
 // Doesn't follow typical include path conventions, but is more convenient for users
-require_once(dirname(__FILE__) . '/Document.php');
-require_once(dirname(__FILE__) . '/Response.php');
+require_once('Apache/Solr/Document.php');
+require_once('Apache/Solr/Response.php');
 
 /**
  * Starting point for the Solr API. Represents a Solr server resource and has
