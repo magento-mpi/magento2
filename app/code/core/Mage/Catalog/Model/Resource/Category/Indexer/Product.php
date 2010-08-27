@@ -109,12 +109,12 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         $select = $this->_getWriteAdapter()->select()
             ->from(array('cp' => $this->_categoryProductTable), 'category_id')
             ->joinInner(array('ce' => $this->_categoryTable), 'ce.entity_id=cp.category_id', 'path')
-            ->where('cp.product_id=?', $productId);
+            ->where('cp.product_id=:product_id');
 
         /**
          * Get information about product categories
          */
-        $categories = $this->_getWriteAdapter()->fetchPairs($select);
+        $categories = $this->_getWriteAdapter()->fetchPairs($select, array('product_id' => $productId));
         $categoryIds = array();
         $allCategoryIds = array();
 
@@ -130,7 +130,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
          */
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            $this->_getWriteAdapter()->quoteInto('product_id=?', $productId)
+            array('product_id=?' => $productId)
         );
 
         $this->_refreshAnchorRelations($allCategoryIds, $productId);
@@ -184,7 +184,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
          * Delete previous index data
          */
         $this->_getWriteAdapter()->delete(
-            $this->getMainTable(), $this->_getWriteAdapter()->quoteInto('product_id IN(?)', $productIds)
+            $this->getMainTable(), array('product_id IN(?)' => $productIds)
         );
 
         $this->_refreshAnchorRelations($allCategoryIds, $productIds);
@@ -227,16 +227,21 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
          * retrieve anchor category id
          */
         $anchorInfo = $this->_getAnchorAttributeInfo();
+        $bind = array(
+            'attribute_id' => $anchorInfo['id'],
+            'store_id'     => 0,
+            'e_value'      => 1
+        );
         $select = $this->_getReadAdapter()->select()
             ->distinct(true)
             ->from(array('ce' => $this->_categoryTable), array('entity_id'))
             ->joinInner(
                 array('dca'=>$anchorInfo['table']),
-                "dca.entity_id=ce.entity_id AND dca.attribute_id={$anchorInfo['id']} AND dca.store_id=0",
+                "dca.entity_id=ce.entity_id AND dca.attribute_id=:attribute_id AND dca.store_id=:store_id",
                 array())
-             ->where('dca.value=1')
+             ->where('dca.value=:e_value')
              ->where('ce.entity_id IN (?)', $allCategoryIds);
-        $anchorIds = $this->_getWriteAdapter()->fetchCol($select);
+        $anchorIds = $this->_getWriteAdapter()->fetchCol($select, $bind);
         /**
          * delete only anchor id and category ids
          */
@@ -686,9 +691,9 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         $isAnchorAttribute = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_anchor');
         $anchorAttributeId = $isAnchorAttribute->getId();
         $anchorTable = $isAnchorAttribute->getBackend()->getTable();
-
+        $adapter = $this->_getIndexAdapter();
         $tmpTable = $this->_getAnchorCategoriesTemporaryTable();
-        $this->_getIndexAdapter()->delete($tmpTable);
+        $adapter->delete($tmpTable);
 
         $sql = "SELECT
             ce.entity_id AS category_id,
@@ -702,6 +707,18 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         WHERE
             (IF(cas.value_id>0, cas.value, cad.value) = 1 AND ce.path LIKE '{$rootPath}/%')
             OR ce.path='{$rootPath}'";
+        $pathConcat = $adapter->getConcatSql(array('ce.path','/%'));
+        $select = $adapter->select()->from(
+            array('ce' => $this->_categoryTable),
+            array('category_id' => 'ce.entity_id', 'path' => new Zend_Db_Expr($pathConcat))
+        )
+        ->joinLeft(
+            array('cad' => $anchorTable),
+            "cad.entity_id=ce.entity_id AND cad.attribute_id={$anchorAttributeId} AND cad.store_id=0",
+            array()
+        );
+
+
         $this->insertFromSelect($sql, $tmpTable, array('category_id' , 'path'));
         return $tmpTable;
     }
@@ -716,7 +733,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         if ($this->useIdxTable()) {
             return $this->getTable('catalog/category_anchor_indexer_idx');
         }
-        return $this->getTable('catalog/category_anchor_indexer_idx');
+        return $this->getTable('catalog/category_anchor_indexer_tmp');
     }
 
     /**

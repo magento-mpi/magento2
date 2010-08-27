@@ -84,11 +84,8 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     {
         $this->_init('catalog/category');
 
-        /**
-         * @todo Why 'core/resource' is used here ? What if catalog will use another resource ?
-         */
-        $this->_productWebsiteTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_website');
-        $this->_productTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
+        $this->_productWebsiteTable = $this->getTable('catalog/product_website');
+        $this->_productTable = $this->getTable('catalog/category_product');
     }
 
     /**
@@ -244,7 +241,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
             if (!empty($regularIds)) {
                 $select = $this->_conn->select();
                 $select->from(
-                        array('main_table'=>$this->_productTable),
+                        array('main_table' => $this->_productTable),
                         array('category_id', new Zend_Db_Expr('COUNT(main_table.product_id)'))
                     )
                     ->where($this->_conn->quoteInto('main_table.category_id IN(?)', $regularIds))
@@ -264,14 +261,23 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
             // Retrieve Anchor categories product counts
             foreach ($anchor as $item) {
                 if ($allChildren = $item->getAllChildren()) {
+                    $bind = array(
+                        'entity_id' => $item->getId(),
+                        'c_path'    => $item->getPath() . '/%'
+                    );
                     $select = $this->_conn->select();
                     $select->from(
                             array('main_table' => $this->_productTable),
-                            new Zend_Db_Expr('COUNT( DISTINCT main_table.product_id)')
+                            new Zend_Db_Expr('COUNT(DISTINCT main_table.product_id)')
                         )
-                        ->joinInner(array('e' => $this->getTable('catalog/category')), 'main_table.category_id=e.entity_id', array())
-                        ->where('e.entity_id=? OR ' . $this->_conn->quoteInto('e.path LIKE CONCAT(?)', array($item->getPath(), '/%')), $item->getId());
-                    $item->setProductCount((int) $this->_conn->fetchOne($select));
+                        ->joinInner(
+                            array('e' => $this->getTable('catalog/category')),
+                            'main_table.category_id=e.entity_id',
+                            array()
+                        )
+                        ->where('e.entity_id = :entity_id')
+                        ->orWhere('e.path LIKE :c_path');
+                    $item->setProductCount((int) $this->_conn->fetchOne($select, $bind));
                 } else {
                     $item->setProductCount(0);
                 }
@@ -288,7 +294,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
      */
     public function addPathFilter($regexp)
     {
-        $this->getSelect()->where(new Zend_Db_Expr("path regexp '{$regexp}'"));
+        $this->addFieldToFilter('path', array('regexp' => $regexp));
         return $this;
     }
 
@@ -304,7 +310,10 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
             'core/url_rewrite',
             'category_id=entity_id',
             array('request_path'),
-            '{{table}}.is_system=1 AND {{table}}.product_id IS NULL AND {{table}}.store_id="'.$storeId.'" AND id_path LIKE "category/%"',
+            "{{table}}.is_system=1"
+                . " AND {{table}}.product_id IS NULL"
+                . " AND {{table}}.store_id='{$storeId}'"
+                . " AND id_path LIKE 'category/%'",
             'left'
         );
         return $this;
@@ -348,7 +357,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     /**
      * Enter description here ...
      *
-     * @param unknown_type $paths
+     * @param array|string $paths
      * @return Mage_Catalog_Model_Resource_Category_Collection
      */
     public function addPathsFilter($paths)
@@ -377,7 +386,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
      */
     public function addLevelFilter($level)
     {
-        $this->getSelect()->where('e.level <= ?', $level);
+        $this->addFieldToFilter('e.level', array('lteq' => $level));
         return $this;
     }
 
