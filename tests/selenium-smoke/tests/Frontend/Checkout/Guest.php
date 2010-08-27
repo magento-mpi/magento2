@@ -12,7 +12,8 @@ class Frontend_Checkout_Guest extends Test_Frontend_Checkout_Abstract
      * Setup procedure.
      * Must be overriden in the children having any additional code prepended with parent::setUp();
      */
-    function setUp() {
+    function setUp()
+    {
         parent::setUp();
 
         // Get test parameters
@@ -23,7 +24,8 @@ class Frontend_Checkout_Guest extends Test_Frontend_Checkout_Abstract
      *     
      */
 
-    function testGuestCheckout() {
+    function testGuestCheckout()
+    {
         // Test Dara
         $paramArray = array (
             "productUrl" => Core::getEnvConfig('frontend/checkout/productUrl'),

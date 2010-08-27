@@ -23,7 +23,8 @@ class Frontend_Checkout_Login extends Test_Frontend_Checkout_Abstract
      *
      */
 
-    function testLoginCheckout() {
+    function testLoginCheckout()
+    {
         // Test Dara
         $paramArray = array (
             "password" =>  Core::getEnvConfig('frontend/checkout/login/password'),

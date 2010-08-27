@@ -22,8 +22,8 @@ class Frontend_Checkout_SignIn extends Test_Frontend_Checkout_Abstract
      * Tests checkout as a Guest from FrontEnd
      *
      */
-
-    function testRegisterCheckout() {
+    function testRegisterCheckout()
+    {
         // Test Dara
         $paramArray = array (
             "firstName" => Core::getEnvConfig('frontend/checkout/register/firstName'),

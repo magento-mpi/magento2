@@ -5,17 +5,16 @@
  * @author Magento Inc.
  */
 
-class Frontend_Checkout_SignIn extends Test_Frontend_Checkout_Abstract
+class Frontend_Checkout_MultiShippingRegister extends Test_Frontend_Checkout_Abstract
 {
 
     /**
      * Setup procedure.
      * Must be overriden in the children having any additional code prepended with parent::setUp();
      */
-    function setUp() {
+    function setUp()
+    {
         parent::setUp();
-
-        // Get test parameters
     }
 
     /**
@@ -23,7 +22,8 @@ class Frontend_Checkout_SignIn extends Test_Frontend_Checkout_Abstract
      *
      */
 
-    function testMultiShippingRegisterCheckout() {
+    function testMultiShippingRegisterCheckout()
+    {
         // Test Dara
         $paramArray = array (
             "firstName" => Core::getEnvConfig('frontend/checkout/mulitiShippingRegister/firstName'),

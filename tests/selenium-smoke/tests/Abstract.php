@@ -179,6 +179,7 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
         $this->setBrowser(Core::getEnvConfig('browser'));
         $this->setBrowserUrl(Core::getEnvConfig('frontend/baseUrl'));
         $this->_testId = strtoupper(get_class($this));
+        $this-> setTimeout(60*1000);
     }
 
     /**
