@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
         $homeXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<home></home>');
 
         $categoryCollection = Mage::getResourceModel('xmlconnect/category_collection');
-        $categoryCollection->setStoreId($categoryCollection->getDefaultStoreId())
+        $categoryCollection->setStoreId(Mage::app()->getStore()->getId())
             ->addParentIdFilter(null)
             ->setLimit(0, self::HOME_PAGE_CATEGORIES_COUNT);
 
