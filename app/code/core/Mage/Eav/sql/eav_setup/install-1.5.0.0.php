@@ -31,11 +31,9 @@ $table = $installer->getConnection()
         ), 'Entity Table')
     ->addColumn('value_table_prefix', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => true,
-        'default'   => '',
         ), 'Value Table Prefix')
     ->addColumn('entity_id_field', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => true,
-        'default'   => '',
         ), 'Entity Id Field')
     ->addColumn('is_data_sharing', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
