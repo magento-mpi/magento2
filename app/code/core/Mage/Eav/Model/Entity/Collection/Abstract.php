@@ -340,6 +340,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         }
         if (isset($this->_staticFields[$attribute])) {
             $this->getSelect()->order("e.{$attribute} {$dir}");
+            return $this;
         }
         if (isset($this->_joinAttributes[$attribute])) {
             $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
