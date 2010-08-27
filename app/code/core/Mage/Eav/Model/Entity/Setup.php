@@ -56,7 +56,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      * @var string
      */
     protected $_defaultGroupName         = 'Default';
-    
+
     /**
      * Default attribute set name
      *
@@ -121,8 +121,12 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'entity_model'                  => $params['entity_model'],
             'attribute_model'               => $this->_getValue($params, 'attribute_model'),
             'entity_table'                  => $this->_getValue($params, 'table', 'eav/entity'),
+            'value_table_prefix'            => $this->_getValue($params, 'table_prefix'),
+            'entity_id_field'               => $this->_getValue($params, 'id_field'),
             'increment_model'               => $this->_getValue($params, 'increment_model'),
-            'increment_per_store'           => $this->_getValue($params, 'increment_per_store', '0'),
+            'increment_per_store'           => $this->_getValue($params, 'increment_per_store', 0),
+            'increment_pad_length'          => $this->_getValue($params, 'increment_pad_length', 8),
+            'increment_pad_char'            => $this->_getValue($params, 'increment_pad_char', 0),
             'additional_attribute_table'    => $this->_getValue($params, 'additional_attribute_table'),
             'entity_attribute_collection'   => $this->_getValue($params, 'entity_attribute_collection'),
         );

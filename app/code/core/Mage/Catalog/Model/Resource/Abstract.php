@@ -136,7 +136,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
      * @param array $valueRow
      * @return Mage_Catalog_Model_Resource_Abstract
      */
-    protected function _setAttribteValue($object, $valueRow)
+    protected function _setAttributeValue($object, $valueRow)
     {
         $attribute = $this->getAttribute($valueRow['attribute_id']);
         if ($attribute) {

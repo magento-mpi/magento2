@@ -17,7 +17,6 @@ $table = $installer->getConnection()
         ), 'Entity Type Id')
     ->addColumn('entity_type_code', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         'nullable'  => false,
-        'default'   => '',
         ), 'Entity Type Code')
     ->addColumn('entity_model', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
@@ -26,14 +25,10 @@ $table = $installer->getConnection()
         'nullable'  => true,
         ), 'Attribute Model')
     ->addColumn('entity_table', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
-        'default'   => '',
         ), 'Entity Table')
     ->addColumn('value_table_prefix', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
         ), 'Value Table Prefix')
     ->addColumn('entity_id_field', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
         ), 'Entity Id Field')
     ->addColumn('is_data_sharing', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,

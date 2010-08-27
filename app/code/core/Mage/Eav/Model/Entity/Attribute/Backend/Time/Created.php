@@ -36,13 +36,14 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Time_Created extends Mage_Eav_Mode
     /**
      * Set created date
      *
-     * @param Varien_Object $object
+     * @param Mage_Core_Model_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Time_Created
      */
     public function beforeSave($object)
     {
-        if (!$object->getId() && ($object->getData($this->getAttribute()->getAttributeCode() === null))) {
-            $object->setData($this->getAttribute()->getAttributeCode(), now());
+        $attributeCode = $this->getAttribute()->getAttributeCode();
+        if ($object->isObjectNew() && is_null($object->getData($attributeCode))) {
+            $object->setData($attributeCode, Varien_Date::now());
         }
 
         return $this;
