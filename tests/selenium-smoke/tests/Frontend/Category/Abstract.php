@@ -25,22 +25,6 @@ abstract class Test_Frontend_Category_Abstract extends Test_Frontend_Abstract
     }
 
     /**
-     * Cpen $categoryName category page.
-     * @param $categoryName
-     * @return boolean
-     */
-    public function doOpenCategory($categoryName)
-    {
-        if ($this->waitForElement($this->getUiElement("frontend/pages/category/links/subCategory",$categoryName),5)) {
-            //Move to Category
-            $this->clickAndWait($this->getUiElement("frontend/pages/category/links/subCategory",$categoryName));
-        } else {
-                return false;
-        }        
-        return true;
-    }
-
-    /**
      * Ttest correcteness of appearing $categoryName category page.
      * Checks:
      *  Category can be opened

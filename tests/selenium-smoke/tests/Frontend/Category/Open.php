@@ -18,14 +18,13 @@ class Frontend_Category_Open extends Test_Frontend_Category_Abstract
     }
 
     /**
-     * Tests checkout as a Guest from FrontEnd
+     * Tests Category page
      *
      */
 
-    function testGuestCheckout()
+    function testcCategoryOpen()
     {
         $this->openCategory(Core::getEnvConfig('backend/managecategories/subcategoryname'));
-        sleep(10);
     }
 }
 ?>
