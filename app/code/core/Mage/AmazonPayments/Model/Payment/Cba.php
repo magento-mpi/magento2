@@ -416,6 +416,9 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $this->getCheckout()->setLastRealOrderId($order->getIncrementId());
 
         $order->sendNewOrderEmail();
+
+        Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+
         /**
          * associate real order id with Amazon order
          */

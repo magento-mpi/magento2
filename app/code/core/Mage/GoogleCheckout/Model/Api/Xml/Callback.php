@@ -391,6 +391,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             Mage::getModel('newsletter/subscriber')->subscribe($order->getCustomerEmail());
         }
 
+        Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+
         $this->getGRequest()->SendMerchantOrderNumber($order->getExtOrderId(), $order->getIncrementId());
     }
 
