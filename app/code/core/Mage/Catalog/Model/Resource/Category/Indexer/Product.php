@@ -345,14 +345,30 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         /**
          * Insert anchor categories relations
          */
-        $isParent = new Zend_Db_Expr('IF (cp.category_id=ce.entity_id, 1, 0) AS is_parent');
-        $position = new Zend_Db_Expr('IF (cp.category_id=ce.entity_id,
+        $adapter = $this->_getReadAdapter();
+        $isParent = $adapter->getCheckSql('cp.category_id=ce.entity_id', 1, 0); // new Zend_Db_Expr('IF (, 1, 0) AS is_parent');
+        $position = $adapter->getCheckSql(
+            'cp.category_id=ce.entity_id',
+            'cp.position',
+            'ROUND((cc.position + 1) * (cc.level + 1) * 10000) + cp.position'
+        );
+/*
+        new Zend_Db_Expr('IF (cp.category_id=ce.entity_id,
         cp.position,
-        ROUND((cc.position + 1) * (cc.level + 1) * 10000) + cp.position) AS position');
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('ce' => $this->_categoryTable), array('entity_id', 'cp.product_id', $position, $isParent))
-            ->joinLeft(array('cc' => $this->_categoryTable), 'cc.path LIKE CONCAT(ce.path, \'/%\')', array())
-            ->joinInner(array('cp' => $this->_categoryProductTable), 'cp.category_id=cc.entity_id OR cp.category_id=ce.entity_id', array())
+        ROUND((cc.position + 1) * (cc.level + 1) * 10000) + cp.position)');*/
+        $select = $adapter->select()
+            ->distinct(true)
+            ->from(array('ce' => $this->_categoryTable), array('entity_id'))
+            ->joinLeft(
+                array('cc' => $this->_categoryTable),
+                'cc.path LIKE ' . $adapter->getConcatSql(array('ce.path',$adapter->quote('/%')))
+                , array()
+            )
+            ->joinInner(
+                array('cp' => $this->_categoryProductTable),
+                'cp.category_id=cc.entity_id OR cp.category_id=ce.entity_id',
+                array('cp.product_id', 'position' => $position, 'is_parent' => $isParent)
+            )
             ->joinInner(array('pw' => $this->_productWebsiteTable), 'pw.product_id=cp.product_id', array())
             ->joinInner(array('g'  => $this->_groupTable), 'g.website_id=pw.website_id', array())
             ->joinInner(array('s'  => $this->_storeTable), 's.group_id=g.group_id', array('store_id'))
@@ -372,7 +388,8 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->joinLeft(
                 array('sv'=>$visibilityInfo['table']),
                 "sv.entity_id=pw.product_id AND sv.attribute_id={$visibilityInfo['id']} AND sv.store_id=s.store_id",
-                array('visibility' => 'IF(sv.value_id, sv.value, dv.value)'))
+                array('visibility' => $adapter->getCheckSql('sv.value_id', 'sv.value', 'dv.value'))
+            )
             ->joinLeft(
                 array('ds'=>$statusInfo['table']),
                 "ds.entity_id=pw.product_id AND ds.attribute_id={$statusInfo['id']} AND ds.store_id=0",
@@ -384,8 +401,13 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             /**
              * Condition for anchor or root category (all products should be assigned to root)
              */
-            ->where('(ce.path LIKE CONCAT(rc.path, \'/%\') AND IF(sca.value_id, sca.value, dca.value)=1) OR ce.entity_id=rc.entity_id')
-            ->where('IF(ss.value_id, ss.value, ds.value)=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->where('(ce.path LIKE ' . $adapter->getConcatSql(array('rc.path',$adapter->quote('/%'))) . ' AND ' .
+                $adapter->getCheckSql('sca.value_id', 'sca.value', 'dca.value') . '=1) OR ce.entity_id=rc.entity_id'
+            )
+            ->where(
+                $adapter->getCheckSql('ss.value_id', 'ss.value', 'ds.value') . '=?',
+                Mage_Catalog_Model_Product_Status::STATUS_ENABLED
+            )
             ->group(array('ce.entity_id', 'cp.product_id', 's.store_id'));
         if ($categoryIds) {
             $select->where('ce.entity_id IN (?)', $categoryIds);

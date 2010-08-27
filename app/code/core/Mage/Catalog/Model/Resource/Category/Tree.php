@@ -278,7 +278,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
                 ->where('entity_type_code = :entity_type_code')
                 ->where('attribute_code = :attribute_code');
 
-            $this->_isActiveAttributeId = $this->_conn->fetchOne($select. $bind);
+            $this->_isActiveAttributeId = $this->_conn->fetchOne($select, $bind);
         }
         return $this->_isActiveAttributeId;
     }
@@ -622,7 +622,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         $categoriesTable         = Mage::getSingleton('core/resource')->getTableName('catalog/category');
         $categoriesProductsTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
 
-        $subConcat = $this->_conn->getConcatSql(array('e.path', "'/%'"));
+        $subConcat = $this->_conn->getConcatSql(array('e.path', $this->_conn->quote('/%')));
         $subSelect = $this->_conn->select()
             ->from(array('see' => $categoriesTable), null)
             ->joinLeft(
