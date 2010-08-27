@@ -130,7 +130,7 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
                 array('additional_table' => $this->getTable($extraTable)),
                 'additional_table.attribute_id = main_table.attribute_id',
                 $extraColumns)
-            ->where('main_table.entity_type_id = mt_entity_type_id');
+            ->where('main_table.entity_type_id = :mt_entity_type_id');
 
         // scope values
 
