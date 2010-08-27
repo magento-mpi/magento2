@@ -128,12 +128,12 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Core_Block_Templa
         <field name="street[]" type="text" label="{$helper->__('Street Address')}" required="true" value="$street1" />
         <field name="street[]" type="text" label="{$helper->__('Street Address 2')}" value="$street2" />
         <field name="city" type="text" label="{$helper->__('City')}" required="true" value="$city" />
-        <field name="region" type="text" label="{$helper->__('State/Province')}" value="$region" />
-        <field name="region_id" type="select" label="{$helper->__('State/Province')}" required="true" />
-        <field name="postcode" type="text" label="{$helper->__('Zip/Postal Code')}" required="true" value="$postcode" />
         <field name="country_id" type="select" label="{$helper->__('Country')}" required="true">
             $countryOptionsXml
         </field>
+        <field name="region" type="text" label="{$helper->__('State/Province')}" value="$region" />
+        <field name="region_id" type="select" label="{$helper->__('State/Province')}" required="true" />
+        <field name="postcode" type="text" label="{$helper->__('Zip/Postal Code')}" required="true" value="$postcode" />
         <field name="default_billing" type="checkbox"$billingChecked label="{$helper->__('Use as my default billing address')}"/>
         <field name="default_shipping" type="checkbox"$shippingChecked label="{$helper->__('Use as my default shipping address')}"/>
     </fieldset>
