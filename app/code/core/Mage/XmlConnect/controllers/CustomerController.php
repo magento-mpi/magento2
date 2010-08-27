@@ -84,12 +84,8 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     public function logoutAction()
     {
         try {
-            if ($this->_getSession()->isLoggedIn()) {
-                $this->_getSession()->logout();
-                $this->_message(Mage::helper('xmlconnect')->__('Logout complete.'), self::MESSAGE_STATUS_SUCCESS);
-            } else {
-                $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
-            }
+            $this->_getSession()->logout();
+            $this->_message(Mage::helper('xmlconnect')->__('Logout complete.'), self::MESSAGE_STATUS_SUCCESS);
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
