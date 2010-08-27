@@ -120,14 +120,14 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
         if (count($attributeIds) > 0) {
             $select = $this->_getReadAdapter()->select()
                 ->from(
-                    array('entity' => $this->getTable('entity_attribute')),
+                    array('entity' => $this->getTable('eav/entity_attribute')),
                     array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order'))
                 ->joinLeft(
-                    array('group' => $this->getTable('attribute_group')),
-                    'entity.attribute_group_id = group.attribute_group_id',
+                    array('attribute_group' => $this->getTable('eav/attribute_group')),
+                    'entity.attribute_group_id = attribute_group.attribute_group_id',
                     array('group_sort_order' => 'sort_order'))
                 ->where('entity.attribute_id IN (?)', $attributeIds);
-            $bind = array();    
+            $bind = array();
             if (is_numeric($setId)) {
                 $bind['attribute_set_id'] = $setId;
                 $select->where('entity.attribute_set_id = :attribute_set_id');
