@@ -88,7 +88,14 @@ class Mage_Customer_Model_Form
      *
      * @var boolean
      */
-    protected $_isAjax                  = false;
+    protected $_isAjax          = false;
+
+    /**
+     * Whether the invisible form fields need to be filtered/ignored
+     *
+     * @var bool
+     */
+    protected $_ignoreInvisible = true;
 
     /**
      * Set current store
@@ -311,7 +318,7 @@ class Mage_Customer_Model_Form
     {
         $data = array();
         foreach ($this->getAttributes() as $attribute) {
-            if (!$attribute->getIsVisible()) {
+            if ($this->_isAttributeOmitted($attribute)) {
                 continue;
             }
             $dataModel = $this->_getAttributeDataModel($attribute);
@@ -332,7 +339,7 @@ class Mage_Customer_Model_Form
     {
         $errors = array();
         foreach ($this->getAttributes() as $attribute) {
-            if (!$attribute->getIsVisible()) {
+            if ($this->_isAttributeOmitted($attribute)) {
                 continue;
             }
             $dataModel = $this->_getAttributeDataModel($attribute);
@@ -362,7 +369,7 @@ class Mage_Customer_Model_Form
     public function compactData(array $data)
     {
         foreach ($this->getAttributes() as $attribute) {
-            if (!$attribute->getIsVisible()) {
+            if ($this->_isAttributeOmitted($attribute)) {
                 continue;
             }
             $dataModel = $this->_getAttributeDataModel($attribute);
@@ -385,7 +392,7 @@ class Mage_Customer_Model_Form
     public function restoreData(array $data)
     {
         foreach ($this->getAttributes() as $attribute) {
-            if (!$attribute->getIsVisible()) {
+            if ($this->_isAttributeOmitted($attribute)) {
                 continue;
             }
             $dataModel = $this->_getAttributeDataModel($attribute);
@@ -408,7 +415,7 @@ class Mage_Customer_Model_Form
     {
         $data = array();
         foreach ($this->getAttributes() as $attribute) {
-            if (!$attribute->getIsVisible()) {
+            if ($this->_isAttributeOmitted($attribute)) {
                 continue;
             }
             $dataModel = $this->_getAttributeDataModel($attribute);
@@ -426,7 +433,7 @@ class Mage_Customer_Model_Form
     public function resetEntityData()
     {
         foreach ($this->getAttributes() as $attribute) {
-            if (!$attribute->getIsVisible()) {
+            if ($this->_isAttributeOmitted($attribute)) {
                 continue;
             }
             $value = $this->getEntity()->getOrigData($attribute->getAttributeCode());
@@ -473,5 +480,34 @@ class Mage_Customer_Model_Form
             }
         }
         return $this;
+    }
+
+    /**
+     * Combined getter/setter whether to omit invisible attributes during rendering/validation
+     *
+     * @param  $setValue
+     * @return bool|Mage_Customer_Model_Form
+     */
+    public function ignoreInvisible($setValue = null)
+    {
+        if (null !== $setValue) {
+            $this->_ignoreInvisible = (bool)$setValue;
+            return $this;
+        }
+        return $this->_ignoreInvisible;
+    }
+
+    /**
+     * Whether the specified attribute needs to skip rendering/validation
+     *
+     * @param Mage_Customer_Model_Attribute $attribute
+     * @return bool
+     */
+    protected function _isAttributeOmitted($attribute)
+    {
+        if ($this->_ignoreInvisible && !$attribute->getIsVisible()) {
+            return true;
+        }
+        return false;
     }
 }

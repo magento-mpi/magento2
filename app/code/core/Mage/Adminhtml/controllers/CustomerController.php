@@ -195,7 +195,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             /* @var $customerForm Mage_Customer_Model_Form */
             $customerForm = Mage::getModel('customer/form');
             $customerForm->setEntity($customer)
-                ->setFormCode('adminhtml_customer');
+                ->setFormCode('adminhtml_customer')
+                ->ignoreInvisible(false)
+            ;
 
             $formData   = $customerForm->extractData($this->getRequest(), 'account');
             $errors     = $customerForm->validateData($formData);
@@ -219,7 +221,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             if (!empty($data['address'])) {
                 /* @var $addressForm Mage_Customer_Model_Form */
                 $addressForm = Mage::getModel('customer/form');
-                $addressForm->setFormCode('adminhtml_customer_address');
+                $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
 
                 foreach (array_keys($data['address']) as $index) {
                     $address = $customer->getAddressItemById($index);
@@ -558,7 +560,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customerForm = Mage::getModel('customer/form');
         $customerForm->setEntity($customer)
             ->setFormCode('adminhtml_customer')
-            ->setIsAjaxRequest(true);
+            ->setIsAjaxRequest(true)
+            ->ignoreInvisible(false)
+        ;
 
         $data   = $customerForm->extractData($this->getRequest(), 'account');
         $errors = $customerForm->validateData($data);
@@ -588,7 +592,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if (is_array($addressesData)) {
             /* @var $addressForm Mage_Customer_Model_Form */
             $addressForm = Mage::getModel('customer/form');
-            $addressForm->setFormCode('adminhtml_customer_address');
+            $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
             foreach (array_keys($addressesData) as $index) {
                 if ($index == '_template_') {
                     continue;

@@ -160,7 +160,7 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
         }
 
         if ($attribute->getIsRequired() && !$toUpload) {
-            $errors[] = Mage::helper('customer')->__('"%s" is required value', $label);
+            $errors[] = Mage::helper('customer')->__('"%s" is a required value.', $label);
         }
 
         if ($toUpload) {

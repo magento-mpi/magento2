@@ -65,7 +65,7 @@ class Mage_Customer_Model_Attribute_Data_Date extends Mage_Customer_Model_Attrib
         }
 
         if ($attribute->getIsRequired() && empty($value)) {
-            $errors[] = Mage::helper('customer')->__('"%s" is required value', $label);
+            $errors[] = Mage::helper('customer')->__('"%s" is a required value.', $label);
         }
 
         if (!$errors && !$attribute->getIsRequired() && empty($value)) {
