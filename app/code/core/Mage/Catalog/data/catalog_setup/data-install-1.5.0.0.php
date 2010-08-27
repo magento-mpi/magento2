@@ -24,11 +24,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 $installer = $this;
-
-$installer->installEntities();
 
 // Create Root Catalog Node
 Mage::getModel('catalog/category')
@@ -56,7 +53,7 @@ $category->setStoreId(0)
     ->save();
 
 $installer->setConfigData('catalog/category/root_id', $category->getId());
-
+/*
 $installer->addAttributeGroup('catalog_product', 'Default', 'Design', 6);
 
 $entityTypeId     = $installer->getEntityTypeId('catalog_category');
@@ -142,10 +139,11 @@ foreach ($attributes as $attributeCode => $attributeProp) {
         $attributeProp['sort']
     );
 }
-
+*/
 /**
  * Install product link types
  */
+/*
 $data = array(
     array(
         'link_type_id'  => Mage_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
@@ -168,10 +166,11 @@ $data = array(
 foreach ($data as $bind) {
     $installer->getConnection()->insertForce($installer->getTable('catalog/product_link_type'), $bind);
 }
-
+*/
 /**
  * install product link attributes
  */
+/*
 $data = array(
     array(
         'link_type_id'                  => Mage_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
@@ -201,7 +200,7 @@ $data = array(
 );
 
 $installer->getConnection()->insertMultiple($installer->getTable('catalog/product_link_attribute'), $data);
-
+*/
 /**
  * Remove Catalog specified attribute options (columns) from eav/attribute table
  *
@@ -215,7 +214,7 @@ foreach ($describe as $columnData) {
     $installer->getConnection()->dropColumn($installer->getTable('eav/attribute'), $columnData['COLUMN_NAME']);
 }
 */
-
+/*
 $entityTypeId     = $installer->getEntityTypeId('catalog_category');
 $attributeSetId   = $installer->getDefaultAttributeSetId($entityTypeId);
 $attributeGroupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
@@ -239,17 +238,17 @@ $installer->addAttributeToGroup(
 );
 
 $attributeId = $installer->getAttributeId($entityTypeId, 'include_in_menu');
-
+*/
 /* @TODO: fix next sql & add check for non-existent upgrades */
 
 /* 1.4.0.0.21 - 1.4.0.0.22 */
-$installer->run("
+/*$installer->run("
 INSERT INTO `{$installer->getTable('catalog_category_entity_int')}`
 (`entity_type_id`, `attribute_id`, `entity_id`, `value`)
     SELECT '{$entityTypeId}', '{$attributeId}', `entity_id`, '1'
         FROM `{$installer->getTable('catalog_category_entity')}`;
 ");
-
+*/
 /* 24-25 */
 /* 26-27 */
 /* 27-28 */

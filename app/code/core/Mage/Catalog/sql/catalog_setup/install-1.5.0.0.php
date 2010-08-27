@@ -2762,3 +2762,5 @@ $installer->getConnection()->addForeignKey(
     $installer->getTable('catalog/product'), 'entity_id');
 
 $installer->endSetup();
+
+$installer->installEntities();

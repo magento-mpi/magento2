@@ -97,7 +97,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     /**
      * Init indexing process after attribute data commit
      *
-     * @return Mage_CatalogInventory_Model_Stock_Item
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
      */
     public function afterCommitCallback()
     {
