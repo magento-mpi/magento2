@@ -17,9 +17,6 @@ class Admin_Login extends Test_Admin_Abstract
     }
 
     function testUserCreation() {
-        $this->debug("testUserCreation started");
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->debug("testUserCreation finished");
-        sleep(10);
     }
 }
