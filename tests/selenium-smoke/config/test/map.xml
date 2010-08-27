@@ -14,6 +14,16 @@
 					<login>//button[contains(span,"Login")]</login>
 				</buttons>
 			</login>
+			<category>
+				<links>
+					<subCategory>//a[contains(span,'%s')]</subCategory>
+					<productImg>//a[contains(@class,'product-image') and contains(@title,'%s') and contains(@href,'%s')]</productImg>
+					<productName>//*[contains(@class,'product-name')]/a[contains(text(),'%s')]</productName>
+				</links>
+				<elements>
+					<categoryTitle>//div[contains(@class,'page-title') and contains(@class,'category-title')]//*[contains(text(),'%s')]</categoryTitle>
+				</elements>
+			</category>	
 			<register>
 				<inputs>
 					<firstName>firstname</firstName>
@@ -142,7 +152,7 @@
 			<multiShippingCheckout>
 				<checkoutMethod>
 					<inputs>
-						<loginEmail>//input[@id='email']</loginEmail>
+						<email>//input[@id='email']</email>
 						<password>//input[@id='pass']</password>
 					</inputs>
 					<buttons>
