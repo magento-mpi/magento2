@@ -44,6 +44,9 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
     {
         $categoryXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<category></category>');
         $categoryId     = $this->getRequest()->getParam('id', null);
+        if ($categoryId === null) {
+            $categoryId = Mage::app()->getStore()->getRootCategoryId();
+        }
         $categoryModel  = Mage::getModel('catalog/category')->load($categoryId);
         if ($categoryModel->getId()) {
             $infoBlock = $this->getChild('category_info');
