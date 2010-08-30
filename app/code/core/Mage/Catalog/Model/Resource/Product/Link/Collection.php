@@ -35,29 +35,28 @@
 class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Product object
      *
-     * @var unknown
+     * @var Mage_Catalog_Model_Product
      */
     protected $_product;
 
     /**
-     * Enter description here ...
+     * Product Link model class
      *
-     * @var unknown
+     * @var Mage_Catalog_Model_Product_Link
      */
     protected $_linkModel;
 
     /**
-     * Enter description here ...
+     * Product Link Type identifier
      *
-     * @var unknown
+     * @var Mage_Catalog_Model_Product_Type
      */
     protected $_linkTypeId;
 
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -73,7 +72,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
     public function setLinkModel($linkModel)
     {
         $this->_linkModel = $linkModel;
-        if ($linkModel->getLinkTypeId()) {
+        if ($linkModel->hasLinkTypeId()) {
             $this->_linkTypeId = $linkModel->getLinkTypeId();
         }
         return $this;
@@ -119,7 +118,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
     public function addLinkTypeIdFilter()
     {
         if ($this->_linkTypeId) {
-            $this->addFieldToFilter("link_type_id", $this->_linkTypeId);
+            $this->addFieldToFilter('link_type_id', $this->_linkTypeId);
         }
         return $this;
     }
@@ -132,7 +131,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
     public function addProductIdFilter()
     {
         if ($this->getProduct() && $this->getProduct()->getId()) {
-            $this->addFieldToFilter("product_id", $this->getProduct()->getId());
+            $this->addFieldToFilter('product_id', $this->getProduct()->getId());
         }
         return $this;
     }
@@ -149,10 +148,15 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
             $attributesByType = array();
             foreach ($attributes as $attribute) {
                 $table = $this->getLinkModel()->getAttributeTypeTable($attribute['type']);
-                $alias = 'link_attribute_'.$attribute['code'].'_'.$attribute['type'];
+                $alias = sprintf('link_attribute_%s_%s', $attribute['code'], $attribute['type']);
+
+                $joinCondiotion = array(
+                    "{$alias}.link_id = main_table.link_id",
+                    $this->getSelect()->getAdapter()->quoteInto("{$alias}.product_link_attribute_id = ?", $attribute['id'])
+                );
                 $this->getSelect()->joinLeft(
                     array($alias => $table),
-                    $alias.'.link_id=main_table.link_id AND '.$alias.'.product_link_attribute_id='.$attribute['id'],
+                    implode(Varien_Db_Select::SQL_AND, $joinCondiotion),
                     array($attribute['code'] => 'value')
                 );
             }

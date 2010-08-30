@@ -78,7 +78,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
     public function setLinkModel($linkModel)
     {
         $this->_linkModel = $linkModel;
-        if ($linkModel->getLinkTypeId()) {
+        if ($linkModel->hasLinkTypeId()) {
             $this->_linkTypeId = $linkModel->getLinkTypeId();
         }
         return $this;
@@ -143,7 +143,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
                 $products = array($products);
             }
             $this->_hasLinkFilter = true;
-            $this->getSelect()->where('links.linked_product_id NOT IN (?)', $products);
+            $this->addFieldToFilter('links.linked_product_id', array('nin' => $products));
         }
         return $this;
     }
@@ -155,17 +155,14 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      * @param string $dir
      * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
      */
-    public function addAttributeToSort($attribute, $dir = 'asc')
+    public function addAttributeToSort($attribute, $dir = Varien_Db_Select::SQL_ASC)
     {
         /**
          * Position is not eav attribute (it is links attribute) so we cannot use default attributes to sort
          */
-        if ($attribute == 'position') {
-            if ($this->_hasLinkFilter) {
-                $this->getSelect()->order($attribute.' '.$dir);
-            }
-        }
-        else {
+        if ($attribute == 'position' && $this->_hasLinkFilter) {
+            $this->getSelect()->order($attribute . ' ' . $dir);
+        } else {
             parent::addAttributeToSort($attribute, $dir);
         }
         return $this;
@@ -179,14 +176,14 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      */
     public function addProductFilter($products)
     {
-        if (is_array($products) && !empty($products)) {
-            $this->getSelect()->where('links.product_id IN (?)', $products);
+        if (!empty($products)) {
+            if (!is_array($products)) {
+                $products = array($products);
+            }
+            $this->addFieldToFilter('links.product_id', array('in' => $products));
             $this->_hasLinkFilter = true;
         }
-        elseif (is_string($products) || is_numeric($products)) {
-            $this->getSelect()->where('links.product_id=?', $products);
-            $this->_hasLinkFilter = true;
-        }
+
         return $this;
     }
 
@@ -197,6 +194,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      */
     public function setRandomOrder()
     {
+        //TODO need to optimaze: SELECT RAND() * MAX(ID) + ORDER BY ID
         $this->getSelect()->order(new Zend_Db_Expr('RAND()'));
         return $this;
     }
@@ -233,29 +231,35 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      */
     protected function _joinLinks()
     {
-        $joinCondition = 'links.linked_product_id = e.entity_id AND links.link_type_id = ' . $this->_linkTypeId;
+        $select  = $this->getSelect();
+        $adapter = $select->getAdapter();
+
+        $joinCondition = array(
+            'links.linked_product_id = e.entity_id',
+            $adapter->quoteInto('links.link_type_id = ?', $this->_linkTypeId)
+        );
         $joinType = 'join';
         if ($this->getProduct() && $this->getProduct()->getId()) {
+            $productId = $this->getProduct()->getId();
             if ($this->_isStrongMode) {
-                $this->getSelect()->where('links.product_id = ?', $this->getProduct()->getId());
-            }
-            else {
+                $this->addFieldToFilter('links.product_id', array('eq' => $productId));
+            } else {
                 $joinType = 'joinLeft';
-                $joinCondition.= ' AND links.product_id = ' . $this->getProduct()->getId();
+                $joinCondition[] = $adapter->quoteInto('links.product_id = ?', $productId);
             }
-            $this->getSelect()->where('e.entity_id != ?', $this->getProduct()->getId());
-        }
-        elseif ($this->_isStrongMode) {
-            $this->getSelect()->where('e.entity_id = -1');
+            $this->addFieldToFilter('entity_id', array('neq' => $productId));
+        } elseif ($this->_isStrongMode) {
+            $this->addFieldToFilter('entity_id', array('eq' => -1));
         }
         if($this->_hasLinkFilter) {
-            $this->getSelect()->$joinType(
+            $select->$joinType(
                 array('links' => $this->getTable('catalog/product_link')),
-                $joinCondition,
+                implode(Varien_Db_Select::SQL_AND, $joinCondition),
                 array('link_id')
             );
             $this->joinAttributes();
         }
+
         return $this;
     }
 
@@ -265,10 +269,9 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      * @param string $dir sort type asc|desc
      * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
      */
-    public function setPositionOrder($dir = 'asc')
+    public function setPositionOrder($dir = Varien_Db_Select::SQL_ASC)
     {
-        $this->setOrder('position', $dir);
-        return $this;
+        return $this->setOrder('position', $dir);
     }
 
     /**
@@ -278,19 +281,27 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      */
     public function joinAttributes()
     {
-        if ($this->getLinkModel()) {
-            $attributes = $this->getLinkModel()->getAttributes();
-            $attributesByType = array();
-            foreach ($attributes as $attribute) {
-                $table = $this->getLinkModel()->getAttributeTypeTable($attribute['type']);
-                $alias = 'link_attribute_'.$attribute['code'].'_'.$attribute['type'];
-                $this->getSelect()->joinLeft(
-                    array($alias => $table),
-                    $alias.'.link_id=links.link_id AND '.$alias.'.product_link_attribute_id='.$attribute['id'],
-                    array($attribute['code'] => 'value')
-                );
-            }
+        if (!$this->getLinkModel()) {
+            return $this;
         }
+        $attributes = $this->getLinkModel()->getAttributes();
+        $attributesByType = array();
+        foreach ($attributes as $attribute) {
+            $table = $this->getLinkModel()->getAttributeTypeTable($attribute['type']);
+            $alias = sprintf('link_attribute_%s_%s', $attribute['code'], $attribute['type']);
+
+            $joinCondiotion = array(
+                "{$alias}.link_id = main_table.link_id",
+                $this->getSelect()->getAdapter()->quoteInto("{$alias}.product_link_attribute_id = ?", $attribute['id'])
+            );
+            $this->getSelect()->joinLeft(
+                array($alias => $table),
+                implode(Varien_Db_Select::SQL_AND, $joinCondiotion),
+                array($attribute['code'] => 'value')
+            );
+        }
+
+
         return $this;
     }
 }
