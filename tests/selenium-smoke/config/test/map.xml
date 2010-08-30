@@ -413,7 +413,7 @@
                                         </input>
                                         <messages>
                                             <setSaved>//li[@class='success-msg']//*[contains(text(),'The attribute set has been saved.')]</setSaved>
-                                            <setNotSaved>//li[@class="error-msg"]//*[contains(text(),'Attribute set with the "%s" name already exists.')]</setNotSaved>
+                                            <setNotSaved>//li[@class="error-msg"]</setNotSaved>
                                         </messages>
                                     </manageAttributeSets>
                                 </attributes>
