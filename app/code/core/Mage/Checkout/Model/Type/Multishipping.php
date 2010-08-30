@@ -595,4 +595,16 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     {
         return Mage::helper('checkout')->isMultishippingCheckoutAvailable();
     }
+
+    /**
+     * Get order IDs created during checkout
+     *
+     * @param bool $asAssoc
+     * @return array
+     */
+    public function getOrderIds($asAssoc = false)
+    {
+        $idsAssoc = Mage::getSingleton('core/session')->getOrderIds();
+        return $asAssoc ? $idsAssoc : array_keys($idsAssoc);
+    }
 }
