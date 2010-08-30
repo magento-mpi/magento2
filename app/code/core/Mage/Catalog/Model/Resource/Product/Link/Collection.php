@@ -143,24 +143,26 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
      */
     public function joinAttributes()
     {
-        if ($this->getLinkModel()) {
-            $attributes = $this->getLinkModel()->getAttributes();
-            $attributesByType = array();
-            foreach ($attributes as $attribute) {
-                $table = $this->getLinkModel()->getAttributeTypeTable($attribute['type']);
-                $alias = sprintf('link_attribute_%s_%s', $attribute['code'], $attribute['type']);
-
-                $joinCondiotion = array(
-                    "{$alias}.link_id = main_table.link_id",
-                    $this->getSelect()->getAdapter()->quoteInto("{$alias}.product_link_attribute_id = ?", $attribute['id'])
-                );
-                $this->getSelect()->joinLeft(
-                    array($alias => $table),
-                    implode(Varien_Db_Select::SQL_AND, $joinCondiotion),
-                    array($attribute['code'] => 'value')
-                );
-            }
+        if (!$this->getLinkModel()) {
+            return $this;
         }
+        $attributes = $this->getLinkModel()->getAttributes();
+        $attributesByType = array();
+        foreach ($attributes as $attribute) {
+            $table = $this->getLinkModel()->getAttributeTypeTable($attribute['type']);
+            $alias = sprintf('link_attribute_%s_%s', $attribute['code'], $attribute['type']);
+
+            $joinCondiotion = array(
+                "{$alias}.link_id = main_table.link_id",
+                $this->getSelect()->getAdapter()->quoteInto("{$alias}.product_link_attribute_id = ?", $attribute['id'])
+            );
+            $this->getSelect()->joinLeft(
+                array($alias => $table),
+                implode(Varien_Db_Select::SQL_AND, $joinCondiotion),
+                array($attribute['code'] => 'value')
+            );
+        }
+
         return $this;
     }
 }
