@@ -27,5 +27,14 @@ class Test_Admin_OrderCreation_OrderCreate extends Test_Admin_OrderCreation_Abst
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
         $this->adminOrderCreate($this->_userEmail, $this->_storeviewName, $this->_productSKU);
         Core::debug("testAdminOrderCreate finished");
+        if ($this->isElementPresent($this->getUiElement("admin/pages/sales/orders/creationOrder/messages/orderCreated"),10)){
+        Core::debug("testInvoiceCreate started");
+        // Test Flow
+        $ordNum = $this->getText($this->getUiElement("admin/pages/sales/orders/creationOrder/orderNumber"));
+        $ordNum = substr($ordNum, 8, 10);
+        $this->openOrder($ordNum);
+        $this->createInvoice();
+        Core::debug("testInvoiceCreate finished");
+        }
     }
 }
