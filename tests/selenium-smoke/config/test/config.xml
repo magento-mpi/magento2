@@ -55,6 +55,9 @@
 		<customer>
 			<id>102</id>
 		</customer>
+                <attributeSet>
+                    <setName>smoke_atrSet</setName>
+                </attributeSet>
 		<createproduct>
 			<sku>st-01</sku>
 			<duplicatedSku>st-01d</duplicatedSku>
