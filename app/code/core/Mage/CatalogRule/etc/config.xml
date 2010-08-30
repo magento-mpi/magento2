@@ -159,6 +159,14 @@
                     </catalogrule>
                 </observers>
             </catalog_entity_attribute_delete_after>
+            <catalog_entity_attribute_save_after>
+                <observers>
+                    <catalogrule>
+                        <class>catalogrule/observer</class>
+                        <method>catalogAttributeSaveAfter</method>
+                    </catalogrule>
+                </observers>
+            </catalog_entity_attribute_save_after>
         </events>
     </adminhtml>
     <crontab>

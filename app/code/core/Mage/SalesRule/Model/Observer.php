@@ -118,7 +118,7 @@ class Mage_SalesRule_Model_Observer
      * Refresh sales coupons report statistics for last day
      *
      * @param Mage_Cron_Model_Schedule $schedule
-     * @return Mage_Tax_Model_Observer
+     * @return Mage_SalesRule_Model_Observer
      */
     public function aggregateSalesReportCouponsData($schedule)
     {
@@ -130,36 +130,33 @@ class Mage_SalesRule_Model_Observer
         return $this;
     }
 
-
     /**
-     * After delete attribute check rules that contains deleted attribute
-     * If rules was found they will seted to inactive and added notice to admin session
+     * Check rules that contains affected attribute
+     * If rules were found they will be set to inactive and notice will be add to admin session
      *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_CatalogRule_Model_Observer
+     * @param string $attributeCode
+     * @return Mage_SalesRule_Model_Observer
      */
-    public function catalogAttributeDeleteAfter(Varien_Event_Observer $observer)
+    protected function _checkSalesRulesAvailability($attributeCode)
     {
-        $attribute = $observer->getEvent()->getAttribute();
-        $attributeCode = $attribute->getAttributeCode();
-        if ($attribute->getIsUsedForPromoRules()) {
-            /* @var $collection Mage_CatalogRule_Model_Mysql4_Rule_Collection */
-            $collection = Mage::getResourceModel('salesrule/rule_collection')
-                ->addAttributeInConditionFilter($attributeCode);
-            $hasRule = false;
-            foreach ($collection as $rule) {
-                /* @var $rule Mage_CatalogRule_Model_Rule */
-                $rule->setIsActive(0);
-                $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
-                $this->_removeAttributeFromConditions($rule->getActions(), $attributeCode);
-                $rule->save();
-                $hasRule = true;
-            }
+        /* @var $collection Mage_SalesRule_Model_Mysql4_Rule_Collection */
+        $collection = Mage::getResourceModel('salesrule/rule_collection')
+            ->addAttributeInConditionFilter($attributeCode);
 
-            if ($hasRule) {
-                Mage::getSingleton('adminhtml/session')->addWarning(
-                    Mage::helper('salesrule')->__('Shopping Cart Price Rules based on deleted attribute "%s" has been disabled.', $attributeCode));
-            }
+        $disabledRulesCount = 0;
+        foreach ($collection as $rule) {
+            /* @var $rule Mage_SalesRule_Model_Rule */
+            $rule->setIsActive(0);
+            /* @var $rule->getConditions() Mage_SalesRule_Model_Rule_Condition_Combine */
+            $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
+            $rule->save();
+
+            $disabledRulesCount++;
+        }
+
+        if ($disabledRulesCount) {
+            Mage::getSingleton('adminhtml/session')->addWarning(
+                Mage::helper('salesrule')->__('%d Shopping Cart Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
 
         return $this;
@@ -185,6 +182,36 @@ class Mage_SalesRule_Model_Observer
             }
         }
         $combine->setConditions($conditions);
+    }
+
+    public function catalogAttributeSaveAfter(Varien_Event_Observer $observer)
+    {
+        $attribute = $observer->getEvent()->getAttribute();
+        $origData = $attribute->getOrigData();
+        if ($origData['is_used_for_promo_rules'] == 1) {
+            if (!$attribute->getIsUsedForPromoRules()) {
+                $this->_checkSalesRulesAvailability($attribute->getAttributeCode());
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * After delete attribute check rules that contains deleted attribute
+     * If rules was found they will seted to inactive and added notice to admin session
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogRule_Model_Observer
+     */
+    public function catalogAttributeDeleteAfter(Varien_Event_Observer $observer)
+    {
+        $attribute = $observer->getEvent()->getAttribute();
+        if ($attribute->getIsUsedForPromoRules()) {
+            $this->_checkSalesRulesAvailability($attribute->getAttributeCode());
+        }
+
+        return $this;
     }
 }
 

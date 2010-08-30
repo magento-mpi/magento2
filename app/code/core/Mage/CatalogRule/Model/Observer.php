@@ -205,36 +205,33 @@ class Mage_CatalogRule_Model_Observer
     }
 
     /**
-     * After delete attribute check rules that contains deleted attribute
-     * If rules was found they will seted to inactive and added notice to admin session
+     * Check rules that contains affected attribute
+     * If rules were found they will be set to inactive and notice will be add to admin session
      *
-     * @param Varien_Event_Observer $observer
+     * @param string $attributeCode
      * @return Mage_CatalogRule_Model_Observer
      */
-    public function catalogAttributeDeleteAfter(Varien_Event_Observer $observer)
+    protected function _checkCatalogRulesAvailability($attributeCode)
     {
-        $attribute = $observer->getEvent()->getAttribute();
-        $attributeCode = $attribute->getAttributeCode();
-        if ($attribute->getIsUsedForPromoRules()) {
-            /* @var $collection Mage_CatalogRule_Model_Mysql4_Rule_Collection */
-            $collection = Mage::getResourceModel('catalogrule/rule_collection')
-                ->addAttributeInConditionFilter($attributeCode);
-            $hasRule = false;
-            foreach ($collection as $rule) {
-                /* @var $rule Mage_CatalogRule_Model_Rule */
-                $rule->setIsActive(0);
-                /* @var $conditionInstance Mage_CatalogRule_Model_Rule_Condition_Combine */
-                $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
-                $rule->save();
+        /* @var $collection Mage_CatalogRule_Model_Mysql4_Rule_Collection */
+        $collection = Mage::getResourceModel('catalogrule/rule_collection')
+            ->addAttributeInConditionFilter($attributeCode);
 
-                $hasRule = true;
-            }
+        $disabledRulesCount = 0;
+        foreach ($collection as $rule) {
+            /* @var $rule Mage_CatalogRule_Model_Rule */
+            $rule->setIsActive(0);
+            /* @var $rule->getConditions() Mage_CatalogRule_Model_Rule_Condition_Combine */
+            $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
+            $rule->save();
 
-            if ($hasRule) {
-                Mage::getModel('catalogrule/rule')->applyAll();
-                Mage::getSingleton('adminhtml/session')->addWarning(
-                    Mage::helper('catalogrule')->__('Catalog Price Rules based on deleted attribute "%s" has been disabled.', $attributeCode));
-            }
+            $disabledRulesCount++;
+        }
+
+        if ($disabledRulesCount) {
+            Mage::getModel('catalogrule/rule')->applyAll();
+            Mage::getSingleton('adminhtml/session')->addWarning(
+                Mage::helper('catalogrule')->__('%d Catalog Price Rules based on "%s" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
 
         return $this;
@@ -260,6 +257,41 @@ class Mage_CatalogRule_Model_Observer
             }
         }
         $combine->setConditions($conditions);
+    }
+
+    /**
+     * After attribute save if it is not used for promo rules already check rules that contains this attribute
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogRule_Model_Observer
+     */
+    public function catalogAttributeSaveAfter(Varien_Event_Observer $observer)
+    {
+        $attribute = $observer->getEvent()->getAttribute();
+        $origData = $attribute->getOrigData();
+        if ($origData['is_used_for_promo_rules'] == 1) {
+            if (!$attribute->getIsUsedForPromoRules()) {
+                $this->_checkCatalogRulesAvailability($attribute->getAttributeCode());
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * After delete attribute check rules that contains deleted attribute
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogRule_Model_Observer
+     */
+    public function catalogAttributeDeleteAfter(Varien_Event_Observer $observer)
+    {
+        $attribute = $observer->getEvent()->getAttribute();
+        if ($attribute->getIsUsedForPromoRules()) {
+            $this->_checkCatalogRulesAvailability($attribute->getAttributeCode());
+        }
+
+        return $this;
     }
 
     public function prepareCatalogProductCollectionPrices(Varien_Event_Observer $observer)

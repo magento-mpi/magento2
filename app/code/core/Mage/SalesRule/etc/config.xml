@@ -143,6 +143,14 @@
                     </salesrule>
                 </observers>
             </catalog_entity_attribute_delete_after>
+            <catalog_entity_attribute_save_after>
+                <observers>
+                    <salesrule>
+                        <class>salesrule/observer</class>
+                        <method>catalogAttributeSaveAfter</method>
+                    </salesrule>
+                </observers>
+            </catalog_entity_attribute_save_after>
         </events>
     </adminhtml>
     <frontend>
