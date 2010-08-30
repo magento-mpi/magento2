@@ -302,7 +302,7 @@
                                 <messages>
                                     <orderCreated>//li[@class='success-msg']//*[contains(text(),'The order has been created.')]</orderCreated>
                                 </messages>
-                                <selectUser>//table[@id="sales_order_create_customer_grid_table"]//tbody/tr</selectUser>
+                                <selectUser>//table[@id="sales_order_create_customer_grid_table"]//td</selectUser>
                                 <selecStoreView>//label[text()='%s']</selecStoreView>
                                 <selectProduct>//table[@id="sales_order_create_search_grid_table"]//tbody/tr</selectProduct>
                                 <getShipping>link=Get shipping methods and rates</getShipping>
