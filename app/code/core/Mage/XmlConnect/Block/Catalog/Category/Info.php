@@ -47,7 +47,12 @@ class Mage_XmlConnect_Block_Catalog_Category_Info extends Mage_XmlConnect_Block_
         if ($category && is_object($category) && $category->getId()) {
             $title = $infoXmlObj->xmlentities(strip_tags($category->getParentCategory()->getName()));
             if ($category->getParentCategory()->getLevel() == 1) {
-                $title = '';
+                /**
+                 * @var string $title
+                 *
+                 * Copied data from "getDefaultApplicationDesignTabs()" method in "Mage_XmlConnect_Helper_Data"  
+                 */
+                $title = Mage::helper('xmlconnect')->__('Shop');
             }
 
             $infoXmlObj->addChild('parent_title', $title);
