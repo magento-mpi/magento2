@@ -1186,14 +1186,8 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     public function isInRootCategoryList($category)
     {
-        $innerSelect = $this->_getReadAdapter()->select()
-            ->from($this->getMainStoreTable($category->getStoreId()), new Zend_Db_Expr("CONCAT(path, '/%')"))
-            ->where('entity_id = ?', Mage::app()->getStore()->getRootCategoryId());
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainStoreTable($category->getStoreId()), 'entity_id')
-            ->where('entity_id = ?', $category->getId())
-            ->where(new Zend_Db_Expr("path LIKE ({$innerSelect->__toString()})"));
-        return (bool) $this->_getReadAdapter()->fetchOne($select);
+        $pathIds = $category->getParentIds();
+        return in_array(Mage::app()->getStore()->getRootCategoryId(), $pathIds);
     }
 
     /**

@@ -422,7 +422,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
              */
             ->where('('.
                 $adapter->quoteIdentifier('ce.path') . ' LIKE ' .
-                $adapter->getConcatSql(array($adapter->quoteIdentifier('rc.path'),$adapter->quote('/%'))) . ' AND ' .
+                $adapter->getConcatSql(array($adapter->quoteIdentifier('rc.path'), $adapter->quote('/%'))) . ' AND ' .
                 $adapter->getCheckSql('sca.value_id',
                     $adapter->quoteIdentifier('sca.value'),
                     $adapter->quoteIdentifier('dca.value')) . '=1) OR ce.entity_id=rc.entity_id'
@@ -581,27 +581,32 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             /**
              * Add relations between not anchor categories and products
              */
-            $sql = "INSERT INTO {$idxTable}
-                SELECT
-                    cp.category_id, cp.product_id, cp.position, 1, {$storeId}, pv.visibility
-                FROM
-                    {$this->_categoryProductTable} AS cp
-                    INNER JOIN {$enabledTable} AS pv ON pv.product_id=cp.product_id
-                    LEFT JOIN {$anchorTable} AS ac ON ac.category_id=cp.category_id
-                WHERE
-                    ac.category_id IS NULL";
+            $select = $idxAdapter->select();
+            /* @var $select Varien_Db_Select */
+            $select->from(
+                array('cp' => $this->_categoryProductTable),
+                array('category_id', 'product_id', 'position', new Zend_Db_Expr('1'), new Zend_Db_Expr($storeId))
+            )
+            ->joinInner(array('pv' => $enabledTable), 'pv.product_id=cp.product_id', array('visibility'))
+            ->joinLeft(array('ac' => $anchorTable), 'ac.category_id=cp.category_id', array())
+            ->where('ac.category_id IS NULL');
+
+            $sql = $select->insertFromSelect($idxTable);
             $idxAdapter->query($sql);
             /**
              * Assign products not associated to any category to root category in index
              */
-            $sql = "INSERT INTO {$idxTable}
-                SELECT
-                    {$rootId}, pv.product_id, 0, 1, {$storeId}, pv.visibility
-                FROM
-                    {$enabledTable} AS pv
-                    LEFT JOIN {$this->_categoryProductTable} AS cp ON pv.product_id=cp.product_id
-                WHERE
-                    cp.product_id IS NULL";
+
+            $select = $idxAdapter->select();
+            $select->from(
+                array('pv' => $enabledTable),
+                array(new Zend_Db_Expr($rootId), 'product_id', new Zend_Db_Expr('0'), new Zend_Db_Expr('1'),
+                    new Zend_Db_Expr($storeId), 'visibility')
+            )
+            ->joinLeft(array('cp' => $this->_categoryProductTable), 'pv.product_id=cp.product_id', array())
+            ->where('cp.product_id IS NULL');
+
+            $sql = $select->insertFromSelect($idxTable, $fields);
             $idxAdapter->query($sql);
 
             /**
@@ -610,37 +615,50 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             $anchorProductsTable = $this->_getAnchorCategoriesProductsTemporaryTable();
             $idxAdapter->delete($anchorProductsTable);
 
-            $position = new Zend_Db_Expr('IF (ca.category_id=ce.entity_id,
-                cp.position,
-                ROUND((ce.position + 1) * (ce.level + 1) * 10000) + cp.position)
-            AS position');
+            $position = $idxAdapter->getCheckSql('ca.category_id=ce.entity_id',
+                $idxAdapter->quoteIdentifier('cp.position'),
+                'ROUND(('.$idxAdapter->quoteIdentifier('ce.position').' + 1) * '.
+                '('.$idxAdapter->quoteIdentifier('ce.level').' + 1) * 10000) + '.
+                $idxAdapter->quoteIdentifier('cp.position').')'
+                );
 
-            $sql = "SELECT
-                    STRAIGHT_JOIN DISTINCT
-                    ca.category_id, cp.product_id, $position
-                FROM {$anchorTable} AS ca
-                  INNER JOIN {$this->_categoryTable} AS ce
-                    ON ce.path LIKE ca.path OR ce.entity_id = ca.category_id
-                  INNER JOIN {$this->_categoryProductTable} AS cp
-                    ON cp.category_id = ce.entity_id
-                  INNER JOIN {$enabledTable} as pv
-                    ON pv.product_id = cp.product_id
-                  GROUP BY ca.category_id, cp.product_id";
-            $this->insertFromSelect($sql, $anchorProductsTable, array('category_id', 'product_id', 'position'));
+            $select = $idxAdapter->select()
+            ->useStraightJoin(true)
+            ->distinct(true)
+            ->from(array('ca' => $anchorTable), array('category_id'))
+            ->joinInner(
+                array('ce' => $this->_categoryTable),
+                $idxAdapter->quoteIdentifier('ce.path') . ' LIKE ' .
+                $idxAdapter->quoteIdentifier('ca.path') . ' OR ce.entity_id = ca.category_id',
+                array()
+            )
+            ->joinInner(
+                array('cp' => $this->_categoryProductTable),
+                'cp.category_id = ce.entity_id',
+                array('product_id')
+            )
+            ->joinInner(array('pv' => $enabledTable), 'pv.product_id = cp.product_id', array($position));
+
+            $sql = $select->insertFromSelect($anchorProductsTable, array('category_id', 'product_id', 'position'));
+            $idxAdapter->query($sql);
 
             /**
              * Add anchor categories products to index
              */
-            $sql = "INSERT INTO {$idxTable}
-                SELECT
-                    ap.category_id, ap.product_id, ap.position,
-                    IF(cp.product_id, 1, 0), {$storeId}, pv.visibility
-                FROM
-                    {$anchorProductsTable} AS ap
-                    LEFT JOIN {$this->_categoryProductTable} AS cp
-                        ON cp.category_id=ap.category_id AND cp.product_id=ap.product_id
-                    INNER JOIN {$enabledTable} as pv
-                        ON pv.product_id = ap.product_id";
+            $select = $idxAdapter->select()
+            ->from(
+                array('ap' => $anchorProductsTable),
+                array('category_id', 'product_id', 'position',
+                $idxAdapter->getCheckSql('cp.product_id > 0', 1, 0), new Zend_Db_Expr($storeId))
+            )
+            ->joinLeft(
+                array('cp' => $this->_categoryProductTable),
+                'cp.category_id=ap.category_id AND cp.product_id=ap.product_id',
+                array()
+            )
+            ->joinInner(array('pv' => $enabledTable), 'pv.product_id = ap.product_id', array('visibility'));
+
+            $sql = $select->insertFromSelect($idxTable);
             $idxAdapter->query($sql);
         }
         $this->syncData();
@@ -663,17 +681,19 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
      */
     protected function _getStoresInfo()
     {
-        $stores = $this->_getReadAdapter()->fetchAll("
-            SELECT
-                s.store_id, s.website_id, c.path AS root_path, c.entity_id AS root_id
-            FROM
-                {$this->getTable('core/store')} AS s,
-                {$this->getTable('core/store_group')} AS sg,
-                {$this->getTable('catalog/category')} AS c
-            WHERE
-                sg.group_id=s.group_id
-                AND c.entity_id=sg.root_category_id
-        ");
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from(array('s' => $this->getTable('core/store')), array('store_id', 'website_id'))
+            ->join(array('sg' => $this->getTable('core/store_group')), 'sg.group_id=s.group_id', array())
+            ->join(
+                array('c' => $this->getTable('catalog/category')),
+                'c.entity_id=sg.root_category_id',
+                array(
+                    'root_path' => $adapter->quoteIdentifier('c.path'),
+                    'root_id' => $adapter->quoteIdentifier('c.entity_id')
+                )
+            );
+        $stores = $adapter->fetchAll($select);
         return $stores;
     }
 
