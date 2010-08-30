@@ -35,7 +35,7 @@
 class Mage_GiftMessage_Model_Resource_Message extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()

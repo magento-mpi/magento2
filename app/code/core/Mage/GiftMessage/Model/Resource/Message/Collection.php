@@ -35,7 +35,7 @@
 class Mage_GiftMessage_Model_Resource_Message_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource model
      *
      */
     protected function _construct()
