@@ -761,7 +761,10 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             ->joinLeft(
                 array('store' => $this->getTable('catalog/category') . '_' . $type),
                 '`store`.entity_id = `default`.entity_id AND `store`.attribute_id = `default`.attribute_id AND `store`.store_id = ' . $store_id,
-                array('value' => new Zend_Db_Expr('IF(`store`.`value_id`>0, `store`.`value`, `default`.`value`)'))
+                array('value' => $this->_getWriteAdapter()->getCheckSql('store.value_id>0',
+                    $this->_getWriteAdapter()->quoteIdentifier('store.value'),
+                    $this->_getWriteAdapter()->quoteIdentifier('default.value'))
+                )
             )
             ->where('`default`.entity_id IN (?)', $entityIds)
             ->where('`default`.store_id = ?', 0);
