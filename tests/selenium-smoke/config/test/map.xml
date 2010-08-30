@@ -298,13 +298,16 @@
                     <sales>
                         <orders>
                             <creationOrder>
+                                <orderNotCreated>//li[@class='error-msg']</orderNotCreated>
                                 <orderNumber>//div[@class='content-header']//h3</orderNumber>
+                                <verifyShipping>//div[@id='order-shipping_method']//div[@class='fieldset']/strong</verifyShipping>
+                                <verifyReqField>//div[@class='validation-advice']</verifyReqField>
                                 <messages>
                                     <orderCreated>//li[@class='success-msg']//*[contains(text(),'The order has been created.')]</orderCreated>
                                 </messages>
                                 <selectUser>//table[@id="sales_order_create_customer_grid_table"]//td</selectUser>
                                 <selecStoreView>//label[text()='%s']</selecStoreView>
-                                <selectProduct>//table[@id="sales_order_create_search_grid_table"]//tbody/tr</selectProduct>
+                                <selectProduct>//table[@id="sales_order_create_search_grid_table"]//td</selectProduct>
                                 <getShipping>link=Get shipping methods and rates</getShipping>
                                 <buttons>
                                     <createOrder>//button[span='Create New Order']</createOrder>
