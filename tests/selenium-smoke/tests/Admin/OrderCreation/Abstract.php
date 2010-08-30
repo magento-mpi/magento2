@@ -12,12 +12,14 @@ abstract class Test_Admin_OrderCreation_Abstract extends Test_Admin_Abstract
      * @var Helper_Admin
      */
     protected $_helper = null;
+
     /**
      * User Email
      *
      * @var string
      */
     protected $_userEmail = '';
+    
     /**
      * Product SKU
      *
