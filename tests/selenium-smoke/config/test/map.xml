@@ -298,6 +298,7 @@
                     <sales>
                         <orders>
                             <creationOrder>
+                                <orderNumber>//div[@class='content-header']//h3</orderNumber>
                                 <messages>
                                     <orderCreated>//li[@class='success-msg']//*[contains(text(),'The order has been created.')]</orderCreated>
                                 </messages>
@@ -324,6 +325,16 @@
                                     <productSearchGrid>//*[@id='sales_order_create_search_grid_table']</productSearchGrid>
                                 </loading>
                             </creationOrder>
+                            <creationInvoice>
+                                <selectOdrer>//table[@id='sales_order_grid_table']//td[contains(text(),'%s')]</selectOdrer>
+                                <buttons>
+                                    <createInvoce>//button[span='Invoice']</createInvoce>
+                                    <sumbitInvoice>//button[span='Submit Invoice']</sumbitInvoice>
+                                </buttons>
+                                <messages>
+                                    <invoiceCreated>//li[@class='success-msg']//*[contains(text(),'The invoice has been created.')]</invoiceCreated>
+                                </messages>
+                            </creationInvoice>
                         </orders>
                     </sales>
 			<catalog>
