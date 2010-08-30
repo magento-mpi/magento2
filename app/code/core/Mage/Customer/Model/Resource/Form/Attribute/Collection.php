@@ -193,30 +193,30 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
         }
 
         $store = $this->getStore();
-
+        $joinWebsiteExpression = $this->getConnection()
+            ->quoteInto('sa.attribute_id = main_table.attribute_id AND sa.website_id = ?', (int)$store->getWebsiteId());
         $select->joinLeft(
             array('sa' => $this->getTable('customer/eav_attribute_website')),
-            'main_table.attribute_id = sa.attribute_id AND sa.website_id = :scope_website_id',
+            $joinWebsiteExpression,
             $saColumns
         );
-        $this->addBindParam('scope_website_id', (int)$store->getWebsiteId());
 
         // add store attribute label
         if ($store->isAdmin()) {
             $select->columns(array('store_label' => 'ea.frontend_label'));
         } else {
             $storeLabelExpr = $connection->getCheckSql('al.value IF NULL', 'ea.frontend_label', 'al.value');
+            $joinExpression = $this->getConnection()
+                ->quoteInto('al.attribute_id = main_table.attribute_id AND al.store_id = ?', (int)$store->getId());
             $select->joinLeft(
                 array('al' => $this->getTable('eav/attribute_label')),
-                'al.attribute_id = main_table.attribute_id AND al.store_id = :label_store_id',
+                $joinExpression,
                 array('store_label' => $storeLabelExpr)
             );
-            $this->addBindParam('label_store_id', (int)$store->getId());
         }
 
-        $this->addBindParam('ea_entity_type_id', (int)$entityType->getId());
         // add entity type filter
-        $select->where('ea.entity_type_id = :ea_entity_type_id');
+        $select->where('ea.entity_type_id = ?', (int)$entityType->getId());
 
         return parent::_beforeLoad();
     }

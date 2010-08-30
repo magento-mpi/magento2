@@ -50,14 +50,11 @@ class Mage_Customer_Model_Resource_Group_Collection extends Mage_Core_Model_Reso
      */
     public function setTaxGroupFilter($classId)
     {
-        $taxClassGroupTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class_group');
-        $this->getSelect()
-            ->joinLeft(
-                $taxClassGroupTable,
-                "{$taxClassGroupTable}.class_group_id = main_table.customer_group_id"
-            )
-            ->where("{$taxClassGroupTable}.class_parent_id =?", $classId);
-
+        $this->joinLeft(
+            array('tax_class_group' => $this->getTable('tax/tax_class_group')),
+            'tax_class_group.class_group_id = main_table.customer_group_id'
+        );
+        $this->addFieldToFilter('tax_class_group.class_parent_id', $classId);	
         return $this;
     }
 
@@ -70,7 +67,7 @@ class Mage_Customer_Model_Resource_Group_Collection extends Mage_Core_Model_Reso
     public function setIgnoreIdFilter($indexes)
     {
         if (count($indexes)) {
-            $this->getSelect()->where('main_table.customer_group_id NOT IN (?)', $indexes);
+            $this->addFieldToFilter('main_table.customer_group_id', array('nin' => $indexes));
         }
         return $this;
     }
@@ -92,9 +89,9 @@ class Mage_Customer_Model_Resource_Group_Collection extends Mage_Core_Model_Reso
      */
     public function addTaxClass()
     {
-        $taxClassTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_class');
-        $this->getSelect()->joinLeft($taxClassTable, "main_table.tax_class_id = {$taxClassTable}.class_id");
-
+        $this->joinLeft(
+            array('tax_class_table' => $this->getTable('tax/tax_class')),
+            "main_table.tax_class_id = tax_class_table.class_id");
         return $this;
     }
 
