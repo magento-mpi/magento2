@@ -26,22 +26,29 @@
 
 
 /**
- * Eav Mysql resource helper model
+ * Eav Oracle resource helper model
  *
  * @category    Mage
- * @package     Mage_Eav
+ * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Helper_Mysql extends Mage_Core_Model_Resource_Helper_Abstract
+class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_Helper_Oracle
 {
     /**
-     * Returns expresion for field unification
+     * Returns columns for select
      *
-     * @param string $field
-     * @return Zend_Db_Expr
+     * @param string $tableAlias
+     * @return string|array
      */
-    public function castField($field)
+    public function attributeSelectFields($tableAlias)
     {
-        return $field;
+        return array(
+            'value_id',
+            'entity_type_id',
+            'attribute_id',
+            'store_id',
+            'entity_id',
+            'value' => $this->castField($tableAlias . '.value')
+        );
     }
 }

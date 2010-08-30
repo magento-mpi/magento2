@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Eav
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -43,5 +43,22 @@ class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Hel
     public function castField($field)
     {
         return new Zend_Db_Expr('to_clob(' . $this->_getReadAdapter()->quoteIdentifier($field) . ')');
+    }
+
+    /**
+     * Returns columns for select
+     *
+     * @param string $tableAlias
+     * @return string|array
+     */
+    public function attributeSelectFields($tableAlias)
+    {
+        return array(
+            'value_id',
+            'entity_type_id',
+            'attribute_id',
+            'entity_id',
+            'value' => $this->castField($tableAlias . '.value')
+        );
     }
 }

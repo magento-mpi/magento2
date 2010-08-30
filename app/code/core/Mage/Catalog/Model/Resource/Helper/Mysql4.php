@@ -19,32 +19,21 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Eav
+ * @package     Mage_Catalog
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Eav Mssql resource helper model
+ * Eav Mysql resource helper model
  *
  * @category    Mage
- * @package     Mage_Eav
+ * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Abstract
+class Mage_Catalog_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Resource_Helper_Mysql4
 {
-    /**
-     * Returns expresion for field unification
-     *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function castField($field)
-    {
-        return new Zend_Db_Expr('CAST(CAST(' . $this->_getReadAdapter()->quoteIdentifier($field) . 'AS VARCHAR(8000)) AS SQL_VARIANT)');
-    }
-
     /**
      * Returns columns for select
      *
@@ -53,12 +42,6 @@ class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Help
      */
     public function attributeSelectFields($tableAlias)
     {
-        return array(
-            'value_id',
-            'entity_type_id',
-            'attribute_id',
-            'entity_id',
-            'value' => $this->castField($tableAlias . '.value')
-        );
+        return '*';
     }
 }

@@ -1052,7 +1052,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         if (empty($attributeIds)) {
             $attributeIds = $this->_selectAttributes;
         }
-        $helper = Mage::getResourceHelper('eav');echo get_class($helper)."!!!!!";
+        $helper = Mage::getResourceHelper('eav');
         $entityIdField = $this->getEntity()->getEntityIdField();
         $select = $this->getConnection()->select()
             ->from($table, array($entityIdField, 'attribute_id', 'value' => $helper->castField($table .'.value')))
