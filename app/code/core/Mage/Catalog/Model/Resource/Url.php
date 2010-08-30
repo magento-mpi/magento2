@@ -430,7 +430,11 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             $select = $this->_getWriteAdapter()->select()
                 ->from(
                     array('t1'=>$attributeTable),
-                    array('entity_id', 'IF(t2.value_id>0, t2.value, t1.value) as value')
+                    array('entity_id',
+                        'value' => $this->_getWriteAdapter()->getCheckSql('t2.value_id>0',
+                        $this->_getWriteAdapter()->quoteIdentifier('t2.value'),
+                        $this->_getWriteAdapter()->quoteIdentifier('t1.value'))
+                    )
                 )
                 ->joinLeft(
                     array('t2'=>$attributeTable),
@@ -581,7 +585,11 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             $select = $this->_getWriteAdapter()->select()
                 ->from(
                     array('t1'=>$attributeTable),
-                    array('entity_id', 'IF(t2.value_id>0, t2.value, t1.value) as value')
+                    array('entity_id',
+                        'value' => $this->_getWriteAdapter()->getCheckSql('t2.value_id>0',
+                        $this->_getWriteAdapter()->quoteIdentifier('t2.value'),
+                        $this->_getWriteAdapter()->quoteIdentifier('t1.value'))
+                    )
                 )
                 ->joinLeft(
                     array('t2'=>$attributeTable),
@@ -677,7 +685,11 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
                 'main_table.entity_id',
                 'main_table.parent_id',
                 'main_table.level',
-                'is_active' => 'IF(c.value_id>0, c.value, d.value)',
+                'is_active' => $this->_getWriteAdapter()->getCheckSql(
+                    'c.value_id>0',
+                    $this->_getWriteAdapter()->quoteIdentifier('c.value'),
+                    $this->_getWriteAdapter()->quoteIdentifier('c.value')
+                ),
                 'main_table.path'));
 
         // Prepare variables for checking whether categories belong to store
