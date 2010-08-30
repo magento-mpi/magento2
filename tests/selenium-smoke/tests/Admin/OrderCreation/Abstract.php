@@ -51,16 +51,13 @@ abstract class Test_Admin_OrderCreation_Abstract extends Test_Admin_Abstract
       $this->type($this->getUiElement("admin/pages/sales/orders/creationOrder/search/byStoreName"),$name);
       // Searching and selecting user
       $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/buttons/userSearch"));
- //всплывающие окно
       $this->pleaseWait();
       $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/selectUser"));
-  //всплывающие окно
       $this->pleaseWait();
       //selecting Store View
       if (!$this->waitForElement($this->getUiElement("admin/pages/sales/orders/creationOrder/loading/loadStoreViewPage"),10)) {
           $this->setVerificationErrors("creationOrder check 1: no load Store View page"); }
       $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/selecStoreView",$name));
- //всплывающие окно
       $this->pleaseWait();
       if (!$this->waitForElement($this->getUiElement("admin/pages/sales/orders/creationOrder/loading/orderPage"),10)) {
           $this->setVerificationErrors("creationOrder check 2: no load Order Creation page"); }
@@ -68,28 +65,23 @@ abstract class Test_Admin_OrderCreation_Abstract extends Test_Admin_Abstract
       $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/buttons/addProduct"));
       if (!$this->waitForElement($this->getUiElement("admin/pages/sales/orders/creationOrder/loading/productSearchGrid"),10)) {
           $this->setVerificationErrors("creationOrder check 3: no load Product Search Grid"); }
-      $this->type($this->getUiElement("admin/pages/sales/orders/creationOrder/search/bySKU"),$sku);
+      $this->type($this->getUiElement("admin/pages/sales/orders/creationOrder/search/byProductSKU"),$sku);
       $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/buttons/productSearch"));
- //всплывающие окно
       $this->pleaseWait();
       $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/selectProduct"));
       $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/buttons/addProductConfirm"));
- //всплывающие окно
       $this->pleaseWait();
       // Select Payment Method (Check / Money order)
       $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/paymentInfo/inputs/check"));
- //всплывающие окно\
       $this->pleaseWait();
       // Select Shhiping Method (Flat Rate)
       $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/getShipping"));
- //всплывающие окно
       $this->pleaseWait();
       $this->click($this->getUiElement("frontend/pages/onePageCheckout/tabs/shippingMethod/inputs/flatrate"));
- // всплывающие окно
       $this->pleaseWait();
       // Sumbit Order
-      $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/messages/orderCreated"));
-      if (!$this->waitForElement($this->getUiElement("admin/pages/sales/orders/creationOrder/loading/productSearchGrid"),10)) {
+      $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/buttons/sumbitOrder"));
+      if (!$this->waitForElement($this->getUiElement("admin/pages/sales/orders/creationOrder/messages/orderCreated"),10)) {
           $this->setVerificationErrors("creationOrder check 4: no success message"); }
     }
 }
