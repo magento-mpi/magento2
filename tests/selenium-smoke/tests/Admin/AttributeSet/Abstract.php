@@ -36,17 +36,17 @@ abstract class Test_Admin_AttributeSet_Abstract extends Test_Admin_Abstract
       $this->type($this->getUiElement("admin/pages/catalog/attributes/manageAttributeSets/input/nameForSet"),$setName);
       $this->select($this->getUiElement("admin/pages/catalog/attributes/manageAttributeSets/input/basedOn"),"label=Default");
       // Saving
-      $this->click ($this->getUiElement("admin/pages/catalog/attributes/manageAttributeSets/buttons/saveSet"));
-      
+      $this->clickAndWait($this->getUiElement("admin/pages/catalog/attributes/manageAttributeSets/buttons/saveSet"));
+      // check for error message
+      if ($this->waitForElement($this->getUiElement("admin/pages/catalog/attributes/manageAttributeSets/messages/setNotSaved"),10)) {
+        $etext = $this->getText($this->getUiElement("admin/pages/catalog/attributes/manageAttributeSets/messages/setNotSaved"));
+        Core::debug($etext );
+        $this->setVerificationErrors("Check 1: " . $etext);
+      } else {
       // Check for success message
-      if (!$this->waitForElement($this->getUiElement("admin/pages/catalog/attributes/manageAttributeSets/messages/setSaved"),10)) {
-          $this->setVerificationErrors("addAttributeSet check 1: no success message");
-          //Check for some specific validation errors:
-          // name must be unique
-          if ($this->isElementPresent($this->getUiElement("admin/pages/catalog/attributes/manageAttributeSets/messages/setNotSaved",$setName),2)) {
-            $this->setVerificationErrors("addAttributeSet check 2: Attribute Name must be unique");
+          if (!$this->waitForElement($this->getUiElement("admin/pages/catalog/attributes/manageAttributeSets/messages/setSaved"),10)) {
+            $this->setVerificationErrors("Check 2: no success message");
           }
       }
-
     }
 }
