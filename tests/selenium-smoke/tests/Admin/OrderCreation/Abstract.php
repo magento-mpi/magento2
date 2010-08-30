@@ -32,7 +32,6 @@ abstract class Test_Admin_OrderCreation_Abstract extends Test_Admin_Abstract
         parent::setUp();
    }
 
-
     /**
      * Crete new order for user $email and StoreView $name using product $sku
      *@param $email
@@ -82,6 +81,24 @@ abstract class Test_Admin_OrderCreation_Abstract extends Test_Admin_Abstract
       // Sumbit Order
       $this->click($this->getUiElement("admin/pages/sales/orders/creationOrder/buttons/sumbitOrder"));
       if (!$this->waitForElement($this->getUiElement("admin/pages/sales/orders/creationOrder/messages/orderCreated"),10)) {
-          $this->setVerificationErrors("creationOrder check 4: no success message"); }
+          $this->setVerificationErrors("creationOrder check 4: no success message about order creation"); }
+      Core::debug("Creation Order finished");
     }
+    
+    public function openOrder($ordNum){
+      Core::debug("Open Order page started");
+      // Open Order Page and Order
+      $this->clickAndWait($this->getUiElement("admin/topmenu/sales/orders"));
+      $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationInvoice/selectOdrer", $ordNum));
+      Core::debug("Opening Order page finished");
+    }
+
+    public function createInvoice(){
+      Core::debug("Invoice creation started");
+      $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationInvoice/buttons/createInvoce"));
+      $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationInvoice/buttons/sumbitInvoice"));
+      if (!$this->waitForElement($this->getUiElement("admin/pages/sales/orders/creationInvoice/messages/invoiceCreated"),10)) {
+          $this->setVerificationErrors("creationInvoice check 5: no success message about Invoice creation"); }
+      Core::debug("Invoice creation finished");
+      }
 }
