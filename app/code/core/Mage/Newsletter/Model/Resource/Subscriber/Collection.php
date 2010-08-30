@@ -78,14 +78,16 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
     protected function _construct()
     {
         parent::_construct();
+        $this->_init('newsletter/subscriber');
         $this->_queueLinkTable = $this->getTable('newsletter/queue_link');
         $this->_storeTable = $this->getTable('core/store');
-        $this->_init('newsletter/subscriber');
+
 
         // defining mapping for fields represented in several tables
         $this->_map['fields']['customer_lastname'] = 'customer_lastname_table.value';
         $this->_map['fields']['customer_firstname'] = 'customer_firstname_table.value';
-        $this->_map['fields']['type'] = 'IF(main_table.customer_id = 0, 1, 2)';
+        $this->_map['fields']['type'] = $this->getResource()->getReadConnection()
+            ->getCheckSql('main_table.customer_id = 0', 1, 2);
         $this->_map['fields']['website_id'] = 'store.website_id';
         $this->_map['fields']['group_id'] = 'store.group_id';
         $this->_map['fields']['store_id'] = 'main_table.store_id';
