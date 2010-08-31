@@ -161,7 +161,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
      */
     public function getCustomerGroups($groupId = null)
     {
-        if (is_null($this->_customerGroups)) {
+        if ($this->_customerGroups === null) {
+            if (!Mage::helper('core')->isModuleEnabled('Mage_Customer')) {
+                return array();
+            }
             $collection = Mage::getModel('customer/group')->getCollection();
             $this->_customerGroups = array(
                 Mage_Customer_Model_Group::CUST_GROUP_ALL => Mage::helper('catalog')->__('ALL GROUPS')
@@ -173,8 +176,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
             }
         }
 
-        if (!is_null($groupId)) {
-            return isset($this->_customerGroups[$groupId]) ? $this->_customerGroups[$groupId] : null;
+        if ($groupId !== null) {
+            return isset($this->_customerGroups[$groupId]) ? $this->_customerGroups[$groupId] : array();
         }
 
         return $this->_customerGroups;
