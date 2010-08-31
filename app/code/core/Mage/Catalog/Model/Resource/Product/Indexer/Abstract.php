@@ -90,7 +90,8 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
                     . " AND {$sAlias}.store_id = {$store}",
                 array()
             );
-            $expression = new Zend_Db_Expr("IF({$sAlias}.value_id > 0, {$sAlias}.value, {$dAlias}.value)");
+            $expression = $this->_getReadAdapter()->getCheckSql("{$sAlias}.value_id > 0",
+                "{$sAlias}.value", "{$dAlias}.value");
         }
 
         if (!is_null($condition)) {

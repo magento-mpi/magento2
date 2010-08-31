@@ -108,6 +108,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
             return $this;
         }
 
+        $productValueExpression = $write->getCheckSql('pis.value_id > 0', 'pis.value', 'pid.value');
         $select = $adapter->select()
             ->from(
                 array('pid' => $this->getValueTable('catalog/product', 'int')),
@@ -120,11 +121,11 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
                 array('pis' => $this->getValueTable('catalog/product', 'int')),
                 'pis.entity_id = pid.entity_id AND pis.attribute_id = pid.attribute_id'
                     . ' AND pis.store_id=cs.store_id',
-                array('value' => new Zend_Db_Expr('IF(pis.value_id > 0, pis.value, pid.value)')))
+                array('value' => $productValueExpression))
             ->where('pid.store_id=?', 0)
             ->where('cs.store_id!=?', 0)
             ->where('pid.attribute_id IN(?)', $attrIds)
-            ->where('IF(pis.value_id > 0, pis.value, pid.value) IS NOT NULL');
+            ->where("{$productValueExpression} IS NOT NULL");
 
         $statusCond = $adapter->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'pid.entity_id', 'cs.store_id', $statusCond);
@@ -182,6 +183,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         }
 
         // prepare get multiselect values query
+        $productValueExpression = $write->getCheckSql('pvs.value_id > 0', 'pvs.value', 'pvd.value');
         $select = $adapter->select()
             ->from(
                 array('pvd' => $this->getValueTable('catalog/product', 'varchar')),
@@ -194,7 +196,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
                 array('pvs' => $this->getValueTable('catalog/product', 'varchar')),
                 'pvs.entity_id = pvd.entity_id AND pvs.attribute_id = pvd.attribute_id'
                     . ' AND pvs.store_id=cs.store_id',
-                array('value' => new Zend_Db_Expr('IF(pvs.value_id>0, pvs.value, pvd.value)')))
+                array('value' => $productValueExpression))
             ->where('pvd.store_id=?', 0)
             ->where('cs.store_id!=?', 0)
             ->where('pvd.attribute_id IN(?)', $attrIds);

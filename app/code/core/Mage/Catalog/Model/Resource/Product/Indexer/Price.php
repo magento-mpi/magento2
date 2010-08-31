@@ -400,6 +400,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
         $table = $this->_getTierPriceIndexTable();
         $write->delete($table);
 
+        $websiteExpression = $write->getCheckSql('tp.website_id = 0', 'ROUND(tp.value * cwd.rate, 4)', 'tp.value');
         $select = $write->select()
             ->from(
                 array('tp' => $this->getValueTable('catalog/product', 'tier_price')),
@@ -417,7 +418,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
                 'cw.website_id = cwd.website_id',
                 array())
             ->where('cw.website_id != 0')
-            ->columns(new Zend_Db_Expr('MIN(IF(tp.website_id=0, ROUND(tp.value * cwd.rate, 4), tp.value))'))
+            ->columns(new Zend_Db_Expr("MIN({$websiteExpression})"))
             ->group(array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
 
         if (!empty($entityIds)) {

@@ -94,7 +94,8 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped
                 'i.entity_id = l.linked_product_id AND i.website_id = cw.website_id'
                     . ' AND i.customer_group_id = cg.customer_group_id',
                 array(
-                    'tax_class_id'=> new Zend_Db_Expr('IFNULL(i.tax_class_id, 0)'),
+                    'tax_class_id'=> $this->_getReadAdapter()->getCheckSql('i.tax_class_id IS NULL',
+						'0', 'i.tax_class_id'),
                     'price'       => new Zend_Db_Expr('NULL'),
                     'final_price' => new Zend_Db_Expr('NULL'),
                     'min_price'   => new Zend_Db_Expr('MIN(IF(le.required_options = 0, i.min_price, 0))'),

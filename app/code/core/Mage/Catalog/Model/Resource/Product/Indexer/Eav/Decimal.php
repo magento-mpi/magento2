@@ -66,6 +66,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
             return $this;
         }
 
+        $productValueExpression = $write->getCheckSql('pds.value_id > 0', 'pds.value', 'pdd.value');
         $select = $write->select()
             ->from(
                 array('pdd' => $this->getValueTable('catalog/product', 'decimal')),
@@ -78,11 +79,11 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
                 array('pds' => $this->getValueTable('catalog/product', 'decimal')),
                 'pds.entity_id = pdd.entity_id AND pds.attribute_id = pdd.attribute_id'
                     . ' AND pds.store_id=cs.store_id',
-                array('value' => new Zend_Db_Expr('IF(pds.value_id > 0, pds.value, pdd.value)')))
+                array('value' => $productValueExpression))
             ->where('pdd.store_id=?', 0)
             ->where('cs.store_id!=?', 0)
             ->where('pdd.attribute_id IN(?)', $attrIds)
-            ->where('IF(pds.value_id > 0, pds.value, pdd.value) IS NOT NULL');
+            ->where("{$productValueExpression} IS NOT NULL");
 
         $statusCond = $write->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'pdd.entity_id', 'cs.store_id', $statusCond);

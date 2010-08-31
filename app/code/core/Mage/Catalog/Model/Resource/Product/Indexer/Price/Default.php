@@ -229,10 +229,16 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         $specialTo      = $this->_addAttributeToSelect($select, 'special_to_date', 'e.entity_id', 'cs.store_id');
         $curentDate     = new Zend_Db_Expr('cwd.date');
 
-        $finalPrice     = new Zend_Db_Expr("IF(IF({$specialFrom} IS NULL, 1, "
-            . "IF(DATE({$specialFrom}) <= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
-            . "IF(DATE({$specialTo}) >= {$curentDate}, 1, 0)) > 0 AND {$specialPrice} < {$price}, "
-            . "{$specialPrice}, {$price})");
+        $specialFromDate    = $write->getDatePartSql($specialFrom);
+        $specialToDate      = $write->getDatePartSql($specialFrom);
+
+        $specialFromUse     = $write->getCheckSql("{$specialFromDate} <= {$curentDate}", '1', '0');
+        $specialToUse       = $write->getCheckSql("{$specialToDate} >= {$curentDate}", '1', '0');
+        $specialFromHas     = $write->getCheckSql("{$specialFrom} IS NULL", '1', "{$specialFromUse}");
+        $specialToHas       = $write->getCheckSql("{$specialTo} IS NULL", '1', "{$specialToUse}");
+        $finalPrice         = $write->getCheckSql("{$specialFromHas} > 0 AND {$specialToHas} > 0"
+            . " AND {$specialPrice} < {$price}", $specialPrice, $price);
+
         $select->columns(array(
             'orig_price'    => $price,
             'price'         => $finalPrice,
@@ -375,20 +381,23 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
                 array())
             ->group(array('i.entity_id', 'i.customer_group_id', 'i.website_id', 'o.option_id'));
 
-        $minPrice = new Zend_Db_Expr("IF(o.is_require, MIN(IF(IF(otps.option_type_price_id>0, otps.price_type, "
-            . "otpd.price_type)='fixed', IF(otps.option_type_price_id>0, otps.price, otpd.price), "
-            . "ROUND(i.price * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))), 0)");
-        $tierPrice = new Zend_Db_Expr("IF(i.base_tier IS NOT NULL, IF(o.is_require, "
-            . "MIN(IF(IF(otps.option_type_price_id>0, otps.price_type, otpd.price_type)='fixed', "
-            . "IF(otps.option_type_price_id>0, otps.price, otpd.price), "
-            . "ROUND(i.base_tier * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))), 0), NULL)");
-        $maxPrice = new Zend_Db_Expr("IF((o.type='radio' OR o.type='drop_down'), "
-            . "MAX(IF(IF(otps.option_type_price_id>0, otps.price_type, otpd.price_type)='fixed', "
-            . "IF(otps.option_type_price_id>0, otps.price, otpd.price), "
-            . "ROUND(i.price * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))), "
-            . "SUM(IF(IF(otps.option_type_price_id>0, otps.price_type, otpd.price_type)='fixed', "
-            . "IF(otps.option_type_price_id>0, otps.price, otpd.price), "
-            . "ROUND(i.price * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))))");
+        $optPriceType   = $write->getCheckSql('otps.option_type_price_id > 0', 'otps.price_type', 'otpd.price_type');
+        $optPriceValue  = $write->getCheckSql('otps.option_type_price_id > 0', 'otps.price', 'otpd.price');
+        $minPriceRound  = new Zend_Db_Expr("ROUND(i.price * ({$optPriceValue} / 100), 4)");
+        $minPriceExpr   = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $minPriceRound);
+        $minPriceMin    = new Zend_Db_Expr("MIN({$minPriceExpr})");
+        $minPrice       = $write->getCheckSql("MIN(o.is_require) = 1", $minPriceMin, '0');
+
+        $tierPriceRound = new Zend_Db_Expr("ROUND(i.base_tier * ({$optPriceValue} / 100), 4)");
+        $tierPriceExpr  = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $tierPriceRound);
+        $tierPriceMin   = new Zend_Db_Expr("MIN({$tierPriceExpr})");
+        $tierPriceValue = $write->getCheckSql("o.is_require IS NOT NULL", $tierPriceMin, 0);
+        $tierPrice      = $write->getCheckSql("i.base_tier IS NOT NULL", $tierPriceValue, "NULL");
+
+        $maxPriceRound  = new Zend_Db_Expr("ROUND(i.price * ({$optPriceValue} / 100), 4)");
+        $maxPriceExpr   = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $maxPriceRound);
+        $maxPrice       = $write->getCheckSql("(o.type='radio' OR o.type = 'drop_down')",
+            "MAX({$maxPriceExpr})", "SUM({$maxPriceExpr})");
 
         $select->columns(array(
             'min_price'  => $minPrice,
@@ -428,14 +437,17 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
                 'ops.option_id = opd.option_id AND ops.store_id = cs.store_id',
                 array());
 
-        $minPrice = new Zend_Db_Expr("IF((@price:=IF(IF(ops.option_price_id>0, ops.price_type, opd.price_type)='fixed',"
-            . " IF(ops.option_price_id>0, ops.price, opd.price), ROUND(i.price * (IF(ops.option_price_id>0, "
-            . "ops.price, opd.price) / 100), 4))) AND o.is_require, @price,0)");
-        $maxPrice = new Zend_Db_Expr("@price");
-        $tierPrice = new Zend_Db_Expr("IF(i.base_tier IS NOT NULL, IF((@tier_price:=IF(IF(ops.option_price_id>0, "
-            . "ops.price_type, opd.price_type)='fixed', IF(ops.option_price_id>0, ops.price, opd.price), "
-            . "ROUND(i.base_tier * (IF(ops.option_price_id>0, ops.price, opd.price) / 100), 4))) AND o.is_require, "
-            . "@tier_price, 0), NULL)");
+        $optPriceType   = $write->getCheckSql('ops.option_price_id > 0', 'ops.price_type', 'opd.price_type');
+        $optPriceValue  = $write->getCheckSql('ops.option_price_id > 0', 'ops.price', 'opd.price');
+
+        $priceExpr      = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $minPriceRound);
+        $minPrice       = $write->getCheckSql("{$priceExpr} > 0 AND o.is_require > 1", $priceExpr, 0);
+        $maxPrice       = $priceExpr;
+
+        $tierPriceRound = new Zend_Db_Expr("ROUND(i.base_tier * ({$optPriceValue} / 100), 4)");
+        $tierPriceExpr  = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $tierPriceRound);
+        $tierPriceValue = $write->getCheckSql("{$tierPriceExpr} > 0 AND o.is_require > 0", $tierPriceExpr, 0);
+        $tierPrice      = $write->getCheckSql("i.base_tier IS NOT NULL", $tierPriceValue, "NULL");
 
         $select->columns(array(
             'min_price'  => $minPrice,
@@ -471,14 +483,14 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         $select->columns(array(
             'min_price'  => new Zend_Db_Expr('i.min_price + io.min_price'),
             'max_price'  => new Zend_Db_Expr('i.max_price + io.max_price'),
-            'tier_price' => new Zend_Db_Expr('IF(i.tier_price IS NOT NULL, i.tier_price + io.tier_price, NULL)'),
+            'tier_price' =>  'tier_price' => $write->getCheckSql('i.tier_price IS NOT NULL', 'i.tier_price + io.tier_price', 'NULL'),
         ));
         $query = $select->crossUpdateFromSelect($table);
         $write->query($query);
 
         if ($this->useIdxTable()) {
-            $write->truncate($coaTable);
-            $write->truncate($copTable);
+            $write->truncateTable($coaTable);
+            $write->truncateTable($copTable);
         }
         else {
             $write->delete($coaTable);
@@ -516,7 +528,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         $write->query($query);
 
         if ($this->useIdxTable()) {
-            $write->truncate($table);
+            $write->truncateTable($table);
         }
         else {
             $write->delete($table);
