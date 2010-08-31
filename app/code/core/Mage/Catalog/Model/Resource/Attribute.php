@@ -48,7 +48,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
         }
         return parent::_beforeSave($object);
     }
-    
+
     /**
      * Delete entity
      *
@@ -69,7 +69,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
         if ($result) {
             $attribute = Mage::getSingleton('eav/config')
                 ->getAttribute('catalog_product', $result['attribute_id']);
-                
+
             if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {
                 Mage::throwException(Mage::helper('eav')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));
             }
@@ -85,15 +85,15 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
                     'entity_id IN (?)'  => $select
                 );
                 $this->_getWriteAdapter()->delete($backendTable, $clearCondition);
-            }    
+            }
         }
-        
+
         $condition = array('entity_attribute_id =?' => $object->getEntityAttributeId());
         $this->_getWriteAdapter()->delete($this->getTable('entity_attribute'), $condition);
 
         return $this;
     }
-    
+
     /**
      * Defines is Attribute used by super products
      *
@@ -109,15 +109,15 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
 
         $bind = array('attribute_id' => $object->getAttributeId());
         $select = $adapter->select()
-            ->from(array('_main_table' => $attrTable), 'COUNT(*)')
-            ->join(array('_entity' => $productTable), '_main_table.product_id = _entity.entity_id')
-            ->where('_main_table.attribute_id = :attribute_id')
-            ->group('_main_table.attribute_id')
+            ->from(array('main_table' => $attrTable), 'COUNT(*)')
+            ->join(array('entity' => $productTable), 'main_table.product_id = entity.entity_id')
+            ->where('main_table.attribute_id = :attribute_id')
+            ->group('main_table.attribute_id')
             ->limit(1);
 
         if ($attributeSet !== null) {
             $bind['attribute_set_id'] = $attributeSet;
-            $select->where('_entity.attribute_set_id = :attribute_set_id');
+            $select->where('entity.attribute_set_id = :attribute_set_id');
         }
 
         return $adapter->fetchOne($select, $bind);
