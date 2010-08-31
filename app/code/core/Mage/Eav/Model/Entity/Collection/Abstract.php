@@ -1025,7 +1025,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         }
         if (!empty($selects)) {
             try {
-                $select = implode(' UNION ', $selects);
+                $select = implode(' UNION ALL ', $selects);
                 $values = $this->_fetchAll($select);
             } catch (Exception $e) {
                 Mage::printException($e, $select);

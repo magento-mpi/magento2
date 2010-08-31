@@ -977,7 +977,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     protected function _prepareLoadSelect(array $selects)
     {
-        return $this->_getReadAdapter()->select()->union($selects);
+        return $this->_getReadAdapter()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
     }
 
     /**
