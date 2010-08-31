@@ -84,13 +84,6 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
      */
     public function refreshEnabledIndex($productId, $storeId)
     {
-        $statusAttributeId      = $this->_getProductAttribute('status')->getId();
-        $visibilityAttributeId  = $this->_getProductAttribute('visibility')->getId();
-        $statusTable            = $this->_getProductAttribute('status')->getBackend()->getTable();
-        $visibilityTable        = $this->_getProductAttribute('visibility')->getBackend()->getTable();
-
-        $indexTable = $this->getTable('catalog/product_enabled_index');
-
         if ($storeId == 0) {
             foreach (Mage::app()->getStores() as $store) {
                 $this->refreshEnabledIndex($productId, $store->getId());
@@ -99,27 +92,7 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
             return $this;
         }
 
-        $this->_getWriteAdapter()->delete($indexTable, array(
-            $this->_getWriteAdapter()->quoteInto('product_id=?', $productId),
-            $this->_getWriteAdapter()->quoteInto('store_id=?', $storeId)
-        ));
-
-        $query = "INSERT INTO $indexTable
-            SELECT
-                {$productId}, {$storeId}, IF(t_v.value_id>0, t_v.value, t_v_default.value)
-            FROM
-                {$visibilityTable} AS t_v_default
-            LEFT JOIN {$visibilityTable} AS `t_v`
-                ON (t_v.entity_id = t_v_default.entity_id) AND (t_v.attribute_id='{$visibilityAttributeId}') AND (t_v.store_id='{$storeId}')
-            INNER JOIN {$statusTable} AS `t_s_default`
-                ON (t_s_default.entity_id = t_v_default.entity_id) AND (t_s_default.attribute_id='{$statusAttributeId}') AND t_s_default.store_id=0
-            LEFT JOIN {$statusTable} AS `t_s`
-                ON (t_s.entity_id = t_v_default.entity_id) AND (t_s.attribute_id='{$statusAttributeId}') AND (t_s.store_id='{$storeId}')
-            WHERE
-                t_v_default.entity_id={$productId}
-                AND t_v_default.attribute_id='{$visibilityAttributeId}' AND t_v_default.store_id=0
-                AND (IF(t_s.value_id>0, t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")";
-        $this->_getWriteAdapter()->query($query);
+        Mage::getResourceSingleton('catalog/product')->refreshEnabledIndex($storeId, $productId);
 
         return $this;
     }
@@ -132,42 +105,54 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
      * @param int $value
      * @return Mage_Catalog_Model_Resource_Product_Status
      */
-    public function updateProductStatus($productId, $storId, $value)
+    public function updateProductStatus($productId, $storeId, $value)
     {
         $statusAttributeId  = $this->_getProductAttribute('status')->getId();
         $statusEntityTypeId = $this->_getProductAttribute('status')->getEntityTypeId();
         $statusTable        = $this->_getProductAttribute('status')->getBackend()->getTable();
         $refreshIndex       = true;
+        $adapter            = $this->_getWriteAdapter();
 
-        $prop = array(
+        $data = new Varien_Object(array(
             'entity_type_id' => $statusEntityTypeId,
             'attribute_id'   => $statusAttributeId,
             'store_id'       => $storId,
             'entity_id'      => $productId,
             'value'          => $value
+        ));
+
+        $data = $this->_prepareDataForTable($data, $statusTable);
+
+        $select = $adapter->select()
+            ->from($statusTable)
+            ->where('attribute_id = :attribute_id')
+            ->where('store_id     = :store_id')
+            ->where('entity_id    = :product_id');
+
+        $binds = array(
+            'attribute_id' => $statusAttributeId,
+            'store_id'     => $storeId,
+            'product_id'   => $productId
         );
 
-        $select = $this->_getWriteAdapter()->select()
-            ->from($statusTable)
-            ->where('attribute_id=?', $statusAttributeId)
-            ->where('store_id=?', $storId)
-            ->where('entity_id=?', $productId);
-        $row = $this->_getWriteAdapter()->fetchRow($select);
+        $row = $adapter->fetchRow($select);
 
         if ($row) {
             if ($row['value'] == $value) {
                 $refreshIndex = false;
+            } else {
+                $condition = array(
+                    'value_id = ?' => $row['value_id']
+                );
+
+                $adapter->update($statusTable, $data, $condition);
             }
-            else {
-                $this->_getWriteAdapter()->update($statusTable, $prop, $this->_getWriteAdapter()->quoteInto('value_id=?', $row['value_id']));
-            }
-        }
-        else {
-            $this->_getWriteAdapter()->insert($statusTable, $prop);
+        } else {
+            $adapter->insert($statusTable, $data);
         }
 
         if ($refreshIndex) {
-            $this->refreshEnabledIndex($productId, $storId);
+            $this->refreshEnabledIndex($productId, $storeId);
         }
 
         return $this;
@@ -185,42 +170,56 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
     {
         $statuses = array();
 
-        $attribute = $this->_getProductAttribute('status');
+        $attribute      = $this->_getProductAttribute('status');
         $attributeTable = $attribute->getBackend()->getTable();
+        $adapter        = $this->_getReadAdapter();
 
         if (!is_array($productIds)) {
             $productIds = array($productIds);
         }
 
         if (is_null($storeId) || $storeId == 0) {
-            $select = $this->_getReadAdapter()->select()
+            $select = $adapter->select()
                 ->from($attributeTable, array('entity_id', 'value'))
-                ->where('entity_id IN(?)', $productIds)
-                ->where('attribute_id=?', $attribute->getAttributeId())
-                ->where('store_id=?', 0);
-            $rows = $this->_getWriteAdapter()->fetchPairs($select);
-        }
-        else {
-            $select = $this->_getReadAdapter()->select()
+                ->where('entity_id IN (?)', $productIds)
+                ->where('attribute_id = :attribute_id')
+                ->where('store_id = :store_id');
+
+            $binds = array(
+                'attribute_id' => $attribute->getAttributeId(),
+                'store_id'     => 0
+            );
+
+            $rows = $adapter->fetchPairs($select);
+        } else {
+            $valueCheckSql = $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
+
+            $select = $adapter->select()
                 ->from(
                     array('t1' => $attributeTable),
-                    array('entity_id', 'IF(t2.value_id>0, t2.value, t1.value) as value'))
+                    array('entity_id', array('value' => $valueCheckSql)))
                 ->joinLeft(
                     array('t2' => $attributeTable),
-                    $this->_getReadAdapter()->quoteInto('t1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id=?', $storeId),
+                    't1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id = :store_id',
                     array()
                 )
-                ->where('t1.store_id = ?', 0)
-                ->where('t1.attribute_id = ?', $attribute->getAttributeId())
+                ->where('t1.store_id = :admin_store_id')
+                ->where('t1.attribute_id = :attribute_id')
                 ->where('t1.entity_id IN(?)', $productIds);
-            $rows = $this->_getWriteAdapter()->fetchPairs($select);
+
+            $binds = array(
+                'attribute_id'   => $attribute->getAttributeId(),
+                'admin_store_id' => 0,
+                'store_id'       => $storeId,
+            );
+
+            $rows = $adapter->fetchPairs($select);
         }
 
         foreach ($productIds as $productId) {
             if (isset($rows[$productId])) {
                 $statuses[$productId] = $rows[$productId];
-            }
-            else {
+            } else {
                 $statuses[$productId] = -1;
             }
         }

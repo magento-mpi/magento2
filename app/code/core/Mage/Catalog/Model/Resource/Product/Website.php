@@ -113,8 +113,8 @@ class Mage_Catalog_Model_Resource_Product_Website extends Mage_Core_Model_Resour
                         continue;
                     }
                     $this->_getWriteAdapter()->insert($this->getMainTable(), array(
-                        'product_id' => $productId,
-                        'website_id' => $websiteId
+                        'product_id' => (int) $productId,
+                        'website_id' => (int) $websiteId
                     ));
                 }
 

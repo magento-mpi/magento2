@@ -82,8 +82,8 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
             $data = array();
             foreach ($insert as $childId) {
                 $data[] = array(
-                    'product_id' => $childId,
-                    'parent_id'  => $mainProductId
+                    'product_id' => (int) $childId,
+                    'parent_id'  => (int) $mainProductId
                 );
             }
             $this->_getWriteAdapter()->insertMultiple($this->getMainTable(), $data);

@@ -35,16 +35,16 @@
 class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Abstract
 {
     /**
-     * Enter description here ...
+     * Product to website linkage table
      *
-     * @var unknown
+     * @var string
      */
     protected $_productWebsiteTable;
 
     /**
-     * Enter description here ...
+     * Product to category linkage table
      *
-     * @var unknown
+     * @var string
      */
     protected $_productCategoryTable;
 
@@ -80,10 +80,17 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      */
     public function getWebsiteIds($product)
     {
-        $select = $this->_getWriteAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+
+        $select = $adapter->select()
             ->from($this->_productWebsiteTable, 'website_id')
-            ->where('product_id=?', $product->getId());
-        return $this->_getWriteAdapter()->fetchCol($select);
+            ->where('product_id = :product_id');
+
+        $binds = array(
+            'product_id' => (int) $product->getId()
+        );
+
+        return $adapter->fetchCol($select, $binds);
     }
 
     /**
@@ -94,10 +101,17 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      */
     public function getCategoryIds($product)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+
+        $select = $adapter->select()
             ->from($this->_productCategoryTable, 'category_id')
-            ->where('product_id=?', $product->getId());
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('product_id = :product_id');
+
+        $binds = array(
+            'product_id' => (int) $product->getId()
+        );
+
+        return $adapter->fetchCol($select, $binds);
     }
 
     /**
@@ -108,7 +122,17 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      */
     public function getIdBySku($sku)
     {
-        return $this->_getReadAdapter()->fetchOne('select entity_id from '.$this->getEntityTable().' where sku=?', $sku);
+        $adapter = $this->_getReadAdapter();
+
+        $select = $adapter->select()
+            ->from($this->getEntityTable(), 'entity_id')
+            ->where('sku = :sku');
+
+        $binds = array(
+            'sku' => (string) $sku
+        );
+
+        return $adapter->fetchOne($select, $binds);
     }
 
     /**
@@ -152,8 +176,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             //->refreshIndex($product)
             ;
 
-        parent::_afterSave($product);
-        return $this;
+        return parent::_afterSave($product);
     }
 
     /**
@@ -169,32 +192,40 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
 
         $product->setIsChangedWebsites(false);
 
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->_productWebsiteTable)
-            ->where('product_id=?', $product->getId());
-        $query  = $this->_getWriteAdapter()->query($select);
-        while ($row = $query->fetch()) {
-            $oldWebsiteIds[] = $row['website_id'];
-        }
+        $adapter = $this->_getWriteAdapter();
+
+        $select = $adapter->select()
+            ->from($this->_productWebsiteTable, array('website_id'))
+            ->where('product_id = :product_id');
+
+        $binds = array(
+            'product_id' => (int) $product->getId(),
+        );
+
+        $oldWebsiteIds = $adapter->fetchCol($select, $binds);
 
         $insert = array_diff($websiteIds, $oldWebsiteIds);
         $delete = array_diff($oldWebsiteIds, $websiteIds);
 
         if (!empty($insert)) {
             foreach ($insert as $websiteId) {
-                $this->_getWriteAdapter()->insert($this->_productWebsiteTable, array(
-                    'product_id' => $product->getId(),
-                    'website_id' => $websiteId
-                ));
+                $data = array(
+                    'product_id' => (int) $product->getId(),
+                    'website_id' => (int) $websiteId
+                );
+
+                $adapter->insert($this->_productWebsiteTable, $data);
             }
         }
 
         if (!empty($delete)) {
             foreach ($delete as $websiteId) {
-                $this->_getWriteAdapter()->delete($this->_productWebsiteTable, array(
-                    $this->_getWriteAdapter()->quoteInto('product_id=?', $product->getId()),
-                    $this->_getWriteAdapter()->quoteInto('website_id=?', $websiteId)
-                ));
+                $condition = array(
+                    'product_id = ?' => (int) $product->getId(),
+                    'website_id = ?' => (int) $websiteId,
+                );
+
+                $adapter->delete($this->_productWebsiteTable, $condition);
             }
         }
 
@@ -235,8 +266,8 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
                     continue;
                 }
                 $data[] = array(
-                    'category_id' => (int)$categoryId,
-                    'product_id'  => $object->getId(),
+                    'category_id' => (int) $categoryId,
+                    'product_id'  => (int) $object->getId(),
                     'position'    => 1
                 );
             }
@@ -246,11 +277,14 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         }
 
         if (!empty($delete)) {
-            $where = join(' AND ', array(
-                $write->quoteInto('product_id=?', $object->getId()),
-                $write->quoteInto('category_id IN(?)', $delete)
-            ));
-            $write->delete($this->_productCategoryTable, $where);
+            foreach ($delete as $categoryId) {
+                $where = array(
+                    'product_id = ?'  => (int) $object->getId(),
+                    'category_id = ?' => (int) $categoryId,
+                );
+
+                $write->delete($this->_productCategoryTable, $where);
+            }
         }
 
         if (!empty($insert) || !empty($delete)) {
@@ -269,6 +303,8 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      */
     public function refreshIndex($product)
     {
+        $writeAdapter = $this->_getWriteAdapter();
+
         /**
          * Ids of all categories where product is assigned (not related with store)
          */
@@ -277,17 +313,17 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         /**
          * Clear previos index data related with product
          */
-        $this->_getWriteAdapter()->delete(
-            $this->getTable('catalog/category_product_index'),
-            $this->_getWriteAdapter()->quoteInto('product_id=?', $product->getId())
+        $condition = array(
+            'product_id = ?' => (int) $product->getId(),
         );
+        $writeAdapter->delete($this->getTable('catalog/category_product_index'), $condition);
 
         if (!empty($categoryIds)) {
-            $categoriesSelect = $this->_getWriteAdapter()->select()
+            $categoriesSelect = $writeAdapter->select()
                 ->from($this->getTable('catalog/category'))
                 ->where('entity_id IN (?)', $categoryIds);
-            $categoriesInfo = $this->_getWriteAdapter()->fetchAll($categoriesSelect);
 
+            $categoriesInfo = $writeAdapter->fetchAll($categoriesSelect);
 
             $indexCategoryIds = array();
             foreach ($categoriesInfo as $categoryInfo) {
@@ -298,17 +334,20 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
 
             $indexCategoryIds   = array_unique($indexCategoryIds);
             $indexProductIds    = array($product->getId());
+
             Mage::getResourceSingleton('catalog/category')
                 ->refreshProductIndex($indexCategoryIds, $indexProductIds);
-        }
-        else {
+        } else {
             $websites = $product->getWebsiteIds();
+
             if ($websites) {
                 $storeIds = array();
+
                 foreach ($websites as $websiteId) {
                     $website  = Mage::app()->getWebsite($websiteId);
                     $storeIds = array_merge($storeIds, $website->getStoreIds());
                 }
+
                 Mage::getResourceSingleton('catalog/category')
                     ->refreshProductIndex(array(), array($product->getId()), $storeIds);
             }
@@ -318,6 +357,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
          * Refresh enabled products index (visibility state)
          */
         $this->refreshEnabledIndex(null, $product);
+
         return $this;
     }
 
@@ -339,6 +379,11 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         $statusTable            = $statusAttribute->getBackend()->getTable();
         $visibilityTable        = $visibilityAttribute->getBackend()->getTable();
 
+        $adapter = $this->_getWriteAdapter();
+
+        $select = $adapter->select();
+        $condition = array();
+
         $indexTable = $this->getTable('catalog/product_enabled_index');
         if (is_null($store) && is_null($product)) {
             Mage::throwException(
@@ -348,74 +393,113 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             $storeId    = $store->getId();
             $websiteId  = $store->getWebsiteId();
 
-            $productsCondition = '';
-            $deleteCondition = '';
             if (is_array($product) && !empty($product)) {
-                $productsCondition  = $this->_getWriteAdapter()->quoteInto(
-                    ' AND t_v_default.entity_id IN (?)',
-                    $product
-                );
-                $deleteCondition    = $this->_getWriteAdapter()->quoteInto(' AND product_id IN (?)', $product);
+                $condition[] = $adapter->quoteInto('product_id IN (?)', $product);
             }
-            $this->_getWriteAdapter()->delete($indexTable, 'store_id='.$storeId.$deleteCondition);
-            $query = "INSERT INTO $indexTable
-            SELECT
-                t_v_default.entity_id, {$storeId}, IF(t_v.value_id>0, t_v.value, t_v_default.value)
-            FROM
-                {$visibilityTable} AS t_v_default
-            INNER JOIN {$this->getTable('catalog/product_website')} AS w
-                ON w.product_id=t_v_default.entity_id AND w.website_id={$websiteId}
-            LEFT JOIN {$visibilityTable} AS `t_v`
-                ON (t_v.entity_id = t_v_default.entity_id)
-                    AND (t_v.attribute_id='{$visibilityAttributeId}')
-                    AND (t_v.store_id='{$storeId}')
-            INNER JOIN {$statusTable} AS `t_s_default`
-                ON (t_s_default.entity_id = t_v_default.entity_id)
-                    AND (t_s_default.attribute_id='{$statusAttributeId}')
-                    AND t_s_default.store_id=0
-            LEFT JOIN {$statusTable} AS `t_s`
-                ON (t_s.entity_id = t_v_default.entity_id)
-                    AND (t_s.attribute_id='{$statusAttributeId}')
-                    AND (t_s.store_id='{$storeId}')
-            WHERE
-                t_v_default.attribute_id='{$visibilityAttributeId}'
-                AND t_v_default.store_id=0{$productsCondition}
-                AND (IF(t_s.value_id>0, t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")";
-            $this->_getWriteAdapter()->query($query);
+
+            $condition[] = $adapter->quoteInto('store_id = ?', $storeId);
+
+            $selectFields = array(
+                't_v_default.entity_id',
+                new Zend_Db_Expr($storeId),
+                $adapter->getCheckSql('t_v.value_id > 0', 't_v.value', 't_v_default.value'),
+            );
+
+            $select->joinInner(
+                array('w' => $this->getTable('catalog/product_website')),
+                $adapter->quoteInto(
+                    'w.product_id = t_v_default.entity_id AND w.website_id = ?', $websiteId
+                ),
+                array()
+            );
         }
         elseif (is_null($store)) {
             foreach ($product->getStoreIds() as $storeId) {
                 $store = Mage::app()->getStore($storeId);
                 $this->refreshEnabledIndex($store, $product);
             }
+            return $this;
         }
         else {
-            $productId  = $product->getId();
-            $storeId    = $store->getId();
-            $this->_getWriteAdapter()->delete($indexTable, 'product_id='.$productId.' AND store_id='.$storeId);
-            $query = "INSERT INTO $indexTable
-            SELECT
-                {$productId}, {$storeId}, IF(t_v.value_id>0, t_v.value, t_v_default.value)
-            FROM
-                {$visibilityTable} AS t_v_default
-            LEFT JOIN {$visibilityTable} AS `t_v`
-                ON (t_v.entity_id = t_v_default.entity_id)
-                    AND (t_v.attribute_id='{$visibilityAttributeId}')
-                    AND (t_v.store_id='{$storeId}')
-            INNER JOIN {$statusTable} AS `t_s_default`
-                ON (t_s_default.entity_id = t_v_default.entity_id)
-                    AND (t_s_default.attribute_id='{$statusAttributeId}')
-                    AND t_s_default.store_id=0
-            LEFT JOIN {$statusTable} AS `t_s`
-                ON (t_s.entity_id = t_v_default.entity_id)
-                    AND (t_s.attribute_id='{$statusAttributeId}')
-                    AND (t_s.store_id='{$storeId}')
-            WHERE
-                t_v_default.entity_id={$productId}
-                AND t_v_default.attribute_id='{$visibilityAttributeId}' AND t_v_default.store_id=0
-                AND (IF(t_s.value_id>0, t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")";
-            $this->_getWriteAdapter()->query($query);
+            if (is_numeric($product)) {
+                $productId = $product;
+            } else {
+                $productId = $product->getId();
+            }
+
+            if (is_numeric($store)) {
+                $storeId = $store;
+            } else {
+                $storeId = $store->getId();
+            }
+
+            $condition = array(
+                'product_id = ?' => (int) $productId,
+                'store_id   = ?' => (int) $storeId,
+            );
+
+            $selectFields = array(
+                new Zend_Db_Expr($productId),
+                new Zend_Db_Expr($storeId),
+                $adapter->getCheckSql('t_v.value_id > 0', 't_v.value', 't_v_default.value')
+            );
+
+            $select->where('t_v_default.entity_id = ?', $productId);
         }
+
+        $adapter->delete($indexTable, $condition);
+
+        $select->from(array('t_v_default' => $visibilityTable), $selectFields);
+
+        $visibilityTableJoinCond = array(
+            't_v.entity_id = t_v_default.entity_id',
+            $adapter->quoteInto('t_v.attribute_id = ?', $visibilityAttributeId),
+            $adapter->quoteInto('t_v.store_id     = ?', $storeId),
+        );
+
+        $select->joinLeft(
+            array('t_v' => $visibilityTable),
+            implode(' AND ', $visibilityTableJoinCond),
+            array()
+        );
+
+        $defaultStatusJoinCond = array(
+            't_s_default.entity_id = t_v_default.entity_id',
+            't_s_default.store_id = 0',
+            $adapter->quoteInto('t_s_default.attribute_id = ?', $statusAttributeId),
+        );
+
+        $select->joinInner(
+            array('t_s_default' => $statusTable),
+            implode(' AND ', $defaultStatusJoinCond),
+            array()
+        );
+
+
+        $statusJoinCond = array(
+            't_s.entity_id = t_v_default.entity_id',
+            $adapter->quoteInto('t_s.store_id     = ?', $storeId),
+            $adapter->quoteInto('t_s.attribute_id = ?', $statusAttributeId),
+        );
+
+        $select->joinLeft(
+            array('t_s' => $statusTable),
+            implode(' AND ', $statusJoinCond),
+            array()
+        );
+
+        $valueCondition = $adapter->getCheckSql('t_s.value_id > 0', 't_s.value', 't_s_default.value');
+
+        $select->where('t_v_default.attribute_id = ?', $visibilityAttributeId)
+            ->where('t_v_default.store_id = ?', 0)
+            ->where(sprintf('%s = ?', $valueCondition), Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+
+        if (is_array($product) && !empty($product)) {
+            $select->where('t_v_default.entity_id IN (?)', $product);
+        }
+
+        $adapter->query($adapter->insertFromSelect($select, $indexTable));
+
 
         return $this;
     }
@@ -448,8 +532,13 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('catalog/category_product_index'), array('category_id'))
-            ->where('product_id=?', $object->getEntityId());
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('product_id = :product_id');
+
+        $binds = array(
+            'product_id' => $object->getEntityId(),
+        );
+
+        return $this->_getReadAdapter()->fetchCol($select, $binds);
     }
 
     /**
@@ -463,25 +552,9 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     }
 
     /**
-     * Validate all object's attributes against configuration
-     *
-     * @todo implement full validation process with errors returning which are ignoring now
-     *
-     * @param Varien_Object $object
-     * @return Mage_Catalog_Model_Resource_Product
-     */
-    public function validate($object)
-    {
-        //        $this->walkAttributes('backend/beforeSave', array($object));
-//        return parent::validate($object);
-        parent::validate($object);
-        return $this;
-    }
-
-    /**
      * Check availability display product in category
      *
-     * @param unknown_type $product
+     * @param Mage_Catalog_Model_Product $product
      * @param int $categoryId
      * @return bool
      */
@@ -489,9 +562,15 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('catalog/category_product_index'), 'product_id')
-            ->where('product_id=?', $product->getId())
-            ->where('category_id=?', $categoryId);
-        return $this->_getReadAdapter()->fetchOne($select);
+            ->where('product_id = :product_id')
+            ->where('category_id = :category_id');
+
+        $binds = array(
+            'category_id' => $categoryId,
+            'product_id' => $product->getId(),
+        );
+
+        return $this->_getReadAdapter()->fetchOne($select, $binds);
     }
 
     /**
@@ -505,13 +584,39 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     {
         $eavTables = array('datetime', 'decimal', 'int', 'text', 'varchar');
 
+        $adapter = $this->_getWriteAdapter();
+
         // duplicate EAV store values
         foreach ($eavTables as $suffix) {
             $tableName = $this->getTable('catalog_product_entity_' . $suffix);
-            $sql = 'REPLACE INTO `' . $tableName . '` '
-                . 'SELECT NULL, `entity_type_id`, `attribute_id`, `store_id`, ' . $newId . ', `value`'
-                . 'FROM `' . $tableName . '` WHERE `entity_id`=' . $oldId . ' AND `store_id`>0';
-            $this->_getWriteAdapter()->query($sql);
+
+            $select = $adapter->select()
+                ->from(
+                    $tableName,
+                    array(
+                        'entity_type_id',
+                        'attribute_id',
+                        'store_id',
+                        new Zend_Db_Expr($newId),
+                        'value'
+                    )
+                );
+
+            $select->where('entity_id = ?', $oldId)
+                ->where('store_id > ?', 0);
+
+            $adapter->query($adapter->insertFromSelect(
+                $select,
+                $tableName,
+                array(
+                    'entity_type_id',
+                    'attribute_id',
+                    'store_id',
+                    'entity_id',
+                    'value'
+                ),
+                Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE
+            ));
         }
 
         return $this;

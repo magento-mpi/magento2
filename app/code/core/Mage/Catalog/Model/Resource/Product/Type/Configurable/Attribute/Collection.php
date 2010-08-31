@@ -170,17 +170,30 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
     protected function _loadLabels()
     {
         if ($this->count()) {
+            $useDefaultCheck = $this->getConnection()->getCheckSql(
+                'store.use_default IS NULL',
+                'default.use_default',
+                'store.use_default'
+            );
+
+            $labelCheck = $this->getConnection()->getCheckSql(
+                'store.value IS NULL',
+                'default.value',
+                'store.value'
+            );
+
             $select = $this->getConnection()->select()
                 ->from(array('default'=>$this->_labelTable))
                 ->joinLeft(
                     array('store' => $this->_labelTable),
                     'store.product_super_attribute_id=default.product_super_attribute_id AND store.store_id='.$this->getStoreId(),
                     array(
-                        'use_default' => new Zend_Db_Expr('IFNULL(store.use_default, default.use_default)'),
-                        'label' => new Zend_Db_Expr('IFNULL(store.value, default.value)')
+                        'use_default' => $useDefaultCheck,
+                        'label' => $labelCheck,
                     ))
                 ->where('default.product_super_attribute_id IN (?)', array_keys($this->_items))
                 ->where('default.store_id=0');
+
                 foreach ($this->getConnection()->fetchAll($select) as $data) {
                     $this->getItemById($data['product_super_attribute_id'])->setLabel($data['label']);
                     $this->getItemById($data['product_super_attribute_id'])->setUseDefault($data['use_default']);
@@ -200,22 +213,24 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
             $pricings = array(
                 0 => array()
             );
+
             if ($this->getHelper()->isPriceGlobal()) {
                 $websiteId = 0;
-            }
-            else {
+            } else {
                 $websiteId = (int)Mage::app()->getStore($this->getStoreId())->getWebsiteId();
                 $pricing[$websiteId] = array();
             }
+
             $select = $this->getConnection()->select()
                 ->from(array('price' => $this->_priceTable))
                 ->where('price.product_super_attribute_id IN (?)', array_keys($this->_items));
+
             if ($websiteId > 0) {
                 $select->where('price.website_id IN(?)', array(0, $websiteId));
-            }
-            else {
+            } else {
                 $select->where('price.website_id=0');
             }
+
             $query = $this->getConnection()->query($select);
 
             while ($row = $query->fetch()) {

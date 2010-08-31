@@ -199,11 +199,9 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
      */
     public function deleteValue($option_id)
     {
-        $condition = $this->_getWriteAdapter()->quoteInto('option_id=?', $option_id);
-
         $statement = $this->_getReadAdapter()->select()
             ->from($this->getTable('catalog/product_option_type_value'))
-            ->where($condition);
+            ->where('option_id = ?', $option_id);
 
         foreach ($this->_getReadAdapter()->fetchAll($statement) as $optionType) {
             $this->deleteValues($optionType['option_type_id']);
@@ -211,7 +209,9 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
 
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            $condition
+            array(
+                'option_id = ?' => $option_id,
+            )
         );
 
         return $this;
@@ -224,14 +224,18 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
      */
     public function deleteValues($option_type_id)
     {
-        $childCondition = $this->_getWriteAdapter()->quoteInto('option_type_id=?', $option_type_id);
+        $condition = array(
+            'option_type_id = ?' => $option_type_id
+        );
+
         $this->_getWriteAdapter()->delete(
             $this->getTable('catalog/product_option_type_price'),
-            $childCondition
+            $condition
         );
+
         $this->_getWriteAdapter()->delete(
             $this->getTable('catalog/product_option_type_title'),
-            $childCondition
+            $condition
         );
     }
 

@@ -56,20 +56,24 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
      */
     public function loadGallery($product, $object)
     {
+        $adapter = $this->_getReadAdapter();
+
+        $positionCheckSql = $adapter->getCheckSql('value.position IS NULL', 'default_value.position', 'value.position');
+
         // Select gallery images for product
-        $select = $this->_getReadAdapter()->select()
+        $select = $adapter->select()
             ->from(
                 array('main'=>$this->getMainTable()),
                 array('value_id', 'value AS file')
             )
             ->joinLeft(
                 array('value'=>$this->getTable(self::GALLERY_VALUE_TABLE)),
-                'main.value_id=value.value_id AND value.store_id='.(int)$product->getStoreId(),
+                $adapter->quoteInto('main.value_id = value.value_id AND value.store_id = ?', (int)$product->getStoreId()),
                 array('label','position','disabled')
             )
             ->joinLeft( // Joining default values
                 array('default_value'=>$this->getTable(self::GALLERY_VALUE_TABLE)),
-                'main.value_id=default_value.value_id AND default_value.store_id=0',
+                'main.value_id = default_value.value_id AND default_value.store_id = 0',
                 array(
                     'label_default' => 'label',
                     'position_default' => 'position',
@@ -78,9 +82,9 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
             )
             ->where('main.attribute_id = ?', $object->getAttribute()->getId())
             ->where('main.entity_id = ?', $product->getId())
-            ->order('IF(value.position IS NULL, default_value.position, value.position) ASC');
+            ->order("{$positionCheckSql} ASC");
 
-        $result = $this->_getReadAdapter()->fetchAll($select);
+        $result = $adapter->fetchAll($select);
         $this->_removeDuplicates($result);
         return $result;
     }
@@ -116,8 +120,13 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
      */
     public function insertGallery($data)
     {
-        $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
-        return $this->_getWriteAdapter()->lastInsertId();
+        $adapter = $this->_getWriteAdapter();
+
+        $data = $this->_prepareDataForTable(new Varien_Object($data), $this->getMainTable());
+
+        $adapter->insert($this->getMainTable(), $data);
+
+        return $adapter->lastInsertId();
     }
 
     /**
@@ -148,7 +157,10 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
      */
     public function insertGalleryValueInStore($data)
     {
+        $data = $this->_prepareDataForTable(new Varien_Object($data), $this->getTable(self::GALLERY_VALUE_TABLE));
+
         $this->_getWriteAdapter()->insert($this->getTable(self::GALLERY_VALUE_TABLE), $data);
+
         return $this;
     }
 
@@ -161,10 +173,14 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
      */
     public function deleteGalleryValueInStore($valueId, $storeId)
     {
-        $this->_getWriteAdapter()->delete(
-                $this->getTable(self::GALLERY_VALUE_TABLE),
-                'value_id = ' . (int)$valueId  . ' AND store_id = ' . (int)$storeId
-        );
+        $adapter = $this->_getWriteAdapter();
+
+        $conditions = implode(' AND ', array(
+            $adapter->quoteInto('value_id = ?', (int) $valueId),
+            $adapter->quoteInto('store_id = ?', (int) $storeId),
+        ));
+
+        $adapter->delete($this->getTable(self::GALLERY_VALUE_TABLE), $conditions);
 
         return $this;
     }

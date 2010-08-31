@@ -101,25 +101,32 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
      */
     public function saveLabel($attribute)
     {
-        $select = $this->_getWriteAdapter()->select()
+        $adapter = $this->_getWriteAdapter();
+
+        $select = $adapter->select()
             ->from($this->_labelTable, 'value_id')
-            ->where('product_super_attribute_id=?', $attribute->getId())
-            ->where('store_id=?', (int)$attribute->getStoreId());
-        if ($valueId = $this->_getWriteAdapter()->fetchOne($select)) {
-            $this->_getWriteAdapter()->update($this->_labelTable,array(
-                'use_default' => (int) $attribute->getUseDefault(),
-                'value'=>$attribute->getLabel()
+            ->where('product_super_attribute_id=?', (int) $attribute->getId())
+            ->where('store_id=?', (int) $attribute->getStoreId());
+
+        if ($valueId = $adapter->fetchOne($select)) {
+            $adapter->update(
+                $this->_labelTable,
+                array(
+                    'use_default' => (int) $attribute->getUseDefault(),
+                    'value'       => $attribute->getLabel()
                 ),
-                $this->_getWriteAdapter()->quoteInto('value_id=?', $valueId)
+                $adapter->quoteInto('value_id = ?', (int) $valueId)
             );
-        }
-        else {
-            $this->_getWriteAdapter()->insert($this->_labelTable, array(
-                'product_super_attribute_id' => $attribute->getId(),
-                'store_id' => (int) $attribute->getStoreId(),
-                'use_default' => (int) $attribute->getUseDefault(),
-                'value' => $attribute->getLabel()
-            ));
+        } else {
+            $adapter->insert(
+                $this->_labelTable,
+                array(
+                    'product_super_attribute_id' => (int) $attribute->getId(),
+                    'store_id' => (int) $attribute->getStoreId(),
+                    'use_default' => (int) $attribute->getUseDefault(),
+                    'value' => $attribute->getLabel()
+                )
+            );
         }
         return $this;
     }
@@ -161,7 +168,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
                 $old[$key] = $row;
             } else {
                 // delete invalid (duplicate row)
-                $write->delete($this->_priceTable, array('value_id' => $row['value_id']));
+                $write->delete($this->_priceTable, array('value_id = ?' => $row['value_id']));
             }
         }
 
@@ -266,7 +273,8 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
      */
     public function getUsedAttributes($setId)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->distinct(true)
             ->from(array('e' => $this->getTable('catalog/product')), null)
             ->join(
@@ -274,9 +282,14 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
                 'e.entity_id=a.product_id',
                 array('attribute_id')
             )
-            ->where('e.attribute_set_id=?', $setId)
-            ->where('e.type_id=?', Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
+            ->where('e.attribute_set_id = :attribute_set_id')
+            ->where('e.type_id = :type_id');
 
-        return $this->_getReadAdapter()->fetchCol($select);
+        $binds = array(
+            'attribute_set_id' => (int) $setId,
+            'type_id'          => (int) Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+        );
+
+        return $adapter->fetchCol($select, $binds);
     }
 }

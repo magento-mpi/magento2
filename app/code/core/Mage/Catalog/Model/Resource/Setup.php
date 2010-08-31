@@ -829,17 +829,6 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'sort_order'                 => 20,
                         'visible'                    => false,
                     ),
-                    'gift_message_available' => array(
-                        'type'                       => 'varchar',
-                        'label'                      => 'Allow Gift Message',
-                        'input'                      => 'select',
-                        'source'                     => 'giftmessage/entity_attribute_source_boolean_config',
-                        'backend'                    => 'giftmessage/entity_attribute_backend_boolean_config',
-                        'required'                   => false,
-                        'default'                    => '2',
-                        'sort_order'                 => 21,
-                        'is_configurable'            => false,
-                    )
                 )
             )
         );

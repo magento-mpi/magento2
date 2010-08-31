@@ -54,6 +54,9 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
         $priceTable = $this->getTable('catalog/product_option_price');
         $titleTable = $this->getTable('catalog/product_option_title');
 
+        $readAdapter  = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
+
         //better to check param 'price' and 'price_type' for saving. If there is not price scip saving price
         if ($object->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD
             || $object->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_AREA
@@ -65,30 +68,38 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
 
             //save for store_id = 0
             if (!$object->getData('scope', 'price')) {
-                $statement = $this->_getReadAdapter()->select()
+                $statement = $readAdapter->select()
                     ->from($priceTable)
                     ->where('option_id = '.$object->getId().' AND store_id = ?', 0);
-                if ($this->_getReadAdapter()->fetchOne($statement)) {
+                if ($readAdapter->fetchOne($statement)) {
                     if ($object->getStoreId() == '0') {
-                        $this->_getWriteAdapter()->update(
-                            $priceTable,
+                        $data = $this->_prepareDataForTable($priceTable, new Varien_Object(
                             array(
                                 'price' => $object->getPrice(),
                                 'price_type' => $object->getPriceType()
-                            ),
-                            $this->_getWriteAdapter()->quoteInto('option_id = '.$object->getId().' AND store_id = ?', 0)
+                            )
+                        ));
+
+                        $writeAdapter->update(
+                            $priceTable,
+                            $data,
+                            array(
+                                'option_id = ?' => $object->getId(),
+                                'store_id  = ?' => 0,
+                            )
                         );
                     }
                 } else {
-                    $this->_getWriteAdapter()->insert(
-                        $priceTable,
+                    $data = $this->_prepareDataForTable($priceTable, new Varien_Object(
                         array(
-                            'option_id' => $object->getId(),
-                            'store_id' => 0,
-                            'price' => $object->getPrice(),
+                            'option_id'  => $object->getId(),
+                            'store_id'   => 0,
+                            'price'      => $object->getPrice(),
                             'price_type' => $object->getPriceType()
                         )
-                    );
+                    ));
+
+                    $writeAdapter->insert($priceTable, $data);
                 }
             }
 
@@ -112,89 +123,129 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
                         } else {
                             $newPrice = $object->getPrice();
                         }
-                        $statement = $this->_getReadAdapter()->select()
-                            ->from($priceTable)
-                            ->where('option_id = '.$object->getId().' AND store_id = ?', $storeId);
 
-                        if ($this->_getReadAdapter()->fetchOne($statement)) {
-                            $this->_getWriteAdapter()->update(
-                                $priceTable,
+                        $statement = $readAdapter->select()
+                            ->from($priceTable)
+                            ->where('option_id = ?', $object->getId())
+                            ->where('store_id  = ?', $storeId);
+
+                        if ($readAdapter->fetchOne($statement)) {
+                            $data = $this->_prepareDataForTable($priceTable, new Varien_Object(
                                 array(
-                                    'price' => $newPrice,
-                                    'price_type' => $object->getPriceType()
-                                ),
-                                $this->_getWriteAdapter()->quoteInto('option_id = '.$object->getId().' AND store_id = ?', $storeId)
-                            );
-                        } else {
-                            $this->_getWriteAdapter()->insert(
-                                $priceTable,
-                                array(
-                                    'option_id' => $object->getId(),
-                                    'store_id' => $storeId,
-                                    'price' => $newPrice,
+                                    'price'      => $newPrice,
                                     'price_type' => $object->getPriceType()
                                 )
+                            ));
+
+                            $writeAdapter->update(
+                                $priceTable,
+                                $data,
+                                array(
+                                    'option_id = ?' => $object->getId(),
+                                    'store_id  = ?' => $storeId
+                                )
                             );
+                        } else {
+                            $data = $this->_prepareDataForTable($priceTable, new Varien_Object(
+                                array(
+                                    'option_id'  => $object->getId(),
+                                    'store_id'   => $storeId,
+                                    'price'      => $newPrice,
+                                    'price_type' => $object->getPriceType()
+                                )
+                            ));
+
+                            $writeAdapter->insert($priceTable, $data);
                         }
                     }// end foreach()
                 }
             } elseif ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
-                $this->_getWriteAdapter()->delete(
+                $writeAdapter->delete(
                     $priceTable,
-                    $this->_getWriteAdapter()->quoteInto('option_id = '.$object->getId().' AND store_id = ?', $object->getStoreId())
+                    array(
+                        'option_id = ?' => $object->getId(),
+                        'store_id  = ?' => $object->getStoreId()
+                    )
                 );
             }
         }
 
         //title
         if (!$object->getData('scope', 'title')) {
-            $statement = $this->_getReadAdapter()->select()
+            $statement = $readAdapter->select()
                 ->from($titleTable)
-                ->where('option_id = '.$object->getId().' and store_id = ?', 0);
+                ->where('option_id = ?', $object->getId())
+                ->where('store_id  = ?', 0);
 
-            if ($this->_getReadAdapter()->fetchOne($statement)) {
+            if ($readAdapter->fetchOne($statement)) {
                 if ($object->getStoreId() == '0') {
-                    $this->_getWriteAdapter()->update(
+                    $data = $this->_prepareDataForTable($titleTable, new Varien_Object(
+                        array(
+                            'title' => $object->getTitle()
+                        )
+                    ));
+
+                    $writeAdapter->update(
                         $titleTable,
-                            array('title' => $object->getTitle()),
-                            $this->_getWriteAdapter()->quoteInto('option_id='.$object->getId().' AND store_id=?', 0)
+                        $data,
+                        array(
+                            'option_id = ?' => $object->getId(),
+                            'store_id  = ?' => 0
+                        )
                     );
                 }
             } else {
-                $this->_getWriteAdapter()->insert(
-                    $titleTable,
-                        array(
-                            'option_id' => $object->getId(),
-                            'store_id' => 0,
-                            'title' => $object->getTitle()
+                $data = $this->_prepareDataForTable($titleTable, new Varien_Object(
+                    array(
+                        'option_id' => $object->getId(),
+                        'store_id'  => 0,
+                        'title'     => $object->getTitle()
+                    )
                 ));
+
+                $writeAdapter->insert($titleTable, $data);
             }
         }
 
         if ($object->getStoreId() != '0' && !$object->getData('scope', 'title')) {
-            $statement = $this->_getReadAdapter()->select()
+            $statement = $readAdapter->select()
                 ->from($titleTable)
-                ->where('option_id = '.$object->getId().' and store_id = ?', $object->getStoreId());
+                ->where('option_id = ?', $object->getId())
+                ->where('store_id  = ?', $object->getStoreId());
 
-            if ($this->_getReadAdapter()->fetchOne($statement)) {
-                $this->_getWriteAdapter()->update(
-                    $titleTable,
-                        array('title' => $object->getTitle()),
-                        $this->_getWriteAdapter()
-                            ->quoteInto('option_id='.$object->getId().' AND store_id=?', $object->getStoreId()));
-            } else {
-                $this->_getWriteAdapter()->insert(
-                    $titleTable,
-                        array(
-                            'option_id' => $object->getId(),
-                            'store_id' => $object->getStoreId(),
-                            'title' => $object->getTitle()
+            if ($readAdapter->fetchOne($statement)) {
+                $data = $this->_prepareDataForTable($titleTable, new Varien_Object(
+                    array(
+                        'title' => $object->getTitle()
+                    )
                 ));
+
+                $writeAdapter->update(
+                    $titleTable,
+                    $data,
+                    array(
+                        'option_id = ?' => $object->getId(),
+                        'store_id  = ?' => $object->getStoreId()
+                    )
+                );
+            } else {
+                $data = $this->_prepareDataForTable($titleTable, new Varien_Object(
+                    array(
+                        'option_id' => $object->getId(),
+                        'store_id'  => $object->getStoreId(),
+                        'title'     => $object->getTitle()
+                    )
+                ));
+
+                $writeAdapter->insert($titleTable, $data);
             }
         } elseif ($object->getData('scope', 'title')) {
-            $this->_getWriteAdapter()->delete(
+            $writeAdapter->delete(
                 $titleTable,
-                $this->_getWriteAdapter()->quoteInto('option_id = '.$object->getId().' AND store_id = ?', $object->getStoreId())
+                array(
+                    'option_id = ?' => $object->getId(),
+                    'store_id  = ?' => $object->getStoreId()
+                )
             );
         }
 
@@ -209,11 +260,12 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
      */
     public function deletePrices($option_id)
     {
-        $condition = $this->_getWriteAdapter()->quoteInto('option_id=?', $option_id);
-
         $this->_getWriteAdapter()->delete(
             $this->getTable('catalog/product_option_price'),
-            $condition);
+            array(
+                'option_id=?' => $option_id
+            )
+        );
 
         return $this;
     }
@@ -226,11 +278,12 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
      */
     public function deleteTitles($option_id)
     {
-        $condition = $this->_getWriteAdapter()->quoteInto('option_id=?', $option_id);
-
         $this->_getWriteAdapter()->delete(
             $this->getTable('catalog/product_option_title'),
-            $condition);
+            array(
+                'option_id=?' => $option_id
+            )
+        );
 
         return $this;
     }
@@ -255,7 +308,9 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
         $select = $read->select()
             ->from($this->getTable('catalog/product_option'))
             ->where('product_id=?', $oldProductId);
+
         $query = $read->query($select);
+
         while ($row = $query->fetch()) {
             $optionsData[$row['option_id']] = $row;
             $optionsData[$row['option_id']]['product_id'] = $newProductId;
@@ -272,17 +327,44 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
         foreach ($optionsCond as $oldOptionId => $newOptionId) {
             // title
             $table = $this->getTable('catalog/product_option_title');
-            $sql = 'REPLACE INTO `' . $table . '` '
-                . 'SELECT NULL, ' . $newOptionId . ', `store_id`, `title`'
-                . 'FROM `' . $table . '` WHERE `option_id`=' . $oldOptionId;
-            $this->_getWriteAdapter()->query($sql);
+
+            $select = $this->_getReadAdapter()->select()
+                ->from($table, array(new Zend_Db_Expr($newOptionId), 'store_id', 'title'))
+                ->where('option_id = ?', $oldOptionId);
+
+            $this->_getWriteAdapter()->query(
+                $this->_getWriteAdapter()->insertFromSelect(
+                    $select,
+                    $table,
+                    array(
+                        'option_id',
+                        'store_id',
+                        'title'
+                    ),
+                    Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE
+                );
+            );
 
             // price
             $table = $this->getTable('catalog/product_option_price');
-            $sql = 'REPLACE INTO `' . $table . '` '
-                . 'SELECT NULL, ' . $newOptionId . ', `store_id`, `price`, `price_type`'
-                . 'FROM `' . $table . '` WHERE `option_id`=' . $oldOptionId;
-            $this->_getWriteAdapter()->query($sql);
+
+            $select = $this->_getReadAdapter()->select()
+                ->from($table, array(new Zend_Db_Expr($newOptionId), 'store_id', 'price', 'price_type'))
+                ->where('option_id = ?', $oldOptionId);
+
+            $this->_getWriteAdapter()->query(
+                $this->_getWriteAdapter()->insertFromSelect(
+                    $select,
+                    $table,
+                    array(
+                        'option_id',
+                        'store_id',
+                        'price',
+                        'price_type'
+                    ),
+                    Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE
+                );
+            );
 
             $object->getValueInstance()->duplicate($oldOptionId, $newOptionId);
         }
@@ -300,24 +382,57 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
     public function getSearchableData($productId, $storeId)
     {
         $searchData = array();
+
+        $adapter = $this->_getReadAdapter();
+
+        $titleCheckSql = $adapter->getCheckSql(
+            'option_title_store.title IS NULL',
+            'option_title_default.title',
+            'option_title_store.title'
+        );
+
+
         // retrieve options title
-        $select = $this->_getReadAdapter()->select()
+
+        $defaultOptionJoin = implode(' AND ', array(
+            'option_title_default.option_id=option.option_id',
+            $adapter->quoteInto('option_title_default.store_id = ?', 0),
+        ));
+
+        $storeOptionJoin = implode(' AND ', array(
+            'option_title_store.option_id=option.option_id'
+            $adapter->quoteInto('option_title_store.store_id = ?', (int) $storeId),
+        ));
+
+        $select = $adapter->select()
             ->from(array('option' => $this->getMainTable()), null)
             ->join(
                 array('option_title_default' => $this->getTable('catalog/product_option_title')),
-                'option_title_default.option_id=option.option_id AND option_title_default.store_id=0',
+                $defaultOptionJoin,
                 array())
             ->joinLeft(
                 array('option_title_store' => $this->getTable('catalog/product_option_title')),
-                'option_title_store.option_id=option.option_id AND option_title_store.store_id=' . intval($storeId),
-                array('title' => 'IFNULL(option_title_store.title, option_title_default.title)'))
+                $storeOptionJoin,
+                array('title' => $titleCheckSql))
             ->where('option.product_id=?', $productId);
-        if ($titles = $this->_getReadAdapter()->fetchCol($select)) {
+
+        if ($titles = $adapter->fetchCol($select)) {
             $searchData = array_merge($searchData, $titles);
         }
 
         //select option type titles
-        $select = $this->_getReadAdapter()->select()
+
+        $defaultOptionJoin = implode(' AND ', array(
+            'option_title_default.option_type_id=option_type.option_type_id',
+            $adapter->quoteInto('option_title_default.store_id = ?', 0),
+        ));
+
+        $storeOptionJoin = implode(' AND ', array(
+            'option_title_store.option_type_id = option_type.option_type_id'
+            $adapter->quoteInto('option_title_store.store_id = ?', (int) $storeId),
+        ));
+
+        $select = $adapter->select()
             ->from(array('option' => $this->getMainTable()), null)
             ->join(
                 array('option_type' => $this->getTable('catalog/product_option_type_value')),
@@ -325,14 +440,15 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
                 array())
             ->join(
                 array('option_title_default' => $this->getTable('catalog/product_option_type_title')),
-                'option_title_default.option_type_id=option_type.option_type_id AND option_title_default.store_id=0',
+                $defaultOptionJoin,
                 array())
             ->joinLeft(
                 array('option_title_store' => $this->getTable('catalog/product_option_type_title')),
-                'option_title_store.option_type_id=option_type.option_type_id AND option_title_store.store_id=' . intval($storeId),
-                array('title' => 'IFNULL(option_title_store.title, option_title_default.title)'))
-            ->where('option.product_id=?', $productId);
-        if ($titles = $this->_getReadAdapter()->fetchCol($select)) {
+                $storeOptionJoin,
+                array('title' => $titleCheckSql))
+            ->where('option.product_id = ?', $productId);
+
+        if ($titles = $adapter->fetchCol($select)) {
             $searchData = array_merge($searchData, $titles);
         }
 

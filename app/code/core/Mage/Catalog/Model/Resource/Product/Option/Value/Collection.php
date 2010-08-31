@@ -154,7 +154,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value_Collection
         }
 
         $this->getSelect()
-            ->where('`main_table`.option_type_id IN (?)', $optionIds);
+            ->where('main_table.option_type_id IN (?)', $optionIds);
 
         return $this;
     }
