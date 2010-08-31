@@ -1240,11 +1240,11 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
                 ->where("{$entityIdField} = :entity_id");
             $result = $adapter->fetchOne($select, $bind);
             if ($result) {
+                unset($entityRow[$entityIdField]);
                 $insertEntity = false;
             }
         } else {
             $entityId = null;
-            unset($entityRow[$entityIdField]);
         }
 
         /**
@@ -1261,7 +1261,8 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             }
             $newObject->setId($entityId);
         } else {
-            $adapter->update($entityTable, array("{$entityIdField} = ?" => (int)$entityId));
+            $where = sprintf('%s=%d', $adapter->quoteIdentifier($entityIdField), $entityId);
+            $adapter->update($entityTable, $entityRow, $where);
         }
 
         /**
