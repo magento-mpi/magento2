@@ -69,7 +69,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
      * @param Mage_Catalog_Model_Product_Link $linkModel
      * @return Mage_Catalog_Model_Resource_Product_Link_Collection
      */
-    public function setLinkModel($linkModel)
+    public function setLinkModel(Mage_Catalog_Model_Product_Link $linkModel)
     {
         $this->_linkModel = $linkModel;
         if ($linkModel->hasLinkTypeId()) {
@@ -94,7 +94,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Resource_Product_Link_Collection
      */
-    public function setProduct($product)
+    public function setProduct(Mage_Catalog_Model_Product $product)
     {
         $this->_product = $product;
         return $this;
@@ -158,7 +158,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
             );
             $this->getSelect()->joinLeft(
                 array($alias => $table),
-                implode(Varien_Db_Select::SQL_AND, $joinCondiotion),
+                implode(' AND ', $joinCondiotion),
                 array($attribute['code'] => 'value')
             );
         }

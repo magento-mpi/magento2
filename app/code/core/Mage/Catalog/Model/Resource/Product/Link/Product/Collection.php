@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      * @param Mage_Catalog_Model_Product_Link $linkModel
      * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
      */
-    public function setLinkModel($linkModel)
+    public function setLinkModel(Mage_Catalog_Model_Product_Link $linkModel)
     {
         $this->_linkModel = $linkModel;
         if ($linkModel->hasLinkTypeId()) {
@@ -111,7 +111,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
      */
-    public function setProduct($product)
+    public function setProduct(Mage_Catalog_Model_Product $product)
     {
         $this->_product = $product;
         if ($product && $product->getId()) {
@@ -194,8 +194,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      */
     public function setRandomOrder()
     {
-        //TODO need to optimaze: SELECT RAND() * MAX(ID) + ORDER BY ID
-        $this->getSelect()->order(new Zend_Db_Expr('RAND()'));
+        Mage::getResourceHelper('catalog')->getRandomOrderSelect($this->getSelect(), 'main_table.entity_id');
         return $this;
     }
 
@@ -254,7 +253,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
         if($this->_hasLinkFilter) {
             $select->$joinType(
                 array('links' => $this->getTable('catalog/product_link')),
-                implode(Varien_Db_Select::SQL_AND, $joinCondition),
+                implode(' AND ', $joinCondition),
                 array('link_id')
             );
             $this->joinAttributes();
@@ -296,7 +295,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
             );
             $this->getSelect()->joinLeft(
                 array($alias => $table),
-                implode(Varien_Db_Select::SQL_AND, $joinCondiotion),
+                implode(' AND ', $joinCondiotion),
                 array($attribute['code'] => 'value')
             );
         }
