@@ -751,7 +751,8 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                     ),
                     'category_ids'       => array(
                         'type'                       => 'static',
-                        'required'                   => false,
+                        'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+			'required'                   => false,
                         'sort_order'                 => 13,
                         'visible'                    => false,
                     ),
