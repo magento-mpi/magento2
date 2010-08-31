@@ -117,7 +117,10 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
             ->joinLeft(
                 array('al' => $this->getTable('eav/attribute_label')),
                 'al.attribute_id = main_table.attribute_id AND al.store_id = :store_id',
-                array('store_label' => new Zend_Db_Expr('IFNULL(al.value, main_table.frontend_label)'))
+                array(
+                    'store_label' => $this->_getReadAdapter()->getCheckSql(
+                        'al.value IS NOT NULL','al.value', 'main_table.frontend_label')
+                )
             )
             ->where('main_table.entity_type_id=:entity_type_id')
             ->where('additional_table.used_in_product_listing=:used_in_product_listing');
