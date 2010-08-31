@@ -115,7 +115,11 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
                 't_s.entity_id = t_d.entity_id',
                 $adapter->quoteInto('t_s.store_id = ?', $storeId)
             );
-            $valueExpr      = $adapter->getCheckSql('t_s.value_id IS NULL', 'default_value', 'store_value');
+            $valueExpr      = $adapter->getCheckSql(
+                't_s.value_id IS NULL',
+                $helper->castField('t_d.value'),
+                $helper->castField('t_s.value')
+            );
 
             $select = $adapter->select()
                 ->from(array('t_d' => $table), array($entityIdField, 'attribute_id',
@@ -167,7 +171,9 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
              */
             $defCondition = '('.join(') AND (', $condition).')';
             $defAlias     = $tableAlias.'_default';
+            $defAlias     = $this->getConnection()->getTableName($defAlias);
             $defFieldAlias= str_replace($tableAlias, $defAlias, $fieldAlias);
+            $tableAlias   = $this->getConnection()->getTableName($tableAlias);
 
             $defCondition = str_replace($tableAlias, $defAlias, $defCondition);
             $defCondition.= $this->getConnection()->quoteInto(" AND $defAlias.store_id=?", $this->getDefaultStoreId());
