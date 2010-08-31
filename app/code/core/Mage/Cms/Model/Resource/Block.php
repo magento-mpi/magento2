@@ -171,11 +171,14 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
                 Mage_Core_Model_App::ADMIN_STORE_ID,
             );
 
-            $select->join(array('cbs' => $this->getTable('cms/block_store')), $this->getMainTable().'.block_id = cbs.block_id')
-                    ->where('is_active = ?', 1)
-                    ->where('cbs.store_id in (?) ', $stores)
-                    ->order('store_id DESC')
-                    ->limit(1);
+            $select->join(
+                array('cbs' => $this->getTable('cms/block_store')),
+                $this->getMainTable().'.block_id = cbs.block_id',
+                array('store_id'))
+            ->where('is_active = ?', 1)
+            ->where('cbs.store_id in (?) ', $stores)
+            ->order('store_id DESC')
+            ->limit(1);
         }
 
         return $select;
