@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
         
         $priceExpression = $write->getCheckSql('apw.value_id IS NOT NULL', 'apw.pricing_value', 'apd.pricing_value');
         $percenExpr = $write->getCheckSql('apw.value_id IS NOT NULL', 'apw.is_percent', 'apd.is_percent');
-        $roundExpr = "ROUND(i.price * ({$priceExpression} / 100), 4)"
+        $roundExpr = "ROUND(i.price * ({$priceExpression} / 100), 4)";
         $roundPriceExpr = $write->getCheckSql("{$percenExpr} = 1", $roundExpr, $priceExpression);
         $priceColumn = $write->getCheckSql("{$priceExpression} IS NULL", '0', $roundPriceExpr);
 

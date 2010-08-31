@@ -483,7 +483,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         $select->columns(array(
             'min_price'  => new Zend_Db_Expr('i.min_price + io.min_price'),
             'max_price'  => new Zend_Db_Expr('i.max_price + io.max_price'),
-            'tier_price' =>  'tier_price' => $write->getCheckSql('i.tier_price IS NOT NULL', 'i.tier_price + io.tier_price', 'NULL'),
+            'tier_price' => $write->getCheckSql('i.tier_price IS NOT NULL', 'i.tier_price + io.tier_price', 'NULL'),
         ));
         $query = $select->crossUpdateFromSelect($table);
         $write->query($query);
