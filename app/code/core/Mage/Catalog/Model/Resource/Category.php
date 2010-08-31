@@ -687,8 +687,8 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
             ->where($checkSql . ' = :scope')
             ->where($adapter->quoteIdentifier('path') . ' LIKE :c_path');
         if (!$recursive) {
-            $select->where('level <= :level');
-            $bind['level'] = $category->getLevel() + 1;
+            $select->where($adapter->quoteIdentifier('level') . ' <= :c_level');
+            $bind['c_level'] = $category->getLevel() + 1;
         }
         $categoriesIds = $this->_getReadAdapter()->fetchCol($select, $bind);
 
