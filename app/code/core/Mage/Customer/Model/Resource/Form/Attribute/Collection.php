@@ -182,12 +182,14 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
             } else {
                 if (isset($eaColumns[$columnName])) {
                     $code = sprintf('scope_%s', $columnName);
-                    $saColumns[$code] = new Zend_Db_Expr(sprintf('IFNULL(sa.%s, ea.%s)',
-                        $columnName, $columnName));
+                    $expression = $connection->getCheckSql('sa.%s IS NULL', 'ea.%s', 'sa.%s');                    
+                    $saColumns[$code] = new Zend_Db_Expr(sprintf($expression,
+                        $columnName, $columnName, $columnName));
                 } else if (isset($caColumns[$columnName])) {
                     $code = sprintf('scope_%s', $columnName);
-                    $saColumns[$code] = new Zend_Db_Expr(sprintf('IFNULL(sa.%s, ca.%s)',
-                        $columnName, $columnName));
+                    $expression = $connection->getCheckSql('sa.%s IS NULL', 'ca.%s', 'sa.%s');
+                    $saColumns[$code] = new Zend_Db_Expr(sprintf($expression,
+                        $columnName, $columnName, $columnName));
                 }
             }
         }
@@ -205,7 +207,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
         if ($store->isAdmin()) {
             $select->columns(array('store_label' => 'ea.frontend_label'));
         } else {
-            $storeLabelExpr = $connection->getCheckSql('al.value IF NULL', 'ea.frontend_label', 'al.value');
+            $storeLabelExpr = $connection->getCheckSql('al.value IS NULL', 'ea.frontend_label', 'al.value');
             $joinExpression = $this->getConnection()
                 ->quoteInto('al.attribute_id = main_table.attribute_id AND al.store_id = ?', (int)$store->getId());
             $select->joinLeft(

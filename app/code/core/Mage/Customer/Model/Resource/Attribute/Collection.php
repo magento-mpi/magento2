@@ -143,14 +143,16 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
             } else {
                 if (isset($mainColumns[$columnName])) {
                     $alias = sprintf('scope_%s', $columnName);
-                    $expression = new Zend_Db_Expr(sprintf('IFNULL(main_table.%s, scope_table.%s)',
-                        $columnName, $columnName));
+                    $expression = $this->_getReadAdapter()->getCheckSql('main_table.%s IS NULL',
+                        'scope_table.%s', 'main_table.%s');
+                    $expression = sprintf($expression, $columnName, $columnName, $columnName);
                     $this->addFilterToMap($columnName, $expression);
                     $scopeColumns[$alias] = $columnName;
                 } else if (isset($extraColumns[$columnName])) {
                     $alias = sprintf('scope_%s', $columnName);
-                    $expression = new Zend_Db_Expr(sprintf('IFNULL(additional_table.%s, scope_table.%s)',
-                        $columnName, $columnName));
+                    $expression = $this->_getReadAdapter()->getCheckSql('additional_table.%s IS NULL',
+                        'scope_table.%s', 'additional_table.%s');
+                    $expression = sprintf($expression, $columnName, $columnName, $columnName);
                     $this->addFilterToMap($columnName, $expression);
                     $scopeColumns[$alias] = $columnName;
                 }
