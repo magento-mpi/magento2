@@ -69,7 +69,7 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
      */
     public function setStoreId($store)
     {
-        $this->_storeId = Mage::app()->getStore($store)->getId();
+        $this->_storeId = (int)Mage::app()->getStore($store)->getId();
         return $this;
     }
 
@@ -81,10 +81,10 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
      */
     public function getFlatTableName($store = null)
     {
-        if (is_null($store)) {
+        if ($store === null) {
             $store = $this->getStoreId();
         }
-        return $this->getTable('catalog/product_flat') . '_' . $store;
+        return sprintf('%s_%s', $this->getTable('catalog/product_flat'), $store);
     }
 
     /**
@@ -113,8 +113,9 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
         }
         $columns = array($attributeCode => $attributeCode);
 
-        if (isset($describe[$attributeCode . '_value'])) {
-            $columns[$attributeCode . '_value'] = $attributeCode . '_value';
+        $attributeIndex = sprintf('%s_value', $attributeCode);
+        if (isset($describe[$attributeIndex])) {
+            $columns[$attributeIndex] = $attributeIndex;
         }
 
         return $columns;
@@ -132,8 +133,9 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
         if (!isset($describe[$attributeCode])) {
             return null;
         }
-        if (isset($describe[$attributeCode . '_value'])) {
-            return $attributeCode . '_value';
+        $attributeIndex = sprintf('%s_value', $attributeCode);
+        if (isset($describe[$attributeIndex])) {
+            return $attributeIndex;
         }
         return $attributeCode;
     }
@@ -161,11 +163,9 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
         $attributeCode = null;
         if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Interface) {
             $attributeCode = $attribute->getAttributeCode();
-        }
-        elseif (is_string($attribute)) {
+        } elseif (is_string($attribute)) {
             $attributeCode = $attribute;
-        }
-        elseif (is_numeric($attribute)) {
+        } elseif (is_numeric($attribute)) {
             $attributeCode = $this->getAttribute($attribute)
                 ->getAttributeCode();
         }

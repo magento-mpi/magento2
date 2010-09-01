@@ -38,7 +38,7 @@ class Mage_Catalog_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Resource_H
      * Returns columns for select
      *
      * @param string $tableAlias
-     * @return string|array
+     * @return array
      */
     public function attributeSelectFields($tableAlias)
     {
