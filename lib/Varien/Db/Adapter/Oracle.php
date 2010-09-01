@@ -2566,6 +2566,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     protected function _createIndexes(Varien_Db_Ddl_Table $table)
     {
+        $indexes = $table->getIndexes();
         if (!empty($indexes)) {
             foreach ($indexes as $indexData) {
                 if ($indexData['UNIQUE'] === true) {
@@ -3402,5 +3403,23 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function supportStraightJoin()
     {
         return false;
+    }
+
+    /**
+     * Adds order by random to select object
+     * Possible using integer field for optimization
+     *
+     * @param Varien_Db_Select $select
+     * @param string $field
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    public function orderRand(Varien_Db_Select $select, $field = null)
+    {
+        $expression = new Zend_Db_Expr('dbms_random.value()');
+        $select->columns(array('mage_rand' => $expression));
+        $spec = new Zend_Db_Expr('mage_rand');
+        $select->order($spec);
+
+        return $this;
     }
 }

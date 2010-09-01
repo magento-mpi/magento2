@@ -407,4 +407,16 @@ class Varien_Db_Select extends Zend_Db_Select
 
         return parent::_tableCols($correlationName, $cols, $afterCorrelationName);
     }
+
+    /**
+     * Adds the random order to query
+     *
+     * @param string $field     integer field name
+     * @return Varien_Db_Select
+     */
+    public function orderRand($field = null)
+    {
+        $this->_adapter->orderRand($this, $field);
+        return $this;
+    }
 }

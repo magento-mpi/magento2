@@ -876,7 +876,11 @@ interface Varien_Db_Adapter_Interface
     public function deleteFromSelect(Varien_Db_Select $select, $table);
 
     /**
+     * Return array of table(s) checksum as table name - checksum pairs
      *
+     * @param array|string $tableNames
+     * @param string $schemaName
+     * @return array
      */
     public function getTablesChecksum($tableNames, $schemaName = null);
 
@@ -886,4 +890,14 @@ interface Varien_Db_Adapter_Interface
      * @return boolean
      */
     public function supportStraightJoin();
+
+    /**
+     * Adds order by random to select object
+     * Possible using integer field for optimization
+     *
+     * @param Varien_Db_Select $select
+     * @param string $field
+     * @return Varien_Db_Adapter_Interface
+     */
+    public function orderRand(Varien_Db_Select $select, $field = null);
 }

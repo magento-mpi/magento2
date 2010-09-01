@@ -3363,4 +3363,20 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         return false;
     }
+
+    /**
+     * Adds order by random to select object
+     * Possible using integer field for optimization
+     *
+     * @param Varien_Db_Select $select
+     * @param string $field
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    public function orderRand(Varien_Db_Select $select, $field = null)
+    {
+        $spec = new Zend_Db_Expr('newid()');
+        $select->order($spec);
+
+        return $this;
+    }
 }

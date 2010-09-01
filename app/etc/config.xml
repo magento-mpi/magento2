@@ -79,16 +79,6 @@
                         <adapter>Varien_Db_Adapter_Pdo_Mysql</adapter>
                         <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
                     </pdo_mysql>
-                    <oracle>
-                        <adapter>Varien_Db_Adapter_Oracle</adapter>
-                    </oracle>
-                    <sqlsrv>
-                        <adapter>Varien_Db_Adapter_Sqlsrv</adapter>
-                    </sqlsrv>
-                    <pdo_mssql>
-                        <adapter>Varien_Db_Adapter_Pdo_Mssql</adapter>
-                    </pdo_mssql>
-                    <!--Varien_Db_Adapter_Sqlsrv-->
                 </types>
             </connection>
         </resource>

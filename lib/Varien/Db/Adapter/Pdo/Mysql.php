@@ -2758,7 +2758,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         }
         return $result;
     }
-    
+
     /**
      * Check if the database support STRAIGHT JOIN
      *
@@ -2767,5 +2767,27 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     public function supportStraightJoin()
     {
         return true;
+    }
+
+    /**
+     * Adds order by random to select object
+     * Possible using integer field for optimization
+     *
+     * @param Varien_Db_Select $select
+     * @param string $field
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    public function orderRand(Varien_Db_Select $select, $field = null)
+    {
+        if (!is_null($field)) {
+            $expression = new Zend_Db_Expr(sprintf('RAND() * %s', $this->quoteIdentifier($field)));
+            $select->columns(array('mage_rand' => $expression));
+            $spec = new Zend_Db_Expr('mage_rand');
+        } else {
+            $spec = new Zend_Db_Expr('RAND()');
+        }
+        $select->order($spec);
+
+        return $this;
     }
 }
