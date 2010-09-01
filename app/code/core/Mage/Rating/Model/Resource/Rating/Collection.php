@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Rating collection resource model
  *
@@ -35,40 +34,42 @@
 class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
      * @var bool
      */
-    protected $_isStoreJoined  = false;
+    protected $_isStoreJoined = false;
 
     /**
-     * Enter description here ...
+     * Define model
      *
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('rating/rating');
     }
 
     /**
-     * add entity filter
+     * Add entity filter
      *
-     * @param int|string $entity
-     * @return Mage_Rating_Model_Resource_Rating_Collection
+     * @param   int|string $entity
+     * @return  Mage_Rating_Model_Resource_Rating_Collection
      */
     public function addEntityFilter($entity)
     {
-        $this->_select->join($this->getTable('rating_entity'),
-           'main_table.entity_id='.$this->getTable('rating_entity').'.entity_id');
+        $adapter = $this->getConnection();
+
+        $this->getSelect()
+            ->join($this->getTable('rating_entity'),
+                'main_table.entity_id=' . $this->getTable('rating_entity') . '.entity_id',
+                array('entity_code'));
 
         if (is_numeric($entity)) {
             $this->addFilter('entity',
-                $this->getConnection()->quoteInto($this->getTable('rating_entity').'.entity_id=?', $entity),
+                $adapter->quoteInto($this->getTable('rating_entity') . '.entity_id=?', $entity),
                 'string');
         }
         elseif (is_string($entity)) {
             $this->addFilter('entity',
-                $this->getConnection()->quoteInto($this->getTable('rating_entity').'.entity_code=?', $entity),
+                $adapter->quoteInto($this->getTable('rating_entity') . '.entity_code=?', $entity),
                 'string');
         }
         return $this;
@@ -77,41 +78,52 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
     /**
      * set order by position field
      *
-     * @param string $dir
-     * @return Mage_Rating_Model_Resource_Rating_Collection
+     * @param   string $dir
+     * @return  Mage_Rating_Model_Resource_Rating_Collection
      */
-    public function setPositionOrder($dir = 'ASC')
+    public function setPositionOrder($dir='ASC')
     {
         $this->setOrder('main_table.position', $dir);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set store filter
      *
-     * @param unknown_type $storeId
+     * @param int_type $storeId
      * @return Mage_Rating_Model_Resource_Rating_Collection
      */
     public function setStoreFilter($storeId)
     {
+        $adapter = $this->getConnection();
         if(!is_array($storeId)) {
-           $storeId = array($storeId === null ? -1 : $storeId);
+            $storeId = array($storeId === null ? -1 : $storeId);
         }
         if (empty($storeId)) {
             return $this;
         }
         if (!$this->_isStoreJoined) {
-            $this->getSelect()->join(array('store'=>$this->getTable('rating_store')), 'main_table.rating_id = store.rating_id')
-                ->group('main_table.rating_id');
+            $this->getSelect()
+                ->distinct(true)
+                ->join(
+                    array('store'=>$this->getTable('rating_store')),
+                    'main_table.rating_id = store.rating_id',
+                    array())
+        //        ->group('main_table.rating_id')
+                ;
             $this->_isStoreJoined = true;
         }
-        $this->getSelect()->where($this->getConnection()->quoteInto('store.store_id IN(?)', $storeId));
+        $inCond = $adapter->prepareSqlCondition('store.store_id', array(
+            'in' => $storeId
+        ));
+        $this->getSelect()
+            ->where($inCond);
         $this->setPositionOrder();
         return $this;
     }
 
     /**
-     * add options to ratings in collection
+     * Add options to ratings in collection
      *
      * @return Mage_Rating_Model_Resource_Rating_Collection
      */
@@ -134,67 +146,75 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Enter description here ...
+     * Add entity summary to item
      *
-     * @param unknown_type $entityPkValue
-     * @param unknown_type $storeId
+     * @param int $entityPkValue
+     * @param int $storeId
      * @return Mage_Rating_Model_Resource_Rating_Collection
      */
     public function addEntitySummaryToItem($entityPkValue, $storeId)
     {
         $arrRatingId = $this->getColumnValues('rating_id');
-
+        $arrRatingId = 1;
         if( count($arrRatingId) == 0 ) {
-            return;
+            return $this;
         }
 
-        $sql = "SELECT
-                    {$this->getTable('rating_vote')}.rating_id as rating_id,
-                    SUM({$this->getTable('rating_vote')}.percent) as sum,
-                    COUNT(*) as count
-                FROM
-                    {$this->getTable('rating_vote')}
-                INNER JOIN
-                    {$this->getTable('review/review_store')}
-                    ON {$this->getTable('rating_vote')}.review_id={$this->getTable('review/review_store')}.review_id AND {$this->getTable('review/review_store')}.store_id = ". (int) $storeId . "
-                INNER JOIN
-                    {$this->getTable('rating/rating_store')} AS rst
-                    ON rst.rating_id = {$this->getTable('rating_vote')}.rating_id AND rst.store_id = ". (int) $storeId . "
-                INNER JOIN
-                    {$this->getTable('review/review')} ON {$this->getTable('review/review_store')}.review_id={$this->getTable('review/review')}.review_id AND {$this->getTable('review/review')}.status_id=1
-                WHERE
-                    {$this->getConnection()->quoteInto($this->getTable('rating_vote').'.rating_id IN (?)', $arrRatingId)}
-                    AND {$this->getConnection()->quoteInto($this->getTable('rating_vote').'.entity_pk_value=?', $entityPkValue)}
-                GROUP BY
-                    {$this->getTable('rating_vote')}.rating_id";
+        $adapter = $this->getConnection();
 
-        $data = $this->getConnection()->fetchAll($sql);
+        $inCond = $adapter->prepareSqlCondition("{$this->getTable('rating_option_vote')}.rating_id", array(
+            "in" => $arrRatingId
+        ));
+
+        $select = $adapter->select()
+            ->from(array('rating_option_vote'  => $this->getTable('rating_option_vote')),
+                array('rating_id' => 'rating_option_vote.rating_id',
+                    'sum'         => "SUM(rating_option_vote.{$adapter->quoteIdentifier('percent')})",
+                    'count'       => 'COUNT(*)'
+                ))
+            ->join(array('review_store'        => $this->getTable('review/review_store')),
+                $adapter->quoteInto('rating_option_vote.review_id=review_store.review_id AND review_store.store_id = ?', (int) $storeId),
+                array())
+            ->join(array('rst'                 => $this->getTable('rating/rating_store')),
+                $adapter->quoteInto('rst.rating_id = rating_option_vote.rating_id AND rst.store_id = ?', (int) $storeId),
+                array())
+            ->join(array('review'              => $this->getTable('review/review')),
+                'review_store.review_id=review.review_id AND review.status_id=1',
+                array())
+            ->where($inCond)
+            ->where('rating_option_vote.entity_pk_value=?', $entityPkValue)
+            ->group('rating_option_vote.rating_id')
+        ;
+
+        $data = $this->getConnection()->fetchAll($select);
 
         foreach ($data as $item) {
             $rating = $this->getItemById($item['rating_id']);
-                if ($rating && $item['count']>0) {
-                    $rating->setSummary($item['sum']/$item['count']);
-                }
+            if ($rating && $item['count']>0) {
+                $rating->setSummary($item['sum']/$item['count']);
+            }
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add rating store name
      *
-     * @param unknown_type $storeId
+     * @param int $storeId
      * @return Mage_Rating_Model_Resource_Rating_Collection
      */
-    public function addRatingPerStoreName($storeId)
-    {
-        $this->getSelect()->joinLeft(array('title'=>$this->getTable('rating_title')),
-                          'main_table.rating_id=title.rating_id AND title.store_id = '. (int) $storeId,
-                          array('IF(title.value IS NULL, main_table.rating_code, title.value) AS rating_code'));
+    public function addRatingPerStoreName($storeId) {
+        $adapter = $this->getConnection();
+        $ratingCodeCond = $adapter->getCheckSql('title.value IS NULL', 'main_table.rating_code', 'title.value');
+        $this->getSelect()
+            ->joinLeft(array('title' => $this->getTable('rating_title')),
+                $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?', (int) $storeId),
+                array('rating_code' => $ratingCodeCond));
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add stores to collection
      *
      * @return Mage_Rating_Model_Resource_Rating_Collection
      */
@@ -211,16 +231,24 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
         if (!$ratingIds) {
             return $this;
         }
+        $adapter = $this->getConnection();
 
-        $this->_select = $this->getConnection()
+        $inCond = $adapter->prepareSqlCondition('rating_id', array(
+            "in" => $ratingIds
+        ));
+
+        $this->_select = $adapter
             ->select()
             ->from($this->getTable('rating_store'))
-            ->where('rating_id IN(?)', $ratingIds);
-        foreach ($this->getConnection()->fetchAll($this->_select) as $row) {
-            $item = $this->getItemById($row['rating_id']);
-            $item->setStores(array_merge($item->getStores(), array($row['store_id'])));
-        }
+            ->where($inCond);
 
+        $data = $adapter->fetchAll($this->_select);
+        if(is_array($data) && count($data) > 0) {
+            foreach ($data as $row) {
+                $item = $this->getItemById($row['rating_id']);
+                $item->setStores(array_merge($item->getStores(), array($row['store_id'])));
+            }
+        }
         return $this;
     }
 }

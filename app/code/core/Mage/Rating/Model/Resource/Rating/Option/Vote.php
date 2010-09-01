@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Rating vote resource model
  *
@@ -35,10 +34,10 @@
 class Mage_Rating_Model_Resource_Rating_Option_Vote extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('rating/rating_option_vote', 'vote_id');
     }

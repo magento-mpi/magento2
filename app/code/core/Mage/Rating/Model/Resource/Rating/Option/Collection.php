@@ -32,42 +32,38 @@
  * @package     Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rating_Model_Resource_Rating_Option_Collection extends Varien_Data_Collection_Db
+class Mage_Rating_Model_Resource_Rating_Option_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Rating options table
      *
-     * @var unknown
+     * @var string
      */
     protected $_ratingOptionTable;
 
     /**
-     * Enter description here ...
+     * Rating votes table
      *
-     * @var unknown
+     * @var string
      */
     protected $_ratingVoteTable;
 
     /**
-     * Enter description here ...
+     * Define model
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('rating_read'));
-        $this->_ratingOptionTable   = Mage::getSingleton('core/resource')->getTableName('rating/rating_option');
-        $this->_ratingVoteTable     = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote');
-
-        $this->_select->from($this->_ratingOptionTable);
-
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('rating/rating_option'));
+        $this->_init('rating/rating_option');
+        $this->_ratingOptionTable   = $this->getTable('rating/rating_option');
+        $this->_ratingVoteTable     = $this->getTable('rating/rating_option_vote');
     }
 
     /**
-     * add rating filter
+     * Add rating filter
      *
-     * @param int|array $rating
-     * @return Mage_Rating_Model_Resource_Rating_Option_Collection
+     * @param   int|array $rating
+     * @return  Mage_Rating_Model_Resource_Rating_Option_Collection
      */
     public function addRatingFilter($rating)
     {
@@ -81,14 +77,14 @@ class Mage_Rating_Model_Resource_Rating_Option_Collection extends Varien_Data_Co
     }
 
     /**
-     * set order by position field
+     * Set order by position field
      *
-     * @param string $dir
-     * @return Mage_Rating_Model_Resource_Rating_Option_Collection
+     * @param   string $dir
+     * @return  Mage_Rating_Model_Resource_Rating_Option_Collection
      */
-    public function setPositionOrder($dir = 'ASC')
+    public function setPositionOrder($dir='ASC')
     {
-        $this->setOrder($this->_ratingOptionTable.'.position', $dir);
+        $this->setOrder($this->_ratingOptionTable . '.position', $dir);
         return $this;
     }
 }

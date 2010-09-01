@@ -35,26 +35,27 @@
 class Mage_Rating_Model_Resource_Rating_Entity extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('rating/rating_entity', 'entity_id');
     }
 
     /**
-     * Enter description here ...
+     * Return entity_id by entityCode
      *
-     * @param unknown_type $entityCode
-     * @return unknown
+     * @param string $entityCode
+     * @return int
      */
     public function getIdByCode($entityCode)
     {
-        $read = $this->_getReadAdapter();
-        $select = $read->select();
-        $select->from($this->getTable('rating_entity'), $this->getIdFieldName())
+        $adapter = $this->_getReadAdapter();
+
+        $select  = $adapter->select()
+            ->from($this->getTable('rating_entity'), $this->getIdFieldName())
             ->where('entity_code = ?', $entityCode);
-        return $read->fetchOne($select);
+        return $adapter->fetchOne($select);
     }
 }

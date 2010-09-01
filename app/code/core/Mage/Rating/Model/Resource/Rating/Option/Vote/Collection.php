@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Rating votes collection
  *
@@ -35,92 +34,109 @@
 class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define model
      *
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('rating/rating_option_vote');
     }
 
     /**
-     * Enter description here ...
+     * Set review filter
      *
-     * @param unknown_type $reviewId
+     * @param int $reviewId
      * @return Mage_Rating_Model_Resource_Rating_Option_Vote_Collection
      */
     public function setReviewFilter($reviewId)
     {
-        $this->_select->where("main_table.review_id = ?", $reviewId);
+        $this->getSelect()
+            ->where("main_table.review_id = ?", $reviewId);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set EntityPk filter
      *
-     * @param unknown_type $entityId
+     * @param int $entityId
      * @return Mage_Rating_Model_Resource_Rating_Option_Vote_Collection
      */
     public function setEntityPkFilter($entityId)
     {
-        $this->_select->where("entity_pk_value = ?", $entityId);
+        $this->getSelect()
+            ->where("entity_pk_value = ?", $entityId);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set store filter
      *
-     * @param unknown_type $storeId
+     * @param int $storeId
      * @return Mage_Rating_Model_Resource_Rating_Option_Vote_Collection
      */
     public function setStoreFilter($storeId)
     {
-        $this->_select->join(array('rstore'=>$this->getTable('review/review_store')), 'main_table.review_id=rstore.review_id AND rstore.store_id=' . (int)$storeId, array());
+        $this->getSelect()
+            ->join(array('rstore'=>$this->getTable('review/review_store')),
+                'main_table.review_id=rstore.review_id AND rstore.store_id=' . (int) $storeId,
+            array());
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add rating info to select
      *
-     * @param unknown_type $storeId
+     * @param int $storeId
      * @return Mage_Rating_Model_Resource_Rating_Option_Vote_Collection
      */
-    public function addRatingInfo($storeId = null)
+    public function addRatingInfo($storeId=null)
     {
-        $this->_select->join($this->getTable('rating/rating'), "{$this->getTable('rating/rating')}.rating_id = main_table.rating_id", "{$this->getTable('rating/rating')}.*")
-            ->joinLeft(array('title'=>$this->getTable('rating/rating_title')),
-                          "main_table.rating_id=title.rating_id AND title.store_id = ". (int) Mage::app()->getStore()->getId(),
-                          array("IF(title.value IS NULL, {$this->getTable('rating/rating')}.rating_code, title.value) AS rating_code"));
+        $adapter=$this->getConnection();
+        $ratingCodeCond = $adapter->getCheckSql('title.value IS NULL', 'rating.rating_code', 'title.value');
+        $this->getSelect()
+            ->join(array('rating'    => $this->getTable('rating/rating')),
+                "rating.rating_id = main_table.rating_id")
+            ->joinLeft(array('title' =>$this->getTable('rating/rating_title')),
+                "main_table.rating_id=title.rating_id AND title.store_id = ". (int) Mage::app()->getStore()->getId(),
+                array('rating_code' => $ratingCodeCond));
 
         if($storeId == null) {
             $storeId = Mage::app()->getStore()->getId();
         }
 
         if(is_array($storeId)) {
-            $condition = $this->getConnection()->quoteInto('store.store_id IN(?)', $storeId);
+            $condition = $adapter->prepareSqlCondition("store.store_id", array(
+                "in" => $storeId
+            ));
         } else {
-            $condition = $this->getConnection()->quoteInto('store.store_id = ?', $storeId);
+            $condition = $adapter->quoteInto('store.store_id = ?', $storeId);
         }
 
-        $this->_select->join(array('store'=>$this->getTable('rating_store')), 'main_table.rating_id = store.rating_id AND '. $condition);
-        $this->_select->group('main_table.vote_id');
+        $this->getSelect()
+            ->join(array('store' => $this->getTable('rating_store')),
+                'main_table.rating_id = store.rating_id AND ' . $condition)
+            ->group('main_table.vote_id')
+        ;
 
+        $adapter->fetchAll( $this->getSelect() );
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add option info to select
      *
      * @return Mage_Rating_Model_Resource_Rating_Option_Vote_Collection
      */
     public function addOptionInfo()
     {
-        $this->_select->join($this->getTable('rating/rating_option'), "main_table.option_id = {$this->getTable('rating/rating_option')}.option_id", "{$this->getTable('rating/rating_option')}.*");
+        $this->getSelect()
+            ->join(array('rating_option' => $this->getTable('rating/rating_option')),
+                "main_table.option_id = rating_option.option_id");
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add rating options
      *
      * @return Mage_Rating_Model_Resource_Rating_Option_Vote_Collection
      */
