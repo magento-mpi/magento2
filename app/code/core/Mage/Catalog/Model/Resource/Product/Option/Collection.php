@@ -35,8 +35,7 @@
 class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -44,84 +43,87 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
     }
 
     /**
-     * Enter description here ...
+     * Adds title, price & price_type attributes to result
      *
-     * @param unknown_type $store_id
+     * @param int $storeId
      * @return Mage_Catalog_Model_Resource_Product_Option_Collection
      */
-    public function getOptions($store_id)
+    public function getOptions($storeId)
     {
-        $this->getSelect()
-            ->joinLeft(array('default_option_price'=>$this->getTable('catalog/product_option_price')),
-                '`default_option_price`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`default_option_price`.store_id=?',0),
-                array('default_price'=>'price','default_price_type'=>'price_type'))
-            ->joinLeft(array('store_option_price'=>$this->getTable('catalog/product_option_price')),
-                '`store_option_price`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`store_option_price`.store_id=?', $store_id),
-                array('store_price'=>'price','store_price_type'=>'price_type',
-                'price'=>new Zend_Db_Expr('IFNULL(`store_option_price`.price,`default_option_price`.price)'),
-                'price_type'=>new Zend_Db_Expr('IFNULL(`store_option_price`.price_type,`default_option_price`.price_type)')))
-            ->join(array('default_option_title'=>$this->getTable('catalog/product_option_title')),
-                '`default_option_title`.option_id=`main_table`.option_id',
-                array('default_title'=>'title'))
-            ->joinLeft(array('store_option_title'=>$this->getTable('catalog/product_option_title')),
-                '`store_option_title`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`store_option_title`.store_id=?', $store_id),
-                array('store_title'=>'title',
-                'title'=>new Zend_Db_Expr('IFNULL(`store_option_title`.title,`default_option_title`.title)')))
-            ->where('`default_option_title`.store_id=?', 0);
+        $this->addPriceToResult($storeId)
+             ->addTitleToResult($storeId);
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add title to result
      *
-     * @param unknown_type $store_id
+     * @param int $storeId
      * @return Mage_Catalog_Model_Resource_Product_Option_Collection
      */
-    public function addTitleToResult($store_id)
+    public function addTitleToResult($storeId)
     {
+        $productOptionTitleTable = $this->getTable('catalog/product_option_title');
+        $adapter        = $this->getConnection();
+        $titleExpr      = $adapter->getCheckSql('store_option_title.title IS NULL', 'default_option_title.title', 'store_option_title.title');
+
         $this->getSelect()
-            ->join(array('default_option_title'=>$this->getTable('catalog/product_option_title')),
-                '`default_option_title`.option_id=`main_table`.option_id',
-                array('default_title'=>'title'))
-            ->joinLeft(array('store_option_title'=>$this->getTable('catalog/product_option_title')),
-                '`store_option_title`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`store_option_title`.store_id=?', $store_id),
-                array('store_title'=>'title',
-                'title'=>new Zend_Db_Expr('IFNULL(`store_option_title`.title,`default_option_title`.title)')))
-            ->where('`default_option_title`.store_id=?', 0);
+            ->join(array('default_option_title' => $productOptionTitleTable),
+                'default_option_title.option_id = main_table.option_id',
+                array('default_title' => 'title'))
+            ->joinLeft(array('store_option_title' => $productOptionTitleTable),
+                'store_option_title.option_id = main_table.option_id AND ' . $adapter->quoteInto('store_option_title.store_id = ?', $storeId),
+                array(
+                    'store_title'   => 'title',
+                    'title'         => $titleExpr
+                ))
+            ->where('default_option_title.store_id = ?', 0);
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add price to result
      *
-     * @param unknown_type $store_id
+     * @param int $storeId
      * @return Mage_Catalog_Model_Resource_Product_Option_Collection
      */
-    public function addPriceToResult($store_id)
+    public function addPriceToResult($storeId)
     {
+        $productOptionPriceTable = $this->getTable('catalog/product_option_price');
+        $adapter        = $this->getConnection();
+        $priceExpr      = $adapter->getCheckSql('store_option_price.price IS NULL', 'default_option_price.price', 'store_option_price.price');
+        $priceTypeExpr  = $adapter->getCheckSql('store_option_price.price_type IS NULL', 'default_option_price.price_type', 'store_option_price.price_type');
+
         $this->getSelect()
-            ->joinLeft(array('default_option_price'=>$this->getTable('catalog/product_option_price')),
-                '`default_option_price`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`default_option_price`.store_id=?',0),
-                array('default_price'=>'price','default_price_type'=>'price_type'))
-            ->joinLeft(array('store_option_price'=>$this->getTable('catalog/product_option_price')),
-                '`store_option_price`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`store_option_price`.store_id=?', $store_id),
-                array('store_price'=>'price','store_price_type'=>'price_type',
-                'price'=>new Zend_Db_Expr('IFNULL(`store_option_price`.price,`default_option_price`.price)'),
-                'price_type'=>new Zend_Db_Expr('IFNULL(`store_option_price`.price_type,`default_option_price`.price_type)')));
+            ->joinLeft(array('default_option_price' => $productOptionPriceTable),
+                'default_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto('default_option_price.store_id = ?', 0),
+                array(
+                    'default_price' => 'price',
+                    'default_price_type' => 'price_type'
+                ))
+            ->joinLeft(array('store_option_price' => $productOptionPriceTable),
+                'store_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto('store_option_price.store_id = ?', $storeId),
+                array(
+                    'store_price'       => 'price',
+                    'store_price_type'  => 'price_type',
+                    'price'             => $priceExpr,
+                    'price_type'        => $priceTypeExpr
+                ));
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add value to result
      *
-     * @param unknown_type $storeId
+     * @param int $storeId
      * @return Mage_Catalog_Model_Resource_Product_Option_Collection
      */
     public function addValuesToResult($storeId = null)
     {
-        if (null === $storeId) {
+        if ($storeId === null) {
             $storeId = Mage::app()->getStore()->getId();
         }
         $optionIds = array();
@@ -134,13 +136,14 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
                 ->addTitleToResult($storeId)
                 ->addPriceToResult($storeId)
                 ->addOptionToFilter($optionIds)
-                ->setOrder('sort_order', 'asc')
-                ->setOrder('title', 'asc');
+                ->setOrder('sort_order', self::SORT_ORDER_ASC)
+                ->setOrder('title', self::SORT_ORDER_ASC);
 
             foreach ($values as $value) {
-                if($this->getItemById($value->getOptionId())) {
-                    $this->getItemById($value->getOptionId())->addValue($value);
-                    $value->setOption($this->getItemById($value->getOptionId()));
+                $optionId = $value->getOptionId();
+                if($this->getItemById($optionId)) {
+                    $this->getItemById($optionId)->addValue($value);
+                    $value->setOption($this->getItemById($optionId));
                 }
             }
         }
@@ -149,9 +152,9 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
     }
 
     /**
-     * Enter description here ...
+     * Add product_id filter to select
      *
-     * @param unknown_type $product
+     * @param array|Mage_Catalog_Model_Product|int $product
      * @return Mage_Catalog_Model_Resource_Product_Option_Collection
      */
     public function addProductToFilter($product)

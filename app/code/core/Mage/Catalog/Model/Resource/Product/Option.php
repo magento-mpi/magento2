@@ -342,7 +342,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
                         'title'
                     ),
                     Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE
-                );
+                )
             );
 
             // price
@@ -363,7 +363,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
                         'price_type'
                     ),
                     Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE
-                );
+                )
             );
 
             $object->getValueInstance()->duplicate($oldOptionId, $newOptionId);
@@ -400,8 +400,8 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
         ));
 
         $storeOptionJoin = implode(' AND ', array(
-            'option_title_store.option_id=option.option_id'
-            $adapter->quoteInto('option_title_store.store_id = ?', (int) $storeId),
+            'option_title_store.option_id=option.option_id',
+            $adapter->quoteInto('option_title_store.store_id = ?', (int) $storeId)
         ));
 
         $select = $adapter->select()
@@ -424,11 +424,11 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
 
         $defaultOptionJoin = implode(' AND ', array(
             'option_title_default.option_type_id=option_type.option_type_id',
-            $adapter->quoteInto('option_title_default.store_id = ?', 0),
+            $adapter->quoteInto('option_title_default.store_id = ?', 0)
         ));
 
         $storeOptionJoin = implode(' AND ', array(
-            'option_title_store.option_type_id = option_type.option_type_id'
+            'option_title_store.option_type_id = option_type.option_type_id',
             $adapter->quoteInto('option_title_store.store_id = ?', (int) $storeId),
         ));
 
