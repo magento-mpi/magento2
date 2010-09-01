@@ -56,13 +56,16 @@ class Mage_Widget_Model_Resource_Widget_Instance_Collection extends Mage_Core_Mo
         if (!is_array($storeIds)) {
             $storeIds = array($storeIds);
         }
-        if ($withDefaultStore && !in_array(0, $storeIds)) {
+        if ($withDefaultStore && !in_array('0', $storeIds)) {
             array_unshift($storeIds, 0);
         }
-        $select = $this->getSelect();
+        $where = array();
         foreach ($storeIds as $storeId) {
-            $select->orWhere('FIND_IN_SET(?, `store_ids`)', $storeId);
+            $where[] = $this->_getConditionSql('store_ids', array('finset' => $storeId));
         }
+
+        $this->_select->where(implode(' OR ', $where));
+
         return $this;
     }
 }

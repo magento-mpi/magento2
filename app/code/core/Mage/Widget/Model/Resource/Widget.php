@@ -34,8 +34,9 @@
  */
 class Mage_Widget_Model_Resource_Widget extends Mage_Core_Model_Resource_Db_Abstract
 {
+
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -51,12 +52,9 @@ class Mage_Widget_Model_Resource_Widget extends Mage_Core_Model_Resource_Db_Abst
      */
     public function loadPreconfiguredWidget($widgetId)
     {
-        $read = $this->_getReadAdapter();
-        $select = $read->select();
-        $select->from($this->getMainTable())
-            ->where($this->getIdFieldName() . ' = ?', $widgetId);
-
-        $widget = $read->fetchRow($select);
+        $readAdapter = $this->_getReadAdapter();
+        $select      = $this->_getLoadSelect($this->getIdFieldName(), $widgetId, null);
+        $widget      = $readAdapter->fetchRow($select);
         if (is_array($widget)) {
             if ($widget['parameters']) {
                 $widget['parameters'] = unserialize($widget['parameters']);
