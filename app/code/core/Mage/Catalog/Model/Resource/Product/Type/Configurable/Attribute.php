@@ -105,10 +105,14 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
 
         $select = $adapter->select()
             ->from($this->_labelTable, 'value_id')
-            ->where('product_super_attribute_id=?', (int) $attribute->getId())
-            ->where('store_id=?', (int) $attribute->getStoreId());
-
-        if ($valueId = $adapter->fetchOne($select)) {
+            ->where('product_super_attribute_id = :product_super_attribute_id')
+            ->where('store_id = :store_id');
+        $bind = array(
+            'product_super_attribute_id' => (int)$attribute->getId(),
+            'store_id'                   => (int)$attribute->getStoreId()
+        );
+        $valueId = $adapter->fetchOne($select, $bind);
+        if ($valueId) {
             $adapter->update(
                 $this->_labelTable,
                 array(
@@ -144,7 +148,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
         if ($this->getCatalogHelper()->isPriceGlobal()) {
             $websiteId = 0;
         } else {
-            $websiteId = Mage::app()->getStore($attribute->getStoreId())->getWebsite()->getId();
+            $websiteId = (int)Mage::app()->getStore($attribute->getStoreId())->getWebsite()->getId();
         }
 
         $values     = $attribute->getValues();
@@ -158,12 +162,16 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
         // retrieve old values
         $select = $write->select()
             ->from($this->_priceTable)
-            ->where('product_super_attribute_id=?', $attribute->getId())
-            ->where('website_id=?', $websiteId);
+            ->where('product_super_attribute_id = :product_super_attribute_id')
+            ->where('website_id = :website_id');
 
-        $rowSet = $write->fetchAll($select);
+        $bind = array(
+            'product_super_attribute_id' => (int)$attribute->getId(),
+            'website_id'                   => $websiteId
+        );
+        $rowSet = $write->fetchAll($select, $bind);
         foreach ($rowSet as $row) {
-            $key = join('-', array($row['website_id'], $row['value_index']));
+            $key = implode('-', array($row['website_id'], $row['value_index']));
             if (!isset($old[$key])) {
                 $old[$key] = $row;
             } else {
@@ -177,7 +185,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
             if (empty($v['value_index'])) {
                 continue;
             }
-            $key = join('-', array($websiteId, $v['value_index']));
+            $key = implode('-', array($websiteId, $v['value_index']));
             $new[$key] = array(
                 'value_index'   => $v['value_index'],
                 'pricing_value' => $v['pricing_value'],
@@ -279,17 +287,17 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
             ->from(array('e' => $this->getTable('catalog/product')), null)
             ->join(
                 array('a' => $this->getMainTable()),
-                'e.entity_id=a.product_id',
+                'e.entity_id = a.product_id',
                 array('attribute_id')
             )
             ->where('e.attribute_set_id = :attribute_set_id')
             ->where('e.type_id = :type_id');
 
-        $binds = array(
+        $bind = array(
             'attribute_set_id' => (int) $setId,
             'type_id'          => (int) Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
         );
 
-        return $adapter->fetchCol($select, $binds);
+        return $adapter->fetchCol($select, $bind);
     }
 }

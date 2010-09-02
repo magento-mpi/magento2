@@ -86,8 +86,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
     public function setProductFilter($product)
     {
         $this->_product = $product;
-        $this->addFieldToFilter('product_id', $product->getId());
-        return $this;
+        return $this->addFieldToFilter('product_id', $product->getId());
     }
 
     /**
@@ -96,9 +95,9 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
      * @param string $dir
      * @return Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
      */
-    public function orderByPosition($dir = 'asc')
+    public function orderByPosition($dir = self::SORT_ORDER_ASC)
     {
-        $this->getSelect()->order('position '.$dir);
+        $this->setOrder('position ',  $dir);
         return $this;
     }
 
@@ -183,18 +182,19 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
             );
 
             $select = $this->getConnection()->select()
-                ->from(array('default'=>$this->_labelTable))
+                ->from(array('default' => $this->_labelTable))
                 ->joinLeft(
                     array('store' => $this->_labelTable),
-                    'store.product_super_attribute_id=default.product_super_attribute_id AND store.store_id='.$this->getStoreId(),
+                    $this->getConnection()->quoteInto('store.product_super_attribute_id = default.product_super_attribute_id AND store.store_id = ?', $this->getStoreId()),
                     array(
                         'use_default' => $useDefaultCheck,
-                        'label' => $labelCheck,
+                        'label' => $labelCheck
                     ))
                 ->where('default.product_super_attribute_id IN (?)', array_keys($this->_items))
-                ->where('default.store_id=0');
+                ->where('default.store_id = ?', 0);
 
-                foreach ($this->getConnection()->fetchAll($select) as $data) {
+                $result = $this->getConnection()->fetchAll($select);
+                foreach ($result as $data) {
                     $this->getItemById($data['product_super_attribute_id'])->setLabel($data['label']);
                     $this->getItemById($data['product_super_attribute_id'])->setUseDefault($data['use_default']);
                 }
@@ -228,7 +228,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
             if ($websiteId > 0) {
                 $select->where('price.website_id IN(?)', array(0, $websiteId));
             } else {
-                $select->where('price.website_id=0');
+                $select->where('price.website_id = ?', 0);
             }
 
             $query = $this->getConnection()->query($select);

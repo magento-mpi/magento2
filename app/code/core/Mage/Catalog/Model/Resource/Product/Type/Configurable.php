@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
         }
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'product_id')
-            ->where('parent_id=?', $mainProductId);
+            ->where('parent_id = ?', $mainProductId);
         $old    = $this->_getReadAdapter()->fetchCol($select);
 
         $insert = array_diff($productIds, $old);
@@ -72,18 +72,18 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
         }
 
         if (!empty($delete)) {
-            $where = join(' AND ', array(
-                $this->_getWriteAdapter()->quoteInto('parent_id=?', $mainProductId),
-                $this->_getWriteAdapter()->quoteInto('product_id IN(?)', $delete)
-            ));
+            $where = array(
+                'parent_id = ?'     => $mainProductId,
+                'product_id IN(?)'  => $delete
+            );
             $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         }
         if (!empty($insert)) {
             $data = array();
             foreach ($insert as $childId) {
                 $data[] = array(
-                    'product_id' => (int) $childId,
-                    'parent_id'  => (int) $mainProductId
+                    'product_id' => (int)$childId,
+                    'parent_id'  => (int)$mainProductId
                 );
             }
             $this->_getWriteAdapter()->insertMultiple($this->getMainTable(), $data);
@@ -113,7 +113,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
             ->from(array('l' => $this->getMainTable()), array('product_id', 'parent_id'))
             ->join(
                 array('e' => $this->getTable('catalog/product')),
-                'e.entity_id=l.product_id AND e.required_options=0',
+                'e.entity_id = l.product_id AND e.required_options = 0',
                 array()
             )
             ->where('parent_id=?', $parentId);

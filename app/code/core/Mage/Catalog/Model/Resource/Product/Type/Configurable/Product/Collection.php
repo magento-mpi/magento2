@@ -36,15 +36,14 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection
     extends Mage_Catalog_Model_Resource_Product_Collection
 {
     /**
-     * Enter description here ...
+     * Link table name
      *
-     * @var unknown
+     * @var string
      */
     protected $_linkTable;
 
     /**
-     * Enter description here ...
-     *
+     * Assign link table name
      */
     protected function _construct()
     {
@@ -53,28 +52,29 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection
     }
 
     /**
-     * Enter description here ...
-     *
+     * Init select
+     * @return Mage_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
         $this->getSelect()->join(array('link_table' => $this->_linkTable),
-            'link_table.product_id=e.entity_id',
+            'link_table.product_id = e.entity_id',
             array('parent_id')
         );
+
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set Product filter to result
      *
-     * @param unknown_type $product
+     * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection
      */
     public function setProductFilter($product)
     {
-        $this->getSelect()->where('link_table.parent_id=?', (int) $product->getId());
-        return $this;
+        return $this->addFieldToFilter('link_table.parent_id', array('eq' => (int)$product->getId()));
     }
 
     /**
