@@ -81,7 +81,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store ids')
     ->addColumn('widget_parameters', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(), 'Widget parameters')
-    ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_SMALLINT, 5, array(
+    ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
@@ -142,17 +142,17 @@ $table = $installer->getConnection()
     ->addColumn('page_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
-        'primary'   => true,
         'default'   => '0',
         ), 'Page Id')
     ->addColumn('layout_update_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
-        'primary'   => true,
         'default'   => '0',
         ), 'Layout Update Id')
     ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', 'page_id'), 'page_id')
     ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', 'layout_update_id'), 'layout_update_id')
+    ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', array('layout_update_id', 'page_id'), true),
+        array('layout_update_id', 'page_id'), array('unique' => true))
     ->addForeignKey($installer->getFkName('widget/widget_instance_page_layout', 'page_id', 'widget/widget_instance_page', 'page_id'),
         'page_id', $installer->getTable('widget/widget_instance_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

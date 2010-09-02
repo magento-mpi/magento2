@@ -35,14 +35,7 @@
 class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
-     * @var unknown
-     */
-    protected $_handlesToCleanCache    = array();
-
-    /**
-     * Constructor
+     * Define main table
      *
      */
     protected function _construct()
@@ -62,7 +55,8 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
         $select = $adapter->select()
             ->from($this->getTable('widget/widget_instance_page'))
             ->where('instance_id = ?', (int)$object->getId());
-        $object->setData('page_groups', $adapter->fetchAll($select));
+        $result = $adapter->fetchAll($select);
+        $object->setData('page_groups', $result);
         return parent::_afterLoad($object);
     }
 
@@ -76,24 +70,21 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
     {
         $pageTable         = $this->getTable('widget/widget_instance_page');
         $pageLayoutTable   = $this->getTable('widget/widget_instance_page_layout');
-        $layoutUpdateTable = $this->getTable('core/layout_update');
         $readAdapter       = $this->_getReadAdapter();
         $writeAdapter      = $this->_getWriteAdapter();
 
         $select = $readAdapter->select()
-            ->from($pageTable, array('page_id'))
+            ->from($pageTable, 'page_id')
             ->where('instance_id = ?', (int)$object->getId());
         $pageIds = $readAdapter->fetchCol($select);
 
         $removePageIds = array_diff($pageIds, $object->getData('page_group_ids'));
 
         if (is_array($pageIds) && count($pageIds) > 0) {
-            $inCond = $readAdapter->prepareSqlCondition('page_id', array(
-                'in' => $pageIds
-            ));
+            $inCond = $readAdapter->prepareSqlCondition('page_id', array('in' => $pageIds));
 
             $select = $readAdapter->select()
-                ->from($pageLayoutTable, array('layout_update_id'))
+                ->from($pageLayoutTable, 'layout_update_id')
                 ->where( $inCond );
             $removeLayoutUpdateIds = $readAdapter->fetchCol($select);
 
@@ -118,9 +109,8 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
                 $writeAdapter->update($pageTable, $data, $writeAdapter->quoteInto('page_id = ?', (int)$pageId));
             } else {
                 $writeAdapter->insert($pageTable,
-                    array_merge(array(
-                        'instance_id' => $object->getId()),$data
-                ));
+                    array_merge(array('instance_id' => $object->getId()),
+                    $data));
                 $pageId = $writeAdapter->lastInsertId($pageTable);
             }
             foreach ($pageLayoutUpdateIds as $layoutUpdateId) {
@@ -143,33 +133,34 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
      */
     protected function _saveLayoutUpdates($widgetInstance, $pageGroupData)
     {
-        $writeAdapter        = $this->_getWriteAdapter();
-        $pageLayoutUpdateIds = array();
-        $storeIds            = $this->_prepareStoreIds($widgetInstance->getStoreIds());
-        $layoutUpdateTable   = $this->getTable('core/layout_update');
+        $writeAdapter          = $this->_getWriteAdapter();
+        $pageLayoutUpdateIds   = array();
+        $storeIds              = $this->_prepareStoreIds($widgetInstance->getStoreIds());
+        $layoutUpdateTable     = $this->getTable('core/layout_update');
+        $layoutUpdateLinkTable = $this->getTable('core/layout_link');
 
         foreach ($pageGroupData['layout_handle_updates'] as $handle) {
-            $writeAdapter->insert(
-                $layoutUpdateTable,
+            $xml = $widgetInstance->generateLayoutUpdateXml($pageGroupData['block_reference'],
+                $pageGroupData['template']);
+
+            $writeAdapter->insert($layoutUpdateTable,
                 array(
                     'handle'     => $handle,
-                    'xml'        => $widgetInstance->generateLayoutUpdateXml(
-                                    $pageGroupData['block_reference'],
-                                    $pageGroupData['template']),
-                    'sort_order' => $widgetInstance->getSortOrder()
-            ));
+                    'xml'        => $xml,
+                    'sort_order' => $widgetInstance->getSortOrder()));
             $layoutUpdateId = $writeAdapter->lastInsertId($layoutUpdateTable);
             $pageLayoutUpdateIds[] = $layoutUpdateId;
+
+            $data = array();
             foreach ($storeIds as $storeId) {
-                $writeAdapter->insert(
-                    $this->getTable('core/layout_link'), array(
-                        'store_id'         => $storeId,
-                        'area'             => $widgetInstance->getArea(),
-                        'package'          => $widgetInstance->getPackage(),
-                        'theme'            => $widgetInstance->getTheme(),
-                        'layout_update_id' => $layoutUpdateId
-                ));
+                $data[] = array(
+                    'store_id'         => $storeId,
+                    'area'             => $widgetInstance->getArea(),
+                    'package'          => $widgetInstance->getPackage(),
+                    'theme'            => $widgetInstance->getTheme(),
+                    'layout_update_id' => $layoutUpdateId);
             }
+            $writeAdapter->insertMultiple($layoutUpdateLinkTable, $data);
         }
         return $pageLayoutUpdateIds;
     }
@@ -183,7 +174,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
      */
     protected function _prepareStoreIds($storeIds)
     {
-        if (in_array(0, $storeIds)) {
+        if (in_array('0', $storeIds)) {
             $storeIds = array(0);
         }
         return $storeIds;
@@ -204,10 +195,11 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
             ->joinInner(
                 array('layout_page_table' => $this->getTable('widget/widget_instance_page_layout')),
                 'layout_page_table.page_id = main_table.page_id',
-                array('layout_page_table.layout_update_id')
+                array('layout_update_id')
             )
-            ->where('main_table.instance_id = ?', (int)$object->getId());
-        $object->setLayoutUpdateIdsToDelete($writeAdapter->fetchCol($select));
+            ->where('main_table.instance_id=:instance_id');
+        $result = $writeAdapter->fetchCol($select, $object->getId());
+        $object->setLayoutUpdateIdsToDelete();
         return $this;
     }
 
@@ -241,10 +233,6 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
                 $this->getTable('widget/widget_instance_page'),
                 $inCond
             );
-            $writeAdapter->delete(
-                $this->getTable('widget/widget_instance_page_layout'),
-                $inCond
-            );
         }
         return $this;
     }
@@ -262,10 +250,6 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
             $inCond = $writeAdapter->prepareSqlCondition('layout_update_id', array(
                 'in' => $layoutUpdateIds
             ));
-            $writeAdapter->delete(
-                $this->getTable('core/layout_link'),
-                $inCond
-            );
             $writeAdapter->delete(
                 $this->getTable('core/layout_update'),
                 $inCond
@@ -290,87 +274,4 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
         return $storeIds ? explode(',', $storeIds) : array();
     }
 
-
-    /**
-    * Cache related methods are deprecated after 1.4.0.0-rc1
-    * Added cache invalidation on model level
-    */
-
-    /**
-     * Clean cache by handles
-     * @deprecated
-     *
-     * @return Mage_Widget_Model_Resource_Widget_Instance
-     */
-    protected function _cleanLayoutCache()
-    {
-        $handles = $this->getHandlesToCleanCache();
-        if (!empty($handles) && Mage::app()->useCache('layout')) {
-            Mage::app()->cleanCache($handles);
-        }
-        return $this;
-    }
-
-    /**
-     * Clean blocks HTML otput cache
-     * @deprecated
-     *
-     * @return Mage_Widget_Model_Resource_Widget_Instance
-     */
-    protected function _cleanBlocksOutputCache()
-    {
-        if (Mage::app()->useCache('block_html')) {
-            Mage::app()->cleanCache(array('block_html'));
-        }
-        return $this;
-    }
-
-    /**
-     * Reset handles to clean in cache
-     * @deprecated
-     *
-     * @return Mage_Widget_Model_Resource_Widget_Instance
-     */
-    public function resetHandlesToCleanCache()
-    {
-        $this->_handlesToCleanCache = array();
-        return $this;
-    }
-
-    /**
-     * Setter
-     * @deprecated
-     *
-     * @param array $handles
-     * @return Mage_Widget_Model_Resource_Widget_Instance
-     */
-    public function setHandlesToCleanCache($handles)
-    {
-        $this->_handlesToCleanCache = $handles;
-        return $this;
-    }
-
-    /**
-     * Add handle to clean in cache
-     * @deprecated
-     *
-     * @param string $handle
-     * @return Mage_Widget_Model_Resource_Widget_Instance
-     */
-    public function addHandleToCleanCache($handle)
-    {
-        $this->_handlesToCleanCache[] = $handle;
-        return $this;
-    }
-
-    /**
-     * Getter
-     * @deprecated
-     *
-     * @return array
-     */
-    public function getHandlesToCleanCache()
-    {
-        return $this->_handlesToCleanCache;
-    }
 }
