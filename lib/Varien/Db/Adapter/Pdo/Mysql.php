@@ -2240,7 +2240,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             } else if (isset($condition['finset'])) {
                 $query = $this->quoteInto("FIND_IN_SET(?, {$fieldName})", $condition['finset']);
             } else if (isset($condition['regexp'])) {
-                $query = $this->quoteInto("{$fieldName} REGEXP ?)", $condition['regexp']);
+                $query = $this->quoteInto("{$fieldName} REGEXP ?", $condition['regexp']);
             } else {
                 $queries = array();
                 foreach ($condition as $orCondition) {
