@@ -45,7 +45,7 @@ class Mage_Widget_Model_Resource_Widget extends Mage_Core_Model_Resource_Db_Abst
     }
 
     /**
-     * Retrieves preconfigured parameters for widget
+     * Retrieves pre-configured parameters for widget
      *
      * @param int $widgetId
      * @return array
@@ -53,8 +53,11 @@ class Mage_Widget_Model_Resource_Widget extends Mage_Core_Model_Resource_Db_Abst
     public function loadPreconfiguredWidget($widgetId)
     {
         $readAdapter = $this->_getReadAdapter();
-        $select      = $this->_getLoadSelect($this->getIdFieldName(), $widgetId, null);
-        $widget      = $readAdapter->fetchRow($select);
+        $select = $readAdapter->select()
+            ->from($this->getMainTable())
+            ->where($this->getIdFieldName() . '=:' . $this->getIdFieldName());
+        $bind = array($this->getIdFieldName() => $widgetId);
+        $widget = $readAdapter->fetchRow($select, $bind);
         if (is_array($widget)) {
             if ($widget['parameters']) {
                 $widget['parameters'] = unserialize($widget['parameters']);
