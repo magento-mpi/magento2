@@ -51,16 +51,4 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
             'value' => $this->castField($tableAlias . '.value')
         );
     }
-
-    /**
-     * Add random order to select
-     *
-     * @param Varien_Db_Select $select
-     * @param string $column
-     * @return Varien_Db_Select
-     */
-    public function getRandomOrderSelect(Varien_Db_Select $select, $column)
-    {
-        return $select->order('RAND')->columns(new Zend_Db_Expr('dbms_random.getValue() as RAND'));
-    }
 }

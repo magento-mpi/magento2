@@ -44,16 +44,4 @@ class Mage_Catalog_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Resource_
     {
         return '*';
     }
-
-    /**
-     * Add random order to select
-     *
-     * @param Varien_Db_Select $select
-     * @param string $column
-     * @return Varien_Db_Select
-     */
-    public function getRandomOrderSelect(Varien_Db_Select $select, $column)
-    {
-        return $select->order($column)->columns(new Zend_Db_Expr("RAND() * {$column}"));
-    }
 }
