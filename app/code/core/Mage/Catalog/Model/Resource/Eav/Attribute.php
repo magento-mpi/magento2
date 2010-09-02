@@ -195,7 +195,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     public function getStoreId()
     {
         $dataObject = $this->getDataObject();
-        if ($dataObjects) {
+        if ($dataObject) {
             return $dataObject->getStoreId();
         }
         return $this->getData('store_id');
