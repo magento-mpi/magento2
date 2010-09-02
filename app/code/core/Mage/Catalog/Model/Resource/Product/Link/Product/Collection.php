@@ -194,7 +194,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      */
     public function setRandomOrder()
     {
-        Mage::getResourceHelper('catalog')->getRandomOrderSelect($this->getSelect(), 'main_table.entity_id');
+        $this->getSelect()->orderRand('main_table.entity_id');
         return $this;
     }
 
