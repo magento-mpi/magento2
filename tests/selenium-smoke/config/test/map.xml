@@ -364,6 +364,7 @@
 						</tabs>
 						<messages>
 							<categorysaved>//div[@id="messages"]//li[@class="success-msg"]</categorysaved>
+							<error>//div[@id="messages"]//li[@class="error-msg"]</error>
 						</messages>
 					</managecategories>
 					<manageproducts>
@@ -454,6 +455,7 @@
 							</buttons>
 							<messages>
 								<usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
+								<error>//div[@id="messages"]//li[@class="error-msg"]</error>
 							</messages>
 						</user>
 					</users>
@@ -483,6 +485,10 @@
 							<storestatus>store_is_active</storestatus>
 							<rootcategory>group_root_category_id</rootcategory>
 						</select>
+						<messages>
+							<success>//div[@id="messages"]//li[@class="success-msg"]</success>
+							<error>//div[@id="messages"]//li[@class="error-msg"]</error>
+						</messages>
 					</createsite>
 				</managestores>
 				<reindex>
@@ -498,32 +504,46 @@
 					<selectors>
 						<store>store_switcher</store>
 					</selectors>
+					<tabs>
+						<web>
+							<inputs>
+								<secure>
+									<baselink>web_secure_base_link_url</baselink>
+								</secure>
+								<unsecure>
+									<baselink>web_unsecure_base_link_url</baselink>
+								</unsecure>
+							</inputs>
+							<checkboxes>
+								<secure>
+									<useDefaultBaseLink>//input[@id='web_secure_base_link_url_inherit']</useDefaultBaseLink>
+									<useDefaultBaseLinkChecked>//input[@id='web_secure_base_link_url_inherit' and @checked='checked']</useDefaultBaseLinkChecked>
+								</secure>
+								<unsecure>
+									<useDefaultBaseLink>//input[@id='web_unsecure_base_link_url_inherit']</useDefaultBaseLink>
+									<useDefaultBaseLinkChecked>//input[@id='web_unsecure_base_link_url_inherit' and @checked='checked']</useDefaultBaseLinkChecked>
+								</unsecure>
+							</checkboxes>
+							<links>
+								<secure>web_secure-head</secure>
+								<unsecure>web_unsecure-head</unsecure>
+							</links>
+							<elements>
+								<hidedSecure>//fieldset[@id='web_secure' and @style='display: none;']</hidedSecure>
+								<hidedUnsecure>//fieldset[@id='web_unsecure' and @style='display: none;']</hidedUnsecure>
+								<visibleSecure>//fieldset[@id='web_secure' and @style='']</visibleSecure>
+								<visibleUnsecure>//fieldset[@id='web_unsecure' and @style='']</visibleUnsecure>
+								<storedSecure>//*[@id='web_secure_base_link_url' and @value='{{secure_base_url}}%s/']</storedSecure>
+								<storedUnsecure>//*[@id='web_unsecure_base_link_url' and @value='{{unsecure_base_url}}%s/']</storedUnsecure>
+							</elements>
+						</web>
+					</tabs>
 					<buttons>
-						<web>link=Web</web>
-						<secure>web_secure-head</secure>
-						<unsecure>web_unsecure-head</unsecure>
 						<save>//button[span="Save Config"]</save>
 					</buttons>
-					<checkboxes>
-						<secure>
-							<baselink>web_secure_base_link_url_inherit</baselink>
-						</secure>
-						<unsecure>
-							<baselink>web_unsecure_base_link_url_inherit</baselink>
-						</unsecure>
-					</checkboxes>
-					<inputs>
-						<secure>
-							<baselink>web_secure_base_link_url</baselink>
-						</secure>
-						<unsecure>
-							<baselink>web_unsecure_base_link_url</baselink>
-						</unsecure>
-					</inputs>
-					<tabs>
-						<visibledsecure>//fieldset[@id='web_secure' and @style='']</visibledsecure>
-						<visibledunsecure>//fieldset[@id='web_unsecure' and @style='']</visibledunsecure>
-					</tabs>
+					<links>
+						<web>link=Web</web>
+					</links>
 				</configuration>
 			</system>
 			<login>
@@ -544,6 +564,7 @@
 		</pages>
 		<messages>
 			<success>//li[@class="success-msg"]</success>
+			<error>//div[@id="messages"]//li[@class="error-msg"]</error>
 		</messages>
 	</admin>
 	<!-- Miscelaneous usefull elements -->
