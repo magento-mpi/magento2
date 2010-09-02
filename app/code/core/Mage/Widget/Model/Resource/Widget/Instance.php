@@ -106,7 +106,10 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
             );
             $pageId = $pageGroup['page_id'];
             if (in_array($pageGroup['page_id'], $pageIds)) {
-                $writeAdapter->update($pageTable, $data, $writeAdapter->quoteInto('page_id = ?', (int)$pageId));
+                $quotePageId = $writeAdapter->quoteInto('page_id = ?', (int)$pageId);
+                $writeAdapter->update($pageTable,
+                    $data,
+                    $quotePageId);
             } else {
                 $writeAdapter->insert($pageTable,
                     array_merge(array('instance_id' => $object->getId()),
