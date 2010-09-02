@@ -35,7 +35,7 @@
 class Mage_Review_Model_Resource_Review_Summary extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define module
      *
      */
     protected function _construct()
@@ -44,11 +44,11 @@ class Mage_Review_Model_Resource_Review_Summary extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Retrieve select object for load object data
      *
-     * @param unknown_type $field
-     * @param unknown_type $value
-     * @param unknown_type $object
+     * @param string $field
+     * @param mixed $value
+     * @param Mage_Core_Model_Abstract $object
      * @return unknown
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -66,10 +66,12 @@ class Mage_Review_Model_Resource_Review_Summary extends Mage_Core_Model_Resource
      */
     public function reAggregate($summary)
     {
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->getMainTable())
+        $adapter = $this->_getWriteAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable(), array())
+            ->columns(array('AVG(primary_id)', 'store_id', 'entity_pk_value'))
             ->group(array('entity_pk_value', 'store_id'));
-        foreach ($this->_getWriteAdapter()->fetchAll($select) as $row) {
+        foreach ($adapter->fetchAll($select) as $row) {
             if (isset($summary[$row['store_id']]) && isset($summary[$row['store_id']][$row['entity_pk_value']])) {
                 $summaryItem = $summary[$row['store_id']][$row['entity_pk_value']];
                 if ($summaryItem->getCount()) {
@@ -80,10 +82,10 @@ class Mage_Review_Model_Resource_Review_Summary extends Mage_Core_Model_Resource
             } else {
                 $ratingSummary = 0;
             }
-            $this->_getWriteAdapter()->update(
+            $adapter->update(
                 $this->getMainTable(),
                 array('rating_summary' => $ratingSummary),
-                $this->_getWriteAdapter()->quoteInto('primary_id = ?', $row['primary_id'])
+                $adapter->quoteInto('primary_id = ?', $row['primary_id'])
             );
         }
         return $this;

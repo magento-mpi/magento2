@@ -73,6 +73,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             ->load()
             ->toOptionArray();
 
+        $tmpArr = array();
         foreach( $statuses as $key => $status ) {
             $tmpArr[$status['value']] = $status['label'];
         }

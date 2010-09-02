@@ -35,49 +35,54 @@
 class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
-     * @var unknown
+     * Review table
+     * 
+     * @var string
      */
     protected $_reviewTable;
 
     /**
-     * Enter description here ...
+     * Review Detail table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewDetailTable;
 
     /**
-     * Enter description here ...
+     * Review status table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewStatusTable;
 
     /**
-     * Enter description here ...
+     * Review entity table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewEntityTable;
 
     /**
-     * Enter description here ...
+     * Review store table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewStoreTable;
 
     /**
-     * Enter description here ...
+     * Review aggregate table
      *
-     * @var unknown
+     * @var string
+     */
+    protected $_aggregateTable;
+
+    /**
+     * @var array
      */
     private $_deleteCache          = array();
 
     /**
-     * Enter description here ...
+     * Define main table. Define other tables name
      *
      */
     protected function _construct()
@@ -135,30 +140,29 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
+        $adapter = $this->_getWriteAdapter();
         /**
-         * save detale
+         * save detail
          */
         $detail = array(
             'title'     => $object->getTitle(),
             'detail'    => $object->getDetail(),
             'nickname'  => $object->getNickname(),
         );
-        $select = $this->_getWriteAdapter()->select()
+        $select = $adapter->select()
             ->from($this->_reviewDetailTable, 'detail_id')
             ->where('review_id=?', $object->getId());
-        $detailId = $this->_getWriteAdapter()->fetchOne($select);
+        $detailId = $adapter->fetchOne($select);
 
         if ($detailId) {
-            $this->_getWriteAdapter()->update($this->_reviewDetailTable,
-                $detail,
-                'detail_id='.$detailId
-            );
+            $condition = $adapter->quoteInto("detail_id = ?", $detailId);
+            $adapter->update($this->_reviewDetailTable, $detail, $condition);
         }
         else {
             $detail['store_id']   = $object->getStoreId();
             $detail['customer_id']= $object->getCustomerId();
             $detail['review_id']  = $object->getId();
-            $this->_getWriteAdapter()->insert($this->_reviewDetailTable, $detail);
+            $adapter->insert($this->_reviewDetailTable, $detail);
         }
 
 
@@ -167,8 +171,8 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
          */
         $stores = $object->getStores();
         if(!empty($stores)) {
-            $condition = $this->_getWriteAdapter()->quoteInto('review_id = ?', $object->getId());
-            $this->_getWriteAdapter()->delete($this->_reviewStoreTable, $condition);
+            $condition = $adapter->quoteInto('review_id = ?', $object->getId());
+            $adapter->delete($this->_reviewStoreTable, $condition);
 
             $insertedStoreIds = array();
             foreach ($stores as $storeId) {
@@ -181,7 +185,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
                     'store_id' => $storeId,
                     'review_id'=> $object->getId()
                 );
-                $this->_getWriteAdapter()->insert($this->_reviewStoreTable, $storeInsert);
+                $adapter->insert($this->_reviewStoreTable, $storeInsert);
             }
         }
 
@@ -202,10 +206,11 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->_reviewStoreTable, array('store_id'))
             ->where('review_id=?', $object->getId());
-        $stores = $this->_getReadAdapter()->fetchCol($select);
+        $stores = $adapter->fetchCol($select);
         if (empty($stores) && Mage::app()->isSingleStoreMode()) {
             $object->setStores(array(Mage::app()->getStore(true)->getId()));
         } else {
@@ -215,7 +220,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     }
 
     /**
-     * Enter description here ...
+     * Action before delete 
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Review_Model_Resource_Review
@@ -251,36 +256,41 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     }
 
     /**
-     * Enter description here ...
+     * Retrieves total reviews
      *
-     * @param unknown_type $entityPkValue
-     * @param unknown_type $approvedOnly
-     * @param unknown_type $storeId
-     * @return unknown
+     * @param int $entityPkValue
+     * @param bool $approvedOnly
+     * @param int $storeId
+     * @return int
      */
     public function getTotalReviews($entityPkValue, $approvedOnly = false, $storeId = 0)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->_reviewTable, "COUNT(*)")
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->_reviewTable, array())
+            ->columns(array('COUNT(*)'))
             ->where("{$this->_reviewTable}.entity_pk_value = ?", $entityPkValue);
 
         if($storeId > 0) {
             $select->join(array('store'=>$this->_reviewStoreTable),
-                $this->_reviewTable.'.review_id=store.review_id AND store.store_id=' . (int)$storeId, array());
+                $adapter->quoteInto($this->_reviewTable.'.review_id=store.review_id AND store.store_id = ?', (int)$storeId),
+                array());
         }
         if( $approvedOnly ) {
             $select->where("{$this->_reviewTable}.status_id = ?", 1);
         }
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $adapter->fetchOne($select);
     }
 
     /**
      * Enter description here ...
      *
-     * @param unknown_type $object
+     * @param Mage_Core_Model_Abstract $object
      */
     public function aggregate($object)
     {
+        $readAdapter    = $this->_getReadAdapter();
+        $writeAdapter   = $this->_getWriteAdapter();
         if( !$object->getEntityPkValue() && $object->getId() ) {
             $object->load($object->getReviewId());
         }
@@ -288,7 +298,6 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
         $ratingModel    = Mage::getModel('rating/rating');
         $ratingSummaries= $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
-        $nonDelete = array();
         foreach($ratingSummaries as $ratingSummaryObject) {
             if( $ratingSummaryObject->getCount() ) {
                 $ratingSummary = round($ratingSummaryObject->getSum() / $ratingSummaryObject->getCount());
@@ -297,13 +306,13 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
             }
 
             $reviewsCount = $this->getTotalReviews($object->getEntityPkValue(), true, $ratingSummaryObject->getStoreId());
-            $select = $this->_getReadAdapter()->select()
+            $select = $readAdapter->select()
                 ->from($this->_aggregateTable)
                 ->where("{$this->_aggregateTable}.entity_pk_value = ?", $object->getEntityPkValue())
                 ->where("{$this->_aggregateTable}.entity_type = ?", $object->getEntityId())
                 ->where("{$this->_aggregateTable}.store_id = ?", $ratingSummaryObject->getStoreId());
 
-            $oldData = $this->_getReadAdapter()->fetchRow($select);
+            $oldData = $readAdapter->fetchRow($select);
 
             $data = new Varien_Object();
 
@@ -313,17 +322,17 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
                 ->setRatingSummary( ($ratingSummary > 0) ? $ratingSummary : 0 )
                 ->setStoreId($ratingSummaryObject->getStoreId());
 
-            $this->_getWriteAdapter()->beginTransaction();
+           $writeAdapter->beginTransaction();
             try {
                 if( $oldData['primary_id'] > 0 ) {
-                    $condition = $this->_getWriteAdapter()->quoteInto("{$this->_aggregateTable}.primary_id = ?", $oldData['primary_id']);
-                    $this->_getWriteAdapter()->update($this->_aggregateTable, $data->getData(), $condition);
+                    $condition = $writeAdapter->quoteInto("{$this->_aggregateTable}.primary_id = ?", $oldData['primary_id']);
+                    $writeAdapter->update($this->_aggregateTable, $data->getData(), $condition);
                 } else {
-                    $this->_getWriteAdapter()->insert($this->_aggregateTable, $data->getData());
+                    $writeAdapter->insert($this->_aggregateTable, $data->getData());
                 }
-                $this->_getWriteAdapter()->commit();
+                $writeAdapter->commit();
             } catch (Exception $e) {
-                $this->_getWriteAdapter()->rollBack();
+                $writeAdapter->rollBack();
             }
         }
     }
@@ -336,15 +345,15 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _loadVotedRatingIds($reviewId)
     {
+        $adapter = $this->_getReadAdapter();
         if (empty($reviewId)) {
             return array();
         }
-        $select = $this->_getReadAdapter()->select()
+        $select = $adapter->select()
             ->from(array('v' => $this->getTable('rating/rating_option_vote')), 'r.rating_id')
             ->joinInner(array('r' => $this->getTable('rating/rating')), 'v.rating_id=r.rating_id')
-            ->where('v.review_id=?', $reviewId
-        );
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('v.review_id=?', $reviewId);
+        return $adapter->fetchCol($select);
     }
 
     /**
@@ -373,10 +382,10 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     }
 
     /**
-     * Enter description here ...
+     * Reaggregate this review's ratings.
      *
-     * @param unknown_type $reviewId
-     * @param unknown_type $entityPkValue
+     * @param int $reviewId
+     * @param int $entityPkValue
      */
     public function reAggregateReview($reviewId, $entityPkValue)
     {
@@ -391,10 +400,11 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
      */
     public function getEntityIdByCode($entityCode)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->_reviewEntityTable, array('entity_id'))
             ->where('entity_code = ?', $entityCode);
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $adapter->fetchOne($select);
     }
 
     /**

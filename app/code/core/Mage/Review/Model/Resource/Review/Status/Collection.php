@@ -26,39 +26,36 @@
 
 
 /**
- * Review sttuses collection
+ * Review statuses collection
  *
  * @category    Mage
  * @package     Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Resource_Review_Status_Collection extends Varien_Data_Collection_Db
+class Mage_Review_Model_Resource_Review_Status_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Review status table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewStatusTable;
 
     /**
-     * Enter description here ...
+     * Collection model initialization
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('review_read'));
-        
-        $this->_setIdFieldName('status_id');
-        $this->_reviewStatusTable = Mage::getSingleton('core/resource')->getTableName('review/review_status');
-
-        $this->_select->from($this->_reviewStatusTable);
+        $this->_init('review/review_status');
     }
 
+
+
     /**
-     * Enter description here ...
+     * Convert items array to array for select options
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {

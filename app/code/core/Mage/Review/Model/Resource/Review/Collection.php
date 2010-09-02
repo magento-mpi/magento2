@@ -32,70 +32,76 @@
  * @package     Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Resource_Review_Collection extends Varien_Data_Collection_Db
+class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Review table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewTable;
 
     /**
-     * Enter description here ...
+     * Review detail table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewDetailTable;
 
     /**
-     * Enter description here ...
+     * Review status table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewStatusTable;
 
     /**
-     * Enter description here ...
+     * Review entity table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewEntityTable;
 
     /**
-     * Enter description here ...
+     * Review store table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewStoreTable;
 
     /**
-     * Enter description here ...
-     *
-     * @var unknown
+     * Add store data flag
+     * @var bool
      */
     protected $_addStoreDataFlag   = false;
 
     /**
-     * Enter description here ...
+     * Define module
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        $resources = Mage::getSingleton('core/resource');
+        $this->_init('review/review');
+        $this->_reviewTable         = $this->getTable('review/review');
+        $this->_reviewDetailTable   = $this->getTable('review/review_detail');
+        $this->_reviewStatusTable   = $this->getTable('review/review_status');
+        $this->_reviewEntityTable   = $this->getTable('review/review_entity');
+        $this->_reviewStoreTable    = $this->getTable('review/review_store');
+        
+    }
 
-        parent::__construct($resources->getConnection('review_read'));
-
-        $this->_reviewTable         = $resources->getTableName('review/review');
-        $this->_reviewDetailTable   = $resources->getTableName('review/review_detail');
-        $this->_reviewStatusTable   = $resources->getTableName('review/review_status');
-        $this->_reviewEntityTable   = $resources->getTableName('review/review_entity');
-        $this->_reviewStoreTable   = $resources->getTableName('review/review_store');
-
-        $this->_select->from(array('main_table'=>$this->_reviewTable))
-            ->join(array('detail'=>$this->_reviewDetailTable), 'main_table.review_id=detail.review_id');
-
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('review/review'));
+    /**
+     * init select
+     *
+     * @return Mage_Review_Model_Resource_Review_Product_Collection
+     */
+    protected function _initSelect()
+    {
+        parent::_initSelect();
+        $this->getSelect()
+            ->join(array('detail' => $this->_reviewDetailTable),
+                $this->getMainTable() . '.review_id = detail.review_id');
+        return $this;
     }
 
     /**
@@ -120,8 +126,11 @@ class Mage_Review_Model_Resource_Review_Collection extends Varien_Data_Collectio
      */
     public function addStoreFilter($storeId)
     {
-        $this->getSelect()->join(array('store'=>$this->_reviewStoreTable), 'main_table.review_id=store.review_id', array());
-        $this->getSelect()->where('store.store_id IN (?)', $storeId);
+        $inCond = $this->getConnection()->prepareSqlCondition('store.store_id', array('in' => $storeId));
+        $this->getSelect()->join(array('store'=>$this->_reviewStoreTable),
+            $this->getMainTable().'.review_id=store.review_id',
+            array());
+        $this->getSelect()->where($inCond);
         return $this;
     }
 
@@ -167,17 +176,6 @@ class Mage_Review_Model_Resource_Review_Collection extends Varien_Data_Collectio
     }
 
     /**
-     * Enter description here ...
-     *
-     * @param unknown_type $entityName
-     * @return Mage_Review_Model_Resource_Review_Collection
-     */
-    public function addEntityInfo($entityName)
-    {
-        return $this;
-    }
-
-    /**
      * Add status filter
      *
      * @param int|string $status
@@ -202,9 +200,9 @@ class Mage_Review_Model_Resource_Review_Collection extends Varien_Data_Collectio
     }
 
     /**
-     * Enter description here ...
+     * Set date order
      *
-     * @param unknown_type $dir
+     * @param string $dir
      * @return Mage_Review_Model_Resource_Review_Collection
      */
     public function setDateOrder($dir = 'DESC')
@@ -214,7 +212,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Varien_Data_Collectio
     }
 
     /**
-     * Enter description here ...
+     * Add rate votes
      *
      * @return Mage_Review_Model_Resource_Review_Collection
      */
@@ -234,23 +232,26 @@ class Mage_Review_Model_Resource_Review_Collection extends Varien_Data_Collectio
     }
 
     /**
-     * Enter description here ...
+     * Add reviews total count 
      *
      * @return Mage_Review_Model_Resource_Review_Collection
      */
     public function addReviewsTotalCount()
     {
-        $this->_select->joinLeft(array('r' => $this->_reviewTable), 'main_table.entity_pk_value = r.entity_pk_value', 'COUNT(r.review_id) as total_reviews');
-        $this->_select->group('main_table.review_id');
+        $this->_select->joinLeft(array('r' => $this->_reviewTable),
+                'main_table.entity_pk_value = r.entity_pk_value',
+                array())
+            ->columns(array('total_reviews' => 'COUNT(r.review_id)'))
+            ->group('main_table.review_id');
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Load data
      *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
+     * @param boolean $printQuery
+     * @param boolean $logQuery
      * @return Mage_Review_Model_Resource_Review_Collection
      */
     public function load($printQuery = false, $logQuery = false)
@@ -263,25 +264,25 @@ class Mage_Review_Model_Resource_Review_Collection extends Varien_Data_Collectio
         if($this->_addStoreDataFlag) {
             $this->_addStoreData();
         }
-
-
-
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add store data
      *
      */
     protected function _addStoreData()
     {
+        $adapter = $this->getConnection();
+
         $reviewsIds = $this->getColumnValues('review_id');
         $storesToReviews = array();
         if (count($reviewsIds)>0) {
-            $select = $this->getConnection()->select()
+            $inCond = $adapter->prepareSqlCondition('review_id', array('in' => $reviewsIds));
+            $select = $adapter->select()
                 ->from($this->_reviewStoreTable)
-                ->where('review_id IN(?)', $reviewsIds);
-            $result = $this->getConnection()->fetchAll($select);
+                ->where($inCond);
+            $result = $adapter->fetchAll($select);
             foreach ($result as $row) {
                 if (!isset($storesToReviews[$row['review_id']])) {
                     $storesToReviews[$row['review_id']] = array();
