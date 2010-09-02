@@ -972,4 +972,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         }
         return $this->_frontendName;
     }
+
+    /**
+     * Returns whether url forming scheme prepends url path with store view code
+     *
+     * @return bool
+     */
+    public function getStoreInUrl()
+    {
+        return Mage::isInstalled() && $this->getConfig(self::XML_PATH_STORE_IN_URL);
+    }
 }

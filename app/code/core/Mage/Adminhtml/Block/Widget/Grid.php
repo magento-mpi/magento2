@@ -787,6 +787,23 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     }
 
      /**
+     * Returns url for RSS
+     * Can be overloaded in descendant classes to perform custom changes to url passed to addRssList()
+     *
+     * @param string $url
+     * @return string
+     */
+    protected function _getRssUrl($url)
+    {
+        $urlModel = Mage::getModel('core/url');
+        if (Mage::app()->getStore()->getStoreInUrl()) {
+            // Url in 'admin' store view won't be accessible, so form it in default store view frontend
+            $urlModel->setStore(Mage::app()->getDefaultStoreView());
+        }
+        return $urlModel->getUrl($url);
+    }
+
+     /**
      * Add new rss list to grid
      *
      * @param   string $url
@@ -797,7 +814,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         $this->_rssLists[] = new Varien_Object(
             array(
-                'url'   => Mage::getModel('core/url')->getUrl($url),
+                'url'   => $this->_getRssUrl($url),
                 'label' => $label
             )
         );
