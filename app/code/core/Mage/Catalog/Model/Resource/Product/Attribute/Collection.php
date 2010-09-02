@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     public function removePriceFilter()
     {
-        return $this->addFieldToFilter('main_table.attribute_code', array('neq'=>'price'));
+        return $this->addFieldToFilter('main_table.attribute_code', array('neq' => 'price'));
     }
 
     /**

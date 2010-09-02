@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice extends Ma
             $conds[] = $adapter->quoteInto($this->getIdFieldName() . '=?', $priceId);
         }
 
-        $where = join(' AND ', $conds);
+        $where = implode(' AND ', $conds);
 
         return $adapter->delete($this->getMainTable(), $where);
     }

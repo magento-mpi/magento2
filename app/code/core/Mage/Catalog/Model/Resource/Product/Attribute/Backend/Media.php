@@ -39,8 +39,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
     const GALLERY_IMAGE_TABLE = 'catalog/product_attribute_media_gallery_image';
 
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -90,9 +89,9 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
     }
 
     /**
-     * Enter description here ...
+     * Remove duplicates
      *
-     * @param unknown_type $result
+     * @param array $result
      * @return Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media
      */
     protected function _removeDuplicates(&$result)
@@ -126,7 +125,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
 
         $adapter->insert($this->getMainTable(), $data);
 
-        return $adapter->lastInsertId();
+        return $adapter->lastInsertId($this->getMainTable());
     }
 
     /**

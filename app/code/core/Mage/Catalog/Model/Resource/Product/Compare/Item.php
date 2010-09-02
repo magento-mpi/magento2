@@ -56,19 +56,23 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
         if ($product instanceof Mage_Catalog_Model_Product) {
             $productId = $product->getId();
         } else {
-            $productId = (int)$product;
+            $productId = $product;
         }
-
+        $bind = array(
+            'product_id'    => (int)$productId
+        );
         $select = $read->select()->from($this->getMainTable())
-            ->where('product_id=?',  $productId);
+            ->where('product_id = :product_id');
 
         if ($object->getCustomerId()) {
-            $select->where('customer_id=?', $object->getCustomerId());
+            $bind['customer_id'] = (int)$object->getCustomerId();
+            $select->where('customer_id = :customer_id');
         } else {
-            $select->where('visitor_id=?', $object->getVisitorId());
+            $bind['visitor_id'] = (int)$object->getVisitorId();
+            $select->where('visitor_id = :visitor_id');
         }
 
-        $data = $read->fetchRow($select);
+        $data = $read->fetchRow($select, $bind);
 
         if (!$data) {
             return false;
@@ -89,12 +93,14 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
      */
     public function getCount($customerId, $visitorId)
     {
+        $bind = array('visitore_id' => (int)$visitorId);
         $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), 'COUNT(*)')
-            ->where('visitor_id=?',  $visitorId);
+            ->where('visitor_id = :visitore_id');
         if ($customerId) {
-            $select->where('customer_id=?', $customerId);
+            $bind['customer_id'] = (int)$customerId;
+            $select->where('customer_id = :customer_id');
         }
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $this->_getReadAdapter()->fetchOne($select, $bind);
     }
 
     /**
@@ -111,7 +117,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
                     array('visitor_table' => $this->getTable('log/visitor')),
                     'visitor_table.visitor_id=compare_table.visitor_id AND compare_table.customer_id IS NULL',
                     array())
-                ->where('compare_table.visitor_id>?', 0)
+                ->where('compare_table.visitor_id > ?', 0)
                 ->where('`visitor_table`.`visitor_id` IS NULL')
                 ->limit(100);
             $itemIds = $this->_getReadAdapter()->fetchCol($select);

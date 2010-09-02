@@ -36,9 +36,9 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
     extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Enter description here ...
+     * Before save
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
      * @return Mage_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
      */
     public function beforeSave($object)
@@ -46,7 +46,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
         $attributeName = $this->getAttribute()->getName();
 
         $urlKey = $object->getData($attributeName);
-        if ($urlKey=='') {
+        if ($urlKey == '') {
             $urlKey = $object->getName();
         }
 
@@ -56,9 +56,9 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
     }
 
     /**
-     * Enter description here ...
+     * Refresh product rewrites
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
      * @return Mage_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
      */
     public function afterSave($object)

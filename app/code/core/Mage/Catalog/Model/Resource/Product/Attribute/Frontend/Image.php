@@ -35,17 +35,20 @@
 class Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image
     extends Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
 {
+    const IMAGE_PATH_SEGMENT = 'catalog/product/';
+
     /**
-     * Enter description here ...
+     * Retreive image url
      *
-     * @param unknown_type $object
-     * @return unknown
+     * @param Varien_Object $object
+     * @return string
      */
     public function getUrl($object)
     {
         $url = false;
-        if ($image = $object->getData($this->getAttribute()->getAttributeCode())) {
-            $url = Mage::getBaseUrl('media').'catalog/product/'.$image;
+        $image = $object->getData($this->getAttribute()->getAttributeCode());
+        if ($image) {
+            $url = Mage::getBaseUrl('media') . self::IMAGE_PATH_SEGMENT . $image;
         }
         return $url;
     }
