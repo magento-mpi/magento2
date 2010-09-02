@@ -134,8 +134,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
      * @param array $entityIds      the entity ids limitation
      * @param int $attributeId      the attribute id limitation
      */
-    abstract protected function _prepareIndex($entityIds = null, $attributeId = null)
-;
+    abstract protected function _prepareIndex($entityIds = null, $attributeId = null);
 
     /**
      * Remove Not Visible products from temporary data index
@@ -151,7 +150,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
             ->from($idxTable, null);
 
         $condition = $write->quoteInto('=?',Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
-        $this->_addAttributeToSelect($select, 'visibility', $idxTable.'.entity_id', $idxTable.'.store_id', $condition);
+        $this->_addAttributeToSelect($select, 'visibility', $idxTable . '.entity_id', $idxTable . '.store_id', $condition);
 
         $query = $select->deleteFromSelect($idxTable);
         $write->query($query);
@@ -209,12 +208,12 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
     protected function _getIndexableAttributesCondition()
     {
         $conditions = array(
-            'ca.is_filterable_in_search>0',
-            'ca.is_visible_in_advanced_search>0',
-            'ca.is_filterable>0'
+            'ca.is_filterable_in_search > 0',
+            'ca.is_visible_in_advanced_search > 0',
+            'ca.is_filterable > 0'
         );
 
-        return join(' OR ', $conditions);
+        return implode(' OR ', $conditions);
     }
 
     /**
@@ -228,7 +227,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
         $adapter = $this->_getWriteAdapter();
         $adapter->beginTransaction();
         try {
-            $where = $adapter->quoteInto('attribute_id=?', $attributeId);
+            $where = $adapter->quoteInto('attribute_id = ?', $attributeId);
             $adapter->delete($this->getMainTable(), $where);
             $adapter->commit();
         } catch (Exception $e) {
@@ -251,7 +250,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
         $adapter->beginTransaction();
         try {
             // remove index by attribute
-            $where = $adapter->quoteInto('attribute_id=?', $attributeId);
+            $where = $adapter->quoteInto('attribute_id = ?', $attributeId);
             $adapter->delete($this->getMainTable(), $where);
 
             // insert new index

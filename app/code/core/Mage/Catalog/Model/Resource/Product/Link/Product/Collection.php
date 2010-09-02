@@ -155,13 +155,13 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      * @param string $dir
      * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
      */
-    public function addAttributeToSort($attribute, $dir = Varien_Db_Select::SQL_ASC)
+    public function addAttributeToSort($attribute, $dir = self::SORT_ORDER_ASC)
     {
         /**
          * Position is not eav attribute (it is links attribute) so we cannot use default attributes to sort
          */
         if ($attribute == 'position' && $this->_hasLinkFilter) {
-            $this->getSelect()->order($attribute . ' ' . $dir);
+            $this->setOrder($attribute, $dir);
         } else {
             parent::addAttributeToSort($attribute, $dir);
         }
@@ -268,7 +268,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      * @param string $dir sort type asc|desc
      * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
      */
-    public function setPositionOrder($dir = Varien_Db_Select::SQL_ASC)
+    public function setPositionOrder($dir = self::SORT_ORDER_ASC)
     {
         return $this->setOrder('position', $dir);
     }
