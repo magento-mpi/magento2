@@ -85,7 +85,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
 
             $select = $readAdapter->select()
                 ->from($pageLayoutTable, 'layout_update_id')
-                ->where( $inCond );
+                ->where($inCond);
             $removeLayoutUpdateIds = $readAdapter->fetchCol($select);
 
             $writeAdapter->delete($pageLayoutTable, $inCond);
@@ -106,10 +106,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
             );
             $pageId = $pageGroup['page_id'];
             if (in_array($pageGroup['page_id'], $pageIds)) {
-                $quotePageId = $writeAdapter->quoteInto('page_id = ?', (int)$pageId);
-                $writeAdapter->update($pageTable,
-                    $data,
-                    $quotePageId);
+                $writeAdapter->update($pageTable, $data, array('page_id = ?' => (int)$pageId));
             } else {
                 $writeAdapter->insert($pageTable,
                     array_merge(array('instance_id' => $object->getId()),
@@ -202,7 +199,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
             )
             ->where('main_table.instance_id=:instance_id');
         $result = $writeAdapter->fetchCol($select, $object->getId());
-        $object->setLayoutUpdateIdsToDelete();
+        $object->setLayoutUpdateIdsToDelete($result);
         return $this;
     }
 
