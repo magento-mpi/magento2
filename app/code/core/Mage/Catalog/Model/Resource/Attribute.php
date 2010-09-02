@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
             if ($backendTable) {
                 $select = $this->_getWriteAdapter()->select()
                     ->from($attribute->getEntity()->getEntityTable(), 'entity_id')
-                    ->where('attribute_set_id =?', $result['attribute_set_id']);
+                    ->where('attribute_set_id = ?', $result['attribute_set_id']);
 
                 $clearCondition = array(
                     'entity_type_id =?' => $attribute->getEntityTypeId(),
@@ -88,7 +88,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
             }
         }
 
-        $condition = array('entity_attribute_id =?' => $object->getEntityAttributeId());
+        $condition = array('entity_attribute_id = ?' => $object->getEntityAttributeId());
         $this->_getWriteAdapter()->delete($this->getTable('entity_attribute'), $condition);
 
         return $this;
@@ -109,7 +109,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
 
         $bind = array('attribute_id' => $object->getAttributeId());
         $select = $adapter->select()
-            ->from(array('main_table' => $attrTable), 'COUNT(*)')
+            ->from(array('main_table' => $attrTable), 'COUNT(product_super_attribute_id)')
             ->join(array('entity' => $productTable), 'main_table.product_id = entity.entity_id')
             ->where('main_table.attribute_id = :attribute_id')
             ->group('main_table.attribute_id')

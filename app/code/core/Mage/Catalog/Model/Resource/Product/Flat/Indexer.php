@@ -540,7 +540,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
     }
 
     /**
-     * Retrieve 32bit UNIQUE HASH for a Table foreign key
+     * Retrieve UNIQUE HASH for a Table foreign key
      *
      * @param string $priTableName  the target table name
      * @param string $priColumnName the target table column name

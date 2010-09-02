@@ -875,17 +875,17 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     /**
      * Returns category entity row by category id
      *
-     * @param int $id
+     * @param int $entityId
      * @return array
      */
-    protected function _getCategoryEntityRow($id)
+    protected function _getCategoryEntityRow($entityId)
     {
         $select = $this->getConnection()->select();
 
         $select->from($this->getTable('catalog/category'));
         $select->where('entity_id = :entity_id');
 
-        return $this->getConnection()->fetchRow($select, array('entity_id'=>$id));
+        return $this->getConnection()->fetchRow($select, array('entity_id' => $entityId));
     }
 
     /**
@@ -901,9 +901,9 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
 
         if ($category['parent_id'] != 0) {
             $parentCategory = $this->_getCategoryEntityRow($category['parent_id']);
-
-            if ($parentCategory)
+            if ($parentCategory) {
                 $path = $this->_getCategoryPath($parentCategory, $path);
+            }
         }
 
         return $path;
@@ -916,20 +916,19 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
      */
     public function rebuildCategoryLevels()
     {
-        $select = $this->getConnection()->select()
+        $adapter = $this->getConnection();
+        $select = $adapter->select()
             ->from($this->getTable('catalog/category'));
 
-        $categories = $this->getConnection()->fetchAll($select);
+        $categories = $adapter->fetchAll($select);
 
         foreach ($categories as $category) {
             $level = count(explode('/', $category['path']))-1;
-            $this
-                ->getConnection()
-                ->update(
-                    $this->getTable('catalog/category'),
-                    array('level' => $level),
-                    array('entity_id = ?' => $category['entity_id'])
-                );
+            $adapter->update(
+                $this->getTable('catalog/category'),
+                array('level' => $level),
+                array('entity_id = ?' => $category['entity_id'])
+            );
         }
         return $this;
     }

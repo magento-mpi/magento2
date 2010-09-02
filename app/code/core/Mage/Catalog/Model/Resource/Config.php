@@ -90,7 +90,7 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
      */
     public function getEntityTypeId()
     {
-        if (is_null($this->_entityTypeId)) {
+        if ($this->_entityTypeId === null) {
             $this->_entityTypeId = Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
         }
         return $this->_entityTypeId;
@@ -104,8 +104,8 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
     public function getAttributesUsedInListing()
     {
         $bind = array(
-            'store_id'         => (int) $this->getStoreId(),
-            'entity_type_id'   => $this->getEntityTypeId(),
+            'store_id'         => (int)$this->getStoreId(),
+            'entity_type_id'   => (int)$this->getEntityTypeId(),
             'used_in_product_listing' => 1
         );
         $select = $this->_getReadAdapter()->select()
@@ -119,11 +119,11 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
                 'al.attribute_id = main_table.attribute_id AND al.store_id = :store_id',
                 array(
                     'store_label' => $this->_getReadAdapter()->getCheckSql(
-                        'al.value IS NOT NULL','al.value', 'main_table.frontend_label')
+                        'al.value IS NOT NULL', 'al.value', 'main_table.frontend_label')
                 )
             )
-            ->where('main_table.entity_type_id=:entity_type_id')
-            ->where('additional_table.used_in_product_listing=:used_in_product_listing');
+            ->where('main_table.entity_type_id = :entity_type_id')
+            ->where('additional_table.used_in_product_listing = :used_in_product_listing');
         return $this->_getReadAdapter()->fetchAll($select, $bind);
     }
 
@@ -135,8 +135,8 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
     public function getAttributesUsedForSortBy()
     {
         $bind = array(
-            'store_id'         => (int) $this->getStoreId(),
-            'entity_type_id'   => $this->getEntityTypeId(),
+            'store_id'         => (int)$this->getStoreId(),
+            'entity_type_id'   => (int)$this->getEntityTypeId(),
             'used_for_sort_by' => 1
         );
         $select = $this->_getReadAdapter()->select()
@@ -152,8 +152,8 @@ class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abs
                 array('store_label' =>
                     $this->_getReadAdapter()->getCheckSql('al.value IS NULL', 'main_table.frontend_label','al.value'))
             )
-            ->where('main_table.entity_type_id=:entity_type_id')
-            ->where('additional_table.used_for_sort_by=:used_for_sort_by');
+            ->where('main_table.entity_type_id = :entity_type_id')
+            ->where('additional_table.used_for_sort_by = :used_for_sort_by');
 
         return $this->_getReadAdapter()->fetchAll($select, $bind);
     }
