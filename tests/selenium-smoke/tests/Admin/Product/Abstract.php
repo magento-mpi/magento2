@@ -63,16 +63,23 @@ abstract class Test_Admin_Product_Abstract extends Test_Admin_Abstract
       //Save product
       $this->click($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/buttons/save"));
 
-      
-      // Check for success message
-      if (!$this->waitForElement($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/messages/productsaved"),10)) {
-          $this->setVerificationErrors("addSimpleProduct check 1: no success message");
-          //Check for some specific validation errors:
-          // sku must be unique
-          if ($this->isElementPresent($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/messages/skumustbeunique"),2)) {
-            $this->setVerificationErrors("addSimpleProduct check 2: SKU must be unique");
-          }
+
+      // check for error message
+      if ($this->waitForElement($this->getUiElement("admin/messages/error"),1)) {
+        $etext = $this->getText($this->getUiElement("admin/messages/error"));
+        $this->setVerificationErrors("Check 1: " . $etext);
+      } else {
+          // Check for success message
+        if (!$this->waitForElement($this->getUiElement("admin/messages/success"),60)) {
+            $this->setVerificationErrors("Check 2: no success message");
+        }
+        //Check for some specific validation errors:
+        // sku must be unique
+        if ($this->isElementPresent($this->getUiElement("admin/pages/catalog/categories/manageproducts/product/messages/skumustbeunique"),2)) {
+            $this->setVerificationErrors("Check 3: SKU must be unique");
+        }
       }
+      sleep(20);
       Core::debug("addSimpleProduct finished");
     }
 
@@ -109,7 +116,7 @@ abstract class Test_Admin_Product_Abstract extends Test_Admin_Abstract
      * @param $duplicatedSku - duplicated product Sku
      *
      */
-    public function duplicate($sku, $duplicatedSku)
+    public function duplicateProduct($sku, $duplicatedSku)
     {
         $result = true;
       //Open source product

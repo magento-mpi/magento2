@@ -98,14 +98,6 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $_parentSubCategoryName  = "";
 
-   /**
-     * Manage debug function outputs.
-     * 0 - silent function
-     * 9 - all debug information printed
-     * @var int 
-     */
-    protected $_debugLevel  = 7;
-
     /**
      * Attribute Set name
      *
@@ -120,6 +112,7 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      */
     function setVerificationErrors($error)
     {
+        Core::debug($error,5);
         array_push($this->verificationErrors, $error);
     }
 
@@ -258,5 +251,26 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
             core::debug('NOT matched', 7);
             return -1;
     }
+
+    /**
+     *  Safetly verify of existance of specified attribute
+     * @param nodeXpath
+     * @param attribName
+     */
+    public function attributeExists($nodeXpath, $attribName) {
+       Core::debug('attributeExists() started with: ' . $nodeXpath . '@' . $attribName, 7) ;
+       $result = true;
+       try {
+            $value = $this->getAttribute($nodeXpath . '@' . $attribName);
+       } catch (Exception $e) {
+            Core::debug('attributeExists() returned with false', 7) ;
+            $result = false;
+       }
+       if ($result) {
+           Core::debug('attributeExists() returned with true', 7) ;
+       }
+       return $result;
+    }
+
 }
 

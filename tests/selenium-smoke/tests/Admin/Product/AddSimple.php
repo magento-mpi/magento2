@@ -31,7 +31,6 @@ class Admin_Product_AddSimple extends Test_Admin_Product_Abstract
      */
 
     function testSimpleProductCreation() {
-        Core::debug("testSimpleProductCreation started");
         // Test Dara
         $paramArray = array (
             "sku" => Core::getEnvConfig('backend/createproduct/sku'),
@@ -43,12 +42,10 @@ class Admin_Product_AddSimple extends Test_Admin_Product_Abstract
             "quantity" => "1000",
             "categoryName" => Core::getEnvConfig('backend/managecategories/subcategoryname'),
             "webSiteName" => Core::getEnvConfig('backend/managestores/site/name')
-        );
-        
+        );       
         // Test Flow
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
         $this->addSimpleProduct($paramArray);
-        Core::debug("testSimpleProductCreation finished");
     }
 }
 ?>

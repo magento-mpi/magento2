@@ -4,11 +4,6 @@ class Admin_Login extends Test_Admin_Abstract
 {
 
     /**
-     * check test login to system
-     *
-     */
-
-    /**
      * Setup procedure.
      * Must be overriden in the children having any additional code prepended with parent::setUp();
      */
@@ -16,7 +11,11 @@ class Admin_Login extends Test_Admin_Abstract
         parent::setUp();
     }
 
-    function testUserCreation() {
+    /**
+     * Test user login to admin
+     *
+     */
+    function testAdminLogin() {
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
     }
 }

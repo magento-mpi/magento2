@@ -34,7 +34,7 @@ class Admin_Product_Duplicate extends Test_Admin_Product_Abstract
             
         // Test Flow
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->duplicate($sku,$duplicatedSku);
+        $this->duplicateProduct($sku,$duplicatedSku);
         Core::debug("testProductDuplicate finished");
     }
 }

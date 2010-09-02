@@ -9,13 +9,20 @@ class Admin_Siteconfiguration_SetUpBaseLink extends Test_Admin_Siteconfiguration
      */
     function setUp() {
         parent::setUp();
+
+        // Get test parameters
+        $this->_siteName = Core::getEnvConfig('backend/managestores/site/name');
+        $this->_siteCode = Core::getEnvConfig('backend/managestores/site/code');
     }
 
+    /**
+     * Test configuring of website baseurl values
+     *
+     */
     function testSiteConfiguration() {
-        Core::debug("testSiteCreation started");
-        $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->configURL();
-        $this->reindex();
-        Core::debug("testSiteCreation finished");
+        if ($this->adminLogin($this->_baseUrl, $this->_userName, $this->_password)) {
+            $this->configURL();
+            $this->doReindex();
+        }
     }
 }
