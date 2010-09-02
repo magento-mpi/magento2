@@ -250,7 +250,7 @@ class Mage_Core_Model_Resource_Setup
             return;
         }
         $resources = Mage::getConfig()->getNode('global/resources')->children();
-        foreach ($resources as $resName=>$resource) {
+        foreach ($resources as $resName => $resource) {
             if (!$resource->setup) {
                 continue;
             }

@@ -88,12 +88,12 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_account_edit',
                     'checkout_register',
                 );
-                if (!empty($attribute['form_adminhtml_only'])) {
+                if (!empty($attribute['adminhtml_only'])) {
                     $usedInForms = array('adminhtml_customer');
                 } else {
                     $usedInForms[] = 'adminhtml_customer';
                 }
-                if (!empty($attribute['form_admin_checkout'])) {
+                if (!empty($attribute['admin_checkout'])) {
                     $usedInForms[] = 'adminhtml_checkout';
                 }
                 foreach ($usedInForms as $formCode) {
@@ -140,7 +140,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'customer'                       => array(
                 'entity_model'                   => 'customer/customer',
                 'attribute_model'                => 'customer/attribute',
-                'entity_table'                   => 'customer/entity',
+                'table'                   => 'customer/entity',
                 'increment_model'                => 'eav/entity_increment_numeric',
                 'additional_attribute_table'     => 'customer/eav_attribute',
                 'entity_attribute_collection'    => 'customer/attribute_collection',
@@ -329,7 +329,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'customer_address'               => array(
                 'entity_model'                   => 'customer/address',
                 'attribute_model'                => 'customer/attribute',
-                'entity_table'                   => 'customer/address_entity',
+                'table'                   => 'customer/address_entity',
                 'additional_attribute_table'     => 'customer/eav_attribute',
                 'entity_attribute_collection'    => 'customer/address_attribute_collection',
                 'attributes'                     => array(

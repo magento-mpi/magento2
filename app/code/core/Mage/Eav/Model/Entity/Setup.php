@@ -1125,7 +1125,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                     if ('_' === $attr['source']) {
                         $attr['source'] = $sourcePrefix;
                     } elseif ('_' === $attr['source']{0}) {
-                        $attr['source'] = $sourcePrefix.$attr['source'];
+                        $attr['source'] = $sourcePrefix . $attr['source'];
                     } else {
                         $attr['source'] = $attr['source'];
                     }

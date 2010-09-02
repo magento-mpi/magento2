@@ -30,7 +30,7 @@ $cmsBlocks = array(
         'identifier'    => 'footer_links',
         'content'       => "<ul>\r\n<li><a href=\"{{store direct_url=\"about-magento-demo-store\"}}\">About Us</a></li>\r\n<li class=\"last\"><a href=\"{{store direct_url=\"customer-service\"}}\">Customer Service</a></li>\r\n</ul>",
         'is_active'     => 1,
-        'stores'        => array(0)
+        'stores'        => 0
     )
 );
 

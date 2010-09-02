@@ -93,7 +93,8 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
 
         $result = $this->_getWriteAdapter()->fetchOne($select, $bind);
         if ($result) {
-            throw Mage::exception('Mage_Customer', Mage::helper('customer')->__('This customer email already exists'),
+            throw Mage::exception(
+                'Mage_Customer', Mage::helper('customer')->__('This customer email already exists'),
                 Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS
             );
         }
@@ -265,7 +266,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     public function checkCustomerId($customerId)
     {
-        $bind   = array('entity_id', (int)$customerId);
+        $bind   = array('entity_id' => (int)$customerId);
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('customer/entity'), 'entity_id')
             ->where('entity_id = :entity_id')

@@ -122,7 +122,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
                 array('ea' => $this->getTable('eav/attribute')),
                 'ca.attribute_id = ea.attribute_id',
                 array())
-            ->where('ea.attribute_code<>?', 'price')
+            ->where('ea.attribute_code != ?', 'price')
             ->where($this->_getIndexableAttributesCondition())
             ->where('ea.backend_type=?', 'decimal');
 

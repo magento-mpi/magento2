@@ -55,8 +55,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
         $read = $this->_getReadAdapter();
         if ($product instanceof Mage_Catalog_Model_Product) {
             $productId = $product->getId();
-        }
-        else {
+        } else {
             $productId = (int)$product;
         }
 
@@ -65,8 +64,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
 
         if ($object->getCustomerId()) {
             $select->where('customer_id=?', $object->getCustomerId());
-        }
-        else {
+        } else {
             $select->where('visitor_id=?', $object->getVisitorId());
         }
 
@@ -111,7 +109,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
                 ->from(array('compare_table' => $this->getMainTable()), array('catalog_compare_item_id'))
                 ->joinLeft(
                     array('visitor_table' => $this->getTable('log/visitor')),
-                    '`visitor_table`.`visitor_id`=`compare_table`.`visitor_id` AND `compare_table`.`customer_id` IS NULL',
+                    'visitor_table.visitor_id=compare_table.visitor_id AND compare_table.customer_id IS NULL',
                     array())
                 ->where('compare_table.visitor_id>?', 0)
                 ->where('`visitor_table`.`visitor_id` IS NULL')
@@ -175,8 +173,8 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
         // collect customer compared items
         $select = $this->_getWriteAdapter()->select()
             ->from($this->getMainTable())
-            ->where('customer_id=?', $object->getCustomerId())
-            ->where('visitor_id<>?', $object->getVisitorId());
+            ->where('customer_id = ?', $object->getCustomerId())
+            ->where('visitor_id != ?', $object->getVisitorId());
         $customer = $this->_getWriteAdapter()->fetchAll($select);
 
         $products   = array();

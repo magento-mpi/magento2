@@ -482,7 +482,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $cacheId = $idPrefix . '_' . $sectionName;
             if ($recursionLevel > 0) {
                 foreach ($source->$sectionName->children() as $subSectionName => $node) {
-                    $this->_saveSectionCache($cacheId, $subSectionName, $source->$sectionName, $recursionLevel-1, $tags);
+                    $this->_saveSectionCache(
+                        $cacheId, $subSectionName, $source->$sectionName, $recursionLevel-1, $tags
+                    );
                 }
             }
             $this->_cachePartsForSave[$cacheId] = $source->$sectionName->asNiceXml('', false);
@@ -665,11 +667,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
             if ($name == 'Mage_All') {
                 $collectModuleFiles['base'][] = $v;
-            }
-            elseif (substr($name, 0, 5) == 'Mage_') {
+            } else if (substr($name, 0, 5) == 'Mage_') {
                 $collectModuleFiles['mage'][] = $v;
-            }
-            else {
+            } else {
                 $collectModuleFiles['custom'][] = $v;
             }
         }
@@ -757,7 +757,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $depends = $moduleProps['depends'];
             foreach ($moduleProps['depends'] as $depend => $true) {
                 if ($moduleProps['active'] && ((!isset($modules[$depend])) || empty($modules[$depend]['active']))) {
-                    Mage::throwException(Mage::helper('core')->__('Module "%1$s" requires module "%2$s".', $moduleName, $depend));
+                    Mage::throwException(
+                        Mage::helper('core')->__('Module "%1$s" requires module "%2$s".', $moduleName, $depend)
+                    );
                 }
                 $depends = array_merge($depends, $modules[$depend]['depends']);
             }
@@ -781,7 +783,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             foreach ($moduleProp['depends'] as $dependModule => $true) {
                 if (!isset($definedModules[$dependModule])) {
                     Mage::throwException(
-                        Mage::helper('core')->__('Module "%1$s" cannot depend on "%2$s".', $moduleProp['module'], $dependModule)
+                        Mage::helper('core')->__(
+                            'Module "%1$s" cannot depend on "%2$s".', $moduleProp['module'], $dependModule
+                        )
                     );
                 }
             }
@@ -898,7 +902,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
                 $hostArr = explode(':', $_SERVER['HTTP_HOST']);
                 $host = $hostArr[0];
-                $port = isset($hostArr[1]) && (!$secure && $hostArr[1]!=80 || $secure && $hostArr[1]!=443) ? ':'.$hostArr[1] : '';
+                $port = isset(
+                    $hostArr[1]) && (!$secure && $hostArr[1]!=80 || $secure && $hostArr[1]!=443
+                ) ? ':'.$hostArr[1] : '';
                 $path = Mage::app()->getRequest()->getBasePath();
 
                 $baseUrl = $scheme.$host.$port.rtrim($path, '/').'/';
@@ -1056,8 +1062,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $events = $this->getNode("$area/events");
         if ($events) {
             $events = $events->children();
-        }
-        else {
+        } else {
             return false;
         }
 
@@ -1241,7 +1246,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             Varien_Profiler::stop('CORE::create_object_of::'.$className);
             return $obj;
         } else {
-            //throw Mage::exception('Mage_Core', Mage::helper('core')->__('Model class does not exist: %s.', $modelClass));
+            /* throw Mage::exception(
+                'Mage_Core', 
+                Mage::helper('core')->__('Model class does not exist: %s.', $modelClass)
+            ); */
             return false;
         }
     }
@@ -1353,8 +1361,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
             if (empty($allowValues)) {
                 $storeValues[$key] = $pathValue;
-            }
-            elseif(in_array($pathValue, $allowValues)) {
+            } else if (in_array($pathValue, $allowValues)) {
                 $storeValues[$key] = $pathValue;
             }
         }
@@ -1364,8 +1371,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Check security requirements for url
      *
-     * @param   string $url
-     * @return  bool
+     * @param string $url
+     * @return bool
      */
     public function shouldUrlBeSecure($url)
     {
