@@ -2864,46 +2864,46 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addForeignKeyUpdateAction($tableName, $columnName, $refTableName, $refColumnName, $fkAction)
     {
-        $refColumnDataType  = $this->_getColumnDataType($refTableName, $refColumnName);
-        $triggerName        = $this->_getTriggerName($tableName, $columnName);
-
-       if ($refColumnDataType == false) {
-                throw new Exception('Unknown column data type!');
-       }
-
-        $sqlTrigger = "                                                     \n"
-            . "CREATE TRIGGER [{$triggerName}]                              \n"
-            . "    ON  {$refTableName}                                      \n"
-            . "    AFTER UPDATE                                             \n"
-            . "AS                                                           \n"
-            . "DECLARE                                                      \n"
-            . (
-                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
-                "    @new_{$refColumnName} {$refColumnDataType},            \n" : ""
-              )
-
-            . "    @old_{$refColumnName} {$refColumnDataType}               \n"
-            . "BEGIN                                                        \n"
-            . "    SET NOCOUNT ON;                                          \n"
-            . (
-                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
-                "    SELECT @new_{$refColumnName} = {$refColumnName}        \n"
-              . "    FROM inserted                                          \n" : ""
-              )
-
-            . "    SELECT @old_{$refColumnName}  = {$refColumnName}         \n"
-            . "    FROM deleted                                             \n"
-            . "    UPDATE {$tableName}                                      \n"
-            . (
-                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
-                "    SET {$columnName} = @new_{$refColumnName}              \n":
-                "    SET {$columnName} = NULL                               \n"
-               )
-            . "    WHERE {$columnName} = @old_{$refColumnName};             \n"
-            . "END                                                          \n";
-        $this->getConnection()->exec("SET ANSI_NULLS ON");
-        $this->getConnection()->exec("SET QUOTED_IDENTIFIER ON");
-        $this->getConnection()->exec($sqlTrigger);
+//        $refColumnDataType  = $this->_getColumnDataType($refTableName, $refColumnName);
+//        $triggerName        = $this->_getTriggerName($tableName, $columnName);
+//
+//       if ($refColumnDataType == false) {
+//                throw new Exception('Unknown column data type!');
+//       }
+//
+//        $sqlTrigger = "                                                     \n"
+//            . "CREATE TRIGGER [{$triggerName}]                              \n"
+//            . "    ON  {$refTableName}                                      \n"
+//            . "    AFTER UPDATE                                             \n"
+//            . "AS                                                           \n"
+//            . "DECLARE                                                      \n"
+//            . (
+//                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
+//                "    @new_{$refColumnName} {$refColumnDataType},            \n" : ""
+//              )
+//
+//            . "    @old_{$refColumnName} {$refColumnDataType}               \n"
+//            . "BEGIN                                                        \n"
+//            . "    SET NOCOUNT ON;                                          \n"
+//            . (
+//                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
+//                "    SELECT @new_{$refColumnName} = {$refColumnName}        \n"
+//              . "    FROM inserted                                          \n" : ""
+//              )
+//
+//            . "    SELECT @old_{$refColumnName}  = {$refColumnName}         \n"
+//            . "    FROM deleted                                             \n"
+//            . "    UPDATE {$tableName}                                      \n"
+//            . (
+//                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
+//                "    SET {$columnName} = @new_{$refColumnName}              \n":
+//                "    SET {$columnName} = NULL                               \n"
+//               )
+//            . "    WHERE {$columnName} = @old_{$refColumnName};             \n"
+//            . "END                                                          \n";
+//        $this->getConnection()->exec("SET ANSI_NULLS ON");
+//        $this->getConnection()->exec("SET QUOTED_IDENTIFIER ON");
+//        $this->getConnection()->exec($sqlTrigger);
 
         return $this;
     }
@@ -2919,34 +2919,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addForeignKeyDeleteAction($tableName, $columnName, $refTableName, $refColumnName, $fkAction)
     {
-        $refColumnDataType  = $this->_getColumnDataType($refTableName, $refColumnName);
-        $triggerName        = $this->_getTriggerName($tableName, $columnName, self::TRIGGER_CASCADE_DEL);
-
-       if ($refColumnDataType == false) {
-                throw new Exception('Unknown column data type!');
-       }
-
-        $sqlTrigger = "CREATE TRIGGER [{$triggerName}]                      \n"
-            . "    ON  {$refTableName}                                      \n"
-            . "    AFTER DELETE                                             \n"
-            . "AS                                                           \n"
-            . "DECLARE                                                      \n"
-            . "    @old_{$refColumnName} {$refColumnDataType}               \n"
-            . "BEGIN                                                        \n"
-            . "    SET NOCOUNT ON;                                          \n"
-            . "    SELECT @old_{$refColumnName} = {$refColumnName}          \n"
-            . "    FROM deleted                                             \n"
-            . (
-                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
-                "    DELETE FROM {$tableName}                               \n"
-              . "    WHERE {$columnName} = @old_{$refColumnName};           \n":
-                "    UPDATE {$tableName}                                    \n"
-              . "    SET {$columnName} = NULL                               \n"
-              . "    WHERE {$columnName} = @old_{$refColumnName};           \n"
-              )
-            . "END                                                          \n"
-            . "                                                            \n";
-
+        $deleteAction = ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE) ?
+            "        DELETE FROM {$tableName}                               \n"
+            . "        WHERE {$columnName} = @old_{$refColumnName};         \n":
+            "        UPDATE {$tableName}                                    \n"
+            . "        SET {$columnName} = NULL                             \n"
+            . "        WHERE {$columnName} = @old_{$refColumnName};         \n";
+        $sqlTrigger = $this->_getInsteadTrrigerBody($refTableName);
+        $sqlTrigger = str_replace(
+            "/*place core here*/",
+             "/*ACTION ADDED BY {$tableName}*/ \n". $deleteAction . "/*place core here*/ \n",
+            $sqlTrigger
+        );
         $this->getConnection()->exec("SET ANSI_NULLS ON");
         $this->getConnection()->exec("SET QUOTED_IDENTIFIER ON");
         $this->getConnection()->exec($sqlTrigger);
@@ -3378,5 +3362,83 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $select->order($spec);
 
         return $this;
+    }
+
+    protected function _isDbObjectExists($objectName)
+    {
+        $query = sprintf(
+            "SELECT COUNT(1) AS [EXISTS] FROM dbo.sysobjects WHERE id = OBJECT_ID(N'%s')",
+            $objectName);
+        return ($this->fetchOne($query) == 0) ? false : true;
+    }
+    /**
+     * Get instead trigger sql template
+     *
+     * @param string $tableName
+     * @return string
+     */
+    protected function _getInsteadTrrigerBody($tableName)
+    {
+        $query = sprintf(" SELECT CAST(OBJECT_DEFINITION (object_id) AS VARCHAR(MAX)) \n"
+                . " FROM sys.triggers t                \n"
+                . " WHERE t.is_instead_of_trigger = 1 \n"
+                . " AND t.parent_id = OBJECT_ID('{$tableName}')",
+            $tableName
+        );
+        $triggerBody = str_replace(
+            "CREATE TRIGGER",
+            "ALTER TRIGGER",
+            $this->fetchOne($query)
+        );
+
+        if ($triggerBody == ""){
+            $triggerName = $this->_getTriggerName($tableName,'',self::TRIGGER_CASCADE_DEL);
+            $describe = $this->describeTable($tableName);
+
+            $triggerBody = "CREATE TRIGGER [{$triggerName}]                 \n"
+                . "    ON  {$tableName}                                     \n"
+                . "    INSTEAD OF DELETE                                    \n"
+                . "AS                                                       \n";
+            foreach ($this->_getPrimaryKeyColumns($tableName)  as $column) {
+                $triggerBody = $triggerBody
+                    . "    DECLARE @old_{$column} {$this->_getColumnDataType($tableName, $column)}\n";
+            }
+
+            $triggerBody = $triggerBody
+                . "BEGIN                                                    \n"
+                . "    SET NOCOUNT ON;                                      \n"
+                . "    BEGIN TRANSACTION                                    \n"
+                . "    BEGIN TRY                                            \n";
+
+            foreach ($this->_getPrimaryKeyColumns($tableName)  as $column) {
+                $triggerBody = $triggerBody
+                . "        SELECT @old_{$column} = {$column}\n"
+                . "        FROM deleted                                     \n";
+            }
+            $triggerBody = $triggerBody . "  /*place core here*/            \n"
+                . "        DELETE FROM {$tableName} WHERE                   \n";
+
+            $pKeysCond = array();
+            foreach ($this->_getPrimaryKeyColumns($tableName) as $column) {
+                $pKeysCond[] = sprintf('%s = @old_%s', $column, $column);
+            }
+            $triggerBody = $triggerBody . join(' AND ', $pKeysCond);
+            $triggerBody = $triggerBody .
+                "          COMMIT                                           \n"
+                . "    END TRY                                              \n"
+                . "    BEGIN CATCH                                          \n"
+                . "        DECLARE @ErrorMessage NVARCHAR(4000);            \n"
+                . "        DECLARE @ErrorSeverity INT;                      \n"
+                . "        DECLARE @ErrorState INT;                         \n"
+                . "        SELECT @ErrorMessage = ERROR_MESSAGE(),          \n"
+                . "            @ErrorSeverity = ERROR_SEVERITY(),           \n"
+                . "            @ErrorState = ERROR_STATE();                 \n"
+                . "        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);\n"
+                . "        ROLLBACK TRANSACTION                             \n"
+                . "    END CATCH                                            \n"
+                . "END                                                      \n"
+                . "                                                         \n";
+        }
+        return $triggerBody;
     }
 }
