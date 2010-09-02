@@ -92,7 +92,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         parent::_afterLoad($object);
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->getTable('rating_title'))
+            ->from($this->getTable('rating/rating_title'))
             ->where('rating_id=?', $object->getId());
 
         $data = $adapter->fetchAll($select);
@@ -105,7 +105,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         }
 
         $storesSelect = $adapter->select()
-            ->from($this->getTable('rating_store'))
+            ->from($this->getTable('rating/rating_store'))
             ->where('rating_id=?', $object->getId());
 
         $stores = $adapter->fetchAll($storesSelect);
@@ -135,7 +135,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
             try {
                 $adapter->beginTransaction();
                 $condition = $adapter->quoteInto('rating_id = ?', $object->getId());
-                $adapter->delete($this->getTable('rating_title'), $condition);
+                $adapter->delete($this->getTable('rating/rating_title'), $condition);
                 if ($ratingCodes = $object->getRatingCodes()) {
                     foreach ($ratingCodes as $storeId=>$value) {
                         if(trim($value)=='') {
@@ -145,7 +145,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
                         $data->setRatingId($object->getId())
                             ->setStoreId($storeId)
                             ->setValue($value);
-                        $adapter->insert($this->getTable('rating_title'), $data->getData());
+                        $adapter->insert($this->getTable('rating/rating_title'), $data->getData());
                     }
                 }
                 $adapter->commit();
@@ -158,12 +158,12 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         if($object->hasStores()) {
             try {
                 $condition = $adapter->quoteInto('rating_id = ?', $object->getId());
-                $adapter->delete($this->getTable('rating_store'), $condition);
+                $adapter->delete($this->getTable('rating/rating_store'), $condition);
                 foreach ($object->getStores() as $storeId) {
                     $storeInsert = new Varien_Object();
                     $storeInsert->setStoreId($storeId);
                     $storeInsert->setRatingId($object->getId());
-                    $adapter->insert($this->getTable('rating_store'), $storeInsert->getData());
+                    $adapter->insert($this->getTable('rating/rating_store'), $storeInsert->getData());
                 }
             }
             catch (Exception  $e) {
@@ -252,7 +252,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $adapter = $this->_getReadAdapter();
 
         $select = $adapter->select()
-            ->from(array('rating_vote' => $this->getTable('rating_vote')),
+            ->from(array('rating_vote' => $this->getTable('rating/rating_option_vote')),
                 array())
             ->join(array('review' => $this->getTable('review/review')),
                 'rating_vote.review_id=review.review_id',
@@ -296,7 +296,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $adapter = $this->_getReadAdapter();
 
         $select = $adapter->select()
-            ->from(array('rating_vote' => $this->getTable('rating_vote')),
+            ->from(array('rating_vote' => $this->getTable('rating/rating_option_vote')),
                 array())
             ->joinLeft(array('review_store' => $this->getTable('review/review_store')),
                 'rating_vote.review_id = review_store.review_id',
@@ -358,7 +358,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
     public function getEntityIdByCode($entityCode)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from( $this->getTable('rating_entity'), array('entity_id'))
+            ->from( $this->getTable('rating/rating_entity'), array('entity_id'))
             ->where('entity_code = ?', $entityCode);
         return $this->_getReadAdapter()->fetchOne($select);
     }

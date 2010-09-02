@@ -166,7 +166,7 @@ $table = $installer->getConnection()
         ), 'Rating id')
     ->addColumn('review_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'unsigned'  => true,
-        'default'   => 'NULL'
+        'default'   => NULL
         ), 'Review id')
     ->addColumn('percent', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,

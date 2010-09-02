@@ -31,39 +31,11 @@
  * @package    Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rating_Model_Rating_Option extends Varien_Object
+class Mage_Rating_Model_Rating_Option extends Mage_Core_Model_Abstract
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
-    }
-
-    public function getResource()
-    {
-        return Mage::getResourceModel('rating/rating_option');
-    }
-
-    public function getResourceCollection()
-    {
-        return Mage::getResourceModel('rating/rating_option_collection');
-    }
-
-    public function load($optionId)
-    {
-        $this->setData($this->getResource()->load($optionId));
-        return $this;
-    }
-
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
-    }
-
-    public function delete()
-    {
-        $this->getResource()->delete($this);
-        return $this;
+        $this->_init('rating/rating_option');
     }
 
     public function addVote()
@@ -78,13 +50,8 @@ class Mage_Rating_Model_Rating_Option extends Varien_Object
         return $this;
     }
 
-    public function getId()
-    {
-        return $this->getOptionId();
-    }
-
-    public function getCollection()
-    {
-        return Mage::getResourceModel('rating/rating_option_collection');
-    }
+//    public function getId()
+//    {
+//        return $this->getOptionId();
+//    }
 }

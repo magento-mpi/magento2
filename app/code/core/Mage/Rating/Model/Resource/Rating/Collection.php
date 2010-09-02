@@ -167,7 +167,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
         ));
 
         $select = $adapter->select()
-            ->from(array('rating_option_vote'  => $this->getTable('rating_option_vote')),
+            ->from(array('rating_option_vote'  => $this->getTable('rating/rating_option_vote')),
                 array('rating_id' => 'rating_option_vote.rating_id',
                     'sum'         => "SUM(rating_option_vote.{$adapter->quoteIdentifier('percent')})",
                     'count'       => 'COUNT(*)'
