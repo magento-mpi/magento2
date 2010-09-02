@@ -169,7 +169,7 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
              * Add joining default value for not default store
              * if value for store is null - we use default value
              */
-            $defCondition = '('.join(') AND (', $condition).')';
+            $defCondition = '('.implode(') AND (', $condition).')';
             $defAlias     = $tableAlias.'_default';
             $defAlias     = $this->getConnection()->getTableName($defAlias);
             $defFieldAlias= str_replace($tableAlias, $defAlias, $fieldAlias);

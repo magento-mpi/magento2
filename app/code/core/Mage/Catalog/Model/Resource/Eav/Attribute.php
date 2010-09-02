@@ -37,18 +37,28 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     const SCOPE_GLOBAL  = 1;
     const SCOPE_WEBSITE = 2;
 
-    const MODULE_NAME   = 'Mage_Catalog';
-    const ENTITY        = 'catalog_eav_attribute';
+    const MODULE_NAME                           = 'Mage_Catalog';
+    const ENTITY                                = 'catalog_eav_attribute';
 
-    protected $_eventPrefix = 'catalog_entity_attribute';
-    protected $_eventObject = 'attribute';
+    /**
+     * Event prefix
+     *
+     * @var string
+     */
+    protected $_eventPrefix                     = 'catalog_entity_attribute';
+    /**
+     * Event object name
+     *
+     * @var string
+     */
+    protected $_eventObject                     = 'attribute';
 
     /**
      * Array with labels
      *
      * @var array
      */
-    static protected $_labels = null;
+    static protected $_labels                   = null;
 
     protected function _construct()
     {
@@ -58,6 +68,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     /**
      * Processing object before save data
      *
+     * @throws Mage_Core_Exception
      * @return Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
@@ -65,11 +76,11 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
         $this->setData('modulePrefix', self::MODULE_NAME);
         if (isset($this->_origData['is_global'])) {
             if (!isset($this->_data['is_global'])) {
-                Mage::throwException('0_o');
+                $this->_data['is_global'] = self::SCOPE_GLOBAL;
             }
             if (($this->_data['is_global'] != $this->_origData['is_global'])
                 && $this->_getResource()->isUsedBySuperProducts($this)) {
-                Mage::throwException(Mage::helper('eav')->__('Scope must not be changed, because the attribute is used in configurable products.'));
+                Mage::throwException(Mage::helper('catalog')->__('Scope must not be changed, because the attribute is used in configurable products.'));
             }
         }
         if ($this->getFrontendInput() == 'price') {
@@ -77,6 +88,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
                 $this->setBackendModel('catalog/product_attribute_backend_price');
             }
         }
+
         return parent::_beforeSave();
     }
 
@@ -182,7 +194,8 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
      */
     public function getStoreId()
     {
-        if ($dataObject = $this->getDataObject()) {
+        $dataObject = $this->getDataObject();
+        if ($dataObjects) {
             return $dataObject->getStoreId();
         }
         return $this->getData('store_id');
@@ -216,7 +229,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
         $model = $this->getData('source_model');
         if (empty($model)) {
             if ($this->getBackendType() == 'int' && $this->getFrontendInput() == 'select') {
-                return 'eav/entity_attribute_source_table';
+                return $this->_getDefaultSourceModel();
             }
         }
         return $model;
@@ -252,8 +265,6 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     protected function _getLabelForStore()
     {
         return $this->getFrontendLabel();
-//        self::initLabels();
-//        return isset(self::$_labels[$this->getData('frontend_label')]) ? self::$_labels[$this->getData('frontend_label')] : false;
     }
 
     /**

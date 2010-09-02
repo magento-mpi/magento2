@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Attribute extends Mage_Core_Model
 
         $collection->getSelect()->join(
             array($tableAlias => $this->getMainTable()),
-            join(' AND ', $conditions),
+            implode(' AND ', $conditions),
             array()
         );
 
@@ -90,7 +90,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Attribute extends Mage_Core_Model
 
         $connection = $this->_getReadAdapter();
         $attribute  = $filter->getAttributeModel();
-        $tableAlias = $attribute->getAttributeCode() . '_idx';
+        $tableAlias = sprintf('%s_idx', $attribute->getAttributeCode());
         $conditions = array(
             "{$tableAlias}.entity_id = e.entity_id",
             $connection->quoteInto("{$tableAlias}.attribute_id = ?", $attribute->getAttributeId()),

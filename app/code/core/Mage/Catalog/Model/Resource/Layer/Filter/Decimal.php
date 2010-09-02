@@ -56,7 +56,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Decimal extends Mage_Core_Model_R
         $collection = $filter->getLayer()->getProductCollection();
         $attribute  = $filter->getAttributeModel();
         $connection = $this->_getReadAdapter();
-        $tableAlias = $attribute->getAttributeCode() . '_idx';
+        $tableAlias = sprintf('%s_idx', $attribute->getAttributeCode());
         $conditions = array(
             "{$tableAlias}.entity_id = e.entity_id",
             $connection->quoteInto("{$tableAlias}.attribute_id = ?", $attribute->getAttributeId()),
@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Decimal extends Mage_Core_Model_R
 
         $collection->getSelect()->join(
             array($tableAlias => $this->getMainTable()),
-            join(' AND ', $conditions),
+            implode(' AND ', $conditions),
             array()
         );
 
@@ -121,7 +121,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Decimal extends Mage_Core_Model_R
 
         $select->join(
             array('decimal_index' => $this->getMainTable()),
-            'e.entity_id=decimal_index.entity_id'.
+            'e.entity_id = decimal_index.entity_id'.
             ' AND ' . $this->_getReadAdapter()->quoteInto('decimal_index.attribute_id=?', $attributeId).
             ' AND ' . $this->_getReadAdapter()->quoteInto('decimal_index.store_id=?', $storeId),
             array()
