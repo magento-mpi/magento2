@@ -3370,11 +3370,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param Varien_Db_Select $select
      * @param string $field
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function orderRand(Varien_Db_Select $select, $field = null)
     {
-        $spec = new Zend_Db_Expr('newid()');
+        $spec = new Zend_Db_Expr('NEWID()');
         $select->order($spec);
 
         return $this;

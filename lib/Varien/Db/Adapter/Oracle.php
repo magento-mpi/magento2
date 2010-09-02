@@ -3411,7 +3411,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param Varien_Db_Select $select
      * @param string $field
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @return Varien_Db_Adapter_Oracle
      */
     public function orderRand(Varien_Db_Select $select, $field = null)
     {
