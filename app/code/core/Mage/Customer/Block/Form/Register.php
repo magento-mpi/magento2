@@ -125,7 +125,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
      */
     public function isNewsletterEnabled()
     {
-        return !Mage::getStoreConfigFlag('advanced/modules_disable_output/Mage_Newsletter');
+        return Mage::helper('core')->isModuleOutputEnabled('Mage_Newsletter');
     }
 
     /**
