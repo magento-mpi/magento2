@@ -577,8 +577,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         Mage::getModel('core/email_template')
             ->setDesignConfig(array('area'=>'frontend', 'store'=>$storeId))
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY),
+                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE, $storeId),
+                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY, $storeId),
                 $this->getEmail(),
                 $this->getName(),
                 array('customer'=>$this)
