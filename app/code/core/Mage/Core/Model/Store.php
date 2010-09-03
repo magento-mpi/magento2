@@ -467,10 +467,20 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     protected function _updatePathUseStoreView($url)
     {
-        if (Mage::isInstalled() && $this->getConfig(self::XML_PATH_STORE_IN_URL)) {
-            $url .= $this->getCode().'/';
+        if ($this->getStoreInUrl()) {
+            $url .= $this->getCode() . '/';
         }
         return $url;
+    }
+
+    /**
+     * Returns whether url forming scheme prepends url path with store view code
+     *
+     * @return bool
+     */
+    public function getStoreInUrl()
+    {
+        return Mage::isInstalled() && $this->getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
     /**
@@ -971,15 +981,5 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
         }
         return $this->_frontendName;
-    }
-
-    /**
-     * Returns whether url forming scheme prepends url path with store view code
-     *
-     * @return bool
-     */
-    public function getStoreInUrl()
-    {
-        return Mage::isInstalled() && $this->getConfig(self::XML_PATH_STORE_IN_URL);
     }
 }
