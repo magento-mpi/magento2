@@ -42,5 +42,6 @@ check_failure $?
 log "Rebuilding indexes ..."
 php -f shell/indexer.php -- reindexall
 check_failure $?
+chmod -fR 777 var/locks
 
 cd $OLDPWD
