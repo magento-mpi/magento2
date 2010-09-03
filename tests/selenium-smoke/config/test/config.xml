@@ -48,6 +48,9 @@
 			<username>admin</username>
 			<password>123123q</password>
 		</auth>
+		<user>
+			<name>test</name>
+		</user>
 		<customer>
 			<id>102</id>
 		</customer>
