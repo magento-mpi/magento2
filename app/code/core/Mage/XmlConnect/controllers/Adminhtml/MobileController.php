@@ -114,7 +114,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     }
 
     /**
-     * Submision Action, loads application data
+     * Submission Action, loads application data
      */
     public function submissionAction()
     {
@@ -181,7 +181,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $isError = false;
             if (!empty($data)) {
-                Mage::getSingleton('adminhtml/session')->setFormSubmissionData($data);
+                Mage::getSingleton('adminhtml/session')->setFormSubmissionData($this->_filterSubmitParamsForSession($data));
             }
             /** @var $app Mage_XmlConnect_Model_Application */
             $app = $this->_initApp('key');
@@ -228,6 +228,27 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         }
     }
 
+    /**
+     * Format post/get data for session storage 
+     *
+     * @param array $data    - $_REQUEST[]
+     *
+     * @return array
+     */
+    protected function _filterSubmitParamsForSession($data)
+    {
+        $params = null;
+        if (isset($data['conf']) && is_array($data['conf'])) {
+                    if (isset($data['conf']['submit_text']) && is_array($data['conf']['submit_text'])) {
+                $params = $data['conf']['submit_text'];
+            }
+        }
+        if (isset($params['country']) && is_array($params['country'])) {
+            $data['conf']['submit_text']['country'] = implode(',', $params['country']);
+        }
+        return $data;
+    }
+    
     /**
      * Clear session data
      * Used after succesfull save/submit action

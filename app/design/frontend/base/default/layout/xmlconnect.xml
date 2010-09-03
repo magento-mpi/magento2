@@ -68,6 +68,7 @@
     <xmlconnect_catalog_productoptions>
         <block type="xmlconnect/catalog_product_options" name="xmlconnect.catalog.product.options" output="toHtml">
             <action method="addRenderer"><type>simple</type><renderer>xmlconnect/catalog_product_options_simple</renderer></action>
+            <action method="addRenderer"><type>virtual</type><renderer>xmlconnect/catalog_product_options_virtual</renderer></action>
             <action method="addRenderer"><type>configurable</type><renderer>xmlconnect/catalog_product_options_configurable</renderer></action>
             <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_options_bundle</renderer></action>
             <action method="addRenderer"><type>grouped</type><renderer>xmlconnect/catalog_product_options_grouped</renderer></action>

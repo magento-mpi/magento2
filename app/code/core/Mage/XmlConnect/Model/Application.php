@@ -396,7 +396,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return last submited data from history table
+     * Return last submitted data from history table
      *
      * @return array
      */
@@ -454,6 +454,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (!Zend_Validate::is(isset($params['price']) ? $params['price'] : null, 'NotEmpty')) {
                 $errors[] = Mage::helper('xmlconnect')->__('Please enter the Price.');
             }
+        }
+
+        if (!Zend_Validate::is(isset($params['country']) ? $params['country'] : null, 'NotEmpty')) {
+            $errors[] = Mage::helper('xmlconnect')->__('Please select at least one Country.');
         }
 
         if ($this->getIsResubmitAction()) {
@@ -536,8 +540,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
             if (isset($params['country']) && is_array($params['country'])) {
                 $params['country'] = implode(',', $params['country']);
-            } else {
-                Mage::throwException(Mage::helper('xmlconnect')->__('Please select at least one Country.'));
             }
             if ($this->getIsResubmitAction()) {
                 $params['key'] = isset($params['resubmission_activation_key']) ? trim($params['resubmission_activation_key']) : '';
