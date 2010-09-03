@@ -82,17 +82,19 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'header'    => Mage::helper('poll')->__('Date Posted'),
             'align'     => 'left',
             'width'     => '120px',
-            'type'      => 'date',
+            'type'      => 'datetime',
             'index'     => 'date_posted',
+        	'format'	=> Mage::app()->getLocale()->getDateFormat()
         ));
 
         $this->addColumn('date_closed', array(
             'header'    => Mage::helper('poll')->__('Date Closed'),
             'align'     => 'left',
             'width'     => '120px',
-            'type'      => 'date',
+            'type'      => 'datetime',
             'default'   => '--',
             'index'     => 'date_closed',
+        	'format'	=> Mage::app()->getLocale()->getDateFormat()
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {

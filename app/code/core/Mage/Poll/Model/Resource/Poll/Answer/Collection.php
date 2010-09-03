@@ -35,7 +35,7 @@
 class Mage_Poll_Model_Resource_Poll_Answer_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize collection
      *
      */
     public function _construct()
@@ -44,9 +44,9 @@ class Mage_Poll_Model_Resource_Poll_Answer_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Add poll filter
      *
-     * @param unknown_type $pollId
+     * @param int $pollId
      * @return Mage_Poll_Model_Resource_Poll_Answer_Collection
      */
     public function addPollFilter($pollId)
@@ -56,9 +56,9 @@ class Mage_Poll_Model_Resource_Poll_Answer_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Count percent
      *
-     * @param unknown_type $pollObject
+     * @param Mage_Poll_Model_Poll $pollObject
      * @return Mage_Poll_Model_Resource_Poll_Answer_Collection
      */
     public function countPercent($pollObject)

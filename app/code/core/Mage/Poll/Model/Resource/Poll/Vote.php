@@ -35,7 +35,7 @@
 class Mage_Poll_Model_Resource_Poll_Vote extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize vote resource
      *
      */
     protected function _construct()
@@ -56,7 +56,7 @@ class Mage_Poll_Model_Resource_Poll_Vote extends Mage_Core_Model_Resource_Db_Abs
          */
         $answerTable = $this->getTable('poll/poll_answer');
         $pollAnswerData = array('votes_count' => new Zend_Db_Expr('votes_count+1'));
-        $condition = $this->_getWriteAdapter()->quoteInto("{$answerTable}.answer_id=?", $object->getPollAnswerId());
+        $condition = array("{$answerTable}.answer_id=?" => $object->getPollAnswerId());
         $this->_getWriteAdapter()->update($answerTable, $pollAnswerData, $condition);
 
         /**
@@ -64,7 +64,7 @@ class Mage_Poll_Model_Resource_Poll_Vote extends Mage_Core_Model_Resource_Db_Abs
          */
         $pollTable = $this->getTable('poll/poll');
         $pollData = array('votes_count' => new Zend_Db_Expr('votes_count+1'));
-        $condition = $this->_getWriteAdapter()->quoteInto("{$pollTable}.poll_id=?", $object->getPollId());
+        $condition = array("{$pollTable}.poll_id=?", $object->getPollId());
         $this->_getWriteAdapter()->update($pollTable, $pollData, $condition);
         return $this;
     }

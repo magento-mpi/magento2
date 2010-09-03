@@ -35,7 +35,7 @@
 class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource
      *
      */
     protected function _construct()
@@ -74,7 +74,7 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
 
         $select->from(array('main_table'=>$this->getMainTable()), $this->getIdFieldName())
             ->where('closed = ?', 0)
-            ->order(new Zend_Db_Expr('RAND()'))
+            ->orderRand()
             ->limit(1);
 
         if (($storeId = $object->getStoreFilter())) {
@@ -136,10 +136,10 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Resett votes count
      *
-     * @param unknown_type $object
-     * @return unknown
+     * @param Mage_Poll_Model_Poll $object
+     * @return Mage_Poll_Model_Poll
      */
     public function resetVotesCount($object)
     {
@@ -157,7 +157,7 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Load store Ids array
      *
      * @param Mage_Poll_Model_Poll $object
      */
@@ -172,7 +172,8 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Delete current poll from the table poll_store and then
+     * insert to update "poll to store" relations
      *
      * @param Mage_Core_Model_Abstract $object
      */

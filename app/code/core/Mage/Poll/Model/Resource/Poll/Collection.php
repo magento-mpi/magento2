@@ -35,7 +35,7 @@
 class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize collection
      *
      */
     public function _construct()
@@ -63,7 +63,7 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
     /**
      * Deprecated
      *
-     * @param unknown_type $store
+     * @param mixed $store
      * @return Mage_Poll_Model_Resource_Poll_Collection
      */
     public function addStoresFilter($store)
@@ -74,8 +74,8 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
     /**
      * Add Stores Filter
      *
-     * @param int|array $storeId
-     * @param unknown_type $withAdmin
+     * @param mixed $storeId
+     * @param bool  $withAdmin
      * @return Mage_Poll_Model_Resource_Poll_Collection
      */
     public function addStoreFilter($storeId, $withAdmin = true)
@@ -127,7 +127,7 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Set stores of the current poll
      *
      * @return Mage_Poll_Model_Resource_Poll_Collection
      */
