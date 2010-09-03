@@ -55,31 +55,31 @@
                     <setName>smoke_attrSet</setName>
                 </attributeSet>
 		<createproduct>
-			<sku>std-01</sku>
+			<sku>st-01</sku>
 			<duplicatedSku>st-01d</duplicatedSku>
 			<productname>st-01</productname>
 			<price>10</price>
 		</createproduct>
 		<managestores>
 			<site>
-				<name>SmokeTestSiteD</name>
-				<code>smoked</code>
+				<name>SmokeTestSite</name>
+				<code>smoke</code>
 				<sortorder>1</sortorder>
 			</site>
 			<store>
-				<storename>smokestoreD</storename>               
+				<storename>smokestore</storename>               
 			</store>
 			<storeview>
-				<name>SmokeTestStoreViewD</name>
-				<code>smokestoreviewd</code>
+				<name>SmokeTestStoreView</name>
+				<code>smokestoreview</code>
 				<order>1</order>
 				<status>label=Enabled</status>
 			</storeview>
 		</managestores>
 		<managecategories>
-				<rootname>st-rootcatD</rootname>
+				<rootname>st-rootcat</rootname>
 				<subcategoryname>st-subcat</subcategoryname>
-				<parentsubcategoryname>st-rootcatD</parentsubcategoryname>
+				<parentsubcategoryname>st-rootcat</parentsubcategoryname>
 		</managecategories>
 		
 	</backend>

@@ -18,7 +18,7 @@ final class Core
      * 9 - all debug information printed
      * @var int
      */
-    protected static $_debugLevel  = 7;
+    protected static $_debugLevel  = 4;
 
     /**
      * System config container
