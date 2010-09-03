@@ -1547,9 +1547,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             $minimalExpr = $this->getConnection()->getCheckSql('price_index.tier_price IS NOT NULL',
                 $least, 'price_index.min_price');
             $colls = array('price', 'tax_class_id', 'final_price', 'minimal_price'=>$minimalExpr , 'min_price', 'max_price', 'tier_price');
-            if (!Mage::helper('core')->isModuleEnabled('Mage_Tax')) {
-                unset($colls[1]);
-            }
             $this->getSelect()->join(
                 array('price_index' => $this->getTable('catalog/product_index_price')),
                 $joinCond,

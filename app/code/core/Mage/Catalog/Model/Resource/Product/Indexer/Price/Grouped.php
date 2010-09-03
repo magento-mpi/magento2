@@ -84,6 +84,8 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped
                 array('customer_group_id'));
         $this->_addWebsiteJoinToSelect($select, true);
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
+        $minCheckSql = $write->getCheckSql('le.required_options = 0', 'i.min_price', 0);
+        $maxCheckSql = $write->getCheckSql('le.required_options = 0', 'i.max_price', 0);
         $select->columns('website_id', 'cw')
             ->joinLeft(
                 array('le' => $this->getTable('catalog/product')),
@@ -94,12 +96,11 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Grouped
                 'i.entity_id = l.linked_product_id AND i.website_id = cw.website_id'
                     . ' AND i.customer_group_id = cg.customer_group_id',
                 array(
-                    'tax_class_id'=> $this->_getReadAdapter()->getCheckSql('i.tax_class_id IS NULL',
-						'0', 'i.tax_class_id'),
+                    'tax_class_id'=> $this->_getReadAdapter()->getCheckSql('MIN(i.tax_class_id) IS NULL', '0', 'MIN(i.tax_class_id)'),
                     'price'       => new Zend_Db_Expr('NULL'),
                     'final_price' => new Zend_Db_Expr('NULL'),
-                    'min_price'   => new Zend_Db_Expr('MIN(IF(le.required_options = 0, i.min_price, 0))'),
-                    'max_price'   => new Zend_Db_Expr('MAX(IF(le.required_options = 0, i.max_price, 0))'),
+                    'min_price'   => new Zend_Db_Expr('MIN(' . $minCheckSql . ')'),
+                    'max_price'   => new Zend_Db_Expr('MAX(' . $maxCheckSql . ')'),
                     'tier_price'  => new Zend_Db_Expr('NULL')
                 ))
             ->group(array('e.entity_id', 'cg.customer_group_id', 'cw.website_id'))

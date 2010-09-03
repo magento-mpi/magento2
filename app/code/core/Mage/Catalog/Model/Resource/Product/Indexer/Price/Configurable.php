@@ -129,20 +129,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
 
         $this->_prepareConfigurableOptionAggregateTable();
         $this->_prepareConfigurableOptionPriceTable();
-        
-        $priceExpression = $write->getCheckSql('apw.value_id IS NOT NULL', 'apw.pricing_value', 'apd.pricing_value');
-        $percenExpr = $write->getCheckSql('apw.value_id IS NOT NULL', 'apw.is_percent', 'apd.is_percent');
-        $roundExpr = "ROUND(i.price * ({$priceExpression} / 100), 4)";
-        $roundPriceExpr = $write->getCheckSql("{$percenExpr} = 1", $roundExpr, $priceExpression);
-        $priceColumn = $write->getCheckSql("{$priceExpression} IS NULL", '0', $roundPriceExpr);
-
-        $tierPrice = $priceExpression;
-        $tierRoundPriceExp = $write->getCheckSql("{$percenExpr} = 1", $roundExpr, $tierPrice);
-        $tierPriceExp = $write->getCheckSql("{$tierPrice} IS NULL", '0', $tierRoundPriceExp);
-        $tierPriceColumn = $write->getCheckSql("i.tier_price IS NOT NULL", "SUM({$tierPriceExp})", 'NULL');
 
         $select = $write->select()
-            ->from(array('i' => $this->_getDefaultFinalPriceTable()), null)
+            ->from(array('i' => $this->_getDefaultFinalPriceTable()), array())
             ->join(
                 array('l' => $this->getTable('catalog/product_super_link')),
                 'l.parent_id = i.entity_id',
@@ -170,10 +159,55 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
                 array('le' => $this->getTable('catalog/product')),
                 'le.entity_id = l.product_id',
                 array())
-            ->columns($priceColumn)
-            ->columns($tierPriceColumn)
+
             ->where('le.required_options=0')
             ->group(array('l.parent_id', 'i.customer_group_id', 'i.website_id', 'l.product_id'));
+
+        $priceExpression = $write->getCheckSql('apw.value_id IS NOT NULL', 'apw.pricing_value', 'apd.pricing_value');
+        $percenExpr = $write->getCheckSql('apw.value_id IS NOT NULL', 'apw.is_percent', 'apd.is_percent');
+        $roundExpr = "ROUND(i.price * ({$priceExpression} / 100), 4)";
+        $roundPriceExpr = $write->getCheckSql("{$percenExpr} = 1", $roundExpr, $priceExpression);
+        $priceColumn = $write->getCheckSql("{$priceExpression} IS NULL", '0', $roundPriceExpr);
+        $priceColumn = new Zend_Db_Expr("SUM({$priceColumn})");
+        /*
+            SUM(
+                IF(
+                    (@price:=IF(apw.value_id, apw.pricing_value, apd.pricing_value))
+                 IS NULL,
+                 0,
+                 IF(
+                    IF(apw.value_id, apw.is_percent, apd.is_percent) = 1,
+                    ROUND(i.price * (@price / 100), 4),
+                    @price)
+                )
+             )"))
+       *///echo $priceColumn . "\n";
+        $tierPrice = $priceExpression;
+        $tierRoundPriceExp = $write->getCheckSql("{$percenExpr} = 1", $roundExpr, $tierPrice);
+        $tierPriceExp = $write->getCheckSql("{$tierPrice} IS NULL", '0', $tierRoundPriceExp);
+        $tierPriceColumn = $write->getCheckSql("MIN(i.tier_price) IS NOT NULL", "SUM({$tierPriceExp})", 'NULL');
+        /*
+            IF(
+                i.tier_price IS NOT NULL,
+                SUM(
+                    IF(
+                        (@tier_price:=
+                            IF(apw.value_id, apw.pricing_value, apd.pricing_value)
+                        ) IS NULL,
+                        0,
+                        IF(
+                            IF(apw.value_id, apw.is_percent, apd.is_percent) = 1,
+                            ROUND(i.price * (@tier_price / 100), 4),
+                            @tier_price)
+                     )
+                ),
+                NULL
+            )"))*/
+        //echo $tierPriceColumn . "\n";
+        $select->columns(array(
+            'price'      => $priceColumn,
+            'tier_price' => $tierPriceColumn
+        ));
 
         $query = $select->insertFromSelect($coaTable);
         $write->query($query);
@@ -182,7 +216,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
             ->from(
                 array($coaTable),
                 array('parent_id', 'customer_group_id', 'website_id', 'MIN(price)', 'MAX(price)', 'MIN(tier_price)'))
-            ->group('parent_id', 'customer_group_id', 'website_id');
+            ->group(array('parent_id', 'customer_group_id', 'website_id'));
 
         $query = $select->insertFromSelect($copTable);
         $write->query($query);
@@ -199,6 +233,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
             'max_price'  => new Zend_Db_Expr('i.max_price + io.max_price'),
             'tier_price' => $write->getCheckSql('i.tier_price IS NOT NULL', 'i.tier_price + io.tier_price', 'NULL'),
         ));
+
         $query = $select->crossUpdateFromSelect($table);
         $write->query($query);
 

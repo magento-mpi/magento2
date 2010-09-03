@@ -1896,10 +1896,10 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
 ), 'Website ID')
-/*->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'default'   => '0',
-), 'Tax Class ID')*/
+), 'Tax Class ID')
 ->addColumn('price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
 ), 'Price')
 ->addColumn('final_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -2131,10 +2131,10 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
 ), 'Website ID')
-/*->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'default'   => '0',
-), 'Tax Class ID')*/
+), 'Tax Class ID')
 ->addColumn('orig_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
 ), 'Original Price')
 ->addColumn('price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -2170,10 +2170,10 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
 ), 'Website ID')
-/*->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'default'   => '0',
-), 'Tax Class ID')*/
+), 'Tax Class ID')
 ->addColumn('orig_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
 ), 'Original Price')
 ->addColumn('price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -2479,10 +2479,10 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
 ), 'Website ID')
-/*->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'default'   => '0',
-), 'Tax Class ID')*/
+), 'Tax Class ID')
 ->addColumn('price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
 ), 'Price')
 ->addColumn('final_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -2522,10 +2522,10 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
 ), 'Website ID')
-/*->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'default'   => '0',
-), 'Tax Class ID')*/
+), 'Tax Class ID')
 ->addColumn('price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
 ), 'Price')
 ->addColumn('final_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
