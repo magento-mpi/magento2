@@ -360,9 +360,12 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
         if ($asCollection) {
-            $parentPath = $this->_getReadAdapter()->fetchOne(new Zend_Db_Expr("
-                SELECT path FROM {$this->getMainStoreTable($this->getStoreId())} WHERE entity_id = {$parent}
-            "));
+            $parentPath = $this->_getReadAdapter()->fetchOne(
+                $this->_getReadAdapter()->select()
+                    ->from(array('mt' => $this->getMainStoreTable($this->getStoreId())), array('path'))
+                    ->where('mt.entity_id = :entity_id'),
+                array('entity_id' => $parent)
+            );
             $collection = Mage::getModel('catalog/category')->getCollection()
                 ->addNameToResult()
                 ->addUrlRewriteToResult()
@@ -424,37 +427,6 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
-     *
-     * @param unknown_type $storeId
-     * @return unknown
-     */
-    protected function _getTableSqlSchema($storeId = 0)
-    {
-        $storeId = Mage::app()->getStore($storeId)->getId();
-        $schema = "CREATE TABLE `{$this->getMainStoreTable($storeId)}` (
-                `entity_id` int(10) unsigned not null,
-                `store_id` smallint(5) unsigned not null default '0',
-                `parent_id` int(10) unsigned not null default '0',
-                `path` varchar(255) not null default '',
-                `level` int(11) not null default '0',
-                `position` int(11) not null default '0',
-                `children_count` int(11) not null,
-                `created_at` datetime not null default '0000-00-00 00:00:00',
-                `updated_at` datetime not null default '0000-00-00 00:00:00',
-                KEY `CATEGORY_FLAT_CATEGORY_ID` (`entity_id`),
-                KEY `CATEGORY_FLAT_STORE_ID` (`store_id`),
-                KEY `path` (`path`),
-                KEY `IDX_LEVEL` (`level`),
-                CONSTRAINT `FK_CATEGORY_FLAT_CATEGORY_ID_STORE_{$storeId}` FOREIGN KEY (`entity_id`)
-                    REFERENCES `{$this->getTable('catalog/category')}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                CONSTRAINT `FK_CATEGORY_FLAT_STORE_ID_STORE_{$storeId}` FOREIGN KEY (`store_id`)
-                    REFERENCES `{$this->getTable('core/store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-        return $schema;
-    }
-
-    /**
      * Rebuild flat data from eav
      *
      * @param unknown_type $stores
@@ -502,6 +474,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                         array_merge($category, $attributesData[$category['entity_id']])
                     );
                 }
+                // TODO: Fix multirow insert
                 $this->_getWriteAdapter()->insertMultiple($this->getMainStoreTable($store->getId()), $data);
             }
         }
@@ -546,29 +519,39 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     protected function _createTable($store)
     {
-        $this->_getWriteAdapter()->query("DROP TABLE IF EXISTS `{$this->getMainStoreTable($store)}`;");
-        $_tableSql = "CREATE TABLE `{$this->getMainStoreTable($store)}` (\n";
-        if ($this->_columnsSql === null || $this->_columnsSql === null) {
+
+        $this->_getWriteAdapter()->dropTable($this->getMainStoreTable($store));
+        $table = $this->_getWriteAdapter()->newTable($this->getMainStoreTable($store));
+
+        //Adding columns
+        if ($this->_columnsSql === null) {
             $this->_columns = array_merge($this->_getStaticColumns(), $this->_getEavColumns());
-            foreach ($this->_columns as $columnName => $columnData) {
-                $this->_columnsSql .= '`' . $columnName . '` ' . $columnData['type'];
-                $this->_columnsSql .= $columnData['is_unsigned'] ? ' unsigned' : '';
-                $this->_columnsSql .= ($columnData['is_null'] ? '' : ' not null');
-                $this->_columnsSql .= ($columnData['default'] === false ? '' : ' default \'' . $columnData['default'] . '\'');
-                $this->_columnsSql .= ",\n";
+            foreach ($this->_columns as $fieldName => $fieldProp) {
+                $table->addColumn($fieldName, $fieldProp['type'][0], $fieldProp['type'][1], array(
+                    'nullable' => $fieldProp['nullable'],
+                    'unsigned' => $fieldProp['unsigned'],
+                    'default'  => $fieldProp['default'],
+                    'primary'  => isset($fieldProp['primary']) ? $fieldProp['primary'] : false,
+                ), ($fieldProp['comment']!='')?$fieldProp['comment']:$fieldName);
             }
         }
-        $_tableSql .= $this->_columnsSql;
-        $_tableSql .= "PRIMARY KEY (`entity_id`),
-                KEY `IDX_STORE` (`store_id`),
-                KEY `IDX_PATH` (`path`),
-                KEY `IDX_LEVEL` (`level`),
-                CONSTRAINT `FK_CATEGORY_FLAT_CATEGORY_ID_STORE_{$store}` FOREIGN KEY (`entity_id`)
-                    REFERENCES `{$this->getTable('catalog/category')}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                CONSTRAINT `FK_CATEGORY_FLAT_STORE_ID_STORE_{$store}` FOREIGN KEY (`store_id`)
-                    REFERENCES `{$this->getTable('core/store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-        $this->_getWriteAdapter()->query($_tableSql);
+
+        // Adding indexes
+        $table->addIndex('IDX_ENTITY', array('entity_id'), 'primary');
+        $table->addIndex('IDX_STORE',  array('store_id'),  'index');
+        $table->addIndex('IDX_PATH',   array('path'),      'index');
+        $table->addIndex('IDX_LEVEL',  array('level'),     'index');
+
+        // Adding foreign keys
+        $table->addForeignKey(
+            'FK_CATEGORY_FLAT_CATEGORY_ID_STORE_' . $store, 'entity_id',
+            $this->getTable('catalog/category'), 'entity_id',
+            Varien_Db_Ddl_Table::ACTION_CASCADE. Varien_Db_Ddl_Table::ACTION_CASCADE);
+        $table->addForeignKey(
+            'FK_CATEGORY_FLAT_STORE_ID_STORE_' . $store, 'store_id',
+            $this->getTable('core/store'), 'store_id',
+            Varien_Db_Ddl_Table::ACTION_CASCADE. Varien_Db_Ddl_Table::ACTION_CASCADE);
+        $this->_getWriteAdapter()->createTable($table);
         return $this;
     }
 
@@ -579,52 +562,62 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     protected function _getStaticColumns()
     {
+        $helper = Mage::getResourceHelper('catalog');
         $columns = array();
         $columnsToSkip = array('entity_type_id', 'attribute_set_id');
         $describe = $this->_getWriteAdapter()->describeTable($this->getTable('catalog/category'));
+
         foreach ($describe as $column) {
             if (in_array($column['COLUMN_NAME'], $columnsToSkip)) {
                 continue;
             }
             $_type = '';
             $_is_unsigned = '';
-             switch ($column['DATA_TYPE']) {
-                case 'smallint':
-                case 'int':
-                    $_type = $column['DATA_TYPE'] . '(11)';
+            $ddlType = $helper->getDdlTypeByColumnType($column['DATA_TYPE']);
+            switch ($ddlType) {
+                case Varien_Db_Ddl_Table::TYPE_SMALLINT:
+                case Varien_Db_Ddl_Table::TYPE_INTEGER:
                     $_is_unsigned = (bool)$column['UNSIGNED'];
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
                     }
-                    break;
-                case 'varchar':
-                    $_type = $column['DATA_TYPE'] . '(' . $column['LENGTH'] . ')';
-                    $_is_unsigned = null;
-                    break;
-                case 'datetime':
-                    $_type = $column['DATA_TYPE'];
-                    $_is_unsigned = null;
-                    break;
-                case 'decimal':
-                    $_type = $columns['DATA_TYPE'] . '(' . $column['PRECISION'] . ',' . $column['SCALE'] . ')';
+                    $options = null;
+                    if ($column['SCALE'] > 0) {
+                        $ddlType = Varien_Db_Ddl_Table::TYPE_DECIMAL;
+                    } else {
+                        break;
+                    }
+                case Varien_Db_Ddl_Table::TYPE_DECIMAL:
+                    $options = $column['PRECISION'] . ',' . $column['SCALE'];
                     $_is_unsigned = null;
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
                     }
                     break;
+                case Varien_Db_Ddl_Table::TYPE_TEXT:
+                    $options = $column['LENGTH'];
+                    $_is_unsigned = null;
+                    break;
+                case Varien_Db_Ddl_Table::TYPE_TIMESTAMP:
+                    $options = null;
+                    $_is_unsigned = null;
+                    break;
+
             }
             $columns[$column['COLUMN_NAME']] = array(
-                'type' => $_type,
-                'is_unsigned' => $_is_unsigned,
-                'is_null' => $column['NULLABLE'],
-                'default' => ($column['DEFAULT'] === null ? false : $column['DEFAULT'])
+                'type' => array($ddlType, $options),
+                'unsigned' => $_is_unsigned,
+                'nullable' => $column['NULLABLE'],
+                'default' => ($column['DEFAULT'] === null ? false : $column['DEFAULT']),
+                'comment' => $column['COLUMN_NAME']
             );
         }
         $columns['store_id'] = array(
-            'type' => 'smallint(5)',
-            'is_unsigned' => true,
-            'is_null' => false,
-            'default' => '0'
+            'type' => array(Varien_Db_Ddl_Table::TYPE_SMALLINT, 5),
+            'unsigned' => true,
+            'nullable' => false,
+            'default' => '0',
+            'comment' => 'Store Id'
         );
         return $columns;
     }
@@ -646,42 +639,47 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             switch ($attribute['backend_type']) {
                 case 'varchar':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => 'varchar(255)',
-                        'is_unsigned' => null,
-                        'is_null' => false,
-                        'default' => ''
+                        'type' => array(Varien_Db_Ddl_Table::TYPE_TEXT, 255),
+                        'unsigned' => null,
+                        'nullable' => false,
+                        'default' => '',
+                        'comment' => (string)$attribute['frontend_label']
                     );
                     break;
                 case 'int':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => 'int(10)',
-                        'is_unsigned' => null,
-                        'is_null' => false,
-                        'default' => '0'
+                        'type' => array(Varien_Db_Ddl_Table::TYPE_INTEGER, null),
+                        'unsigned' => null,
+                        'nullable' => false,
+                        'default' => '0',
+                        'comment' => (string)$attribute['frontend_label']
                     );
                     break;
                 case 'text':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => 'text',
-                        'is_unsigned' => null,
-                        'is_null' => true,
-                        'default' => null
+                        'type' => array(Varien_Db_Ddl_Table::TYPE_TEXT, '64k'),
+                        'unsigned' => null,
+                        'nullable' => true,
+                        'default' => null,
+                        'comment' => (string)$attribute['frontend_label']
                     );
                     break;
                 case 'datetime':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => 'datetime',
-                        'is_unsigned' => null,
-                        'is_null' => false,
-                        'default' => '0000-00-00 00:00:00'
+                        'type' => array(Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null),
+                        'unsigned' => null,
+                        'nullable' => false,
+                        'default' => '0000-00-00 00:00:00',
+                        'comment' => (string)$attribute['frontend_label']
                     );
                     break;
                 case 'decimal':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => 'decimal(12,4)',
-                        'is_unsigned' => null,
-                        'is_null' => false,
-                        'default' => '0.0000'
+                        'type' => array(Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4'),
+                        'unsigned' => null,
+                        'nullable' => false,
+                        'default' => '0.0000',
+                        'comment' => (string)$attribute['frontend_label']
                     );
                     break;
             }
@@ -757,17 +755,17 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     protected function _getAttributeTypeValues($type, $entityIds, $store_id)
     {
         $select = $this->_getWriteAdapter()->select()
-            ->from(array('default' => $this->getTable('catalog/category') . '_' . $type), array('entity_id', 'attribute_id'))
+            ->from(array('def' => $this->getTable('catalog/category') . '_' . $type), array('entity_id', 'attribute_id'))
             ->joinLeft(
                 array('store' => $this->getTable('catalog/category') . '_' . $type),
-                '`store`.entity_id = `default`.entity_id AND `store`.attribute_id = `default`.attribute_id AND `store`.store_id = ' . $store_id,
+                'store.entity_id = def.entity_id AND store.attribute_id = def.attribute_id AND store.store_id = ' . $store_id,
                 array('value' => $this->_getWriteAdapter()->getCheckSql('store.value_id>0',
                     $this->_getWriteAdapter()->quoteIdentifier('store.value'),
-                    $this->_getWriteAdapter()->quoteIdentifier('default.value'))
+                    $this->_getWriteAdapter()->quoteIdentifier('def.value'))
                 )
             )
-            ->where('`default`.entity_id IN (?)', $entityIds)
-            ->where('`default`.store_id = ?', 0);
+            ->where('def.entity_id IN (?)', $entityIds)
+            ->where('def.store_id = ?', 0);
         return $this->_getWriteAdapter()->fetchAll($select);
     }
 
@@ -795,9 +793,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             $stores = array($stores);
         }
         foreach ($stores as $store) {
-            $_tableExist = $this->_getWriteAdapter()->query(
-                "DROP TABLE IF EXISTS `{$this->getMainStoreTable($store)}`"
-            );
+            $_tableExist = $this->_getWriteAdapter()->dropTable($this->getMainStoreTable($store));
         }
         return $this;
     }
@@ -997,7 +993,9 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                     $this->_getWriteAdapter()->quoteInto('entity_id = ?', $categoryId)
                 );
             }
-            $categoryPath = $this->_getWriteAdapter()->fetchOne("
+            $categoryPath = $this->_getWriteAdapter()->fetchOne(
+//                $this->_getWriteAdapter()->select()
+            "
                 SELECT
                     path
                 FROM

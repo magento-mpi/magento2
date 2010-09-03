@@ -44,4 +44,15 @@ class Mage_Catalog_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Resource_
     {
         return '*';
     }
+
+    /**
+     * Returns DDL type by column type in database
+     *
+     * @param string $columnType
+     * @return string
+     */
+    public function getDdlTypeByColumnType($columnType)
+    {
+        return $column['DATA_TYPE'];
+    }
 }
