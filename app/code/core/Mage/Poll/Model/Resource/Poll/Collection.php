@@ -61,8 +61,9 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Deprecated
+     * Add store filter
      *
+     * @deprecated
      * @param mixed $store
      * @return Mage_Poll_Model_Resource_Poll_Collection
      */
@@ -116,7 +117,7 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
         }
 
         foreach ($this as $item) {
-            if(isset($storesToPoll[$item->getId()])) {
+            if (isset($storesToPoll[$item->getId()])) {
                 $item->setStores($storesToPoll[$item->getId()]);
             } else {
                 $item->setStores(array());
