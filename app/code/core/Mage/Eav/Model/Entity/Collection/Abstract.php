@@ -1076,7 +1076,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
      */
     protected function _getAttributeTableAlias($attributeCode)
     {
-        return '_table_'.$attributeCode;
+        return 'at_'.$attributeCode;
     }
 
     protected function _getAttributeFieldName($attributeCode)
