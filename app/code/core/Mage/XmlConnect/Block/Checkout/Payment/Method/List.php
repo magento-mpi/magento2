@@ -78,8 +78,8 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
              * adding all ccsave childs
              */
             if ($block instanceOf Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave) {
-                $paymentMethodList =  Mage::helper('payment')->getPaymentMethodList();
-                foreach ($paymentMethodList as $methodCode => $methodTitle) {
+                $paymentMethodList =  Mage::helper('xmlconnect/payment')->getPaymentMethodCodeList();
+                foreach ($paymentMethodList as $methodCode) {
                     if (in_array($methodCode, $usedCodes)) {
                         continue;
                     }
