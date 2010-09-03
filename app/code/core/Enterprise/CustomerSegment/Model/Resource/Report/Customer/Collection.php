@@ -107,7 +107,8 @@ class Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection
             $this->getTable('enterprise_customersegment/customer'),
             'customer_id'
         )
-        ->where('segment_id IN(?)', $segment);
+        ->where('segment_id IN(?)', $segment)
+        ->where('e.entity_id = customer_id');
         return $select;
     }
 
@@ -126,6 +127,7 @@ class Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection
             'customer_id'
         )
         ->where('segment_id IN(?)', $segment)
+        ->where('e.entity_id = customer_id')
         ->group('customer_id')
         ->having('COUNT(segment_id) = ?', count($segment));
         return $select;
