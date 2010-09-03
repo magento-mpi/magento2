@@ -543,11 +543,11 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
 
         // Adding foreign keys
         $table->addForeignKey(
-            'FK_CATEGORY_FLAT_CATEGORY_ID_STORE_' . $store, 'entity_id',
+            'FK_CTG_FL_CTG_ID_STORE_' . $store, 'entity_id',
             $this->getTable('catalog/category'), 'entity_id',
             Varien_Db_Ddl_Table::ACTION_CASCADE. Varien_Db_Ddl_Table::ACTION_CASCADE);
         $table->addForeignKey(
-            'FK_CATEGORY_FLAT_STORE_ID_STORE_' . $store, 'store_id',
+            'FK_CTG_FL_STR_ID_STORE_' . $store, 'store_id',
             $this->getTable('core/store'), 'store_id',
             Varien_Db_Ddl_Table::ACTION_CASCADE. Varien_Db_Ddl_Table::ACTION_CASCADE);
         $this->_getWriteAdapter()->createTable($table);
@@ -573,13 +573,17 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             $_type = '';
             $_is_unsigned = '';
             $ddlType = $helper->getDdlTypeByColumnType($column['DATA_TYPE']);
+            //var_dump($column['DATA_TYPE'],$ddlType);exit;
+            $column['DEFAULT'] = trim($column['DEFAULT'],"' ");
             switch ($ddlType) {
                 case Varien_Db_Ddl_Table::TYPE_SMALLINT:
                 case Varien_Db_Ddl_Table::TYPE_INTEGER:
+                case Varien_Db_Ddl_Table::TYPE_BIGINT:
                     $_is_unsigned = (bool)$column['UNSIGNED'];
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
                     }
+
                     $options = null;
                     if ($column['SCALE'] > 0) {
                         $ddlType = Varien_Db_Ddl_Table::TYPE_DECIMAL;
@@ -640,8 +644,8 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                     $columns[$attribute['attribute_code']] = array(
                         'type' => array(Varien_Db_Ddl_Table::TYPE_TEXT, 255),
                         'unsigned' => null,
-                        'nullable' => false,
-                        'default' => '',
+                        'nullable' => true,
+                        'default' => null,
                         'comment' => (string)$attribute['frontend_label']
                     );
                     break;
@@ -649,8 +653,8 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                     $columns[$attribute['attribute_code']] = array(
                         'type' => array(Varien_Db_Ddl_Table::TYPE_INTEGER, null),
                         'unsigned' => null,
-                        'nullable' => false,
-                        'default' => '0',
+                        'nullable' => true,
+                        'default' => null,
                         'comment' => (string)$attribute['frontend_label']
                     );
                     break;
@@ -667,8 +671,8 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                     $columns[$attribute['attribute_code']] = array(
                         'type' => array(Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null),
                         'unsigned' => null,
-                        'nullable' => false,
-                        'default' => '0000-00-00 00:00:00',
+                        'nullable' => true,
+                        'default' => null,
                         'comment' => (string)$attribute['frontend_label']
                     );
                     break;
@@ -676,8 +680,8 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                     $columns[$attribute['attribute_code']] = array(
                         'type' => array(Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4'),
                         'unsigned' => null,
-                        'nullable' => false,
-                        'default' => '0.0000',
+                        'nullable' => true,
+                        'default' => null,
                         'comment' => (string)$attribute['frontend_label']
                     );
                     break;
@@ -754,9 +758,9 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     protected function _getAttributeTypeValues($type, $entityIds, $store_id)
     {
         $select = $this->_getWriteAdapter()->select()
-            ->from(array('def' => $this->getTable('catalog/category') . '_' . $type), array('entity_id', 'attribute_id'))
+            ->from(array('def' => $this->getTable(array('catalog/category', $type))), array('entity_id', 'attribute_id'))
             ->joinLeft(
-                array('store' => $this->getTable('catalog/category') . '_' . $type),
+                array('store' => $this->getTable(array('catalog/category', $type))),
                 'store.entity_id = def.entity_id AND store.attribute_id = def.attribute_id AND store.store_id = ' . $store_id,
                 array('value' => $this->_getWriteAdapter()->getCheckSql('store.value_id>0',
                     $this->_getWriteAdapter()->quoteIdentifier('store.value'),
