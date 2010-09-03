@@ -135,13 +135,9 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
     {
         $pollId = $this->getId();
         $select = $this->getConnection()->select()
-            ->from($this->getTable('poll/poll_store'))
+            ->from($this->getTable('poll/poll_store'), array('stor_id'))
             ->where('poll_id = ?', $pollId);
-        $result = $this->getConnection()->fetchAll($select);
-        $stores = array();
-        foreach ($result as $row) {
-            $stores[] = $row['stor_id'];
-        }
+        $stores = $this->getConnection()->fetchCol($select);
         $this->setSelectStores($stores);
 
         return $this;
