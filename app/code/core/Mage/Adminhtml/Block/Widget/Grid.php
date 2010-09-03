@@ -162,6 +162,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_exportTypes = array();
 
     /**
+     * Rows per page for import
+     *
+     * @var int
+     */
+    protected $_exportPageSize = 1000;
+
+    /**
      * Massaction row id field
      *
      * @var string
@@ -896,7 +903,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
         while ($break !== true) {
             $collection = clone $originalCollection;
-            $collection->setPageSize(1000);
+            $collection->setPageSize($this->_exportPageSize);
             $collection->setCurPage($page);
             $collection->load();
             if (is_null($count)) {

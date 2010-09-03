@@ -24,92 +24,94 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Shipping table rates collection
  *
- * @category    Mage
- * @package     Mage_Shipping
+ * @category   Mage
+ * @package    Mage_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection extends Varien_Data_Collection_Db
+class Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection extends Mage_Core_Model_Resource_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * directory/country table name
      *
-     * @var unknown
-     */
-    protected $_shipTable;
-
-    /**
-     * Enter description here ...
-     *
-     * @var unknown
+     * @var string
      */
     protected $_countryTable;
 
     /**
-     * Enter description here ...
+     * directory/country_region table name
      *
-     * @var unknown
+     * @var string
      */
     protected $_regionTable;
 
     /**
-     * Enter description here ...
+     * Define resource model and item
      *
-     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('shipping_read'));
-        $this->_shipTable = Mage::getSingleton('core/resource')->getTableName('shipping/tablerate');
-        $this->_countryTable = Mage::getSingleton('core/resource')->getTableName('directory/country');
-        $this->_regionTable = Mage::getSingleton('core/resource')->getTableName('directory/country_region');
-        $this->_select->from(array("s" => $this->_shipTable))
-            ->joinLeft(array("c" => $this->_countryTable), 'c.country_id = s.dest_country_id', 'iso3_code AS dest_country')
-            ->joinLeft(array("r" => $this->_regionTable), 'r.region_id = s.dest_region_id', 'code AS dest_region')
-            ->order(array("dest_country", "dest_region", "dest_zip"));
-        $this->_setIdFieldName('pk');
-        return $this;
+        $this->_init('shipping/carrier_tablerate');
+        $this->_countryTable    = $this->getTable('directory/country');
+        $this->_regionTable     = $this->getTable('directory/country_region');
     }
 
     /**
-     * Enter description here ...
+     * Initialize select, add country iso3 code and region name
      *
-     * @param unknown_type $websiteId
-     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection
+     * @return void
+     */
+    public function _initSelect()
+    {
+        parent::_initSelect();
+
+        $this->_select
+            ->joinLeft(
+                array('country_table' => $this->_countryTable),
+                'country_table.country_id = main_table.dest_country_id',
+                array('dest_country' => 'iso3_code'))
+            ->joinLeft(
+                array('region_table' => $this->_regionTable),
+                'region_table.region_id = main_table.dest_region_id',
+                array('dest_region' => 'code'));
+
+        $this->addOrder('dest_country', self::SORT_ORDER_ASC);
+        $this->addOrder('dest_region', self::SORT_ORDER_ASC);
+        $this->addOrder('dest_zip', self::SORT_ORDER_ASC);
+    }
+
+    /**
+     * Add website filter to collection
+     *
+     * @param int $websiteId
+     * @return Mage_Shipping_Model_Mysql4_Carrier_Tablerate_Collection
      */
     public function setWebsiteFilter($websiteId)
     {
-        $this->_select->where("website_id = ?", $websiteId);
-
-        return $this;
+        return $this->addFieldToFilter('website_id', $websiteId);
     }
 
     /**
-     * Enter description here ...
+     * Add condition name (code) filter to collection
      *
-     * @param unknown_type $conditionName
-     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection
+     * @param string $conditionName
+     * @return Mage_Shipping_Model_Mysql4_Carrier_Tablerate_Collection
      */
     public function setConditionFilter($conditionName)
     {
-        $this->_select->where("condition_name = ?", $conditionName);
-
-        return $this;
+        return $this->addFieldToFilter('condition_name', $conditionName);
     }
 
     /**
-     * Enter description here ...
+     * Add country filter to collection
      *
-     * @param unknown_type $countryId
-     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection
+     * @param string $countryId
+     * @return Mage_Shipping_Model_Mysql4_Carrier_Tablerate_Collection
      */
     public function setCountryFilter($countryId)
     {
-        $this->_select->where("dest_country_id = ?", $countryId);
-
-        return $this;
+        return $this->addFieldToFilter('dest_country_id', $countryId);
     }
 }
