@@ -16,6 +16,7 @@ class Test_Admin_OrderCreation_OrderCreate extends Test_Admin_OrderCreation_Abst
         $this->_productSKU = Core::getEnvConfig('backend/createproduct/sku');
     }
 
+   var $orderStatus = array(1 => "Pending", 2 => "Pending Payment", 3 => "Processing", 4 => "On Hold", 5 => "Complete", 6 => "Closed", 7 => "Canceled", 8 => "Suspected Fraud", 9 => "Payment Review", 10 => "Pending PayPal", 11 => "Pending Ogone", 12 => "Cancelled Ogone", 13 => "Declined Ogone", 14 => "Processing Ogone Payment", 15 => "Processed Ogone Payment", 16 => "Waiting Authorization");
 
     /**
      * Test create new order in Admin and Invoice
@@ -31,44 +32,26 @@ class Test_Admin_OrderCreation_OrderCreate extends Test_Admin_OrderCreation_Abst
         $ordNum = $this->getText($this->getUiElement("admin/pages/sales/orders/creationOrder/orderNumber"));
         $ordNum = substr($ordNum, 8, 10);
         $this->clickAndWait($this->getUiElement("admin/topmenu/sales/orders"));
-        $ordStatus = $this->getText($this->getUiElement("admin/pages/sales/orders/creationInvoice/orderStatus",$ordNum));
-        if ($ordStatus != 'Pending') {
-            $this->setVerificationErrors("Order has an incorrect status after creation order");
-        } else {
-            $this->openOrder($ordNum);
-            $this->createInvoice();
-        }
+        $this->orderStatus($ordNum, $this->orderStatus[1]);
+        $this->openOrder($ordNum);
+        $this->createInvoice();
         $this->clickAndWait($this->getUiElement("admin/topmenu/sales/orders"));
-        $ordStatus = $this->getText($this->getUiElement("admin/pages/sales/orders/creationInvoice/orderStatus",$ordNum));
-        if ($ordStatus != 'Processing') {
-            $this->setVerificationErrors("Order has an incorrect status after creation Invoice");
-        } else {
-            $this->openOrder($ordNum);
-            $this->createShippment();
-        }
+        $this->orderStatus($ordNum, $this->orderStatus[3]);
+        $this->openOrder($ordNum);
+        $this->createShippment();
         $this->clickAndWait($this->getUiElement("admin/topmenu/sales/orders"));
-        $ordStatus = $this->getText($this->getUiElement("admin/pages/sales/orders/creationInvoice/orderStatus",$ordNum));
-        if ($ordStatus != 'Complete') {
-            $this->setVerificationErrors("Order has an incorrect status after creation Shippment");
-        } else {
-            $this->openOrder($ordNum);
-            $this->createCreditMemo();
-        }
+        $this->orderStatus($ordNum, $this->orderStatus[5]);
+        $this->openOrder($ordNum);
+        $this->createCreditMemo();
         $this->clickAndWait($this->getUiElement("admin/topmenu/sales/orders"));
-        $ordStatus = $this->getText($this->getUiElement("admin/pages/sales/orders/creationInvoice/orderStatus",$ordNum));
-        if ($ordStatus != 'Closed') {
-            $this->setVerificationErrors("Order has an incorrect status after creation Credit Memo");
-        } else {
-            $this->openOrder($ordNum);
-            $this->reOrder();
-        }
+        $this->orderStatus($ordNum, $this->orderStatus[6]);
+        $this->openOrder($ordNum);
+        $this->reOrder();
         $ordNum = $this->getText($this->getUiElement("admin/pages/sales/orders/creationOrder/orderNumber"));
         $ordNum = substr($ordNum, 8, 10);
         $this->clickAndWait($this->getUiElement("admin/topmenu/sales/orders"));
         $ordStatus = $this->getText($this->getUiElement("admin/pages/sales/orders/creationInvoice/orderStatus",$ordNum));
-        if ($ordStatus != 'Pending') {
-            $this->setVerificationErrors("Order has an incorrect status after ReOrder");
-        }
+        $this->orderStatus($ordNum, $this->orderStatus[1]);
         }
     }
 }
