@@ -3224,10 +3224,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _getInsertFromSelectSql(Varien_Db_Select $select, $table, array $fields = array())
     {
-        $query = sprintf('INSERT INTO %s', $this->quoteIdentifier($table));
+        $query = sprintf('INSERT INTO %s ', $this->quoteIdentifier($table));
         if ($fields) {
             $columns = array_map(array($this, 'quoteIdentifier'), $fields);
-            $query .= sprintf(' (%s)', join(', ', $columns));
+            $query .= sprintf('(%s)', join(', ', $columns));
         }
 
         $query .= $select->assemble();

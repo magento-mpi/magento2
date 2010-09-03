@@ -3231,15 +3231,76 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     protected function _getInsertFromSelectSql(Varien_Db_Select $select, $table, array $fields = array())
     {
-        $query = sprintf('INSERT INTO %s', $this->quoteIdentifier($table));
+        $query = sprintf('INSERT INTO %s ', $this->quoteIdentifier($table));
         if ($fields) {
             $columns = array_map(array($this, 'quoteIdentifier'), $fields);
-            $query .= sprintf(' (%s)', join(', ', $columns));
+            $query .= sprintf('(%s)', join(', ', $columns));
         }
 
         $query .= $select->assemble();
 
         return $query;
+    }
+
+    /**
+     * Updates table rows with specified data based on a WHERE clause.
+     *
+     * @param  mixed        $table The table to update.
+     * @param  array        $bind  Column-value pairs.
+     * @param  mixed        $where UPDATE WHERE clause(s).
+     * @return int          The number of affected rows.
+     */
+    public function update($table, array $bind, $where = '')
+    {
+        /**
+         * Build "col = ?" pairs for the statement,
+         * except for Zend_Db_Expr which is treated literally.
+         */
+        $set = array();
+        $i = 0;
+        foreach ($bind as $col => $val) {
+            if ($val instanceof Zend_Db_Expr) {
+                $val = $val->__toString();
+                unset($bind[$col]);
+            } else {
+                if ($this->supportsParameters('positional')) {
+                    $val = '?';
+                } else {
+                    if ($this->supportsParameters('named')) {
+                        unset($bind[$col]);
+                        $bind[':vv'.$i] = $val;
+                        $val = ':vv'.$i;
+                        $i++;
+                    } else {
+                        /** @see Zend_Db_Adapter_Exception */
+                        #require_once 'Zend/Db/Adapter/Exception.php';
+                        throw new Zend_Db_Adapter_Exception(get_class($this) ." doesn't support positional or named binding");
+                    }
+                }
+            }
+            $set[] = $this->quoteIdentifier($col, true) . ' = ' . $val;
+        }
+
+        $where = $this->_whereExpr($where);
+
+        /**
+         * Build the UPDATE statement
+         */
+        $sql = "UPDATE "
+             . $this->quoteIdentifier($table, true)
+             . ' SET ' . implode(', ', $set)
+             . (($where) ? " WHERE $where" : '');
+
+        /**
+         * Execute the statement and return the number of affected rows
+         */
+        if ($this->supportsParameters('positional')) {
+            $stmt = $this->query($sql, array_values($bind));
+        } else {
+            $stmt = $this->query($sql, $bind);
+        }
+        $result = $stmt->rowCount();
+        return $result;
     }
 
     /**

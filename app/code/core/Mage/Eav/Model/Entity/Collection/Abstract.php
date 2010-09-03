@@ -399,7 +399,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             }
             if (empty($attrInstance)) {
                 throw Mage::exception(
-                    'Mage_Eav', 
+                    'Mage_Eav',
                     Mage::helper('eav')->__('Invalid attribute requested: %s', (string)$attribute)
                 );
             }
@@ -448,7 +448,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         // validate alias
         if (isset($this->_joinFields[$alias])) {
             throw Mage::exception(
-                'Mage_Eav', 
+                'Mage_Eav',
                 Mage::helper('eav')->__('Joint field or attribute expression with this alias is already declared')
             );
         }
@@ -553,7 +553,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     {
         // validate alias
         if (isset($this->_joinAttributes[$alias])) {
-            throw Mage::exception('Mage_Eav', 
+            throw Mage::exception('Mage_Eav',
                 Mage::helper('eav')->__('Invalid alias, already exists in joint attributes')
             );
         }
@@ -640,7 +640,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     {
         // validate alias
         if (isset($this->_joinFields[$alias])) {
-            throw Mage::exception('Mage_Eav', 
+            throw Mage::exception('Mage_Eav',
                 Mage::helper('eav')->__('Joined field with this alias is already declared')
             );
         }
@@ -724,7 +724,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         }
         foreach ($fields as $alias=>$field) {
             if (isset($this->_joinFields[$alias])) {
-                throw Mage::exception('Mage_Eav', 
+                throw Mage::exception('Mage_Eav',
                     Mage::helper('eav')->__('A joint field with this alias (%s) is already declared', $alias)
                 );
             }
@@ -1088,7 +1088,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         $entityIdField  = $this->getEntity()->getEntityIdField();
         $entityId       = $valueInfo[$entityIdField];
         if (!isset($this->_itemsById[$entityId])) {
-            throw Mage::exception('Mage_Eav', 
+            throw Mage::exception('Mage_Eav',
                 Mage::helper('eav')->__('Data integrity: No header row found for attribute')
             );
         }

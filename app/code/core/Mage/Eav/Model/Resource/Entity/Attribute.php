@@ -318,11 +318,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
             $optionTable        = $this->getTable('attribute_option');
             $optionValueTable   = $this->getTable('attribute_option_value');
 
-            $select = $adapter->select()
-                ->from($this->getTable('core/store'), 'store_id');
-
-            $stores = $adapter->fetchCol($select);
-
+            $stores = Mage::app()->getStores(true);
             if (isset($option['value'])) {
                 $attributeDefaultValue = array();
                 if (!is_array($object->getDefault())) {
@@ -339,9 +335,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
                         continue;
                     }
 
-                    $sortOrder = isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0;
+                    $sortOrder = !empty($option['order'][$optionId]) ? $option['order'][$optionId] : 0;
                     if (!$intOptionId) {
-
                         $data = array(
                            'attribute_id'  => $object->getId(),
                            'sort_order'    => $sortOrder
