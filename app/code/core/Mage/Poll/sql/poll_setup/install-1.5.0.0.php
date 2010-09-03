@@ -31,11 +31,6 @@ $installer = $this;
 
 $installer->startSetup();
 
-//$installer->getConnection()->dropTable($installer->getTable('poll/poll_vote'));
-//$installer->getConnection()->dropTable($installer->getTable('poll/poll_store'));
-//$installer->getConnection()->dropTable($installer->getTable('poll/poll_answer'));
-//$installer->getConnection()->dropTable($installer->getTable('poll/poll'));
-
 /**
  * Create table 'poll'
  */
