@@ -140,11 +140,56 @@ abstract class Test_Admin_OrderCreation_Abstract extends Test_Admin_Abstract
 
     public function createInvoice() {
         Core::debug("Invoice creation started");
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/sales/orders/creationInvoice/buttons/createInvoce"),10)){
+        $this->setVerificationErrors("You cannot create an Invoice for this order");
+        } else {
         $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationInvoice/buttons/createInvoce"));
         $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationInvoice/buttons/sumbitInvoice"));
+        }
         if (!$this->waitForElement($this->getUiElement("admin/pages/sales/orders/creationInvoice/messages/invoiceCreated"),10)) {
             $this->setVerificationErrors("creationInvoice check 5: no success message about Invoice creation");
         }
         Core::debug("Invoice creation finished");
+    }
+
+    public function createShippment() {
+        Core::debug("Shippment creation started");
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/sales/orders/creationShippment/buttons/createShip"),10)){
+        $this->setVerificationErrors("You cannot create a Shippment for this order");
+        } else {
+        $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationShippment/buttons/createShip"));
+        $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationShippment/buttons/sumbitShip"));
+        }
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/sales/orders/creationShippment/messages/ShipCreated"),10)) {
+            $this->setVerificationErrors("creationShippment check 6: no success message about Shippment creation");
+        }
+        Core::debug("Shippment creation finished");
+    }
+
+    public function createCreditMemo() {
+        Core::debug("Credit Memo creation started");
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/sales/orders/creationCreditMemo/buttons/createMemo"),10)){
+        $this->setVerificationErrors("You cannot create a Credit Memo for this order");
+        } else {
+        $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationCreditMemo/buttons/createMemo"));
+        $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationCreditMemo/buttons/sumbitMemo"));
+        }
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/sales/orders/creationCreditMemo/messages/ShipCreated"),10)) {
+            $this->setVerificationErrors("creationCreditMemo check 7: no success message about Credit Memo creation");
+        }
+        Core::debug("Credit Memo creation finished");
+    }
+    public function reOrder() {
+        Core::debug("reOrder started");
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/sales/orders/creationOrder/buttons/reOrder"),10)){
+        $this->setVerificationErrors("You cannot reOrder this order");
+        } else {
+        $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationOrder/buttons/reOrder"));
+        $this->clickAndWait($this->getUiElement("admin/pages/sales/orders/creationOrder/buttons/sumbitOrder"));
+        }
+        if (!$this->isElementPresent($this->getUiElement("admin/pages/sales/orders/creationOrder/messages/orderCreated"),10)) {
+            $this->setVerificationErrors("creationCreditMemo check 8: no success message about ReOrder");
+        }
+        Core::debug("ReoRorder finished");
     }
 }
