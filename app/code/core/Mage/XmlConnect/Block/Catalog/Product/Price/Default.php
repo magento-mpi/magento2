@@ -289,7 +289,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
                     $priceXmlObj->addAttribute('starting_at_including_tax', $_coreHelper->currency($_inclTax, true, false));
                 }
                 else {
-                     $_showPrice = $_inclTax;
+                    $_showPrice = $_inclTax;
                     if (!$_taxHelper->displayPriceIncludingTax()) {
                         $_showPrice = $_exclTax;
                     }

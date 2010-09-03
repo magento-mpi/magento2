@@ -74,7 +74,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
 
             $iconXml->addAttribute('modification_time', filemtime($file));
 
-            $item->addChild('in_stock', (int)$product->isInStock());
+            $item->addChild('in_stock', (int)$product->isSalable());
             /**
              * By default all products has gallery (because of collection not load gallery attribute)
              */
@@ -90,7 +90,6 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
                 $product->setHasOptions(true);
             }
             $item->addChild('has_options', (int)$product->getHasOptions());
-            $item->addChild('is_salable', (int)$product->isSaleable());
 
             if (!$product->getRatingSummary()) {
                 Mage::getModel('review/review')
@@ -117,19 +116,10 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
      */
     protected function _toHtml()
     {
-        $productId = $this->getRequest()->getParam('id', 0);
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $product = Mage::getModel('catalog/product')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
-            ->addMinimalPrice()
-            ->addTaxPercents()
-            ->addIdFilter($productId);
+            ->load($this->getRequest()->getParam('id', 0));
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
-        $collection->addAttributeToSelect(array('image', 'name', 'description'));
-
-        $product = $collection->getItemById($productId);
         if(!$product){
             throw new Mage_Core_Exception(Mage::helper('xmlconnect')->__('Selected product is unavailable'));
         }
