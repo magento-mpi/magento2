@@ -12,16 +12,16 @@ class Admin_User_Add extends Test_Admin_User_Abstract
     }
 
     /**
-     * Add new user to the system
+     * Add new user from admin to the system
      *
      */
-
     function testUserCreation() {
-        $this->debug("testUserCreation started");
-
-        // Test Flow
-        $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->addUser("test");
-        $this->debug("testUserCreation finished");
+        //Test Data
+        $userName = Core::getEnvConfig('backend/user/name');
+        //Test Flow
+        if ($this->adminLogin($this->_baseUrl, $this->_userName, $this->_password)) {
+            $this->doDeleteUser($userName);
+            $this->addUser($userName);
+        }
     }
 }

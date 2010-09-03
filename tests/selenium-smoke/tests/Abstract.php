@@ -271,6 +271,5 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
        }
        return $result;
     }
-
 }
 

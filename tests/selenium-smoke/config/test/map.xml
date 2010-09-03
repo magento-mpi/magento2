@@ -121,7 +121,7 @@
 					<shippingMethod>
 						<inputs>
 							<freeShipping>s_method_freeshipping_freeshipping</freeShipping>
-                                                        <flatrate>s_method_flatrate_flatrate</flatrate>
+							<flatrate>s_method_flatrate_flatrate</flatrate>
 						</inputs>
 						<buttons>
 							<continue>//li[@id='opc-shipping_method']//button[contains(span,'Continue')]</continue>
@@ -458,7 +458,17 @@
 						<manageusers>
 							<buttons>
 								<addnewuser>//button[span="Add New User"]</addnewuser>
+								<resetFilter>//button[span="Reset Filter"]</resetFilter>
+								<search>//button[span="Search"]</search>
 							</buttons>
+							<filters>
+								<username>//input[@id='filter_username']</username>
+							</filters>
+							<elements>
+								<userTable>//table[@id='permissionsUserGrid_table']</userTable>
+								<heading>//table[@id='permissionsUserGrid_table']//tr[contains(@class,'heading')]</heading>
+								<body>//table[@id='permissionsUserGrid_table']//tbody</body>
+							</elements>
 						</manageusers>
 						<user>
 							<inputs>
@@ -470,11 +480,9 @@
 								<confirmation>user_confirmation</confirmation>
 							</inputs>
 							<buttons>
-								<saveuser>//button[span="Save User"]</saveuser>
+								<saveUser>//button[span="Save User"]</saveUser>
+								<deleteUser>//button[span="Delete User"]</deleteUser>
 							</buttons>
-							<messages>
-								<usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
-							</messages>
 						</user>
 					</users>
 				</permissions>
@@ -563,7 +571,9 @@
 			</login>
 		</pages>
 		<messages>
+			<message>//div[@id="messages" and string-length(@class)>1]</message>
 			<success>//li[@class="success-msg"]</success>
+			<error>//li[contains(@class,"error-msg")]</error>
 		</messages>
 	</admin>
 	<!-- Miscelaneous usefull elements -->
