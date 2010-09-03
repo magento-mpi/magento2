@@ -28,6 +28,7 @@
 
 <layout>
     <adminhtml_sales_order_grid>
+        <update handle="formkey"/>
         <block type="adminhtml/sales_order_grid" name="sales_order.grid" output="toHtml"></block>
     </adminhtml_sales_order_grid>
 

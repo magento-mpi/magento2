@@ -52,6 +52,7 @@
     </adminhtml_sales_archive_orders>
 
     <adminhtml_sales_archive_ordersgrid>
+        <update handle="formkey"/>
         <block type="enterprise_salesarchive/adminhtml_sales_archive_order_grid" name="archive.grid" as="grid" output="toHtml"/>
     </adminhtml_sales_archive_ordersgrid>
 
@@ -64,6 +65,7 @@
     </adminhtml_sales_archive_invoices>
 
     <adminhtml_sales_archive_invoicesgrid>
+        <update handle="formkey"/>
         <block type="enterprise_salesarchive/adminhtml_sales_archive_order_invoice_grid" name="archive.grid" as="grid" output="toHtml"/>
     </adminhtml_sales_archive_invoicesgrid>
 
@@ -76,6 +78,7 @@
     </adminhtml_sales_archive_shipments>
 
     <adminhtml_sales_archive_shipmentsgrid>
+        <update handle="formkey"/>
         <block type="enterprise_salesarchive/adminhtml_sales_archive_order_shipment_grid" name="archive.grid" as="grid" output="toHtml"/>
     </adminhtml_sales_archive_shipmentsgrid>
 
@@ -88,6 +91,7 @@
     </adminhtml_sales_archive_creditmemos>
 
     <adminhtml_sales_archive_creditmemosgrid>
+        <update handle="formkey"/>
         <block type="enterprise_salesarchive/adminhtml_sales_archive_order_creditmemo_grid" name="archive.grid" as="grid" output="toHtml"/>
     </adminhtml_sales_archive_creditmemosgrid>
     
