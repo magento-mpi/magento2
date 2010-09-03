@@ -28,7 +28,7 @@ function fix_header($file, $header)
 fix_header($argv[1] . '/packages.html', $header_mage);
 fix_header($argv[1] . '/Varien/packages.html', $header_lib);
 
-`cp -R "phpdoc/media" $argv[1]`;
-`cp -R "phpdoc/media" "$argv[1]/Varien"`;
+`rsync -aC phpdoc/media/ $argv[1]`;
+`rsync -aC phpdoc/media/ $argv[1]/Varien`;
 
 exit(0);
