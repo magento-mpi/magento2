@@ -149,6 +149,7 @@ class Mage_SalesRule_Model_Observer
             $rule->setIsActive(0);
             /* @var $rule->getConditions() Mage_SalesRule_Model_Rule_Condition_Combine */
             $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
+            $this->_removeAttributeFromConditions($rule->getActions(), $attributeCode);
             $rule->save();
 
             $disabledRulesCount++;
@@ -184,14 +185,17 @@ class Mage_SalesRule_Model_Observer
         $combine->setConditions($conditions);
     }
 
+    /**
+     * After save attribute if it is not used for promo rules already check rules for containing this attribute
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_SalesRule_Model_Observer
+     */
     public function catalogAttributeSaveAfter(Varien_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        $origData = $attribute->getOrigData();
-        if ($origData['is_used_for_promo_rules'] == 1) {
-            if (!$attribute->getIsUsedForPromoRules()) {
-                $this->_checkSalesRulesAvailability($attribute->getAttributeCode());
-            }
+        if ($attribute->dataHasChangedFor('is_used_for_promo_rules') && !$attribute->getIsUsedForPromoRules()) {
+            $this->_checkSalesRulesAvailability($attribute->getAttributeCode());
         }
 
         return $this;
@@ -202,7 +206,7 @@ class Mage_SalesRule_Model_Observer
      * If rules was found they will seted to inactive and added notice to admin session
      *
      * @param Varien_Event_Observer $observer
-     * @return Mage_CatalogRule_Model_Observer
+     * @return Mage_SalesRule_Model_Observer
      */
     public function catalogAttributeDeleteAfter(Varien_Event_Observer $observer)
     {

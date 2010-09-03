@@ -163,8 +163,8 @@ class Mage_CatalogRule_Model_Observer
     /**
      * Daily update catalog price rule by cron
      * Update include interval 3 days - current day - 1 days before + 1 days after
-     * This method is called from cron process, cron is workink in UTC time and
-     * we shold generate data for interval -1 day ... +1 day
+     * This method is called from cron process, cron is working in UTC time and
+     * we should generate data for interval -1 day ... +1 day
      *
      * @param   Varien_Event_Observer $observer
      * @return  Mage_CatalogRule_Model_Observer
@@ -260,7 +260,7 @@ class Mage_CatalogRule_Model_Observer
     }
 
     /**
-     * After attribute save if it is not used for promo rules already check rules that contains this attribute
+     * After save attribute if it is not used for promo rules already check rules for containing this attribute
      *
      * @param Varien_Event_Observer $observer
      * @return Mage_CatalogRule_Model_Observer
@@ -268,11 +268,8 @@ class Mage_CatalogRule_Model_Observer
     public function catalogAttributeSaveAfter(Varien_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        $origData = $attribute->getOrigData();
-        if ($origData['is_used_for_promo_rules'] == 1) {
-            if (!$attribute->getIsUsedForPromoRules()) {
-                $this->_checkCatalogRulesAvailability($attribute->getAttributeCode());
-            }
+        if ($attribute->dataHasChangedFor('is_used_for_promo_rules') && !$attribute->getIsUsedForPromoRules()) {
+            $this->_checkCatalogRulesAvailability($attribute->getAttributeCode());
         }
 
         return $this;
