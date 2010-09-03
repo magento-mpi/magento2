@@ -278,7 +278,7 @@
 
     <target name="load-test-controller">
         <exec executable="svn" failonerror="true">
-            <arg line="export http://svn.magentocommerce.com/svn/magento/base/magento/branches/hperf-tools/load-testing/magento/app/code/local/Mage/Checkout/controllers/OnetestController.php ${dir.src}/app/code/core/Mage/Checkout/controllers/OnetestController.php"/>
+            <arg line="export --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache http://svn.magentocommerce.com/svn/magento/base/magento/branches/hperf-tools/load-testing/magento/app/code/local/Mage/Checkout/controllers/OnetestController.php ${dir.src}/app/code/core/Mage/Checkout/controllers/OnetestController.php"/>
         </exec>
     </target>
 
