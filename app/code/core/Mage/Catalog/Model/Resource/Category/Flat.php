@@ -474,7 +474,6 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                         array_merge($category, $attributesData[$category['entity_id']])
                     );
                 }
-                // TODO: Fix multirow insert
                 $this->_getWriteAdapter()->insertMultiple($this->getMainStoreTable($store->getId()), $data);
             }
         }
@@ -537,10 +536,10 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         }
 
         // Adding indexes
-        $table->addIndex('IDX_ENTITY', array('entity_id'), 'primary');
-        $table->addIndex('IDX_STORE',  array('store_id'),  'index');
-        $table->addIndex('IDX_PATH',   array('path'),      'index');
-        $table->addIndex('IDX_LEVEL',  array('level'),     'index');
+        $table->addIndex('IDX_ENTITY', array('entity_id'), array('type' => 'primary'));
+        $table->addIndex('IDX_STORE',  array('store_id'),  array('type' => 'index'));
+        $table->addIndex('IDX_PATH',   array('path'),      array('type' => 'index'));
+        $table->addIndex('IDX_LEVEL',  array('level'),     array('type' => 'index'));
 
         // Adding foreign keys
         $table->addForeignKey(

@@ -796,7 +796,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
 
         $position = $this->_processPositions($category, $newParent, $afterCategoryId);
 
-        $newPath          = sprintg('%s/%s', $newParent->getPath(), $category->getId());
+        $newPath          = sprintf('%s/%s', $newParent->getPath(), $category->getId());
         $newLevel         = $newParent->getLevel() + 1;
         $levelDisposition = $newLevel - $category->getLevel();
 
