@@ -147,6 +147,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
             return $this;
         }
         $attributes = $this->getLinkModel()->getAttributes();
+
         $attributesByType = array();
         foreach ($attributes as $attribute) {
             $table = $this->getLinkModel()->getAttributeTypeTable($attribute['type']);

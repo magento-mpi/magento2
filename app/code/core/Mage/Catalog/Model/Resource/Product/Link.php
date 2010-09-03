@@ -149,8 +149,8 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
                 'code'  => 'product_link_attribute_code',
                 'type'  => 'data_type'
             ))
-            ->where('link_type_id = :link_type_id');
-        return $adapter->fetchAll($select, array('link_type_id' => $typeId));
+            ->where('link_type_id = ?', $typeId);
+        return $adapter->fetchAll($select);
     }
 
     /**

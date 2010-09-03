@@ -705,18 +705,28 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     {
         $this->_renderFilters();
 
-        $countSelect = clone $this->getSelect();
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
-
+        $countSelect = $this->_getClearSelect();
         $countSelect->columns('COUNT(DISTINCT e.entity_id)');
         $countSelect->resetJoinLeft();
 
         return $countSelect;
     }
 
+    /**
+     * Retreive clear select
+     *
+     * @return Varien_Db_Select
+     */
+    protected function _getClearSelect()
+    {
+        $select = clone $this->getSelect();
+        $select->reset(Zend_Db_Select::ORDER);
+        $select->reset(Zend_Db_Select::LIMIT_COUNT);
+        $select->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        return $select;
+    }
     /**
      * Retrive all ids for collection
      *
@@ -726,11 +736,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function getAllIds($limit = null, $offset = null)
     {
-        $idsSelect = clone $this->getSelect();
-        $idsSelect->reset(Zend_Db_Select::ORDER);
-        $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $idsSelect->reset(Zend_Db_Select::COLUMNS);
+        $idsSelect = $this->_getClearSelect();
         $idsSelect->columns('e.'.$this->getEntity()->getIdFieldName());
         $idsSelect->limit($limit, $offset);
         $idsSelect->resetJoinLeft();
@@ -859,7 +865,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     public function getSetIds()
     {
         $select = clone $this->getSelect();
-        /* @var $select Zend_Db_Select */
+        /* @var $select Varien_Db_Select */
         $select->reset(Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('attribute_set_id');
@@ -874,7 +880,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     public function getProductTypeIds()
     {
         $select = clone $this->getSelect();
-        /* @var $select Zend_Db_Select */
+        /* @var $select Varien_Db_Select */
         $select->reset(Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('type_id');
@@ -1318,23 +1324,24 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 $this->getSelect()->order("{$attribute} {$dir}");
                 return $this;
             }
-            $this->getSelect()->order("cat_index_position {$dir}");
+            if ($this->isEnabledFlat()) {
+                $this->getSelect()->order("cat_index_position {$dir}");
+            }
             // optimize if using cat index
             $filters = $this->_productLimitationFilters;
             if (isset($filters['category_id']) || isset($filters['visibility'])) {
                 $this->getSelect()->order('cat_index.product_id ' . $dir);
-            }
-            else {
+            } else {
                 $this->getSelect()->order('e.entity_id ' . $dir);
             }
 
             return $this;
-        } else if($attribute == 'is_saleable'){
+        } elseif($attribute == 'is_saleable'){
             $this->getSelect()->order("is_saleable " . $dir);
             return $this;
         }
 
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = $this->getStoreId();
         if ($attribute == 'price' && $storeId != 0) {
             $this->addPriceData();
             $this->getSelect()->order("price_index.min_price {$dir}");
