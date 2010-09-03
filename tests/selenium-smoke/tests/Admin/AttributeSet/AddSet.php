@@ -10,16 +10,16 @@ class Admin_AttributeSet_AddSet extends Test_Admin_AttributeSet_Abstract {
         parent::setUp();
 
         // Get test parameters
-        $this->_attributeSetName = Core::getEnvConfig('backend/attributeSet/setName');
+        $this->_setName = Core::getEnvConfig('backend/attributeSet/setName');
     }
 
     /**
     * Test addition new Attribute Set
     */
     function testAttributeSetCreation() {
-        // Test Flow
-        if ($this->adminLogin($this->_baseUrl, $this->_userName, $this->_password)) {
-            $this->addSet($this->_attributeSetName);
-        }
+        $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
+        $this->doCreateAtrSet($this->_setName);
+        $this->doOpenAtrSet($this->_setName);
+        $this->doDeleteAtrSet();
     }
 }
