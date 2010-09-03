@@ -297,67 +297,94 @@
 		<pages>
 			<sales>
 				<orders>
-					<creationOrder>
-						<orderNotCreated>//li[@class='error-msg']</orderNotCreated>
-						<orderNumber>//div[@class='content-header']//h3</orderNumber>
-						<verifyShipping>//div[@id='order-shipping_method']//div[@class='fieldset']/strong</verifyShipping>
-						<verifyReqField>//div[@class='validation-advice']</verifyReqField>
-						<messages>
-							<orderCreated>//li[@class='success-msg']//*[contains(text(),'The order has been created.')]</orderCreated>
-						</messages>
-						<selectUser>//table[@id="sales_order_create_customer_grid_table"]//td</selectUser>
-						<selecStoreView>//label[text()='%s']</selecStoreView>
-						<selectProduct>//table[@id="sales_order_create_search_grid_table"]//td</selectProduct>
-						<getShipping>link=Get shipping methods and rates</getShipping>
+					<manageOrdersPage>
 						<buttons>
 							<createOrder>//button[span='Create New Order']</createOrder>
-							<addProduct>//button[span='Add Products']</addProduct>
-							<userSearch>//button[span='Search']</userSearch>
-							<productSearch>//div[@id='sales_order_create_search_grid']//button[span='Search']</productSearch>
-							<addProductConfirm>//button[span='Add Selected Product(s) to Order']</addProductConfirm>
-							<sumbitOrder>//button[span='Submit Order']</sumbitOrder>
-							<reOrder>//button[span='Reorder']</reOrder>
+							<orderSearch>//button[span='Search']</orderSearch>
 						</buttons>
-						<search>
-							<byEmail>filter_email</byEmail>
-							<byStoreName>filter_store_name</byStoreName>
-							<byProductSKU>filter_sku</byProductSKU>
-						</search>
-						<loading>
-							<loadStoreViewPage>//div[@id='order-store-selector' and contains(@style,'')]</loadStoreViewPage>
-							<orderPage>//div[@id='order-data' and contains(@style,'')]</orderPage>
-							<productSearchGrid>//*[@id='sales_order_create_search_grid_table']</productSearchGrid>
-						</loading>
-					</creationOrder>
-					<creationInvoice>
-						<selectOdrer>//table[@id='sales_order_grid_table']//td[contains(text(),'%s')]</selectOdrer>
-						<orderStatus>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]/following-sibling::*[7]</orderStatus>
+						<pageElements>
+							<orderStatus>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]/following-sibling::*[7]</orderStatus>
+						</pageElements>
+						<links>
+							<selectOdrer>//table[@id='sales_order_grid_table']//td[contains(text(),'%s')]</selectOdrer>
+						</links>
+					</manageOrdersPage>
+					<editOrderPage>
 						<buttons>
 							<createInvoce>//button[span='Invoice']</createInvoce>
-							<sumbitInvoice>//button[span='Submit Invoice']</sumbitInvoice>
+							<createShip>//button[span='Ship']</createShip>
+							<reOrder>//button[span='Reorder']</reOrder>
+							<createMemo>//button[span='Credit Memo']</createMemo>
 						</buttons>
 						<messages>
 							<invoiceCreated>//li[@class='success-msg']//*[contains(text(),'The invoice has been created.')]</invoiceCreated>
+							<ShipCreated>//li[@class='success-msg']//*[contains(text(),'The shipment has been created.')]</ShipCreated>
+							<cMemoCreated>//li[@class='success-msg']//*[contains(text(),'The credit memo has been created.')]</cMemoCreated>
 						</messages>
-					</creationInvoice>
-					<creationShippment>
+						<pageElements>
+							<orderNumber>//div[@class='content-header']//h3</orderNumber>
+						</pageElements>
+					</editOrderPage>
+					<createOrderPage>
 						<buttons>
-							<createShip>//button[span='Ship']</createShip>
+							<addProduct>//button[span='Add Products']</addProduct>
+							<productSearch>//div[@id='sales_order_create_search_grid']//button[span='Search']</productSearch>
+							<addProductConfirm>//button[span='Add Selected Product(s) to Order']</addProductConfirm>
+							<sumbitOrder>//button[span='Submit Order']</sumbitOrder>
+						</buttons>
+						<input>
+							<searchByProductSKU>filter_sku</searchByProductSKU>
+						</input>
+						<messages>
+							<orderCreated>//li[@class='success-msg']//*[contains(text(),'The order has been created.')]</orderCreated>
+							<orderNotCreated>//li[@class='error-msg']</orderNotCreated>
+							<verifyReqField>//div[@class='validation-advice']</verifyReqField>
+							<verifyShipping>//div[@id='order-shipping_method']//div[@class='fieldset']/strong</verifyShipping>
+						</messages>
+						<PageElements>
+							<orderPage>//div[@id='order-data' and contains(@style,'')]</orderPage>
+							<productSearchGrid>//*[@id='sales_order_create_search_grid_table']</productSearchGrid>
+						</PageElements>
+						<links>
+							<selectProduct>//table[@id="sales_order_create_search_grid_table"]//td</selectProduct>
+							<getShipping>link=Get shipping methods and rates</getShipping>
+						</links>
+					<salectUserPageForOrder>
+						<buttons>
+							<userSearch>//button[span='Search']</userSearch>
+						</buttons>
+						<inputs>
+							<searchByUserEmail>filter_email</searchByUserEmail>
+							<searchByStoreName>filter_store_name</searchByStoreName>
+						</inputs>
+						<links>
+							<selectUser>//table[@id="sales_order_create_customer_grid_table"]//td</selectUser>
+						</links>
+					</salectUserPageForOrder>
+					<selectSoreViewPageForOrder>
+						<PageElements>
+							<loadStoreViewPage>//div[@id='order-store-selector' and contains(@style,'')]</loadStoreViewPage>
+						</PageElements>
+						<links>
+							<selecStoreView>//label[text()='%s']</selecStoreView>
+						</links>
+					</selectSoreViewPageForOrder>
+					</createOrderPage>
+					<createInvoicePage>
+						<buttons>
+							<sumbitInvoice>//button[span='Submit Invoice']</sumbitInvoice>
+						</buttons>
+					</createInvoicePage>
+					<createShippmentPage>
+						<buttons>
 							<sumbitShip>//button[span='Submit Shipment']</sumbitShip>
 						</buttons>
-						<messages>
-							<ShipCreated>//li[@class='success-msg']//*[contains(text(),'The shipment has been created.')]</ShipCreated>
-						</messages>
-					</creationShippment>
-					<creationCreditMemo>
+					</createShippmentPage>
+					<createCreditMemoPage>
 						<buttons>
-							<createMemo>//button[span='Credit Memo']</createMemo>
 							<sumbitMemo>//button[span='Refund Offline']</sumbitMemo>
 						</buttons>
-						<messages>
-							<ShipCreated>//li[@class='success-msg']//*[contains(text(),'The credit memo has been created.')]</ShipCreated>
-						</messages>
-					</creationCreditMemo>
+					</createCreditMemoPage>
 				</orders>
 			</sales>
 			<catalog>
