@@ -84,12 +84,12 @@ class Mage_XmlConnect_Block_Customer_Form extends Mage_Core_Block_Template
     <fieldset>
         <field name="firstname" type="text" label="{$helper->__('First Name')}" required="true" value="$firstname">
             <validators>
-                <validator type="regexp" message="{$helper->__('Not empty')}">[^w]+</validator>
+                <validator type="regexp" message="{$helper->__('Not empty')}">[^\w]+</validator>
             </validators>
         </field>
         <field name="lastname" type="text" label="{$helper->__('Last Name')}" required="true" value="$lastname">
             <validators>
-                <validator type="regexp" message="{$helper->__('Not Empty')}">[^w]+</validator>
+                <validator type="regexp" message="{$helper->__('Not Empty')}">[^\w]+</validator>
             </validators>
         </field>
         <field name="email" type="text" label="{$helper->__('Email')}" required="true" value="$email">
