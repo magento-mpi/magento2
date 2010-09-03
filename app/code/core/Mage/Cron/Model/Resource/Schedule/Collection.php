@@ -35,7 +35,7 @@
 class Mage_Cron_Model_Resource_Schedule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource collection
      *
      */
     public function _construct()
