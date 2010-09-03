@@ -691,7 +691,7 @@ class Varien_Object implements ArrayAccess
     }
 
     /**
-     * Compare onject data with original data
+     * Compare object data with original data
      *
      * @param string $field
      * @return boolean
