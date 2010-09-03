@@ -28,6 +28,12 @@ abstract class Test_Admin_OrderCreation_Abstract extends Test_Admin_Abstract
     protected $_productSKU = '';
 
     /**
+     * Order status
+     *
+     * @var array
+     */
+    protected $_ordStatus = '';
+    /**
      * Initialize the environment
      */
     public function  setUp() {
@@ -191,5 +197,12 @@ abstract class Test_Admin_OrderCreation_Abstract extends Test_Admin_Abstract
             $this->setVerificationErrors("creationCreditMemo check 8: no success message about ReOrder");
         }
         Core::debug("ReoRorder finished");
+    }
+
+    public function orderStatus($ordNum, $orderStatus) {
+        $status = $this->getText($this->getUiElement("admin/pages/sales/orders/creationInvoice/orderStatus",$ordNum));
+        if ($status != $orderStatus) {
+            $this->setVerificationErrors("Order has an incorrect status after creation order.The order status is $status, but must have the status $orderStatus");
+        }
     }
 }
