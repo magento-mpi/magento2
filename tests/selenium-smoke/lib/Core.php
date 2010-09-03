@@ -83,6 +83,7 @@ final class Core
         $keys = explode('/', $configPath);
         foreach ($keys as $key) {
             if (!isset($value[$key])) {
+                self::debug("WARNING: No config data for key == ".$configPath,4);
                 return $default;
             }
             $value = $value[$key];
@@ -101,7 +102,7 @@ final class Core
     public static function getEnvConfig($configPath, $default = null)
     {
         if (!$configPath) {
-            self::debug("getEnvConfig(".$configPath."): returned null",7);
+            self::debug("WARNING: No config data for key == ".$configPath,4);
             return null;
         }
         self::debug("getEnvConfig(".'environment/config/'.$configPath."): ".self::getConfig('environment/config/' . $configPath),7);

@@ -131,7 +131,6 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
             $this->setVerificationErrors("Check 2: no success message",7);
           }
         }
-
         Core::debug("adminStoreViewCreation finished");
     }
 }

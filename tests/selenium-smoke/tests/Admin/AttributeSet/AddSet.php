@@ -17,10 +17,9 @@ class Admin_AttributeSet_AddSet extends Test_Admin_AttributeSet_Abstract {
     * Test addition new Attribute Set
     */
     function testAttributeSetCreation() {
-        Core::debug("testAttributeSetCreation started");
         // Test Flow
-        $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->addSet($this->_attributeSetName);
-        Core::debug("testAttributeSetCreation finished");
+        if ($this->adminLogin($this->_baseUrl, $this->_userName, $this->_password)) {
+            $this->addSet($this->_attributeSetName);
+        }
     }
 }
