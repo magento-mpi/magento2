@@ -64,8 +64,18 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
      */
     public function productAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->loadLayout(false);
+            $this->renderLayout();
+            return;
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            $this->_message(Mage::helper('xmlconnect')->__('Unable to load product info.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
+        }
     }
 
     /**

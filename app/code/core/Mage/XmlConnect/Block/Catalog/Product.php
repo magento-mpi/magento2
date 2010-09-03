@@ -117,18 +117,34 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
      */
     protected function _toHtml()
     {
-        $product = Mage::getModel('catalog/product')
+        $productId = $this->getRequest()->getParam('id', 0);
+        $collection = Mage::getResourceModel('catalog/product_collection')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($this->getRequest()->getParam('id', 0));
+            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addMinimalPrice()
+            ->addTaxPercents()
+            ->addIdFilter($productId);
 
-        $this->setProduct($product);
-        $productXmlObj = $this->productToXmlObject($product, 'product');
+        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        $collection->addAttributeToSelect(array('image', 'name', 'description'));
 
-        $relatedProductsBlock = $this->getChild('related_products');
-        if ($relatedProductsBlock) {
-            $relatedXmlObj = $relatedProductsBlock->getRelatedProductsXmlObj();
-            $productXmlObj->appendChild($relatedXmlObj);
+        $product = $collection->getItemById($productId);
+        if(!$product){
+            throw new Mage_Core_Exception(Mage::helper('xmlconnect')->__('Selected product is unavailable'));
         }
+        else{
+            $this->setProduct($product);
+            $productXmlObj = $this->productToXmlObject($product, 'product');
+
+            $relatedProductsBlock = $this->getChild('related_products');
+            if ($relatedProductsBlock) {
+                $relatedXmlObj = $relatedProductsBlock->getRelatedProductsXmlObj();
+                $productXmlObj->appendChild($relatedXmlObj);
+            }
+        }
+
+
         return $productXmlObj->asNiceXml();
     }
 
