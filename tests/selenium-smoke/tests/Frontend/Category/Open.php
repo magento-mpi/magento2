@@ -21,7 +21,6 @@ class Frontend_Category_Open extends Test_Frontend_Category_Abstract
      * Tests Category page
      *
      */
-
     function testcCategoryOpen()
     {
         $this->openCategory(Core::getEnvConfig('backend/managecategories/subcategoryname'));

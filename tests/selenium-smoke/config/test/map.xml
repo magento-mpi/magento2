@@ -266,9 +266,9 @@
 	<!-- Admin Section-->
 	<admin>	
 		<topmenu>
-                        <sales>
-                                <orders>link=Orders</orders>
-                        </sales>
+			<sales>
+					<orders>link=Orders</orders>
+			</sales>
 			<customer>
 				<managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
 			</customer>
@@ -277,9 +277,9 @@
 					<managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
 				</categories>
 				<manageproducts>//div[@class="nav-bar"]//a[span="Manage Products"]</manageproducts>
-                                <attributes>
-                                    <manageAttibuteSet>//li[a/span="Manage Attribute Sets"]/a</manageAttibuteSet>
-                                </attributes>
+				<attributes>
+					<manageAttibuteSet>//li[a/span="Manage Attribute Sets"]/a</manageAttibuteSet>
+				</attributes>
 			</catalog>
 			<system>
 				<permissions>
@@ -295,51 +295,51 @@
 			</system>
 		</topmenu>
 		<pages>
-                    <sales>
-                        <orders>
-                            <creationOrder>
-                                <orderNotCreated>//li[@class='error-msg']</orderNotCreated>
-                                <orderNumber>//div[@class='content-header']//h3</orderNumber>
-                                <verifyShipping>//div[@id='order-shipping_method']//div[@class='fieldset']/strong</verifyShipping>
-                                <verifyReqField>//div[@class='validation-advice']</verifyReqField>
-                                <messages>
-                                    <orderCreated>//li[@class='success-msg']//*[contains(text(),'The order has been created.')]</orderCreated>
-                                </messages>
-                                <selectUser>//table[@id="sales_order_create_customer_grid_table"]//td</selectUser>
-                                <selecStoreView>//label[text()='%s']</selecStoreView>
-                                <selectProduct>//table[@id="sales_order_create_search_grid_table"]//td</selectProduct>
-                                <getShipping>link=Get shipping methods and rates</getShipping>
-                                <buttons>
-                                    <createOrder>//button[span='Create New Order']</createOrder>
-                                    <addProduct>//button[span='Add Products']</addProduct>
-                                    <userSearch>//button[span='Search']</userSearch>
-                                    <productSearch>//div[@id='sales_order_create_search_grid']//button[span='Search']</productSearch>
-                                    <addProductConfirm>//button[span='Add Selected Product(s) to Order']</addProductConfirm>
-                                    <sumbitOrder>//button[span='Submit Order']</sumbitOrder>
-                                </buttons>
-                                <search>
-                                    <byEmail>filter_email</byEmail>
-                                    <byStoreName>filter_store_name</byStoreName>
-                                    <byProductSKU>filter_sku</byProductSKU>
-                                </search>
-                                <loading>
-                                    <loadStoreViewPage>//div[@id='order-store-selector' and contains(@style,'')]</loadStoreViewPage>
-                                    <orderPage>//div[@id='order-data' and contains(@style,'')]</orderPage>
-                                    <productSearchGrid>//*[@id='sales_order_create_search_grid_table']</productSearchGrid>
-                                </loading>
-                            </creationOrder>
-                            <creationInvoice>
-                                <selectOdrer>//table[@id='sales_order_grid_table']//td[contains(text(),'%s')]</selectOdrer>
-                                <buttons>
-                                    <createInvoce>//button[span='Invoice']</createInvoce>
-                                    <sumbitInvoice>//button[span='Submit Invoice']</sumbitInvoice>
-                                </buttons>
-                                <messages>
-                                    <invoiceCreated>//li[@class='success-msg']//*[contains(text(),'The invoice has been created.')]</invoiceCreated>
-                                </messages>
-                            </creationInvoice>
-                        </orders>
-                    </sales>
+			<sales>
+				<orders>
+					<creationOrder>
+						<orderNotCreated>//li[@class='error-msg']</orderNotCreated>
+						<orderNumber>//div[@class='content-header']//h3</orderNumber>
+						<verifyShipping>//div[@id='order-shipping_method']//div[@class='fieldset']/strong</verifyShipping>
+						<verifyReqField>//div[@class='validation-advice']</verifyReqField>
+						<messages>
+							<orderCreated>//li[@class='success-msg']//*[contains(text(),'The order has been created.')]</orderCreated>
+						</messages>
+						<selectUser>//table[@id="sales_order_create_customer_grid_table"]//td</selectUser>
+						<selecStoreView>//label[text()='%s']</selecStoreView>
+						<selectProduct>//table[@id="sales_order_create_search_grid_table"]//td</selectProduct>
+						<getShipping>link=Get shipping methods and rates</getShipping>
+						<buttons>
+							<createOrder>//button[span='Create New Order']</createOrder>
+							<addProduct>//button[span='Add Products']</addProduct>
+							<userSearch>//button[span='Search']</userSearch>
+							<productSearch>//div[@id='sales_order_create_search_grid']//button[span='Search']</productSearch>
+							<addProductConfirm>//button[span='Add Selected Product(s) to Order']</addProductConfirm>
+							<sumbitOrder>//button[span='Submit Order']</sumbitOrder>
+						</buttons>
+						<search>
+							<byEmail>filter_email</byEmail>
+							<byStoreName>filter_store_name</byStoreName>
+							<byProductSKU>filter_sku</byProductSKU>
+						</search>
+						<loading>
+							<loadStoreViewPage>//div[@id='order-store-selector' and contains(@style,'')]</loadStoreViewPage>
+							<orderPage>//div[@id='order-data' and contains(@style,'')]</orderPage>
+							<productSearchGrid>//*[@id='sales_order_create_search_grid_table']</productSearchGrid>
+						</loading>
+					</creationOrder>
+					<creationInvoice>
+						<selectOdrer>//table[@id='sales_order_grid_table']//td[contains(text(),'%s')]</selectOdrer>
+						<buttons>
+							<createInvoce>//button[span='Invoice']</createInvoce>
+							<sumbitInvoice>//button[span='Submit Invoice']</sumbitInvoice>
+						</buttons>
+						<messages>
+							<invoiceCreated>//li[@class='success-msg']//*[contains(text(),'The invoice has been created.')]</invoiceCreated>
+						</messages>
+					</creationInvoice>
+				</orders>
+			</sales>
 			<catalog>
 				<categories>
 					<managecategories>
@@ -416,22 +416,22 @@
 						</product>
 					</manageproducts>
 				</categories>
-                                <attributes>
-                                    <manageAttributeSets>
-                                        <buttons>
-                                            <addSet>//button[span="Add New Set"]</addSet>
-                                            <saveSet>//button[span="Save Attribute Set"]</saveSet>
-                                        </buttons>
-                                        <input>
-                                            <nameForSet>attribute_set_name</nameForSet>
-                                            <basedOn>skeleton_set</basedOn>
-                                        </input>
-                                        <messages>
-                                            <setSaved>//li[@class='success-msg']//*[contains(text(),'The attribute set has been saved.')]</setSaved>
-                                            <setNotSaved>//li[@class="error-msg"]</setNotSaved>
-                                        </messages>
-                                    </manageAttributeSets>
-                                </attributes>
+				<attributes>
+					<manageAttributeSets>
+						<buttons>
+							<addSet>//button[span="Add New Set"]</addSet>
+							<saveSet>//button[span="Save Attribute Set"]</saveSet>
+						</buttons>
+						<input>
+							<nameForSet>attribute_set_name</nameForSet>
+							<basedOn>skeleton_set</basedOn>
+						</input>
+						<messages>
+							<setSaved>//li[@class='success-msg']//*[contains(text(),'The attribute set has been saved.')]</setSaved>
+							<setNotSaved>//li[@class="error-msg"]</setNotSaved>
+						</messages>
+					</manageAttributeSets>
+				</attributes>
 			</catalog>
 			<system>
 				<permissions>
@@ -563,8 +563,9 @@
 			</login>
 		</pages>
 		<messages>
+			<message>//div[@id="messages" and string-length(@class)>1]</message>
 			<success>//li[@class="success-msg"]</success>
-			<error>//div[@id="messages"]//li[@class="error-msg"]</error>
+			<error>//li[contains(@class,"error-msg")]</error>
 		</messages>
 	</admin>
 	<!-- Miscelaneous usefull elements -->

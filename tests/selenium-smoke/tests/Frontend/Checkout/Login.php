@@ -27,8 +27,8 @@ class Frontend_Checkout_Login extends Test_Frontend_Checkout_Abstract
     {
         // Test Dara
         $paramArray = array (
-            "password" =>  Core::getEnvConfig('frontend/checkout/login/password'),
-            "email" => Core::getEnvConfig('frontend/checkout/login/email'),
+            "password" =>  Core::getEnvConfig('frontend/checkout/register/password'),
+            "email" => Core::getEnvConfig('frontend/checkout/register/email'),
             "productUrl" => Core::getEnvConfig('frontend/checkout/productUrl'),
             "qty" => Core::getEnvConfig('frontend/checkout/qty'),
         );

@@ -27,19 +27,15 @@
 				<email>st2-user@varien.com</email>
 			</guest>
 			<register>
-				<firstName>SigIn First Name</firstName>
-				<lastName>SigIn Last Name</lastName>
-				<email>st10-user@varien.com</email>
+				<firstName>Register First Name</firstName>
+				<lastName>Register Last Name</lastName>
+				<email>st3-user@varien.com</email>
 				<password>123123</password>
 			</register>
-			<login>
-				<email>st8-user@varien.com</email>
-				<password>123123</password>
-			</login>
 			<mulitiShippingRegister>
 				<firstName>MS-Register First Name</firstName>
 				<lastName>MS-Last Name</lastName>
-				<email>st17-user@varien.com</email>
+				<email>st4-user@varien.com</email>
 				<password>123123</password>
 				<productUrl>http://kq.varien.com/enterprise/1.8.0.0/smoke/st-01.html</productUrl>
 				<qty>2</qty>
@@ -56,34 +52,34 @@
 			<id>102</id>
 		</customer>
                 <attributeSet>
-                    <setName>smoke_atrSet</setName>
+                    <setName>smoke_attrSet</setName>
                 </attributeSet>
 		<createproduct>
-			<sku>st-01</sku>
+			<sku>std-01</sku>
 			<duplicatedSku>st-01d</duplicatedSku>
 			<productname>st-01</productname>
 			<price>10</price>
 		</createproduct>
 		<managestores>
 			<site>
-				<name>SmokeTestSite</name>
-				<code>smoke</code>
+				<name>SmokeTestSiteD</name>
+				<code>smoked</code>
 				<sortorder>1</sortorder>
 			</site>
 			<store>
-				<storename>smokestore</storename>               
+				<storename>smokestoreD</storename>               
 			</store>
 			<storeview>
-				<name>SmokeTestStoreView</name>
-				<code>smokestoreview</code>
+				<name>SmokeTestStoreViewD</name>
+				<code>smokestoreviewd</code>
 				<order>1</order>
 				<status>label=Enabled</status>
 			</storeview>
 		</managestores>
 		<managecategories>
-				<rootname>st-rootcat</rootname>
+				<rootname>st-rootcatD</rootname>
 				<subcategoryname>st-subcat</subcategoryname>
-				<parentsubcategoryname>st-rootcat</parentsubcategoryname>
+				<parentsubcategoryname>st-rootcatD</parentsubcategoryname>
 		</managecategories>
 		
 	</backend>

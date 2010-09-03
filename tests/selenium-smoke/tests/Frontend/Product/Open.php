@@ -21,7 +21,6 @@ class Frontend_Product_Open extends Test_Frontend_Product_Abstract
      * Tests Category page
      *
      */
-
     function testProductOpen()
     {
         // Test Data

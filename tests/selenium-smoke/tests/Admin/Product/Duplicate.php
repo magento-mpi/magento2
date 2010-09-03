@@ -19,12 +19,8 @@ class Admin_Product_Duplicate extends Test_Admin_Product_Abstract
 
     /**
      * Test product duplication process
-     *
-     * Test Data:
-     * @sku
-     * @duplicatedSku
+     *     
      */
-
     function testDuplicate()
     {
         Core::debug("testProductDuplicate started");

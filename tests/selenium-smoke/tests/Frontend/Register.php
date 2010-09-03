@@ -29,6 +29,7 @@ class Frontend_Register extends Test_Frontend_Abstract
             "email" =>  Core::getEnvConfig('frontend/auth/email'),
             "password" =>  Core::getEnvConfig('frontend/auth/password')
         );
+        //Test Flow
         $this->frontRegister($paramArray);
     }
 }

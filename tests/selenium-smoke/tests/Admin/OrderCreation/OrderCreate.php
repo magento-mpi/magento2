@@ -11,7 +11,7 @@ class Test_Admin_OrderCreation_OrderCreate extends Test_Admin_OrderCreation_Abst
         parent::setUp();
 
         // Get test parameters
-        $this->_userEmail = Core::getEnvConfig('frontend/checkout/login/email');
+        $this->_userEmail = Core::getEnvConfig('frontend/auth/email');
         $this->_storeviewName = Core::getEnvConfig('backend/managestores/storeview/name');
         $this->_productSKU = Core::getEnvConfig('backend/createproduct/sku');
     }

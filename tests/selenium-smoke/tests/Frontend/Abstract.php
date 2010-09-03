@@ -52,13 +52,14 @@ abstract class Test_Frontend_Abstract extends Test_Abstract
         $this->clickAndWait($this->getUiElement("frontend/pages/register/buttons/submit"));
         //Check for some specific validation errors:
         if ($this->isTextPresent($this->getUiElement("frontend/pages/register/messages/alreadyExists"))) {
-                $this->setVerificationErrors("frontRegister check 1: customer with such email already registered");
+                $this->setVerificationErrors("Check 1: customer with such email already registered");
         } else {
             // Check for success message
             if (!$this->waitForElement($this->getUiElement("frontend/pages/register/messages/customerRegistered"),2)) {
-                $this->setVerificationErrors("frontRegister check 1: no success message");
+                $this->setVerificationErrors("Check 2: no success message");
             }
         }
+        sleep(10);
     }
 
     /**
@@ -106,8 +107,6 @@ abstract class Test_Frontend_Abstract extends Test_Abstract
 
     The function accepts to same string of format accepts for the
     original function of the PHP.
-
-    (Sorry. my writing in English is very bad)
 
     The function is tested using PHP 5.1.4 in Windows XP
     and Apache WebServer.

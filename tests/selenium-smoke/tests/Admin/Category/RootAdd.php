@@ -21,15 +21,13 @@ class Admin_Category_RootAdd extends Test_Admin_Category_Abstract
     }
 
     /**
-     * Test addion new root category to the $StoreView store view
+     * Addion new root category to the $StoreView store view test
      *
      */
-
     function testRootCategoryCreation() {
-        Core::debug("testRootCategoryCreation started");
         // Test Flow
-        $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
-        $this->addRootCategory( $this->_rootCategoryName,  $this->_storeView );
-        Core::debug("testRootCategoryCreation finished");
+        if ($this->adminLogin($this->_baseUrl, $this->_userName, $this->_password)) {
+            $this->addRootCategory( $this->_rootCategoryName);
+        }
     }
 }

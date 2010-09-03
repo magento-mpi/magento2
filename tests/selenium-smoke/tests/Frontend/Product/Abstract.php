@@ -86,8 +86,6 @@ abstract class Test_Frontend_Product_Abstract extends Test_Frontend_Abstract
             if ($this->waitForElement($this->getUiElement("frontend/pages/product/elements/price"),2)) {
                 $priceOnPage = $this->getText($this->getUiElement("frontend/pages/product/elements/price"));
                 $priceFromConfig = $this->money_format('%.2n',$price);
-                Core::debug('priceOnPage ='.$priceOnPage);
-                Core::debug('$priceFromConfig ='.$priceFromConfig);
                 if ($priceOnPage != $priceFromConfig) {
                     $this->setVerificationErrors('Check 4: PriceOnPage [' . $priceOnPage . '] did not matched to expected [' . $priceFromConfig . ']');
                     $result = false;

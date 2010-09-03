@@ -22,35 +22,47 @@ abstract class Test_Admin_Category_Abstract extends Test_Admin_Abstract
 
 
     /**
-     * Adds new sub $categoryName for $parentCategoryName into the $storeViewName store view
+     * Adds new sub $categoryName for $parentCategoryName 
      *@param $categorName
      *@param $parentCategoryName
-     *@param $storeViewName
      * 
      */
-    public function addSubCategory($categoryName, $parentCategoryName, $storeViewName) {
-      Core::debug("addSubCategory started");
+    public function addSubCategory($categoryName, $parentCategoryName)
+    {
+      Core::debug("addSubCategory started",7);
+
       // Open Manage Categories Page
       $this->clickAndWait ($this->getUiElement("admin/topmenu/catalog/categories/managecategories"));
+
       //Select Parent Category
       $this->click($this->getUiElement("admin/pages/catalog/categories/managecategories/locators/parentcategory",$parentCategoryName));
+
       // Add new sub category
       $this->click($this->getUiElement("admin/pages/catalog/categories/managecategories/buttons/addsubcategory"));
       $this->pleaseWait();
+
       // Fill all fields
       $this->type($this->getUiElement("admin/pages/catalog/categories/managecategories/inputs/name"),$categoryName);
       $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/isactive"),"label=Yes");
-//      $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/storeswitcher"),"label=".$storeViewName);
       $this->click($this->getUiElement("admin/pages/catalog/categories/managecategories/tabs/displaysettings"));
       $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/isanchor"),"label=Yes");
+
       // Save category
       $this->clickAndWait($this->getUiElement("admin/pages/catalog/categories/managecategories/buttons/savecategory"));
       $this->pleaseWait();
+
+      // check for error message
+      if ($this->waitForElement($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/error"),1)) {
+        $etext = $this->getText($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/error"));
+        $this->setVerificationErrors("Check 1: " . $etext);
+      } else {
       // Check for success message
-      if (!$this->isElementPresent($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/categorysaved"))) {
-        $this->setVerificationErrors("addRootCategory check 1: no success message");
-      } 
-      Core::debug("addSubCategory finished");
+          if (!$this->waitForElement($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/categorysaved"),1)) {
+            $this->setVerificationErrors("Check 2: no success message");
+          }
+      }
+
+      Core::debug("addSubCategory finished",7);
     }
 
     /**
@@ -59,26 +71,37 @@ abstract class Test_Admin_Category_Abstract extends Test_Admin_Abstract
      *@param $storeViewName
      *
      */
-    public function addRootCategory($categoryName, $storeViewName) {
-      Core::debug("addRootCategory started");
+    public function addRootCategory($categoryName)
+    {
+      Core::debug("addRootCategory started",7);
+
       // Open Manage Categories Page
       $this->clickAndWait ($this->getUiElement("admin/topmenu/catalog/categories/managecategories"));
-      // Add new root ca
+
+      // Add new root category
       $this->click($this->getUiElement("admin/pages/catalog/categories/managecategories/buttons/addrootcategory"));
       $this->pleaseWait();
+
       // Fill all fields
       $this->type($this->getUiElement("admin/pages/catalog/categories/managecategories/inputs/name"),$categoryName);
       $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/isactive"),"label=Yes");
-//      $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/storeswitcher"),"label=".$storeViewName);
-      // Save category
-      $this->clickAndWait($this->getUiElement("admin/pages/catalog/categories/managecategories/buttons/savecategory"));
-      $this->pleaseWait();
-      // Check for success message
-      if (!$this->isElementPresent($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/categorysaved"))) {
-        $this->setVerificationErrors("addRootCategory check 1: no success message");
-      }
-      Core::debug("addRootCategory finished");
-    }
 
+      // Save category
+      $this->click($this->getUiElement("admin/pages/catalog/categories/managecategories/buttons/savecategory"));
+      $this->pleaseWait();
+
+      // check for error message
+      if ($this->waitForElement($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/error"),1)) {
+        $etext = $this->getText($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/error"));
+        $this->setVerificationErrors("Check 1: " . $etext);
+      } else {
+      // Check for success message
+          if (!$this->waitForElement($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/categorysaved"),1)) {
+            $this->setVerificationErrors("Check 2: no success message");
+          }
+      }
+
+      Core::debug("addRootCategory finished",7);
+    }
 }
 
