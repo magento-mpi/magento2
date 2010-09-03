@@ -23,7 +23,7 @@
 				<elements>
 					<categoryTitle>//div[contains(@class,'page-title') and contains(@class,'category-title')]//*[contains(text(),'%s')]</categoryTitle>
 				</elements>
-			</category>	
+			</category>
 			<register>
 				<inputs>
 					<firstName>firstname</firstName>
@@ -116,7 +116,7 @@
 						</buttons>
 						<elements>
 							<pleaseWait>shipping-please-wait</pleaseWait>
-						</elements>	
+						</elements>
 					</shippingAddress>
 					<shippingMethod>
 						<inputs>
@@ -264,10 +264,10 @@
 		</pages>
 	</frontend>
 	<!-- Admin Section-->
-	<admin>	
+	<admin>
 		<topmenu>
 			<sales>
-					<orders>link=Orders</orders>
+				<orders>link=Orders</orders>
 			</sales>
 			<customer>
 				<managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
@@ -288,7 +288,7 @@
 				<managestores>
 					<link>
 						<openpage>link=Manage Stores</openpage>
-					</link>                   
+					</link>
 				</managestores>
 				<configuration>link=Configuration</configuration>
 				<indexmanagement>link=Index Management</indexmanagement>
@@ -316,6 +316,7 @@
 							<productSearch>//div[@id='sales_order_create_search_grid']//button[span='Search']</productSearch>
 							<addProductConfirm>//button[span='Add Selected Product(s) to Order']</addProductConfirm>
 							<sumbitOrder>//button[span='Submit Order']</sumbitOrder>
+							<reOrder>//button[span='Reorder']</reOrder>
 						</buttons>
 						<search>
 							<byEmail>filter_email</byEmail>
@@ -330,6 +331,7 @@
 					</creationOrder>
 					<creationInvoice>
 						<selectOdrer>//table[@id='sales_order_grid_table']//td[contains(text(),'%s')]</selectOdrer>
+						<orderStatus>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]/following-sibling::*[7]</orderStatus>
 						<buttons>
 							<createInvoce>//button[span='Invoice']</createInvoce>
 							<sumbitInvoice>//button[span='Submit Invoice']</sumbitInvoice>
@@ -338,6 +340,24 @@
 							<invoiceCreated>//li[@class='success-msg']//*[contains(text(),'The invoice has been created.')]</invoiceCreated>
 						</messages>
 					</creationInvoice>
+					<creationShippment>
+						<buttons>
+							<createShip>//button[span='Ship']</createShip>
+							<sumbitShip>//button[span='Submit Shipment']</sumbitShip>
+						</buttons>
+						<messages>
+							<ShipCreated>//li[@class='success-msg']//*[contains(text(),'The shipment has been created.')]</ShipCreated>
+						</messages>
+					</creationShippment>
+					<creationCreditMemo>
+						<buttons>
+							<createMemo>//button[span='Credit Memo']</createMemo>
+							<sumbitMemo>//button[span='Refund Offline']</sumbitMemo>
+						</buttons>
+						<messages>
+							<ShipCreated>//li[@class='success-msg']//*[contains(text(),'The credit memo has been created.')]</ShipCreated>
+						</messages>
+					</creationCreditMemo>
 				</orders>
 			</sales>
 			<catalog>
@@ -364,13 +384,12 @@
 						</tabs>
 						<messages>
 							<categorysaved>//div[@id="messages"]//li[@class="success-msg"]</categorysaved>
-							<error>//div[@id="messages"]//li[@class="error-msg"]</error>
 						</messages>
 					</managecategories>
 					<manageproducts>
 						<buttons>
 							<addproduct>//button[span="Add Product"]</addproduct>
-							<addproductcontinue>//button[span="Continue"]</addproductcontinue>	
+							<addproductcontinue>//button[span="Continue"]</addproductcontinue>
 							<resetFilter>//div[@id='productGrid']//button[contains(span,'Reset Filter')]</resetFilter>
 							<search>//div[@id='productGrid']//button[contains(span,'Search')]</search>
 						</buttons>
@@ -381,8 +400,8 @@
 							<filteredProduct>//table[@id='productGrid_table']//td[contains(text(),'%s')]</filteredProduct>
 						</elements>
 						<!-- related pages-->
-						<product>					
-							<inputs>	
+						<product>
+							<inputs>
 								<name>name</name>
 								<description>description</description>
 								<short_description>short_description</short_description>
@@ -455,7 +474,6 @@
 							</buttons>
 							<messages>
 								<usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
-								<error>//div[@id="messages"]//li[@class="error-msg"]</error>
 							</messages>
 						</user>
 					</users>
@@ -485,10 +503,6 @@
 							<storestatus>store_is_active</storestatus>
 							<rootcategory>group_root_category_id</rootcategory>
 						</select>
-						<messages>
-							<success>//div[@id="messages"]//li[@class="success-msg"]</success>
-							<error>//div[@id="messages"]//li[@class="error-msg"]</error>
-						</messages>
 					</createsite>
 				</managestores>
 				<reindex>
@@ -504,46 +518,32 @@
 					<selectors>
 						<store>store_switcher</store>
 					</selectors>
-					<tabs>
-						<web>
-							<inputs>
-								<secure>
-									<baselink>web_secure_base_link_url</baselink>
-								</secure>
-								<unsecure>
-									<baselink>web_unsecure_base_link_url</baselink>
-								</unsecure>
-							</inputs>
-							<checkboxes>
-								<secure>
-									<useDefaultBaseLink>//input[@id='web_secure_base_link_url_inherit']</useDefaultBaseLink>
-									<useDefaultBaseLinkChecked>//input[@id='web_secure_base_link_url_inherit' and @checked='checked']</useDefaultBaseLinkChecked>
-								</secure>
-								<unsecure>
-									<useDefaultBaseLink>//input[@id='web_unsecure_base_link_url_inherit']</useDefaultBaseLink>
-									<useDefaultBaseLinkChecked>//input[@id='web_unsecure_base_link_url_inherit' and @checked='checked']</useDefaultBaseLinkChecked>
-								</unsecure>
-							</checkboxes>
-							<links>
-								<secure>web_secure-head</secure>
-								<unsecure>web_unsecure-head</unsecure>
-							</links>
-							<elements>
-								<hidedSecure>//fieldset[@id='web_secure' and @style='display: none;']</hidedSecure>
-								<hidedUnsecure>//fieldset[@id='web_unsecure' and @style='display: none;']</hidedUnsecure>
-								<visibleSecure>//fieldset[@id='web_secure' and @style='']</visibleSecure>
-								<visibleUnsecure>//fieldset[@id='web_unsecure' and @style='']</visibleUnsecure>
-								<storedSecure>//*[@id='web_secure_base_link_url' and @value='{{secure_base_url}}%s/']</storedSecure>
-								<storedUnsecure>//*[@id='web_unsecure_base_link_url' and @value='{{unsecure_base_url}}%s/']</storedUnsecure>
-							</elements>
-						</web>
-					</tabs>
 					<buttons>
+						<web>link=Web</web>
+						<secure>web_secure-head</secure>
+						<unsecure>web_unsecure-head</unsecure>
 						<save>//button[span="Save Config"]</save>
 					</buttons>
-					<links>
-						<web>link=Web</web>
-					</links>
+					<checkboxes>
+						<secure>
+							<baselink>web_secure_base_link_url_inherit</baselink>
+						</secure>
+						<unsecure>
+							<baselink>web_unsecure_base_link_url_inherit</baselink>
+						</unsecure>
+					</checkboxes>
+					<inputs>
+						<secure>
+							<baselink>web_secure_base_link_url</baselink>
+						</secure>
+						<unsecure>
+							<baselink>web_unsecure_base_link_url</baselink>
+						</unsecure>
+					</inputs>
+					<tabs>
+						<visibledsecure>//fieldset[@id='web_secure' and @style='']</visibledsecure>
+						<visibledunsecure>//fieldset[@id='web_unsecure' and @style='']</visibledunsecure>
+					</tabs>
 				</configuration>
 			</system>
 			<login>
@@ -563,14 +563,12 @@
 			</login>
 		</pages>
 		<messages>
-			<message>//div[@id="messages" and string-length(@class)>1]</message>
 			<success>//li[@class="success-msg"]</success>
-			<error>//li[contains(@class,"error-msg")]</error>
 		</messages>
 	</admin>
 	<!-- Miscelaneous usefull elements -->
 		<elements>
 			<selectedCountry>//select[@id='%s']//option[@selected='selected' and contains(text(),'%s')]</selectedCountry>
 			<selectedRegion>//select[@id='%s']//option[@selected='selected' and contains(text(),'%s')]</selectedRegion>
-		</elements>	
+		</elements>
 </map>
