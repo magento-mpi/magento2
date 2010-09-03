@@ -64,7 +64,7 @@ class Mage_Poll_Model_Resource_Poll_Vote extends Mage_Core_Model_Resource_Db_Abs
          */
         $pollTable = $this->getTable('poll/poll');
         $pollData = array('votes_count' => new Zend_Db_Expr('votes_count+1'));
-        $condition = array("{$pollTable}.poll_id=?", $object->getPollId());
+        $condition = array("{$pollTable}.poll_id=?" => $object->getPollId());
         $this->_getWriteAdapter()->update($pollTable, $pollData, $condition);
         return $this;
     }
