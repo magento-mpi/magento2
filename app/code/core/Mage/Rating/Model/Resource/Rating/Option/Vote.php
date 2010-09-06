@@ -34,7 +34,7 @@
 class Mage_Rating_Model_Resource_Rating_Option_Vote extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Resource initialization
      *
      */
     protected function _construct()

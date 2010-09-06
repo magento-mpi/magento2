@@ -39,7 +39,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
     protected $_isStoreJoined = false;
 
     /**
-     * Define model
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -163,7 +163,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
         $adapter = $this->getConnection();
 
         $inCond = $adapter->prepareSqlCondition("{$this->getTable('rating_option_vote')}.rating_id", array(
-            "in" => $arrRatingId
+            'in' => $arrRatingId
         ));
 
         $select = $adapter->select()
@@ -234,7 +234,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
         $adapter = $this->getConnection();
 
         $inCond = $adapter->prepareSqlCondition('rating_id', array(
-            "in" => $ratingIds
+            'in' => $ratingIds
         ));
 
         $this->_select = $adapter

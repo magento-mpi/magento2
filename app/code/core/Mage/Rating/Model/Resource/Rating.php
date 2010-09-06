@@ -75,7 +75,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         
         $select->joinLeft(
                 array('title' => $this->getTable('rating/rating_title')),
-                "{$table}.rating_id = title.rating_id AND title.store_id = {$storeId}",
+                $adapter->quoteInto("{$table}.rating_id = title.rating_id AND title.store_id = ?", $storeId),
                 array('rating_code' => $codeExpr))
             ->where("{$table}.{$fieldIdentifier}=?", $value);
         return $select;

@@ -95,9 +95,9 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
         $ratingCodeCond = $adapter->getCheckSql('title.value IS NULL', 'rating.rating_code', 'title.value');
         $this->getSelect()
             ->join(array('rating'    => $this->getTable('rating/rating')),
-                "rating.rating_id = main_table.rating_id")
+                'rating.rating_id = main_table.rating_id')
             ->joinLeft(array('title' =>$this->getTable('rating/rating_title')),
-                "main_table.rating_id=title.rating_id AND title.store_id = ". (int) Mage::app()->getStore()->getId(),
+                $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?', (int) Mage::app()->getStore()->getId()),
                 array('rating_code' => $ratingCodeCond));
 
         if($storeId == null) {
@@ -105,7 +105,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
         }
 
         if(is_array($storeId)) {
-            $condition = $adapter->prepareSqlCondition("store.store_id", array(
+            $condition = $adapter->prepareSqlCondition('store.store_id', array(
                 "in" => $storeId
             ));
         } else {
@@ -131,7 +131,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
     {
         $this->getSelect()
             ->join(array('rating_option' => $this->getTable('rating/rating_option')),
-                "main_table.option_id = rating_option.option_id");
+                'main_table.option_id = rating_option.option_id');
         return $this;
     }
 

@@ -79,7 +79,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
     protected $_optionId;
 
     /**
-     * Define main table. Define other tables name
+     * Resource initialization. Define other tables name
      * 
      */
     protected function _construct()
@@ -125,7 +125,10 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
             $adapter->beginTransaction();
             try {
                 if( $option->getDoUpdate() ) {
-                    $condition = "vote_id = '{$option->getVoteId()}' AND review_id = '{$option->getReviewId()}'";
+                    $condition = array(
+                        'vote_id = ?'   => $option->getVoteId(),
+                        'review_id = ?' => $option->getReviewId()
+                    );
                     $adapter->update($this->_ratingVoteTable, $data, $condition);
                     $this->aggregate($option);
                 } else {
@@ -217,7 +220,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
             ));
 
              if(isset($oldData[$row['store_id']])) {
-                 $condition = $writeAdapter->quoteInto("primary_id = ?", $oldData[$row['store_id']]);
+                 $condition = $writeAdapter->quoteInto('primary_id = ?', $oldData[$row['store_id']]);
                  $writeAdapter->update($this->_aggregateTable, $saveData->getData(), $condition);
              } else {
                  $writeAdapter->insert($this->_aggregateTable, $saveData->getData());
@@ -229,7 +232,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
          $toDelete = array_diff(array_keys($oldData), $usedStores);
 
          foreach ($toDelete as $storeId) {
-             $condition = $writeAdapter->quoteInto("primary_id = ?", $oldData[$storeId]);
+             $condition = $writeAdapter->quoteInto('primary_id = ?', $oldData[$storeId]);
              $writeAdapter->delete($this->_aggregateTable, $condition);
          }
     }
