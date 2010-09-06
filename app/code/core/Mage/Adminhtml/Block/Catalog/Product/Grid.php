@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         parent::__construct();
         $this->setId('productGrid');
         $this->setDefaultSort('entity_id');
-        $this->setDefaultDir('desc');
+        $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
         $this->setVarNameFilter('product_filter');
@@ -231,7 +231,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'index'     => 'stores',
         ));
 
-        $this->addRssList('rss/catalog/notifystock', Mage::helper('catalog')->__('Notify Low Stock RSS'));
+        if (Mage::helper('catalog')->isModuleEnabled('Mage_Rss')) {
+            $this->addRssList('rss/catalog/notifystock', Mage::helper('catalog')->__('Notify Low Stock RSS'));
+        }
 
         return parent::_prepareColumns();
     }

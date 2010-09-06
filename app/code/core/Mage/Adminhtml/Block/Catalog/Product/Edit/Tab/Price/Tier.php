@@ -162,7 +162,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
     public function getCustomerGroups($groupId = null)
     {
         if ($this->_customerGroups === null) {
-            if (!Mage::helper('core')->isModuleEnabled('Mage_Customer')) {
+            if (!Mage::helper('catalog')->isModuleEnabled('Mage_Customer')) {
                 return array();
             }
             $collection = Mage::getModel('customer/group')->getCollection();

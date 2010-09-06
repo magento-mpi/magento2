@@ -45,14 +45,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer extends Mage_Ad
 
     protected function _prepareCollection()
     {
-        $tagId = Mage::registry('tagId');
-        $collection = Mage::getModel('tag/tag')
-            ->getCustomerCollection()
-            ->addProductFilter($this->getProductId())
-            ->addGroupByTag()
-            ->addDescOrder();
+        if (Mage::helper('catalog')->isModuleEnabled('Mage_Tag')) {
+            $collection = Mage::getModel('tag/tag')
+                ->getCustomerCollection()
+                ->addProductFilter($this->getProductId())
+                ->addGroupByTag()
+                ->addDescOrder();
 
-        $this->setCollection($collection);
+            $this->setCollection($collection);
+        }
         return parent::_prepareCollection();
     }
 

@@ -39,8 +39,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
-            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+        if (Mage::helper('catalog')->isModuleEnabled('Mage_Cms')) {
+            if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+                $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+            }
         }
     }
 

@@ -120,7 +120,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             ->addFieldToFilter('type_id', $allowProductTypes)
             ->addFilterByRequiredOptions();
 
-        Mage::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
+        if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+            Mage::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
+        }
 
         foreach ($product->getTypeInstance(true)->getUsedProductAttributes($product) as $attribute) {
             $collection->addAttributeToSelect($attribute->getAttributeCode());
