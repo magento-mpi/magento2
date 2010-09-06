@@ -330,11 +330,11 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             if (count($attributeIds) > 0) {
                 $select = $this->getConnection()->select()
                     ->from(
-                        array('entity' => $this->getTable('entity_attribute')),
+                        array('entity' => $this->getTable('eav/entity_attribute')),
                         array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order')
                     )
                     ->joinLeft(
-                        array('group' => $this->getTable('attribute_group')),
+                        array('group' => $this->getTable('eav/attribute_group')),
                         'entity.attribute_group_id = group.attribute_group_id',
                         array('group_sort_order' => 'sort_order')
                     )
