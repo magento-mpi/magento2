@@ -364,11 +364,12 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
          * Insert anchor categories relations
          */
         $adapter = $this->_getReadAdapter();
-        $isParent = $adapter->getCheckSql('cp.category_id=ce.entity_id', 1, 0); // new Zend_Db_Expr('IF (, 1, 0) AS is_parent');
+        $isParent = $adapter->getCheckSql('MIN(cp.category_id)=ce.entity_id', 1, 0); // new Zend_Db_Expr('IF (, 1, 0) AS is_parent');
         $position = $adapter->getCheckSql(
-            'cp.category_id=ce.entity_id',
-            'cp.position',
-            'ROUND((cc.position + 1) * (cc.level + 1) * 10000) + cp.position'
+            'MIN(cp.category_id)=ce.entity_id',
+            'MIN(cp.position)',
+            'ROUND((MIN(cc.position) + 1) * (MIN(' . $adapter->quoteIdentifier('cc.level') . ') + 1) * 10000)'.
+            ' + MIN(cp.position)'
         );
 /*
         new Zend_Db_Expr('IF (cp.category_id=ce.entity_id,
@@ -380,7 +381,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->joinLeft(
                 array('cc' => $this->_categoryTable),
                 $adapter->quoteIdentifier('cc.path') .
-                ' LIKE ' . $adapter->getConcatSql(array($adapter->quoteIdentifier('ce.path'),$adapter->quote('/%')))
+                ' LIKE ('.$adapter->getConcatSql(array($adapter->quoteIdentifier('ce.path'),$adapter->quote('/%'))).')'
                 , array()
             )
             ->joinInner(
@@ -407,7 +408,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->joinLeft(
                 array('sv'=>$visibilityInfo['table']),
                 "sv.entity_id=pw.product_id AND sv.attribute_id={$visibilityInfo['id']} AND sv.store_id=s.store_id",
-                array('visibility' => $adapter->getCheckSql('sv.value_id', 'sv.value', 'dv.value'))
+                array('visibility' => $adapter->getCheckSql('MIN(sv.value_id) IS NOT NULL', 'MIN(sv.value)', 'MIN(dv.value)'))
             )
             ->joinLeft(
                 array('ds'=>$statusInfo['table']),
@@ -423,12 +424,12 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->where('('.
                 $adapter->quoteIdentifier('ce.path') . ' LIKE ' .
                 $adapter->getConcatSql(array($adapter->quoteIdentifier('rc.path'), $adapter->quote('/%'))) . ' AND ' .
-                $adapter->getCheckSql('sca.value_id',
+                $adapter->getCheckSql('sca.value_id IS NOT NULL',
                     $adapter->quoteIdentifier('sca.value'),
                     $adapter->quoteIdentifier('dca.value')) . '=1) OR ce.entity_id=rc.entity_id'
             )
             ->where(
-                $adapter->getCheckSql('ss.value_id', 'ss.value', 'ds.value') . '=?',
+                $adapter->getCheckSql('ss.value_id IS NOT NULL', 'ss.value', 'ds.value') . '=?',
                 Mage_Catalog_Model_Product_Status::STATUS_ENABLED
             )
             ->group(array('ce.entity_id', 'cp.product_id', 's.store_id'));
