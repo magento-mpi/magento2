@@ -293,8 +293,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
             );
 
             $where = array(
-                'attribute_id =?'           => $attributeId,
-                'table.attribute_set_id =?' => $setId
+                'attribute_id =?'     => $attributeId,
+                'attribute_set_id =?' => $setId
             );
 
             $adapter->delete($table, $where);
