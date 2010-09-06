@@ -29,12 +29,12 @@
  *
  * @method Mage_GoogleBase_Model_Resource_Attribute _getResource()
  * @method Mage_GoogleBase_Model_Resource_Attribute getResource()
- * @method Mage_GoogleBase_Model_Attribute getAttributeId()
- * @method int setAttributeId(int $value)
- * @method Mage_GoogleBase_Model_Attribute getGbaseAttribute()
- * @method string setGbaseAttribute(string $value)
- * @method Mage_GoogleBase_Model_Attribute getTypeId()
- * @method int setTypeId(int $value)
+ * @method int getAttributeId()
+ * @method Mage_GoogleBase_Model_Attribute setAttributeId(int $value)
+ * @method string getGbaseAttribute()
+ * @method Mage_GoogleBase_Model_Attribute setGbaseAttribute(string $value)
+ * @method int getTypeId()
+ * @method Mage_GoogleBase_Model_Attribute setTypeId(int $value)
  *
  * @category    Mage
  * @package     Mage_GoogleBase

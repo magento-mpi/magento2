@@ -29,16 +29,16 @@
  *
  * @method Mage_Downloadable_Model_Resource_Sample _getResource()
  * @method Mage_Downloadable_Model_Resource_Sample getResource()
- * @method Mage_Downloadable_Model_Sample getProductId()
- * @method int setProductId(int $value)
- * @method Mage_Downloadable_Model_Sample getSampleUrl()
- * @method string setSampleUrl(string $value)
- * @method Mage_Downloadable_Model_Sample getSampleFile()
- * @method string setSampleFile(string $value)
- * @method Mage_Downloadable_Model_Sample getSampleType()
- * @method string setSampleType(string $value)
- * @method Mage_Downloadable_Model_Sample getSortOrder()
- * @method int setSortOrder(int $value)
+ * @method int getProductId()
+ * @method Mage_Downloadable_Model_Sample setProductId(int $value)
+ * @method string getSampleUrl()
+ * @method Mage_Downloadable_Model_Sample setSampleUrl(string $value)
+ * @method string getSampleFile()
+ * @method Mage_Downloadable_Model_Sample setSampleFile(string $value)
+ * @method string getSampleType()
+ * @method Mage_Downloadable_Model_Sample setSampleType(string $value)
+ * @method int getSortOrder()
+ * @method Mage_Downloadable_Model_Sample setSortOrder(int $value)
  *
  * @category    Mage
  * @package     Mage_Downloadable

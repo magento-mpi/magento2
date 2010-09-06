@@ -29,10 +29,10 @@
  *
  * @method Mage_Sendfriend_Model_Resource_Sendfriend _getResource()
  * @method Mage_Sendfriend_Model_Resource_Sendfriend getResource()
- * @method Mage_Sendfriend_Model_Sendfriend getIp()
- * @method int setIp(int $value)
- * @method Mage_Sendfriend_Model_Sendfriend getTime()
- * @method int setTime(int $value)
+ * @method int getIp()
+ * @method Mage_Sendfriend_Model_Sendfriend setIp(int $value)
+ * @method int getTime()
+ * @method Mage_Sendfriend_Model_Sendfriend setTime(int $value)
  *
  * @category    Mage
  * @package     Mage_Sendfriend

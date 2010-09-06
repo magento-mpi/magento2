@@ -29,14 +29,14 @@
  *
  * @method Mage_Rating_Model_Resource_Rating_Option _getResource()
  * @method Mage_Rating_Model_Resource_Rating_Option getResource()
- * @method Mage_Rating_Model_Rating_Option getRatingId()
- * @method int setRatingId(int $value)
- * @method Mage_Rating_Model_Rating_Option getCode()
- * @method string setCode(string $value)
- * @method Mage_Rating_Model_Rating_Option getValue()
- * @method int setValue(int $value)
- * @method Mage_Rating_Model_Rating_Option getPosition()
- * @method int setPosition(int $value)
+ * @method int getRatingId()
+ * @method Mage_Rating_Model_Rating_Option setRatingId(int $value)
+ * @method string getCode()
+ * @method Mage_Rating_Model_Rating_Option setCode(string $value)
+ * @method int getValue()
+ * @method Mage_Rating_Model_Rating_Option setValue(int $value)
+ * @method int getPosition()
+ * @method Mage_Rating_Model_Rating_Option setPosition(int $value)
  *
  * @category    Mage
  * @package     Mage_Rating

@@ -29,10 +29,10 @@
  *
  * @method Mage_Reports_Model_Resource_Event_Type _getResource()
  * @method Mage_Reports_Model_Resource_Event_Type getResource()
- * @method Mage_Reports_Model_Event_Type getEventName()
- * @method string setEventName(string $value)
- * @method Mage_Reports_Model_Event_Type getCustomerLogin()
- * @method int setCustomerLogin(int $value)
+ * @method string getEventName()
+ * @method Mage_Reports_Model_Event_Type setEventName(string $value)
+ * @method int getCustomerLogin()
+ * @method Mage_Reports_Model_Event_Type setCustomerLogin(int $value)
  *
  * @category    Mage
  * @package     Mage_Reports

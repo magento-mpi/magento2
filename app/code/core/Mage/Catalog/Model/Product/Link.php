@@ -30,12 +30,12 @@
  *
  * @method Mage_Catalog_Model_Resource_Product_Link _getResource()
  * @method Mage_Catalog_Model_Resource_Product_Link getResource()
- * @method Mage_Catalog_Model_Product_Link getProductId()
- * @method int setProductId(int $value)
- * @method Mage_Catalog_Model_Product_Link getLinkedProductId()
- * @method int setLinkedProductId(int $value)
- * @method Mage_Catalog_Model_Product_Link getLinkTypeId()
- * @method int setLinkTypeId(int $value)
+ * @method int getProductId()
+ * @method Mage_Catalog_Model_Product_Link setProductId(int $value)
+ * @method int getLinkedProductId()
+ * @method Mage_Catalog_Model_Product_Link setLinkedProductId(int $value)
+ * @method int getLinkTypeId()
+ * @method Mage_Catalog_Model_Product_Link setLinkTypeId(int $value)
  *
  * @category    Mage
  * @package     Mage_Catalog

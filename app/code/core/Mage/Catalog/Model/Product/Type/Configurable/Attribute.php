@@ -30,12 +30,12 @@
  *
  * @method Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute _getResource()
  * @method Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute getResource()
- * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute getProductId()
- * @method int setProductId(int $value)
- * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute getAttributeId()
- * @method int setAttributeId(int $value)
- * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute getPosition()
- * @method int setPosition(int $value)
+ * @method int getProductId()
+ * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute setProductId(int $value)
+ * @method int getAttributeId()
+ * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute setAttributeId(int $value)
+ * @method int getPosition()
+ * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute setPosition(int $value)
  *
  * @category    Mage
  * @package     Mage_Catalog

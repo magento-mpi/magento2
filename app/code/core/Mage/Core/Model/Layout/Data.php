@@ -30,12 +30,12 @@
  *
  * @method Mage_Core_Model_Resource_Layout _getResource()
  * @method Mage_Core_Model_Resource_Layout getResource()
- * @method Mage_Core_Model_Layout_Data getHandle()
- * @method string setHandle(string $value)
- * @method Mage_Core_Model_Layout_Data getXml()
- * @method string setXml(string $value)
- * @method Mage_Core_Model_Layout_Data getSortOrder()
- * @method int setSortOrder(int $value)
+ * @method string getHandle()
+ * @method Mage_Core_Model_Layout_Data setHandle(string $value)
+ * @method string getXml()
+ * @method Mage_Core_Model_Layout_Data setXml(string $value)
+ * @method int getSortOrder()
+ * @method Mage_Core_Model_Layout_Data setSortOrder(int $value)
  *
  * @category    Mage
  * @package     Mage_Core

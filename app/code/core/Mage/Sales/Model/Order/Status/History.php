@@ -29,17 +29,17 @@
  *
  * @method Mage_Sales_Model_Resource_Order_Status_History _getResource()
  * @method Mage_Sales_Model_Resource_Order_Status_History getResource()
- * @method Mage_Sales_Model_Order_Status_History getParentId()
- * @method int setParentId(int $value)
- * @method Mage_Sales_Model_Order_Status_History getIsCustomerNotified()
- * @method Mage_Sales_Model_Order_Status_History getIsVisibleOnFront()
- * @method int setIsVisibleOnFront(int $value)
- * @method Mage_Sales_Model_Order_Status_History getComment()
- * @method string setComment(string $value)
- * @method Mage_Sales_Model_Order_Status_History getStatus()
- * @method string setStatus(string $value)
- * @method Mage_Sales_Model_Order_Status_History getCreatedAt()
- * @method string setCreatedAt(string $value)
+ * @method int getParentId()
+ * @method Mage_Sales_Model_Order_Status_History setParentId(int $value)
+ * @method int getIsCustomerNotified()
+ * @method int getIsVisibleOnFront()
+ * @method Mage_Sales_Model_Order_Status_History setIsVisibleOnFront(int $value)
+ * @method string getComment()
+ * @method Mage_Sales_Model_Order_Status_History setComment(string $value)
+ * @method string getStatus()
+ * @method Mage_Sales_Model_Order_Status_History setStatus(string $value)
+ * @method string getCreatedAt()
+ * @method Mage_Sales_Model_Order_Status_History setCreatedAt(string $value)
  *
  * @category    Mage
  * @package     Mage_Sales

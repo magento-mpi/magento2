@@ -30,12 +30,12 @@
  *
  * @method Mage_Core_Model_Resource_Flag _getResource()
  * @method Mage_Core_Model_Resource_Flag getResource()
- * @method Mage_Core_Model_Flag getFlagCode()
- * @method string setFlagCode(string $value)
- * @method Mage_Core_Model_Flag getState()
- * @method int setState(int $value)
- * @method Mage_Core_Model_Flag getLastUpdate()
- * @method string setLastUpdate(string $value)
+ * @method string getFlagCode()
+ * @method Mage_Core_Model_Flag setFlagCode(string $value)
+ * @method int getState()
+ * @method Mage_Core_Model_Flag setState(int $value)
+ * @method string getLastUpdate()
+ * @method Mage_Core_Model_Flag setLastUpdate(string $value)
  *
  * @category    Mage
  * @package     Mage_Core

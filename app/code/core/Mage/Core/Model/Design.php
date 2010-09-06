@@ -30,14 +30,14 @@
  *
  * @method Mage_Core_Model_Resource_Design _getResource()
  * @method Mage_Core_Model_Resource_Design getResource()
- * @method Mage_Core_Model_Design getStoreId()
- * @method int setStoreId(int $value)
- * @method Mage_Core_Model_Design getDesign()
- * @method string setDesign(string $value)
- * @method Mage_Core_Model_Design getDateFrom()
- * @method string setDateFrom(string $value)
- * @method Mage_Core_Model_Design getDateTo()
- * @method string setDateTo(string $value)
+ * @method int getStoreId()
+ * @method Mage_Core_Model_Design setStoreId(int $value)
+ * @method string getDesign()
+ * @method Mage_Core_Model_Design setDesign(string $value)
+ * @method string getDateFrom()
+ * @method Mage_Core_Model_Design setDateFrom(string $value)
+ * @method string getDateTo()
+ * @method Mage_Core_Model_Design setDateTo(string $value)
  *
  * @category    Mage
  * @package     Mage_Core

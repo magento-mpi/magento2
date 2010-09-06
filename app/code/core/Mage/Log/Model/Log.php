@@ -30,16 +30,16 @@
  *
  * @method Mage_Log_Model_Resource_Log _getResource()
  * @method Mage_Log_Model_Resource_Log getResource()
- * @method Mage_Log_Model_Log getSessionId()
- * @method string setSessionId(string $value)
- * @method Mage_Log_Model_Log getFirstVisitAt()
- * @method string setFirstVisitAt(string $value)
- * @method Mage_Log_Model_Log getLastVisitAt()
- * @method string setLastVisitAt(string $value)
- * @method Mage_Log_Model_Log getLastUrlId()
- * @method int setLastUrlId(int $value)
- * @method Mage_Log_Model_Log getStoreId()
- * @method int setStoreId(int $value)
+ * @method string getSessionId()
+ * @method Mage_Log_Model_Log setSessionId(string $value)
+ * @method string getFirstVisitAt()
+ * @method Mage_Log_Model_Log setFirstVisitAt(string $value)
+ * @method string getLastVisitAt()
+ * @method Mage_Log_Model_Log setLastVisitAt(string $value)
+ * @method int getLastUrlId()
+ * @method Mage_Log_Model_Log setLastUrlId(int $value)
+ * @method int getStoreId()
+ * @method Mage_Log_Model_Log setStoreId(int $value)
  *
  * @category    Mage
  * @package     Mage_Log

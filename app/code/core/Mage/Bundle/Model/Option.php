@@ -29,14 +29,14 @@
  *
  * @method Mage_Bundle_Model_Resource_Option _getResource()
  * @method Mage_Bundle_Model_Resource_Option getResource()
- * @method Mage_Bundle_Model_Option getParentId()
- * @method int setParentId(int $value)
- * @method Mage_Bundle_Model_Option getRequired()
- * @method int setRequired(int $value)
- * @method Mage_Bundle_Model_Option getPosition()
- * @method int setPosition(int $value)
- * @method Mage_Bundle_Model_Option getType()
- * @method string setType(string $value)
+ * @method int getParentId()
+ * @method Mage_Bundle_Model_Option setParentId(int $value)
+ * @method int getRequired()
+ * @method Mage_Bundle_Model_Option setRequired(int $value)
+ * @method int getPosition()
+ * @method Mage_Bundle_Model_Option setPosition(int $value)
+ * @method string getType()
+ * @method Mage_Bundle_Model_Option setType(string $value)
  *
  * @category    Mage
  * @package     Mage_Bundle

@@ -29,12 +29,12 @@
  *
  * @method Mage_Paybox_Model_Resource_Question_Number _getResource()
  * @method Mage_Paybox_Model_Resource_Question_Number getResource()
- * @method Mage_Paybox_Model_Question_Number getAccountHash()
- * @method string setAccountHash(string $value)
- * @method Mage_Paybox_Model_Question_Number getIncrementValue()
- * @method int setIncrementValue(int $value)
- * @method Mage_Paybox_Model_Question_Number getResetDate()
- * @method string setResetDate(string $value)
+ * @method string getAccountHash()
+ * @method Mage_Paybox_Model_Question_Number setAccountHash(string $value)
+ * @method int getIncrementValue()
+ * @method Mage_Paybox_Model_Question_Number setIncrementValue(int $value)
+ * @method string getResetDate()
+ * @method Mage_Paybox_Model_Question_Number setResetDate(string $value)
  *
  * @category    Mage
  * @package     Mage_Paybox

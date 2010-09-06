@@ -30,13 +30,13 @@
  *
  * @method Mage_Core_Model_Resource_Store _getResource()
  * @method Mage_Core_Model_Resource_Store getResource()
- * @method string setCode(string $value)
- * @method int setWebsiteId(int $value)
- * @method int setGroupId(int $value)
- * @method string setName(string $value)
- * @method Mage_Core_Model_Store getSortOrder()
- * @method int setSortOrder(int $value)
- * @method int setIsActive(int $value)
+ * @method Mage_Core_Model_Store setCode(string $value)
+ * @method Mage_Core_Model_Store setWebsiteId(int $value)
+ * @method Mage_Core_Model_Store setGroupId(int $value)
+ * @method Mage_Core_Model_Store setName(string $value)
+ * @method int getSortOrder()
+ * @method Mage_Core_Model_Store setSortOrder(int $value)
+ * @method Mage_Core_Model_Store setIsActive(int $value)
  *
  * @category    Mage
  * @package     Mage_Core

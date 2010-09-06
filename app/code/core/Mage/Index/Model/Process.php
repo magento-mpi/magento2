@@ -29,16 +29,16 @@
  *
  * @method Mage_Index_Model_Resource_Process _getResource()
  * @method Mage_Index_Model_Resource_Process getResource()
- * @method Mage_Index_Model_Process getIndexerCode()
- * @method string setIndexerCode(string $value)
- * @method Mage_Index_Model_Process getStatus()
- * @method string setStatus(string $value)
- * @method Mage_Index_Model_Process getStartedAt()
- * @method string setStartedAt(string $value)
- * @method Mage_Index_Model_Process getEndedAt()
- * @method string setEndedAt(string $value)
- * @method Mage_Index_Model_Process getMode()
- * @method string setMode(string $value)
+ * @method string getIndexerCode()
+ * @method Mage_Index_Model_Process setIndexerCode(string $value)
+ * @method string getStatus()
+ * @method Mage_Index_Model_Process setStatus(string $value)
+ * @method string getStartedAt()
+ * @method Mage_Index_Model_Process setStartedAt(string $value)
+ * @method string getEndedAt()
+ * @method Mage_Index_Model_Process setEndedAt(string $value)
+ * @method string getMode()
+ * @method Mage_Index_Model_Process setMode(string $value)
  *
  * @category    Mage
  * @package     Mage_Index

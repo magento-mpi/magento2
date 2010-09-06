@@ -29,13 +29,13 @@
  *
  * @method Mage_Review_Model_Resource_Review _getResource()
  * @method Mage_Review_Model_Resource_Review getResource()
- * @method Mage_Review_Model_Review getCreatedAt()
- * @method string setCreatedAt(string $value)
- * @method int setEntityId(int $value)
- * @method Mage_Review_Model_Review getEntityPkValue()
- * @method int setEntityPkValue(int $value)
- * @method Mage_Review_Model_Review getStatusId()
- * @method int setStatusId(int $value)
+ * @method string getCreatedAt()
+ * @method Mage_Review_Model_Review setCreatedAt(string $value)
+ * @method Mage_Review_Model_Review setEntityId(int $value)
+ * @method int getEntityPkValue()
+ * @method Mage_Review_Model_Review setEntityPkValue(int $value)
+ * @method int getStatusId()
+ * @method Mage_Review_Model_Review setStatusId(int $value)
  *
  * @category    Mage
  * @package     Mage_Review

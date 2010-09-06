@@ -29,16 +29,16 @@
  *
  * @method Mage_Log_Model_Resource_Customer _getResource()
  * @method Mage_Log_Model_Resource_Customer getResource()
- * @method Mage_Log_Model_Customer getVisitorId()
- * @method int setVisitorId(int $value)
- * @method Mage_Log_Model_Customer getCustomerId()
- * @method int setCustomerId(int $value)
- * @method Mage_Log_Model_Customer getLoginAt()
- * @method string setLoginAt(string $value)
- * @method Mage_Log_Model_Customer getLogoutAt()
- * @method string setLogoutAt(string $value)
- * @method Mage_Log_Model_Customer getStoreId()
- * @method int setStoreId(int $value)
+ * @method int getVisitorId()
+ * @method Mage_Log_Model_Customer setVisitorId(int $value)
+ * @method int getCustomerId()
+ * @method Mage_Log_Model_Customer setCustomerId(int $value)
+ * @method string getLoginAt()
+ * @method Mage_Log_Model_Customer setLoginAt(string $value)
+ * @method string getLogoutAt()
+ * @method Mage_Log_Model_Customer setLogoutAt(string $value)
+ * @method int getStoreId()
+ * @method Mage_Log_Model_Customer setStoreId(int $value)
  *
  * @category    Mage
  * @package     Mage_Log

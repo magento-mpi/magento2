@@ -29,12 +29,12 @@
  *
  * @method Mage_Directory_Model_Resource_Region _getResource()
  * @method Mage_Directory_Model_Resource_Region getResource()
- * @method Mage_Directory_Model_Region getCountryId()
- * @method string setCountryId(string $value)
- * @method Mage_Directory_Model_Region getCode()
- * @method string setCode(string $value)
- * @method Mage_Directory_Model_Region getDefaultName()
- * @method string setDefaultName(string $value)
+ * @method string getCountryId()
+ * @method Mage_Directory_Model_Region setCountryId(string $value)
+ * @method string getCode()
+ * @method Mage_Directory_Model_Region setCode(string $value)
+ * @method string getDefaultName()
+ * @method Mage_Directory_Model_Region setDefaultName(string $value)
  *
  * @category    Mage
  * @package     Mage_Directory

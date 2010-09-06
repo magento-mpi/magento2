@@ -28,14 +28,14 @@
  *
  * @method Mage_Strikeiron_Model_Resource_Taxrate _getResource()
  * @method Mage_Strikeiron_Model_Resource_Taxrate getResource()
- * @method Mage_Strikeiron_Model_Taxrate getTaxCountryId()
- * @method string setTaxCountryId(string $value)
- * @method Mage_Strikeiron_Model_Taxrate getTaxRegionId()
- * @method int setTaxRegionId(int $value)
- * @method Mage_Strikeiron_Model_Taxrate getTaxPostcode()
- * @method string setTaxPostcode(string $value)
- * @method Mage_Strikeiron_Model_Taxrate getRateValue()
- * @method float setRateValue(float $value)
+ * @method string getTaxCountryId()
+ * @method Mage_Strikeiron_Model_Taxrate setTaxCountryId(string $value)
+ * @method int getTaxRegionId()
+ * @method Mage_Strikeiron_Model_Taxrate setTaxRegionId(int $value)
+ * @method string getTaxPostcode()
+ * @method Mage_Strikeiron_Model_Taxrate setTaxPostcode(string $value)
+ * @method float getRateValue()
+ * @method Mage_Strikeiron_Model_Taxrate setRateValue(float $value)
  *
  * @category    Mage
  * @package     Mage_Strikeiron

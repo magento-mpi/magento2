@@ -29,11 +29,11 @@
  *
  * @method Mage_Core_Model_Resource_Store_Group _getResource()
  * @method Mage_Core_Model_Resource_Store_Group getResource()
- * @method int setWebsiteId(int $value)
- * @method Mage_Core_Model_Store_Group getName()
- * @method string setName(string $value)
- * @method int setRootCategoryId(int $value)
- * @method int setDefaultStoreId(int $value)
+ * @method Mage_Core_Model_Store_Group setWebsiteId(int $value)
+ * @method string getName()
+ * @method Mage_Core_Model_Store_Group setName(string $value)
+ * @method Mage_Core_Model_Store_Group setRootCategoryId(int $value)
+ * @method Mage_Core_Model_Store_Group setDefaultStoreId(int $value)
  *
  * @category    Mage
  * @package     Mage_Core

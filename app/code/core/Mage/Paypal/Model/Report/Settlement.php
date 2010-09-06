@@ -36,14 +36,14 @@
  *
  * @method Mage_Paypal_Model_Resource_Report_Settlement _getResource()
  * @method Mage_Paypal_Model_Resource_Report_Settlement getResource()
- * @method Mage_Paypal_Model_Report_Settlement getReportDate()
- * @method string setReportDate(string $value)
- * @method Mage_Paypal_Model_Report_Settlement getAccountId()
- * @method string setAccountId(string $value)
- * @method Mage_Paypal_Model_Report_Settlement getFilename()
- * @method string setFilename(string $value)
- * @method Mage_Paypal_Model_Report_Settlement getLastModified()
- * @method string setLastModified(string $value)
+ * @method string getReportDate()
+ * @method Mage_Paypal_Model_Report_Settlement setReportDate(string $value)
+ * @method string getAccountId()
+ * @method Mage_Paypal_Model_Report_Settlement setAccountId(string $value)
+ * @method string getFilename()
+ * @method Mage_Paypal_Model_Report_Settlement setFilename(string $value)
+ * @method string getLastModified()
+ * @method Mage_Paypal_Model_Report_Settlement setLastModified(string $value)
  *
  * @category    Mage
  * @package     Mage_Paypal

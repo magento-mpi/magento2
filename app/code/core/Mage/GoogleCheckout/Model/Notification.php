@@ -29,12 +29,12 @@
  *
  * @method Mage_GoogleCheckout_Model_Resource_Notification _getResource()
  * @method Mage_GoogleCheckout_Model_Resource_Notification getResource()
- * @method Mage_GoogleCheckout_Model_Notification getSerialNumber()
- * @method string setSerialNumber(string $value)
- * @method Mage_GoogleCheckout_Model_Notification getStartedAt()
- * @method string setStartedAt(string $value)
- * @method Mage_GoogleCheckout_Model_Notification getStatus()
- * @method int setStatus(int $value)
+ * @method string getSerialNumber()
+ * @method Mage_GoogleCheckout_Model_Notification setSerialNumber(string $value)
+ * @method string getStartedAt()
+ * @method Mage_GoogleCheckout_Model_Notification setStartedAt(string $value)
+ * @method int getStatus()
+ * @method Mage_GoogleCheckout_Model_Notification setStatus(int $value)
  *
  * @category    Mage
  * @package     Mage_GoogleCheckout

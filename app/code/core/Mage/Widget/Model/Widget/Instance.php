@@ -29,12 +29,12 @@
  *
  * @method Mage_Widget_Model_Resource_Widget_Instance _getResource()
  * @method Mage_Widget_Model_Resource_Widget_Instance getResource()
- * @method Mage_Widget_Model_Widget_Instance getTitle()
- * @method string setTitle(string $value)
- * @method string setStoreIds(string $value)
- * @method string setWidgetParameters(string $value)
- * @method Mage_Widget_Model_Widget_Instance getSortOrder()
- * @method int setSortOrder(int $value)
+ * @method string getTitle()
+ * @method Mage_Widget_Model_Widget_Instance setTitle(string $value)
+ * @method Mage_Widget_Model_Widget_Instance setStoreIds(string $value)
+ * @method Mage_Widget_Model_Widget_Instance setWidgetParameters(string $value)
+ * @method int getSortOrder()
+ * @method Mage_Widget_Model_Widget_Instance setSortOrder(int $value)
  *
  * @category    Mage
  * @package     Mage_Widget

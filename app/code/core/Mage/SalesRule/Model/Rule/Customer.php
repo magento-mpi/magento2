@@ -30,12 +30,12 @@
  *
  * @method Mage_SalesRule_Model_Resource_Rule_Customer _getResource()
  * @method Mage_SalesRule_Model_Resource_Rule_Customer getResource()
- * @method Mage_SalesRule_Model_Rule_Customer getRuleId()
- * @method int setRuleId(int $value)
- * @method Mage_SalesRule_Model_Rule_Customer getCustomerId()
- * @method int setCustomerId(int $value)
- * @method Mage_SalesRule_Model_Rule_Customer getTimesUsed()
- * @method int setTimesUsed(int $value)
+ * @method int getRuleId()
+ * @method Mage_SalesRule_Model_Rule_Customer setRuleId(int $value)
+ * @method int getCustomerId()
+ * @method Mage_SalesRule_Model_Rule_Customer setCustomerId(int $value)
+ * @method int getTimesUsed()
+ * @method Mage_SalesRule_Model_Rule_Customer setTimesUsed(int $value)
  *
  * @category    Mage
  * @package     Mage_SalesRule

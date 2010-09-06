@@ -30,14 +30,14 @@
  *
  * @method Mage_Eav_Model_Resource_Form_Element _getResource()
  * @method Mage_Eav_Model_Resource_Form_Element getResource()
- * @method Mage_Eav_Model_Form_Element getTypeId()
- * @method int setTypeId(int $value)
- * @method Mage_Eav_Model_Form_Element getFieldsetId()
- * @method int setFieldsetId(int $value)
- * @method Mage_Eav_Model_Form_Element getAttributeId()
- * @method int setAttributeId(int $value)
- * @method Mage_Eav_Model_Form_Element getSortOrder()
- * @method int setSortOrder(int $value)
+ * @method int getTypeId()
+ * @method Mage_Eav_Model_Form_Element setTypeId(int $value)
+ * @method int getFieldsetId()
+ * @method Mage_Eav_Model_Form_Element setFieldsetId(int $value)
+ * @method int getAttributeId()
+ * @method Mage_Eav_Model_Form_Element setAttributeId(int $value)
+ * @method int getSortOrder()
+ * @method Mage_Eav_Model_Form_Element setSortOrder(int $value)
  *
  * @category    Mage
  * @package     Mage_Eav

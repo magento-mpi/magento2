@@ -30,15 +30,15 @@
  *
  * @method Mage_Bundle_Model_Resource_Price_Index _getResource()
  * @method Mage_Bundle_Model_Resource_Price_Index getResource()
- * @method int setEntityId(int $value)
- * @method Mage_Bundle_Model_Price_Index getWebsiteId()
- * @method int setWebsiteId(int $value)
- * @method Mage_Bundle_Model_Price_Index getCustomerGroupId()
- * @method int setCustomerGroupId(int $value)
- * @method Mage_Bundle_Model_Price_Index getMinPrice()
- * @method float setMinPrice(float $value)
- * @method Mage_Bundle_Model_Price_Index getMaxPrice()
- * @method float setMaxPrice(float $value)
+ * @method Mage_Bundle_Model_Price_Index setEntityId(int $value)
+ * @method int getWebsiteId()
+ * @method Mage_Bundle_Model_Price_Index setWebsiteId(int $value)
+ * @method int getCustomerGroupId()
+ * @method Mage_Bundle_Model_Price_Index setCustomerGroupId(int $value)
+ * @method float getMinPrice()
+ * @method Mage_Bundle_Model_Price_Index setMinPrice(float $value)
+ * @method float getMaxPrice()
+ * @method Mage_Bundle_Model_Price_Index setMaxPrice(float $value)
  *
  * @category    Mage
  * @package     Mage_Bundle

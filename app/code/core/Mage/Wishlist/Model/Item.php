@@ -30,16 +30,16 @@
  *
  * @method Mage_Wishlist_Model_Resource_Item _getResource()
  * @method Mage_Wishlist_Model_Resource_Item getResource()
- * @method Mage_Wishlist_Model_Item getWishlistId()
- * @method int setWishlistId(int $value)
- * @method Mage_Wishlist_Model_Item getProductId()
- * @method int setProductId(int $value)
- * @method Mage_Wishlist_Model_Item getStoreId()
- * @method int setStoreId(int $value)
- * @method Mage_Wishlist_Model_Item getAddedAt()
- * @method string setAddedAt(string $value)
- * @method Mage_Wishlist_Model_Item getDescription()
- * @method string setDescription(string $value)
+ * @method int getWishlistId()
+ * @method Mage_Wishlist_Model_Item setWishlistId(int $value)
+ * @method int getProductId()
+ * @method Mage_Wishlist_Model_Item setProductId(int $value)
+ * @method int getStoreId()
+ * @method Mage_Wishlist_Model_Item setStoreId(int $value)
+ * @method string getAddedAt()
+ * @method Mage_Wishlist_Model_Item setAddedAt(string $value)
+ * @method string getDescription()
+ * @method Mage_Wishlist_Model_Item setDescription(string $value)
  *
  * @category    Mage
  * @package     Mage_Wishlist

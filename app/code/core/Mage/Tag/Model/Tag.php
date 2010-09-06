@@ -29,13 +29,13 @@
  *
  * @method Mage_Tag_Model_Resource_Tag _getResource()
  * @method Mage_Tag_Model_Resource_Tag getResource()
- * @method string setName(string $value)
- * @method Mage_Tag_Model_Tag getStatus()
- * @method int setStatus(int $value)
- * @method Mage_Tag_Model_Tag getFirstCustomerId()
- * @method int setFirstCustomerId(int $value)
- * @method Mage_Tag_Model_Tag getFirstStoreId()
- * @method int setFirstStoreId(int $value)
+ * @method Mage_Tag_Model_Tag setName(string $value)
+ * @method int getStatus()
+ * @method Mage_Tag_Model_Tag setStatus(int $value)
+ * @method int getFirstCustomerId()
+ * @method Mage_Tag_Model_Tag setFirstCustomerId(int $value)
+ * @method int getFirstStoreId()
+ * @method Mage_Tag_Model_Tag setFirstStoreId(int $value)
  *
  * @category    Mage
  * @package     Mage_Tag

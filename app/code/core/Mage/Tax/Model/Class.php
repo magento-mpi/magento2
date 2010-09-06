@@ -29,10 +29,10 @@
  *
  * @method Mage_Tax_Model_Resource_Class _getResource()
  * @method Mage_Tax_Model_Resource_Class getResource()
- * @method Mage_Tax_Model_Class getClassName()
- * @method string setClassName(string $value)
- * @method Mage_Tax_Model_Class getClassType()
- * @method string setClassType(string $value)
+ * @method string getClassName()
+ * @method Mage_Tax_Model_Class setClassName(string $value)
+ * @method string getClassType()
+ * @method Mage_Tax_Model_Class setClassType(string $value)
  *
  * @category    Mage
  * @package     Mage_Tax

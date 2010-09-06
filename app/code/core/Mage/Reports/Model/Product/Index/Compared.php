@@ -30,13 +30,13 @@
  *
  * @method Mage_Reports_Model_Resource_Product_Index_Compared _getResource()
  * @method Mage_Reports_Model_Resource_Product_Index_Compared getResource()
- * @method int setVisitorId(int $value)
- * @method int setCustomerId(int $value)
- * @method Mage_Reports_Model_Product_Index_Compared getProductId()
- * @method int setProductId(int $value)
- * @method int setStoreId(int $value)
- * @method Mage_Reports_Model_Product_Index_Compared getAddedAt()
- * @method string setAddedAt(string $value)
+ * @method Mage_Reports_Model_Product_Index_Compared setVisitorId(int $value)
+ * @method Mage_Reports_Model_Product_Index_Compared setCustomerId(int $value)
+ * @method int getProductId()
+ * @method Mage_Reports_Model_Product_Index_Compared setProductId(int $value)
+ * @method Mage_Reports_Model_Product_Index_Compared setStoreId(int $value)
+ * @method string getAddedAt()
+ * @method Mage_Reports_Model_Product_Index_Compared setAddedAt(string $value)
  *
  * @category    Mage
  * @package     Mage_Reports

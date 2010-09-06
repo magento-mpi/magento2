@@ -29,12 +29,12 @@
  *
  * @method Mage_Directory_Model_Resource_Country _getResource()
  * @method Mage_Directory_Model_Resource_Country getResource()
- * @method Mage_Directory_Model_Country getCountryId()
- * @method string setCountryId(string $value)
- * @method Mage_Directory_Model_Country getIso2Code()
- * @method string setIso2Code(string $value)
- * @method Mage_Directory_Model_Country getIso3Code()
- * @method string setIso3Code(string $value)
+ * @method string getCountryId()
+ * @method Mage_Directory_Model_Country setCountryId(string $value)
+ * @method string getIso2Code()
+ * @method Mage_Directory_Model_Country setIso2Code(string $value)
+ * @method string getIso3Code()
+ * @method Mage_Directory_Model_Country setIso3Code(string $value)
  *
  * @category    Mage
  * @package     Mage_Directory

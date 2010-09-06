@@ -29,14 +29,14 @@
  *
  * @method Mage_Dataflow_Model_Resource_Profile_History _getResource()
  * @method Mage_Dataflow_Model_Resource_Profile_History getResource()
- * @method Mage_Dataflow_Model_Profile_History getProfileId()
- * @method int setProfileId(int $value)
- * @method Mage_Dataflow_Model_Profile_History getActionCode()
- * @method string setActionCode(string $value)
- * @method Mage_Dataflow_Model_Profile_History getUserId()
- * @method int setUserId(int $value)
- * @method Mage_Dataflow_Model_Profile_History getPerformedAt()
- * @method string setPerformedAt(string $value)
+ * @method int getProfileId()
+ * @method Mage_Dataflow_Model_Profile_History setProfileId(int $value)
+ * @method string getActionCode()
+ * @method Mage_Dataflow_Model_Profile_History setActionCode(string $value)
+ * @method int getUserId()
+ * @method Mage_Dataflow_Model_Profile_History setUserId(int $value)
+ * @method string getPerformedAt()
+ * @method Mage_Dataflow_Model_Profile_History setPerformedAt(string $value)
  *
  * @category    Mage
  * @package     Mage_Dataflow

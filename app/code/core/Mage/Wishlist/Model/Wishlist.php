@@ -30,12 +30,12 @@
  *
  * @method Mage_Wishlist_Model_Resource_Wishlist _getResource()
  * @method Mage_Wishlist_Model_Resource_Wishlist getResource()
- * @method Mage_Wishlist_Model_Wishlist getShared()
- * @method int setShared(int $value)
- * @method Mage_Wishlist_Model_Wishlist getSharingCode()
- * @method string setSharingCode(string $value)
- * @method Mage_Wishlist_Model_Wishlist getUpdatedAt()
- * @method string setUpdatedAt(string $value)
+ * @method int getShared()
+ * @method Mage_Wishlist_Model_Wishlist setShared(int $value)
+ * @method string getSharingCode()
+ * @method Mage_Wishlist_Model_Wishlist setSharingCode(string $value)
+ * @method string getUpdatedAt()
+ * @method Mage_Wishlist_Model_Wishlist setUpdatedAt(string $value)
  *
  * @category    Mage
  * @package     Mage_Wishlist

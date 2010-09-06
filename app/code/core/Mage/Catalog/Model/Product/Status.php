@@ -30,12 +30,12 @@
  *
  * @method Mage_Catalog_Model_Resource_Product_Status _getResource()
  * @method Mage_Catalog_Model_Resource_Product_Status getResource()
- * @method Mage_Catalog_Model_Product_Status getProductId()
- * @method int setProductId(int $value)
- * @method Mage_Catalog_Model_Product_Status getStoreId()
- * @method int setStoreId(int $value)
- * @method Mage_Catalog_Model_Product_Status getVisibility()
- * @method int setVisibility(int $value)
+ * @method int getProductId()
+ * @method Mage_Catalog_Model_Product_Status setProductId(int $value)
+ * @method int getStoreId()
+ * @method Mage_Catalog_Model_Product_Status setStoreId(int $value)
+ * @method int getVisibility()
+ * @method Mage_Catalog_Model_Product_Status setVisibility(int $value)
  *
  * @category    Mage
  * @package     Mage_Catalog

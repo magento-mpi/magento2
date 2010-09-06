@@ -29,14 +29,14 @@
  *
  * @method Mage_Index_Model_Resource_Event _getResource()
  * @method Mage_Index_Model_Resource_Event getResource()
- * @method string setType(string $value)
- * @method string setEntity(string $value)
- * @method Mage_Index_Model_Event getEntityPk()
- * @method int setEntityPk(int $value)
- * @method Mage_Index_Model_Event getCreatedAt()
- * @method string setCreatedAt(string $value)
- * @method string setOldData(string $value)
- * @method string setNewData(string $value)
+ * @method Mage_Index_Model_Event setType(string $value)
+ * @method Mage_Index_Model_Event setEntity(string $value)
+ * @method int getEntityPk()
+ * @method Mage_Index_Model_Event setEntityPk(int $value)
+ * @method string getCreatedAt()
+ * @method Mage_Index_Model_Event setCreatedAt(string $value)
+ * @method Mage_Index_Model_Event setOldData(string $value)
+ * @method Mage_Index_Model_Event setNewData(string $value)
  *
  * @category    Mage
  * @package     Mage_Index

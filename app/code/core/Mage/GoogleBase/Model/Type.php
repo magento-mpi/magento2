@@ -29,12 +29,12 @@
  *
  * @method Mage_GoogleBase_Model_Resource_Type _getResource()
  * @method Mage_GoogleBase_Model_Resource_Type getResource()
- * @method Mage_GoogleBase_Model_Type getAttributeSetId()
- * @method int setAttributeSetId(int $value)
- * @method Mage_GoogleBase_Model_Type getGbaseItemtype()
- * @method string setGbaseItemtype(string $value)
- * @method Mage_GoogleBase_Model_Type getTargetCountry()
- * @method string setTargetCountry(string $value)
+ * @method int getAttributeSetId()
+ * @method Mage_GoogleBase_Model_Type setAttributeSetId(int $value)
+ * @method string getGbaseItemtype()
+ * @method Mage_GoogleBase_Model_Type setGbaseItemtype(string $value)
+ * @method string getTargetCountry()
+ * @method Mage_GoogleBase_Model_Type setTargetCountry(string $value)
  *
  * @category    Mage
  * @package     Mage_GoogleBase

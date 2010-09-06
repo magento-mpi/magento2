@@ -30,17 +30,17 @@
  *
  * @method Mage_CatalogIndex_Model_Resource_Indexer_Minimalprice _getResource()
  * @method Mage_CatalogIndex_Model_Resource_Indexer_Minimalprice getResource()
- * @method int setEntityId(int $value)
- * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getCustomerGroupId()
- * @method int setCustomerGroupId(int $value)
- * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getQty()
- * @method float setQty(float $value)
- * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getValue()
- * @method float setValue(float $value)
- * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getTaxClassId()
- * @method int setTaxClassId(int $value)
- * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getWebsiteId()
- * @method int setWebsiteId(int $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice setEntityId(int $value)
+ * @method int getCustomerGroupId()
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice setCustomerGroupId(int $value)
+ * @method float getQty()
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice setQty(float $value)
+ * @method float getValue()
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice setValue(float $value)
+ * @method int getTaxClassId()
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice setTaxClassId(int $value)
+ * @method int getWebsiteId()
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice setWebsiteId(int $value)
  *
  * @category    Mage
  * @package     Mage_CatalogIndex

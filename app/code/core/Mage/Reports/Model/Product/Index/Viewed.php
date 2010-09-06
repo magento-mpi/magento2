@@ -30,13 +30,13 @@
  *
  * @method Mage_Reports_Model_Resource_Product_Index_Viewed _getResource()
  * @method Mage_Reports_Model_Resource_Product_Index_Viewed getResource()
- * @method int setVisitorId(int $value)
- * @method int setCustomerId(int $value)
- * @method Mage_Reports_Model_Product_Index_Viewed getProductId()
- * @method int setProductId(int $value)
- * @method int setStoreId(int $value)
- * @method Mage_Reports_Model_Product_Index_Viewed getAddedAt()
- * @method string setAddedAt(string $value)
+ * @method Mage_Reports_Model_Product_Index_Viewed setVisitorId(int $value)
+ * @method Mage_Reports_Model_Product_Index_Viewed setCustomerId(int $value)
+ * @method int getProductId()
+ * @method Mage_Reports_Model_Product_Index_Viewed setProductId(int $value)
+ * @method Mage_Reports_Model_Product_Index_Viewed setStoreId(int $value)
+ * @method string getAddedAt()
+ * @method Mage_Reports_Model_Product_Index_Viewed setAddedAt(string $value)
  *
  * @category    Mage
  * @package     Mage_Reports

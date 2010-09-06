@@ -29,14 +29,14 @@
  *
  * @method Mage_Poll_Model_Resource_Poll_Answer _getResource()
  * @method Mage_Poll_Model_Resource_Poll_Answer getResource()
- * @method Mage_Poll_Model_Poll_Answer getPollId()
- * @method int setPollId(int $value)
- * @method Mage_Poll_Model_Poll_Answer getAnswerTitle()
- * @method string setAnswerTitle(string $value)
- * @method Mage_Poll_Model_Poll_Answer getVotesCount()
- * @method int setVotesCount(int $value)
- * @method Mage_Poll_Model_Poll_Answer getAnswerOrder()
- * @method int setAnswerOrder(int $value)
+ * @method int getPollId()
+ * @method Mage_Poll_Model_Poll_Answer setPollId(int $value)
+ * @method string getAnswerTitle()
+ * @method Mage_Poll_Model_Poll_Answer setAnswerTitle(string $value)
+ * @method int getVotesCount()
+ * @method Mage_Poll_Model_Poll_Answer setVotesCount(int $value)
+ * @method int getAnswerOrder()
+ * @method Mage_Poll_Model_Poll_Answer setAnswerOrder(int $value)
  *
  * @category    Mage
  * @package     Mage_Poll

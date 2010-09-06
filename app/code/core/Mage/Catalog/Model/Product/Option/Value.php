@@ -29,12 +29,12 @@
  *
  * @method Mage_Catalog_Model_Resource_Product_Option_Value _getResource()
  * @method Mage_Catalog_Model_Resource_Product_Option_Value getResource()
- * @method Mage_Catalog_Model_Product_Option_Value getOptionId()
- * @method int setOptionId(int $value)
- * @method Mage_Catalog_Model_Product_Option_Value getSku()
- * @method string setSku(string $value)
- * @method Mage_Catalog_Model_Product_Option_Value getSortOrder()
- * @method int setSortOrder(int $value)
+ * @method int getOptionId()
+ * @method Mage_Catalog_Model_Product_Option_Value setOptionId(int $value)
+ * @method string getSku()
+ * @method Mage_Catalog_Model_Product_Option_Value setSku(string $value)
+ * @method int getSortOrder()
+ * @method Mage_Catalog_Model_Product_Option_Value setSortOrder(int $value)
  *
  * @category    Mage
  * @package     Mage_Catalog

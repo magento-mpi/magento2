@@ -30,14 +30,14 @@
  *
  * @method Mage_Dataflow_Model_Resource_Import _getResource()
  * @method Mage_Dataflow_Model_Resource_Import getResource()
- * @method Mage_Dataflow_Model_Import getSessionId()
- * @method int setSessionId(int $value)
- * @method Mage_Dataflow_Model_Import getSerialNumber()
- * @method int setSerialNumber(int $value)
- * @method Mage_Dataflow_Model_Import getValue()
- * @method string setValue(string $value)
- * @method Mage_Dataflow_Model_Import getStatus()
- * @method int setStatus(int $value)
+ * @method int getSessionId()
+ * @method Mage_Dataflow_Model_Import setSessionId(int $value)
+ * @method int getSerialNumber()
+ * @method Mage_Dataflow_Model_Import setSerialNumber(int $value)
+ * @method string getValue()
+ * @method Mage_Dataflow_Model_Import setValue(string $value)
+ * @method int getStatus()
+ * @method Mage_Dataflow_Model_Import setStatus(int $value)
  *
  * @category    Mage
  * @package     Mage_Dataflow

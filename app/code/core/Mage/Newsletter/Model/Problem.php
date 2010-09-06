@@ -30,14 +30,14 @@
  *
  * @method Mage_Newsletter_Model_Resource_Problem _getResource()
  * @method Mage_Newsletter_Model_Resource_Problem getResource()
- * @method Mage_Newsletter_Model_Problem getSubscriberId()
- * @method int setSubscriberId(int $value)
- * @method Mage_Newsletter_Model_Problem getQueueId()
- * @method int setQueueId(int $value)
- * @method Mage_Newsletter_Model_Problem getProblemErrorCode()
- * @method int setProblemErrorCode(int $value)
- * @method Mage_Newsletter_Model_Problem getProblemErrorText()
- * @method string setProblemErrorText(string $value)
+ * @method int getSubscriberId()
+ * @method Mage_Newsletter_Model_Problem setSubscriberId(int $value)
+ * @method int getQueueId()
+ * @method Mage_Newsletter_Model_Problem setQueueId(int $value)
+ * @method int getProblemErrorCode()
+ * @method Mage_Newsletter_Model_Problem setProblemErrorCode(int $value)
+ * @method string getProblemErrorText()
+ * @method Mage_Newsletter_Model_Problem setProblemErrorText(string $value)
  *
  * @category    Mage
  * @package     Mage_Newsletter

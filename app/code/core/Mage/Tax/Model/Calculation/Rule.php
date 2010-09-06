@@ -29,12 +29,12 @@
  *
  * @method Mage_Tax_Model_Resource_Calculation_Rule _getResource()
  * @method Mage_Tax_Model_Resource_Calculation_Rule getResource()
- * @method Mage_Tax_Model_Calculation_Rule getCode()
- * @method string setCode(string $value)
- * @method Mage_Tax_Model_Calculation_Rule getPriority()
- * @method int setPriority(int $value)
- * @method Mage_Tax_Model_Calculation_Rule getPosition()
- * @method int setPosition(int $value)
+ * @method string getCode()
+ * @method Mage_Tax_Model_Calculation_Rule setCode(string $value)
+ * @method int getPriority()
+ * @method Mage_Tax_Model_Calculation_Rule setPriority(int $value)
+ * @method int getPosition()
+ * @method Mage_Tax_Model_Calculation_Rule setPosition(int $value)
  *
  * @category    Mage
  * @package     Mage_Tax

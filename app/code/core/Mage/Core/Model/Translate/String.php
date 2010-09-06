@@ -29,12 +29,12 @@
  *
  * @method Mage_Core_Model_Resource_Translate_String _getResource()
  * @method Mage_Core_Model_Resource_Translate_String getResource()
- * @method Mage_Core_Model_Translate_String getStoreId()
- * @method int setStoreId(int $value)
- * @method Mage_Core_Model_Translate_String getTranslate()
- * @method string setTranslate(string $value)
- * @method Mage_Core_Model_Translate_String getLocale()
- * @method string setLocale(string $value)
+ * @method int getStoreId()
+ * @method Mage_Core_Model_Translate_String setStoreId(int $value)
+ * @method string getTranslate()
+ * @method Mage_Core_Model_Translate_String setTranslate(string $value)
+ * @method string getLocale()
+ * @method Mage_Core_Model_Translate_String setLocale(string $value)
  *
  * @category    Mage
  * @package     Mage_Core

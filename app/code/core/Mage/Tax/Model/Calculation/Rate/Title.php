@@ -30,12 +30,12 @@
  *
  * @method Mage_Tax_Model_Resource_Calculation_Rate_Title _getResource()
  * @method Mage_Tax_Model_Resource_Calculation_Rate_Title getResource()
- * @method Mage_Tax_Model_Calculation_Rate_Title getTaxCalculationRateId()
- * @method int setTaxCalculationRateId(int $value)
- * @method Mage_Tax_Model_Calculation_Rate_Title getStoreId()
- * @method int setStoreId(int $value)
- * @method Mage_Tax_Model_Calculation_Rate_Title getValue()
- * @method string setValue(string $value)
+ * @method int getTaxCalculationRateId()
+ * @method Mage_Tax_Model_Calculation_Rate_Title setTaxCalculationRateId(int $value)
+ * @method int getStoreId()
+ * @method Mage_Tax_Model_Calculation_Rate_Title setStoreId(int $value)
+ * @method string getValue()
+ * @method Mage_Tax_Model_Calculation_Rate_Title setValue(string $value)
  *
  * @category    Mage
  * @package     Mage_Tax

@@ -30,14 +30,14 @@
  *
  * @method Mage_Dataflow_Model_Resource_Batch _getResource()
  * @method Mage_Dataflow_Model_Resource_Batch getResource()
- * @method Mage_Dataflow_Model_Batch getProfileId()
- * @method int setProfileId(int $value)
- * @method Mage_Dataflow_Model_Batch getStoreId()
- * @method int setStoreId(int $value)
- * @method Mage_Dataflow_Model_Batch getAdapter()
- * @method string setAdapter(string $value)
- * @method Mage_Dataflow_Model_Batch getCreatedAt()
- * @method string setCreatedAt(string $value)
+ * @method int getProfileId()
+ * @method Mage_Dataflow_Model_Batch setProfileId(int $value)
+ * @method int getStoreId()
+ * @method Mage_Dataflow_Model_Batch setStoreId(int $value)
+ * @method string getAdapter()
+ * @method Mage_Dataflow_Model_Batch setAdapter(string $value)
+ * @method string getCreatedAt()
+ * @method Mage_Dataflow_Model_Batch setCreatedAt(string $value)
  *
  * @category    Mage
  * @package     Mage_Dataflow

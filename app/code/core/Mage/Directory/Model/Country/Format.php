@@ -30,12 +30,12 @@
  *
  * @method Mage_Directory_Model_Resource_Country_Format _getResource()
  * @method Mage_Directory_Model_Resource_Country_Format getResource()
- * @method Mage_Directory_Model_Country_Format getCountryId()
- * @method string setCountryId(string $value)
- * @method Mage_Directory_Model_Country_Format getType()
- * @method string setType(string $value)
- * @method Mage_Directory_Model_Country_Format getFormat()
- * @method string setFormat(string $value)
+ * @method string getCountryId()
+ * @method Mage_Directory_Model_Country_Format setCountryId(string $value)
+ * @method string getType()
+ * @method Mage_Directory_Model_Country_Format setType(string $value)
+ * @method string getFormat()
+ * @method Mage_Directory_Model_Country_Format setFormat(string $value)
  *
  * @category    Mage
  * @package     Mage_Directory

@@ -29,8 +29,8 @@
  *
  * @method Mage_Rating_Model_Resource_Rating_Entity _getResource()
  * @method Mage_Rating_Model_Resource_Rating_Entity getResource()
- * @method Mage_Rating_Model_Rating_Entity getEntityCode()
- * @method string setEntityCode(string $value)
+ * @method string getEntityCode()
+ * @method Mage_Rating_Model_Rating_Entity setEntityCode(string $value)
  *
  * @category    Mage
  * @package     Mage_Rating

@@ -30,16 +30,16 @@
  *
  * @method Mage_Eav_Model_Resource_Form_Type _getResource()
  * @method Mage_Eav_Model_Resource_Form_Type getResource()
- * @method Mage_Eav_Model_Form_Type getCode()
- * @method string setCode(string $value)
- * @method Mage_Eav_Model_Form_Type getLabel()
- * @method string setLabel(string $value)
- * @method Mage_Eav_Model_Form_Type getIsSystem()
- * @method int setIsSystem(int $value)
- * @method Mage_Eav_Model_Form_Type getTheme()
- * @method string setTheme(string $value)
- * @method Mage_Eav_Model_Form_Type getStoreId()
- * @method int setStoreId(int $value)
+ * @method string getCode()
+ * @method Mage_Eav_Model_Form_Type setCode(string $value)
+ * @method string getLabel()
+ * @method Mage_Eav_Model_Form_Type setLabel(string $value)
+ * @method int getIsSystem()
+ * @method Mage_Eav_Model_Form_Type setIsSystem(int $value)
+ * @method string getTheme()
+ * @method Mage_Eav_Model_Form_Type setTheme(string $value)
+ * @method int getStoreId()
+ * @method Mage_Eav_Model_Form_Type setStoreId(int $value)
  *
  * @category    Mage
  * @package     Mage_Eav

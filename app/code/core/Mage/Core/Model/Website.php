@@ -29,14 +29,14 @@
  *
  * @method Mage_Core_Model_Resource_Website _getResource()
  * @method Mage_Core_Model_Resource_Website getResource()
- * @method string setCode(string $value)
- * @method Mage_Core_Model_Website getName()
- * @method string setName(string $value)
- * @method Mage_Core_Model_Website getSortOrder()
- * @method int setSortOrder(int $value)
- * @method int setDefaultGroupId(int $value)
- * @method Mage_Core_Model_Website getIsDefault()
- * @method int setIsDefault(int $value)
+ * @method Mage_Core_Model_Website setCode(string $value)
+ * @method string getName()
+ * @method Mage_Core_Model_Website setName(string $value)
+ * @method int getSortOrder()
+ * @method Mage_Core_Model_Website setSortOrder(int $value)
+ * @method Mage_Core_Model_Website setDefaultGroupId(int $value)
+ * @method int getIsDefault()
+ * @method Mage_Core_Model_Website setIsDefault(int $value)
  *
  * @category    Mage
  * @package     Mage_Core

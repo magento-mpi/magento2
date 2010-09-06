@@ -30,13 +30,13 @@
  *
  * @method Mage_CatalogIndex_Model_Resource_Attribute _getResource()
  * @method Mage_CatalogIndex_Model_Resource_Attribute getResource()
- * @method int setEntityId(int $value)
- * @method Mage_CatalogIndex_Model_Attribute getAttributeId()
- * @method int setAttributeId(int $value)
- * @method Mage_CatalogIndex_Model_Attribute getStoreId()
- * @method int setStoreId(int $value)
- * @method Mage_CatalogIndex_Model_Attribute getValue()
- * @method int setValue(int $value)
+ * @method Mage_CatalogIndex_Model_Attribute setEntityId(int $value)
+ * @method int getAttributeId()
+ * @method Mage_CatalogIndex_Model_Attribute setAttributeId(int $value)
+ * @method int getStoreId()
+ * @method Mage_CatalogIndex_Model_Attribute setStoreId(int $value)
+ * @method int getValue()
+ * @method Mage_CatalogIndex_Model_Attribute setValue(int $value)
  *
  * @category    Mage
  * @package     Mage_CatalogIndex

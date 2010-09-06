@@ -30,16 +30,16 @@
  *
  * @method Mage_CatalogInventory_Model_Resource_Indexer_Stock _getResource()
  * @method Mage_CatalogInventory_Model_Resource_Indexer_Stock getResource()
- * @method Mage_CatalogInventory_Model_Indexer_Stock getProductId()
- * @method int setProductId(int $value)
- * @method Mage_CatalogInventory_Model_Indexer_Stock getWebsiteId()
- * @method int setWebsiteId(int $value)
- * @method Mage_CatalogInventory_Model_Indexer_Stock getStockId()
- * @method int setStockId(int $value)
- * @method Mage_CatalogInventory_Model_Indexer_Stock getQty()
- * @method float setQty(float $value)
- * @method Mage_CatalogInventory_Model_Indexer_Stock getStockStatus()
- * @method int setStockStatus(int $value)
+ * @method int getProductId()
+ * @method Mage_CatalogInventory_Model_Indexer_Stock setProductId(int $value)
+ * @method int getWebsiteId()
+ * @method Mage_CatalogInventory_Model_Indexer_Stock setWebsiteId(int $value)
+ * @method int getStockId()
+ * @method Mage_CatalogInventory_Model_Indexer_Stock setStockId(int $value)
+ * @method float getQty()
+ * @method Mage_CatalogInventory_Model_Indexer_Stock setQty(float $value)
+ * @method int getStockStatus()
+ * @method Mage_CatalogInventory_Model_Indexer_Stock setStockStatus(int $value)
  *
  * @category    Mage
  * @package     Mage_CatalogInventory

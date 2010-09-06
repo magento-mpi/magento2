@@ -29,16 +29,16 @@
  *
  * @method Mage_Poll_Model_Resource_Poll_Vote _getResource()
  * @method Mage_Poll_Model_Resource_Poll_Vote getResource()
- * @method Mage_Poll_Model_Poll_Vote getPollId()
- * @method int setPollId(int $value)
- * @method Mage_Poll_Model_Poll_Vote getPollAnswerId()
- * @method int setPollAnswerId(int $value)
- * @method Mage_Poll_Model_Poll_Vote getIpAddress()
- * @method int setIpAddress(int $value)
- * @method Mage_Poll_Model_Poll_Vote getCustomerId()
- * @method int setCustomerId(int $value)
- * @method Mage_Poll_Model_Poll_Vote getVoteTime()
- * @method string setVoteTime(string $value)
+ * @method int getPollId()
+ * @method Mage_Poll_Model_Poll_Vote setPollId(int $value)
+ * @method int getPollAnswerId()
+ * @method Mage_Poll_Model_Poll_Vote setPollAnswerId(int $value)
+ * @method int getIpAddress()
+ * @method Mage_Poll_Model_Poll_Vote setIpAddress(int $value)
+ * @method int getCustomerId()
+ * @method Mage_Poll_Model_Poll_Vote setCustomerId(int $value)
+ * @method string getVoteTime()
+ * @method Mage_Poll_Model_Poll_Vote setVoteTime(string $value)
  *
  * @category    Mage
  * @package     Mage_Poll

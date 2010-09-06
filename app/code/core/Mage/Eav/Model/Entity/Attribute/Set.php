@@ -30,12 +30,12 @@
  *
  * @method Mage_Eav_Model_Resource_Entity_Attribute_Set _getResource()
  * @method Mage_Eav_Model_Resource_Entity_Attribute_Set getResource()
- * @method Mage_Eav_Model_Entity_Attribute_Set getEntityTypeId()
- * @method int setEntityTypeId(int $value)
- * @method Mage_Eav_Model_Entity_Attribute_Set getAttributeSetName()
- * @method string setAttributeSetName(string $value)
- * @method Mage_Eav_Model_Entity_Attribute_Set getSortOrder()
- * @method int setSortOrder(int $value)
+ * @method int getEntityTypeId()
+ * @method Mage_Eav_Model_Entity_Attribute_Set setEntityTypeId(int $value)
+ * @method string getAttributeSetName()
+ * @method Mage_Eav_Model_Entity_Attribute_Set setAttributeSetName(string $value)
+ * @method int getSortOrder()
+ * @method Mage_Eav_Model_Entity_Attribute_Set setSortOrder(int $value)
  *
  * @category    Mage
  * @package     Mage_Eav

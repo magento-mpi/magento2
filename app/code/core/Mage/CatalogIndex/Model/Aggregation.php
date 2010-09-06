@@ -31,12 +31,12 @@
  *
  * @method Mage_CatalogIndex_Model_Resource_Aggregation _getResource()
  * @method Mage_CatalogIndex_Model_Resource_Aggregation getResource()
- * @method Mage_CatalogIndex_Model_Aggregation getStoreId()
- * @method int setStoreId(int $value)
- * @method Mage_CatalogIndex_Model_Aggregation getCreatedAt()
- * @method string setCreatedAt(string $value)
- * @method Mage_CatalogIndex_Model_Aggregation getKey()
- * @method string setKey(string $value)
+ * @method int getStoreId()
+ * @method Mage_CatalogIndex_Model_Aggregation setStoreId(int $value)
+ * @method string getCreatedAt()
+ * @method Mage_CatalogIndex_Model_Aggregation setCreatedAt(string $value)
+ * @method string getKey()
+ * @method Mage_CatalogIndex_Model_Aggregation setKey(string $value)
  *
  * @category    Mage
  * @package     Mage_CatalogIndex

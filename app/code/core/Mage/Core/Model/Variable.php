@@ -29,10 +29,10 @@
  *
  * @method Mage_Core_Model_Resource_Variable _getResource()
  * @method Mage_Core_Model_Resource_Variable getResource()
- * @method Mage_Core_Model_Variable getCode()
- * @method string setCode(string $value)
- * @method Mage_Core_Model_Variable getName()
- * @method string setName(string $value)
+ * @method string getCode()
+ * @method Mage_Core_Model_Variable setCode(string $value)
+ * @method string getName()
+ * @method Mage_Core_Model_Variable setName(string $value)
  *
  * @category    Mage
  * @package     Mage_Core

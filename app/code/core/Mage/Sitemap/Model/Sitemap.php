@@ -30,16 +30,16 @@
  *
  * @method Mage_Sitemap_Model_Resource_Sitemap _getResource()
  * @method Mage_Sitemap_Model_Resource_Sitemap getResource()
- * @method Mage_Sitemap_Model_Sitemap getSitemapType()
- * @method string setSitemapType(string $value)
- * @method Mage_Sitemap_Model_Sitemap getSitemapFilename()
- * @method string setSitemapFilename(string $value)
- * @method Mage_Sitemap_Model_Sitemap getSitemapPath()
- * @method string setSitemapPath(string $value)
- * @method Mage_Sitemap_Model_Sitemap getSitemapTime()
- * @method string setSitemapTime(string $value)
- * @method Mage_Sitemap_Model_Sitemap getStoreId()
- * @method int setStoreId(int $value)
+ * @method string getSitemapType()
+ * @method Mage_Sitemap_Model_Sitemap setSitemapType(string $value)
+ * @method string getSitemapFilename()
+ * @method Mage_Sitemap_Model_Sitemap setSitemapFilename(string $value)
+ * @method string getSitemapPath()
+ * @method Mage_Sitemap_Model_Sitemap setSitemapPath(string $value)
+ * @method string getSitemapTime()
+ * @method Mage_Sitemap_Model_Sitemap setSitemapTime(string $value)
+ * @method int getStoreId()
+ * @method Mage_Sitemap_Model_Sitemap setStoreId(int $value)
  *
  * @category    Mage
  * @package     Mage_Sitemap

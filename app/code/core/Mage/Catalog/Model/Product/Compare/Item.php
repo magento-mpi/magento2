@@ -30,12 +30,12 @@
  *
  * @method Mage_Catalog_Model_Resource_Product_Compare_Item _getResource()
  * @method Mage_Catalog_Model_Resource_Product_Compare_Item getResource()
- * @method int setVisitorId(int $value)
- * @method int setCustomerId(int $value)
- * @method Mage_Catalog_Model_Product_Compare_Item getProductId()
- * @method int setProductId(int $value)
- * @method Mage_Catalog_Model_Product_Compare_Item getStoreId()
- * @method int setStoreId(int $value)
+ * @method Mage_Catalog_Model_Product_Compare_Item setVisitorId(int $value)
+ * @method Mage_Catalog_Model_Product_Compare_Item setCustomerId(int $value)
+ * @method int getProductId()
+ * @method Mage_Catalog_Model_Product_Compare_Item setProductId(int $value)
+ * @method int getStoreId()
+ * @method Mage_Catalog_Model_Product_Compare_Item setStoreId(int $value)
  *
  * @category    Mage
  * @package     Mage_Catalog

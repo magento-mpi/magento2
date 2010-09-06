@@ -29,9 +29,9 @@
  *
  * @method Mage_Customer_Model_Resource_Group _getResource()
  * @method Mage_Customer_Model_Resource_Group getResource()
- * @method Mage_Customer_Model_Group getCustomerGroupCode()
- * @method string setCustomerGroupCode(string $value)
- * @method int setTaxClassId(int $value)
+ * @method string getCustomerGroupCode()
+ * @method Mage_Customer_Model_Group setCustomerGroupCode(string $value)
+ * @method Mage_Customer_Model_Group setTaxClassId(int $value)
  *
  * @category    Mage
  * @package     Mage_Customer

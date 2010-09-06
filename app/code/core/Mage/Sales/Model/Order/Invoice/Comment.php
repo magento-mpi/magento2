@@ -30,16 +30,16 @@
  *
  * @method Mage_Sales_Model_Resource_Order_Invoice_Comment _getResource()
  * @method Mage_Sales_Model_Resource_Order_Invoice_Comment getResource()
- * @method Mage_Sales_Model_Order_Invoice_Comment getParentId()
- * @method int setParentId(int $value)
- * @method Mage_Sales_Model_Order_Invoice_Comment getIsCustomerNotified()
- * @method int setIsCustomerNotified(int $value)
- * @method Mage_Sales_Model_Order_Invoice_Comment getIsVisibleOnFront()
- * @method int setIsVisibleOnFront(int $value)
- * @method Mage_Sales_Model_Order_Invoice_Comment getComment()
- * @method string setComment(string $value)
- * @method Mage_Sales_Model_Order_Invoice_Comment getCreatedAt()
- * @method string setCreatedAt(string $value)
+ * @method int getParentId()
+ * @method Mage_Sales_Model_Order_Invoice_Comment setParentId(int $value)
+ * @method int getIsCustomerNotified()
+ * @method Mage_Sales_Model_Order_Invoice_Comment setIsCustomerNotified(int $value)
+ * @method int getIsVisibleOnFront()
+ * @method Mage_Sales_Model_Order_Invoice_Comment setIsVisibleOnFront(int $value)
+ * @method string getComment()
+ * @method Mage_Sales_Model_Order_Invoice_Comment setComment(string $value)
+ * @method string getCreatedAt()
+ * @method Mage_Sales_Model_Order_Invoice_Comment setCreatedAt(string $value)
  *
  * @category    Mage
  * @package     Mage_Sales

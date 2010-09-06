@@ -30,14 +30,14 @@
  *
  * @method Mage_GiftMessage_Model_Resource_Message _getResource()
  * @method Mage_GiftMessage_Model_Resource_Message getResource()
- * @method Mage_GiftMessage_Model_Message getCustomerId()
- * @method int setCustomerId(int $value)
- * @method Mage_GiftMessage_Model_Message getSender()
- * @method string setSender(string $value)
- * @method Mage_GiftMessage_Model_Message getRecipient()
- * @method string setRecipient(string $value)
- * @method Mage_GiftMessage_Model_Message getMessage()
- * @method string setMessage(string $value)
+ * @method int getCustomerId()
+ * @method Mage_GiftMessage_Model_Message setCustomerId(int $value)
+ * @method string getSender()
+ * @method Mage_GiftMessage_Model_Message setSender(string $value)
+ * @method string getRecipient()
+ * @method Mage_GiftMessage_Model_Message setRecipient(string $value)
+ * @method string getMessage()
+ * @method Mage_GiftMessage_Model_Message setMessage(string $value)
  *
  * @category    Mage
  * @package     Mage_GiftMessage
