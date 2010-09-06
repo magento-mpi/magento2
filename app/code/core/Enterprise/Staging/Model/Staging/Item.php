@@ -29,12 +29,12 @@
  *
  * @method Enterprise_Staging_Model_Resource_Staging_Item _getResource()
  * @method Enterprise_Staging_Model_Resource_Staging_Item getResource()
- * @method Enterprise_Staging_Model_Staging_Item getStagingId()
- * @method int setStagingId(int $value)
- * @method Enterprise_Staging_Model_Staging_Item getCode()
- * @method string setCode(string $value)
- * @method Enterprise_Staging_Model_Staging_Item getSortOrder()
- * @method int setSortOrder(int $value)
+ * @method int getStagingId()
+ * @method Enterprise_Staging_Model_Staging_Item setStagingId(int $value)
+ * @method string getCode()
+ * @method Enterprise_Staging_Model_Staging_Item setCode(string $value)
+ * @method int getSortOrder()
+ * @method Enterprise_Staging_Model_Staging_Item setSortOrder(int $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Staging

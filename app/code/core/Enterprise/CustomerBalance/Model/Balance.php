@@ -29,13 +29,13 @@
  *
  * @method Enterprise_CustomerBalance_Model_Resource_Balance _getResource()
  * @method Enterprise_CustomerBalance_Model_Resource_Balance getResource()
- * @method Enterprise_CustomerBalance_Model_Balance getCustomerId()
- * @method int setCustomerId(int $value)
- * @method Enterprise_CustomerBalance_Model_Balance getWebsiteId()
- * @method int setWebsiteId(int $value)
- * @method float setAmount(float $value)
- * @method Enterprise_CustomerBalance_Model_Balance getBaseCurrencyCode()
- * @method string setBaseCurrencyCode(string $value)
+ * @method int getCustomerId()
+ * @method Enterprise_CustomerBalance_Model_Balance setCustomerId(int $value)
+ * @method int getWebsiteId()
+ * @method Enterprise_CustomerBalance_Model_Balance setWebsiteId(int $value)
+ * @method Enterprise_CustomerBalance_Model_Balance setAmount(float $value)
+ * @method string getBaseCurrencyCode()
+ * @method Enterprise_CustomerBalance_Model_Balance setBaseCurrencyCode(string $value)
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerBalance

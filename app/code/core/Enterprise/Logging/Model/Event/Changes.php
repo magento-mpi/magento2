@@ -29,16 +29,16 @@
  *
  * @method Enterprise_Logging_Model_Resource_Event_Changes _getResource()
  * @method Enterprise_Logging_Model_Resource_Event_Changes getResource()
- * @method Enterprise_Logging_Model_Event_Changes getSourceName()
- * @method string setSourceName(string $value)
- * @method Enterprise_Logging_Model_Event_Changes getEventId()
- * @method int setEventId(int $value)
- * @method Enterprise_Logging_Model_Event_Changes getSourceId()
- * @method int setSourceId(int $value)
- * @method Enterprise_Logging_Model_Event_Changes getOriginalData()
- * @method string setOriginalData(string $value)
- * @method Enterprise_Logging_Model_Event_Changes getResultData()
- * @method string setResultData(string $value)
+ * @method string getSourceName()
+ * @method Enterprise_Logging_Model_Event_Changes setSourceName(string $value)
+ * @method int getEventId()
+ * @method Enterprise_Logging_Model_Event_Changes setEventId(int $value)
+ * @method int getSourceId()
+ * @method Enterprise_Logging_Model_Event_Changes setSourceId(int $value)
+ * @method string getOriginalData()
+ * @method Enterprise_Logging_Model_Event_Changes setOriginalData(string $value)
+ * @method string getResultData()
+ * @method Enterprise_Logging_Model_Event_Changes setResultData(string $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Logging

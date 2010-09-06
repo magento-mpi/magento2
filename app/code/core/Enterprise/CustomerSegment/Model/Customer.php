@@ -30,16 +30,16 @@
  *
  * @method Enterprise_CustomerSegment_Model_Resource_Customer _getResource()
  * @method Enterprise_CustomerSegment_Model_Resource_Customer getResource()
- * @method Enterprise_CustomerSegment_Model_Customer getSegmentId()
- * @method int setSegmentId(int $value)
- * @method Enterprise_CustomerSegment_Model_Customer getCustomerId()
- * @method int setCustomerId(int $value)
- * @method Enterprise_CustomerSegment_Model_Customer getAddedDate()
- * @method string setAddedDate(string $value)
- * @method Enterprise_CustomerSegment_Model_Customer getUpdatedDate()
- * @method string setUpdatedDate(string $value)
- * @method Enterprise_CustomerSegment_Model_Customer getWebsiteId()
- * @method int setWebsiteId(int $value)
+ * @method int getSegmentId()
+ * @method Enterprise_CustomerSegment_Model_Customer setSegmentId(int $value)
+ * @method int getCustomerId()
+ * @method Enterprise_CustomerSegment_Model_Customer setCustomerId(int $value)
+ * @method string getAddedDate()
+ * @method Enterprise_CustomerSegment_Model_Customer setAddedDate(string $value)
+ * @method string getUpdatedDate()
+ * @method Enterprise_CustomerSegment_Model_Customer setUpdatedDate(string $value)
+ * @method int getWebsiteId()
+ * @method Enterprise_CustomerSegment_Model_Customer setWebsiteId(int $value)
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerSegment

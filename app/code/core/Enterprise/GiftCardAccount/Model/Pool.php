@@ -29,10 +29,10 @@
  *
  * @method Enterprise_GiftCardAccount_Model_Resource_Pool _getResource()
  * @method Enterprise_GiftCardAccount_Model_Resource_Pool getResource()
- * @method Enterprise_GiftCardAccount_Model_Pool getCode()
- * @method string setCode(string $value)
- * @method Enterprise_GiftCardAccount_Model_Pool getStatus()
- * @method int setStatus(int $value)
+ * @method string getCode()
+ * @method Enterprise_GiftCardAccount_Model_Pool setCode(string $value)
+ * @method int getStatus()
+ * @method Enterprise_GiftCardAccount_Model_Pool setStatus(int $value)
  *
  * @category    Enterprise
  * @package     Enterprise_GiftCardAccount

@@ -29,17 +29,17 @@
  *
  * @method Enterprise_GiftRegistry_Model_Resource_Person _getResource()
  * @method Enterprise_GiftRegistry_Model_Resource_Person getResource()
- * @method int setEntityId(int $value)
- * @method Enterprise_GiftRegistry_Model_Person getFirstname()
- * @method string setFirstname(string $value)
- * @method Enterprise_GiftRegistry_Model_Person getLastname()
- * @method string setLastname(string $value)
- * @method Enterprise_GiftRegistry_Model_Person getEmail()
- * @method string setEmail(string $value)
- * @method Enterprise_GiftRegistry_Model_Person getRole()
- * @method string setRole(string $value)
- * @method Enterprise_GiftRegistry_Model_Person getCustomValues()
- * @method string setCustomValues(string $value)
+ * @method Enterprise_GiftRegistry_Model_Person setEntityId(int $value)
+ * @method string getFirstname()
+ * @method Enterprise_GiftRegistry_Model_Person setFirstname(string $value)
+ * @method string getLastname()
+ * @method Enterprise_GiftRegistry_Model_Person setLastname(string $value)
+ * @method string getEmail()
+ * @method Enterprise_GiftRegistry_Model_Person setEmail(string $value)
+ * @method string getRole()
+ * @method Enterprise_GiftRegistry_Model_Person setRole(string $value)
+ * @method string getCustomValues()
+ * @method Enterprise_GiftRegistry_Model_Person setCustomValues(string $value)
  *
  * @category    Enterprise
  * @package     Enterprise_GiftRegistry

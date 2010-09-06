@@ -30,11 +30,11 @@
  *
  * @method Enterprise_TargetRule_Model_Resource_Index _getResource()
  * @method Enterprise_TargetRule_Model_Resource_Index getResource()
- * @method int setEntityId(int $value)
- * @method Enterprise_TargetRule_Model_Index getTypeId()
- * @method int setTypeId(int $value)
- * @method Enterprise_TargetRule_Model_Index getFlag()
- * @method int setFlag(int $value)
+ * @method Enterprise_TargetRule_Model_Index setEntityId(int $value)
+ * @method int getTypeId()
+ * @method Enterprise_TargetRule_Model_Index setTypeId(int $value)
+ * @method int getFlag()
+ * @method Enterprise_TargetRule_Model_Index setFlag(int $value)
  *
  * @category    Enterprise
  * @package     Enterprise_TargetRule

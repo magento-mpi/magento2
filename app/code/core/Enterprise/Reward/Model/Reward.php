@@ -30,12 +30,12 @@
  *
  * @method Enterprise_Reward_Model_Resource_Reward _getResource()
  * @method Enterprise_Reward_Model_Resource_Reward getResource()
- * @method Enterprise_Reward_Model_Reward getCustomerId()
- * @method int setCustomerId(int $value)
- * @method int setWebsiteId(int $value)
- * @method Enterprise_Reward_Model_Reward getPointsBalance()
- * @method int setPointsBalance(int $value)
- * @method string setWebsiteCurrencyCode(string $value)
+ * @method int getCustomerId()
+ * @method Enterprise_Reward_Model_Reward setCustomerId(int $value)
+ * @method Enterprise_Reward_Model_Reward setWebsiteId(int $value)
+ * @method int getPointsBalance()
+ * @method Enterprise_Reward_Model_Reward setPointsBalance(int $value)
+ * @method Enterprise_Reward_Model_Reward setWebsiteCurrencyCode(string $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Reward

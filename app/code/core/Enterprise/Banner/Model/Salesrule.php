@@ -30,10 +30,10 @@
  *
  * @method Enterprise_Banner_Model_Resource_Salesrule _getResource()
  * @method Enterprise_Banner_Model_Resource_Salesrule getResource()
- * @method Enterprise_Banner_Model_Salesrule getBannerId()
- * @method int setBannerId(int $value)
- * @method Enterprise_Banner_Model_Salesrule getRuleId()
- * @method int setRuleId(int $value)
+ * @method int getBannerId()
+ * @method Enterprise_Banner_Model_Salesrule setBannerId(int $value)
+ * @method int getRuleId()
+ * @method Enterprise_Banner_Model_Salesrule setRuleId(int $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Banner

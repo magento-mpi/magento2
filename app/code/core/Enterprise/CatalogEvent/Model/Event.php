@@ -30,15 +30,15 @@
  *
  * @method Enterprise_CatalogEvent_Model_Resource_Event _getResource()
  * @method Enterprise_CatalogEvent_Model_Resource_Event getResource()
- * @method Enterprise_CatalogEvent_Model_Event getCategoryId()
- * @method int setCategoryId(int $value)
- * @method Enterprise_CatalogEvent_Model_Event getDateStart()
- * @method string setDateStart(string $value)
- * @method Enterprise_CatalogEvent_Model_Event getDateEnd()
- * @method string setDateEnd(string $value)
- * @method Enterprise_CatalogEvent_Model_Event getDisplayState()
- * @method Enterprise_CatalogEvent_Model_Event getSortOrder()
- * @method int setSortOrder(int $value)
+ * @method int getCategoryId()
+ * @method Enterprise_CatalogEvent_Model_Event setCategoryId(int $value)
+ * @method string getDateStart()
+ * @method Enterprise_CatalogEvent_Model_Event setDateStart(string $value)
+ * @method string getDateEnd()
+ * @method Enterprise_CatalogEvent_Model_Event setDateEnd(string $value)
+ * @method int getDisplayState()
+ * @method int getSortOrder()
+ * @method Enterprise_CatalogEvent_Model_Event setSortOrder(int $value)
  *
  * @category    Enterprise
  * @package     Enterprise_CatalogEvent

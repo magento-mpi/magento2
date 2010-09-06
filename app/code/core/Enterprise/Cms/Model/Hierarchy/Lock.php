@@ -30,14 +30,14 @@
  *
  * @method Enterprise_Cms_Model_Resource_Hierarchy_Lock _getResource()
  * @method Enterprise_Cms_Model_Resource_Hierarchy_Lock getResource()
- * @method Enterprise_Cms_Model_Hierarchy_Lock getUserId()
- * @method int setUserId(int $value)
- * @method Enterprise_Cms_Model_Hierarchy_Lock getUserName()
- * @method string setUserName(string $value)
- * @method Enterprise_Cms_Model_Hierarchy_Lock getSessionId()
- * @method string setSessionId(string $value)
- * @method Enterprise_Cms_Model_Hierarchy_Lock getStartedAt()
- * @method int setStartedAt(int $value)
+ * @method int getUserId()
+ * @method Enterprise_Cms_Model_Hierarchy_Lock setUserId(int $value)
+ * @method string getUserName()
+ * @method Enterprise_Cms_Model_Hierarchy_Lock setUserName(string $value)
+ * @method string getSessionId()
+ * @method Enterprise_Cms_Model_Hierarchy_Lock setSessionId(string $value)
+ * @method int getStartedAt()
+ * @method Enterprise_Cms_Model_Hierarchy_Lock setStartedAt(int $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Cms

@@ -42,14 +42,14 @@
  *
  * @method Enterprise_Cms_Model_Resource_Increment _getResource()
  * @method Enterprise_Cms_Model_Resource_Increment getResource()
- * @method Enterprise_Cms_Model_Increment getType()
- * @method int setType(int $value)
- * @method Enterprise_Cms_Model_Increment getNode()
- * @method int setNode(int $value)
- * @method Enterprise_Cms_Model_Increment getLevel()
- * @method int setLevel(int $value)
- * @method Enterprise_Cms_Model_Increment getLastId()
- * @method int setLastId(int $value)
+ * @method int getType()
+ * @method Enterprise_Cms_Model_Increment setType(int $value)
+ * @method int getNode()
+ * @method Enterprise_Cms_Model_Increment setNode(int $value)
+ * @method int getLevel()
+ * @method Enterprise_Cms_Model_Increment setLevel(int $value)
+ * @method int getLastId()
+ * @method Enterprise_Cms_Model_Increment setLastId(int $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Cms

@@ -29,12 +29,12 @@
  *
  * @method Enterprise_Invitation_Model_Resource_Invitation_History _getResource()
  * @method Enterprise_Invitation_Model_Resource_Invitation_History getResource()
- * @method Enterprise_Invitation_Model_Invitation_History getInvitationId()
- * @method int setInvitationId(int $value)
- * @method Enterprise_Invitation_Model_Invitation_History getDate()
- * @method string setDate(string $value)
- * @method Enterprise_Invitation_Model_Invitation_History getStatus()
- * @method string setStatus(string $value)
+ * @method int getInvitationId()
+ * @method Enterprise_Invitation_Model_Invitation_History setInvitationId(int $value)
+ * @method string getDate()
+ * @method Enterprise_Invitation_Model_Invitation_History setDate(string $value)
+ * @method string getStatus()
+ * @method Enterprise_Invitation_Model_Invitation_History setStatus(string $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Invitation

@@ -29,10 +29,10 @@
  *
  * @method Enterprise_GiftRegistry_Model_Resource_Type _getResource()
  * @method Enterprise_GiftRegistry_Model_Resource_Type getResource()
- * @method Enterprise_GiftRegistry_Model_Type getCode()
- * @method string setCode(string $value)
- * @method Enterprise_GiftRegistry_Model_Type getMetaXml()
- * @method string setMetaXml(string $value)
+ * @method string getCode()
+ * @method Enterprise_GiftRegistry_Model_Type setCode(string $value)
+ * @method string getMetaXml()
+ * @method Enterprise_GiftRegistry_Model_Type setMetaXml(string $value)
  *
  * @category    Enterprise
  * @package     Enterprise_GiftRegistry

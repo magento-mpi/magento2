@@ -29,11 +29,11 @@
  *
  * @method Enterprise_Banner_Model_Resource_Banner _getResource()
  * @method Enterprise_Banner_Model_Resource_Banner getResource()
- * @method Enterprise_Banner_Model_Banner getName()
- * @method string setName(string $value)
- * @method Enterprise_Banner_Model_Banner getIsEnabled()
- * @method int setIsEnabled(int $value)
- * @method string setTypes(string $value)
+ * @method string getName()
+ * @method Enterprise_Banner_Model_Banner setName(string $value)
+ * @method int getIsEnabled()
+ * @method Enterprise_Banner_Model_Banner setIsEnabled(int $value)
+ * @method Enterprise_Banner_Model_Banner setTypes(string $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Banner

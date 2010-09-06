@@ -30,14 +30,14 @@
  *
  * @method Enterprise_Reward_Model_Resource_Reward_Rate _getResource()
  * @method Enterprise_Reward_Model_Resource_Reward_Rate getResource()
- * @method Enterprise_Reward_Model_Reward_Rate getWebsiteId()
- * @method int setWebsiteId(int $value)
- * @method Enterprise_Reward_Model_Reward_Rate getCustomerGroupId()
- * @method int setCustomerGroupId(int $value)
- * @method Enterprise_Reward_Model_Reward_Rate getDirection()
- * @method int setDirection(int $value)
- * @method int setPoints(int $value)
- * @method float setCurrencyAmount(float $value)
+ * @method int getWebsiteId()
+ * @method Enterprise_Reward_Model_Reward_Rate setWebsiteId(int $value)
+ * @method int getCustomerGroupId()
+ * @method Enterprise_Reward_Model_Reward_Rate setCustomerGroupId(int $value)
+ * @method int getDirection()
+ * @method Enterprise_Reward_Model_Reward_Rate setDirection(int $value)
+ * @method Enterprise_Reward_Model_Reward_Rate setPoints(int $value)
+ * @method Enterprise_Reward_Model_Reward_Rate setCurrencyAmount(float $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Reward

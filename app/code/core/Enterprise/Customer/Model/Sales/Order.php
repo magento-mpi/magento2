@@ -29,7 +29,7 @@
  *
  * @method Enterprise_Customer_Model_Resource_Sales_Order _getResource()
  * @method Enterprise_Customer_Model_Resource_Sales_Order getResource()
- * @method int setEntityId(int $value)
+ * @method Enterprise_Customer_Model_Sales_Order setEntityId(int $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
