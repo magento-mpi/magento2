@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pages>
     <catalog>
+        <attributes>
+            <manageAttributeSetsPage>
+                <buttons>
+                    <addSet>//button[span="Add New Set"]</addSet>
+                    <search>//button[span="Search"]</search>
+                    <resetSearch>//button[span="Reset Filter"]</resetSearch>
+                </buttons>
+                <input>
+                    <searchByName>filter_set_name</searchByName>
+                </input>
+                <messages>
+                    <setDeleted>//li[@class='success-msg']//*[contains(text(),'The attribute set has been removed.')]</setDeleted>
+                </messages>
+                <openSet>//td[contains(text(),'%s')]</openSet>
+            </manageAttributeSetsPage>
+            <createAttributeSetPage>
+                <buttons>
+                    <saveSet>//button[span="Save Attribute Set"]</saveSet>
+                </buttons>
+                <input>
+                    <nameForSet>attribute_set_name</nameForSet>
+                    <basedOn>skeleton_set</basedOn>
+                </input>
+                <messages>
+                    <setSaved>//li[@class='success-msg']//*[contains(text(),'The attribute set has been saved.')]</setSaved>
+                    <setNotSaved>//li[@class="error-msg"]</setNotSaved>
+                </messages>
+            </createAttributeSetPage>
+            <editAtrributeSetPage>
+                <buttons>
+                    <deleteSet>//button[span="Delete Attribute Set"]</deleteSet>
+                </buttons>
+            </editAtrributeSetPage>
+        </attributes>
         <categories>
             <managecategories>
                 <locators>
@@ -69,11 +103,11 @@
     <system>
         <permissions>
             <users>
-                <manage_users>
+                <manageusers>
                     <buttons>
-                        <add_new_user>//button[span="Add New User"]</add_new_user>
+                        <addnewuser>//button[span="Add New User"]</addnewuser>
                     </buttons>
-                </manage_users>
+                </manageusers>
                 <user>
                     <inputs>
                         <username>user_username</username>
@@ -84,8 +118,11 @@
                         <confirmation>user_confirmation</confirmation>
                     </inputs>
                     <buttons>
-                        <save>//button[span="Save User"]</save>
+                        <saveuser>//button[span="Save User"]</saveuser>
                     </buttons>
+                    <messages>
+                        <usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
+                    </messages>
                 </user>
             </users>
         </permissions>
