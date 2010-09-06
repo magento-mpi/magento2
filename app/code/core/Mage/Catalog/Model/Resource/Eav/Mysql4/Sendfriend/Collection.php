@@ -33,6 +33,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Sendfriend_Collection
-    extends Mage_Catalog_Model_Resource_Sendfriend_Collection
+    extends Mage_Sendfriend_Model_Resource_Sendfriend_Collection
 {
 }
