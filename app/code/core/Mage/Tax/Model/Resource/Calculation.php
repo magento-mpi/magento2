@@ -207,6 +207,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
 
     /**
      * Returns tax rates for request - either pereforms SELECT from DB, or returns already cached result
+     * Notice that productClassId due to optimization can be array of ids
      *
      * @param Varien_Object $request
      * @return array
@@ -216,12 +217,22 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
         // Extract params that influence our SELECT statement and use them to create cache key
         $storeId = Mage::app()->getStore($request->getStore())->getId();
         $customerClassId = $request->getCustomerClassId();
-        $productClassId = (int) $request->getProductClassId(); // Can be undefined sometimes, so make it zero for equal cache keys
         $countryId = $request->getCountryId();
         $regionId = $request->getRegionId();
         $postcode = $request->getPostcode();
 
-        $cacheKey = implode('|', array($storeId, $customerClassId, $productClassId, $countryId, $regionId, $postcode));
+        // Process productClassId as it can be array or usual value. Form best key for cache.
+        $productClassId = $request->getProductClassId();
+        $ids = is_array($productClassId) ? $productClassId : array($productClassId);
+        foreach ($ids as $key => $val) {
+            $ids[$key] = (int) $val; // Make it integer for equal cache keys even in case of null/false/0 values
+        }
+        $ids = array_unique($ids);
+        sort($ids);
+        $productClassKey = implode(',', $ids);
+
+        // Form cache key and either get data from cache or from DB
+        $cacheKey = implode('|', array($storeId, $customerClassId, $productClassKey, $countryId, $regionId, $postcode));
 
         if (!isset($this->_ratesCache[$cacheKey])) {
             // Make SELECT and get data
