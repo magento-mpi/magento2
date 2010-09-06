@@ -3416,11 +3416,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 . "        FROM deleted                                     \n";
             }
             $triggerBody = $triggerBody . "  /*place core here*/            \n"
-                . "        DELETE FROM {$tableName} WHERE                   \n";
+                . "        DELETE t FROM {$tableName} t INNER JOIN deleted ON                   \n";
 
             $pKeysCond = array();
             foreach ($this->_getPrimaryKeyColumns($tableName) as $column) {
-                $pKeysCond[] = sprintf('%s = @old_%s', $column, $column);
+                $pKeysCond[] = sprintf('t.%s = deleted.%s', $column, $column);
             }
             $triggerBody = $triggerBody . join(' AND ', $pKeysCond);
             $triggerBody = $triggerBody .
