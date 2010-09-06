@@ -24,6 +24,34 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Enterprise_PageCache_Model_Resource_Crawler _getResource()
+ * @method Enterprise_PageCache_Model_Resource_Crawler getResource()
+ * @method Enterprise_PageCache_Model_Crawler getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Enterprise_PageCache_Model_Crawler getCategoryId()
+ * @method int setCategoryId(int $value)
+ * @method Enterprise_PageCache_Model_Crawler getProductId()
+ * @method int setProductId(int $value)
+ * @method Enterprise_PageCache_Model_Crawler getIdPath()
+ * @method string setIdPath(string $value)
+ * @method Enterprise_PageCache_Model_Crawler getRequestPath()
+ * @method string setRequestPath(string $value)
+ * @method Enterprise_PageCache_Model_Crawler getTargetPath()
+ * @method string setTargetPath(string $value)
+ * @method Enterprise_PageCache_Model_Crawler getIsSystem()
+ * @method int setIsSystem(int $value)
+ * @method Enterprise_PageCache_Model_Crawler getOptions()
+ * @method string setOptions(string $value)
+ * @method Enterprise_PageCache_Model_Crawler getDescription()
+ * @method string setDescription(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_PageCache
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
 {
     const XML_PATH_CRAWLER_ENABLED     = 'system/page_crawl/enable';

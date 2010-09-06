@@ -28,8 +28,17 @@
 /**
  * TargetRule Product Index by Rule Product List Type Model
  *
- * @category   Enterprise
- * @package    Enterprise_TargetRule
+ * @method Enterprise_TargetRule_Model_Resource_Index _getResource()
+ * @method Enterprise_TargetRule_Model_Resource_Index getResource()
+ * @method int setEntityId(int $value)
+ * @method Enterprise_TargetRule_Model_Index getTypeId()
+ * @method int setTypeId(int $value)
+ * @method Enterprise_TargetRule_Model_Index getFlag()
+ * @method int setFlag(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_TargetRule
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
 {

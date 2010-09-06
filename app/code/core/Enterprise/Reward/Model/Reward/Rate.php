@@ -28,6 +28,17 @@
 /**
  * Reward rate model
  *
+ * @method Enterprise_Reward_Model_Resource_Reward_Rate _getResource()
+ * @method Enterprise_Reward_Model_Resource_Reward_Rate getResource()
+ * @method Enterprise_Reward_Model_Reward_Rate getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Enterprise_Reward_Model_Reward_Rate getCustomerGroupId()
+ * @method int setCustomerGroupId(int $value)
+ * @method Enterprise_Reward_Model_Reward_Rate getDirection()
+ * @method int setDirection(int $value)
+ * @method int setPoints(int $value)
+ * @method float setCurrencyAmount(float $value)
+ *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>

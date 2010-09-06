@@ -27,8 +27,18 @@
 /**
  * Invitation status history model
  *
- * @category   Enterprise
- * @package    Enterprise_Invitation
+ * @method Enterprise_Invitation_Model_Resource_Invitation_History _getResource()
+ * @method Enterprise_Invitation_Model_Resource_Invitation_History getResource()
+ * @method Enterprise_Invitation_Model_Invitation_History getInvitationId()
+ * @method int setInvitationId(int $value)
+ * @method Enterprise_Invitation_Model_Invitation_History getDate()
+ * @method string setDate(string $value)
+ * @method Enterprise_Invitation_Model_Invitation_History getStatus()
+ * @method string setStatus(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Invitation
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Invitation_Model_Invitation_History extends Mage_Core_Model_Abstract
 {

@@ -28,6 +28,15 @@
 /**
  * Reward model
  *
+ * @method Enterprise_Reward_Model_Resource_Reward _getResource()
+ * @method Enterprise_Reward_Model_Resource_Reward getResource()
+ * @method Enterprise_Reward_Model_Reward getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method int setWebsiteId(int $value)
+ * @method Enterprise_Reward_Model_Reward getPointsBalance()
+ * @method int setPointsBalance(int $value)
+ * @method string setWebsiteCurrencyCode(string $value)
+ *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>

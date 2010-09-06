@@ -26,6 +26,17 @@
 
 /**
  * Gift registry types processing model
+ *
+ * @method Enterprise_GiftRegistry_Model_Resource_Type _getResource()
+ * @method Enterprise_GiftRegistry_Model_Resource_Type getResource()
+ * @method Enterprise_GiftRegistry_Model_Type getCode()
+ * @method string setCode(string $value)
+ * @method Enterprise_GiftRegistry_Model_Type getMetaXml()
+ * @method string setMetaXml(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftRegistry
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
 {

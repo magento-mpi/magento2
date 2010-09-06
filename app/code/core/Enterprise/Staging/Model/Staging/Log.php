@@ -25,6 +25,46 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Enterprise_Staging_Model_Resource_Staging_Log _getResource()
+ * @method Enterprise_Staging_Model_Resource_Staging_Log getResource()
+ * @method Enterprise_Staging_Model_Staging_Log getStagingId()
+ * @method int setStagingId(int $value)
+ * @method Enterprise_Staging_Model_Staging_Log getIp()
+ * @method int setIp(int $value)
+ * @method Enterprise_Staging_Model_Staging_Log getAction()
+ * @method string setAction(string $value)
+ * @method Enterprise_Staging_Model_Staging_Log getStatus()
+ * @method string setStatus(string $value)
+ * @method Enterprise_Staging_Model_Staging_Log getIsBackuped()
+ * @method int setIsBackuped(int $value)
+ * @method Enterprise_Staging_Model_Staging_Log getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Enterprise_Staging_Model_Staging_Log getUserId()
+ * @method int setUserId(int $value)
+ * @method Enterprise_Staging_Model_Staging_Log getUsername()
+ * @method string setUsername(string $value)
+ * @method Enterprise_Staging_Model_Staging_Log getIsAdminNotified()
+ * @method int setIsAdminNotified(int $value)
+ * @method Enterprise_Staging_Model_Staging_Log getAdditionalData()
+ * @method string setAdditionalData(string $value)
+ * @method Enterprise_Staging_Model_Staging_Log getMap()
+ * @method string setMap(string $value)
+ * @method Enterprise_Staging_Model_Staging_Log getStagingWebsiteId()
+ * @method int setStagingWebsiteId(int $value)
+ * @method Enterprise_Staging_Model_Staging_Log getStagingWebsiteName()
+ * @method string setStagingWebsiteName(string $value)
+ * @method Enterprise_Staging_Model_Staging_Log getMasterWebsiteId()
+ * @method int setMasterWebsiteId(int $value)
+ * @method Enterprise_Staging_Model_Staging_Log getMasterWebsiteName()
+ * @method string setMasterWebsiteName(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Staging
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
 {
     /**

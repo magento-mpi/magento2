@@ -24,6 +24,38 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
+/**
+ * TargetRule Rule Model
+ *
+ * @method Enterprise_TargetRule_Model_Resource_Rule _getResource()
+ * @method Enterprise_TargetRule_Model_Resource_Rule getResource()
+ * @method Enterprise_TargetRule_Model_Rule getName()
+ * @method string setName(string $value)
+ * @method Enterprise_TargetRule_Model_Rule getFromDate()
+ * @method string setFromDate(string $value)
+ * @method Enterprise_TargetRule_Model_Rule getToDate()
+ * @method string setToDate(string $value)
+ * @method Enterprise_TargetRule_Model_Rule getIsActive()
+ * @method int setIsActive(int $value)
+ * @method Enterprise_TargetRule_Model_Rule getConditionsSerialized()
+ * @method string setConditionsSerialized(string $value)
+ * @method Enterprise_TargetRule_Model_Rule getActionsSerialized()
+ * @method string setActionsSerialized(string $value)
+ * @method int setPositionsLimit(int $value)
+ * @method Enterprise_TargetRule_Model_Rule getApplyTo()
+ * @method int setApplyTo(int $value)
+ * @method Enterprise_TargetRule_Model_Rule getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method Enterprise_TargetRule_Model_Rule getUseCustomerSegment()
+ * @method int setUseCustomerSegment(int $value)
+ * @method Enterprise_TargetRule_Model_Rule getActionSelect()
+ * @method string setActionSelect(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_TargetRule
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
 {
     const BOTH_SELECTED_AND_RULE_BASED  = 0;

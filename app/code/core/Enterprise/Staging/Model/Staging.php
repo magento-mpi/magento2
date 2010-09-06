@@ -28,6 +28,29 @@
 /**
  * Staging model
  *
+ * @method Enterprise_Staging_Model_Resource_Staging _getResource()
+ * @method Enterprise_Staging_Model_Resource_Staging getResource()
+ * @method Enterprise_Staging_Model_Staging getType()
+ * @method string setType(string $value)
+ * @method Enterprise_Staging_Model_Staging getMasterWebsiteId()
+ * @method int setMasterWebsiteId(int $value)
+ * @method Enterprise_Staging_Model_Staging getStagingWebsiteId()
+ * @method int setStagingWebsiteId(int $value)
+ * @method Enterprise_Staging_Model_Staging getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Enterprise_Staging_Model_Staging getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Enterprise_Staging_Model_Staging getStatus()
+ * @method string setStatus(string $value)
+ * @method Enterprise_Staging_Model_Staging getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method Enterprise_Staging_Model_Staging getMergeSchedulingDate()
+ * @method string setMergeSchedulingDate(string $value)
+ * @method Enterprise_Staging_Model_Staging getMergeSchedulingMap()
+ * @method string setMergeSchedulingMap(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Staging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract

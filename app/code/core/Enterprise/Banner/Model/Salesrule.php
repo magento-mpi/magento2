@@ -25,6 +25,20 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Enterprise_Banner_Model_Resource_Salesrule _getResource()
+ * @method Enterprise_Banner_Model_Resource_Salesrule getResource()
+ * @method Enterprise_Banner_Model_Salesrule getBannerId()
+ * @method int setBannerId(int $value)
+ * @method Enterprise_Banner_Model_Salesrule getRuleId()
+ * @method int setRuleId(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Banner
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_Banner_Model_Salesrule extends Mage_Core_Model_Abstract
 {
     /**

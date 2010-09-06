@@ -26,6 +26,26 @@
 
 /**
  * Entity items data model
+ *
+ * @method Enterprise_GiftRegistry_Model_Resource_Item _getResource()
+ * @method Enterprise_GiftRegistry_Model_Resource_Item getResource()
+ * @method int setEntityId(int $value)
+ * @method Enterprise_GiftRegistry_Model_Item getProductId()
+ * @method int setProductId(int $value)
+ * @method Enterprise_GiftRegistry_Model_Item getQty()
+ * @method float setQty(float $value)
+ * @method Enterprise_GiftRegistry_Model_Item getQtyFulfilled()
+ * @method float setQtyFulfilled(float $value)
+ * @method Enterprise_GiftRegistry_Model_Item getNote()
+ * @method string setNote(string $value)
+ * @method Enterprise_GiftRegistry_Model_Item getAddedAt()
+ * @method string setAddedAt(string $value)
+ * @method Enterprise_GiftRegistry_Model_Item getCustomOptions()
+ * @method string setCustomOptions(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftRegistry
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
 {

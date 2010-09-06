@@ -27,8 +27,24 @@
 /**
  * Permission model
  *
- * @category   Enterprise
- * @package    Enterprise_CatalogPermissions
+ * @method Enterprise_CatalogPermissions_Model_Resource_Permission _getResource()
+ * @method Enterprise_CatalogPermissions_Model_Resource_Permission getResource()
+ * @method Enterprise_CatalogPermissions_Model_Permission getCategoryId()
+ * @method int setCategoryId(int $value)
+ * @method Enterprise_CatalogPermissions_Model_Permission getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Enterprise_CatalogPermissions_Model_Permission getCustomerGroupId()
+ * @method int setCustomerGroupId(int $value)
+ * @method Enterprise_CatalogPermissions_Model_Permission getGrantCatalogCategoryView()
+ * @method int setGrantCatalogCategoryView(int $value)
+ * @method Enterprise_CatalogPermissions_Model_Permission getGrantCatalogProductPrice()
+ * @method int setGrantCatalogProductPrice(int $value)
+ * @method Enterprise_CatalogPermissions_Model_Permission getGrantCheckoutItems()
+ * @method int setGrantCheckoutItems(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_CatalogPermissions
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CatalogPermissions_Model_Permission extends Mage_Core_Model_Abstract
 {

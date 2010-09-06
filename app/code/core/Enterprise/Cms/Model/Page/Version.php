@@ -28,6 +28,23 @@
 /**
  * Cms page version model
  *
+ * @method Enterprise_Cms_Model_Resource_Page_Version _getResource()
+ * @method Enterprise_Cms_Model_Resource_Page_Version getResource()
+ * @method Enterprise_Cms_Model_Page_Version getLabel()
+ * @method string setLabel(string $value)
+ * @method Enterprise_Cms_Model_Page_Version getAccessLevel()
+ * @method string setAccessLevel(string $value)
+ * @method Enterprise_Cms_Model_Page_Version getPageId()
+ * @method int setPageId(int $value)
+ * @method Enterprise_Cms_Model_Page_Version getUserId()
+ * @method int setUserId(int $value)
+ * @method Enterprise_Cms_Model_Page_Version getRevisionsCount()
+ * @method int setRevisionsCount(int $value)
+ * @method Enterprise_Cms_Model_Page_Version getVersionNumber()
+ * @method int setVersionNumber(int $value)
+ * @method Enterprise_Cms_Model_Page_Version getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>

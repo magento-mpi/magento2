@@ -26,6 +26,34 @@
 
 /**
  * Entity data model
+ *
+ * @method Enterprise_GiftRegistry_Model_Resource_Entity _getResource()
+ * @method Enterprise_GiftRegistry_Model_Resource_Entity getResource()
+ * @method int setTypeId(int $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getIsPublic()
+ * @method int setIsPublic(int $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getUrlKey()
+ * @method string setUrlKey(string $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getTitle()
+ * @method string setTitle(string $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getMessage()
+ * @method string setMessage(string $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getShippingAddress()
+ * @method string setShippingAddress(string $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getCustomValues()
+ * @method string setCustomValues(string $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getIsActive()
+ * @method int setIsActive(int $value)
+ * @method Enterprise_GiftRegistry_Model_Entity getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftRegistry
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
 {

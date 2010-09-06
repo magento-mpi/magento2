@@ -26,6 +26,24 @@
 
 /**
  * Entity registrants data model
+ *
+ * @method Enterprise_GiftRegistry_Model_Resource_Person _getResource()
+ * @method Enterprise_GiftRegistry_Model_Resource_Person getResource()
+ * @method int setEntityId(int $value)
+ * @method Enterprise_GiftRegistry_Model_Person getFirstname()
+ * @method string setFirstname(string $value)
+ * @method Enterprise_GiftRegistry_Model_Person getLastname()
+ * @method string setLastname(string $value)
+ * @method Enterprise_GiftRegistry_Model_Person getEmail()
+ * @method string setEmail(string $value)
+ * @method Enterprise_GiftRegistry_Model_Person getRole()
+ * @method string setRole(string $value)
+ * @method Enterprise_GiftRegistry_Model_Person getCustomValues()
+ * @method string setCustomValues(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftRegistry
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftRegistry_Model_Person extends Mage_Core_Model_Abstract
 {

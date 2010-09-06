@@ -28,6 +28,41 @@
 /**
  * Cms page revision model
  *
+ * @method Enterprise_Cms_Model_Resource_Page_Revision _getResource()
+ * @method Enterprise_Cms_Model_Resource_Page_Revision getResource()
+ * @method Enterprise_Cms_Model_Page_Revision getVersionId()
+ * @method int setVersionId(int $value)
+ * @method Enterprise_Cms_Model_Page_Revision getPageId()
+ * @method int setPageId(int $value)
+ * @method Enterprise_Cms_Model_Page_Revision getRootTemplate()
+ * @method string setRootTemplate(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getMetaKeywords()
+ * @method string setMetaKeywords(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getMetaDescription()
+ * @method string setMetaDescription(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getContentHeading()
+ * @method string setContentHeading(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getContent()
+ * @method string setContent(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getLayoutUpdateXml()
+ * @method string setLayoutUpdateXml(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getCustomTheme()
+ * @method string setCustomTheme(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getCustomRootTemplate()
+ * @method string setCustomRootTemplate(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getCustomLayoutUpdateXml()
+ * @method string setCustomLayoutUpdateXml(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getCustomThemeFrom()
+ * @method string setCustomThemeFrom(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getCustomThemeTo()
+ * @method string setCustomThemeTo(string $value)
+ * @method Enterprise_Cms_Model_Page_Revision getUserId()
+ * @method int setUserId(int $value)
+ * @method Enterprise_Cms_Model_Page_Revision getRevisionNumber()
+ * @method int setRevisionNumber(int $value)
+ *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>

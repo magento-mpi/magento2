@@ -28,8 +28,21 @@
 /**
  * Catalog Event model
  *
- * @category   Enterprise
- * @package    Enterprise_CatalogEvent
+ * @method Enterprise_CatalogEvent_Model_Resource_Event _getResource()
+ * @method Enterprise_CatalogEvent_Model_Resource_Event getResource()
+ * @method Enterprise_CatalogEvent_Model_Event getCategoryId()
+ * @method int setCategoryId(int $value)
+ * @method Enterprise_CatalogEvent_Model_Event getDateStart()
+ * @method string setDateStart(string $value)
+ * @method Enterprise_CatalogEvent_Model_Event getDateEnd()
+ * @method string setDateEnd(string $value)
+ * @method Enterprise_CatalogEvent_Model_Event getDisplayState()
+ * @method Enterprise_CatalogEvent_Model_Event getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_CatalogEvent
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
 {

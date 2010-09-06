@@ -26,6 +26,23 @@
 
 /**
  * Logging event changes model
+ *
+ * @method Enterprise_Logging_Model_Resource_Event_Changes _getResource()
+ * @method Enterprise_Logging_Model_Resource_Event_Changes getResource()
+ * @method Enterprise_Logging_Model_Event_Changes getSourceName()
+ * @method string setSourceName(string $value)
+ * @method Enterprise_Logging_Model_Event_Changes getEventId()
+ * @method int setEventId(int $value)
+ * @method Enterprise_Logging_Model_Event_Changes getSourceId()
+ * @method int setSourceId(int $value)
+ * @method Enterprise_Logging_Model_Event_Changes getOriginalData()
+ * @method string setOriginalData(string $value)
+ * @method Enterprise_Logging_Model_Event_Changes getResultData()
+ * @method string setResultData(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Logging
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Logging_Model_Event_Changes extends Mage_Core_Model_Abstract
 {

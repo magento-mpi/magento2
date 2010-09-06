@@ -23,6 +23,28 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+/**
+ * Enter description here ...
+ *
+ * @method Enterprise_CustomerSegment_Model_Resource_Segment _getResource()
+ * @method Enterprise_CustomerSegment_Model_Resource_Segment getResource()
+ * @method Enterprise_CustomerSegment_Model_Segment getName()
+ * @method string setName(string $value)
+ * @method Enterprise_CustomerSegment_Model_Segment getDescription()
+ * @method string setDescription(string $value)
+ * @method Enterprise_CustomerSegment_Model_Segment getIsActive()
+ * @method int setIsActive(int $value)
+ * @method Enterprise_CustomerSegment_Model_Segment getConditionsSerialized()
+ * @method string setConditionsSerialized(string $value)
+ * @method Enterprise_CustomerSegment_Model_Segment getProcessingFrequency()
+ * @method int setProcessingFrequency(int $value)
+ * @method Enterprise_CustomerSegment_Model_Segment getConditionSql()
+ * @method string setConditionSql(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_CustomerSegment
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
 {
 

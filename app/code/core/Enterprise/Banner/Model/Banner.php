@@ -24,6 +24,21 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Enterprise_Banner_Model_Resource_Banner _getResource()
+ * @method Enterprise_Banner_Model_Resource_Banner getResource()
+ * @method Enterprise_Banner_Model_Banner getName()
+ * @method string setName(string $value)
+ * @method Enterprise_Banner_Model_Banner getIsEnabled()
+ * @method int setIsEnabled(int $value)
+ * @method string setTypes(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Banner
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
 {
     /**

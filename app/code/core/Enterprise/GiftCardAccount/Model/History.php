@@ -25,6 +25,28 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Enterprise_GiftCardAccount_Model_Resource_History _getResource()
+ * @method Enterprise_GiftCardAccount_Model_Resource_History getResource()
+ * @method Enterprise_GiftCardAccount_Model_History getGiftcardaccountId()
+ * @method int setGiftcardaccountId(int $value)
+ * @method Enterprise_GiftCardAccount_Model_History getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Enterprise_GiftCardAccount_Model_History getAction()
+ * @method int setAction(int $value)
+ * @method Enterprise_GiftCardAccount_Model_History getBalanceAmount()
+ * @method float setBalanceAmount(float $value)
+ * @method Enterprise_GiftCardAccount_Model_History getBalanceDelta()
+ * @method float setBalanceDelta(float $value)
+ * @method Enterprise_GiftCardAccount_Model_History getAdditionalInfo()
+ * @method string setAdditionalInfo(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftCardAccount
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
 {
     const ACTION_CREATED  = 0;

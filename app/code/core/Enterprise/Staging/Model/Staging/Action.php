@@ -25,6 +25,40 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Enterprise_Staging_Model_Resource_Staging_Action _getResource()
+ * @method Enterprise_Staging_Model_Resource_Staging_Action getResource()
+ * @method Enterprise_Staging_Model_Staging_Action getStagingId()
+ * @method int setStagingId(int $value)
+ * @method Enterprise_Staging_Model_Staging_Action getType()
+ * @method string setType(string $value)
+ * @method Enterprise_Staging_Model_Staging_Action getName()
+ * @method string setName(string $value)
+ * @method Enterprise_Staging_Model_Staging_Action getStatus()
+ * @method string setStatus(string $value)
+ * @method Enterprise_Staging_Model_Staging_Action getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Enterprise_Staging_Model_Staging_Action getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Enterprise_Staging_Model_Staging_Action getStagingTablePrefix()
+ * @method string setStagingTablePrefix(string $value)
+ * @method Enterprise_Staging_Model_Staging_Action getMap()
+ * @method string setMap(string $value)
+ * @method Enterprise_Staging_Model_Staging_Action getMageVersion()
+ * @method string setMageVersion(string $value)
+ * @method Enterprise_Staging_Model_Staging_Action getMageModulesVersion()
+ * @method string setMageModulesVersion(string $value)
+ * @method Enterprise_Staging_Model_Staging_Action getStagingWebsiteId()
+ * @method int setStagingWebsiteId(int $value)
+ * @method Enterprise_Staging_Model_Staging_Action getMasterWebsiteId()
+ * @method int setMasterWebsiteId(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Staging
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
 {
     /**

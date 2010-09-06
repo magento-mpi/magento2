@@ -27,8 +27,31 @@
 /**
  * Invitation data model
  *
- * @category   Enterprise
- * @package    Enterprise_Invitation
+ * @method Enterprise_Invitation_Model_Resource_Invitation _getResource()
+ * @method Enterprise_Invitation_Model_Resource_Invitation getResource()
+ * @method Enterprise_Invitation_Model_Invitation getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Enterprise_Invitation_Model_Invitation getDate()
+ * @method string setDate(string $value)
+ * @method Enterprise_Invitation_Model_Invitation getEmail()
+ * @method string setEmail(string $value)
+ * @method Enterprise_Invitation_Model_Invitation getReferralId()
+ * @method int setReferralId(int $value)
+ * @method Enterprise_Invitation_Model_Invitation getProtectionCode()
+ * @method string setProtectionCode(string $value)
+ * @method Enterprise_Invitation_Model_Invitation getSignupDate()
+ * @method string setSignupDate(string $value)
+ * @method int setStoreId(int $value)
+ * @method Enterprise_Invitation_Model_Invitation getGroupId()
+ * @method int setGroupId(int $value)
+ * @method Enterprise_Invitation_Model_Invitation getMessage()
+ * @method string setMessage(string $value)
+ * @method Enterprise_Invitation_Model_Invitation getStatus()
+ * @method string setStatus(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Invitation
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
 {

@@ -24,6 +24,32 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount _getResource()
+ * @method Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount getResource()
+ * @method Enterprise_GiftCardAccount_Model_Giftcardaccount getCode()
+ * @method string setCode(string $value)
+ * @method Enterprise_GiftCardAccount_Model_Giftcardaccount getStatus()
+ * @method int setStatus(int $value)
+ * @method Enterprise_GiftCardAccount_Model_Giftcardaccount getDateCreated()
+ * @method string setDateCreated(string $value)
+ * @method Enterprise_GiftCardAccount_Model_Giftcardaccount getDateExpires()
+ * @method string setDateExpires(string $value)
+ * @method Enterprise_GiftCardAccount_Model_Giftcardaccount getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Enterprise_GiftCardAccount_Model_Giftcardaccount getBalance()
+ * @method float setBalance(float $value)
+ * @method Enterprise_GiftCardAccount_Model_Giftcardaccount getState()
+ * @method int setState(int $value)
+ * @method Enterprise_GiftCardAccount_Model_Giftcardaccount getIsRedeemable()
+ * @method int setIsRedeemable(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftCardAccount
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_Abstract
 {
     const STATUS_DISABLED = 0;

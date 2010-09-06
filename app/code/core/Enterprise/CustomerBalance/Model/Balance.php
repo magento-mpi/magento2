@@ -27,6 +27,19 @@
 /**
  * Customer balance model
  *
+ * @method Enterprise_CustomerBalance_Model_Resource_Balance _getResource()
+ * @method Enterprise_CustomerBalance_Model_Resource_Balance getResource()
+ * @method Enterprise_CustomerBalance_Model_Balance getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Enterprise_CustomerBalance_Model_Balance getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method float setAmount(float $value)
+ * @method Enterprise_CustomerBalance_Model_Balance getBaseCurrencyCode()
+ * @method string setBaseCurrencyCode(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_CustomerBalance
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
 {

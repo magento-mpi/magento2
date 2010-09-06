@@ -28,8 +28,26 @@
 /**
  * Cms Hierarchy Pages Node Model
  *
- * @category   Enterprise
- * @package    Enterprise_Cms
+ * @method Enterprise_Cms_Model_Resource_Hierarchy_Node _getResource()
+ * @method Enterprise_Cms_Model_Resource_Hierarchy_Node getResource()
+ * @method Enterprise_Cms_Model_Hierarchy_Node getParentNodeId()
+ * @method int setParentNodeId(int $value)
+ * @method Enterprise_Cms_Model_Hierarchy_Node getPageId()
+ * @method int setPageId(int $value)
+ * @method string setIdentifier(string $value)
+ * @method string setLabel(string $value)
+ * @method Enterprise_Cms_Model_Hierarchy_Node getLevel()
+ * @method int setLevel(int $value)
+ * @method Enterprise_Cms_Model_Hierarchy_Node getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method Enterprise_Cms_Model_Hierarchy_Node getRequestUrl()
+ * @method string setRequestUrl(string $value)
+ * @method Enterprise_Cms_Model_Hierarchy_Node getXpath()
+ * @method string setXpath(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Cms
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
 {

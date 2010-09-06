@@ -27,7 +27,18 @@
 /**
  * Staging item model
  *
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Enterprise_Staging_Model_Resource_Staging_Item _getResource()
+ * @method Enterprise_Staging_Model_Resource_Staging_Item getResource()
+ * @method Enterprise_Staging_Model_Staging_Item getStagingId()
+ * @method int setStagingId(int $value)
+ * @method Enterprise_Staging_Model_Staging_Item getCode()
+ * @method string setCode(string $value)
+ * @method Enterprise_Staging_Model_Staging_Item getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Staging
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
 {

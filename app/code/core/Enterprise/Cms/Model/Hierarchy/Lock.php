@@ -28,8 +28,20 @@
 /**
  * Cms Hierarchy Pages Lock Model
  *
- * @category   Enterprise
- * @package    Enterprise_Cms
+ * @method Enterprise_Cms_Model_Resource_Hierarchy_Lock _getResource()
+ * @method Enterprise_Cms_Model_Resource_Hierarchy_Lock getResource()
+ * @method Enterprise_Cms_Model_Hierarchy_Lock getUserId()
+ * @method int setUserId(int $value)
+ * @method Enterprise_Cms_Model_Hierarchy_Lock getUserName()
+ * @method string setUserName(string $value)
+ * @method Enterprise_Cms_Model_Hierarchy_Lock getSessionId()
+ * @method string setSessionId(string $value)
+ * @method Enterprise_Cms_Model_Hierarchy_Lock getStartedAt()
+ * @method int setStartedAt(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Cms
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Cms_Model_Hierarchy_Lock extends Mage_Core_Model_Abstract
 {

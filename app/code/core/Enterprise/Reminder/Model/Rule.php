@@ -26,6 +26,35 @@
 
 /**
  * Reminder rules processing model
+ *
+ * @method Enterprise_Reminder_Model_Resource_Rule _getResource()
+ * @method Enterprise_Reminder_Model_Resource_Rule getResource()
+ * @method Enterprise_Reminder_Model_Rule getName()
+ * @method string setName(string $value)
+ * @method Enterprise_Reminder_Model_Rule getDescription()
+ * @method string setDescription(string $value)
+ * @method Enterprise_Reminder_Model_Rule getConditionsSerialized()
+ * @method string setConditionsSerialized(string $value)
+ * @method Enterprise_Reminder_Model_Rule getConditionSql()
+ * @method string setConditionSql(string $value)
+ * @method Enterprise_Reminder_Model_Rule getIsActive()
+ * @method int setIsActive(int $value)
+ * @method Enterprise_Reminder_Model_Rule getSalesruleId()
+ * @method int setSalesruleId(int $value)
+ * @method Enterprise_Reminder_Model_Rule getSchedule()
+ * @method string setSchedule(string $value)
+ * @method Enterprise_Reminder_Model_Rule getDefaultLabel()
+ * @method string setDefaultLabel(string $value)
+ * @method Enterprise_Reminder_Model_Rule getDefaultDescription()
+ * @method string setDefaultDescription(string $value)
+ * @method Enterprise_Reminder_Model_Rule getActiveFrom()
+ * @method string setActiveFrom(string $value)
+ * @method Enterprise_Reminder_Model_Rule getActiveTo()
+ * @method string setActiveTo(string $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Reminder
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
 {

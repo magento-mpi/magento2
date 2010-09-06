@@ -27,6 +27,26 @@
 /**
  * Customerbalance history model
  *
+ * @method Enterprise_CustomerBalance_Model_Resource_Balance_History _getResource()
+ * @method Enterprise_CustomerBalance_Model_Resource_Balance_History getResource()
+ * @method Enterprise_CustomerBalance_Model_Balance_History getBalanceId()
+ * @method int setBalanceId(int $value)
+ * @method Enterprise_CustomerBalance_Model_Balance_History getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Enterprise_CustomerBalance_Model_Balance_History getAction()
+ * @method int setAction(int $value)
+ * @method Enterprise_CustomerBalance_Model_Balance_History getBalanceAmount()
+ * @method float setBalanceAmount(float $value)
+ * @method Enterprise_CustomerBalance_Model_Balance_History getBalanceDelta()
+ * @method float setBalanceDelta(float $value)
+ * @method Enterprise_CustomerBalance_Model_Balance_History getAdditionalInfo()
+ * @method string setAdditionalInfo(string $value)
+ * @method Enterprise_CustomerBalance_Model_Balance_History getIsCustomerNotified()
+ * @method int setIsCustomerNotified(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_CustomerBalance
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_Abstract
 {

@@ -40,6 +40,17 @@
  * we will need to use node = revision_id and level = 2  (for future).
  * Type is only one value '0' at this time bc revision control used only for pages.
  *
+ * @method Enterprise_Cms_Model_Resource_Increment _getResource()
+ * @method Enterprise_Cms_Model_Resource_Increment getResource()
+ * @method Enterprise_Cms_Model_Increment getType()
+ * @method int setType(int $value)
+ * @method Enterprise_Cms_Model_Increment getNode()
+ * @method int setNode(int $value)
+ * @method Enterprise_Cms_Model_Increment getLevel()
+ * @method int setLevel(int $value)
+ * @method Enterprise_Cms_Model_Increment getLastId()
+ * @method int setLastId(int $value)
+ *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>

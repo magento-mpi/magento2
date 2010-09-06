@@ -24,6 +24,20 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Enterprise_GiftCardAccount_Model_Resource_Pool _getResource()
+ * @method Enterprise_GiftCardAccount_Model_Resource_Pool getResource()
+ * @method Enterprise_GiftCardAccount_Model_Pool getCode()
+ * @method string setCode(string $value)
+ * @method Enterprise_GiftCardAccount_Model_Pool getStatus()
+ * @method int setStatus(int $value)
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftCardAccount
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_Model_Pool_Abstract
 {
     const CODE_FORMAT_ALPHANUM = 'alphanum';
