@@ -119,6 +119,13 @@ class Mage_Connect_Package
     protected $_target = null;
 
     /**
+    * Config object
+    *
+    * @var Mage_Connect_Config
+    */
+    protected $_config = null;
+
+    /**
      * Creates a package object (empty, or from existing archive, or from package definition xml)
      *
      * @param null|string|resource $source
@@ -1143,8 +1150,10 @@ END;
            'compatible' => array('method' => 'getCompatible',
                            'v_method' => 'validateCompatible',
                            'v_error_method' => 'getErrors'),
-
-
+           'content' => array('method' => 'getContents',
+                           'v_method' => 'validateContents',
+                           'v_args' => array('config' => $this->getConfig()),
+                           'v_error_method' => 'getErrors'),
         );
 
         $errors = array();
@@ -1293,4 +1302,23 @@ END;
         return $this;
     }
 
+    /**
+     * Get config
+     *
+     * @return Mage_Connect_Config
+     */
+    public function getConfig()
+    {
+        return $this->_config;
+    }
+
+    /**
+     * Set config
+     *
+     * @param Mage_Connect_Config $config
+     */
+    public function setConfig($config)
+    {
+        $this->_config = $config;
+    }
 }

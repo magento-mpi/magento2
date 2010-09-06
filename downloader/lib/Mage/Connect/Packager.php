@@ -221,7 +221,7 @@ class Mage_Connect_Packager
      *
      * @param int $mode
      * @throws Exception
-     * @return int mode 
+     * @return int
      */
     protected function validPermMode ($mode)
     {
@@ -237,7 +237,7 @@ class Mage_Connect_Packager
     {
         return str_replace("\\", "/", $str);
     }
-    
+
     public function processInstallPackageFtp($package, $file, $configObj, $ftp)
     {
         $ftpDir = $ftp->getcwd();
@@ -358,7 +358,7 @@ class Mage_Connect_Packager
      * @param string/array $channels
      * @param Mage_Connect_Singleconfig $cacheObject
      * @param Mage_Connect_Rest $restObj optional
-     * @param bool $checkConflicts 
+     * @param bool $checkConflicts
      * @return array
      */
     public function getUpgradesList($channels, $cacheObject, $configObj, $restObj = null, $checkConflicts = false)
@@ -468,7 +468,7 @@ class Mage_Connect_Packager
             //print "Processing outer: {$keyOuter} \n";
             $hash[$keyOuter] = array (
                         'name' => $package,
-                        'channel' => $chanName,             
+                        'channel' => $chanName,
                         'version' => $version,
                         'packages' => $dependencies,
             );
@@ -553,7 +553,7 @@ class Mage_Connect_Packager
             //print "Processing outer: {$keyOuter} \n";
             $_depsHash[$keyOuter] = array (
                         'name' => $package,
-                        'channel' => $chanName,             
+                        'channel' => $chanName,
                         'downloaded_version' => $version,
                         'min' => $versionMin,
                         'max' => $versionMax,
@@ -619,19 +619,19 @@ class Mage_Connect_Packager
         } catch (Exception $e) {
             $_failed[] = array('name'=>$package, 'channel'=>$chanName, 'max'=>$versionMax, 'min'=>$versionMin, 'reason'=>$e->getMessage());
         }
-        
-        
+
+
         $level--;
         if($level == 0) {
             $out = $this->processDepsHash($_depsHash);
-            $deps = $_deps;   
+            $deps = $_deps;
             $failed = $_failed;
             $_depsHash = array();
             $_deps = array();
-            $_failed = array();    
-            return array('deps' => $deps, 'result' => $out, 'failed'=> $failed);    
+            $_failed = array();
+            return array('deps' => $deps, 'result' => $out, 'failed'=> $failed);
         }
-        
+
     }
 
 
@@ -669,6 +669,11 @@ class Mage_Connect_Packager
                 }
             }
         }
+
+        if (!$graph->isAcyclic()) {
+            throw new Exception("Dependency references are cyclic");
+        }
+
         $result = $graph->topologicalSort();
         $sortReverse ? krsort($result) : ksort($result);
         $out = array();

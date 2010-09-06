@@ -55,6 +55,7 @@ extends Mage_Connect_Command
             $noFilesInstall = isset($options['nofiles']);
             $withDepsMode = !isset($options['nodeps']);
             $ignoreModifiedMode = true || !isset($options['ignorelocalmodification']);
+            $clearInstallMode = $command == 'install' && !$forceMode;
 
             $rest = $this->rest();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
@@ -120,6 +121,7 @@ extends Mage_Connect_Command
                 }
 
                 $package = new Mage_Connect_Package($filename);
+                $package->setConfig($config);
                 $package->validate();
                 $errors = $package->getErrors();
                 if(count($errors)) {
@@ -338,8 +340,13 @@ extends Mage_Connect_Command
                         $this->ui()->output(sprintf("...done: %s bytes", number_format(filesize($file))));
                     }
                     $package = new Mage_Connect_Package($file);
-
-
+                    if ($clearInstallMode) {
+                        $this->validator()->validateContents($package->getContents(), $config);
+                        $errors = $this->validator()->getErrors();
+                        if (count($errors)) {
+                            throw new Exception("Package '{$pName}' is invalid\n" . implode("\n", $errors));
+                        }
+                    }
 
                     $conflicts = $package->checkPhpDependencies();
                     if(true !== $conflicts) {
