@@ -491,7 +491,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'label'                      => 'Weight',
                         'input'                      => 'text',
                         'sort_order'                 => 5,
-                        'apply_to'                   => 'simple',
+                        'apply_to'                   => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
                     ),
                     'manufacturer'       => array(
                         'type'                       => 'int',
@@ -503,7 +503,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'filterable'                 => true,
                         'comparable'                 => true,
                         'visible_in_advanced_search' => true,
-                        'apply_to'                   => 'simple',
+                        'apply_to'                   => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
                     ),
                     'meta_title'         => array(
                         'type'                       => 'varchar',
@@ -601,7 +601,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'filterable'                 => true,
                         'comparable'                 => true,
                         'visible_in_advanced_search' => true,
-                        'apply_to'                   => 'simple',
+                        'apply_to'                   => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
                     ),
                     'news_from_date'     => array(
                         'type'                       => 'datetime',

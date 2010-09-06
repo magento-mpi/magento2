@@ -333,7 +333,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 'length'    => 32,
                 'unsigned'  => false,
                 'nullable'  => false,
-                'default'   => 'simple',
+                'default'   => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
                 'comment'   => 'Type Id'
             );
 
