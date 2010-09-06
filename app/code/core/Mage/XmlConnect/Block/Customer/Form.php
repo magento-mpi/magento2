@@ -82,16 +82,8 @@ class Mage_XmlConnect_Block_Customer_Form extends Mage_Core_Block_Template
         $xml = <<<EOT
 <form name="account_form" method="post">
     <fieldset>
-        <field name="firstname" type="text" label="{$helper->__('First Name')}" required="true" value="$firstname">
-            <validators>
-                <validator type="regexp" message="{$helper->__('Not empty')}">[^\w]+</validator>
-            </validators>
-        </field>
-        <field name="lastname" type="text" label="{$helper->__('Last Name')}" required="true" value="$lastname">
-            <validators>
-                <validator type="regexp" message="{$helper->__('Not Empty')}">[^\w]+</validator>
-            </validators>
-        </field>
+        <field name="firstname" type="text" label="{$helper->__('First Name')}" required="true" value="$firstname" />
+        <field name="lastname" type="text" label="{$helper->__('Last Name')}" required="true" value="$lastname" />
         <field name="email" type="text" label="{$helper->__('Email')}" required="true" value="$email">
             <validators>
                 <validator type="email" message="{$helper->__('Wrong email format')}"/>

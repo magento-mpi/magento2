@@ -131,11 +131,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
 
         $xml = <<<EOT
     <fieldset>
-        <field name="payment[cc_owner]" type="text" label="{$this->helper('xmlconnect')->__('Name on Card')}" value="$owner" required="true">
-            <validators>
-                <validator type="regexp" message="{$this->helper('xmlconnect')->__('Letters only')}">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
+        <field name="payment[cc_owner]" type="text" label="{$this->helper('xmlconnect')->__('Name on Card')}" value="$owner" required="true" />
         <field name="payment[cc_type]" type="select" label="{$this->helper('xmlconnect')->__('Credit Card Type')}" required="true">
             <values>
                 $ccTypes

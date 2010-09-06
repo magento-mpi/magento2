@@ -110,16 +110,8 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Core_Block_Templa
         $xml = <<<EOT
 <form name="address_form" method="post">
     <fieldset legend="{$helper->__('Contact Information')}">
-        <field name="firstname" type="text" label="{$helper->__('First Name')}" required="true" value="$firstname">
-            <validators>
-                <validator type="regexp" message="{$helper->__('Letters only')}">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
-        <field name="lastname" type="text" label="{$helper->__('Last Name')}" required="true" value="$lastname">
-            <validators>
-                <validator type="regexp" message="{$helper->__('Letters only')}">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
+        <field name="firstname" type="text" label="{$helper->__('First Name')}" required="true" value="$firstname" />
+        <field name="lastname" type="text" label="{$helper->__('Last Name')}" required="true" value="$lastname" />
         <field name="company" type="text" label="{$helper->__('Company')}" value="$company" />
         <field name="telephone" type="text" label="{$helper->__('Telephone')}" required="true" value="$telephone" />
         <field name="fax" type="text" label="{$helper->__('Fax')}" value="$fax" />

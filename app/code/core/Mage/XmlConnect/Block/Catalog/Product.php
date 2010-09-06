@@ -75,6 +75,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $iconXml->addAttribute('modification_time', filemtime($file));
 
             $item->addChild('in_stock', (int)$product->isSalable());
+            $item->addChild('is_salable', (int)$product->isSalable());
             /**
              * By default all products has gallery (because of collection not load gallery attribute)
              */
