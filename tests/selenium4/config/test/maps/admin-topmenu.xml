@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--  -->
 <topmenu>
+    <sales>
+        <orders>link=Orders</orders>
+    </sales>
     <customer>
         <managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
     </customer>
     <catalog>
+        <attributes>
+            <manageAttibuteSet>//li[a/span="Manage Attribute Sets"]/a</manageAttibuteSet>
+        </attributes>
         <categories>
             <managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
         </categories>
