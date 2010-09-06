@@ -275,7 +275,6 @@ $table = $installer->getConnection()
         'default'   => '0',
 ), 'Entity ID')
 ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
 ), 'Value')
 ->addIndex($installer->getIdxName(array('catalog/product', 'text'), array('entity_id', 'attribute_id', 'store_id'), true),
 array('entity_id', 'attribute_id', 'store_id'), array('unique' => true))
