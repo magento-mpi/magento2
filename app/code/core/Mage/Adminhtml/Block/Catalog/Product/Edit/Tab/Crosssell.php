@@ -92,17 +92,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
      */
     protected function _prepareCollection()
     {
+        /* @var $collection Mage_Catalog_Model_Resource_Product_Link_Product_Collection */
         $collection = Mage::getModel('catalog/product_link')->useCrossSellLinks()
             ->getProductCollection()
             ->setProduct($this->_getProduct())
             ->setPositionOrder()
-            ->addAttributeToSelect('*');
+            ->addAttributeToSelect('entity_id');
+
         if ($this->isReadonly()) {
             $productIds = $this->_getSelectedProducts();
             if (empty($productIds)) {
                 $productIds = array(0);
             }
-            $collection->addFieldToFilter('entity_id', array('in'=>$productIds));
+            $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         }
 
 

@@ -85,11 +85,9 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
 
         $select = $adapter->select()
             ->from($this->_productWebsiteTable, 'website_id')
-            ->where('product_id = :product_id');
+            ->where('product_id = ?', (int)$product->getId());
 
-        $bind = array('product_id' => (int)$product->getId());
-
-        return $adapter->fetchCol($select, $bind);
+        return $adapter->fetchCol($select);
     }
 
     /**

@@ -183,8 +183,11 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getReviewsSummaryHtml(Mage_Catalog_Model_Product $product, $templateType = false, $displayIfNoReviews = false)
     {
-        $this->_initReviewsHelperBlock();
-        return $this->_reviewsHelperBlock->getSummaryHtml($product, $templateType, $displayIfNoReviews);
+        if ($this->_initReviewsHelperBlock()) {
+            return $this->_reviewsHelperBlock->getSummaryHtml($product, $templateType, $displayIfNoReviews);
+        }
+
+        return '';
     }
 
     /**
@@ -195,19 +198,28 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function addReviewSummaryTemplate($type, $template)
     {
-        $this->_initReviewsHelperBlock();
-        $this->_reviewsHelperBlock->addTemplate($type, $template);
+        if ($this->_initReviewsHelperBlock()) {
+            $this->_reviewsHelperBlock->addTemplate($type, $template);
+        }
+
+        return '';
     }
 
     /**
      * Create reviews summary helper block once
      *
+     * @return boolean
      */
     protected function _initReviewsHelperBlock()
     {
         if (!$this->_reviewsHelperBlock) {
-            $this->_reviewsHelperBlock = $this->getLayout()->createBlock('review/helper');
+            if (Mage::helper('catalog')->isModuleEnabled('Mage_Review')) {
+                $this->_reviewsHelperBlock = $this->getLayout()->createBlock('review/helper');
+                return true;
+            }
         }
+
+        return false;
     }
 
     /**

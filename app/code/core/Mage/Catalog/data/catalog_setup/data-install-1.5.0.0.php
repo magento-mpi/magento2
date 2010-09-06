@@ -53,7 +53,7 @@ $category->setStoreId(0)
     ->save();
 
 $installer->setConfigData('catalog/category/root_id', $category->getId());
-/*
+
 $installer->addAttributeGroup('catalog_product', 'Default', 'Design', 6);
 
 $entityTypeId     = $installer->getEntityTypeId('catalog_category');
@@ -61,7 +61,7 @@ $attributeSetId   = $installer->getDefaultAttributeSetId($entityTypeId);
 $attributeGroupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 
 // update General Group
-$installer->updateAttributeGroup($entityTypeId, $attributeSetId, $attributeGroupId, 'attribute_group_name', 'General Information');
+//$installer->updateAttributeGroup($entityTypeId, $attributeSetId, $attributeGroupId, 'attribute_group_name', 'General Information');
 $installer->updateAttributeGroup($entityTypeId, $attributeSetId, $attributeGroupId, 'sort_order', '10');
 
 $groups = array(
@@ -88,10 +88,10 @@ $attributes = array(
         'group' => 'design',
         'sort'  => 10
     ),
-    'custom_design_apply'   => array(
-        'group' => 'design',
-        'sort'  => 20
-    ),
+//    'custom_design_apply'   => array(
+//        'group' => 'design',
+//        'sort'  => 20
+//    ),
     'custom_design_from'    => array(
         'group' => 'design',
         'sort'  => 30
@@ -139,11 +139,10 @@ foreach ($attributes as $attributeCode => $attributeProp) {
         $attributeProp['sort']
     );
 }
-*/
+
 /**
  * Install product link types
  */
-/*
 $data = array(
     array(
         'link_type_id'  => Mage_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
@@ -166,11 +165,10 @@ $data = array(
 foreach ($data as $bind) {
     $installer->getConnection()->insertForce($installer->getTable('catalog/product_link_type'), $bind);
 }
-*/
+
 /**
  * install product link attributes
  */
-/*
 $data = array(
     array(
         'link_type_id'                  => Mage_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
@@ -200,12 +198,11 @@ $data = array(
 );
 
 $installer->getConnection()->insertMultiple($installer->getTable('catalog/product_link_attribute'), $data);
-*/
+
 /**
  * Remove Catalog specified attribute options (columns) from eav/attribute table
  *
  */
-/*
 $describe = $installer->getConnection()->describeTable($installer->getTable('catalog/eav_attribute'));
 foreach ($describe as $columnData) {
     if ($columnData['COLUMN_NAME'] == 'attribute_id') {
@@ -213,46 +210,4 @@ foreach ($describe as $columnData) {
     }
     $installer->getConnection()->dropColumn($installer->getTable('eav/attribute'), $columnData['COLUMN_NAME']);
 }
-*/
-/*
-$entityTypeId     = $installer->getEntityTypeId('catalog_category');
-$attributeSetId   = $installer->getDefaultAttributeSetId($entityTypeId);
-$attributeGroupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 
-$installer->addAttribute('catalog_category', 'include_in_menu',  array(
-    'type'     => 'int',
-    'label'    => 'Include in Navigation Menu',
-    'input'    => 'select',
-    'source'   => 'eav/entity_attribute_source_boolean',
-    'global'   => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
-    'required' => false,
-    'default'  => 1
-));
-
-$installer->addAttributeToGroup(
-    $entityTypeId,
-    $attributeSetId,
-    $attributeGroupId,
-    'include_in_menu',
-    '10'
-);
-
-$attributeId = $installer->getAttributeId($entityTypeId, 'include_in_menu');
-*/
-/* @TODO: fix next sql & add check for non-existent upgrades */
-
-/* 1.4.0.0.21 - 1.4.0.0.22 */
-/*$installer->run("
-INSERT INTO `{$installer->getTable('catalog_category_entity_int')}`
-(`entity_type_id`, `attribute_id`, `entity_id`, `value`)
-    SELECT '{$entityTypeId}', '{$attributeId}', `entity_id`, '1'
-        FROM `{$installer->getTable('catalog_category_entity')}`;
-");
-*/
-/* 24-25 */
-/* 26-27 */
-/* 27-28 */
-/* 28-29 */
-/* 30-31 */
-/* 32-33 */
-/* 33-34 */

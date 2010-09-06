@@ -128,7 +128,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollectionName)) {
-            Mage::throwException(Mage::helper('core')->__('The model collection resource name is not defined.'));
+            Mage::throwException(Mage::helper('catalog')->__('The model collection resource name is not defined.'));
         }
         $collection = Mage::getResourceModel($this->_resourceCollectionName);
         $collection->setStoreId($this->getStoreId());
@@ -1336,10 +1336,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function fromArray($data)
     {
         if (isset($data['stock_item'])) {
-            $stockItem = Mage::getModel('cataloginventory/stock_item')
-                ->setData($data['stock_item'])
-                ->setProduct($this);
-            $this->setStockItem($stockItem);
+            if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
+                $stockItem = Mage::getModel('cataloginventory/stock_item')
+                    ->setData($data['stock_item'])
+                    ->setProduct($this);
+                $this->setStockItem($stockItem);
+            }
             unset($data['stock_item']);
         }
         $this->setData($data);

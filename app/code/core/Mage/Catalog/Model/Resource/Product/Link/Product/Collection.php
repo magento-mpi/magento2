@@ -272,7 +272,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
             $alias = sprintf('link_attribute_%s_%s', $attribute['code'], $attribute['type']);
 
             $joinCondiotion = array(
-                "{$alias}.link_id = main_table.link_id",
+                "{$alias}.link_id = links.link_id",
                 $this->getSelect()->getAdapter()->quoteInto("{$alias}.product_link_attribute_id = ?", $attribute['id'])
             );
             $this->getSelect()->joinLeft(

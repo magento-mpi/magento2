@@ -478,6 +478,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if ($productData && !isset($productData['stock_data']['use_config_manage_stock'])) {
                 $productData['stock_data']['use_config_manage_stock'] = 0;
             }
+            /* @var $product Mage_Catalog_Model_Product */
             $product = Mage::getModel('catalog/product');
             $product->setData('_edit_mode', true);
             if ($storeId = $this->getRequest()->getParam('store')) {
@@ -882,7 +883,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $status     = (int)$this->getRequest()->getParam('status');
 
         try {
-            $this->_validateMassStatus($productIds, $status); 
+            $this->_validateMassStatus($productIds, $status);
             Mage::getSingleton('catalog/product_action')
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 

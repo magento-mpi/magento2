@@ -167,7 +167,9 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         ));
 
         $this->_getProductCollection()->load();
-        Mage::getModel('review/review')->appendSummary($this->_getProductCollection());
+        if (Mage::helper('catalog')->isModuleEnabled('Mage_Review')) {
+            Mage::getModel('review/review')->appendSummary($this->_getProductCollection());
+        }
         return parent::_beforeToHtml();
     }
 

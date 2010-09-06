@@ -828,32 +828,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             }
             $category->setProductCount($_count);
         }
-//        foreach ($categoryCollection as $category) {
-//            $select     = clone $this->getSelect();
-//            $select->reset(Zend_Db_Select::COLUMNS);
-//            $select->reset(Zend_Db_Select::GROUP);
-//            $select->reset(Zend_Db_Select::ORDER);
-//            $select->distinct(false);
-//            $select->join(
-//                    array('category_count_table' => $this->_productCategoryTable),
-//                    'category_count_table.product_id=e.entity_id',
-//                    array('count_in_category'=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'))
-//                );
-//
-//            if ($category->getIsAnchor()) {
-//                $select->where($this->getConnection()->quoteInto(
-//                    'category_count_table.category_id IN(?)',
-//                    explode(',', $category->getAllChildren())
-//                ));
-//            }
-//            else {
-//                $select->where($this->getConnection()->quoteInto(
-//                    'category_count_table.category_id=?',
-//                    $category->getId()
-//                ));
-//            }
-//            $category->setProductCount((int) $this->getConnection()->fetchOne($select));
-//        }
+
         return $this;
     }
 
@@ -958,7 +933,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 ->where('is_system=?', 1)
                 ->where('category_id=? OR category_id is NULL', $this->_urlRewriteCategory)
                 ->where('product_id IN(?)', $productIds)
-                ->order('category_id DESC'); // more priority is data with category id
+                ->order('category_id ' . self::SORT_ORDER_DESC); // more priority is data with category id
             $urlRewrites = array();
 
             foreach ($this->getConnection()->fetchAll($select) as $row) {
@@ -1033,25 +1008,28 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
             return $this;
         }
+        if (!Mage::helper('catalog')->isModuleEnabled('Mage_CatalogRule')) {
+            return $this;
+        }
         $wId = Mage::app()->getWebsite()->getId();
         $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
         $storeDate = Mage::app()->getLocale()->storeTimeStamp($this->getStoreId());
-        $conditions  = "_price_rule.product_id = e.entity_id AND ";
-        $conditions .= "_price_rule.rule_date = '".$this->getResource()->formatDate($storeDate, false)."' AND ";
-        $conditions .= "_price_rule.website_id = '{$wId}' AND ";
-        $conditions .= "_price_rule.customer_group_id = '{$gId}'";
+        $conditions  = "price_rule.product_id = e.entity_id AND ";
+        $conditions .= "price_rule.rule_date = '".$this->getResource()->formatDate($storeDate, false)."' AND ";
+        $conditions .= "price_rule.website_id = '{$wId}' AND ";
+        $conditions .= "price_rule.customer_group_id = '{$gId}'";
 
         $this->getSelect()->joinLeft(
-            array('_price_rule'=>$this->getTable('catalogrule/rule_product_price')),
+            array('price_rule' => $this->getTable('catalogrule/rule_product_price')),
             $conditions,
-            array('_rule_price'=>'rule_price')
+            array('rule_price' => 'rule_price')
         );
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add final price to the product
      *
      */
     protected function _addFinalPrice()
@@ -1084,13 +1062,15 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
             $product->setCalculatedFinalPrice($finalPrice);
         }
+
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Retreive all ids
      *
-     * @param unknown_type $resetCache
-     * @return unknown
+     * @param boolean $resetCache
+     * @return array
      */
     public function getAllIdsCache($resetCache = false)
     {
@@ -1108,9 +1088,9 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Enter description here ...
+     * Set all ids
      *
-     * @param unknown_type $value
+     * @param array $value
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     public function setAllIdsCache($value)

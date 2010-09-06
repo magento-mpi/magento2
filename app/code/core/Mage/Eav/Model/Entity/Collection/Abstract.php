@@ -319,7 +319,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
      * @param mixed $attribute
      * @param mixed $condition
      */
-    public function addFieldToFilter($attribute, $condition=null)
+    public function addFieldToFilter($attribute, $condition = null)
     {
         return $this->addAttributeToFilter($attribute, $condition);
     }
@@ -1305,7 +1305,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
      * @param string $dir
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function setOrder($attribute, $dir = Varien_Db_Select::SQL_DESC)
+    public function setOrder($attribute, $dir = self::SORT_ORDER_ASC)
     {
         if (is_array($attribute)) {
             foreach ($attribute as $attr) {
