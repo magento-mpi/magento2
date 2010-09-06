@@ -69,11 +69,11 @@
     <system>
         <permissions>
             <users>
-                <manageusers>
+                <manage_users>
                     <buttons>
-                        <addnewuser>//button[span="Add New User"]</addnewuser>
+                        <add_new_user>//button[span="Add New User"]</add_new_user>
                     </buttons>
-                </manageusers>
+                </manage_users>
                 <user>
                     <inputs>
                         <username>user_username</username>
@@ -84,11 +84,8 @@
                         <confirmation>user_confirmation</confirmation>
                     </inputs>
                     <buttons>
-                        <saveuser>//button[span="Save User"]</saveuser>
+                        <save>//button[span="Save User"]</save>
                     </buttons>
-                    <messages>
-                        <usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
-                    </messages>
                 </user>
             </users>
         </permissions>
