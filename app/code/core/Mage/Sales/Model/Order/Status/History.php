@@ -26,6 +26,24 @@
 
 /**
  * Order status history comments
+ *
+ * @method Mage_Sales_Model_Resource_Order_Status_History _getResource()
+ * @method Mage_Sales_Model_Resource_Order_Status_History getResource()
+ * @method Mage_Sales_Model_Order_Status_History getParentId()
+ * @method int setParentId(int $value)
+ * @method Mage_Sales_Model_Order_Status_History getIsCustomerNotified()
+ * @method Mage_Sales_Model_Order_Status_History getIsVisibleOnFront()
+ * @method int setIsVisibleOnFront(int $value)
+ * @method Mage_Sales_Model_Order_Status_History getComment()
+ * @method string setComment(string $value)
+ * @method Mage_Sales_Model_Order_Status_History getStatus()
+ * @method string setStatus(string $value)
+ * @method Mage_Sales_Model_Order_Status_History getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Order_Status_History extends Mage_Sales_Model_Abstract
 {

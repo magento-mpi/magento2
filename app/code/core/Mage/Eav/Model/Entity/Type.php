@@ -28,8 +28,34 @@
 /**
  * Entity type model
  *
- * @category   Mage
- * @package    Mage_Eav
+ * @method Mage_Eav_Model_Resource_Entity_Type _getResource()
+ * @method Mage_Eav_Model_Resource_Entity_Type getResource()
+ * @method string setEntityTypeCode(string $value)
+ * @method Mage_Eav_Model_Entity_Type getEntityModel()
+ * @method string setEntityModel(string $value)
+ * @method string setAttributeModel(string $value)
+ * @method string setEntityTable(string $value)
+ * @method string setValueTablePrefix(string $value)
+ * @method string setEntityIdField(string $value)
+ * @method Mage_Eav_Model_Entity_Type getIsDataSharing()
+ * @method int setIsDataSharing(int $value)
+ * @method Mage_Eav_Model_Entity_Type getDataSharingKey()
+ * @method string setDataSharingKey(string $value)
+ * @method int setDefaultAttributeSetId(int $value)
+ * @method Mage_Eav_Model_Entity_Type getIncrementModel()
+ * @method string setIncrementModel(string $value)
+ * @method Mage_Eav_Model_Entity_Type getIncrementPerStore()
+ * @method int setIncrementPerStore(int $value)
+ * @method Mage_Eav_Model_Entity_Type getIncrementPadLength()
+ * @method int setIncrementPadLength(int $value)
+ * @method Mage_Eav_Model_Entity_Type getIncrementPadChar()
+ * @method string setIncrementPadChar(string $value)
+ * @method Mage_Eav_Model_Entity_Type getAdditionalAttributeTable()
+ * @method string setAdditionalAttributeTable(string $value)
+ * @method string setEntityAttributeCollection(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract

@@ -27,8 +27,17 @@
 /**
  * String translation model
  *
- * @category   Mage
- * @package    Mage_Core
+ * @method Mage_Core_Model_Resource_Translate_String _getResource()
+ * @method Mage_Core_Model_Resource_Translate_String getResource()
+ * @method Mage_Core_Model_Translate_String getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Core_Model_Translate_String getTranslate()
+ * @method string setTranslate(string $value)
+ * @method Mage_Core_Model_Translate_String getLocale()
+ * @method string setLocale(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Translate_String extends Mage_Core_Model_Abstract

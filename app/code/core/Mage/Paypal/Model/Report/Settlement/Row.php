@@ -27,6 +27,48 @@
 /*
  * Model for report rows
  */
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Paypal_Model_Resource_Report_Settlement_Row _getResource()
+ * @method Mage_Paypal_Model_Resource_Report_Settlement_Row getResource()
+ * @method Mage_Paypal_Model_Report_Settlement_Row getReportId()
+ * @method int setReportId(int $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getTransactionId()
+ * @method string setTransactionId(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getInvoiceId()
+ * @method string setInvoiceId(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getPaypalReferenceId()
+ * @method string setPaypalReferenceId(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getPaypalReferenceIdType()
+ * @method string setPaypalReferenceIdType(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getTransactionEventCode()
+ * @method string setTransactionEventCode(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getTransactionInitiationDate()
+ * @method string setTransactionInitiationDate(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getTransactionCompletionDate()
+ * @method string setTransactionCompletionDate(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getTransactionDebitOrCredit()
+ * @method string setTransactionDebitOrCredit(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getGrossTransactionAmount()
+ * @method float setGrossTransactionAmount(float $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getGrossTransactionCurrency()
+ * @method string setGrossTransactionCurrency(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getFeeDebitOrCredit()
+ * @method string setFeeDebitOrCredit(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getFeeAmount()
+ * @method float setFeeAmount(float $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getFeeCurrency()
+ * @method string setFeeCurrency(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getCustomField()
+ * @method string setCustomField(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement_Row getConsumerId()
+ * @method string setConsumerId(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Paypal
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Paypal_Model_Report_Settlement_Row extends Mage_Core_Model_Abstract
 {
     /**

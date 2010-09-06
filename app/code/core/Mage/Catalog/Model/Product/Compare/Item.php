@@ -28,9 +28,18 @@
 /**
  * Catalog Compare Item Model
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Catalog_Model_Resource_Product_Compare_Item _getResource()
+ * @method Mage_Catalog_Model_Resource_Product_Compare_Item getResource()
+ * @method int setVisitorId(int $value)
+ * @method int setCustomerId(int $value)
+ * @method Mage_Catalog_Model_Product_Compare_Item getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Catalog_Model_Product_Compare_Item getStoreId()
+ * @method int setStoreId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
 {

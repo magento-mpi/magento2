@@ -27,9 +27,32 @@
 /**
  * Google Base Item Types Model
  *
- * @category   Mage
- * @package    Mage_GoogleBase
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_GoogleBase_Model_Resource_Item _getResource()
+ * @method Mage_GoogleBase_Model_Resource_Item getResource()
+ * @method Mage_GoogleBase_Model_Item getTypeId()
+ * @method int setTypeId(int $value)
+ * @method Mage_GoogleBase_Model_Item getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_GoogleBase_Model_Item getGbaseItemId()
+ * @method string setGbaseItemId(string $value)
+ * @method Mage_GoogleBase_Model_Item getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_GoogleBase_Model_Item getPublished()
+ * @method string setPublished(string $value)
+ * @method Mage_GoogleBase_Model_Item getExpires()
+ * @method string setExpires(string $value)
+ * @method Mage_GoogleBase_Model_Item getImpr()
+ * @method int setImpr(int $value)
+ * @method Mage_GoogleBase_Model_Item getClicks()
+ * @method int setClicks(int $value)
+ * @method Mage_GoogleBase_Model_Item getViews()
+ * @method int setViews(int $value)
+ * @method Mage_GoogleBase_Model_Item getIsHidden()
+ * @method int setIsHidden(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_GoogleBase
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
 {

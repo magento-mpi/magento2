@@ -27,9 +27,26 @@
 /**
  * Google Optimizer Scripts Model
  *
- * @category   Mage
- * @package    Mage_GoogleOptimizer
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_GoogleOptimizer_Model_Resource_Code _getResource()
+ * @method Mage_GoogleOptimizer_Model_Resource_Code getResource()
+ * @method int setEntityId(int $value)
+ * @method string setEntityType(string $value)
+ * @method Mage_GoogleOptimizer_Model_Code getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_GoogleOptimizer_Model_Code getControlScript()
+ * @method string setControlScript(string $value)
+ * @method Mage_GoogleOptimizer_Model_Code getTrackingScript()
+ * @method string setTrackingScript(string $value)
+ * @method Mage_GoogleOptimizer_Model_Code getConversionScript()
+ * @method string setConversionScript(string $value)
+ * @method Mage_GoogleOptimizer_Model_Code getConversionPage()
+ * @method string setConversionPage(string $value)
+ * @method Mage_GoogleOptimizer_Model_Code getAdditionalData()
+ * @method string setAdditionalData(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_GoogleOptimizer
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
 {

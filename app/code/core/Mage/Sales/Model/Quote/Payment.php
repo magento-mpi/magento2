@@ -26,6 +26,59 @@
 
 /**
  * Quote payment information
+ *
+ * @method Mage_Sales_Model_Resource_Quote_Payment _getResource()
+ * @method Mage_Sales_Model_Resource_Quote_Payment getResource()
+ * @method Mage_Sales_Model_Quote_Payment getQuoteId()
+ * @method int setQuoteId(int $value)
+ * @method Mage_Sales_Model_Quote_Payment getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getMethod()
+ * @method string setMethod(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcType()
+ * @method string setCcType(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcNumberEnc()
+ * @method string setCcNumberEnc(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcLast4()
+ * @method string setCcLast4(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcCidEnc()
+ * @method string setCcCidEnc(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcOwner()
+ * @method string setCcOwner(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcExpMonth()
+ * @method int setCcExpMonth(int $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcExpYear()
+ * @method int setCcExpYear(int $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcSsOwner()
+ * @method string setCcSsOwner(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcSsStartMonth()
+ * @method int setCcSsStartMonth(int $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcSsStartYear()
+ * @method int setCcSsStartYear(int $value)
+ * @method Mage_Sales_Model_Quote_Payment getCybersourceToken()
+ * @method string setCybersourceToken(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getPaypalCorrelationId()
+ * @method string setPaypalCorrelationId(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getPaypalPayerId()
+ * @method string setPaypalPayerId(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getPaypalPayerStatus()
+ * @method string setPaypalPayerStatus(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getPoNumber()
+ * @method string setPoNumber(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getAdditionalData()
+ * @method string setAdditionalData(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getCcSsIssue()
+ * @method string setCcSsIssue(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getIdealIssuerId()
+ * @method string setIdealIssuerId(string $value)
+ * @method Mage_Sales_Model_Quote_Payment getIdealIssuerList()
+ * @method string setIdealIssuerList(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
 {

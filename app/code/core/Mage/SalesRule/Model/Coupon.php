@@ -25,6 +25,30 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_SalesRule_Model_Resource_Coupon _getResource()
+ * @method Mage_SalesRule_Model_Resource_Coupon getResource()
+ * @method Mage_SalesRule_Model_Coupon getRuleId()
+ * @method int setRuleId(int $value)
+ * @method Mage_SalesRule_Model_Coupon getCode()
+ * @method string setCode(string $value)
+ * @method Mage_SalesRule_Model_Coupon getUsageLimit()
+ * @method int setUsageLimit(int $value)
+ * @method Mage_SalesRule_Model_Coupon getUsagePerCustomer()
+ * @method int setUsagePerCustomer(int $value)
+ * @method Mage_SalesRule_Model_Coupon getTimesUsed()
+ * @method int setTimesUsed(int $value)
+ * @method Mage_SalesRule_Model_Coupon getExpirationDate()
+ * @method string setExpirationDate(string $value)
+ * @method Mage_SalesRule_Model_Coupon getIsPrimary()
+ * @method int setIsPrimary(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_SalesRule
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_SalesRule_Model_Coupon extends Mage_Core_Model_Abstract
 {
     /**

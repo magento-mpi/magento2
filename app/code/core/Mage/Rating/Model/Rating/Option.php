@@ -27,8 +27,19 @@
 /**
  * Rating option model
  *
- * @category   Mage
- * @package    Mage_Rating
+ * @method Mage_Rating_Model_Resource_Rating_Option _getResource()
+ * @method Mage_Rating_Model_Resource_Rating_Option getResource()
+ * @method Mage_Rating_Model_Rating_Option getRatingId()
+ * @method int setRatingId(int $value)
+ * @method Mage_Rating_Model_Rating_Option getCode()
+ * @method string setCode(string $value)
+ * @method Mage_Rating_Model_Rating_Option getValue()
+ * @method int setValue(int $value)
+ * @method Mage_Rating_Model_Rating_Option getPosition()
+ * @method int setPosition(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Rating_Model_Rating_Option extends Mage_Core_Model_Abstract

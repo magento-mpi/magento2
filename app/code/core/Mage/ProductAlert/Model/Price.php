@@ -28,8 +28,27 @@
 /**
  * ProductAlert for changed price model
  *
- * @category   Mage
- * @package    Mage_ProductAlert
+ * @method Mage_ProductAlert_Model_Resource_Price _getResource()
+ * @method Mage_ProductAlert_Model_Resource_Price getResource()
+ * @method Mage_ProductAlert_Model_Price getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_ProductAlert_Model_Price getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_ProductAlert_Model_Price getPrice()
+ * @method float setPrice(float $value)
+ * @method Mage_ProductAlert_Model_Price getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Mage_ProductAlert_Model_Price getAddDate()
+ * @method string setAddDate(string $value)
+ * @method Mage_ProductAlert_Model_Price getLastSendDate()
+ * @method string setLastSendDate(string $value)
+ * @method Mage_ProductAlert_Model_Price getSendCount()
+ * @method int setSendCount(int $value)
+ * @method Mage_ProductAlert_Model_Price getStatus()
+ * @method int setStatus(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_ProductAlert_Model_Price extends Mage_Core_Model_Abstract

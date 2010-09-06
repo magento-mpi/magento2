@@ -27,8 +27,18 @@
 /**
  * Tag model
  *
- * @category   Mage
- * @package    Mage_Tag
+ * @method Mage_Tag_Model_Resource_Tag _getResource()
+ * @method Mage_Tag_Model_Resource_Tag getResource()
+ * @method string setName(string $value)
+ * @method Mage_Tag_Model_Tag getStatus()
+ * @method int setStatus(int $value)
+ * @method Mage_Tag_Model_Tag getFirstCustomerId()
+ * @method int setFirstCustomerId(int $value)
+ * @method Mage_Tag_Model_Tag getFirstStoreId()
+ * @method int setFirstStoreId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

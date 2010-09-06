@@ -27,6 +27,19 @@
 /**
  * Pool vote model
  *
+ * @method Mage_Poll_Model_Resource_Poll_Vote _getResource()
+ * @method Mage_Poll_Model_Resource_Poll_Vote getResource()
+ * @method Mage_Poll_Model_Poll_Vote getPollId()
+ * @method int setPollId(int $value)
+ * @method Mage_Poll_Model_Poll_Vote getPollAnswerId()
+ * @method int setPollAnswerId(int $value)
+ * @method Mage_Poll_Model_Poll_Vote getIpAddress()
+ * @method int setIpAddress(int $value)
+ * @method Mage_Poll_Model_Poll_Vote getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_Poll_Model_Poll_Vote getVoteTime()
+ * @method string setVoteTime(string $value)
+ *
  * @category    Mage
  * @package     Mage_Poll
  * @author      Magento Core Team <core@magentocommerce.com>

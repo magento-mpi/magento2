@@ -27,9 +27,51 @@
 /**
  * Catalog attribute model
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Catalog_Model_Resource_Attribute _getResource()
+ * @method Mage_Catalog_Model_Resource_Attribute getResource()
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getFrontendInputRenderer()
+ * @method string setFrontendInputRenderer(string $value)
+ * @method int setIsGlobal(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsVisible()
+ * @method int setIsVisible(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsSearchable()
+ * @method int setIsSearchable(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getSearchWeight()
+ * @method int setSearchWeight(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsFilterable()
+ * @method int setIsFilterable(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsComparable()
+ * @method int setIsComparable(int $value)
+ * @method int setIsVisibleOnFront(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsHtmlAllowedOnFront()
+ * @method int setIsHtmlAllowedOnFront(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsUsedForPriceRules()
+ * @method int setIsUsedForPriceRules(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsFilterableInSearch()
+ * @method int setIsFilterableInSearch(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getUsedInProductListing()
+ * @method int setUsedInProductListing(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getUsedForSortBy()
+ * @method int setUsedForSortBy(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsConfigurable()
+ * @method int setIsConfigurable(int $value)
+ * @method string setApplyTo(string $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsVisibleInAdvancedSearch()
+ * @method int setIsVisibleInAdvancedSearch(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getPosition()
+ * @method int setPosition(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsWysiwygEnabled()
+ * @method int setIsWysiwygEnabled(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsUsedForPromoRules()
+ * @method int setIsUsedForPromoRules(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsUsedForCustomerSegment()
+ * @method int setIsUsedForCustomerSegment(int $value)
+ * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsUsedForTargetRules()
+ * @method int setIsUsedForTargetRules(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_Attribute
 {

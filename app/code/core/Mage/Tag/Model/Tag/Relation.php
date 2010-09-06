@@ -28,9 +28,24 @@
 /**
  * Tag relation model
  *
- * @category   Mage
- * @package    Mage_Tag
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Tag_Model_Resource_Tag_Relation _getResource()
+ * @method Mage_Tag_Model_Resource_Tag_Relation getResource()
+ * @method Mage_Tag_Model_Tag_Relation getTagId()
+ * @method int setTagId(int $value)
+ * @method Mage_Tag_Model_Tag_Relation getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_Tag_Model_Tag_Relation getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Tag_Model_Tag_Relation getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Tag_Model_Tag_Relation getActive()
+ * @method int setActive(int $value)
+ * @method Mage_Tag_Model_Tag_Relation getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Tag
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
 {

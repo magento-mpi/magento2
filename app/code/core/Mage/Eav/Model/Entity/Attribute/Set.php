@@ -28,9 +28,18 @@
 /**
  * Eav attribute set model
  *
- * @category   Mage
- * @package    Mage_Eav
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Eav_Model_Resource_Entity_Attribute_Set _getResource()
+ * @method Mage_Eav_Model_Resource_Entity_Attribute_Set getResource()
+ * @method Mage_Eav_Model_Entity_Attribute_Set getEntityTypeId()
+ * @method int setEntityTypeId(int $value)
+ * @method Mage_Eav_Model_Entity_Attribute_Set getAttributeSetName()
+ * @method string setAttributeSetName(string $value)
+ * @method Mage_Eav_Model_Entity_Attribute_Set getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Eav
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
 {

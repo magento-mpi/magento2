@@ -31,7 +31,7 @@
  * @package    Mage_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Shipping_Model_Resource_Tablerate extends Mage_Core_Model_Resource_Abstract
+class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Import table rates website ID

@@ -27,6 +27,15 @@
 /**
  * Widget Instance Model
  *
+ * @method Mage_Widget_Model_Resource_Widget_Instance _getResource()
+ * @method Mage_Widget_Model_Resource_Widget_Instance getResource()
+ * @method Mage_Widget_Model_Widget_Instance getTitle()
+ * @method string setTitle(string $value)
+ * @method string setStoreIds(string $value)
+ * @method string setWidgetParameters(string $value)
+ * @method Mage_Widget_Model_Widget_Instance getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
  * @category    Mage
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>

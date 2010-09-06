@@ -28,8 +28,19 @@
 /**
  * Nesletter problem model
  *
- * @category   Mage
- * @package    Mage_Newsletter
+ * @method Mage_Newsletter_Model_Resource_Problem _getResource()
+ * @method Mage_Newsletter_Model_Resource_Problem getResource()
+ * @method Mage_Newsletter_Model_Problem getSubscriberId()
+ * @method int setSubscriberId(int $value)
+ * @method Mage_Newsletter_Model_Problem getQueueId()
+ * @method int setQueueId(int $value)
+ * @method Mage_Newsletter_Model_Problem getProblemErrorCode()
+ * @method int setProblemErrorCode(int $value)
+ * @method Mage_Newsletter_Model_Problem getProblemErrorText()
+ * @method string setProblemErrorText(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Newsletter_Model_Problem extends Mage_Core_Model_Abstract

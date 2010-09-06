@@ -27,6 +27,17 @@
 /**
  * Country model
  *
+ * @method Mage_Directory_Model_Resource_Country _getResource()
+ * @method Mage_Directory_Model_Resource_Country getResource()
+ * @method Mage_Directory_Model_Country getCountryId()
+ * @method string setCountryId(string $value)
+ * @method Mage_Directory_Model_Country getIso2Code()
+ * @method string setIso2Code(string $value)
+ * @method Mage_Directory_Model_Country getIso3Code()
+ * @method string setIso3Code(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract

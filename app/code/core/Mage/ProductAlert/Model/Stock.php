@@ -28,8 +28,25 @@
 /**
  * ProductAlert for back in stock model
  *
- * @category   Mage
- * @package    Mage_ProductAlert
+ * @method Mage_ProductAlert_Model_Resource_Stock _getResource()
+ * @method Mage_ProductAlert_Model_Resource_Stock getResource()
+ * @method Mage_ProductAlert_Model_Stock getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_ProductAlert_Model_Stock getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_ProductAlert_Model_Stock getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Mage_ProductAlert_Model_Stock getAddDate()
+ * @method string setAddDate(string $value)
+ * @method Mage_ProductAlert_Model_Stock getSendDate()
+ * @method string setSendDate(string $value)
+ * @method Mage_ProductAlert_Model_Stock getSendCount()
+ * @method int setSendCount(int $value)
+ * @method Mage_ProductAlert_Model_Stock getStatus()
+ * @method int setStatus(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_ProductAlert_Model_Stock extends Mage_Core_Model_Abstract

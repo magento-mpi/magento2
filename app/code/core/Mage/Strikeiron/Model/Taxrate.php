@@ -26,6 +26,19 @@
 
 /**
  *
+ * @method Mage_Strikeiron_Model_Resource_Taxrate _getResource()
+ * @method Mage_Strikeiron_Model_Resource_Taxrate getResource()
+ * @method Mage_Strikeiron_Model_Taxrate getTaxCountryId()
+ * @method string setTaxCountryId(string $value)
+ * @method Mage_Strikeiron_Model_Taxrate getTaxRegionId()
+ * @method int setTaxRegionId(int $value)
+ * @method Mage_Strikeiron_Model_Taxrate getTaxPostcode()
+ * @method string setTaxPostcode(string $value)
+ * @method Mage_Strikeiron_Model_Taxrate getRateValue()
+ * @method float setRateValue(float $value)
+ *
+ * @category    Mage
+ * @package     Mage_Strikeiron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Strikeiron_Model_Taxrate extends Mage_Core_Model_Abstract

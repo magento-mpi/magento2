@@ -24,6 +24,36 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Api_Model_Resource_User _getResource()
+ * @method Mage_Api_Model_Resource_User getResource()
+ * @method Mage_Api_Model_User getFirstname()
+ * @method string setFirstname(string $value)
+ * @method Mage_Api_Model_User getLastname()
+ * @method string setLastname(string $value)
+ * @method Mage_Api_Model_User getEmail()
+ * @method string setEmail(string $value)
+ * @method Mage_Api_Model_User getUsername()
+ * @method string setUsername(string $value)
+ * @method Mage_Api_Model_User getApiKey()
+ * @method string setApiKey(string $value)
+ * @method Mage_Api_Model_User getCreated()
+ * @method string setCreated(string $value)
+ * @method Mage_Api_Model_User getModified()
+ * @method string setModified(string $value)
+ * @method Mage_Api_Model_User getLognum()
+ * @method int setLognum(int $value)
+ * @method Mage_Api_Model_User getReloadAclFlag()
+ * @method int setReloadAclFlag(int $value)
+ * @method Mage_Api_Model_User getIsActive()
+ * @method int setIsActive(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Api
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Api_Model_User extends Mage_Core_Model_Abstract
 {
     protected function _construct()

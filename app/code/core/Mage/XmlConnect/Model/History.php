@@ -23,6 +23,30 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+/**
+ * Enter description here ...
+ *
+ * @method Mage_XmlConnect_Model_Resource_History _getResource()
+ * @method Mage_XmlConnect_Model_Resource_History getResource()
+ * @method Mage_XmlConnect_Model_History getApplicationId()
+ * @method int setApplicationId(int $value)
+ * @method Mage_XmlConnect_Model_History getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_XmlConnect_Model_History getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_XmlConnect_Model_History getParams()
+ * @method string setParams(string $value)
+ * @method Mage_XmlConnect_Model_History getTitle()
+ * @method string setTitle(string $value)
+ * @method Mage_XmlConnect_Model_History getActivationKey()
+ * @method string setActivationKey(string $value)
+ * @method Mage_XmlConnect_Model_History getCode()
+ * @method string setCode(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_XmlConnect_Model_History extends Mage_Core_Model_Abstract
 {
     /**

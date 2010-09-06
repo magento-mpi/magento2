@@ -27,6 +27,17 @@
 /**
  * Item option model
  *
+ * @method Mage_Sales_Model_Resource_Quote_Item_Option _getResource()
+ * @method Mage_Sales_Model_Resource_Quote_Item_Option getResource()
+ * @method Mage_Sales_Model_Quote_Item_Option getItemId()
+ * @method int setItemId(int $value)
+ * @method Mage_Sales_Model_Quote_Item_Option getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Sales_Model_Quote_Item_Option getCode()
+ * @method string setCode(string $value)
+ * @method Mage_Sales_Model_Quote_Item_Option getValue()
+ * @method string setValue(string $value)
+ *
  * @category    Mage
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>

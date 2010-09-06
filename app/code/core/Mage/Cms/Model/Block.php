@@ -27,8 +27,23 @@
 /**
  * CMS block model
  *
- * @category   Mage
- * @package    Mage_Cms
+ * @method Mage_Cms_Model_Resource_Block _getResource()
+ * @method Mage_Cms_Model_Resource_Block getResource()
+ * @method Mage_Cms_Model_Block getTitle()
+ * @method string setTitle(string $value)
+ * @method Mage_Cms_Model_Block getIdentifier()
+ * @method string setIdentifier(string $value)
+ * @method Mage_Cms_Model_Block getContent()
+ * @method string setContent(string $value)
+ * @method Mage_Cms_Model_Block getCreationTime()
+ * @method string setCreationTime(string $value)
+ * @method Mage_Cms_Model_Block getUpdateTime()
+ * @method string setUpdateTime(string $value)
+ * @method Mage_Cms_Model_Block getIsActive()
+ * @method int setIsActive(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

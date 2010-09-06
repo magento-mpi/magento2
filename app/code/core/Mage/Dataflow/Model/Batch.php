@@ -28,8 +28,19 @@
 /**
  * Dataflow Batch model
  *
- * @category   Mage
- * @package    Mage_Dataflow
+ * @method Mage_Dataflow_Model_Resource_Batch _getResource()
+ * @method Mage_Dataflow_Model_Resource_Batch getResource()
+ * @method Mage_Dataflow_Model_Batch getProfileId()
+ * @method int setProfileId(int $value)
+ * @method Mage_Dataflow_Model_Batch getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Dataflow_Model_Batch getAdapter()
+ * @method string setAdapter(string $value)
+ * @method Mage_Dataflow_Model_Batch getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Dataflow_Model_Batch extends Mage_Core_Model_Abstract

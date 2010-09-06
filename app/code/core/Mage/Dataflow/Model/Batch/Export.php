@@ -28,8 +28,15 @@
 /**
  * Dataflow Batch export model
  *
- * @category   Mage
- * @package    Mage_Dataflow
+ * @method Mage_Dataflow_Model_Resource_Batch_Export _getResource()
+ * @method Mage_Dataflow_Model_Resource_Batch_Export getResource()
+ * @method Mage_Dataflow_Model_Batch_Export getBatchId()
+ * @method int setBatchId(int $value)
+ * @method Mage_Dataflow_Model_Batch_Export getStatus()
+ * @method int setStatus(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Dataflow_Model_Batch_Export extends Mage_Dataflow_Model_Batch_Abstract

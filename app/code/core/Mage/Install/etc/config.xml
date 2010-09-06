@@ -63,6 +63,9 @@
         </routers>
     </frontend>
     <install>
+        <databases>
+            <mysql4 />
+        </databases>
         <layout>
             <updates>
                 <main>

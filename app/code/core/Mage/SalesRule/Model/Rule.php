@@ -25,6 +25,62 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_SalesRule_Model_Resource_Rule _getResource()
+ * @method Mage_SalesRule_Model_Resource_Rule getResource()
+ * @method Mage_SalesRule_Model_Rule getName()
+ * @method string setName(string $value)
+ * @method Mage_SalesRule_Model_Rule getDescription()
+ * @method string setDescription(string $value)
+ * @method Mage_SalesRule_Model_Rule getFromDate()
+ * @method string setFromDate(string $value)
+ * @method Mage_SalesRule_Model_Rule getToDate()
+ * @method string setToDate(string $value)
+ * @method Mage_SalesRule_Model_Rule getUsesPerCustomer()
+ * @method int setUsesPerCustomer(int $value)
+ * @method Mage_SalesRule_Model_Rule getCustomerGroupIds()
+ * @method string setCustomerGroupIds(string $value)
+ * @method Mage_SalesRule_Model_Rule getIsActive()
+ * @method int setIsActive(int $value)
+ * @method Mage_SalesRule_Model_Rule getConditionsSerialized()
+ * @method string setConditionsSerialized(string $value)
+ * @method Mage_SalesRule_Model_Rule getActionsSerialized()
+ * @method string setActionsSerialized(string $value)
+ * @method Mage_SalesRule_Model_Rule getStopRulesProcessing()
+ * @method int setStopRulesProcessing(int $value)
+ * @method Mage_SalesRule_Model_Rule getIsAdvanced()
+ * @method int setIsAdvanced(int $value)
+ * @method Mage_SalesRule_Model_Rule getProductIds()
+ * @method string setProductIds(string $value)
+ * @method Mage_SalesRule_Model_Rule getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method Mage_SalesRule_Model_Rule getSimpleAction()
+ * @method string setSimpleAction(string $value)
+ * @method Mage_SalesRule_Model_Rule getDiscountAmount()
+ * @method float setDiscountAmount(float $value)
+ * @method Mage_SalesRule_Model_Rule getDiscountQty()
+ * @method float setDiscountQty(float $value)
+ * @method Mage_SalesRule_Model_Rule getDiscountStep()
+ * @method int setDiscountStep(int $value)
+ * @method Mage_SalesRule_Model_Rule getSimpleFreeShipping()
+ * @method int setSimpleFreeShipping(int $value)
+ * @method Mage_SalesRule_Model_Rule getApplyToShipping()
+ * @method int setApplyToShipping(int $value)
+ * @method Mage_SalesRule_Model_Rule getTimesUsed()
+ * @method int setTimesUsed(int $value)
+ * @method Mage_SalesRule_Model_Rule getIsRss()
+ * @method int setIsRss(int $value)
+ * @method Mage_SalesRule_Model_Rule getWebsiteIds()
+ * @method string setWebsiteIds(string $value)
+ * @method Mage_SalesRule_Model_Rule getCouponType()
+ * @method int setCouponType(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_SalesRule
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 {
     const FREE_SHIPPING_ITEM = 1;

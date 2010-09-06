@@ -27,6 +27,19 @@
 /**
  * CatalogInventory Stock Status per website Model
  *
+ * @method Mage_CatalogInventory_Model_Resource_Stock_Status _getResource()
+ * @method Mage_CatalogInventory_Model_Resource_Stock_Status getResource()
+ * @method Mage_CatalogInventory_Model_Stock_Status getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Status getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Status getStockId()
+ * @method int setStockId(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Status getQty()
+ * @method float setQty(float $value)
+ * @method Mage_CatalogInventory_Model_Stock_Status getStockStatus()
+ * @method int setStockStatus(int $value)
+ *
  * @category    Mage
  * @package     Mage_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>

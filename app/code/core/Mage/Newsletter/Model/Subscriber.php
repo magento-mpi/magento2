@@ -27,8 +27,23 @@
 /**
  * Subscriber model
  *
- * @category   Mage
- * @package    Mage_Newsletter
+ * @method Mage_Newsletter_Model_Resource_Subscriber _getResource()
+ * @method Mage_Newsletter_Model_Resource_Subscriber getResource()
+ * @method Mage_Newsletter_Model_Subscriber getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Newsletter_Model_Subscriber getChangeStatusAt()
+ * @method string setChangeStatusAt(string $value)
+ * @method Mage_Newsletter_Model_Subscriber getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_Newsletter_Model_Subscriber getSubscriberEmail()
+ * @method string setSubscriberEmail(string $value)
+ * @method Mage_Newsletter_Model_Subscriber getSubscriberStatus()
+ * @method int setSubscriberStatus(int $value)
+ * @method Mage_Newsletter_Model_Subscriber getSubscriberConfirmCode()
+ * @method string setSubscriberConfirmCode(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract

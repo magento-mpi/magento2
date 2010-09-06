@@ -27,6 +27,33 @@
 /**
  * Admin user model
  *
+ * @method Mage_Admin_Model_Resource_User _getResource()
+ * @method Mage_Admin_Model_Resource_User getResource()
+ * @method Mage_Admin_Model_User getFirstname()
+ * @method string setFirstname(string $value)
+ * @method Mage_Admin_Model_User getLastname()
+ * @method string setLastname(string $value)
+ * @method Mage_Admin_Model_User getEmail()
+ * @method string setEmail(string $value)
+ * @method Mage_Admin_Model_User getUsername()
+ * @method string setUsername(string $value)
+ * @method Mage_Admin_Model_User getPassword()
+ * @method string setPassword(string $value)
+ * @method Mage_Admin_Model_User getCreated()
+ * @method string setCreated(string $value)
+ * @method Mage_Admin_Model_User getModified()
+ * @method string setModified(string $value)
+ * @method Mage_Admin_Model_User getLogdate()
+ * @method string setLogdate(string $value)
+ * @method Mage_Admin_Model_User getLognum()
+ * @method int setLognum(int $value)
+ * @method Mage_Admin_Model_User getReloadAclFlag()
+ * @method int setReloadAclFlag(int $value)
+ * @method Mage_Admin_Model_User getIsActive()
+ * @method int setIsActive(int $value)
+ * @method Mage_Admin_Model_User getExtra()
+ * @method string setExtra(string $value)
+ *
  * @category    Mage
  * @package     Mage_Admin
  * @author      Magento Core Team <core@magentocommerce.com>

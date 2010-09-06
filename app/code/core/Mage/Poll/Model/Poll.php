@@ -27,6 +27,26 @@
 /**
  * Poll model
  *
+ * @method Mage_Poll_Model_Resource_Poll _getResource()
+ * @method Mage_Poll_Model_Resource_Poll getResource()
+ * @method Mage_Poll_Model_Poll getPollTitle()
+ * @method string setPollTitle(string $value)
+ * @method int setVotesCount(int $value)
+ * @method Mage_Poll_Model_Poll getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Poll_Model_Poll getDatePosted()
+ * @method string setDatePosted(string $value)
+ * @method Mage_Poll_Model_Poll getDateClosed()
+ * @method string setDateClosed(string $value)
+ * @method Mage_Poll_Model_Poll getActive()
+ * @method int setActive(int $value)
+ * @method Mage_Poll_Model_Poll getClosed()
+ * @method int setClosed(int $value)
+ * @method Mage_Poll_Model_Poll getAnswersDisplay()
+ * @method int setAnswersDisplay(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

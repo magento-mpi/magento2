@@ -28,6 +28,19 @@
 /**
  * Wishlist item model
  *
+ * @method Mage_Wishlist_Model_Resource_Item _getResource()
+ * @method Mage_Wishlist_Model_Resource_Item getResource()
+ * @method Mage_Wishlist_Model_Item getWishlistId()
+ * @method int setWishlistId(int $value)
+ * @method Mage_Wishlist_Model_Item getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Wishlist_Model_Item getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Wishlist_Model_Item getAddedAt()
+ * @method string setAddedAt(string $value)
+ * @method Mage_Wishlist_Model_Item getDescription()
+ * @method string setDescription(string $value)
+ *
  * @category    Mage
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>

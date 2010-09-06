@@ -27,6 +27,27 @@
 /**
  * Downloadable links purchased model
  *
+ * @method Mage_Downloadable_Model_Resource_Link_Purchased _getResource()
+ * @method Mage_Downloadable_Model_Resource_Link_Purchased getResource()
+ * @method Mage_Downloadable_Model_Link_Purchased getOrderId()
+ * @method int setOrderId(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased getOrderIncrementId()
+ * @method string setOrderIncrementId(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased getOrderItemId()
+ * @method int setOrderItemId(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased getProductName()
+ * @method string setProductName(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased getProductSku()
+ * @method string setProductSku(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased getLinkSectionTitle()
+ * @method string setLinkSectionTitle(string $value)
+ *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>

@@ -27,8 +27,15 @@
 /**
  * Tax class model
  *
- * @category   Mage
- * @package    Mage_Tax
+ * @method Mage_Tax_Model_Resource_Class _getResource()
+ * @method Mage_Tax_Model_Resource_Class getResource()
+ * @method Mage_Tax_Model_Class getClassName()
+ * @method string setClassName(string $value)
+ * @method Mage_Tax_Model_Class getClassType()
+ * @method string setClassType(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

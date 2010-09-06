@@ -28,6 +28,18 @@
 /**
  * Attribute index model
  *
+ * @method Mage_CatalogIndex_Model_Resource_Attribute _getResource()
+ * @method Mage_CatalogIndex_Model_Resource_Attribute getResource()
+ * @method int setEntityId(int $value)
+ * @method Mage_CatalogIndex_Model_Attribute getAttributeId()
+ * @method int setAttributeId(int $value)
+ * @method Mage_CatalogIndex_Model_Attribute getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_CatalogIndex_Model_Attribute getValue()
+ * @method int setValue(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogIndex
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogIndex_Model_Attribute extends Mage_Core_Model_Abstract

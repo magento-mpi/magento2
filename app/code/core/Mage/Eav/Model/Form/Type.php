@@ -28,6 +28,19 @@
 /**
  * Eav Form Type Model
  *
+ * @method Mage_Eav_Model_Resource_Form_Type _getResource()
+ * @method Mage_Eav_Model_Resource_Form_Type getResource()
+ * @method Mage_Eav_Model_Form_Type getCode()
+ * @method string setCode(string $value)
+ * @method Mage_Eav_Model_Form_Type getLabel()
+ * @method string setLabel(string $value)
+ * @method Mage_Eav_Model_Form_Type getIsSystem()
+ * @method int setIsSystem(int $value)
+ * @method Mage_Eav_Model_Form_Type getTheme()
+ * @method string setTheme(string $value)
+ * @method Mage_Eav_Model_Form_Type getStoreId()
+ * @method int setStoreId(int $value)
+ *
  * @category    Mage
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>

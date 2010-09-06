@@ -27,7 +27,28 @@
 /**
  * Tax Rate Model
  *
- * @author Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Tax_Model_Resource_Calculation_Rate _getResource()
+ * @method Mage_Tax_Model_Resource_Calculation_Rate getResource()
+ * @method Mage_Tax_Model_Calculation_Rate getTaxCountryId()
+ * @method string setTaxCountryId(string $value)
+ * @method Mage_Tax_Model_Calculation_Rate getTaxRegionId()
+ * @method int setTaxRegionId(int $value)
+ * @method Mage_Tax_Model_Calculation_Rate getTaxPostcode()
+ * @method string setTaxPostcode(string $value)
+ * @method Mage_Tax_Model_Calculation_Rate getCode()
+ * @method string setCode(string $value)
+ * @method Mage_Tax_Model_Calculation_Rate getRate()
+ * @method float setRate(float $value)
+ * @method Mage_Tax_Model_Calculation_Rate getZipIsRange()
+ * @method int setZipIsRange(int $value)
+ * @method Mage_Tax_Model_Calculation_Rate getZipFrom()
+ * @method int setZipFrom(int $value)
+ * @method Mage_Tax_Model_Calculation_Rate getZipTo()
+ * @method int setZipTo(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Tax
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
 {

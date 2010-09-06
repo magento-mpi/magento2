@@ -27,6 +27,13 @@
 /**
  * Stock model
  *
+ * @method Mage_CatalogInventory_Model_Resource_Stock _getResource()
+ * @method Mage_CatalogInventory_Model_Resource_Stock getResource()
+ * @method Mage_CatalogInventory_Model_Stock getStockName()
+ * @method string setStockName(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract

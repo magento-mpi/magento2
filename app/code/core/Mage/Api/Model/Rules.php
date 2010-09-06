@@ -24,6 +24,28 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Api_Model_Resource_Rules _getResource()
+ * @method Mage_Api_Model_Resource_Rules getResource()
+ * @method Mage_Api_Model_Rules getRoleId()
+ * @method int setRoleId(int $value)
+ * @method Mage_Api_Model_Rules getResourceId()
+ * @method string setResourceId(string $value)
+ * @method Mage_Api_Model_Rules getPrivileges()
+ * @method string setPrivileges(string $value)
+ * @method Mage_Api_Model_Rules getAssertId()
+ * @method int setAssertId(int $value)
+ * @method Mage_Api_Model_Rules getRoleType()
+ * @method string setRoleType(string $value)
+ * @method Mage_Api_Model_Rules getPermission()
+ * @method string setPermission(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Api
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Api_Model_Rules extends Mage_Core_Model_Abstract
 {
     protected function _construct()

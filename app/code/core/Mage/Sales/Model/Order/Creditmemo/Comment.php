@@ -25,6 +25,26 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Sales_Model_Resource_Order_Creditmemo_Comment _getResource()
+ * @method Mage_Sales_Model_Resource_Order_Creditmemo_Comment getResource()
+ * @method Mage_Sales_Model_Order_Creditmemo_Comment getParentId()
+ * @method int setParentId(int $value)
+ * @method Mage_Sales_Model_Order_Creditmemo_Comment getIsCustomerNotified()
+ * @method int setIsCustomerNotified(int $value)
+ * @method Mage_Sales_Model_Order_Creditmemo_Comment getIsVisibleOnFront()
+ * @method int setIsVisibleOnFront(int $value)
+ * @method Mage_Sales_Model_Order_Creditmemo_Comment getComment()
+ * @method string setComment(string $value)
+ * @method Mage_Sales_Model_Order_Creditmemo_Comment getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Model_Order_Creditmemo_Comment extends Mage_Sales_Model_Abstract
 {
     /**

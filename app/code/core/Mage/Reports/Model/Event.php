@@ -27,9 +27,24 @@
 /**
  * Events model
  *
- * @category   Mage
- * @package    Mage_Reports
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Reports_Model_Resource_Event _getResource()
+ * @method Mage_Reports_Model_Resource_Event getResource()
+ * @method Mage_Reports_Model_Event getLoggedAt()
+ * @method string setLoggedAt(string $value)
+ * @method Mage_Reports_Model_Event getEventTypeId()
+ * @method int setEventTypeId(int $value)
+ * @method Mage_Reports_Model_Event getObjectId()
+ * @method int setObjectId(int $value)
+ * @method Mage_Reports_Model_Event getSubjectId()
+ * @method int setSubjectId(int $value)
+ * @method Mage_Reports_Model_Event getSubtype()
+ * @method int setSubtype(int $value)
+ * @method Mage_Reports_Model_Event getStoreId()
+ * @method int setStoreId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Reports
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Model_Event extends Mage_Core_Model_Abstract
 {

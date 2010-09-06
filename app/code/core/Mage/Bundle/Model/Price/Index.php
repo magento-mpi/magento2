@@ -28,11 +28,21 @@
 /**
  * Bundle Product Price Index
  *
+ * @method Mage_Bundle_Model_Resource_Price_Index _getResource()
+ * @method Mage_Bundle_Model_Resource_Price_Index getResource()
+ * @method int setEntityId(int $value)
+ * @method Mage_Bundle_Model_Price_Index getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Mage_Bundle_Model_Price_Index getCustomerGroupId()
+ * @method int setCustomerGroupId(int $value)
+ * @method Mage_Bundle_Model_Price_Index getMinPrice()
+ * @method float setMinPrice(float $value)
+ * @method Mage_Bundle_Model_Price_Index getMaxPrice()
+ * @method float setMaxPrice(float $value)
+ *
  * @category    Mage
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
- * @deprecated  since 1.4.0.0
- * @see         Mage_Bundle_Model_Mysql4_Indexer_Price
  */
 class Mage_Bundle_Model_Price_Index extends Mage_Core_Model_Abstract
 {

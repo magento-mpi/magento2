@@ -28,9 +28,24 @@
 /**
  * Prepare Log Online Visitors Model
  *
- * @category   Mage
- * @package    Mage_Log
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Log_Model_Resource_Visitor_Online _getResource()
+ * @method Mage_Log_Model_Resource_Visitor_Online getResource()
+ * @method Mage_Log_Model_Visitor_Online getVisitorType()
+ * @method string setVisitorType(string $value)
+ * @method Mage_Log_Model_Visitor_Online getRemoteAddr()
+ * @method int setRemoteAddr(int $value)
+ * @method Mage_Log_Model_Visitor_Online getFirstVisitAt()
+ * @method string setFirstVisitAt(string $value)
+ * @method Mage_Log_Model_Visitor_Online getLastVisitAt()
+ * @method string setLastVisitAt(string $value)
+ * @method Mage_Log_Model_Visitor_Online getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_Log_Model_Visitor_Online getLastUrl()
+ * @method string setLastUrl(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Log
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Log_Model_Visitor_Online extends Mage_Core_Model_Abstract
 {

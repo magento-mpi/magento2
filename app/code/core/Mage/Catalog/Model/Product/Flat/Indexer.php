@@ -28,9 +28,28 @@
 /**
  * Catalog Product Flat Indexer Model
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Catalog_Model_Resource_Product_Flat_Indexer _getResource()
+ * @method Mage_Catalog_Model_Resource_Product_Flat_Indexer getResource()
+ * @method Mage_Catalog_Model_Product_Flat_Indexer getEntityTypeId()
+ * @method int setEntityTypeId(int $value)
+ * @method Mage_Catalog_Model_Product_Flat_Indexer getAttributeSetId()
+ * @method int setAttributeSetId(int $value)
+ * @method Mage_Catalog_Model_Product_Flat_Indexer getTypeId()
+ * @method string setTypeId(string $value)
+ * @method Mage_Catalog_Model_Product_Flat_Indexer getSku()
+ * @method string setSku(string $value)
+ * @method Mage_Catalog_Model_Product_Flat_Indexer getHasOptions()
+ * @method int setHasOptions(int $value)
+ * @method Mage_Catalog_Model_Product_Flat_Indexer getRequiredOptions()
+ * @method int setRequiredOptions(int $value)
+ * @method Mage_Catalog_Model_Product_Flat_Indexer getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Catalog_Model_Product_Flat_Indexer getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
 {

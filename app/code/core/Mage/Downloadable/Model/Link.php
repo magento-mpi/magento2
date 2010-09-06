@@ -27,6 +27,29 @@
 /**
  * Downloadable link model
  *
+ * @method Mage_Downloadable_Model_Resource_Link _getResource()
+ * @method Mage_Downloadable_Model_Resource_Link getResource()
+ * @method Mage_Downloadable_Model_Link getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Downloadable_Model_Link getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method Mage_Downloadable_Model_Link getNumberOfDownloads()
+ * @method int setNumberOfDownloads(int $value)
+ * @method Mage_Downloadable_Model_Link getIsShareable()
+ * @method int setIsShareable(int $value)
+ * @method Mage_Downloadable_Model_Link getLinkUrl()
+ * @method string setLinkUrl(string $value)
+ * @method Mage_Downloadable_Model_Link getLinkFile()
+ * @method string setLinkFile(string $value)
+ * @method Mage_Downloadable_Model_Link getLinkType()
+ * @method string setLinkType(string $value)
+ * @method Mage_Downloadable_Model_Link getSampleUrl()
+ * @method string setSampleUrl(string $value)
+ * @method Mage_Downloadable_Model_Link getSampleFile()
+ * @method string setSampleFile(string $value)
+ * @method Mage_Downloadable_Model_Link getSampleType()
+ * @method string setSampleType(string $value)
+ *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>

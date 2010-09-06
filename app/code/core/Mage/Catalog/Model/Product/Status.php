@@ -28,9 +28,18 @@
 /**
  * Product status functionality model
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Catalog_Model_Resource_Product_Status _getResource()
+ * @method Mage_Catalog_Model_Resource_Product_Status getResource()
+ * @method Mage_Catalog_Model_Product_Status getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Catalog_Model_Product_Status getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Catalog_Model_Product_Status getVisibility()
+ * @method int setVisibility(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
 {

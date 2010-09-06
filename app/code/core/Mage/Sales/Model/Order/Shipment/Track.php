@@ -24,6 +24,36 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Sales_Model_Resource_Order_Shipment_Track _getResource()
+ * @method Mage_Sales_Model_Resource_Order_Shipment_Track getResource()
+ * @method Mage_Sales_Model_Order_Shipment_Track getParentId()
+ * @method int setParentId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment_Track getWeight()
+ * @method float setWeight(float $value)
+ * @method Mage_Sales_Model_Order_Shipment_Track getQty()
+ * @method float setQty(float $value)
+ * @method Mage_Sales_Model_Order_Shipment_Track getOrderId()
+ * @method int setOrderId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment_Track getNumber()
+ * @method string setNumber(string $value)
+ * @method Mage_Sales_Model_Order_Shipment_Track getDescription()
+ * @method string setDescription(string $value)
+ * @method Mage_Sales_Model_Order_Shipment_Track getTitle()
+ * @method string setTitle(string $value)
+ * @method Mage_Sales_Model_Order_Shipment_Track getCarrierCode()
+ * @method string setCarrierCode(string $value)
+ * @method Mage_Sales_Model_Order_Shipment_Track getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Sales_Model_Order_Shipment_Track getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
 {
     const CUSTOM_CARRIER_CODE   = 'custom';

@@ -27,8 +27,25 @@
 /**
  * Crontab schedule model
  *
- * @category   Mage
- * @package    Mage_Cron
+ * @method Mage_Cron_Model_Resource_Schedule _getResource()
+ * @method Mage_Cron_Model_Resource_Schedule getResource()
+ * @method Mage_Cron_Model_Schedule getJobCode()
+ * @method string setJobCode(string $value)
+ * @method Mage_Cron_Model_Schedule getStatus()
+ * @method string setStatus(string $value)
+ * @method Mage_Cron_Model_Schedule getMessages()
+ * @method string setMessages(string $value)
+ * @method Mage_Cron_Model_Schedule getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Cron_Model_Schedule getScheduledAt()
+ * @method string setScheduledAt(string $value)
+ * @method Mage_Cron_Model_Schedule getExecutedAt()
+ * @method string setExecutedAt(string $value)
+ * @method Mage_Cron_Model_Schedule getFinishedAt()
+ * @method string setFinishedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract

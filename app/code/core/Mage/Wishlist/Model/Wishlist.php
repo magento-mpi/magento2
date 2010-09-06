@@ -28,9 +28,18 @@
 /**
  * Wishlist model
  *
- * @category   Mage
- * @package    Mage_Wishlist
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Wishlist_Model_Resource_Wishlist _getResource()
+ * @method Mage_Wishlist_Model_Resource_Wishlist getResource()
+ * @method Mage_Wishlist_Model_Wishlist getShared()
+ * @method int setShared(int $value)
+ * @method Mage_Wishlist_Model_Wishlist getSharingCode()
+ * @method string setSharingCode(string $value)
+ * @method Mage_Wishlist_Model_Wishlist getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Wishlist
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 {

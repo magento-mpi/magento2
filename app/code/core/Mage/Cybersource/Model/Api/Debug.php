@@ -27,6 +27,19 @@
 /**
  * Abstract class for Cybersource Debug
  *
+ * @method Mage_Cybersource_Model_Resource_Api_Debug _getResource()
+ * @method Mage_Cybersource_Model_Resource_Api_Debug getResource()
+ * @method Mage_Cybersource_Model_Api_Debug getDebugAt()
+ * @method string setDebugAt(string $value)
+ * @method Mage_Cybersource_Model_Api_Debug getAction()
+ * @method string setAction(string $value)
+ * @method Mage_Cybersource_Model_Api_Debug getRequestBody()
+ * @method string setRequestBody(string $value)
+ * @method Mage_Cybersource_Model_Api_Debug getResponseBody()
+ * @method string setResponseBody(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Cybersource
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Cybersource_Model_Api_Debug extends Mage_Core_Model_Abstract

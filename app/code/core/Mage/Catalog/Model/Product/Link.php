@@ -28,8 +28,17 @@
 /**
  * Catalog product link model
  *
- * @category   Mage
- * @package    Mage_Catalog
+ * @method Mage_Catalog_Model_Resource_Product_Link _getResource()
+ * @method Mage_Catalog_Model_Resource_Product_Link getResource()
+ * @method Mage_Catalog_Model_Product_Link getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Catalog_Model_Product_Link getLinkedProductId()
+ * @method int setLinkedProductId(int $value)
+ * @method Mage_Catalog_Model_Product_Link getLinkTypeId()
+ * @method int setLinkTypeId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract

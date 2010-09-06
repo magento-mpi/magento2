@@ -27,7 +27,28 @@
 /**
  * Billing Agreement abstract model
  *
- * @author Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Sales_Model_Resource_Billing_Agreement _getResource()
+ * @method Mage_Sales_Model_Resource_Billing_Agreement getResource()
+ * @method Mage_Sales_Model_Billing_Agreement getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_Sales_Model_Billing_Agreement getMethodCode()
+ * @method string setMethodCode(string $value)
+ * @method Mage_Sales_Model_Billing_Agreement getReferenceId()
+ * @method string setReferenceId(string $value)
+ * @method Mage_Sales_Model_Billing_Agreement getStatus()
+ * @method string setStatus(string $value)
+ * @method Mage_Sales_Model_Billing_Agreement getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Sales_Model_Billing_Agreement getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Mage_Sales_Model_Billing_Agreement getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Sales_Model_Billing_Agreement getAgreementLabel()
+ * @method string setAgreementLabel(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_AgreementAbstract
 {

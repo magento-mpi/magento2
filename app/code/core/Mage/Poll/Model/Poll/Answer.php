@@ -27,8 +27,19 @@
 /**
  * Poll answers model
  *
- * @category   Mage
- * @package    Mage_Poll
+ * @method Mage_Poll_Model_Resource_Poll_Answer _getResource()
+ * @method Mage_Poll_Model_Resource_Poll_Answer getResource()
+ * @method Mage_Poll_Model_Poll_Answer getPollId()
+ * @method int setPollId(int $value)
+ * @method Mage_Poll_Model_Poll_Answer getAnswerTitle()
+ * @method string setAnswerTitle(string $value)
+ * @method Mage_Poll_Model_Poll_Answer getVotesCount()
+ * @method int setVotesCount(int $value)
+ * @method Mage_Poll_Model_Poll_Answer getAnswerOrder()
+ * @method int setAnswerOrder(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

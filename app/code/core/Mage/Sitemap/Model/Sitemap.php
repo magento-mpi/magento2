@@ -28,8 +28,21 @@
 /**
  * Sitemap model
  *
- * @category   Mage
- * @package    Mage_Sitemap
+ * @method Mage_Sitemap_Model_Resource_Sitemap _getResource()
+ * @method Mage_Sitemap_Model_Resource_Sitemap getResource()
+ * @method Mage_Sitemap_Model_Sitemap getSitemapType()
+ * @method string setSitemapType(string $value)
+ * @method Mage_Sitemap_Model_Sitemap getSitemapFilename()
+ * @method string setSitemapFilename(string $value)
+ * @method Mage_Sitemap_Model_Sitemap getSitemapPath()
+ * @method string setSitemapPath(string $value)
+ * @method Mage_Sitemap_Model_Sitemap getSitemapTime()
+ * @method string setSitemapTime(string $value)
+ * @method Mage_Sitemap_Model_Sitemap getStoreId()
+ * @method int setStoreId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract

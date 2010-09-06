@@ -31,6 +31,25 @@
  *  - Category save (changed assigned products list or category move)
  *  - Store save (new store creation, changed store group) - require reindex all data
  *  - Store group save (changed root category or group website) - require reindex all data
+ *
+ * @method Mage_Catalog_Model_Resource_Category_Indexer_Product _getResource()
+ * @method Mage_Catalog_Model_Resource_Category_Indexer_Product getResource()
+ * @method Mage_Catalog_Model_Category_Indexer_Product getCategoryId()
+ * @method int setCategoryId(int $value)
+ * @method Mage_Catalog_Model_Category_Indexer_Product getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Catalog_Model_Category_Indexer_Product getPosition()
+ * @method int setPosition(int $value)
+ * @method Mage_Catalog_Model_Category_Indexer_Product getIsParent()
+ * @method int setIsParent(int $value)
+ * @method Mage_Catalog_Model_Category_Indexer_Product getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Catalog_Model_Category_Indexer_Product getVisibility()
+ * @method int setVisibility(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Indexer_Abstract
 {

@@ -24,6 +24,24 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Index_Model_Resource_Event _getResource()
+ * @method Mage_Index_Model_Resource_Event getResource()
+ * @method string setType(string $value)
+ * @method string setEntity(string $value)
+ * @method Mage_Index_Model_Event getEntityPk()
+ * @method int setEntityPk(int $value)
+ * @method Mage_Index_Model_Event getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method string setOldData(string $value)
+ * @method string setNewData(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Index
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
 {
     /**

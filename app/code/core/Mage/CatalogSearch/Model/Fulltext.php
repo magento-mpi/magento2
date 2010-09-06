@@ -27,8 +27,17 @@
 /**
  * Catalog advanced search model
  *
- * @category   Mage
- * @package    Mage_CatalogSearch
+ * @method Mage_CatalogSearch_Model_Resource_Fulltext _getResource()
+ * @method Mage_CatalogSearch_Model_Resource_Fulltext getResource()
+ * @method Mage_CatalogSearch_Model_Fulltext getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_CatalogSearch_Model_Fulltext getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_CatalogSearch_Model_Fulltext getDataIndex()
+ * @method string setDataIndex(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract

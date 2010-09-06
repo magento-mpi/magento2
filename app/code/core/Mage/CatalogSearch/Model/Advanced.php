@@ -27,8 +27,27 @@
 /**
  * Catalog advanced search model
  *
- * @category   Mage
- * @package    Mage_CatalogSearch
+ * @method Mage_CatalogSearch_Model_Resource_Advanced _getResource()
+ * @method Mage_CatalogSearch_Model_Resource_Advanced getResource()
+ * @method Mage_CatalogSearch_Model_Advanced getEntityTypeId()
+ * @method int setEntityTypeId(int $value)
+ * @method Mage_CatalogSearch_Model_Advanced getAttributeSetId()
+ * @method int setAttributeSetId(int $value)
+ * @method Mage_CatalogSearch_Model_Advanced getTypeId()
+ * @method string setTypeId(string $value)
+ * @method Mage_CatalogSearch_Model_Advanced getSku()
+ * @method string setSku(string $value)
+ * @method Mage_CatalogSearch_Model_Advanced getHasOptions()
+ * @method int setHasOptions(int $value)
+ * @method Mage_CatalogSearch_Model_Advanced getRequiredOptions()
+ * @method int setRequiredOptions(int $value)
+ * @method Mage_CatalogSearch_Model_Advanced getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_CatalogSearch_Model_Advanced getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract

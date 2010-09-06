@@ -27,6 +27,19 @@
 /**
  * Downloadable sample model
  *
+ * @method Mage_Downloadable_Model_Resource_Sample _getResource()
+ * @method Mage_Downloadable_Model_Resource_Sample getResource()
+ * @method Mage_Downloadable_Model_Sample getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Downloadable_Model_Sample getSampleUrl()
+ * @method string setSampleUrl(string $value)
+ * @method Mage_Downloadable_Model_Sample getSampleFile()
+ * @method string setSampleFile(string $value)
+ * @method Mage_Downloadable_Model_Sample getSampleType()
+ * @method string setSampleType(string $value)
+ * @method Mage_Downloadable_Model_Sample getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>

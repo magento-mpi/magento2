@@ -28,9 +28,28 @@
 /**
  * Tag Indexer Model
  *
- * @category   Mage
- * @package    Mage_Tag
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Tag_Model_Resource_Indexer_Summary _getResource()
+ * @method Mage_Tag_Model_Resource_Indexer_Summary getResource()
+ * @method Mage_Tag_Model_Indexer_Summary getTagId()
+ * @method int setTagId(int $value)
+ * @method Mage_Tag_Model_Indexer_Summary getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Tag_Model_Indexer_Summary getCustomers()
+ * @method int setCustomers(int $value)
+ * @method Mage_Tag_Model_Indexer_Summary getProducts()
+ * @method int setProducts(int $value)
+ * @method Mage_Tag_Model_Indexer_Summary getUses()
+ * @method int setUses(int $value)
+ * @method Mage_Tag_Model_Indexer_Summary getHistoricalUses()
+ * @method int setHistoricalUses(int $value)
+ * @method Mage_Tag_Model_Indexer_Summary getPopularity()
+ * @method int setPopularity(int $value)
+ * @method Mage_Tag_Model_Indexer_Summary getBasePopularity()
+ * @method int setBasePopularity(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Tag
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
 {

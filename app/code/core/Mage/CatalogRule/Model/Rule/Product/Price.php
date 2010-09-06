@@ -28,6 +28,23 @@
 /**
  * Catalog Rule Product Aggregated Price per date Model
  *
+ * @method Mage_CatalogRule_Model_Resource_Rule_Product_Price _getResource()
+ * @method Mage_CatalogRule_Model_Resource_Rule_Product_Price getResource()
+ * @method Mage_CatalogRule_Model_Rule_Product_Price getRuleDate()
+ * @method string setRuleDate(string $value)
+ * @method Mage_CatalogRule_Model_Rule_Product_Price getCustomerGroupId()
+ * @method int setCustomerGroupId(int $value)
+ * @method Mage_CatalogRule_Model_Rule_Product_Price getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_CatalogRule_Model_Rule_Product_Price getRulePrice()
+ * @method float setRulePrice(float $value)
+ * @method Mage_CatalogRule_Model_Rule_Product_Price getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Mage_CatalogRule_Model_Rule_Product_Price getLatestStartDate()
+ * @method string setLatestStartDate(string $value)
+ * @method Mage_CatalogRule_Model_Rule_Product_Price getEarliestEndDate()
+ * @method string setEarliestEndDate(string $value)
+ *
  * @category    Mage
  * @package     Mage_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>

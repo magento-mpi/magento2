@@ -28,6 +28,25 @@
  * Payment transaction model
  * Tracks transaction history, allows to build transactions hierarchy
  * By default transactions are saved as closed.
+ *
+ * @method Mage_Sales_Model_Resource_Order_Payment_Transaction _getResource()
+ * @method Mage_Sales_Model_Resource_Order_Payment_Transaction getResource()
+ * @method Mage_Sales_Model_Order_Payment_Transaction getParentId()
+ * @method int setParentId(int $value)
+ * @method int setOrderId(int $value)
+ * @method Mage_Sales_Model_Order_Payment_Transaction getPaymentId()
+ * @method int setPaymentId(int $value)
+ * @method Mage_Sales_Model_Order_Payment_Transaction getTxnId()
+ * @method Mage_Sales_Model_Order_Payment_Transaction getParentTxnId()
+ * @method Mage_Sales_Model_Order_Payment_Transaction getTxnType()
+ * @method Mage_Sales_Model_Order_Payment_Transaction getIsClosed()
+ * @method int setIsClosed(int $value)
+ * @method Mage_Sales_Model_Order_Payment_Transaction getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstract
 {

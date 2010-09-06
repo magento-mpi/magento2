@@ -31,6 +31,24 @@
  * Prepare report rows for Mage_Paypal_Model_Report_Settlement_Row model
  *
  */
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Paypal_Model_Resource_Report_Settlement _getResource()
+ * @method Mage_Paypal_Model_Resource_Report_Settlement getResource()
+ * @method Mage_Paypal_Model_Report_Settlement getReportDate()
+ * @method string setReportDate(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement getAccountId()
+ * @method string setAccountId(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement getFilename()
+ * @method string setFilename(string $value)
+ * @method Mage_Paypal_Model_Report_Settlement getLastModified()
+ * @method string setLastModified(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Paypal
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
 {
     /**

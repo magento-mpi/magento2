@@ -28,9 +28,47 @@
 /**
  * Catalog Inventory Stock Model
  *
- * @category   Mage
- * @package    Mage_CatalogInventory
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_CatalogInventory_Model_Resource_Stock_Item _getResource()
+ * @method Mage_CatalogInventory_Model_Resource_Stock_Item getResource()
+ * @method int setProductId(int $value)
+ * @method int setStockId(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getQty()
+ * @method float setQty(float $value)
+ * @method float setMinQty(float $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getUseConfigMinQty()
+ * @method int setUseConfigMinQty(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getIsQtyDecimal()
+ * @method int setIsQtyDecimal(int $value)
+ * @method int setBackorders(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getUseConfigBackorders()
+ * @method int setUseConfigBackorders(int $value)
+ * @method float setMinSaleQty(float $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getUseConfigMinSaleQty()
+ * @method int setUseConfigMinSaleQty(int $value)
+ * @method float setMaxSaleQty(float $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getUseConfigMaxSaleQty()
+ * @method int setUseConfigMaxSaleQty(int $value)
+ * @method int setIsInStock(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getLowStockDate()
+ * @method string setLowStockDate(string $value)
+ * @method float setNotifyStockQty(float $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getUseConfigNotifyStockQty()
+ * @method int setUseConfigNotifyStockQty(int $value)
+ * @method int setManageStock(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getUseConfigManageStock()
+ * @method int setUseConfigManageStock(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getStockStatusChangedAutomatically()
+ * @method int setStockStatusChangedAutomatically(int $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getUseConfigQtyIncrements()
+ * @method int setUseConfigQtyIncrements(int $value)
+ * @method float setQtyIncrements(float $value)
+ * @method Mage_CatalogInventory_Model_Stock_Item getUseConfigEnableQtyIncrements()
+ * @method int setUseConfigEnableQtyIncrements(int $value)
+ * @method int setEnableQtyIncrements(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogInventory
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 {

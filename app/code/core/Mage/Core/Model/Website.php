@@ -27,8 +27,19 @@
 /**
  * Core Website model
  *
- * @category   Mage
- * @package    Mage_Core
+ * @method Mage_Core_Model_Resource_Website _getResource()
+ * @method Mage_Core_Model_Resource_Website getResource()
+ * @method string setCode(string $value)
+ * @method Mage_Core_Model_Website getName()
+ * @method string setName(string $value)
+ * @method Mage_Core_Model_Website getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method int setDefaultGroupId(int $value)
+ * @method Mage_Core_Model_Website getIsDefault()
+ * @method int setIsDefault(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

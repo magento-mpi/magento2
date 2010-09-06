@@ -28,8 +28,23 @@
 /**
  * DataFlow Session Model
  *
- * @category   Mage
- * @package    Mage_Dataflow
+ * @method Mage_Dataflow_Model_Resource_Session _getResource()
+ * @method Mage_Dataflow_Model_Resource_Session getResource()
+ * @method Mage_Dataflow_Model_Session getUserId()
+ * @method int setUserId(int $value)
+ * @method Mage_Dataflow_Model_Session getCreatedDate()
+ * @method string setCreatedDate(string $value)
+ * @method Mage_Dataflow_Model_Session getFile()
+ * @method string setFile(string $value)
+ * @method Mage_Dataflow_Model_Session getType()
+ * @method string setType(string $value)
+ * @method Mage_Dataflow_Model_Session getDirection()
+ * @method string setDirection(string $value)
+ * @method Mage_Dataflow_Model_Session getComment()
+ * @method string setComment(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Dataflow_Model_Session extends Mage_Core_Model_Abstract

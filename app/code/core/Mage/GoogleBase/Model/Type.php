@@ -27,9 +27,18 @@
 /**
  * Google Base Item Types Model
  *
- * @category   Mage
- * @package    Mage_GoogleBase
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_GoogleBase_Model_Resource_Type _getResource()
+ * @method Mage_GoogleBase_Model_Resource_Type getResource()
+ * @method Mage_GoogleBase_Model_Type getAttributeSetId()
+ * @method int setAttributeSetId(int $value)
+ * @method Mage_GoogleBase_Model_Type getGbaseItemtype()
+ * @method string setGbaseItemtype(string $value)
+ * @method Mage_GoogleBase_Model_Type getTargetCountry()
+ * @method string setTargetCountry(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_GoogleBase
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleBase_Model_Type extends Mage_Core_Model_Abstract
 {

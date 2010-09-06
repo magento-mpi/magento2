@@ -28,6 +28,28 @@
 /**
  * Price index model
  *
+ * @method Mage_CatalogIndex_Model_Resource_Price _getResource()
+ * @method Mage_CatalogIndex_Model_Resource_Price getResource()
+ * @method int setEntityId(int $value)
+ * @method Mage_CatalogIndex_Model_Price getCustomerGroupId()
+ * @method int setCustomerGroupId(int $value)
+ * @method Mage_CatalogIndex_Model_Price getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Mage_CatalogIndex_Model_Price getTaxClassId()
+ * @method int setTaxClassId(int $value)
+ * @method Mage_CatalogIndex_Model_Price getPrice()
+ * @method float setPrice(float $value)
+ * @method Mage_CatalogIndex_Model_Price getFinalPrice()
+ * @method float setFinalPrice(float $value)
+ * @method Mage_CatalogIndex_Model_Price getMinPrice()
+ * @method float setMinPrice(float $value)
+ * @method Mage_CatalogIndex_Model_Price getMaxPrice()
+ * @method float setMaxPrice(float $value)
+ * @method Mage_CatalogIndex_Model_Price getTierPrice()
+ * @method float setTierPrice(float $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogIndex
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogIndex_Model_Price extends Mage_Core_Model_Abstract

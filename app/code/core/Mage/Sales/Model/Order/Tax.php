@@ -25,7 +25,35 @@
  */
 
 /**
- * @deprecated after 1.4, moved to tax module
+ *
+ * @method Mage_Sales_Model_Resource_Order_Tax _getResource()
+ * @method Mage_Sales_Model_Resource_Order_Tax getResource()
+ * @method Mage_Sales_Model_Order_Tax getOrderId()
+ * @method int setOrderId(int $value)
+ * @method Mage_Sales_Model_Order_Tax getCode()
+ * @method string setCode(string $value)
+ * @method Mage_Sales_Model_Order_Tax getTitle()
+ * @method string setTitle(string $value)
+ * @method Mage_Sales_Model_Order_Tax getPercent()
+ * @method float setPercent(float $value)
+ * @method Mage_Sales_Model_Order_Tax getAmount()
+ * @method float setAmount(float $value)
+ * @method Mage_Sales_Model_Order_Tax getPriority()
+ * @method int setPriority(int $value)
+ * @method Mage_Sales_Model_Order_Tax getPosition()
+ * @method int setPosition(int $value)
+ * @method Mage_Sales_Model_Order_Tax getBaseAmount()
+ * @method float setBaseAmount(float $value)
+ * @method Mage_Sales_Model_Order_Tax getProcess()
+ * @method int setProcess(int $value)
+ * @method Mage_Sales_Model_Order_Tax getBaseRealAmount()
+ * @method float setBaseRealAmount(float $value)
+ * @method Mage_Sales_Model_Order_Tax getHidden()
+ * @method int setHidden(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Order_Tax extends Mage_Core_Model_Abstract
 {

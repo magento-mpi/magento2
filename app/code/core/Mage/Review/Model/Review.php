@@ -27,8 +27,18 @@
 /**
  * Review model
  *
- * @category   Mage
- * @package    Mage_Review
+ * @method Mage_Review_Model_Resource_Review _getResource()
+ * @method Mage_Review_Model_Resource_Review getResource()
+ * @method Mage_Review_Model_Review getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method int setEntityId(int $value)
+ * @method Mage_Review_Model_Review getEntityPkValue()
+ * @method int setEntityPkValue(int $value)
+ * @method Mage_Review_Model_Review getStatusId()
+ * @method int setStatusId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Review_Model_Review extends Mage_Core_Model_Abstract

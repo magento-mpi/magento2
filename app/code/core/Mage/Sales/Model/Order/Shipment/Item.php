@@ -24,6 +24,37 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Sales_Model_Resource_Order_Shipment_Item _getResource()
+ * @method Mage_Sales_Model_Resource_Order_Shipment_Item getResource()
+ * @method Mage_Sales_Model_Order_Shipment_Item getParentId()
+ * @method int setParentId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment_Item getRowTotal()
+ * @method float setRowTotal(float $value)
+ * @method Mage_Sales_Model_Order_Shipment_Item getPrice()
+ * @method float setPrice(float $value)
+ * @method Mage_Sales_Model_Order_Shipment_Item getWeight()
+ * @method float setWeight(float $value)
+ * @method Mage_Sales_Model_Order_Shipment_Item getQty()
+ * @method Mage_Sales_Model_Order_Shipment_Item getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment_Item getOrderItemId()
+ * @method int setOrderItemId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment_Item getAdditionalData()
+ * @method string setAdditionalData(string $value)
+ * @method Mage_Sales_Model_Order_Shipment_Item getDescription()
+ * @method string setDescription(string $value)
+ * @method Mage_Sales_Model_Order_Shipment_Item getName()
+ * @method string setName(string $value)
+ * @method Mage_Sales_Model_Order_Shipment_Item getSku()
+ * @method string setSku(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
 {
     protected $_eventPrefix = 'sales_shipment_item';

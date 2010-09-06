@@ -25,6 +25,24 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Eav_Model_Resource_Entity_Store _getResource()
+ * @method Mage_Eav_Model_Resource_Entity_Store getResource()
+ * @method Mage_Eav_Model_Entity_Store getEntityTypeId()
+ * @method int setEntityTypeId(int $value)
+ * @method Mage_Eav_Model_Entity_Store getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Eav_Model_Entity_Store getIncrementPrefix()
+ * @method string setIncrementPrefix(string $value)
+ * @method Mage_Eav_Model_Entity_Store getIncrementLastId()
+ * @method string setIncrementLastId(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Eav
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Eav_Model_Entity_Store extends Mage_Core_Model_Abstract
 {
     /**

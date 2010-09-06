@@ -27,6 +27,27 @@
 /**
  * Bundle Selection Model
  *
+ * @method Mage_Bundle_Model_Resource_Selection _getResource()
+ * @method Mage_Bundle_Model_Resource_Selection getResource()
+ * @method Mage_Bundle_Model_Selection getOptionId()
+ * @method int setOptionId(int $value)
+ * @method Mage_Bundle_Model_Selection getParentProductId()
+ * @method int setParentProductId(int $value)
+ * @method Mage_Bundle_Model_Selection getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Bundle_Model_Selection getPosition()
+ * @method int setPosition(int $value)
+ * @method Mage_Bundle_Model_Selection getIsDefault()
+ * @method int setIsDefault(int $value)
+ * @method Mage_Bundle_Model_Selection getSelectionPriceType()
+ * @method int setSelectionPriceType(int $value)
+ * @method Mage_Bundle_Model_Selection getSelectionPriceValue()
+ * @method float setSelectionPriceValue(float $value)
+ * @method Mage_Bundle_Model_Selection getSelectionQty()
+ * @method float setSelectionQty(float $value)
+ * @method Mage_Bundle_Model_Selection getSelectionCanChangeQty()
+ * @method int setSelectionCanChangeQty(int $value)
+ *
  * @category    Mage
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>

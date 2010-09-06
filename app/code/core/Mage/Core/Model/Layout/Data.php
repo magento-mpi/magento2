@@ -25,6 +25,22 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Core_Model_Resource_Layout _getResource()
+ * @method Mage_Core_Model_Resource_Layout getResource()
+ * @method Mage_Core_Model_Layout_Data getHandle()
+ * @method string setHandle(string $value)
+ * @method Mage_Core_Model_Layout_Data getXml()
+ * @method string setXml(string $value)
+ * @method Mage_Core_Model_Layout_Data getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Core_Model_Layout_Data extends Mage_Core_Model_Abstract
 {
     protected function _construct()

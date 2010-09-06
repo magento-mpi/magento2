@@ -27,9 +27,24 @@
 
 /**
  * User acl role
- * 
- * @category   Mage
- * @package    Mage_Admin
+ *
+ * @method Mage_Admin_Model_Resource_Acl_Role _getResource()
+ * @method Mage_Admin_Model_Resource_Acl_Role getResource()
+ * @method Mage_Admin_Model_Acl_Role getParentId()
+ * @method int setParentId(int $value)
+ * @method Mage_Admin_Model_Acl_Role getTreeLevel()
+ * @method int setTreeLevel(int $value)
+ * @method Mage_Admin_Model_Acl_Role getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method Mage_Admin_Model_Acl_Role getRoleType()
+ * @method string setRoleType(string $value)
+ * @method Mage_Admin_Model_Acl_Role getUserId()
+ * @method int setUserId(int $value)
+ * @method Mage_Admin_Model_Acl_Role getRoleName()
+ * @method string setRoleName(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Admin
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Admin_Model_Acl_Role extends Mage_Core_Model_Abstract 

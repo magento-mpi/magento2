@@ -27,8 +27,31 @@
 /**
  * Template model
  *
- * @category   Mage
- * @package    Mage_Newsletter
+ * @method Mage_Newsletter_Model_Resource_Template _getResource()
+ * @method Mage_Newsletter_Model_Resource_Template getResource()
+ * @method Mage_Newsletter_Model_Template getTemplateCode()
+ * @method string setTemplateCode(string $value)
+ * @method string setTemplateText(string $value)
+ * @method string setTemplateTextPreprocessed(string $value)
+ * @method Mage_Newsletter_Model_Template getTemplateStyles()
+ * @method string setTemplateStyles(string $value)
+ * @method Mage_Newsletter_Model_Template getTemplateType()
+ * @method int setTemplateType(int $value)
+ * @method Mage_Newsletter_Model_Template getTemplateSubject()
+ * @method string setTemplateSubject(string $value)
+ * @method Mage_Newsletter_Model_Template getTemplateSenderName()
+ * @method string setTemplateSenderName(string $value)
+ * @method Mage_Newsletter_Model_Template getTemplateSenderEmail()
+ * @method string setTemplateSenderEmail(string $value)
+ * @method Mage_Newsletter_Model_Template getTemplateActual()
+ * @method int setTemplateActual(int $value)
+ * @method Mage_Newsletter_Model_Template getAddedAt()
+ * @method string setAddedAt(string $value)
+ * @method Mage_Newsletter_Model_Template getModifiedAt()
+ * @method string setModifiedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template

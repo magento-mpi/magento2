@@ -28,6 +28,28 @@
 /**
  * Tier Price indexer
  *
+ * @method Mage_CatalogIndex_Model_Resource_Indexer_Price _getResource()
+ * @method Mage_CatalogIndex_Model_Resource_Indexer_Price getResource()
+ * @method int setEntityId(int $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Tierprice getCustomerGroupId()
+ * @method int setCustomerGroupId(int $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Tierprice getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Tierprice getTaxClassId()
+ * @method int setTaxClassId(int $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Tierprice getPrice()
+ * @method float setPrice(float $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Tierprice getFinalPrice()
+ * @method float setFinalPrice(float $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Tierprice getMinPrice()
+ * @method float setMinPrice(float $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Tierprice getMaxPrice()
+ * @method float setMaxPrice(float $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Tierprice getTierPrice()
+ * @method float setTierPrice(float $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogIndex
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogIndex_Model_Indexer_Tierprice extends Mage_CatalogIndex_Model_Indexer_Abstract

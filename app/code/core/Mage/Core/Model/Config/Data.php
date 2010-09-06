@@ -28,8 +28,20 @@
 /**
  * Config data model
  *
- * @category   Mage
- * @package    Mage_Core
+ * @method Mage_Core_Model_Resource_Config_Data _getResource()
+ * @method Mage_Core_Model_Resource_Config_Data getResource()
+ * @method Mage_Core_Model_Config_Data getScope()
+ * @method string setScope(string $value)
+ * @method Mage_Core_Model_Config_Data getScopeId()
+ * @method int setScopeId(int $value)
+ * @method Mage_Core_Model_Config_Data getPath()
+ * @method string setPath(string $value)
+ * @method Mage_Core_Model_Config_Data getValue()
+ * @method string setValue(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Config_Data extends Mage_Core_Model_Abstract
 {

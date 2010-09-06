@@ -38,8 +38,33 @@
  * );
  * $emailTemplate->send('some@domain.com', 'Name Of User', $variables);
  *
- * @category   Mage
- * @package    Mage_Core
+ * @method Mage_Core_Model_Resource_Email_Template _getResource()
+ * @method Mage_Core_Model_Resource_Email_Template getResource()
+ * @method Mage_Core_Model_Email_Template getTemplateCode()
+ * @method string setTemplateCode(string $value)
+ * @method Mage_Core_Model_Email_Template getTemplateText()
+ * @method string setTemplateText(string $value)
+ * @method Mage_Core_Model_Email_Template getTemplateStyles()
+ * @method string setTemplateStyles(string $value)
+ * @method Mage_Core_Model_Email_Template getTemplateType()
+ * @method int setTemplateType(int $value)
+ * @method Mage_Core_Model_Email_Template getTemplateSubject()
+ * @method string setTemplateSubject(string $value)
+ * @method Mage_Core_Model_Email_Template getTemplateSenderName()
+ * @method string setTemplateSenderName(string $value)
+ * @method Mage_Core_Model_Email_Template getTemplateSenderEmail()
+ * @method string setTemplateSenderEmail(string $value)
+ * @method Mage_Core_Model_Email_Template getAddedAt()
+ * @method string setAddedAt(string $value)
+ * @method Mage_Core_Model_Email_Template getModifiedAt()
+ * @method string setModifiedAt(string $value)
+ * @method Mage_Core_Model_Email_Template getOrigTemplateCode()
+ * @method string setOrigTemplateCode(string $value)
+ * @method Mage_Core_Model_Email_Template getOrigTemplateVariables()
+ * @method string setOrigTemplateVariables(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template

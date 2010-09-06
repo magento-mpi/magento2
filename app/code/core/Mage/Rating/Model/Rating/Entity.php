@@ -27,8 +27,13 @@
 /**
  * Ratings entity model
  *
- * @category   Mage
- * @package    Mage_Rating
+ * @method Mage_Rating_Model_Resource_Rating_Entity _getResource()
+ * @method Mage_Rating_Model_Resource_Rating_Entity getResource()
+ * @method Mage_Rating_Model_Rating_Entity getEntityCode()
+ * @method string setEntityCode(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

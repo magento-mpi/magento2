@@ -27,8 +27,15 @@
 /**
  * Emtity attribute option model
  *
- * @category   Mage
- * @package    Mage_Eav
+ * @method Mage_Eav_Model_Resource_Entity_Attribute_Option _getResource()
+ * @method Mage_Eav_Model_Resource_Entity_Attribute_Option getResource()
+ * @method Mage_Eav_Model_Entity_Attribute_Option getAttributeId()
+ * @method int setAttributeId(int $value)
+ * @method Mage_Eav_Model_Entity_Attribute_Option getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Eav_Model_Entity_Attribute_Option extends Mage_Core_Model_Abstract

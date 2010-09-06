@@ -25,6 +25,28 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Paygate_Model_Resource_Authorizenet_Debug _getResource()
+ * @method Mage_Paygate_Model_Resource_Authorizenet_Debug getResource()
+ * @method Mage_Paygate_Model_Authorizenet_Debug getRequestBody()
+ * @method string setRequestBody(string $value)
+ * @method Mage_Paygate_Model_Authorizenet_Debug getResponseBody()
+ * @method string setResponseBody(string $value)
+ * @method Mage_Paygate_Model_Authorizenet_Debug getRequestSerialized()
+ * @method string setRequestSerialized(string $value)
+ * @method Mage_Paygate_Model_Authorizenet_Debug getResultSerialized()
+ * @method string setResultSerialized(string $value)
+ * @method Mage_Paygate_Model_Authorizenet_Debug getRequestDump()
+ * @method string setRequestDump(string $value)
+ * @method Mage_Paygate_Model_Authorizenet_Debug getResultDump()
+ * @method string setResultDump(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Paygate
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Paygate_Model_Authorizenet_Debug extends Mage_Core_Model_Abstract
 {
     protected function _construct()

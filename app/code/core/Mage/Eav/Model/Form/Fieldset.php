@@ -28,6 +28,15 @@
 /**
  * Eav Form Fieldset Model
  *
+ * @method Mage_Eav_Model_Resource_Form_Fieldset _getResource()
+ * @method Mage_Eav_Model_Resource_Form_Fieldset getResource()
+ * @method Mage_Eav_Model_Form_Fieldset getTypeId()
+ * @method int setTypeId(int $value)
+ * @method Mage_Eav_Model_Form_Fieldset getCode()
+ * @method string setCode(string $value)
+ * @method Mage_Eav_Model_Form_Fieldset getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
  * @category    Mage
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>

@@ -27,9 +27,18 @@
 /**
  * Google Checkout notification model
  *
- * @category   Mage
- * @package    Mage_GoogleCheckout
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_GoogleCheckout_Model_Resource_Notification _getResource()
+ * @method Mage_GoogleCheckout_Model_Resource_Notification getResource()
+ * @method Mage_GoogleCheckout_Model_Notification getSerialNumber()
+ * @method string setSerialNumber(string $value)
+ * @method Mage_GoogleCheckout_Model_Notification getStartedAt()
+ * @method string setStartedAt(string $value)
+ * @method Mage_GoogleCheckout_Model_Notification getStatus()
+ * @method int setStatus(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_GoogleCheckout
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleCheckout_Model_Notification extends Mage_Core_Model_Abstract
 {

@@ -25,6 +25,41 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_CatalogRule_Model_Resource_Rule _getResource()
+ * @method Mage_CatalogRule_Model_Resource_Rule getResource()
+ * @method Mage_CatalogRule_Model_Rule getName()
+ * @method string setName(string $value)
+ * @method Mage_CatalogRule_Model_Rule getDescription()
+ * @method string setDescription(string $value)
+ * @method Mage_CatalogRule_Model_Rule getFromDate()
+ * @method string setFromDate(string $value)
+ * @method Mage_CatalogRule_Model_Rule getToDate()
+ * @method string setToDate(string $value)
+ * @method string setCustomerGroupIds(string $value)
+ * @method Mage_CatalogRule_Model_Rule getIsActive()
+ * @method int setIsActive(int $value)
+ * @method Mage_CatalogRule_Model_Rule getConditionsSerialized()
+ * @method string setConditionsSerialized(string $value)
+ * @method Mage_CatalogRule_Model_Rule getActionsSerialized()
+ * @method string setActionsSerialized(string $value)
+ * @method Mage_CatalogRule_Model_Rule getStopRulesProcessing()
+ * @method int setStopRulesProcessing(int $value)
+ * @method Mage_CatalogRule_Model_Rule getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method Mage_CatalogRule_Model_Rule getSimpleAction()
+ * @method string setSimpleAction(string $value)
+ * @method Mage_CatalogRule_Model_Rule getDiscountAmount()
+ * @method float setDiscountAmount(float $value)
+ * @method Mage_CatalogRule_Model_Rule getWebsiteIds()
+ * @method string setWebsiteIds(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogRule
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 {
     const XML_NODE_RELATED_CACHE = 'global/catalogrule/related_cache_types';

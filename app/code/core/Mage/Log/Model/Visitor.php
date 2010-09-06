@@ -25,6 +25,24 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Log_Model_Resource_Visitor _getResource()
+ * @method Mage_Log_Model_Resource_Visitor getResource()
+ * @method Mage_Log_Model_Visitor getSessionId()
+ * @method string setSessionId(string $value)
+ * @method string setFirstVisitAt(string $value)
+ * @method string setLastVisitAt(string $value)
+ * @method Mage_Log_Model_Visitor getLastUrlId()
+ * @method int setLastUrlId(int $value)
+ * @method Mage_Log_Model_Visitor getStoreId()
+ * @method int setStoreId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Log
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
 {
     const DEFAULT_ONLINE_MINUTES_INTERVAL = 15;

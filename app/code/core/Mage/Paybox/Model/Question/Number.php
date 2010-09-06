@@ -27,8 +27,17 @@
 /**
  * Paybox Question Number Model
  *
- * @category   Mage
- * @package    Mage_Paybox
+ * @method Mage_Paybox_Model_Resource_Question_Number _getResource()
+ * @method Mage_Paybox_Model_Resource_Question_Number getResource()
+ * @method Mage_Paybox_Model_Question_Number getAccountHash()
+ * @method string setAccountHash(string $value)
+ * @method Mage_Paybox_Model_Question_Number getIncrementValue()
+ * @method int setIncrementValue(int $value)
+ * @method Mage_Paybox_Model_Question_Number getResetDate()
+ * @method string setResetDate(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Paybox
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paybox_Model_Question_Number extends Mage_Core_Model_Abstract

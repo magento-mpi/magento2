@@ -27,6 +27,29 @@
 /**
  * Convert profile
  *
+ * @method Mage_Dataflow_Model_Resource_Profile _getResource()
+ * @method Mage_Dataflow_Model_Resource_Profile getResource()
+ * @method Mage_Dataflow_Model_Profile getName()
+ * @method string setName(string $value)
+ * @method Mage_Dataflow_Model_Profile getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Dataflow_Model_Profile getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Mage_Dataflow_Model_Profile getActionsXml()
+ * @method string setActionsXml(string $value)
+ * @method Mage_Dataflow_Model_Profile getGuiData()
+ * @method string setGuiData(string $value)
+ * @method Mage_Dataflow_Model_Profile getDirection()
+ * @method string setDirection(string $value)
+ * @method Mage_Dataflow_Model_Profile getEntityType()
+ * @method string setEntityType(string $value)
+ * @method Mage_Dataflow_Model_Profile getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Dataflow_Model_Profile getDataTransfer()
+ * @method string setDataTransfer(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract

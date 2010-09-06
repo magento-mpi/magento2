@@ -27,6 +27,14 @@
 /**
  * Customer group model
  *
+ * @method Mage_Customer_Model_Resource_Group _getResource()
+ * @method Mage_Customer_Model_Resource_Group getResource()
+ * @method Mage_Customer_Model_Group getCustomerGroupCode()
+ * @method string setCustomerGroupCode(string $value)
+ * @method int setTaxClassId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract

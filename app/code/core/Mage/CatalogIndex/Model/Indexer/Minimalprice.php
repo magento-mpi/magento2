@@ -28,6 +28,22 @@
 /**
  * Catalog indexer price processor
  *
+ * @method Mage_CatalogIndex_Model_Resource_Indexer_Minimalprice _getResource()
+ * @method Mage_CatalogIndex_Model_Resource_Indexer_Minimalprice getResource()
+ * @method int setEntityId(int $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getCustomerGroupId()
+ * @method int setCustomerGroupId(int $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getQty()
+ * @method float setQty(float $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getValue()
+ * @method float setValue(float $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getTaxClassId()
+ * @method int setTaxClassId(int $value)
+ * @method Mage_CatalogIndex_Model_Indexer_Minimalprice getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogIndex
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogIndex_Model_Indexer_Minimalprice extends Mage_CatalogIndex_Model_Indexer_Abstract

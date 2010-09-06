@@ -27,6 +27,17 @@
 /**
  * Bundle Option Model
  *
+ * @method Mage_Bundle_Model_Resource_Option _getResource()
+ * @method Mage_Bundle_Model_Resource_Option getResource()
+ * @method Mage_Bundle_Model_Option getParentId()
+ * @method int setParentId(int $value)
+ * @method Mage_Bundle_Model_Option getRequired()
+ * @method int setRequired(int $value)
+ * @method Mage_Bundle_Model_Option getPosition()
+ * @method int setPosition(int $value)
+ * @method Mage_Bundle_Model_Option getType()
+ * @method string setType(string $value)
+ *
  * @category    Mage
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>

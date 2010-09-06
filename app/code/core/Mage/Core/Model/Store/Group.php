@@ -27,8 +27,16 @@
 /**
  * Store group model
  *
- * @category   Mage
- * @package    Mage_Core
+ * @method Mage_Core_Model_Resource_Store_Group _getResource()
+ * @method Mage_Core_Model_Resource_Store_Group getResource()
+ * @method int setWebsiteId(int $value)
+ * @method Mage_Core_Model_Store_Group getName()
+ * @method string setName(string $value)
+ * @method int setRootCategoryId(int $value)
+ * @method int setDefaultStoreId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

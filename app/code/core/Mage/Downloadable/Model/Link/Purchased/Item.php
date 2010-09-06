@@ -27,6 +27,39 @@
 /**
  * Downloadable links purchased item model
  *
+ * @method Mage_Downloadable_Model_Resource_Link_Purchased_Item _getResource()
+ * @method Mage_Downloadable_Model_Resource_Link_Purchased_Item getResource()
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getPurchasedId()
+ * @method int setPurchasedId(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getOrderItemId()
+ * @method int setOrderItemId(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getLinkHash()
+ * @method string setLinkHash(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getNumberOfDownloadsBought()
+ * @method int setNumberOfDownloadsBought(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getNumberOfDownloadsUsed()
+ * @method int setNumberOfDownloadsUsed(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getLinkId()
+ * @method int setLinkId(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getLinkTitle()
+ * @method string setLinkTitle(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getIsShareable()
+ * @method int setIsShareable(int $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getLinkUrl()
+ * @method string setLinkUrl(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getLinkFile()
+ * @method string setLinkFile(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getLinkType()
+ * @method string setLinkType(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getStatus()
+ * @method string setStatus(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Downloadable_Model_Link_Purchased_Item getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>

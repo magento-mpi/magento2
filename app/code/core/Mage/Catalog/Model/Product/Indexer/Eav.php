@@ -28,8 +28,19 @@
 /**
  * Catalog Product Eav Indexer Model
  *
- * @category   Mage
- * @package    Mage_Catalog
+ * @method Mage_Catalog_Model_Resource_Product_Indexer_Eav _getResource()
+ * @method Mage_Catalog_Model_Resource_Product_Indexer_Eav getResource()
+ * @method int setEntityId(int $value)
+ * @method Mage_Catalog_Model_Product_Indexer_Eav getAttributeId()
+ * @method int setAttributeId(int $value)
+ * @method Mage_Catalog_Model_Product_Indexer_Eav getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Catalog_Model_Product_Indexer_Eav getValue()
+ * @method int setValue(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Abstract
 {

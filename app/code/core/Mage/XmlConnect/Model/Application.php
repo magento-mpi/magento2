@@ -23,6 +23,35 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+/**
+ * Enter description here ...
+ *
+ * @method Mage_XmlConnect_Model_Resource_Application _getResource()
+ * @method Mage_XmlConnect_Model_Resource_Application getResource()
+ * @method Mage_XmlConnect_Model_Application getName()
+ * @method string setName(string $value)
+ * @method Mage_XmlConnect_Model_Application getCode()
+ * @method string setCode(string $value)
+ * @method Mage_XmlConnect_Model_Application getType()
+ * @method string setType(string $value)
+ * @method int setStoreId(int $value)
+ * @method Mage_XmlConnect_Model_Application getActiveFrom()
+ * @method string setActiveFrom(string $value)
+ * @method Mage_XmlConnect_Model_Application getActiveTo()
+ * @method string setActiveTo(string $value)
+ * @method Mage_XmlConnect_Model_Application getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Mage_XmlConnect_Model_Application getConfiguration()
+ * @method string setConfiguration(string $value)
+ * @method Mage_XmlConnect_Model_Application getStatus()
+ * @method int setStatus(int $value)
+ * @method Mage_XmlConnect_Model_Application getBrowsingMode()
+ * @method int setBrowsingMode(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 {
 

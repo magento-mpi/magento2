@@ -24,6 +24,28 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Admin_Model_Resource_Role _getResource()
+ * @method Mage_Admin_Model_Resource_Role getResource()
+ * @method Mage_Admin_Model_Role getParentId()
+ * @method int setParentId(int $value)
+ * @method Mage_Admin_Model_Role getTreeLevel()
+ * @method int setTreeLevel(int $value)
+ * @method Mage_Admin_Model_Role getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method Mage_Admin_Model_Role getRoleType()
+ * @method string setRoleType(string $value)
+ * @method Mage_Admin_Model_Role getUserId()
+ * @method int setUserId(int $value)
+ * @method Mage_Admin_Model_Role getRoleName()
+ * @method string setRoleName(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Admin
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Admin_Model_Role extends Mage_Core_Model_Abstract
 {
     protected function _construct()

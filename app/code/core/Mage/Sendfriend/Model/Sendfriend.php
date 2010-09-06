@@ -24,6 +24,20 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Sendfriend_Model_Resource_Sendfriend _getResource()
+ * @method Mage_Sendfriend_Model_Resource_Sendfriend getResource()
+ * @method Mage_Sendfriend_Model_Sendfriend getIp()
+ * @method int setIp(int $value)
+ * @method Mage_Sendfriend_Model_Sendfriend getTime()
+ * @method int setTime(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sendfriend
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
 {
     /**

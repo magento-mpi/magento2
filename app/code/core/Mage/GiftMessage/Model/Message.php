@@ -28,8 +28,19 @@
 /**
  * Gift Message model
  *
- * @category   Mage
- * @package    Mage_GiftMessage
+ * @method Mage_GiftMessage_Model_Resource_Message _getResource()
+ * @method Mage_GiftMessage_Model_Resource_Message getResource()
+ * @method Mage_GiftMessage_Model_Message getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_GiftMessage_Model_Message getSender()
+ * @method string setSender(string $value)
+ * @method Mage_GiftMessage_Model_Message getRecipient()
+ * @method string setRecipient(string $value)
+ * @method Mage_GiftMessage_Model_Message getMessage()
+ * @method string setMessage(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GiftMessage_Model_Message extends Mage_Core_Model_Abstract

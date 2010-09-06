@@ -28,8 +28,25 @@
 /**
  * AdminNotification Inbox model
  *
- * @category   Mage
- * @package    Mage_AdminNotification
+ * @method Mage_AdminNotification_Model_Resource_Inbox _getResource()
+ * @method Mage_AdminNotification_Model_Resource_Inbox getResource()
+ * @method Mage_AdminNotification_Model_Inbox getSeverity()
+ * @method int setSeverity(int $value)
+ * @method Mage_AdminNotification_Model_Inbox getDateAdded()
+ * @method string setDateAdded(string $value)
+ * @method Mage_AdminNotification_Model_Inbox getTitle()
+ * @method string setTitle(string $value)
+ * @method Mage_AdminNotification_Model_Inbox getDescription()
+ * @method string setDescription(string $value)
+ * @method Mage_AdminNotification_Model_Inbox getUrl()
+ * @method string setUrl(string $value)
+ * @method Mage_AdminNotification_Model_Inbox getIsRead()
+ * @method int setIsRead(int $value)
+ * @method Mage_AdminNotification_Model_Inbox getIsRemove()
+ * @method int setIsRemove(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AdminNotification_Model_Inbox extends Mage_Core_Model_Abstract

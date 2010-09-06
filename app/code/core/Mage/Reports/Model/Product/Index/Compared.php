@@ -28,9 +28,19 @@
 /**
  * Catalog Compared Product Index Model
  *
- * @category   Mage
- * @package    Mage_Reports
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Reports_Model_Resource_Product_Index_Compared _getResource()
+ * @method Mage_Reports_Model_Resource_Product_Index_Compared getResource()
+ * @method int setVisitorId(int $value)
+ * @method int setCustomerId(int $value)
+ * @method Mage_Reports_Model_Product_Index_Compared getProductId()
+ * @method int setProductId(int $value)
+ * @method int setStoreId(int $value)
+ * @method Mage_Reports_Model_Product_Index_Compared getAddedAt()
+ * @method string setAddedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Reports
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Model_Product_Index_Compared extends Mage_Reports_Model_Product_Index_Abstract
 {

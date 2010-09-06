@@ -27,9 +27,18 @@
 /**
  * Attributes Model
  *
- * @category   Mage
- * @package    Mage_GoogleBase
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_GoogleBase_Model_Resource_Attribute _getResource()
+ * @method Mage_GoogleBase_Model_Resource_Attribute getResource()
+ * @method Mage_GoogleBase_Model_Attribute getAttributeId()
+ * @method int setAttributeId(int $value)
+ * @method Mage_GoogleBase_Model_Attribute getGbaseAttribute()
+ * @method string setGbaseAttribute(string $value)
+ * @method Mage_GoogleBase_Model_Attribute getTypeId()
+ * @method int setTypeId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_GoogleBase
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
 {

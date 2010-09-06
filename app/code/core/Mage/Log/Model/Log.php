@@ -28,9 +28,22 @@
 /**
  * Log Model
  *
- * @category   Mage
- * @package    Mage_Log
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Log_Model_Resource_Log _getResource()
+ * @method Mage_Log_Model_Resource_Log getResource()
+ * @method Mage_Log_Model_Log getSessionId()
+ * @method string setSessionId(string $value)
+ * @method Mage_Log_Model_Log getFirstVisitAt()
+ * @method string setFirstVisitAt(string $value)
+ * @method Mage_Log_Model_Log getLastVisitAt()
+ * @method string setLastVisitAt(string $value)
+ * @method Mage_Log_Model_Log getLastUrlId()
+ * @method int setLastUrlId(int $value)
+ * @method Mage_Log_Model_Log getStoreId()
+ * @method int setStoreId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Log
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Log_Model_Log extends Mage_Core_Model_Abstract
 {

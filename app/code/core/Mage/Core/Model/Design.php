@@ -25,6 +25,24 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Core_Model_Resource_Design _getResource()
+ * @method Mage_Core_Model_Resource_Design getResource()
+ * @method Mage_Core_Model_Design getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Core_Model_Design getDesign()
+ * @method string setDesign(string $value)
+ * @method Mage_Core_Model_Design getDateFrom()
+ * @method string setDateFrom(string $value)
+ * @method Mage_Core_Model_Design getDateTo()
+ * @method string setDateTo(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
 {
     protected function _construct()

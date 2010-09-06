@@ -27,6 +27,19 @@
 /**
  * Convert history
  *
+ * @method Mage_Dataflow_Model_Resource_Profile_History _getResource()
+ * @method Mage_Dataflow_Model_Resource_Profile_History getResource()
+ * @method Mage_Dataflow_Model_Profile_History getProfileId()
+ * @method int setProfileId(int $value)
+ * @method Mage_Dataflow_Model_Profile_History getActionCode()
+ * @method string setActionCode(string $value)
+ * @method Mage_Dataflow_Model_Profile_History getUserId()
+ * @method int setUserId(int $value)
+ * @method Mage_Dataflow_Model_Profile_History getPerformedAt()
+ * @method string setPerformedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Dataflow_Model_Profile_History extends Mage_Core_Model_Abstract

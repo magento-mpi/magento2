@@ -27,9 +27,30 @@
 /**
  * Catalog product option model
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Catalog_Model_Resource_Product_Option _getResource()
+ * @method Mage_Catalog_Model_Resource_Product_Option getResource()
+ * @method Mage_Catalog_Model_Product_Option getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Catalog_Model_Product_Option getType()
+ * @method string setType(string $value)
+ * @method Mage_Catalog_Model_Product_Option getIsRequire()
+ * @method int setIsRequire(int $value)
+ * @method Mage_Catalog_Model_Product_Option getSku()
+ * @method string setSku(string $value)
+ * @method Mage_Catalog_Model_Product_Option getMaxCharacters()
+ * @method int setMaxCharacters(int $value)
+ * @method Mage_Catalog_Model_Product_Option getFileExtension()
+ * @method string setFileExtension(string $value)
+ * @method Mage_Catalog_Model_Product_Option getImageSizeX()
+ * @method int setImageSizeX(int $value)
+ * @method Mage_Catalog_Model_Product_Option getImageSizeY()
+ * @method int setImageSizeY(int $value)
+ * @method Mage_Catalog_Model_Product_Option getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
 {

@@ -25,6 +25,40 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Sales_Model_Resource_Order_Shipment _getResource()
+ * @method Mage_Sales_Model_Resource_Order_Shipment getResource()
+ * @method Mage_Sales_Model_Order_Shipment getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment getTotalWeight()
+ * @method float setTotalWeight(float $value)
+ * @method Mage_Sales_Model_Order_Shipment getTotalQty()
+ * @method float setTotalQty(float $value)
+ * @method Mage_Sales_Model_Order_Shipment getEmailSent()
+ * @method int setEmailSent(int $value)
+ * @method Mage_Sales_Model_Order_Shipment getOrderId()
+ * @method int setOrderId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment getShippingAddressId()
+ * @method int setShippingAddressId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment getBillingAddressId()
+ * @method int setBillingAddressId(int $value)
+ * @method Mage_Sales_Model_Order_Shipment getShipmentStatus()
+ * @method int setShipmentStatus(int $value)
+ * @method Mage_Sales_Model_Order_Shipment getIncrementId()
+ * @method string setIncrementId(string $value)
+ * @method Mage_Sales_Model_Order_Shipment getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Sales_Model_Order_Shipment getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
 {
     const STATUS_NEW    = 1;

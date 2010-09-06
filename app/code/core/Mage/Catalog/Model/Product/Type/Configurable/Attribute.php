@@ -28,9 +28,18 @@
 /**
  * Catalog Configurable Product Attribute Model
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute _getResource()
+ * @method Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute getResource()
+ * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute getAttributeId()
+ * @method int setAttributeId(int $value)
+ * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute getPosition()
+ * @method int setPosition(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Type_Configurable_Attribute extends Mage_Core_Model_Abstract
 {

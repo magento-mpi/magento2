@@ -28,9 +28,18 @@
 /**
  * Core Flag model
  *
- * @category   Mage
- * @package    Mage_Core
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Core_Model_Resource_Flag _getResource()
+ * @method Mage_Core_Model_Resource_Flag getResource()
+ * @method Mage_Core_Model_Flag getFlagCode()
+ * @method string setFlagCode(string $value)
+ * @method Mage_Core_Model_Flag getState()
+ * @method int setState(int $value)
+ * @method Mage_Core_Model_Flag getLastUpdate()
+ * @method string setLastUpdate(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
 {

@@ -27,8 +27,21 @@
 /**
  * Customer log model
  *
- * @category   Mage
- * @package    Mage_Log
+ * @method Mage_Log_Model_Resource_Customer _getResource()
+ * @method Mage_Log_Model_Resource_Customer getResource()
+ * @method Mage_Log_Model_Customer getVisitorId()
+ * @method int setVisitorId(int $value)
+ * @method Mage_Log_Model_Customer getCustomerId()
+ * @method int setCustomerId(int $value)
+ * @method Mage_Log_Model_Customer getLoginAt()
+ * @method string setLoginAt(string $value)
+ * @method Mage_Log_Model_Customer getLogoutAt()
+ * @method string setLogoutAt(string $value)
+ * @method Mage_Log_Model_Customer getStoreId()
+ * @method int setStoreId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Log_Model_Customer extends Mage_Core_Model_Abstract

@@ -28,6 +28,17 @@
 /**
  * Eav Form Element Model
  *
+ * @method Mage_Eav_Model_Resource_Form_Element _getResource()
+ * @method Mage_Eav_Model_Resource_Form_Element getResource()
+ * @method Mage_Eav_Model_Form_Element getTypeId()
+ * @method int setTypeId(int $value)
+ * @method Mage_Eav_Model_Form_Element getFieldsetId()
+ * @method int setFieldsetId(int $value)
+ * @method Mage_Eav_Model_Form_Element getAttributeId()
+ * @method int setAttributeId(int $value)
+ * @method Mage_Eav_Model_Form_Element getSortOrder()
+ * @method int setSortOrder(int $value)
+ *
  * @category    Mage
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>

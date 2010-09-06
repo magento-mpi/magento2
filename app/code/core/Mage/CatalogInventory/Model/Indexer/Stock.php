@@ -28,6 +28,19 @@
 /**
  * CatalogInventory Stock Status Indexer Model
  *
+ * @method Mage_CatalogInventory_Model_Resource_Indexer_Stock _getResource()
+ * @method Mage_CatalogInventory_Model_Resource_Indexer_Stock getResource()
+ * @method Mage_CatalogInventory_Model_Indexer_Stock getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_CatalogInventory_Model_Indexer_Stock getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ * @method Mage_CatalogInventory_Model_Indexer_Stock getStockId()
+ * @method int setStockId(int $value)
+ * @method Mage_CatalogInventory_Model_Indexer_Stock getQty()
+ * @method float setQty(float $value)
+ * @method Mage_CatalogInventory_Model_Indexer_Stock getStockStatus()
+ * @method int setStockStatus(int $value)
+ *
  * @category    Mage
  * @package     Mage_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>

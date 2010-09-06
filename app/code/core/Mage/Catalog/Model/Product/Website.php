@@ -28,9 +28,14 @@
 /**
  * Catalog Product Website Model
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Catalog_Model_Resource_Product_Website _getResource()
+ * @method Mage_Catalog_Model_Resource_Product_Website getResource()
+ * @method Mage_Catalog_Model_Product_Website getWebsiteId()
+ * @method int setWebsiteId(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Website extends Mage_Core_Model_Abstract
 {

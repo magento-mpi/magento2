@@ -27,6 +27,29 @@
 /**
  * Catalog search query model
  *
+ * @method Mage_CatalogSearch_Model_Resource_Query _getResource()
+ * @method Mage_CatalogSearch_Model_Resource_Query getResource()
+ * @method Mage_CatalogSearch_Model_Query getQueryText()
+ * @method string setQueryText(string $value)
+ * @method Mage_CatalogSearch_Model_Query getNumResults()
+ * @method int setNumResults(int $value)
+ * @method Mage_CatalogSearch_Model_Query getPopularity()
+ * @method int setPopularity(int $value)
+ * @method Mage_CatalogSearch_Model_Query getRedirect()
+ * @method string setRedirect(string $value)
+ * @method Mage_CatalogSearch_Model_Query getSynonymFor()
+ * @method string setSynonymFor(string $value)
+ * @method Mage_CatalogSearch_Model_Query getDisplayInTerms()
+ * @method int setDisplayInTerms(int $value)
+ * @method Mage_CatalogSearch_Model_Query getIsActive()
+ * @method int setIsActive(int $value)
+ * @method Mage_CatalogSearch_Model_Query getIsProcessed()
+ * @method int setIsProcessed(int $value)
+ * @method Mage_CatalogSearch_Model_Query getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract

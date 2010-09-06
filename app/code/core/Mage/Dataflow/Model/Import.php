@@ -28,8 +28,19 @@
 /**
  * DataFlow Import Model
  *
- * @category   Mage
- * @package    Mage_Dataflow
+ * @method Mage_Dataflow_Model_Resource_Import _getResource()
+ * @method Mage_Dataflow_Model_Resource_Import getResource()
+ * @method Mage_Dataflow_Model_Import getSessionId()
+ * @method int setSessionId(int $value)
+ * @method Mage_Dataflow_Model_Import getSerialNumber()
+ * @method int setSerialNumber(int $value)
+ * @method Mage_Dataflow_Model_Import getValue()
+ * @method string setValue(string $value)
+ * @method Mage_Dataflow_Model_Import getStatus()
+ * @method int setStatus(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Dataflow_Model_Import extends Mage_Core_Model_Abstract

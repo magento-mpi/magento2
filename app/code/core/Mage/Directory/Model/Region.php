@@ -27,8 +27,17 @@
 /**
  * Region
  *
- * @category   Mage
- * @package    Mage_Directory
+ * @method Mage_Directory_Model_Resource_Region _getResource()
+ * @method Mage_Directory_Model_Resource_Region getResource()
+ * @method Mage_Directory_Model_Region getCountryId()
+ * @method string setCountryId(string $value)
+ * @method Mage_Directory_Model_Region getCode()
+ * @method string setCode(string $value)
+ * @method Mage_Directory_Model_Region getDefaultName()
+ * @method string setDefaultName(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Directory_Model_Region extends Mage_Core_Model_Abstract

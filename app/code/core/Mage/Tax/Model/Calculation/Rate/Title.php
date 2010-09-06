@@ -28,7 +28,18 @@
 /**
  * Tax Rate Title Model
  *
- * @author Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Tax_Model_Resource_Calculation_Rate_Title _getResource()
+ * @method Mage_Tax_Model_Resource_Calculation_Rate_Title getResource()
+ * @method Mage_Tax_Model_Calculation_Rate_Title getTaxCalculationRateId()
+ * @method int setTaxCalculationRateId(int $value)
+ * @method Mage_Tax_Model_Calculation_Rate_Title getStoreId()
+ * @method int setStoreId(int $value)
+ * @method Mage_Tax_Model_Calculation_Rate_Title getValue()
+ * @method string setValue(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Tax
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Tax_Model_Calculation_Rate_Title extends Mage_Core_Model_Abstract
 {

@@ -28,8 +28,15 @@
 /**
  * Dataflow Batch import model
  *
- * @category   Mage
- * @package    Mage_Dataflow
+ * @method Mage_Dataflow_Model_Resource_Batch_Import _getResource()
+ * @method Mage_Dataflow_Model_Resource_Batch_Import getResource()
+ * @method Mage_Dataflow_Model_Batch_Import getBatchId()
+ * @method int setBatchId(int $value)
+ * @method Mage_Dataflow_Model_Batch_Import getStatus()
+ * @method int setStatus(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Dataflow_Model_Batch_Import extends Mage_Dataflow_Model_Batch_Abstract

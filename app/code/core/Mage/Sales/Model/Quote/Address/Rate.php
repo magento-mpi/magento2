@@ -25,6 +25,38 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @method Mage_Sales_Model_Resource_Quote_Address_Rate _getResource()
+ * @method Mage_Sales_Model_Resource_Quote_Address_Rate getResource()
+ * @method Mage_Sales_Model_Quote_Address_Rate getAddressId()
+ * @method int setAddressId(int $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getCarrier()
+ * @method string setCarrier(string $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getCarrierTitle()
+ * @method string setCarrierTitle(string $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getCode()
+ * @method string setCode(string $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getMethod()
+ * @method string setMethod(string $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getMethodDescription()
+ * @method string setMethodDescription(string $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getPrice()
+ * @method float setPrice(float $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getErrorMessage()
+ * @method string setErrorMessage(string $value)
+ * @method Mage_Sales_Model_Quote_Address_Rate getMethodTitle()
+ * @method string setMethodTitle(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Model_Quote_Address_Rate extends Mage_Shipping_Model_Rate_Abstract
 {
     protected $_address;

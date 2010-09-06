@@ -27,6 +27,33 @@
 /**
  * osCommerce resource model
  *
+ * @method Mage_Oscommerce_Model_Resource_Oscommerce _getResource()
+ * @method Mage_Oscommerce_Model_Resource_Oscommerce getResource()
+ * @method Mage_Oscommerce_Model_Oscommerce getName()
+ * @method string setName(string $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getHost()
+ * @method string setHost(string $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getPort()
+ * @method int setPort(int $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getDbName()
+ * @method string setDbName(string $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getDbUser()
+ * @method string setDbUser(string $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getDbPassword()
+ * @method string setDbPassword(string $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getDbType()
+ * @method string setDbType(string $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getTablePrefix()
+ * @method string setTablePrefix(string $value)
+ * @method Mage_Oscommerce_Model_Oscommerce getSendSubscription()
+ * @method int setSendSubscription(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Oscommerce
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract

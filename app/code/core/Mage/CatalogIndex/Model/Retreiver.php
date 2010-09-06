@@ -27,7 +27,28 @@
 /**
  * Index data retreiver factory
  *
- * @author Magento Core Team <core@magentocommerce.com>
+ * @method Mage_CatalogIndex_Model_Resource_Retreiver _getResource()
+ * @method Mage_CatalogIndex_Model_Resource_Retreiver getResource()
+ * @method Mage_CatalogIndex_Model_Retreiver getEntityTypeId()
+ * @method int setEntityTypeId(int $value)
+ * @method Mage_CatalogIndex_Model_Retreiver getAttributeSetId()
+ * @method int setAttributeSetId(int $value)
+ * @method Mage_CatalogIndex_Model_Retreiver getTypeId()
+ * @method string setTypeId(string $value)
+ * @method Mage_CatalogIndex_Model_Retreiver getSku()
+ * @method string setSku(string $value)
+ * @method Mage_CatalogIndex_Model_Retreiver getHasOptions()
+ * @method int setHasOptions(int $value)
+ * @method Mage_CatalogIndex_Model_Retreiver getRequiredOptions()
+ * @method int setRequiredOptions(int $value)
+ * @method Mage_CatalogIndex_Model_Retreiver getCreatedAt()
+ * @method string setCreatedAt(string $value)
+ * @method Mage_CatalogIndex_Model_Retreiver getUpdatedAt()
+ * @method string setUpdatedAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_CatalogIndex
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogIndex_Model_Retreiver extends Mage_Core_Model_Abstract
 {

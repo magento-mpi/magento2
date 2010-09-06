@@ -27,9 +27,32 @@
 /**
  * Newsletter queue model.
  *
- * @category   Mage
- * @package    Mage_Newsletter
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Newsletter_Model_Resource_Queue _getResource()
+ * @method Mage_Newsletter_Model_Resource_Queue getResource()
+ * @method Mage_Newsletter_Model_Queue getTemplateId()
+ * @method int setTemplateId(int $value)
+ * @method Mage_Newsletter_Model_Queue getNewsletterType()
+ * @method int setNewsletterType(int $value)
+ * @method Mage_Newsletter_Model_Queue getNewsletterText()
+ * @method string setNewsletterText(string $value)
+ * @method Mage_Newsletter_Model_Queue getNewsletterStyles()
+ * @method string setNewsletterStyles(string $value)
+ * @method Mage_Newsletter_Model_Queue getNewsletterSubject()
+ * @method string setNewsletterSubject(string $value)
+ * @method Mage_Newsletter_Model_Queue getNewsletterSenderName()
+ * @method string setNewsletterSenderName(string $value)
+ * @method Mage_Newsletter_Model_Queue getNewsletterSenderEmail()
+ * @method string setNewsletterSenderEmail(string $value)
+ * @method Mage_Newsletter_Model_Queue getQueueStatus()
+ * @method int setQueueStatus(int $value)
+ * @method Mage_Newsletter_Model_Queue getQueueStartAt()
+ * @method string setQueueStartAt(string $value)
+ * @method Mage_Newsletter_Model_Queue getQueueFinishAt()
+ * @method string setQueueFinishAt(string $value)
+ *
+ * @category    Mage
+ * @package     Mage_Newsletter
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
 {

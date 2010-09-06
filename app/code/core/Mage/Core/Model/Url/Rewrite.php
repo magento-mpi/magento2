@@ -28,9 +28,28 @@
 /**
  * Url rewrite model class
  *
+ * @method Mage_Core_Model_Resource_Url_Rewrite _getResource()
+ * @method Mage_Core_Model_Resource_Url_Rewrite getResource()
+ * @method int setStoreId(int $value)
+ * @method Mage_Core_Model_Url_Rewrite getCategoryId()
+ * @method int setCategoryId(int $value)
+ * @method Mage_Core_Model_Url_Rewrite getProductId()
+ * @method int setProductId(int $value)
+ * @method Mage_Core_Model_Url_Rewrite getIdPath()
+ * @method string setIdPath(string $value)
+ * @method Mage_Core_Model_Url_Rewrite getRequestPath()
+ * @method string setRequestPath(string $value)
+ * @method Mage_Core_Model_Url_Rewrite getTargetPath()
+ * @method string setTargetPath(string $value)
+ * @method Mage_Core_Model_Url_Rewrite getIsSystem()
+ * @method int setIsSystem(int $value)
+ * @method Mage_Core_Model_Url_Rewrite getOptions()
+ * @method string setOptions(string $value)
+ * @method Mage_Core_Model_Url_Rewrite getDescription()
+ * @method string setDescription(string $value)
  *
- * @category   Mage
- * @package    Mage_Core
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract

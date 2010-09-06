@@ -28,9 +28,19 @@
 /**
  * Store model
  *
- * @author     Magento Core Team <core@magentocommerce.com>
- * @category   Mage
- * @package    Mage_Core
+ * @method Mage_Core_Model_Resource_Store _getResource()
+ * @method Mage_Core_Model_Resource_Store getResource()
+ * @method string setCode(string $value)
+ * @method int setWebsiteId(int $value)
+ * @method int setGroupId(int $value)
+ * @method string setName(string $value)
+ * @method Mage_Core_Model_Store getSortOrder()
+ * @method int setSortOrder(int $value)
+ * @method int setIsActive(int $value)
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {

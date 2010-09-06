@@ -27,6 +27,13 @@
 /**
  * Custom variable model
  *
+ * @method Mage_Core_Model_Resource_Variable _getResource()
+ * @method Mage_Core_Model_Resource_Variable getResource()
+ * @method Mage_Core_Model_Variable getCode()
+ * @method string setCode(string $value)
+ * @method Mage_Core_Model_Variable getName()
+ * @method string setName(string $value)
+ *
  * @category    Mage
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
