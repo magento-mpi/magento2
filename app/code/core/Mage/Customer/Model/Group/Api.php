@@ -50,4 +50,4 @@ class Mage_Customer_Model_Group_Api extends Mage_Api_Model_Resource_Abstract
 
         return $result;
     }
-} // Class Mage_Customer_Model_Group_Api End
+}
