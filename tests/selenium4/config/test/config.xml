@@ -16,13 +16,28 @@
             <password>123123q</password>
         </auth>
 
+        <payment_method>
+            <check>p_method_checkmo</check>
+            <credit_card>p_method_ccsave</credit_card>
+            <autorize>p_method_authorizenet</autorize>
+            <paypal_direct_uk>p_method_paypal_direct</paypal_direct_uk>
+        </payment_method>
+        
+        <shipping_method>
+            <flat_rate>s_method_flatrate_flatrate</flat_rate>
+            <free_shipp>s_method_freeshipping_freeshipping</free_shipp>
+        </shipping_method>
+
         <customer>
             <id>102</id>
+            <email>st8-user@varien.com</email>
         </customer>
+
         <attribute_set>
             <set_name>smoke_attrSet</set_name>
             <default_set>label=Default</default_set>
         </attribute_set>
+        
         <createproduct>
             <sku>st-01</sku>
             <productname>st-01</productname>
