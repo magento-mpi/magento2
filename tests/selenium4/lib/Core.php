@@ -81,7 +81,7 @@ final class Core
                 self::$_debugLevel = self::DEBUG_LEVEL_ERROR;
         }
 
-        // echo "\n*** Debug level: " . self::$_debugLevelLabels[self::$_debugLevel] . "\n\n";
+         echo "\n*** Debug level: " . self::$_debugLevelLabels[self::$_debugLevel] . "\n\n";
 
         $envConfigPath = rtrim($configPath, DS) . DS . self::$_magentoEnv;
 
@@ -205,7 +205,8 @@ final class Core
      */
     public static function debug($line, $level = self::DEBUG_LEVEL_INFO)
     {
-        if ($level >= self::$_debugLevel) {
+//        echo ('zzzz=' . self::$_debugLevel);
+        if ($level <= self::$_debugLevel) {
             echo "\n" . self::$_debugLevelLabels[$level] . ': ' . $line;
         }
     }

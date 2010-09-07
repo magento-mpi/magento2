@@ -46,6 +46,9 @@ class Model_Admin extends TestModelAbstract
             $this->setVerificationErrors("Check 1 failed: Dashboard hasn't loaded");
             $result = false;
         }
+        if ($result) {
+            $this->printInfo('Logged to Admin');
+        }
         return $result;
     }
 
@@ -98,9 +101,9 @@ class Model_Admin extends TestModelAbstract
       $this->printDebug('getSpecificRow started');
 
       $colNum = $this->getXpathCount($tableXPath . "//tr[contains(@class,'heading')]//th");
-      Core::debug('$colNum = ' . $colNum, 1);
+//      Core::debug('$colNum = ' . $colNum, 3);
       $rowNum = $this->getXpathCount($tableXPath . "//tbody//tr");
-      Core::debug('$rowNum = ' . $rowNum, 1);
+//      Core::debug('$rowNum = ' . $rowNum, 3);
 
       foreach (array_keys($paramsArray) as $key) {
           //Open user with 'User Name' == name
