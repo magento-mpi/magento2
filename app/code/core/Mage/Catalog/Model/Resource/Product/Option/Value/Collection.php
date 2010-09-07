@@ -69,29 +69,29 @@ class Mage_Catalog_Model_Resource_Product_Option_Value_Collection
         $optionTypePriceTable = $this->getTable('catalog/product_option_type_price');
         $optionTitleTable     = $this->getTable('catalog/product_option_type_title');
         $priceExpr = $adapter->getCheckSql(
-            'store_value_price.price IS NULL', 
-            'default_value_price.price', 
+            'store_value_price.price IS NULL',
+            'default_value_price.price',
             'store_value_price.price'
         );
         $priceTypeExpr = $adapter->getCheckSql(
-            'store_value_price.price_type IS NULL', 
-            'default_value_price.price_type', 
+            'store_value_price.price_type IS NULL',
+            'default_value_price.price_type',
             'store_value_price.price_type'
         );
         $titleExpr = $adapter->getCheckSql(
-            'store_value_title.title IS NULL', 
-            'default_value_title.title', 
+            'store_value_title.title IS NULL',
+            'default_value_title.title',
             'store_value_title.title'
         );
         $joinExprDefaultPrice = 'default_value_price.option_type_id = main_table.option_type_id AND '
                   . $adapter->quoteInto('default_value_price.store_id = ?', 0);
-        
+
         $joinExprStorePrice = 'store_value_price.option_type_id = main_table.option_type_id AND '
                        . $adapter->quoteInto('store_value_price.store_id = ?', $storeId);
-                       
+
         $joinExprTitle = 'store_value_title.option_type_id = main_table.option_type_id AND '
                        . $adapter->quoteInto('store_value_title.store_id = ?', $storeId);
-                       
+
         $this->getSelect()
             ->joinLeft(
                 array('default_value_price' => $optionTypePriceTable),
@@ -137,12 +137,12 @@ class Mage_Catalog_Model_Resource_Product_Option_Value_Collection
         $titleExpr = $this->getConnection()
             ->getCheckSql('store_value_title.title IS NULL', 'default_value_title.title', 'store_value_title.title');
 
-        $joinExpr = 'store_value_title.option_type_id = main_table.option_type_id AND ' 
+        $joinExpr = 'store_value_title.option_type_id = main_table.option_type_id AND '
                   . $this->getConnection()->quoteInto('store_value_title.store_id = ?', $storeId);
         $this->getSelect()
             ->join(
                 array('default_value_title' => $optionTitleTable),
-                'default_value_title.option_type_id = main_table`option_type_id',
+                'default_value_title.option_type_id = main_table.option_type_id',
                 array('default_title' => 'title')
             )
             ->joinLeft(
@@ -171,8 +171,8 @@ class Mage_Catalog_Model_Resource_Product_Option_Value_Collection
             ->getCheckSql('store_value_price.price IS NULL', 'default_value_price.price', 'store_value_price.price');
         $priceTypeExpr = $this->getConnection()
             ->getCheckSql(
-                'store_value_price.price_type IS NULL', 
-                'default_value_price.price_type', 
+                'store_value_price.price_type IS NULL',
+                'default_value_price.price_type',
                 'store_value_price.price_type'
             );
 
