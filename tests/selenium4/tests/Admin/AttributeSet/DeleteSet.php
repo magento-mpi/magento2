@@ -1,6 +1,6 @@
 <?php
 
-class Admin_AttributeSet_AddSet extends TestCaseAbstract
+class Admin_AttributeSet_DeleteSet extends TestCaseAbstract
 {
 
     /**
@@ -11,14 +11,16 @@ class Admin_AttributeSet_AddSet extends TestCaseAbstract
         $this->model = $this->getModel('admin/attributeset');
         $this->setUiNamespace();
     }
-    
+
     /**
-    * Test addition new Attribute Set
+    * Test deletion Attribute Set
     */
-    function testAttributeSetCreation()
+    function testAttributeSetDeletion()
     {
         if ($this->model->doLogin()) {
-            $this->model->doCreateAtrSet();
+        if ($this->model->doOpenAtrSet()) {
+            $this->model->doDeleteAtrSet();
+        }
         }
     }
 }
