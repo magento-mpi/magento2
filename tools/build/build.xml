@@ -285,7 +285,7 @@
     <target name="load-test">
         <exec executable="/bin/sh" failonerror="true">
             <arg value="siege.sh"/>
-            <arg value="${teamcity.buildConfName}"/>
+            <arg value="trunk-sample-data"/>
             <arg value="${build.number}"/>
         </exec>
     </target>
