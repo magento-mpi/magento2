@@ -37,7 +37,7 @@ $installer->startSetup();
 $table = $installer->getConnection()
     ->newTable($installer->getTable('poll/poll'))
     ->addColumn('poll_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-	    'identity'  => true,
+        'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
@@ -77,7 +77,7 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addForeignKey($installer->getFkName('poll/poll', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core/store'), 'store_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, 
+        Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Poll');
 $installer->getConnection()->createTable($table);
@@ -111,10 +111,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Answers display')
-    ->addIndex($installer->getIdxName('poll_answer', array('poll_id')),
+    ->addIndex($installer->getIdxName('poll/poll_answer', array('poll_id')),
         array('poll_id'))
-    ->addIndex($installer->getIdxName('poll_answer', array('answer_id')),
-        array('answer_id'))
     ->addForeignKey($installer->getFkName('poll/poll_answer', 'poll_id', 'poll/poll', 'poll_id'),
         'poll_id', $installer->getTable('poll/poll'), 'poll_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -138,9 +136,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Store id')
-    ->addIndex($installer->getIdxName('poll_store', array('poll_id')),
-        array('poll_id'))
-    ->addIndex($installer->getIdxName('poll_store', array('store_id')),
+    ->addIndex($installer->getIdxName('poll/poll_store', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('poll/poll_store', 'poll_id', 'poll/poll', 'poll_id'),
         'poll_id', $installer->getTable('poll/poll'), 'poll_id',
@@ -181,13 +177,11 @@ $table = $installer->getConnection()
     ->addColumn('vote_time', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => true,
         ), 'Date closed')
-    ->addIndex($installer->getIdxName('poll/poll_vote', array('vote_id')),
-        array('vote_id'))
     ->addIndex($installer->getIdxName('poll/poll_vote', array('poll_answer_id')),
         array('poll_answer_id'))
     ->addForeignKey($installer->getFkName('poll/poll_vote', 'poll_answer_id', 'poll/poll_answer', 'answer_id'),
         'poll_answer_id', $installer->getTable('poll/poll_answer'), 'answer_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, 
+        Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Poll Vote');
 $installer->getConnection()->createTable($table);
