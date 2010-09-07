@@ -241,6 +241,8 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
 
         return $this;
     }
+    
+    
 
     /**
      * Enable sorting products by its position
@@ -250,7 +252,9 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      */
     public function setPositionOrder($dir = self::SORT_ORDER_ASC)
     {
-        $this->setOrder('position', $dir);
+        if ($this->_hasLinkFilter) {
+            $this->getSelect()->order('position ' . $dir);
+        }
         return $this;
     }
 
