@@ -27,3 +27,6 @@
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 $installer = $this;
 $installer->removeAttribute('catalog_category', 'custom_design_apply');
+
+// the fix for a typo that was in mysql4-upgrade-0.7.71-0.7.72 line 32
+$installer->removeAttribute('catalog_product', 'category_ids');
