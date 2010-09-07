@@ -266,10 +266,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
         $result['general']['secureBaseUrl'] = Mage::getStoreConfig('web/secure/base_url', $this->getStoreId());
         $maxRecepients = 0;
+        $allowGuest = 0;
         if (Mage::getStoreConfig('sendfriend/email/enabled')) {
             $maxRecepients = Mage::getStoreConfig('sendfriend/email/max_recipients');
+            $allowGuest = Mage::getStoreConfig('sendfriend/email/allow_guest');
         }
         $result['general']['emailToFriendMaxRecepients'] = $maxRecepients;
+        $result['general']['emailAllowGuest'] = $allowGuest;
         $result['general']['primaryStoreLang'] = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
 
         /**
