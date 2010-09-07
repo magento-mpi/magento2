@@ -420,7 +420,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
                 'entity_pk_value = ?' => (int) $productId,
                 'rating_id IN(?)'     => $ratingIds
             );
-            $this->delete($this->getTable('rating/rating_vote_aggregated'), $where);
+            $adapter->delete($this->getTable('rating/rating_vote_aggregated'), $where);
         }
 
         return $this;
