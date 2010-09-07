@@ -35,7 +35,7 @@
 class Mage_ProductAlert_Model_Resource_Stock_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define stock collection
      *
      */
     protected function _construct()
@@ -44,54 +44,52 @@ class Mage_ProductAlert_Model_Resource_Stock_Collection extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Add customer filter
      *
-     * @param unknown_type $customer
+     * @param mixed $customer
      * @return Mage_ProductAlert_Model_Resource_Stock_Collection
      */
     public function addCustomerFilter($customer)
     {
+        $adapter = $this->getConnection();
         if (is_array($customer)) {
-            $condition = $this->getConnection()->quoteInto('customer_id IN(?)', $customer);
-        }
-        elseif ($customer instanceof Mage_Customer_Model_Customer) {
-            $condition = $this->getConnection()->quoteInto('customer_id=?', $customer->getId());
-        }
-        else {
-            $condition = $this->getConnection()->quoteInto('customer_id=?', $customer);
+            $condition = $adapter->quoteInto('customer_id IN(?)', $customer);
+        } elseif ($customer instanceof Mage_Customer_Model_Customer) {
+            $condition = $adapter->quoteInto('customer_id=?', $customer->getId());
+        } else {
+            $condition = $adapter->quoteInto('customer_id=?', $customer);
         }
         $this->addFilter('customer_id', $condition, 'string');
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add website filter
      *
-     * @param unknown_type $website
+     * @param mixed $website
      * @return Mage_ProductAlert_Model_Resource_Stock_Collection
      */
     public function addWebsiteFilter($website)
     {
+        $adapter = $this->getConnection();
         if (is_null($website) || $website == 0) {
             return $this;
         }
         if (is_array($website)) {
-            $condition = $this->getConnection()->quoteInto('website_id IN(?)', $website);
-        }
-        elseif ($website instanceof Mage_Core_Model_Website) {
-            $condition = $this->getConnection()->quoteInto('website_id=?', $website->getId());
-        }
-        else {
-            $condition = $this->getConnection()->quoteInto('website_id=?', $website);
+            $condition = $adapter->quoteInto('website_id IN(?)', $website);
+        } elseif ($website instanceof Mage_Core_Model_Website) {
+            $condition = $adapter->quoteInto('website_id=?', $website->getId());
+        } else {
+            $condition = $adapter->quoteInto('website_id=?', $website);
         }
         $this->addFilter('website_id', $condition, 'string');
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add status filter
      *
-     * @param unknown_type $status
+     * @param int $status
      * @return Mage_ProductAlert_Model_Resource_Stock_Collection
      */
     public function addStatusFilter($status)
@@ -102,9 +100,9 @@ class Mage_ProductAlert_Model_Resource_Stock_Collection extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Set order by customer
      *
-     * @param unknown_type $sort
+     * @param string $sort
      * @return Mage_ProductAlert_Model_Resource_Stock_Collection
      */
     public function setCustomerOrder($sort = 'ASC')

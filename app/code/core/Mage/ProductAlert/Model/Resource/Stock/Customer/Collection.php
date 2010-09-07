@@ -36,10 +36,10 @@ class Mage_ProductAlert_Model_Resource_Stock_Customer_Collection
     extends Mage_Customer_Model_Resource_Customer_Collection
 {
     /**
-     * Enter description here ...
+     * join productalert stock data to customer collection
      *
-     * @param unknown_type $productId
-     * @param unknown_type $websiteId
+     * @param int $productId
+     * @param int $websiteId
      * @return Mage_ProductAlert_Model_Resource_Stock_Customer_Collection
      */
     public function join($productId, $websiteId)
@@ -47,7 +47,7 @@ class Mage_ProductAlert_Model_Resource_Stock_Customer_Collection
         $this->getSelect()->join(
             array('alert' => $this->getTable('productalert/stock')),
             'alert.customer_id=e.entity_id',
-            array('alert_stock_id','website_id', 'add_date', 'send_date', 'send_count', 'status')
+            array('alert_stock_id', 'add_date', 'send_date', 'send_count', 'status')
         );
 
         $this->getSelect()->where('alert.product_id=?', $productId);

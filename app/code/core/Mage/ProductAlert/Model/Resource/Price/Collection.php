@@ -35,7 +35,7 @@
 class Mage_ProductAlert_Model_Resource_Price_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define price collection
      *
      */
     protected function _construct()
@@ -44,9 +44,9 @@ class Mage_ProductAlert_Model_Resource_Price_Collection extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Add customer filter
      *
-     * @param unknown_type $customer
+     * @param mixed $customer
      * @return Mage_ProductAlert_Model_Resource_Price_Collection
      */
     public function addCustomerFilter($customer)
@@ -65,9 +65,9 @@ class Mage_ProductAlert_Model_Resource_Price_Collection extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Add website filter
      *
-     * @param unknown_type $website
+     * @param mixed $website
      * @return Mage_ProductAlert_Model_Resource_Price_Collection
      */
     public function addWebsiteFilter($website)
@@ -89,9 +89,9 @@ class Mage_ProductAlert_Model_Resource_Price_Collection extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Set order by customer
      *
-     * @param unknown_type $sort
+     * @param string $sort
      * @return Mage_ProductAlert_Model_Resource_Price_Collection
      */
     public function setCustomerOrder($sort = 'ASC')

@@ -32,10 +32,10 @@
  * @package     Mage_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ProductAlert_Model_Resource_Stock extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_ProductAlert_Model_Resource_Stock extends Mage_ProductAlert_Model_Resource_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize connection
      *
      */
     protected function _construct()
@@ -44,10 +44,10 @@ class Mage_ProductAlert_Model_Resource_Stock extends Mage_Core_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
+     * Before save action
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
@@ -62,58 +62,5 @@ class Mage_ProductAlert_Model_Resource_Stock extends Mage_Core_Model_Resource_Db
             $object->setStatus(0);
         }
         return parent::_beforeSave($object);
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param Mage_Core_Model_Abstract $object
-     * @return unknown
-     */
-    protected function _getAlertRow(Mage_Core_Model_Abstract $object)
-    {
-        if ($object->getCustomerId() && $object->getProductId() && $object->getWebsiteId()) {
-            $sql = $this->_getWriteAdapter()->select()
-                ->from($this->getMainTable())
-                ->where('customer_id=?', $object->getCustomerId())
-                ->where('product_id=?', $object->getProductId())
-                ->where('website_id=?', $object->getWebsiteId());
-            return $this->_getWriteAdapter()->fetchRow($sql);
-        }
-        return false;
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_ProductAlert_Model_Resource_Stock
-     */
-    public function loadByParam(Mage_Core_Model_Abstract $object)
-    {
-        $row = $this->_getAlertRow($object);
-        if ($row) {
-            $object->setData($row);
-        }
-        return $this;
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param Mage_Core_Model_Abstract $object
-     * @param unknown_type $customerId
-     * @param unknown_type $websiteId
-     * @return Mage_ProductAlert_Model_Resource_Stock
-     */
-    public function deleteCustomer(Mage_Core_Model_Abstract $object, $customerId, $websiteId)
-    {
-        $where   = array();
-        $where[] = $this->_getWriteAdapter()->quoteInto('customer_id=?', $customerId);
-        if ($websiteId) {
-            $where[] = $this->_getWriteAdapter()->quoteInto('website_id=?', $websiteId);
-        }
-        $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
-        return $this;
     }
 }

@@ -36,10 +36,10 @@ class Mage_ProductAlert_Model_Resource_Price_Customer_Collection
     extends Mage_Customer_Model_Resource_Customer_Collection
 {
     /**
-     * Enter description here ...
+     * join productalert price data to customer collection
      *
-     * @param unknown_type $productId
-     * @param unknown_type $websiteId
+     * @param int $productId
+     * @param int $websiteId
      * @return Mage_ProductAlert_Model_Resource_Price_Customer_Collection
      */
     public function join($productId, $websiteId)
@@ -47,7 +47,7 @@ class Mage_ProductAlert_Model_Resource_Price_Customer_Collection
         $this->getSelect()->join(
             array('alert' => $this->getTable('productalert/price')),
             'e.entity_id=alert.customer_id',
-            array('alert_price_id', 'website_id', 'price', 'add_date', 'last_send_date', 'send_count', 'status')
+            array('alert_price_id', 'price', 'add_date', 'last_send_date', 'send_count', 'status')
         );
 
         $this->getSelect()->where('alert.product_id=?', $productId);
