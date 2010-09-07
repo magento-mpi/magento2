@@ -997,7 +997,8 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function getProduct($productId, $storeId)
     {
-        $products = $this->_getProducts($productId, $storeId, 0, 0);
+        $entityId = 0;
+        $products = $this->_getProducts($productId, $storeId, 0, $entityId);
         if (isset($products[$productId])) {
             return $products[$productId];
         }

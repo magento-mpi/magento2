@@ -392,7 +392,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 'type'   => 'index',
                 'fields' => array('type_id')
             );
-            $this->_indexes['IDX_ATRRIBUTE_SET'] = array(
+            $this->_indexes['IDX_ATTRIBUTE_SET'] = array(
                 'type'   => 'index',
                 'fields' => array('attribute_set_id')
             );
@@ -593,7 +593,10 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 if ($indexName == 'PRIMARY') {
                     continue;
                 }
-                $table->addIndex($indexName, $indexProp['fields'], $indexProp['type']);
+                $table->addIndex($indexName,
+                    array('fields' => $indexProp['fields']),
+                    array('type' => $indexProp['type'])
+                );
             }
             $table->addForeignKey($foreightEntityKey,
                 'entity_id', $this->getTable('catalog/product'), 'entity_id',

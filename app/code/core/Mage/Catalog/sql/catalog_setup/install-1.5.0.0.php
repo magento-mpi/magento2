@@ -1434,12 +1434,8 @@ $table = $installer->getConnection()
 ->addColumn('file_extension', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
 ), 'File Extension')
 ->addColumn('image_size_x', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
 ), 'Image Size X')
 ->addColumn('image_size_y', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
 ), 'Image Size Y')
 ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,

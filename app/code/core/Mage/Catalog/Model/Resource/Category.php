@@ -381,7 +381,6 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
             $productIds = array_keys($insert + $delete + $update);
             $category->setAffectedProductIds($productIds);
         }
-
         return $this;
     }
 

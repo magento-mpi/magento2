@@ -171,27 +171,27 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
         if ($this->count()) {
             $useDefaultCheck = $this->getConnection()->getCheckSql(
                 'store.use_default IS NULL',
-                'default.use_default',
+                'def.use_default',
                 'store.use_default'
             );
 
             $labelCheck = $this->getConnection()->getCheckSql(
                 'store.value IS NULL',
-                'default.value',
+                'def.value',
                 'store.value'
             );
 
             $select = $this->getConnection()->select()
-                ->from(array('default' => $this->_labelTable))
+                ->from(array('def' => $this->_labelTable))
                 ->joinLeft(
                     array('store' => $this->_labelTable),
-                    $this->getConnection()->quoteInto('store.product_super_attribute_id = default.product_super_attribute_id AND store.store_id = ?', $this->getStoreId()),
+                    $this->getConnection()->quoteInto('store.product_super_attribute_id = def.product_super_attribute_id AND store.store_id = ?', $this->getStoreId()),
                     array(
                         'use_default' => $useDefaultCheck,
                         'label' => $labelCheck
                     ))
-                ->where('default.product_super_attribute_id IN (?)', array_keys($this->_items))
-                ->where('default.store_id = ?', 0);
+                ->where('def.product_super_attribute_id IN (?)', array_keys($this->_items))
+                ->where('def.store_id = ?', 0);
 
                 $result = $this->getConnection()->fetchAll($select);
                 foreach ($result as $data) {
