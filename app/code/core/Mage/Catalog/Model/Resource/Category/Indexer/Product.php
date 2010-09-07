@@ -368,13 +368,9 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         $position = $adapter->getCheckSql(
             'MIN(cp.category_id)=ce.entity_id',
             'MIN(cp.position)',
-            'ROUND((MIN(cc.position) + 1) * (MIN(' . $adapter->quoteIdentifier('cc.level') . ') + 1) * 10000)'.
+            'ROUND((MIN(cc.position) + 1) * (MIN(' . $adapter->quoteIdentifier('cc.level') . ') + 1) * 10000, 0)'.
             ' + MIN(cp.position)'
         );
-/*
-        new Zend_Db_Expr('IF (cp.category_id=ce.entity_id,
-        cp.position,
-        ROUND((cc.position + 1) * (cc.level + 1) * 10000) + cp.position)');*/
         $select = $adapter->select()
             ->distinct(true)
             ->from(array('ce' => $this->_categoryTable), array('entity_id'))
