@@ -51,7 +51,7 @@ class Model_Admin extends TestModelAbstract
      */
     public  function pleaseWait()
     {
-        $loadingMask = $this->getUiElement('admin/progressBar');
+        $loadingMask = $this->getUiElement('/admin/elements/progress_bar');
 
         // await for appear and disappear "Please wait" animated gif...
         for ($second = 0; ; $second++) {
@@ -80,6 +80,63 @@ class Model_Admin extends TestModelAbstract
             sleep(1);
         }
         sleep(1);
+    }
+
+    /**
+     * Search row in the table satisfied condition Field "Key" == "value",
+     * where "key" => "value" are parts of paramsArray
+     * @param  $tableXPath
+     * @param <type> $paramsArray
+     * @return index of row, -1 if could not be founded
+     * Note: this version works only for one(last) pair
+     */
+    public function getSpecificRow($tableXPath, $paramsArray) {
+      $this->printDebug('getSpecificRow started');
+
+      $colNum = $this->getXpathCount($tableXPath . "//tr[contains(@class,'heading')]//th");
+      Core::debug('$colNum = ' . $colNum, 1);
+      $rowNum = $this->getXpathCount($tableXPath . "//tbody//tr");
+      Core::debug('$rowNum = ' . $rowNum, 1);
+
+      foreach (array_keys($paramsArray) as $key) {
+          //Open user with 'User Name' == name
+          //Determine Column with 'User Name' title
+          $keyColInd = -1;
+          for ($col = 0; $col<= $colNum-1; $col++) {
+            $cellLocator = $tableXPath . '.0.' . $col ;
+            $cell = $this->getTable($cellLocator);
+            if ( $key == $cell) {
+                $this->printDebug($key . ' is founded in ' . $cellLocator);
+                $keyColInd = $col;
+            }
+            $this->printDebug($cellLocator . ' == ' . $cell);
+          }
+          if ($keyColInd == -1) {
+              $this->printDebug($key . ' not founded in ' . $tableXPath . ' table');
+              return -1;
+          } else {
+              if ($keyColInd >-1) {
+                  $bodyLocator =  $tableXPath . '//tbody';
+                  $valueRowInd = -1;
+                  for ($row = 0; $row <= $rowNum-1; $row++) {
+                    $cellLocator = $bodyLocator . '.' . $row . '.' . $keyColInd;
+                    $cell = $this->getTable($cellLocator);
+                    if ($cell == $paramsArray[$key]) {
+                        $valueRowInd = $row;
+                        $this->printDebug('Founded in ' . $cellLocator);
+                    }
+                    $this->printDebug($cellLocator . ' == [' . $cell .']');
+                  }
+              }
+          }
+      }
+      if ($valueRowInd > -1 ) {
+        $valueRowInd++;
+        return $valueRowInd;
+       } else {
+              $this->printDebug($paramsArray[$key] . ' not founded in ' . $tableXPath . ' table');
+              return -1;
+       }
     }
 }
 
