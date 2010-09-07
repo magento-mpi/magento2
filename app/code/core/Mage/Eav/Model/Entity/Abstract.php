@@ -1233,6 +1233,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         $entityIdField  = $this->getEntityIdField();
         $entityId       = $newObject->getId();
 
+        unset($entityRow[$entityIdField]);
         if (!empty($entityId) && is_numeric($entityId)) {
             $bind   = array('entity_id' => $entityId);
             $select = $adapter->select()
@@ -1240,7 +1241,6 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
                 ->where("{$entityIdField} = :entity_id");
             $result = $adapter->fetchOne($select, $bind);
             if ($result) {
-                unset($entityRow[$entityIdField]);
                 $insertEntity = false;
             }
         } else {
