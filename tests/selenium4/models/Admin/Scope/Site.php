@@ -28,10 +28,9 @@ class Model_Admin_Scope_Site extends Model_Admin {
         $this->clickAndWait(
             $this->getUiElement("/admin/topmenu/system/managestores/link/openpage")
         );
-
-        $this->setUiNamespace('admin/pages/system/managestores/createsite');
-
-        $this->clickAndWait($this->getUiElement("buttons/createwebsite"));
+        $this->setUiNamespace('admin/pages/system/scope/site');
+        $this->clickAndWait($this->getUiElement("/admin/pages/system/scope/manage_stores/buttons/create_web_site"));
+        //Fill all fields
         $this->type($this->getUiElement("inputs/name"), $siteData['name']);
         $this->type($this->getUiElement("inputs/code"), $siteData['code']);
         $this->type($this->getUiElement("inputs/order"), $siteData['sortorder']);
@@ -69,15 +68,17 @@ class Model_Admin_Scope_Site extends Model_Admin {
             $this->getUiElement("/admin/topmenu/system/managestores/link/openpage")
         );
 
+
         if ($this->doOpen($name)) {
+            $this->setUiNamespace('/admin/pages/system/scope/site');
             //Delete site
             $this->clickAndWait($this->getUiElement('buttons/delete'));
             //Select No backup
-            $this->waitForElement($this->getUiElement('select/create_backup'),5);
-            $this->select($this->getUiElement('select/create_backup'),'label=No');
+            $this->waitForElement($this->getUiElement('/admin/pages/system/scope/create_backup/selectors/create_backup'),5);
+            $this->select($this->getUiElement('/admin/pages/system/scope/create_backup/selectors/create_backup'),'label=No');
             //Delete Site
             $this->click($this->getUiElement('buttons/delete'));
-            $this->waitForElement($this->getUiElement('elements/store_table'),130);
+            $this->waitForElement($this->getUiElement('/admin/pages/system/scope/manage_stores/elements/store_table'),130);
 
             // check for error message
             if ($this->waitForElement($this->getUiElement('/admin/messages/error'),1)) {
@@ -95,7 +96,7 @@ class Model_Admin_Scope_Site extends Model_Admin {
         $this->printDebug('doDelete finished...');
     }
 
-/**
+    /**
      * Open site from admin
      * @param name, code
      * @return boolean
@@ -106,7 +107,7 @@ class Model_Admin_Scope_Site extends Model_Admin {
         $userData = $params ? $params : $this->siteData;
         $name = $this->siteData['name'];
         $code = $this->siteData['code'];
-        $this->setUiNamespace('admin/pages/system/managestores/createsite');
+        $this->setUiNamespace('/admin/pages/system/scope/manage_stores');
         //Open ManageStores
         $this->clickAndWait(
             $this->getUiElement("/admin/topmenu/system/managestores/link/openpage")
@@ -122,6 +123,7 @@ class Model_Admin_Scope_Site extends Model_Admin {
         //Open user with 'User Name' == name
         //Determine Column with 'User Name' title
         $result = $this->findRightStore($this->getUiElement('elements/store_table'), $name, $code);
+        $this->setUiNamespace('/admin/pages/system/scope/manage_stores');
         if ($result > -1 ) {
             $this->clickAndWait($this->getUiElement('elements/body') . '//tr['. $result .']/td[1]//a');
             $this->printInfo('Site ' . $code . ' opened');
@@ -144,8 +146,8 @@ class Model_Admin_Scope_Site extends Model_Admin {
         $result = -1;
         $this->printDebug('findRightStore Started...');
         $rowNum = $this->getXpathCount($tableXPath . '//tbody//tr');
+        $this->setUiNamespace('/admin/pages/system/scope/site');
 //        $this->printDebug($rowNum);
-        //
         for ($row=0; $row<=$rowNum-1; $row++) {
             $cellLocator = $tableXPath . '//tbody' . '.' . $row . '.' . 0;
             $this->waitForElement($tableXPath . '//tbody', 5);
@@ -176,8 +178,6 @@ class Model_Admin_Scope_Site extends Model_Admin {
         }
         $this->printDebug('findRightStore finished with result = ' . $result);
         return $result;
-
     }
-
 
 }

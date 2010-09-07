@@ -10,12 +10,10 @@
 
     <backend>
         <baseUrl>http://kq.varien.com/enterprise/1.8.0.0/index.php/control/index/</baseUrl>
-
         <auth>
             <username>admin</username>
             <password>123123q</password>
         </auth>
-
         <payment_method>
             <check>p_method_checkmo</check>
             <credit_card>p_method_ccsave</credit_card>
@@ -43,18 +41,18 @@
             <productname>st-01</productname>
             <price>10</price>
         </createproduct>
-
+        <user>
+            <name>test</name>
+	</user>
         <scope>
             <site>
                 <name>SmokeTestSite</name>
-                <code>stsitecode</code>
+                <code>smoke</code>
                 <sortorder>1</sortorder>
             </site>
-
             <store>
                 <storename>ststorename</storename>
             </store>
-
             <storeview>
                 <name>SmokeTestStoreView</name>
                 <code>stsvcode</code>
@@ -62,7 +60,6 @@
                 <status>label=Enabled</status>
             </storeview>
         </scope>
-
         <managecategories>
             <rootname>st-rootcat</rootname>
             <subcategoryname>st-subcat</subcategoryname>
