@@ -101,9 +101,9 @@ class Model_Admin extends TestModelAbstract
       $this->printDebug('getSpecificRow started');
 
       $colNum = $this->getXpathCount($tableXPath . "//tr[contains(@class,'heading')]//th");
-//      Core::debug('$colNum = ' . $colNum, 3);
+      $this->printDebug('$colNum = ' . $colNum);
       $rowNum = $this->getXpathCount($tableXPath . "//tbody//tr");
-//      Core::debug('$rowNum = ' . $rowNum, 3);
+      $this->printDebug('$rowNum = ' . $rowNum);
 
       foreach (array_keys($paramsArray) as $key) {
           //Open user with 'User Name' == name

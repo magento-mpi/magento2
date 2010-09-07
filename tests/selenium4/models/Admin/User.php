@@ -69,6 +69,7 @@ class Model_Admin_User extends Model_Admin {
 
         $userData = $params ? $params : $this->userData;
         $name = $this->userData['name'];
+
         $this->setUiNamespace('admin/pages/system/permissions/users/manage_users/');
         // Open Manage Users Page
         $this->clickAndWait(
