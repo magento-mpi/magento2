@@ -921,7 +921,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      * @param int $lastEntityId
      * @return array
      */
-    protected function _getProducts($productIds, $storeId, $entityId, $lastEntityId)
+    protected function _getProducts($productIds, $storeId, $entityId, &$lastEntityId)
     {
         $products   = array();
         $websiteId  = Mage::app()->getStore($storeId)->getWebsiteId();
