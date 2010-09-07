@@ -140,6 +140,7 @@ abstract class TestCaseAbstract extends PHPUnit_Extensions_SeleniumTestCase
         for ($second = 0; ; $second ++) {
             if ($second >= $timeforwait) {
                 $this->printDebug('Element could not be found: ' . $xpath);
+                return false;
             }
 
             try {
