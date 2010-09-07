@@ -152,6 +152,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
     protected function _getStockStatusSelect($entityIds = null, $usePrimaryTable = false)
     {
         $adapter = $this->_getWriteAdapter();
+        $qtyExpr = $adapter->getCheckSql('cisi.qty > 0', 'cisi.qty', 0);
         $select  = $adapter->select()
             ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'));
         $this->_addWebsiteJoinToSelect($select, true);
@@ -165,7 +166,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
                 array('cisi' => $this->getTable('cataloginventory/stock_item')),
                 'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id',
                 array())
-            ->columns(array('qty' => new Zend_Db_Expr('IF(cisi.qty > 0, cisi.qty, 0)')))
+            ->columns(array('qty' => $qtyExpr))
             ->where('cw.website_id != 0')
             ->where('e.type_id = ?', $this->getTypeId());
 
@@ -174,11 +175,11 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $condition);
 
         if ($this->_isManageStock()) {
-            $statusExpr = new Zend_Db_Expr('IF(cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 0,'
-                . ' 1, cisi.is_in_stock)');
+            $statusExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 0',
+                1, 'cisi.is_in_stock');
         } else {
-            $statusExpr = new Zend_Db_Expr('IF(cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 1,'
-                . 'cisi.is_in_stock, 1)');
+            $statusExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 1',
+                'cisi.is_in_stock', 1);
         }
 
         $select->columns(array('status' => $statusExpr));
@@ -223,10 +224,10 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
             $i ++;
             $data[] = array(
-                'product_id'    => $row['entity_id'],
-                'website_id'    => $row['website_id'],
-                'stock_id'      => $row['stock_id'],
-                'qty'           => $row['qty'],
+                'product_id'    => (int)$row['entity_id'],
+                'website_id'    => (int)$row['website_id'],
+                'stock_id'      => (int)$row['stock_id'],
+                'qty'           => (float)$row['qty'],
                 'stock_status'  => (int)$row['status'],
             );
             if (($i % 1000) == 0) {
@@ -260,7 +261,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
     /**
      * Retrieve temporary index table name
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return string
      */
     public function getIdxTable($table = null)

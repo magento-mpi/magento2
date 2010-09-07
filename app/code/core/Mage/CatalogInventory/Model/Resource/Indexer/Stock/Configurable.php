@@ -104,15 +104,15 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Configurable
         $psCond = $adapter->quoteInto($psExpr . '=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
 
         if ($this->_isManageStock()) {
-            $statusExpr = new Zend_Db_Expr('IF(cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 0,'
-                . ' 1, cisi.is_in_stock)');
+            $statusExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 0',
+                1, 'cisi.is_in_stock');
         } else {
-            $statusExpr = new Zend_Db_Expr('IF(cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 1,'
-                . 'cisi.is_in_stock, 1)');
+            $statusExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 1',
+                'cisi.is_in_stock', 1);
         }
 
-        $stockStatusExpr = new Zend_Db_Expr("LEAST(MAX(IF({$psCond} AND le.required_options = 0, i.stock_status, 0))"
-            . ", {$statusExpr})");
+        $optExpr = $adapter->getCheckSql("{$psCond} AND le.required_options = 0", 'i.stock_status', 0);
+        $stockStatusExpr = $adapter->getLeastSql(array("MAX({$optExpr})", "MIN({$statusExpr})"));
 
         $select->columns(array(
             'status' => $stockStatusExpr

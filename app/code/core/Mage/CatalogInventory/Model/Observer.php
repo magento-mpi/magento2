@@ -139,7 +139,7 @@ class Mage_CatalogInventory_Model_Observer
         );
         if ($currentStockItem = $currentProduct->getStockItem()) {
             $stockData += array(
-                'use_config_enable_qty_increments'  => $currentStockItem->getData('use_config_enable_qty_increments'),
+                'use_config_enable_qty_inc'  => $currentStockItem->getData('use_config_enable_qty_inc'),
                 'enable_qty_increments'             => $currentStockItem->getData('enable_qty_increments'),
                 'use_config_qty_increments'         => $currentStockItem->getData('use_config_qty_increments'),
                 'qty_increments'                    => $currentStockItem->getData('qty_increments'),
@@ -188,8 +188,8 @@ class Mage_CatalogInventory_Model_Observer
             $item->setQtyCorrection($item->getQty()-$originalQty);
         }
         if (!is_null($product->getData('stock_data/enable_qty_increments'))
-            && is_null($product->getData('stock_data/use_config_enable_qty_increments'))) {
-            $item->setData('use_config_enable_qty_increments', false);
+            && is_null($product->getData('stock_data/use_config_enable_qty_inc'))) {
+            $item->setData('use_config_enable_qty_inc', false);
         }
         if (!is_null($product->getData('stock_data/qty_increments'))
             && is_null($product->getData('stock_data/use_config_qty_increments'))) {

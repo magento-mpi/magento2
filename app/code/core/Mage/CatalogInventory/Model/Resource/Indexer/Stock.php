@@ -318,81 +318,16 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
             ->join(
                 array('e' => $this->getTable('catalog/product')),
                 'l.parent_id=e.entity_id',
-                array('e.type_id'))
+                array('e.type_id')
+            )
             ->where('l.child_id=?', $childId);
         return $write->fetchPairs($select);
     }
 
     /**
-     * Copy relations product index from primary index to temporary index table by parent entity
-     *
-     * @deprecated since 1.4.0
-     * @package array|int $excludeIds
-     *
-     * @param array|int $parentIds
-     * @param unknown_type $excludeIds
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock
-     */
-    protected function _copyRelationIndexData($parentIds, $excludeIds = null)
-    {
-        $write  = $this->_getWriteAdapter();
-        $select = $write->select()
-            ->from($this->getTable('catalog/product_relation'), array('child_id'))
-            ->where('parent_id IN(?)', $parentIds);
-        if (!is_null($excludeIds)) {
-            $select->where('child_id NOT IN(?)', $excludeIds);
-        }
-
-        $children = $write->fetchCol($select);
-
-        if ($children) {
-            $select = $write->select()
-                ->from($this->getMainTable())
-                ->where('product_id IN(?)', $children);
-            $query  = $select->insertFromSelect($this->getIdxTable());
-            $write->query($query);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Copy data from temporary index table to main table by defined ids
-     *
-     * @deprecated since 1.4.0
-     *
-     * @param array $processIds
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock
-     */
-    protected function _copyIndexDataToMainTable($processIds)
-    {
-        $write = $this->_getWriteAdapter();
-        $write->beginTransaction();
-        try {
-            // remove old index
-            $where = $write->quoteInto('product_id IN(?)', $processIds);
-            $write->delete($this->getMainTable(), $where);
-
-            // remove additional data from index
-            $where = $write->quoteInto('product_id NOT IN(?)', $processIds);
-            $write->delete($this->getIdxTable(), $where);
-
-            // insert new index
-            $this->insertFromTable($this->getIdxTable(), $this->getMainTable());
-
-            $this->commit();
-        } catch (Exception $e) {
-            $this->rollBack();
-            throw $e;
-        }
-
-        return $this;
-    }
-
-    /**
      * Retrieve temporary index table name
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return string
      */
     public function getIdxTable($table = null)

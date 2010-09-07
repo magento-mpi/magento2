@@ -423,16 +423,6 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve resource model wraper
-     *
-     * @return Mage_CatalogInventory_Model_Mysql4_Stock_Status
-     */
-    public function getResource()
-    {
-        return parent::getResource();
-    }
-
-    /**
      * Retrieve Product Type
      *
      * @param int $productId

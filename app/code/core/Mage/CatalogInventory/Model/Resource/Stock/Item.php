@@ -35,7 +35,7 @@
 class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table and initialize connection
      *
      */
     protected function _construct()
@@ -53,9 +53,11 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
     public function loadByProductId(Mage_CatalogInventory_Model_Stock_Item $item, $productId)
     {
         $select = $this->_getLoadSelect('product_id', $productId, $item)
-            ->where('stock_id=?', $item->getStockId());
-
-        $item->setData($this->_getReadAdapter()->fetchRow($select));
+            ->where('stock_id = ?', $item->getStockId());
+        $data = $this->_getReadAdapter()->fetchRow($select);
+        if ($data) {
+            $item->setData($data);
+        }
         $this->_afterLoad($item);
         return $this;
     }
@@ -65,45 +67,42 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
      *
      * @param string $field
      * @param mixed $value
-     * @param object $object
-     * @return Zend_Db_Select
+     * @param Mage_CatalogInventory_Model_Stock_Item $object
+     * @return Varien_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-        return parent::_getLoadSelect($field, $value, $object)
-            ->joinInner(array('p' => $this->getTable('catalog/product')), 'product_id=p.entity_id', 'type_id')
-        ;
+        $select = parent::_getLoadSelect($field, $value, $object)
+            ->join(array('p' => $this->getTable('catalog/product')), 
+                'product_id=p.entity_id', 
+                array('type_id')
+            );
+        return $select;
     }
 
     /**
      * Add join for catalog in stock field to product collection
      *
-     * @param Mage_Catalog_Model_Entity_Product_Collection $productCollection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
      * @return Mage_CatalogInventory_Model_Resource_Stock_Item
      */
     public function addCatalogInventoryToProductCollection($productCollection)
     {
-        $isStockManagedInConfig = (int) Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
-        $inventoryTable = $this->getTable('cataloginventory/stock_item');
-        $productCollection->joinTable('cataloginventory/stock_item',
+        $adapter = $this->_getReadAdapter();
+        $isManageStock = (int)Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        $stockExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 1', $isManageStock, 'cisi.manage_stock');
+        $stockExpr = $adapter->getCheckSql("({$stockExpr} = 1)", 'cisi.is_in_stock', '1');
+
+        $productCollection->joinTable(
+            array('cisi' => 'cataloginventory/stock_item'),
             'product_id=entity_id',
             array(
-                'is_saleable' => new Zend_Db_Expr(
-                    "(
-                        IF(
-                            IF(
-                                $inventoryTable.use_config_manage_stock,
-                                 $isStockManagedInConfig,
-                                $inventoryTable.manage_stock
-                            ), 
-                            $inventoryTable.is_in_stock,
-                            1
-                        )
-                     )"
-            ),
+                'is_saleable' => new Zend_Db_Expr($stockExpr),
                 'inventory_in_stock' => 'is_in_stock'
             ),
-            null, 'left');
+            null, 
+            'left'
+        );
         return $this;
     }
 
@@ -118,10 +117,11 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
     {
         $data = parent::_prepareDataForTable($object, $table);
         if ($object->getQtyCorrection()) {
+            $qty = abs($object->getQtyCorrection());
             if ($object->getQtyCorrection() < 0) {
-                $data['qty'] = new Zend_Db_Expr('`qty`-'.abs($object->getQtyCorrection()));
+                $data['qty'] = new Zend_Db_Expr('qty-' . $qty);
             } else {
-                $data['qty'] = new Zend_Db_Expr('`qty`+'.$object->getQtyCorrection());
+                $data['qty'] = new Zend_Db_Expr('qty+' . $object->getQtyCorrection());
             }
         }
         return $data;

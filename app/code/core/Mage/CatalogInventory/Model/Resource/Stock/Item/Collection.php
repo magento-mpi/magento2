@@ -35,7 +35,7 @@
 class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource model
      *
      */
     protected function _construct()
@@ -53,8 +53,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
     {
         if ($stock instanceof Mage_CatalogInventory_Model_Stock) {
             $this->addFieldToFilter('main_table.stock_id', $stock->getId());
-        }
-        else {
+        } else {
             $this->addFieldToFilter('main_table.stock_id', $stock);
         }
         return $this;
@@ -63,7 +62,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
     /**
      * Add product filter to collection
      *
-     * @param mixed $products
+     * @param array $products
      * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection
      */
     public function addProductsFilter($products)
@@ -72,8 +71,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
         foreach ($products as $product) {
             if ($product instanceof Mage_Catalog_Model_Product) {
                 $productIds[] = $product->getId();
-            }
-            else {
+            } else {
                 $productIds[] = $product;
             }
         }
@@ -81,7 +79,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
             $productIds[] = false;
             $this->_setIsLoaded(true);
         }
-        $this->addFieldToFilter('main_table.product_id', array('in'=>$productIds));
+        $this->addFieldToFilter('main_table.product_id', array('in' => $productIds));
         return $this;
     }
 
@@ -96,9 +94,9 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
         $this->getSelect()->joinLeft(
             array('status_table' => $this->getTable('cataloginventory/stock_status')),
-            '`main_table`.`product_id`=`status_table`.`product_id`'
-                . ' AND `main_table`.`stock_id`=`status_table`.`stock_id`'
-                . $this->getConnection()->quoteInto(' AND `status_table`.`website_id`=?', $websiteId),
+                'main_table.product_id=status_table.product_id'
+                . ' AND main_table.stock_id=status_table.stock_id'
+                . $this->getConnection()->quoteInto(' AND status_table.website_id=?', $websiteId),
             array('stock_status')
         );
 
@@ -106,9 +104,9 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
     }
 
     /**
-     * Enter description here ...
+     * Add Managed Stock products filter to collection
      *
-     * @param unknown_type $isStockManagedInConfig
+     * @param boolean $isStockManagedInConfig
      * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection
      */
     public function addManagedFilter($isStockManagedInConfig)
@@ -123,36 +121,43 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
     }
 
     /**
-     * Enter description here ...
+     * Add filter by quantity to collection
      *
-     * @param unknown_type $comparsionMethod
-     * @param unknown_type $qty
+     * @param string $comparsionMethod
+     * @param float $qty
      * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection
      */
     public function addQtyFilter($comparsionMethod, $qty)
     {
-        $allowedMethods = array('<', '>', '=', '<=', '>=', '<>');
-        if (!in_array($comparsionMethod, $allowedMethods)) {
-            Mage::throwException(Mage::helper('cataloginventory')->__('%s is not a correct comparsion method.', $comparsionMethod));
-        }
-        $this->getSelect()->where("main_table.qty {$comparsionMethod} ?", $qty);
-        return $this;
-    }
-
-    /**
-     * Load data
-     *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
-     * @return Varien_Data_Collection_Db
-     */
-    public function load($printQuery = false, $logQuery = false)
-    {
-        if (!$this->isLoaded()) {
-            $this->getSelect()->joinInner(array('_products_table' => $this->getTable('catalog/product')),
-                'main_table.product_id=_products_table.entity_id', 'type_id'
+        $methods = array(
+            '<'  => 'lt',
+            '>'  => 'gt',
+            '='  => 'eq',
+            '<=' => 'lteq',
+            '>=' => 'gteq',
+            '<>' => 'neq'
+        );
+        if (!isset($methods[$comparsionMethod])) {
+            Mage::throwException(
+                Mage::helper('cataloginventory')->__('%s is not a correct comparsion method.', $comparsionMethod)
             );
         }
-        return parent::load($printQuery, $logQuery);
+
+        return $this->addFieldToFilter('main_table.qty', array($methods[$comparsionMethod] => $qty));
+    }
+    
+    /**
+     * Initialize select object
+     *
+     * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection
+     */
+    protected function _initSelect()
+    {
+        $select = parent::_initSelect()->join(
+            array('cp_table'    => $this->getTable('catalog/product')),
+            'main_table.product_id = cp_table.entity_id',
+            array('type_id')
+        );
+        return $select;
     }
 }
