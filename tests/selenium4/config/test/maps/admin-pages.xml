@@ -146,6 +146,10 @@
                     <save>//button[span="Save Website"]</save>
                     <savestore>//button[span="Save Store"]</savestore>
                     <savestoreview>//button[span="Save Store View"]</savestoreview>
+                    <reset_filter>//button[span="Reset Filter"]</reset_filter>
+                    <search>//button[span="Search"]</search>
+                    <back>//button[span="Back"]</back>
+                    <delete>//button[span="Delete Website"]</delete>
                 </buttons>
                 <inputs>
                     <name>//input[@id='website_name']</name>
@@ -156,17 +160,26 @@
                     <order>//input[@id='website_sort_order']</order>
                     <storevieworder>//input[@id='store_sort_order']</storevieworder>
                 </inputs>
+                <filters>
+                     <site_name>//input[@id='filter_website_title']</site_name>
+                </filters>
                 <select>
                     <site>group_website_id</site>
                     <store>store_group_id</store>
                     <storestatus>store_is_active</storestatus>
                     <rootcategory>group_root_category_id</rootcategory>
+                    <create_backup>//select[@id='store_create_backup']</create_backup>
                 </select>
                 <messages>
                     <saved>//li[@class='success-msg']</saved>
                 </messages>
-            </createsite>
-        </managestores>
+                <elements>
+                    <store_table>//table[@id='storeGrid_table']</store_table>
+                    <body>//table[@id='storeGrid_table']</body>
+                    <website_name_value>//input[@id='website_name' and @value='%s']</website_name_value>
+                    <website_code_value>//input[@id='website_code' and @value='%s']</website_code_value>
+                </elements>
+            </createsite>        </managestores>
     </system>
     <login>
         <messages>
