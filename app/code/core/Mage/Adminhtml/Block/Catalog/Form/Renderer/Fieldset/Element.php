@@ -96,12 +96,11 @@ class Mage_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element extends Mage_A
      */
     public function usedDefault()
     {
-        $devaultValue = $this->getDataObject()->getAttributeDefaultValue($this->getAttribute()->getAttributeCode());
-        if (!$devaultValue && !$this->getAttribute()->getIsRequired() && $this->getElement()->getValue()) {
+        $defaultValue = $this->getDataObject()->getAttributeDefaultValue($this->getAttribute()->getAttributeCode());
+        if (!$defaultValue && !$this->getAttribute()->getIsRequired() && $this->getElement()->getValue()) {
             return false;
         }
-
-        return $devaultValue === false;
+        return $defaultValue === false;
     }
 
     /**
