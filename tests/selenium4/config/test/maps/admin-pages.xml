@@ -112,6 +112,11 @@
                     <filters>
                             <user_name>//input[@id='filter_username']</user_name>
                     </filters>
+                    <elements>
+                            <user_table>//table[@id='permissionsUserGrid_table']</user_table>
+                            <heading>//table[@id='permissionsUserGrid_table']//tr[contains(@class,'heading')]</heading>
+                            <body>//table[@id='permissionsUserGrid_table']//tbody</body>
+                    </elements>
                 </manage_users>
                 <user>
                     <inputs>
@@ -124,6 +129,7 @@
                     </inputs>
                     <buttons>
                         <save>//button[span="Save User"]</save>
+                        <delete>//button[span="Delete User"]</delete>
                     </buttons>
                 </user>
             </users>
