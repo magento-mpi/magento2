@@ -173,6 +173,18 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
     }
 
     /**
+     * Add filtering by option ids
+     *
+     * @param mixed $optionIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
+     */
+    public function addIdsToFilter($optionIds)
+    {
+        $this->addFieldToFilter('main_table.option_id', $optionIds);
+        return $this;
+    }
+
+    /**
      * Call of protected method reset
      *
      * @return Mage_Catalog_Model_Resource_Product_Option_Collection
