@@ -62,6 +62,8 @@
             <block type="xmlconnect/catalog_product_price" name="xmlconnect.catalog.product.price" as="product_price" output="">
                 <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
             </block>
+
+            <block type="xmlconnect/catalog_product_attributes" name="xmlconnect.catalog.product.attributes" as="additional_info" output="" />
         </block>
     </xmlconnect_catalog_product>
 

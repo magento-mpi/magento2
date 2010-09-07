@@ -56,12 +56,12 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
     public function productToXmlObject(Mage_Catalog_Model_Product $product, $itemNodeName = 'item')
     {
         $item = new Mage_XmlConnect_Model_Simplexml_Element('<' . $itemNodeName . '></' . $itemNodeName . '>');
-        if ($product->getId()) {
+        if ($product && $product->getId()) {
             $item->addChild('entity_id', $product->getId());
             $item->addChild('name', $item->xmlentities(strip_tags($product->getName())));
             $item->addChild('entity_type', $product->getTypeId());
             $item->addChild('short_description', $product->getShortDescription());
-            $item->addChild('description', $item->xmlentities($product->getDescription()));
+            $item->addChild('description', $product->getDescription());
 
             $icon = clone Mage::helper('catalog/image')->init($product, 'image')
                 ->resize($itemNodeName == 'item' ? self::PRODUCT_IMAGE_SMALL_RESIZE_PARAM : self::PRODUCT_IMAGE_BIG_RESIZE_PARAM);
@@ -104,6 +104,10 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
                 $this->getChild('product_price')->setProduct($product)
                    ->setProductXmlObj($item)
                    ->collectProductPrices();
+            }
+
+            if ($this->getChild('additional_info')) {
+                $this->getChild('additional_info')->addAdditionalData($product, $item);
             }
         }
 
