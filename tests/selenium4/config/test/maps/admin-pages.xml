@@ -1,5 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pages>
+    <sales>
+        <orders>
+            <manage_orders>
+                <buttons>
+                    <create_order>//button[span='Create New Order']</create_order>
+                    <order_search>//button[span='Search']</order_search>
+                </buttons>
+                <input>
+                    <order_number>filter_real_order_id</order_number>
+                </input>
+                <page_elements>
+                    <order_status>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]/following-sibling::*[7]</order_status>
+                </page_elements>
+                <locators>
+                    <select_order>//table[@id='sales_order_grid_table']//td[contains(text(),'%s')]</select_order>
+                </locators>
+            </manage_orders>
+            <edit_order>
+                <buttons>
+                    <create_invoce>//button[span='Invoice']</create_invoce>
+                    <create_ship>//button[span='Ship']</create_ship>
+                    <reorder>//button[span='Reorder']</reorder>
+                    <create_memo>//button[span='Credit Memo']</create_memo>
+                </buttons>
+                <messages>
+                    <invoice_created>//li[@class='success-msg']//*[contains(text(),'The invoice has been created.')]</invoice_created>
+                    <ship_created>//li[@class='success-msg']//*[contains(text(),'The shipment has been created.')]</ship_created>
+                    <c_memo_created>//li[@class='success-msg']//*[contains(text(),'The credit memo has been created.')]</c_memo_created>
+                </messages>
+                <page_elements>
+                    <order_number>//div[@class='content-header']//h3</order_number>
+                </page_elements>
+            </edit_order>
+            <create_order>
+                <buttons>
+                    <add_product>//button[span='Add Products']</add_product>
+                    <product_search>//div[@id='sales_order_create_search_grid']//button[span='Search']</product_search>
+                    <add_product_confirm>//button[span='Add Selected Product(s) to Order']</add_product_confirm>
+                    <sumbit_order>//button[span='Submit Order']</sumbit_order>
+                </buttons>
+                <input>
+                    <search_by_product_sku>filter_sku</search_by_product_sku>
+                </input>
+                <messages>
+                    <order_created>//li[@class='success-msg']//*[contains(text(),'The order has been created.')]</order_created>
+                    <order_not_created>//li[@class='error-msg']</order_not_created>
+                    <verify_req_field>//div[@class='validation-advice']</verify_req_field>
+                    <verify_shipping>//div[@id='order-shipping_method']//div[@class='fieldset']/strong</verify_shipping>
+                </messages>
+                <page_elements>
+                    <order_page>//div[@id='order-data' and contains(@style,'')]</order_page>
+                    <product_search_grid>//*[@id='sales_order_create_search_grid_table']</product_search_grid>
+                </page_elements>
+                <locators>
+                    <select_product>//table[@id="sales_order_create_search_grid_table"]//td</select_product>
+                    <get_shipping>link=Get shipping methods and rates</get_shipping>
+                </locators>
+                                        <!-- related pages-->
+            <salect_user_for_order>
+                <buttons>
+                    <user_search>//button[span='Search']</user_search>
+                </buttons>
+                <inputs>
+                    <search_by_user_email>filter_email</search_by_user_email>
+                    <search_by_store_view_name>filter_store_name</search_by_store_view_name>
+                </inputs>
+                <locators>
+                    <select_user>//table[@id="sales_order_create_customer_grid_table"]//td[contains(text(),'%s')]</select_user>
+                </locators>
+            </salect_user_for_order>
+            <select_sore_view_for_order>
+                <page_elements>
+                    <loaded_store_view>//div[@id='order-store-selector' and contains(@style,'')]</loaded_store_view>
+                </page_elements>
+                <locators>
+                    <select_store_view>//label[text()='%s']</select_store_view>
+                </locators>
+            </select_sore_view_for_order>
+                                        <!-- related pages-->
+            </create_order>
+            <create_invoice>
+                <buttons>
+                    <sumbit_invoice>//button[span='Submit Invoice']</sumbit_invoice>
+                </buttons>
+            </create_invoice>
+            <create_shippment>
+                <buttons>
+                    <sumbit_ship>//button[span='Submit Shipment']</sumbit_ship>
+                </buttons>
+            </create_shippment>
+            <create_credit_memo>
+                <buttons>
+                    <sumbit_memo>//button[span='Refund Offline']</sumbit_memo>
+                </buttons>
+            </create_credit_memo>
+        </orders>
+    </sales>
     <catalog>
         <attributes>
             <manage_attribute_sets>
@@ -146,10 +243,6 @@
                     <save>//button[span="Save Website"]</save>
                     <savestore>//button[span="Save Store"]</savestore>
                     <savestoreview>//button[span="Save Store View"]</savestoreview>
-                    <reset_filter>//button[span="Reset Filter"]</reset_filter>
-                    <search>//button[span="Search"]</search>
-                    <back>//button[span="Back"]</back>
-                    <delete>//button[span="Delete Website"]</delete>
                 </buttons>
                 <inputs>
                     <name>//input[@id='website_name']</name>
@@ -160,26 +253,17 @@
                     <order>//input[@id='website_sort_order']</order>
                     <storevieworder>//input[@id='store_sort_order']</storevieworder>
                 </inputs>
-                <filters>
-                     <site_name>//input[@id='filter_website_title']</site_name>
-                </filters>
                 <select>
                     <site>group_website_id</site>
                     <store>store_group_id</store>
                     <storestatus>store_is_active</storestatus>
                     <rootcategory>group_root_category_id</rootcategory>
-                    <create_backup>//select[@id='store_create_backup']</create_backup>
                 </select>
                 <messages>
                     <saved>//li[@class='success-msg']</saved>
                 </messages>
-                <elements>
-                    <store_table>//table[@id='storeGrid_table']</store_table>
-                    <body>//table[@id='storeGrid_table']</body>
-                    <website_name_value>//input[@id='website_name' and @value='%s']</website_name_value>
-                    <website_code_value>//input[@id='website_code' and @value='%s']</website_code_value>
-                </elements>
-            </createsite>        </managestores>
+            </createsite>
+        </managestores>
     </system>
     <login>
         <messages>
