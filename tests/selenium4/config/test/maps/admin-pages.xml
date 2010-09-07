@@ -103,26 +103,28 @@
     <system>
         <permissions>
             <users>
-                <manageusers>
+                <manage_users>
                     <buttons>
-                        <addnewuser>//button[span="Add New User"]</addnewuser>
+                        <add_new_user>//button[span="Add New User"]</add_new_user>
+                        <reset_filter>//button[span="Reset Filter"]</reset_filter>
+                        <search>//button[span="Search"]</search>
                     </buttons>
-                </manageusers>
+                    <filters>
+                            <user_name>//input[@id='filter_username']</user_name>
+                    </filters>
+                </manage_users>
                 <user>
                     <inputs>
-                        <username>user_username</username>
-                        <firstname>user_firstname</firstname>
-                        <lastname>user_lastname</lastname>
+                        <user_name>user_username</user_name>
+                        <first_name>user_firstname</first_name>
+                        <last_name>user_lastname</last_name>
                         <email>user_email</email>
                         <password>user_password</password>
                         <confirmation>user_confirmation</confirmation>
                     </inputs>
                     <buttons>
-                        <saveuser>//button[span="Save User"]</saveuser>
+                        <save>//button[span="Save User"]</save>
                     </buttons>
-                    <messages>
-                        <usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
-                    </messages>
                 </user>
             </users>
         </permissions>
