@@ -79,13 +79,13 @@ class Maged_Model_Connect extends Maged_Model
         /** CE */
         $uri="connect20.magentocommerce.com/community";
         /* */
-        /** PE 
+        /** PE
         $uri="connect20.magentocommerce.com/professional";
         /* */
         /** EE
         $uri="connect20.magentocommerce.com/enterprise";
         /* */
-        $connectConfig->root_channel = $chanName;        
+        $connectConfig->root_channel = $chanName;
         foreach ($packages as $package) {
             $params[] = $uri;
             $params[] = $package;
@@ -150,20 +150,21 @@ class Maged_Model_Connect extends Maged_Model
                     $output = $connect->getOutput();
                     if (!empty($output['info']['releases'])) {
                         foreach ($output['info']['releases'] as $release) {
-                            if ($states[$release['s']]<min($preferredState, $states[$packages[$channel][$name]['stability']])) {
+                            $stability = $packages[$channel][$name]['stability'];
+                            if ($states[$release['s']] < min($preferredState, $states[$stability])) {
                                 continue;
                             }
-                            if (version_compare($version, $packages[$channel][$name]['version'])<1) {
+                            if (version_compare($release['v'], $packages[$channel][$name]['version']) < 1) {
                                 continue;
                             }
-                            $releases[$version] = $version.' ('.$release['state'].')';
+                            $releases[$release['v']] = $release['v'].' ('.$release['s'].')';
                         }
                     }
 
                     if ($releases) {
                         uksort($releases, 'version_compare');
-                        foreach ($releases as $release) {
-                            $actions['upgrade|'.$release['v']] = 'Upgrade to '.$release['v'];
+                        foreach ($releases as $version => $release) {
+                            $actions['upgrade|'.$version] = 'Upgrade to '.$release;
                         }
                     } else {
                         $a = explode(' ', $data['upgrade_latest'], 2);
@@ -247,7 +248,7 @@ class Maged_Model_Connect extends Maged_Model
         $this->controller()->endInstall();
     }
 
-    
+
     public function installUploadedPackage($file)
     {
         $this->controller()->startInstall();
@@ -263,7 +264,7 @@ class Maged_Model_Connect extends Maged_Model
         ));
         $this->controller()->endInstall();
     }
-    
+
     /**
      * Install package by id
      *
