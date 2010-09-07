@@ -2,7 +2,7 @@
 <config>
     <browser>*chrome</browser>
     <host>127.0.0.1</host>
-    <port>5555</port>
+    <port>4444</port>
 
     <frontend>
         <baseUrl>http://kq.varien.com/enterprise/1.8.0.0/index.php/</baseUrl>
@@ -19,7 +19,10 @@
         <customer>
             <id>102</id>
         </customer>
-
+        <attributeSet>
+            <setName>smoke_attrSet</setName>
+            <defaultSet>Default</defaultSet>
+        </attributeSet>
         <createproduct>
             <sku>st-01</sku>
             <productname>st-01</productname>
