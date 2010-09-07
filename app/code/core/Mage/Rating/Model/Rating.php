@@ -27,6 +27,15 @@
 /**
  * Rating model
  *
+ * @method Mage_Rating_Model_Resource_Rating getResource()
+ * @method Mage_Rating_Model_Resource_Rating _getResource()
+ * @method array getRatingCodes()
+ * @method Mage_Rating_Model_Rating setRatingCodes(array $value)
+ * @method array getStores()
+ * @method Mage_Rating_Model_Rating setStores(array $value)
+ * @method string getRatingCode()
+ * @method Mage_Rating_Model_Rating getRatingCode(string $value)
+ *
  * @category   Mage
  * @package    Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -41,7 +50,12 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
     const ENTITY_PRODUCT_REVIEW_CODE    = 'product_review';
     const ENTITY_REVIEW_CODE            = 'review';
 
-    public function __construct()
+    /**
+     * Define resource model
+     *
+     * @return void
+     */
+    protected function _construct()
     {
         $this->_init('rating/rating');
     }

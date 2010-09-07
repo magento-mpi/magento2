@@ -75,12 +75,23 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
      */
     protected $_ratingStoreTable;
 
+    /**
+    * Option data
+    *
+    * @var array
+    */
     protected $_optionData;
+
+    /**
+    * Option id
+    *
+    * @var int
+    */
     protected $_optionId;
 
     /**
      * Resource initialization. Define other tables name
-     * 
+     *
      */
     protected function _construct()
     {
@@ -97,7 +108,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
     /**
      * Add vote
      *
-     * @param object $option
+     * @param Mage_Rating_Model_Rating_Option $option
      * @return Mage_Rating_Model_Resource_Rating_Option
      */
     public function addVote($option)
@@ -114,7 +125,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
                 'value'         => $optionData['value']
             );
 
-            if( !$option->getDoUpdate() ) {
+            if (!$option->getDoUpdate()) {
                 $data['remote_ip']       = Mage::helper('core/http')->getRemoteAddr();
                 $data['remote_ip_long']  = Mage::helper('core/http')->getRemoteAddr(true);
                 $data['customer_id']     = Mage::getSingleton('customer/session')->getCustomerId();
@@ -124,7 +135,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
 
             $adapter->beginTransaction();
             try {
-                if( $option->getDoUpdate() ) {
+                if ($option->getDoUpdate()) {
                     $condition = array(
                         'vote_id = ?'   => $option->getVoteId(),
                         'review_id = ?' => $option->getReviewId()
@@ -137,8 +148,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
                     $this->aggregate($option);
                 }
                 $adapter->commit();
-            }
-            catch (Exception $e){
+            } catch (Exception $e){
                 $adapter->rollback();
                 throw new Exception($e->getMessage());
             }
@@ -149,11 +159,10 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
     /**
      * Aggregate options
      *
-     * @param object $option
+     * @param Mage_Rating_Model_Rating_Option $option
      */
     public function aggregate($option)
     {
-        $optionData = $this->loadDataById($option->getId());
         $vote = Mage::getModel('rating/rating_option_vote')->load($option->getVoteId());
         $this->aggregateEntityByRatingId($vote->getRatingId(), $vote->getEntityPkValue());
     }
@@ -170,16 +179,11 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
         $writeAdapter = $this->_getWriteAdapter();
 
         $select = $readAdapter->select()
-            ->from($this->_aggregateTable)
+            ->from($this->_aggregateTable, array('store_id', 'primary_id'))
             ->where('rating_id = ?', $ratingId)
             ->where('entity_pk_value = ?', $entityPkValue);
 
-        $data = $readAdapter->fetchAll($select);
-
-        $oldData = array();
-        foreach ($data as $row) {
-            $oldData[$row['store_id']] = $row['primary_id'];
-        }
+        $oldData = $readAdapter->fetchPairs($select);
 
         $appVoteCountCond    = $readAdapter->getCheckSql('review.status_id=1', 'vote.vote_id', 'NULL');
         $appVoteValueSumCond = $readAdapter->getCheckSql('review.status_id=1', 'vote.value', '0');
@@ -187,10 +191,10 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
         $select = $readAdapter->select()
             ->from(array('vote'=>$this->_ratingVoteTable),
                 array(
-                    'vote_count'         => 'COUNT(vote.vote_id)',
-                    'vote_value_sum'     => 'SUM(vote.value)',
-                    'app_vote_count'     => "COUNT({$appVoteCountCond})",
-                    'app_vote_value_sum' => "SUM({$appVoteValueSumCond})" ))
+                    'vote_count'         => new Zend_Db_Expr('COUNT(vote.vote_id)'),
+                    'vote_value_sum'     => new Zend_Db_Expr('SUM(vote.value)'),
+                    'app_vote_count'     => new Zend_Db_Expr("COUNT({$appVoteCountCond})"),
+                    'app_vote_value_sum' => new Zend_Db_Expr("SUM({$appVoteValueSumCond})") ))
             ->join(array('review'   =>$this->_reviewTable),
                 'vote.review_id=review.review_id',
                 array())
@@ -208,8 +212,8 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
         $perStoreInfo = $readAdapter->fetchAll($select);
 
         $usedStores = array();
-        foreach($perStoreInfo as $row) {
-            $saveData = new Varien_Object(array(
+        foreach ($perStoreInfo as $row) {
+            $saveData = array(
                 'rating_id'        => $ratingId,
                 'entity_pk_value'  => $entityPkValue,
                 'vote_count'       => $row['vote_count'],
@@ -217,24 +221,23 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
                 'percent'          => (($row['vote_value_sum']/$row['vote_count'])/5) * 100,
                 'percent_approved' => ($row['app_vote_count'] ? ((($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100) : 0),
                 'store_id'         => $row['store_id'],
-            ));
+            );
 
-             if(isset($oldData[$row['store_id']])) {
-                 $condition = $writeAdapter->quoteInto('primary_id = ?', $oldData[$row['store_id']]);
-                 $writeAdapter->update($this->_aggregateTable, $saveData->getData(), $condition);
-             } else {
-                 $writeAdapter->insert($this->_aggregateTable, $saveData->getData());
-             }
+            if (isset($oldData[$row['store_id']])) {
+                $writeAdapter->update($this->_aggregateTable, $saveData, array('primary_id = ?', $oldData[$row['store_id']]));
+            } else {
+                $writeAdapter->insert($this->_aggregateTable, $saveData);
+            }
 
-             $usedStores[] = $row['store_id'];
-         }
+            $usedStores[] = $row['store_id'];
+        }
 
-         $toDelete = array_diff(array_keys($oldData), $usedStores);
+        $toDelete = array_diff(array_keys($oldData), $usedStores);
 
-         foreach ($toDelete as $storeId) {
-             $condition = $writeAdapter->quoteInto('primary_id = ?', $oldData[$storeId]);
-             $writeAdapter->delete($this->_aggregateTable, $condition);
-         }
+        foreach ($toDelete as $storeId) {
+            $condition = $writeAdapter->quoteInto('primary_id = ?', $oldData[$storeId]);
+            $writeAdapter->delete($this->_aggregateTable, $condition);
+        }
     }
 
     /**
@@ -246,7 +249,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
      */
     public function loadDataById($optionId)
     {
-        if( !$this->_optionData || $this->_optionId != $optionId ) {
+        if (!$this->_optionData || $this->_optionId != $optionId) {
             $adapter = $this->_getReadAdapter();
             $select = $adapter->select();
             $select->from($this->_ratingOptionTable)

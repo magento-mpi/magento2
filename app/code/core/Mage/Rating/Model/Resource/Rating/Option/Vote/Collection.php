@@ -78,7 +78,9 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
     {
         $this->getSelect()
             ->join(array('rstore'=>$this->getTable('review/review_store')),
-                'main_table.review_id=rstore.review_id AND rstore.store_id=' . (int) $storeId,
+                $this->getConnection()->quoteInto(
+                    'main_table.review_id=rstore.review_id AND rstore.store_id=',
+                    (int)$storeId),
             array());
         return $this;
     }
@@ -97,16 +99,18 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
             ->join(array('rating'    => $this->getTable('rating/rating')),
                 'rating.rating_id = main_table.rating_id')
             ->joinLeft(array('title' =>$this->getTable('rating/rating_title')),
-                $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?', (int) Mage::app()->getStore()->getId()),
+                $adapter->quoteInto(
+                    'main_table.rating_id=title.rating_id AND title.store_id = ?',
+                    (int) Mage::app()->getStore()->getId()),
                 array('rating_code' => $ratingCodeCond));
 
-        if($storeId == null) {
+        if ($storeId == null) {
             $storeId = Mage::app()->getStore()->getId();
         }
 
-        if(is_array($storeId)) {
+        if (is_array($storeId)) {
             $condition = $adapter->prepareSqlCondition('store.store_id', array(
-                "in" => $storeId
+                'in' => $storeId
             ));
         } else {
             $condition = $adapter->quoteInto('store.store_id = ?', $storeId);
@@ -118,7 +122,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
             ->group('main_table.vote_id')
         ;
 
-        $adapter->fetchAll( $this->getSelect() );
+        $adapter->fetchAll($this->getSelect());
         return $this;
     }
 
@@ -142,16 +146,16 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
      */
     public function addRatingOptions()
     {
-        if( !$this->getSize() ) {
+        if (!$this->getSize()) {
             return $this;
         }
-        foreach( $this->getItems() as $item ) {
+        foreach ($this->getItems() as $item) {
             $options = Mage::getModel('rating/rating_option')
                     ->getResourceCollection()
                     ->addRatingFilter($item->getRatingId())
                     ->load();
 
-            if( $item->getRatingId() ) {
+            if ($item->getRatingId()) {
                 $item->setRatingOptions($options);
             } else {
                 return;

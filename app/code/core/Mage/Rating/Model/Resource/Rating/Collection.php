@@ -66,8 +66,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
             $this->addFilter('entity',
                 $adapter->quoteInto($this->getTable('rating_entity') . '.entity_id=?', $entity),
                 'string');
-        }
-        elseif (is_string($entity)) {
+        } elseif (is_string($entity)) {
             $this->addFilter('entity',
                 $adapter->quoteInto($this->getTable('rating_entity') . '.entity_code=?', $entity),
                 'string');
@@ -96,7 +95,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
     public function setStoreFilter($storeId)
     {
         $adapter = $this->getConnection();
-        if(!is_array($storeId)) {
+        if (!is_array($storeId)) {
             $storeId = array($storeId === null ? -1 : $storeId);
         }
         if (empty($storeId)) {
@@ -156,7 +155,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
     {
         $arrRatingId = $this->getColumnValues('rating_id');
         $arrRatingId = 1;
-        if( count($arrRatingId) == 0 ) {
+        if (count($arrRatingId) == 0) {
             return $this;
         }
 
@@ -165,18 +164,24 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
         $inCond = $adapter->prepareSqlCondition("{$this->getTable('rating_option_vote')}.rating_id", array(
             'in' => $arrRatingId
         ));
-
+        $sumCond = new Zend_Db_Expr("SUM(rating_option_vote.{$adapter->quoteIdentifier('percent')})");
+        $countCond = new Zend_Db_Expr('COUNT(*)');
         $select = $adapter->select()
             ->from(array('rating_option_vote'  => $this->getTable('rating/rating_option_vote')),
-                array('rating_id' => 'rating_option_vote.rating_id',
-                    'sum'         => "SUM(rating_option_vote.{$adapter->quoteIdentifier('percent')})",
-                    'count'       => 'COUNT(*)'
+                array(
+                    'rating_id' => 'rating_option_vote.rating_id',
+                    'sum'         => $sumCond,
+                    'count'       => $countCond
                 ))
             ->join(array('review_store'        => $this->getTable('review/review_store')),
-                $adapter->quoteInto('rating_option_vote.review_id=review_store.review_id AND review_store.store_id = ?', (int) $storeId),
+                $adapter->quoteInto(
+                    'rating_option_vote.review_id=review_store.review_id AND review_store.store_id = ?',
+                    (int) $storeId),
                 array())
             ->join(array('rst'                 => $this->getTable('rating/rating_store')),
-                $adapter->quoteInto('rst.rating_id = rating_option_vote.rating_id AND rst.store_id = ?', (int) $storeId),
+                $adapter->quoteInto(
+                    'rst.rating_id = rating_option_vote.rating_id AND rst.store_id = ?',
+                    (int) $storeId),
                 array())
             ->join(array('review'              => $this->getTable('review/review')),
                 'review_store.review_id=review.review_id AND review.status_id=1',
@@ -203,7 +208,8 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
      * @param int $storeId
      * @return Mage_Rating_Model_Resource_Rating_Collection
      */
-    public function addRatingPerStoreName($storeId) {
+    public function addRatingPerStoreName($storeId)
+    {
         $adapter = $this->getConnection();
         $ratingCodeCond = $adapter->getCheckSql('title.value IS NULL', 'main_table.rating_code', 'title.value');
         $this->getSelect()
@@ -243,7 +249,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
             ->where($inCond);
 
         $data = $adapter->fetchAll($this->_select);
-        if(is_array($data) && count($data) > 0) {
+        if (is_array($data) && count($data) > 0) {
             foreach ($data as $row) {
                 $item = $this->getItemById($row['rating_id']);
                 $item->setStores(array_merge($item->getStores(), array($row['store_id'])));
