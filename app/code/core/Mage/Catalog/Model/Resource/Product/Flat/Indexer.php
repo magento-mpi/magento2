@@ -593,11 +593,9 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 if ($indexName == 'PRIMARY') {
                     continue;
                 }
-                $table->addIndex($indexName,
-                    array('fields' => $indexProp['fields']),
-                    array('type' => $indexProp['type'])
-                );
+                $table->addIndex($indexName, $indexProp['fields'], array('type' => $indexProp['type']));
             }
+
             $table->addForeignKey($foreightEntityKey,
                 'entity_id', $this->getTable('catalog/product'), 'entity_id',
                 Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);
