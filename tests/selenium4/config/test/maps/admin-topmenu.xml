@@ -2,14 +2,14 @@
 <!--  -->
 <topmenu>
     <sales>
-        <orders>link=Orders</orders>
+        <orders>//div[@class="nav-bar"]//a[span="Orders"]</orders>
     </sales>
     <customer>
         <managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
     </customer>
     <catalog>
         <attributes>
-            <manageAttibuteSet>//li[a/span="Manage Attribute Sets"]/a</manageAttibuteSet>
+            <manage_attibute_set>//div[@class="nav-bar"]//a[span="Manage Attribute Sets"]</manage_attibute_set>
         </attributes>
         <categories>
             <managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
