@@ -847,7 +847,7 @@ class Mage_Core_Model_Resource_Setup
         $this->getConnection()->showTableStatus($table);
 
         $data  = array(
-            'scope'     => $scopeId,
+            'scope'     => $scope,
             'scope_id'  => $scopeId,
             'path'      => $path,
             'value'     => $value

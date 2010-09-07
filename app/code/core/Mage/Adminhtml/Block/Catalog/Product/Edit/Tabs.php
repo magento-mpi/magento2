@@ -54,11 +54,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
         if ($setId) {
             $groupCollection = Mage::getResourceModel('eav/entity_attribute_group_collection')
                 ->setAttributeSetFilter($setId)
+                ->setSortOrder()
                 ->load();
 
             foreach ($groupCollection as $group) {
                 $attributes = $product->getAttributes($group->getId(), true);
-                // do not add grops without attributes
+                // do not add groups without attributes
 
                 foreach ($attributes as $key => $attribute) {
                     if( !$attribute->getIsVisible() ) {

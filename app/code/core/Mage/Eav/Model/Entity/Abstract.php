@@ -1250,7 +1250,8 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         /**
          * Process base row
          */
-
+        $entityObject = new Varien_Object($entityRow);
+        $entityRow    = $this->_prepareDataForTable($entityObject, $entityTable);
         if ($insertEntity) {
             if (!empty($entityId)) {
                 $entityRow[$entityIdField] = $entityId;

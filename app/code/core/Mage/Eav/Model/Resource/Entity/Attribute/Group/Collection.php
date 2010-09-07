@@ -55,4 +55,15 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection extends Mage_Cor
         $this->setOrder('sort_order');
         return $this;
     }
+
+    /**
+     * Set sort order
+     *
+     * @param string $direction
+     * @return Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection
+     */
+    public function setSortOrder($direction = self::SORT_ORDER_ASC)
+    {
+        return $this->addOrder('sort_order', $direction);
+    }
 }

@@ -101,7 +101,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @var bool
      */
-    protected $_debug               = false;
+    protected $_debug               = true;
 
     /**
      * Minimum query duration time to be logged
@@ -115,7 +115,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @var bool
      */
-    protected $_logAllQueries       = false;
+    protected $_logAllQueries       = true;
 
     /**
      * Add to log call stack data (backtrace)
@@ -1298,6 +1298,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 foreach ($row as $col => $val) {
                     if ($val instanceof Zend_Db_Expr) {
                         $line[] = $val->__toString() . ' AS ' . $col;
+                    } else if (is_null($val)) {
+                        $line[] = 'NULL AS ' . $col;
                     } else {
                         $key    = ':vv' . $i++;
                         $line[] = "{$key} AS {$col}";
@@ -1314,6 +1316,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             foreach ($data as $col => $val) {
                 if ($val instanceof Zend_Db_Expr) {
                     $line[] = $val->__toString() . ' AS ' . $col;
+                } else if (is_null($val)) {
+                    $line[] = 'NULL AS ' . $col;
                 } else {
                     $key    = ':vv' . $i++;
                     $line[] = "{$key} AS {$col}";
@@ -1458,6 +1462,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if ($columnsCount == 1) {
                 if ($row instanceof Zend_Db_Expr) {
                     $line = $row->__toString();
+                } else if (is_null($row)) {
+                    $line = 'NULL';
                 } else {
                     $key  = ':vv' . ($inc ++);
                     $line = $key;
@@ -1468,8 +1474,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 foreach ($row as $value) {
                     if ($value instanceof Zend_Db_Expr) {
                         $line[] = $value->__toString();
-                    }
-                    else {
+                    } else if (is_null($value)) {
+                        $line[] = 'NULL';
+                    } else {
                         $key  = ':vv' . ($inc ++);
                         $line[] = $key;
                         $bind[$key] = $value;

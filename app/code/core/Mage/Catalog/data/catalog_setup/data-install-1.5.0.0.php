@@ -52,7 +52,7 @@ $category->setStoreId(0)
     ->setInitialSetupFlag(true)
     ->save();
 
-$installer->setConfigData('catalog/category/root_id', $category->getId());
+$installer->setConfigData(Mage_Catalog_Helper_Category::XML_PATH_CATEGORY_ROOT_ID, $category->getId());
 
 $installer->addAttributeGroup('catalog_product', 'Default', 'Design', 6);
 
