@@ -234,36 +234,45 @@
                 </user>
             </users>
         </permissions>
-        <managestores>
-            <createsite>
+                <scope>
+            <manage_stores>
                 <buttons>
-                    <createwebsite>//button[span="Create Website"]</createwebsite>
-                    <createwebstore>//button[span="Create Store"]</createwebstore>
-                    <createstoreview>//button[span="Create Store View"]</createstoreview>
+                    <create_web_site>//button[span="Create Website"]</create_web_site>
+                    <create_web_store>//button[span="Create Store"]</create_web_store>
+                    <create_store_view>//button[span="Create Store View"]</create_store_view>
+                    <reset_filter>//button[span="Reset Filter"]</reset_filter>
+                    <search>//button[span="Search"]</search>
+                </buttons>
+                <filters>
+                     <site_name>//input[@id='filter_website_title']</site_name>
+                </filters>
+                <elements>
+                    <store_table>//table[@id='storeGrid_table']</store_table>
+                    <body>//table[@id='storeGrid_table']</body>
+                </elements>
+            </manage_stores>
+            <site>
+                <buttons>
                     <save>//button[span="Save Website"]</save>
-                    <savestore>//button[span="Save Store"]</savestore>
-                    <savestoreview>//button[span="Save Store View"]</savestoreview>
+                    <delete>//button[span="Delete Website"]</delete>
+                    <back>//button[span="Back"]</back>
                 </buttons>
                 <inputs>
                     <name>//input[@id='website_name']</name>
-                    <storename>//input[@id='group_name']</storename>
-                    <storeviewname>//input[@id='store_name']</storeviewname>
                     <code>//input[@id='website_code']</code>
-                    <storeviewcode>//input[@id='store_code']</storeviewcode>
                     <order>//input[@id='website_sort_order']</order>
-                    <storevieworder>//input[@id='store_sort_order']</storevieworder>
                 </inputs>
-                <select>
-                    <site>group_website_id</site>
-                    <store>store_group_id</store>
-                    <storestatus>store_is_active</storestatus>
-                    <rootcategory>group_root_category_id</rootcategory>
-                </select>
-                <messages>
-                    <saved>//li[@class='success-msg']</saved>
-                </messages>
-            </createsite>
-        </managestores>
+                <elements>
+                    <website_name_value>//input[@id='website_name' and @value='%s']</website_name_value>
+                    <website_code_value>//input[@id='website_code' and @value='%s']</website_code_value>
+                </elements>
+            </site>
+            <create_backup>
+                <selectors>
+                    <create_backup>//select[@id='store_create_backup']</create_backup>
+                </selectors>
+            </create_backup>
+        </scope>
     </system>
     <login>
         <messages>
