@@ -61,7 +61,7 @@
         <!-- <div style="background:url(<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewImagesUrl('banner.png'); ?>) center center no-repeat;"></div> -->
         <img src="<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewImagesUrl('banner.png'); ?>" />
     </div>
-    <div class="catalog" style="background:<?php echo $this->getData('conf/body/backgroundColor'); ?>">
+    <div class="catalog" style="background:<?php echo $this->getData('conf/body/scrollBackgroundColor'); ?>">
         <div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
             <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="76" height="76" alt="" />
             <div class="item-text" style="font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("80px x 80px"); ?></div>
