@@ -16,7 +16,9 @@ class Admin_Scope_Site extends TestCaseAbstract
      * Test website creation
      */
     function testSiteCreation() {
-        $this->model->doLogin();
-        $this->model->doCreate();
+        if ($this->model->doLogin()) {
+            $this->model->doDelete();
+            $this->model->doCreate();
+        }
     }
 }

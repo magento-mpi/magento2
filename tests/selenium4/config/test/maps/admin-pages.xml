@@ -234,7 +234,7 @@
                 </user>
             </users>
         </permissions>
-                <scope>
+        <scope>
             <manage_stores>
                 <buttons>
                     <create_web_site>//button[span="Create Website"]</create_web_site>
@@ -245,10 +245,13 @@
                 </buttons>
                 <filters>
                      <site_name>//input[@id='filter_website_title']</site_name>
+                     <store_name>//input[@id='filter_group_title']</store_name>
+                     <store_view_name>//input[@id='filter_store_title']</store_view_name>
                 </filters>
                 <elements>
                     <store_table>//table[@id='storeGrid_table']</store_table>
                     <body>//table[@id='storeGrid_table']</body>
+                    <no_records>No records found.</no_records>
                 </elements>
             </manage_stores>
             <site>
@@ -267,6 +270,25 @@
                     <website_code_value>//input[@id='website_code' and @value='%s']</website_code_value>
                 </elements>
             </site>
+            <store>
+                <buttons>
+                    <save>//button[span="Save Store"]</save>
+                    <delete>//button[span="Delete Store"]</delete>
+                    <back>//button[span="Back"]</back>
+                </buttons>
+                <inputs>
+                    <name>group_name</name>
+                </inputs>
+                <selectors>
+                    <site>//select[@id='group_website_id']</site>
+                    <root_category>//select[@id='group_root_category_id']</root_category>
+                </selectors>
+                <elements>
+                    <website_name_value>//input[@id='website_name' and @value='%s']</website_name_value>
+                    <website_code_value>//input[@id='website_code' and @value='%s']</website_code_value>
+                </elements>
+            </store>
+
             <create_backup>
                 <selectors>
                     <create_backup>//select[@id='store_create_backup']</create_backup>

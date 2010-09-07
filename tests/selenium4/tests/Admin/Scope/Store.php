@@ -16,7 +16,10 @@ class Admin_Scope_Store extends TestCaseAbstract
      * Test store creation
      */
     function testStoreCreation() {
-        $this->model->doLogin();
-        $this->model->doCreate();
+        if ($this->model->doLogin()) {
+            $this->model->doDelete();
+            $this->model->doCreate();
+        }
+        
     }
 }

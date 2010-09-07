@@ -122,7 +122,7 @@ class Model_Admin_Scope_Site extends Model_Admin {
         sleep(1);
         //Open user with 'User Name' == name
         //Determine Column with 'User Name' title
-        $result = $this->findRightStore($this->getUiElement('elements/store_table'), $name, $code);
+        $result = $this->findRightSite($this->getUiElement('elements/store_table'), $name, $code);
         $this->setUiNamespace('/admin/pages/system/scope/manage_stores');
         if ($result > -1 ) {
             $this->clickAndWait($this->getUiElement('elements/body') . '//tr['. $result .']/td[1]//a');
@@ -141,7 +141,7 @@ class Model_Admin_Scope_Site extends Model_Admin {
      * @param $code
      * @return rowIndex with right site
      */
-    public function findRightStore($tableXPath, $name, $code)
+    public function findRightSite($tableXPath, $name, $code)
     {
         $result = -1;
         $this->printDebug('findRightStore Started...');
