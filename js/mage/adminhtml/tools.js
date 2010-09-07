@@ -222,12 +222,22 @@ function firebugEnabled() {
     return false;
 }
 
+function disableElement(elem) {
+    elem.disabled = true;
+    elem.addClassName('disabled');
+}
+
+function enableElement(elem) {
+    elem.disabled = false;
+    elem.removeClassName('disabled');
+}
+
 function disableElements(search){
-    $$('.' + search).each(function (elem) {elem.disabled=true;elem.addClassName('disabled');});
+    $$('.' + search).each(disableElement);
 }
 
 function enableElements(search){
-    $$('.' + search).each(function (elem) {elem.disabled=false;elem.removeClassName('disabled');});
+    $$('.' + search).each(enableElement);
 }
 
 /********** Ajax session expiration ***********/
