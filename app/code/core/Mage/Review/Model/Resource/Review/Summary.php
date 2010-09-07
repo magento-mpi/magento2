@@ -68,8 +68,12 @@ class Mage_Review_Model_Resource_Review_Summary extends Mage_Core_Model_Resource
     {
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()
-            ->from($this->getMainTable(), array())
-            ->columns(array('AVG(primary_id)', 'store_id', 'entity_pk_value'))
+            ->from($this->getMainTable(),
+                array(
+                    'primary_id' => new Zend_Db_Expr('MAX(primary_id)'),
+                    'store_id',
+                    'entity_pk_value'
+                ))
             ->group(array('entity_pk_value', 'store_id'));
         foreach ($adapter->fetchAll($select) as $row) {
             if (isset($summary[$row['store_id']]) && isset($summary[$row['store_id']][$row['entity_pk_value']])) {

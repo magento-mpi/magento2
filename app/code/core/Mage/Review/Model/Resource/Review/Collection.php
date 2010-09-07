@@ -87,7 +87,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
         $this->_reviewStatusTable   = $this->getTable('review/review_status');
         $this->_reviewEntityTable   = $this->getTable('review/review_entity');
         $this->_reviewStoreTable    = $this->getTable('review/review_store');
-        
+
     }
 
     /**
@@ -218,21 +218,21 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
      */
     public function addRateVotes()
     {
-        foreach( $this->getItems() as $item ) {
+        foreach ($this->getItems() as $item) {
             $votesCollection = Mage::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setReviewFilter($item->getId())
                 ->setStoreFilter(Mage::app()->getStore()->getId())
                 ->addRatingInfo(Mage::app()->getStore()->getId())
                 ->load();
-            $item->setRatingVotes( $votesCollection );
+            $item->setRatingVotes($votesCollection);
         }
 
         return $this;
     }
 
     /**
-     * Add reviews total count 
+     * Add reviews total count
      *
      * @return Mage_Review_Model_Resource_Review_Collection
      */
@@ -240,8 +240,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
     {
         $this->_select->joinLeft(array('r' => $this->_reviewTable),
                 'main_table.entity_pk_value = r.entity_pk_value',
-                array())
-            ->columns(array('total_reviews' => 'COUNT(r.review_id)'))
+                array('total_reviews' => new Zend_Db_Expr('COUNT(r.review_id)')))
             ->group('main_table.review_id');
 
         return $this;
@@ -261,7 +260,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
         }
         Mage::dispatchEvent('review_review_collection_load_before', array('collection' => $this));
         parent::load($printQuery, $logQuery);
-        if($this->_addStoreDataFlag) {
+        if ($this->_addStoreDataFlag) {
             $this->_addStoreData();
         }
         return $this;
@@ -292,7 +291,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
         }
 
         foreach ($this as $item) {
-            if(isset($storesToReviews[$item->getId()])) {
+            if (isset($storesToReviews[$item->getId()])) {
                 $item->setStores($storesToReviews[$item->getId()]);
             } else {
                 $item->setStores(array());

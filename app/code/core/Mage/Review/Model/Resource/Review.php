@@ -36,7 +36,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
 {
     /**
      * Review table
-     * 
+     *
      * @var string
      */
     protected $_reviewTable;
@@ -77,9 +77,11 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     protected $_aggregateTable;
 
     /**
+     * Cache of deleted rating data
+     *
      * @var array
      */
-    private $_deleteCache          = array();
+    private $_deleteCache   = array();
 
     /**
      * Define main table. Define other tables name
@@ -170,7 +172,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
          * save stores
          */
         $stores = $object->getStores();
-        if(!empty($stores)) {
+        if (!empty($stores)) {
             $condition = $adapter->quoteInto('review_id = ?', $object->getId());
             $adapter->delete($this->_reviewStoreTable, $condition);
 
@@ -220,7 +222,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     }
 
     /**
-     * Action before delete 
+     * Action before delete
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Review_Model_Resource_Review
@@ -267,23 +269,27 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->_reviewTable, array())
-            ->columns(array('COUNT(*)'))
+            ->from($this->_reviewTable,
+                array(
+                    'review_count' => new Zend_Db_Expr('COUNT(*)')
+                ))
             ->where("{$this->_reviewTable}.entity_pk_value = ?", $entityPkValue);
 
-        if($storeId > 0) {
+        if ($storeId > 0) {
             $select->join(array('store'=>$this->_reviewStoreTable),
-                $adapter->quoteInto($this->_reviewTable.'.review_id=store.review_id AND store.store_id = ?', (int)$storeId),
+                $adapter->quoteInto(
+                    $this->_reviewTable.'.review_id=store.review_id AND store.store_id = ?',
+                    (int)$storeId),
                 array());
         }
-        if( $approvedOnly ) {
+        if ($approvedOnly) {
             $select->where("{$this->_reviewTable}.status_id = ?", 1);
         }
         return $adapter->fetchOne($select);
     }
 
     /**
-     * Enter description here ...
+     * Aggregate
      *
      * @param Mage_Core_Model_Abstract $object
      */
@@ -291,15 +297,15 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     {
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
-        if( !$object->getEntityPkValue() && $object->getId() ) {
+        if (!$object->getEntityPkValue() && $object->getId()) {
             $object->load($object->getReviewId());
         }
 
         $ratingModel    = Mage::getModel('rating/rating');
         $ratingSummaries= $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
-        foreach($ratingSummaries as $ratingSummaryObject) {
-            if( $ratingSummaryObject->getCount() ) {
+        foreach ($ratingSummaries as $ratingSummaryObject) {
+            if ($ratingSummaryObject->getCount()) {
                 $ratingSummary = round($ratingSummaryObject->getSum() / $ratingSummaryObject->getCount());
             } else {
                 $ratingSummary = $ratingSummaryObject->getSum();
@@ -319,12 +325,12 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
             $data->setReviewsCount($reviewsCount)
                 ->setEntityPkValue($object->getEntityPkValue())
                 ->setEntityType($object->getEntityId())
-                ->setRatingSummary( ($ratingSummary > 0) ? $ratingSummary : 0 )
+                ->setRatingSummary(($ratingSummary > 0) ? $ratingSummary : 0)
                 ->setStoreId($ratingSummaryObject->getStoreId());
 
            $writeAdapter->beginTransaction();
             try {
-                if( $oldData['primary_id'] > 0 ) {
+                if ($oldData['primary_id'] > 0) {
                     $condition = $writeAdapter->quoteInto("{$this->_aggregateTable}.primary_id = ?", $oldData['primary_id']);
                     $writeAdapter->update($this->_aggregateTable, $data->getData(), $condition);
                 } else {

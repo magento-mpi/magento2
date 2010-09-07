@@ -104,11 +104,11 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
     public function setStoreFilter($storeId)
     {
         $adapter = $this->Connection();
-        if( is_array($storeId) && isset($storeId['eq']) ) {
+        if (is_array($storeId) && isset($storeId['eq'])) {
             $storeId = array_shift($storeId);
         }
 
-        if( is_array($storeId) ) {
+        if (is_array($storeId)) {
             $inCond = $adapter->prepareSqlCondition('store.store_id', array('in' => $storeId));
             $this->getSelect()
                 ->join(array('store'=>$this->_reviewStoreTable),
@@ -194,7 +194,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      */
     public function addReviewSummary()
     {
-        foreach( $this->getItems() as $item ) {
+        foreach ($this->getItems() as $item) {
             $model = Mage::getModel('rating/rating');
             $model->getReviewSummary($item->getReviewId());
             $item->addData($model->getData());
@@ -209,13 +209,13 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      */
     public function addRateVotes()
     {
-        foreach( $this->getItems() as $item ) {
+        foreach ($this->getItems() as $item) {
             $votesCollection = Mage::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setEntityPkFilter($item->getEntityId())
                 ->setStoreFilter(Mage::app()->getStore()->getId())
                 ->load();
-            $item->setRatingVotes( $votesCollection );
+            $item->setRatingVotes($votesCollection);
         }
         return $this;
     }
@@ -284,7 +284,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      */
     public function setOrder($attribute, $dir = 'desc')
     {
-        switch( $attribute ) {
+        switch($attribute) {
             case 'rt.review_id':
             case 'rt.created_at':
             case 'rt.status_id':
@@ -315,7 +315,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      */
     public function addAttributeToFilter($attribute, $condition = null, $joinType = 'inner')
     {
-        switch( $attribute ) {
+        switch($attribute) {
             case 'rt.review_id':
             case 'rt.created_at':
             case 'rt.status_id':
@@ -331,7 +331,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                 return $this;
                 break;
             case 'type':
-                if($condition == 1) {
+                if ($condition == 1) {
                     $conditionSql = $this->_getConditionSql('rdt.customer_id', array('eq' => 0));
                 } elseif ($condition == 2) {
                     $conditionSql = $this->_getConditionSql('rdt.customer_id', array('gt' => 0));
@@ -404,7 +404,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
         }
 
         foreach ($this as $item) {
-            if(isset($storesToReviews[$item->getReviewId()])) {
+            if (isset($storesToReviews[$item->getReviewId()])) {
                 $item->setData('stores',$storesToReviews[$item->getReviewId()]);
             } else {
                 $item->setData('stores', array());
