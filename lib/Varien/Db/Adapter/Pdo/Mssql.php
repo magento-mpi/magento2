@@ -2920,11 +2920,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     protected function _addForeignKeyDeleteAction($tableName, $columnName, $refTableName, $refColumnName, $fkAction)
     {
         $deleteAction = ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE) ?
-            "        DELETE FROM {$tableName}                               \n"
-            . "        WHERE {$columnName} = @old_{$refColumnName};         \n":
-            "        UPDATE {$tableName}                                    \n"
-            . "        SET {$columnName} = NULL                             \n"
-            . "        WHERE {$columnName} = @old_{$refColumnName};         \n";
+            "        DELETE t FROM {$tableName} t                           \n"
+            . "        INNER JOIN deleted ON                                \n"
+            . "         t.{$columnName} = deleted.{$refColumnName};         \n":
+            "        UPDATE t                                               \n"
+            . "        SET t.{$columnName} = NULL                           \n"
+            . "      FROM {$tableName} t                                    \n"
+            . "        INNER JOIN deleted ON                                \n"
+            . "         t.{$columnName} = deleted.{$refColumnName};         \n";
         $sqlTrigger = $this->_getInsteadTrrigerBody($refTableName);
         $sqlTrigger = str_replace(
             "/*place core here*/",
@@ -3399,10 +3402,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 . "    ON  {$tableName}                                     \n"
                 . "    INSTEAD OF DELETE                                    \n"
                 . "AS                                                       \n";
-            foreach ($this->_getPrimaryKeyColumns($tableName)  as $column) {
-                $triggerBody = $triggerBody
-                    . "    DECLARE @old_{$column} {$this->_getColumnDataType($tableName, $column)}\n";
-            }
+//            foreach ($this->_getPrimaryKeyColumns($tableName)  as $column) {
+//                $triggerBody = $triggerBody
+//                    . "    DECLARE @old_{$column} {$this->_getColumnDataType($tableName, $column)}\n";
+//            }
 
             $triggerBody = $triggerBody
                 . "BEGIN                                                    \n"
@@ -3410,11 +3413,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 . "    BEGIN TRANSACTION                                    \n"
                 . "    BEGIN TRY                                            \n";
 
-            foreach ($this->_getPrimaryKeyColumns($tableName)  as $column) {
-                $triggerBody = $triggerBody
-                . "        SELECT @old_{$column} = {$column}\n"
-                . "        FROM deleted                                     \n";
-            }
+//            foreach ($this->_getPrimaryKeyColumns($tableName)  as $column) {
+//                $triggerBody = $triggerBody
+//                . "        SELECT @old_{$column} = {$column}\n"
+//                . "        FROM deleted                                     \n";
+//            }
             $triggerBody = $triggerBody . "  /*place core here*/            \n"
                 . "        DELETE t FROM {$tableName} t INNER JOIN deleted ON                   \n";
 
