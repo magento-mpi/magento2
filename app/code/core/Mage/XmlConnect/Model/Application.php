@@ -270,6 +270,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $maxRecepients = Mage::getStoreConfig('sendfriend/email/max_recipients');
         }
         $result['general']['emailToFriendMaxRecepients'] = $maxRecepients;
+        $result['general']['primaryStoreLang'] = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
 
         /**
          * PayPal configuration

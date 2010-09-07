@@ -123,7 +123,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
             $verification =
             '<field name="payment[cc_cid]" type="text" label="' . $this->helper('xmlconnect')->__('Card Verification Number') . '" required="true">
                 <validators>
-                    <validator relation="payment[cc_type]" type="credit_card_svn"/>
+                    <validator relation="payment[cc_type]" type="credit_card_svn" message="' . $this->helper('xmlconnect')->__('Card verification number is wrong') . '"/>
                 </validators>
             </field>';
         }

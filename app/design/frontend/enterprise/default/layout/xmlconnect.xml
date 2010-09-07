@@ -171,11 +171,23 @@
         </block>
     </xmlconnect_checkout_billingaddress>
 
+    <xmlconnect_checkout_newbillingaddressform>
+        <block type="xmlconnect/checkout_address_form" name="xmlconnect.checkout.new.billing.addreess.form" output="toHtml">
+            <action method="setType"><type>billing</type></action>
+        </block>
+    </xmlconnect_checkout_newbillingaddressform>
+
     <xmlconnect_checkout_shippingaddress>
         <block type="xmlconnect/checkout_address_shipping" name="xmlconnect.checkout.address.shipping" output="toHtml">
             <block type="xmlconnect/customer_address_list" name="xmlconnect.customer.address.list" as="address_list" output=""/>
         </block>
     </xmlconnect_checkout_shippingaddress>
+
+    <xmlconnect_checkout_newshippingaddressform>
+        <block type="xmlconnect/checkout_address_form" name="xmlconnect.checkout.new.billing.addreess.form" output="toHtml">
+            <action method="setType"><type>shipping</type></action>
+        </block>
+    </xmlconnect_checkout_newshippingaddressform>
 
     <xmlconnect_checkout_shippingmethods>
         <block type="xmlconnect/checkout_shipping_method_avaliable" name="xmlconnect.checkout.shipping.method.avalieble" output="toHtml"/>

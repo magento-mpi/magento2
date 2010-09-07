@@ -88,6 +88,24 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     }
 
     /**
+     * Display customer new billing addrress form
+     */
+    public function newBillingAddressFormAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
+     * Display customer new shipping addrress form
+     */
+    public function newShippingAddressFormAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
      * Billing addresses list action
      */
     public function billingAddressAction()
