@@ -19,10 +19,10 @@
         <customer>
             <id>102</id>
         </customer>
-        <attributeSet>
-            <setName>smoke_attrSet</setName>
-            <defaultSet>Default</defaultSet>
-        </attributeSet>
+        <attribute_set>
+            <set_name>smoke_attrSet</set_name>
+            <default_set>label=Default</default_set>
+        </attribute_set>
         <createproduct>
             <sku>st-01</sku>
             <productname>st-01</productname>

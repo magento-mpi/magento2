@@ -2,38 +2,40 @@
 <pages>
     <catalog>
         <attributes>
-            <manageAttributeSetsPage>
+            <manage_attribute_sets>
+                <locators>
+                    <open_set>//td[contains(text(),'%s')]</open_set>
+                </locators>
                 <buttons>
-                    <addSet>//button[span="Add New Set"]</addSet>
+                    <add_set>//button[span="Add New Set"]</add_set>
                     <search>//button[span="Search"]</search>
-                    <resetSearch>//button[span="Reset Filter"]</resetSearch>
+                    <reset_search>//button[span="Reset Filter"]</reset_search>
                 </buttons>
                 <input>
-                    <searchByName>filter_set_name</searchByName>
+                    <search_by_name>filter_set_name</search_by_name>
                 </input>
                 <messages>
-                    <setDeleted>//li[@class='success-msg']//*[contains(text(),'The attribute set has been removed.')]</setDeleted>
+                    <set_deleted>//li[@class='success-msg']//*[contains(text(),'The attribute set has been removed.')]</set_deleted>
                 </messages>
-                <openSet>//td[contains(text(),'%s')]</openSet>
-            </manageAttributeSetsPage>
-            <createAttributeSetPage>
+            </manage_attribute_sets>
+            <create_attribute_set>
                 <buttons>
-                    <saveSet>//button[span="Save Attribute Set"]</saveSet>
+                    <save_set>//button[span="Save Attribute Set"]</save_set>
                 </buttons>
                 <input>
-                    <nameForSet>attribute_set_name</nameForSet>
-                    <basedOn>skeleton_set</basedOn>
+                    <set_name>attribute_set_name</set_name>
+                    <based_on>skeleton_set</based_on>
                 </input>
                 <messages>
-                    <setSaved>//li[@class='success-msg']//*[contains(text(),'The attribute set has been saved.')]</setSaved>
-                    <setNotSaved>//li[@class="error-msg"]</setNotSaved>
+                    <set_saved>//li[@class='success-msg']//*[contains(text(),'The attribute set has been saved.')]</set_saved>
+                    <set_not_saved>//li[@class="error-msg"]</set_not_saved>
                 </messages>
-            </createAttributeSetPage>
-            <editAtrributeSetPage>
+            </create_attribute_set>
+            <edit_atrribute_set>
                 <buttons>
-                    <deleteSet>//button[span="Delete Attribute Set"]</deleteSet>
+                    <delete_set>//button[span="Delete Attribute Set"]</delete_set>
                 </buttons>
-            </editAtrributeSetPage>
+            </edit_atrribute_set>
         </attributes>
         <categories>
             <managecategories>
