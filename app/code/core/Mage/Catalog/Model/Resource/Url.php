@@ -678,6 +678,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
 
     /**
      * Retrieve categories objects
+     * Either $categoryIds or $path must be specified
      *
      * @param int|array $categoryIds
      * @param int $storeId
@@ -706,6 +707,11 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
         if ($path === null) {
             $select->where('main_table.entity_id IN(?)', $categoryIds);
         } else {
+            // Ensure that path ends with '/', otherwise we can get wrong results - e.g. $path = '1/2' will get '1/20'
+            if (substr($path, -1) != '/') {
+                $path .= '/';
+            }
+
             $select
                 ->where('main_table.path LIKE ?', $path . '%')
                 ->order('main_table.path');
