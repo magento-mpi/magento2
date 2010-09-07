@@ -1028,7 +1028,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $shippingAddress = Mage::getModel('sales/quote_address')
                 ->setData($address)
                 ->setAddressType(Mage_Sales_Model_Quote_Address::TYPE_SHIPPING);
-            $this->_setQuoteAddress($shippingAddress, $address);
+            if (!$this->getQuote()->isVirtual()) {
+                $this->_setQuoteAddress($shippingAddress, $address);
+            }
             $shippingAddress->implodeStreetAddress();
         }
         if ($address instanceof Mage_Sales_Model_Quote_Address) {
