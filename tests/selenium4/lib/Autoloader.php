@@ -47,7 +47,7 @@ class Autoloader {
             )));
         }
 
-        spl_autoload_register(array(get_class($this), 'autoload'));
+        spl_autoload_register(array(__CLASS__, 'autoload'));
     }
 
     /**
@@ -56,7 +56,8 @@ class Autoloader {
      * @param string $className
      * @return boolean
      */
-    public function autoload($className) {
+    public static function autoload($className)
+    {
         foreach (self::$_directories as $prefix => $dir) {
             if (is_string($prefix)) {
                 if (0 === strpos($className, $prefix . '_')) {

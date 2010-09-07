@@ -1,7 +1,7 @@
 <?php
 
 define('DS', DIRECTORY_SEPARATOR);
-define('BASE_DIR', realpath(__DIR__));
+define('BASE_DIR', realpath(dirname(__FILE__)));
 define('LIB_DIR', realpath(BASE_DIR . '/lib'));
 
 // Ensure lib is on include_path
