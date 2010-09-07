@@ -3,5 +3,7 @@
     <admin>
         <topmenu>#include maps/admin-topmenu.xml</topmenu>
         <pages>#include maps/admin-pages.xml</pages>
+        <messages>#include maps/admin-messages.xml</messages>
+        <elements>#include maps/admin-elements.xml</elements>
     </admin>
 </map>
