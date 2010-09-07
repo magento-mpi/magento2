@@ -65,7 +65,7 @@ abstract class TestCaseAbstract extends PHPUnit_Extensions_SeleniumTestCase
         $element = Core::getEnvMap($elem);
 
         if (null === $element) {
-            $this->printError("MAP({$elem}): No element found");
+            $this->printError('MAP({$elem}): No element found for key: <' . $elem);
             return $element;
         }
 
@@ -139,7 +139,7 @@ abstract class TestCaseAbstract extends PHPUnit_Extensions_SeleniumTestCase
     public function waitForElement($xpath, $timeforwait) {
         for ($second = 0; ; $second ++) {
             if ($second >= $timeforwait) {
-                $this->fail("Element could not be found: " . $xpath);
+                $this->printDebug('Element could not be found: ' . $xpath);
             }
 
             try {

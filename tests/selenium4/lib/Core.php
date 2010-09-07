@@ -124,6 +124,7 @@ final class Core
         $keys = explode('/', $configPath);
         foreach ($keys as $key) {
             if (!isset($value[$key])) {
+                Core::debug('No config data for key == <' . $key . '>', Core::DEBUG_LEVEL_ERROR);
                 return $default;
             }
 

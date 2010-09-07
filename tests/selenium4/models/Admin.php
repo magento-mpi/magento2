@@ -25,6 +25,7 @@ class Model_Admin extends TestModelAbstract
      *
      */
     public function doLogin($userName = null, $password = null) {
+        $result = true;
         $userName = $userName ? $userName : $this->userName;
         $password = $password ? $password : $this->password;
 
@@ -39,10 +40,13 @@ class Model_Admin extends TestModelAbstract
 
         if ($this->isTextPresent($this->getUiElement("messages/invalidlogin"))) {
             $this->setVerificationErrors("Login check 1 failed: Invalid login name/passsword");
+            $result = false;
         }
         if (!$this->waitForElement($this->getUiElement("images/mainlogo"), 30)) {
             $this->setVerificationErrors("Check 1 failed: Dashboard hasn't loaded");
+            $result = false;
         }
+        return $result;
     }
 
     /**
