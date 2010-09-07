@@ -233,11 +233,13 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('sku');
 
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS)
+        $this->getSelect()
             ->join(array('rt' => $reviewTable),
                 'rt.entity_pk_value = e.entity_id',
-                array('rt.review_id', 'rt.created_at', 'rt.entity_pk_value', 'rt.status_id'))
-            ->join(array('rdt' => $reviewDetailTable), 'rdt.review_id = rt.review_id', array());
+                array('rt.review_id', 'review_created_at'=> 'rt.created_at', 'rt.entity_pk_value', 'rt.status_id'))
+            ->join(array('rdt' => $reviewDetailTable),
+                'rdt.review_id = rt.review_id',
+                array('rdt.title','rdt.nickname', 'rdt.detail'));
         return $this;
     }
 

@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'type'          => 'datetime',
             'width'         => '100px',
             'filter_index'  => 'rt.created_at',
-            'index'         => 'created_at',
+            'index'         => 'review_created_at',
         ));
 
         if( !Mage::registry('usePendingFilter') ) {
