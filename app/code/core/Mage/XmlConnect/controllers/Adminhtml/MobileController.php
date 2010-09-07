@@ -41,8 +41,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 Mage::throwException(Mage::helper('xmlconnect')->__('Application with id "%s" no longer exists.', $id));
             }
             $app->loadConfiguration();
-        }
-        else {
+        } else {
             $app->loadDefaultConfiguration();
         }
         Mage::register('current_app', $app);
@@ -128,7 +127,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $app->loadSubmit();
             $data = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormSubmissionData(true));
             if (!empty($data)) {
-                $app->addData($data);
+                $app->setData(Mage::helper('xmlconnect')->arrayMergeRecursive($app->getData(), $data));
             }
             $this->loadLayout();
             $this->_setActiveMenu('xmlconnect/mobile');
@@ -181,13 +180,15 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $isError = false;
             if (!empty($data)) {
-                Mage::getSingleton('adminhtml/session')->setFormSubmissionData($this->_filterSubmitParamsForSession($data));
+                Mage::getSingleton('adminhtml/session')->setFormSubmissionData($this->_filterFormDataForSession($data));
             }
             /** @var $app Mage_XmlConnect_Model_Application */
             $app = $this->_initApp('key');
             $app->loadSubmit();
-
-            $app->addData($this->_processUploadedFiles($app->getData()));
+            $newAppData = $this->_processUploadedFiles($app->getData(), true);
+            if (!empty($newAppData)) {
+                $app->setData(Mage::helper('xmlconnect')->arrayMergeRecursive($app->getData(), $newAppData));
+            }
             $params = $app->prepareSubmitParams($data);
             $errors = $app->validateSubmit($params);
             if ($errors !== true) {
@@ -235,12 +236,12 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      *
      * @return array
      */
-    protected function _filterSubmitParamsForSession($data)
+    protected function _filterFormDataForSession($data)
     {
         $params = null;
         if (isset($data['conf']) && is_array($data['conf'])) {
-                    if (isset($data['conf']['submit_text']) && is_array($data['conf']['submit_text'])) {
-                $params = $data['conf']['submit_text'];
+            if (isset($data['conf']['submit_text']) && is_array($data['conf']['submit_text'])) {
+                $params = &$data['conf']['submit_text'];
             }
         }
         if (isset($params['country']) && is_array($params['country'])) {
@@ -248,10 +249,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         }
         return $data;
     }
-    
+
     /**
      * Clear session data
-     * Used after succesfull save/submit action
+     * Used after successful save/submit action
      *
      * @return this
      */
@@ -586,9 +587,15 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      *
      * @return array
      */
-    protected function _processUploadedFiles($data)
+    protected function _processUploadedFiles($data, $restore = false)
     {
-        $this->_uploadedFiles = array();
+        if ($restore === true) {
+            $this->_uploadedFiles = Mage::getSingleton('adminhtml/session')->getUploadedFilesFormDataSubmit();
+        }
+        if (!isset($this->_uploadedFiles) || !is_array($this->_uploadedFiles)) {
+            $this->_uploadedFiles = array();
+        }
+
         if (!empty($_FILES)) {
             foreach ($_FILES as $field => $file) {
                 if (!empty($file['name']) && is_scalar($file['name'])) {
@@ -596,7 +603,13 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 }
             }
         }
+        foreach ($this->_uploadedFiles as $fieldPath => $fileName) {
+            $this->_injectFieldToArray($data, $fieldPath, $fileName);
+        }
         Mage::getSingleton('adminhtml/session')->setUploadedFilesFormData($this->_uploadedFiles);
+        if ($restore === true) {
+            Mage::getSingleton('adminhtml/session')->setUploadedFilesFormDataSubmit($this->_uploadedFiles);
+        }
         return $data;
     }
 
@@ -627,7 +640,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             }
         }
         $uploadedFilename = $uploader->getUploadedFileName();
-        $this->_injectFieldToArray($target, $field, $uploadedFilename);
         $this->_handleResize($field, $upload_dir . DS . $uploadedFilename);
         return $uploadedFilename;
     }

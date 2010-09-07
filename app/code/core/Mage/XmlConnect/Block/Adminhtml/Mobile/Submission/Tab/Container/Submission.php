@@ -42,12 +42,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
      */
     protected function _prepareLayout()
     {
-        if ($this->getApplication()->getIsResubmitAction()) {
-            $block = $this->getLayout()->createBlock('adminhtml/template')
-                ->setTemplate('xmlconnect/submission/app_icons_preview.phtml')
-                ->setImages($this->getApplication()->getImages());
-            $this->setChild('images', $block);
-        }
+        $block = $this->getLayout()->createBlock('adminhtml/template')
+            ->setTemplate('xmlconnect/submission/app_icons_preview.phtml')
+            ->setImages($this->getApplication()->getImages());
+        $this->setChild('images', $block);
         parent::_prepareLayout();
     }
 
@@ -190,8 +188,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         ));
 
         $fieldset = $form->addFieldset('submit_icons', array('legend' => Mage::helper('xmlconnect')->__('Icons')));
-        $this->addImage($fieldset, 'conf/submit/icon', 'Application Icon',
-            Mage::helper('xmlconnect')->__('Apply will automatically resize this image for display in the App Store and on users’ devices.  A gloss (i.e. gradient) will also be applied, so you do not need to apply a gradient.  Image must be at least 512x512'), '', true);
+        $this->addImage($fieldset, 'conf/submit/icon', Mage::helper('xmlconnect')->__('Large iTunes icon'),
+            Mage::helper('xmlconnect')->__('This is the large-sized icon that will appear in the iTunes marketplace. Apple will automatically resize this image for display in the App Store. There is no need to provide a gradient. Image must be 512x512.'), '', true);
         $this->addImage($fieldset, 'conf/submit/loader_image', 'Loader Splash Screen',
             Mage::helper('xmlconnect')->__('Users will see this image as the first screen while your application is loading.  It is a 320x460 image.'), '', true);
 
@@ -262,6 +260,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
      */
     protected function _toHtml()
     {
-        return parent::_toHtml() . (!$this->getApplication()->getIsResubmitAction() ? '' : $this->getChildHtml('images'));
+        return parent::_toHtml() . $this->getChildHtml('images');
     }
 }

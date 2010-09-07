@@ -195,4 +195,38 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getDesign()->getSkinUrl('images/xmlconnect/' . $name);
     }
+
+    /**
+     * Merges $changes array to $target array recursive, overwriting existing key,  and adding new one
+     * @static
+     * @param  $target
+     * @param  $changes
+     * @return array
+     */
+    static public function arrayMergeRecursive($target, $changes)
+    {
+        if(!is_array($target)) {
+            $target = empty($target) ? array() : array($target);
+        }
+        if(!is_array($changes)) {
+            $changes = array($changes);
+        }
+        foreach($changes as $key => $value) {
+            if(!array_key_exists($key, $target) and !is_numeric($key)) {
+                $target[$key] = $changes[$key];
+                continue;
+            }
+            if(is_array($value) or is_array($target[$key])) {
+                $target[$key] = self::arrayMergeRecursive($target[$key], $changes[$key]);
+            } else if(is_numeric($key)) {
+                if(!in_array($value, $target)) {
+                    $target[] = $value;
+                }
+            } else {
+                $target[$key] = $value;
+            }
+        }
+
+        return $target;
+    }
 }

@@ -242,12 +242,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                         $result['fonts']['Title3']['color'] = $extra['fontColors']['primary'];
                         $result['fonts']['Text1']['color'] = $extra['fontColors']['primary'];
                         $result['fonts']['Text2']['color'] = $extra['fontColors']['primary'];
+                        $result['fonts']['Title7']['color'] = $extra['fontColors']['primary'];
                     }
                     if (!empty($extra['fontColors']['secondary'])) {
                         $result['fonts']['Title4']['color'] = $extra['fontColors']['secondary'];
                         $result['fonts']['Title6']['color'] = $extra['fontColors']['secondary'];
                         $result['fonts']['Title8']['color'] = $extra['fontColors']['secondary'];
-                        $result['fonts']['Title7']['color'] = $extra['fontColors']['secondary'];
                         $result['fonts']['Title9']['color'] = $extra['fontColors']['secondary'];
                     }
                     if (!empty($extra['fontColors']['price'])) {
@@ -409,16 +409,29 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getImages()
     {
         $images = array();
-        $params = $this->getLastParams();
 
-        if (!empty($params)) {
-            foreach ($this->_imageIds as $id) {
-                if (isset($params[$id])) {
-                    $path = substr($params[$id], 1);
-                    // converting :  @D:\wamp\www4\media\xmlconnect\form_icon_6.png
-                    // to  http://locahost.com/media/xmlconnect/forn_icon_6.png
-                    $images['conf/submit/'.$id] = Mage::getBaseUrl('media').'xmlconnect/'.basename(substr($params[$id], 1));
-                }
+        $params = $this->getLastParams();
+        foreach ($this->_imageIds as $id) {
+            $path = $this->getData('conf/submit/'.$id);
+            if (!empty($path)) {
+                /**
+                 * Fetching data from session restored array
+                 */
+                $images['conf/submit/'.$id] = Mage::getBaseUrl('media').'xmlconnect/'.basename($params[$id]);
+            } else if (isset($params[$id])) {
+               /**
+                * Fetching data from submission history table record
+                *
+                * converting :  "@\var\somedir\media\xmlconnect\form_icon_6.png" to "\var\somedir\media\xmlconnect\forn_icon_6.png"
+                */
+                $path = substr($params[$id], 1);
+            }
+            if (!empty($path)) {
+                /**
+                 * Converting "\var\somedir\media\xmlconnect\forn_icon_6.png"
+                 * to "http://locahost.com/media/xmlconnect/forn_icon_6.png"
+                 */
+                $images['conf/submit/'.$id] = Mage::getBaseUrl('media').'xmlconnect/'.basename($path);
             }
         }
         return $images;
@@ -585,9 +598,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (isset($this->_data['conf']['submit_restore']) && is_array($this->_data['conf']['submit_restore'])) {
                 $submitRestore = $this->_data['conf']['submit_restore'];
             }
-
             $dir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS;
-
             foreach ($this->_imageIds as $id) {
                 if (isset($submit[$id])) {
                     $params[$id] = '@' . $dir . $submit[$id];
