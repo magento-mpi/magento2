@@ -50,11 +50,13 @@ class Model_Admin_Category extends Model_Admin
         // check for error message
         if ($this->isElementPresent($this->getUiElement("messages/error"))) {
             $etext = $this->getText($this->getUiElement("messages/error"));
-            $this->setVerificationErrors("Check 1: " . $etext);
+            $this->setVerificationErrors($etext);
+            $result = false;
         } else {
         // Check for success message
         if (!$this->isElementPresent($this->getUiElement("messages/categorysaved"))) {
             $this->setVerificationErrors("Check 2: no success message");
+            $result = false;
         }
         }
         if ($result) {
@@ -92,12 +94,13 @@ class Model_Admin_Category extends Model_Admin
         // check for error message
         if ($this->isElementPresent($this->getUiElement("messages/error"))) {
             $etext = $this->getText($this->getUiElement("messages/error"));
-            $this->setVerificationErrors("Check 1: " . $etext);
+            $this->setVerificationErrors($etext);
             $result = false;
         } else {
         // Check for success message
         if (!$this->isElementPresent($this->getUiElement("messages/categorysaved"))) {
             $this->setVerificationErrors("Check 2: no success message");
+            $result = false;
         }
         }
         if ($result) {
@@ -135,6 +138,7 @@ class Model_Admin_Category extends Model_Admin
         // Check for success message
         if (!$this->isElementPresent($this->getUiElement("messages/categorysaved"))) {
             $this->setVerificationErrors("Check 2: no success message");
+            $result = false;
         }
         if ($result) {
             $this->printInfo('Root category deleted');
