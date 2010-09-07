@@ -74,7 +74,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         $body = $this->getResponse()->getBody();
         if (empty($body)) {
             $this->_message(
-                Mage::helper('xmlconnect')->__('...'),
+                Mage::helper('xmlconnect')->__('Error occured on your request.'),
                 self::MESSAGE_STATUS_ERROR
             );
         }

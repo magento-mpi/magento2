@@ -599,7 +599,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if (!empty($_FILES)) {
             foreach ($_FILES as $field => $file) {
                 if (!empty($file['name']) && is_scalar($file['name'])) {
-                    $this->_uploadedFiles[$field] = $this->_handleUpload($field, $data);
+                    $uploadedFileName = $this->_handleUpload($field, $data);
+                    if (!empty($uploadedFileName)) {
+                        $this->_uploadedFiles[$field] = $uploadedFileName;
+                    }
                 }
             }
         }
@@ -630,6 +633,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->save($upload_dir);
+            $uploadedFilename = $uploader->getUploadedFileName();
+            $this->_handleResize($field, $upload_dir . DS . $uploadedFilename);
         } catch (Exception $e ) {
             /**
              * Hard coded exception catch
@@ -639,8 +644,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 Mage::throwException(Mage::helper('xmlconnect')->__('Error while uploading file "%s". Disallowed file type. Only "jpg", "jpeg", "gif", "png" are allowed.', $filename));
             }
         }
-        $uploadedFilename = $uploader->getUploadedFileName();
-        $this->_handleResize($field, $upload_dir . DS . $uploadedFilename);
         return $uploadedFilename;
     }
 

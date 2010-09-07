@@ -132,7 +132,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'label'     => Mage::helper('xmlconnect')->__('Description'),
             'maxlength' => '500',
             'value'     => isset($formData['conf[submit_text][description]']) ? $formData['conf[submit_text][description]'] : null,
-            'note'      => Mage::helper('xmlconnect')->__('This is the description that will appear in the iTunes marketplace. '),
+            'note'      => Mage::helper('xmlconnect')->__('This is the description that will appear in the iTunes marketplace, 4000 chars are maximum. '),
             'required'  => true,
         ));
         $field->setRows(15);

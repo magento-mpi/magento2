@@ -63,6 +63,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     protected function _toHtml()
     {
         $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<payment_methods></payment_methods>');
+
         $methodBlocks = $this->getChild();
         $usedCodes = array();
 
@@ -83,13 +84,17 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
                     if (in_array($methodCode, $usedCodes)) {
                         continue;
                     }
-                    $methodInstance = Mage::helper('payment')->getMethodInstance($methodCode);
-                    if (is_subclass_of($methodInstance, 'Mage_Payment_Model_Method_Cc')) {
-                        $block->setData('method', $methodInstance);
-                        $code = $this->_addToXml($block, $methodsXmlObj, $usedCodes);
-                        if ($code !== false) {
-                            $usedCodes[] = $code;
+                    try {
+                        $methodInstance = Mage::helper('payment')->getMethodInstance($methodCode);
+                        if (is_subclass_of($methodInstance, 'Mage_Payment_Model_Method_Cc')) {
+                            $block->setData('method', $methodInstance);
+                            $code = $this->_addToXml($block, $methodsXmlObj, $usedCodes);
+                            if ($code !== false) {
+                                $usedCodes[] = $code;
+                            }
                         }
+                    } catch (Exception $e) {
+                        Mage::logException($e);
                     }
                 }
             }
