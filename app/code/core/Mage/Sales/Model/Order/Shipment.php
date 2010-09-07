@@ -367,11 +367,6 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
             return $this;
         }
 
-        $currentDesign = Mage::getDesign()->setAllGetOld(array(
-            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
-            'store' => $this->getStoreId()
-        ));
-
         $translate = Mage::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
@@ -383,6 +378,12 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }
+
+        $currentDesign = Mage::getDesign()->setAllGetOld(array(
+            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
+            'store' => $this->getStoreId()
+        ));
+
         $paymentBlock   = Mage::helper('payment')->getInfoBlock($order->getPayment())
             ->setIsSecureMode(true);
         $paymentBlock->getMethod()->setStore($order->getStore()->getId());
@@ -454,10 +455,6 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
             return $this;
         }
 
-        $currentDesign = Mage::getDesign()->setAllGetOld(array(
-            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
-        ));
-
         $translate = Mage::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
@@ -470,6 +467,10 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }
+
+        $currentDesign = Mage::getDesign()->setAllGetOld(array(
+            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
+        ));
 
         $mailTemplate = Mage::getModel('core/email_template');
 

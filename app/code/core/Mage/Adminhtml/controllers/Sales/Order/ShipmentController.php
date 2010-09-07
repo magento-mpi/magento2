@@ -388,7 +388,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $shipment->_hasDataChanges = true;
             $shipment->save();
 
-            $this->loadLayout();
+            $this->loadLayout(false);
             $response = $this->getLayout()->getBlock('shipment_comments')->toHtml();
         } catch (Mage_Core_Exception $e) {
             $response = array(
