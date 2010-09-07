@@ -2,7 +2,6 @@
 
 class Admin_ManageStores_Sitecreation extends Test_Admin_ManageStores_Abstract
 {
-
     /**
      * Setup procedure.
      * Must be overriden in the children having any additional code prepended with parent::setUp();
@@ -10,11 +9,6 @@ class Admin_ManageStores_Sitecreation extends Test_Admin_ManageStores_Abstract
     function setUp()
     {
         parent::setUp();
-
-        //Get TestData
-        $this->_siteName = Core::getEnvConfig('backend/managestores/site/name');
-        $this->_siteCode = Core::getEnvConfig('backend/managestores/site/code');
-        $this->_siteOrder = Core::getEnvConfig('backend/managestores/site/sortorder');
     }
 
     /**
@@ -22,9 +16,14 @@ class Admin_ManageStores_Sitecreation extends Test_Admin_ManageStores_Abstract
      */
     function testSiteCreation()
     {
+        //Test Data
+        $siteName = Core::getEnvConfig('backend/managestores/site/name');
+        $siteCode = Core::getEnvConfig('backend/managestores/site/code');
+        $siteOrder = Core::getEnvConfig('backend/managestores/site/sortorder');
         //Test Flow
         if ($this->adminLogin($this->_baseUrl, $this->_userName, $this->_password)) {
-            $this->adminSiteCreation($this->_siteName, $this->_siteCode, $this->_siteOrder);
+              $this->doSiteOpen($siteName);
+//            $this->doSiteCreate($siteName, $siteCode, $siteOrder);
         }
     }
 }

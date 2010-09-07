@@ -58,7 +58,8 @@ abstract class Test_Admin_User_Abstract extends Test_Admin_Abstract
      * @param name
      * @return boolean
      */
-    public function doOpenUser($name) {
+    public function doOpenUser($name)
+    {
       Core::debug('doOpenUser started',7);
       // Open Manage Users Page
       $this->clickAndWait($this->getUiElement('admin/topmenu/system/permissions/users'));
@@ -66,49 +67,34 @@ abstract class Test_Admin_User_Abstract extends Test_Admin_Abstract
       // Filter users by name
       $this->click($this->getUiElement($UIContext . 'buttons/resetFilter'));
       $this->pleaseWait();
-      $this->type($this->getUiElement($UIContext . 'filters/username'),$name);
+//      $this->type($this->getUiElement($UIContext . 'filters/username'),$name);
+      $this->type($this->getUiElement($UIContext . 'filters/username'),'e');
       $this->click($this->getUiElement($UIContext . 'buttons/search'));
       $this->pleaseWait();
 
       //Open user with 'User Name' == name
       //Determine Column with 'User Name' title
-      $colNum = $this->getXpathCount($this->getUiElement($UIContext . 'elements/userTable') . "//tr[contains(@class,'heading')]//th");
-      $headingLocator =  $this->getUiElement($UIContext . 'elements/userTable');
-      $userNameColInd = -1;
-      for ($x = 0; $x<= $colNum-1; $x++) {
-        $cellLocator = $headingLocator . '.0.' . $x ;
-        $cell = $this->getTable($cellLocator);
-        if ('User Name' == $cell) {
-            $userNameColInd = $x;
-        }
-      }
-      //Find cell in UserName column with matched cell.text() == $name
-      $result = -1;
-      if ($userNameColInd >-1) {
-          $rowNum = $this->getXpathCount($this->getUiElement($UIContext . 'elements/userTable') . "//tbody//tr");
-          $bodyLocator =  $this->getUiElement($UIContext . 'elements/userTable') . '//tbody';
-          for ($row = 0; $row <= $rowNum-1; $row++) {
-            $cellLocator = $bodyLocator . '.' . $row . '.' . $userNameColInd  ;
-            $cell = $this->getTable($cellLocator);
-            if ($name == $cell) {
-                $result = $row;
-                Core::debug('Founded in ' . $cellLocator );
-            }
-          }
-      }
+      $paramsArray = array (
+           'User Name' => $name
+      );
+
+      $result = $this->getSpecificRow($this->getUiElement($UIContext . 'elements/userTable'), $paramsArray);
       if ($result > -1 ) {
-        // user has been founded
-        $result++;
-        $this->clickAndWait($bodyLocator . '//tr['. $result .']');
+        Core::debug('User ' . $name . 'founded in ' . $result . ' row',7);
+        $this->clickAndWait($this->getUiElement($UIContext . 'elements/userTable') . '//tr['. $result .']');
         Core::debug('doOpenUser finished with true',7);
         return true;
       } else {
           Core::debug('doOpenUser finished with false',7);
           return false;
       }
-
     }
 
+    /**
+     * Delete user from admin
+     * @param name
+     * @return boolean
+     */
     public function doDeleteUser($userName) {
         Core::debug('doDeleteUser started',7);
         if ($this->doOpenUser($userName)) {
@@ -119,14 +105,15 @@ abstract class Test_Admin_User_Abstract extends Test_Admin_Abstract
             $etext = $this->getText($this->getUiElement("admin/messages/error"));
             $this->setVerificationErrors("doDeleteUser: " . $etext);
             } else {
-            // Check for success message
-              if (!$this->waitForElement($this->getUiElement("admin/messages/success"),1)) {
-                $this->setVerificationErrors("doDeleteUser: no success message");
+              // Check for success message
+              if ($this->waitForElement($this->getUiElement("admin/messages/success"),1)) {
                 Core::debug('User ' . $userName . ' has been deleted',5);
+              } else {
+                $this->setVerificationErrors("doDeleteUser: no success message");
               }
             }
         }
-        Core::debug('doDeleteUser finished with false',7);
+        Core::debug('doDeleteUser finished',7);
     }
 }
 

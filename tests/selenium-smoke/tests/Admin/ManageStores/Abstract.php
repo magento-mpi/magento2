@@ -23,40 +23,55 @@ abstract class Test_Admin_ManageStores_Abstract extends Test_Admin_Abstract
 
     /**
      * Admin-System-Store Management: New Site Creation
-     *
+     * @param $siteName
+     * @param $siteCode
+     * @param $sortOrder
      */
-     public function adminSiteCreation($sitename, $code, $sortorder)
+     public function doSiteCreate($siteName, $siteCode, $sortOrder)
     {
-        Core::debug("adminSiteCreation started",7);
-
+        Core::debug("doSiteCreation started",7);
         //Open manage stores page
         $this->clickAndWait ($this->getUiElement("admin/topmenu/system/managestores/link/openpage"));
-
         //Create new site
         $this->clickAndWait ($this->getUiElement("admin/pages/system/managestores/createsite/buttons/createwebsite"));
-
         //Fill all fields
-        $this->type($this->getUiElement("admin/pages/system/managestores/createsite/inputs/name"), $sitename);
-        $this->type($this->getUiElement("admin/pages/system/managestores/createsite/inputs/code"), $code);
-        $this->type($this->getUiElement("admin/pages/system/managestores/createsite/inputs/order"), $sortorder);
-
+        $this->type($this->getUiElement("admin/pages/system/managestores/createsite/inputs/name"), $siteName);
+        $this->type($this->getUiElement("admin/pages/system/managestores/createsite/inputs/code"), $siteCode);
+        $this->type($this->getUiElement("admin/pages/system/managestores/createsite/inputs/order"), $sortOrder);
         //Press Save button
         $this->clickAndWait($this->getUiElement("admin/pages/system/managestores/createsite/buttons/save"));
-
         // check for error message
-        if ($this->waitForElement($this->getUiElement("admin/pages/system/managestores/createsite/messages/error"),1)) {
-            $etext = $this->getText($this->getUiElement("admin/pages/system/managestores/createsite/messages/error"));
+        if ($this->waitForElement($this->getUiElement("admin/messages/error"),1)) {
+            $etext = $this->getText($this->getUiElement("admin/messages/error"));
             $this->setVerificationErrors("Check 1: " . $etext);
         } else {
         // Check for success message
-            if (!$this->waitForElement($this->getUiElement("admin/pages/system/managestores/createsite/messages/success"),1)) {
+            if (!$this->waitForElement($this->getUiElement("admin/messages/success"),1)) {
             $this->setVerificationErrors("Check 2: no success message",7);
           }
         }
-        Core::debug("adminSiteCreation finished");
+        Core::debug("doSiteCreation finished");
      }
 
-    /**
+     public function doSiteOpen($siteCode) {
+        Core::debug("doSiteOpen started",7);
+        //Open manage stores page
+        $this->clickAndWait ($this->getUiElement("admin/topmenu/system/managestores/link/openpage"));
+
+        $UIContext = 'admin/pages/system/managestores/';
+        // Filter users by name
+        $this->click($this->getUiElement($UIContext . 'buttons/resetFilter'));
+        $this->pleaseWait();
+        //      $this->type($this->getUiElement($UIContext . 'filters/username'),$name);
+        $this->type($this->getUiElement($UIContext . 'filters/username'),'e');
+        $this->click($this->getUiElement($UIContext . 'buttons/search'));
+        $this->pleaseWait();
+
+        sleep(10);
+
+     }
+
+     /**
      * Admin-System-Store Management: New Store Creation
      * @param sitename
      * @param storename
