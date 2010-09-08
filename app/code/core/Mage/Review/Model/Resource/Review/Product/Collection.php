@@ -282,7 +282,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      * @param string $dir
      * @return Mage_Review_Model_Resource_Review_Product_Collection
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = 'DESC')
     {
         switch($attribute) {
             case 'rt.review_id':

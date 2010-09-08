@@ -79,7 +79,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
         $this->getSelect()
             ->join(array('rstore'=>$this->getTable('review/review_store')),
                 $this->getConnection()->quoteInto(
-                    'main_table.review_id=rstore.review_id AND rstore.store_id=',
+                    'main_table.review_id=rstore.review_id AND rstore.store_id=?',
                     (int)$storeId),
             array());
         return $this;

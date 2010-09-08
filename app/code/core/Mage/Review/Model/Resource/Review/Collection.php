@@ -100,7 +100,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
         parent::_initSelect();
         $this->getSelect()
             ->join(array('detail' => $this->_reviewDetailTable),
-                $this->getMainTable() . '.review_id = detail.review_id');
+                'main_table.review_id = detail.review_id');
         return $this;
     }
 
@@ -128,7 +128,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
     {
         $inCond = $this->getConnection()->prepareSqlCondition('store.store_id', array('in' => $storeId));
         $this->getSelect()->join(array('store'=>$this->_reviewStoreTable),
-            $this->getMainTable().'.review_id=store.review_id',
+            'main_table.review_id=store.review_id',
             array());
         $this->getSelect()->where($inCond);
         return $this;
