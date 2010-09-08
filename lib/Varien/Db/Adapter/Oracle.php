@@ -738,13 +738,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
         $schemaName = null)
     {
-        if (empty($definition['COMMENT']) && !$this->_checkComentExists($tableName, self::EXTPROP_COMMENT_COLUMN)) {
+        if (empty($definition['COMMENT']) && !$this->_checkCommentExists($tableName, $oldColumnName)) {
             throw new Zend_Db_Exception("Impossible to create a column without comment");
         }
-        $this
-            ->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName)
-            ->_modifyColumn($tableName, $newColumnName, $definition, $flushData, $schemaName)
-            ->_addColumnComment($tableName, $newColumnName, $definition['COMMENT']);
+        $this->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName);
+        $this->modifyColumn($tableName, $newColumnName, $definition, $flushData, $schemaName);
+        if (!empty($definition['COMMENT'])) {
+            $this->_addColumnComment($tableName, $newColumnName, $definition['COMMENT']);
+        }
 
         return $this;
     }
@@ -2643,7 +2644,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string    $columnName
      * @return boolean
      */
-    protected function _checkComentExists($tableName, $columnName = null)
+    protected function _checkCommentExists($tableName, $columnName = null)
     {
         if (empty($columnName)) {
             $query = $this->select()
@@ -2653,8 +2654,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         } else {
             $query = $this->select()
                 ->from(array('tc' => 'user_col_comments'), array())
-                ->where('cc.table_name = ?', $this->quoteIdentifier($tableName))
-                ->where('cc.column_name = ?', $this->quoteIdentifier($columnName))
+                ->where('tc.table_name = ?', $this->quoteIdentifier($tableName))
+                ->where('tc.column_name = ?', $this->quoteIdentifier($columnName))
                 ->columns(array('qty' => new Zend_Db_Expr('COUNT(1)')));
         }
         return ($this->raw_fetchRow($query, 'qty') != 0);
