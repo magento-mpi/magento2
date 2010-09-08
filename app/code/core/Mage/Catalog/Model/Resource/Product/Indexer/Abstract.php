@@ -179,19 +179,24 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
     /**
      * Retrieve product relations by parents
      *
-     * @param unknown_type $parentIds
+     * @param int|array $parentIds
      * @return array
      */
     public function getRelationsByParent($parentIds)
     {
-        if (empty($parentIds)) {
-            return array();
+        if (!is_array($parentIds)) {
+            $parentIds = array($parentIds);
         }
-        $write = $this->_getWriteAdapter();
-        $select = $write->select()
-            ->from($this->getTable('catalog/product_relation'), 'child_id')
-            ->where('parent_id IN(?)', $parentIds);
+        
+        $result = array();
+        if (!empty($parentIds)) {
+            $write = $this->_getWriteAdapter();
+            $select = $write->select()
+                ->from($this->getTable('catalog/product_relation'), 'child_id')
+                ->where('parent_id IN(?)', $parentIds);
+            $result = $write->fetchCol($select);
+        }
 
-        return $write->fetchCol($select);
+        return $result;
     }
 }

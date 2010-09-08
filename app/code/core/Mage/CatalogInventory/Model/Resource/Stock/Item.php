@@ -109,14 +109,14 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
     /**
      * Use qty correction for qty column update
      *
-     * @param Varien_Object $object
+     * @param Mage_Core_Model_Abstract $object
      * @param string $table
      * @return array
      */
     protected function _prepareDataForTable(Varien_Object $object, $table)
     {
         $data = parent::_prepareDataForTable($object, $table);
-        if ($object->getQtyCorrection()) {
+        if (!$object->isObjectNew() && $object->getQtyCorrection()) {
             $qty = abs($object->getQtyCorrection());
             if ($object->getQtyCorrection() < 0) {
                 $data['qty'] = new Zend_Db_Expr('qty-' . $qty);
