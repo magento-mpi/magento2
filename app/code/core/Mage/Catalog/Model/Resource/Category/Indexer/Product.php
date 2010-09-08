@@ -703,8 +703,8 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                 array('c' => $this->getTable('catalog/category')),
                 'c.entity_id=sg.root_category_id',
                 array(
-                    'root_path' => 'c.path',
-                    'root_id' => 'c.entity_id'
+                    'root_path' => 'path',
+                    'root_id' => 'entity_id'
                 )
             );
         $stores = $adapter->fetchAll($select);
