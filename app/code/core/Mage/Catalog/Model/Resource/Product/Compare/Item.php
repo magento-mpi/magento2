@@ -118,7 +118,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
                     'visitor_table.visitor_id=compare_table.visitor_id AND compare_table.customer_id IS NULL',
                     array())
                 ->where('compare_table.visitor_id > ?', 0)
-                ->where('`visitor_table`.`visitor_id` IS NULL')
+                ->where('visitor_table.visitor_id IS NULL')
                 ->limit(100);
             $itemIds = $this->_getReadAdapter()->fetchCol($select);
 

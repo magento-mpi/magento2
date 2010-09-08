@@ -129,7 +129,7 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
                 array('store_id' => $ifNull)
             );
         if (!$withDefault) {
-            $select->where('`website_table`.`website_id` <> ?', 0);
+            $select->where('website_table.website_id <> ?', 0);
         }
         return $select;
     }
