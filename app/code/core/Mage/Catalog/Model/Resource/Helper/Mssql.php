@@ -79,7 +79,7 @@ class Mage_Catalog_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Resource_H
      */
     public function getDdlTypeByColumnType($columnType)
     {
-        $columnType = ($columnType == 'varchar')?'text':$columnType;
+        $columnType = ($columnType == 'varchar') ? 'text' : $columnType;
         return array_search($columnType, $this->_ddlColumnTypes);
     }
 }

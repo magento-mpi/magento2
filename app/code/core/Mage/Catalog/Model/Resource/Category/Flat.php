@@ -518,20 +518,30 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     protected function _createTable($store)
     {
-
-        $this->_getWriteAdapter()->dropTable($this->getMainStoreTable($store));
-        $table = $this->_getWriteAdapter()->newTable($this->getMainStoreTable($store));
+        $tableName = $this->getMainStoreTable($store);
+        $this->_getWriteAdapter()->dropTable($tableName);
+        $table = $this->_getWriteAdapter()
+            ->newTable($tableName)
+            ->setComment(ucwords(str_replace('_', ' ', $tableName)));
 
         //Adding columns
         if ($this->_columnsSql === null) {
             $this->_columns = array_merge($this->_getStaticColumns(), $this->_getEavColumns());
             foreach ($this->_columns as $fieldName => $fieldProp) {
+                $default = $fieldProp['default'];
+                if ($fieldProp['type'][0] == Varien_Db_Ddl_Table::TYPE_TIMESTAMP
+                    && $default == 'CURRENT_TIMESTAMP') {
+                    $default = Varien_Db_Ddl_Table::TIMESTAMP_INIT;
+                }
                 $table->addColumn($fieldName, $fieldProp['type'][0], $fieldProp['type'][1], array(
                     'nullable' => $fieldProp['nullable'],
                     'unsigned' => $fieldProp['unsigned'],
-                    'default'  => $fieldProp['default'],
+                    'default'  => $default,
                     'primary'  => isset($fieldProp['primary']) ? $fieldProp['primary'] : false,
-                ), ($fieldProp['comment']!='')?$fieldProp['comment']:$fieldName);
+                ), ($fieldProp['comment'] != '') ? 
+                    $fieldProp['comment'] : 
+                    ucwords(str_replace('_', ' ', $fieldName))
+                );
             }
         }
 
@@ -573,7 +583,6 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             $_type = '';
             $_is_unsigned = '';
             $ddlType = $helper->getDdlTypeByColumnType($column['DATA_TYPE']);
-            //var_dump($column['DATA_TYPE'],$ddlType);exit;
             $column['DEFAULT'] = trim($column['DEFAULT'],"' ");
             switch ($ddlType) {
                 case Varien_Db_Ddl_Table::TYPE_SMALLINT:

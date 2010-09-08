@@ -75,6 +75,13 @@ class Varien_Object implements ArrayAccess
      * @var boolean
      */
     protected $_isDeleted = false;
+    
+    /**
+     * Map short fields names to its full names
+     * 
+     * @var array
+     */
+    protected $_shortFieldsMap = array();
 
     /**
      * Constructor
@@ -85,13 +92,37 @@ class Varien_Object implements ArrayAccess
      */
     public function __construct()
     {
+        $this->_initShortFieldsMap();
         $args = func_get_args();
         if (empty($args[0])) {
             $args[0] = array();
         }
         $this->_data = $args[0];
-
+        $this->_addFullNames();
+        
         $this->_construct();
+    }
+    
+    protected function _addFullNames()
+    {
+        $existedShortKeys = array_intersect(array_keys($this->_shortFieldsMap), array_keys($this->_data));
+        if (!empty($existedShortKeys)) {
+            foreach ($existedShortKeys as $key) {
+                $fullFieldName = $this->_shortFieldsMap[$key];
+                $this->_data[$fullFieldName] = $this->_data[$key];
+            }
+        }
+    }
+    
+    /**
+     * Init mapping array of short fields to
+     * its full names
+     * 
+     * @resturn Varien_Object
+     */
+    protected function _initShortFieldsMap()
+    {
+
     }
 
     /**
@@ -211,8 +242,13 @@ class Varien_Object implements ArrayAccess
         $this->_hasDataChanges = true;
         if(is_array($key)) {
             $this->_data = $key;
+            $this->_addFullNames();
         } else {
             $this->_data[$key] = $value;
+            if (isset($this->_shortFieldsMap[$key])) {
+                $fullFieldName = $this->_shortFieldsMap[$key];
+                $this->_data[$fullFieldName] = $value;
+            }
         }
         return $this;
     }
@@ -232,6 +268,10 @@ class Varien_Object implements ArrayAccess
             $this->_data = array();
         } else {
             unset($this->_data[$key]);
+            if (isset($this->_shortFieldsMap[$key])) {
+                $fullFieldName = $this->_shortFieldsMap[$key];
+                unset($this->_data[$fullFieldName]);
+            }
         }
         return $this;
     }

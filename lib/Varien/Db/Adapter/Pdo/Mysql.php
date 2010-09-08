@@ -1565,7 +1565,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $this->_getForeignKeysDefinition($table)
         );
         $tableOptions   = $this->_getOptionsDefination($table);
-
         $sql = sprintf("CREATE TABLE %s (\n%s\n) %s",
             $this->quoteIdentifier($table->getName()),
             implode(",\n", $sqlFragment),
@@ -1607,7 +1606,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $primary = array_map(array($this, 'quoteIdentifier'), array_keys($primary));
             $definition[] = sprintf('  PRIMARY KEY (%s)', join(', ', $primary));
         }
-
         return $definition;
     }
 
@@ -1626,7 +1624,15 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 if ($indexData['UNIQUE']) {
                     $indexType = 'UNIQUE';
                 } else if (!empty($indexData['TYPE'])) {
-                    $indexType = $indexData['TYPE'];
+                    switch ($indexData['TYPE']) {
+                        case 'primary': 
+                            $indexType = 'PRIMARY KEY'; 
+                            unset($indexData['INDEX_NAME']);
+                            break;
+                        default: 
+                            $indexType = strtoupper($indexData['TYPE']); 
+                            break;
+                    }
                 } else {
                     $indexType = 'KEY';
                 }
@@ -1639,9 +1645,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                     }
                     $columns[] = $column;
                 }
+                $indexName = isset($indexData['INDEX_NAME']) ? $this->quoteIdentifier($indexData['INDEX_NAME']) : '';
                 $definition[] = sprintf('  %s %s (%s)',
                     $indexType,
-                    $this->quoteIdentifier($indexData['INDEX_NAME']),
+                    $indexName,
                     join(', ', $columns)
                 );
             }
@@ -2336,6 +2343,24 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     {
         return new Zend_Db_Expr("IF({$condition}, {$true}, {$false})");
     }
+    
+    /**
+     * Generate fragment of SQL, that check value against multiple condition cases
+     * and return different result depends on them
+     *
+     * @param string $valueName Name of value to check
+     * @param array $casesResults Cases and results
+     * @param string $defaultValue value to use if value doesnt conforme to any cases
+     */
+    public function getCaseSql($valueName, $casesResults, $defaultValue)
+    {
+        $expression = "CASE {$valueName}";
+        foreach ($casesResults as $case => $result) {
+            $expression .= " WHEN {$case} THEN {$result}";
+        }
+        $expression .= " ELSE {$defaultValue} END";
+        return new Zend_Db_Expr($expression);
+    }
 
     /**
      * Generate fragment of SQL, that combine together (concatenate) the results from data array
@@ -2746,11 +2771,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     public function getTablesChecksum($tableNames, $schemaName = null)
     {
         $result = array();
-        if(!is_array($tableNames)){
+        if (!is_array($tableNames)) {
             $tableNames = array($tableNames);
         }
-        foreach($tableNames as $tableName){
-            $query = sprintf("CHECKSUM TABLE %s",
+        foreach ($tableNames as $tableName) {
+            $query = sprintf(
+            	"CHECKSUM TABLE %s",
                 $this->_getTableName($tableName, $schemaName)
             );
             $checkSumArray = $this->fetchRow($query);
