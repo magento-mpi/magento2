@@ -224,7 +224,8 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
             );
 
             if (isset($oldData[$row['store_id']])) {
-                $writeAdapter->update($this->_aggregateTable, $saveData, array('primary_id = ?', $oldData[$row['store_id']]));
+                $condition = $writeAdapter->quoteInto("primary_id = ?", $oldData[$row['store_id']]);
+                $writeAdapter->update($this->_aggregateTable, $saveData, $condition);
             } else {
                 $writeAdapter->insert($this->_aggregateTable, $saveData);
             }

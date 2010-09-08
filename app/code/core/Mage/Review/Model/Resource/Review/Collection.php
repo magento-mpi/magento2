@@ -100,7 +100,8 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
         parent::_initSelect();
         $this->getSelect()
             ->join(array('detail' => $this->_reviewDetailTable),
-                'main_table.review_id = detail.review_id');
+                'main_table.review_id = detail.review_id',
+                array('detail_id', 'title', 'detail', 'nickname', 'customer_id'));
         return $this;
     }
 
@@ -161,7 +162,8 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
         }
         elseif (is_string($entity)) {
             $this->_select->join($this->_reviewEntityTable,
-                'main_table.entity_id='.$this->_reviewEntityTable.'.entity_id');
+                'main_table.entity_id='.$this->_reviewEntityTable.'.entity_id',
+                array('entity_code'));
 
             $this->addFilter('entity',
                 $this->getConnection()->quoteInto($this->_reviewEntityTable.'.entity_code=?', $entity),
@@ -190,7 +192,8 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
         }
         elseif (is_string($status)) {
             $this->_select->join($this->_reviewStatusTable,
-                'main_table.status_id='.$this->_reviewStatusTable.'.status_id');
+                'main_table.status_id='.$this->_reviewStatusTable.'.status_id',
+                array('status_code'));
 
             $this->addFilter('status',
                 $this->getConnection()->quoteInto($this->_reviewStatusTable.'.status_code=?', $status),

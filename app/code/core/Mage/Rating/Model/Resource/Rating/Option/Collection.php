@@ -38,6 +38,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Collection extends Mage_Core_Mode
      * Rating options table
      *
      * @var string
+     * @deprecated since 1.5.0.0
      */
     protected $_ratingOptionTable;
 
@@ -83,7 +84,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Collection extends Mage_Core_Mode
      */
     public function setPositionOrder($dir='ASC')
     {
-        $this->setOrder($this->_ratingOptionTable . '.position', $dir);
+        $this->setOrder('main_table.position', $dir);
         return $this;
     }
 }

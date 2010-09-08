@@ -151,7 +151,6 @@ $table = $installer->getConnection()
         ), 'Customer IP converted to long integer format')
     ->addColumn('customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
-        'nullable'  => false,
         'default'   => 0
         ), 'Customer Id')
     ->addColumn('entity_pk_value', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
