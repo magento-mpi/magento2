@@ -153,11 +153,11 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
      */
     protected function _initSelect()
     {
-        $select = parent::_initSelect()->join(
-            array('cp_table'    => $this->getTable('catalog/product')),
-            'main_table.product_id = cp_table.entity_id',
-            array('type_id')
-        );
-        return $select;
+        return parent::_initSelect()->getSelect()
+            ->join(
+                array('cp_table' => 'catalog/product'),
+                'main_table.product_id = cp_table.entity_id',
+                array('type_id')
+            );
     }
 }
