@@ -3217,7 +3217,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             );
         }
          // add only for PDO MSSQL (on Windows)
-        $query = "EXEC('{$query}')";
+        $query = "EXEC({$this->quote($query)})";
         return $query;
     }
 
