@@ -35,7 +35,7 @@
 class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * AdminNotification Resource initialization
      *
      */
     protected function _construct()
@@ -44,20 +44,21 @@ class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resour
     }
 
     /**
-     * Enter description here ...
+     * Load latest notice
      *
      * @param Mage_AdminNotification_Model_Inbox $object
      * @return Mage_AdminNotification_Model_Resource_Inbox
      */
     public function loadLatestNotice(Mage_AdminNotification_Model_Inbox $object)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->getMainTable())
             ->order($this->getIdFieldName() . ' desc')
-            ->where('is_read <> 1')
-            ->where('is_remove <> 1')
+            ->where('is_read != 1')
+            ->where('is_remove != 1')
             ->limit(1);
-        $data = $this->_getReadAdapter()->fetchRow($select);
+        $data = $adapter->fetchRow($select);
 
         if ($data) {
             $object->setData($data);
@@ -69,22 +70,23 @@ class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resour
     }
 
     /**
-     * Enter description here ...
+     * Get notifications grouped by severity
      *
      * @param Mage_AdminNotification_Model_Inbox $object
-     * @return unknown
+     * @return array
      */
     public function getNoticeStatus(Mage_AdminNotification_Model_Inbox $object)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->getMainTable(), array(
                 'severity'     => 'severity',
-                'count_notice' => 'COUNT(' . $this->getIdFieldName() . ')'))
+                'count_notice' => new Zend_Db_Expr('COUNT(' . $this->getIdFieldName() . ')')))
             ->group('severity')
             ->where('is_remove=?', 0)
             ->where('is_read=?', 0);
         $return = array();
-        $rowSet = $this->_getReadAdapter()->fetchAll($select);
+        $rowSet = $adapter->fetchAll($select);
         foreach ($rowSet as $row) {
             $return[$row['severity']] = $row['count_notice'];
         }
@@ -92,22 +94,22 @@ class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resour
     }
 
     /**
-     * Enter description here ...
+     * Save notifications (if not exists)
      *
      * @param Mage_AdminNotification_Model_Inbox $object
      * @param array $data
      */
     public function parse(Mage_AdminNotification_Model_Inbox $object, array $data)
     {
-        $write = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         foreach ($data as $item) {
-            $select = $write->select()
+            $select = $adapter->select()
                 ->from($this->getMainTable())
                 ->where('url=?', $item['url']);
-            $row = $write->fetchRow($select);
+            $row = $adapter->fetchRow($select);
 
             if (!$row) {
-                $write->insert($this->getMainTable(), $item);
+                $adapter->insert($this->getMainTable(), $item);
             }
         }
     }

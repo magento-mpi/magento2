@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_AdminNotification>
-            <version>1.0.0</version>
+            <version>1.5.0.0</version>
         </Mage_AdminNotification>
     </modules>
     <global>
@@ -60,9 +60,9 @@
             </adminnotification_setup>
         </resources>
         <blocks>
-            <productalert>
+            <adminnotification>
                 <class>Mage_AdminNotification_Block</class>
-            </productalert>
+            </adminnotification>
         </blocks>
     </global>
     <adminhtml>

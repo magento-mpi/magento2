@@ -35,7 +35,7 @@
 class Mage_AdminNotification_Model_Resource_Inbox_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource collection initalization
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_AdminNotification_Model_Resource_Inbox_Collection extends Mage_Core_M
     }
 
     /**
-     * Enter description here ...
+     * Add remove filter
      *
      * @return Mage_AdminNotification_Model_Resource_Inbox_Collection
      */

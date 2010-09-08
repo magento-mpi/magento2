@@ -34,7 +34,7 @@
             <active>true</active>
         </Mage_Adminhtml>
         <Mage_AdminNotification>
-            <active>false</active>
+            <active>true</active>
         </Mage_AdminNotification>
         <Mage_AmazonPayments>
             <active>false</active>
@@ -319,4 +319,4 @@
             <active>false</active>
         </Enterprise_WebsiteRestriction>
     </modules>
-</config> 
+</config>
