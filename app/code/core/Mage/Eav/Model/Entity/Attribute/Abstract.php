@@ -518,7 +518,8 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      *
      * @return array
      */
-    public function getFlatColumns() {
+    public function getFlatColumns()
+    {
         if ($this->usesSource() && $this->getBackendType() != self::TYPE_STATIC) {
             return $this->getSource()->getFlatColums();
         }

@@ -348,7 +348,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         $this->query("ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS'");
         $this->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'");
-        $this->query("ALTER SESSION SET PLSQL_CODE_TYPE = NATIVE");
+        //$this->query("ALTER SESSION SET PLSQL_CODE_TYPE = NATIVE");
 
         $this->_debugStat(self::DEBUG_CONNECT, '');
     }
@@ -809,7 +809,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $fieldSql[] = $this->quoteIdentifier($field);
         }
 
-        $fieldSql = implode(',', $fieldSql);
+        $fieldSql = implode(', ', $fieldSql);
 
         switch (strtolower($indexType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
@@ -1298,15 +1298,15 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 foreach ($row as $col => $val) {
                     if ($val instanceof Zend_Db_Expr) {
                         $line[] = $val->__toString() . ' AS ' . $col;
-                    } else if (is_null($val)) {
+                    } /*else if (is_null($val)) {
                         $line[] = 'NULL AS ' . $col;
-                    } else {
+                    } */else {
                         $key    = ':vv' . $i++;
                         $line[] = "{$key} AS {$col}";
                         $bind[$key] = $val;
                     }
                 }
-                $values[] = sprintf('SELECT %s FROM dual', join(',', $line));
+                $values[] = sprintf('SELECT %s FROM dual', implode(', ', $line));
             }
             unset($row);
         } else { // Column-value pairs
@@ -1316,15 +1316,15 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             foreach ($data as $col => $val) {
                 if ($val instanceof Zend_Db_Expr) {
                     $line[] = $val->__toString() . ' AS ' . $col;
-                } else if (is_null($val)) {
+                } /*else if (is_null($val)) {
                     $line[] = 'NULL AS ' . $col;
-                } else {
+                } */else {
                     $key    = ':vv' . $i++;
                     $line[] = "{$key} AS {$col}";
                     $bind[$key] = $val;
                 }
             }
-            $values[] = sprintf('SELECT %s FROM dual', join(',', $line));
+            $values[] = sprintf('SELECT %s FROM dual', implode(', ', $line));
         }
 
         // update fields
@@ -1482,14 +1482,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         $bind[$key] = $value;
                     }
                 }
-                $vals[] = sprintf('%s', join(',', $line));
+                $vals[] = sprintf('%s', implode(', ', $line));
             }
         }
         // build the statement
         $columns = array_map(array($this, 'quoteIdentifier'), $columns);
         $sql = sprintf("INSERT INTO %s (%s) SELECT %s FROM dual",
             $this->quoteIdentifier($table, true),
-            implode(',', $columns), implode(' FROM dual UNION ALL SELECT ', $vals));
+            implode(', ', $columns), implode(' FROM dual UNION ALL SELECT ', $vals));
 
         // execute the statement and return the number of affected rows
         $stmt = $this->query($sql, $bind);
@@ -1545,7 +1545,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function startSetup()
     {
-
+        return $this;
     }
 
     /**
@@ -1555,7 +1555,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function endSetup()
     {
-
+        return $this;
     }
 
     /**
@@ -1824,20 +1824,21 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             return $value;
         }
 
-        // return null
-        if (is_null($value) && $column['NULLABLE']) {
-            return null;
-        }
-
         switch ($column['DATA_TYPE']) {
             case 'SMALLINT':
             case 'INT':
             case 'BIGINT':
+                if (is_null($value) && $column['NULLABLE']) {
+                    return null;
+                }
                 $value = (int)$value;
                 break;
 
             case 'DECIMAL':
             case 'NUMBER':
+                if (is_null($value) && $column['NULLABLE']) {
+                    return null;
+                }
                 $precision  = 10;
                 $scale      = 0;
                 if (!empty($column['SCALE'])) {
@@ -1851,6 +1852,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 break;
 
             case 'FLOAT':
+                if (is_null($value) && $column['NULLABLE']) {
+                    return null;
+                }
                 $value  = (float)sprintf('%F', $value);
                 break;
 
@@ -1865,6 +1869,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             case 'VARCHAR':
             case 'VARCHAR2':
             case 'CLOB':
+                if (is_null($value) && $column['NULLABLE']) {
+                    return null;
+                }
                 $value  = (string)$value;
                 if ($column['NULLABLE'] && $value == '') {
                     $value = null;

@@ -431,12 +431,10 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     {
         $type = $attribute->getBackendType();
         if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {
-            return null;
+            $value = null;
         }
-        if ($type == 'decimal') {
-            return Mage::app()->getLocale()->getNumber($value);
-        }
-        return $value;
+
+        return parent::_prepareValueForSave($value, $attribute);
     }
 
     /**

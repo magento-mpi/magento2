@@ -733,39 +733,38 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         $tmpTable = $this->_getEnabledProductsTemporaryTable();
         $this->_getIndexAdapter()->delete($tmpTable);
 
-        $adapter = $this->_getIndexAdapter();
-        $select = $adapter->select()
-            ->from(array('pw' => $this->_productWebsiteTable), array('product_id',
-                'visibility' => $adapter->getCheckSql('pvs.value_id>0',
-                $adapter->quoteIdentifier('pvs.value'),
-                $adapter->quoteIdentifier('pvd.value'))
-            ))
-            ->joinLeft(array('pvd' => $visibilityTable),
-                $adapter->quoteInto(
-                    'pvd.entity_id=pw.product_id AND pvd.attribute_id=? AND pvd.store_id=0',
-                    $visibilityAttributeId
-                ),
-            array())
-            ->joinLeft(array('pvs' => $visibilityTable),
-                $adapter->quoteInto('pvs.entity_id=pw.product_id AND pvs.attribute_id=? AND ',$visibilityAttributeId) .
-                $adapter->quoteInto('pvs.store_id=?', $storeId),
-            array())
-            ->joinLeft(array('psd' => $statusTable),
-                $adapter->quoteInto(
-                    'psd.entity_id=pw.product_id AND psd.attribute_id=? AND psd.store_id=0',
-                    $statusAttributeId
-                ),
-            array())
-            ->joinLeft(array('pss' => $statusTable),
-                $adapter->quoteInto('pss.entity_id=pw.product_id AND pss.attribute_id=? AND ',$statusAttributeId) .
-                $adapter->quoteInto('pss.store_id=?', $storeId),
-            array())
+        $adapter        = $this->_getIndexAdapter();
+        $visibilityExpr = $adapter->getCheckSql('pvs.value_id>0', $adapter->quoteIdentifier('pvs.value'),
+            $adapter->quoteIdentifier('pvd.value'));
+        $select         = $adapter->select()
+            ->from(array('pw' => $this->_productWebsiteTable), array('product_id', 'visibility' => $visibilityExpr))
+            ->joinLeft(
+                array('pvd' => $visibilityTable),
+                $adapter->quoteInto('pvd.entity_id=pw.product_id AND pvd.attribute_id=? AND pvd.store_id=0',
+                    $visibilityAttributeId),
+                array())
+            ->joinLeft(
+                array('pvs' => $visibilityTable),
+                $adapter->quoteInto('pvs.entity_id=pw.product_id AND pvs.attribute_id=? AND ', $visibilityAttributeId)
+                    . $adapter->quoteInto('pvs.store_id=?', $storeId),
+                array())
+            ->joinLeft(
+                array('psd' => $statusTable),
+                $adapter->quoteInto('psd.entity_id=pw.product_id AND psd.attribute_id=? AND psd.store_id=0',
+                    $statusAttributeId),
+                array())
+            ->joinLeft(
+                array('pss' => $statusTable),
+                    $adapter->quoteInto('pss.entity_id=pw.product_id AND pss.attribute_id=? AND ', $statusAttributeId)
+                        . $adapter->quoteInto('pss.store_id=?', $storeId),
+                array())
             ->where('pw.website_id=?',$websiteId)
             ->where($adapter->getCheckSql('pss.value_id>0',
                 $adapter->quoteIdentifier('pss.value'),
                 $adapter->quoteIdentifier('psd.value')) . ' = ?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
 
-        $this->insertFromSelect($select, $tmpTable, array('product_id' , 'visibility'));
+        $query = $select->insertFromSelect($tmpTable, array('product_id' , 'visibility'), false);
+        $adapter->query($query);
         return $tmpTable;
     }
 
@@ -798,36 +797,28 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         $tmpTable = $this->_getAnchorCategoriesTemporaryTable();
         $adapter->delete($tmpTable);
 
+        $anchorExpr = $adapter->getCheckSql('cas.value_id>0', $adapter->quoteIdentifier('cas.value'),
+            $adapter->quoteIdentifier('cad.value'));
         $pathConcat = $adapter->getConcatSql(array($adapter->quoteIdentifier('ce.path'), $adapter->quote('/%')));
-        $select = $adapter->select()->from(
-            array('ce' => $this->_categoryTable),
-            array('category_id' => 'ce.entity_id', 'path' => $pathConcat)
-        )
-        ->joinLeft(
-            array('cad' => $anchorTable),
-            $adapter->quoteInto(
-                "cad.entity_id=ce.entity_id AND cad.attribute_id=? AND cad.store_id=0", $anchorAttributeId),
-            array()
-        )
-        ->joinLeft(
-            array('cas' => $anchorTable),
-            $adapter->quoteInto(
-                "cas.entity_id=ce.entity_id AND cas.attribute_id=? AND ",$anchorAttributeId).
-            $adapter->quoteInto('cas.store_id=?', $storeId),
-            array()
-        )
-        ->where(
-            $adapter->quoteInto(
-                $adapter->getCheckSql('cas.value_id>0',
-                    $adapter->quoteIdentifier('cas.value'),
-                    $adapter->quoteIdentifier('cad.value')) . ' = 1 AND ' .
-                $adapter->quoteIdentifier('ce.path') . ' LIKE ?',
-                $rootPath . '/%'
-            )
-        )
-        ->orWhere('ce.path = ?',$rootPath);
+        $select = $adapter->select()
+            ->from(
+                array('ce' => $this->_categoryTable),
+                array('category_id' => 'ce.entity_id', 'path' => $pathConcat))
+            ->joinLeft(
+                array('cad' => $anchorTable),
+                $adapter->quoteInto("cad.entity_id=ce.entity_id AND cad.attribute_id=? AND cad.store_id=0",
+                    $anchorAttributeId),
+                array())
+            ->joinLeft(
+                array('cas' => $anchorTable),
+                $adapter->quoteInto("cas.entity_id=ce.entity_id AND cas.attribute_id=? AND ", $anchorAttributeId)
+                    . $adapter->quoteInto('cas.store_id=?', $storeId),
+                array())
+            ->where("{$anchorExpr} = 1 AND {$adapter->quoteIdentifier('ce.path')} LIKE ?", $rootPath . '%1')
+            ->orWhere('ce.path = ?', $rootPath);
 
-        $this->insertFromSelect($select, $tmpTable, array('category_id' , 'path'));
+        $query = $select->insertFromSelect($tmpTable, array('category_id' , 'path'), false);
+        $adapter->query($query);
         return $tmpTable;
     }
 

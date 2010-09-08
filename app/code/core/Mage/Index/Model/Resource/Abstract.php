@@ -122,20 +122,22 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
     public function insertFromTable($sourceTable, $destTable, $readToIndex = true)
     {
         if ($readToIndex) {
-            $columns = $this->_getWriteAdapter()->describeTable($sourceTable);
+            $sourceColumns = array_keys($this->_getWriteAdapter()->describeTable($sourceTable));
+            $targetColumns = array_keys($this->_getWriteAdapter()->describeTable($destTable));
         } else {
-            $columns = $this->_getIndexAdapter()->describeTable($sourceTable);
+            $sourceColumns = array_keys($this->_getIndexAdapter()->describeTable($sourceTable));
+            $targetColumns = array_keys($this->_getWriteAdapter()->describeTable($destTable));
         }
-        $columns = array_keys($columns);
-        $select = $this->_getIndexAdapter()->select()->from($sourceTable);
-        return $this->insertFromSelect($select, $destTable, $columns, $readToIndex);
+        $select = $this->_getIndexAdapter()->select()->from($sourceTable, $sourceColumns);
+
+        return $this->insertFromSelect($select, $destTable, $targetColumns, $readToIndex);
     }
 
     /**
      * Insert data from select statement of read adapter to
      * destination table related with index adapter
      *
-     * @param string $select
+     * @param Varien_Db_Select $select
      * @param string $destTable
      * @param array $columns
      * @param bool $readToIndex data migration direction (true - read=>index, false - index=>read)
@@ -152,7 +154,8 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
         }
         $to->disableTableKeys($destTable);
         if ($from === $to) {
-            $to->insertFromSelect($select, $destTable, $columns);
+            $query = $select->insertFromSelect($destTable, $columns);
+            $to->query($query);
         } else {
             $stmt = $from->query($select);
             $data = array();

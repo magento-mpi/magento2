@@ -223,7 +223,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
             $taxClassId = $this->_addAttributeToSelect($select, 'tax_class_id', 'e.entity_id', 'cs.store_id');
             $select->columns(array('tax_class_id' => $taxClassId));
         } else {
-			$taxClassId = new Zend_Db_Expr('0');
+            $taxClassId = new Zend_Db_Expr('0');
         }
         $select->columns(array('tax_class_id' => $taxClassId));
 
@@ -231,13 +231,13 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         $specialPrice   = $this->_addAttributeToSelect($select, 'special_price', 'e.entity_id', 'cs.store_id');
         $specialFrom    = $this->_addAttributeToSelect($select, 'special_from_date', 'e.entity_id', 'cs.store_id');
         $specialTo      = $this->_addAttributeToSelect($select, 'special_to_date', 'e.entity_id', 'cs.store_id');
-        $curentDate     = $write->getDatePartSql('cwd.website_date');
+        $currentDate    = $write->getDatePartSql('cwd.website_date');
 
         $specialFromDate    = $write->getDatePartSql($specialFrom);
         $specialToDate      = $write->getDatePartSql($specialFrom);
 
-        $specialFromUse     = $write->getCheckSql("{$specialFromDate} <= {$curentDate}", '1', '0');
-        $specialToUse       = $write->getCheckSql("{$specialToDate} >= {$curentDate}", '1', '0');
+        $specialFromUse     = $write->getCheckSql("{$specialFromDate} <= {$currentDate}", '1', '0');
+        $specialToUse       = $write->getCheckSql("{$specialToDate} >= {$currentDate}", '1', '0');
         $specialFromHas     = $write->getCheckSql("{$specialFrom} IS NULL", '1', "{$specialFromUse}");
         $specialToHas       = $write->getCheckSql("{$specialTo} IS NULL", '1', "{$specialToUse}");
         $finalPrice         = $write->getCheckSql("{$specialFromHas} > 0 AND {$specialToHas} > 0"

@@ -168,6 +168,14 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     protected $_attributeValuesToSave   = array();
 
     /**
+     * Array of describe attribute backend tables
+     * The table name as key
+     *
+     * @var array
+     */
+    protected static $_attributeBackendTables   = array();
+
+    /**
      * Set connections for entity operations
      *
      * @param Zend_Db_Adapter_Abstract|string $read
@@ -1227,6 +1235,17 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     protected function _processSaveData($saveData)
     {
         extract($saveData);
+        /**
+         * Import variables into the current symbol table from save data array
+         *
+         * @see Mage_Eav_Model_Entity_Attribute_Abstract::_collectSaveData()
+         *
+         * @var array $entityRow
+         * @var Mage_Core_Model_Abstract $newObject
+         * @var array $insert
+         * @var array $update
+         * @var array $delete
+         */
         $adapter        = $this->_getWriteAdapter();
         $insertEntity   = true;
         $entityTable    = $this->getEntityTable();
@@ -1395,7 +1414,13 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         if ($attribute->getBackendType() == 'decimal') {
             return Mage::app()->getLocale()->getNumber($value);
         }
-        return $value;
+
+        $backendTable = $attribute->getBackendTable();
+        if (!isset(self::$_attributeBackendTables[$backendTable])) {
+            self::$_attributeBackendTables[$backendTable] = $this->_getReadAdapter()->describeTable($backendTable);
+        }
+        $describe = self::$_attributeBackendTables[$backendTable];
+        return $this->_getReadAdapter()->prepareColumnValue($describe['value'], $value);
     }
 
     /**
