@@ -60,7 +60,6 @@ $table = $installer->getConnection()
     ->addColumn('description', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Description')
     ->addColumn('url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
         ), 'Url')
     ->addColumn('is_read', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
