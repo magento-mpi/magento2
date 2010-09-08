@@ -50,7 +50,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Probelm type')
+        ), 'Problem type')
     ->addColumn('date_added', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Create date')
