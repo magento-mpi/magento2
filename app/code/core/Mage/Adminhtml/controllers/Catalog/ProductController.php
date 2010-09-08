@@ -280,10 +280,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function gridAction()
     {
-        $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_grid')->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**

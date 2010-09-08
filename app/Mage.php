@@ -602,7 +602,7 @@ final class Mage
             self::setRoot();
             self::$_app    = new Mage_Core_Model_App();
             self::$_events = new Varien_Event_Collection();
-            self::$_config = new Mage_Core_Model_Config($options);    
+            self::$_config = new Mage_Core_Model_Config($options);
             self::$_app->run(array(
                 'scope_code' => $code,
                 'scope_type' => $type,

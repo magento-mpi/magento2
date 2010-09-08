@@ -219,7 +219,9 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
     protected function _afterDelete(Mage_Core_Model_Abstract $object)
     {
         parent::_afterDelete($object);
-
+        if (!Mage::helper('rating')->isModuleEnabled('Mage_Review')) {
+            return $this;
+        }
         $data = $this->_getEntitySummaryData($object);
         $summary = array();
         foreach ($data as $row) {

@@ -91,6 +91,10 @@
         </block>
     </adminhtml_catalog_product_relatedgrid>
 
+    <adminhtml_catalog_product_grid>
+        <block type="adminhtml/catalog_product_grid" name="catalog.product.grid" output="toHtml"/>
+    </adminhtml_catalog_product_grid>
+
     <adminhtml_catalog_product_upsell>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="adminhtml/catalog_product_edit_tab_upsell" name="catalog.product.edit.tab.upsell"/>
@@ -214,7 +218,7 @@ Layout handle for configurable products
             <block type="adminhtml/catalog_product_edit_action_attribute" name="attribute" template="catalog/product/edit/action/attribute.phtml" />
         </reference>
     </adminhtml_catalog_product_action_attribute_edit>
-    
+
     <adminhtml_catalog_product_attribute_edit>
         <reference name="left">
             <block type="adminhtml/catalog_product_attribute_edit_tabs" name="attribute_edit_tabs"></block>

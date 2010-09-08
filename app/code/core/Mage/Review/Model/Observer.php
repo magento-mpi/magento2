@@ -61,6 +61,24 @@ class Mage_Review_Model_Observer
         if ($eventProduct && $eventProduct->getId()) {
             Mage::getResourceSingleton('review/review')->deleteReviewsByProductId($eventProduct->getId());
         }
+
+        return $this;
+    }
+
+    /**
+     * Append review summary before rendering html
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Review_Model_Observer
+     */
+    public function catalogBlockProductCollectionBeforeToHtml(Varien_Event_Observer $observer)
+    {
+        $productCollection = $observer->getEvent()->getCollection();
+        if ($productCollection instanceof Varien_Data_Collection) {
+            $productCollection->load();
+            Mage::getModel('review/review')->appendSummary($productCollection);
+        }
+
         return $this;
     }
 }

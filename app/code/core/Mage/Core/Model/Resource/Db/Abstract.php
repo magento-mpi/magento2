@@ -754,7 +754,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     	if (!$this->_getConnection('read')) {
             return false;
         }
-        $checksum = $this->_getConnection('read')->getTablesChecksum($table);   
+        $checksum = $this->_getConnection('read')->getTablesChecksum($table);
         if (count($checksum) == 1) {
         	return $checksum[$table];
         }

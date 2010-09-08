@@ -122,7 +122,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
             ->from(
                 array('e' => $this->getTable('catalog/product')),
                 array('entity_id'))
-            ->where('e.type_id=?', 'bundle');
+            ->where('e.type_id=?', Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
         if ($product instanceof Mage_Catalog_Model_Product) {
             $select->where('e.entity_id=?', $product->getId());
         }
@@ -438,7 +438,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      * @param Mage_Core_Model_Website $website
      * @return Mage_Bundle_Model_Resource_Price_Index
      */
-    protected function _addAttributeDataToSelect(Varien_Db_Select $select, $attributeCode, 
+    protected function _addAttributeDataToSelect(Varien_Db_Select $select, $attributeCode,
         Mage_Core_Model_Website $website)
     {
         $attribute  = $this->_getAttribute($attributeCode);
@@ -674,7 +674,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      * @param Mage_Customer_Model_Group $group
      * @return array
      */
-    public function _calculateBundleSelections(array $options, array $salableStatus, $productId, $priceType, $basePrice, 
+    public function _calculateBundleSelections(array $options, array $salableStatus, $productId, $priceType, $basePrice,
         $priceData, $priceIndex, $website, $group)
     {
         $minPrice = $maxPrice = $basePrice;

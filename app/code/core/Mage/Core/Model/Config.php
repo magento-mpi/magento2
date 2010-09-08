@@ -1247,7 +1247,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return $obj;
         } else {
             /* throw Mage::exception(
-                'Mage_Core', 
+                'Mage_Core',
                 Mage::helper('core')->__('Model class does not exist: %s.', $modelClass)
             ); */
             return false;
