@@ -55,17 +55,19 @@ class Mage_Wishlist_Model_Resource_Item extends Mage_Core_Model_Resource_Db_Abst
     public function loadByProductWishlist($object, $wishlistId, $productId, $sharedStores)
     {
         $adapter = $this->_getReadAdapter();
+        $storeWhere = $adapter->quoteInto('store_id IN (?)', $sharedStores);
         $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('wishlist_id=?', $wishlistId)
-            ->where('product_id=?', $productId)
-            ->where('store_id IN(?)', $sharedStores);
-
-        $data = $adapter->fetchRow($select);
+            ->where('wishlist_id=:wishlist_id AND '
+                . 'product_id=:product_id AND '
+                . $storeWhere);
+        $bind = array(
+            'wishlist_id' => $wishlistId,
+            'product_id'  => $productId);
+        $data = $adapter->fetchRow($select, $bind);
         if ($data) {
             $object->setData($data);
         }
-
         $this->_afterLoad($object);
 
         return $this;

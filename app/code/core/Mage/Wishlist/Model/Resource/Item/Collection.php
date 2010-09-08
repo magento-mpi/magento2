@@ -69,15 +69,4 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         return $this;
     }
 
-    /**
-     * This method will be not supported anymore
-     *
-     * @deprecated since 1.4.0.0
-     *
-     * @return Mage_Wishlist_Model_Resource_Item_Collection
-     */
-    public function addStoreData()
-    {
-        return $this;
-    }
 }

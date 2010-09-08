@@ -133,7 +133,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
 
         $this->setDaysInWishlist(false);
 
-        $dayTable = 't_wi'; //$this->_getAttributeTableAlias('days_in_wishlist');
+        $dayTable = 't_wi';
 
         $this->joinField('store_name', 'core/store', 'name', 'store_id=item_store_id');
         $this->joinField('days_in_wishlist',

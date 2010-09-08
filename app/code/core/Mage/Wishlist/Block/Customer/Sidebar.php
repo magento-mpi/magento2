@@ -43,7 +43,6 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
     protected function _prepareCollection($collection)
     {
         $collection->setPage(1, 3);
-        $collection->addAttributeToSort('added_at', 'desc');
 
         return $this;
     }

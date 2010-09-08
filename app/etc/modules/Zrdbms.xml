@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <!--
 /**
  * Magento Enterprise Edition
@@ -205,7 +205,7 @@
             <active>false</active>
         </Mage_SalesRule>
         <Mage_Sendfriend>
-            <active>false</active>
+            <active>true</active>
         </Mage_Sendfriend>
         <Mage_Shipping>
             <active>false</active>
@@ -232,7 +232,7 @@
             <active>true</active>
         </Mage_Widget>
         <Mage_Wishlist>
-            <active>false</active>
+            <active>true</active>
         </Mage_Wishlist>
         <Mage_XmlConnect>
             <active>false</active>
