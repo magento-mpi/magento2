@@ -35,8 +35,7 @@
 class Mage_Downloadable_Model_Resource_Link_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here...
-     *
+     * Init resource model
      */
     protected function _construct()
     {
@@ -44,7 +43,7 @@ class Mage_Downloadable_Model_Resource_Link_Collection extends Mage_Core_Model_R
     }
 
     /**
-     * Enter description here...
+     * Method for product filter
      *
      * @param Mage_Catalog_Model_Product|array|integer|null $product
      * @return Mage_Downloadable_Model_Resource_Link_Collection
@@ -53,32 +52,32 @@ class Mage_Downloadable_Model_Resource_Link_Collection extends Mage_Core_Model_R
     {
         if (empty($product)) {
             $this->addFieldToFilter('product_id', '');
-        } elseif (is_array($product)) {
-            $this->addFieldToFilter('product_id', array('in' => $product));
         } elseif ($product instanceof Mage_Catalog_Model_Product) {
             $this->addFieldToFilter('product_id', $product->getId());
         } else {
-            $this->addFieldToFilter('product_id', $product);
+            $this->addFieldToFilter('product_id', array('in' => $product));
         }
 
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Retrieve title for for current store
      *
      * @param integer $storeId
      * @return Mage_Downloadable_Model_Resource_Link_Collection
      */
     public function addTitleToResult($storeId = 0)
     {
+        $ifNullDefaultTitle = $this->getConnection()
+            ->getCheckSql('st.title IS NULL', 'd.title', 'st.title');
         $this->getSelect()
-            ->joinLeft(array('default_title_table' => $this->getTable('downloadable/link_title')),
-                '`default_title_table`.link_id=`main_table`.link_id AND `default_title_table`.store_id = 0',
-                array('default_title'=>'title'))
-            ->joinLeft(array('store_title_table' => $this->getTable('downloadable/link_title')),
-                '`store_title_table`.link_id=`main_table`.link_id AND `store_title_table`.store_id = ' . intval($storeId),
-                array('store_title' => 'title','title' => new Zend_Db_Expr('IFNULL(`store_title_table`.title, `default_title_table`.title)')))
+            ->joinLeft(array('d' => $this->getTable('downloadable/link_title')),
+                'd.link_id=main_table.link_id AND d.store_id = 0',
+                array('default_title' => 'title'))
+            ->joinLeft(array('st' => $this->getTable('downloadable/link_title')),
+                'st.link_id=main_table.link_id AND st.store_id = ' . (int)$storeId,
+                array('store_title' => 'title','title' => $ifNullDefaultTitle))
             ->order('main_table.sort_order ASC')
             ->order('title ASC');
 
@@ -86,20 +85,23 @@ class Mage_Downloadable_Model_Resource_Link_Collection extends Mage_Core_Model_R
     }
 
     /**
-     * Enter description here...
+     * Retrieve price for for current website
      *
      * @param integer $websiteId
      * @return Mage_Downloadable_Model_Resource_Link_Collection
      */
     public function addPriceToResult($websiteId)
     {
+        $ifNullDefaultPrice = $this->getConnection()
+            ->getCheckSql('stp.price IS NULL', 'dp.price', 'stp.price');
         $this->getSelect()
-            ->joinLeft(array('default_price_table' => $this->getTable('downloadable/link_price')),
-                '`default_price_table`.link_id=`main_table`.link_id AND `default_price_table`.website_id = 0',
+            ->joinLeft(array('dp' => $this->getTable('downloadable/link_price')),
+                'dp.link_id=main_table.link_id AND dp.website_id = 0',
                 array('default_price' => 'price'))
-            ->joinLeft(array('website_price_table' => $this->getTable('downloadable/link_price')),
-                '`website_price_table`.link_id=`main_table`.link_id AND `website_price_table`.website_id = ' . intval($websiteId),
-                array('website_price' => 'price','price' => new Zend_Db_Expr('IFNULL(`website_price_table`.price, `default_price_table`.price)')));
+            ->joinLeft(array('stp' => $this->getTable('downloadable/link_price')),
+                'stp.link_id=main_table.link_id AND stp.website_id = ' . (int)$websiteId,
+                array('website_price' => 'price','price' => $ifNullDefaultPrice));
+
         return $this;
     }
 }

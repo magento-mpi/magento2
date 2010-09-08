@@ -35,8 +35,7 @@
 class Mage_Downloadable_Model_Resource_Sample_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here...
-     *
+     * Init resource model
      */
     protected function _construct()
     {
@@ -44,7 +43,7 @@ class Mage_Downloadable_Model_Resource_Sample_Collection extends Mage_Core_Model
     }
 
     /**
-     * Enter description here...
+     * Method for product filter
      *
      * @param Mage_Catalog_Model_Product|array|integer|null $product
      * @return Mage_Downloadable_Model_Resource_Sample_Collection
@@ -55,8 +54,6 @@ class Mage_Downloadable_Model_Resource_Sample_Collection extends Mage_Core_Model
             $this->addFieldToFilter('product_id', '');
         } elseif (is_array($product)) {
             $this->addFieldToFilter('product_id', array('in' => $product));
-        } elseif ($product instanceof Mage_Catalog_Model_Product) {
-            $this->addFieldToFilter('product_id', $product->getId());
         } else {
             $this->addFieldToFilter('product_id', $product);
         }
@@ -72,13 +69,15 @@ class Mage_Downloadable_Model_Resource_Sample_Collection extends Mage_Core_Model
      */
     public function addTitleToResult($storeId = 0)
     {
+        $ifNullDefaultTitle = $this->getConnection()
+            ->getCheckSql('st.title IS NULL', 'd.title', 'st.title');
         $this->getSelect()
-            ->joinLeft(array('default_title_table' => $this->getTable('downloadable/sample_title')),
-                '`default_title_table`.sample_id=`main_table`.sample_id AND `default_title_table`.store_id = 0',
+            ->joinLeft(array('d' => $this->getTable('downloadable/sample_title')),
+                'd.sample_id=main_table.sample_id AND d.store_id = 0',
                 array('default_title' => 'title'))
-            ->joinLeft(array('store_title_table' => $this->getTable('downloadable/sample_title')),
-                '`store_title_table`.sample_id=`main_table`.sample_id AND `store_title_table`.store_id = ' . intval($storeId),
-                array('store_title' => 'title','title' => new Zend_Db_Expr('IFNULL(`store_title_table`.title, `default_title_table`.title)')))
+            ->joinLeft(array('st' => $this->getTable('downloadable/sample_title')),
+                'st.sample_id=main_table.sample_id AND st.store_id = ' . (int)$storeId,
+                array('store_title' => 'title','title' => $ifNullDefaultTitle))
             ->order('main_table.sort_order ASC')
             ->order('title ASC');
 

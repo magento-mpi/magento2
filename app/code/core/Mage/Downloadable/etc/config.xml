@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Downloadable>
-            <version>1.4.0.1</version>
+            <version>1.5.0.0</version>
         </Mage_Downloadable>
     </modules>
     <global>
@@ -160,11 +160,11 @@
                         <price_indexer>downloadable/indexer_price</price_indexer>
                         <can_use_qty_decimals>0</can_use_qty_decimals>
                     </downloadable>
-                    <bundle>
-                        <allowed_selection_types>
-                            <downloadable/>
-                        </allowed_selection_types>
-                    </bundle>
+                    <!--<bundle>-->
+                        <!--<allowed_selection_types>-->
+                            <!--<downloadable/>-->
+                        <!--</allowed_selection_types>-->
+                    <!--</bundle>-->
                     <configurable>
                         <allow_product_types>
                             <downloadable/>

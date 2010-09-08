@@ -36,7 +36,7 @@ class Mage_Downloadable_Model_Resource_Link_Purchased_Item_Collection
     extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here...
+     * Init resource model
      *
      */
     protected function _construct()

@@ -106,6 +106,8 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
 
         $dlType = $this->_getAttribute('links_purchased_separately');
 
+        $ifPrice = $write->getCheckSql('dlpw.price_id IS NOT NULL', 'dlpw.price', 'dlpd.price');
+
         $select = $write->select()
             ->from(
                 array('i' => $this->_getDefaultFinalPriceTable()),
@@ -130,12 +132,14 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
             ->where('dl.value = ?', 1)
             ->group(array('i.entity_id', 'i.customer_group_id', 'i.website_id'))
             ->columns(array(
-                'min_price' => new Zend_Db_Expr('MIN(IF(dlpw.price_id, dlpw.price, dlpd.price))'),
-                'max_price' => new Zend_Db_Expr('SUM(IF(dlpw.price_id, dlpw.price, dlpd.price))')
+                'min_price' => new Zend_Db_Expr('MIN('.$ifPrice.')'),
+                'max_price' => new Zend_Db_Expr('SUM('.$ifPrice.')')
             ));
 
         $query = $select->insertFromSelect($table);
         $write->query($query);
+
+        $ifTierPrice = $write->getCheckSql('i.tier_price IS NOT NULL', '(i.tier_price + id.min_price)', 'NULL');
 
         $select = $write->select()
             ->join(
@@ -146,14 +150,14 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
             ->columns(array(
                 'min_price'  => new Zend_Db_Expr('i.min_price + id.min_price'),
                 'max_price'  => new Zend_Db_Expr('i.max_price + id.max_price'),
-                'tier_price' => new Zend_Db_Expr('IF(i.tier_price IS NOT NULL, i.tier_price + id.min_price, NULL)')
+                'tier_price' => new Zend_Db_Expr($ifTierPrice)
             ));
 
         $query = $select->crossUpdateFromSelect(array('i' => $this->_getDefaultFinalPriceTable()));
         $write->query($query);
 
         if ($this->useIdxTable()) {
-            $write->truncate($table);
+            $write->truncateTable($table);
         }
         else {
             $write->delete($table);

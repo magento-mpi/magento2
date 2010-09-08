@@ -51,56 +51,70 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
      */
     public function saveItemTitleAndPrice($linkObject)
     {
-        $stmt = $this->_getReadAdapter()->select()
+        $readAdapter    = $this->_getReadAdapter();
+        $writeAdapter   = $this->_getWriteAdapter();
+        $linkTitleTable = $this->getTable('downloadable/link_title');
+        $linkPriceTable = $this->getTable('downloadable/link_price');
+        $select = $readAdapter->select()
             ->from($this->getTable('downloadable/link_title'))
-            ->where('link_id = ?', $linkObject->getId())
-            ->where('store_id = ?', $linkObject->getStoreId());
-        if ($this->_getReadAdapter()->fetchOne($stmt)) {
-            $where = $this->_getReadAdapter()->quoteInto('link_id = ?', $linkObject->getId()) .
-                ' AND ' . $this->_getReadAdapter()->quoteInto('store_id = ?', $linkObject->getStoreId());
+            ->where('link_id=:link_id AND store_id=:store_id');
+        $bind = array(
+            'link_id'   => $linkObject->getId(),
+            'store_id'  => (int)$linkObject->getStoreId()
+        );
+        if ($readAdapter->fetchOne($select, $bind)) {
+            $where = $readAdapter->quoteInto('link_id = ?', $linkObject->getId()) .
+                ' AND ' . $readAdapter->quoteInto('store_id = ?', (int)$linkObject->getStoreId());
             if ($linkObject->getUseDefaultTitle()) {
-                $this->_getWriteAdapter()->delete(
-                    $this->getTable('downloadable/link_title'), $where);
+                $writeAdapter->delete(
+                    $linkTitleTable, $where);
             } else {
-                $this->_getWriteAdapter()->update(
-                    $this->getTable('downloadable/link_title'),
+                $writeAdapter->update(
+                    $linkTitleTable,
                     array('title' => $linkObject->getTitle()), $where);
             }
         } else {
             if (!$linkObject->getUseDefaultTitle()) {
-                $this->_getWriteAdapter()->insert(
-                    $this->getTable('downloadable/link_title'),
+                $writeAdapter->insert(
+                    $linkTitleTable,
                     array(
-                        'link_id' => $linkObject->getId(),
-                        'store_id' => $linkObject->getStoreId(),
-                        'title' => $linkObject->getTitle(),
+                        'link_id'   => $linkObject->getId(),
+                        'store_id'  => (int)$linkObject->getStoreId(),
+                        'title'     => $linkObject->getTitle(),
                     ));
             }
         }
-        $stmt = null;
-        $stmt = $this->_getReadAdapter()->select()
-            ->from($this->getTable('downloadable/link_price'))
-            ->where('link_id = ?', $linkObject->getId())
-            ->where('website_id = ?', $linkObject->getWebsiteId());
-        if ($this->_getReadAdapter()->fetchOne($stmt)) {
-            $where = $this->_getReadAdapter()->quoteInto('link_id = ?', $linkObject->getId()) .
-                ' AND ' . $this->_getReadAdapter()->quoteInto('website_id = ?', $linkObject->getWebsiteId());
+        $select = null;
+        $select = $readAdapter->select()
+            ->from($linkPriceTable)
+            ->where('link_id=:link_id AND website_id=:website_id');
+        $bind = array(
+            'link_id'       => $linkObject->getId(),
+            'website_id'    => (int)$linkObject->getWebsiteId(),
+        );
+        if ($readAdapter->fetchOne($select, $bind)) {
+            $where = $readAdapter->quoteInto('link_id = ?', $linkObject->getId()) .
+                ' AND ' . $readAdapter->quoteInto('website_id = ?', $linkObject->getWebsiteId());
             if ($linkObject->getUseDefaultPrice()) {
-                $this->_getReadAdapter()->delete(
-                    $this->getTable('downloadable/link_price'), $where);
+                $readAdapter->delete(
+                    $linkPriceTable, $where);
             } else {
-                $this->_getWriteAdapter()->update(
-                    $this->getTable('downloadable/link_price'),
+                $writeAdapter->update(
+                    $linkPriceTable,
                     array('price' => $linkObject->getPrice()), $where);
             }
         } else {
             if (!$linkObject->getUseDefaultPrice()) {
                 $dataToInsert[] = array(
-                    'link_id' => $linkObject->getId(),
-                    'website_id' => $linkObject->getWebsiteId(),
-                    'price' => $linkObject->getPrice()
+                    'link_id'    => $linkObject->getId(),
+                    'website_id' => (int)$linkObject->getWebsiteId(),
+                    'price'      => $linkObject->getPrice()
                 );
-                $_isNew = $linkObject->getOrigData('link_id') != $linkObject->getLinkId();
+                if ($linkObject->getOrigData('link_id') != $linkObject->getLinkId()) {
+                    $_isNew = true;
+                } else {
+                    $_isNew = false;
+                }
                 if ($linkObject->getWebsiteId() == 0 && $_isNew && !Mage::helper('catalog')->isPriceGlobal()) {
                     $websiteIds = $linkObject->getProductWebsiteIds();
                     foreach ($websiteIds as $websiteId) {
@@ -115,15 +129,13 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
                         }
                         $newPrice = $linkObject->getPrice() * $rate;
                         $dataToInsert[] = array(
-                            'link_id' => $linkObject->getId(),
-                            'website_id' => $websiteId,
-                            'price' => $newPrice
+                            'link_id'       => $linkObject->getId(),
+                            'website_id'    => (int)$websiteId,
+                            'price'         => $newPrice
                         );
                     }
                 }
-                foreach ($dataToInsert as $_data) {
-                    $this->_getWriteAdapter()->insert($this->getTable('downloadable/link_price'), $_data);
-                }
+                $writeAdapter->insertMultiple($linkPriceTable, $dataToInsert);
             }
         }
         return $this;
@@ -137,22 +149,24 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
      */
     public function deleteItems($items)
     {
+        $readAdapter    = $this->_getReadAdapter();
+        $writeAdapter   = $this->_getWriteAdapter();
         $where = '';
         if ($items instanceof Mage_Downloadable_Model_Link) {
-            $where = $this->_getReadAdapter()->quoteInto('link_id = ?', $items->getId());
+            $where = $readAdapter->quoteInto('link_id = ?', $items->getId());
         }
         elseif (is_array($items)) {
-            $where = $this->_getReadAdapter()->quoteInto('link_id in (?)', $items);
+            $where = $readAdapter->quoteInto('link_id in (?)', $items);
         }
         else {
-            $where = $this->_getReadAdapter()->quoteInto('sample_id = ?', $items);
+            $where = $readAdapter->quoteInto('sample_id = ?', $items);
         }
         if ($where) {
-            $this->_getWriteAdapter()->delete(
-                $this->getTable('downloadable/link'), $where);
-            $this->_getWriteAdapter()->delete(
+            $writeAdapter->delete(
+                $this->getMainTable(), $where);
+            $writeAdapter->delete(
                 $this->getTable('downloadable/link_title'), $where);
-            $this->_getWriteAdapter()->delete(
+            $writeAdapter->delete(
                 $this->getTable('downloadable/link_price'), $where);
         }
         return $this;
@@ -167,18 +181,20 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
      */
     public function getSearchableData($productId, $storeId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('link' => $this->getMainTable()), null)
+        $adapter    = $this->_getReadAdapter();
+        $ifNullDefaultTitle = $adapter->getCheckSql('st.title IS NULL', 'd.title', 'st.title');
+        $select = $adapter->select()
+            ->from(array('m' => $this->getMainTable()), null)
             ->join(
-                array('link_title_default' => $this->getTable('downloadable/link_title')),
-                'link_title_default.link_id=link.link_id AND link_title_default.store_id=0',
+                array('s' => $this->getTable('downloadable/link_title')),
+                'd.link_id=m.link_id AND d.store_id=0',
                 array())
             ->joinLeft(
-                array('link_title_store' => $this->getTable('downloadable/link_title')),
-                'link_title_store.link_id=link.link_id AND link_title_store.store_id=' . intval($storeId),
-                array('title' => 'IFNULL(link_title_store.title, link_title_default.title)'))
-            ->where('link.product_id=?', $productId);
-        if (!$searchData = $this->_getReadAdapter()->fetchCol($select)) {
+                array('st' => $this->getTable('downloadable/link_title')),
+                'st.link_id=m.link_id AND st.store_id=' . (int)$storeId,
+                array('title' => $ifNullDefaultTitle))
+            ->where('m.product_id=?', $productId);
+        if (!$searchData = $adapter->fetchCol($select)) {
             $searchData = array();
         }
         return $searchData;

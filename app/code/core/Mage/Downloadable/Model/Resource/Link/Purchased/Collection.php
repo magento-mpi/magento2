@@ -35,7 +35,7 @@
 class Mage_Downloadable_Model_Resource_Link_Purchased_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here...
+     * Init resource model
      *
      */
     protected function _construct()
@@ -44,15 +44,15 @@ class Mage_Downloadable_Model_Resource_Link_Purchased_Collection extends Mage_Co
     }
 
     /**
-     * Enter description here ...
+     * Add purchased items to collection
      *
      * @return Mage_Downloadable_Model_Resource_Link_Purchased_Collection
      */
     public function addPurchasedItemsToResult()
     {
         $this->getSelect()
-            ->join(array('purchased_items'=>$this->getTable('downloadable/link_purchased_item')),
-                '`purchased_items`.purchased_id=`main_table`.purchased_id');
+            ->join(array('pi'=>$this->getTable('downloadable/link_purchased_item')),
+                'pi.purchased_id=main_table.purchased_id');
         return $this;
     }
 }

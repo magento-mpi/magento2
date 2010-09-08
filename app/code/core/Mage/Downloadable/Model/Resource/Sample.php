@@ -51,29 +51,38 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
      */
     public function saveItemTitle($sampleObject)
     {
-        $stmt = $this->_getReadAdapter()->select()
+        $readAdapter    = $this->_getReadAdapter();
+        $writeAdapter   = $this->_getWriteAdapter();
+        $sampleTitleTable = $this->getTable('downloadable/sample_title');
+        $select = $readAdapter->select()
             ->from($this->getTable('downloadable/sample_title'))
-            ->where('sample_id = ?', $sampleObject->getId())
-            ->where('store_id = ?', $sampleObject->getStoreId());
-        if ($this->_getReadAdapter()->fetchOne($stmt)) {
-            $where = $this->_getReadAdapter()->quoteInto('sample_id = ?', $sampleObject->getId()) .
-                ' AND ' . $this->_getReadAdapter()->quoteInto('store_id = ?', $sampleObject->getStoreId());
+            ->where('sample_id=:sample_id AND store_id=:store_id');
+        $bind = array(
+            'sample_id'   => $sampleObject->getId(),
+            'store_id'  => (int)$sampleObject->getStoreId()
+        );
+        $select = $readAdapter->select()
+            ->from($sampleTitleTable)
+            ->where('sample_id=:sample_id AND store_id=:store_id');
+        if ($readAdapter->fetchOne($select, $bind)) {
+            $where = $readAdapter->quoteInto('sample_id = ?', $sampleObject->getId()) .
+                ' AND ' . $readAdapter->quoteInto('store_id = ?', (int)$sampleObject->getStoreId());
             if ($sampleObject->getUseDefaultTitle()) {
-                $this->_getWriteAdapter()->delete(
-                    $this->getTable('downloadable/sample_title'), $where);
+                $writeAdapter->delete(
+                    $sampleTitleTable, $where);
             } else {
-                $this->_getWriteAdapter()->update(
-                    $this->getTable('downloadable/sample_title'),
+                $writeAdapter->update(
+                    $sampleTitleTable,
                     array('title' => $sampleObject->getTitle()), $where);
             }
         } else {
             if (!$sampleObject->getUseDefaultTitle()) {
-                $this->_getWriteAdapter()->insert(
-                    $this->getTable('downloadable/sample_title'),
+                $writeAdapter->insert(
+                    $sampleTitleTable,
                     array(
                         'sample_id' => $sampleObject->getId(),
-                        'store_id' => $sampleObject->getStoreId(),
-                        'title' => $sampleObject->getTitle(),
+                        'store_id'  => (int)$sampleObject->getStoreId(),
+                        'title'     => $sampleObject->getTitle(),
                     ));
             }
         }
@@ -88,20 +97,19 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
      */
     public function deleteItems($items)
     {
+        $readAdapter  = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
         $where = '';
         if ($items instanceof Mage_Downloadable_Model_Sample) {
-            $where = $this->_getReadAdapter()->quoteInto('sample_id = ?', $items->getId());
-        }
-        elseif (is_array($items)) {
-            $where = $this->_getReadAdapter()->quoteInto('sample_id in (?)', $items);
+            $where = $readAdapter->quoteInto('sample_id = ?', $items->getId());
         }
         else {
-            $where = $this->_getReadAdapter()->quoteInto('sample_id = ?', $items);
+            $where = $readAdapter->quoteInto('sample_id in (?)', $items);
         }
         if ($where) {
-            $this->_getReadAdapter()->delete(
-                $this->getTable('downloadable/sample'),$where);
-            $this->_getReadAdapter()->delete(
+            $writeAdapter->delete(
+                $this->getMainTable(), $where);
+            $writeAdapter->delete(
                 $this->getTable('downloadable/sample_title'), $where);
         }
         return $this;
@@ -116,18 +124,20 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
      */
     public function getSearchableData($productId, $storeId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('sample' => $this->getMainTable()), null)
+        $adapter = $this->_getReadAdapter();
+        $ifNullDefaultTitle = $adapter->getCheckSql('st.title IS NULL', 'd.title', 'st.title');
+        $select = $adapter->select()
+            ->from(array('m' => $this->getMainTable()), null)
             ->join(
-                array('sample_title_default' => $this->getTable('downloadable/sample_title')),
-                'sample_title_default.sample_id=sample.sample_id AND sample_title_default.store_id=0',
+                array('d' => $this->getTable('downloadable/sample_title')),
+                'd.sample_id=m.sample_id AND d.store_id=0',
                 array())
             ->joinLeft(
-                array('sample_title_store' => $this->getTable('downloadable/sample_title')),
-                'sample_title_store.sample_id=sample.sample_id AND sample_title_store.store_id=' . intval($storeId),
-                array('title' => 'IFNULL(sample_title_store.title, sample_title_default.title)'))
-            ->where('sample.product_id=?', $productId);
-        if (!$searchData = $this->_getReadAdapter()->fetchCol($select)) {
+                array('st' => $this->getTable('downloadable/sample_title')),
+                'st.sample_id=m.sample_id AND st.store_id=' . (int)$storeId,
+                array('title' => $ifNullDefaultTitle))
+            ->where('m.product_id=?', $productId);
+        if (!$searchData = $adapter->fetchCol($select)) {
             $searchData = array();
         }
         return $searchData;
