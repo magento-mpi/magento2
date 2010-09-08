@@ -154,7 +154,6 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
     public function addEntitySummaryToItem($entityPkValue, $storeId)
     {
         $arrRatingId = $this->getColumnValues('rating_id');
-        $arrRatingId = 1;
         if (count($arrRatingId) == 0) {
             return $this;
         }
