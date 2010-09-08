@@ -145,7 +145,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
 
         return $this->addFieldToFilter('main_table.qty', array($methods[$comparsionMethod] => $qty));
     }
-    
+
     /**
      * Initialize select object
      *
@@ -155,7 +155,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
     {
         return parent::_initSelect()->getSelect()
             ->join(
-                array('cp_table' => 'catalog/product'),
+                array('cp_table' => $this->getTable('catalog/product')),
                 'main_table.product_id = cp_table.entity_id',
                 array('type_id')
             );

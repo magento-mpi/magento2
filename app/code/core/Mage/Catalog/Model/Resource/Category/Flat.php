@@ -240,10 +240,14 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             ->from(array('main_table'=>$this->getMainStoreTable($storeId)), array('main_table.entity_id', 'main_table.name', 'main_table.path', 'main_table.is_active', 'main_table.is_anchor'))
             ->joinLeft(
                 array('url_rewrite'=>$this->getTable('core/url_rewrite')),
-                'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$storeId.'" AND url_rewrite.id_path LIKE "category/%"',
+                'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND ' .
+                $_conn->quoteInto(
+                'url_rewrite.product_id IS NULL AND url_rewrite.store_id=? AND ',//url_rewrite.id_path LIKE "category/%"',
+                $storeId) .
+                $_conn->prepareSqlCondition('url_rewrite.id_path', array('like' => 'category/%')),
                 array('request_path' => 'url_rewrite.request_path'))
             ->where('main_table.is_active = ?', '1')
-            ->where('main_table.include_in_menu', '1')
+            ->where('main_table.include_in_menu = ?', '1')
 //            ->order('main_table.path', 'ASC')
             ->order('main_table.position', 'ASC');
 
@@ -538,8 +542,8 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                     'unsigned' => $fieldProp['unsigned'],
                     'default'  => $default,
                     'primary'  => isset($fieldProp['primary']) ? $fieldProp['primary'] : false,
-                ), ($fieldProp['comment'] != '') ? 
-                    $fieldProp['comment'] : 
+                ), ($fieldProp['comment'] != '') ?
+                    $fieldProp['comment'] :
                     ucwords(str_replace('_', ' ', $fieldName))
                 );
             }
@@ -1135,11 +1139,15 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     public function getParentCategories($category, $isActive = true)
     {
         $categories = array();
-        $select = $this->_getReadAdapter()->select()
+        $read = $this->_getReadAdapter();
+        $select = $read->select()
             ->from(array('main_table' => $this->getMainStoreTable($category->getStoreId())), array('main_table.entity_id', 'main_table.name'))
             ->joinLeft(
                 array('url_rewrite'=>$this->getTable('core/url_rewrite')),
-                'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$category->getStoreId().'" AND url_rewrite.id_path LIKE "category/%"',
+                'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND '.
+                $read->quoteInto('url_rewrite.product_id IS NULL AND url_rewrite.store_id=? AND ',
+                $category->getStoreId() ).
+                $read->prepareSqlCondition('url_rewrite.id_path', array('like' => 'category/%')),
                 array('request_path' => 'url_rewrite.request_path'))
             ->where('main_table.entity_id IN (?)', array_reverse(explode(',', $category->getPathInStore())));
         if ($isActive) {

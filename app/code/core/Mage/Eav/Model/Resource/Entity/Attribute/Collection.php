@@ -176,13 +176,13 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             $joinCondition = $this->getConnection()
                 ->quoteInto("{$alias}.attribute_id = main_table.attribute_id AND {$alias}.attribute_set_id =?", $setId);
             $this->join(
-                array($alias => $this->getTable('eav/entity_attribute')),
+                array($alias => 'eav/entity_attribute'),
                 $joinCondition,
                 'attribute_id'
             );
         }
 
-        $this->getSelect()->distinct(true);
+        //$this->getSelect()->distinct(true);
         $this->setOrder('is_user_defined', self::SORT_ORDER_ASC);
 
         return $this;

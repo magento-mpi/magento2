@@ -184,6 +184,9 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
      */
     public function getRelationsByParent($parentIds)
     {
+        if (empty($parentIds)) {
+            return array();
+        }
         $write = $this->_getWriteAdapter();
         $select = $write->select()
             ->from($this->getTable('catalog/product_relation'), 'child_id')

@@ -446,7 +446,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
         $select = $write->select()
             ->from($this->getTable('catalog/product_relation'), array('child_id'))
             ->where('parent_id IN(?)', $parentIds);
-        if (!is_null($excludeIds)) {
+        if (!empty($excludeIds)) {
             $select->where('child_id NOT IN(?)', $excludeIds);
         }
 
@@ -456,7 +456,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
             $select = $write->select()
                 ->from($this->getMainTable())
                 ->where('entity_id IN(?)', $children);
-            $query  = $select->insertFromSelect($this->getIdxTable());
+            $query  = $select->insertFromSelect($this->getIdxTable(), array(), false);
             $write->query($query);
         }
 
