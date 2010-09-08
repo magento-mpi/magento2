@@ -54,18 +54,19 @@ class Mage_Sendfriend_Model_Resource_Sendfriend extends Mage_Core_Model_Resource
      */
     public function getSendCount($object, $ip, $startTime, $websiteId = null)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from(
-                array('main_table' => $this->getTable('sendfriend')),
-                array('count' => new Zend_Db_Expr('count(*)')))
-            ->where('ip=?', $ip)
-            ->where('time>=?', $startTime);
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable(), array('count' => new Zend_Db_Expr('count(*)')))
+            ->where('ip=:ip
+                AND  time>=:time
+                AND  website_id=:website_id');
+        $bind = array(
+            'ip'      => $ip,
+            'time'    => $startTime,
+            'website_id' => (int)$websiteId,
+        );
 
-        if ($websiteId) {
-            $select->where('website_id=?', $websiteId);
-        }
-
-        $row = $this->_getReadAdapter()->fetchRow($select);
+        $row = $adapter->fetchRow($select, $bind);
         return $row['count'];
     }
 
@@ -80,12 +81,12 @@ class Mage_Sendfriend_Model_Resource_Sendfriend extends Mage_Core_Model_Resource
     public function addSendItem($ip, $startTime, $websiteId)
     {
         $this->_getWriteAdapter()->insert(
-            $this->getTable('sendfriend'),
+            $this->getMainTable(),
             array(
-                    'ip' => $ip,
-                    'time' => $startTime,
-                    'website_id' => $websiteId
-                 )
+                'ip'         => $ip,
+                'time'       => $startTime,
+                'website_id' => $websiteId
+             )
         );
         return $this;
     }

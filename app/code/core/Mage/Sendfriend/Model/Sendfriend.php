@@ -25,7 +25,7 @@
  */
 
 /**
- * Enter description here ...
+ * SendFriend Log
  *
  * @method Mage_Sendfriend_Model_Resource_Sendfriend _getResource()
  * @method Mage_Sendfriend_Model_Resource_Sendfriend getResource()
