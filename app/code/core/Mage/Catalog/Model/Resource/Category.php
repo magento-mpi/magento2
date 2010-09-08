@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
          * Update children count for all parent categories
          */
         $parentIds = $object->getParentIds();
-        if ($patentIds) {
+        if ($parentIds) {
             $childDecrease = $object->getChildrenCount() + 1; // +1 is itself
             $data = array('children_count' => new Zend_Db_Expr('children_count - ' . $childDecrease));
             $where = array('entity_id IN(?)' => $parentIds);

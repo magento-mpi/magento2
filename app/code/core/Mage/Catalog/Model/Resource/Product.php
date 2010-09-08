@@ -567,14 +567,14 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
 
         // duplicate EAV store values
         foreach ($eavTables as $suffix) {
-            $tableName = $this->getTable('catalog_product_entity_' . $suffix);
+            $tableName = $this->getTable(array('catalog/product', $suffix));
 
             $select = $adapter->select()
                 ->from($tableName, array(
                     'entity_type_id',
                     'attribute_id',
                     'store_id',
-                    new Zend_Db_Expr($newId),
+                    'entity_id' => new Zend_Db_Expr($adapter->quote($newId)),
                     'value'
                 ))
                 ->where('entity_id = ?', $oldId)
@@ -590,7 +590,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
                     'entity_id',
                     'value'
                 ),
-                Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE
+                false 
             ));
         }
 
