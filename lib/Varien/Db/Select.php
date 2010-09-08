@@ -27,6 +27,30 @@
 /**
  * Class for SQL SELECT generation and results.
  *
+ * @method Varien_Db_Adapter_Interface|Zend_Db_Adapter_Abstract getAdapter()
+ * @property Varien_Db_Adapter_Interface|Zend_Db_Adapter_Abstract $_adapter
+ * @method Varien_Db_Select from($name, $cols, $schema = null)
+ * @method Varien_Db_Select join($name, $cond, $cols, $schema = null)
+ * @method Varien_Db_Select joinInner($name, $cond, $cols, $schema = null)
+ * @method Varien_Db_Select joinLeft($name, $cond, $cols, $schema = null)
+ * @method Varien_Db_Select joinNatural($name, $cond, $cols, $schema = null)
+ * @method Varien_Db_Select joinFull($name, $cond, $cols, $schema = null)
+ * @method Varien_Db_Select joinRight($name, $cond, $cols, $schema = null)
+ * @method Varien_Db_Select joinCross($name, $cols, $schema = null)
+ * @method Varien_Db_Select orWhere($cond, $value = null, $type = null)
+ * @method Varien_Db_Select group($spec)
+ * @method Varien_Db_Select having($cond)
+ * @method Varien_Db_Select orHaving($cond)
+ * @method Varien_Db_Select order($spec)
+ * @method Varien_Db_Select limit($count = null, $offset = null)
+ * @method Varien_Db_Select limitPage($page, $rowCount)
+ * @method Varien_Db_Select forUpdate($flag = true)
+ * @method Varien_Db_Select distinct($flag = true)
+ * @method Varien_Db_Select reset($part = null)
+ * @method Varien_Db_Select columns($cols, $correlationName = null)
+ *
+ *
+ *
  * @category    Varien
  * @package     Varien_Db
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -112,7 +136,7 @@ class Varien_Db_Select extends Zend_Db_Select
      * @param string   $cond  The WHERE condition.
      * @param string   $value OPTIONAL A single value to quote into the condition.
      * @param constant $type  OPTIONAL The type of the given value
-     * @return Zend_Db_Select This Zend_Db_Select object.
+     * @return Varien_Db_Select This Zend_Db_Select object.
      */
     public function where($cond, $value = null, $type = null)
     {
