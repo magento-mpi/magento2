@@ -3112,7 +3112,143 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param int $mode
      * @return string
      */
-    public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
+//    public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
+//    {
+//        if (!$mode) {
+//            return $this->_getInsertFromSelectSql($select, $table, $fields);
+//        }
+//
+//        $indexes    = $this->getIndexList($table);
+//        $columns    = $this->describeTable($table);
+//        if (!$fields) {
+//            $fields = array_keys($columns);
+//        }
+//
+//        // remap column aliases
+//        $select    = clone $select;
+//        $fields    = array_values($fields);
+//        $i         = 0;
+//        $colsPart  = $select->getPart(Zend_Db_Select::COLUMNS);
+//        if (count($colsPart) != count($fields)) {
+//            throw new Varien_Db_Exception('Wrong columns count in SELECT for INSERT,');
+//        }
+//        foreach ($colsPart as &$colData) {
+//            $colData[2] = $fields[$i];
+//            $i ++;
+//        }
+//        $select->setPart(Zend_Db_Select::COLUMNS, $colsPart);
+//
+//        $insertCols = $fields;
+//        $updateCols = $fields;
+//        $whereCond  = array();
+//
+//        // Obtain primary key fields
+//        $pkColumns = $this->_getPrimaryKeyColumns($table);
+//        $groupCond = array();
+//        $usePkCond = true;
+//        foreach ($pkColumns as $pkColumn) {
+//            if (!in_array($pkColumn, $insertCols)) {
+//                $usePkCond = false;
+//            } else {
+//                $groupCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($pkColumn));
+//            }
+//
+//            if (false !== ($k = array_search($pkColumn, $updateCols))) {
+//                unset($updateCols[$k]);
+//            }
+//        }
+//
+//        if (!empty($groupCond) && $usePkCond) {
+//            $whereCond[] = sprintf('(%s)', join(') AND (', $groupCond));
+//        }
+//
+//        // Obtain unique indexes fields
+//        foreach ($indexes as $indexData) {
+//            if ($indexData['INDEX_TYPE'] != self::INDEX_TYPE_UNIQUE) {
+//                continue;
+//            }
+//
+//            $groupCond  = array();
+//            $useUnqCond = true;
+//            foreach($indexData['COLUMNS_LIST'] as $column) {
+//                if (!in_array($column, $insertCols)) {
+//                    $useUnqCond = false;
+//                }
+//                if (false !== ($k = array_search($column, $updateCols))) {
+//                    unset($updateCols[$k]);
+//                }
+//                $groupCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($column));
+//            }
+//            if (!empty($groupCond) && $useUnqCond) {
+//                $whereCond[] = sprintf('(%s)', join(' AND ', $groupCond));
+//            }
+//        }
+//
+//        // validate where condition
+//        if (empty($whereCond)) {
+//            //throw new Varien_Db_Exception('Invalid primary or unique columns in merge data');
+//            var_dump(func_get_args(), $select->assemble());
+//            mageDebugBacktrace();
+//            exit;
+//        }
+//
+//        // prepare insert columns condition
+//        $insertCond = array_map(array($this, 'quoteIdentifier'), $insertCols);
+//
+//        $query = sprintf('INSERT INTO %1$s (%2$s) SELECT * FROM (%3$s) t2'
+//            . ' WHERE NOT EXISTS (SELECT 1 FROM %1$s t3 WHERE (%4$s))',
+//            $this->quoteIdentifier($table),
+//            join(', ', $insertCond),
+//            $select->assemble(),
+//            join(') OR (', $whereCond)
+//        );
+//
+//        if ($mode == self::INSERT_ON_DUPLICATE && $updateCols) {
+//            $updateCond = array();
+//            foreach ($updateCols as $updateCol) {
+//                $updateCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($updateCol));
+//            }
+//            $query = sprintf('%s UPDATE t3 SET %s FROM (%s) t2 INNER JOIN %s t3 ON (%s)',
+//                $query,
+//                join(', ', $updateCond),
+//                $select->assemble(),
+//                $this->quoteIdentifier($table),
+//                join(') OR (', $whereCond)
+//            );
+//        }
+//         // add only for PDO MSSQL (on Windows)
+//        // $query = "EXEC({'$query')";
+//        return $query;
+//    }
+
+    /**
+     * Get insert to table from select
+     *
+     * @param Varien_Db_Select $select
+     * @param string $table
+     * @param array $fields
+     * @return string
+     */
+
+
+
+//
+//
+//    protected function _getInsertFromSelectSql(Varien_Db_Select $select, $table, array $fields = array())
+//    {
+//        $query = sprintf('INSERT INTO %s ', $this->quoteIdentifier($table));
+//        if ($fields) {
+//            $columns = array_map(array($this, 'quoteIdentifier'), $fields);
+//            $query .= sprintf('(%s)', join(', ', $columns));
+//        }
+//
+//        $query .= $select->assemble();
+//
+//        return $query;
+//    }
+
+
+public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
     {
         if (!$mode) {
             return $this->_getInsertFromSelectSql($select, $table, $fields);
@@ -3130,7 +3266,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $i         = 0;
         $colsPart  = $select->getPart(Zend_Db_Select::COLUMNS);
         if (count($colsPart) != count($fields)) {
-            throw new Varien_Db_Exception('Wrong columns count in SELECT for INSERT,');
+            throw new Varien_Db_Exception('Wrong columns count in SELECT for INSERT');
         }
         foreach ($colsPart as &$colData) {
             $colData[2] = $fields[$i];
@@ -3186,38 +3322,39 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         // validate where condition
         if (empty($whereCond)) {
-            //throw new Varien_Db_Exception('Invalid primary or unique columns in merge data');
-            var_dump(func_get_args(), $select->assemble());
-            mageDebugBacktrace();
-            exit;
+            throw new Varien_Db_Exception('Invalid primary or unique columns in merge data');
         }
 
-        // prepare insert columns condition
-        $insertCond = array_map(array($this, 'quoteIdentifier'), $insertCols);
-
-        $query = sprintf('INSERT INTO %1$s (%2$s) SELECT * FROM (%3$s) t2'
-            . ' WHERE NOT EXISTS (SELECT 1 FROM %1$s t3 WHERE (%4$s))',
+        $query = sprintf("MERGE INTO %s t3\nUSING (%s) t2\nON ( %s )",
             $this->quoteIdentifier($table),
-            join(', ', $insertCond),
             $select->assemble(),
-            join(') OR (', $whereCond)
+            join(' OR ', $whereCond)
         );
 
+        // UPDATE Section
         if ($mode == self::INSERT_ON_DUPLICATE && $updateCols) {
             $updateCond = array();
-            foreach ($updateCols as $updateCol) {
-                $updateCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($updateCol));
+            foreach ($updateCols as $column) {
+                $updateCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($column));
             }
-            $query = sprintf('%s UPDATE t3 SET %s FROM (%s) t2 INNER JOIN %s t3 ON (%s)',
+            $query = sprintf("%s\nWHEN MATCHED THEN UPDATE SET %s",
                 $query,
-                join(', ', $updateCond),
-                $select->assemble(),
-                $this->quoteIdentifier($table),
-                join(') OR (', $whereCond)
-            );
+                join(', ', $updateCond));
         }
-         // add only for PDO MSSQL (on Windows)
-        $query = "EXEC({$this->quote($query)})";
+
+        // INSERT SECTION
+        // prepare insert columns condition and values
+        $insertCond = array_map(array($this, 'quoteIdentifier'), $insertCols);
+        $insertVals = array();
+        foreach ($insertCols as $column) {
+            $insertVals[] = sprintf('t2.%s', $this->quoteIdentifier($column));
+        }
+        $query = sprintf("%s\nWHEN NOT MATCHED THEN INSERT (%s) VALUES (%s);",
+            $query,
+            join(', ', $insertCond),
+            join(', ', $insertVals)
+        );
+
         return $query;
     }
 
@@ -3241,6 +3378,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         return $query;
     }
+
 
     /**
      * Get update table query using select object for join and update
@@ -3400,30 +3538,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         if ($triggerBody == ""){
             $triggerName = $this->_getTriggerName($tableName,'',self::TRIGGER_CASCADE_DEL);
-            $describe = $this->describeTable($tableName);
 
             $triggerBody = "CREATE TRIGGER [{$triggerName}]                 \n"
                 . "    ON  {$tableName}                                     \n"
                 . "    INSTEAD OF DELETE                                    \n"
                 . "AS                                                       \n";
-//            foreach ($this->_getPrimaryKeyColumns($tableName)  as $column) {
-//                $triggerBody = $triggerBody
-//                    . "    DECLARE @old_{$column} {$this->_getColumnDataType($tableName, $column)}\n";
-//            }
-
             $triggerBody = $triggerBody
                 . "BEGIN                                                    \n"
                 . "    SET NOCOUNT ON;                                      \n"
                 . "    BEGIN TRANSACTION                                    \n"
                 . "    BEGIN TRY                                            \n";
-
-//            foreach ($this->_getPrimaryKeyColumns($tableName)  as $column) {
-//                $triggerBody = $triggerBody
-//                . "        SELECT @old_{$column} = {$column}\n"
-//                . "        FROM deleted                                     \n";
-//            }
             $triggerBody = $triggerBody . "  /*place core here*/            \n"
-                . "        DELETE t FROM {$tableName} t INNER JOIN deleted ON                   \n";
+                . "        DELETE t FROM {$tableName} t INNER JOIN deleted ON\n";
 
             $pKeysCond = array();
             foreach ($this->_getPrimaryKeyColumns($tableName) as $column) {
