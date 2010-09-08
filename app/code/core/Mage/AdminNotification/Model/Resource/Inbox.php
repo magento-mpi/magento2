@@ -54,7 +54,7 @@ class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resour
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->getMainTable())
-            ->order($this->getIdFieldName() . ' desc')
+            ->order($this->getIdFieldName() . ' DESC')
             ->where('is_read != 1')
             ->where('is_remove != 1')
             ->limit(1);
@@ -85,11 +85,7 @@ class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resour
             ->group('severity')
             ->where('is_remove=?', 0)
             ->where('is_read=?', 0);
-        $return = array();
-        $rowSet = $adapter->fetchAll($select);
-        foreach ($rowSet as $row) {
-            $return[$row['severity']] = $row['count_notice'];
-        }
+        $return = $adapter->fetchPairs($select);
         return $return;
     }
 

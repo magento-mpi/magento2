@@ -35,7 +35,7 @@
 class Mage_AdminNotification_Model_Resource_Inbox_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Resource collection initalization
+     * Resource collection initialization
      *
      */
     protected function _construct()

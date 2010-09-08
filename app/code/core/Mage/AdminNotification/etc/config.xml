@@ -59,11 +59,6 @@
                 </setup>
             </adminnotification_setup>
         </resources>
-        <blocks>
-            <adminnotification>
-                <class>Mage_AdminNotification_Block</class>
-            </adminnotification>
-        </blocks>
     </global>
     <adminhtml>
         <translate>
