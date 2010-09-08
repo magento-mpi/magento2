@@ -2921,12 +2921,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $deleteAction = ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE) ?
             "        DELETE t FROM {$tableName} t                           \n"
-            . "        INNER JOIN deleted ON                                \n"
+            . "        INNER JOION deleted ON                               \n"
             . "         t.{$columnName} = deleted.{$refColumnName};         \n":
-            "        UPDATE t                                               \n"
+            "        UPDATE t \n"
             . "        SET t.{$columnName} = NULL                           \n"
             . "      FROM {$tableName} t                                    \n"
-            . "        INNER JOIN deleted ON                                \n"
+            . "        INNER JOION deleted ON                                 \n"
             . "         t.{$columnName} = deleted.{$refColumnName};         \n";
         $sqlTrigger = $this->_getInsteadTrrigerBody($refTableName);
         $sqlTrigger = str_replace(
@@ -3213,7 +3213,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 join(') OR (', $whereCond)
             );
         }
-
+         // add only for PDO MSSQL (on Windows)
+        $query = "EXEC('{$query}')";
         return $query;
     }
 
