@@ -56,8 +56,6 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Website Id')
     ->addColumn('email', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Email')
     ->addColumn('group_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
@@ -65,8 +63,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Group Id')
     ->addColumn('increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Increment Id')
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
@@ -122,8 +118,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Attribute Set Id')
     ->addColumn('increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Increment Id')
     ->addColumn('parent_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
@@ -374,8 +368,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Entity Id')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Value')
     ->addIndex($installer->getIdxName('customer_address_entity_varchar', array('entity_id', 'attribute_id'), true),
         array('entity_id', 'attribute_id'), array('unique' => true))
@@ -625,8 +617,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Entity Id')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Value')
     ->addIndex($installer->getIdxName('customer_entity_varchar', array('entity_id', 'attribute_id'), true),
         array('entity_id', 'attribute_id'), array('unique' => true))
@@ -662,8 +652,6 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Customer Group Id')
     ->addColumn('customer_group_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Customer Group Code')
     ->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
