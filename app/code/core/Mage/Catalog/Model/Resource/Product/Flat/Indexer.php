@@ -614,7 +614,6 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             $adapter->resetDdlCache($tableName);
             $describe   = $adapter->describeTable($tableName);
             $indexList  = $adapter->getIndexList($tableName);
-
             $addColumns     = array_diff_key($columns, $describe);
             $dropColumns    = array_diff_key($describe, $columns);
             $modifyColumns  = array();
@@ -677,11 +676,21 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
             // modify colunm
             foreach ($modifyColumns as $columnName => $columnProp) {
+                if (!isset($columnProp['comment'])) {
+                    $columnProp['COMMENT'] = ucwords(str_replace('_', ' ', $columnName));
+                } else {
+                    $columnProp['COMMENT'] = $columnProp['comment'];
+                }
                 $adapter->changeColumn($tableName, $columnName, $columnName, $columnProp);
             }
 
             // add columns
             foreach ($addColumns as $columnName => $columnProp) {
+                if (!isset($columnProp['comment'])) {
+                    $columnProp['COMMENT'] = ucwords(str_replace('_', ' ', $columnName));
+                } else {
+                    $columnProp['COMMENT'] = $columnProp['comment'];
+                }
                 $adapter->addColumn($tableName, $columnName, $columnProp);
             }
 

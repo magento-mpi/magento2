@@ -367,9 +367,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         } else if (is_null($ddlType) && isset($options['COLUMN_TYPE'])) {
             $ddlType = $options['COLUMN_TYPE'];
         }
-
         if (empty($ddlType) || !isset($this->_ddlColumnTypes[$ddlType])) {
-            throw new Varien_Exception('Invalid column defination data');
+            throw new Varien_Exception('Invalid column definition data');
         }
 
 
@@ -412,14 +411,64 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 break;
         }
 
-        if (array_key_exists('DEFAULT', $options)) {
-            $cDefault = $options['DEFAULT'];
-        }
+        $cDefault = $this->_getDefaultValue($options);
         if (array_key_exists('NULLABLE', $options)) {
             $cNullable = (bool)$options['NULLABLE'];
         }
         if (!empty($options['IDENTITY']) || !empty($options['AUTO_INCREMENT'])) {
             $cIdentity = true;
+        }
+
+        if ($options['TARGET_QUERY'] == 'alter') {
+            $colDef =  sprintf('%s%s%s',
+                $cType,
+                $cNullable ? ' NULL' : ' NOT NULL',
+                $cIdentity ? ' identity (1,1)' : ''
+            );
+        } else {
+            $colDef =  sprintf('%s%s%s%s',
+                $cType,
+                $cNullable ? ' NULL' : ' NOT NULL',
+                $cDefault !== false ? $this->quoteInto(' default ?', $cDefault) : '',
+                $cIdentity ? ' identity (1,1)' : ''
+            );
+        }
+
+        return $colDef;
+    }
+    
+    /**
+     * Get default value by column options
+     * 
+     * @param array $options
+     * @return bool|string
+     * @throws Varien_Exception
+     */
+    protected function _getDefaultValue($options)
+    {
+        // convert keys to upper case
+        foreach ($options as $k => $v) {
+            unset($options[$k]);
+            $options[strtoupper($k)] = $v;
+        }
+        // detect and validate column type
+        $ddlType = null;
+        if (is_null($ddlType) && isset($options['TYPE'])) {
+            $ddlType = $options['TYPE'];
+        } else if (is_null($ddlType) && isset($options['COLUMN_TYPE'])) {
+            $ddlType = $options['COLUMN_TYPE'];
+        }
+
+        if (empty($ddlType) || !isset($this->_ddlColumnTypes[$ddlType])) {
+            throw new Varien_Exception('Invalid column definition data');
+        }
+        
+        $cDefault = false;
+        if (array_key_exists('DEFAULT', $options)) {
+            $cDefault = $options['DEFAULT'];
+        }
+        if (array_key_exists('NULLABLE', $options)) {
+            $cNullable = (bool)$options['NULLABLE'];
         }
 
         // prepare default value string
@@ -436,16 +485,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         } else if (is_null($cDefault) && $cNullable) {
             $cDefault = new Zend_Db_Expr('NULL');
         }
-
-
-        $colDef =  sprintf('%s%s%s%s',
-            $cType,
-            $cNullable ? ' NULL' : ' NOT NULL',
-            $cDefault !== false ? $this->quoteInto(' default ?', $cDefault) : '',
-            $cIdentity ? ' identity (1,1)' : ''
-        );
-
-        return $colDef;
+        return $cDefault;
     }
 
     /**
@@ -1011,6 +1051,52 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         return $result;
     }
+    
+    /**
+     * Get constraint name for column
+     * 
+     * @param string $tableName
+     * @param string $columnName
+     * @return bool|string
+     */
+    protected function _getDeafaultConstraint($tableName, $columnName)
+    {
+        $defaultConstraintQuery = "SELECT d.name AS constraint_name
+            FROM sys.default_constraints d
+            INNER JOIN sys.all_columns c ON d.parent_object_id = c.object_id 
+            AND d.parent_column_id = c.column_id
+            WHERE c.object_id =  object_id('%s')
+            AND c.name = '%s'";
+        
+         $query = sprintf($defaultConstraintQuery,
+            $tableName,
+            $columnName);
+        return $this->raw_fetchRow($query);
+ 
+    }
+    
+    /**
+     * Add default value when column is modified
+     * 
+     * @param string $tableName
+     * @param string $columnName
+     * @param string $defaultValue
+     * @resturn Zend_Db_Statement_Interface
+     */
+    protected function _addColumnDefaultValue($tableName, $columnName, $defaultValue)
+    {
+        $constraint = $this->_getDeafaultConstraint($tableName, $columnName);
+        if ($constraint) {
+            $query = sprintf("ALTER %s DROP CONSTARINT %s",
+                $tableName, $this->quoteIdentifier($constraint['constraint_name'])
+            );
+            $this->raw_query($query);
+        }
+        $constraintName = strtoupper('PF__' . substr($tableName, 0, 12) . '_' . substr($columnName, 0, 12));
+        $query = sprintf("ALTER TABLE %s ADD CONSTRAINT %s DEFAULT ('%s') FOR %s",
+            $tableName, $constraintName, $defaultValue, $columnName);
+        $this->raw_query($query);
+    }
 
     /**
      * Modify the column definition
@@ -1028,20 +1114,26 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             throw new Exception(sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName));
         }
 
+        $defaultValue = false;
         if (is_array($definition)) {
+            $definition['TARGET_QUERY'] = 'alter';
+            $defaultValue = $this->_getDefaultValue($definition);
             $definition = $this->_getColumnDefinition($definition);
         }
 
-        $sql = sprintf('ALTER TABLE %s ALTER COLUMN i %s %s',
+        $sql = sprintf('ALTER TABLE %s ALTER COLUMN %s %s',
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
             $this->quoteIdentifier($columnName),
             $definition);
 
         $result = $this->raw_query($sql);
 
+        if ($defaultValue) {
+            $this->_addColumnDefaultValue($tableName, $columnName, $defaultValue);
+        }
         $this->resetDdlCache($tableName, $schemaName);
 
-        return $result;
+        return $this;
     }
 
     /**
@@ -1387,8 +1479,15 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $fieldIndexType = 'Index_type';
 
                 $indexType = $row[$fieldIndexType];
-
-                $upperKeyName = strtoupper($row[$fieldKeyName]);
+                switch ($indexType) {
+                    case 'primary':
+                          $upperKeyName = 'PRIMARY';
+                          break;
+                    default:
+                        $upperKeyName = strtoupper($row[$fieldKeyName]);
+                        break;                    
+                }
+                
                 if (isset($ddl[$upperKeyName])) {
                     $ddl[$upperKeyName]['fields'][] = $row[$fieldColumn]; // for compatible
                     $ddl[$upperKeyName]['COLUMNS_LIST'][] = $row[$fieldColumn];
@@ -2387,6 +2486,24 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function getCheckSql($condition, $true, $false)
     {
         return new Zend_Db_Expr("CASE WHEN {$condition} THEN {$true} ELSE {$false} END");
+    }
+    
+    /**
+     * Generate fragment of SQL, that check value against multiple condition cases
+     * and return different result depends on them
+     *
+     * @param string $valueName Name of value to check
+     * @param array $casesResults Cases and results
+     * @param string $defaultValue value to use if value doesnt conforme to any cases
+     */
+    public function getCaseSql($valueName, $casesResults, $defaultValue)
+    {
+        $expression = "CASE {$valueName}";
+        foreach ($casesResults as $case => $result) {
+            $expression .= " WHEN {$case} THEN {$result}";
+        }
+        $expression .= " ELSE {$defaultValue} END";
+        return new Zend_Db_Expr($expression);
     }
 
     /**
