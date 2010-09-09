@@ -211,7 +211,7 @@
             <active>false</active>
         </Mage_Shipping>
         <Mage_Sitemap>
-            <active>false</active>
+            <active>true</active>
         </Mage_Sitemap>
         <Mage_Strikeiron>
             <active>false</active>
