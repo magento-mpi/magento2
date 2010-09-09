@@ -59,28 +59,16 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Shareable flag')
     ->addColumn('link_url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Link Url')
     ->addColumn('link_file', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Link File')
     ->addColumn('link_type', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Link Type')
     ->addColumn('sample_url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Sample Url')
     ->addColumn('sample_file', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Sample File')
     ->addColumn('sample_type', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Sample Type')
     ->addIndex($installer->getIdxName('downloadable/link', 'product_id'), 'product_id')
     ->addIndex($installer->getIdxName('downloadable/link', array('product_id','sort_order')),
@@ -144,8 +132,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Order ID')
     ->addColumn('order_increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Order Increment ID')
     ->addColumn('order_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
@@ -164,16 +150,10 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Customer ID')
     ->addColumn('product_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Product name')
     ->addColumn('product_sku', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Product sku')
     ->addColumn('link_section_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Link_section_title')
     ->addIndex($installer->getIdxName('downloadable/link_purchased', 'order_id'), 'order_id')
 //    ->addForeignKey($installer->getFkName('downloadable/link_purchased', 'order_id', 'sales/order', 'entity_id'),
@@ -217,8 +197,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Product ID')
     ->addColumn('link_hash', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Link hash')
     ->addColumn('number_of_downloads_bought', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
@@ -236,8 +214,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Link ID')
     ->addColumn('link_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Link Title')
     ->addColumn('is_shareable', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
@@ -245,20 +221,12 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Shareable Flag')
     ->addColumn('link_url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'link url')
     ->addColumn('link_file', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'link file')
     ->addColumn('link_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'link type')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'status')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
@@ -300,8 +268,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store ID')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Title')
     ->addIndex($installer->getIdxName('downloadable/link_title', array('link_id', 'store_id'), true),
         array('link_id', 'store_id'), true)
@@ -333,16 +299,10 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Product ID')
     ->addColumn('sample_url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Sample URL')
     ->addColumn('sample_file', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Sample file')
     ->addColumn('sample_type', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Sample Type')
     ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
@@ -378,8 +338,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store ID')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Title')
     ->addIndex($installer->getIdxName('downloadable/sample_title', array('sample_id', 'store_id'), true),
         array('sample_id', 'store_id'), true)

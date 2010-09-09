@@ -138,7 +138,7 @@ $table = $installer->getConnection()
         ), 'Code')
     ->addColumn('website_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
-	'nullable'  => false,
+        'nullable'  => false,
         'default'   => '0',
         ), 'Website Id')
     ->addColumn('group_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(

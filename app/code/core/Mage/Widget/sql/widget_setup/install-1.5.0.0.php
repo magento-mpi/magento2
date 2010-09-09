@@ -41,10 +41,8 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Widget Id')
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
         ), 'Widget code for template directive')
     ->addColumn('type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
         ), 'Block Model')
     ->addColumn('parameters', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => true,
@@ -65,22 +63,17 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Instance Id')
     ->addColumn('type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Block Model')
     ->addColumn('package_theme', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Package Theme')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Widget Title')
     ->addColumn('store_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         'default'   => '0',
         ), 'Store ids')
-    ->addColumn('widget_parameters', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(), 'Widget parameters')
+    ->addColumn('widget_parameters', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+        ), 'Widget parameters')
     ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -106,26 +99,16 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Instance Id')
     ->addColumn('group', Varien_Db_Ddl_Table::TYPE_TEXT, 25, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Block Group Type')
     ->addColumn('layout_handle', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Layout Handle')
     ->addColumn('block_reference', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Block Reference')
     ->addColumn('for', Varien_Db_Ddl_Table::TYPE_TEXT, 25, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'For instance entities')
     ->addColumn('entities', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Catalog entities (comma separated)')
     ->addColumn('template', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Path to widget template')
     ->addIndex($installer->getIdxName('widget/widget_instance_page', 'instance_id'), 'instance_id')
     ->addForeignKey($installer->getFkName('widget/widget_instance_page', 'instance_id', 'widget/widget_instance', 'instance_id'),

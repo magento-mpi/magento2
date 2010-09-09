@@ -51,8 +51,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Sharing flag (0 or 1)')
     ->addColumn('sharing_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Sharing encrypted code')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Last updated date')

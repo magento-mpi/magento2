@@ -106,7 +106,7 @@
             <active>true</active>
         </Mage_Directory>
         <Mage_Downloadable>
-            <active>false</active>
+            <active>true</active>
         </Mage_Downloadable>
         <Mage_Eav>
             <active>true</active>

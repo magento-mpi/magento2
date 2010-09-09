@@ -55,6 +55,7 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
         $writeAdapter   = $this->_getWriteAdapter();
         $linkTitleTable = $this->getTable('downloadable/link_title');
         $linkPriceTable = $this->getTable('downloadable/link_price');
+
         $select = $readAdapter->select()
             ->from($this->getTable('downloadable/link_title'))
             ->where('link_id=:link_id AND store_id=:store_id');
@@ -62,6 +63,7 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
             'link_id'   => $linkObject->getId(),
             'store_id'  => (int)$linkObject->getStoreId()
         );
+
         if ($readAdapter->fetchOne($select, $bind)) {
             $where = $readAdapter->quoteInto('link_id = ?', $linkObject->getId()) .
                 ' AND ' . $readAdapter->quoteInto('store_id = ?', (int)$linkObject->getStoreId());
@@ -69,9 +71,11 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
                 $writeAdapter->delete(
                     $linkTitleTable, $where);
             } else {
+                $insertData = array('title' => $linkObject->getTitle());
                 $writeAdapter->update(
                     $linkTitleTable,
-                    array('title' => $linkObject->getTitle()), $where);
+                    $insertData,
+                    $where);
             }
         } else {
             if (!$linkObject->getUseDefaultTitle()) {
@@ -101,14 +105,15 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
             } else {
                 $writeAdapter->update(
                     $linkPriceTable,
-                    array('price' => $linkObject->getPrice()), $where);
+                    array('price' => $linkObject->getPrice()),
+                    $where);
             }
         } else {
             if (!$linkObject->getUseDefaultPrice()) {
                 $dataToInsert[] = array(
                     'link_id'    => $linkObject->getId(),
                     'website_id' => (int)$linkObject->getWebsiteId(),
-                    'price'      => $linkObject->getPrice()
+                    'price'      => (float)$linkObject->getPrice()
                 );
                 if ($linkObject->getOrigData('link_id') != $linkObject->getLinkId()) {
                     $_isNew = true;
