@@ -507,7 +507,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $cIdentity = true;
         }
 
-        if ($options['TARGET_QUERY'] == 'alter') {
+        if (isset($options['TARGET_QUERY']) && $options['TARGET_QUERY'] == 'alter') {
             $colDef =  sprintf('%s%s%s',
                 $cType,
                 $cNullable ? ' NULL' : ' NOT NULL',
