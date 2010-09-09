@@ -180,12 +180,13 @@ class Mage_Sitemap_Model_Resource_Catalog_Category extends Mage_Core_Model_Resou
                 $this->_select->where('t1_'.$attributeCode.'.value'.$conditionRule, $value);
             }
             else {
+                $ifCase = $this->_select->getAdapter()->getCheckSql('t2_'.$attributeCode.'.value_id > 0', 't2_'.$attributeCode.'.value', 't1_'.$attributeCode.'.value');
                 $this->_select->joinLeft(
                     array('t2_'.$attributeCode => $attribute['table']),
                     $this->_getWriteAdapter()->quoteInto('t1_'.$attributeCode.'.entity_id = t2_'.$attributeCode.'.entity_id AND t1_'.$attributeCode.'.attribute_id = t2_'.$attributeCode.'.attribute_id AND t2_'.$attributeCode.'.store_id=?', $storeId),
                     array()
                 )
-                ->where('IF(t2_'.$attributeCode.'.value_id>0, t2_'.$attributeCode.'.value, t1_'.$attributeCode.'.value)'.$conditionRule, $value);
+                ->where('('.$ifCase.')'.$conditionRule, $value);
             }
         }
 

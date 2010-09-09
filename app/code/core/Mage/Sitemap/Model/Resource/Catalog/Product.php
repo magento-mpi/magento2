@@ -113,12 +113,13 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
                 $this->_select->where('t1_'.$attributeCode.'.value'.$conditionRule, $value);
             }
             else {
+                $ifCase = $this->_select->getAdapter()->getCheckSql('t2_'.$attributeCode.'.value_id > 0', 't2_'.$attributeCode.'.value', 't1_'.$attributeCode.'.value');
                 $this->_select->joinLeft(
                     array('t2_'.$attributeCode => $attribute['table']),
                     $this->_getWriteAdapter()->quoteInto('t1_'.$attributeCode.'.entity_id = t2_'.$attributeCode.'.entity_id AND t1_'.$attributeCode.'.attribute_id = t2_'.$attributeCode.'.attribute_id AND t2_'.$attributeCode.'.store_id=?', $storeId),
                     array()
                 )
-                ->where('IF(t2_'.$attributeCode.'.value_id>0, t2_'.$attributeCode.'.value, t1_'.$attributeCode.'.value)'.$conditionRule, $value);
+                ->where('('.$ifCase.')'.$conditionRule, $value);
             }
         }
 
@@ -160,8 +161,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
                 array('ur' => $this->getTable('core/url_rewrite')),
                 join(' AND ', $urCondions),
                 array('url' => 'request_path')
-            )
-            ;
+            );
 
         $this->_addFilter($storeId, 'visibility', Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds(), 'in');
         $this->_addFilter($storeId, 'status', Mage::getSingleton('catalog/product_status')->getVisibleStatusIds(), 'in');

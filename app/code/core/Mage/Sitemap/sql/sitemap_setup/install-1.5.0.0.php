@@ -43,13 +43,10 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Sitemap Id')
     ->addColumn('sitemap_type', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => true,
         ), 'Sitemap Type')
     ->addColumn('sitemap_filename', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => true,
         ), 'Sitemap Filename')
     ->addColumn('sitemap_path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
         ), 'Sitemap Path')
     ->addColumn('sitemap_time', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => true,
