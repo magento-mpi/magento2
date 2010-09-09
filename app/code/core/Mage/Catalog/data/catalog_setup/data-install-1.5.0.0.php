@@ -54,9 +54,9 @@ $category->setStoreId(0)
 
 $installer->setConfigData(Mage_Catalog_Helper_Category::XML_PATH_CATEGORY_ROOT_ID, $category->getId());
 
-$installer->addAttributeGroup('catalog_product', 'Default', 'Design', 6);
+$installer->addAttributeGroup(Mage_Catalog_Model_Product::ENTITY, 'Default', 'Design', 6);
 
-$entityTypeId     = $installer->getEntityTypeId('catalog_category');
+$entityTypeId     = $installer->getEntityTypeId(Mage_Catalog_Model_Category::ENTITY);
 $attributeSetId   = $installer->getDefaultAttributeSetId($entityTypeId);
 $attributeGroupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 

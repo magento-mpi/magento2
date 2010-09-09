@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Resource_Product_Action extends Mage_Catalog_Model_Reso
     protected function _construct()
     {
         $resource = Mage::getSingleton('core/resource');
-        $this->setType('catalog_product')
+        $this->setType(Mage_Catalog_Model_Product::ENTITY)
             ->setConnection(
                 $resource->getConnection('catalog_read'),
                 $resource->getConnection('catalog_write')

@@ -232,7 +232,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
      * @param int $limit
      * @return array
      */
-    protected function _getSearchableProducts($storeId, array $staticFields, $productIds = null, $lastProductId = 0, 
+    protected function _getSearchableProducts($storeId, array $staticFields, $productIds = null, $lastProductId = 0,
         $limit = 100)
     {
         $store  = Mage::app()->getStore($storeId);
@@ -395,7 +395,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
         if (is_null($this->_searchableAttributes)) {
             $this->_searchableAttributes = array();
 
-            $entityType   = $this->getEavConfig()->getEntityType('catalog_product');
+            $entityType   = $this->getEavConfig()->getEntityType(Mage_Catalog_Model_Product::ENTITY);
             $entity       = $entityType->getEntity();
 
             $attributes = Mage::getResourceModel('catalog/product_attribute_collection')
@@ -473,7 +473,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                 }
             }
         }
-        return $this->getEavConfig()->getAttribute('catalog_product', $attribute);
+        return $this->getEavConfig()->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attribute);
     }
 
     /**

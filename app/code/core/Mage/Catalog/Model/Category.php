@@ -585,7 +585,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         }
         else {
             $attribute = Mage::getSingleton('catalog/config')
-                ->getAttribute('catalog_category', $attributeCode);
+                ->getAttribute(self::ENTITY, $attributeCode);
         }
         return $attribute;
     }

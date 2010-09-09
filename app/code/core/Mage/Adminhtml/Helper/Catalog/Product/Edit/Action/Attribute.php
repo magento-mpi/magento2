@@ -123,7 +123,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
     {
         if (is_null($this->_attributes)) {
             $this->_attributes  = Mage::getSingleton('eav/config')
-                ->getEntityType('catalog_product')
+                ->getEntityType(Mage_Catalog_Model_Product::ENTITY)
                 ->getAttributeCollection()
                 ->addIsNotUniqueFilter()
                 ->setInAllAttributeSetsFilter($this->getProductsSetIds());

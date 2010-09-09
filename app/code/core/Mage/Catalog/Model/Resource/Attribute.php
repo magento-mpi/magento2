@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
 
         if ($result) {
             $attribute = Mage::getSingleton('eav/config')
-                ->getAttribute('catalog_product', $result['attribute_id']);
+                ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $result['attribute_id']);
 
             if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {
                 Mage::throwException(Mage::helper('eav')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));

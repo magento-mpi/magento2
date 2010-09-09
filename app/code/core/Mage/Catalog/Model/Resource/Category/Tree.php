@@ -269,7 +269,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         $resource = Mage::getSingleton('core/resource');
         if (is_null($this->_isActiveAttributeId)) {
             $bind = array(
-                'entity_type_code' => 'catalog_category',
+                'entity_type_code' => Mage_Catalog_Model_Category::ENTITY,
                 'attribute_code'   => 'is_active'
             );
             $select = $this->_conn->select()

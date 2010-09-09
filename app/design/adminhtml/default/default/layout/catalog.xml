@@ -28,6 +28,12 @@
 
 <layout>
     <adminhtml_catalog_product_index>
+        <referense name="head">
+            <action method="setTitle" translate="title"><title>Catalo222g</title></action>
+        </referense>
+        <reference name="menu">
+            <action method="setActive"><menupath>catalog/products</menupath></action>
+        </reference>
         <reference name="content">
             <block type="adminhtml/catalog_product" name="products_list">
                 <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
@@ -94,6 +100,26 @@
     <adminhtml_catalog_product_grid>
         <block type="adminhtml/catalog_product_grid" name="catalog.product.grid" output="toHtml"/>
     </adminhtml_catalog_product_grid>
+
+    <adminhtml_catalog_product_categories>
+        <block type="adminhtml/catalog_product_edit_tab_categories" name="catalog.product.edit.tab.categories" output="toHtml" />
+    </adminhtml_catalog_product_categories>
+
+    <adminhtml_catalog_product_options>
+        <block type="adminhtml/catalog_product_edit_tab_options" name="admin.product.options" output="toHtml" />
+    </adminhtml_catalog_product_options>
+
+    <adminhtml_catalog_product_superconfig>
+        <block type="adminhtml/catalog_product_edit_tab_super_config_grid" name="admin.product.edit.tab.super.config.grid" output="toHtml" />
+    </adminhtml_catalog_product_superconfig>
+
+    <adminhtml_catalog_product_alertspricegrid>
+        <block type="adminhtml/catalog_product_edit_tab_alerts_price" name="admin.product.edit.tab.alerts.price" output="toHtml" />
+    </adminhtml_catalog_product_alertspricegrid>
+
+    <adminhtml_catalog_product_alertsstockgrid>
+        <block type="adminhtml/catalog_product_edit_tab_alerts_stock" name="admin.product.edit.tab.alerts.stock" output="toHtml" />
+    </adminhtml_catalog_product_alertsstockgrid>
 
     <adminhtml_catalog_product_upsell>
         <block type="core/text_list" name="root" output="toHtml">

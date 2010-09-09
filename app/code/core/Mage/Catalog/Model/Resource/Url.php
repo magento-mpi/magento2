@@ -687,7 +687,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _getCategories($categoryIds, $storeId = null, $path = null)
     {
-        $isActiveAttribute = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_active');
+        $isActiveAttribute = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Category::ENTITY, 'is_active');
         $categories        = array();
         $adapter           = $this->_getReadAdapter();
 

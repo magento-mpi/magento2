@@ -95,7 +95,7 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
     public function getTypeId()
     {
         return Mage::getSingleton('catalog/config')
-            ->getEntityType('catalog_product')
+            ->getEntityType(Mage_Catalog_Model_Product::ENTITY)
             ->getEntityTypeId();
     }
 
@@ -201,7 +201,7 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
     public function getAttribute($attribute)
     {
         return Mage::getSingleton('catalog/config')
-            ->getAttribute('catalog_product', $attribute);
+            ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attribute);
     }
 
     /**

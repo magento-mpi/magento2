@@ -57,8 +57,8 @@ class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_A
         $select = clone $this->_getReadAdapter()->select();
         $select->reset();
 
-        $attrPriceId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price');
-        $attrTierPriceId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'tier_price');
+        $attrPriceId = Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'price');
+        $attrTierPriceId = Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'tier_price');
 
         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
 

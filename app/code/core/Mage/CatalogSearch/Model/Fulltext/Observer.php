@@ -87,7 +87,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         /* @var $attribute Mage_Eav_Model_Entity_Attribute */
-        $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+        $entityType = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY);
         /* @var $entityType Mage_Eav_Model_Entity_Type */
 
         if ($attribute->getEntityTypeId() != $entityType->getId()) {

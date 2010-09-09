@@ -74,7 +74,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
     {
         if (!isset($this->_attributes[$attributeCode])) {
             $this->_attributes[$attributeCode] = Mage::getSingleton('catalog/config')
-                ->getAttribute('catalog_product', $attributeCode);
+                ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
         }
         return $this->_attributes[$attributeCode];
     }

@@ -254,7 +254,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             $productIds[] = $p['product_id'];
         }
 
-        $priceAttr = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'price');
+        $priceAttr = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'price');
 
         $select = $read->select()
             ->from($priceAttr->getBackend()->getTable(), array('entity_id', 'store_id', 'value'))
@@ -329,7 +329,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         /**
          * Join default price and websites prices to result
          */
-        $priceAttr  = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'price');
+        $priceAttr  = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'price');
         $priceTable = $priceAttr->getBackend()->getTable();
         $attributeId= $priceAttr->getId();
 

@@ -478,7 +478,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     {
         $resource = Mage::getResourceSingleton('bundle/bundle');
         $selectionResource = Mage::getResourceSingleton('bundle/selection');
-        $productPriceTypeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price_type');
+        $productPriceTypeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'price_type');
 
         if ($wId instanceof Mage_Core_Model_Store) {
             $store = $wId->getId();

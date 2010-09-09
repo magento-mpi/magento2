@@ -42,7 +42,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
      */
     protected function _getAttribute($attributeCode)
     {
-        return Mage::getSingleton('eav/config')->getAttribute('catalog_product', $attributeCode);
+        return Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
     }
 
     /**
@@ -187,7 +187,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
         if (!is_array($parentIds)) {
             $parentIds = array($parentIds);
         }
-        
+
         $result = array();
         if (!empty($parentIds)) {
             $write = $this->_getWriteAdapter();

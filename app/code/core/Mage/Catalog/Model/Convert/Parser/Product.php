@@ -260,7 +260,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     {
         $data = $this->getData();
 
-        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
+        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
 
         $result = array();
         $inventoryFields = array();
@@ -485,7 +485,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
      */
     public function getExternalAttributes()
     {
-        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
+        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
         $productAttributes = Mage::getResourceModel('catalog/product_attribute_collection')
             ->load();
 

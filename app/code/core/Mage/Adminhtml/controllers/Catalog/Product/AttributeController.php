@@ -40,7 +40,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_entityTypeId = Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId();
+        $this->_entityTypeId = Mage::getModel('eav/entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
     }
 
     protected function _initAction()

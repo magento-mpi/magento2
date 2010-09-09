@@ -176,7 +176,7 @@ class Mage_CatalogIndex_Model_Resource_Data_Abstract extends Mage_Core_Model_Res
      */
     protected function _prepareLinkFetchSelect($store, $table, $idField, $whereField, $id, $additionalWheres = array())
     {
-        
+
     }
 
     /**
@@ -253,7 +253,7 @@ class Mage_CatalogIndex_Model_Resource_Data_Abstract extends Mage_Core_Model_Res
     {
         $adapter = $this->_getReadAdapter();
         $attribute = Mage::getSingleton('eav/config')
-            ->getAttribute('catalog_product', $attributeCode);
+            ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
         /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         $attributeTable = $attribute->getBackend()->getTable();
         if ($attribute->getBackendType() == 'static') {

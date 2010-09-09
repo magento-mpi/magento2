@@ -243,7 +243,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection extends Mage_C
                     ->where('main_table.attribute_id IN(?)', $attributeIds);
                 $attributesData = $this->getConnection()->fetchAll($select);
                 if ($attributesData) {
-                    $entityType = 'catalog_product';
+                    $entityType = Mage_Catalog_Model_Product::ENTITY;
                     Mage::getSingleton('eav/config')
                         ->importAttributesData($entityType, $attributesData);
                     foreach ($attributesData as $data) {

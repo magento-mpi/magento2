@@ -718,7 +718,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                     $this->getTable('eav/attribute').'.entity_type_id = '.$this->getTable('eav/entity_type').'.entity_type_id',
                     $this->getTable('eav/attribute').'.*'
                 )
-                ->where($this->getTable('eav/entity_type').'.entity_type_code=?', 'catalog_category');
+                ->where($this->getTable('eav/entity_type').'.entity_type_code=?', Mage_Catalog_Model_Category::ENTITY);
             $this->_attributeCodes = array();
             foreach ($this->_getWriteAdapter()->fetchAll($select) as $attribute) {
                 $this->_attributeCodes[$attribute['attribute_id']] = $attribute;
@@ -1094,7 +1094,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     public function getAttribute($attribute)
     {
         return Mage::getSingleton('catalog/config')
-            ->getAttribute('catalog_category', $attribute);
+            ->getAttribute(Mage_Catalog_Model_Category::ENTITY, $attribute);
     }
 
     /**

@@ -90,7 +90,7 @@ class Mage_CatalogIndex_Model_Resource_Indexer extends Mage_Core_Model_Resource_
      * @param mixed $products applicable products
      * @param mixed $store applicable stores
      */
-    public function clear($eav = true, $price = true, $minimal = true, $finalPrice = true, $tierPrice = true, 
+    public function clear($eav = true, $price = true, $minimal = true, $finalPrice = true, $tierPrice = true,
         $products = null, $store = null)
     {
         $suffix = '';
@@ -145,11 +145,11 @@ class Mage_CatalogIndex_Model_Resource_Indexer extends Mage_Core_Model_Resource_
 
         if ($tierPrice) {
             $tables['tierPrice'] = 'catalogindex/price';
-            $tierPrice = array(Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'tier_price'));
+            $tierPrice = array(Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'tier_price'));
         }
         if ($finalPrice) {
             $tables['finalPrice'] = 'catalogindex/price';
-            $tierPrice = array(Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price'));
+            $tierPrice = array(Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'price'));
         }
         if ($minimal) {
             $tables['minimal'] = 'catalogindex/minimal_price';
@@ -203,7 +203,7 @@ class Mage_CatalogIndex_Model_Resource_Indexer extends Mage_Core_Model_Resource_
     public function reindexTiers($products, $store, $forcedId = null)
     {
         $websiteId = $store->getWebsiteId();
-        $attribute = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'tier_price');
+        $attribute = Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'tier_price');
         $this->_beginInsert(
             'catalogindex/price',
             array('entity_id', 'attribute_id', 'value', 'website_id', 'customer_group_id', 'qty')
@@ -286,7 +286,7 @@ class Mage_CatalogIndex_Model_Resource_Indexer extends Mage_Core_Model_Resource_
      */
     public function reindexFinalPrices($products, $store, $forcedId = null)
     {
-        $priceAttribute = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price');
+        $priceAttribute = Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'price');
         $this->_beginInsert('catalogindex/price', array(
             'entity_id',
             'website_id',
@@ -398,7 +398,7 @@ class Mage_CatalogIndex_Model_Resource_Indexer extends Mage_Core_Model_Resource_
      * @param bool $storeIsWebsite
      * @return Mage_CatalogIndex_Model_Resource_Indexer
      */
-    public function reindexAttributes($products, $attributeIds, $store, $forcedId = null, $table = 'catalogindex/eav', 
+    public function reindexAttributes($products, $attributeIds, $store, $forcedId = null, $table = 'catalogindex/eav',
         $storeIsWebsite = false)
     {
         $storeField = 'store_id';
@@ -642,7 +642,7 @@ class Mage_CatalogIndex_Model_Resource_Indexer extends Mage_Core_Model_Resource_
         $addChildData = Mage::helper('catalog/product_flat')->isAddChildData();
 
         $priceAttribute = Mage::getSingleton('eav/entity_attribute')
-            ->getIdByCode('catalog_product', 'price');
+            ->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'price');
         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
 
         foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {

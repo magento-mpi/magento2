@@ -61,7 +61,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     {
         try {
             $obj = Mage::getSingleton('eav/config')
-                ->getAttribute('catalog_product', $this->getAttribute());
+                ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $this->getAttribute());
         }
         catch (Exception $e) {
             $obj = new Varien_Object();
@@ -121,7 +121,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if (!$this->getData('value_option')) {
             if ($this->getAttribute()==='attribute_set_id') {
                 $entityTypeId = Mage::getSingleton('eav/config')
-                    ->getEntityType('catalog_product')->getId();
+                    ->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
                 $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
                     ->setEntityTypeFilter($entityTypeId)
                     ->load()
@@ -159,7 +159,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if (!$this->getData('value_select_options')) {
             if ($this->getAttribute()==='attribute_set_id') {
                 $entityTypeId = Mage::getSingleton('eav/config')
-                    ->getEntityType('catalog_product')->getId();
+                    ->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
                 $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
                     ->setEntityTypeFilter($entityTypeId)
                     ->load()->toOptionArray();

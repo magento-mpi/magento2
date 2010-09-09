@@ -113,7 +113,7 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
      */
     protected function _joinTables()
     {
-        $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+        $entityType = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY);
         $attribute = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'name');
 
         $joinConditionDefault = sprintf("p_d.attribute_id=%d AND p_d.store_id='0' AND main_table.product_id=p_d.entity_id",

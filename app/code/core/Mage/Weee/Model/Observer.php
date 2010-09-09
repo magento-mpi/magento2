@@ -119,7 +119,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $attributes = array();
         $attributes = Mage::getSingleton('weee/tax')->getWeeeTaxAttributeCodes();
         foreach ($attributes as $attribute) {
-            $attributeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', $attribute);
+            $attributeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, $attribute);
 
             $tableAlias = "weee_{$attribute}_table";
             $on = array();

@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         /* @var $resource Mage_Core_Model_Resource */
         $resource = Mage::getSingleton('core/resource');
 
-        $this->setType('catalog_product')
+        $this->setType(Mage_Catalog_Model_Product::ENTITY)
             ->setConnection('catalog_read', 'catalog_write');
         $this->_productWebsiteTable  = $resource->getTableName('catalog/product_website');
         $this->_productCategoryTable = $resource->getTableName('catalog/category_product');
@@ -590,7 +590,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
                     'entity_id',
                     'value'
                 ),
-                false 
+                false
             ));
         }
 

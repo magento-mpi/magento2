@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Resource_Category_Attribute_Collection
     protected function _initSelect()
     {
         $this->getSelect()->from(array('main_table' => $this->getResource()->getMainTable()))
-            ->where('main_table.entity_type_id=?', Mage::getModel('eav/entity')->setType('catalog_category')->getTypeId())
+            ->where('main_table.entity_type_id=?', Mage::getModel('eav/entity')->setType(Mage_Catalog_Model_Category::ENTITY)->getTypeId())
             ->join(
                 array('additional_table' => $this->getTable('catalog/eav_attribute')),
                 'additional_table.attribute_id=main_table.attribute_id'

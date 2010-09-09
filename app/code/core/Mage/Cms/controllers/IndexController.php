@@ -41,6 +41,11 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction($coreRoute = null)
     {
+        /* @var $model Mage_Catalog_Model_Resource_Product_Option_Value_Collection */
+//        $model = Mage::getResourceModel('catalog/product_option_value_collection');
+//        $model->getValues(0);
+//        print_r($model->getSelect()->__toString());dd();
+
         $pageId = Mage::getStoreConfig(Mage_Cms_Helper_Page::XML_PATH_HOME_PAGE);
         if (!Mage::helper('cms/page')->renderPage($this, $pageId)) {
             $this->_forward('defaultIndex');

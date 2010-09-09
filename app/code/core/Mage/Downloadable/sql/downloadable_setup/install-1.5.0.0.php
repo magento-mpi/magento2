@@ -471,14 +471,14 @@ $fieldList = array(
 
 // make these attributes applicable to downloadable products
 foreach ($fieldList as $field) {
-    $applyTo = explode(',', $installer->getAttribute('catalog_product', $field, 'apply_to'));
+    $applyTo = explode(',', $installer->getAttribute(Mage_Catalog_Model_Product::ENTITY, $field, 'apply_to'));
     if (!in_array('downloadable', $applyTo)) {
         $applyTo[] = 'downloadable';
-        $installer->updateAttribute('catalog_product', $field, 'apply_to', join(',', $applyTo));
+        $installer->updateAttribute(Mage_Catalog_Model_Product::ENTITY, $field, 'apply_to', join(',', $applyTo));
     }
 }
 
-$installer->addAttribute('catalog_product', 'links_purchased_separately', array(
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'links_purchased_separately', array(
     'type'              => 'int',
     'backend'           => '',
     'frontend'          => '',
@@ -500,7 +500,7 @@ $installer->addAttribute('catalog_product', 'links_purchased_separately', array(
     'is_configurable'   => false
 ));
 
-$installer->addAttribute('catalog_product', 'samples_title', array(
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'samples_title', array(
     'type'              => 'varchar',
     'backend'           => '',
     'frontend'          => '',
@@ -522,7 +522,7 @@ $installer->addAttribute('catalog_product', 'samples_title', array(
     'is_configurable'   => false
 ));
 
-$installer->addAttribute('catalog_product', 'links_title', array(
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'links_title', array(
     'type'              => 'varchar',
     'backend'           => '',
     'frontend'          => '',
@@ -544,7 +544,7 @@ $installer->addAttribute('catalog_product', 'links_title', array(
     'is_configurable'   => false
 ));
 
-$installer->addAttribute('catalog_product', 'links_exist', array(
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'links_exist', array(
     'type'                      => 'int',
     'backend'                   => '',
     'frontend'                  => '',

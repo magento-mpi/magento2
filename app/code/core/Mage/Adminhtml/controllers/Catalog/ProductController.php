@@ -166,7 +166,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
              ->_title($this->__('Manage Products'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('catalog/products');
         $this->renderLayout();
     }
 
@@ -304,10 +303,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function categoriesAction()
     {
         $this->_initProduct();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_categories')->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**
@@ -317,10 +314,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function optionsAction()
     {
         $this->_initProduct();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_options', 'admin.product.options')->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**
@@ -442,9 +437,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function superConfigAction()
     {
         $this->_initProduct();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config_grid')->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**
@@ -787,9 +781,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function alertsPriceGridAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_price')->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**
@@ -797,32 +790,16 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function alertsStockGridAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts_stock')->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
+    /**
+     * @deprecated since 1.5.0.0
+     * @return Mage_Adminhtml_Catalog_ProductController
+     */
     public function addCustomersToAlertQueueAction()
     {
-        $alerts = Mage::getSingleton('customeralert/config')->getAlerts();;
-        $block = $this->getLayout()
-            ->createBlock('adminhtml/messages', 'messages');
-        $collection = $block
-            ->getMessageCollection();
-        foreach ($alerts as $key=>$val) {
-            try {
-                if(Mage::getSingleton('customeralert/config')->getAlertByType($key)
-                    ->setParamValues($this->getRequest()->getParams())
-                    ->addCustomersToAlertQueue())
-                {
-                    $collection->addMessage(Mage::getModel('core/message')->success($this->__('Customers for alert %s were successfuly added to queue', Mage::getSingleton('customeralert/config')->getTitleByType($key))));
-                }
-            } catch (Exception $e) {
-                $collection->addMessage(Mage::getModel('core/message')->error($this->__('An error occurred while adding customers for the %s alert. Message: %s',Mage::getSingleton('customeralert/config')->getTitleByType($key),$e->getMessage())));
-                continue;
-            }
-        }
-        print $block->getGroupedHtml();
         return $this;
     }
 
@@ -916,7 +893,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $products = Mage::getModel('catalog/product')->getProductsForMassStatus($productIds);
             foreach ($products as $product) {
                 if (!$product->getSku()) {
-                    throw new Mage_Core_Exception($this->__('Some of the processed products have no SKU value. Please fill it.'));
+                    Mage::throwException($this->__('Some of the processed products have no SKU value. Please fill it.'));
                 }
             }
         }
@@ -941,7 +918,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         /* @var $configurableProduct Mage_Catalog_Model_Product */
         $configurableProduct = Mage::getModel('catalog/product')
-            ->setStoreId(0)
+            ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
             ->load($this->getRequest()->getParam('product'));
 
         if (!$configurableProduct->isConfigurable()) {

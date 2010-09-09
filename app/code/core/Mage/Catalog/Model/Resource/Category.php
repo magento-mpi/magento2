@@ -69,7 +69,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
-        $this->setType('catalog_category')
+        $this->setType(Mage_Catalog_Model_Category::ENTITY)
             ->setConnection(
                 $resource->getConnection('catalog_read'),
                 $resource->getConnection('catalog_write')
@@ -499,7 +499,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     {
         if ($this->_isActiveAttributeId === null) {
             $bind = array(
-                'catalog_category' => 'catalog_category',
+                'catalog_category' => Mage_Catalog_Model_Category::ENTITY,
                 'is_active'        => 'is_active',
             );
             $select = $this->_getReadAdapter()->select()
