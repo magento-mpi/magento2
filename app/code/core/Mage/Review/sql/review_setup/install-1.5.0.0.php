@@ -228,14 +228,4 @@ $table = $installer->getConnection()
     ->setComment('Review Store');
 $installer->getConnection()->createTable($table);
 
-/**
- * Review/Rating module upgrade.
- * Create FK for 'rating/rating_option_vote'
- */
-$table = $installer->getConnection()->addForeignKey(
-    $installer->getFkName('rating/rating_option_vote', 'review_id', 'review/review', 'review_id'),
-    $installer->getTable('rating/rating_option_vote'), 'review_id',
-    $installer->getTable('review/review'), 'review_id',
-    Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);
-
 $this->endSetup();
