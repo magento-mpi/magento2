@@ -38,11 +38,8 @@ $table = $installer->getConnection()
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         'nullable'  => false,
         'primary'   => true,
-        'default'   => '',
         ), 'Resource Code')
     ->addColumn('version', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Resource Version')
     ->addColumn('data_version', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         ), 'Data Version')
@@ -61,12 +58,8 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Website Id')
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Code')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Website Name')
     ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
@@ -142,8 +135,6 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Store Id')
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Code')
     ->addColumn('website_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
@@ -304,16 +295,10 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store Id')
     ->addColumn('area', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Area')
     ->addColumn('package', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Package')
     ->addColumn('theme', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Theme')
     ->addColumn('layout_update_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
@@ -341,7 +326,6 @@ $table = $installer->getConnection()
     ->addColumn('session_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         'primary'   => true,
-        'default'   => '',
         ), 'Session Id')
     ->addColumn('session_expires', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
@@ -375,8 +359,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store Id')
     ->addColumn('translate', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Translate')
     ->addColumn('locale', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
         'nullable'  => false,
@@ -409,16 +391,10 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store Id')
     ->addColumn('id_path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Id Path')
     ->addColumn('request_path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Request Path')
     ->addColumn('target_path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Target Path')
     ->addColumn('is_system', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
@@ -436,7 +412,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('core/url_rewrite', array('target_path', 'store_id')),
         array('target_path', 'store_id'))
     ->addIndex($installer->getIdxName('core/url_rewrite', array('id_path')),
-        array('id_path'))	
+        array('id_path'))
     ->addIndex($installer->getIdxName('core/url_rewrite', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('core/url_rewrite', 'store_id', 'core/store', 'store_id'),
@@ -461,8 +437,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store Id')
     ->addColumn('design', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Design')
     ->addColumn('date_from', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
         ), 'First Date of Design Activity')
@@ -488,12 +462,8 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Variable Id')
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Variable Code')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Variable Name')
     ->addIndex($installer->getIdxName('core/variable', array('code'), true),
         array('code'), array('unique' => true))
