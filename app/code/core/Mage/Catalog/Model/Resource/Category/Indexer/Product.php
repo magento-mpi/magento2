@@ -589,12 +589,13 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->joinLeft(array('ac' => $anchorTable), 'ac.category_id=cp.category_id', array())
             ->where('ac.category_id IS NULL');
 
-            $idxAdapter->insertFromSelect(
-                $select,
+            $query = $select->insertFromSelect(
                 $idxTable,
                 array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
                 false
             );
+            $idxAdapter->query($query);
+
             /**
              * Assign products not associated to any category to root category in index
              */
@@ -608,13 +609,12 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->joinLeft(array('cp' => $this->_categoryProductTable), 'pv.product_id=cp.product_id', array())
             ->where('cp.product_id IS NULL');
 
-            $idxAdapter->insertFromSelect(
-                $select,
+            $query = $select->insertFromSelect(
                 $idxTable,
                 array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
                 false
             );
-
+            $idxAdapter->query($query);
 
             /**
              * Prepare anchor categories products
@@ -624,7 +624,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
 
             $position = $idxAdapter->getCheckSql('ca.category_id=MIN(ce.entity_id)',
                 'MIN(' . $idxAdapter->quoteIdentifier('cp.position') . ')',
-                'ROUND((' . $idxAdapter->quoteIdentifier('ce.position') . ' + 1) * ' .
+                'ROUND((MIN(' . $idxAdapter->quoteIdentifier('ce.position') . ') + 1) * ' .
                 '(MIN(' . $idxAdapter->quoteIdentifier('ce.level') . ') + 1) * 10000, 0) + ' .
                 'MIN(' . $idxAdapter->quoteIdentifier('cp.position') . ')'
                 );
@@ -646,8 +646,9 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             )
             ->joinInner(array('pv' => $enabledTable), 'pv.product_id = cp.product_id', array('position' => $position))
             ->group(array('ca.category_id', 'cp.product_id'));
-            $idxAdapter->insertFromSelect($select, $anchorProductsTable,
+            $query = $select->insertFromSelect($anchorProductsTable,
                 array('category_id', 'product_id', 'position'), false);
+            $idxAdapter->query($query);
 
             /**
              * Add anchor categories products to index
@@ -668,13 +669,12 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->joinInner(array('pv' => $enabledTable), 'pv.product_id = ap.product_id', array('visibility'));
 
 
-            $idxAdapter->insertFromSelect(
-                $select,
+            $query = $select->insertFromSelect(
                 $idxTable,
                 array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
                 false
             );
-
+            $idxAdapter->query($query);
         }
         $this->syncData();
 
