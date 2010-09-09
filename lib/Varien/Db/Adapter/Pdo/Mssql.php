@@ -524,10 +524,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         return $colDef;
     }
-    
+
     /**
      * Get default value by column options
-     * 
+     *
      * @param array $options
      * @return bool|string
      * @throws Varien_Exception
@@ -550,7 +550,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (empty($ddlType) || !isset($this->_ddlColumnTypes[$ddlType])) {
             throw new Varien_Exception('Invalid column definition data');
         }
-        
+
         $cDefault = false;
         if (array_key_exists('DEFAULT', $options)) {
             $cDefault = $options['DEFAULT'];
@@ -1139,10 +1139,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         return $result;
     }
-    
+
     /**
      * Get constraint name for column
-     * 
+     *
      * @param string $tableName
      * @param string $columnName
      * @return bool|string
@@ -1151,21 +1151,21 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $defaultConstraintQuery = "SELECT d.name AS constraint_name
             FROM sys.default_constraints d
-            INNER JOIN sys.all_columns c ON d.parent_object_id = c.object_id 
+            INNER JOIN sys.all_columns c ON d.parent_object_id = c.object_id
             AND d.parent_column_id = c.column_id
             WHERE c.object_id =  object_id('%s')
             AND c.name = '%s'";
-        
+
          $query = sprintf($defaultConstraintQuery,
             $tableName,
             $columnName);
         return $this->raw_fetchRow($query);
- 
+
     }
-    
+
     /**
      * Add default value when column is modified
-     * 
+     *
      * @param string $tableName
      * @param string $columnName
      * @param string $defaultValue
@@ -1175,7 +1175,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $constraint = $this->_getDeafaultConstraint($tableName, $columnName);
         if ($constraint) {
-            $query = sprintf("ALTER %s DROP CONSTARINT %s",
+            $query = sprintf("ALTER TABLE %s DROP CONSTRAINT %s",
                 $tableName, $this->quoteIdentifier($constraint['constraint_name'])
             );
             $this->raw_query($query);
@@ -1573,9 +1573,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                           break;
                     default:
                         $upperKeyName = strtoupper($row[$fieldKeyName]);
-                        break;                    
+                        break;
                 }
-                
+
                 if (isset($ddl[$upperKeyName])) {
                     $ddl[$upperKeyName]['fields'][] = $row[$fieldColumn]; // for compatible
                     $ddl[$upperKeyName]['COLUMNS_LIST'][] = $row[$fieldColumn];
@@ -2822,7 +2822,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         return new Zend_Db_Expr("CASE WHEN {$condition} THEN {$true} ELSE {$false} END");
     }
-    
+
     /**
      * Generate fragment of SQL, that check value against multiple condition cases
      * and return different result depends on them
