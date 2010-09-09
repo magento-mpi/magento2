@@ -579,7 +579,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
              * Add relations between not anchor categories and products
              */
             $select = $idxAdapter->select();
-            /* @var $select Varien_Db_Select */
+            /** @var $select Varien_Db_Select */
             $select->from(
                 array('cp' => $this->_categoryProductTable),
                 array('category_id', 'product_id', 'position', 'is_parent' => new Zend_Db_Expr('1'),
@@ -589,12 +589,12 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->joinLeft(array('ac' => $anchorTable), 'ac.category_id=cp.category_id', array())
             ->where('ac.category_id IS NULL');
 
-            $sql = $select->insertFromSelect(
+            $idxAdapter->insertFromSelect(
+                $select,
                 $idxTable,
                 array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
                 false
             );
-            $idxAdapter->query($sql);
             /**
              * Assign products not associated to any category to root category in index
              */
@@ -608,12 +608,13 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->joinLeft(array('cp' => $this->_categoryProductTable), 'pv.product_id=cp.product_id', array())
             ->where('cp.product_id IS NULL');
 
-            $sql = $select->insertFromSelect(
+            $idxAdapter->insertFromSelect(
+                $select,
                 $idxTable,
                 array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
                 false
             );
-            $idxAdapter->query($sql);
+
 
             /**
              * Prepare anchor categories products
@@ -621,11 +622,11 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             $anchorProductsTable = $this->_getAnchorCategoriesProductsTemporaryTable();
             $idxAdapter->delete($anchorProductsTable);
 
-            $position = $idxAdapter->getCheckSql('ca.category_id=ce.entity_id',
-                $idxAdapter->quoteIdentifier('cp.position'),
-                'ROUND(('.$idxAdapter->quoteIdentifier('ce.position').' + 1) * '.
-                '('.$idxAdapter->quoteIdentifier('ce.level').' + 1) * 10000, 0) + '.
-                $idxAdapter->quoteIdentifier('cp.position')//.')'
+            $position = $idxAdapter->getCheckSql('ca.category_id=MIN(ce.entity_id)',
+                'MIN(' . $idxAdapter->quoteIdentifier('cp.position') . ')',
+                'ROUND((' . $idxAdapter->quoteIdentifier('ce.position') . ' + 1) * ' .
+                '(MIN(' . $idxAdapter->quoteIdentifier('ce.level') . ') + 1) * 10000, 0) + ' .
+                'MIN(' . $idxAdapter->quoteIdentifier('cp.position') . ')'
                 );
 
             $select = $idxAdapter->select()
@@ -643,14 +644,10 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                 'cp.category_id = ce.entity_id',
                 array('product_id')
             )
-            ->joinInner(array('pv' => $enabledTable), 'pv.product_id = cp.product_id', array('position' => $position));
-
-            $sql = $select->insertFromSelect(
-                $anchorProductsTable,
-                array('category_id', 'product_id', 'position'),
-                false
-            );
-            $idxAdapter->query($sql);
+            ->joinInner(array('pv' => $enabledTable), 'pv.product_id = cp.product_id', array('position' => $position))
+            ->group(array('ca.category_id', 'cp.product_id'));
+            $idxAdapter->insertFromSelect($select, $anchorProductsTable,
+                array('category_id', 'product_id', 'position'), false);
 
             /**
              * Add anchor categories products to index
@@ -658,9 +655,10 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             $select = $idxAdapter->select()
             ->from(
                 array('ap' => $anchorProductsTable),
-                array('category_id', 'product_id', 'position',
-                'is_parent' => $idxAdapter->getCheckSql('cp.product_id > 0', 1, 0),
-                'store_id' => new Zend_Db_Expr($storeId))
+                array('category_id', 'product_id',
+                    'position', // => new Zend_Db_Expr('MIN('. $idxAdapter->quoteIdentifier('ap.position').')'),
+                    'is_parent' => $idxAdapter->getCheckSql('cp.product_id > 0', 1, 0),
+                    'store_id' => new Zend_Db_Expr($storeId))
             )
             ->joinLeft(
                 array('cp' => $this->_categoryProductTable),
@@ -669,12 +667,14 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             )
             ->joinInner(array('pv' => $enabledTable), 'pv.product_id = ap.product_id', array('visibility'));
 
-            $sql = $select->insertFromSelect(
+
+            $idxAdapter->insertFromSelect(
+                $select,
                 $idxTable,
                 array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
                 false
             );
-            $idxAdapter->query($sql);
+
         }
         $this->syncData();
 
