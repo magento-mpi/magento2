@@ -96,13 +96,16 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
         $adapter=$this->getConnection();
         $ratingCodeCond = $adapter->getCheckSql('title.value IS NULL', 'rating.rating_code', 'title.value');
         $this->getSelect()
-            ->join(array('rating'    => $this->getTable('rating/rating')),
-                'rating.rating_id = main_table.rating_id')
-            ->joinLeft(array('title' =>$this->getTable('rating/rating_title')),
-                $adapter->quoteInto(
-                    'main_table.rating_id=title.rating_id AND title.store_id = ?',
-                    (int) Mage::app()->getStore()->getId()),
-                array('rating_code' => $ratingCodeCond));
+            ->join(
+                array('rating'    => $this->getTable('rating/rating')),
+                'rating.rating_id = main_table.rating_id',
+                array('rating_code'))
+            ->joinLeft(
+                array('title' => $this->getTable('rating/rating_title')),
+                $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?',
+                    (int)Mage::app()->getStore()->getId()),
+                array('rating_code' => $ratingCodeCond))
+            ;
 
         if ($storeId == null) {
             $storeId = Mage::app()->getStore()->getId();
@@ -117,9 +120,10 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
         }
 
         $this->getSelect()
-            ->join(array('store' => $this->getTable('rating_store')),
+            ->join(
+                array('store' => $this->getTable('rating_store')),
                 'main_table.rating_id = store.rating_id AND ' . $condition)
-            ->group('main_table.vote_id')
+//            ->group('main_table.vote_id')
         ;
 
         $adapter->fetchAll($this->getSelect());
