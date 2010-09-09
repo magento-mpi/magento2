@@ -222,12 +222,10 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         if (!$setIds) {
             return array();
         }
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection */
-        $collection = Mage::getResourceModel('catalog/product_attribute_collection')
-            ->setItemObjectClass('catalog/resource_eav_attribute');
-
-        $collection->getSelect()->distinct(true);
+        /** @var $collection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
+        $collection = Mage::getResourceModel('catalog/product_attribute_collection');
         $collection
+            ->setItemObjectClass('catalog/resource_eav_attribute')
             ->setAttributeSetFilter($setIds)
             ->addStoreLabel(Mage::app()->getStore()->getId())
             ->setOrder('position', 'ASC');

@@ -156,7 +156,7 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
             'count' => $countExpr
         ));
         $select->where("{$table}.min_price > 0");
-        $select->group('range');
+        $select->group($rangeExpr);
 
         return $connection->fetchPairs($select);
     }

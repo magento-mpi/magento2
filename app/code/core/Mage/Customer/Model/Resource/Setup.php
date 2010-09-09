@@ -55,7 +55,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
 
         return $data;
     }
-    
+
     /**
      * Add customer attributes to customer forms
      *
@@ -321,7 +321,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'validate_rules'     => 'a:0:{}',
                         'position'           => 110,
                         'admin_checkout'     => 1,
-                        'options'            => array('Male', 'Female')
+                        'option'             => array('Male', 'Female')
                     ),
                 )
             ),

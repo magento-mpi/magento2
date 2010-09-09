@@ -49,8 +49,6 @@
  * @method Varien_Db_Select reset($part = null)
  * @method Varien_Db_Select columns($cols, $correlationName = null)
  *
- *
- *
  * @category    Varien
  * @package     Varien_Db
  * @author      Magento Core Team <core@magentocommerce.com>

@@ -27,6 +27,9 @@
 /**
  * Catalog product model
  *
+ * @method Mage_Catalog_Model_Resource_Product getResource()
+ * @method Mage_Catalog_Model_Resource_Product _getResource()
+ *
  * @category   Mage
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -1576,29 +1579,51 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getResource()->getEntityType()->getDefaultAttributeSetId();
     }
 
+    /**
+     * Return Catalog Product Image helper instance
+     *
+     * @return Mage_Catalog_Helper_Image
+     */
+    protected function _getImageHelper()
+    {
+        return Mage::helper('catalog/image');
+    }
 
     /**
-     * Deprecated since 1.1.5
+     * Return re-sized image URL
+     *
+     * @deprecated since 1.1.5
+     * @return string
      */
     public function getImageUrl()
     {
-        return (string)Mage::helper('catalog/image')->init($this, 'image')->resize(265);
+        return (string)$this->_getImageHelper()->init($this, 'image')->resize(265);
     }
 
     /**
-     * Deprecated since 1.1.5
+     * Return re-sized small image URL
+     *
+     * @deprecated since 1.1.5
+     * @param int $width
+     * @param int $height
+     * @return string
      */
     public function getSmallImageUrl($width = 88, $height = 77)
     {
-        return (string)Mage::helper('catalog/image')->init($this, 'small_image')->resize($width, $height);
+        return (string)$this->_getImageHelper()->init($this, 'small_image')->resize($width, $height);
     }
 
     /**
-     * Deprecated since 1.1.5
+     * Return re-sized thumbnail image URL
+     *
+     * @deprecated since 1.1.5
+     * @param int $width
+     * @param int $height
+     * @return string
      */
     public function getThumbnailUrl($width = 75, $height = 75)
     {
-        return (string)Mage::helper('catalog/image')->init($this, 'thumbnail')->resize($width, $height);
+        return (string)$this->_getImageHelper()->init($this, 'thumbnail')->resize($width, $height);
     }
 
     /**
@@ -1629,7 +1654,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      *  Check whether attribute reserved or not
      *
-     *  @param    Mage_Eav_Model_Entity_Attribute $attribute Attribute model object
+     *  @param Mage_Catalog_Model_Entity_Attribute $attribute Attribute model object
      *  @return boolean
      */
     public function isReservedAttribute ($attribute)
@@ -1652,15 +1677,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
 
         return $this;
-    }
-
-    /**
-     * @deprecated
-     * @see Mage_Sales_Model_Observer::substractQtyFromQuotes()
-     */
-    protected function _substractQtyFromQuotes()
-    {
-        // kept for legacy purposes
     }
 
     /**
@@ -1709,11 +1725,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      * Get products for mass status through theirs identifiers
      *
      * @param  array $productIds
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     public function getProductsForMassStatus(array $productIds)
     {
-        /** @var Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $products */
+        /** @var $products Mage_Catalog_Model_Resource_Product_Collection */
         $products = $this->getCollection()
                 ->addAttributeToSelect('sku')
                 ->addIdFilter($productIds);

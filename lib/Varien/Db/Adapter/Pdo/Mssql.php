@@ -28,6 +28,8 @@
 /**
  * Varien DB Adapter for MS SQL
  *
+ * @property PDO $_connection
+ *
  * @category    Varien
  * @package     Varien_DB
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -224,10 +226,61 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _dsn()
     {
+        // remove system specific database connect settings
         unset($this->_config['active']);
         unset($this->_config['model']);
         unset($this->_config['initStatements']);
         unset($this->_config['type']);
+
+        if ($this->_config['pdoType'] == 'sqlsrv') {
+            /**
+             * @link http://msdn.microsoft.com/en-US/library/ff628175(v=SQL.90).aspx
+             */
+            $this->_pdoType = 'sqlsrv';
+            // copy config and remove pdoType
+            $config = $this->_config;
+            unset($config['pdoType']);
+
+            $server = '(local)';
+            if (isset($config['host'])) {
+                $server = $config['host'];
+                unset($config['host']);
+            }
+            if (isset($config['server'])) {
+                $server = $this->_config['host'];
+                unset($config['server']);
+            }
+            if (isset($config['port'])) {
+                $separator = ':';
+                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                    $separator = ',';
+                }
+                $server .= $separator . $config['port'];
+                unset($config['port']);
+            }
+            $config = array('server' => $server) + $config;
+            if (isset($config['dbname'])) {
+                $config['database'] = $config['dbname'];
+                unset($config['dbname']);
+            }
+
+            // don't pass the username and password in the DSN
+            unset($config['username']);
+            unset($config['password']);
+            unset($config['options']);
+            unset($config['persistent']);
+            unset($config['driver_options']);
+            unset($config['charset']);
+
+            $dsn = array();
+            // use all remaining parts in the DSN
+            foreach ($config as $key => $val) {
+                $dsn[] = "{$key}={$val}";
+            }
+
+            return sprintf('%s:%s', $this->_pdoType, implode(';', $dsn));
+        }
+
         return parent::_dsn();
     }
 
@@ -247,7 +300,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         parent::_connect();
 
         $this->_connection->exec('SET TEXTSIZE 2147483647');
-        $this->query('SET LANGUAGE us_english');
+        $this->_connection->exec('SET LANGUAGE us_english');
 
         $this->_debugStat(self::DEBUG_CONNECT, '');
     }
@@ -268,6 +321,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         return $this;
     }
 
+    /**
+     * Begin a transaction.
+     */
+    protected function _beginTransaction()
+    {
+        if ($this->_pdoType == 'sqlsrv') {
+            $this->_connection->beginTransaction();
+            return;
+        }
+        return parent::_beginTransaction();
+    }
 
     /**
      * Commit DB transaction
@@ -283,6 +347,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
         $this->_transactionLevel --;
         return $this;
+    }
+
+    /**
+     * Commit a transaction.
+     */
+    protected function _commit()
+    {
+        if ($this->_pdoType == 'sqlsrv') {
+            $this->_connection->commit();
+            return;
+        }
+        return parent::_commit();
     }
 
     /**
@@ -309,6 +385,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
         $this->_transactionLevel --;
         return $this;
+    }
+
+    /**
+     * Roll-back a transaction.
+     */
+    protected function _rollBack()
+    {
+        if ($this->_pdoType == 'sqlsrv') {
+            $this->_connection->rollBack();
+            return;
+        }
+        return parent::_rollBack();
     }
 
     /**
@@ -2015,9 +2103,77 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function insertForce($table, array $bind)
     {
-        $this->query(sprintf('SET IDENTITY_INSERT %s ON', $this-> quoteIdentifier($table)));
+        if ($this->_pdoType == 'sqlsrv') {
+            return $this->_sqlsrvInsertForce($table, $bind);
+        }
+
+        $this->query(sprintf('SET IDENTITY_INSERT %s ON', $this->quoteIdentifier($table)));
         $result = parent::insert($table, $bind);
         $this->query(sprintf('SET IDENTITY_INSERT %s OFF', $this->quoteIdentifier($table)));
+        return $result;
+    }
+
+    /**
+     * Gets the last ID generated automatically by an IDENTITY/AUTOINCREMENT column.
+     *
+     * As a convention, on RDBMS brands that support sequences
+     * (e.g. Oracle, PostgreSQL, DB2), this method forms the name of a sequence
+     * from the arguments and returns the last id generated by that sequence.
+     * On RDBMS brands that support IDENTITY/AUTOINCREMENT columns, this method
+     * returns the last value generated for such a column, and the table name
+     * argument is disregarded.
+     *
+     * On RDBMS brands that don't support sequences, $tableName and $primaryKey
+     * are ignored.
+     *
+     * @param string $tableName   OPTIONAL Name of table.
+     * @param string $primaryKey  OPTIONAL Name of primary key column.
+     * @return string
+     */
+    public function lastInsertId($tableName = null, $primaryKey = null)
+    {
+        if ($this->_pdoType == 'sqlsrv') {
+            $this->_connect();
+            return $this->_connection->lastInsertId($tableName);
+        }
+
+        return parent::lastInsertId($tableName, $primaryKey);
+    }
+
+    /**
+     * Inserts a table row with specified data
+     * Special for Zero values to identity column
+     *
+     * @param string $table
+     * @param array $bind
+     * @return int The number of affected rows.
+     */
+    protected function _sqlsrvInsertForce($table, array $bind)
+    {
+        $sql  = sprintf('SET IDENTITY_INSERT %s ON', $this->quoteIdentifier($table));
+        // extract and quote col names from the array keys
+        $cols = array();
+        $vals = array();
+        foreach ($bind as $col => $val) {
+            $cols[] = $this->quoteIdentifier($col, true);
+            if ($val instanceof Zend_Db_Expr) {
+                $vals[] = $val->__toString();
+                unset($bind[$col]);
+            } else {
+                $vals[] = '?';
+            }
+        }
+
+        // build the statement
+        $sql .= "\n INSERT INTO "
+            . $this->quoteIdentifier($table, true)
+            . ' (' . implode(', ', $cols) . ') '
+            . 'VALUES (' . implode(', ', $vals) . ')'
+            . sprintf("\nSET IDENTITY_INSERT %s OFF", $this->quoteIdentifier($table));
+
+        // execute the statement and return the number of affected rows
+        $stmt = $this->query($sql, array_values($bind));
+        $result = $stmt->rowCount();
         return $result;
     }
 
@@ -2033,6 +2189,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $this->_debugTimer();
         try {
+            if ($this->_pdoType == 'sqlsrv') {
+                $sql  = $this->_prepareQuery($sql, $bind);
+                $bind = $this->_bindParams;
+            }
             $result = parent::query($sql, $bind);
         }
         catch (Exception $e) {
@@ -2041,6 +2201,181 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
         $this->_debugStat(self::DEBUG_QUERY, $sql, $bind, $result);
         return $result;
+    }
+
+    /**
+     * Prepare SQL query
+     * This method converts SQL to string and writes bind to the _bindParams property
+     *
+     * @param Varien_Db_Select|string $sql
+     * @param array $bind
+     * @return string
+     */
+    protected function _prepareQuery($sql, $bind = array())
+    {
+        if ($sql instanceof Zend_Db_Expr) {
+            $sql = $sql->assemble();
+        }
+        $this->_bindParams = array();
+        if (is_array($bind)) {
+            $this->_bindParams = $bind;
+        }
+
+        // don't supported mixed bind
+        // normalize bind
+        $isNamedBind = false;
+        if ($this->_bindParams) {
+            foreach ($this->_bindParams as $k => $v) {
+                if (!is_int($k)) {
+                    $isNamedBind = true;
+                    if (strpos($k, ':') !== 0) {
+                        $this->_bindParams[":{$k}"] = $v;
+                        unset($this->_bindParams[$k]);
+                    }
+                }
+            }
+        }
+
+        if (strpos($sql, ':') !== false || strpos($sql, '?') !== false) {
+            $before = count($this->_bindParams);
+            $sql = preg_replace_callback('#(([\'"])((\\2)|((.*?[^\\\\])\\2)))#', array($this, '_processBindCallback'),
+                $sql);
+            Varien_Exception::processPcreError();
+            if (!$isNamedBind && count($this->_bindParams) != $before) {
+                // normalize mixed bind
+                $sql = $this->_convertMixedBind($sql);
+                $isNamedBind = false;
+            }
+        }
+
+        if (!empty($this->_bindParams) && $isNamedBind) {
+            $sql = $this->_convertSqlBind($sql);
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Convert SQL string named to positional bind and returns SQL with positional bind
+     * This method works with the _bindParams property
+     *
+     * @param string $sql
+     * @return string
+     */
+    protected function _convertSqlBind($sql)
+    {
+        $bind   = array();
+        $map    = array();
+        foreach ($this->_bindParams as $k => $v) {
+            $offset = 0;
+            while (true) {
+                $pos = strpos($sql, $k, $offset);
+                if ($pos === false) {
+                    break;
+                } else {
+                    $offset = $pos + strlen($k);
+                    $bind[$pos] = $v;
+                }
+            }
+
+            $map[$k] = '?';
+        }
+
+        ksort($bind);
+        $this->_bindParams = array_values($bind);
+
+        return strtr($sql, $map);
+    }
+
+    /**
+     * Convert mixed positional and named bind to named bind and returns valid select
+     * This method works with the _bindParams property
+     *
+     * @param string $sql
+     * @return string
+     */
+    protected function _convertMixedBind($sql)
+    {
+        $positions  = array();
+        $offset     = 0;
+        // get positions
+        while (true) {
+            $pos = strpos($sql, '?', $offset);
+            if ($pos !== false) {
+                $positions[] = $pos;
+                $offset = $pos + 1;
+            } else {
+                break;
+            }
+        }
+
+        $bind   = array();
+        $map    = array();
+        foreach ($this->_bindParams as $k => $v) {
+            // positional
+            if (is_int($k)) {
+                if (!isset($positions[$k])) {
+                    continue;
+                }
+                $bind[$positions[$k]] = $v;
+            } else {
+                $offset = 0;
+                while (true) {
+                    $pos = strpos($sql, $k, $offset);
+                    if ($pos === false) {
+                        break;
+                    } else {
+                        $offset = $pos + strlen($k);
+                        $bind[$pos] = $v;
+                    }
+                }
+                $map[$k] = '?';
+            }
+        }
+
+        ksort($bind);
+        $this->_bindParams = array_values($bind);
+
+        return strtr($sql, $map);
+    }
+
+    /**
+     * Callback function for prepare Query Bind RegExp
+     *
+     * @param array $matches
+     * @return string
+     */
+    protected function _processBindCallback($matches)
+    {
+        if (isset($matches[6]) && (
+            strpos($matches[6], "'") !== false ||
+            strpos($matches[6], ":") !== false ||
+            strpos($matches[6], "?") !== false)) {
+            $bindName = ':_mage_bind_var_' . ( ++ $this->_bindIncrement );
+            $this->_bindParams[$bindName] = $this->_unQuote($matches[6]);
+            return ' ' . $bindName;
+        }
+        return $matches[0];
+    }
+
+    /**
+     * Unquote raw string (use for auto-bind)
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function _unQuote($string)
+    {
+        $translate = array(
+            "\\000" => "\000",
+            "\\n"   => "\n",
+            "\\r"   => "\r",
+            "\\\\"  => "\\",
+            "\'"    => "'",
+            "\\\""  => "\"",
+            "\\032" => "\032"
+        );
+        return strtr($string, $translate);
     }
 
     /**
@@ -3365,7 +3700,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 //    }
 
 
-public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
+    public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
     {
         if (!$mode) {
             return $this->_getInsertFromSelectSql($select, $table, $fields);

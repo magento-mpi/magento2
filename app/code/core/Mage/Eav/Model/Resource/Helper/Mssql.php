@@ -42,7 +42,7 @@ class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Help
      */
     public function castField($field)
     {
-        return new Zend_Db_Expr('CAST(CAST(' . $this->_getReadAdapter()->quoteIdentifier($field) . 'AS VARCHAR(8000)) AS SQL_VARIANT)');
+        return new Zend_Db_Expr('CAST(' . $this->_getReadAdapter()->quoteIdentifier($field) . 'AS VARCHAR(8000))');
     }
 
     /**

@@ -63,7 +63,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
             $object->setDateTo(null);
         }
 
-        if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo()) 
+        if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo())
                 && Varien_Date::toTimestamp($object->getDateFrom()) > Varien_Date::toTimestamp($object->getDateTo())) {
             Mage::throwException(Mage::helper('core')->__('Start date cannot be greater than end date.'));
         }
@@ -144,12 +144,12 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
             $condition = '(' . implode(') OR (', $dateConditions) . ')';
             $select->where($condition);
         }
-        
+
         $bind = array(
             'date_to'    => $dateFrom,
             'date_from'  => $dateTo,
-        	'store_id'   => $storeId,
-        	'current_id' => $currentId,
+            'store_id'   => (int)$storeId,
+            'current_id' => (int)$currentId,
         );
 
         $result = $this->_getReadAdapter()->fetchOne($select, $bind);
@@ -176,7 +176,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
             ->where('date_to >= :required_date or date_to IS NULL');
 
         $bind = array(
-            'store_id'      => $storeId,
+            'store_id'      => (int)$storeId,
             'required_date' => $date
         );
 
