@@ -55,7 +55,9 @@ $table = $installer->getConnection()
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Last updated date')
     ->addIndex($installer->getIdxName('wishlist/wishlist', 'shared'), 'shared')
-    ->addIndex($installer->getIdxName('wishlist/wishlist', 'customer_id', true), 'customer_id', true)
+    ->addIndex($installer->getIdxName('wishlist/wishlist', 'customer_id', true),
+        'customer_id',
+        array('unique'=>true))
     ->addForeignKey($installer->getFkName('wishlist/wishlist', 'order_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer/entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
