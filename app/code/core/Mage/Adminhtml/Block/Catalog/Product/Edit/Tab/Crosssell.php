@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
             ->getProductCollection()
             ->setProduct($this->_getProduct())
             ->setPositionOrder()
-            ->addAttributeToSelect('entity_id');
+            ->addAttributeToSelect('*');
 
         if ($this->isReadonly()) {
             $productIds = $this->_getSelectedProducts();
