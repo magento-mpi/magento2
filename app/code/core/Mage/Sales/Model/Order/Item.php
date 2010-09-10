@@ -222,6 +222,19 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Init mapping array of short fields to
+     * its full names
+     * 
+     * @resturn Varien_Object
+     */
+    protected function _initShortFieldsMap()
+    {
+        $this->_shortFieldsMap = array(
+            'base_weee_tax_applied_row_amnt' => 'base_weee_tax_applied_row_amount'
+        );
+    }
+
+    /**
      * Prepare data before save
      *
      * @return Mage_Sales_Model_Order_Item
