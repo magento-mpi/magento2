@@ -126,7 +126,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
         foreach ($product->getTypeInstance(true)->getUsedProductAttributes($product) as $attribute) {
             $collection->addAttributeToSelect($attribute->getAttributeCode());
-            $collection->addAttributeToFilter($attribute->getAttributeCode(), array('nin'=>array(null)));
+            $collection->addAttributeToFilter($attribute->getAttributeCode(), array('notnull'=>1));
         }
 
         $this->setCollection($collection);
