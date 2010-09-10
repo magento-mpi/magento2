@@ -46,7 +46,7 @@
             <active>false</active>
         </Mage_Backup>
         <Mage_Bundle>
-            <active>false</active>
+            <active>true</active>
         </Mage_Bundle>
         <Mage_Catalog>
             <active>true</active>
