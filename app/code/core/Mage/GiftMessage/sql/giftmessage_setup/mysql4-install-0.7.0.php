@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* $installer Mage_Core_Model_Resource_Setup */
+/* $installer Mage_GiftMessage_Model_Resource_Setup */
 
 $installer->startSetup();
 
