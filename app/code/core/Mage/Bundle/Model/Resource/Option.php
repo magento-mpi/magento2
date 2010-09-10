@@ -53,27 +53,28 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
     {
         parent::_afterSave($object);
 
-        $condition = $this->_getWriteAdapter()->quoteInto('option_id = ?', $object->getId());
-        $condition .= ' and (' . $this->_getWriteAdapter()->quoteInto('store_id = ?', $object->getStoreId());
-        $condition .= ' or store_id = 0)';
+        $condition = array(
+            'option_id = ?' => $object->getId(),
+            'store_id = ? OR store_id = 0' => $object->getStoreId()
+        );
 
-        $this->_getWriteAdapter()->delete($this->getTable('option_value'), $condition);
+        $this->_getWriteAdapter()->delete($this->getTable('bundle/option_value'), $condition);
 
         $data = new Varien_Object();
         $data->setOptionId($object->getId())
             ->setStoreId($object->getStoreId())
             ->setTitle($object->getTitle());
 
-        $this->_getWriteAdapter()->insert($this->getTable('option_value'), $data->getData());
+        $this->_getWriteAdapter()->insert($this->getTable('bundle/option_value'), $data->getData());
 
         /**
          * also saving default value if this store view scope
          */
 
         if ($object->getStoreId()) {
-            $data->setStoreId('0');
+            $data->setStoreId(0);
             $data->setTitle($object->getDefaultTitle());
-            $this->_getWriteAdapter()->insert($this->getTable('option_value'), $data->getData());
+            $this->_getWriteAdapter()->insert($this->getTable('bundle/option_value'), $data->getData());
         }
 
         return $this;
@@ -89,8 +90,9 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
     {
         parent::_afterDelete($object);
 
-        $condition = $this->_getWriteAdapter()->quoteInto('option_id = ?', $object->getId());
-        $this->_getWriteAdapter()->delete($this->getTable('option_value'), $condition);
+
+        $this->_getWriteAdapter()->delete($this->getTable('bundle/option_value'),
+            array('option_id = ?' => $object->getId()));
 
         return $this;
     }
@@ -104,6 +106,16 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
      */
     public function getSearchableData($productId, $storeId)
     {
+        $adapter = $this->_getReadAdapter();
+
+        $title = $adapter->getCheckSql('option_title_store.title IS NOT NULL',
+            'option_title_store.title',
+            'option_title_default.title'
+        );
+        $bind = array(
+            'store_id'   => $storeId,
+            'product_id' => $productId
+        );
         $select = $this->_getReadAdapter()->select()
             ->from(array('option' => $this->getMainTable()), null)
             ->join(
@@ -112,10 +124,10 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
                 array())
             ->joinLeft(
                 array('option_title_store' => $this->getTable('bundle/option_value')),
-                'option_title_store.option_id=option.option_id AND option_title_store.store_id=' . intval($storeId),
-                array('title' => 'IFNULL(option_title_store.title, option_title_default.title)'))
-            ->where('option.parent_id=?', $productId);
-        if (!$searchData = $this->_getReadAdapter()->fetchCol($select)) {
+                'option_title_store.option_id=option.option_id AND option_title_store.store_id=:store_id',
+                array('title' => $title))
+            ->where('option.parent_id=:product_id');
+        if (!$searchData = $this->_getReadAdapter()->fetchCol($select, $bind)) {
             $searchData = array();
         }
         return $searchData;

@@ -45,7 +45,7 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_CatalogIndex_Model_Resource
     protected function _getSelect($productId, $columns = array())
     {
         return $this->_getReadAdapter()->select()
-            ->from(array("bundle_option" => $this->getTable('bundle/option')), array("type", "option_id"))
+            ->from(array("bundle_option" => $this->getTable('bundle/option')), array('type', 'option_id'))
             ->where("bundle_option.parent_id = ?", $productId)
             ->where("bundle_option.required = 1")
             ->joinLeft(array(
@@ -74,15 +74,15 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_CatalogIndex_Model_Resource
      */
     public function dropAllQuoteChildItems($productId)
     {
-        $result = $this->_getReadAdapter()->fetchRow(
+        $result = $this->_getReadAdapter()->fetchCol(
             $this->_getReadAdapter()->select()
-                ->from($this->getTable('sales/quote_item'), "GROUP_CONCAT(`item_id`) as items")
-                ->where("product_id = ?", $productId));
-
+                ->from($this->getTable('sales/quote_item'), array('items' => 'item_id'))
+                ->where('product_id = :product_id'),
+            array('product_id' => $productId)
+        );
         if ($result['items'] != '') {
-            $this->_getWriteAdapter()
-                ->query("DELETE FROM ".$this->getTable('sales/quote_item')."
-                        WHERE `parent_item_id` in (". $result['items'] .")");
+            $this->_getWriteAdapter()->delete($this->getTable('sales/quote_item'),
+                array('parent_item_id IN(?)'=>$result['items']));
         }
     }
 
@@ -94,9 +94,14 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_CatalogIndex_Model_Resource
      */
     public function dropAllUnneededSelections($productId, $ids)
     {
+        $where = array(
+            'parent_product_id = ?' => $productId
+        );
+        if (!empty($ids)) {
+            $where['selection_id NOT IN (?) '] = $ids;
+        }
         $this->_getWriteAdapter()
-            ->query("DELETE FROM ".$this->getTable('bundle/selection')."
-                    WHERE `parent_product_id` = ". $productId . ( count($ids) > 0 ? " and selection_id not in (" . implode(',', $ids) . ")": ''));
+            ->delete($this->getTable('bundle/selection'), $where);
     }
 
     /**

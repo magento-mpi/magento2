@@ -35,9 +35,9 @@
 class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
     /**
-     * Enter description here ...
+     * Selection table name
      *
-     * @var unknown
+     * @var string
      */
     protected $_selectionTable;
 
@@ -60,7 +60,7 @@ class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model
     {
         parent::_initSelect();
         $this->getSelect()->join(array('selection' => $this->_selectionTable),
-            '`selection`.`product_id`=`e`.`entity_id`',
+            'selection.product_id=e.entity_id',
             array('*')
         );
     }
@@ -68,16 +68,26 @@ class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model
     /**
      * Join website scope prices to collection, override default prices
      *
-     * @param unknown_type $websiteId
+     * @param int $websiteId
      * @return Mage_Bundle_Model_Resource_Selection_Collection
      */
     public function joinPrices($websiteId)
     {
+        $priceType = $this->getConnection()->getCheckSql(
+            'price.selection_price_type IS NOT NULL',
+            'price.selection_price_type',
+            'selection.selection_price_type'
+        );
+        $priceValue = $this->getConnection()->getCheckSql(
+            'price.selection_price_value IS NOT NULL',
+            'price.selection_price_value',
+            'selection.selection_price_value'
+        );
         $this->getSelect()->joinLeft(array('price' => $this->getTable('bundle/selection_price')),
             'selection.selection_id = price.selection_id AND price.website_id = ' . $websiteId,
              array(
-                'selection_price_type' => 'IFNULL(price.selection_price_type, selection.selection_price_type)',
-                'selection_price_value' => 'IFNULL(price.selection_price_value, selection.selection_price_value)',
+                'selection_price_type' => $priceType,
+                'selection_price_value' => $priceValue,
                 'price_scope' => 'price.website_id'
             )
         );
@@ -87,13 +97,13 @@ class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model
     /**
      * Apply option ids filter to collection
      *
-     * @param unknown_type $optionIds
+     * @param array $optionIds
      * @return Mage_Bundle_Model_Resource_Selection_Collection
      */
     public function setOptionIdsFilter($optionIds)
     {
         if (!empty($optionIds)) {
-            $this->getSelect()->where('`selection`.`option_id` in (' . join(',', (array)$optionIds) . ')');
+            $this->getSelect()->where('selection.option_id IN (?)', $optionIds);
         }
         return $this;
     }
@@ -101,13 +111,13 @@ class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model
     /**
      * Apply selection ids filter to collection
      *
-     * @param unknown_type $selectionIds
+     * @param array $selectionIds
      * @return Mage_Bundle_Model_Resource_Selection_Collection
      */
     public function setSelectionIdsFilter($selectionIds)
     {
         if (!empty($selectionIds)) {
-            $this->getSelect()->where('`selection`.`selection_id` in (' . join(',', (array)$selectionIds) . ')');
+            $this->getSelect()->where('selection.selection_id IN (?)', $selectionIds);
         }
         return $this;
     }

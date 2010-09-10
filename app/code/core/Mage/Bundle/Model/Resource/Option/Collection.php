@@ -42,14 +42,14 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
     protected $_itemIds;
 
     /**
-     * Enter description here ...
+     * True when selections a
      *
-     * @var unknown
+     * @var bool
      */
     protected $_selectionsAppended   = false;
 
     /**
-     * Enter description here ...
+     * Init model and resource model
      *
      */
     protected function _construct()
@@ -58,42 +58,50 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Enter description here ...
+     * Joins values to options
      *
-     * @param unknown_type $storeId
+     * @param int $storeId
      * @return Mage_Bundle_Model_Resource_Option_Collection
      */
     public function joinValues($storeId)
     {
         $this->getSelect()->joinLeft(array('option_value_default' => $this->getTable('bundle/option_value')),
-                '`main_table`.`option_id` = `option_value_default`.`option_id` and `option_value_default`.`store_id` = "0"',
+                'main_table.option_id = option_value_default.option_id and option_value_default.store_id = 0',
                 array())
             ->columns(array('default_title' => 'option_value_default.title'));
 
+        $title = $this->getConnection()->getCheckSql(
+            'option_value.title IS NOT NULL',
+            'option_value.title',
+            'option_value_default.title'
+        );
         if ($storeId !== null) {
             $this->getSelect()
-                ->columns(array('title' => 'IFNULL(`option_value`.`title`, `option_value_default`.`title`)'))
+                ->columns(array('title' => $title))
                 ->joinLeft(array('option_value' => $this->getTable('bundle/option_value')),
-                    '`main_table`.`option_id` = `option_value`.`option_id` and `option_value`.`store_id` = "' . $storeId . '"',
+                    $this->getConnection()->quoteInto(
+                        'main_table.option_id = option_value.option_id and option_value.store_id = ?',
+                        $storeId
+                    ),
                     array());
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Sets product id filter
      *
-     * @param unknown_type $productId
+     * @param int $productId
      * @return Mage_Bundle_Model_Resource_Option_Collection
      */
     public function setProductIdFilter($productId)
     {
-        $this->addFieldToFilter('`main_table`.`parent_id`', $productId);
+        $this->addFieldToFilter('main_table.parent_id', $productId);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Sets order by position
      *
      * @return Mage_Bundle_Model_Resource_Option_Collection
      */
@@ -151,17 +159,17 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Enter description here ...
+     * Sets filter by option id
      *
-     * @param unknown_type $ids
+     * @param array|int $ids
      * @return Mage_Bundle_Model_Resource_Option_Collection
      */
     public function setIdFilter($ids)
     {
         if (is_array($ids)) {
-            $this->addFieldToFilter('`main_table`.`option_id`', array('in' => $ids));
+            $this->addFieldToFilter('main_table.option_id', array('in' => $ids));
         } else if ($ids != '') {
-            $this->addFieldToFilter('`main_table`.`option_id`', $ids);
+            $this->addFieldToFilter('main_table.option_id', $ids);
         }
         return $this;
     }

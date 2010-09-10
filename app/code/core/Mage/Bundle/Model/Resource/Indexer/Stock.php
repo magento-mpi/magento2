@@ -84,6 +84,8 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
         $select   = $adapter->select()
             ->from(array('bo' => $this->getTable('bundle/option')), array('parent_id'));
         $this->_addWebsiteJoinToSelect($select, false);
+        $status = new Zend_Db_Expr('MAX(' .
+                $adapter->getCheckSql('e.required_options = 0', 'i.stock_status', '0') . ')');
         $select->columns('website_id', 'cw')
             ->join(
                 array('cis' => $this->getTable('cataloginventory/stock')),
@@ -105,7 +107,7 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
             ->group(array('bo.parent_id', 'cw.website_id', 'cis.stock_id', 'bo.option_id'))
             ->columns(array(
                 'option_id' => 'bo.option_id',
-                'status'    => new Zend_Db_Expr("MAX(IF(e.required_options = 0, i.stock_status, 0))")
+                'status'    => $status
             ));
 
         if (!is_null($entityIds)) {
@@ -117,8 +119,7 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
 
         $select->where('bo.required = ?', 1);
         $selectNonRequired->where('bo.required = ?', 0)
-            ->having('`status` = 1');
-
+            ->having($status . ' = 1');
         $query = $select->insertFromSelect($this->_getBundleOptionTable());
         $adapter->query($query);
 
@@ -167,14 +168,23 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $condition);
 
         if ($this->_isManageStock()) {
-            $statusExpr = new Zend_Db_Expr('IF(cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 0,'
-                . ' 1, cisi.is_in_stock)');
+            $statusExpr = $adapter->getCheckSql(
+                'cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 0',
+                '1',
+                'cisi.is_in_stock'
+            );
         } else {
-            $statusExpr = new Zend_Db_Expr('IF(cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 1,'
-                . 'cisi.is_in_stock, 1)');
+            $statusExpr = $adapter->getCheckSql(
+                'cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 1',
+                'cisi.is_in_stock',
+                '1'
+            );
         }
 
-        $select->columns(array('status' => new Zend_Db_Expr("LEAST(MIN(o.stock_status), {$statusExpr})")));
+        $select->columns(array('status' => $adapter->getLeastSql(array(
+            new Zend_Db_Expr('MIN(o.stock_status)'),
+            new Zend_Db_Expr('MIN(' . $statusExpr . ')'),
+        ))));
 
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);

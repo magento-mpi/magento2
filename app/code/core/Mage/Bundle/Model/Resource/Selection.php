@@ -35,7 +35,7 @@
 class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table and id field 
      *
      */
     protected function _construct()
@@ -63,14 +63,23 @@ class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_A
         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
 
         $select->from(array("price_index" => $this->getTable('catalogindex/price')), array('price' => 'SUM(value)'))
-            ->where('entity_id in (?)', $productId)
-            ->where('website_id = ?', $websiteId)
-            ->where('customer_group_id = ?', $groupId)
-            ->where('attribute_id in (?)', array($attrPriceId, $attrTierPriceId))
-            ->where('qty <= ?', $qty)
+            ->where('entity_id = :product_id')
+            ->where('website_id = :website_id')
+            ->where('customer_group_id = :customer_group')
+            ->where('attribute_id = :price_attribute OR attribute_id = :tier_price_attribute')
+            ->where('qty <= :qty')
             ->group('entity_id');
 
-        $price = $this->_getReadAdapter()->fetchCol($select);
+        $bind = array(
+            'product_id' => $productId,
+            'website_id' => $websiteId,
+            'customer_group' => $groupId,
+            'price_attribute' => $attrPriceId,
+            'tier_price_attribute' => $attrTierPriceId,
+            'qty'   => $qty
+        );
+
+        $price = $this->_getReadAdapter()->fetchCol($select, $bind);
         if (!empty($price)) {
             return array_shift($price);
         } else {
@@ -103,11 +112,11 @@ class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_A
             )
             ->join(
                 array('tbl_option' => $this->getTable('bundle/option')),
-                '`tbl_option`.`option_id` = `tbl_selection`.`option_id`',
+                'tbl_option.option_id = tbl_selection.option_id',
                 array('required')
             )
-            ->where('`tbl_selection`.`parent_product_id`=?', $parentId);
-        foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
+            ->where('tbl_selection.parent_product_id=:parent_id');
+        foreach ($this->_getReadAdapter()->fetchAll($select, array('parent_id' => $parentId)) as $row) {
             if ($row['required']) {
                 $childrenIds[$row['option_id']][$row['product_id']] = $row['product_id'];
             }
