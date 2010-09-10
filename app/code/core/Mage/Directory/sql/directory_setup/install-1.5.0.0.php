@@ -72,8 +72,8 @@ $table = $installer->getConnection()
     ->addColumn('format', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
         ), 'Country Format')
-    ->addIndex($installer->getIdxName('directory/country_format', array('country_id', 'type'), true),
-        array('country_id', 'type'), array('unique' => true))
+    ->addIndex($installer->getIdxName('directory/country_format', array('country_id', 'type'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('country_id', 'type'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
      ->setComment('Directory Country Format');
 $installer->getConnection()->createTable($table);
 

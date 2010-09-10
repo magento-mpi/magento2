@@ -55,8 +55,8 @@ $table = $installer->getConnection()
         ), 'Old Data')
     ->addColumn('new_data', Varien_Db_Ddl_Table::TYPE_TEXT, '2M', array(
         ), 'New Data')
-    ->addIndex($installer->getIdxName('index/event', array('type', 'entity', 'entity_pk'), true),
-        array('type', 'entity', 'entity_pk'), array('unique' => true))
+    ->addIndex($installer->getIdxName('index/event', array('type', 'entity', 'entity_pk'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('type', 'entity', 'entity_pk'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Index Event');
 $installer->getConnection()->createTable($table);
 
@@ -86,8 +86,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 'real_time',
         ), 'Mode')
-    ->addIndex($installer->getIdxName('index/process', array('indexer_code'), true),
-        array('indexer_code'), array('unique' => true))
+    ->addIndex($installer->getIdxName('index/process', array('indexer_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('indexer_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Index Process');
 $installer->getConnection()->createTable($table);
 

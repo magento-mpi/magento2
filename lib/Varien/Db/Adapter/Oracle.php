@@ -54,6 +54,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     const TRIGGER_BEFORE_UPDATE_ER  = 'b_up_er';
     const TRIGGER_AFTER_UPDATE      = 'a_up';
 
+    const LENGTH_TABLE_NAME         = 30;
+    const LENGTH_INDEX_NAME         = 25;
+    const LENGTH_FOREIGN_NAME       = 30;
     /**
      * Default class name for a DB statement.
      *
@@ -2584,19 +2587,19 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $indexes = $table->getIndexes();
         if (!empty($indexes)) {
             foreach ($indexes as $indexData) {
-                if ($indexData['UNIQUE'] === true) {
+                if (strtoupper($indexData['INDEX_NAME']) == 'PRIMARY') {
+                    $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY;
+                } else {
+                    $indexType = $indexData['TYPE'];
+                }
+
+                if ($indexType == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                     continue;
                 }
+                
                 $columns = array();
                 foreach ($indexData['COLUMNS'] as $columnData) {
                     $columns[] = $columnData['NAME'];
-                }
-
-                $indexType = self::INDEX_TYPE_INDEX;
-                if (strtoupper($indexData['INDEX_NAME']) == 'PRIMARY') {
-                    $indexType = self::INDEX_TYPE_PRIMARY;
-                } else if (!is_null($indexData['TYPE'])) {
-                    $indexType = $indexData['TYPE'];
                 }
 
                 $this->addIndex($table->getName(), $indexData['INDEX_NAME'], $columns, $indexType);
@@ -2675,17 +2678,18 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         if (!empty($constraints)) {
             foreach ($constraints as $constraintData) {
-                if ($constraintData['UNIQUE']) {
-                    $columns = array();
-
-                    foreach ($constraintData['COLUMNS'] as $columnData) {
-                        $column = $this->quoteIdentifier($columnData['NAME']);
-                        $columns[] = $column;
-                    }
-                    $definition[] = sprintf('  CONSTRAINT "%s" UNIQUE (%s)',
-                        $this->quoteIdentifier($constraintData['INDEX_NAME']),
-                        join(', ', $columns));
+                if ($constraintData['TYPE'] != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
+                    continue;
                 }
+                $columns = array();
+
+                foreach ($constraintData['COLUMNS'] as $columnData) {
+                    $column = $this->quoteIdentifier($columnData['NAME']);
+                    $columns[] = $column;
+                }
+                $definition[] = sprintf('  CONSTRAINT "%s" UNIQUE (%s)',
+                    $this->quoteIdentifier($constraintData['INDEX_NAME']),
+                    join(', ', $columns));
             }
         }
 
@@ -2853,6 +2857,23 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
+     * Minus superfluous characters from hash.
+     *
+     * @param  $hash
+     * @param  $prefix
+     * @param  $maxCharacters
+     * @return string
+     */
+     protected function _minusSuperfluous($hash, $prefix, $maxCharacters)
+     {
+         $diff = strlen($hash) + strlen($prefix) -  $maxCharacters;
+         $superfluous = $diff / 2;
+         $odd = $diff % 2;
+         $hash = substr($hash, $superfluous, -($superfluous+$odd));
+         return $hash;
+     }
+
+    /**
      * Retrieve valid table name
      * Check table name length and allowed symbols
      *
@@ -2861,14 +2882,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getTableName($tableName)
     {
-        if (strlen($tableName) > 30) {
+        $prefix = 'table_';
+        if (strlen($tableName) > self::LENGTH_TABLE_NAME) {
             $shortName = Varien_Db_Helper::shortName($tableName);
-            if (strlen($shortName) > 30) {
-                $tableName = 't_' . substr(md5($shortName), 2, -2);
+            if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
+                $hash = md5($tableName);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_TABLE_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
+                }
+                $tableName = $prefix.$hash;
             } else {
                 $tableName = $shortName;
             }
         }
+
 
         return $tableName;
     }
@@ -2882,24 +2909,39 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param boolean $isUnique
      * @return string
      */
-    public function getIndexName($tableName, $fields, $isUnique = false)
+    public function getIndexName($tableName, $fields, $indexType = '')
     {
         if (is_array($fields)) {
             $fields = join('-', $fields);
         }
 
-        $hash = sprintf('%s_%s_%s', ($isUnique ? 'unq' : 'idx'), $tableName, $fields);
+        switch (strtolower($indexType)) {
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
+                $prefix = 'unq_';
+                break;
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
+                $prefix = 'fti_';
+                break;
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
+            default:
+                $prefix = 'idx_';
+        }
+        
+        $hash = sprintf('%s%s', $tableName, $fields);
 
-        if (strlen($hash) > 30) {
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
             $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) > 30) {
-                $hash = sprintf('%s_%s', ($isUnique ? 'u' : 'i'), substr(md5($hash), 2, -2));
+            if (strlen($short) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+                $hash = md5($hash);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_INDEX_NAME);
+                }
             } else {
                 $hash = $short;
             }
         }
 
-        return strtoupper($hash);
+        return strtoupper($prefix.$hash);
     }
 
     /**
@@ -2914,17 +2956,21 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getForeignKeyName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        $hash = sprintf('fk_%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
-        if (strlen($hash) > 30) {
+        $prefix = 'fk_';
+        $hash = sprintf('%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
             $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) > 30) {
-                $hash = sprintf('f_%s', substr(md5($hash), 2, -2));
+            if (strlen($short) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+                $hash = md5($hash);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_FOREIGN_NAME);
+                }
             } else {
                 $hash = $short;
             }
         }
 
-        return strtoupper($hash);
+        return strtoupper($prefix.$hash);
     }
 
     /**
@@ -3086,7 +3132,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $indexList = $this->getIndexList($tableName, $schemaName);
         foreach ($indexList as $indexProp) {
-            if ($indexProp['INDEX_TYPE'] != self::INDEX_TYPE_INDEX) {
+            if (strtolower($indexProp['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX) {
                 continue;
             }
             $query = sprintf('ALTER INDEX %s UNUSABLE', $this->quoteIdentifier($indexProp['KEY_NAME']));
@@ -3107,7 +3153,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $indexList = $this->getIndexList($tableName, $schemaName);
         foreach ($indexList as $indexProp) {
-            if ($indexProp['INDEX_TYPE'] != self::INDEX_TYPE_INDEX) {
+            if (strtolower($indexProp['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX) {
                 continue;
             }
             $query = sprintf('ALTER INDEX %s REBUILD', $this->quoteIdentifier($indexProp['KEY_NAME']));

@@ -269,9 +269,9 @@ $table = $installer->getConnection()
         ), 'Store ID')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Title')
-    ->addIndex($installer->getIdxName('downloadable/link_title', array('link_id', 'store_id'), true),
+    ->addIndex($installer->getIdxName('downloadable/link_title', array('link_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('link_id', 'store_id'),
-        array('unique'=>true))
+        array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('downloadable/link_title', 'link_id'), 'link_id')
     ->addForeignKey($installer->getFkName('downloadable/link_title', 'link_id', 'downloadable/link', 'link_id'),
         'link_id', $installer->getTable('downloadable/link'), 'link_id',
@@ -340,9 +340,9 @@ $table = $installer->getConnection()
         ), 'Store ID')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Title')
-    ->addIndex($installer->getIdxName('downloadable/sample_title', array('sample_id', 'store_id'), true),
+    ->addIndex($installer->getIdxName('downloadable/sample_title', array('sample_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('sample_id', 'store_id'),
-        array('unique'=>true))
+        array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('downloadable/sample_title', 'sample_id'), 'sample_id')
     ->addForeignKey($installer->getFkName('downloadable/sample_title', 'sample_id', 'downloadable/sample', 'sample_id'),
         'sample_id', $installer->getTable('downloadable/sample'), 'sample_id',

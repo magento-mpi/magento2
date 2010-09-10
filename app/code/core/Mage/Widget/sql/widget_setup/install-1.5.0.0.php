@@ -134,9 +134,9 @@ $table = $installer->getConnection()
         ), 'Layout Update Id')
     ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', 'page_id'), 'page_id')
     ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', 'layout_update_id'), 'layout_update_id')
-    ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', array('layout_update_id', 'page_id'), true),
+    ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', array('layout_update_id', 'page_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('layout_update_id', 'page_id'),
-        array('unique' => true))
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('widget/widget_instance_page_layout', 'page_id', 'widget/widget_instance_page', 'page_id'),
         'page_id', $installer->getTable('widget/widget_instance_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

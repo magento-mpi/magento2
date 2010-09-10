@@ -43,6 +43,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     const DDL_CACHE_PREFIX      = 'DB_PDO_MYSQL_DDL';
     const DDL_CACHE_TAG         = 'DB_PDO_MYSQL_DDL';
 
+    const LENGTH_TABLE_NAME     = 64;
+    const LENGTH_INDEX_NAME     = 64;
+    const LENGTH_FOREIGN_NAME   = 64;
     /**
      * Current Transaction Level
      *
@@ -899,13 +902,13 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 $fieldColumn    = 'Column_name';
                 $fieldIndexType = 'Index_type';
 
-                if ($row[$fieldKeyName] == 'PRIMARY') {
+                if (strtolower($row[$fieldKeyName]) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
                     $indexType  = 'primary';
                 }
                 else if ($row[$fieldNonUnique] == 0) {
                     $indexType  = 'unique';
                 }
-                else if ($row[$fieldIndexType] == 'FULLTEXT') {
+                else if (strtolower($row[$fieldIndexType]) == Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT) {
                     $indexType  = 'fulltext';
                 }
                 else {
@@ -1621,9 +1624,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $indexes    = $table->getIndexes();
         if (!empty($indexes)) {
             foreach ($indexes as $indexData) {
-                if ($indexData['UNIQUE']) {
-                    $indexType = 'UNIQUE';
-                } else if (!empty($indexData['TYPE'])) {
+                if (!empty($indexData['TYPE'])) {
                     switch ($indexData['TYPE']) {
                         case 'primary': 
                             $indexType = 'PRIMARY KEY'; 
@@ -1953,7 +1954,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
         $query = sprintf('ALTER TABLE %s', $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)));
         if (isset($keyList[strtoupper($indexName)])) {
-            if ($keyList[strtoupper($indexName)] == self::INDEX_TYPE_PRIMARY) {
+            if (strtolower($keyList[strtoupper($indexName)]) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
                 $query .= ' DROP PRIMARY KEY,';
             } else {
                 $query .= sprintf(' DROP INDEX %s,', $this->quoteIdentifier($indexName));
@@ -2515,6 +2516,23 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
+     * Minus superfluous characters from hash.
+     *
+     * @param  $hash
+     * @param  $prefix
+     * @param  $maxCharacters
+     * @return string
+     */
+     protected function _minusSuperfluous($hash, $prefix, $maxCharacters)
+     {
+         $diff = strlen($hash) + strlen($prefix) -  $maxCharacters;
+         $superfluous = $diff / 2;
+         $odd = $diff % 2;
+         $hash = substr($hash, $superfluous, -($superfluous+$odd));
+         return $hash;
+     }
+
+    /**
      * Retrieve valid table name
      * Check table name length and allowed symbols
      *
@@ -2523,15 +2541,19 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     public function getTableName($tableName)
     {
-        if (strlen($tableName) > 64) {
+        $prefix = 'table_';
+        if (strlen($tableName) > self::LENGTH_TABLE_NAME) {
             $shortName = Varien_Db_Helper::shortName($tableName);
-            if (strlen($shortName) > 64) {
-                $tableName = 'table_' . md5($shortName);
+            if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
+                $hash = md5($tableName);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_TABLE_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
+                }
+                $tableName = $prefix.$hash;
             } else {
                 $tableName = $shortName;
             }
         }
-
         return $tableName;
     }
 
@@ -2541,27 +2563,42 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      *
      * @param string $tableName
      * @param string|array $fields  the columns list
-     * @param boolean $isUnique
+     * @param string $indexType
      * @return string
      */
-    public function getIndexName($tableName, $fields, $isUnique = false)
+    public function getIndexName($tableName, $fields, $indexType = '')
     {
         if (is_array($fields)) {
             $fields = join('-', $fields);
         }
 
-        $hash = sprintf('%s_%s', ($isUnique ? 'unq' : 'idx'), $fields);
+        switch (strtolower($indexType)) {
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
+                $prefix = 'unq_';
+                break;
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
+                $prefix = 'fti_';
+                break;
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
+            default:
+                $prefix = 'idx_';
+        }
 
-        if (strlen($hash) > 64) {
+        $hash = sprintf('%s%s', $tableName, $fields);
+
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
             $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) > 64) {
-                $hash = sprintf('%s_%s', ($isUnique ? 'unq' : 'idx'), md5($hash));
+            if (strlen($short) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+                $hash = md5($hash);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_INDEX_NAME);
+                }
             } else {
                 $hash = $short;
             }
         }
 
-        return strtoupper($hash);
+        return strtoupper($prefix.$hash);
     }
 
     /**
@@ -2576,17 +2613,21 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     public function getForeignKeyName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        $hash = sprintf('fk_%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
-        if (strlen($hash) > 64) {
+        $prefix = 'fk_';
+        $hash = sprintf('%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
             $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) > 64) {
-                $hash = sprintf('fk_%s', md5($hash));
+            if (strlen($short) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+                $hash = md5($hash);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_FOREIGN_NAME);
+                }
             } else {
                 $hash = $short;
             }
         }
 
-        return strtoupper($hash);
+        return strtoupper($prefix.$hash);
     }
 
     /**

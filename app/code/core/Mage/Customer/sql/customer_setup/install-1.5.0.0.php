@@ -170,8 +170,8 @@ $table = $installer->getConnection()
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_address_entity_datetime', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_address_entity_datetime', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_address_entity_datetime', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_address_entity_datetime', array('attribute_id')),
@@ -221,8 +221,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_address_entity_decimal', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_address_entity_decimal', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_address_entity_decimal', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_address_entity_decimal', array('attribute_id')),
@@ -272,8 +272,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_address_entity_int', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_address_entity_int', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_address_entity_int', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_address_entity_int', array('attribute_id')),
@@ -322,8 +322,8 @@ $table = $installer->getConnection()
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_address_entity_text', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_address_entity_text', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_address_entity_text', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_address_entity_text', array('attribute_id')),
@@ -369,8 +369,8 @@ $table = $installer->getConnection()
         ), 'Entity Id')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_address_entity_varchar', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_address_entity_varchar', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_address_entity_varchar', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_address_entity_varchar', array('attribute_id')),
@@ -419,8 +419,8 @@ $table = $installer->getConnection()
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_entity_datetime', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_entity_datetime', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_entity_datetime', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_entity_datetime', array('attribute_id')),
@@ -470,8 +470,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_entity_decimal', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_entity_decimal', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_entity_decimal', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_entity_decimal', array('attribute_id')),
@@ -521,8 +521,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_entity_int', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_entity_int', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_entity_int', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_entity_int', array('attribute_id')),
@@ -571,8 +571,8 @@ $table = $installer->getConnection()
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_entity_text', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_entity_text', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_entity_text', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_entity_text', array('attribute_id')),
@@ -618,8 +618,8 @@ $table = $installer->getConnection()
         ), 'Entity Id')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName('customer_entity_varchar', array('entity_id', 'attribute_id'), true),
-        array('entity_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('customer_entity_varchar', array('entity_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('customer_entity_varchar', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('customer_entity_varchar', array('attribute_id')),

@@ -501,8 +501,8 @@ $table = $installer->getConnection()
         ), 'Defines Is Unique')
     ->addColumn('note', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Note')
-    ->addIndex($installer->getIdxName('eav/attribute', array('entity_type_id', 'attribute_code'), true),
-        array('entity_type_id', 'attribute_code'), array('unique' => true))
+    ->addIndex($installer->getIdxName('eav/attribute', array('entity_type_id', 'attribute_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_type_id', 'attribute_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/attribute', array('entity_type_id')),
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('eav/attribute', array('entity_type_id')),
@@ -579,8 +579,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('eav/attribute_set', array('entity_type_id', 'attribute_set_name'), true),
-        array('entity_type_id', 'attribute_set_name'), array('unique' => true))
+    ->addIndex($installer->getIdxName('eav/attribute_set', array('entity_type_id', 'attribute_set_name'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_type_id', 'attribute_set_name'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/attribute_set', array('entity_type_id', 'sort_order')),
         array('entity_type_id', 'sort_order'))
     ->addForeignKey($installer->getFkName('eav/attribute_set', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
@@ -617,8 +617,8 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'default'   => '0',
         ), 'Default Id')
-    ->addIndex($installer->getIdxName('eav/attribute_group', array('attribute_set_id', 'attribute_group_name'), true),
-        array('attribute_set_id', 'attribute_group_name'), array('unique' => true))
+    ->addIndex($installer->getIdxName('eav/attribute_group', array('attribute_set_id', 'attribute_group_name'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('attribute_set_id', 'attribute_group_name'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/attribute_group', array('attribute_set_id', 'sort_order')),
         array('attribute_set_id', 'sort_order'))
     ->addForeignKey($installer->getFkName('eav/attribute_group', 'attribute_set_id', 'eav/attribute_set', 'attribute_set_id'),
@@ -662,10 +662,10 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('eav/entity_attribute', array('attribute_set_id', 'attribute_id'), true),
-        array('attribute_set_id', 'attribute_id'), array('unique' => true))
-    ->addIndex($installer->getIdxName('eav/entity_attribute', array('attribute_group_id', 'attribute_id'), true),
-        array('attribute_group_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('eav/entity_attribute', array('attribute_set_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('attribute_set_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
+    ->addIndex($installer->getIdxName('eav/entity_attribute', array('attribute_group_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('attribute_group_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/entity_attribute', array('attribute_set_id', 'sort_order')),
         array('attribute_set_id', 'sort_order'))
     ->addIndex($installer->getIdxName('eav/entity_attribute', array('attribute_id')),
@@ -816,8 +816,8 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Store Id')
-    ->addIndex($installer->getIdxName('eav/form_type', array('code', 'theme', 'store_id'), true),
-        array('code', 'theme', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('eav/form_type', array('code', 'theme', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('code', 'theme', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/form_type', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('eav/form_type', 'store_id', 'core/store', 'store_id'),
@@ -874,8 +874,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('eav/form_fieldset', array('type_id', 'code'), true),
-        array('type_id', 'code'), array('unique' => true))
+    ->addIndex($installer->getIdxName('eav/form_fieldset', array('type_id', 'code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('type_id', 'code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/form_fieldset', array('type_id')),
         array('type_id'))
     ->addForeignKey($installer->getFkName('eav/form_fieldset', 'type_id', 'eav/form_type', 'type_id'),
@@ -941,8 +941,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('eav/form_element', array('type_id', 'attribute_id'), true),
-        array('type_id', 'attribute_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('eav/form_element', array('type_id', 'attribute_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('type_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/form_element', array('type_id')),
         array('type_id'))
     ->addIndex($installer->getIdxName('eav/form_element', array('fieldset_id')),

@@ -118,8 +118,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/product', 'datetime'), array('entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/product', 'datetime'), array('entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/product', 'datetime'), array('attribute_id')),
         array('attribute_id'))
     ->addIndex($installer->getIdxName(array('catalog/product', 'datetime'), array('store_id')),
@@ -170,8 +170,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/product', 'decimal'), array('entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/product', 'decimal'), array('entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/product', 'decimal'), array('store_id')),
         array('store_id'))
     ->addIndex($installer->getIdxName(array('catalog/product', 'decimal'), array('entity_id')),
@@ -222,8 +222,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/product', 'int'), array('entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/product', 'int'), array('entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/product', 'int'), array('attribute_id')),
         array('attribute_id'))
     ->addIndex($installer->getIdxName(array('catalog/product', 'int'), array('store_id')),
@@ -274,8 +274,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/product', 'text'), array('entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/product', 'text'), array('entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/product', 'text'), array('attribute_id')),
         array('attribute_id'))
     ->addIndex($installer->getIdxName(array('catalog/product', 'text'), array('store_id')),
@@ -326,8 +326,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/product', 'varchar'), array('entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/product', 'varchar'), array('entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/product', 'varchar'), array('attribute_id')),
         array('attribute_id'))
     ->addIndex($installer->getIdxName(array('catalog/product', 'varchar'), array('store_id')),
@@ -384,8 +384,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '',
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/product', 'gallery'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/product', 'gallery'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/product', 'gallery'), array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('catalog/product', 'gallery'), array('attribute_id')),
@@ -484,8 +484,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/category', 'datetime'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/category', 'datetime'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/category', 'datetime'), array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('catalog/category', 'datetime'), array('attribute_id')),
@@ -536,8 +536,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/category', 'decimal'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/category', 'decimal'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/category', 'decimal'), array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('catalog/category', 'decimal'), array('attribute_id')),
@@ -588,8 +588,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/category', 'int'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/category', 'int'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/category', 'int'), array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('catalog/category', 'int'), array('attribute_id')),
@@ -640,8 +640,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/category', 'text'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/category', 'text'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/category', 'text'), array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('catalog/category', 'text'), array('attribute_id')),
@@ -692,8 +692,8 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName(array('catalog/category', 'varchar'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), true),
-        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName(array('catalog/category', 'varchar'), array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_type_id', 'entity_id', 'attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName(array('catalog/category', 'varchar'), array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('catalog/category', 'varchar'), array('attribute_id')),
@@ -951,8 +951,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Link Type ID')
-    ->addIndex($installer->getIdxName('catalog/product_link', array('link_type_id', 'product_id', 'linked_product_id'), true),
-        array('link_type_id', 'product_id', 'linked_product_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_link', array('link_type_id', 'product_id', 'linked_product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('link_type_id', 'product_id', 'linked_product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('catalog/product_link', array('product_id')),
         array('product_id'))
     ->addIndex($installer->getIdxName('catalog/product_link', array('linked_product_id')),
@@ -1175,8 +1175,8 @@ $table = $installer->getConnection()
         ), 'Use Default Value')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute_label', array('product_super_attribute_id', 'store_id'), true),
-        array('product_super_attribute_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_super_attribute_label', array('product_super_attribute_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('product_super_attribute_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('catalog/product_super_attribute_label', array('product_super_attribute_id')),
         array('product_super_attribute_id'))
     ->addIndex($installer->getIdxName('catalog/product_super_attribute_label', array('store_id')),
@@ -1305,8 +1305,8 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Website ID')
-    ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id'), true),
-        array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('customer_group_id')),
@@ -1478,8 +1478,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 'fixed',
         ), 'Price Type')
-    ->addIndex($installer->getIdxName('catalog/product_option_price', array('option_id', 'store_id'), true),
-        array('option_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_option_price', array('option_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('option_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('catalog/product_option_price', array('option_id')),
         array('option_id'))
     ->addIndex($installer->getIdxName('catalog/product_option_price', array('store_id')),
@@ -1518,8 +1518,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '',
         ), 'Title')
-    ->addIndex($installer->getIdxName('catalog/product_option_title', array('option_id', 'store_id'), true),
-        array('option_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_option_title', array('option_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('option_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('catalog/product_option_title', array('option_id')),
         array('option_id'))
     ->addIndex($installer->getIdxName('catalog/product_option_title', array('store_id')),
@@ -1593,8 +1593,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 'fixed',
         ), 'Price Type')
-    ->addIndex($installer->getIdxName('catalog/product_option_type_price', array('option_type_id', 'store_id'), true),
-        array('option_type_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_option_type_price', array('option_type_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('option_type_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('catalog/product_option_type_price', array('option_type_id')),
         array('option_type_id'))
     ->addIndex($installer->getIdxName('catalog/product_option_type_price', array('store_id')),
@@ -1633,8 +1633,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '',
         ), 'Title')
-    ->addIndex($installer->getIdxName('catalog/product_option_type_title', array('option_type_id', 'store_id'), true),
-        array('option_type_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_option_type_title', array('option_type_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('option_type_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('catalog/product_option_type_title', array('option_type_id')),
         array('option_type_id'))
     ->addIndex($installer->getIdxName('catalog/product_option_type_title', array('store_id')),

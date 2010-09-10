@@ -56,6 +56,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
     const EXTPROP_COMMENT_TABLE     = 'TABLE_COMMENT';
     const EXTPROP_COMMENT_COLUMN    = 'COLUMN_COMMENT';
+    const LENGTH_TABLE_NAME         = 128;
+    const LENGTH_INDEX_NAME         = 128;
+    const LENGTH_FOREIGN_NAME       = 128;
+
     /**
      * Current Transaction Level
      *
@@ -615,48 +619,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Retrieve table indexes definition array for create table
-     *
-     * @param Varien_Db_Ddl_Table $table
-     * @return array
-     */
-    protected function _getIndexesDefinition(Varien_Db_Ddl_Table $table)
-    {
-        $indexType = 'UNIQUE';
-        $definition = array();
-        $indexes    = $table->getIndexes();
-        if (!empty($indexes)) {
-            foreach ($indexes as $indexData) {
-                if ($indexData['UNIQUE']) {
-                    $indexType = 'UNIQUE';
-                } else if (!empty($indexData['TYPE'])) {
-                    $indexType = $indexData['TYPE'];
-                } else {
-                    $indexType = 'UNIQUE';
-                }
-
-                $columns = array();
-                foreach ($indexData['COLUMNS'] as $columnData) {
-                    $column = $this->quoteIdentifier($columnData['NAME']);
-                    if (!empty($columnData['SIZE'])) {
-                        $column .= sprintf('(%d)', $columnData['SIZE']);
-                    }
-                    $columns[] = $column;
-                }
-                if ($indexData['UNIQUE']) {
-                    $definition[] = sprintf('  CONSTRAINT [%s] %s (%s)',
-                        $this->quoteIdentifier($indexData['INDEX_NAME']),
-                        $indexType,
-                        join(', ', $columns)
-                    );
-                }
-            }
-        }
-
-        return $definition;
-    }
-
-    /**
      * Retrieve table foreign keys definition array for create table
      *
      * @param Varien_Db_Ddl_Table $table
@@ -767,15 +729,15 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         if (!empty($indexes)) {
             foreach ($indexes as $indexData) {
-                if ($indexData['UNIQUE']) {
+                if (strtolower($indexData['TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                     continue;
                 }
                 $columns = array();
                 foreach ($indexData['COLUMNS'] as $columnData) {
                     $columns[] = $columnData['NAME'];
                 }
-                $this->addIndex($this->quoteIdentifier($table->getName()), $indexData['INDEX_NAME'], $columns);
-            }
+                $this->addIndex($this->quoteIdentifier($table->getName()),
+                    $indexData['INDEX_NAME'],                    $columns,                    $indexData['TYPE']);            }
         }
     }
 
@@ -819,18 +781,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         if (!empty($constraints)) {
             foreach ($constraints as $constraintData) {
-                if ($constraintData['UNIQUE']) {
-                    $columns = array();
-
-                    foreach ($constraintData['COLUMNS'] as $columnData) {
-                        $column = $this->quoteIdentifier($columnData['NAME']);
-                        $columns[] = $column;
-                    }
-                    $definition[] = sprintf('  CONSTRAINT "%s" UNIQUE (%s)',
-                        $this->quoteIdentifier($constraintData['INDEX_NAME']),
-                        join(', ', $columns));
+                if (strtolower($constraintData['TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
+                    continue;
+                }                $columns = array();
+                foreach ($constraintData['COLUMNS'] as $columnData) {
+                    $column = $this->quoteIdentifier($columnData['NAME']);
+                    $columns[] = $column;
                 }
-            }
+                $definition[] = sprintf(' CONSTRAINT "%s" UNIQUE (%s)',                    $this->quoteIdentifier($constraintData['INDEX_NAME']),                    join(', ', $columns));            }
         }
 
         return $definition;
@@ -1303,8 +1261,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $primaryKey = false;
         foreach ($this->getIndexList($tableName, $schemaName) as $index) {
-            if ($index['INDEX_TYPE'] == 'PRIMARY') {
-                $primaryKey = $index['INDEX_NAME'];
+            if (strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
+                $primaryKey = $index['KEY_NAME'];
             }
         }
 
@@ -1312,8 +1270,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             throw new Varien_Db_Exception('Cannot create full text index for table without primary key');
         }
 
-        return sprintf('CREATE FULLTEXT INDEX ON (%s) KEY INDEX %s ON %s',
-            $fields,
+        return sprintf('CREATE FULLTEXT INDEX ON %s (%s) KEY INDEX %s',
+            $this->_getTableName($tableName, $schemaName),            $fields,
             $this->quoteIdentifier($primaryKey),
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName))
         );
@@ -1567,9 +1525,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $fieldIndexType = 'Index_type';
 
                 $indexType = $row[$fieldIndexType];
-                switch ($indexType) {
-                    case 'primary':
-                          $upperKeyName = 'PRIMARY';
+                switch (strtolower($indexType)) {
+                    case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
+                          $upperKeyName = strtoupper(Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY);
                           break;
                     default:
                         $upperKeyName = strtoupper($row[$fieldKeyName]);
@@ -1850,7 +1808,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         foreach ($this->getIndexList($tableName, $schemaName) as $index ) {
 
-            if ( $index['INDEX_TYPE'] == 'PRIMARY' ) {
+            if ( strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY ) {
                 foreach($index['COLUMNS_LIST'] as $value) {
                     $primaryKeyColumns[$value] = $value;
                 }
@@ -1871,7 +1829,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $uniqueIndexColumns = array();
 
         foreach ($this->getIndexList($tableName, $schemaName) as $index ) {
-            if ( strtoupper($index['INDEX_TYPE']) == 'UNIQUE' ) {
+            if ( strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE ) {
                 foreach($index['COLUMNS_LIST'] as $value) {
                     $uniqueIndexColumns[$value] = $value;
                 }
@@ -1974,7 +1932,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function insertOnDuplicate($table, array $data, array $fields = array())
     {
-        $row = reset($data); // get first elemnt from data array
+        $row = reset($data); // get first element from data array
         if (is_array($row)) {
             $cols = array_keys($row);
         } else {
@@ -3394,6 +3352,23 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
+     * Minus superfluous characters from hash.
+     *
+     * @param  $hash
+     * @param  $prefix
+     * @param  $maxCharacters
+     * @return string
+     */
+     protected function _minusSuperfluous($hash, $prefix, $maxCharacters)
+     {
+         $diff = strlen($hash) + strlen($prefix) -  $maxCharacters;
+         $superfluous = $diff / 2;
+         $odd = $diff % 2;
+         $hash = substr($hash, $superfluous, -($superfluous+$odd));
+         return $hash;
+     }
+
+    /**
      * Retrieve valid table name
      * Check table name length and allowed symbols
      *
@@ -3402,15 +3377,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function getTableName($tableName)
     {
-        if (strlen($tableName) > 128) {
-            $shortName = Varien_Db_Helper::shortName($tableName);
-            if (strlen($shortName) > 128) {
-                $tableName = 'table_' . md5($shortName);
-            } else {
+        $prefix = 'table_';
+        if (strlen($tableName) > self::LENGTH_TABLE_NAME) {            $shortName = Varien_Db_Helper::shortName($tableName);
+            if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
+                $hash = md5($tableName);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_TABLE_NAME) {                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);                }                $tableName = $prefix.$hash;            } else {
                 $tableName = $shortName;
             }
         }
-
         return $tableName;
     }
 
@@ -3420,27 +3394,27 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableName
      * @param string|array $fields  the columns list
-     * @param boolean $isUnique
+     * @param string $indexType
      * @return string
      */
-    public function getIndexName($tableName, $fields, $isUnique = false)
+    public function getIndexName($tableName, $fields, $indexType = '')
     {
         if (is_array($fields)) {
             $fields = join('-', $fields);
         }
 
-        $hash = sprintf('%s_%s_%s', ($isUnique ? 'unq' : 'idx'), $tableName, $fields);
-
-        if (strlen($hash) > 128) {
-            $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) > 128) {
-                $hash = sprintf('%s_%s', ($isUnique ? 'unq' : 'idx'), md5($hash));
-            } else {
+        switch (strtolower($indexType)) {
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:                $prefix = 'unq_';                break;            case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:                $prefix = 'fti_';                break;            case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:            default:                $prefix = 'idx_';        }
+        $hash = sprintf('%s%s', $tableName, $fields);
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {            $short = Varien_Db_Helper::shortName($hash);
+            if (strlen($short) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+                $hash = md5($hash);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_INDEX_NAME);                }            } else {
                 $hash = $short;
             }
         }
 
-        return strtoupper($hash);
+        return strtoupper($prefix.$hash);
     }
 
     /**
@@ -3455,19 +3429,19 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function getForeignKeyName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        $hash = sprintf('fk_%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
-        if (strlen($hash) > 128) {
-            $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) > 128) {
-                $hash = sprintf('fk_%s', md5($hash));
-            } else {
+        $prefix = 'fk_';
+        $hash = sprintf('%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {            $short = Varien_Db_Helper::shortName($hash);
+            if (strlen($short) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+                $hash = md5($hash);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_FOREIGN_NAME);                }            } else {
                 $hash = $short;
             }
         }
 
-        return strtoupper($hash);
+        return strtoupper($prefix.$hash);
     }
-    /**
+        /**
      * Adds an adapter-specific LIMIT clause to the SELECT statement.
      *
      * @param string $sql
@@ -3517,7 +3491,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $indexList = $this->getIndexList($tableName, $schemaName);
         $tableName = $this->_getTableName($tableName, $schemaName);
         foreach ($indexList as $indexProp) {
-            if ($indexProp['INDEX_TYPE'] != self::INDEX_TYPE_INDEX) {
+            if (strtolower($indexProp['INDEX_TYPE']) != Varien_Db_Abstract_Interface::INDEX_TYPE_INDEX) {
                 continue;
             }
             $query = sprintf('ALTER INDEX %s ON %s DISABLE',
@@ -3542,7 +3516,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $indexList = $this->getIndexList($tableName, $schemaName);
         $tableName = $this->_getTableName($tableName, $schemaName);
         foreach ($indexList as $indexProp) {
-            if ($indexProp['INDEX_TYPE'] != self::INDEX_TYPE_INDEX) {
+            if (strtolower($indexProp['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX) {
                 continue;
             }
             $query = sprintf('ALTER INDEX %s ON %s REBUILD',
@@ -3700,7 +3674,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 //    }
 
 
-    public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
+public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
     {
         if (!$mode) {
             return $this->_getInsertFromSelectSql($select, $table, $fields);
@@ -3752,7 +3726,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         // Obtain unique indexes fields
         foreach ($indexes as $indexData) {
-            if ($indexData['INDEX_TYPE'] != self::INDEX_TYPE_UNIQUE) {
+            if (strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                 continue;
             }
 
@@ -3784,7 +3758,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         );
 
         // UPDATE Section
-        if ($mode == self::INSERT_ON_DUPLICATE && $updateCols) {
+        if ($mode == Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE && $updateCols) {
             $updateCond = array();
             foreach ($updateCols as $column) {
                 $updateCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($column));

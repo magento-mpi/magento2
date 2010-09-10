@@ -112,7 +112,6 @@ class Varien_Db_Ddl_Table
      * with the following keys:
      *
      * INDEX_NAME       => string; index name
-     * UNIQUE           => boolean; true if unique index
      * COLUMNS          => array; array of index columns
      * TYPE             => string; Optional special index type
      *
@@ -427,8 +426,7 @@ class Varien_Db_Ddl_Table
      */
     public function addIndex($indexName, $fields, $options = array())
     {
-        $idxType    = null;
-        $unique     = false;
+        $idxType    = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX;
         $position   = 0;
         $columns    = array();
         if (!is_array($fields)) {
@@ -469,17 +467,12 @@ class Varien_Db_Ddl_Table
             throw new Zend_Db_Exception('Columns for index are not defined');
         }
 
-        if (!empty($options['unique'])) {
-            $unique = true;
-        }
-
         if (!empty($options['type'])) {
             $idxType = $options['type'];
         }
 
         $this->_indexes[strtoupper($indexName)] = array(
             'INDEX_NAME'    => $indexName,
-            'UNIQUE'        => $unique,
             'COLUMNS'       => $this->_normalizeIndexColumnPosition($columns),
             'TYPE'          => $idxType
         );

@@ -811,10 +811,10 @@ interface Varien_Db_Adapter_Interface
      *
      * @param string $tableName
      * @param string|array $fields  the columns list
-     * @param boolean $isUnique
+     * @param string $indexType
      * @return string
      */
-    public function getIndexName($tableName, $fields, $isUnique = false);
+    public function getIndexName($tableName, $fields, $indexType = '');
 
     /**
      * Retrieve valid foreign key name

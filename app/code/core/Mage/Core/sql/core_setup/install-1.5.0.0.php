@@ -75,8 +75,8 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'default'   => '0',
         ), 'Defines Is Website Default')
-    ->addIndex($installer->getIdxName('core/website', array('code'), true),
-        array('code'), array('unique' => true))
+    ->addIndex($installer->getIdxName('core/website', array('code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/website', array('sort_order')),
         array('sort_order'))
     ->addIndex($installer->getIdxName('core/website', array('default_group_id')),
@@ -159,8 +159,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Store Activity')
-    ->addIndex($installer->getIdxName('core/store', array('code'), true),
-        array('code'), array('unique' => true))
+    ->addIndex($installer->getIdxName('core/store', array('code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/store', array('website_id')),
         array('website_id'))
     ->addIndex($installer->getIdxName('core/store', array('sort_order', 'is_active')),
@@ -201,8 +201,8 @@ $table = $installer->getConnection()
         ), 'Config Path')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
 	), 'Config Value')
-    ->addIndex($installer->getIdxName('core/config_data', array('scope', 'scope_id', 'path'), true),
-        array('scope', 'scope_id', 'path'), array('unique' => true))
+    ->addIndex($installer->getIdxName('core/config_data', array('scope', 'scope_id', 'path'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('scope', 'scope_id', 'path'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Config Data');
 $installer->getConnection()->createTable($table);
 
@@ -245,8 +245,8 @@ $table = $installer->getConnection()
     ->addColumn('orig_template_variables', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
         ), 'Original Template Variables')
-    ->addIndex($installer->getIdxName('core/email_template', array('template_code'), true),
-        array('template_code'), array('unique' => true))
+    ->addIndex($installer->getIdxName('core/email_template', array('template_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('template_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/email_template', array('added_at')),
         array('added_at'))
     ->addIndex($installer->getIdxName('core/email_template', array('modified_at')),
@@ -305,8 +305,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Layout Update Id')
-    ->addIndex($installer->getIdxName('core/layout_link', array('store_id', 'package', 'theme', 'layout_update_id'), true),
-        array('store_id', 'package', 'theme', 'layout_update_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('core/layout_link', array('store_id', 'package', 'theme', 'layout_update_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('store_id', 'package', 'theme', 'layout_update_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/layout_link', array('layout_update_id')),
         array('layout_update_id'))
     ->addForeignKey($installer->getFkName('core/layout_link', 'store_id', 'core/store', 'store_id'),
@@ -364,8 +364,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 'en_US',
         ), 'Locale')
-    ->addIndex($installer->getIdxName('core/translate', array('store_id', 'locale', 'string'), true),
-        array('store_id', 'locale', 'string'), array('unique' => true))
+    ->addIndex($installer->getIdxName('core/translate', array('store_id', 'locale', 'string'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('store_id', 'locale', 'string'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/translate', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('core/translate', 'store_id', 'core/store', 'store_id'),
@@ -405,10 +405,10 @@ $table = $installer->getConnection()
         ), 'Options')
     ->addColumn('description', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Deascription')
-    ->addIndex($installer->getIdxName('core/url_rewrite', array('request_path', 'store_id'), true),
-        array('request_path', 'store_id'), array('unique' => true))
-    ->addIndex($installer->getIdxName('core/url_rewrite', array('id_path', 'is_system', 'store_id'), true),
-        array('id_path', 'is_system', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('core/url_rewrite', array('request_path', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('request_path', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
+    ->addIndex($installer->getIdxName('core/url_rewrite', array('id_path', 'is_system', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('id_path', 'is_system', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/url_rewrite', array('target_path', 'store_id')),
         array('target_path', 'store_id'))
     ->addIndex($installer->getIdxName('core/url_rewrite', array('id_path')),
@@ -465,8 +465,8 @@ $table = $installer->getConnection()
         ), 'Variable Code')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Variable Name')
-    ->addIndex($installer->getIdxName('core/variable', array('code'), true),
-        array('code'), array('unique' => true))
+    ->addIndex($installer->getIdxName('core/variable', array('code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Variables');
 $installer->getConnection()->createTable($table);
 
@@ -497,8 +497,8 @@ $table = $installer->getConnection()
     ->addColumn('html_value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
         ), 'Html Value')
-    ->addIndex($installer->getIdxName('core/variable_value', array('variable_id', 'store_id'), true),
-        array('variable_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('core/variable_value', array('variable_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('variable_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/variable_value', array('variable_id')),
         array('variable_id'))
     ->addIndex($installer->getIdxName('core/variable_value', array('store_id')),

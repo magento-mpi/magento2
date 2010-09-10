@@ -912,12 +912,12 @@ class Mage_Core_Model_Resource_Setup
      *
      * @param string $tableName
      * @param array|string $fields
-     * @param boolean $isUnique
+     * @param string $indexType
      * @return string
      */
-    public function getIdxName($tableName, $fields, $isUnique = false)
+    public function getIdxName($tableName, $fields, $indexType = '')
     {
-        return Mage::getSingleton('core/resource')->getIdxName($tableName, $fields, $isUnique);
+        return Mage::getSingleton('core/resource')->getIdxName($tableName, $fields, $indexType);
     }
 
     /**

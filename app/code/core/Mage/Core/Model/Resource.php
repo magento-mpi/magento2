@@ -337,13 +337,13 @@ class Mage_Core_Model_Resource
      *
      * @param string $tableName
      * @param array|string $fields
-     * @param boolean $isUnique
+     * @param string $indexType
      * @return string
      */
-    public function getIdxName($tableName, $fields, $isUnique = false)
+    public function getIdxName($tableName, $fields, $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX)
     {
         return $this->getConnection(self::DEFAULT_READ_RESOURCE)
-            ->getIndexName($this->getTableName($tableName), $fields, $isUnique);
+            ->getIndexName($this->getTableName($tableName), $fields, $indexType);
     }
 
     /**

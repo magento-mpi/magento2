@@ -50,8 +50,8 @@ $table = $installer->getConnection()
     ->addColumn('entity_code', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
         'nullable'  => false
         ), 'Entity Code')
-    ->addIndex($installer->getIdxName('rating/rating_entity', array('entity_code'), true),
-        array('entity_code'), array('unique' => true))
+    ->addIndex($installer->getIdxName('rating/rating_entity', array('entity_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('entity_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Rating entities');
 $installer->getConnection()->createTable($table);
 
@@ -79,8 +79,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 0
         ), 'Rating Position On Frontend')
-    ->addIndex($installer->getIdxName('rating/rating', array('rating_code'), true),
-        array('rating_code'), array('unique' => true))
+    ->addIndex($installer->getIdxName('rating/rating', array('rating_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('rating_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('rating/rating', array('entity_id')),
         array('entity_id'))
     ->addForeignKey($installer->getFkName('rating/rating', 'entity_id', 'rating/rating_entity', 'entity_id'),

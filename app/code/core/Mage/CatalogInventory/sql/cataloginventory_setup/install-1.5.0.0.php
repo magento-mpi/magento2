@@ -162,8 +162,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Enable Qty Increments')
-    ->addIndex($installer->getIdxName('cataloginventory/stock_item', array('product_id', 'stock_id'), true),
-        array('product_id', 'stock_id'), array('unique' => true)
+    ->addIndex($installer->getIdxName('cataloginventory/stock_item', array('product_id', 'stock_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('product_id', 'stock_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
     )
     ->addIndex($installer->getIdxName('cataloginventory/stock_item', array('product_id')),
         array('product_id')
