@@ -282,7 +282,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
             'entity_id'         => 'i.entity_id',
             'customer_group_id' => 'i.customer_group_id',
             'website_id'        => 'i.website_id',
-            'website_date'      => 'wd.date',
+            'website_date'      => 'wd.website_date',
             'update_fields'     => array('price', 'min_price', 'max_price')
         ));
 
