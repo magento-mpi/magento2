@@ -1626,12 +1626,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             foreach ($indexes as $indexData) {
                 if (!empty($indexData['TYPE'])) {
                     switch ($indexData['TYPE']) {
-                        case 'primary': 
-                            $indexType = 'PRIMARY KEY'; 
+                        case 'primary':
+                            $indexType = 'PRIMARY KEY';
                             unset($indexData['INDEX_NAME']);
                             break;
-                        default: 
-                            $indexType = strtoupper($indexData['TYPE']); 
+                        default:
+                            $indexType = strtoupper($indexData['TYPE']);
                             break;
                     }
                 } else {
@@ -2344,7 +2344,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     {
         return new Zend_Db_Expr("IF({$condition}, {$true}, {$false})");
     }
-    
+
     /**
      * Generate fragment of SQL, that check value against multiple condition cases
      * and return different result depends on them
@@ -2856,5 +2856,28 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $select->order($spec);
 
         return $this;
+    }
+
+    /**
+     * Adds column for getting rank
+     *
+     * @param Varien_Db_Select $select
+     * @param array $columns
+     * @return string
+     */
+    public function addRankColumn($select, $columns)
+    {
+        $select->group($columns);
+    }
+
+    /**
+     * Get soft group select
+     *
+     * @param string $select
+     * @return string
+     */
+    public function getSoftGroupSelect($select)
+    {
+        return $select;
     }
 }
