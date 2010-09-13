@@ -62,6 +62,28 @@ class Varien_Db_Select extends Zend_Db_Select
     const SOFT_GROUP        = 'softgroup';
 
     /**
+     * The initial values for the $_parts array.
+     * NOTE: It is important for the 'FOR_UPDATE' part to be last to ensure
+     * meximum compatibility with database adapters.
+     *
+     * @var array
+     */
+    protected static $_partsInit = array(
+        self::DISTINCT     => false,
+        self::COLUMNS      => array(),
+        self::UNION        => array(),
+        self::FROM         => array(),
+        self::WHERE        => array(),
+        self::GROUP        => array(),
+        self::HAVING       => array(),
+        self::ORDER        => array(),
+        self::SOFT_GROUP   => array(),
+        self::LIMIT_COUNT  => null,
+        self::LIMIT_OFFSET => null,
+        self::FOR_UPDATE   => false
+    );
+
+    /**
      * Class constructor
      * Add straight join support
      *
@@ -73,7 +95,6 @@ class Varien_Db_Select extends Zend_Db_Select
         if (!isset(self::$_partsInit[self::STRAIGHT_JOIN])) {
             self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
         }
-        self::$_partsInit[self::SOFT_GROUP] = array();
         $this->_parts[self::SOFT_GROUP] = array();
     }
 
@@ -481,7 +502,7 @@ class Varien_Db_Select extends Zend_Db_Select
 
         return $sql;
     }
-    
+
     /**
      * Converts this object to an SQL SELECT string.
      *
@@ -494,5 +515,5 @@ class Varien_Db_Select extends Zend_Db_Select
         }
         return parent::assemble();
     }
-    
+
 }
