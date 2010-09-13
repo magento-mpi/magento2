@@ -3491,7 +3491,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $indexList = $this->getIndexList($tableName, $schemaName);
         $tableName = $this->_getTableName($tableName, $schemaName);
         foreach ($indexList as $indexProp) {
-            if (strtolower($indexProp['INDEX_TYPE']) != Varien_Db_Abstract_Interface::INDEX_TYPE_INDEX) {
+            if (strtolower($indexProp['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX) {
                 continue;
             }
             $query = sprintf('ALTER INDEX %s ON %s DISABLE',
