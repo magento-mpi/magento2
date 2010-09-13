@@ -2108,7 +2108,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param int $type
      * @param string $sql
      * @param array $bind
-     * @param Zend_Db_Statement_Pdo $result
+     * @param Zend_Db_Statement_Interface $result
      * @return Varien_Db_Adapter_Pdo_Mysql
      */
     protected function _debugStat($type, $sql, $bind = array(), $result = null)
@@ -2596,7 +2596,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 if ($indexType == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                     continue;
                 }
-                
+
                 $columns = array();
                 foreach ($indexData['COLUMNS'] as $columnData) {
                     $columns[] = $columnData['NAME'];
@@ -2926,7 +2926,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             default:
                 $prefix = 'idx_';
         }
-        
+
         $hash = sprintf('%s%s', $tableName, $fields);
 
         if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {

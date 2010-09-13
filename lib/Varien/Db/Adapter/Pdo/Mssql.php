@@ -29,6 +29,7 @@
  * Varien DB Adapter for MS SQL
  *
  * @property PDO $_connection
+ * @method PDO $getConnection()
  *
  * @category    Varien
  * @package     Varien_DB
@@ -1172,7 +1173,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $this->quoteIdentifier($columnName),
             $definition);
 
-        $result = $this->raw_query($sql);
+        $this->raw_query($sql);
 
         if ($defaultValue) {
             $this->_addColumnDefaultValue($tableName, $columnName, $defaultValue);
