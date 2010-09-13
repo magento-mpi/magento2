@@ -2871,7 +2871,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
          $superfluous = $diff / 2;
          $odd = $diff % 2;
          $hash = substr($hash, $superfluous, -($superfluous+$odd));
-         return $hash;
+         return $prefix.$hash;
      }
 
     /**
@@ -2888,15 +2888,15 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $shortName = Varien_Db_Helper::shortName($tableName);
             if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
                 $hash = md5($tableName);
-                if (strlen($hash) + strlen($prefix) > self::LENGTH_TABLE_NAME) {
-                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
+                if (strlen($prefix.$hash) > self::LENGTH_TABLE_NAME) {
+                    $tableName = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
+                } else {
+                    $tableName = $prefix.$hash;
                 }
-                $tableName = $prefix.$hash;
             } else {
                 $tableName = $shortName;
             }
         }
-
 
         return $tableName;
     }
@@ -2918,34 +2918,39 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         switch (strtolower($indexType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
-                $prefix = 'un_';
-                $lengthName = self::LENGTH_INDEX_NAME;
+                $prefix      = 'unq_';
+                $shortPrefix = 'u_';
+                $lengthName  = self::LENGTH_INDEX_NAME;
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
-                $prefix = 'ft_';
+                $prefix = 'fti_';
+                $shortPrefix = 'f_';
                 $lengthName = self::LENGTH_FULLTEXT_NAME;
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
             default:
-                $prefix = 'ix_';
+                $prefix = 'idx_';
+                $shortPrefix = 'i_';
                 $lengthName = self::LENGTH_INDEX_NAME;
         }
 
         $hash = sprintf('%s%s', $tableName, $fields);
 
         if (strlen($hash) + strlen($prefix) > $lengthName) {
-            $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) + strlen($prefix) > $lengthName) {
+            $short = Varien_Db_Helper::shortName($prefix.$hash);
+            if (strlen($short) > $lengthName) {
                 $hash = md5($hash);
-                if (strlen($hash) + strlen($prefix) > $lengthName) {
-                    $hash = $this->_minusSuperfluous($hash, $prefix, $lengthName);
+                if (strlen($hash) + strlen($shortPrefix) > $lengthName) {
+                    $hash = $this->_minusSuperfluous($hash, $shortPrefix, $lengthName);
                 }
             } else {
                 $hash = $short;
             }
+        } else {
+            $hash = $prefix.$hash;
         }
 
-        return strtoupper($prefix.$hash);
+        return strtoupper($hash);
     }
 
     /**
@@ -2962,19 +2967,23 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $prefix = 'fk_';
         $hash = sprintf('%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
-        if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
-            $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+        if (strlen($prefix.$hash) > self::LENGTH_FOREIGN_NAME) {
+            $short = Varien_Db_Helper::shortName($prefix.$hash);
+            if (strlen($short) > self::LENGTH_FOREIGN_NAME) {
                 $hash = md5($hash);
-                if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+                if (strlen($prefix.$hash) > self::LENGTH_FOREIGN_NAME) {
                     $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_FOREIGN_NAME);
+                } else {
+                    $hash = $prefix.$hash;
                 }
             } else {
                 $hash = $short;
             }
+        } else {
+            $hash = $prefix.$hash;
         }
 
-        return strtoupper($prefix.$hash);
+        return strtoupper($hash);
     }
 
     /**

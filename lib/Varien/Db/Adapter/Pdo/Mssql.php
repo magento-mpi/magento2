@@ -3366,7 +3366,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
          $superfluous = $diff / 2;
          $odd = $diff % 2;
          $hash = substr($hash, $superfluous, -($superfluous+$odd));
-         return $hash;
+         return $prefix.$hash;
      }
 
     /**
@@ -3383,10 +3383,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $shortName = Varien_Db_Helper::shortName($tableName);
             if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
                 $hash = md5($tableName);
-                if (strlen($hash) + strlen($prefix) > self::LENGTH_TABLE_NAME) {
-                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
+                if (strlen($prefix.$hash) > self::LENGTH_TABLE_NAME) {
+                    $tableName = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
+                } else {
+                    $tableName = $prefix.$hash;
                 }
-                $tableName = $prefix.$hash;
             } else {
                 $tableName = $shortName;
             }
@@ -3411,29 +3412,36 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         switch (strtolower($indexType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
-                $prefix = 'un_';
+                $prefix = 'unq_';
+                $shortPrefix = 'u_';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
-                $prefix = 'ft_';
+                $prefix = 'fti_';
+                $shortPrefix = 'f_';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
             default:
-                $prefix = 'ix_';
+                $prefix = 'idx_';
+                $shortPrefix = 'i_';
         }
+
         $hash = sprintf('%s%s', $tableName, $fields);
+
         if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
-            $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+            $short = Varien_Db_Helper::shortName($prefix.$hash);
+            if (strlen($short) > self::LENGTH_INDEX_NAME) {
                 $hash = md5($hash);
-                if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
-                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_INDEX_NAME);
+                if (strlen($hash) + strlen($shortPrefix) > self::LENGTH_INDEX_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $shortPrefix, self::LENGTH_INDEX_NAME);
                 }
             } else {
                 $hash = $short;
             }
+        } else {
+            $hash = $prefix.$hash;
         }
 
-        return strtoupper($prefix.$hash);
+        return strtoupper($hash);
     }
 
     /**
@@ -3450,19 +3458,23 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $prefix = 'fk_';
         $hash = sprintf('%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
-        if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
-            $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+        if (strlen($prefix.$hash) > self::LENGTH_FOREIGN_NAME) {
+            $short = Varien_Db_Helper::shortName($prefix.$hash);
+            if (strlen($short) > self::LENGTH_FOREIGN_NAME) {
                 $hash = md5($hash);
-                if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+                if (strlen($prefix.$hash) > self::LENGTH_FOREIGN_NAME) {
                     $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_FOREIGN_NAME);
+                } else {
+                    $hash = $prefix.$hash;
                 }
             } else {
                 $hash = $short;
             }
+        } else {
+            $hash = $prefix.$hash;
         }
 
-        return strtoupper($prefix.$hash);
+        return strtoupper($hash);
     }
         /**
      * Adds an adapter-specific LIMIT clause to the SELECT statement.
