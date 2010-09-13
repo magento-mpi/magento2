@@ -59,6 +59,7 @@ class Varien_Db_Select extends Zend_Db_Select
 
     const STRAIGHT_JOIN     = 'straightjoin';
     const SQL_STRAIGHT_JOIN = 'STRAIGHT_JOIN';
+    const SOFT_GROUP        = 'softgroup';
 
     /**
      * Class constructor
@@ -72,6 +73,8 @@ class Varien_Db_Select extends Zend_Db_Select
         if (!isset(self::$_partsInit[self::STRAIGHT_JOIN])) {
             self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
         }
+        self::$_partsInit[self::SOFT_GROUP] = array();
+        $this->_parts[self::SOFT_GROUP] = array();
     }
 
     /**
@@ -441,4 +444,55 @@ class Varien_Db_Select extends Zend_Db_Select
         $this->_adapter->orderRand($this, $field);
         return $this;
     }
+
+    /**
+     * Adds soft grouping to the query.
+     *
+     * @param  array|string $spec The column(s) to group by.
+     * @return Zend_Db_Select This Zend_Db_Select object.
+     */
+    public function softGroup($spec)
+    {
+        if (!is_array($spec)) {
+            $spec = array($spec);
+        }
+
+        foreach ($spec as $val) {
+            if (preg_match('/\(.*\)/', (string) $val)) {
+                $val = new Zend_Db_Expr($val);
+            }
+            $this->_parts[self::SOFT_GROUP][] = $val;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Render SOFT GROUP clause
+     *
+     * @param string   $sql SQL query
+     * @return string
+     */
+    protected function _renderSoftgroup($sql)
+    {
+        if ($this->_parts[self::FROM] && $this->_parts[self::SOFT_GROUP]) {
+            $sql = $this->getAdapter()->getSoftGroupSelect($sql);
+        }
+
+        return $sql;
+    }
+    
+    /**
+     * Converts this object to an SQL SELECT string.
+     *
+     * @return string|null This object as a SELECT string. (or null if a string cannot be produced.)
+     */
+    public function assemble()
+    {
+        if(!empty($this->_parts[self::SOFT_GROUP])){
+             $this->getAdapter()->addRankColumn($this, $this->_parts[self::SOFT_GROUP]);
+        }
+        return parent::assemble();
+    }
+    
 }

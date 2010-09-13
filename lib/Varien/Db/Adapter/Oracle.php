@@ -3548,4 +3548,33 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         return $this;
     }
+
+    /**
+     * Adds column for getting rank
+     *
+     * @param Varien_Db_Select $select
+     * @param array $columns
+     * @return string
+     */
+    public function addRankColumn($select, $columns)
+    {
+        $select->columns(array('varien_rank_column' => new Zend_Db_Expr(
+            'RANK() OVER (PARTITION BY ' .
+            implode(",\n\t", $columns) .
+            ' ORDER BY ROWNUM )')
+            )
+        );
+    }
+
+    /**
+     * Get soft group select
+     *
+     * @param string $select
+     * @return string
+     */
+    public function getSoftGroupSelect($select)
+    {
+        return "SELECT * FROM ({$select}) varien_softgroup_select WHERE varien_softgroup_select.varien_rank_column = 1";
+    }
+
 }
