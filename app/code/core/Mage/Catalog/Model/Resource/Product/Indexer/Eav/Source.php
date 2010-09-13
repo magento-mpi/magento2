@@ -183,7 +183,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         }
 
         // prepare get multiselect values query
-        $productValueExpression = $write->getCheckSql('pvs.value_id > 0', 'pvs.value', 'pvd.value');
+        $productValueExpression = $adapter->getCheckSql('pvs.value_id > 0', 'pvs.value', 'pvd.value');
         $select = $adapter->select()
             ->from(
                 array('pvd' => $this->getValueTable('catalog/product', 'varchar')),
