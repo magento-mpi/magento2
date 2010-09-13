@@ -178,7 +178,7 @@
             <active>true</active>
         </Mage_Poll>
         <Mage_ProductAlert>
-            <active>false</active>
+            <active>true</active>
         </Mage_ProductAlert>
         <Mage_Protx>
             <active>false</active>
