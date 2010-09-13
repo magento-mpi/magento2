@@ -4035,4 +4035,34 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
         }
         return $triggerBody;
     }
+
+    /**
+     * Adds column for getting rank
+     *
+     * @param Varien_Db_Select $select
+     * @param array $columns
+     * @return string
+     */
+    public function addRankColumn($select, $columns)
+    {
+        $select->columns(array('varien_rank_column' => new Zend_Db_Expr(
+            'RANK() OVER (PARTITION BY ' .
+            implode(",\n\t", $columns) .
+            ' ORDER BY NEWID() )')
+            )
+        );
+    }
+
+    /**
+     * Get soft group select
+     *
+     * @param string $select
+     * @return string
+     */
+    public function getSoftGroupSelect($select)
+    {
+        return "SELECT varien_softgroup_select.* \n"
+            .  "FROM ({$select}) varien_softgroup_select \n"
+            .  "WHERE varien_softgroup_select.varien_rank_column = 1 ";
+    }
 }
