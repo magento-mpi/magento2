@@ -3378,11 +3378,16 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function getTableName($tableName)
     {
-        $prefix = 'table_';
-        if (strlen($tableName) > self::LENGTH_TABLE_NAME) {            $shortName = Varien_Db_Helper::shortName($tableName);
+        $prefix = 't_';
+        if (strlen($tableName) > self::LENGTH_TABLE_NAME) {
+            $shortName = Varien_Db_Helper::shortName($tableName);
             if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
                 $hash = md5($tableName);
-                if (strlen($hash) + strlen($prefix) > self::LENGTH_TABLE_NAME) {                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);                }                $tableName = $prefix.$hash;            } else {
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_TABLE_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
+                }
+                $tableName = $prefix.$hash;
+            } else {
                 $tableName = $shortName;
             }
         }
@@ -3405,12 +3410,25 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         switch (strtolower($indexType)) {
-            case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:                $prefix = 'unq_';                break;            case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:                $prefix = 'fti_';                break;            case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:            default:                $prefix = 'idx_';        }
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
+                $prefix = 'un_';
+                break;
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
+                $prefix = 'ft_';
+                break;
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
+            default:
+                $prefix = 'ix_';
+        }
         $hash = sprintf('%s%s', $tableName, $fields);
-        if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {            $short = Varien_Db_Helper::shortName($hash);
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+            $short = Varien_Db_Helper::shortName($hash);
             if (strlen($short) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
                 $hash = md5($hash);
-                if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_INDEX_NAME);                }            } else {
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_INDEX_NAME);
+                }
+            } else {
                 $hash = $short;
             }
         }
@@ -3432,10 +3450,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $prefix = 'fk_';
         $hash = sprintf('%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
-        if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {            $short = Varien_Db_Helper::shortName($hash);
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+            $short = Varien_Db_Helper::shortName($hash);
             if (strlen($short) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
                 $hash = md5($hash);
-                if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_FOREIGN_NAME);                }            } else {
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_FOREIGN_NAME);
+                }
+            } else {
                 $hash = $short;
             }
         }

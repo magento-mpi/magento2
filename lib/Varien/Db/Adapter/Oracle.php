@@ -55,8 +55,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     const TRIGGER_AFTER_UPDATE      = 'a_up';
 
     const LENGTH_TABLE_NAME         = 30;
-    const LENGTH_INDEX_NAME         = 25;
+    const LENGTH_INDEX_NAME         = 30;
     const LENGTH_FOREIGN_NAME       = 30;
+    CONST LENGTH_FULLTEXT_NAME      = 25;
     /**
      * Default class name for a DB statement.
      *
@@ -2882,7 +2883,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getTableName($tableName)
     {
-        $prefix = 'table_';
+        $prefix = 't_';
         if (strlen($tableName) > self::LENGTH_TABLE_NAME) {
             $shortName = Varien_Db_Helper::shortName($tableName);
             if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
@@ -2917,24 +2918,27 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         switch (strtolower($indexType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
-                $prefix = 'unq_';
+                $prefix = 'un_';
+                $lengthName = self::LENGTH_INDEX_NAME;
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
-                $prefix = 'fti_';
+                $prefix = 'ft_';
+                $lengthName = self::LENGTH_FULLTEXT_NAME;
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
             default:
-                $prefix = 'idx_';
+                $prefix = 'ix_';
+                $lengthName = self::LENGTH_INDEX_NAME;
         }
 
         $hash = sprintf('%s%s', $tableName, $fields);
 
-        if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+        if (strlen($hash) + strlen($prefix) > $lengthName) {
             $short = Varien_Db_Helper::shortName($hash);
-            if (strlen($short) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+            if (strlen($short) + strlen($prefix) > $lengthName) {
                 $hash = md5($hash);
-                if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
-                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_INDEX_NAME);
+                if (strlen($hash) + strlen($prefix) > $lengthName) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, $lengthName);
                 }
             } else {
                 $hash = $short;

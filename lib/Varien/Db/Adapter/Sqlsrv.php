@@ -2839,7 +2839,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
      */
     public function getTableName($tableName)
     {
-        $prefix = 'table_';
+        $prefix = 't_';
         if (strlen($tableName) > self::LENGTH_TABLE_NAME) {
             $shortName = Varien_Db_Helper::shortName($tableName);
             if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
@@ -2872,14 +2872,14 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
 
         switch (strtolower($indexType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
-                $prefix = 'unq_';
+                $prefix = 'un_';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
-                $prefix = 'fti_';
+                $prefix = 'ft_';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
             default:
-                $prefix = 'idx_';
+                $prefix = 'ix_';
         }
 
         $hash = sprintf('%s%s', $tableName, $fields);
