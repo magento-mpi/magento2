@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Setup Model of Sales Module 
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -83,7 +83,8 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
      */
     protected function _flatTableExist($table)
     {
-        return $this->getConnection()->fetchOne("show tables like '{$this->getTable($table)}'");
+        $tablesList = $this->getConnection()->listTables();
+        return in_array($this->getTable($table), $tablesList);
     }
 
     /**
@@ -144,46 +145,23 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     }
 
     /**
-     * Enter description here ...
+     * Retrieve definition of column for create in flat table
      *
-     * @param unknown_type $code
-     * @param unknown_type $data
-     * @return unknown
+     * @param string $code
+     * @param array $data
+     * @return array
      */
     protected function _getAttributeColumnDefinition($code, $data)
     {
-        $columnDefinition = '';
-        $type   = isset($data['type']) ? $data['type'] : 'varchar';
-        $req    = isset($data['required']) ? $data['required'] : false;
-
-        switch ($type) {
-            case 'int':
-                $columnDefinition = 'int(10) unsigned';
-                break;
-            case 'decimal':
-                $columnDefinition = 'decimal(12,4)';
-                break;
-            case 'text':
-                $columnDefinition = 'text';
-                break;
-            case 'date':
-                $columnDefinition = 'datetime';
-                break;
-            default:
-                $columnDefinition = 'varchar(255)';
-                break;
-        }
-
-        if ($req) {
-            $columnDefinition.= ' NOT NULL';
-        }
-        return $columnDefinition;
+        $data['type'] = isset($data['type']) ? $data['type'] : Varien_Db_Ddl_Table::TYPE_TEXT;
+        $data['nullable'] = isset($data['required']) ? !$data['required'] : true;
+        return $data;
     }
 
     /**
-     * Enter description here ...
+     * Retrieve default entities
      *
-     * @return unknown
+     * @return array
      */
     public function getDefaultEntities()
     {
