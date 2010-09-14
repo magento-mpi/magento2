@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Invoice backend model for child attribute
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -35,9 +35,9 @@
 class Mage_Sales_Model_Resource_Order_Attribute_Backend_Child extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Enter description here ...
+     * Perform operation before save
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
      * @return Mage_Sales_Model_Resource_Order_Attribute_Backend_Child
      */
     public function beforeSave($object)

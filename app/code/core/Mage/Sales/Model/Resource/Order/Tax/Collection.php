@@ -35,7 +35,7 @@
 class Mage_Sales_Model_Resource_Order_Tax_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -44,10 +44,10 @@ class Mage_Sales_Model_Resource_Order_Tax_Collection extends Mage_Core_Model_Res
     }
 
     /**
-     * Enter description here ...
+     * Load by order
      *
-     * @param unknown_type $order
-     * @return unknown
+     * @param Mage_Sales_Model_Order $order
+     * @return Mage_Sales_Model_Resource_Order_Tax_Collection
      */
     public function loadByOrder($order)
     {

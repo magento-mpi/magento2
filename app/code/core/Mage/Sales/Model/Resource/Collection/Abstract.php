@@ -35,16 +35,16 @@
 abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix    = '';
 
     /**
-     * Enter description here ...
+     * Event object
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject    = '';
 
@@ -157,7 +157,7 @@ abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Mage_Core_M
         return $this->getConnection()->fetchCol(
             $this->_getAllIdsSelect($limit, $offset),
             $this->_bindParams
-         );
+        );
     }
 
     /**

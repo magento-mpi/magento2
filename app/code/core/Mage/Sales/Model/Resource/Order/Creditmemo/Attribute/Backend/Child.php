@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Invoice backend model for child attribute
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -36,10 +36,10 @@ class Mage_Sales_Model_Resource_Order_Creditmemo_Attribute_Backend_Child
     extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Enter description here ...
+     * Method is invoked before save
      *
-     * @param unknown_type $object
-     * @return unknown
+     * @param Varien_Object $object
+     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function beforeSave($object)
     {

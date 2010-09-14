@@ -26,48 +26,23 @@
 
 
 /**
- * Enter description here ...
+ * Sales Collection
  *
  * @category    Mage
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Object implements IteratorAggregate
+class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_Db
 {
-    /**
-     * Read connection
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    protected $_read;
-
-    /**
-     * Loaded collection items
-     *
-     * @var array
-     */
-    protected $_items                  = array();
 
     /**
      * Totals data
      *
      * @var array
      */
-    protected $_totals                 = array('lifetime' => 0, 'base_lifetime' => 0, 'base_avgsale' => 0, 'num_orders' => 0);
+    protected $_totals = array(
+        'lifetime' => 0, 'base_lifetime' => 0, 'base_avgsale' => 0, 'num_orders' => 0);
 
-    /**
-     * Entity attribute
-     *
-     * @var Mage_Sales_Model_Resource_Order
-     */
-    protected $_resource;
-
-    /**
-     * Collection's Zend_Db_Select object
-     *
-     * @var Zend_Db_Select
-     */
-    protected $_select;
 
     /**
      * Customer model
@@ -81,14 +56,14 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Object implements
      *
      * @var null|string|array
      */
-    protected $_orderStateValue        = null;
+    protected $_state = null;
 
     /**
      * Order state condition
      *
      * @var string
      */
-    protected $_orderStateCondition    = null;
+    protected $_orderStateCondition = null;
 
     /**
      * Set sales order entity and establish read connection
@@ -96,8 +71,8 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Object implements
      */
     public function __construct()
     {
-        $this->_resource = Mage::getResourceSingleton('sales/order');
-        $this->_read = $this->_resource->getReadConnection();
+        $conn = Mage::getResourceSingleton('sales/order')->getReadConnection();
+        $this->setConnection($conn);
     }
 
     /**
@@ -120,15 +95,14 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Object implements
      */
     public function addStoreFilter($storeIds)
     {
-        $this->getSelect()->where('store_id IN (?)', $storeIds);
-        return $this;
+        return $this->addFieldToFilter('store_id', array('in' => $storeIds));
     }
 
     /**
      * Set filter by order state
      *
      * @param string|array $state
-     * @param unknown_type $exclude
+     * @param bool_type $exclude
      * @return Mage_Sales_Model_Resource_Sale_Collection
      */
     public function setOrderStateFilter($state, $exclude = false)
@@ -137,17 +111,15 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Object implements
         $this->_orderStateValue = (!is_array($state)) ? array($state) : $state;
         return $this;
     }
-
+    
+    
     /**
-     * Load data
+     * Before load action
      *
-     * @param boolean $printQuery
-     * @param boolean $logQuery
-     * @return Mage_Sales_Model_Resource_Sale_Collection
+     * @return Varien_Data_Collection_Db
      */
-    public function load($printQuery = false, $logQuery = false)
+    protected function _beforeLoad()
     {
-        $this->_select = $this->_read->select();
         $this->getSelect()
             ->from(array('sales' => $this->_resource->getMainTable()),
                 array(
@@ -159,118 +131,60 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Object implements
                     'num_orders'    => 'count(sales.base_grand_total)'
                 )
             )
-            ->group('sales.store_id')
-        ;
+            ->group('sales.store_id');
+
         if ($this->_customer instanceof Mage_Customer_Model_Customer) {
-            $this->getSelect()
-                ->where('sales.customer_id=?', $this->_customer->getId());
+            $this->addFieldToFilter('sales.customer_id', $this->_customer->getId());
         }
 
         if (!is_null($this->_orderStateValue)) {
-            $this->getSelect()->where('state ' . $this->_orderStateCondition . ' (?)', $this->_orderStateValue);
+            $condition = '';
+            switch ($this->_orderStateCondition) {
+                case 'IN' : 
+                    $condition = 'in';
+                    break;
+                case 'NOT IN' : 
+                    $condition = 'nin';
+                    break;
+            }
+            $this->addFieldToFilter('state', array($condition => $this->_orderStateValue));
         }
 
         Mage::dispatchEvent('sales_sale_collection_query_before', array('collection' => $this));
-
-        $this->printLogQuery($printQuery, $logQuery);
-        try {
-            $values = $this->_read->fetchAll($this->getSelect()->__toString());
-        } catch (Exception $e) {
-            $this->printLogQuery(true, true, $this->getSelect()->__toString());
-            throw $e;
-        }
-        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
-        if (! empty($values)) {
-            foreach ($values as $v) {
-                $obj = new Varien_Object($v);
-                $storeName = isset($stores[$obj->getStoreId()]) ? $stores[$obj->getStoreId()] : null;
-
-                $this->_items[ $v['store_id'] ] = $obj;
-                $this->_items[ $v['store_id'] ]->setStoreName($storeName);
-                $this->_items[ $v['store_id'] ]->setWebsiteId(Mage::app()->getStore($obj->getStoreId())->getWebsiteId());
-                $this->_items[ $v['store_id'] ]->setAvgNormalized($obj->getAvgsale() * $obj->getNumOrders());
-                foreach ($this->_totals as $key => $value) {
-                    $this->_totals[$key] += $obj->getData($key);
-                }
-            }
-            if ($this->_totals['num_orders']) {
-                $this->_totals['avgsale'] = $this->_totals['base_lifetime'] / $this->_totals['num_orders'];
-            }
-        }
-
         return $this;
     }
 
     /**
-     * Print and/or log query
+     * Proces loaded collection data
      *
-     * @param boolean $printQuery
-     * @param boolean $logQuery
-     * @param mixed $sql
-     * @return Mage_Sales_Model_Resource_Sale_Collection
+     * @return Varien_Data_Collection_Db
      */
-    public function printLogQuery($printQuery = false, $logQuery = false, $sql = null)
+    protected function _afterLoad()
     {
-        if ($printQuery) {
-            echo is_null($sql) ? $this->getSelect()->__toString() : $sql;
+        $stores = Mage::getResourceModel('core/store_collection')
+            ->setWithoutDefaultFilter()
+            ->load()
+            ->toOptionHash();
+        $this->_items = array();
+        foreach ($this->_data as $v) {
+            $storeObject = new Varien_Object($v);
+            $storeId = $v['store_id'];
+            $storeName = isset($stores[$storeId]) ? $stores[$storeId] : null;
+            $storeObject->setStoreName($storeName)
+                ->setWebsiteId(Mage::app()->getStore($storeId)->getWebsiteId())
+                ->setAvgNormalized($v['avgsale'] * $v['num_orders']);
+            $this->_items[$storeId] = $storeObject;
+            foreach ($this->_totals as $key => $value) {
+                $this->_totals[$key] += $storeObject->getData($key);
+            }
         }
-
-        if ($logQuery){
-            Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
+        
+        if ($this->_totals['num_orders']) {
+            $this->_totals['avgsale'] = $this->_totals['base_lifetime'] / $this->_totals['num_orders'];
         }
         return $this;
     }
 
-    /**
-     * Get zend db select instance
-     *
-     * @return Zend_Db_Select
-     */
-    public function getSelect()
-    {
-        return $this->_select;
-    }
-
-    /**
-     * Retrieve attribute entity by specified parameter
-     *
-     * @param int|string|object $attr
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
-     */
-    public function getAttribute($attr)
-    {
-        return $this->_entity->getAttribute($attr);
-    }
-
-    /**
-     * Retrieve currently used entity
-     *
-     * @return Mage_Eav_Model_Entity_Abstract
-     */
-    public function getEntity()
-    {
-        return $this->_entity;
-    }
-
-    /**
-     * Retrieve Iterator instance of items array
-     *
-     * @return ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->_items);
-    }
-
-    /**
-     * Retrieve array of items
-     *
-     * @return array
-     */
-    public function getItems()
-    {
-        return $this->_items;
-    }
 
     /**
      * Retrieve totals data converted into Varien_Object

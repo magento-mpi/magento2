@@ -36,9 +36,9 @@ class Mage_Sales_Model_Resource_Order_Attribute_Backend_Shipping
     extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Enter description here ...
+     * Perform operation before save
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
      */
     public function beforeSave($object)
     {
@@ -49,9 +49,9 @@ class Mage_Sales_Model_Resource_Order_Attribute_Backend_Shipping
     }
 
     /**
-     * Enter description here ...
+     * Perform operation after save
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
      */
     public function afterSave($object)
     {

@@ -35,35 +35,35 @@
 class Mage_Sales_Model_Resource_Order_Creditmemo extends Mage_Sales_Model_Resource_Order_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix                  = 'sales_order_creditmemo_resource';
 
     /**
-     * Enter description here ...
+     * Is grid available
      *
-     * @var unknown
+     * @var bool
      */
     protected $_grid                         = true;
 
     /**
-     * Enter description here ...
+     * Flag for using of increment id
      *
-     * @var unknown
+     * @var bool
      */
     protected $_useIncrementId               = true;
 
     /**
-     * Enter description here ...
+     * Entity code for increment id (Eav entity code)
      *
-     * @var unknown
+     * @var string
      */
     protected $_entityTypeForIncrementId     = 'creditmemo';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -79,25 +79,28 @@ class Mage_Sales_Model_Resource_Order_Creditmemo extends Mage_Sales_Model_Resour
     protected function _initVirtualGridColumns()
     {
         parent::_initVirtualGridColumns();
+        $checkedFirstname = $this->getReadConnection()
+            ->getCheckSql('{{table}}.firstname IS NULL', '', '{{table}}.firstname');
+        $checkedLastname = $this->getReadConnection()
+            ->getCheckSql('{{table}}.lastname IS NULL', '', '{{table}}.lastname');
         $this->addVirtualGridColumn(
-                'billing_name',
-                'sales/order_address',
-                array('billing_address_id' => 'entity_id'),
-                'CONCAT(IFNULL({{table}}.firstname, ""), " ", IFNULL({{table}}.lastname, ""))'
-            )
-            ->addVirtualGridColumn(
-                'order_increment_id',
-                'sales/order',
-                array('order_id' => 'entity_id'),
-                'increment_id'
-            )
-            ->addVirtualGridColumn(
-                'order_created_at',
-                'sales/order',
-                array('order_id' => 'entity_id'),
-                'created_at'
-            )
-            ;
+            'billing_name',
+            'sales/order_address',
+            array('billing_address_id' => 'entity_id'),
+            "CONCAT({$checkedFirstname}, ' ', {$checkedLastname})"
+        )
+        ->addVirtualGridColumn(
+            'order_increment_id',
+            'sales/order',
+            array('order_id' => 'entity_id'),
+            'increment_id'
+        )
+        ->addVirtualGridColumn(
+            'order_created_at',
+            'sales/order',
+            array('order_id' => 'entity_id'),
+            'created_at'
+        );
 
         return $this;
     }

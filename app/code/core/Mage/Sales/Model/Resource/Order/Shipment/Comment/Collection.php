@@ -36,26 +36,25 @@ class Mage_Sales_Model_Resource_Order_Shipment_Comment_Collection
     extends Mage_Sales_Model_Resource_Order_Comment_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix    = 'sales_order_shipment_comment_collection';
 
     /**
-     * Enter description here ...
+     * Event object
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject    = 'order_shipment_comment_collection';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
     {
-        parent::_construct();
         $this->_init('sales/order_shipment_comment');
     }
 

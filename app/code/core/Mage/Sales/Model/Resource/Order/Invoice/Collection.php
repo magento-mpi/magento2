@@ -35,16 +35,16 @@
 class Mage_Sales_Model_Resource_Order_Invoice_Collection extends Mage_Sales_Model_Resource_Order_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix    = 'sales_order_invoice_collection';
 
     /**
-     * Enter description here ...
+     * Event object
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject    = 'order_invoice_collection';
 
@@ -56,7 +56,7 @@ class Mage_Sales_Model_Resource_Order_Invoice_Collection extends Mage_Sales_Mode
     protected $_orderField     = 'order_id';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()

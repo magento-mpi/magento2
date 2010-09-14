@@ -44,14 +44,14 @@ class Mage_Sales_Model_Resource_Order_Payment extends Mage_Sales_Model_Resource_
     );
 
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix          = 'sales_order_payment_resource';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()

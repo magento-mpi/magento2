@@ -35,21 +35,21 @@
 class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resource_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix    = 'sales_order_collection';
 
     /**
-     * Enter description here ...
+     * Event object
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject    = 'order_collection';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -68,8 +68,8 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
      */
     public function addItemCountExpr()
     {
-        if (is_null($this->_fieldsToSelect)) { // If we select all fields from table,
-                                               // we need to add column alias
+        if (is_null($this->_fieldsToSelect)) {
+            // If we select all fields from table, we need to add column alias
             $this->getSelect()->columns(array('items_count'=>'total_item_count'));
         } else {
             $this->addFieldToSelect('total_item_count', 'items_count');
@@ -86,7 +86,6 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
     {
         /* @var $countSelect Varien_Db_Select */
         $countSelect = parent::getSelectCountSql();
-
         $countSelect->resetJoinLeft();
         return $countSelect;
     }
@@ -94,8 +93,8 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
     /**
      * Reset left join
      *
-     * @param unknown_type $limit
-     * @param unknown_type $offset
+     * @param int $limit
+     * @param int $offset
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     protected function _getAllIdsSelect($limit = null, $offset = null)
@@ -183,21 +182,20 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
     /**
      * Specify collection select filter by attribute value
      *
-     * @param unknown_type $attributes
+     * @param array $attributes
      * @param array|integer|string|null $condition
      * @return Mage_Sales_Model_Resource_Order_Collection
      */
     public function addAttributeToSearchFilter($attributes, $condition = null)
     {
-        if (is_array($attributes) && !empty($attributes)){
+        if (is_array($attributes) && !empty($attributes)) {
             $this->_addAddressFields();
 
             $toFilterData = array();
             foreach ($attributes as $attribute) {
                 $this->addFieldToSearchFilter($this->_attributeToField($attribute['attribute']), $attribute);
             }
-        }
-        else {
+        } else {
             $this->addAttributeToFilter($attributes, $condition);
         }
 

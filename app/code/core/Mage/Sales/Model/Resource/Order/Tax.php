@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Order Tax Model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -35,7 +35,7 @@
 class Mage_Sales_Model_Resource_Order_Tax extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()

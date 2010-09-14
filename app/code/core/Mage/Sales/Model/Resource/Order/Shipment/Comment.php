@@ -35,14 +35,14 @@
 class Mage_Sales_Model_Resource_Order_Shipment_Comment extends Mage_Sales_Model_Resource_Order_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
      * @var unknown
      */
     protected $_eventPrefix    = 'sales_order_shipment_comment_resource';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()

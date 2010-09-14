@@ -185,7 +185,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
      * Retrieve update grid records select
      *
      * @param array $ids
-     * @param unknown_type $flatColumnsToSelect
+     * @param array $flatColumnsToSelect
      * @param array|null $gridColumns
      * @return Varien_Db_Select
      */
@@ -215,9 +215,9 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     /**
      * Join virtual grid columns to select
      *
-     * @param unknown_type $mainTableAlias
+     * @param string $mainTableAlias
      * @param Zend_Db_Select $select
-     * @param unknown_type $columnsToSelect
+     * @param array $columnsToSelect
      * @return Mage_Sales_Model_Resource_Order_Abstract
      */
     public function joinVirtualGridColumnsToSelect($mainTableAlias, Zend_Db_Select $select, &$columnsToSelect)
@@ -391,7 +391,9 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     {
         if ($object->getId() && !empty($data)) {
             $table = $this->getMainTable();
-            $this->_getWriteAdapter()->update($table, $data, $this->getIdFieldName() . '=' . (int) $object->getId());
+            $this->_getWriteAdapter()->update($table, $data, 
+                array($this->getIdFieldName() . '=?', (int) $object->getId())
+            );
             $object->addData($data);
         }
 

@@ -36,26 +36,25 @@ class Mage_Sales_Model_Resource_Order_Shipment_Grid_Collection
     extends Mage_Sales_Model_Resource_Order_Shipment_Collection
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix    = 'sales_order_shipment_grid_collection';
 
     /**
-     * Enter description here ...
+     * Event object
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject    = 'order_shipment_grid_collection';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
     {
-        parent::_construct();
         $this->setMainTable('sales/shipment_grid');
     }
 }

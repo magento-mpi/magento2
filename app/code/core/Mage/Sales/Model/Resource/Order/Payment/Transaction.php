@@ -76,12 +76,17 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
             list($paymentId, $orderId) = array_values($verificationRow);
 
             // inject
-            $adapter->update($this->getMainTable(), array('parent_id' => $id),
-                sprintf('%s <> %d AND parent_id IS NULL AND payment_id = %d AND order_id = %d AND parent_txn_id = %s',
-                    $this->getIdFieldName(), $id,
-                    (int)$paymentId, (int)$orderId,
-                    $adapter->quote($txnId)
-            ));
+            $where = array(
+                $adapter->quoteIdentifier($this->getIdFieldName()) . '!=?' => $id,
+                new Zend_Db_Expr('parent_id IS NULL'),
+                'payment_id = ?' => (int)$paymentId,
+                'order_id = ?' => (int)$orderId,
+                'parent_txn_id = ?' => $txnId
+            );
+            $adapter->update($this->getMainTable(), 
+                array('parent_id' => $id),
+                $where
+            );
         }
     }
 
@@ -137,7 +142,8 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
 
         if ($parentTxnId) {
             if (!$txnId || !$orderId || !$paymentId) {
-                Mage::throwException(Mage::helper('sales')->__('Not enough valid data to save the parent transaction ID.'));
+                Mage::throwException(
+                    Mage::helper('sales')->__('Not enough valid data to save the parent transaction ID.'));
             }
             $parentId = (int)$this->_lookupByTxnId($orderId, $paymentId, $parentTxnId, $idFieldName);
             if ($parentId) {
@@ -186,7 +192,7 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
      * @param int $paymentId
      * @param string $txnId
      * @param string|array|Zend_Db_Expr $columns
-     * @return unknown
+     * @return Varien_Db_Select
      */
     private function _getLoadByUniqueKeySelect($orderId, $paymentId, $txnId, $columns = '*')
     {

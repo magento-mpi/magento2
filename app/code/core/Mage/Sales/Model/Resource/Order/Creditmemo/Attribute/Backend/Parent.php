@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Invoice backend model for parent attribute
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -36,9 +36,9 @@ class Mage_Sales_Model_Resource_Order_Creditmemo_Attribute_Backend_Parent
     extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Enter description here ...
+     * Method is invoked after save
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
      * @return Mage_Sales_Model_Resource_Order_Creditmemo_Attribute_Backend_Parent
      */
     public function afterSave($object)
@@ -52,7 +52,7 @@ class Mage_Sales_Model_Resource_Order_Creditmemo_Attribute_Backend_Parent
             $item->save();
         }
 
-        foreach($object->getCommentsCollection() as $comment) {
+        foreach ($object->getCommentsCollection() as $comment) {
             $comment->save();
         }
 

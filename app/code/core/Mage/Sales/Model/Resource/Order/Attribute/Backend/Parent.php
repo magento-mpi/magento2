@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Invoice backend model for parent attribute
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -35,9 +35,9 @@
 class Mage_Sales_Model_Resource_Order_Attribute_Backend_Parent extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Enter description here ...
+     * Perform operation after save
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
      * @return Mage_Sales_Model_Resource_Order_Attribute_Backend_Parent
      */
     public function afterSave($object)

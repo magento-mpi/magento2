@@ -35,21 +35,21 @@
 class Mage_Sales_Model_Resource_Order_Address_Collection extends Mage_Sales_Model_Resource_Order_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix    = 'sales_order_address_collection';
 
     /**
-     * Enter description here ...
+     * Event object
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject    = 'order_address_collection';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -66,7 +66,7 @@ class Mage_Sales_Model_Resource_Order_Address_Collection extends Mage_Sales_Mode
     {
         parent::_afterLoad();
 
-        Mage::dispatchEvent($this->_eventPrefix.'_load_after', array(
+        Mage::dispatchEvent($this->_eventPrefix . '_load_after', array(
             $this->_eventObject => $this
         ));
 

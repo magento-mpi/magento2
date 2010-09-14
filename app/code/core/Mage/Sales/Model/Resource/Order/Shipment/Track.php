@@ -35,14 +35,14 @@
 class Mage_Sales_Model_Resource_Order_Shipment_Track extends Mage_Sales_Model_Resource_Order_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix    = 'sales_order_shipment_track_resource';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()

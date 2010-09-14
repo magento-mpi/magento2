@@ -35,35 +35,35 @@
 class Mage_Sales_Model_Resource_Order_Shipment extends Mage_Sales_Model_Resource_Order_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix                  = 'sales_order_shipment_resource';
 
     /**
-     * Enter description here ...
+     * Is grid available
      *
-     * @var unknown
+     * @var bool
      */
     protected $_grid                         = true;
 
     /**
-     * Enter description here ...
+     * Use increment id
      *
-     * @var unknown
+     * @var bool
      */
     protected $_useIncrementId               = true;
 
     /**
-     * Enter description here ...
+     * Entity type for increment id
      *
-     * @var unknown
+     * @var string
      */
     protected $_entityTypeForIncrementId     = 'shipment';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -79,25 +79,28 @@ class Mage_Sales_Model_Resource_Order_Shipment extends Mage_Sales_Model_Resource
     protected function _initVirtualGridColumns()
     {
         parent::_initVirtualGridColumns();
+        $checkedFirstname = $this->getReadConnection()
+            ->getCheckSql('{{table}}.firstname IS NULL', '', '{{table}}.firstname');
+        $checkedLastname = $this->getReadConnection()
+            ->getCheckSql('{{table}}.lastname IS NULL', '', '{{table}}.lastname');
         $this->addVirtualGridColumn(
-                'shipping_name',
-                'sales/order_address',
-                array('shipping_address_id' => 'entity_id'),
-                'CONCAT(IFNULL({{table}}.firstname, ""), " ", IFNULL({{table}}.lastname, ""))'
-            )
-            ->addVirtualGridColumn(
-                'order_increment_id',
-                'sales/order',
-                array('order_id' => 'entity_id'),
-                'increment_id'
-            )
-            ->addVirtualGridColumn(
-                'order_created_at',
-                'sales/order',
-                array('order_id' => 'entity_id'),
-                'created_at'
-            )
-            ;
+            'shipping_name',
+            'sales/order_address',
+            array('shipping_address_id' => 'entity_id'),
+            "CONCAT($checkedFirstname}, ' ', {$checkedLastname})"
+        )
+        ->addVirtualGridColumn(
+            'order_increment_id',
+            'sales/order',
+            array('order_id' => 'entity_id'),
+            'increment_id'
+        )
+        ->addVirtualGridColumn(
+            'order_created_at',
+            'sales/order',
+            array('order_id' => 'entity_id'),
+            'created_at'
+        );
 
         return $this;
     }

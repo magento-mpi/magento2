@@ -57,7 +57,7 @@ class Mage_Sales_Model_Resource_Recurring_Profile extends Mage_Sales_Model_Resou
      * Return recurring profile child Orders Ids
      *
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
      * @return array
      */
     public function getChildOrderIds($object)
@@ -81,8 +81,8 @@ class Mage_Sales_Model_Resource_Recurring_Profile extends Mage_Sales_Model_Resou
     {
         $this->_getWriteAdapter()->insert(
             $this->getTable('sales/recurring_profile_order'), array(
-                'profile_id'  => $recurringProfileId,
-                'order_id'      => $orderId
+                'profile_id' => $recurringProfileId,
+                'order_id'   => $orderId
             )
         );
         return $this;

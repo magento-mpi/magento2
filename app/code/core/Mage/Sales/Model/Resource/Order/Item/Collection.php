@@ -35,16 +35,16 @@
 class Mage_Sales_Model_Resource_Order_Item_Collection extends Mage_Sales_Model_Resource_Order_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix    = 'sales_order_item_collection';
 
     /**
-     * Enter description here ...
+     * Event object
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject    = 'order_item_collection';
 
@@ -56,7 +56,7 @@ class Mage_Sales_Model_Resource_Order_Item_Collection extends Mage_Sales_Model_R
     protected $_orderField     = 'order_id';
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -90,7 +90,7 @@ class Mage_Sales_Model_Resource_Order_Item_Collection extends Mage_Sales_Model_R
      */
     public function setRandomOrder()
     {
-        $this->setOrder('RAND()');
+        $this->getConnection()->orderRand($this->getSelect());
         return $this;
     }
 
@@ -134,8 +134,7 @@ class Mage_Sales_Model_Resource_Order_Item_Collection extends Mage_Sales_Model_R
     {
         if (empty($parentId)) {
             $this->addFieldToFilter('parent_item_id', array('null' => true));
-        }
-        else {
+        } else {
             $this->addFieldToFilter('parent_item_id', $parentId);
         }
         return $this;

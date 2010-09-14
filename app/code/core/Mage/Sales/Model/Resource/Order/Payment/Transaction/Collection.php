@@ -233,7 +233,7 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction_Collection
             $this->getSelect()->where('so.store_id IN(?)', $this->_storeIds);
             $this->addOrderInformation(array('store_id'));
         }
-        if($this->_addOrderInformation) {
+        if ($this->_addOrderInformation) {
             $this->getSelect()->joinInner(
                 array('so' => $this->getTable('sales/order')),
                 'main_table.order_id = so.entity_id',
