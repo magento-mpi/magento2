@@ -194,10 +194,8 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
             $this->_productIds = array();
             $this->setCollectedAttributes(array());
             $websiteIds = explode(',', $this->getWebsiteIds());
-
             if ($websiteIds) {
                 $productCollection = Mage::getResourceModel('catalog/product_collection');
-
                 $productCollection->addWebsiteFilter($websiteIds);
                 $this->getConditions()->collectValidatedAttributes($productCollection);
 

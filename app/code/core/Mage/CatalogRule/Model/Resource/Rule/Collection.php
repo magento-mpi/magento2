@@ -65,7 +65,7 @@ class Mage_CatalogRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Re
         }
         $parts = array();
         foreach ($websiteIds as $websiteId) {
-            $parts[] = $this->getConnection()->quoteInto('FIND_IN_SET(?, main_table.website_ids)', $websiteId);
+          $parts[] = $this->getConnection()->prepareSqlCondition('main_table.website_ids', array('finset' => $websiteId));
         }
         if ($parts) {
             $this->getSelect()->where(new Zend_Db_Expr(implode(' OR ', $parts)));

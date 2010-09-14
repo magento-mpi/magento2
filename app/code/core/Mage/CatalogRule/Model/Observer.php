@@ -189,6 +189,7 @@ class Mage_CatalogRule_Model_Observer
     public function prepareCatalogProductPriceIndexTable(Varien_Event_Observer $observer)
     {
         $select             = $observer->getEvent()->getSelect();
+
         $indexTable         = $observer->getEvent()->getIndexTable();
         $entityId           = $observer->getEvent()->getEntityId();
         $customerGroupId    = $observer->getEvent()->getCustomerGroupId();

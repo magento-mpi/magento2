@@ -112,40 +112,33 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         $actionStop = $rule->getStopRulesProcessing();
 
         $rows = array();
-        $queryStart = 'INSERT INTO '.$this->getTable('catalogrule/rule_product').' (
-                rule_id, from_time, to_time, website_id, customer_group_id, product_id, action_operator,
-                action_amount, action_stop, sort_order ) values ';
-        $queryEnd = ' ON DUPLICATE KEY UPDATE action_operator=VALUES(action_operator),
-            action_amount=VALUES(action_amount), action_stop=VALUES(action_stop)';
+
         try {
             foreach ($productIds as $productId) {
                 foreach ($websiteIds as $websiteId) {
                     foreach ($customerGroupIds as $customerGroupId) {
-                        $rows[] = "('" . implode("','", array(
-                            $ruleId,
-                            $fromTime,
-                            $toTime,
-                            $websiteId,
-                            $customerGroupId,
-                            $productId,
-                            $actionOperator,
-                            $actionAmount,
-                            $actionStop,
-                            $sortOrder))."')";
-                        /**
-                         * Array with 1000 rows contain about 2M data
-                         */
-                        if (sizeof($rows)==1000) {
-                            $sql = $queryStart.join(',', $rows).$queryEnd;
-                            $write->query($sql);
+                        $rows[] = array(
+                            'rule_id'           => $ruleId,
+                            'from_time'         => $fromTime,
+                            'to_time'           => $toTime,
+                            'website_id'        => $websiteId,
+                            'customer_group_id' => $customerGroupId,
+                            'product_id'        => $productId,
+                            'action_operator'   => $actionOperator,
+                            'action_amount'     => $actionAmount,
+                            'action_stop'       => $actionStop,
+                            'sort_order'        => $sortOrder,
+                            );
+
+                        if (count($rows) == 1000) {
+                            $write->insertMultiple($this->getTable('catalogrule/rule_product'), $rows);
                             $rows = array();
                         }
                     }
                 }
             }
             if (!empty($rows)) {
-                $sql = $queryStart.join(',', $rows).$queryEnd;
-                $write->query($sql);
+               $write->insertMultiple($this->getTable('catalogrule/rule_product'), $rows);
             }
 
             $write->commit();
@@ -196,9 +189,11 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
          */
         $select = $this->_getWriteAdapter()->select()
             ->from($this->getTable('catalogrule/rule_product_price'), 'product_id')
-            ->where(implode(' AND ', $conds));
-        $insertQuery = 'REPLACE INTO ' . $this->getTable('catalogrule/affected_product') . ' (product_id)' . $select->__toString();
-        $this->_getWriteAdapter()->query($insertQuery);
+            ->where(implode(' AND ', $conds))
+            ->group('product_id');
+        
+        $replace = $write->insertFromSelect($select, $this->getTable('catalogrule/affected_product'), array('product_id'), true);
+        $write->query($replace);
         $write->delete($this->getTable('catalogrule/rule_product_price'), $conds);
         return $this;
     }
@@ -220,78 +215,6 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         }
         $write->delete($this->getTable('catalogrule/rule_product_price'), $conds);
         return $this;
-    }
-
-    /**
-     * Get rules data for all products in specified date range
-     * deprecated
-     *
-     * @param int|string $fromDate
-     * @param int|string $toDate
-     * @param int|null $productId
-     * @return false|array
-     */
-    public function getRuleProductsForDateRange($fromDate, $toDate, $productId = null)
-    {
-        $read = $this->_getReadAdapter();
-
-        $select = $read->select()
-            ->from($this->getTable('catalogrule/rule_product'))
-            ->where($read->quoteInto('from_time=0 or from_time<=?', strtotime($toDate))
-            ." or ".$read->quoteInto('to_time=0 or to_time>=?', strtotime($fromDate)))
-            ->order(array('website_id', 'customer_group_id', 'product_id', 'sort_order'));
-        // crucial for logic sort order: website_id, customer_group_id, product_id, sort_order
-        // had 'from_time', 'to_time' in the beginning before
-        if (!is_null($productId)) {
-            $select->where('product_id=?', $productId);
-        }
-
-        if (!$ruleProducts = $read->fetchAll($select)) {
-            return false;
-        }
-        $productIds = array();
-        foreach ($ruleProducts as $p) {
-            $productIds[] = $p['product_id'];
-        }
-
-        $priceAttr = Mage::getSingleton('eav/config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'price');
-
-        $select = $read->select()
-            ->from($priceAttr->getBackend()->getTable(), array('entity_id', 'store_id', 'value'))
-            ->where('attribute_id=?', $priceAttr->getAttributeId())
-            ->where('entity_id in (?)', $productIds)
-            ->order('store_id');
-
-        $prices = $read->fetchAll($select);
-
-        /**
-         * Prepare price information per website
-         */
-        $productPrices = array();
-        foreach ($prices as $index => $priceData) {
-            $websiteId = Mage::app()->getStore($priceData['store_id'])->getWebsiteId();
-
-            if (!isset($productPrices[$priceData['entity_id']])) {
-                $productPrices[$priceData['entity_id']] = array(
-                    'default'    => $priceData['value'],
-                    'websites'   => array($websiteId=>$priceData['value'])
-                );
-            }
-            else {
-                $productPrices[$priceData['entity_id']]['websites'][$websiteId] = $priceData['value'];
-            }
-        }
-
-        foreach ($ruleProducts as &$p) {
-            if (isset($productPrices[$p['product_id']]['websites'][$p['website_id']])) {
-                $p['price'] = $productPrices[$p['product_id']]['websites'][$p['website_id']];
-            }
-            elseif (isset($productPrices[$p['product_id']]['default'])) {
-                $p['price'] = $productPrices[$p['product_id']]['default'];
-            }
-        }
-
-        return $ruleProducts;
     }
 
     /**
@@ -317,7 +240,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
          * all next rows for same product id from price calculation
          */
         $select = $read->select()
-            ->from(array('rp'=>$this->getTable('catalogrule/rule_product')))
+            ->from(array('rp' => $this->getTable('catalogrule/rule_product')))
             ->where($read->quoteInto('rp.from_time=0 or rp.from_time<=?', $toDate)
             ." or ".$read->quoteInto('rp.to_time=0 or rp.to_time>=?', $fromDate))
             ->order(array('rp.website_id', 'rp.customer_group_id', 'rp.product_id', 'rp.sort_order', 'rp.rule_id'));
@@ -598,23 +521,22 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         if (empty($arrData)) {
             return $this;
         }
-        $header = 'replace into '.$this->getTable('catalogrule/rule_product_price').' (
-                rule_date, website_id, customer_group_id, product_id, rule_price, latest_start_date, earliest_end_date
-            ) values ';
-        $rows = array();
-        $productIds = array();
-        foreach ($arrData as $data) {
-            $productIds[$data['product_id']] = true;
-            $data['rule_date']          = $this->formatDate($data['rule_date'], false);
-            $data['latest_start_date']  = $this->formatDate($data['latest_start_date'], false);
-            $data['earliest_end_date']  = $this->formatDate($data['earliest_end_date'], false);
-            $rows[] = '(' . $this->_getWriteAdapter()->quote($data) . ')';
+
+        foreach ($arrData as $key => $data) {
+            $productIds[$data['product_id']] = true; // to avoid dupes
+            $arrData[$key]['rule_date']          = $this->formatDate($data['rule_date'], false);
+            $arrData[$key]['latest_start_date']  = $this->formatDate($data['latest_start_date'], false);
+            $arrData[$key]['earliest_end_date']  = $this->formatDate($data['earliest_end_date'], false);
         }
-        $query = $header.join(',', $rows);
-        $insertQuery = 'REPLACE INTO ' . $this->getTable('catalogrule/affected_product') . ' (product_id)  VALUES ' .
-            '(' . join('),(', array_keys($productIds)) . ')';
-        $this->_getWriteAdapter()->query($insertQuery);
-        $this->_getWriteAdapter()->query($query);
+
+        foreach ($productIds as $id => $v) {
+            $this->_getWriteAdapter()->delete($this->getTable('catalogrule/affected_product'),
+                array("product_id = $id"));
+            $this->_getWriteAdapter()->insert($this->getTable('catalogrule/affected_product'),
+                array('product_id' => $id));
+        }
+
+        $this->_getWriteAdapter()->insertOnDuplicate($this->getTable('catalogrule/rule_product_price'), $arrData);
         return $this;
     }
 
@@ -724,44 +646,31 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         $actionStop     = $rule->getStopRulesProcessing();
 
         $rows = array();
-        $header = 'replace into '.$this->getTable('catalogrule/rule_product').' (
-                rule_id,
-                from_time,
-                to_time,
-                website_id,
-                customer_group_id,
-                product_id,
-                action_operator,
-                action_amount,
-                action_stop,
-                sort_order
-            ) values ';
         try {
             foreach ($websiteIds as $websiteId) {
                 foreach ($customerGroupIds as $customerGroupId) {
-                    $rows[] = "(
-                        '$ruleId',
-                        '$fromTime',
-                        '$toTime',
-                        '$websiteId',
-                        '$customerGroupId',
-                        '$productId',
-                        '$actionOperator',
-                        '$actionAmount',
-                        '$actionStop',
-                        '$sortOrder'
-                    )";
-                    if (sizeof($rows)==100) {
-                        $sql = $header.join(',', $rows);
-                        $write->query($sql);
+                    $rows[] = array(
+                        'rule_id'           => $ruleId,
+                        'from_time'         => $fromTime,
+                        'to_time'           => $toTime,
+                        'website_id'        => $websiteId,
+                        'customer_group_id' => $customerGroupId,
+                        'product_id'        => $productId,
+                        'action_operator'   => $actionOperator,
+                        'action_amount'     => $actionAmount,
+                        'action_stop'       => $actionStop,
+                        'sort_order'        => $sortOrder,
+                        );
+
+                    if (count($rows) == 1000) {
+                        $write->insertMultiple($this->getTable('catalogrule/rule_product'), $rows);
                         $rows = array();
                     }
                 }
             }
 
             if (!empty($rows)) {
-                $sql = $header.join(',', $rows);
-                $write->query($sql);
+               $write->insertMultiple($this->getTable('catalogrule/rule_product'), $rows);
             }
         } catch (Exception $e) {
             $write->rollback();
