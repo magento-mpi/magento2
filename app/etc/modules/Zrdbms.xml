@@ -58,7 +58,7 @@
             <active>true</active>
         </Mage_CatalogInventory>
         <Mage_CatalogRule>
-            <active>false</active>
+            <active>true</active>
         </Mage_CatalogRule>
         <Mage_CatalogSearch>
             <active>false</active>
@@ -88,7 +88,7 @@
             <active>true</active>
         </Mage_Core>
         <Mage_Cron>
-            <active>false</active>
+            <active>true</active>
         </Mage_Cron>
         <Mage_Customer>
             <active>true</active>
