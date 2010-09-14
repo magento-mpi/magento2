@@ -35,21 +35,21 @@
 class Mage_Sales_Model_Resource_Quote_Address_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix    = 'sales_quote_address_collection';
 
     /**
-     * Enter description here ...
+     * Event object name
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject    = 'quote_address_collection';
 
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -86,3 +86,4 @@ class Mage_Sales_Model_Resource_Quote_Address_Collection extends Mage_Core_Model
         return $this;
     }
 }
+

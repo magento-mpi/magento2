@@ -64,7 +64,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
      */
     public function getStoreId()
     {
-        return $this->_quote->getStoreId();
+        return (int)$this->_quote->getStoreId();
     }
 
     /**
@@ -96,13 +96,17 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
      */
     public function resetJoinQuotes($quotesTableName, $productId = null)
     {
-        $this->getSelect()
-            ->reset()
-            ->from(array('qi' => $this->getResource()->getMainTable()), array('item_id', 'qty', 'quote_id'));
-        $this->getSelect()
-            ->joinInner(array('q' => $quotesTableName), 'qi.quote_id=q.entity_id', array('store_id', 'items_qty', 'items_count'));
+        $this->getSelect()->reset()
+            ->from(
+                array('qi' => $this->getResource()->getMainTable()),
+                array('item_id', 'qty', 'quote_id'))
+            ->joinInner(
+                array('q' => $quotesTableName),
+               'qi.quote_id = q.entity_id',
+                array('store_id', 'items_qty', 'items_count')
+            );
         if ($productId) {
-            $this->getSelect()->where('qi.product_id=?', $productId);
+            $this->getSelect()->where('qi.product_id = ?', (int)$productId);
         }
         return $this;
     }
@@ -167,7 +171,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
         Varien_Profiler::start('QUOTE:'.__METHOD__);
         $productIds = array();
         foreach ($this as $item) {
-            $productIds[] = $item->getProductId();
+            $productIds[] = (int)$item->getProductId();
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
@@ -236,3 +240,4 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
         return $this;
     }
 }
+

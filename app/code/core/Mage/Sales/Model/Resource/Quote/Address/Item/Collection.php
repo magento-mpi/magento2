@@ -35,7 +35,7 @@
 class Mage_Sales_Model_Resource_Quote_Address_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Item_Collection extends Mage_Core_
     }
 
     /**
-     * Enter description here ...
+     * Set parent items
      *
      * @return Mage_Sales_Model_Resource_Quote_Address_Item_Collection
      */
@@ -64,7 +64,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Item_Collection extends Mage_Core_
     }
 
     /**
-     * Enter description here ...
+     * Set address filter
      *
      * @param unknown_type $addressId
      * @return Mage_Sales_Model_Resource_Quote_Address_Item_Collection

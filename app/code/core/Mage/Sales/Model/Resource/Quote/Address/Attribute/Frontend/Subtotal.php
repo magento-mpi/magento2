@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Quote address attribute frontend subtotal resource model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -36,7 +36,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Subtotal
     extends Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend
 {
     /**
-     * Enter description here ...
+     * Add total
      *
      * @param Mage_Sales_Model_Quote_Address $address
      * @return Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Subtotal

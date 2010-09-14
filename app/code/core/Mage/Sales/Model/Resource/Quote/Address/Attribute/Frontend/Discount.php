@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Quote address attribute frontend discount resource model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -36,7 +36,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Discount
     extends Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend
 {
     /**
-     * Enter description here ...
+     * Fetch discount
      *
      * @param Mage_Sales_Model_Quote_Address $address
      * @return Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Discount
@@ -44,10 +44,10 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Discount
     public function fetchTotals(Mage_Sales_Model_Quote_Address $address)
     {
         $amount = $address->getDiscountAmount();
-        if ($amount!=0) {
+        if ($amount != 0) {
             $title = Mage::helper('sales')->__('Discount');
             if ($address->getQuote()->getCouponCode()) {
-                $title .= ' ('.$address->getQuote()->getCouponCode().')';
+                $title .= sprintf(' (%s)', $address->getQuote()->getCouponCode());
             }
             $address->addTotal(array(
                 'code'=>'discount', 

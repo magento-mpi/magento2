@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Quote address attribute backend region resource model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -36,9 +36,10 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
     extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Enter description here ...
+     * Set region to the attribute
      *
-     * @param unknown_type $object
+     * @param Varien_Object $object
+     * @return Mage_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
      */
     public function beforeSave($object)
     {
@@ -49,5 +50,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
                 $object->setRegion($region->getCode());
             }
         }
+
+        return $this;
     }
 }

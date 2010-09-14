@@ -35,7 +35,7 @@
 class Mage_Sales_Model_Resource_Quote_Item_Option extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Main table and field initialization
      *
      */
     protected function _construct()

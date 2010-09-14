@@ -310,6 +310,7 @@
  */
 class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 {
+    const ENTITY                                = 'order';
     /**
      * XML configuration paths
      */

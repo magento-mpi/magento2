@@ -48,21 +48,22 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      *
      * @param string $field
      * @param mixed $value
-     * @param unknown_type $object
-     * @return Zend_Db_Select
+     * @param Mage_Core_Model_Abstract $object
+     * @return Varien_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        if ($storeIds = $object->getSharedStoreIds()) {
+        $storeIds = $object->getSharedStoreIds();
+        if ($storeIds) {
             $select->where('store_id IN (?)', $storeIds);
-        }
-        else {
+        } else {
             /**
              * For empty result
              */
-            $select->where('store_id<0');
+            $select->where('store_id < ?', 0);
         }
+
         return $select;
     }
 
@@ -76,20 +77,19 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
     public function loadByCustomerId($quote, $customerId)
     {
         $read = $this->_getReadAdapter();
-        if ($read) {
-            $select = $this->_getLoadSelect('customer_id', $customerId, $quote)
-                ->where('is_active=1')
-                ->order('updated_at desc')
-                ->limit(1);
+        $select = $this->_getLoadSelect('customer_id', $customerId, $quote)
+            ->where('is_active = ?', 1)
+            ->order('updated_at ' . Varien_Db_Select::SQL_DESC)
+            ->limit(1);
 
-            $data = $read->fetchRow($select);
+        $data = $read->fetchRow($select);
 
-            if ($data) {
-                $quote->setData($data);
-            }
+        if ($data) {
+            $quote->setData($data);
         }
 
         $this->_afterLoad($quote);
+
         return $this;
     }
 
@@ -103,85 +103,103 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
     public function loadActive($quote, $quoteId)
     {
         $read = $this->_getReadAdapter();
-        if ($read) {
-            $select = $this->_getLoadSelect('entity_id', $quoteId, $quote)
-                ->where('is_active=1');
+        $select = $this->_getLoadSelect('entity_id', $quoteId, $quote)
+            ->where('is_active = ?', 1);
 
-            $data = $read->fetchRow($select);
-
-            if ($data) {
-                $quote->setData($data);
-            }
+        $data = $read->fetchRow($select);
+        if ($data) {
+            $quote->setData($data);
         }
 
         $this->_afterLoad($quote);
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Get reserved order id
      *
-     * @param unknown_type $quote
+     * @param Mage_Sales_Model_Quote $quote
      * @return unknown
      */
     public function getReservedOrderId($quote)
     {
-        return Mage::getSingleton('eav/config')->getEntityType('order')->fetchNewIncrementId($quote->getStoreId());
+        $storeId = (int)$quote->getStoreId();
+        return Mage::getSingleton('eav/config')->getEntityType(Mage_Sales_Model_Order::ENTITY)->fetchNewIncrementId($storeId);
     }
 
     /**
-     * Enter description here ...
+     * Check is order increment id use in sales/order table
      *
      * @param unknown_type $orderIncrementId
      * @return unknown
      */
     public function isOrderIncrementIdUsed($orderIncrementId)
     {
-        if ($this->_getReadAdapter()) {
-            $select = $this->_getReadAdapter()->select();
-            $select->from($this->getTable('sales/order'), 'entity_id')
-                ->where('increment_id = ?', $orderIncrementId);
-            $entity_id = $this->_getReadAdapter()->fetchOne($select);
-            if ($entity_id > 0) {
-                return true;
-            } else {
-                return false;
-            }
+        $select = $this->_getReadAdapter()->select();
+        $select->from($this->getTable('sales/order'), 'entity_id')
+            ->where('increment_id = ?', (int)$orderIncrementId);
+        $entity_id = $this->_getReadAdapter()->fetchOne($select);
+        if ($entity_id > 0) {
+            return true;
         }
+
         return false;
     }
 
     /**
      * Mark quotes - that depend on catalog price rules - to be recollected on demand
      *
+     * @return Mage_Sales_Model_Resource_Quote
      */
     public function markQuotesRecollectOnCatalogRules()
     {
-        $this->_getWriteAdapter()->query("
-            UPDATE {$this->getTable('sales/quote')} SET trigger_recollect = 1
-            WHERE entity_id IN (
-                SELECT DISTINCT quote_id
-                FROM {$this->getTable('sales/quote_item')}
-                WHERE product_id IN (SELECT DISTINCT product_id FROM {$this->getTable('catalogrule/rule_product_price')})
-            )"
-        );
+        $selectProductId = $this->_getReadAdapter()->select()
+            ->from($this->getTable('catalogrule/rule_product_price'), 'product_id')
+            ->distinct(true);
+
+        $selectQuoteId = $this->_getReadAdapter()->select()
+            ->from($this->getTable('sales/quote_item'), 'quote_id')
+            ->where('product_id IN(?)', $selectProductId)
+            ->distinct();
+
+        $data  = array('trigger_recollect' => 1);
+        $where = array('entity_id IN(?)', $selectQuoteId);
+        $this->_getWriteAdapter()->update($this->getTable('sales/quote'), $data, $where);
+
+        return $this;
     }
 
     /**
      * Substract product from all quotes quantities
      *
      * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Sales_Model_Resource_Quote
      */
     public function substractProductFromQuotes($product)
     {
-        if ($product->getId()) {
-            $this->_getWriteAdapter()->query(
-                'update ' . $this->getTable('sales/quote_item') .
-                ' as qi, ' . $this->getTable('sales/quote') .
-                ' as q set q.items_qty = q.items_qty - qi.qty, q.items_count = q.items_count - 1 ' .
-                ' where qi.product_id = "' . $product->getId() . '" and q.entity_id = qi.quote_id and qi.parent_item_id is null'
-            );
+        $productId = (int)$product->getId();
+        if (!$productId) {
+            return $this;
         }
+
+        $data  = array(
+            'q.items_qty'   => 'q.items_qty - qi.qty',
+            'q.items_count' => $this->_getReadAdapter()->quoteInto('q.items_count - ?', 1)
+        );
+        $where = array(
+            $this->_getReadAdapter()->quoteInto('qi.product_id = ?', $productId),
+            'q.entity_id = qi.quote_id',
+            'qi.parent_item_id IS NULL'
+        );
+
+        $quoteTable     = $this->_getWriteAdapter()->quoteTableAs($this->getTable('sales/quote'), 'q', true);
+        $quoteItemTable = $this->_getWriteAdapter()->quoteTableAs($this->getTable('sales/quote_item'), 'qi', true);
+        $tables         = new Zend_Db_Expr($quoteTable. ', ' . $quoteItemTable);
+
+        $this->_getWriteAdapter()->update($tables, $data, $where);
+
+        return $this;
     }
 
     /**
@@ -192,15 +210,16 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      */
     public function markQuotesRecollect($productIds)
     {
-        $this->_getWriteAdapter()->query("
-            UPDATE `{$this->getTable('sales/quote')}` SET `trigger_recollect` = 1
-            WHERE `entity_id` IN (
-                SELECT DISTINCT `quote_id`
-                FROM `{$this->getTable('sales/quote_item')}`
-                WHERE `product_id` IN (?)
-            )", $productIds
-        );
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('sales/quote_item'), 'quote_id')
+            ->where('product_id IN(?)', $productIds)
+            ->distinct(true);
+
+        $data  = array('trigger_recollect' => 1);
+        $where = array('entity_id IN(?)' => $select);
+        $this->_getWriteAdapter()->update($this->getTable('sales/quote'), $data, $where);
 
         return $this;
     }
 }
+

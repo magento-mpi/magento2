@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Quote address attribute frontend resource model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -36,10 +36,10 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend
     extends Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
 {
     /**
-     * Enter description here ...
+     * Fetch totals
      *
      * @param Mage_Sales_Model_Quote_Address $address
-     * @return unknown
+     * @return array
      */
     public function fetchTotals(Mage_Sales_Model_Quote_Address $address)
     {

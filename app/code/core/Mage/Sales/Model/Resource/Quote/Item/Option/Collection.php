@@ -98,7 +98,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Option_Collection extends Mage_Core_M
             $this->_setIsLoaded(true);
             //$this->addFieldToFilter('item_id', '');
         } else if (is_array($item)) {
-            $this->addFieldToFilter('item_id', array('in'=>$item));
+            $this->addFieldToFilter('item_id', array('in' => $item));
         } else if ($item instanceof Mage_Sales_Model_Quote_Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {

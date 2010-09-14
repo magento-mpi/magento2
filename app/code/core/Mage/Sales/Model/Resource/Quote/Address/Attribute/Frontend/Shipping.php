@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Quote address attribute frontend shipping resource model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -36,7 +36,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Shipping
     extends Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend
 {
     /**
-     * Enter description here ...
+     * Fetch totals
      *
      * @param Mage_Sales_Model_Quote_Address $address
      * @return Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Shipping
@@ -47,7 +47,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Shipping
         if ($amount != 0) {
             $title = Mage::helper('sales')->__('Shipping & Handling');
             if ($address->getShippingDescription()) {
-                $title .= ' (' . $address->getShippingDescription() . ')';
+                $title .= sprintf(' (%s)', $address->getShippingDescription());  
             }
             $address->addTotal(array(
                 'code' => 'shipping',

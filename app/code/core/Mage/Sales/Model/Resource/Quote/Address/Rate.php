@@ -35,7 +35,7 @@
 class Mage_Sales_Model_Resource_Quote_Address_Rate extends Mage_Sales_Model_Resource_Abstract
 {
     /**
-     * Enter description here ...
+     * Main table and field initialization
      *
      */
     protected function _construct()
