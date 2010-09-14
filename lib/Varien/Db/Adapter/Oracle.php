@@ -3584,10 +3584,16 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     /**
      * Return sql expresion analog MySql Unix_TimeStamp function
      *
+     * @param string $field
      * @return Zend_Db_Expr
      */
-    public function getUnixTimeStamp()
+    public function getUnixTimeStamp($field = null)
     {
-        return new Zend_Db_Expr("(SYSDATE - TO_DATE('01-JAN-1970','DD-MON-YYYY')) * (86400)");
+        if (!$field){
+            $field = 'SYSDATE';
+        }
+        return new Zend_Db_Expr(
+            sprintf("(%s - TO_DATE('01-JAN-1970','DD-MON-YYYY')) * (86400)", $field)
+        );
     }
 }

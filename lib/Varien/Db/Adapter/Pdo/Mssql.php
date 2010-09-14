@@ -4075,11 +4075,17 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
     
     /**
      * Return sql expresion analog MySql Unix_TimeStamp function
-     *
+
+     * @param string $field
      * @return Zend_Db_Expr
      */
-    public function getUnixTimeStamp()
+    public function getUnixTimeStamp($field = null)
     {
-        return new Zend_Db_Expr("DATEDIFF(SECOND, CAST ('19700101' AS DATE), GETDATE())");
+        if (!$field){
+            $field = 'GETDATE()';
+        }
+        return new Zend_Db_Expr(
+            sprintf("DATEDIFF(SECOND, CAST ('19700101' AS DATE), %s)", $field)
+        );
     }
 }

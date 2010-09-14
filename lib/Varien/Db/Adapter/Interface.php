@@ -905,7 +905,8 @@ interface Varien_Db_Adapter_Interface
     /**
      * Return sql expresion analog MySql Unix_TimeStamp function
      *
+     * @param string $field
      * @return Zend_Db_Expr
      */
-    public function getUnixTimeStamp();
+    public function getUnixTimeStamp($field = null);
 }

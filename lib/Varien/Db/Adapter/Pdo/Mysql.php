@@ -2892,13 +2892,19 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         return $select;
     }
 
-    /**
+   /**
      * Return sql expresion analog MySql Unix_TimeStamp function
-     *
+
+     * @param string $field
      * @return Zend_Db_Expr
      */
-    public function getUnixTimeStamp()
+    public function getUnixTimeStamp($field = null)
     {
-        return new Zend_Db_Expr("UNIX_TIMESTAMP");
+        if (!$field){
+            $field = 'NOW()';
+        }
+        return new Zend_Db_Expr(
+            sprintf("UNIX_TIMESTAMP(%s)", $field)
+        );
     }
 }
