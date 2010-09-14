@@ -210,8 +210,8 @@ $table = $installer->getConnection()
     ->addColumn('earliest_end_date', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
         ), 'Earliest EndDate')
 
-    ->addIndex($installer->getIdxName('catalogrule/rule_product_price', array('rule_date', 'website_id', 'customer_group_id', 'product_id'), true),
-        array('rule_date', 'website_id', 'customer_group_id', 'product_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalogrule/rule_product_price', array('rule_date', 'website_id', 'customer_group_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('rule_date', 'website_id', 'customer_group_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('catalogrule/rule_product_price', array('customer_group_id')),
         array('customer_group_id'))
     ->addIndex($installer->getIdxName('catalogrule/rule_product_price', array('website_id')),
