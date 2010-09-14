@@ -121,7 +121,7 @@
             <active>false</active>
         </Mage_GiftMessage>
         <Mage_GoogleAnalytics>
-            <active>false</active>
+            <active>true</active>
         </Mage_GoogleAnalytics>
         <Mage_GoogleBase>
             <active>false</active>
