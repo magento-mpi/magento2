@@ -526,7 +526,6 @@ class Varien_Db_Select extends Zend_Db_Select
     public function assemble()
     {
         if(!empty($this->_parts[self::SOFT_GROUP])){
-            var_dump($this->_parts[self::SOFT_GROUP]);
              $this->getAdapter()->addRankColumn($this, $this->_parts[self::SOFT_GROUP]);
         }
         return parent::assemble();
