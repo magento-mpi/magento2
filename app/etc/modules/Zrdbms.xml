@@ -130,7 +130,7 @@
             <active>false</active>
         </Mage_GoogleCheckout>
         <Mage_GoogleOptimizer>
-            <active>false</active>
+            <active>true</active>
         </Mage_GoogleOptimizer>
         <Mage_Ideal>
             <active>false</active>

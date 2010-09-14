@@ -35,7 +35,7 @@
 class Mage_GoogleOptimizer_Model_Resource_Code extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -52,36 +52,61 @@ class Mage_GoogleOptimizer_Model_Resource_Code extends Mage_Core_Model_Resource_
      */
     public function loadbyEntityType($object, $storeId)
     {
-        $read = $this->_getReadAdapter();
-        if ($read) {
-            //preapre colums to fetch, except scope columns
-            $_columns = array_keys($read->describeTable($this->getMainTable()));
-            $columnsToFetch = array();
-            foreach ($_columns as $_column) {
-                if (in_array($_column, array('entity_id', 'entity_type'))) {
-                    $columnsToFetch[] = $_column;
-                }
-            }
-            $select = $read->select()
-                ->from(array('_default_table' => $this->getMainTable()), $columnsToFetch)
-                ->joinLeft(array('_store_table' => $this->getMainTable()),
-                    "_store_table.entity_id = _default_table.entity_id AND _store_table.entity_type = _default_table.entity_type AND _store_table.store_id = {$storeId}",
-                    array('code_id' => new Zend_Db_Expr("IFNULL(_store_table.code_id, _default_table.code_id)"),
-                        'store_id' => new Zend_Db_Expr("IFNULL(_store_table.store_id, _default_table.store_id)"),
-                        'control_script' => new Zend_Db_Expr("IFNULL(_store_table.control_script, _default_table.control_script)"),
-                        'tracking_script' => new Zend_Db_Expr("IFNULL(_store_table.tracking_script, _default_table.tracking_script)"),
-                        'conversion_script' => new Zend_Db_Expr("IFNULL(_store_table.conversion_script, _default_table.conversion_script)"),
-                        'conversion_page' => new Zend_Db_Expr("IFNULL(_store_table.conversion_page, _default_table.conversion_page)"),
-                        'additional_data' => new Zend_Db_Expr("IFNULL(_store_table.additional_data, _default_table.additional_data)")))
-                ->where('_default_table.entity_id=?', $object->getEntity()->getId())
-                ->where('_default_table.entity_type=?', $object->getEntityType())
-                ->where('_default_table.store_id IN (0, ?)', $storeId)
-                ->order('_default_table.store_id DESC')
-                ->limit(1);
-            $data = $read->fetchRow($select);
-            if ($data) {
-                $object->setData($data);
-            }
+        $adapter = $this->_getReadAdapter();
+
+        $codeIdExpr             = $adapter->getCheckSql(
+            't_store.code_id IS NOT NULL',
+            't_store.code_id',
+            't_def.code_id');
+        $storeIdExpr            = $adapter->getCheckSql(
+            't_store.store_id IS NOT NULL',
+            't_store.store_id',
+            't_def.store_id');
+        $controlScriptExpr      = $adapter->getCheckSql(
+            't_store.control_script IS NOT NULL',
+            't_store.control_script',
+            't_def.control_script');
+        $trackingScriptExpr     = $adapter->getCheckSql(
+            't_store.tracking_script IS NOT NULL',
+            't_store.tracking_script',
+            't_def.tracking_script');
+        $conversionScriptExpr   = $adapter->getCheckSql(
+            't_store.conversion_script IS NOT NULL',
+            't_store.conversion_script',
+            't_def.conversion_script');
+        $conversionPageExpr     = $adapter->getCheckSql(
+            't_store.conversion_page IS NOT NULL',
+            't_store.conversion_page',
+            't_def.conversion_page');
+        $additionalDataExpr     = $adapter->getCheckSql(
+            't_store.additional_data IS NOT NULL',
+            't_store.additional_data',
+            't_def.additional_data');
+
+        $select = $adapter->select()
+            ->from(
+                array('t_def' => $this->getMainTable()),
+                array('entity_id', 'entity_type'))
+            ->joinLeft(
+                array('t_store' => $this->getMainTable()),
+                't_store.entity_id = t_def.entity_id AND t_store.entity_type = t_def.entity_type AND ' .
+                    $adapter->quoteInto('t_store.store_id = ?', $storeId),
+                array(
+                    'code_id'           => $codeIdExpr,
+                    'store_id'          => $storeIdExpr,
+                    'control_script'    => $controlScriptExpr,
+                    'tracking_script'   => $trackingScriptExpr,
+                    'conversion_script' => $conversionScriptExpr,
+                    'conversion_page'   => $conversionPageExpr,
+                    'additional_data'   => $additionalDataExpr))
+            ->where('t_def.entity_id=?', $object->getEntity()->getId())
+            ->where('t_def.entity_type=?', $object->getEntityType())
+            ->where('t_def.store_id IN (0, ?)', $storeId)
+            ->order('t_def.store_id DESC')
+            ->limit(1);
+        $data = $adapter->fetchRow($select);
+        if ($data) {
+            $object->setData($data);
         }
         $this->_afterLoad($object);
         return $this;
@@ -96,18 +121,17 @@ class Mage_GoogleOptimizer_Model_Resource_Code extends Mage_Core_Model_Resource_
      */
     public function deleteByEntityType($object, $store_id)
     {
-        $write = $this->_getWriteAdapter();
-        if ($write) {
-            $entityIds = $object->getEntityIds();
-            if (!empty($entityIds)) {
-                $where = $write->quoteInto($this->getMainTable().'.entity_id IN (?)', $entityIds);
-            } else {
-                $where = $write->quoteInto($this->getMainTable().'.entity_id=?', $object->getEntity()->getId());
-            }
-            $where.= ' AND ' . $write->quoteInto($this->getMainTable().'.entity_type=?', $object->getEntityType()) .
-                ' AND ' . $write->quoteInto($this->getMainTable().'.store_id=?', $store_id);
-            $write->delete($this->getMainTable(), $where);
+        $adapter = $this->_getWriteAdapter();
+
+        $entityIds = $object->getEntityIds();
+        if (!empty($entityIds)) {
+            $where = $adapter->quoteInto($this->getMainTable().'.entity_id IN (?)', $entityIds);
+        } else {
+            $where = $adapter->quoteInto($this->getMainTable().'.entity_id=?', $object->getEntity()->getId());
         }
+        $where.= ' AND ' . $adapter->quoteInto($this->getMainTable().'.entity_type=?', $object->getEntityType()) .
+            ' AND ' . $adapter->quoteInto($this->getMainTable().'.store_id=?', $store_id);
+        $adapter->delete($this->getMainTable(), $where);
 
         $this->_afterDelete($object);
         return $this;

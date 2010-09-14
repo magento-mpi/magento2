@@ -35,7 +35,7 @@
 class Mage_GoogleOptimizer_Model_Resource_Code_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource collection initialization
      *
      */
     protected function _construct()
