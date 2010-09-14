@@ -35,7 +35,7 @@
 class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource collection initialization
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
     }
 
     /**
-     * Enter description here ...
+     * Init collection select
      *
      * @return Mage_GoogleBase_Model_Resource_Item_Collection
      */
@@ -79,9 +79,9 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
     }
 
     /**
-     * Enter description here ...
+     * Filter collection by product id
      *
-     * @param unknown_type $productId
+     * @param int $productId
      * @return Mage_GoogleBase_Model_Resource_Item_Collection
      */
     public function addProductFilterId($productId)
@@ -91,19 +91,22 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
     }
 
     /**
-     * Enter description here ...
+     * Add field filter to collection
      *
-     * @param unknown_type $field
-     * @param unknown_type $condition
+     * @param string $field
+     * @param null|string|array $condition
+     * @return Mage_GoogleBase_Model_Resource_Item_Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {
         if ($field == 'name') {
-            $conditionSql = $this->_getConditionSql('IFNULL(p.value, p_d.value)', $condition);
+            $codeExpr = $this->getConnection()->getCheckSql('p.value IS NOT NULL', 'p.value', 'p_d.value');
+            $conditionSql = $this->_getConditionSql($codeExpr, $condition);
             $this->getSelect()->where($conditionSql, null, Varien_Db_Select::TYPE_CONDITION);
         } else {
             parent::addFieldToFilter($field, $condition);
         }
+        return $this;
     }
 
     /**
@@ -113,15 +116,15 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
      */
     protected function _joinTables()
     {
+        $adapter = $this->getConnection();
         $entityType = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY);
         $attribute = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'name');
 
-        $joinConditionDefault = sprintf("p_d.attribute_id=%d AND p_d.store_id='0' AND main_table.product_id=p_d.entity_id",
-            $attribute->getAttributeId()
-        );
-        $joinCondition = sprintf("p.attribute_id=%d AND p.store_id=main_table.store_id AND main_table.product_id=p.entity_id",
-            $attribute->getAttributeId()
-        );
+        $joinConditionDefault = $adapter->quoteInto('p_d.attribute_id=?',$attribute->getAttributeId()) .
+            $adapter->quoteInto(' AND p_d.store_id=?',0) . ' AND main_table.product_id=p_d.entity_id';
+
+        $joinCondition = $adapter->quoteInto('p.attribute_id=?', $attribute->getAttributeId()) .
+            ' AND p.store_id=main_table.store_id AND main_table.product_id=p.entity_id';
 
         $this->getSelect()
             ->joinLeft(
@@ -129,17 +132,22 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
                 $joinConditionDefault,
                 array());
 
+        $codeExpr = $adapter->getCheckSql('p.value IS NOT NULL', 'p.value', 'p_d.value');
         $this->getSelect()
             ->joinLeft(
                 array('p' => $attribute->getBackend()->getTable()),
                 $joinCondition,
-                array('name' => new Zend_Db_Expr('IFNULL(p.value, p_d.value)')));
+                array('name' => $codeExpr));
 
+        $codeExpr = $adapter->getCheckSql(
+            'types.gbase_itemtype IS NOT NULL',
+            'types.gbase_itemtype',
+            $adapter->quote(Mage_GoogleBase_Model_Service_Item::DEFAULT_ITEM_TYPE));
         $this->getSelect()
             ->joinLeft(
                 array('types' => $this->getTable('googlebase/types')),
                 'main_table.type_id=types.type_id',
-                array('gbase_itemtype' =>  new Zend_Db_Expr('IFNULL(types.gbase_itemtype, \''.Mage_GoogleBase_Model_Service_Item::DEFAULT_ITEM_TYPE .'\')')));
+                array('gbase_itemtype' => $codeExpr));
 
         return $this;
     }

@@ -124,7 +124,7 @@
             <active>true</active>
         </Mage_GoogleAnalytics>
         <Mage_GoogleBase>
-            <active>false</active>
+            <active>true</active>
         </Mage_GoogleBase>
         <Mage_GoogleCheckout>
             <active>false</active>

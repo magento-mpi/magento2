@@ -35,7 +35,7 @@
 class Mage_GoogleBase_Model_Resource_Type extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -52,11 +52,12 @@ class Mage_GoogleBase_Model_Resource_Type extends Mage_Core_Model_Resource_Db_Ab
      */
     public function getTypeIdByAttributeSetId($attributeSetId, $targetCountry)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->getMainTable(), 'type_id')
             ->where('attribute_set_id=?', $attributeSetId)
             ->where('target_country=?', $targetCountry);
 
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $adapter->fetchOne($select);
     }
 }

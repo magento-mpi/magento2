@@ -146,8 +146,7 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         $typeModel = Mage::getModel('googlebase/type');
-        $id = $this->getRequest()->getParam('type_id');
-        if (!is_null($id)) {
+        if ($id = $this->getRequest()->getParam('type_id')) {
             $typeModel->load($id);
         }
 
@@ -159,12 +158,12 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
                 foreach ($collection as $attribute) {
                     $attribute->delete();
                 }
+            } else {
+                $typeModel->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
+                    ->setGbaseItemtype($this->getRequest()->getParam('gbase_itemtype'))
+                    ->setTargetCountry($this->getRequest()->getParam('target_country'))
+                    ->save();
             }
-            $typeModel->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
-                ->setGbaseItemtype($this->getRequest()->getParam('gbase_itemtype'))
-                ->setTargetCountry($this->getRequest()->getParam('target_country'))
-                ->save();
-
 
             $attributes = $this->getRequest()->getParam('attributes');
             if (is_array($attributes)) {

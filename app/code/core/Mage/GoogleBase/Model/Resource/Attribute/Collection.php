@@ -37,12 +37,12 @@ class Mage_GoogleBase_Model_Resource_Attribute_Collection extends Mage_Core_Mode
     /**
      * Whether to join attribute_set_id to attributes or not
      *
-     * @var unknown
+     * @var boolean
      */
     protected $_joinAttributeSetFlag     = true;
 
     /**
-     * Enter description here ...
+     * Resource collection initialization
      *
      */
     protected function _construct()
@@ -51,10 +51,10 @@ class Mage_GoogleBase_Model_Resource_Attribute_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Filter collection by attribute set id
      *
-     * @param unknown_type $attributeSetId
-     * @param unknown_type $targetCountry
+     * @param int $attributeSetId
+     * @param string $targetCountry
      * @return Mage_GoogleBase_Model_Resource_Attribute_Collection
      */
     public function addAttributeSetFilter($attributeSetId, $targetCountry)
@@ -62,15 +62,16 @@ class Mage_GoogleBase_Model_Resource_Attribute_Collection extends Mage_Core_Mode
         if (!$this->getJoinAttributeSetFlag()) {
             return $this;
         }
-        $this->getSelect()->where('attribute_set_id = ?', $attributeSetId);
-        $this->getSelect()->where('target_country = ?', $targetCountry);
+        $select = $this->getSelect();
+        $select->where('attribute_set_id = ?', $attributeSetId);
+        $select->where('target_country = ?', $targetCountry);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add type filter
      *
-     * @param unknown_type $type_id
+     * @param int $type_id
      * @return Mage_GoogleBase_Model_Resource_Attribute_Collection
      */
     public function addTypeFilter($type_id)
@@ -80,10 +81,10 @@ class Mage_GoogleBase_Model_Resource_Attribute_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Load data
      *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
+     * @param boolean $printQuery
+     * @param boolean $logQuery
      * @return Mage_GoogleBase_Model_Resource_Attribute_Collection
      */
     public function load($printQuery = false, $logQuery = false)
@@ -99,7 +100,7 @@ class Mage_GoogleBase_Model_Resource_Attribute_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Join attribute set
      *
      * @return Mage_GoogleBase_Model_Resource_Attribute_Collection
      */
@@ -114,9 +115,9 @@ class Mage_GoogleBase_Model_Resource_Attribute_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * retrieve Flag
      *
-     * @return unknown
+     * @return boolean
      */
     public function getJoinAttributeSetFlag()
     {
@@ -124,10 +125,10 @@ class Mage_GoogleBase_Model_Resource_Attribute_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Set flag
      *
      * @param unknown_type $flag
-     * @return unknown
+     * @return boolean
      */
     public function setJoinAttributeSetFlag($flag)
     {

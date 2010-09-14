@@ -35,7 +35,7 @@
 class Mage_GoogleBase_Model_Resource_Item extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -55,19 +55,19 @@ class Mage_GoogleBase_Model_Resource_Item extends Mage_Core_Model_Resource_Db_Ab
             return $this;
         }
 
-        $product = $model->getProduct();
-        $productId = $product->getId();
-        $storeId = $model->getStoreId() ? $model->getStoreId() : $product->getStoreId();
+        $product    = $model->getProduct();
+        $productId  = $product->getId();
+        $storeId    = $model->getStoreId() ? $model->getStoreId() : $product->getStoreId();
 
-        $read = $this->_getReadAdapter();
-        $select = $read->select();
+        $adapter    = $this->_getReadAdapter();
+        $select     = $adapter->select();
 
         if ($productId !== null) {
             $select->from($this->getMainTable())
-                ->where("product_id = ?", $productId)
+                ->where('product_id = ?', $productId)
                 ->where('store_id = ?', (int)$storeId);
 
-            $data = $read->fetchRow($select);
+            $data = $adapter->fetchRow($select);
             $data = is_array($data) ? $data : array();
             $model->addData($data);
         }
