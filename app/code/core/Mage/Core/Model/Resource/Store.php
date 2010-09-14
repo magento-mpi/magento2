@@ -119,7 +119,7 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     {
         $write = $this->_getWriteAdapter();
         $bindValues = array(
-            'group_id' => $write->quote($groupId)
+            'group_id' => (int)$groupId
         );
         $select = $write->select()
             ->from($this->getMainTable(), array('count'=>'COUNT(*)'))
@@ -127,8 +127,8 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
         $count  = $this->_getWriteAdapter()->fetchOne($select, $bindValues);
 
         if ($count == 1) {
-            $bind  = array('default_store_id' => $storeId);
-            $where = array('group_id=?' => $groupId);
+            $bind  = array('default_store_id' => (int)$storeId);
+            $where = array('group_id=?' => (int)$groupId);
             $this->_getWriteAdapter()->update($this->getTable('core/store_group'), $bind, $where);
         }
 
