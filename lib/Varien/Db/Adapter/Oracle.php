@@ -3567,12 +3567,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function addRankColumn($select, $columns)
     {
-        $select->columns(array('varien_rank_column' => new Zend_Db_Expr(
-            'RANK() OVER (PARTITION BY ' .
-            implode(",\n\t", $columns) .
-            ' ORDER BY ROWNUM )')
-            )
-        );
+        $select->columns(array(
+            'varien_rank_column' => new Zend_Db_Expr(
+                'RANK() OVER (PARTITION BY ' .
+                implode(",\n\t", $columns) .
+                ' ORDER BY ROWNUM )'
+            ),
+        ));
+        if (count($select->getPart(Zend_Db_Select::ORDER))) {
+            $select->columns(array(
+                'varien_order_column' => new Zend_Db_Expr(
+                    'RANK() OVER (' . $select->renderOrder() . ')'
+                ),
+            ));
+        }
     }
 
     /**

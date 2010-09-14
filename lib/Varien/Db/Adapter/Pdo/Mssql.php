@@ -4051,6 +4051,13 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
             ' ORDER BY NEWID() )')
             )
         );
+        if (count($select->getPart(Zend_Db_Select::ORDER))) {
+            $select->columns(array(
+                'varien_order_column' => new Zend_Db_Expr(
+                    'RANK() OVER (' . $select->renderOrder() . ')'
+                ),
+            ));
+        }
     }
 
     /**

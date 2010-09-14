@@ -62,28 +62,6 @@ class Varien_Db_Select extends Zend_Db_Select
     const SOFT_GROUP        = 'softgroup';
 
     /**
-     * The initial values for the $_parts array.
-     * NOTE: It is important for the 'FOR_UPDATE' part to be last to ensure
-     * meximum compatibility with database adapters.
-     *
-     * @var array
-     */
-    protected static $_partsInit = array(
-        self::DISTINCT     => false,
-        self::COLUMNS      => array(),
-        self::UNION        => array(),
-        self::FROM         => array(),
-        self::WHERE        => array(),
-        self::GROUP        => array(),
-        self::HAVING       => array(),
-        self::ORDER        => array(),
-        self::SOFT_GROUP   => array(),
-        self::LIMIT_COUNT  => null,
-        self::LIMIT_OFFSET => null,
-        self::FOR_UPDATE   => false
-    );
-
-    /**
      * Class constructor
      * Add straight join support
      *
@@ -91,11 +69,25 @@ class Varien_Db_Select extends Zend_Db_Select
      */
     public function __construct(Zend_Db_Adapter_Abstract $adapter)
     {
+        self::$_partsInit = array(
+            self::DISTINCT     => false,
+            self::COLUMNS      => array(),
+            self::UNION        => array(),
+            self::FROM         => array(),
+            self::WHERE        => array(),
+            self::GROUP        => array(),
+            self::HAVING       => array(),
+            self::ORDER        => array(),
+            self::SOFT_GROUP   => array(),
+            self::LIMIT_COUNT  => null,
+            self::LIMIT_OFFSET => null,
+            self::FOR_UPDATE   => false
+        );
+
         parent::__construct($adapter);
         if (!isset(self::$_partsInit[self::STRAIGHT_JOIN])) {
             self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
         }
-        $this->_parts[self::SOFT_GROUP] = array();
     }
 
     /**
@@ -467,6 +459,29 @@ class Varien_Db_Select extends Zend_Db_Select
     }
 
     /**
+     * Render ORDER clause
+     *
+     * @param string   $sql SQL query
+     * @return string
+     */
+    protected function _renderOrder($sql)
+    {
+        if ($this->_parts[self::SOFT_GROUP]) {
+            return $sql;
+        }
+        return parent::_renderOrder($sql);
+    }
+
+    /**
+     * Render only ORDER part
+     *
+     * @return string
+     */
+    public function renderOrder() {
+        return parent::_renderOrder('');
+    }
+
+    /**
      * Adds soft grouping to the query.
      *
      * @param  array|string $spec The column(s) to group by.
@@ -511,6 +526,7 @@ class Varien_Db_Select extends Zend_Db_Select
     public function assemble()
     {
         if(!empty($this->_parts[self::SOFT_GROUP])){
+            var_dump($this->_parts[self::SOFT_GROUP]);
              $this->getAdapter()->addRankColumn($this, $this->_parts[self::SOFT_GROUP]);
         }
         return parent::assemble();
