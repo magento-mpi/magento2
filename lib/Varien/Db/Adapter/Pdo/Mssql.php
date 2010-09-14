@@ -4072,4 +4072,14 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
             .  "FROM ({$select}) varien_softgroup_select \n"
             .  "WHERE varien_softgroup_select.varien_rank_column = 1 ";
     }
+    
+    /**
+     * Return sql expresion analog MySql Unix_TimeStamp function
+     *
+     * @return Zend_Db_Expr
+     */
+    public function getUnixTimeStamp()
+    {
+        return new Zend_Db_Expr("DATEDIFF(SECOND, CAST ('19700101' AS DATE), GETDATE())");
+    }
 }

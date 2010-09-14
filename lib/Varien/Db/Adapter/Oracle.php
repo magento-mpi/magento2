@@ -55,9 +55,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     const TRIGGER_AFTER_UPDATE      = 'a_up';
 
     const LENGTH_TABLE_NAME         = 30;
-    const LENGTH_INDEX_NAME         = 30;
+    const LENGTH_INDEX_NAME         = 25;
     const LENGTH_FOREIGN_NAME       = 30;
-    CONST LENGTH_FULLTEXT_NAME      = 25;
     /**
      * Default class name for a DB statement.
      *
@@ -2871,7 +2870,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
          $superfluous = $diff / 2;
          $odd = $diff % 2;
          $hash = substr($hash, $superfluous, -($superfluous+$odd));
-         return $prefix.$hash;
+         return $hash;
      }
 
     /**
@@ -2883,20 +2882,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getTableName($tableName)
     {
-        $prefix = 't_';
+        $prefix = 'table_';
         if (strlen($tableName) > self::LENGTH_TABLE_NAME) {
             $shortName = Varien_Db_Helper::shortName($tableName);
             if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
                 $hash = md5($tableName);
-                if (strlen($prefix.$hash) > self::LENGTH_TABLE_NAME) {
-                    $tableName = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
-                } else {
-                    $tableName = $prefix.$hash;
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_TABLE_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
                 }
+                $tableName = $prefix.$hash;
             } else {
                 $tableName = $shortName;
             }
         }
+
 
         return $tableName;
     }
@@ -2918,39 +2917,31 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         switch (strtolower($indexType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
-                $prefix      = 'unq_';
-                $shortPrefix = 'u_';
-                $lengthName  = self::LENGTH_INDEX_NAME;
+                $prefix = 'unq_';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
                 $prefix = 'fti_';
-                $shortPrefix = 'f_';
-                $lengthName = self::LENGTH_FULLTEXT_NAME;
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
             default:
                 $prefix = 'idx_';
-                $shortPrefix = 'i_';
-                $lengthName = self::LENGTH_INDEX_NAME;
         }
 
         $hash = sprintf('%s%s', $tableName, $fields);
 
-        if (strlen($hash) + strlen($prefix) > $lengthName) {
-            $short = Varien_Db_Helper::shortName($prefix.$hash);
-            if (strlen($short) > $lengthName) {
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+            $short = Varien_Db_Helper::shortName($hash);
+            if (strlen($short) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
                 $hash = md5($hash);
-                if (strlen($hash) + strlen($shortPrefix) > $lengthName) {
-                    $hash = $this->_minusSuperfluous($hash, $shortPrefix, $lengthName);
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
+                    $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_INDEX_NAME);
                 }
             } else {
                 $hash = $short;
             }
-        } else {
-            $hash = $prefix.$hash;
         }
 
-        return strtoupper($hash);
+        return strtoupper($prefix.$hash);
     }
 
     /**
@@ -2967,23 +2958,19 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $prefix = 'fk_';
         $hash = sprintf('%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
-        if (strlen($prefix.$hash) > self::LENGTH_FOREIGN_NAME) {
-            $short = Varien_Db_Helper::shortName($prefix.$hash);
-            if (strlen($short) > self::LENGTH_FOREIGN_NAME) {
+        if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
+            $short = Varien_Db_Helper::shortName($hash);
+            if (strlen($short) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
                 $hash = md5($hash);
-                if (strlen($prefix.$hash) > self::LENGTH_FOREIGN_NAME) {
+                if (strlen($hash) + strlen($prefix) > self::LENGTH_FOREIGN_NAME) {
                     $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_FOREIGN_NAME);
-                } else {
-                    $hash = $prefix.$hash;
                 }
             } else {
                 $hash = $short;
             }
-        } else {
-            $hash = $prefix.$hash;
         }
 
-        return strtoupper($hash);
+        return strtoupper($prefix.$hash);
     }
 
     /**
@@ -3594,4 +3581,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return "SELECT * FROM ({$select}) varien_softgroup_select WHERE varien_softgroup_select.varien_rank_column = 1";
     }
 
+    /**
+     * Return sql expresion analog MySql Unix_TimeStamp function
+     *
+     * @return Zend_Db_Expr
+     */
+    public function getUnixTimeStamp()
+    {
+        return new Zend_Db_Expr("(SYSDATE - TO_DATE('01-JAN-1970','DD-MON-YYYY')) * (86400)");
+    }
 }

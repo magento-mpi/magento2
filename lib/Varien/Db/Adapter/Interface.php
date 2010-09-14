@@ -900,4 +900,12 @@ interface Varien_Db_Adapter_Interface
      * @return Varien_Db_Adapter_Interface
      */
     public function orderRand(Varien_Db_Select $select, $field = null);
+
+
+    /**
+     * Return sql expresion analog MySql Unix_TimeStamp function
+     *
+     * @return Zend_Db_Expr
+     */
+    public function getUnixTimeStamp();
 }
