@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Wee tax resource model
  *
  * @category    Mage
  * @package     Mage_Weee
@@ -35,7 +35,7 @@
 class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -44,10 +44,10 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Fetch one
      *
-     * @param unknown_type $select
-     * @return unknown
+     * @param Varien_Db_Select|string $select
+     * @return string
      */
     public function fetchOne($select)
     {
@@ -55,10 +55,10 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Fetch column
      *
-     * @param unknown_type $select
-     * @return unknown
+     * @param Varien_Db_Select|string $select
+     * @return array
      */
     public function fetchCol($select)
     {
@@ -66,9 +66,9 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Update discount percents
      *
-     * @return unknown
+     * @return Mage_Weee_Model_Resource_Tax
      */
     public function updateDiscountPercents()
     {
@@ -76,10 +76,10 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Update products discount persent
      *
-     * @param unknown_type $condition
-     * @return unknown
+     * @param mixed $condition
+     * @return Mage_Weee_Model_Resource_Tax
      */
     public function updateProductsDiscountPercent($condition)
     {
@@ -94,37 +94,38 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _updateDiscountPercents($productCondition = null)
     {
-        $now = strtotime(now());
+        $now     = Varien_Date::toTimestamp(Varien_Date::now());
+        $adapter = $this->_getWriteAdapter();
 
-        $select = $this->_getReadAdapter()->select();
-        $select->from(array('data'=>$this->getTable('catalogrule/rule_product')));
+        $select  = $this->_getReadAdapter()->select();
+        $select->from(array('data' => $this->getTable('catalogrule/rule_product')));
 
         $deleteCondition = '';
         if ($productCondition) {
             if ($productCondition instanceof Mage_Catalog_Model_Product) {
-                $select->where('product_id=?', $productCondition->getId());
-                $deleteCondition = $this->_getWriteAdapter()->quoteInto('entity_id=?', $productCondition->getId());
+                $select->where('product_id = ?', (int)$productCondition->getId());
+                $deleteCondition = $adapter->quoteInto('entity_id=?', (int)$productCondition->getId());
             } elseif ($productCondition instanceof Mage_Catalog_Model_Product_Condition_Interface) {
-                $productCondition = $productCondition->getIdsSelect($this->_getWriteAdapter())->__toString();
-                $select->where('product_id IN ('.$productCondition.')');
-                $deleteCondition = 'entity_id IN ('.$productCondition.')';
+                $productCondition = $productCondition->getIdsSelect($adapter)->__toString();
+                $select->where('product_id IN (?)', $productCondition);
+                $deleteCondition = $adapter->quoteInto('entity_id IN (?)', $productCondition);
             } else {
-                $select->where('product_id=?', $productCondition);
-                $deleteCondition = $this->_getWriteAdapter()->quoteInto('entity_id=?', $productCondition);
+                $select->where('product_id = ?', (int)$productCondition);
+                $deleteCondition = $adapter->quoteInto('entity_id = ?', (int)$productCondition);
             }
         } else {
             $select->where('(from_time <= ? OR from_time = 0)', $now)
-                ->where('(to_time >= ? OR to_time = 0)', $now);
+                   ->where('(to_time >= ? OR to_time = 0)', $now);
         }
-        $this->_getWriteAdapter()->delete($this->getTable('weee/discount'), $deleteCondition);
+        $adapter->delete($this->getTable('weee/discount'), $deleteCondition);
 
         $select->order(array('data.website_id', 'data.customer_group_id', 'data.product_id', 'data.sort_order'));
 
         $data = $this->_getReadAdapter()->query($select);
 
         $productData = array();
-        $stops = array();
-        $prevKey = false;
+        $stops       = array();
+        $prevKey     = false;
         while ($row = $data->fetch()) {
             $key = "{$row['product_id']}-{$row['website_id']}-{$row['customer_group_id']}";
             if (isset($stops[$key]) && $stops[$key]) {
@@ -133,7 +134,7 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
 
             if ($prevKey && ($prevKey != $key)) {
                 foreach ($productData as $product) {
-                    $this->_getWriteAdapter()->insert($this->getTable('weee/discount'), $product);
+                    $adapter->insert($this->getTable('weee/discount'), $product);
                 }
                 $productData = array();
             }
@@ -156,27 +157,29 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
             $prevKey = $key;
         }
         foreach ($productData as $product) {
-            $this->_getWriteAdapter()->insert($this->getTable('weee/discount'), $product);
+            $adapter->insert($this->getTable('weee/discount'), $product);
         }
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Retrieve product discount percent
      *
-     * @param unknown_type $product
-     * @param unknown_type $website
-     * @param unknown_type $group
-     * @return unknown
+     * @param int $productId
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @return string
      */
-    public function getProductDiscountPercent($product, $website, $group)
+    public function getProductDiscountPercent($productId, $websiteId, $customerGroupId)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->getTable('weee/discount'), 'value')
-            ->where('website_id = ?', $website)
-            ->where('entity_id = ?', $product)
-            ->where('customer_group_id = ?', $group);
+            ->where('website_id = ?', (int)$websiteId)
+            ->where('entity_id = ?', (int)$productId)
+            ->where('customer_group_id = ?', (int)$customerGroupId);
 
         return $this->_getReadAdapter()->fetchOne($select);
     }
 }
+

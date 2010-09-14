@@ -70,6 +70,12 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         return $this->getWeeeTaxAttributeCodes($forceEnabled);
     }
 
+    /**
+     * Retrieve Wee tax attribute codes
+     * 
+     * @param bool $forceEnabled
+     * @return array
+     */
     public function getWeeeTaxAttributeCodes($forceEnabled = false)
     {
         if (!$forceEnabled && !Mage::helper('weee')->isEnabled()) {
@@ -114,32 +120,22 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         }
 
         $productAttributes = $product->getTypeInstance(true)->getSetAttributes($product);
-        foreach ($productAttributes as $code=>$attribute) {
+        foreach ($productAttributes as $code => $attribute) {
             if (in_array($code, $allWeee)) {
-                $attributeId = $attribute->getId();
 
                 $attributeSelect = $this->getResource()->getReadConnection()->select();
-                $attributeSelect->from($this->getResource()->getTable('weee/tax'), 'value');
+                $attributeSelect
+                    ->from($this->getResource()->getTable('weee/tax'), 'value')
+                    ->where('attribute_id = ?', (int)$attribute->getId())
+                    ->where('website_id IN(?)', array($websiteId, 0))
+                    ->where('country = ?', $rateRequest->getCountryId())
+                    ->where('state IN(?)', array($rateRequest->getRegionId(), '*'))
+                    ->where('entity_id = ?', (int)$product->getId())
+                    ->limit(1);
 
-                $on = array();
-                $on[] = "attribute_id = '{$attributeId}'";
-                $on[] = "(website_id in ('{$websiteId}', 0))";
-
-                $country = $rateRequest->getCountryId();
-                $on[] = "(country = '{$country}')";
-
-                $region = $rateRequest->getRegionId();
-                $on[] = "(state in ('{$region}', '*'))";
-
-                foreach ($on as $one) {
-                    $attributeSelect->where($one);
-                }
-                $attributeSelect->where('entity_id = ?', $product->getId());
-                $attributeSelect->limit(1);
-
-                $order = array('state DESC', 'website_id DESC');
-
+                $order = array('state ' . Varien_Db_Select::SQL_DESC, 'website_id ' . Varien_Db_Select::SQL_DESC);
                 $attributeSelect->order($order);
+
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
                 if ($value) {
                     if ($discountPercent) {
@@ -147,7 +143,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                     }
 
                     $taxAmount = $amount = 0;
-                    $amount = $value;
+                    $amount    = $value;
                     /**
                      * We can't use FPT imcluding/excluding tax
                      */

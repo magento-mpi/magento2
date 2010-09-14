@@ -35,7 +35,7 @@
 class Mage_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Defines main resource table and table identifier field
      *
      */
     protected function _construct()
@@ -44,11 +44,11 @@ class Mage_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Load product data
      *
-     * @param unknown_type $product
-     * @param unknown_type $attribute
-     * @return unknown
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @return array
      */
     public function loadProductData($product, $attribute)
     {
@@ -59,13 +59,13 @@ class Mage_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Mage_Core_Mode
                 'state',
                 'value'
             ))
-            ->where('entity_id=?', $product->getId())
-            ->where('attribute_id=?', $attribute->getId());
+            ->where('entity_id = ?', (int)$product->getId())
+            ->where('attribute_id = ?', (int)$attribute->getId());
         if ($attribute->isScopeGlobal()) {
-            $select->where('website_id=?', 0);
-        }
-        else {
-            if ($storeId = $product->getStoreId()) {
+            $select->where('website_id = ?', 0);
+        } else {
+            $storeId = $product->getStoreId();
+            if ($storeId) {
                 $select->where('website_id IN (?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
             }
         }
@@ -73,42 +73,45 @@ class Mage_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Delete product data
      *
-     * @param unknown_type $product
-     * @param unknown_type $attribute
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
      * @return Mage_Weee_Model_Resource_Attribute_Backend_Weee_Tax
      */
     public function deleteProductData($product, $attribute)
     {
         $condition = array();
-
+        $adapter   = $this->_getWriteAdapter();
         if (!$attribute->isScopeGlobal()) {
-            if ($storeId = $product->getStoreId()) {
-                $condition[] = $this->_getWriteAdapter()->quoteInto('website_id IN (?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
+            $storeId = $product->getStoreId();
+            if ($storeId) {
+                $condition[] = $adapter->quoteInto('website_id IN(?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
             }
         }
 
-        $condition[] = $this->_getWriteAdapter()->quoteInto('entity_id=?', $product->getId());
-        $condition[] = $this->_getWriteAdapter()->quoteInto('attribute_id=?', $attribute->getId());
-        
-        $this->_getWriteAdapter()->delete($this->getMainTable(), implode(' AND ', $condition));
+        $condition[] = $adapter->quoteInto('entity_id = ?', (int)$product->getId());
+        $condition[] = $adapter->quoteInto('attribute_id = ?', (int)$attribute->getId());
+
+        $adapter->delete($this->getMainTable(), implode(' AND ', $condition));
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Insert product data
      *
-     * @param unknown_type $product
-     * @param unknown_type $data
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $data
      * @return Mage_Weee_Model_Resource_Attribute_Backend_Weee_Tax
      */
     public function insertProductData($product, $data)
     {
-        $data['entity_id'] = $product->getId();
-        $data['entity_type_id'] = $product->getEntityTypeId();
+        $data['entity_id']      = (int)$product->getId();
+        $data['entity_type_id'] = (int)$product->getEntityTypeId();
 
         $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
         return $this;
     }
 }
+
