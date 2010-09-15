@@ -48,46 +48,6 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
             'VARCHAR2'    => 'string',
         );
     /**
-     * Returns an array containing all of the result set rows.
-     *
-     * @param int $style OPTIONAL Fetch mode.
-     * @param int $col   OPTIONAL Column number, if fetch mode is by column.
-     * @return array Collection of rows, each in a format by the fetch mode.
-     * @throws Zend_Db_Statement_Exception
-     */
-//    public function fetchAll($style = null, $col = 0)
-//    {
-//        $result = parent::fetchAll($style, $col);
-//        if (is_array($result)) {
-//            foreach ($result as $k => $row) {
-//                if (is_array($row)) {
-//                    $result[$k] = array_change_key_case($row, CASE_LOWER);
-//                }
-//            }
-//        }
-//        return $result;
-//    }
-
-    /**
-     * Fetches a row from the result set.
-     *
-     * @param int $style  OPTIONAL Fetch mode for this fetch operation.
-     * @param int $cursor OPTIONAL Absolute, relative, or other.
-     * @param int $offset OPTIONAL Number for absolute or relative cursors.
-     * @return mixed Array, object, or scalar depending on fetch mode.
-     * @throws Zend_Db_Statement_Exception
-     */
-//    public function fetch($style = null, $cursor = null, $offset = null)
-//    {
-//        $result = $this->t__fetch($style, $cursor, $offset);
-//        if (is_array($result)) {
-//            $result = array_change_key_case($result, CASE_LOWER);
-//        }
-//        return $result;
-//    }
-
-
-    /**
      * Fetches a row from the result set.
      *
      * @param int $style  OPTIONAL Fetch mode for this fetch operation.
