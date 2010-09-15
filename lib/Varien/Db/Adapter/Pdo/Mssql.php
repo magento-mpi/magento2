@@ -225,6 +225,20 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     );
 
     /**
+     * Allowed interval units array
+     *
+     * @var array
+     */
+    protected $_intervalUnits = array(
+        self::INTERVAL_YEAR     => 'YEAR',
+        self::INTERVAL_MONTH    => 'MONTH',
+        self::INTERVAL_DAY      => 'DAY',
+        self::INTERVAL_HOUR     => 'HOUR',
+        self::INTERVAL_MINUTE   => 'MINUTE',
+        self::INTERVAL_SECOND   => 'SECOND',
+    );
+
+    /**
      * Creates a PDO DSN for the adapter from $this->_config settings.
      *
      * @return string
@@ -2854,6 +2868,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
+     * Get Interval Unit SQL fragment
+     *
+     * @param int $interval
+     * @param string $unit
+     * @return string
+     */
+    protected function _getIntervalUnitSql($interval, $unit)
+    {
+        if (!isset($this->_intervalUnits[$unit])) {
+            throw new Varien_Db_Exception(sprintf('Undefined interval unit "%s" specified', $unit));
+        }
+
+        return sprintf('%s, %d', $this->_intervalUnits[$unit], $interval);
+    }
+
+    /**
      * Add time values (intervals) to a date value
      *
      * @see INTERVAL_* constants for $unit
@@ -2865,7 +2895,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function getDateAddSql($date, $interval, $unit)
     {
-        return new Zend_Db_Expr(sprintf('DATEADD(%s, %d, %s)', $unit, $interval, $this->quote($date)));
+        return new Zend_Db_Expr(sprintf('DATEADD(%s, %s)', $this->_getIntervalUnitSql($interval, $unit), $this->quoteIdentifier($date)));
     }
 
     /**
