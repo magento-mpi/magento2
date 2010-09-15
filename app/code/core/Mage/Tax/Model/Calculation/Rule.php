@@ -42,15 +42,15 @@
  */
 class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
 {
-    protected $_ctcs = null;
-    protected $_ptcs = null;
-    protected $_rates = null;
+    protected $_ctcs                = null;
+    protected $_ptcs                = null;
+    protected $_rates               = null;
 
-    protected $_ctcModel = null;
-    protected $_ptcModel = null;
-    protected $_rateModel = null;
+    protected $_ctcModel            = null;
+    protected $_ptcModel            = null;
+    protected $_rateModel           = null;
 
-    protected $_calculationModel = null;
+    protected $_calculationModel    = null;
 
     /**
      * Varien model constructor
@@ -131,3 +131,4 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
         return $this->getCalculationModel()->getProductTaxClasses($this->getId());
     }
 }
+

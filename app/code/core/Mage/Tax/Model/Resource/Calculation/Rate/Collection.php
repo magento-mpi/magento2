@@ -35,8 +35,7 @@
 class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -44,7 +43,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Join country table to result
      *
      * @return Mage_Tax_Model_Resource_Calculation_Rate_Collection
      */
@@ -52,9 +51,10 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
     {
         $this->_select->join(
             array('country_table' => $this->getTable('directory/country')),
-            'main_table.tax_country_id=country_table.country_id',
+            'main_table.tax_country_id = country_table.country_id',
             array('country_name' => 'iso2_code')
         );
+
         return $this;
     }
 
@@ -67,7 +67,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
     {
         $this->_select->joinLeft(
             array('region_table' => $this->getTable('directory/country_region')),
-            'main_table.tax_region_id=region_table.region_id',
+            'main_table.tax_region_id = region_table.region_id',
             array('region_name' => 'code')
         );
         return $this;
@@ -76,18 +76,18 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
     /**
      * Join rate title for specified store
      *
-     *
-     * @param unknown_type $store
+     * @param Mage_Core_Model_Store|string|int $store
      * @return Mage_Tax_Model_Resource_Calculation_Rate_Collection
      */
     public function joinTitle($store = null)
     {
-        $storeId = Mage::app()->getStore($store)->getId();
+        $storeId = (int)Mage::app()->getStore($store)->getId();
         $this->_select->joinLeft(
             array('title_table' => $this->getTable('tax/tax_calculation_rate_title')),
-            "main_table.tax_calculation_rate_id=title_table.tax_calculation_rate_id AND title_table.store_id = '{$storeId}'",
+            $this->getConnection()->quoteInto('main_table.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = ?', $storeId),
             array('title' => 'value')
         );
+
         return $this;
     }
 
@@ -98,37 +98,41 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
      */
     public function joinStoreTitles()
     {
-        $storeCollection = Mage::getModel('core/store')->getCollection()->setLoadDefault(true);
+        $storeCollection =  Mage::app()->getStores(true);
         foreach ($storeCollection as $store) {
+            $tableAlias    = sprintf('title_table_%s', $store->getId());
+            $joinCondition = implode(' AND ', array(
+                "main_table.tax_calculation_rate_id = {$tableAlias}.tax_calculation_rate_id",
+                $this->getConnection()->quoteInto($tableAlias . '.store_id = ?', $store->getId())
+            ));
             $this->_select->joinLeft(
-                array('title_table_' . $store->getId() => $this->getTable('tax/tax_calculation_rate_title')),
-                "main_table.tax_calculation_rate_id=title_table_{$store->getId()}.tax_calculation_rate_id AND title_table_{$store->getId()}.store_id = '{$store->getId()}'",
-                array('title_' . $store->getId() => 'value')
+                array($tableAlias => $this->getTable('tax/tax_calculation_rate_title')),
+                $joinCondition,
+                array($tableAlias => 'value')
             );
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add rate filter
      *
-     * @param unknown_type $rateId
+     * @param int $rateId
      * @return Mage_Tax_Model_Resource_Calculation_Rate_Collection
      */
     public function addRateFilter($rateId)
     {
         if (is_int($rateId) && $rateId > 0) {
-            return $this->_select->where('main_table.tax_rate_id=?', $rateId);
+            return $this->addFieldToFilter('main_table.tax_rate_id', $rateId);
         }
-        else {
-            return $this;
-        }
+
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Retrieve option array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
@@ -136,12 +140,13 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Retrieve option hash
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionHash()
     {
         return $this->_toOptionHash('tax_calculation_rate_id', 'code');
     }
 }
+

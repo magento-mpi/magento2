@@ -31,7 +31,7 @@ class Mage_Tax_Model_Class_Source_Customer extends Mage_Eav_Model_Entity_Attribu
     {
         if (!$this->_options) {
             $this->_options = Mage::getResourceModel('tax/class_collection')
-                ->addFieldToFilter('class_type', 'CUSTOMER')
+                ->addFieldToFilter('class_type', Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
                 ->load()->toOptionArray();
         }
         return $this->_options;

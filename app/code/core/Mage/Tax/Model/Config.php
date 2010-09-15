@@ -480,3 +480,4 @@ class Mage_Tax_Model_Config
         return (bool)Mage::getStoreConfig(self::XML_PATH_DISPLAY_SALES_ZERO_TAX, $store);
     }
 }
+

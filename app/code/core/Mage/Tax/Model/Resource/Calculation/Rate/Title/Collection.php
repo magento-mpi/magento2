@@ -35,8 +35,7 @@
 class Mage_Tax_Model_Resource_Calculation_Rate_Title_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -44,14 +43,14 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Title_Collection extends Mage_Cor
     }
 
     /**
-     * Enter description here ...
+     * Add rate id filter
      *
-     * @param unknown_type $rateId
-     * @return unknown
+     * @param int $rateId
+     * @return Mage_Tax_Model_Resource_Calculation_Rate_Title_Collection
      */
     public function loadByRateId($rateId)
     {
-        $this->getSelect()->where('main_table.tax_calculation_rate_id = ?', $rateId);
+        $this->addFieldToFilter('main_table.tax_calculation_rate_id', $rateId);
         return $this->load();
     }
 }

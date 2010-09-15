@@ -31,7 +31,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
     {
         if (is_null($this->_options)) {
             $this->_options = Mage::getResourceModel('tax/class_collection')
-                ->addFieldToFilter('class_type', 'PRODUCT')
+                ->addFieldToFilter('class_type', Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
                 ->load()
                 ->toOptionArray();
         }

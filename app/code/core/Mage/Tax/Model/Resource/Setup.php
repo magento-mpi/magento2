@@ -36,7 +36,7 @@ class Mage_Tax_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
 {
     /**
      * Convert old Tax data
-     *
+     * @deprecated since 1.5.0.0
      */
     public function convertOldTaxData()
     {
@@ -55,8 +55,9 @@ class Mage_Tax_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
 
         foreach ($oldRates as $rate) {
             foreach ($oldRateTypes as $type) {
-                if (isset($rate["data_{$type['type_id']}"])) {
-                    $rateValue = $rate["data_{$type['type_id']}"];
+                $rateIndex = sprintf('data_%s', $type['type_id']);
+                if (isset($rate[$rateIndex])) {
+                    $rateValue = $rate[$rateIndex];
                 } else {
                     continue;
                 }
@@ -108,12 +109,14 @@ class Mage_Tax_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
             );
             Mage::getModel('tax/calculation_rule')->setData($ruleData)->save();
         }
+
+        return $this;
     }
 
     /**
      * Load Tax Table Data
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return array
      */
     protected function _loadTableData($table)
@@ -126,8 +129,9 @@ class Mage_Tax_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setup
 
     /**
      * Load Old Rate Data
-     *
-     * @param unknown_type $oldRateTypes
+     * @deprecated since 1.5.0.0
+     * 
+     * @param array $oldRateTypes
      * @return array
      */
     protected function _loadOldRates($oldRateTypes)

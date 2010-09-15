@@ -35,8 +35,7 @@
 class Mage_Tax_Model_Resource_Class_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     public function _construct()
     {
@@ -44,21 +43,20 @@ class Mage_Tax_Model_Resource_Class_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Add class type filter to result
      *
-     * @param unknown_type $classTypeId
+     * @param int $classTypeId
      * @return Mage_Tax_Model_Resource_Class_Collection
      */
     public function setClassTypeFilter($classTypeId)
     {
-        $this->_select->where('main_table.class_type = ?', $classTypeId);
-        return $this;
+        return $this->addFieldToFilter('main_table.class_type', $classTypeId);
     }
 
     /**
-     * Enter description here ...
+     * Retrieve option array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
@@ -66,9 +64,9 @@ class Mage_Tax_Model_Resource_Class_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Retrieve option hash
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionHash()
     {

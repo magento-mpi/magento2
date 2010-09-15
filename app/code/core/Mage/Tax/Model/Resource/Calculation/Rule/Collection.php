@@ -35,8 +35,7 @@
 class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -44,28 +43,31 @@ class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Join calculation data to result
      *
-     * @param unknown_type $alias
+     * @param string $alias table alias
+     * @return Mage_Tax_Model_Resource_Calculation_Rule_Collection
      */
     public function joinCalculationData($alias)
     {
         $this->getSelect()->joinLeft(
-            array($alias=>$this->getTable('tax_calculation')),
+            array($alias => $this->getTable('tax/tax_calculation')),
             "main_table.tax_calculation_rule_id = {$alias}.tax_calculation_rule_id",
             array()
         );
         $this->getSelect()->group('main_table.tax_calculation_rule_id');
+
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Join tax data to collection
      *
-     * @param unknown_type $itemTable
-     * @param unknown_type $primaryJoinField
-     * @param unknown_type $secondaryJoinField
-     * @param unknown_type $titleField
-     * @param unknown_type $dataField
+     * @param string $itemTable
+     * @param string $primaryJoinField
+     * @param string $secondaryJoinField
+     * @param string $titleField
+     * @param string $dataField
      * @return Mage_Tax_Model_Resource_Calculation_Rule_Collection
      */
     protected function _add($itemTable, $primaryJoinField, $secondaryJoinField, $titleField, $dataField)
@@ -75,14 +77,15 @@ class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Mode
             $children[$rule->getId()] = array();
         }
         if (!empty($children)) {
+            $joinCondition = sprintf('item.%s = calculation.%s', $secondaryJoinField, $primaryJoinField);
             $select = $this->getConnection()->select()
                 ->from(
-                    array('calculation'=>$this->getTable('tax_calculation')),
+                    array('calculation' => $this->getTable('tax/tax_calculation')),
                     array('calculation.tax_calculation_rule_id')
                 )
                 ->join(
-                    array('item'=>$this->getTable($itemTable)),
-                    "item.{$secondaryJoinField} = calculation.{$primaryJoinField}",
+                    array('item' => $this->getTable($itemTable)),
+                    $joinCondition,
                     array("item.{$titleField}", "item.{$secondaryJoinField}")
                 )
                 ->where('calculation.tax_calculation_rule_id IN (?)', array_keys($children))
@@ -99,13 +102,14 @@ class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Mode
                 $rule->setData($dataField, array_keys($children[$rule->getId()]));
             }
         }
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add product tax classes to result
      *
-     * @return unknown
+     * @return Mage_Tax_Model_Resource_Calculation_Rule_Collection
      */
     public function addProductTaxClassesToResult()
     {
@@ -113,9 +117,9 @@ class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Add customer tax classes to result
      *
-     * @return unknown
+     * @return Mage_Tax_Model_Resource_Calculation_Rule_Collection
      */
     public function addCustomerTaxClassesToResult()
     {
@@ -123,9 +127,9 @@ class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Add rates to result
      *
-     * @return unknown
+     * @return Mage_Tax_Model_Resource_Calculation_Rule_Collection
      */
     public function addRatesToResult()
     {
@@ -133,19 +137,20 @@ class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Mode
     }
 
     /**
-     * Enter description here ...
+     * Add class type filter
      *
-     * @param unknown_type $type
-     * @param unknown_type $id
+     * @param string $type
+     * @param int $id
+     * @throws Mage_Core_Exception
      * @return Mage_Tax_Model_Resource_Calculation_Rule_Collection
      */
     public function setClassTypeFilter($type, $id)
     {
         switch ($type) {
-            case 'PRODUCT':
+            case Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT:
                 $field = 'cd.product_tax_class_id';
                 break;
-            case 'CUSTOMER':
+            case Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER:
                 $field = 'cd.customer_tax_class_id';
                 break;
             default:

@@ -108,8 +108,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         try {
             $value = $product->getPrice();
             $value = Mage::app()->getStore()->convertPrice($value, $format);
-        }
-        catch (Exception $e){
+        } catch (Exception $e){
             $value = $e->getMessage();
         }
         return $value;
@@ -666,19 +665,37 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return $result;
     }
 
-    public function joinTaxClass($select, $storeId, $priceTable='main_table')
+    /**
+     * Join tax class
+     * @param Varien_Db_Select $select
+     * @param int $storeId
+     * @param string $priceTable
+     * @return Mage_Tax_Helper_Data
+     */
+    public function joinTaxClass($select, $storeId, $priceTable = 'main_table')
     {
         $taxClassAttribute = Mage::getModel('eav/entity_attribute')->loadByCode(Mage_Catalog_Model_Product::ENTITY, 'tax_class_id');
-        $select->joinLeft(
-            array('tax_class_d'=>$taxClassAttribute->getBackend()->getTable()),
-            "tax_class_d.entity_id = {$priceTable}.entity_id AND tax_class_d.attribute_id = '{$taxClassAttribute->getId()}'
-            AND tax_class_d.store_id = 0",
-             array());
-        $select->joinLeft(
-            array('tax_class_c'=>$taxClassAttribute->getBackend()->getTable()),
-            "tax_class_c.entity_id = {$priceTable}.entity_id AND tax_class_c.attribute_id = '{$taxClassAttribute->getId()}'
-            AND tax_class_c.store_id = '{$storeId}'",
-            array());
+        $joinConditionD = implode(' AND ',array(
+            "tax_class_d.entity_id = {$priceTable}.entity_id",
+            $select->getAdapter()->quoteInto('tax_class_d.attribute_id = ?', (int)$taxClassAttribute->getId()),
+            'tax_class_d.store_id = 0'
+        ));
+        $joinConditionC = implode(' AND ',array(
+            "tax_class_c.entity_id = {$priceTable}.entity_id",
+            $select->getAdapter()->quoteInto('tax_class_c.attribute_id = ?', (int)$taxClassAttribute->getId()),
+            $select->getAdapter()->quoteInto('tax_class_c.store_id = ?', (int)$storeId)
+        ));
+        $select
+            ->joinLeft(
+                array('tax_class_d' => $taxClassAttribute->getBackend()->getTable()),
+                $joinConditionD,
+                array())
+            ->joinLeft(
+                array('tax_class_c' => $taxClassAttribute->getBackend()->getTable()),
+                $joinConditionC,
+                array());
+
+        return $this;
     }
 
     /**
@@ -749,3 +766,4 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_config->getAlgorithm($store);
     }
 }
+

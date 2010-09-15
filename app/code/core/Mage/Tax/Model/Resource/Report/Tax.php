@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Tax report resource model
  *
  * @category    Mage
  * @package     Mage_Tax
@@ -35,8 +35,7 @@
 class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Report_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -114,7 +113,7 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
 
             $select
                 ->from($this->getMainTable(), $columns)
-                ->where('store_id <> 0');
+                ->where('store_id <> ?', 0);
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));

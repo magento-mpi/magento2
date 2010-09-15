@@ -35,8 +35,7 @@
 class Mage_Tax_Model_Resource_Calculation_Rate extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -58,11 +57,13 @@ class Mage_Tax_Model_Resource_Calculation_Rate extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Delete all rates
      *
+     * @return Mage_Tax_Model_Resource_Calculation_Rate
      */
     public function deleteAllRates()
     {
         $this->_getWriteAdapter()->delete($this->getMainTable());
+        return $this;
     }
 }

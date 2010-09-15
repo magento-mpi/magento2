@@ -35,8 +35,7 @@
 class Mage_Tax_Model_Resource_Calculation_Rate_Title extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -44,14 +43,17 @@ class Mage_Tax_Model_Resource_Calculation_Rate_Title extends Mage_Core_Model_Res
     }
 
     /**
-     * Enter description here ...
+     * Delete title by rate identifier
      *
-     * @param unknown_type $rateId
+     * @param int $rateId
+     * @return Mage_Tax_Model_Resource_Calculation_Rate_Title
      */
     public function deleteByRateId($rateId)
     {
         $conn = $this->_getWriteAdapter();
-        $where = $conn->quoteInto('tax_calculation_rate_id = ?', $rateId);
+        $where = $conn->quoteInto('tax_calculation_rate_id = ?', (int)$rateId);
         $conn->delete($this->getMainTable(), $where);
+
+        return $this;
     }
 }

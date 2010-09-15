@@ -35,8 +35,7 @@
 class Mage_Tax_Model_Resource_Sales_Order_Tax_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -44,16 +43,16 @@ class Mage_Tax_Model_Resource_Sales_Order_Tax_Collection extends Mage_Core_Model
     }
 
     /**
-     * Enter description here ...
+     * Retrieve order tax collection by order identifier
      *
-     * @param unknown_type $order
-     * @return unknown
+     * @param Varien_Object $order
+     * @return Mage_Tax_Model_Resource_Sales_Order_Tax_Collection
      */
     public function loadByOrder($order)
     {
         $orderId = $order->getId();
         $this->getSelect()
-            ->where('main_table.order_id = ?', $orderId)
+            ->where('main_table.order_id = ?', (int)$orderId)
             ->order('process');
         return $this->load();
     }
