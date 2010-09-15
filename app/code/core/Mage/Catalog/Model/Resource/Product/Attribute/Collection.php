@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
      * Resource model initialization
      *
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('catalog/resource_eav_attribute', 'eav/entity_attribute');
     }
