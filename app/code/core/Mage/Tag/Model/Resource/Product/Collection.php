@@ -65,7 +65,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
         parent::_initSelect();
 
         $this->_joinFields();
-        $this->getSelect()->group('e.entity_id');
+        $this->getSelect()->softGroup('e.entity_id');
 
         return $this;
     }
@@ -91,7 +91,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
      *
      * @deprecated after 1.3.2.3
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return bool
      */
     public function getJoinFlag($table)
@@ -105,7 +105,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
      *
      * @deprecated after 1.3.2.3
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return Mage_Tag_Model_Resource_Product_Collection
      */
     public function unsetJoinFlag($table = null)
@@ -155,8 +155,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
         foreach ($this as $item) {
             if (isset($tagsStores[$item->getTagId()])) {
                 $item->setStores($tagsStores[$item->getTagId()]);
-            }
-            else {
+            } else {
                 $item->setStores(array());
             }
         }
@@ -171,7 +170,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
      */
     public function addGroupByTag()
     {
-        $this->getSelect()->group('relation.tag_relation_id');
+        $this->getSelect()->softGroup('relation.tag_relation_id');
         return $this;
     }
 
@@ -266,13 +265,20 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
             $condition[] = $this->getConnection()->quoteInto('prelation.store_id = ?', $storeId);
         }
         $condition = join(' AND ', $condition);
+        $innerSelect = $this->getConnection()->select()
+        ->from(
+            array('relation' => $tagRelationTable),
+            array('product_id', 'store_id', 'popularity' => 'COUNT(DISTINCT relation.tag_relation_id)')
+        )
+        ->where('relation.tag_id = ?', $tagId)
+        ->group(array('product_id', 'store_id'));
 
         $this->getSelect()
             ->joinLeft(
-                array('prelation' => $tagRelationTable),
+                array('prelation' => $innerSelect),
                 $condition,
-                array('popularity' => 'COUNT(DISTINCT prelation.tag_relation_id)'))
-            ->where('prelation.tag_id = ?', $tagId);
+                array('popularity' => 'prelation.popularity')
+            );
 
         $this->_tagIdFilter = $tagId;
         $this->setFlag('prelation', true);
@@ -292,19 +298,18 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
 
         $select = $this->getConnection()->select()
             ->from($tagRelationTable, array('product_id', 'popularity' => 'COUNT(DISTINCT tag_relation_id)'))
-            ->where('tag_id = ?', $this->_tagIdFilter)
+            ->where('tag_id = :tag_id')
             ->group('product_id')
             ->having($this->_getConditionSql('popularity', $condition));
 
         $prodIds = array();
-        foreach ($this->getConnection()->fetchAll($select) as $item) {
+        foreach ($this->getConnection()->fetchAll($select, array('tag_id' => $this->_tagIdFilter)) as $item) {
             $prodIds[] = $item['product_id'];
         }
 
         if (sizeof($prodIds) > 0) {
             $this->getSelect()->where('e.entity_id IN(?)', $prodIds);
-        }
-        else {
+        } else {
             $this->getSelect()->where('e.entity_id IN(0)');
         }
 
@@ -376,10 +381,13 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
                 't.tag_id = relation.tag_id',
                 array(
                     'tag_id',
-                    'name',
                     'tag_status' => 'status',
                     'tag_name'   => 'name',
-                    'store_id'   => 'IF(t.first_store_id = 0, relation.store_id, t.first_store_id)'
+                    'store_id'   => $this->getConnection()->getCheckSql(
+                        't.first_store_id = 0',
+                        'relation.store_id',
+                        't.first_store_id'
+                    )
                 )
             );
 
@@ -422,11 +430,11 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->reset(Varien_Db_Select::SOFT_GROUP);
 
         if ($this->getFlag('group_tag')) {
             $field = 'relation.tag_id';
-        }
-        else {
+        } else {
             $field = 'e.entity_id';
         }
         $expr = new Zend_Db_Expr('COUNT('
@@ -449,8 +457,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
     {
         if ($attribute == 'popularity') {
             $this->getSelect()->order($attribute . ' ' . $dir);
-        }
-        else {
+        } else {
             parent::setOrder($attribute, $dir);
         }
         return $this;

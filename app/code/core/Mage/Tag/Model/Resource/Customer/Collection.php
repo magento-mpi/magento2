@@ -35,28 +35,28 @@
 class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Resource_Customer_Collection
 {
     /**
-     * Enter description here ...
+     * Allows disabling grouping
      *
-     * @var unknown
+     * @var bool
      */
     protected $_allowDisableGrouping     = true;
 
     /**
-     * Enter description here ...
+     * Count attribute for count sql
      *
-     * @var unknown
+     * @var string
      */
     protected $_countAttribute           = 'tr.tag_id';
 
     /**
-     * Enter description here ...
+     * Array with joined tables
      *
-     * @var unknown
+     * @var array
      */
     protected $_joinFlags                = array();
 
     /**
-     * Enter description here ...
+     * Prepare select
      *
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
@@ -89,7 +89,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
      *
      * @deprecated after 1.3.2.3
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return bool
      */
     public function getJoinFlag($table)
@@ -103,7 +103,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
      *
      * @deprecated after 1.3.2.3
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function unsetJoinFlag($table = null)
@@ -113,9 +113,9 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Adds filter by tag is
      *
-     * @param unknown_type $tagId
+     * @param int $tagId
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function addTagFilter($tagId)
@@ -126,9 +126,9 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * adds filter by product id
      *
-     * @param unknown_type $productId
+     * @param int $productId
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function addProductFilter($productId)
@@ -151,9 +151,9 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Adds filter by status
      *
-     * @param unknown_type $status
+     * @param int $status
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function addStatusFilter($status)
@@ -164,7 +164,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Adds desc order by tag relation id
      *
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
@@ -176,35 +176,35 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Adds grouping by tag id
      *
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function addGroupByTag()
     {
         $this->getSelect()
-            ->group('tr.tag_id');
+            ->softGroup('tr.tag_id');
 
         $this->_allowDisableGrouping = true;
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Adds grouping by customer id
      *
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function addGroupByCustomer()
     {
         $this->getSelect()
-            ->group('tr.customer_id');
+            ->softGroup('tr.customer_id');
 
         $this->_allowDisableGrouping = false;
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Disables grouping
      *
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
@@ -216,9 +216,9 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Adds filter by customer id
      *
-     * @param unknown_type $customerId
+     * @param int $customerId
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function addCustomerFilter($customerId)
@@ -228,7 +228,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Joins tables to select
      *
      */
     protected function _joinFields()
@@ -242,14 +242,18 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
             ->addAttributeToSelect('email');
 
         $this->getSelect()
-            ->join(array('tr' => $tagRelationTable), 'tr.customer_id = e.entity_id')
-            ->join(array('t' => $tagTable), 't.tag_id = tr.tag_id');
+        ->join(
+            array('tr' => $tagRelationTable),
+            'tr.customer_id = e.entity_id',
+            array('tag_relation_id', 'product_id', 'active')
+        )
+        ->join(array('t' => $tagTable), 't.tag_id = tr.tag_id', array('*'));
     }
 
     /**
-     * Enter description here ...
+     * Gets number of rows
      *
-     * @return unknown
+     * @return Varien_Db_Select
      */
     public function getSelectCountSql()
     {
@@ -258,13 +262,14 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
         if ($this->_allowDisableGrouping) {
             $countSelect->reset(Zend_Db_Select::COLUMNS);
             $countSelect->reset(Zend_Db_Select::GROUP);
+            $countSelect->reset(Varien_Db_Select::SOFT_GROUP);
             $countSelect->columns('COUNT(DISTINCT ' . $this->getCountAttribute() . ')');
         }
         return $countSelect;
     }
 
     /**
-     * Enter description here ...
+     * Adds Product names to select
      *
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
@@ -273,15 +278,14 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
         $productsId = array();
         $productsData = array();
 
-        foreach ($this->getItems() as $item)
-        {
+        foreach ($this->getItems() as $item) {
             $productsId[] = $item->getProductId();
         }
 
         $productsId = array_unique($productsId);
 
         /* small fix */
-        if( sizeof($productsId) == 0 ) {
+        if ( sizeof($productsId) == 0 ) {
             return;
         }
 
@@ -292,14 +296,12 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
 
         $collection->load();
 
-        foreach ($collection->getItems() as $item)
-        {
+        foreach ($collection->getItems() as $item) {
             $productsData[$item->getId()] = $item->getName();
             $productsSku[$item->getId()] = $item->getSku();
         }
 
-        foreach ($this->getItems() as $item)
-        {
+        foreach ($this->getItems() as $item) {
             $item->setProduct($productsData[$item->getProductId()]);
             $item->setProductSku($productsSku[$item->getProductId()]);
         }
@@ -307,10 +309,10 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Sets order by attribute
      *
-     * @param unknown_type $attribute
-     * @param unknown_type $dir
+     * @param string $attribute
+     * @param string $dir
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function setOrder($attribute, $dir = 'desc')
@@ -328,9 +330,9 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Sets attribute for count
      *
-     * @param unknown_type $value
+     * @param string $value
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function setCountAttribute($value)
@@ -340,9 +342,9 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Gets attribure for count
      *
-     * @return unknown
+     * @return string
      */
     public function getCountAttribute()
     {
@@ -350,10 +352,10 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Adds field to filter
      *
-     * @param unknown_type $attribute
-     * @param unknown_type $condition
+     * @param string $attribute
+     * @param array $condition
      * @return Mage_Tag_Model_Resource_Customer_Collection
      */
     public function addFieldToFilter($attribute, $condition = null)
@@ -366,4 +368,5 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
             return parent::addFieldToFilter($attribute, $condition);
         }
     }
+
 }

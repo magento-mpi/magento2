@@ -35,7 +35,7 @@
 class Mage_Tag_Model_Resource_Popular_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Defines resource model and model
      *
      */
     protected function _construct()
@@ -56,7 +56,6 @@ class Mage_Tag_Model_Resource_Popular_Collection extends Mage_Core_Model_Resourc
             ->from(
                 array('tag_summary' => $this->getTable('tag/summary')),
                 array(
-                    'tag_id',
                     'popularity'
                 )
             )
@@ -83,10 +82,10 @@ class Mage_Tag_Model_Resource_Popular_Collection extends Mage_Core_Model_Resourc
     }
 
     /**
-     * Enter description here ...
+     * Loads collection
      *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
+     * @param bool $printQuery
+     * @param bool $logQuery
      * @return Mage_Tag_Model_Resource_Popular_Collection
      */
     public function load($printQuery = false, $logQuery = false)
@@ -99,9 +98,9 @@ class Mage_Tag_Model_Resource_Popular_Collection extends Mage_Core_Model_Resourc
     }
 
     /**
-     * Enter description here ...
+     * Sets limit
      *
-     * @param unknown_type $limit
+     * @param int $limit
      * @return Mage_Tag_Model_Resource_Popular_Collection
      */
     public function limit($limit)

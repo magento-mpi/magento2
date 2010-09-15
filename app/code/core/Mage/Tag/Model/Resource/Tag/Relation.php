@@ -53,21 +53,31 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
     {
         if ($model->getTagId() && $model->getCustomerId()) {
             $read = $this->_getReadAdapter();
+            $bind = array(
+                'tag_id'      => $model->getTagId(),
+                'customer_id' => $model->getCustomerId()
+            );
+
             $select = $read->select()
                 ->from($this->getMainTable())
-                ->join($this->getTable('tag/tag'), "{$this->getTable('tag/tag')}.tag_id = {$this->getMainTable()}.tag_id")
-                ->where("{$this->getMainTable()}.tag_id = ?", $model->getTagId())
-                ->where('customer_id = ?', $model->getCustomerId());
+                ->join(
+                    $this->getTable('tag/tag'),
+                    $this->getTable('tag/tag') .'.tag_id = '. $this->getMainTable() .'.tag_id'
+                )
+                ->where($this->getMainTable() . '.tag_id = :tag_id')
+                ->where('customer_id = :customer_id');
 
             if ($model->getProductId()) {
-                $select->where("{$this->getMainTable()}.product_id = ?", $model->getProductId());
+                $select->where($this->getMainTable() . '.product_id = :product_id');
+                $bind['product_id'] = $model->getProductId();
             }
 
             if ($model->hasStoreId()) {
-                $select->where("{$this->getMainTable()}.store_id = ?", $model->getStoreId());
+                $select->where($this->getMainTable() . '.store_id = :sore_id');
+                $bind['sore_id'] = $model->getStoreId();
             }
-            $data = $read->fetchRow($select);
-            $model->setData( ( is_array($data) ) ? $data : array() );
+            $data = $read->fetchRow($select, $bind);
+            $model->setData(( is_array($data) ) ? $data : array());
         }
 
         return $this;
@@ -81,24 +91,33 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
      */
     public function getProductIds($model)
     {
+        $bind = array(
+            'tag_id' => $model->getTagId()
+        );
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'product_id')
-            ->where("{$this->getMainTable()}.tag_id=?", $model->getTagId());
+            ->where($this->getMainTable() . '.tag_id=:tag_id');
 
         if (!is_null($model->getCustomerId())) {
-            $select->where("{$this->getMainTable()}.customer_id=?", $model->getCustomerId());
+            $select->where($this->getMainTable() . '.customer_id= :customer_id');
+            $bind['customer_id'] = $model->getCustomerId();
         }
 
         if ($model->hasStoreId()) {
-            $select->where("{$this->getMainTable()}.store_id = ?", $model->getStoreId());
+            $select->where($this->getMainTable() . '.store_id = :store_id');
+            $bind['store_id'] = $model->getStoreId();
         }
 
         if (!is_null($model->getStatusFilter())) {
-            $select->join($this->getTable('tag/tag'), "{$this->getTable('tag/tag')}.tag_id = {$this->getMainTable()}.tag_id")
-                ->where("{$this->getTable('tag/tag')}.status = ?", $model->getStatusFilter());
+            $select->join(
+                $this->getTable('tag/tag'),
+                $this->getTable('tag/tag') . '.tag_id = ' . $this->getMainTable() . '.tag_id'
+            )
+            ->where($this->getTable('tag/tag') . '.status = :t_status');
+            $bind['t_status'] = $model->getStatusFilter();
         }
 
-        return $this->_getReadAdapter()->fetchCol($select);
+        return $this->_getReadAdapter()->fetchCol($select, $bind);
     }
 
     /**
@@ -126,8 +145,11 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
      */
     public function deactivate($tagId, $customerId)
     {
-        $condition = $this->_getWriteAdapter()->quoteInto('tag_id = ?', $tagId) . ' AND ';
-        $condition.= $this->_getWriteAdapter()->quoteInto('customer_id = ?', $customerId);
+        $condition = array(
+            'tag_id = ?'      => $tagId,
+            'customer_id = ?' => $customerId
+        );
+
         $data = array('active' => Mage_Tag_Model_Tag_Relation::STATUS_NOT_ACTIVE);
         $this->_getWriteAdapter()->update($this->getMainTable(), $data, $condition);
         return $this;
@@ -143,12 +165,17 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
     {
         $addedIds = $model->getAddedProductIds();
 
+        $bind = array(
+            'tag_id'   => $model->getTagId(),
+            'store_id' => $model->getStoreId()
+        );
+
         $select = $this->_getWriteAdapter()->select()
             ->from($this->getMainTable(), 'product_id')
-            ->where("tag_id = ?", $model->getTagId())
-            ->where("store_id = ?", $model->getStoreId())
-            ->where("customer_id IS NULL");
-        $oldRelationIds = $this->_getWriteAdapter()->fetchCol($select);
+            ->where('tag_id = :tag_id')
+            ->where('store_id = :store_id')
+            ->where('customer_id IS NULL');
+        $oldRelationIds = $this->_getWriteAdapter()->fetchCol($select, $bind);
 
         $insert = array_diff($addedIds, $oldRelationIds);
         $delete = array_diff($oldRelationIds, $addedIds);
@@ -169,8 +196,8 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
 
         if (!empty($delete)) {
             $this->_getWriteAdapter()->delete($this->getMainTable(), array(
-                $this->_getWriteAdapter()->quoteInto('product_id IN (?)', $delete),
-                $this->_getWriteAdapter()->quoteInto('store_id = ?', $model->getStoreId()),
+                'product_id IN (?)' => $delete,
+                'store_id = ?'      => $model->getStoreId(),
                 'customer_id IS NULL'
             ));
         }

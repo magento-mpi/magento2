@@ -147,12 +147,12 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
         $writeAdapter->beginTransaction();
 
         try {
-            if (!is_null($tagIds)) {
+            if (!empty($tagIds)) {
                 $writeAdapter->delete(
                     $this->getTable('tag/summary'), $writeAdapter->quoteInto('tag_id IN(?)', $tagIds)
                 );
             } else {
-                $writeAdapter->truncate($this->getTable('tag/summary'));
+                $writeAdapter->delete($this->getTable('tag/summary'));
             }
 
             $select = $writeAdapter->select()
@@ -163,7 +163,11 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
                         'tr.store_id',
                         'customers'         => 'COUNT(DISTINCT tr.customer_id)',
                         'products'          => 'COUNT(DISTINCT tr.product_id)',
-                        'popularity'        => 'COUNT(tr.customer_id) + IFNULL(tp.base_popularity, 0)',
+                        'popularity'        => 'COUNT(tr.customer_id) + MIN('. $writeAdapter->getCheckSql(
+                            'tp.base_popularity IS NOT NULL',
+                            'tp.base_popularity',
+                            '0'
+                        ) . ')',
                         'uses'              => new Zend_Db_Expr(0), // deprecated since 1.4.0.1
                         'historical_uses'   => new Zend_Db_Expr(0), // deprecated since 1.4.0.1
                         'base_popularity'   => new Zend_Db_Expr(0)  // deprecated since 1.4.0.1
@@ -195,13 +199,13 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
                 ));
 
             $statusCond = $writeAdapter->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
-            $this->_addAttributeToSelect($select, 'status', 'e.entity_id' , 'cs.store_id', $statusCond);
+            $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond);
 
             $visibilityCond = $writeAdapter
                 ->quoteInto('!=?', Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
-            $this->_addAttributeToSelect($select, 'visibility', 'e.entity_id' , 'cs.store_id', $visibilityCond);
+            $this->_addAttributeToSelect($select, 'visibility', 'e.entity_id', 'cs.store_id', $visibilityCond);
 
-            if (!is_null($tagIds)) {
+            if (!empty($tagIds)) {
                 $select->where('tr.tag_id IN(?)', $tagIds);
             }
 
@@ -241,7 +245,7 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
             $agregateSelect->from($this->getTable('tag/relation'), $selectedFields)
                 ->group('tag_id');
 
-            if (!is_null($tagIds)) {
+            if (!empty($tagIds)) {
                 $agregateSelect->where('tag_id IN(?)', $tagIds);
             }
 
