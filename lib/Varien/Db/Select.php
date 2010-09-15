@@ -70,24 +70,22 @@ class Varien_Db_Select extends Zend_Db_Select
     public function __construct(Zend_Db_Adapter_Abstract $adapter)
     {
         self::$_partsInit = array(
-            self::DISTINCT     => false,
-            self::COLUMNS      => array(),
-            self::UNION        => array(),
-            self::FROM         => array(),
-            self::WHERE        => array(),
-            self::GROUP        => array(),
-            self::HAVING       => array(),
-            self::ORDER        => array(),
-            self::SOFT_GROUP   => array(),
-            self::LIMIT_COUNT  => null,
-            self::LIMIT_OFFSET => null,
-            self::FOR_UPDATE   => false
+            self::STRAIGHT_JOIN => false,
+            self::DISTINCT      => false,
+            self::COLUMNS       => array(),
+            self::UNION         => array(),
+            self::FROM          => array(),
+            self::WHERE         => array(),
+            self::GROUP         => array(),
+            self::HAVING        => array(),
+            self::ORDER         => array(),
+            self::SOFT_GROUP    => array(),
+            self::LIMIT_COUNT   => null,
+            self::LIMIT_OFFSET  => null,
+            self::FOR_UPDATE    => false
         );
 
         parent::__construct($adapter);
-        if (!isset(self::$_partsInit[self::STRAIGHT_JOIN])) {
-            self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
-        }
     }
 
     /**
@@ -446,6 +444,8 @@ class Varien_Db_Select extends Zend_Db_Select
         return parent::_tableCols($correlationName, $cols, $afterCorrelationName);
     }
 
+
+
     /**
      * Adds the random order to query
      *
@@ -456,6 +456,21 @@ class Varien_Db_Select extends Zend_Db_Select
     {
         $this->_adapter->orderRand($this, $field);
         return $this;
+    }
+
+    /**
+     * Render COLUMNS
+     *
+     * @param string   $sql SQL query
+     * @return string|null
+     */
+    protected function _renderColumns($sql)
+    {
+        $sql = parent::_renderColumns($sql);
+        if ($this->_parts[self::SOFT_GROUP]) {
+            $sql .= $this->_adapter->addRankColumn($this, $this->_parts[self::SOFT_GROUP], parent::_renderOrder(''));
+        }
+        return $sql;
     }
 
     /**
@@ -470,15 +485,6 @@ class Varien_Db_Select extends Zend_Db_Select
             return $sql;
         }
         return parent::_renderOrder($sql);
-    }
-
-    /**
-     * Render only ORDER part
-     *
-     * @return string
-     */
-    public function renderOrder() {
-        return parent::_renderOrder('');
     }
 
     /**
@@ -516,19 +522,6 @@ class Varien_Db_Select extends Zend_Db_Select
         }
 
         return $sql;
-    }
-
-    /**
-     * Converts this object to an SQL SELECT string.
-     *
-     * @return string|null This object as a SELECT string. (or null if a string cannot be produced.)
-     */
-    public function assemble()
-    {
-        if(!empty($this->_parts[self::SOFT_GROUP])){
-             $this->getAdapter()->addRankColumn($this, $this->_parts[self::SOFT_GROUP]);
-        }
-        return parent::assemble();
     }
 
 }

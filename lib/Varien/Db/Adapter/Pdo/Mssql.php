@@ -4070,24 +4070,22 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
      * Adds column for getting rank
      *
      * @param Varien_Db_Select $select
-     * @param array $columns
+     * @param array $groupColumns
+     * @param string $orderSql
      * @return string
      */
-    public function addRankColumn($select, $columns)
+    public function addRankColumn($select, $groupColumns, $orderSql)
     {
-        $select->columns(array('varien_rank_column' => new Zend_Db_Expr(
-            'RANK() OVER (PARTITION BY ' .
-            implode(",\n\t", $columns) .
-            ' ORDER BY NEWID() )')
-            )
-        );
-        if (count($select->getPart(Zend_Db_Select::ORDER))) {
-            $select->columns(array(
-                'varien_order_column' => new Zend_Db_Expr(
-                    'RANK() OVER (' . $select->renderOrder() . ')'
-                ),
-            ));
+        $sql = !count($select->getPart(Zend_Db_Select::COLUMNS))?' ':', ';
+        $sql .= 'RANK() OVER (PARTITION BY ' .
+                implode(",\n\t", $groupColumns) .
+                ' ORDER BY NEWID() ) AS varien_rank_column';
+
+        if ($orderSql != '') {
+            $sql .= ', RANK() OVER (' . $orderSql . ') AS varien_order_column';
         }
+
+        return $sql;
     }
 
     /**
@@ -4102,7 +4100,7 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
             .  "FROM ({$select}) varien_softgroup_select \n"
             .  "WHERE varien_softgroup_select.varien_rank_column = 1 ";
     }
-    
+
     /**
      * Return sql expresion analog MySql Unix_TimeStamp function
 
