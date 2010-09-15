@@ -3654,5 +3654,63 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $select->setPart(Zend_Db_Select::COLUMNS, array_values($preaparedColumns));
         return $select;
     }
+
+    /*
+     * Render Sql using Windows(Analitic) functions
+     *
+     * @param Varien_Db_Select $select
+     * @return select 
+     */
+    public function getWindSql(Varien_Db_Select $select)
+    {
+        $select = $this->preapareColumnsList($select);
+        $orderCondition = null;
+        $groupByCondition = null;
+        if ($select->getPart(Zend_Db_Select::ORDER)) {
+            $order = array();
+            foreach ($select->getPart(Zend_Db_Select::ORDER) as $term) {
+                if (is_array($term)) {
+                    if (!is_numeric($term[0])) {
+                        $order[] = $this->quoteIdentifier($term[0], true) . ' ' . $term[1];
+                    } else {
+                        throw new Zend_Db_Exception("Cann't use field number as order field");
+                    }
+                } else {
+                    if (!is_numeric($term)) {
+                        $order[] = $this->quoteIdentifier($term, true);
+                    } else {
+                        throw new Zend_Db_Exception("Cann't use field number as order field");
+                    }
+                }
+            $orderCondition = implode(', ', $order);
+
+            }
+        }
+        if ($select->getPart(Zend_Db_Select::GROUP)) {
+            $group = array();
+            foreach ($select->getPart(Zend_Db_Select::GROUP) as $term) {
+                $group[] = $this->quoteIdentifier($term, true);
+            }
+            $groupByCondition = implode(', ', $group);
+        }
+
+        if($groupByCondition) {
+            $select->reset('GROUP');
+            $select->columns(array("varien_group_rank" =>
+                Zend_Db_Expr(sprintf("RANK() OVER (%s ORDER BY rownum)", $groupByCondition)))
+            );
+        }
+
+        if($orderCondition) {
+            $select->reset('ORDER');
+            $select->columns(array("varien_order_condition" =>
+                Zend_Db_Expr(sprintf("RANK() OVER (ORDER BY %s)", $orderCondition)))
+            );
+        }
+        return sprintf("SELECT varien_wind_table.* FROM (%s) varien_wind_table %s",
+            $select->assemble(),
+            !empty($groupByCondition) ? "" : "WHERE varien_wind_table.varien_group_rank = 1" 
+        );
+    }
 }
 
