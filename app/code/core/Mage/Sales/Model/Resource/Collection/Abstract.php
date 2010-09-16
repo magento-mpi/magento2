@@ -128,8 +128,8 @@ abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Mage_Core_M
      * Create all ids retrieving select with limitation
      * Backward compatibility with EAV collection
      *
-     * @param unknown_type $limit
-     * @param unknown_type $offset
+     * @param int $limit
+     * @param int $offset
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     protected function _getAllIdsSelect($limit = null, $offset = null)
@@ -165,12 +165,12 @@ abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Mage_Core_M
      *
      * @todo implement join functionality if necessary
      *
-     * @param unknown_type $alias
-     * @param unknown_type $attribute
-     * @param unknown_type $bind
-     * @param unknown_type $filter
-     * @param unknown_type $joinType
-     * @param unknown_type $storeId
+     * @param string $alias
+     * @param string $attribute
+     * @param string $bind
+     * @param string $filter
+     * @param string $joinType
+     * @param int $storeId
      * @return Mage_Sales_Model_Resource_Collection_Abstract
      */
     public function joinAttribute($alias, $attribute, $bind, $filter = null, $joinType = 'inner', $storeId = null)

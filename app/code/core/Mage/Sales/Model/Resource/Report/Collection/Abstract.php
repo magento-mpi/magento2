@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Report collection abstract model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -35,65 +35,65 @@
 class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * From date
      *
-     * @var unknown
+     * @var string
      */
     protected $_from               = null;
 
     /**
-     * Enter description here ...
+     * To date
      *
-     * @var unknown
+     * @var string
      */
     protected $_to                 = null;
 
     /**
-     * Enter description here ...
+     * Order status
      *
-     * @var unknown
+     * @var string
      */
     protected $_orderStatus        = null;
 
     /**
-     * Enter description here ...
+     * Period
      *
-     * @var unknown
+     * @var string
      */
     protected $_period             = null;
 
     /**
-     * Enter description here ...
+     * Store ids
      *
-     * @var unknown
+     * @var int|array
      */
     protected $_storesIds          = 0;
 
     /**
-     * Enter description here ...
+     * Does filters should be applied 
      *
-     * @var unknown
+     * @var bool
      */
     protected $_applyFilters       = true;
 
     /**
-     * Enter description here ...
+     * Is totals
      *
-     * @var unknown
+     * @var bool
      */
     protected $_isTotals           = false;
 
     /**
-     * Enter description here ...
+     * Is subtotals
      *
-     * @var unknown
+     * @var bool
      */
     protected $_isSubTotals        = false;
 
     /**
-     * Enter description here ...
+     * Aggregated columns
      *
-     * @var unknown
+     * @var array
      */
     protected $_aggregatedColumns  = array();
 
@@ -219,7 +219,7 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
     /**
      * Set status filter
      *
-     * @param unknown_type $orderStatus
+     * @param string $orderStatus
      * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
      */
     public function addOrderStatusFilter($orderStatus)
@@ -292,8 +292,8 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
      * Load data
      * Redeclare parent load method just for adding method _beforeLoad
      *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
+     * @param bool $printQuery
+     * @param bool $logQuery
      * @return Mage_Sales_Model_Resource_Report_Collection_Abstract
      */
     public function load($printQuery = false, $logQuery = false)

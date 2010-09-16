@@ -35,16 +35,16 @@
 class Mage_Sales_Model_Resource_Report_Order_Collection extends Mage_Sales_Model_Resource_Report_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Period format
      *
-     * @var unknown
+     * @var string
      */
     protected $_periodFormat;
 
     /**
-     * Enter description here ...
+     * Selected columns
      *
-     * @var unknown
+     * @var array
      */
     protected $_selectedColumns    = array();
 
@@ -61,16 +61,16 @@ class Mage_Sales_Model_Resource_Report_Order_Collection extends Mage_Sales_Model
     }
 
     /**
-     * Enter description here ...
+     * Get selected columns
      *
-     * @return unknown
+     * @return array
      */
     protected function _getSelectedColumns()
     {
         if ('month' == $this->_period) {
-            $this->_periodFormat = 'DATE_FORMAT(period, \'%Y-%m\')';
+            $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
-            $this->_periodFormat = 'EXTRACT(YEAR FROM period)';
+            $this->_periodFormat = $adapter->getDateExtractSql('period', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
         } else {
             $this->_periodFormat = 'period';
         }

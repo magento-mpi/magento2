@@ -36,16 +36,16 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
     extends Mage_Sales_Model_Resource_Report_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Rating limit
      *
      * @var int
      */
     protected $_ratingLimit        = 5;
 
     /**
-     * Enter description here ...
+     * Columns for select
      *
-     * @var unknown
+     * @var array
      */
     protected $_selectedColumns    = array();
 
@@ -64,9 +64,9 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
     }
 
     /**
-     * Enter description here ...
+     * Retrieve columns for select
      *
-     * @return unknown
+     * @return array
      */
     protected function _getSelectedColumns()
     {
@@ -76,15 +76,15 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             } else {
                 $this->_selectedColumns = array(
                     'period'         => 'period',
-                    'qty_ordered'    => 'qty_ordered',
+                    'qty_ordered'    => 'SUM(qty_ordered)',
                     'product_id'     => 'product_id',
-                    'product_name'   => 'product_name',
-                    'product_price'  => 'product_price',
+                    'product_name'   => 'MAX(product_name)',
+                    'product_price'  => 'MAX(product_price)',
                 );
                 if ('year' == $this->_period) {
-                    $this->_selectedColumns['period'] = 'YEAR(period)';
+                    $this->_selectedColumns['period'] = $this->getConnection()->getDateFormatSql('period', '%Y');
                 } else if ('month' == $this->_period) {
-                    $this->_selectedColumns['period'] = "DATE_FORMAT(period, '%Y-%m')";
+                    $this->_selectedColumns['period'] = $this->getConnection()->getDateFormatSql('period', '%Y-%m');
                 }
             }
         }
@@ -159,7 +159,6 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
         $periodFrom = (!is_null($this->_from) ? new Zend_Date($this->_from, $dtFormat) : null);
         $periodTo   = (!is_null($this->_to)   ? new Zend_Date($this->_to,   $dtFormat) : null);
         if ('year' == $this->_period) {
-
             if ($periodFrom) {
                 if ($periodFrom->toValue(Zend_Date::MONTH) != 1 || $periodFrom->toValue(Zend_Date::DAY) != 1) {  // not the first day of the year
                     $dtFrom = $periodFrom->getDate();
@@ -194,9 +193,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
                 }
             }
 
-        }
-        else if ('month' == $this->_period) {
-
+        } else if ('month' == $this->_period) {
             if ($periodFrom) {
                 if ($periodFrom->toValue(Zend_Date::DAY) != 1) {  // not the first day of the month
                     $dtFrom = $periodFrom->getDate();
@@ -256,7 +253,6 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             // add sorting
             $this->getSelect()->order(array('period ASC', 'qty_ordered DESC'));
         }
-
         return $this;
     }
 

@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Refund report resource model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -35,7 +35,7 @@
 class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resource_Report_Abstract
 {
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -75,7 +75,8 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
     {
         $table = $this->getTable('sales/refunded_aggregated_order');
         $sourceTable = $this->getTable('sales/order');
-        $this->_getWriteAdapter()->beginTransaction();
+        $adapter = $this->_getWriteAdapter();
+        $adapter->beginTransaction();
 
         try {
             if ($from !== null || $to !== null) {
@@ -85,36 +86,37 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
             }
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
-
+            // convert dates from UTC to current admin timezone
+            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(), 'HOURS'));
+            $countExpr = new Zend_Db_Expr('COUNT(total_refunded)');
             $columns = array(
-                // convert dates from UTC to current admin timezone
-                'period'            => "DATE(CONVERT_TZ(created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
+                'period'            => $periodExpr,
                 'store_id'          => 'store_id',
                 'order_status'      => 'status',
-                'orders_count'      => 'COUNT(`total_refunded`)',
-                'refunded'          => 'SUM(`base_total_refunded` * `base_to_global_rate`)',
-                'online_refunded'   => 'SUM(`base_total_online_refunded` * `base_to_global_rate`)',
-                'offline_refunded'  => 'SUM(`base_total_offline_refunded` * `base_to_global_rate`)'
+                'orders_count'      => $countExpr,
+                'refunded'          => new Zend_Db_Expr('SUM(base_total_refunded * base_to_global_rate)'),
+                'online_refunded'   => new Zend_Db_Expr('SUM(base_total_online_refunded * base_to_global_rate)'),
+                'offline_refunded'  => new Zend_Db_Expr('SUM(base_total_offline_refunded * base_to_global_rate)')
             );
 
-            $select = $this->_getWriteAdapter()->select();
+            $select = $adapter->select();
             $select->from($sourceTable, $columns)
-                ->where('state <> ?', Mage_Sales_Model_Order::STATE_CANCELED)
-                ->where('base_total_refunded > 0');
+                ->where('state != ?', Mage_Sales_Model_Order::STATE_CANCELED)
+                ->where('base_total_refunded > ?', 0);
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'created_at'));
             }
 
             $select->group(array(
-                'period',
+                $periodExpr,
                 'store_id',
-                'order_status'
+                'status'
             ));
 
-            $select->having('orders_count > 0');
+            $select->having($adapter->quoteInto($countExpr . ' > ?', 0));
 
-            $this->_getWriteAdapter()->query($select->insertFromSelect($table, array_keys($columns)));
+            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();
 
@@ -122,15 +124,15 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
                 'period'            => 'period',
                 'store_id'          => new Zend_Db_Expr('0'),
                 'order_status'      => 'order_status',
-                'orders_count'      => 'SUM(orders_count)',
-                'refunded'          => 'SUM(refunded)',
-                'online_refunded'   => 'SUM(online_refunded)',
-                'offline_refunded'  => 'SUM(offline_refunded)'
+                'orders_count'      => new Zend_Db_Expr('SUM(orders_count)'),
+                'refunded'          => new Zend_Db_Expr('SUM(refunded)'),
+                'online_refunded'   => new Zend_Db_Expr('SUM(online_refunded)'),
+                'offline_refunded'  => new Zend_Db_Expr('SUM(offline_refunded)')
             );
 
             $select
                 ->from($table, $columns)
-                ->where('store_id <> 0');
+                ->where('store_id != ?', 0);
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
@@ -141,13 +143,13 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
                 'order_status'
             ));
 
-            $this->_getWriteAdapter()->query($select->insertFromSelect($table, array_keys($columns)));
+            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
         } catch (Exception $e) {
-            $this->_getWriteAdapter()->rollBack();
+            $adapter->rollBack();
             throw $e;
         }
 
-        $this->_getWriteAdapter()->commit();
+        $adapter->commit();
         return $this;
     }
 
@@ -163,7 +165,8 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
         $table = $this->getTable('sales/refunded_aggregated');
         $sourceTable = $this->getTable('sales/creditmemo');
         $orderTable = $this->getTable('sales/order');
-        $this->_getWriteAdapter()->beginTransaction();
+        $adapter = $this->_getWriteAdapter();
+        $adapter->beginTransaction();
 
         try {
             if ($from !== null || $to !== null) {
@@ -176,30 +179,32 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
             }
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
+            // convert dates from UTC to current admin timezone
+            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('source_table.created_at', $this->_getStoreTimezoneUtcOffset(), 'HOURS'));
+            $countExpr = new Zend_Db_Expr('COUNT(order_table.entity_id)');
 
             $columns = array(
-                // convert dates from UTC to current admin timezone
-                'period'            => "DATE(CONVERT_TZ(source_table.created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
+                'period'            => $periodExpr,
                 'store_id'          => 'order_table.store_id',
                 'order_status'      => 'order_table.status',
-                'orders_count'      => 'COUNT(order_table.`entity_id`)',
-                'refunded'          => 'SUM(order_table.`base_total_refunded` * order_table.`base_to_global_rate`)',
-                'online_refunded'   => 'SUM(order_table.`base_total_online_refunded` * order_table.`base_to_global_rate`)',
-                'offline_refunded'  => 'SUM(order_table.`base_total_offline_refunded` * order_table.`base_to_global_rate`)'
+                'orders_count'      => $countExpr,
+                'refunded'          => new Zend_Db_Expr('SUM(order_table.base_total_refunded * order_table.base_to_global_rate)'),
+                'online_refunded'   => new Zend_Db_Expr('SUM(order_table.base_total_online_refunded * order_table.base_to_global_rate)'),
+                'offline_refunded'  => new Zend_Db_Expr('SUM(order_table.base_total_offline_refunded * order_table.base_to_global_rate)')
             );
 
-            $select = $this->_getWriteAdapter()->select();
+            $select = $adapter->select();
             $select->from(array('source_table' => $sourceTable), $columns)
                 ->joinInner(
                     array('order_table' => $orderTable),
-                    $this->_getWriteAdapter()->quoteInto(
-                        'source_table.order_id = order_table.entity_id AND order_table.state <> ? AND order_table.base_total_refunded > 0',
+                    $adapter->quoteInto(
+                        'source_table.order_id = order_table.entity_id AND order_table.state != ? AND order_table.base_total_refunded > 0',
                         Mage_Sales_Model_Order::STATE_CANCELED),
                     array()
                 );
 
-            $filterSubSelect = $this->_getWriteAdapter()->select();
-            $filterSubSelect->from(array('filter_source_table' => $sourceTable), 'MAX(filter_source_table.entity_id)')
+            $filterSubSelect = $adapter->select();
+            $filterSubSelect->from(array('filter_source_table' => $sourceTable), new Zend_Db_Expr('MAX(filter_source_table.entity_id)'))
                 ->where('filter_source_table.order_id = source_table.order_id');
 
             if ($subSelect !== null) {
@@ -210,14 +215,14 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
             unset($filterSubSelect);
 
             $select->group(array(
-                'period',
-                'store_id',
-                'order_status'
+                $periodExpr,
+                'order_table.store_id',
+                'order_table.status'
             ));
 
-            $select->having('orders_count > 0');
+            $select->having($adapter->quoteInto($countExpr . ' > ?', 0));
 
-            $this->_getWriteAdapter()->query($select->insertFromSelect($table, array_keys($columns)));
+            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();
 
@@ -225,15 +230,15 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
                 'period'            => 'period',
                 'store_id'          => new Zend_Db_Expr('0'),
                 'order_status'      => 'order_status',
-                'orders_count'      => 'SUM(orders_count)',
-                'refunded'          => 'SUM(refunded)',
-                'online_refunded'   => 'SUM(online_refunded)',
-                'offline_refunded'  => 'SUM(offline_refunded)'
+                'orders_count'      => new Zend_Db_Expr('SUM(orders_count)'),
+                'refunded'          => new Zend_Db_Expr('SUM(refunded)'),
+                'online_refunded'   => new Zend_Db_Expr('SUM(online_refunded)'),
+                'offline_refunded'  => new Zend_Db_Expr('SUM(offline_refunded)')
             );
 
             $select
                 ->from($table, $columns)
-                ->where('store_id <> 0');
+                ->where('store_id != ?', 0);
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
@@ -244,12 +249,12 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
                 'order_status'
             ));
 
-            $this->_getWriteAdapter()->query($select->insertFromSelect($table, array_keys($columns)));
+            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
         } catch (Exception $e) {
-            $this->_getWriteAdapter()->rollBack();
+            $adapter->rollBack();
             throw $e;
         }
-        $this->_getWriteAdapter()->commit();
+        $adapter->commit();
         return $this;
     }
 }

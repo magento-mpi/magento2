@@ -36,7 +36,7 @@ class Mage_Sales_Model_Resource_Report_Refunded_Collection_Refunded
     extends Mage_Sales_Model_Resource_Report_Refunded_Collection_Order
 {
     /**
-     * Enter description here ...
+     * Initialize custom resource model
      *
      */
     public function __construct()

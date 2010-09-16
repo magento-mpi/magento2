@@ -36,16 +36,16 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Order
     extends Mage_Sales_Model_Resource_Report_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Period format
      *
-     * @var unknown
+     * @var string
      */
     protected $_periodFormat;
 
     /**
-     * Enter description here ...
+     * Selected columns
      *
-     * @var unknown
+     * @var array
      */
     protected $_selectedColumns    = array();
 
@@ -62,16 +62,16 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Order
     }
 
     /**
-     * Enter description here ...
+     * Get selected columns
      *
-     * @return unknown
+     * @return array
      */
     protected function _getSelectedColumns()
     {
         if ('month' == $this->_period) {
-            $this->_periodFormat = 'DATE_FORMAT(period, \'%Y-%m\')';
+            $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
-            $this->_periodFormat = 'EXTRACT(YEAR FROM period)';
+             $this->_periodFormat = $adapter->getDateExtractSql('period', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
         } else {
             $this->_periodFormat = 'period';
         }
@@ -80,9 +80,9 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Order
             $this->_selectedColumns = array(
                 'period'                => $this->_periodFormat,
                 'shipping_description'  => 'shipping_description',
-                'orders_count'          => 'sum(orders_count)',
-                'total_shipping'        => 'sum(total_shipping)',
-                'total_shipping_actual' => 'sum(total_shipping_actual)',
+                'orders_count'          => 'SUM(orders_count)',
+                'total_shipping'        => 'SUM(total_shipping)',
+                'total_shipping_actual' => 'SUM(total_shipping_actual)',
             );
         }
 
@@ -104,7 +104,10 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Order
      */
     protected function _initSelect()
     {
-        $this->getSelect()->from($this->getResource()->getMainTable() , $this->_getSelectedColumns());
+        $this->getSelect()->from(
+            $this->getResource()->getMainTable() , 
+            $this->_getSelectedColumns()
+        );
 
         if (!$this->isTotals() && !$this->isSubTotals()) {
             $this->getSelect()->group(array(
