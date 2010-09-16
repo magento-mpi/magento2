@@ -149,19 +149,22 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
             ->join(
                 array('cg' => $this->getTable('customer/customer_group')),
                 '',
-                array('customer_group_id'));
+                array('customer_group_id')
+            );
         $this->_addWebsiteJoinToSelect($select, true);
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
         $select->columns('website_id', 'cw')
             ->join(
                 array('cwd' => $this->_getWebsiteDateTable()),
                 'cw.website_id = cwd.website_id',
-                array())
+                array()
+            )
             ->joinLeft(
                 array('tp' => $this->_getTierPriceIndexTable()),
                 'tp.entity_id = e.entity_id AND tp.website_id = cw.website_id'
-                    . ' AND tp.customer_group_id = cg.customer_group_id',
-                array())
+                . ' AND tp.customer_group_id = cg.customer_group_id',
+                array()
+            )
             ->where('e.type_id=?', $this->getTypeId());
 
         // add enable products limitation
@@ -275,7 +278,8 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         $select = $write->select()
             ->from(
                 array('i' => $this->_getBundleSelectionTable()),
-                array('entity_id', 'customer_group_id', 'website_id', 'option_id'))
+                array('entity_id', 'customer_group_id', 'website_id', 'option_id')
+            )
             ->group(array('entity_id', 'customer_group_id', 'website_id', 'option_id', 'is_required', 'group_type'))
             ->columns(array(
                 'min_price' => $write->getCheckSql('i.is_required = 1', 'MIN(i.price)', '0'),
@@ -309,12 +313,14 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         $select = $write->select()
             ->from(
                 array('io' => $this->_getBundleOptionTable()),
-                array('entity_id', 'customer_group_id', 'website_id'))
+                array('entity_id', 'customer_group_id', 'website_id')
+            )
             ->join(
                 array('i' => $this->_getBundlePriceTable()),
                 'i.entity_id = io.entity_id AND i.customer_group_id = io.customer_group_id'
-                    . ' AND i.website_id = io.website_id',
-                array())
+                . ' AND i.website_id = io.website_id',
+                array()
+            )
             ->group(array('io.entity_id', 'io.customer_group_id', 'io.website_id',
                 'i.tax_class_id', 'i.orig_price', 'i.price'))
             ->columns(array('i.tax_class_id',
@@ -369,13 +375,13 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
 
             $tierExpr = $write->getCheckSql(
                 'i.base_tier IS NOT NULL',
-                 $write->getCheckSql(
+                $write->getCheckSql(
                     $selectionPriceType .' = 1',
                     'ROUND(i.base_tier - (i.base_tier * (' . $selectionPriceValue . ' / 100)),4)',
                     $write->getCheckSql(
                         'i.tier_percent > 0',
-                        'ROUND(' . $selectionPriceValue .
-                            ' - (' . $selectionPriceValue . ' * (i.tier_percent / 100)),4)',
+                        'ROUND(' . $selectionPriceValue
+                        . ' - (' . $selectionPriceValue . ' * (i.tier_percent / 100)),4)',
                         $selectionPriceValue
                     )
                 ) . ' * bs.selection_qty',
@@ -400,28 +406,34 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         $select = $write->select()
             ->from(
                 array('i' => $this->_getBundlePriceTable()),
-                array('entity_id', 'customer_group_id', 'website_id'))
+                array('entity_id', 'customer_group_id', 'website_id')
+            )
             ->join(
                 array('bo' => $this->getTable('bundle/option')),
                 'bo.parent_id = i.entity_id',
-                array('option_id'))
+                array('option_id')
+            )
             ->join(
                 array('bs' => $this->getTable('bundle/selection')),
                 'bs.option_id = bo.option_id',
-                array('selection_id'))
-             ->joinLeft(
+                array('selection_id')
+            )
+            ->joinLeft(
                 array('bsp' => $this->getTable('bundle/selection_price')),
                 'bs.selection_id = bsp.selection_id AND bsp.website_id = i.website_id',
-                array(''))
+                array('')
+            )
             ->join(
                 array('idx' => $this->getIdxTable()),
                 'bs.product_id = idx.entity_id AND i.customer_group_id = idx.customer_group_id'
-                    . ' AND i.website_id = idx.website_id',
-                array())
+                . ' AND i.website_id = idx.website_id',
+                array()
+            )
             ->join(
                 array('e' => $this->getTable('catalog/product')),
                 'bs.product_id = e.entity_id AND e.required_options=0',
-                array())
+                array()
+            )
             ->where('i.price_type=?', $priceType)
             ->columns(array(
                 'group_type'    => $write->getCheckSql(
@@ -459,7 +471,8 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         $select = $this->_getWriteAdapter()->select()
             ->join(array('wd' => $this->_getWebsiteDateTable()),
                 'i.website_id = wd.website_id',
-                array());
+                array()
+            );
         Mage::dispatchEvent('prepare_catalog_product_price_index_table', array(
             'index_table'       => array('i' => $this->_getBundlePriceTable()),
             'select'            => $select,
@@ -496,7 +509,8 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
             ->join(
                 array('e' => $this->getTable('catalog/product')),
                 'i.entity_id=e.entity_id',
-                array())
+                array()
+            )
             ->where('e.type_id=?', $this->getTypeId());
         $query   = $select->deleteFromSelect('i');
         $adapter->query($query);
@@ -504,19 +518,23 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         $select  = $adapter->select()
             ->from(
                 array('tp' => $this->getValueTable('catalog/product', 'tier_price')),
-                array('entity_id'))
+                array('entity_id')
+            )
             ->join(
                 array('e' => $this->getTable('catalog/product')),
                 'tp.entity_id=e.entity_id',
-                array())
+                array()
+            )
             ->join(
                 array('cg' => $this->getTable('customer/customer_group')),
                 'tp.all_groups = 1 OR (tp.all_groups = 0 AND tp.customer_group_id = cg.customer_group_id)',
-                array('customer_group_id'))
+                array('customer_group_id')
+            )
             ->join(
                 array('cw' => $this->getTable('core/website')),
                 'tp.website_id = 0 OR tp.website_id = cw.website_id',
-                array('website_id'))
+                array('website_id')
+            )
             ->where('cw.website_id != 0')
             ->where('e.type_id=?', $this->getTypeId())
             ->columns(new Zend_Db_Expr('MIN(tp.value)'))

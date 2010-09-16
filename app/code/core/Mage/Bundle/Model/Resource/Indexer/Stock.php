@@ -90,19 +90,23 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
             ->join(
                 array('cis' => $this->getTable('cataloginventory/stock')),
                 '',
-                array('stock_id'))
+                array('stock_id')
+            )
             ->joinLeft(
                 array('bs' => $this->getTable('bundle/selection')),
                 'bs.option_id = bo.option_id',
-                array())
+                array()
+            )
             ->joinLeft(
                 array('i' => $idxTable),
                 'i.product_id = bs.product_id AND i.website_id = cw.website_id AND i.stock_id = cis.stock_id',
-                array())
+                array()
+            )
             ->joinLeft(
                 array('e' => $this->getTable('catalog/product')),
                 'e.entity_id = bs.product_id',
-                array())
+                array()
+            )
             ->where('cw.website_id != 0')
             ->group(array('bo.parent_id', 'cw.website_id', 'cis.stock_id', 'bo.option_id'))
             ->columns(array(
@@ -149,15 +153,18 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
             ->join(
                 array('cis' => $this->getTable('cataloginventory/stock')),
                 '',
-                array('stock_id'))
+                array('stock_id')
+            )
             ->joinLeft(
                 array('cisi' => $this->getTable('cataloginventory/stock_item')),
                 'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id',
-                array())
+                array()
+            )
             ->joinLeft(
                 array('o' => $this->_getBundleOptionTable()),
                 'o.entity_id = e.entity_id AND o.website_id = cw.website_id AND o.stock_id = cis.stock_id',
-                array())
+                array()
+            )
             ->columns(array('qty' => new Zend_Db_Expr('0')))
             ->where('cw.website_id != 0')
             ->where('e.type_id = ?', $this->getTypeId())

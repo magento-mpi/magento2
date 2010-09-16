@@ -50,7 +50,9 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_CatalogIndex_Model_Resource
             ->where("bundle_option.required = 1")
             ->joinLeft(array(
                 "bundle_selection" => $this->getTable('bundle/selection')),
-                "bundle_selection.option_id = bundle_option.option_id", $columns);
+                "bundle_selection.option_id = bundle_option.option_id",
+                $columns
+            );
     }
 
     /**
@@ -76,13 +78,15 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_CatalogIndex_Model_Resource
     {
         $result = $this->_getReadAdapter()->fetchCol(
             $this->_getReadAdapter()->select()
-                ->from($this->getTable('sales/quote_item'), array('items' => 'item_id'))
-                ->where('product_id = :product_id'),
+            ->from($this->getTable('sales/quote_item'), array('items' => 'item_id'))
+            ->where('product_id = :product_id'),
             array('product_id' => $productId)
         );
         if ($result['items'] != '') {
-            $this->_getWriteAdapter()->delete($this->getTable('sales/quote_item'),
-                array('parent_item_id IN(?)'=>$result['items']));
+            $this->_getWriteAdapter()->delete(
+                $this->getTable('sales/quote_item'),
+                array('parent_item_id IN(?)'=>$result['items'])
+            );
         }
     }
 

@@ -85,7 +85,7 @@ class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model
         );
         $this->getSelect()->joinLeft(array('price' => $this->getTable('bundle/selection_price')),
             'selection.selection_id = price.selection_id AND price.website_id = ' . $websiteId,
-             array(
+            array(
                 'selection_price_type' => $priceType,
                 'selection_price_value' => $priceValue,
                 'price_scope' => 'price.website_id'

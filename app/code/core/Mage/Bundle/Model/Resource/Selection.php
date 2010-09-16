@@ -35,7 +35,7 @@
 class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table and id field 
+     * Define main table and id field
      *
      */
     protected function _construct()
@@ -57,8 +57,10 @@ class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_A
         $select = clone $this->_getReadAdapter()->select();
         $select->reset();
 
-        $attrPriceId = Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'price');
-        $attrTierPriceId = Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'tier_price');
+        $attrPriceId = Mage::getSingleton('eav/entity_attribute')
+            ->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'price');
+        $attrTierPriceId = Mage::getSingleton('eav/entity_attribute')
+            ->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'tier_price');
 
         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
 
@@ -104,7 +106,8 @@ class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_A
         $select = $this->_getReadAdapter()->select()
             ->from(
                 array('tbl_selection' => $this->getMainTable()),
-                array('product_id', 'parent_product_id', 'option_id'))
+                array('product_id', 'parent_product_id', 'option_id')
+            )
             ->join(
                 array('e' => $this->getTable('catalog/product')),
                 'e.entity_id=tbl_selection.product_id AND e.required_options=0',
@@ -119,16 +122,14 @@ class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_A
         foreach ($this->_getReadAdapter()->fetchAll($select, array('parent_id' => $parentId)) as $row) {
             if ($row['required']) {
                 $childrenIds[$row['option_id']][$row['product_id']] = $row['product_id'];
-            }
-            else {
+            } else {
                 $notRequired[$row['option_id']][$row['product_id']] = $row['product_id'];
             }
         }
 
         if (!$required) {
             $childrenIds = array_merge($childrenIds, $notRequired);
-        }
-        else {
+        } else {
             if (!$childrenIds) {
                 foreach ($notRequired as $groupedChildrenIds) {
                     foreach ($groupedChildrenIds as $childId) {
@@ -170,10 +171,11 @@ class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_A
     {
         if ($item->getDefaultPriceScope()) {
             $this->_getWriteAdapter()->delete($this->getTable('bundle/selection_price'),
-            array(
-                'selection_id = ?' => $item->getSelectionId(),
-                'website_id = ?'   => $item->getWebsiteId()
-            ));
+                array(
+                    'selection_id = ?' => $item->getSelectionId(),
+                    'website_id = ?'   => $item->getWebsiteId()
+                )
+            );
         } else {
              $values = array(
                 'selection_id' => $item->getSelectionId(),

@@ -90,9 +90,10 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
     {
         parent::_afterDelete($object);
 
-
-        $this->_getWriteAdapter()->delete($this->getTable('bundle/option_value'),
-            array('option_id = ?' => $object->getId()));
+        $this->_getWriteAdapter()->delete(
+            $this->getTable('bundle/option_value'),
+            array('option_id = ?' => $object->getId())
+        );
 
         return $this;
     }
@@ -117,15 +118,17 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
             'product_id' => $productId
         );
         $select = $this->_getReadAdapter()->select()
-            ->from(array('option' => $this->getMainTable()), null)
+            ->from(array('option' => $this->getMainTable()), array())
             ->join(
                 array('option_title_default' => $this->getTable('bundle/option_value')),
                 'option_title_default.option_id=option.option_id AND option_title_default.store_id=0',
-                array())
+                array()
+            )
             ->joinLeft(
                 array('option_title_store' => $this->getTable('bundle/option_value')),
                 'option_title_store.option_id=option.option_id AND option_title_store.store_id=:store_id',
-                array('title' => $title))
+                array('title' => $title)
+            )
             ->where('option.parent_id=:product_id');
         if (!$searchData = $this->_getReadAdapter()->fetchCol($select, $bind)) {
             $searchData = array();

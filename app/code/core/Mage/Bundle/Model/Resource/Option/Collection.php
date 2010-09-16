@@ -65,9 +65,12 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
      */
     public function joinValues($storeId)
     {
-        $this->getSelect()->joinLeft(array('option_value_default' => $this->getTable('bundle/option_value')),
+        $this->getSelect()
+            ->joinLeft(
+                array('option_value_default' => $this->getTable('bundle/option_value')),
                 'main_table.option_id = option_value_default.option_id and option_value_default.store_id = 0',
-                array())
+                array()
+            )
             ->columns(array('default_title' => 'option_value_default.title'));
 
         $title = $this->getConnection()->getCheckSql(
@@ -83,7 +86,8 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
                         'main_table.option_id = option_value.option_id and option_value.store_id = ?',
                         $storeId
                     ),
-                    array());
+                    array()
+                );
         }
         return $this;
     }
