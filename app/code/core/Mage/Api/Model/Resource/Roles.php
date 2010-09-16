@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * ACL roles resource
  *
  * @category    Mage
  * @package     Mage_Api
@@ -35,33 +35,33 @@
 class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * User table name
      *
      * @var unknown
      */
     protected $_usersTable;
 
     /**
-     * Enter description here ...
+     * Rule table name
      *
      * @var unknown
      */
     protected $_ruleTable;
 
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
     {
         $this->_init('api/role', 'role_id');
 
-        $this->_usersTable = $this->getTable('api/user');
-        $this->_ruleTable = $this->getTable('api/rule');
+        $this->_usersTable  = $this->getTable('api/user');
+        $this->_ruleTable   = $this->getTable('api/rule');
     }
 
     /**
-     * Enter description here ...
+     * Action before save
      *
      * @param Mage_Core_Model_Abstract $role
      * @return Mage_Api_Model_Resource_Roles
@@ -87,7 +87,7 @@ class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Action after save
      *
      * @param Mage_Core_Model_Abstract $role
      * @return Mage_Api_Model_Resource_Roles
@@ -100,50 +100,52 @@ class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Action after delete
      *
      * @param Mage_Core_Model_Abstract $role
      * @return Mage_Api_Model_Resource_Roles
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $role)
     {
-        $this->_getWriteAdapter()->delete($this->getMainTable(), "parent_id={$role->getId()}");
-        $this->_getWriteAdapter()->delete($this->_ruleTable, "role_id={$role->getId()}");
+        $adapter = $this->_getWriteAdapter();
+        $adapter->delete($this->getMainTable(), array('parent_id=?'=>$role->getId()));
+        $adapter->delete($this->_ruleTable, array('role_id=?'=>$role->getId()));
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Get role users
      *
      * @param Mage_Api_Model_Roles $role
      * @return unknown
      */
     public function getRoleUsers(Mage_Api_Model_Roles $role)
     {
-        $read 	= $this->_getReadAdapter();
-        $select = $read->select()->from($this->getMainTable(), array('user_id'))->where("(parent_id = '{$role->getId()}' AND role_type = 'U') AND user_id > 0");
-        return $read->fetchCol($select);
+        $adapter   = $this->_getReadAdapter();
+        $select     = $adapter->select()
+            ->from($this->getMainTable(), array('user_id'))
+            ->where('parent_id = ?', $role->getId())
+            ->where('role_type = ?', Mage_Api_Model_Acl::ROLE_TYPE_USER)
+            ->where('user_id > 0');
+        return $adapter->fetchCol($select);
     }
 
     /**
-     * Enter description here ...
+     * Apdate roel users
      *
      * @param Mage_Api_Model_Roles $role
-     * @return unknown
+     * @return boolean
      */
     private function _updateRoleUsersAcl(Mage_Api_Model_Roles $role)
     {
-        $write  = $this->_getWriteAdapter();
         $users  = $this->getRoleUsers($role);
         $rowsCount = 0;
-        if ( sizeof($users) > 0 ) {
-            $inStatement = implode(", ", $users);
-            $rowsCount = $write->update($this->_usersTable, array('reload_acl_flag' => 1), "user_id IN({$inStatement})");
+        if (sizeof($users) > 0) {
+            $rowsCount = $this->_getWriteAdapter()->update(
+                $this->_usersTable,
+                array('reload_acl_flag' => 1),
+                array('user_id IN(?)', $users));
         }
-        if ($rowsCount > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return ($rowsCount > 0) ? true : false;
     }
 }

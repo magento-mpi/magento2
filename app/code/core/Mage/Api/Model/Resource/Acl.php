@@ -51,25 +51,25 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
     public function loadAcl()
     {
         $acl = Mage::getModel('api/acl');
+        $adapter = $this->_getReadAdapter();
 
         Mage::getSingleton('api/config')->loadAclResources($acl);
 
-        $roleTable = Mage::getSingleton('core/resource')->getTableName('api/role');
-        $rolesArr = $this->_getReadAdapter()->fetchAll(
-                        $this->_getReadAdapter()->select()
-                            ->from($this->getTable('role'))
-                            ->order(array('tree_level', 'role_type'))
-                    );
+        $rolesArr = $adapter->fetchAll(
+            $adapter->select()
+                ->from($this->getTable('api/role'))
+                ->order(array('tree_level', 'role_type'))
+        );
         $this->loadRoles($acl, $rolesArr);
 
-        $rulesArr =  $this->_getReadAdapter()->fetchAll(
-                        $this->_getReadAdapter()->select()
-                            ->from(array('r'=>$this->getTable('rule')))
-                            ->joinLeft(
-                                array('a'=>$this->getTable('assert')),
-                                'a.assert_id=r.assert_id',
-                                array('assert_type', 'assert_data')
-                            ));
+        $rulesArr =  $adapter->fetchAll(
+            $adapter->select()
+                ->from(array('r'=>$this->getTable('api/rule')))
+                ->joinLeft(
+                    array('a'=>$this->getTable('api/assert')),
+                    'a.assert_id=r.assert_id',
+                    array('assert_type', 'assert_data')
+                ));
         $this->loadRules($acl, $rulesArr);
         return $acl;
     }
@@ -125,9 +125,9 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             try {
-                if ( $rule['permission'] == 'allow' ) {
+                if ($rule['permission'] == 'allow') {
                     $acl->allow($role, $resource, $privileges, $assert);
-                } else if ( $rule['permission'] == 'deny' ) {
+                } else if ($rule['permission'] == 'deny') {
                     $acl->deny($role, $resource, $privileges, $assert);
                 }
             } catch (Exception $e) {

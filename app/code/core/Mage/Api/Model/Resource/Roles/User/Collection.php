@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Roles User Resource Collection
  *
  * @category    Mage
  * @package     Mage_Api
@@ -35,7 +35,7 @@
 class Mage_Api_Model_Resource_Roles_User_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource collection initialization
      *
      */
     protected function _construct()
@@ -44,13 +44,16 @@ class Mage_Api_Model_Resource_Roles_User_Collection extends Mage_Core_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * Init collection select
      *
+     * @return Mage_Api_Model_Resource_Roles_User_Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
 
         $this->getSelect()->where("user_id > 0");
+
+        return $this;
     }
 }

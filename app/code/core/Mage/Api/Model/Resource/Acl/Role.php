@@ -35,7 +35,7 @@
 class Mage_Api_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -44,14 +44,14 @@ class Mage_Api_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Abstr
     }
 
     /**
-     * Enter description here ...
+     * Action before save
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Api_Model_Resource_Acl_Role
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        if (!$role->getId()) {
+        if (!$object->getId()) {
             $this->setCreated(Mage::getSingleton('core/date')->gmtDate());
         }
         return $this;

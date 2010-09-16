@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Api Role Resource Collection
  *
  * @category    Mage
  * @package     Mage_Api
@@ -35,7 +35,7 @@
 class Mage_Api_Model_Resource_Role_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource collection initialization
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_Api_Model_Resource_Role_Collection extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Enter description here...
+     * Aet user filter
      *
      * @param int $userId
      * @return Mage_Api_Model_Resource_Role_Collection
@@ -52,18 +52,18 @@ class Mage_Api_Model_Resource_Role_Collection extends Mage_Core_Model_Resource_D
     public function setUserFilter($userId)
     {
         $this->addFieldToFilter('user_id', $userId);
-        $this->addFieldToFilter('role_type', 'G');
+        $this->addFieldToFilter('role_type', Mage_Api_Model_Acl::ROLE_TYPE_GROUP);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set roles filter
      *
      * @return Mage_Api_Model_Resource_Role_Collection
      */
     public function setRolesFilter()
     {
-        $this->addFieldToFilter('role_type', 'G');
+        $this->addFieldToFilter('role_type', Mage_Api_Model_Acl::ROLE_TYPE_GROUP);
         return $this;
     }
 }

@@ -40,7 +40,7 @@
             <active>false</active>
         </Mage_AmazonPayments>
         <Mage_Api>
-            <active>false</active>
+            <active>true</active>
         </Mage_Api>
         <Mage_Backup>
             <active>false</active>

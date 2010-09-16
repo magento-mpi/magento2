@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Api Roles Resource Collection
  *
  * @category    Mage
  * @package     Mage_Api
@@ -35,7 +35,7 @@
 class Mage_Api_Model_Resource_Roles_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource collection initialization
      *
      */
     protected function _construct()
@@ -44,19 +44,21 @@ class Mage_Api_Model_Resource_Roles_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Init collection select
      *
+     * @return Mage_Api_Model_Resource_Roles_Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()->where("main_table.role_type='G'");
+        $this->getSelect()->where('main_table.role_type = ?', Mage_Api_Model_Acl::ROLE_TYPE_GROUP);
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Convert items array to array for select options
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {

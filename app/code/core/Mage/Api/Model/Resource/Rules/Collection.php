@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Api Rules Resource Collection
  *
  * @category    Mage
  * @package     Mage_Api
@@ -35,7 +35,7 @@
 class Mage_Api_Model_Resource_Rules_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource collection initialization
      *
      */
     protected function _construct()
@@ -44,9 +44,9 @@ class Mage_Api_Model_Resource_Rules_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Retrieve rules by role
      *
-     * @param unknown_type $id
+     * @param int $id
      * @return Mage_Api_Model_Resource_Rules_Collection
      */
     public function getByRoles($id)
@@ -56,14 +56,14 @@ class Mage_Api_Model_Resource_Rules_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Add sort by length
      *
      * @return Mage_Api_Model_Resource_Rules_Collection
      */
     public function addSortByLength()
     {
-        $this->getSelect()->columns(array('length' => 'LENGTH(resource_id)'))
-            ->order('length desc');
+        $this->getSelect()->columns(array('length' => $this->getConnection()->getLengthSql('resource_id')))
+            ->order('length DESC');
         return $this;
     }
 }

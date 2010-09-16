@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Permissions Resource Collection
  *
  * @category    Mage
  * @package     Mage_Api
@@ -35,7 +35,7 @@
 class Mage_Api_Model_Resource_Permissions_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource collection initialization
      *
      */
     protected function _construct()

@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Rules resource model
  *
  * @category    Mage
  * @package     Mage_Api
@@ -35,7 +35,7 @@
 class Mage_Api_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -44,43 +44,44 @@ class Mage_Api_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Save rule
      *
      * @param Mage_Api_Model_Rules $rule
      */
     public function saveRel(Mage_Api_Model_Rules $rule)
     {
-        $this->_getWriteAdapter()->beginTransaction();
+        $adapter = $this->_getWriteAdapter();
+        $adapter->beginTransaction();
 
         try {
             $roleId = $rule->getRoleId();
-            $this->_getWriteAdapter()->delete($this->getMainTable(), "role_id = {$roleId}");
+            $adapter->delete($this->getMainTable(), array('role_id = ?' => $roleId));
             $masterResources = Mage::getModel('api/roles')->getResourcesList2D();
             $masterAdmin = false;
-            if ( $postedResources = $rule->getResources() ) {
+            if ($postedResources = $rule->getResources()) {
                 foreach ($masterResources as $index => $resName) {
-                    if ( !$masterAdmin ) {
-                        $permission = ( in_array($resName, $postedResources) )? 'allow' : 'deny';
-                        $this->_getWriteAdapter()->insert($this->getMainTable(), array(
-                            'role_type' 	=> 'G',
-                            'resource_id' 	=> trim($resName, '/'),
-                            'privileges' 	=> '', # FIXME !!!
-                            'assert_id' 	=> 0,
-                            'role_id' 		=> $roleId,
-                            'permission'	=> $permission
+                    if (!$masterAdmin) {
+                        $permission = (in_array($resName, $postedResources))? 'allow' : 'deny';
+                        $adapter->insert($this->getMainTable(), array(
+                            'role_type'     => 'G',
+                            'resource_id'   => trim($resName, '/'),
+                            'privileges'    => null,
+                            'assert_id'     => 0,
+                            'role_id'       => $roleId,
+                            'permission'    => $permission
                             ));
                     }
-                    if ( $resName == 'all' && $permission == 'allow' ) {
+                    if ($resName == 'all' && $permission == 'allow') {
                         $masterAdmin = true;
                     }
                 }
             }
 
-            $this->_getWriteAdapter()->commit();
+            $adapter->commit();
         } catch (Mage_Core_Exception $e) {
             throw $e;
-        } catch (Exception $e){
-            $this->_getWriteAdapter()->rollBack();
+        } catch (Exception $e) {
+            $adapter->rollBack();
         }
     }
 }
