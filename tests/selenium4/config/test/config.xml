@@ -9,7 +9,7 @@
     </frontend>
 
     <backend>
-        <baseUrl>http://kq.varien.com/enterprise/1.8.0.0/index.php/control/index/</baseUrl>
+        <baseUrl>http://192.168.3.175/nightly/index.php/admin/</baseUrl>
         <auth>
             <username>admin</username>
             <password>123123q</password>
@@ -38,12 +38,15 @@
         
         <createproduct>
             <sku>st-01</sku>
+            <duplicatedsku>st-02</duplicatedsku>
             <productname>st-01</productname>
             <price>10</price>
         </createproduct>
+
         <user>
             <name>test</name>
 	</user>
+
         <scope>
             <site>
                 <name>SmokeTestSite</name>
@@ -60,10 +63,12 @@
                 <status>label=Enabled</status>
             </storeview>
         </scope>
+
         <managecategories>
             <rootname>st-rootcat</rootname>
             <subcategoryname>st-subcat</subcategoryname>
             <parentsubcategoryname>st-rootcat</parentsubcategoryname>
         </managecategories>
+        
     </backend>
 </config>
