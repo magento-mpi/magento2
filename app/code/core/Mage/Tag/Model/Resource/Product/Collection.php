@@ -65,7 +65,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
         parent::_initSelect();
 
         $this->_joinFields();
-        $this->getSelect()->softGroup('e.entity_id');
+        $this->getSelect()->magicGroup('e.entity_id');
 
         return $this;
     }
@@ -170,7 +170,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
      */
     public function addGroupByTag()
     {
-        $this->getSelect()->softGroup('relation.tag_relation_id');
+        $this->getSelect()->magicGroup('relation.tag_relation_id');
         return $this;
     }
 
