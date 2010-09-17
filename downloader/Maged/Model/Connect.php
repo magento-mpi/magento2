@@ -101,7 +101,7 @@ class Maged_Model_Connect extends Maged_Model
     public function getAllInstalledPackages()
     {
         $connect = $this->connect();
-        $sconfig = $connect->getSingleConfig();
+        $sconfig = $connect->getSingleConfig(true);
         $connect->run('list-installed');
         $output = $connect->getOutput();
         $packages = array();

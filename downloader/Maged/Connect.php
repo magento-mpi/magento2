@@ -137,11 +137,12 @@ class Maged_Connect
     /**
     * Retrieve object of single config and set it to Mage_Connect_Command
     *
+    * @param bool $reload
     * @return Mage_Connect_Singleconfig
     */
-    public function getSingleConfig()
+    public function getSingleConfig($reload = false)
     {
-        if(!$this->_sconfig) {
+        if(!$this->_sconfig || $reload) {
             $this->_sconfig = new Mage_Connect_Singleconfig($this->getConfig()->magento_root . DIRECTORY_SEPARATOR . $this->getConfig()->downloader_path . DIRECTORY_SEPARATOR . Mage_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME);
         }
         Mage_Connect_Command::setSconfig($this->_sconfig);

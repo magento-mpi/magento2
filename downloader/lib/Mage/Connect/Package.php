@@ -34,6 +34,8 @@
 class Mage_Connect_Package
 {
 
+    const PACKAGE_XML_DIR = 'var/package';
+
     /**
      * Contain SimpleXMLElement for composing document.
      *

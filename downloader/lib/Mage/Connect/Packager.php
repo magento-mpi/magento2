@@ -191,10 +191,13 @@ class Mage_Connect_Packager
             $filePath = dirname($file);
             $dest = $targetPath . DIRECTORY_SEPARATOR . $filePath . DIRECTORY_SEPARATOR . $fileName;
             if(@file_exists($dest)) {
-                //var_dump($dest);
                 @unlink($dest);
             }
         }
+
+        $destDir = $targetPath . DS . Mage_Connect_Package::PACKAGE_XML_DIR;
+        $destFile = $package->getReleaseFilename() . '.xml';
+        @unlink($destDir . DS . $destFile);
     }
 
     /**
@@ -213,6 +216,8 @@ class Mage_Connect_Packager
         foreach($contents as $file) {
             $res = $ftp->delete($file);
         }
+        $remoteXml = Mage_Connect_Package::PACKAGE_XML_DIR . DS . $package->getReleaseFilename() . '.xml';
+        $ftp->delete($remoteXml);
         $ftp->chdir($ftpDir);
     }
 
@@ -261,6 +266,13 @@ class Mage_Connect_Packager
                 call_user_func_array(array($ftp,'upload'), $args);
             }
         }
+
+        $localXml = $tar . Mage_Connect_Package_Reader::DEFAULT_NAME_PACKAGE;
+        if (is_file($localXml)) {
+            $remoteXml = Mage_Connect_Package::PACKAGE_XML_DIR . DS . $package->getReleaseFilename() . '.xml';
+            $ftp->upload($remoteXml, $localXml, $modeDir, $modeFile);
+        }
+
         $ftp->chdir($ftpDir);
         Mage_System_Dirs::rm(array("-r",$target));
     }
@@ -297,6 +309,17 @@ class Mage_Connect_Packager
                 @mkdir($dest, $modeDir);
             }
         }
+
+        $packageXml = $tar . Mage_Connect_Package_Reader::DEFAULT_NAME_PACKAGE;
+        if (is_file($packageXml)) {
+            $destDir = $targetPath . DS . Mage_Connect_Package::PACKAGE_XML_DIR;
+            $destFile = $package->getReleaseFilename() . '.xml';
+            $dest = $destDir . DS . $destFile;
+
+            @copy($packageXml, $dest);
+            @chmod($dest, $modeFile);
+        }
+
         Mage_System_Dirs::rm(array("-r",$target));
     }
 

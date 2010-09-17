@@ -280,11 +280,23 @@ extends Mage_Connect_Command
                     $rest->setChannel($cache->chanUrl($pChan));
 
                     /**
-                     * Upgrade mode
+                     * Skip existing packages
                      */
                     if($upgradeMode && $cache->hasPackage($pChan, $pName, $pVer, $pVer)) {
                         $this->ui()->output("Already installed: {$pChan}/{$pName} {$pVer}, skipping");
                         continue;
+                    }
+
+                    /**
+                     * Remove old version package before install new
+                     */
+                    if ($cache->hasPackage($pChan, $pName)) {
+                        if ($ftp) {
+                            $packager->processUninstallPackageFtp($pChan, $pName, $cache, $ftp);
+                        } else {
+                            $packager->processUninstallPackage($pChan, $pName, $cache, $config);
+                        }
+                        $cache->deletePackage($pChan, $pName);
                     }
 
                     $conflicts = $cache->hasConflicts($pChan, $pName, $pVer);

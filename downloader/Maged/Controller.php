@@ -168,11 +168,11 @@ final class Maged_Controller
 
     /**
      * Generates auth string from post data and puts back it into post
-     * 
+     *
      * @param array $post post data
      * @return string auth Url
      */
-    private function reformAuthPost(&$post) 
+    private function reformAuthPost(&$post)
     {
         if (!empty($post['auth_username']) and isset($post['auth_password'])) {
             $post['auth'] = $post['auth_username'] .'@'. $post['auth_password'];
@@ -288,6 +288,11 @@ final class Maged_Controller
     public function connectPackagesAction()
     {
         $connect = $this->model('connect', true);
+
+        if (isset($_GET['loggedin'])) {
+            $connect->connect()->run('sync');
+        }
+
         $this->view()->set('connect', $connect);
         echo $this->view()->template('connect/packages.phtml');
     }
