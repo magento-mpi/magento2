@@ -134,10 +134,18 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
+            if (!empty($app)) {
+                $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
+            } else {
+                $this->_redirect('*/*/');
+            }
         } catch (Exception $e) {
             $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t open submission form.'));
-            $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
+            if (!empty($app)) {
+                $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
+            } else {
+                $this->_redirect('*/*/');
+            }
         }
     }
 
@@ -221,11 +229,19 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
+            if (!empty($app)) {
+                $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
+            } else {
+                $this->_redirect('*/*/');
+            }
         } catch (Exception $e) {
             $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t submit application.'));
             Mage::logException($e);
-            $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
+            if (!empty($app)) {
+                $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
+            } else {
+                $this->_redirect('*/*/');
+            }
         }
     }
 
@@ -523,7 +539,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to process preview.'));
             $redirectBack = true;
         }
-        if ($app && $redirectBack) {
+        if (!empty($app) && $redirectBack) {
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } else {
             $this->_redirect('*/*/');
