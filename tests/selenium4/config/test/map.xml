@@ -6,4 +6,7 @@
         <messages>#include maps/admin-messages.xml</messages>
         <elements>#include maps/admin-elements.xml</elements>
     </admin>
+    <frontend>
+        <pages>#include maps/frontend-pages.xml</pages>
+    </frontend>
 </map>
