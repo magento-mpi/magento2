@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Resource authorizenet debug model
  *
  * @category    Mage
  * @package     Mage_Paygate
@@ -35,7 +35,7 @@
 class Mage_Paygate_Model_Resource_Authorizenet_Debug extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
