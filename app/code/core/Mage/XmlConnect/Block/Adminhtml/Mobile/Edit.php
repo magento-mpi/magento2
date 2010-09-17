@@ -38,6 +38,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         $model = Mage::registry('current_app');
 
         $this->_updateButton('save', 'label', Mage::helper('xmlconnect')->__('Save'));
+        $this->_updateButton('save', 'onclick', 'if (editForm.submit()) {disableElements(\'save\')}');
 
         $this->_addButton('save_and_continue', array(
             'label'     => Mage::helper('xmlconnect')->__('Save and Continue Edit'),
@@ -53,11 +54,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
             ), -10);
         }
 
-        $this->_formScripts[] = 'function saveAndContinueEdit() {
-            editForm.submit($(\'edit_form\').action + \'back/edit/\');}';
+        $this->_formScripts[] = 'function saveAndContinueEdit() {'
+            .'if (editForm.submit($(\'edit_form\').action + \'back/edit/\')) {disableElements(\'save\')};}';
         if($model->getId()){
-            $this->_formScripts[] = 'function saveAndSubmitApp(){
-                editForm.submit($(\'edit_form\').action+\'submitapp/' . $model->getId() . '\');}';
+            $this->_formScripts[] = 'function saveAndSubmitApp() {'
+                .'if (editForm.submit($(\'edit_form\').action+\'submitapp/' . $model->getId() . '\')) {'
+                .'disableElements(\'save\')};}';
         }
 
         if (Mage::registry('current_app')->getIsSubmitted()) {
