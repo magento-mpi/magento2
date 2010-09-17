@@ -215,6 +215,7 @@
                         <category_url_suffix translate="label comment">
                             <label>Category URL Suffix</label>
                             <frontend_type>text</frontend_type>
+                            <backend_model>catalog/system_config_backend_catalog_url_rewrite_suffix</backend_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -224,6 +225,7 @@
                         <product_url_suffix translate="label comment">
                             <label>Product URL Suffix</label>
                             <frontend_type>text</frontend_type>
+                            <backend_model>catalog/system_config_backend_catalog_url_rewrite_suffix</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

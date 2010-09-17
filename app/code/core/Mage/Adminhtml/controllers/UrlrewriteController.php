@@ -125,11 +125,16 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                 // set basic urlrewrite data
                 $model = Mage::registry('current_urlrewrite');
 
+                // Validate request path
+                $requestPath = $this->getRequest()->getParam('request_path');
+                Mage::helper('core/url_rewrite')->validateRequestPath($requestPath);
+
+                // Proceed and save request
                 $model->setIdPath($this->getRequest()->getParam('id_path'))
                     ->setTargetPath($this->getRequest()->getParam('target_path'))
                     ->setOptions($this->getRequest()->getParam('options'))
                     ->setDescription($this->getRequest()->getParam('description'))
-                    ->setRequestPath($this->getRequest()->getParam('request_path'));
+                    ->setRequestPath($requestPath);
 
                 if (!$model->getId()) {
                     $model->setIsSystem(0);
