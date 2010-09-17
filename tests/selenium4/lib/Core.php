@@ -66,18 +66,24 @@ final class Core
         self::$_magentoEnv = self::getConfig('env', self::$_magentoEnv);
         $configPath = self::getConfig('paths/envPath');
 
-        if (getenv('SELENIUM_ENV')) {
+        if (isset(Arguments::$variables['SELENIUM_ENV'])) {
+            self::$_magentoEnv = Arguments::$variables['SELENIUM_ENV'];
+        } elseif (getenv('SELENIUM_ENV')) {
             self::$_magentoEnv = getenv('SELENIUM_ENV');
         }
 
-        if (getenv('SELENIUM_STAMP')) {
+        if (isset(Arguments::$variables['SELENIUM_STAMP'])) {
+            self::$_magentoStamp = Arguments::$variables['SELENIUM_STAMP'];
+        } elseif (getenv('SELENIUM_STAMP')) {
             self::$_magentoStamp = getenv('SELENIUM_STAMP');
         } else {
             self::$_magentoStamp = date('Ymd/His');
         }
 
         // Fetching debug level
-        if (getenv('SELENIUM_DEBUG_LEVEL')) {
+        if (isset(Arguments::$variables['SELENIUM_DEBUG_LEVEL'])) {
+            $debug = Arguments::$variables['SELENIUM_DEBUG_LEVEL'];
+        } elseif (getenv('SELENIUM_DEBUG_LEVEL')) {
             $debug = getenv('SELENIUM_DEBUG_LEVEL');
         } else {
             $debug = self::getConfig('debugLevel');
@@ -138,7 +144,7 @@ final class Core
      */
     public static function getStamp()
     {
-        return self::getEnvironment() . '_' > self::$_magentoStamp;
+        return self::getEnvironment() . '_' . self::$_magentoStamp;
     }
 
     /**

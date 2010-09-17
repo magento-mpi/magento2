@@ -16,8 +16,6 @@ class TestStarter
 {
     public static function run()
     {
-        Arguments::init();
-
         $arguments = array();
         $tests = new PHPUnit_Framework_TestSuite;
 

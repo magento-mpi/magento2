@@ -12,6 +12,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 require_once 'lib/Autoloader.php';
 Autoloader::init();
+Arguments::init();
 Core::init();
 TestStarter::run();
 
