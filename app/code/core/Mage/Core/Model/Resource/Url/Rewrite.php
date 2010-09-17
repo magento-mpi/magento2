@@ -76,7 +76,7 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
      *
      * @param string $field
      * @param mixed $value
-     * @param Mage_Core_Model_Abstract $object
+     * @param Mage_Core_Model_Url_Rewrite $object
      * @return Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -121,5 +121,53 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
         );
 
         return $this->_getReadAdapter()->fetchOne($select, $bind);
+    }
+
+    /**
+     * Load rewrite information for request
+     * If $path is array - we must load all possible records and choose one matching earlier record in array
+     *
+     * @param   Mage_Core_Model_Url_Rewrite $object
+     * @param   array|string $path
+     * @return  Mage_Core_Model_Mysql4_Url_Rewrite
+     */
+    public function loadByRequestPath(Mage_Core_Model_Url_Rewrite $object, $path)
+    {
+        if (!is_array($path)) {
+            $path = array($path);
+        }
+
+        // Form select
+        $adapter = $this->_getReadAdapter();
+        $select  = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('request_path IN (?)', $path)
+            ->where('store_id IN(?)', array(0, $object->getStoreId()));
+
+        $items = $adapter->fetchAll($select);
+
+        // Go through all found records and choose one with lowest penalty - earlier path in array, concrete store
+        $mapPenalty = array_flip(array_values($path)); // we got mapping array(path => index), lower index - better
+        $currentPenalty = null;
+        $foundItem = null;
+        foreach ($items as $item) {
+            $penalty = $mapPenalty[$item['request_path']] << 1 + ($item['store_id'] ? 0 : 1);
+            if (!$foundItem || $currentPenalty > $penalty) {
+                $foundItem = $item;
+                $currentPenalty = $penalty;
+                if (!$currentPenalty) {
+                    break; // Found best matching item with zero penalty, no reason to continue
+                }
+            }
+        }
+
+        // Set data and finish loading
+        if ($foundItem) {
+            $object->setData($foundItem);
+        }
+
+        $this->_afterLoad($object);
+
+        return $this;
     }
 }
