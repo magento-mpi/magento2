@@ -128,6 +128,14 @@ visibleTheme = currentTheme;
  * handle currentTheme variable
  */
 function changeColorListener(id) {
+    /**
+     * Setting color field correct format for color value
+     */
+    if ($(id).value.trim() == '') {
+        $(id).value = '_';
+    }
+    $(id).color.exportColor();
+
     $('box_' + id).style.background = $(id).value;
     setThemeSelector('<?php echo $_themesHelper->getCustomThemeName(); ?>');
 }
