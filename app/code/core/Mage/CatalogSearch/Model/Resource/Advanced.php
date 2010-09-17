@@ -64,14 +64,6 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Mage_Core_Model_Resourc
             'response_object' => $response
         );
 
-        /**
-         * @deprecated since 1.3.2.2
-         */
-        Mage::dispatchEvent('catalogindex_prepare_price_select', $eventArgs);
-
-        /**
-         * @since 1.4
-         */
         Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
 
         return $response;
@@ -108,53 +100,6 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Mage_Core_Model_Resourc
         }
 
         return $condition;
-    }
-
-    /**
-     * Add filter by attribute price
-     *
-     * @deprecated after 1.4.1.0 - use $this->addRatedPriceFilter()
-     *
-     * @param Mage_CatalogSearch_Model_Advanced $object
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @param string|array $value
-     * @return bool
-     */
-    public function addPriceFilter($object, $attribute, $value)
-    {
-        if (empty($value['from']) && empty($value['to'])) {
-            return false;
-        }
-
-        $adapter = $this->_getReadAdapter();
-
-        $conditions = array();
-        if (strlen($value['from']) > 0) {
-            $conditions[] = $adapter->quoteInto('price_index.min_price %s * %s >= ?', $value['from']);
-        }
-        if (strlen($value['to']) > 0) {
-            $conditions[] = $adapter->quoteInto('price_index.min_price %s * %s <= ?', $value['to']);
-        }
-
-        if (!$conditions) {
-            return false;
-        }
-
-        $object->getProductCollection()->addPriceData();
-        $select     = $object->getProductCollection()->getSelect();
-        $response   = $this->_dispatchPreparePriceEvent($select);
-        $additional = join('', $response->getAdditionalCalculations());
-
-        $rate = 1;
-        if (!empty($value['currency'])) {
-            $rate = Mage::app()->getStore()->getBaseCurrency()->getRate($value['currency']);
-        }
-
-        foreach ($conditions as $condition) {
-            $select->where(sprintf($condition, $additional, $rate));
-        }
-
-        return true;
     }
 
     /**
@@ -197,21 +142,6 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Mage_Core_Model_Resourc
     /**
      * Add filter by indexable attribute
      *
-     * @deprecated after 1.4.1.0 - use $this->addIndexableAttributeModifiedFilter()
-     *
-     * @param Mage_CatalogSearch_Model_Advanced $object
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @param string|array $value
-     * @return bool
-     */
-    public function addIndexableAttributeFilter($object, $attribute, $value)
-    {
-        return $this->addIndexableAttributeModifiedFilter($object, $attribute, $value);
-    }
-
-    /**
-     * Enter description here ...
-     *
      * @param Mage_CatalogSearch_Model_Resource_Advanced_Collection $collection
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
@@ -225,7 +155,7 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Mage_Core_Model_Resourc
             $table = $this->getTable('catalog/product_index_eav');
         }
 
-        $tableAlias = 'ast_' . $attribute->getAttributeCode();
+        $tableAlias = 'a_' . $attribute->getAttributeId();
         $storeId    = Mage::app()->getStore()->getId();
         $select     = $collection->getSelect();
 
@@ -240,22 +170,23 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Mage_Core_Model_Resourc
         $select->distinct(true);
         $select->join(
             array($tableAlias => $table),
-            "e.entity_id={$tableAlias}.entity_id AND {$tableAlias}.attribute_id={$attribute->getAttributeId()}"
+            "e.entity_id={$tableAlias}.entity_id "
+                . " AND {$tableAlias}.attribute_id={$attribute->getAttributeId()}"
                 . " AND {$tableAlias}.store_id={$storeId}",
             array()
         );
 
         if (is_array($value) && (isset($value['from']) || isset($value['to']))) {
             if (isset($value['from']) && !empty($value['from'])) {
-                $select->where("{$tableAlias}.`value` >= ?", $value['from']);
+                $select->where("{$tableAlias}.value >= ?", $value['from']);
             }
             if (isset($value['to']) && !empty($value['to'])) {
-                $select->where("{$tableAlias}.`value` <= ?", $value['to']);
+                $select->where("{$tableAlias}.value <= ?", $value['to']);
             }
             return true;
         }
 
-        $select->where("{$tableAlias}.`value` IN(?)", $value);
+        $select->where("{$tableAlias}.value IN(?)", $value);
 
         return true;
     }

@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Collection Advanced 
  *
  * @category    Mage
  * @package     Mage_CatalogSearch
@@ -46,48 +46,39 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
             $previousSelect = null;
             foreach ($fields as $table => $conditions) {
                 foreach ($conditions as $attributeId => $conditionValue) {
-                    $bindVarName = 'attribute_'.$attributeId;
                     $select = $this->getConnection()->select();
                     $select->from(array('t1' => $table), 'entity_id');
                     $conditionData = array();
-
                     if (is_array($conditionValue)) {
                         if (isset($conditionValue['in'])){
-                            $conditionData[] = array('IN (?)', $conditionValue['in']);
+                            $conditionData[] = array('in' => $conditionValue['in']);
                         }
                         elseif (isset($conditionValue['in_set'])) {
-                            $conditionData[] = array('REGEXP \'(^|,)('.join('|', $conditionValue['in_set']).')(,|$)\'', $conditionValue['in_set']);
+                            $conditionData[] = array('regexp' => '\'(^|,)('.implode('|', $conditionValue['in_set']).')(,|$)\'');
                         }
                         elseif (isset($conditionValue['like'])) {
-                            $this->addBindParam($bindVarName, $conditionValue['like']);
-                            $conditionData[] = 'LIKE :'.$bindVarName;
+                            $conditionData[] = array ('like' => $conditionValue['like']);
                         }
                         elseif (isset($conditionValue['from']) && isset($conditionValue['to'])) {
                             if ($conditionValue['from']) {
                                 if (!is_numeric($conditionValue['from'])){
-                                    $conditionValue['from'] = date("Y-m-d H:i:s", strtotime($conditionValue['from']));
+                                    $conditionValue['from'] = Mage::getSingleton('core/date')->gmtDate(null, $conditionValue['from']);
                                 }
-                                $conditionData[] = array('>= ?', $conditionValue['from']);
+                                $conditionData[] = array('gteq' => $conditionValue['from']);
                             }
                             if ($conditionValue['to']) {
                                 if (!is_numeric($conditionValue['to'])){
-                                    $conditionValue['to'] = date("Y-m-d H:i:s", strtotime($conditionValue['to']));
+                                    $conditionValue['to'] = Mage::getSingleton('core/date')->gmtDate(null, $conditionValue['to']);
                                 }
-                                $conditionData[] = array('<= ?', $conditionValue['to']);
+                                $conditionData[] = array('lteq' => $conditionValue['to']);
                             }
                         }
                     } else {
                         $conditionData[] = array('= ?', $conditionValue);
                     }
-
                     if (!is_numeric($attributeId)) {
                         foreach ($conditionData as $data) {
-                            if (is_array($data)) {
-                                $select->where('t1.'.$attributeId . ' ' . $data[0], $data[1]);
-                            }
-                            else {
-                                $select->where('t1.'.$attributeId . ' ' . $data);
-                            }
+                            $select->where($this->getConnection()->prepareSqlCondition('t1.'.$attributeId, $data));
                         }
                     }
                     else {
@@ -100,23 +91,18 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
                         $select->where('t1.store_id = ?', 0);
                         $select->where('t1.attribute_id = ?', $attributeId);
 
+                        $ifCondition = $this->getConnection()->getCheckSql('t2.value_id>0', 't2.value', 't1.value');
                         foreach ($conditionData as $data) {
-                            if (is_array($data)) {
-                                $select->where('IF(t2.value_id>0, t2.value, t1.value) ' . $data[0], $data[1]);
-                            }
-                            else {
-                                $select->where('IF(t2.value_id>0, t2.value, t1.value) ' . $data);
-                            }
+                            $select->where($this->getConnection()->prepareSqlCondition($ifCondition, $data));
                         }
                     }
 
                     if (!is_null($previousSelect)) {
-                        $select->where('t1.entity_id IN(?)', new Zend_Db_Expr($previousSelect));
+                        $select->where('t1.entity_id IN (?)', new Zend_Db_Expr($previousSelect));
                     }
                     $previousSelect = $select;
                 }
             }
-
             $this->addFieldToFilter('entity_id', array('in' => new Zend_Db_Expr($select)));
         }
 

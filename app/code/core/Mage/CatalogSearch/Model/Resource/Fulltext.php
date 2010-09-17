@@ -318,55 +318,64 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
      */
     public function prepareResult($object, $queryText, $query)
     {
+        $adapter = $this->_getWriteAdapter();
         if (!$query->getIsProcessed()) {
             $searchType = $object->getSearchType($query->getStoreId());
 
-            $stringHelper = Mage::helper('core/string');
-            /* @var $stringHelper Mage_Core_Helper_String */
+            $preparedTerms = Mage::getResourceHelper('catalogsearch')
+                ->prepareTerms($queryText, $query->getMaxQueryWords());
 
             $bind = array(
-                ':query' => $queryText
+                ':query' => implode(' ', $preparedTerms[0])
             );
+            
             $like = array();
 
-            $fulltextCond   = '';
-            $likeCond       = '';
-            $separateCond   = '';
-
+            $likeCond  = '';
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
-                $words = $stringHelper->splitWords($queryText, true, $query->getMaxQueryWords());
                 $likeI = 0;
-                foreach ($words as $word) {
-                    $like[] = '`s`.`data_index` LIKE :likew' . $likeI;
-                    $bind[':likew' . $likeI] = '%' . $word . '%';
+                foreach ($preparedTerms[1] as $term) {
+                    $like[] = 's.data_index LIKE :likew' . $likeI;
+                    $bind[':likew' . $likeI] = '%' . $term . '%';
                     $likeI ++;
                 }
                 if ($like) {
                     $likeCond = '(' . join(' AND ', $like) . ')';
                 }
             }
+            $mainTableAlias = 's';
+            $fields = array(
+                'query_id' => new Zend_Db_Expr($query->getId()),
+                'product_id',
+            );
+            $select = $adapter->select()
+                ->from(array($mainTableAlias => $this->getMainTable()), $fields)
+                ->joinInner(array('e' => $this->getTable('catalog/product')),
+                    'e.entity_id=s.product_id',
+                    array())
+                ->where($mainTableAlias.'.store_id = ?', (int)$query->getStoreId());
+
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
-                $fulltextCond = 'MATCH (`s`.`data_index`) AGAINST (:query IN BOOLEAN MODE)';
+                $where = Mage::getResourceHelper('catalogsearch')
+                    ->chooseFulltext($this->getMainTable(), $mainTableAlias, $select);
             }
-            if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE && $likeCond) {
-                $separateCond = ' OR ';
+            if ($likeCond!=''
+                && $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
+                    $where .= ($where ? ' OR ' : '') . $likeCond;
             }
-
-            $sql = sprintf("INSERT INTO `{$this->getTable('catalogsearch/result')}` "
-                . "(SELECT '%d', `s`.`product_id`, MATCH (`s`.`data_index`) AGAINST (:query IN BOOLEAN MODE) "
-                . "FROM `{$this->getMainTable()}` AS `s` INNER JOIN `{$this->getTable('catalog/product')}` AS `e`"
-                . "ON `e`.`entity_id`=`s`.`product_id` WHERE (%s%s%s) AND `s`.`store_id`='%d')"
-                . " ON DUPLICATE KEY UPDATE `relevance`=VALUES(`relevance`)",
-                $query->getId(),
-                $fulltextCond,
-                $separateCond,
-                $likeCond,
-                $query->getStoreId()
-            );
-
-            $this->_getWriteAdapter()->query($sql, $bind);
+            if ($likeCond!='' && $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE) {
+                $where = $likeCond;
+            }
+            if ($where != '') {
+                $select->where($where);
+            }
+            $sql = $adapter->insertFromSelect($select,
+                $this->getTable('catalogsearch/result'),
+                array(),
+                Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
+            $adapter->query($sql, $bind);
 
             $query->setIsProcessed(1);
         }
@@ -409,34 +418,6 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                 $this->_searchableAttributes[$attribute->getId()] = $attribute;
             }
             unset($attributes);
-
-//            $whereCond  = array(
-//                $this->_getWriteAdapter()->quoteInto('additional_table.is_searchable = ?', 1),
-//                $this->_getWriteAdapter()->quoteInto('additional_table.is_visible_in_advanced_search = ?', 1),
-//                $this->_getWriteAdapter()->quoteInto('additional_table.is_filterable > ?', 0),
-//                $this->_getWriteAdapter()->quoteInto('additional_table.is_filterable_in_search = ?', 1),
-//                $this->_getWriteAdapter()->quoteInto('main_table.attribute_code IN(?)', array('status', 'visibility'))
-//            );
-//
-//            $select = $this->_getWriteAdapter()->select()
-//                ->from(array('main_table' => $this->getTable('eav/attribute')))
-//                ->join(
-//                    array('additional_table' => $this->getTable('catalog/eav_attribute')),
-//                    'additional_table.attribute_id = main_table.attribute_id'
-//                )
-//                ->where('main_table.entity_type_id=?', $entityType->getEntityTypeId())
-//                ->where(join(' OR ', $whereCond));
-//
-//            $attributesData = $this->_getWriteAdapter()->fetchAll($select);
-//
-//            $this->getEavConfig()->importAttributesData($entityType, $attributesData);
-//            foreach ($attributesData as $attributeData) {
-//                $attributeCode = $attributeData['attribute_code'];
-//                $attribute = $this->getEavConfig()->getAttribute($entityType, $attributeCode);
-//                $attribute->setEntity($entity);
-//                $this->_searchableAttributes[$attribute->getId()] = $attribute;
-//            }
-//            unset($attributesData);
         }
         if (!is_null($backendType)) {
             $attributes = array();
@@ -477,6 +458,23 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     }
 
     /**
+     * Returns expresion for field unification
+     *
+     * @param string $field
+     * @param string $backendType
+     * @return Zend_Db_Expr
+     */
+    protected function _unifyField($field, $backendType = 'varchar')
+    {
+        if ($backendType == 'datetime') {
+            $expr = Mage::getResourceHelper('catalogsearch')->convertDatetime($field);
+        } else {
+            $expr = Mage::getResourceHelper('catalogsearch')->castField($field); 
+        }
+        return $expr;
+    }
+
+    /**
      * Load product(s) attributes
      *
      * @param int $storeId
@@ -488,26 +486,28 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     {
         $result  = array();
         $selects = array();
+        $adapter = $this->_getReadAdapter();
+        $ifStoreValue = $adapter->getCheckSql('t_store.value_id > 0', 't_store.value', 't_default.value');
         foreach ($atributeTypes as $backendType => $attributeIds) {
             if ($attributeIds) {
-                $tableName = $this->getTable('catalog/product') . '_' . $backendType;
-                $selects[] = $this->_getWriteAdapter()->select()
+                $tableName = $this->getTable(array('catalog/product', $backendType));
+                $selects[] = $adapter->select()
                     ->from(
                         array('t_default' => $tableName),
                         array('entity_id', 'attribute_id'))
                     ->joinLeft(
                         array('t_store' => $tableName),
-                        $this->_getWriteAdapter()->quoteInto("t_default.entity_id=t_store.entity_id AND t_default.attribute_id=t_store.attribute_id AND t_store.store_id=?", $storeId),
-                        array('value'=>'IF(t_store.value_id > 0, t_store.value, t_default.value)'))
+                        $adapter->quoteInto('t_default.entity_id=t_store.entity_id AND t_default.attribute_id=t_store.attribute_id AND t_store.store_id=?', $storeId),
+                        array('value' => $this->_unifyField($ifStoreValue, $backendType)))
                     ->where('t_default.store_id=?', 0)
-                    ->where('t_default.attribute_id IN(?)', $attributeIds)
-                    ->where('t_default.entity_id IN(?)', $productIds);
+                    ->where('t_default.attribute_id IN (?)', $attributeIds)
+                    ->where('t_default.entity_id IN (?)', $productIds);
             }
         }
 
         if ($selects) {
-            $select = '('.join(')UNION(', $selects).')';
-            $query = $this->_getWriteAdapter()->query($select);
+            $select = $adapter->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
+            $query = $adapter->query($select);
             while ($row = $query->fetch()) {
                 $result[$row['entity_id']][$row['attribute_id']] = $row['value'];
             }

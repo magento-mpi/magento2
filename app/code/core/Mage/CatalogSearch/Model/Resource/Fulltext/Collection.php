@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Fulltext Collection
  *
  * @category    Mage
  * @package     Mage_CatalogSearch
@@ -77,8 +77,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Collection extends Mage_Catalog
     {
         if ($attribute == 'relevance') {
             $this->getSelect()->order("relevance {$dir}");
-        }
-        else {
+        } else {
             parent::setOrder($attribute, $dir);
         }
         return $this;

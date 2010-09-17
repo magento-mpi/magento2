@@ -116,7 +116,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
             $where[] = $this->_getWriteAdapter()->quoteInto('store_id=?', $storeId);
         }
         if (!is_null($entityId)) {
-            $where[] = $this->_getWriteAdapter()->quoteInto('product_id IN(?)', $entityId);
+            $where[] = $this->_getWriteAdapter()->quoteInto('product_id IN (?)', $entityId);
         }
 
         $this->_getWriteAdapter()->delete($this->getMainTable(), join(' AND ', $where));

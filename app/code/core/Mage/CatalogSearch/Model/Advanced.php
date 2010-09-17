@@ -162,26 +162,22 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                     (isset($value['to']) && !empty($value['to']))) {
                     if (isset($value['currency']) && !empty($value['currency'])) {
                         $rate = Mage::app()->getStore()->getBaseCurrency()->getRate($value['currency']);
-                    }
-                    else {
+                    } else {
                         $rate = 1;
                     }
-
                     if ($this->_getResource()->addRatedPriceFilter($this->getProductCollection(), $attribute, $value, $rate)) {
                         $hasConditions = true;
                         $this->_addSearchCriteria($attribute, $value);
                     }
                 }
-            }
-            else if ($attribute->isIndexable()) {
+            } else if ($attribute->isIndexable()) {
                 if (!is_string($value) || strlen($value) != 0) {
-                    if ($this->_getResource()->addIndexableAttributeFilter($this->getProductCollection(), $attribute, $value)) {
+                    if ($this->_getResource()->addIndexableAttributeModifiedFilter($this->getProductCollection(), $attribute, $value)) {
                         $hasConditions = true;
                         $this->_addSearchCriteria($attribute, $value);
                     }
                 }
-            }
-            else {
+            } else {
                 $condition = $this->_prepareCondition($attribute, $value);
                 if ($condition === false) {
                     continue;
@@ -198,7 +194,6 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                 $allConditions[$table][$attributeId] = $condition;
             }
         }
-
         if ($allConditions) {
             $this->getProductCollection()->addFieldsToFilter($allConditions);
         } else if (!$hasConditions) {

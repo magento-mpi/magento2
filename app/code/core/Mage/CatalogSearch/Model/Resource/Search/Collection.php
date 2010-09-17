@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Search collection
  *
  * @category    Mage
  * @package     Mage_CatalogSearch
@@ -35,16 +35,16 @@
 class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
     /**
-     * Enter description here ...
+     * Attribute collection
      *
-     * @var unknown
+     * @var array
      */
     protected $_attributesCollection;
 
     /**
-     * Enter description here ...
+     * Search query
      *
-     * @var unknown
+     * @var string
      */
     protected $_searchQuery;
 
@@ -80,10 +80,10 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
     }
 
     /**
-     * Enter description here ...
+     * Check attribute is Text and is Searchable
      *
      * @param unknown_type $attribute
-     * @return unknown
+     * @return boolean
      */
     protected function _isAttributeTextAndSearchable($attribute)
     {
@@ -95,10 +95,10 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
     }
 
     /**
-     * Enter description here ...
+     * Check attributes has options and searchable
      *
      * @param unknown_type $attribute
-     * @return unknown
+     * @return boolean
      */
     protected function _hasAttributeOptionsAndSearchable($attribute)
     {
@@ -110,7 +110,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
     }
 
     /**
-     * Enter description here ...
+     * Retrieve SQL for search entities
      *
      * @param unknown_type $query
      * @return unknown
@@ -141,6 +141,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
             }
         }
 
+        $ifValueId = $this->getConnection()->getCheckSql('t2.value_id>0', 't2.value', 't1.value');
         foreach ($tables as $table => $attributeIds) {
             $param = $table.'_search_query';
             $selects[] = $this->getConnection()->select()
@@ -152,14 +153,14 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
                 )
                 ->where('t1.attribute_id IN (?)', $attributeIds)
                 ->where('t1.store_id = ?', 0)
-                ->where('IF(t2.value_id>0, t2.value, t1.value) LIKE :'.$param);
+                ->where($ifValueId . ' LIKE :'.$param);
                 $this->addBindParam($param, $this->_searchQuery);
         }
 
         if ($sql = $this->_getSearchInOptionSql($query)) {
             $selects[] = "SELECT * FROM ({$sql}) AS inoptionsql"; // inheritant unions may be inside
         }
-        $sql = implode(' UNION ', $selects);
+        $sql = $this->getConnection()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
         return $sql;
     }
 
@@ -214,7 +215,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         }
 
         // build selects of entity ids for specified options ids by frontend input
-        $select = array();
+        $selects = array();
         foreach (array(
             'select'      => 'value = %d',
             'multiselect' => 'FIND_IN_SET(%d, value)')
@@ -227,7 +228,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
                     }
                 }
                 if ($where) {
-                    $select[$frontendInput] = (string)$this->getConnection()->select()
+                    $selects[$frontendInput] = (string)$this->getConnection()->select()
                         ->from($attributeTables[$frontendInput], 'entity_id')
                         ->where(implode(' OR ', $where));
                 }
@@ -240,12 +241,13 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
             $where[] = sprintf('attribute_id=%d AND value=%d', $option['attribute_id'], $option['option_id']);
         }
         if ($where) {
-            $select[] = (string)$this->getConnection()->select()
+            $selects[] = (string)$this->getConnection()->select()
                 ->from($resource->getTableName('catalogindex/eav'), 'entity_id')
                 ->where(implode(' OR ', $where))
                 ->where("store_id={$storeId}");
         }
 
-        return implode(' UNION ', $select);
+        $sql = $this->getConnection()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
+        return $sql;
     }
 }

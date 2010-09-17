@@ -53,7 +53,6 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
             $this->_terms = array();
             $terms = Mage::getResourceModel('catalogsearch/query_collection')
                 ->setPopularQueryFilter(Mage::app()->getStore()->getId())
-                ->setOrder('popularity', 'DESC')
                 ->setPageSize(100)
                 ->load()
                 ->getItems();
