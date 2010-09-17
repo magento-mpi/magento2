@@ -598,8 +598,8 @@ class magentoTest:
         if self.__test_homepage and self.__urls_homepage != None:
             os.unlink(self.__urls_homepage)
         
-        if self.__test_session:
-            for filename in self.__urls_session.items():
+        if self.__test_session != None:
+            for filename in self.__urls_session.itervalues():
                 os.unlink(filename)
         
         if self.__test_checkout and self.__urls_checkout != None:
