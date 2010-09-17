@@ -27,6 +27,8 @@ var tinyMceWysiwygSetup = Class.create();
 tinyMceWysiwygSetup.prototype =
 {
     mediaBrowserOpener: null,
+    mediaBrowserTargetElementId: null,
+
     initialize: function(htmlId, config)
     {
         this.id = htmlId;
@@ -174,6 +176,7 @@ tinyMceWysiwygSetup.prototype =
 
         this.mediaBrowserOpener = o.win;
         this.mediaBrowserOpener.blur();
+        this.mediaBrowserTargetElementId = o.field;
 
         if (typeof(o.type) != 'undefined' && o.type != "") {
             typeTitle = 'image' == o.type ? this.translate('Insert Image...') : this.translate('Insert Media...');
@@ -191,6 +194,10 @@ tinyMceWysiwygSetup.prototype =
 
     getMediaBrowserOpener: function() {
         return this.mediaBrowserOpener;
+    },
+
+    getMediaBrowserTargetElementId: function() {
+        return this.mediaBrowserTargetElementId;
     },
 
     getToggleButton: function() {
