@@ -579,6 +579,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         }
 
         if ($this->getRequest()->isPost()) {
+            /* @var $customer Mage_Customer_Model_Customer */
             $customer = $this->_getSession()->getCustomer();
 
             /* @var $customerForm Mage_Customer_Model_Form */
@@ -594,36 +595,38 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $errors = array_merge($customerErrors, $errors);
             } else {
                 $customerForm->compactData($customerData);
+                $errors = array();
+
+                // If password change was requested then add it to common validation scheme
+                if ($this->getRequest()->getParam('change_password')) {
+                    $currPass   = $this->getRequest()->getPost('current_password');
+                    $newPass    = $this->getRequest()->getPost('password');
+                    $confPass   = $this->getRequest()->getPost('confirmation');
+
+                    $oldPass = $this->_getSession()->getCustomer()->getPasswordHash();
+                    if (strpos($oldPass, ':')) {
+                        list($_salt, $salt) = explode(':', $oldPass);
+                    } else {
+                        $salt = false;
+                    }
+
+                    if ($customer->hashPassword($currPass, $salt) == $oldPass) {
+                        if (strlen($newPass)) {
+                            // Set entered password and its confirmation - they will be validated later to match each other and be of right length
+                            $customer->setPassword($newPass);
+                            $customer->setConfirmation($confPass);
+                        } else {
+                            $errors[] = $this->__('New password field cannot be empty.');
+                        }
+                    } else {
+                        $errors[] = $this->__('Invalid current password');
+                    }
+                }
+
+                // Validate account and compose list of errors if any
                 $customerErrors = $customer->validate();
                 if (is_array($customerErrors)) {
-                    $errors = array_merge($customerErrors, $errors);
-                }
-            }
-
-            if ($this->getRequest()->getParam('change_password')) {
-                $currPass   = $this->getRequest()->getPost('current_password');
-                $newPass    = $this->getRequest()->getPost('password');
-                $confPass   = $this->getRequest()->getPost('confirmation');
-
-                if (empty($currPass) || empty($newPass) || empty($confPass)) {
-                    $errors[] = $this->__('The password fields cannot be empty.');
-                }
-
-                if ($newPass != $confPass) {
-                    $errors[] = $this->__('Please make sure your passwords match.');
-                }
-
-                $oldPass = $this->_getSession()->getCustomer()->getPasswordHash();
-                if (strpos($oldPass, ':')) {
-                    list($_salt, $salt) = explode(':', $oldPass);
-                } else {
-                    $salt = false;
-                }
-
-                if ($customer->hashPassword($currPass, $salt) == $oldPass) {
-                    $customer->setPassword($newPass);
-                } else {
-                    $errors[] = $this->__('Invalid current password');
+                    $errors = array_merge($errors, $customerErrors);
                 }
             }
 

@@ -710,7 +710,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Validate customer attribute values
+     * Validate customer attribute values.
+     * For existing customer password + confirmation will be validated only when password is set (i.e. its change is requested)
      *
      * @return bool
      */
@@ -734,7 +735,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         if (!$this->getId() && !Zend_Validate::is($password , 'NotEmpty')) {
             $errors[] = $customerHelper->__('The password cannot be empty.');
         }
-        if ($password && !Zend_Validate::is($password, 'StringLength', array(6))) {
+        if (strlen($password) && !Zend_Validate::is($password, 'StringLength', array(6))) {
             $errors[] = $customerHelper->__('The minimum password length is %s', 6);
         }
         $confirmation = $this->getConfirmation();
