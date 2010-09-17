@@ -5,6 +5,8 @@ cd "$BUILD_TOOLS/siege"
 
 CONFIG="mage.cfg"
 
+HTML_REPORT="load-test-result.html"
+
 log "Searching for last successful build..."
 SB=`wget -q -O - http://guest:@kn.varien.com/teamcity/httpAuth/app/rest/buildTypes/id:bt19/builds/status:SUCCESS/number`
 
@@ -23,5 +25,16 @@ check_failure $?
 log "Preparing report..."
 ./test.py -m report -c "$CONFIG" -o ..
 check_failure $?
-
+cp -R ../artifacts report/logs
+cd report
+log "Generating HTML report..."
+php -f console.php -- -a fetch -r artifacts -o $HTML_REPORT
+check_failure $?
+mv $HTML_REPORT ../../artifacts/
+check_failure $?
+cd ../../artifacts
+echo "##teamcity[publishArtifacts 'config.xml']"
+echo "##teamcity[publishArtifacts 'checkout.log']"
+echo "##teamcity[publishArtifacts 'siege.log']"
+echo "##teamcity[publishArtifacts '$HTML_REPORT']"
 cd $OLDPWD
