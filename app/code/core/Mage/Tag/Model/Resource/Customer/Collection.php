@@ -183,7 +183,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     public function addGroupByTag()
     {
         $this->getSelect()
-            ->softGroup('tr.tag_id');
+            ->magicGroup('tr.tag_id');
 
         $this->_allowDisableGrouping = true;
         return $this;
@@ -197,7 +197,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     public function addGroupByCustomer()
     {
         $this->getSelect()
-            ->softGroup('tr.customer_id');
+            ->magicGroup('tr.customer_id');
 
         $this->_allowDisableGrouping = false;
         return $this;
