@@ -207,7 +207,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             foreach ($post['description'] as $itemId => $description) {
                 $item = Mage::getModel('wishlist/item')->load($itemId);
                 $description = (string) $description;
-                if(!strlen($description) || $item->getWishlistId() != $wishlist->getId()) {
+                if($item->getWishlistId() != $wishlist->getId()) {
                     continue;
                 }
                 try {
