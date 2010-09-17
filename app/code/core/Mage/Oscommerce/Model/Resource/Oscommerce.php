@@ -2022,7 +2022,7 @@ class Mage_Oscommerce_Model_Resource_Oscommerce extends Mage_Core_Model_Resource
         $taxPairs = array();
         if ($classes = $this->getTaxClasses()) {
             $existedClasses = $taxCollections = Mage::getResourceModel('tax/class_collection')
-                ->addFieldToFilter('class_type', 'PRODUCT')
+                ->addFieldToFilter('class_type', Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
                 ->load()
                 ->toOptionHash();
 
@@ -2033,7 +2033,7 @@ class Mage_Oscommerce_Model_Resource_Oscommerce extends Mage_Core_Model_Resource
                     $taxId = array_search($className, $existedClasses);
                 } else {
                     $taxModel->setId(null);
-                    $taxModel->setClassType('PRODUCT');
+                    $taxModel->setClassType(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT);
                     $taxModel->setClassName($name . '_' . $storeName);
                     $taxModel->save();
                     $taxId = $taxModel->getId();
@@ -2058,7 +2058,7 @@ class Mage_Oscommerce_Model_Resource_Oscommerce extends Mage_Core_Model_Resource
         $flipTaxPairs = array_flip($taxPairs);
         $newTaxPairs = array();
         $taxCollections = Mage::getResourceModel('tax/class_collection')
-                ->addFieldToFilter('class_type', 'PRODUCT')
+                ->addFieldToFilter('class_type', Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
                 ->load()
                 ->toOptionArray();
         if ($taxCollections) {

@@ -52,7 +52,7 @@ $table = $installer->getConnection()
         ), 'Attribute Set ID')
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
-        'default'   => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+        'default'   => Mage_Catalog_Model_Product_Type::DEFAULT_TYPE,
         ), 'Type ID')
     ->addColumn('sku', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
         ), 'SKU')

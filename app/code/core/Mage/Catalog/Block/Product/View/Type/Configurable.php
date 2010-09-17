@@ -139,9 +139,6 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
                $attributes[$attributeId] = $info;
             }
         }
-        /*echo '<pre>';
-        print_r($this->_prices);
-        echo '</pre>';die();*/
 
         $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
         $_request->setProductClassId($this->getProduct()->getTaxClassId());

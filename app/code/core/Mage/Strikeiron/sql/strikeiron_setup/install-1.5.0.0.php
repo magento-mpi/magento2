@@ -37,25 +37,25 @@ $installer->startSetup();
 $table = $installer->getConnection()
     ->newTable($installer->getTable('strikeiron_tax_rate'))
     ->addColumn('tax_rate_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
-	    'identity'  => true,
+        'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Taxrate Id')
     ->addColumn('tax_country_id', Varien_Db_Ddl_Table::TYPE_TEXT, 6, array(
         'nullable'  => true,
-        ), 'Tax country Id')        
+        ), 'Tax country Id')
     ->addColumn('tax_region_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => true,
         ), 'Tax region Id')
     ->addColumn('tax_postcode', Varien_Db_Ddl_Table::TYPE_TEXT, 12, array(
         'nullable'  => true,
-        ), 'Tax postcode')        
+        ), 'Tax postcode')
     ->addColumn('tax_value', Varien_Db_Ddl_Table::TYPE_DECIMAL, array(12,4), array(
         'nullable'  => false,
         'default'   => '0.0000',
-        ), 'Tax value')        
+        ), 'Tax value')
     ->setComment('Strikeiron Tax Rate');
 
 $installer->getConnection()->createTable($table);

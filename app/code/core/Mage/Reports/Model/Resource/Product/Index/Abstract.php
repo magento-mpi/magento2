@@ -172,18 +172,8 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
             'customer_id'       => (int)$object->getCustomerId(),
             'store_id'          => (int)$object->getStoreId(),
         );
-        /**
-         * Prepare where conditions for update statement
-         * and duplicates check
-         */
-        $where = array(
-            'visitor_id = ?'    => $row['visitor_id'],
-            'customer_id = ?'   => $row['customer_id'],
-            'store_id = ?'      => $row['store_id'],
-        );
 
-        $addedAt    = new Zend_Date();
-        $updateData = array();
+        $addedAt    = Varien_Date::toTimestamp(true);
         $insertData = array();
         foreach ($productIds as $productId) {
             /**
@@ -200,43 +190,21 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
                  * Add data for insert/update
                  */
                 $row['product_id'] = (int)$productId;
-                $date = $addedAt->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-                $row['added_at']   = $this->_getReadAdapter()->getDateFormatSql($date, '%Y-%m-%d %H:%i:%s')->__toString();
+                $row['added_at']   = Varien_Date::formatDate($addedAt+1);
 
-//                $select->where('product_id = ?', $productId);
+                $select->where('product_id = ?', $productId);
 
                 $result = $this->_getReadAdapter()->fetchOne($select);
 
                 /**
-                 * If visitor_id is exists
+                 * If visitor_id isn't exists
                  */
-                if ($result) {
-                    /**
-                     * Prepare data for update
-                     */
-                    $updateData[] = array(
-                        'product_id' => $row['product_id'],
-                        'added_at'   => $row['added_at']
-                    );
-                } else {
+                if (!$result) {
                     /**
                      * Prepare data for insert
                      */
                     $insertData[] = $row;
                 }
-            }
-            /**
-             * Add one second for next data insert/update row
-             */
-            $addedAt->subSecond(1);
-        }
-
-        /**
-         * Update data
-         */
-        if (!empty($updateData)) {
-            foreach($updateData as $data) {
-                $this->_getWriteAdapter()->update($this->getMainTable(), $data, $where);
             }
         }
 

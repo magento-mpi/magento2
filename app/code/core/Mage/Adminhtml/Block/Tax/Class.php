@@ -42,11 +42,11 @@ class Mage_Adminhtml_Block_Tax_Class extends Mage_Adminhtml_Block_Widget_Grid_Co
 
     public function setClassType($classType)
     {
-        if ($classType == 'PRODUCT') {
+        if ($classType == Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT) {
             $this->_headerText      = Mage::helper('tax')->__('Product Tax Classes');
             $this->_addButtonLabel  = Mage::helper('tax')->__('Add New Class');
         }
-        elseif ($classType == 'CUSTOMER') {
+        elseif ($classType == Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER) {
             $this->_headerText      = Mage::helper('tax')->__('Customer Tax Classes');
             $this->_addButtonLabel  = Mage::helper('tax')->__('Add New Class');
         }

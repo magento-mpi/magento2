@@ -65,12 +65,12 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
 
         $productClasses = Mage::getModel('tax/class')
             ->getCollection()
-            ->setClassTypeFilter('PRODUCT')
+            ->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
             ->toOptionArray();
 
         $customerClasses = Mage::getModel('tax/class')
             ->getCollection()
-            ->setClassTypeFilter('CUSTOMER')
+            ->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
             ->toOptionArray();
 
         $rates = Mage::getModel('tax/calculation_rate')

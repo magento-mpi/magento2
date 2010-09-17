@@ -71,7 +71,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      */
     protected function _getReadAdapter()
     {
-        if (is_null($this->_readAdapter)) {
+        if ($this->_readAdapter === null) {
             $this->_readAdapter = $this->_getConnection('read');
         }
 
@@ -85,7 +85,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      */
     protected function _getWriteAdapter()
     {
-        if (is_null($this->_writeAdapter)) {
+        if ($this->_writeAdapter === null) {
             $this->_writeAdapter = $this->_getConnection('write');
         }
 

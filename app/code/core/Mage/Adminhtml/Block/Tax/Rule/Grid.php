@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'filter_index' => 'ctc.customer_tax_class_id',
                 'type'    => 'options',
                 'show_missing_option_values' => true,
-                'options' => Mage::getModel('tax/class')->getCollection()->setClassTypeFilter('CUSTOMER')->toOptionHash(),
+                'options' => Mage::getModel('tax/class')->getCollection()->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)->toOptionHash(),
             )
         );
 
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'filter_index' => 'ptc.product_tax_class_id',
                 'type'    => 'options',
                 'show_missing_option_values' => true,
-                'options' => Mage::getModel('tax/class')->getCollection()->setClassTypeFilter('PRODUCT')->toOptionHash(),
+                'options' => Mage::getModel('tax/class')->getCollection()->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)->toOptionHash(),
             )
         );
 

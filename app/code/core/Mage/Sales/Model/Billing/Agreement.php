@@ -79,7 +79,7 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     protected function _beforeSave()
     {
         $date = Mage::getModel('core/date')->gmtDate();
-        if ($this->isObjectNew()) {
+        if ($this->isObjectNew() && !$this->getCreatedAt()) {
             $this->setCreatedAt($date);
         } else {
             $this->setUpdatedAt($date);

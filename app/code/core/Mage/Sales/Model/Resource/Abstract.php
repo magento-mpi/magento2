@@ -43,7 +43,7 @@ abstract class Mage_Sales_Model_Resource_Abstract extends Mage_Core_Model_Resour
     protected function _prepareDataForSave(Mage_Core_Model_Abstract $object)
     {
         $currentTime = Varien_Date::now();
-        if (!$object->getId() || $object->isObjectNew()) {
+        if ((!$object->getId() || $object->isObjectNew()) && !$object->getCreatedAt()) {
             $object->setCreatedAt($currentTime);
         }
         $object->setUpdatedAt($currentTime);
