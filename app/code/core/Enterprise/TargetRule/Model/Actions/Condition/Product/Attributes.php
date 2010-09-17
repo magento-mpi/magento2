@@ -306,6 +306,10 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         if ($valueType == self::VALUE_TYPE_CONSTANT) {
             $useBind = false;
             $value = $this->getValue();
+            // split value by commas into array for operators with multiple operands
+            if (($operator == '()' || $operator == '!()') && is_string($value) && trim($value) != '') {
+                $value = preg_split('/\s*,\s*/', trim($value), -1, PREG_SPLIT_NO_EMPTY);
+            }
         } else { //self::VALUE_TYPE_SAME_AS
             $useBind = true;
         }
