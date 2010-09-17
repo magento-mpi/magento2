@@ -68,9 +68,43 @@ The first assignment takes precedence over the second.
 
 2. Test Loader
 
-The runtest.bat script executable file is used to run the framework. You can run your test package as runtest <testCaseFile1> <testCaseFile2> ... <testCaseFileN>
+The runtest.bat script executable file is used to run the framework. You can run your test package as 
+runtest <testCaseFile1> <testCaseFile2> ... <testCaseFileN>
 or
-  runtest <testCaseID1> [ <testCaseID2> ... [ <testCaseIDN> ] ]
+ runtest <testCaseID1> [ <testCaseID2> ... [ <testCaseIDN> ] ]
 where:
   - <testCaseFile> is a PHP file that contains a test case
   - <testCaseID> is an ID corresponding a test case
+
+To use test case Ids, please edit config/references.xml. Every <testCase> node corresponds to every test case or set of test cases. It contain three child nodes:
+
+  - <id> contains a unique ID for the item, you will use it when running test as "runtest <testCaseID>..."
+  - <name> is a name of the test. It is not currently used in the system
+  - <source> is a container which can have one or several test case classes, every one of them may be optionally complemented with a name of the test.
+  
+For example, you can use either
+
+<testCase>
+    <id>S-5</id>
+    <name>SmokeTest: Site Tests</name>
+    <source>Admin_Scope_Site</source>
+</testCase>
+
+or
+
+<testCase>
+    <id>S-5a</id>
+    <name>SmokeTest: Site Creation</name>
+    <source>Admin_Scope_Site/testSiteCreation</source>
+</testCase>
+
+or
+
+<testCase>
+    <id>S-5b</id>
+    <name>SmokeTest: Site Tests and Store Creation</name>
+    <source>Admin_Scope_Site,Admin_Scope_Store/testStoreCreation</source>
+</testCase>
+
+Please note, you cannot use test case ID if it isn't defined in config/references.xml properly.
+
