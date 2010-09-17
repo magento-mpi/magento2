@@ -76,26 +76,30 @@ class Model_Admin_Scope_Store extends Model_Admin {
 
         if ($this->doOpen($name)) {
             $this->setUiNamespace('/admin/pages/system/scope/store');
-            //Delete site
-            $this->clickAndWait($this->getUiElement('buttons/delete'));
-            //Select No backup
-            $this->waitForElement($this->getUiElement('/admin/pages/system/scope/create_backup/selectors/create_backup'),5);
-            $this->select($this->getUiElement('/admin/pages/system/scope/create_backup/selectors/create_backup'),'label=No');
-            //Delete Store
-            $this->click($this->getUiElement('buttons/delete'));
-            $this->waitForElement($this->getUiElement('/admin/pages/system/scope/manage_stores/elements/store_table'),130);
+            if ($this->waitForElement($this->getUiElement('buttons/delete'),1)) {
+                //Delete site
+                $this->clickAndWait($this->getUiElement('buttons/delete'));
+                //Select No backup
+                $this->waitForElement($this->getUiElement('/admin/pages/system/scope/create_backup/selectors/create_backup'),5);
+                $this->select($this->getUiElement('/admin/pages/system/scope/create_backup/selectors/create_backup'),'label=No');
+                //Delete Store
+                $this->click($this->getUiElement('buttons/delete'));
+                $this->waitForElement($this->getUiElement('/admin/pages/system/scope/manage_stores/elements/store_table'),130);
 
-            // check for error message
-            if ($this->waitForElement($this->getUiElement('/admin/messages/error'),1)) {
-                $etext = $this->getText($this->getUiElement('/admin/messages/error'));
-                $this->setVerificationErrors('doDelete: ' . $etext);
+                // check for error message
+                if ($this->waitForElement($this->getUiElement('/admin/messages/error'),1)) {
+                    $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+                    $this->setVerificationErrors('doDelete: ' . $etext);
+                } else {
+                  // Check for success message
+                  if ($this->waitForElement($this->getUiElement('/admin/messages/success'),1)) {
+                    $this->printInfo('Store ' . $name . ' has been deleted');
+                  } else {
+                    $this->setVerificationErrors('doStoreDelete: no success message');
+                  }
+                }
             } else {
-              // Check for success message
-              if ($this->waitForElement($this->getUiElement('/admin/messages/success'),1)) {
-                $this->printInfo('Store ' . $name . ' has been deleted');
-              } else {
-                $this->setVerificationErrors('doStoreDelete: no success message');
-              }
+                $this->printInfo('Store ' . $name . ' could not be deleted');
             }
         }
         $this->printDebug('doStoreViewDelete finished...');
