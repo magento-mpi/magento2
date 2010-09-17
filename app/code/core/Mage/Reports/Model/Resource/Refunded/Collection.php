@@ -35,10 +35,10 @@
 class Mage_Reports_Model_Resource_Refunded_Collection extends Mage_Sales_Model_Entity_Order_Collection
 {
     /**
-     * Enter description here ...
+     * Set date range
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Refunded_Collection
      */
     public function setDateRange($from, $to)
@@ -57,9 +57,9 @@ class Mage_Reports_Model_Resource_Refunded_Collection extends Mage_Sales_Model_E
     }
 
     /**
-     * Enter description here ...
+     * Set store ids
      *
-     * @param unknown_type $storeIds
+     * @param array $storeIds
      * @return Mage_Reports_Model_Resource_Refunded_Collection
      */
     public function setStoreIds($storeIds)
@@ -98,9 +98,9 @@ class Mage_Reports_Model_Resource_Refunded_Collection extends Mage_Sales_Model_E
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
-     * @return unknown
+     * @return string
      */
     public function getSelectCountSql()
     {

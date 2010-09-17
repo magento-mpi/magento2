@@ -62,7 +62,7 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
      */
     protected function _getInventoryItemResource()
     {
-        if (is_null($this->_inventoryItemResource)) {
+        if ($this->_inventoryItemResource === null) {
             $this->_inventoryItemResource = Mage::getResourceSingleton('cataloginventory/stock_item');
         }
         return $this->_inventoryItemResource;
@@ -146,7 +146,7 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
         if (!$this->_inventoryItemJoined) {
             $this->getSelect()->join(
                 array($this->_getInventoryItemTableAlias() => $this->_getInventoryItemTable()),
-                sprintf('`e`.`%s`=`%s`.`product_id`',
+                sprintf('e.%s = %s.product_id',
                     $this->getEntity()->getEntityIdField(),
                     $this->_getInventoryItemTableAlias()
                 ),

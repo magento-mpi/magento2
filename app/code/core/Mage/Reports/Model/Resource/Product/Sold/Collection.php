@@ -46,7 +46,7 @@ class Mage_Reports_Model_Resource_Product_Sold_Collection extends Mage_Reports_M
         $this->_reset()
             ->addAttributeToSelect('*')
             ->addOrderedQty($from, $to)
-            ->setOrder('ordered_qty', 'desc');
+            ->setOrder('ordered_qty', self::SORT_ORDER_DESC);
 
         return $this;
     }

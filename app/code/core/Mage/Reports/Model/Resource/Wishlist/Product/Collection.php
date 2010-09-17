@@ -35,7 +35,7 @@
 class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishlist_Model_Resource_Product_Collection
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -44,17 +44,20 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
     }
 
     /**
-     * Enter description here ...
+     * Add wishlist count
      *
      * @return Mage_Reports_Model_Resource_Wishlist_Product_Collection
      */
     public function addWishlistCount()
     {
-        $wishlistItemTable = Mage::getSingleton('core/resource')->getTableName('wishlist/item');
+        $wishlistItemTable = $this->getTable('wishlist/item');
+
+        $countColumnName = $this->getSelect()->getAdapter()
+            ->quoteColumnAs(new Zend_Db_Expr('COUNT(wishlist_item_id)'),  'wishlists', true);
 
         $this->getSelect()
-            ->from(array('wi' => $wishlistItemTable), 'count(wishlist_item_id) as wishlists')
-            ->where('wi.product_id=e.entity_id')
+            ->from(array('wi' => $wishlistItemTable), $countColumnName)
+            ->where('wi.product_id = e.entity_id')
             ->group('wi.product_id');
 
         $this->getEntity()->setStore(0);
@@ -62,22 +65,26 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
     }
 
     /**
-     * Enter description here ...
+     * add customer count to result
      *
      * @return Mage_Reports_Model_Resource_Wishlist_Product_Collection
      */
     public function getCustomerCount()
     {
         $this->getSelect()->reset();
-        $this->getSelect()->from("wishlist", array("count(wishlist_id) as wishlist_cnt"))
-                    ->group("wishlist.customer_id");
-        return $this;//->getItems()->;
+
+        $countColumnName = $this->getSelect()->getAdapter()
+            ->quoteColumnAs(new Zend_Db_Expr('COUNT(wishlist_id)'),  'wishlist_cnt', true);
+        $this->getSelect()
+            ->from($this->getTable('wishlist/wishlist'), $countColumnName)
+            ->group('wishlist.customer_id');
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
-     * @return unknown
+     * @return string
      */
     public function getSelectCountSql()
     {
@@ -86,32 +93,32 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->columns("COUNT(*)");
 
         $sql = $countSelect->__toString();
-
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(*) from ', $sql);
 
         return $sql;
     }
 
     /**
-     * Enter description here ...
+     * Set order to result
      *
-     * @param unknown_type $attribute
-     * @param unknown_type $dir
+     * @param string $attribute
+     * @param string $dir
      * @return Mage_Reports_Model_Resource_Wishlist_Product_Collection
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
-        switch ($attribute)
-        {
-        case 'wishlists':
-            $this->getSelect()->order($attribute . ' ' . $dir);
-            break;
-        default:
-            parent::setOrder($attribute, $dir);
+        switch ($attribute) {
+            case 'wishlists':
+                $this->getSelect()->order($attribute . ' ' . $dir);
+                break;
+            default:
+                parent::setOrder($attribute, $dir);
         }
 
         return $this;
     }
 }
+

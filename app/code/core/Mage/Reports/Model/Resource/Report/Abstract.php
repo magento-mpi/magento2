@@ -72,8 +72,9 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
             $this->_getFlag()->setFlagData($value);
         }
 
+        $time = Varien_Date::toTimestamp(true);
         // touch last_update
-        $this->_getFlag()->setLastUpdate($this->formatDate(time()));
+        $this->_getFlag()->setLastUpdate($this->formatDate($time));
 
         $this->_getFlag()->save();
 
@@ -104,7 +105,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      */
     protected function _truncateTable($table)
     {
-        $this->_getWriteAdapter()->query('TRUNCATE TABLE ' . $this->_getWriteAdapter()->quoteIdentifier($table));
+        $this->_getWriteAdapter()->truncateTable($table);
         return $this;
     }
 
@@ -120,7 +121,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      * @param unknown_type $doNotUseTruncate
      * @return Mage_Reports_Model_Resource_Report_Abstract
      */
-    protected function _clearTableByDateRange($table, $from = null, $to = null, $subSelect = null, 
+    protected function _clearTableByDateRange($table, $from = null, $to = null, $subSelect = null,
         $doNotUseTruncate = false)
     {
         if ($from === null && $to === null && !$doNotUseTruncate) {
@@ -162,13 +163,14 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      * @param unknown_type $alias
      * @return Varien_Db_Select
      */
-    protected function _getTableDateRangeSelect($table, $column, $whereColumn, $from = null, $to = null, 
+    protected function _getTableDateRangeSelect($table, $column, $whereColumn, $from = null, $to = null,
         $additionalWhere = array(), $alias = 'date_range_table')
     {
-        $select = $this->_getWriteAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select  = $adapter->select()
             ->from(
                 array($alias => $table),
-                'DATE('. $this->_getWriteAdapter()->quoteIdentifier($alias . '.' . $column) . ')'
+                $adapter->getDatePartSql($adapter->quoteIdentifier($alias . '.' . $column))
             )
             ->distinct(true);
 
@@ -183,11 +185,11 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         if (!empty($additionalWhere)) {
             foreach ($additionalWhere as $condition) {
                 if (is_array($condition) && count($condition) == 2) {
-                   $condition = $this->_getWriteAdapter()->quoteInto($condition[0], $condition[1]);
+                   $condition = $adapter->quoteInto($condition[0], $condition[1]);
                 } elseif (is_array($condition)) { // Invalid condition
                    continue;
                 }
-                $condition = str_replace('{{table}}', $this->_getWriteAdapter()->quoteIdentifier($alias), $condition);
+                $condition = str_replace('{{table}}', $adapter->quoteIdentifier($alias), $condition);
                 $select->where($condition);
             }
         }
@@ -201,8 +203,8 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      *
      * @result string|false
      *
-     * @param unknown_type $select
-     * @param unknown_type $periodColumn
+     * @param Varien_Db_Select $select
+     * @param string $periodColumn
      * @return unknown
      */
     protected function _makeConditionFromDateRangeSelect($select, $periodColumn)
@@ -229,9 +231,11 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
             return false;
         }
 
+        $dateMin = $this->_getReadAdapter()->getDateFormatSql("{$date} 00:00:00", '%Y-%m-%d %H:%i:%s')->__toString();
+        $dateMax = $this->_getReadAdapter()->getDateFormatSql("{$date} 23:59:59", '%Y-%m-%d %H:%i:%s')->__toString();
         $whereCondition = array();
         foreach ($selectResult as $date) {
-            $whereCondition[] = "{$periodColumn} BETWEEN '{$date} 00:00:00' AND '{$date} 23:59:59'";
+            $whereCondition[] = sprintf('%s BETWEEN %s AND %s', $periodColumn, $dateMin, $dateMax);
         }
         $whereCondition = implode(' OR ', $whereCondition);
         if ($whereCondition == '') {
@@ -256,29 +260,27 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      * @param unknown_type $relatedAlias
      * @return Varien_Db_Select
      */
-    protected function _getTableDateRangeRelatedSelect($table, $relatedTable, $joinCondition, $column, $whereColumn, 
-        $from = null, $to = null, $additionalWhere = array(), $alias = 'date_range_table', 
+    protected function _getTableDateRangeRelatedSelect($table, $relatedTable, $joinCondition, $column, $whereColumn,
+        $from = null, $to = null, $additionalWhere = array(), $alias = 'date_range_table',
         $relatedAlias = 'related_date_range_table')
     {
-        $joinConditionSql = '';
+        $adapter = $this->_getReadAdapter();
+        $joinConditionSql = array();
 
         foreach ($joinCondition as $fkField => $pkField) {
-            if ($joinConditionSql) {
-                $joinConditionSql .= ' AND ';
-            }
-
-            $joinConditionSql .= $this->_getWriteAdapter()->quoteIdentifier($alias . '.' . $fkField)
-                               . ' = ' . $this->_getWriteAdapter()->quoteIdentifier($relatedAlias . '.' . $pkField);
+            $joinConditionSql[] = sprintf('%s.%s = %s.%s', $alias, $fkField, $relatedAlias, $pkField);
         }
 
-        $select = $this->_getWriteAdapter()->select()
+        $select = $adapter->select()
             ->from(
                 array($alias => $table),
-                'DATE('. $this->_getWriteAdapter()->quoteIdentifier($alias . '.' . $column) . ')'
+                $adapter->getDatePartSql(
+                    $adapter->quoteIdentifier($alias . '.' . $column)
+                )
             )
             ->joinInner(
                 array($relatedAlias => $relatedTable),
-                $joinConditionSql,
+                implode(' AND ', $joinConditionSql),
                 array()
             )
             ->distinct(true);
@@ -294,15 +296,15 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         if (!empty($additionalWhere)) {
             foreach ($additionalWhere as $condition) {
                 if (is_array($condition) && count($condition) == 2) {
-                   $condition = $this->_getWriteAdapter()->quoteInto($condition[0], $condition[1]);
+                   $condition = $adapter->quoteInto($condition[0], $condition[1]);
                 } elseif (is_array($condition)) { // Invalid condition
                    continue;
                 }
                 $condition = str_replace(
                     array('{{table}}', '{{related_table}}'),
                     array(
-                        $this->_getWriteAdapter()->quoteIdentifier($alias),
-                        $this->_getWriteAdapter()->quoteIdentifier($relatedAlias)
+                        $adapter->quoteIdentifier($alias),
+                        $adapter->quoteIdentifier($relatedAlias)
                     ),
                     $condition
                 );

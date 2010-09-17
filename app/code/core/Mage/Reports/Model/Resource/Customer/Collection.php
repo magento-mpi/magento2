@@ -49,46 +49,44 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
     protected $_addOrderStatisticsIsFilter   = false;
 
     /**
-     * Enter description here ...
+     * Customer id table name
      *
-     * @var unknown
+     * @var string
      */
     protected $_customerIdTableName;
 
     /**
-     * Enter description here ...
+     * Customer id field name
      *
-     * @var unknown
+     * @var string
      */
     protected $_customerIdFieldName;
 
     /**
-     * Enter description here ...
+     * Order entity table name
      *
-     * @var unknown
+     * @var string
      */
     protected $_orderEntityTableName;
 
     /**
-     * Enter description here ...
+     * Order entity field name
      *
-     * @var unknown
+     * @var string
      */
     protected $_orderEntityFieldName;
 
     /**
-     * Enter description here ...
+     * Add cart info to collection
      *
      * @return Mage_Reports_Model_Resource_Customer_Collection
      */
     public function addCartInfo()
     {
-        foreach ($this->getItems() as $item)
-        {
+        foreach ($this->getItems() as $item) {
             $quote = Mage::getModel('sales/quote')->loadByCustomer($item->getId());
 
-            if (is_object($quote))
-            {
+            if ($quote instanceof Mage_Sales_Model_Quote) {
                 $totals = $quote->getTotals();
                 $item->setTotal($totals['subtotal']->getValue());
                 $quote_items = Mage::getResourceModel('sales/quote_item_collection')->setQuoteFilter($quote->getId());
@@ -103,7 +101,7 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
     }
 
     /**
-     * Enter description here ...
+     * Add customer name to results
      *
      * @return Mage_Reports_Model_Resource_Customer_Collection
      */
@@ -123,14 +121,14 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
     public function joinOrders($from = '', $to = '')
     {
         if ($from != '' && $to != '') {
-            $dateFilter = " and orders.created_at BETWEEN '{$from}' AND '{$to}'";
+            $dateFilter = " AND orders.created_at BETWEEN '{$from}' AND '{$to}'";
         } else {
             $dateFilter = '';
         }
 
         $this->getSelect()
-            ->joinLeft(array('orders'=>$this->getTable('sales/order')),
-                "orders.customer_id=e.entity_id".$dateFilter,
+            ->joinLeft(array('orders' => $this->getTable('sales/order')),
+                "orders.customer_id = e.entity_id".$dateFilter,
             array());
 
         return $this;
@@ -160,12 +158,16 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
      */
     public function addSumAvgTotals($storeId = 0)
     {
+        $adapter = $this->getConnection();
+        $baseSubtotalRefunded   = $adapter->getCheckSql('orders.base_subtotal_refunded', 0, 'orders.base_subtotal_refunded');
+        $baseSubtotalCanceled   = $adapter->getCheckSql('orders.base_subtotal_canceled', 0, 'orders.base_subtotal_canceled');
+
         /**
          * calculate average and total amount
          */
         $expr = ($storeId == 0)
-            ? "(orders.base_subtotal-IFNULL(orders.base_subtotal_canceled,0)-IFNULL(orders.base_subtotal_refunded,0))*orders.base_to_global_rate"
-            : "{orders.base_subtotal-IFNULL(orders.base_subtotal_canceled,0)-IFNULL(orders.base_subtotal_refunded,0)";
+            ? "(orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}) * orders.base_to_global_rate"
+            : "orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
 
         $this->getSelect()
             ->columns(array("orders_avg_amount" => "AVG({$expr})"))
@@ -175,12 +177,12 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
     }
 
     /**
-     * Enter description here ...
+     * Order by total amount
      *
-     * @param unknown_type $dir
+     * @param string $dir
      * @return Mage_Reports_Model_Resource_Customer_Collection
      */
-    public function orderByTotalAmount($dir = 'desc')
+    public function orderByTotalAmount($dir = self::SORT_ORDER_DESC)
     {
         $this->getSelect()
             ->order("orders_sum_amount {$dir}");
@@ -190,7 +192,7 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
     /**
      * Add order statistics
      *
-     * @param unknown_type $isFilter
+     * @param boolean $isFilter
      * @return Mage_Reports_Model_Resource_Customer_Collection
      */
     public function addOrdersStatistics($isFilter = false)
@@ -210,9 +212,14 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
         $customerIds = $this->getColumnValues($this->getResource()->getIdFieldName());
 
         if ($this->_addOrderStatistics && !empty($customerIds)) {
+            $adapter = $this->getConnection();
+            $baseSubtotalRefunded   = $adapter->getCheckSql('orders.base_subtotal_refunded', 0, 'orders.base_subtotal_refunded');
+            $baseSubtotalCanceled   = $adapter->getCheckSql('orders.base_subtotal_canceled', 0, 'orders.base_subtotal_canceled');
+
             $totalExpr = ($this->_addOrderStatisticsIsFilter)
-                ? '(orders.base_subtotal-IFNULL(orders.base_subtotal_canceled,0)-IFNULL(orders.base_subtotal_refunded,0))*orders.base_to_global_rate'
-                : 'orders.base_subtotal-IFNULL(orders.base_subtotal_canceled,0)-IFNULL(orders.base_subtotal_refunded,0)';
+                ? "(orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}) * orders.base_to_global_rate"
+                : "orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
+
             $select = $this->getConnection()->select();
             $select->from(array('orders'=>$this->getTable('sales/order')), array(
                 'orders_avg_amount' => "AVG({$totalExpr})",
@@ -243,21 +250,21 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
     }
 
     /**
-     * Enter description here ...
+     * Order by customer registration
      *
-     * @param unknown_type $dir
+     * @param string $dir
      * @return Mage_Reports_Model_Resource_Customer_Collection
      */
-    public function orderByCustomerRegistration($dir = 'desc')
+    public function orderByCustomerRegistration($dir = self::SORT_ORDER_DESC)
     {
         $this->addAttributeToSort('entity_id', $dir);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
-     * @return unknown
+     * @return string
      */
     public function getSelectCountSql()
     {

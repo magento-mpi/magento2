@@ -55,35 +55,38 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
         if (!$object->getCustomerId()) {
             return $this;
         }
-
-        $select = $this->_getWriteAdapter()->select()
+        $adapter = $this->_getWriteAdapter();
+        $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('visitor_id=?', $object->getVisitorId());
+            ->where('visitor_id = ?', (int)$object->getVisitorId());
+
         $rowSet = $select->query()->fetchAll();
         foreach ($rowSet as $row) {
-            $select = $this->_getWriteAdapter()->select()
+            $select = $adapter->select()
                 ->from($this->getMainTable())
-                ->where('customer_id=?', $object->getCustomerId())
-                ->where('product_id=?', $row['product_id']);
-            $idx = $this->_getWriteAdapter()->fetchRow($select);
+                ->where('customer_id = ?', (int)$object->getCustomerId())
+                ->where('product_id = ?', (int)$row['product_id']);
+            $idx = $adapter->fetchRow($select);
 
             if ($idx) {
-                $this->_getWriteAdapter()->delete($this->getMainTable(),
-                    $this->_getWriteAdapter()->quoteInto('index_id=?', $row['index_id'])
+                $adapter->delete($this->getMainTable(), array('index_id = ?' => $row['index_id']));
+                $where = array('index_id = ?', $idx['index_id']);
+                $data  = array(
+                    'visitor_id'    => (int)$object->getVisitorId(),
+                    'store_id'      => (int)$object->getStoreId(),
+                    'added_at'      => Varien_Date::now(),
                 );
-                $this->_getWriteAdapter()->update($this->getMainTable(), array(
-                    'visitor_id'    => $object->getVisitorId(),
-                    'store_id'      => $object->getStoreId(),
-                    'added_at'      => now(),
-                    ), $this->_getWriteAdapter()->quoteInto('index_id=?', $idx['index_id']));
+            } else {
+                $where = array('index_id = ?', $row['index_id']);
+                $data  = array(
+                    'customer_id'   => (int)$object->getCustomerId(),
+                    'store_id'      => (int)$object->getStoreId(),
+                    'added_at'      => Varien_Date::now()
+                );
             }
-            else {
-                $this->_getWriteAdapter()->update($this->getMainTable(), array(
-                    'customer_id'   => $object->getCustomerId(),
-                    'store_id'      => $object->getStoreId(),
-                    'added_at'      => now()
-                    ), $this->_getWriteAdapter()->quoteInto('index_id=?', $row['index_id']));
-            }
+
+            $adapter->update($this->getMainTable(), $data, $where);
+
         }
 
         return $this;
@@ -100,13 +103,11 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
         if (!$object->getCustomerId()) {
             return $this;
         }
+        $adapter = $this->_getWriteAdapter();
 
-        $where  = $this->_getWriteAdapter()->quoteInto('customer_id=?', $object->getCustomerId());
-        $bind   = array(
-            'visitor_id' => null,
-        );
-
-        $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
+        $bind   = array('visitor_id' => null);
+        $where  = $adapter->quoteInto('customer_id = ?', (int)$object->getCustomerId());
+        $adapter->update($this->getMainTable(), $bind, $where);
 
         return $this;
     }
@@ -117,7 +118,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
      * @param Mage_Reports_Model_Product_Index_Abstract $object
      * @return Mage_Reports_Model_Resource_Product_Index_Abstract
      */
-    public function save(Mage_Core_Model_Abstract $object)
+    public function save(Mage_Core_Model_Abstract  $object)
     {
         return $this->forsedSave($object);
     }
@@ -136,7 +137,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
                     array('visitor_table' => $this->getTable('log/visitor')),
                     'main_table.visitor_id = visitor_table.visitor_id',
                     array())
-                ->where('main_table.visitor_id > 0')
+                ->where('main_table.visitor_id > ?', 0)
                 ->where('visitor_table.visitor_id IS NULL')
                 ->limit(100);
             $indexIds = $this->_getReadAdapter()->fetchCol($select);
@@ -157,31 +158,97 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
      * Add information about product ids to visitor/customer
      *
      *
-     * @param unknown_type $object
-     * @param unknown_type $productIds
+     * @param Mage_Reports_Model_Product_Index_Abstract $object
+     * @param array $productIds
      * @return Mage_Reports_Model_Resource_Product_Index_Abstract
      */
-    public function registerIds($object, $productIds)
+    public function registerIds(Varien_Object $object, $productIds)
     {
-        $row = array(
-            'visitor_id'    => $object->getVisitorId(),
-            'customer_id'   => $object->getCustomerId(),
-            'store_id'      => $object->getStoreId(),
+        /**
+         * Prepare data for insert statement
+         */
+        $row   = array(
+            'visitor_id'        => (int)$object->getVisitorId(),
+            'customer_id'       => (int)$object->getCustomerId(),
+            'store_id'          => (int)$object->getStoreId(),
         );
-        $addedAt = new Zend_Date();
-        $data = array();
+        /**
+         * Prepare where conditions for update statement
+         * and duplicates check
+         */
+        $where = array(
+            'visitor_id = ?'    => $row['visitor_id'],
+            'customer_id = ?'   => $row['customer_id'],
+            'store_id = ?'      => $row['store_id'],
+        );
+
+        $addedAt    = new Zend_Date();
+        $updateData = array();
+        $insertData = array();
         foreach ($productIds as $productId) {
-            $productId = (int) $productId;
+            /**
+             * Prepare select for unique key check
+             */
+            $select = $this->_getReadAdapter()->select()
+                ->from($this->getMainTable(), $this->getIdFieldName())
+                ->where('visitor_id = ?', $row['visitor_id'])
+                ->where('customer_id = ?', $row['customer_id'])
+                ->where('store_id = ?', $row['store_id']);
+
             if ($productId) {
-                $row['product_id'] = $productId;
-                $row['added_at'] = $addedAt->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-                $data[] = $row;
+                /**
+                 * Add data for insert/update
+                 */
+                $row['product_id'] = (int)$productId;
+                $date = $addedAt->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+                $row['added_at']   = $this->_getReadAdapter()->getDateFormatSql($date, '%Y-%m-%d %H:%i:%s')->__toString();
+
+//                $select->where('product_id = ?', $productId);
+
+                $result = $this->_getReadAdapter()->fetchOne($select);
+
+                /**
+                 * If visitor_id is exists
+                 */
+                if ($result) {
+                    /**
+                     * Prepare data for update
+                     */
+                    $updateData[] = array(
+                        'product_id' => $row['product_id'],
+                        'added_at'   => $row['added_at']
+                    );
+                } else {
+                    /**
+                     * Prepare data for insert
+                     */
+                    $insertData[] = $row;
+                }
             }
+            /**
+             * Add one second for next data insert/update row
+             */
             $addedAt->subSecond(1);
         }
-        if (!empty($data)) {
-            $this->_getWriteAdapter()->insertOnDuplicate($this->getMainTable(), $data, array_keys($row));
+
+        /**
+         * Update data
+         */
+        if (!empty($updateData)) {
+            foreach($updateData as $data) {
+                $this->_getWriteAdapter()->update($this->getMainTable(), $data, $where);
+            }
         }
+
+        /**
+         * Insert data
+         */
+        if (!empty($insertData)) {
+            foreach ($insertData as $data) {
+                $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
+            }
+        }
+
         return $this;
     }
 }

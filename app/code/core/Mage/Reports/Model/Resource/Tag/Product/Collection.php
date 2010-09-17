@@ -35,46 +35,44 @@
 class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_Resource_Product_Collection
 {
     /**
-     * Enter description here ...
+     * Add unique target count to result
      *
      * @return Mage_Reports_Model_Resource_Tag_Product_Collection
      */
     public function addUniqueTagedCount()
     {
         $this->getSelect()
-            ->columns(array('utaged' => 'count(DISTINCT(relation.tag_id))'));
-            //->order('taged desc');
+            ->columns(array('utaged' => 'COUNT(DISTINCT(relation.tag_id))'));
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add all target count to result
      *
      * @return Mage_Reports_Model_Resource_Tag_Product_Collection
      */
     public function addAllTagedCount()
     {
         $this->getSelect()
-            ->columns(array('taged' => 'count(relation.tag_id)'));
-            //->order('taged desc');
+            ->columns(array('taged' => 'COUNT(relation.tag_id)'));
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add target count to result
      *
      * @return Mage_Reports_Model_Resource_Tag_Product_Collection
      */
     public function addTagedCount()
     {
         $this->getSelect()
-            ->columns(array('taged' => 'count(relation.tag_relation_id)'));
-            //->order('taged desc');
+            ->columns(array('taged' => 'COUNT(relation.tag_relation_id)'));
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add group by product to result
      *
      * @return Mage_Reports_Model_Resource_Tag_Product_Collection
      */
@@ -87,7 +85,7 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
     }
 
     /**
-     * Enter description here ...
+     * Add group by tag to result
      *
      * @return Mage_Reports_Model_Resource_Tag_Product_Collection
      */
@@ -101,50 +99,57 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
     }
 
     /**
-     * Enter description here ...
+     * Add product filter
      *
-     * @param unknown_type $customerId
+     * @param int $customerId
      * @return Mage_Reports_Model_Resource_Tag_Product_Collection
      */
     public function addProductFilter($customerId)
     {
         $this->getSelect()
-            ->where('relation.product_id = ?', $customerId);
-        $this->_customerFilterId = $customerId;
+             ->where('relation.product_id = ?', (int)$customerId);
+        $this->_customerFilterId = (int)$customerId;
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set order
      *
-     * @param unknown_type $attribute
-     * @param unknown_type $dir
+     * @param string $attribute
+     * @param string $dir
      * @return Mage_Reports_Model_Resource_Tag_Product_Collection
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
         if ($attribute == 'utaged' || $attribute == 'taged' || $attribute == 'tag_name') {
-                $this->getSelect()->order($attribute . ' ' . $dir);
+            $this->getSelect()->order($attribute . ' ' . $dir);
         } else {
-                parent::setOrder($attribute, $dir);
+            parent::setOrder($attribute, $dir);
         }
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Join fields
      *
+     * @return Mage_Reports_Model_Resource_Tag_Product_Collection
      */
     protected function _joinFields()
     {
-        $tagTable = Mage::getSingleton('core/resource')->getTableName('tag/tag');
-        $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
+        $tagTable         = $this->getTable('tag/tag');
+        $tagRelationTable = $this->getTable('tag/relation');
         $this->addAttributeToSelect('name');
         $this->getSelect()
-            ->join(array('relation' => $tagRelationTable), "relation.product_id = e.entity_id")
-            ->join(array('t' => $tagTable), "t.tag_id =relation.tag_id", array(
-                'tag_id',  'status', 'tag_name' => 'name'
-            ));
+            ->join(
+                array('relation' => $tagRelationTable),
+                'relation.product_id = e.entity_id')
+            ->join(
+                array('t' => $tagTable),
+                't.tag_id = relation.tag_id',
+                array('tag_id',  'status', 'tag_name' => 'name')
+            );
+
+        return $this;
     }
 }

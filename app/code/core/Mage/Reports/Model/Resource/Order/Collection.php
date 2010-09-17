@@ -35,15 +35,14 @@
 class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Resource_Order_Collection
 {
     /**
-     * Enter description here ...
+     * Is live
      *
-     * @var unknown
+     * @var boolean
      */
     protected $_isLive   = false;
 
     /**
      * Check range for live mode
-     *
      *
      * @param unknown_type $range
      * @return Mage_Reports_Model_Resource_Order_Collection
@@ -110,7 +109,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         $this->getSelect()->columns(array(
             'quantity' => 'COUNT(main_table.entity_id)',
             'range' => $this->_getRangeExpressionForAttribute($range, 'created_at'),
-        ))->order('range', 'asc')
+        ))->order('range')
             ->group('range');
 
         $this->addFieldToFilter('created_at', $this->getDateRange($range, $customStart, $customEnd))
@@ -133,7 +132,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
             'revenue' => 'SUM(main_table.total_revenue_amount)',
             'quantity' => 'SUM(main_table.orders_count)',
             'range' => $this->_getRangeExpressionForAttribute($range, 'main_table.period'),
-        ))->order('range', 'asc')
+        ))->order('range')
         ->group('range');
 
         $this->getSelect()->where(
@@ -152,7 +151,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * Get range expression
      *
      * @param unknown_type $range
      * @return unknown
@@ -165,22 +164,21 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         switch ($range)
         {
             case '24h':
-                $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-%d %H:00\')';
-
+                $expression = $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d %H:%i');
                 break;
             case '7d':
             case '1m':
-               $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m-%d\')';
+               $expression = $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d');
                break;
             case '1y':
             case '2y':
             case 'custom':
             default:
-                $expression = 'DATE_FORMAT({{attribute}}, \'%Y-%m\')';
+                $expression = $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m');
                 break;
         }
 
-        return $expression;
+        return $expression->__toString();
     }
 
     /**
@@ -197,12 +195,12 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * Get Date range
      *
-     * @param unknown_type $range
-     * @param unknown_type $customStart
-     * @param unknown_type $customEnd
-     * @param unknown_type $returnObjects
+     * @param string $range
+     * @param string $customStart
+     * @param string $customEnd
+     * @param boolean $returnObjects
      * @return unknown
      */
     public function getDateRange($range, $customStart, $customEnd, $returnObjects = false)
@@ -259,25 +257,18 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         if ($returnObjects) {
             return array($dateStart, $dateEnd);
         } else {
-            return array('from'=>$dateStart, 'to'=>$dateEnd, 'datetime'=>true);
+            return array('from' => $dateStart, 'to' => $dateEnd, 'datetime' => true);
         }
     }
 
     /**
-     * Enter description here ...
+     * Add item count expression
      *
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
     public function addItemCountExpr()
     {
-        //        $orderItemEntityTypeId = Mage::getResourceSingleton('sales/order_item')->getTypeId();
-//        $this->getSelect()->join(
-//                array('items'=>Mage::getResourceSingleton('sales/order_item')->getEntityTable()),
-//                'items.parent_id=e.entity_id and items.entity_type_id='.$orderItemEntityTypeId,
-//                array('items_count'=>new Zend_Db_Expr('COUNT(items.entity_id)'))
-//            )
-//            ->group('e.entity_id');
-        $this->getSelect()->columns(array('items_count'=>'total_item_count'), 'main_table');
+        $this->getSelect()->columns(array('items_count' => 'total_item_count'), 'main_table');
         return $this;
     }
 
@@ -309,22 +300,33 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         $this->setMainTable('sales/order');
         $this->removeAllFieldsFromSelect();
 
+        $adapter = $this->getConnection();
+
+        $baseSubtotalRefunded     = $adapter->getCheckSql('main_table.base_subtotal_refunded', 0, 'main_table.base_subtotal_refunded');
+        $baseSubtotalCanceled     = $adapter->getCheckSql('main_table.base_subtotal_canceled', 0, 'main_table.base_subtotal_canceled');
+        $baseDiscountAmount       = $adapter->getCheckSql('main_table.base_discount_amount', 0, 'main_table.base_discount_amount');
+        $baseDiscountRefunded     = $adapter->getCheckSql('main_table.base_discount_refunded', 0, 'main_table.base_discount_refunded');
+        $baseTaxRefunded          = $adapter->getCheckSql('main_table.base_tax_refunded', 0, 'main_table.base_tax_refunded');
+        $baseTaxCanceled          = $adapter->getCheckSql('main_table.base_tax_canceled', 0, 'main_table.base_tax_canceled');
+        $baseShippingRefunded     = $adapter->getCheckSql('main_table.base_shipping_refunded', 0, 'main_table.base_shipping_refunded');
+        $baseShippingCanceled     = $adapter->getCheckSql('main_table.base_shipping_canceled', 0, 'main_table.base_shipping_canceled');
+
         if ($isFilter == 0) {
-            $this->getSelect()->columns(array(
-                'revenue' => 'SUM((main_table.base_subtotal-IFNULL(main_table.base_subtotal_refunded,0)-IFNULL(main_table.base_subtotal_canceled,0)-ABS(IFNULL(main_table.base_discount_amount,0))+IFNULL(main_table.base_discount_refunded,0))*main_table.base_to_global_rate)',
-                'tax' => 'SUM((main_table.base_tax_amount-IFNULL(main_table.base_tax_refunded,0)-IFNULL(main_table.base_tax_canceled,0))*main_table.base_to_global_rate)',
-                'shipping' => 'SUM((main_table.base_shipping_amount-IFNULL(main_table.base_shipping_refunded,0)-IFNULL(main_table.base_shipping_canceled,0))*main_table.base_to_global_rate)',
-            ));
+            $sumArgument      = 'main_table.base_to_global_rate';
+            $revenueArgument  = "(main_table.base_subtotal - {$baseSubtotalRefunded} - {$baseSubtotalCanceled} - ABS({$baseDiscountAmount}) + {$baseDiscountRefunded}) * {$sumArgument}";
+            $taxArgument      = "(main_table.base_tax_amount - {$baseTaxRefunded} - {$baseTaxCanceled}) * {$sumArgument}";
+            $shippingArgument = "(main_table.base_shipping_amount - {$baseShippingRefunded} - {$baseShippingCanceled}) * {$sumArgument}";
         } else {
-            $this->getSelect()->columns(array(
-                'revenue' => 'SUM((main_table.base_subtotal-IFNULL(main_table.base_subtotal_refunded,0)-IFNULL(main_table.base_subtotal_canceled,0)-ABS(IFNULL(main_table.base_discount_amount,0))+IFNULL(main_table.base_discount_refunded,0)))',
-                'tax' => 'SUM((main_table.base_tax_amount-IFNULL(main_table.base_tax_refunded,0)-IFNULL(main_table.base_tax_canceled,0)))',
-                'shipping' => 'SUM((main_table.base_shipping_amount-IFNULL(main_table.base_shipping_refunded,0)-IFNULL(main_table.base_shipping_canceled,0)))',
-            ));
+            $revenueArgument = "(main_table.base_subtotal - {$baseSubtotalRefunded} - {$baseSubtotalCanceled} - ABS({$baseDiscountAmount}) + {$baseDiscountRefunded})";
+            $taxArgument     = "(main_table.base_tax_amount - {$baseTaxRefunded} - {$baseTaxCanceled})";
+            $shippingArgument= "(main_table.base_shipping_amount - {$baseShippingRefunded} - {$baseShippingCanceled})";
         }
 
         $this->getSelect()->columns(array(
-                'quantity' => 'COUNT(main_table.entity_id)',
+            'revenue'   => "SUM({$revenueArgument})",
+            'tax'       => "SUM({$taxArgument})",
+            'shipping'  => "SUM({$shippingArgument})",
+            'quantity' => 'COUNT(main_table.entity_id)'
         ));
 
         $this->addFieldToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED));
@@ -344,8 +346,8 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         $this->removeAllFieldsFromSelect();
 
         $this->getSelect()->columns(array(
-            'revenue' => 'SUM(main_table.total_revenue_amount)',
-            'tax' => 'SUM(main_table.total_tax_amount_actual)',
+            'revenue'  => 'SUM(main_table.total_revenue_amount)',
+            'tax'      => 'SUM(main_table.total_tax_amount_actual)',
             'shipping' => 'SUM(main_table.total_shipping_amount_actual)',
             'quantity' => 'SUM(orders_count)',
         ));
@@ -376,14 +378,15 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         if (empty($statuses)) {
             $statuses = array(0);
         }
+        $adapter = $this->getConnection();
 
         if (Mage::getStoreConfig('sales/dashboard/use_aggregated_data')) {
             $this->setMainTable('sales/order_aggregated_created');
             $this->removeAllFieldsFromSelect();
-
+            $averageExpr = $adapter->getCheckSql('SUM(main_table.orders_count) > 0', 'SUM(main_table.total_revenue_amount)/SUM(main_table.orders_count)', 0);
             $this->getSelect()->columns(array(
                 'lifetime' => 'SUM(main_table.total_revenue_amount)',
-                'average'  => "IF(SUM(main_table.orders_count) > 0, SUM(main_table.total_revenue_amount)/SUM(main_table.orders_count), 0)"
+                'average'  => $averageExpr
             ));
 
             if (!$isFilter) {
@@ -395,25 +398,30 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         } else {
             $this->setMainTable('sales/order');
             $this->removeAllFieldsFromSelect();
-            $expr = 'IFNULL(main_table.base_subtotal, 0) - IFNULL(main_table.base_subtotal_refunded, 0)'
-                . ' - IFNULL(main_table.base_subtotal_canceled, 0) - ABS(IFNULL(main_table.base_discount_amount, 0))'
-                . ' + IFNULL(main_table.base_discount_refunded, 0)';
 
-            $this->getSelect()->columns(array(
-                'lifetime' => "SUM({$expr})",
-                'average'  => "AVG({$expr})"
-            ));
-            $this->getSelect()->where('main_table.status NOT IN(?)', $statuses)
+            $baseSubtotal           = $adapter->getCheckSql('main_table.base_subtotal', 0, 'main_table.base_subtotal');
+            $baseSubtotalRefunded   = $adapter->getCheckSql('main_table.base_subtotal_refunded', 0, 'main_table.base_subtotal_refunded');
+            $baseSubtotalCanceled   = $adapter->getCheckSql('main_table.base_subtotal_canceled', 0, 'main_table.base_subtotal_canceled');
+            $baseDiscountRefunded   = $adapter->getCheckSql('main_table.base_discount_refunded', 0, 'main_table.base_discount_refunded');
+            $expr = sprintf('%s - %s - %s - ABS(%s) + %s',
+                $baseSubtotal, $baseSubtotalRefunded, $baseSubtotalCanceled, $baseSubtotalCanceled, $baseDiscountRefunded);
+
+            $this->getSelect()
+                ->columns(array(
+                    'lifetime' => "SUM({$expr})",
+                    'average'  => "AVG({$expr})"
+                ))
+                ->where('main_table.status NOT IN(?)', $statuses)
                 ->where('main_table.state NOT IN(?)', array(Mage_Sales_Model_Order::STATE_NEW, Mage_Sales_Model_Order::STATE_PENDING_PAYMENT));
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set date range
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
     public function setDateRange($from, $to)
@@ -422,70 +430,56 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
             ->addFieldToFilter('created_at', array('from' => $from, 'to' => $to))
             ->addFieldToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED))
             ->getSelect()
-                ->columns(array('orders'=>'COUNT(DISTINCT(main_table.entity_id))'))
+                ->columns(array('orders' => 'COUNT(DISTINCT(main_table.entity_id))'))
                 ->group('("*")');
 
-        /**
-         * getting qty count for each order
-         */
-
-//        $orderItem = Mage::getResourceSingleton('sales/order_item');
-//        /* @var $orderItem Mage_Sales_Model_Entity_Quote */
-//        $attr = $orderItem->getAttribute('parent_id');
-//        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-//        $attrId = $attr->getAttributeId();
-//        $tableName = $attr->getBackend()->getTable();
-//
-//        $this->getSelect()
-//            ->joinLeft(array("order_items" => $tableName),
-//                "order_items.parent_id = e.entity_id and order_items.entity_type_id=".$orderItem->getTypeId(), array());
-//
-//        $attr = $orderItem->getAttribute('qty_ordered');
-//        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-//        $attrId = $attr->getAttributeId();
-//        $tableName = $attr->getBackend()->getTable();
-//        $fieldName = $attr->getBackend()->isStatic() ? 'qty_ordered' : 'value';
-//
-//        $this->getSelect()
-//            ->joinLeft(array("order_items2" => $tableName),
-//                "order_items2.entity_id = `order_items`.entity_id and order_items2.attribute_id = {$attrId}", array())
-//            ->columns(array("items" => "sum(order_items2.{$fieldName})"));
-
-        $this->getSelect()->columns(array("items" => 'SUM(' . $this->getConnection()->quoteIdentifier('main_table.total_qty_ordered') . ')'));
+        $this->getSelect()->columns(array("items" => 'SUM(main_table.total_qty_ordered)'));
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set store ids
      *
-     * @param unknown_type $storeIds
+     * @param array $storeIds
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
     public function setStoreIds($storeIds)
     {
         $vals = array_values($storeIds);
+        $adapter = $this->getConnection();
+        $baseSubtotalInvoiced = $adapter->getCheckSql('main_table.base_subtotal_invoiced', 0, 'main_table.base_subtotal_invoiced');
+        $baseDiscountRefunded = $adapter->getCheckSql('main_table.base_discount_refunded', 0, 'main_table.base_discount_refunded');
+        $baseSubtotalRefunded = $adapter->getCheckSql('main_table.base_subtotal_refunded', 0, 'main_table.base_subtotal_refunded');
+        $baseDiscountInvoiced = $adapter->getCheckSql('main_table.base_discount_invoiced', 0, 'main_table.base_discount_invoiced');
+        $baseTotalInvocedCost = $adapter->getCheckSql('main_table.base_total_invoiced_cost', 0, 'main_table.base_discount_invoiced');
         if (count($storeIds) >= 1 && $vals[0] != '') {
             $this->getSelect()->columns(array(
-                'subtotal' => 'SUM(main_table.base_subtotal)',
-                'tax' => 'SUM(main_table.base_tax_amount)',
-                'shipping' => 'SUM(main_table.base_shipping_amount)',
-                'discount' => 'SUM(main_table.base_discount_amount)',
-                'total' => 'SUM(main_table.base_grand_total)',
-                'invoiced' => 'SUM(main_table.base_total_paid)',
-                'refunded' => 'SUM(main_table.base_total_refunded)',
-                'profit' => 'SUM(IFNULL(main_table.base_subtotal_invoiced, 0)) + SUM(IFNULL(main_table.base_discount_refunded, 0)) - SUM(IFNULL(main_table.base_subtotal_refunded, 0)) - SUM(IFNULL(main_table.base_discount_invoiced, 0)) - SUM(IFNULL(main_table.base_total_invoiced_cost, 0))',
+                'subtotal'  => 'SUM(main_table.base_subtotal)',
+                'tax'       => 'SUM(main_table.base_tax_amount)',
+                'shipping'  => 'SUM(main_table.base_shipping_amount)',
+                'discount'  => 'SUM(main_table.base_discount_amount)',
+                'total'     => 'SUM(main_table.base_grand_total)',
+                'invoiced'  => 'SUM(main_table.base_total_paid)',
+                'refunded'  => 'SUM(main_table.base_total_refunded)',
+                'profit'    => "SUM($baseSubtotalInvoiced) "
+                                . "+ SUM({$baseDiscountRefunded}) - SUM({$baseSubtotalRefunded}) "
+                                . "- SUM({$baseDiscountInvoiced}) - SUM({$baseTotalInvocedCost})"
             ));
         } else {
             $this->getSelect()->columns(array(
-                'subtotal' => 'SUM(main_table.base_subtotal * main_table.base_to_global_rate)',
-                'tax' => 'SUM(main_table.base_tax_amount * main_table.base_to_global_rate)',
-                'shipping' => 'SUM(main_table.base_shipping_amount * main_table.base_to_global_rate)',
-                'discount' => 'SUM(main_table.base_discount_amount * main_table.base_to_global_rate)',
-                'total' => 'SUM(main_table.base_grand_total * main_table.base_to_global_rate)',
-                'invoiced' => 'SUM(main_table.base_total_paid * main_table.base_to_global_rate)',
-                'refunded' => 'SUM(main_table.base_total_refunded * main_table.base_to_global_rate)',
-                'profit' => 'SUM(IFNULL(main_table.base_subtotal_invoiced, 0)* main_table.base_to_global_rate) + SUM(IFNULL(main_table.base_discount_refunded, 0)* main_table.base_to_global_rate) - SUM(IFNULL(main_table.base_subtotal_refunded, 0)* main_table.base_to_global_rate) - SUM(IFNULL(main_table.base_discount_invoiced, 0)* main_table.base_to_global_rate) - SUM(IFNULL(main_table.base_total_invoiced_cost, 0)* main_table.base_to_global_rate)',
+                'subtotal'  => 'SUM(main_table.base_subtotal * main_table.base_to_global_rate)',
+                'tax'       => 'SUM(main_table.base_tax_amount * main_table.base_to_global_rate)',
+                'shipping'  => 'SUM(main_table.base_shipping_amount * main_table.base_to_global_rate)',
+                'discount'  => 'SUM(main_table.base_discount_amount * main_table.base_to_global_rate)',
+                'total'     => 'SUM(main_table.base_grand_total * main_table.base_to_global_rate)',
+                'invoiced'  => 'SUM(main_table.base_total_paid * main_table.base_to_global_rate)',
+                'refunded'  => 'SUM(main_table.base_total_refunded * main_table.base_to_global_rate)',
+                'profit'    => "SUM({$baseSubtotalInvoiced} *  main_table.base_to_global_rate) "
+                                . "+ SUM({$baseDiscountRefunded} * main_table.base_to_global_rate) "
+                                . "- SUM({$baseSubtotalRefunded} * main_table.base_to_global_rate) "
+                                . "- SUM({$baseDiscountInvoiced} * main_table.base_to_global_rate) "
+                                . "- SUM({$baseTotalInvocedCost} * main_table.base_to_global_rate)"
             ));
         }
 
@@ -507,12 +501,14 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     /**
      * Join Customer Name (concat)
      *
-     * @param unknown_type $alias
+     * @param string $alias
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
     public function joinCustomerName($alias = 'name')
     {
-        $this->getSelect()->columns(array($alias => 'CONCAT(main_table.customer_firstname," ", main_table.customer_lastname)'));
+        $fields      = array('main_table.customer_firstname', 'main_table.customer_lastname');
+        $fieldConcat = $this->getConnection()->getConcatSql($fields, ' ');
+        $this->getSelect()->columns(array($alias => $fieldConcat));
         return $this;
     }
 
@@ -525,7 +521,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     {
         $this->addFieldToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED));
         $this->getSelect()
-            ->columns(array("orders_count" => "COUNT(main_table.entity_id)"));
+            ->columns(array('orders_count' => 'COUNT(main_table.entity_id)'));
 
         return $this;
     }
@@ -559,16 +555,19 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     public function addSumAvgTotals($storeId = 0)
     {
+        $adapter = $this->getConnection();
+        $baseSubtotalRefunded = $adapter->getCheckSql('main_table.base_subtotal_refunded', 0, 'main_table.base_subtotal_refunded');
+        $baseSubtotalCanceled = $adapter->getCheckSql('main_table.base_subtotal_canceled', 0, 'main_table.base_subtotal_canceled');
         /**
          * calculate average and total amount
          */
         $expr = ($storeId == 0)
-            ? '(main_table.base_subtotal-IFNULL(main_table.base_subtotal_refunded,0)-IFNULL(main_table.base_subtotal_canceled,0))*main_table.base_to_global_rate'
-            : 'main_table.base_subtotal-IFNULL(main_table.base_subtotal_canceled,0)-IFNULL(main_table.base_subtotal_refunded,0)';
+            ? "(main_table.base_subtotal - {$baseSubtotalRefunded} - {$baseSubtotalCanceled}) * main_table.base_to_global_rate"
+            : "main_table.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
 
         $this->getSelect()
-            ->columns(array("orders_avg_amount" => "AVG({$expr})"))
-            ->columns(array("orders_sum_amount" => "SUM({$expr})"));
+            ->columns(array('orders_avg_amount' => "AVG({$expr})"))
+            ->columns(array('orders_sum_amount' => "SUM({$expr})"));
 
         return $this;
     }
@@ -579,33 +578,31 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      * @param string $dir
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
-    public function orderByTotalAmount($dir = 'desc')
+    public function orderByTotalAmount($dir = self::SORT_ORDER_DESC)
     {
-        $this->getSelect()
-            ->order("orders_sum_amount {$dir}");
+        $this->getSelect()->order('orders_sum_amount ' . $dir);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Order by orders count
      *
      * @param unknown_type $dir
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
-    public function orderByOrdersCount($dir = 'desc')
+    public function orderByOrdersCount($dir = self::SORT_ORDER_DESC)
     {
-        $this->getSelect()
-            ->order("orders_count {$dir}");
+        $this->getSelect()->order('orders_count ' . $dir);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Order by customer registration
      *
      * @param unknown_type $dir
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
-    public function orderByCustomerRegistration($dir = 'desc')
+    public function orderByCustomerRegistration($dir = self::SORT_ORDER_DESC)
     {
         $this->setOrder('customer_id', $dir);
         return $this;
@@ -617,14 +614,14 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      * @param string $dir
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
-    public function orderByCreatedAt($dir = 'desc')
+    public function orderByCreatedAt($dir = self::SORT_ORDER_DESC)
     {
         $this->setOrder('created_at', $dir);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
      * @return unknown
      */

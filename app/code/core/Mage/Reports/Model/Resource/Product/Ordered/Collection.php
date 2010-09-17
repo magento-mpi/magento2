@@ -35,17 +35,17 @@
 class Mage_Reports_Model_Resource_Product_Ordered_Collection extends Mage_Reports_Model_Resource_Product_Collection
 {
     /**
-     * Enter description here ...
+     * Join fields
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param int $from
+     * @param int $to
      * @return Mage_Reports_Model_Resource_Product_Ordered_Collection
      */
     protected function _joinFields($from = '', $to = '')
     {
         $this->addAttributeToSelect('*')
             ->addOrderedQty($from, $to)
-            ->setOrder('ordered_qty', 'desc');
+            ->setOrder('ordered_qty', self::SORT_ORDER_DESC);
 
         return $this;
     }
@@ -53,8 +53,8 @@ class Mage_Reports_Model_Resource_Product_Ordered_Collection extends Mage_Report
     /**
      * Enter description here ...
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param int $from
+     * @param int $to
      * @return Mage_Reports_Model_Resource_Product_Ordered_Collection
      */
     public function setDateRange($from, $to)
@@ -65,9 +65,9 @@ class Mage_Reports_Model_Resource_Product_Ordered_Collection extends Mage_Report
     }
 
     /**
-     * Enter description here ...
+     * Set store ids
      *
-     * @param unknown_type $storeIds
+     * @param array s$storeIds
      * @return Mage_Reports_Model_Resource_Product_Ordered_Collection
      */
     public function setStoreIds($storeIds)

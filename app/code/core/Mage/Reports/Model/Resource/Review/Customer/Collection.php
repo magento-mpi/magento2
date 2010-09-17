@@ -35,45 +35,54 @@
 class Mage_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review_Model_Resource_Review_Collection
 {
     /**
-     * Enter description here ...
+     * Join customers
      *
      * @return Mage_Reports_Model_Resource_Review_Customer_Collection
      */
     public function joinCustomers()
     {
+        $adapter  = $this->getSelect()->getAdapter();
         $customer = Mage::getResourceSingleton('customer/customer');
         //TODO: add full name logic
-        $firstnameAttr = $customer->getAttribute('firstname');
+        $firstnameAttr   = $customer->getAttribute('firstname');
         $firstnameAttrId = $firstnameAttr->getAttributeId();
-        $firstnameTable = $firstnameAttr->getBackend()->getTable();
+        $firstnameTable  = $firstnameAttr->getBackend()->getTable();
 
+        $attrCondition = array('table_customer_firstname.entity_id = detail.customer_id');
         if ($firstnameAttr->getBackend()->isStatic()) {
             $firstnameField = 'firstname';
-            $attrCondition = '';
         } else {
             $firstnameField = 'value';
-            $attrCondition = ' AND _table_customer_firstname.attribute_id = '.$firstnameAttrId;
+            $attrCondition[] = $adapter->quoteInto('table_customer_firstname.attribute_id = ?', $firstnameAttrId);
         }
 
-        $this->getSelect()->joinInner(array('_table_customer_firstname' => $firstnameTable),
-            '_table_customer_firstname.entity_id=detail.customer_id'.$attrCondition, array());
+        $this->getSelect()->joinInner(
+            array('table_customer_firstname' => $firstnameTable),
+            implode(' AND ', $attrCondition),
+            array());
 
-        $lastnameAttr = $customer->getAttribute('lastname');
+        $lastnameAttr   = $customer->getAttribute('lastname');
         $lastnameAttrId = $lastnameAttr->getAttributeId();
-        $lastnameTable = $lastnameAttr->getBackend()->getTable();
+        $lastnameTable  = $lastnameAttr->getBackend()->getTable();
 
+        $attrCondition = array('table_customer_lastname.entity_id = detail.customer_id');
         if ($lastnameAttr->getBackend()->isStatic()) {
             $lastnameField = 'lastname';
-            $attrCondition = '';
         } else {
             $lastnameField = 'value';
-            $attrCondition = ' AND _table_customer_lastname.attribute_id = '.$lastnameAttrId;
+            $attrCondition[] = $adapter->quoteInto('table_customer_lastname.attribute_id = ?', $lastnameAttrId);
         }
 
-        $this->getSelect()->joinInner(array('_table_customer_lastname' => $lastnameTable),
-            '_table_customer_lastname.entity_id=detail.customer_id'.$attrCondition, array())
+        $customerName = $this->getConnection()->getConcatSql(array(
+            "table_customer_firstname.{$firstnameField}",
+            "table_customer_lastname.{$lastnameField}"
+        ), ' ');
+        $this->getSelect()->joinInner(
+            array('table_customer_lastname' => $lastnameTable),
+             implode(' AND ', $attrCondition),
+            array())
             ->columns(array(
-                        'customer_name' => "CONCAT(_table_customer_firstname.{$firstnameField}, ' ', _table_customer_lastname.{$lastnameField})",
+                        'customer_name' => $customerName,
                         'review_cnt' => "COUNT(main_table.review_id)"))
             ->group('detail.customer_id');
 
@@ -81,9 +90,9 @@ class Mage_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
-     * @return unknown
+     * @return string
      */
     public function getSelectCountSql()
     {
@@ -92,10 +101,10 @@ class Mage_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->columns("COUNT(DISTINCT detail.customer_id)");
 
         $sql = $countSelect->__toString();
-
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT `detail`.`customer_id`) from ', $sql);
 
         return $sql;
     }

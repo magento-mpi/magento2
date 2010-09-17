@@ -35,7 +35,7 @@
 class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Initialize connection
+     * Initialize main table and identifier field
      *
      */
     protected function _construct()
@@ -58,8 +58,8 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
             $this->_getWriteAdapter()->update($this->getMainTable(),
                 array('subject_id' => $customerId, 'subtype' => 0),
                 array(
-                    $this->_getWriteAdapter()->quoteInto('subject_id=?', $visitorId),
-                    $this->_getWriteAdapter()->quoteInto('subtype=?', 1),
+                    $this->_getWriteAdapter()->quoteInto('subject_id = ?', (int)$visitorId),
+                    $this->_getWriteAdapter()->quoteInto('subtype = ?', 1),
                     $this->_getWriteAdapter()->quoteInto('event_type_id IN(?)', $types)
                 )
             );
@@ -77,20 +77,21 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
      * @param int $eventSubjectId
      * @param int $subtype
      * @param array $skipIds
+     * @return Mage_Reports_Model_Resource_Event
      */
-    public function applyLogToCollection(Varien_Data_Collection_Db $collection, $eventTypeId, $eventSubjectId, $subtype, 
+    public function applyLogToCollection(Varien_Data_Collection_Db $collection, $eventTypeId, $eventSubjectId, $subtype,
         $skipIds = array())
     {
         $idFieldName = $collection->getResource()->getIdFieldName();
 
         $derivedSelect = $this->getReadConnection()->select()
             ->from($this->getTable('reports/event'), array('event_id' => new Zend_Db_Expr('MAX(event_id)'), 'object_id'))
-            ->where('event_type_id=?', (int)$eventTypeId)
-            ->where('subject_id=?',    (int)$eventSubjectId)
-            ->where('subtype=?',       (int)$subtype)
+            ->where('event_type_id = ?', (int)$eventTypeId)
+            ->where('subject_id = ?', (int)$eventSubjectId)
+            ->where('subtype = ?', (int)$subtype)
             ->where('store_id IN(?)', $this->getCurrentStoreIds())
-            ->group('object_id')
-        ;
+            ->group('object_id');
+
         if ($skipIds) {
             if (!is_array($skipIds)) {
                 $skipIds = array((int)$skipIds);
@@ -99,8 +100,13 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
         }
 
         $collection->getSelect()
-            ->joinInner(array('evt' => new Zend_Db_Expr("({$derivedSelect})")), "`{$idFieldName}`=evt.object_id", array())
-            ->order('evt.event_id DESC');
+            ->joinInner(
+                array('evt' => new Zend_Db_Expr("({$derivedSelect})")),
+                "{$idFieldName} = evt.object_id",
+                array())
+            ->order('evt.event_id ' . Varien_Db_Select::SQL_DESC);
+
+        return $this;
     }
 
     /**
@@ -144,6 +150,7 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
         foreach ($stores as $key => $store) {
             $stores[$key] = (int)$store;
         }
+
         return $stores;
     }
 
@@ -163,7 +170,7 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
                     'event_table.subject_id = visitor_table.visitor_id',
                     array())
                 ->where('visitor_table.visitor_id IS NULL')
-                ->where('event_table.subtype=?', 1)
+                ->where('event_table.subtype = ?', 1)
                 ->limit(1000);
             $eventIds = $this->_getReadAdapter()->fetchCol($select);
 
@@ -171,11 +178,9 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
                 break;
             }
 
-            $this->_getWriteAdapter()->delete(
-                $this->getMainTable(),
-                $this->_getWriteAdapter()->quoteInto('event_id IN(?)', $eventIds)
-            );
+            $this->_getWriteAdapter()->delete($this->getMainTable(), array('event_id IN(?)' => $eventIds));
         }
         return $this;
     }
 }
+

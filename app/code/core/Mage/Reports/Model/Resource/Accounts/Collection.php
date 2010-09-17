@@ -35,10 +35,10 @@
 class Mage_Reports_Model_Resource_Accounts_Collection extends Mage_Reports_Model_Resource_Customer_Collection
 {
     /**
-     * Enter description here ...
+     * Join fields
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Accounts_Collection
      */
     protected function _joinFields($from = '', $to = '')
@@ -51,10 +51,10 @@ class Mage_Reports_Model_Resource_Accounts_Collection extends Mage_Reports_Model
     }
 
     /**
-     * Enter description here ...
+     * Set date range
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Accounts_Collection
      */
     public function setDateRange($from, $to)
@@ -65,9 +65,9 @@ class Mage_Reports_Model_Resource_Accounts_Collection extends Mage_Reports_Model
     }
 
     /**
-     * Enter description here ...
+     * Set store ids
      *
-     * @param unknown_type $storeIds
+     * @param array $storeIds
      * @return Mage_Reports_Model_Resource_Accounts_Collection
      */
     public function setStoreIds($storeIds)

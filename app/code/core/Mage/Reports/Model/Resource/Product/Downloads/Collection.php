@@ -35,9 +35,9 @@
 class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
     /**
-     * Enter description here ...
+     * Identifier field name
      *
-     * @var unknown
+     * @var string
      */
     protected $_idFieldName    = 'link_id';
 
@@ -48,10 +48,11 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
      */
     public function addSummary()
     {
+        $linkExpr = $this->getConnection()->getCheckSql('l_store.title', 'l.title', 'l_store.title');
         $this->getSelect()
             ->joinInner(
                 array('d' => $this->getTable('downloadable/link_purchased_item')),
-                'e.entity_id=d.product_id',
+                'e.entity_id = d.product_id',
                 array(
                     'purchases' => new Zend_Db_Expr('SUM(d.number_of_downloads_bought)'),
                     'downloads' => new Zend_Db_Expr('SUM(d.number_of_downloads_used)')
@@ -64,10 +65,10 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
             )
             ->joinLeft(
                 array('l_store' => $this->getTable('downloadable/link_title')),
-                $this->getConnection()->quoteInto('l.link_id=l_store.link_id AND l_store.store_id=?',$this->getStoreId()),
-                array('link_title' => 'IFNULL(l_store.title, l.title)')
+                $this->getConnection()->quoteInto('l.link_id = l_store.link_id AND l_store.store_id = ?', (int)$this->getStoreId()),
+                array('link_title' => $linkExpr)
             )
-            ->where('d.number_of_downloads_bought>0 OR d.number_of_downloads_used>0')
+            ->where('d.number_of_downloads_bought > 0 OR d.number_of_downloads_used > 0')
             ->group('d.link_id');
 
         return $this;
@@ -76,11 +77,11 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
     /**
      * Add sorting
      *
-     * @param unknown_type $attribute
-     * @param unknown_type $dir
+     * @param string $attribute
+     * @param string $dir
      * @return Mage_Reports_Model_Resource_Product_Downloads_Collection
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
         if ($attribute == 'purchases' || $attribute == 'downloads' || $attribute == 'link_title') {
             $this->getSelect()->order($attribute . ' ' . $dir);
@@ -93,8 +94,8 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
     /**
      * Add filtering
      *
-     * @param unknown_type $field
-     * @param unknown_type $condition
+     * @param string $field
+     * @param string $condition
      * @return Mage_Reports_Model_Resource_Product_Downloads_Collection
      */
     public function addFieldToFilter($field, $condition = null)

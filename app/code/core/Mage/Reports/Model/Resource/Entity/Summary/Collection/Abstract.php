@@ -53,23 +53,23 @@ class Mage_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends Var
     {
         switch ($periodType) {
             case "24h":
-                $customStart = time()-24*60*60;
-                $customEnd   = time();
+                $customStart = Varien_Date::toTimestamp(true) - 86400;
+                $customEnd   = Varien_Date::toTimestamp(true);
                 break;
 
             case "7d":
-                $customStart = time()-7*24*60*60;
-                $customEnd   = time();
+                $customStart = Varien_Date::toTimestamp(true) - 604800;
+                $customEnd   = Varien_Date::toTimestamp(true);
                 break;
 
             case "30d":
-                $customStart = time()-30*24*60*60;
-                $customEnd   = time();
+                $customStart = Varien_Date::toTimestamp(true) - 2592000;
+                $customEnd   = Varien_Date::toTimestamp(true);
                 break;
 
             case "1y":
-                $customStart = time()-365*24*60*60;
-                $customEnd   = time();
+                $customStart = Varien_Date::toTimestamp(true) - 31536000;
+                $customEnd   = Varien_Date::toTimestamp(true);
                 break;
 
             default:
@@ -88,19 +88,19 @@ class Mage_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends Var
     }
 
     /**
-     * Enter description here ...
+     * Set date period
      *
-     * @param unknown_type $period
+     * @param int $period
      */
     public function setDatePeriod($period)
     {
-        
+
     }
 
     /**
-     * Enter description here ...
+     * Set store filter
      *
-     * @param unknown_type $storeId
+     * @param int $storeId
      * @return Mage_Reports_Model_Resource_Entity_Summary_Collection_Abstract
      */
     public function setStoreFilter($storeId)
@@ -122,7 +122,7 @@ class Mage_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends Var
     }
 
     /**
-     * Enter description here ...
+     * Init collection
      *
      * @return Mage_Reports_Model_Resource_Entity_Summary_Collection_Abstract
      */

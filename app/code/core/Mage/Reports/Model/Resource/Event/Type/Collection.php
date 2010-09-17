@@ -35,7 +35,7 @@
 class Mage_Reports_Model_Resource_Event_Type_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -44,9 +44,9 @@ class Mage_Reports_Model_Resource_Event_Type_Collection extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Return option array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {

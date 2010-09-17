@@ -35,24 +35,24 @@
 class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Resource_Quote_Collection
 {
     /**
-     * Enter description here ...
+     * Join fields
      *
-     * @var unknown
+     * @var array
      */
     protected $_joinedFields     = array();
 
     /**
-     * Enter description here ...
+     * Map
      *
-     * @var unknown
+     * @var array
      */
     protected $_map              = array('fields' => array('store_id' => 'main_table.store_id'));
 
     /**
-     * Enter description here ...
+     * Prepare for abandoned report
      *
-     * @param unknown_type $storeIds
-     * @param unknown_type $filter
+     * @param array $storeIds
+     * @param string $filter
      * @return Mage_Reports_Model_Resource_Quote_Collection
      */
     public function prepareForAbandonedReport($storeIds, $filter = null)
@@ -81,47 +81,54 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * Add customer data
      *
      * @param unknown_type $filter
      * @return Mage_Reports_Model_Resource_Quote_Collection
      */
     public function addCustomerData($filter = null)
     {
-        $customerEntity = Mage::getResourceSingleton('customer/customer');
-        $attrFirstname = $customerEntity->getAttribute('firstname');
+        $customerEntity  = Mage::getResourceSingleton('customer/customer');
+        $attrFirstname   = $customerEntity->getAttribute('firstname');
         $attrFirstnameId = $attrFirstname->getAttributeId();
         $attrFirstnameTableName = $attrFirstname->getBackend()->getTable();
 
-        $attrLastname = $customerEntity->getAttribute('lastname');
-        $attrLastnameId = $attrLastname->getAttributeId();
+        $attrLastname    = $customerEntity->getAttribute('lastname');
+        $attrLastnameId  = $attrLastname->getAttributeId();
         $attrLastnameTableName = $attrLastname->getBackend()->getTable();
 
-        $attrEmail = $customerEntity->getAttribute('email');
+        $attrEmail       = $customerEntity->getAttribute('email');
         $attrEmailTableName = $attrEmail->getBackend()->getTable();
 
+        $adapter = $this->getSelect()->getAdapter();
         $this->getSelect()
             ->joinInner(
-                array('cust_email'=>$attrEmailTableName),
-                'cust_email.entity_id=main_table.customer_id',
-                array('email'=>'cust_email.email')
+                array('cust_email' => $attrEmailTableName),
+                'cust_email.entity_id = main_table.customer_id',
+                array('email' => 'cust_email.email')
             )
             ->joinInner(
-                array('cust_fname'=>$attrFirstnameTableName),
-                'cust_fname.entity_id=main_table.customer_id and cust_fname.attribute_id='.$attrFirstnameId,
+                array('cust_fname' => $attrFirstnameTableName),
+                implode(' AND ', array(
+                    'cust_fname.entity_id = main_table.customer_id',
+                    $adapter->quoteInto('cust_fname.attribute_id = ?', (int)$attrFirstnameId),
+                )),
                 array('firstname'=>'cust_fname.value')
             )
             ->joinInner(
-                array('cust_lname'=>$attrLastnameTableName),
-                'cust_lname.entity_id=main_table.customer_id and cust_lname.attribute_id='.$attrLastnameId,
+                array('cust_lname' => $attrLastnameTableName),
+                implode(' AND ', array(
+                    'cust_lname.entity_id = main_table.customer_id',
+                     $adapter->quoteInto('cust_lname.attribute_id = ?', (int)$attrLastnameId)
+                )),
                 array(
-                    'lastname'=>'cust_lname.value',
-                    'customer_name' => new Zend_Db_Expr('CONCAT(cust_fname.value, " ", cust_lname.value)')
+                    'lastname'      => 'cust_lname.value',
+                    'customer_name' => $adapter->getConcatSql(array('cust_fname.value', 'cust_lname.value'), ' ')
                 )
             );
 
-        $this->_joinedFields['customer_name'] = 'CONCAT(cust_fname.value, " ", cust_lname.value)';
-        $this->_joinedFields['email'] = 'cust_email.email';
+        $this->_joinedFields['customer_name'] =  $adapter->getConcatSql(array('cust_fname.value', 'cust_lname.value'), ' ');
+        $this->_joinedFields['email']         = 'cust_email.email';
 
         if ($filter) {
             if (isset($filter['customer_name'])) {
@@ -136,19 +143,19 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * Add subtotals
      *
-     * @param unknown_type $storeIds
-     * @param unknown_type $filter
+     * @param array $storeIds
+     * @param array $filter
      * @return Mage_Reports_Model_Resource_Quote_Collection
      */
     public function addSubtotal($storeIds = '', $filter = null)
     {
         if (is_array($storeIds)) {
-            $this->getSelect()->columns(array("subtotal" => "(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)"));
+            $this->getSelect()->columns(array('subtotal' => '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)'));
             $this->_joinedFields['subtotal'] = '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)';
         } else {
-            $this->getSelect()->columns(array("subtotal" => "main_table.base_subtotal_with_discount"));
+            $this->getSelect()->columns(array('subtotal' => 'main_table.base_subtotal_with_discount'));
             $this->_joinedFields['subtotal'] = 'main_table.base_subtotal_with_discount';
         }
 
@@ -165,7 +172,7 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
      * @return unknown
      */

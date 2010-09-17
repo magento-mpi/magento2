@@ -35,7 +35,7 @@
 class Mage_Reports_Model_Resource_Review_Collection extends Mage_Review_Model_Resource_Review_Collection
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -44,21 +44,20 @@ class Mage_Reports_Model_Resource_Review_Collection extends Mage_Review_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * add product filter
      *
      * @param unknown_type $productId
      * @return Mage_Reports_Model_Resource_Review_Collection
      */
     public function addProductFilter($productId)
     {
-        $this->_select
-            ->where('main_table.entity_pk_value = ?', $productId);
+        $this->addFieldToFilter('entity_pk_value', array('eq' => (int)$productId));
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Reset select
      *
      * @return Mage_Reports_Model_Resource_Review_Collection
      */
@@ -70,7 +69,7 @@ class Mage_Reports_Model_Resource_Review_Collection extends Mage_Review_Model_Re
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
      * @return unknown
      */
@@ -80,34 +79,26 @@ class Mage_Reports_Model_Resource_Review_Collection extends Mage_Review_Model_Re
         $countSelect->reset(Zend_Db_Select::ORDER);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-
+        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->columns("COUNT(main_table.review_id)");
         $sql = $countSelect->__toString();
-
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(main_table.review_id) from ', $sql);
 
         return $sql;
     }
 
     /**
-     * Enter description here ...
+     * Set order
      *
-     * @param unknown_type $attribute
-     * @param unknown_type $dir
+     * @param string $attribute
+     * @param string $dir
      * @return Mage_Reports_Model_Resource_Review_Collection
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
-        $fields = array(
-            'nickname',
-            'title',
-            'detail',
-            'created_at'
-        );
-
-        if (in_array($attribute, $fields)) {
-                $this->_select->order($attribute . ' ' . $dir);
+        if (in_array($attribute, array('nickname', 'title', 'detail', 'created_at'))) {
+            $this->_select->order($attribute . ' ' . $dir);
         } else {
-                parent::setOrder($attribute, $dir);
+            parent::setOrder($attribute, $dir);
         }
 
         return $this;

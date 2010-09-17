@@ -37,33 +37,47 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     const SELECT_COUNT_SQL_TYPE_CART= 1;
 
     /**
-     * Enter description here ...
+     * Product entity identifier
      *
-     * @var unknown
+     * @var int
      */
     protected $_productEntityId;
 
     /**
-     * Enter description here ...
+     * Product entity table name
      *
-     * @var unknown
+     * @var string
      */
     protected $_productEntityTableName;
 
     /**
-     * Enter description here ...
+     * Product entity type identifier
      *
-     * @var unknown
+     * @var int
      */
     protected $_productEntityTypeId;
 
     /**
-     * Enter description here ...
+     * select count
      *
-     * @var unknown
+     * @var int
      */
     protected $_selectCountSqlType       = 0;
 
+    /**
+     * Init main class options
+     *
+     */
+    public function __construct()
+    {
+        $product = Mage::getResourceSingleton('catalog/product');
+        /* @var $product Mage_Catalog_Model_Entity_Product */
+        $this->setProductEntityId($product->getEntityIdField());
+        $this->setProductEntityTableName($product->getEntityTable());
+        $this->setProductEntityTypeId($product->getTypeId());
+
+        parent::__construct();
+    }
     /**
      * Set Type for COUNT SQL Select
      *
@@ -77,21 +91,21 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Enter description here ...
+     * Set product entity id
      *
-     * @param unknown_type $value
+     * @param int $value
      * @return Mage_Reports_Model_Resource_Product_Collection
      */
-    public function setProductEntityId($value)
+    public function setProductEntityId($entityId)
     {
-        $this->_productEntityId = $value;
+        $this->_productEntityId = (int)$entityId;
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Get product entity id
      *
-     * @return unknown
+     * @return int
      */
     public function getProductEntityId()
     {
@@ -99,9 +113,9 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Enter description here ...
+     * Set product entity table name
      *
-     * @param unknown_type $value
+     * @param string $value
      * @return Mage_Reports_Model_Resource_Product_Collection
      */
     public function setProductEntityTableName($value)
@@ -111,9 +125,9 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Enter description here ...
+     * Get product entity table name
      *
-     * @return unknown
+     * @return string
      */
     public function getProductEntityTableName()
     {
@@ -121,9 +135,9 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Enter description here ...
+     * Set product entity type id
      *
-     * @param unknown_type $value
+     * @param int $value
      * @return Mage_Reports_Model_Resource_Product_Collection
      */
     public function setProductEntityTypeId($value)
@@ -133,9 +147,9 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Enter description here ...
+     * Get product entity tyoe id
      *
-     * @return unknown
+     * @return int
      */
     public function getProductEntityTypeId()
     {
@@ -143,23 +157,9 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Enter description here ...
+     * Join fields
      *
-     */
-    public function __construct()
-    {
-        $product = Mage::getResourceSingleton('catalog/product');
-        /* @var $product Mage_Catalog_Model_Entity_Product */
-        $this->setProductEntityId($product->getEntityIdField());
-        $this->setProductEntityTableName($product->getEntityTable());
-        $this->setProductEntityTypeId($product->getTypeId());
-
-        parent::__construct();
-    }
-
-    /**
-     * Enter description here ...
-     *
+     * @return Mage_Reports_Model_Resource_Product_Collection
      */
     protected function _joinFields()
     {
@@ -168,17 +168,12 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $this->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price');
-        /*$this->getSelect()->columns(array(
-                    'viewed' => 'CONCAT("","")',
-                    'added' => 'CONCAT("","")',
-                    'purchased' => 'CONCAT("","")',
-                    'fulfilled' => 'CONCAT("","")',
-                    'revenue' => 'CONCAT("","")',
-                   ));*/
+
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
      * @return unknown
      */
@@ -209,7 +204,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Enter description here ...
+     * Add carts count
      *
      * @return Mage_Reports_Model_Resource_Product_Collection
      */
@@ -218,7 +213,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $countSelect = clone $this->getSelect();
         $countSelect->reset();
 
-        $countSelect->from(array("quote_items" => $this->getTable('sales/quote_item')), "count(*)")
+        $countSelect->from(array('quote_items' => $this->getTable('sales/quote_item')), 'COUNT(*)')
             ->join(array('quotes' => $this->getTable('sales/quote')),
                 'quotes.entity_id = quote_items.quote_id AND quotes.is_active = 1',
                 array())
@@ -227,44 +222,51 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $this->getSelect()
             ->columns(array("carts" => "({$countSelect})"))
             ->group("e.{$this->getProductEntityId()}")
-            ->having('%s > 0', 'carts');
+            ->having('carts > 0');
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add orders count
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Product_Collection
      */
     public function addOrdersCount($from = '', $to = '')
     {
         $this->getSelect()
-            ->joinLeft(array("order_items" => $this->getTable('sales/order_item')),
-                "order_items.product_id = e.{$this->getProductEntityId()}", array())
-            ->columns(array("orders" => "count(`order_items2`.item_id)"))
+            ->joinLeft(
+                array("order_items" => $this->getTable('sales/order_item')),
+                "order_items.product_id = e.{$this->getProductEntityId()}",
+                array())
+            ->columns(array("orders" => "COUNT(order_items2.item_id)"))
             ->group("e.{$this->getProductEntityId()}");
 
+        $dateFilter = array("order_items2.item_id = order_items.item_id");
         if ($from != '' && $to != '') {
-            $dateFilter = " and order_items2.created_at BETWEEN '{$from}' AND '{$to}'";
-        } else {
-            $dateFilter = '';
+            $from = $this->getConnection()->quote($from);
+            $to   = $this->getConnection()->quote($to);
+
+            $dateFilter[] = sprintf('order_items2.created_at BETWEEN %s AND %s', $from, $to);
         }
 
         $this->getSelect()
-            ->joinLeft(array("order_items2" => $this->getTable('sales/order_item')),
-                "order_items2.item_id = order_items.item_id".$dateFilter, array());
+            ->joinLeft(
+                array("order_items2" => $this->getTable('sales/order_item')),
+                implode(' AND ', $dateFilter),
+                array()
+            );
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add ordered qtys
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Product_Collection
      */
     public function addOrderedQty($from = '', $to = '')
@@ -275,12 +277,18 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $productIdFieldName = 'product_id';
 
         $compositeTypeIds = Mage::getSingleton('catalog/product_type')->getCompositeTypes();
-        $productTypes = $this->getConnection()->quoteInto(' AND (e.type_id NOT IN (?))', $compositeTypeIds);
+        $productJoinCondition     = array(
+            $this->getConnection()->quoteInto('(e.type_id NOT IN (?))', $compositeTypeIds),
+            "e.entity_id = order_items.{$productIdFieldName}",
+            $this->getConnection()->quoteInto('e.entity_type_id = ?', $this->getProductEntityTypeId())
+        );
 
+        $dateFilter = array();
         if ($from != '' && $to != '') {
-            $dateFilter = " AND `order`.created_at BETWEEN '{$from}' AND '{$to}'";
-        } else {
-            $dateFilter = "";
+            $from = $this->getConnection()->quote($from);
+            $to   = $this->getConnection()->quote($to);
+
+            $dateFilter[] = sprintf('order.created_at BETWEEN %s AND %s', $from, $to);
         }
 
         $this->getSelect()->reset()->from(
@@ -288,54 +296,47 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             array('ordered_qty' => "SUM(order_items.{$qtyOrderedFieldName})")
         );
 
-         $_joinCondition = $this->getConnection()->quoteInto(
-                'order.entity_id = order_items.order_id AND order.state<>?', Mage_Sales_Model_Order::STATE_CANCELED
-         );
-         $_joinCondition .= $dateFilter;
-         $this->getSelect()->joinInner(
-            array('order' => $this->getTable('sales/order')),
-            $_joinCondition,
-            array()
+         $dateFilter[] = $this->getConnection()->quoteInto(
+            'order.entity_id = order_items.order_id AND order.state <> ?', Mage_Sales_Model_Order::STATE_CANCELED
          );
 
-
-        $this->getSelect()
-            ->joinInner(array('e' => $this->getProductEntityTableName()),
-                "e.entity_id = order_items.{$productIdFieldName} AND e.entity_type_id = {$this->getProductEntityTypeId()}{$productTypes}")
+         $this->getSelect()
+            ->joinInner(
+                array('order' => $this->getTable('sales/order')),
+                implode(' AND ', $dateFilter),
+                array())
+            ->joinInner(
+                array('e' => $this->getProductEntityTableName()),
+                implode(' AND ', $productJoinCondition))
             ->group('e.entity_id')
-            ->having('%s > 0', carts);
+            ->having('ordered_qty > ?', 0);
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set order
      *
-     * @param unknown_type $attribute
-     * @param unknown_type $dir
+     * @param string $attribute
+     * @param string $dir
      * @return Mage_Reports_Model_Resource_Product_Collection
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
-        switch ($attribute)
-        {
-            case 'carts':
-            case 'orders':
-            case 'ordered_qty':
-                $this->getSelect()->order($attribute . ' ' . $dir);
-                break;
-            default:
-                parent::setOrder($attribute, $dir);
+        if (in_array($attribute, array('carts', 'orders', 'ordered_qty'))) {
+            $this->getSelect()->order($attribute . ' ' . $dir);
+        } else {
+            parent::setOrder($attribute, $dir);
         }
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add views count
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Product_Collection
      */
     public function addViewsCount($from = '', $to = '')
@@ -345,21 +346,25 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
          */
         foreach (Mage::getModel('reports/event_type')->getCollection() as $eventType) {
             if ($eventType->getEventName() == 'catalog_product_view') {
-                $productViewEvent = $eventType->getId();
+                $productViewEvent = (int)$eventType->getId();
                 break;
             }
         }
 
+        $joinCondition = $this->getConnection()->quoteInto(
+            'e.entity_id = table_views.object_id AND e.entity_type_id = ?', $this->getProductEntityTypeId()
+        );
         $this->getSelect()->reset()
             ->from(
-                array('_table_views' => $this->getTable('reports/event')),
-                array('views' => 'COUNT(_table_views.event_id)'))
-            ->join(array('e' => $this->getProductEntityTableName()),
-                "e.entity_id = _table_views.object_id AND e.entity_type_id = {$this->getProductEntityTypeId()}")
-            ->where('_table_views.event_type_id = ?', $productViewEvent)
+                array('table_views' => $this->getTable('reports/event')),
+                array('views' => 'COUNT(table_views.event_id)'))
+            ->join(
+                array('e' => $this->getProductEntityTableName()),
+                $joinCondition)
+            ->where('table_views.event_type_id = ?', $productViewEvent)
             ->group('e.entity_id')
-            ->order('views desc')
-            ->having('%s > 0', 'views');
+            ->order('views ' . self::SORT_ORDER_DESC)
+            ->having('views > 0');
 
         if ($from != '' && $to != '') {
             $this->getSelect()

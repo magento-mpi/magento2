@@ -35,22 +35,21 @@
 class Mage_Reports_Model_Resource_Tag_Customer_Collection extends Mage_Tag_Model_Resource_Customer_Collection
 {
     /**
-     * Enter description here ...
+     * Add target count
      *
      * @return Mage_Reports_Model_Resource_Tag_Customer_Collection
      */
     public function addTagedCount()
     {
         $this->getSelect()
-            ->columns(array('taged' => 'count(tr.tag_relation_id)'));
-            //->order('taged desc');
+            ->columns(array('taged' => 'COUNT(tr.tag_relation_id)'));
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * get select count sql
      *
-     * @return unknown
+     * @return string
      */
     public function getSelectCountSql()
     {
@@ -59,22 +58,22 @@ class Mage_Reports_Model_Resource_Tag_Customer_Collection extends Mage_Tag_Model
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->columns("COUNT(DISTINCT tr.customer_id)");
 
         $sql = $countSelect->__toString();
-
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT tr.customer_id) from ', $sql);
 
         return $sql;
     }
 
     /**
-     * Enter description here ...
+     * Set order
      *
-     * @param unknown_type $attribute
-     * @param unknown_type $dir
+     * @param string $attribute
+     * @param string $dir
      * @return Mage_Reports_Model_Resource_Tag_Customer_Collection
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
         switch( $attribute ) {
             case 'taged':

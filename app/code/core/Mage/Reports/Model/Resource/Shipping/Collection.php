@@ -35,10 +35,10 @@
 class Mage_Reports_Model_Resource_Shipping_Collection extends Mage_Sales_Model_Entity_Order_Collection
 {
     /**
-     * Enter description here ...
+     * Set date range
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Shipping_Collection
      */
     public function setDateRange($from, $to)
@@ -49,16 +49,16 @@ class Mage_Reports_Model_Resource_Shipping_Collection extends Mage_Sales_Model_E
             ->addExpressionAttributeToSelect('orders', 'COUNT(DISTINCT({{entity_id}}))', array('entity_id'))
             ->addAttributeToSelect('shipping_description')
             ->groupByAttribute('shipping_description')
-            ->getSelect()->order('orders desc');
+            ->getSelect()->order('orders ' . self::SORT_ORDER_DESC);
 
-        $this->getSelect()->where("`_table_shipping_description`.`value` <> ''");
+        $this->getSelect()->where("table_shipping_description.value <> ''");
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set store ids
      *
-     * @param unknown_type $storeIds
+     * @param array $storeIds
      * @return Mage_Reports_Model_Resource_Shipping_Collection
      */
     public function setStoreIds($storeIds)

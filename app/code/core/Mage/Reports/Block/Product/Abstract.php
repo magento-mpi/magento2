@@ -99,7 +99,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
     /**
      * Retrieve Index Product Collection
      *
-     * @return Mage_Reports_Model_Mysql4_Product_Index_Collection_Abstract
+     * @return Mage_Reports_Model_Resource_Product_Index_Collection_Abstract
      */
     public function getItemsCollection()
     {

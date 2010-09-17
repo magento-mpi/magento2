@@ -35,8 +35,9 @@
 class Mage_Reports_Model_Resource_Shopcart_Product_Collection extends Mage_Reports_Model_Resource_Product_Collection
 {
     /**
-     * Enter description here ...
+     * Join fields
      *
+     * @return Mage_Reports_Model_Resource_Shopcart_Product_Collection
      */
     protected function _joinFields()
     {
@@ -44,13 +45,15 @@ class Mage_Reports_Model_Resource_Shopcart_Product_Collection extends Mage_Repor
         $this->addAttributeToSelect('price')
             ->addCartsCount()
             ->addOrdersCount();
+
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set date range
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param strin $to
      * @return Mage_Reports_Model_Resource_Shopcart_Product_Collection
      */
     public function setDateRange($from, $to)

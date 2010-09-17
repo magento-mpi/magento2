@@ -35,7 +35,7 @@
 class Mage_Reports_Model_Resource_Tax_Collection extends Mage_Sales_Model_Entity_Order_Collection
 {
     /**
-     * Enter description here ...
+     * Set row identifier field name
      *
      */
     public function _construct()
@@ -45,10 +45,10 @@ class Mage_Reports_Model_Resource_Tax_Collection extends Mage_Sales_Model_Entity
     }
 
     /**
-     * Enter description here ...
+     * Set date range
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Tax_Collection
      */
     public function setDateRange($from, $to)
@@ -66,7 +66,7 @@ class Mage_Reports_Model_Resource_Tax_Collection extends Mage_Sales_Model_Entity
     }
 
     /**
-     * Enter description here ...
+     * Set stpre ods
      *
      * @param unknown_type $storeIds
      * @return Mage_Reports_Model_Resource_Tax_Collection
@@ -76,22 +76,23 @@ class Mage_Reports_Model_Resource_Tax_Collection extends Mage_Sales_Model_Entity
         $vals = array_values($storeIds);
         if (count($storeIds) >= 1 && $vals[0] != '') {
             $this->getSelect()
-                ->where('e.store_id in (?)', (array)$storeIds)
-                ->columns(array('tax'=>'SUM(tax_table.base_real_amount)'));
+                ->where('e.store_id IN(?)', (array)$storeIds)
+                ->columns(array('tax' => 'SUM(tax_table.base_real_amount)'));
         } else {
             $this->addExpressionAttributeToSelect(
-                    'tax',
-                    'SUM(tax_table.base_real_amount*{{base_to_global_rate}})',
-                    array('base_to_global_rate'));
+                'tax',
+                'SUM(tax_table.base_real_amount*{{base_to_global_rate}})',
+                array('base_to_global_rate')
+            );
         }
 
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
-     * @return unknown
+     * @return string
      */
     public function getSelectCountSql()
     {
@@ -102,8 +103,9 @@ class Mage_Reports_Model_Resource_Tax_Collection extends Mage_Sales_Model_Entity
         $countSelect->reset(Zend_Db_Select::COLUMNS);
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::HAVING);
-        $countSelect->columns("count(DISTINCT e.entity_id)");
+        $countSelect->columns("COUNT(DISTINCT e.entity_id)");
         $sql = $countSelect->__toString();
+
         return $sql;
     }
 }

@@ -35,38 +35,38 @@
 class Mage_Reports_Model_Resource_Coupons_Collection extends Mage_Sales_Model_Entity_Order_Collection
 {
     /**
-     * Enter description here ...
+     * From value
      *
-     * @var unknown
+     * @var string
      */
     protected $_from     = '';
 
     /**
-     * Enter description here ...
+     * To value
      *
-     * @var unknown
+     * @var string
      */
     protected $_to       = '';
 
     /**
-     * Enter description here ...
+     * Set date range
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
+     * @param string $from
+     * @param string $to
      * @return Mage_Reports_Model_Resource_Coupons_Collection
      */
     public function setDateRange($from, $to)
     {
         $this->_from = $from;
-        $this->_to = $to;
+        $this->_to   = $to;
         $this->_reset();
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Set store ids
      *
-     * @param unknown_type $storeIds
+     * @param array $storeIds
      * @return Mage_Reports_Model_Resource_Coupons_Collection
      */
     public function setStoreIds($storeIds)
@@ -76,11 +76,11 @@ class Mage_Reports_Model_Resource_Coupons_Collection extends Mage_Sales_Model_En
     }
 
     /**
-     * Enter description here ...
+     * Join fields
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
-     * @param unknown_type $storeIds
+     * @param string $from
+     * @param string $to
+     * @param array $storeIds
      */
     public function joinFields($from, $to, $storeIds = array())
     {
@@ -89,8 +89,8 @@ class Mage_Reports_Model_Resource_Coupons_Collection extends Mage_Sales_Model_En
             ->addAttributeToFilter('coupon_code', array('neq' => ''))
             ->getselect()->columns(array('uses' => 'COUNT(e.entity_id)'))
             ->having('%s > 0', 'uses')
-            ->order('uses desc');
-        //die($this->getSelect());
+            ->order('uses ' . self::SORT_ORDER_DESC);
+
         $storeIds = array_values($storeIds);
         if (count($storeIds) >= 1 && $storeIds[0] != '') {
             $this->addAttributeToFilter('store_id', array('in' => $storeIds));
@@ -123,9 +123,9 @@ class Mage_Reports_Model_Resource_Coupons_Collection extends Mage_Sales_Model_En
     }
 
     /**
-     * Enter description here ...
+     * Get select count sql
      *
-     * @return unknown
+     * @return string
      */
     public function getSelectCountSql()
     {

@@ -42,7 +42,7 @@ class Mage_Reports_Model_Resource_Event_Collection extends Mage_Core_Model_Resou
     protected $_storeIds;
 
     /**
-     * Enter description here ...
+     * Resource initializations
      *
      */
     protected function _construct()
@@ -75,7 +75,7 @@ class Mage_Reports_Model_Resource_Event_Collection extends Mage_Core_Model_Resou
     public function addRecentlyFiler($typeId, $subjectId, $subtype = 0, $ignore = null, $limit = 15)
     {
         $stores = $this->getResource()->getCurrentStoreIds($this->_storeIds);
-        $this->_select
+        $this->getSelect()
             ->where('event_type_id=?', $typeId)
             ->where('subject_id=?', $subjectId)
             ->where('subtype=?', $subtype)
@@ -83,12 +83,12 @@ class Mage_Reports_Model_Resource_Event_Collection extends Mage_Core_Model_Resou
         if ($ignore) {
             if (is_array($ignore)) {
                 $this->_select->where('object_id NOT IN(?)', $ignore);
-            }
-            else {
+            } else {
                 $this->_select->where('object_id<>?', $ignore);
             }
         }
-        $this->_select->group('object_id')
+        $this->getSelect()
+            ->group('object_id')
             ->limit($limit);
         return $this;
     }

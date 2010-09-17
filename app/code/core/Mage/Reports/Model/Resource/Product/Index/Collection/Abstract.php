@@ -106,8 +106,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Collection_Abstract
 
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
             $condition['customer_id'] = Mage::getSingleton('customer/session')->getCustomerId();
-        }
-        else {
+        } else {
             $condition['visitor_id'] = Mage::getSingleton('log/visitor')->getId();
         }
 
@@ -120,10 +119,10 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Collection_Abstract
      * @param string $dir
      * @return Mage_Reports_Model_Resource_Product_Index_Collection_Abstract
      */
-    public function setAddedAtOrder($dir = 'desc')
+    public function setAddedAtOrder($dir = self::SORT_ORDER_DESC)
     {
         if ($this->getFlag('is_idx_table_joined')) {
-            $this->getSelect()->order('added_at '.$dir);
+            $this->getSelect()->order('added_at ' . $dir);
         }
         return $this;
     }
