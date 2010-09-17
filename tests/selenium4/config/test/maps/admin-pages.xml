@@ -248,21 +248,24 @@
                 </user>
             </users>
         </permissions>
-                <scope>
+        <scope>
             <manage_stores>
                 <buttons>
                     <create_web_site>//button[span="Create Website"]</create_web_site>
                     <create_web_store>//button[span="Create Store"]</create_web_store>
-                    <create_store_view>//button[span="Create Store View"]</create_store_view>
+                    <create_web_store_view>//button[span="Create Store View"]</create_web_store_view>
                     <reset_filter>//button[span="Reset Filter"]</reset_filter>
                     <search>//button[span="Search"]</search>
                 </buttons>
                 <filters>
                      <site_name>//input[@id='filter_website_title']</site_name>
+                     <store_name>//input[@id='filter_group_title']</store_name>
+                     <store_view_name>//input[@id='filter_store_title']</store_view_name>
                 </filters>
                 <elements>
                     <store_table>//table[@id='storeGrid_table']</store_table>
                     <body>//table[@id='storeGrid_table']</body>
+                    <no_records>No records found.</no_records>
                 </elements>
             </manage_stores>
             <site>
@@ -281,6 +284,36 @@
                     <website_code_value>//input[@id='website_code' and @value='%s']</website_code_value>
                 </elements>
             </site>
+            <store>
+                <buttons>
+                    <save>//button[span="Save Store"]</save>
+                    <delete>//button[span="Delete Store"]</delete>
+                    <back>//button[span="Back"]</back>
+                </buttons>
+                <inputs>
+                    <name>group_name</name>
+                </inputs>
+                <selectors>
+                    <site>//select[@id='group_website_id']</site>
+                    <root_category>//select[@id='group_root_category_id']</root_category>
+                </selectors>
+            </store>
+            <store_view>
+                <buttons>
+                    <save>//button[span="Save Store View"]</save>
+                    <delete>//button[span="Delete Store View"]</delete>
+                    <back>//button[span="Back"]</back>
+                </buttons>
+                <inputs>
+                    <name>store_name</name>
+                    <code>store_code</code>
+                    <sort_order>store_sort_order</sort_order>
+                </inputs>
+                <selectors>
+                    <store>//select[@id='store_group_id']</store>
+                    <status>//select[@id='store_is_active']</status>
+                </selectors>
+            </store_view>
             <create_backup>
                 <selectors>
                     <create_backup>//select[@id='store_create_backup']</create_backup>

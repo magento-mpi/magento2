@@ -20,6 +20,5 @@ class Admin_Scope_Store extends TestCaseAbstract
             $this->model->doDelete();
             $this->model->doCreate();
         }
-        
     }
 }

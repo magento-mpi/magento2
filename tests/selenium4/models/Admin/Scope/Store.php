@@ -13,7 +13,7 @@ class Model_Admin_Scope_Store extends Model_Admin {
         parent::loadConfigData();
 
         $this->storeData = array(
-            'name'         => Core::getEnvConfig('backend/scope/store/storename'),
+            'name'         => Core::getEnvConfig('backend/scope/store/name'),
             'siteName'     => Core::getEnvConfig('backend/scope/site/name'),
             'rootCategory' => Core::getEnvConfig('backend/managecategories/rootname'),
         );
@@ -27,15 +27,17 @@ class Model_Admin_Scope_Store extends Model_Admin {
      */
     public function doCreate($params = array())
     {
+        $this->printDebug('doStoreCreate started...');
         $storeData = $params ? $params : $this->storeData;
 
         $this->clickAndWait(
             $this->getUiElement("/admin/topmenu/system/managestores/link/openpage")
         );
-
-        $this->setUiNamespace('admin/pages/system/scope/store');
+        //Press Create Web Store button
         $this->clickAndWait($this->getUiElement("/admin/pages/system/scope/manage_stores/buttons/create_web_store"));
+
         //Fill all fields
+        $this->setUiNamespace('admin/pages/system/scope/store');
         $this->select($this->getUiElement("selectors/site"), $storeData['siteName']);
         $this->type($this->getUiElement("inputs/name"), $storeData['name']);
         $this->select($this->getUiElement("selectors/root_category"), $storeData['rootCategory']);
@@ -44,15 +46,16 @@ class Model_Admin_Scope_Store extends Model_Admin {
         // check for error message
         if ($this->waitForElement($this->getUiElement('/admin/messages/error'),1)) {
             $etext = $this->getText($this->getUiElement('/admin/messages/error'));
-            $this->setVerificationErrors('doStoreCreate: ' . $etext);
+            $this->setVerificationErrors('doStoreViewCreate: ' . $etext);
         } else {
           // Check for success message
           if ($this->waitForElement($this->getUiElement('/admin/messages/success'),1)) {
-            $this->printInfo('Store ' . $storeData['name'] . ' has been created');
+            $this->printInfo('Store View ' . $storeData['name'] . ' has been created');
           } else {
-            $this->setVerificationErrors('doStoreCreate: no success message');
+            $this->setVerificationErrors('doStoreViewCreate: no success message');
           }
         }
+        $this->printDebug('doStoreCreate finished');
     }
 
     /**
@@ -63,7 +66,7 @@ class Model_Admin_Scope_Store extends Model_Admin {
      */
     public function doDelete($params = array())
     {
-        $this->printDebug('doStoreDelete started');
+        $this->printDebug('doStoreViewDelete started...');
         $siteData = $params ? $params : $this->storeData;
         $name = $this->storeData['name'];
 
@@ -95,7 +98,7 @@ class Model_Admin_Scope_Store extends Model_Admin {
               }
             }
         }
-        $this->printDebug('doStoreDelete finished...');
+        $this->printDebug('doStoreViewDelete finished...');
     }
 
     /**
@@ -117,12 +120,13 @@ class Model_Admin_Scope_Store extends Model_Admin {
         // Filter users by name
         $this->click($this->getUiElement('buttons/reset_filter'));
         sleep(1);
-        //Filter by username
+        //Filter by store name
         $this->type($this->getUiElement('filters/store_name'),$name);
+        sleep(10);
         $this->clickAndWait($this->getUiElement('buttons/search'));
         sleep(1);
         //Open user with 'Store Name' == name
-        if ($this->waitForElement($this->getUiElement('elements/no_records'),2)) {
+        if ($this->isTextPresent($this->getUiElement('elements/no_records'),2)) {
           // Store not founded
           $this->printDebug('doOpenStore finished with false');
           return false;

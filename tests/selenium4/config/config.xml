@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <env>test</env>
-    <debugLevel>DEBUG</debugLevel>
+    <debugLevel>INFO</debugLevel>
 
     <paths>
         <envPath>config/</envPath>
