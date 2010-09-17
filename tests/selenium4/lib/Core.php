@@ -42,6 +42,13 @@ final class Core
     private static $_config = array();
 
     /**
+     * Registry storage
+     *
+     * @var array
+     */
+    private static $_registry = array();
+
+    /**
      * Must be run in the Bootstrap before any other code running
      */
     static public function init()
@@ -208,6 +215,51 @@ final class Core
 //        echo ('zzzz=' . self::$_debugLevel);
         if ($level <= self::$_debugLevel) {
             echo "\n" . self::$_debugLevelLabels[$level] . ': ' . $line;
+        }
+    }
+
+    /**
+     * Check if the key exists in the registry
+     *
+     * @param string $key
+     * @return boolean
+     */
+    public static function rCheck($key)
+    {
+        return isset(self::$_registry[$key]);
+    }
+
+    /**
+     * Retrieve a value from the registry
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public static function rGet($key)
+    {
+        return self::rCheck($key) ? self::$_registry[$key] : null;
+    }
+
+    /**
+     * Set a named value to the registry
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    public static function rSet($key, $value)
+    {
+        self::$_registry[$key] = $value;
+    }
+
+    /**
+     * Dispose the key value in the registry
+     *
+     * @param string $key
+     */
+    public static function rUnset($key)
+    {
+        if (self::rCheck($key)) {
+            unset(self::$_registry[$key]);
         }
     }
 
