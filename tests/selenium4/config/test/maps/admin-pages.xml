@@ -6,6 +6,7 @@
                 <buttons>
                     <create_order>//button[span='Create New Order']</create_order>
                     <order_search>//button[span='Search']</order_search>
+                    <reset_search>//button[span='Reset Filter']</reset_search>
                 </buttons>
                 <input>
                     <order_number>filter_real_order_id</order_number>
@@ -14,12 +15,12 @@
                     <order_status>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]/following-sibling::*[7]</order_status>
                 </page_elements>
                 <locators>
-                    <select_order>//table[@id='sales_order_grid_table']//td[contains(text(),'%s')]</select_order>
+                    <select_order>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]</select_order>
                 </locators>
             </manage_orders>
             <edit_order>
                 <buttons>
-                    <create_invoce>//button[span='Invoice']</create_invoce>
+                    <create_invoice>//button[span='Invoice']</create_invoice>
                     <create_ship>//button[span='Ship']</create_ship>
                     <reorder>//button[span='Reorder']</reorder>
                     <create_memo>//button[span='Credit Memo']</create_memo>
