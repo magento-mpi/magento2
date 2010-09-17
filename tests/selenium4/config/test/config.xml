@@ -3,13 +3,13 @@
     <browser>*chrome</browser>
     <host>127.0.0.1</host>
     <port>4444</port>
-
+    <!-- Frontend section -->
     <frontend>
-        <baseUrl>http://kq.varien.com/enterprise/1.8.0.0/index.php/</baseUrl>
+        <baseUrl>http://kq.varien.com/enterprise/1.8.0.0/smoke/index.php/</baseUrl>
     </frontend>
-
+    <!-- Backend section -->
     <backend>
-        <baseUrl>http://192.168.3.175/nightly/index.php/admin/</baseUrl>
+        <baseUrl>http://kq.varien.com/enterprise/1.8.0.0/index.php/control/index/</baseUrl>
         <auth>
             <username>admin</username>
             <password>123123q</password>
@@ -19,34 +19,28 @@
             <credit_card>p_method_ccsave</credit_card>
             <autorize>p_method_authorizenet</autorize>
             <paypal_direct_uk>p_method_paypal_direct</paypal_direct_uk>
-        </payment_method>
-        
+        </payment_method>        
         <shipping_method>
             <flat_rate>s_method_flatrate_flatrate</flat_rate>
             <free_shipp>s_method_freeshipping_freeshipping</free_shipp>
         </shipping_method>
-
         <customer>
             <id>102</id>
             <email>st8-user@varien.com</email>
         </customer>
-
         <attribute_set>
             <set_name>smoke_attrSet</set_name>
             <default_set>label=Default</default_set>
-        </attribute_set>
-        
+        </attribute_set>        
         <createproduct>
             <sku>st-01</sku>
             <duplicatedsku>st-02</duplicatedsku>
             <productname>st-01</productname>
             <price>10</price>
         </createproduct>
-
         <user>
             <name>test</name>
 	</user>
-
         <scope>
             <site>
                 <name>SmokeTestSite</name>
@@ -54,16 +48,21 @@
                 <sortorder>1</sortorder>
             </site>
             <store>
-                <storename>ststorename</storename>
+                <name>ststorename</name>
             </store>
-            <storeview>
+            <store_view>
                 <name>SmokeTestStoreView</name>
                 <code>stsvcode</code>
                 <order>1</order>
                 <status>label=Enabled</status>
-            </storeview>
+            </store_view>
+            <store_view_for_delete>
+                <name>delSmokeTestStoreView</name>
+                <code>delstsvcode</code>
+                <order>1</order>
+                <status>label=Enabled</status>
+            </store_view_for_delete>
         </scope>
-
         <managecategories>
             <rootname>st-rootcat</rootname>
             <subcategoryname>st-subcat</subcategoryname>
