@@ -19,22 +19,26 @@ sed -i "s/{{db_name}}/$DB_NAME/g" "$CONFIG"
 sed -i "s/{{db_user}}/$DB_USER/g" "$CONFIG"
 sed -i "s/{{db_pass}}/$DB_PASS/g" "$CONFIG"
 
-log "Started testing..."
-./test.py -m run -c "$CONFIG" -o ..
-check_failure $?
-log "Preparing report..."
-./test.py -m report -c "$CONFIG" -o ..
-check_failure $?
-cp -R ../artifacts report/logs
+#log "Started testing..."
+#./test.py -m run -c "$CONFIG" -o ..
+#check_failure $?
+#log "Preparing report..."
+#./test.py -m report -c "$CONFIG" -o ..
+#check_failure $?
+#cp -R ../artifacts report/logs
 cd report
-log "Generating HTML report..."
-php -f console.php -- -a fetch -r artifacts -o $HTML_REPORT
-check_failure $?
-mv $HTML_REPORT ../../artifacts/
-check_failure $?
+#log "Generating HTML report..."
+#php -f console.php -- -a fetch -r artifacts -o $HTML_REPORT
+#check_failure $?
+#mv $HTML_REPORT ../../artifacts/
+#check_failure $?
 cd ../../artifacts
-echo "##teamcity[publishArtifacts 'config.xml']"
-echo "##teamcity[publishArtifacts 'checkout.log']"
-echo "##teamcity[publishArtifacts 'siege.log']"
-echo "##teamcity[publishArtifacts '$HTML_REPORT']"
+touch config.xml
+touch checkout.log
+touch siege.log
+FOLDER=`pwd`
+echo "##teamcity[publishArtifacts '$FOLDER/config.xml']"
+echo "##teamcity[publishArtifacts '$FOLDER/checkout.log']"
+echo "##teamcity[publishArtifacts '$FOLDER/siege.log']"
+echo "##teamcity[publishArtifacts '$FOLDER/$HTML_REPORT']"
 cd $OLDPWD
