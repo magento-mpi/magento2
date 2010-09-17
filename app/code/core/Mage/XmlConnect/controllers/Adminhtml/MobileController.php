@@ -37,11 +37,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $app = Mage::getModel('xmlconnect/application');
         if ($id) {
             $app->load($id);
-            if (!$app->getId()) {
-                Mage::throwException(Mage::helper('xmlconnect')->__('Application with id "%s" no longer exists.', $id));
+            if ($app->getId()) {
+                $app->loadConfiguration();
             }
-            $app->loadConfiguration();
-        } else {
+        }
+        else {
             $app->loadDefaultConfiguration();
         }
         Mage::register('current_app', $app);
@@ -120,7 +120,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $app = $this->_initApp();
             if (!$app->getId()) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('No application provided.'));
+                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Application no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -134,14 +134,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            if (!empty($app)) {
+            if (isset($app)) {
                 $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
             } else {
                 $this->_redirect('*/*/');
             }
         } catch (Exception $e) {
             $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t open submission form.'));
-            if (!empty($app)) {
+            if (isset($app)) {
                 $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
             } else {
                 $this->_redirect('*/*/');
@@ -156,7 +156,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         $redirectBack = false;
         try {
+            $id = (int) $this->getRequest()->getParam('application_id');
             $app = $this->_initApp();
+
+            if (!$app->getId() && $id) {
+                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Application no longer exists.'));
+                $this->_redirect('*/*/');
+                return;
+            }
             $app->loadSubmit();
             $data = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormData(true));
             if (!empty($data)) {
@@ -229,7 +236,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            if (!empty($app)) {
+            if (isset($app)) {
                 $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
             } else {
                 $this->_redirect('*/*/');
@@ -237,7 +244,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         } catch (Exception $e) {
             $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t submit application.'));
             Mage::logException($e);
-            if (!empty($app)) {
+            if (isset($app)) {
                 $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
             } else {
                 $this->_redirect('*/*/');
@@ -246,7 +253,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     }
 
     /**
-     * Format post/get data for session storage 
+     * Format post/get data for session storage
      *
      * @param array $data    - $_REQUEST[]
      *
@@ -342,7 +349,13 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if ($data) {
             Mage::getSingleton('adminhtml/session')->setFormData($data);
             try {
+                $id = $this->getRequest()->getParam('application_id');
                 $app = $this->_initApp();
+                if (!$app->getId() && $id) {
+                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This banner no longer exists.'));
+                    $this->_redirect('*/*/');
+                    return;
+                }
                 $app->addData($this->_preparePostData($data));
                 $app->addData($this->_processUploadedFiles($app->getData()));
                 $errors = $app->validate();
@@ -539,7 +552,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to process preview.'));
             $redirectBack = true;
         }
-        if (!empty($app) && $redirectBack) {
+        if (isset($app) && $redirectBack) {
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } else {
             $this->_redirect('*/*/');
