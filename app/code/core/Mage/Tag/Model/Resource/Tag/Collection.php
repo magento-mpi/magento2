@@ -261,7 +261,10 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
     {
         if ($this->getFlag('relation') && 'popularity' == $field) {
             // TOFIX
-            $this->getSelect()->having($this->_getConditionSql('count(relation.tag_relation_id)', $condition));
+            $this->getSelect()->having(
+                $this->_getConditionSql(new Zend_Db_Expr('%s'), $condition),
+                'count(relation.tag_relation_id)'
+            );
         } elseif ($this->getFlag('summary') && in_array(
             $field, array('customers', 'products', 'uses', 'historical_uses', 'popularity')
         )) {

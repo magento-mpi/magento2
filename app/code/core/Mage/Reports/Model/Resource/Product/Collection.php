@@ -227,7 +227,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $this->getSelect()
             ->columns(array("carts" => "({$countSelect})"))
             ->group("e.{$this->getProductEntityId()}")
-            ->having('carts > 0');
+            ->having('%s > 0', 'carts');
 
         return $this;
     }
@@ -303,7 +303,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             ->joinInner(array('e' => $this->getProductEntityTableName()),
                 "e.entity_id = order_items.{$productIdFieldName} AND e.entity_type_id = {$this->getProductEntityTypeId()}{$productTypes}")
             ->group('e.entity_id')
-            ->having('ordered_qty > 0');
+            ->having('%s > 0', carts);
 
         return $this;
     }
@@ -359,7 +359,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             ->where('_table_views.event_type_id = ?', $productViewEvent)
             ->group('e.entity_id')
             ->order('views desc')
-            ->having('views > 0');
+            ->having('%s > 0', 'views');
 
         if ($from != '' && $to != '') {
             $this->getSelect()

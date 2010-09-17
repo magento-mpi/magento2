@@ -50,7 +50,7 @@ foreach ($cleanTables as $tableName) {
             'entity_type_id'    => 'entity_type_id',
             'rows_count'        => 'COUNT(*)'))
         ->group(array('entity_id', 'attribute_id', 'entity_type_id'))
-        ->having('rows_count > 1');
+        ->having('%s > 1', 'rows_count');
     $query = $installer->getConnection()->query($select);
 
     while ($row = $query->fetch()) {

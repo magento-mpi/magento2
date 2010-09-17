@@ -88,7 +88,7 @@ class Mage_Reports_Model_Resource_Coupons_Collection extends Mage_Sales_Model_En
             ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to, 'datetime' => true))
             ->addAttributeToFilter('coupon_code', array('neq' => ''))
             ->getselect()->columns(array('uses' => 'COUNT(e.entity_id)'))
-            ->having('uses > 0')
+            ->having('%s > 0', 'uses')
             ->order('uses desc');
         //die($this->getSelect());
         $storeIds = array_values($storeIds);

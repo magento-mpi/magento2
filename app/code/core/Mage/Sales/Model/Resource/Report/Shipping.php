@@ -119,7 +119,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'shipping_description'
             ));
 
-            $select->having($adapter->quoteInto("{$countExpr} > ?", 0));
+            $select->having('%s > 0', $countExpr);
             $adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();

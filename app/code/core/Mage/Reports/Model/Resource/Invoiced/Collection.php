@@ -53,7 +53,7 @@ class Mage_Reports_Model_Resource_Invoiced_Collection extends Mage_Sales_Model_E
                 'SUM(IF({{base_total_invoiced}} > 0, 1, 0))',
                  array('base_total_invoiced'))
             ->addAttributeToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED))
-            ->getSelect()->group('("*")')->having('orders > 0');
+            ->getSelect()->group('("*")')->having('%s > 0','orders');
 
         return $this;
     }
