@@ -82,7 +82,7 @@
             <active>false</active>
         </Mage_Connect>
         <Mage_Contacts>
-            <active>false</active>
+            <active>true</active>
         </Mage_Contacts>
         <Mage_Core>
             <active>true</active>
