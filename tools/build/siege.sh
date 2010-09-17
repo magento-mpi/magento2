@@ -8,7 +8,7 @@ CONFIG="mage.cfg"
 HTML_REPORT="load-test-result.html"
 
 log "Searching for last successful build..."
-SB=`wget -q -O - http://guest:@kn.varien.com/teamcity/httpAuth/app/rest/buildTypes/id:bt19/builds/status:SUCCESS/number`
+SB=`wget -q -O - http://rest:gyroscope@kn.varien.com/teamcity/httpAuth/app/rest/buildTypes/id:bt19/builds/status:SUCCESS/number`
 
 DB_NAME="builds-$BUILD_NAME-$SB"
 DB_NAME=${DB_NAME//-/_}
