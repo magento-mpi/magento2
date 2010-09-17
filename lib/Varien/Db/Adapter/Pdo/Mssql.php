@@ -4085,6 +4085,14 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
             $sql .= ', RANK() OVER (' . $orderSql . ') AS varien_order_column';
         }
 
+        $having = $select->getPart(Zend_Db_Select::HAVING);
+        foreach ($having as $havingPart) {
+            foreach ($havingPart['values'] as $havingValueIndex => $havingValue) {
+                $sql .= ', ' . $havingValue . ' OVER (PARTITION BY GROUP) AS '
+                . $havingPart['alias'][$havingValueIndex];
+            }
+        }
+
         return $sql;
     }
 
@@ -4094,11 +4102,22 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
      * @param string $select
      * @return string
      */
-    public function getSoftGroupSelect($select)
+    public function getMagicGroupSelect($select)
     {
-        return "SELECT varien_softgroup_select.* \n"
+        $sql = "SELECT varien_magicgroup_select.* \n"
             .  "FROM ({$select}) varien_softgroup_select \n"
-            .  "WHERE varien_softgroup_select.varien_rank_column = 1 ";
+            .  "WHERE varien_magicgroup_select.varien_rank_column = 1 ";
+        $having = $select->getPart(Zend_Db_Select::HAVING);
+        foreach ($having as $havingPart) {
+             $sqlHaving .= vsprintf($havingPart['cond'], $havingPart['alias']);
+        }
+        if (!empty($having)) {
+            $sql .= ' AND (' . $sqlHaving . ')';
+            unset($having);
+            unset($sqlHaving);
+        }
+
+        return $sql;
     }
 
     /**

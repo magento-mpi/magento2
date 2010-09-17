@@ -2878,7 +2878,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     public function addRankColumn($select, $groupColumns, $orderSql)
     {
-        $select->group($groupColumns);
         $select->reset(Varien_Db_Select::SOFT_GROUP);
 
         return '';
@@ -2890,7 +2889,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string $select
      * @return string
      */
-    public function getSoftGroupSelect($select)
+    public function getMagicGroupSelect($select)
     {
         return $select;
     }

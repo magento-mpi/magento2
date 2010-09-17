@@ -39,8 +39,6 @@
  * @method Varien_Db_Select joinCross($name, $cols, $schema = null)
  * @method Varien_Db_Select orWhere($cond, $value = null, $type = null)
  * @method Varien_Db_Select group($spec)
- * @method Varien_Db_Select having($cond)
- * @method Varien_Db_Select orHaving($cond)
  * @method Varien_Db_Select order($spec)
  * @method Varien_Db_Select limit($count = null, $offset = null)
  * @method Varien_Db_Select limitPage($page, $rowCount)
@@ -58,8 +56,10 @@ class Varien_Db_Select extends Zend_Db_Select
     const TYPE_CONDITION    = 'TYPE_CONDITION';
 
     const STRAIGHT_JOIN     = 'straightjoin';
+    const MAGIC_GROUP        = 'magicgroup';
+
     const SQL_STRAIGHT_JOIN = 'STRAIGHT_JOIN';
-    const SOFT_GROUP        = 'softgroup';
+
 
     /**
      * Class constructor
@@ -79,7 +79,7 @@ class Varien_Db_Select extends Zend_Db_Select
             self::GROUP         => array(),
             self::HAVING        => array(),
             self::ORDER         => array(),
-            self::SOFT_GROUP    => array(),
+            self::MAGIC_GROUP    => false,
             self::LIMIT_COUNT   => null,
             self::LIMIT_OFFSET  => null,
             self::FOR_UPDATE    => false
@@ -467,10 +467,57 @@ class Varien_Db_Select extends Zend_Db_Select
     protected function _renderColumns($sql)
     {
         $sql = parent::_renderColumns($sql);
-        if ($this->_parts[self::SOFT_GROUP]) {
-            $sql .= $this->_adapter->addRankColumn($this, $this->_parts[self::SOFT_GROUP], parent::_renderOrder(''));
+        if ($this->_parts[self::MAGIC_GROUP] && $this->_parts[self::GROUP]) {
+            $sql .= $this->_adapter->addRankColumn($this, $this->_parts[self::GROUP], parent::_renderOrder(''));
+        } else {
+            $this->_parts[self::MAGIC_GROUP] = false;
         }
         return $sql;
+    }
+
+    /**
+     * Render SOFT GROUP clause
+     *
+     * @param string   $sql SQL query
+     * @return string
+     */
+    protected function _renderMagicgroup($sql)
+    {
+        if ($this->_parts[self::FROM] && $this->_parts[self::MAGIC_GROUP] && $this->_parts[self::GROUP]) {
+            $sql = $this->getAdapter()->getMagicGroupSelect($sql);
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Render HAVING clause
+     *
+     * @param string   $sql SQL query
+     * @return string
+     */
+    protected function _renderHaving($sql)
+    {
+        if ($this->_parts[self::MAGIC_GROUP]) {
+            $index = 1;
+            foreach ($this->_parts[self::HAVING] as $havingPartIndex => $havingPart) {
+                $this->_parts[self::HAVING][$havingPartIndex]['alias'] = array();
+                foreach ($havingPart['values'] as $havingValueIndex => $havingValue) {
+                    $this->_parts[self::HAVING][$havingPartIndex]['alias'][$havingValueIndex] = 'having_value' . $index;
+                    $index++;
+                }
+            }
+
+            return $sql;
+        } else {
+            $preparedHaving = array();
+            foreach ($this->_parts[self::HAVING] as $havingPart) {
+                $preparedHaving[] = vsprintf($havingPart['expression'], $havingPart['values']);
+            };
+            $this->_parts[self::HAVING] = $preparedHaving;
+        }
+
+        return parent::_renderHaving($sql);
     }
 
     /**
@@ -481,7 +528,7 @@ class Varien_Db_Select extends Zend_Db_Select
      */
     protected function _renderOrder($sql)
     {
-        if ($this->_parts[self::SOFT_GROUP]) {
+        if ($this->_parts[self::MAGIC_GROUP]) {
             return $sql;
         }
         return parent::_renderOrder($sql);
@@ -493,35 +540,70 @@ class Varien_Db_Select extends Zend_Db_Select
      * @param  array|string $spec The column(s) to group by.
      * @return Zend_Db_Select This Zend_Db_Select object.
      */
-    public function softGroup($spec)
+    public function magicGroup($spec = array())
     {
-        if (!is_array($spec)) {
-            $spec = array($spec);
-        }
-
-        foreach ($spec as $val) {
-            if (preg_match('/\(.*\)/', (string) $val)) {
-                $val = new Zend_Db_Expr($val);
-            }
-            $this->_parts[self::SOFT_GROUP][] = $val;
+        if (!empty($spec)) {
+            $this->_parts[self::MAGIC_GROUP] = true;
+            return $this->group($spec);
         }
 
         return $this;
     }
 
     /**
-     * Render SOFT GROUP clause
+     * Adds a HAVING condition to the query by AND.
+     * Example:
+     * $cond = '%s > 0 OR %s = 1';
+     * $values = array('SUM(some.filed)', 'MIN(some.field2)');
      *
-     * @param string   $sql SQL query
-     * @return string
+     * @param string $cond The HAVING condition .
+     * @param string|Zend_Db_Expr|array $values The value expressions for condition.
+     * @param bool $useOr Use OR in condition
+     * @return Zend_Db_Select This Zend_Db_Select object.
      */
-    protected function _renderSoftgroup($sql)
+    public function having($cond)
     {
-        if ($this->_parts[self::FROM] && $this->_parts[self::SOFT_GROUP]) {
-            $sql = $this->getAdapter()->getSoftGroupSelect($sql);
+        if (func_num_args() > 1) {
+            $values = func_get_arg(1);
+            if (!is_array($values)) {
+                $values = array($values);
+            }
+            if (empty($values)) {
+                throw new Varien_Db_Exception('Values musn\'t be empty for Varien_Db_Select');
+            }
+        } else {
+            throw new Varien_Db_Exception('Values are required for Varien_Db_Select');
+        }
+        $useOr = (func_num_args() > 2)?func_get_arg(1):false;
+
+        $prepared = array(
+            'cond'   => $cond,
+            'values' => $values,
+        );
+        if ($this->_parts[self::HAVING]) {
+            $prepared['cond']= (($useOr) ? self::SQL_OR : self::SQL_AND) . $prepared['cond'];
         }
 
-        return $sql;
+        $this->_parts[self::HAVING][] = $prepared;
+
+        return $this;
     }
+
+    /**
+     * Adds a HAVING condition to the query by OR.
+     *
+     * Otherwise identical to orHaving().
+     *
+     * @param string $cond The HAVING condition.
+     * @param mixed  $values  The values
+     * @return Zend_Db_Select This Zend_Db_Select object.
+     *
+     * @see having()
+     */
+    public function orHaving($cond)
+    {
+        return $this->having($cond, (func_num_args() > 1) ? func_get_arg(1) : array(), true);
+    }
+
 
 }

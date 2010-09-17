@@ -3553,7 +3553,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $orderSql
      * @return string
      */
-    public function addRankColumn($select, $groupColumns, $orderSql)
+    public function addRankColumn($select, $groupColumns, $orderSql, &$having)
     {
         $sql = !count($select->getPart(Zend_Db_Select::COLUMNS))?' ':', ';
         $sql .= 'RANK() OVER (PARTITION BY ' .
@@ -3562,6 +3562,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         if ($orderSql != '') {
             $sql .= ', RANK() OVER (' . $orderSql . ') AS varien_order_column';
+        }
+
+        $having = $select->getPart(Zend_Db_Select::HAVING);
+        foreach ($having as $havingPart) {
+            foreach ($havingPart['values'] as $havingValueIndex => $havingValue) {
+                $sql .= ', ' . $havingValue . ' OVER (PARTITION BY GROUP) AS '
+                . $havingPart['alias'][$havingValueIndex];
+            }
         }
 
         return $sql;
@@ -3573,9 +3581,22 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $select
      * @return string
      */
-    public function getSoftGroupSelect($select)
+    public function getMagicGroupSelect($select)
     {
-        return "SELECT * FROM ({$select}) varien_softgroup_select WHERE varien_softgroup_select.varien_rank_column = 1";
+        $sql = "SELECT * FROM ({$select}) varien_magicgroup_select \n"
+            . "WHERE varien_magicgroup_select.varien_rank_column = 1";
+
+        $having = $select->getPart(Zend_Db_Select::HAVING);
+        foreach ($having as $havingPart) {
+             $sqlHaving .= vsprintf($havingPart['cond'], $havingPart['alias']);
+        }
+        if (!empty($having)) {
+            $sql .= ' AND (' . $sqlHaving . ')';
+            unset($having);
+            unset($sqlHaving);
+        }
+
+        return $sql;
     }
 
     /**
@@ -3659,7 +3680,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * Render Sql using Windows(Analitic) functions
      *
      * @param Varien_Db_Select $select
-     * @return select 
+     * @return select
      */
     public function getWindSql(Varien_Db_Select $select)
     {
@@ -3709,7 +3730,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
         return sprintf("SELECT varien_wind_table.* FROM (%s) varien_wind_table %s",
             $select->assemble(),
-            !empty($groupByCondition) ? "" : "WHERE varien_wind_table.varien_group_rank = 1" 
+            !empty($groupByCondition) ? "" : "WHERE varien_wind_table.varien_group_rank = 1"
         );
     }
 }
