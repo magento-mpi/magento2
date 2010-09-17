@@ -54,11 +54,10 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
         if ($app) {
             $app->loadByCode($code);
             if (!$app->getId()) {
-                Mage::throwException(Mage::helper('xmlconnect')->__('Aplication with specified code no longer exists.'));
+                Mage::throwException(Mage::helper('xmlconnect')->__('Aplication with specified code does not exist.'));
             }
             $app->loadConfiguration();
-        }
-        else {
+        } else {
             Mage::throwException(Mage::helper('xmlconnect')->__('Aplication code required.'));
         }
         Mage::register('current_app', $app);

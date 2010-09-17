@@ -50,6 +50,18 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow extends Varien_
         return $this->getData('before_element_html');
     }
 
+    public function getLabelHtml($idSuffix = '')
+    {
+        if (!is_null($this->getLabel())) {
+            $html = '<label>'.$this->getLabel()
+                . ( $this->getRequired() ? ' <span class="required">*</span>' : '' ).'</label>';
+        }
+        else {
+            $html = '';
+        }
+        return $html;
+    }
+    
     /**
      * Overriding toHtml parent method
      * Adding addrow Block to element renderer
@@ -57,7 +69,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow extends Varien_
      */
     public function toHtml()
     {
-        $blockClassName = Mage::getConfig()->getBlockClassName('adminhtml/template');;
+        $blockClassName = Mage::getConfig()->getBlockClassName('adminhtml/template');
         $jsBlock = new $blockClassName;
         $jsBlock->setTemplate('xmlconnect/form/element/addrow.phtml');
         $jsBlock->setOptions($this->getOptions());

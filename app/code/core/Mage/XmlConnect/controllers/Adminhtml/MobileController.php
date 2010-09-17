@@ -120,7 +120,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $app = $this->_initApp();
             if (!$app->getId()) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('This application no longer exists.'));
+                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Application does not exist.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -160,7 +160,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $app = $this->_initApp();
 
             if (!$app->getId() && $id) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('This application no longer exists.'));
+                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Application does not exist.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -352,7 +352,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $id = $this->getRequest()->getParam('application_id');
                 $app = $this->_initApp();
                 if (!$app->getId() && $id) {
-                    $this->_getSession()->addError(Mage::helper('xmlconnect')->__('This application no longer exists.'));
+                    $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Application does not exist.'));
                     $this->_redirect('*/*/');
                     return;
                 }

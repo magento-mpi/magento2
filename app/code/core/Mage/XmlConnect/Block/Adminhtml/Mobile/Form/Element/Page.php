@@ -45,7 +45,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
     public function initFields($conf)
     {
         $this->addElement(new Varien_Data_Form_Element_Text(array(
-            'name'      => $conf['name'] . '[label]',
+            'name'          => $conf['name'] . '[label]',
+            'class'         => 'label onclick_text',
         )));
 
         $this->addElement(new Varien_Data_Form_Element_Select(array(
@@ -67,7 +68,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
     }
 
     /**
-     * Enter description here...
+     * Getter for Label field
+     * fetching first element as label
      *
      * @param string
      */
@@ -79,6 +81,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
 
     /**
      * Enter description here...
+     * gettter for second part of rendered field ("selectbox" and "delete button")
+     * fetching second element as <element code>
      *
      * @param string
      */
@@ -86,7 +90,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
     {
         list($label, $element) = $this->getElements();
         return $element->toHtml() . '</td><td class="label" style="width: 5em">' .
-              '<button class=" scalable save " onclick="removeTableRow(this)" value="&minus;"><span>'
+              '<button class=" scalable save onclick_button" value="&minus;"><span>'
             . Mage::helper('xmlconnect')->__('Delete') . '</span></button>';
     }
 }
