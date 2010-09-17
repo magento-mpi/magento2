@@ -678,7 +678,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
 
     /**
      * Retrieve categories objects
-     * Either $categoryIds or $path must be specified
+     * Either $categoryIds or $path (with ending slash) must be specified
      *
      * @param int|array $categoryIds
      * @param int $storeId
