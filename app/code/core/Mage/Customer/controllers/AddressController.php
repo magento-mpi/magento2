@@ -123,36 +123,30 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 ->setEntity($address);
             $addressData    = $addressForm->extractData($this->getRequest());
             $addressErrors  = $addressForm->validateData($addressData);
+            if ($addressErrors !== true) {
+                $errors = $addressErrors;
+            }
 
             try {
-                if ($addressErrors === true) {
-                    $addressForm->compactData($addressData);
-                    $address->setCustomerId($customer->getId())
-                        ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                        ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
-                } else {
-                    $errors = array_merge($errors, $addressErrors);
-                }
+                $addressForm->compactData($addressData);
+                $address->setCustomerId($customer->getId())
+                    ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+                    ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
 
                 $addressErrors = $address->validate();
                 if ($addressErrors !== true) {
                     $errors = array_merge($errors, $addressErrors);
                 }
 
-                $addressValidation = count($errors) == 0;
-                if (true === $addressValidation) {
+                if (count($errors) === 0) {
                     $address->save();
                     $this->_getSession()->addSuccess($this->__('The address has been saved.'));
                     $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                     return;
                 } else {
                     $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-                    if (is_array($addressValidation)) {
-                        foreach ($addressValidation as $errorMessage) {
-                            $this->_getSession()->addError($errorMessage);
-                        }
-                    } else {
-                        $this->_getSession()->addError($this->__('Cannot save the address.'));
+                    foreach ($errors as $errorMessage) {
+                        $this->_getSession()->addError($errorMessage);
                     }
                 }
             } catch (Mage_Core_Exception $e) {
