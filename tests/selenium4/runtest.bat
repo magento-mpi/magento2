@@ -10,10 +10,15 @@ echo **
 echo **************************************************************************
 echo.
 
-:: Uncomment the following line if you want to run the framework for a specific 
+:: Uncomment the following line if you want to run the framework for a specific
 :: environment
 
 :: set SELENIUM_ENV=test
+
+:: Uncomment the following line if you want to run the framework for a specific
+:: environment stamp
+
+:: set SELENIUM_STAMP=<random string>
 
 :: Uncomment the following line if you want to force certain debug level.
 :: valid values are OFF, INFO, DEBUG, and ERROR

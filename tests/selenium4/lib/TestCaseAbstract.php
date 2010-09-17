@@ -169,6 +169,16 @@ abstract class TestCaseAbstract extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Retrieve an environment unique stamp
+     *
+     * @return string 
+     */
+    public function getStamp()
+    {
+        return Core::getStamp();
+    }
+
+    /**
      * Simple overloading mechanism
      * Get variable implementation
      *

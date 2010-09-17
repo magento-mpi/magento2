@@ -28,6 +28,14 @@ final class Core
     private static $_magentoEnv = 'test';
 
     /**
+     * Environment unique stamp used to for creating similar instances
+     * of the same test case executed several times
+     *
+     * @var string
+     */
+    private static $_magentoStamp = null;
+
+    /**
      * Debug level
      *
      * @var int
@@ -62,6 +70,12 @@ final class Core
             self::$_magentoEnv = getenv('SELENIUM_ENV');
         }
 
+        if (getenv('SELENIUM_STAMP')) {
+            self::$_magentoStamp = getenv('SELENIUM_STAMP');
+        } else {
+            self::$_magentoStamp = date('Ymd/His');
+        }
+
         // Fetching debug level
         if (getenv('SELENIUM_DEBUG_LEVEL')) {
             $debug = getenv('SELENIUM_DEBUG_LEVEL');
@@ -88,7 +102,8 @@ final class Core
                 self::$_debugLevel = self::DEBUG_LEVEL_ERROR;
         }
 
-         echo "\n*** Debug level: " . self::$_debugLevelLabels[self::$_debugLevel] . "\n\n";
+        echo "\n*** Debug level:       " . self::$_debugLevelLabels[self::$_debugLevel];
+        echo "\n*** Environment stamp: " . self::getStamp() . "\n\n";
 
         $envConfigPath = rtrim($configPath, DS) . DS . self::$_magentoEnv;
 
@@ -114,6 +129,16 @@ final class Core
     public static function getEnvironment()
     {
         return self::$_magentoEnv;
+    }
+
+    /**
+     * Retrieve an environment stamp
+     *
+     * @return string
+     */
+    public static function getStamp()
+    {
+        return self::getEnvironment() . '_' > self::$_magentoStamp;
     }
 
     /**
