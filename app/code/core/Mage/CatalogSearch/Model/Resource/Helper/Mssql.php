@@ -74,18 +74,18 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
     function prepareTerms($str, $maxWordLength = 0)
     {
         $boolWords = array(
-            '&'       => '&',
-            'AND'     => 'AND',
-            '|'       => '|',
-            'OR'      => 'OR',
-            '&!'      => '&!',
-            'ANDNOT'  => 'ANDNOT',
+            '&'   => '&',
+            'AND' => 'AND',
+            '|'   => '|',
+            'OR'  => 'OR',
+            '!'  => '&!',
+            'NOT' => 'AND NOT',
         );
         $brackets = array(
             '('       => '(',
             ')'       => ')'
         );
-        $words = array(0=>"");
+        $words = array(0 => "");
         $terms = array();
         preg_match_all('/([\(\)]|[\"\'][^"\']*[\"\']|[^\s\"\(\)]*)/uis', $str, $matches);
         $isPrevWord = null;
@@ -94,10 +94,10 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
             $word = trim($word);
             if (strlen($word)) {
                 $word = str_replace('"', '', $word);
-                $isBool = in_array(strtoupper($word), $boolWords);
+                $isBool = array_key_exists(strtoupper($word), $boolWords);
                 $isBracket = in_array($word, $brackets);
                 if (!$isBool && !$isBracket) {
-                    if (!is_null($isPrevWord) && $isPrevWord == 'term') {
+                    if (!is_null($isPrevWord) && ($isPrevWord == 'term' || $isPrevWord == ')')) {
                         $words[] = 'OR';
                     }
                     $terms[$word] = $word;
@@ -121,11 +121,16 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
                     }
                     $words[] = $word;
                 } else if ($isBool) {
-                    if ($isPrevWord == '(') {
-                        $words[] = '""';
+                    if (!is_null($isPrevWord)) {
+                        if ($isPrevWord == '(') {
+                            $words[] = '""';
+                        }
+                        if ($isPrevWord == 'predicate') {
+                            continue;
+                        }
+                        $isPrevWord = 'predicate';
+                        $words[] = $boolWords[strtoupper($word)];
                     }
-                    $isPrevWord = 'predicate';
-                    $words[] = $word;
                 }
             }
         }
