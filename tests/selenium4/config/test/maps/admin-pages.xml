@@ -193,11 +193,26 @@
                         <inventory_qty>inventory_qty</inventory_qty>
                         <website>//*[text()='%s']</website>
                         <category>//div[@id='product-categories']//a[contains(span,'%s')]</category>
+                        <news_from_date>news_from_date</news_from_date>
+                        <news_to_date>news_to_date</news_to_date>
+                        <url_key>url_key</url_key>
+                        <special_price>special_price</special_price>
+                        <special_from_date>special_from_date</special_from_date>
+                        <special_to_date>special_to_date</special_to_date>
                     </inputs>
                     <selectors>
+                        <attribute_set>attribute_set_id</attribute_set>
+                        <type>product_type</type>
                         <status>status</status>
                         <tax_class>tax_class_id</tax_class>
                         <inventory_stock_availability>inventory_stock_availability</inventory_stock_availability>
+                        <visibility>visibility</visibility>
+                        <allow_gift_message>gift_message_available</allow_gift_message>
+                        <sku_type>sku_type</sku_type>
+                        <weight_type>weight_type</weight_type>
+                        <price_type>price_type</price_type>
+                        <enable_googlecheckout>enable_googlecheckout</enable_googlecheckout>
+                        <price_view>price_view</price_view>
                     </selectors>
                     <tabs>
                         <price>link=Prices</price>
