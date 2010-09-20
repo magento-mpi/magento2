@@ -602,7 +602,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function getGroupId()
     {
-        if (!$this->getData('group_id')) {
+        if (!$this->hasData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
             $groupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId);
             $this->setData('group_id', $groupId);
