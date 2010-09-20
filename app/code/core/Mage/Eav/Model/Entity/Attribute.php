@@ -126,12 +126,13 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('The attribute code \'%s\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
         }
 
+        /**
+         * Check for maximum attribute_code length
+         */
         if(isset($this->_data['attribute_code']) &&
            !Zend_Validate::is($this->_data['attribute_code'], 'StringLength', array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH)))
         {
-            throw Mage::exception('Mage_Eav',
-                Mage::helper('eav')->__('Maximum length of attribute code must be less then %s symbols', self::ATTRIBUTE_CODE_MAX_LENGTH)
-            );
+            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Maximum length of attribute code must be less then %s symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
         }
 
         $defaultValue   = $this->getDefaultValue();
@@ -141,6 +142,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
             if (!Zend_Locale_Format::isNumber($defaultValue, array('locale' => Mage::app()->getLocale()->getLocaleCode()))) {
                  throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid default decimal value'));
             }
+
             try {
                 $filter = new Zend_Filter_LocalizedToNormalized(
                     array('locale' => Mage::app()->getLocale()->getLocaleCode())

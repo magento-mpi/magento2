@@ -1730,6 +1730,7 @@ $table = $installer->getConnection()
         ), 'Is Visible In Advanced Search')
     ->addColumn('position', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
+        'default'   => '0',
         ), 'Position')
     ->addColumn('is_wysiwyg_enabled', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
