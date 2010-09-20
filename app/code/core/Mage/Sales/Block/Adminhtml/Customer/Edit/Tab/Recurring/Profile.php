@@ -99,4 +99,14 @@ class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
         $this->setCollection($collection);
         return Mage_Adminhtml_Block_Widget_Grid::_prepareCollection();
     }
+
+    /**
+     * Defines after which tab, this tab should be rendered
+     *
+     * @return string
+     */
+    public function getAfter()
+    {
+        return 'orders';
+    }
 }
