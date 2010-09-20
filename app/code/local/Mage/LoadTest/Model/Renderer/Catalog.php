@@ -327,7 +327,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
     {
         $entityTypeId = Mage::getModel('eav/entity')->setType('catalog_product')
             ->getTypeId();
-        $defaultSetId = Mage::getModel('catalog/product')->getResource()->getConfig()->getDefaultAttributeSetId();
+        $defaultSetId = Mage::getModel('catalog/product')->getResource()->getEntityType()->getDefaultAttributeSetId();
 
         $setKey = '';
         $rand = array_merge(range('A', 'Z'), range('a', 'z'), range(0, 9));
@@ -595,6 +595,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
             ->setStatus(1)
             ->setVisibility($this->getVisibility())
             ->setGiftMessageAvailable(1)
+            ->setTierPrice(array())
             ->setPrice($productPrice)
             ->setSpecialPrice($productPrice)
             ->setSpecialFromDate(now(true))
@@ -682,6 +683,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                 'special_price',
                 'special_from_date',
                 'special_to_date',
+                'tier_price',
 
                 'image',
                 'small_image',
@@ -756,7 +758,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                 $len    = count($rnd) - 1;
                 $space  = 0;
 
-                for ($i = 0; $i < $length; $i ++) {
+                for ($i = 0; $i < $length; $i++) {
                     $letter = $rnd[rand(0, $len)];
                     $attributeValue .= $rnd[rand(0, $len)];
                     if ($letter == ' ') {
@@ -769,13 +771,14 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
                     if ($space > 12) {
                         $attributeValue .= ' ';
                         $space = 0;
+                        $length--;
                     }
                 }
+                $attributeValue = trim($attributeValue);
             }
             if (is_null($attributeValue)) {
                 $attributeValue = '';
             }
-
             $product->setData($attributeCode, $attributeValue);
         }
     }
