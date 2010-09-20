@@ -18,6 +18,7 @@ class Admin_AttributeSet_AddSet extends TestCaseAbstract
     function testAttributeSetCreation()
     {
         if ($this->model->doLogin()) {
+            $this->model->doDeleteAtrSet();
             $this->model->doCreateAtrSet();
         }
     }
