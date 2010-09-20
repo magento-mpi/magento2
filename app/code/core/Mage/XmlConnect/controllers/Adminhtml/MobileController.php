@@ -750,6 +750,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
         if (($width != $image->getOriginalWidth()) ||
             ($height != $image->getOriginalHeight()) ) {
+            $image->keepTransparency(true);
+            $image->keepFrame(true);
+            $image->keepAspectRatio(false);
             $image->resize($width, $height);
             $image->save(null, basename($file));
         }

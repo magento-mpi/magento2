@@ -105,6 +105,16 @@
                 </Mage_XmlConnect>
             </modules>
         </translate>
+        <events>
+            <core_config_data_save_after>
+                <observers>
+                    <xmlconnect>
+                        <class>xmlconnect/observer</class>
+                        <method>changeUpdatedAtParamOnConfigSave</method>
+                    </xmlconnect>
+                </observers>
+            </core_config_data_save_after>
+        </events>
     </adminhtml>
     <frontend>
         <routers>
@@ -145,126 +155,52 @@
         </payment>
         <imageLimits>
             <iphone>
-                <navigationBar>
-                    <icon>
-                        <heightMax>44</heightMax>
-                    </icon>
-                </navigationBar>
-                <sortingBar>
-                    <backgroundImage>
-                        <width>320</width>
-                        <height>40</height>
-                    </backgroundImage>
-                </sortingBar>
-                <tabBar>
-                    <home>
-                        <icon>
-                            <heightMax>35</heightMax>
-                        </icon>
-                    </home>
-                    <shop>
-                        <icon>
-                            <heightMax>35</heightMax>
-                        </icon>
-                    </shop>
-                    <search>
-                        <icon>
-                            <heightMax>35</heightMax>
-                        </icon>
-                    </search>
-                    <cart>
-                        <icon>
-                            <heightMax>35</heightMax>
-                        </icon>
-                    </cart>
-                    <more>
-                        <icon>
-                            <heightMax>35</heightMax>
-                        </icon>
-                    </more>
-                </tabBar>
-                <body>
-                    <bannerImage>
-                        <width>320</width>
-                        <height>230</height>
-                    </bannerImage>
-                    <itemBackgroundIcon>
-                        <width>90</width>
-                        <height>120</height>
-                    </itemBackgroundIcon>
-                    <backgroundImage>
-                        <width>320</width>
-                        <height>367</height>
-                    </backgroundImage>
-                    <rowBackgroundIcon>
-                        <width>320</width>
-                        <height>90</height>
-                    </rowBackgroundIcon>
-                    <rowAttributeIcon>
-                        <widthMax>30</widthMax>
-                        <heightMax>90</heightMax>
-                    </rowAttributeIcon>
-                    <addToCartBackgroundIcon>
-                        <width>136</width>
-                        <height>28</height>
-                    </addToCartBackgroundIcon>
-                    <actionsBackgroundIcon>
-                        <width>107</width>
-                        <height>37</height>
-                    </actionsBackgroundIcon>
-                    <reviewsBackgroundIcon>
-                        <width>320</width>
-                        <height>37</height>
-                    </reviewsBackgroundIcon>
-                </body>
-                <appliedFilters>
-                    <backgroundImage>
-                        <width>320</width>
-                        <height>20</height>
-                    </backgroundImage>
-                </appliedFilters>
-                <itemActions>
-                    <backgroundImage>
-                        <width>320</width>
-                        <height>90</height>
-                    </backgroundImage>
-                    <viewGalleryIcon>
-                        <widthMax>40</widthMax>
-                        <heightMax>40</heightMax>
-                    </viewGalleryIcon>
-                    <tellAFriendIcon>
-                        <widthMax>40</widthMax>
-                        <heightMax>40</heightMax>
-                    </tellAFriendIcon>
-                    <addToWishlistIcon>
-                        <widthMax>40</widthMax>
-                        <heightMax>40</heightMax>
-                    </addToWishlistIcon>
-                    <addToCartIcon>
-                        <widthMax>40</widthMax>
-                        <heightMax>40</heightMax>
-                    </addToCartIcon>
-                    <viewDetailsIcon>
-                        <widthMax>40</widthMax>
-                        <heightMax>40</heightMax>
-                    </viewDetailsIcon>
-                    <radioEnabledIcon>
-                        <widthMax>20</widthMax>
-                        <heightMax>20</heightMax>
-                    </radioEnabledIcon>
-                    <radioDisabledIcon>
-                        <widthMax>20</widthMax>
-                        <heightMax>20</heightMax>
-                    </radioDisabledIcon>
-                    <checkBoxEnabledIcon>
-                        <widthMax>20</widthMax>
-                        <heightMax>20</heightMax>
-                    </checkBoxEnabledIcon>
-                    <checkBoxDisabledIcon>
-                        <widthMax>20</widthMax>
-                        <heightMax>20</heightMax>
-                    </checkBoxDisabledIcon>
-                </itemActions>
+               <native>
+                    <navigationBar>
+                        <icon> <widthMax>150</widthMax> <heightMax>35</heightMax> </icon>
+                    </navigationBar>
+                    <sortingBar>
+                        <backgroundImage> <width>320</width> <height>40</height> </backgroundImage>
+                    </sortingBar>
+                    <tabBar>
+                        <home> <icon> <heightMax>35</heightMax> </icon> </home>
+                        <shop> <icon> <heightMax>35</heightMax> </icon> </shop>
+                        <search> <icon> <heightMax>35</heightMax> </icon> </search>
+                        <cart> <icon> <heightMax>35</heightMax> </icon> </cart>
+                        <more> <icon> <heightMax>35</heightMax> </icon> </more>
+                    </tabBar>
+                    <body>
+                        <bannerImage> <width>320</width> <height>230</height> </bannerImage>
+                        <itemBackgroundIcon> <width>90</width> <height>120</height> </itemBackgroundIcon>
+                        <backgroundImage> <width>320</width> <height>367</height> </backgroundImage>
+                        <rowBackgroundIcon> <width>320</width> <height>90</height> </rowBackgroundIcon>
+                        <rowAttributeIcon> <widthMax>30</widthMax> <heightMax>90</heightMax> </rowAttributeIcon>
+                        <addToCartBackgroundIcon> <width>136</width> <height>28</height> </addToCartBackgroundIcon>
+                        <actionsBackgroundIcon> <width>107</width> <height>37</height> </actionsBackgroundIcon>
+                        <reviewsBackgroundIcon> <width>320</width> <height>37</height> </reviewsBackgroundIcon>
+                    </body>
+                    <appliedFilters>
+                        <backgroundImage> <width>320</width> <height>20</height> </backgroundImage>
+                    </appliedFilters>
+                    <itemActions>
+                        <backgroundImage> <width>320</width> <height>90</height> </backgroundImage>
+                        <viewGalleryIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </viewGalleryIcon>
+                        <tellAFriendIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </tellAFriendIcon>
+                        <addToWishlistIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </addToWishlistIcon>
+                        <addToCartIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </addToCartIcon>
+                        <viewDetailsIcon> <widthMax>40</widthMax> <heightMax>40</heightMax> </viewDetailsIcon>
+                        <radioEnabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </radioEnabledIcon>
+                        <radioDisabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </radioDisabledIcon>
+                        <checkBoxEnabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </checkBoxEnabledIcon>
+                        <checkBoxDisabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </checkBoxDisabledIcon>
+                    </itemActions>
+                </native>
+                <submit>
+                    <icon> <width>512</width> <height>512</height> </icon>
+                    <loader_image> <width>320</width> <height>460</height> </loader_image>
+                    <logo> <width>57</width> <height>57</height> </logo>
+                    <big_logo> <width>100</width> <height>100</height> </big_logo>
+                </submit>
             </iphone>
         </imageLimits>
         <xmlconnect>
