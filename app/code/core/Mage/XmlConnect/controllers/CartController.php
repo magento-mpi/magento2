@@ -151,10 +151,11 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             );
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
-                if (!$cart->getQuote()->getHasError()){
-                    $message = Mage::helper('xmlconnect')->__('%s was added to your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
-                    $this->_message($message, parent::MESSAGE_STATUS_SUCCESS);
+                $message = Mage::helper('xmlconnect')->__('%s was added to your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
+                if ($cart->getQuote()->getHasError()){
+                    $message .= Mage::helper('xmlconnect')->__(' But cart has some errors.');
                 }
+                $this->_message($message, parent::MESSAGE_STATUS_SUCCESS);
             }
         }
         catch (Mage_Core_Exception $e) {
