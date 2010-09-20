@@ -33,7 +33,7 @@ class Model_Admin_Category extends Model_Admin
         $this->setUiNamespace('admin/pages/catalog/categories/managecategories');
 
         //Select Parent Category
-        $this->click($this->getUiElement("locators/parentcategory",$categoryData['rootname']));
+        $this->click($this->getUiElement("locators/root_category",$categoryData['rootname']));
         $this->model->pleaseWait();
         // Add new sub category
         $this->click($this->getUiElement("buttons/addsubcategory"));
@@ -121,16 +121,30 @@ class Model_Admin_Category extends Model_Admin
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/categories/managecategories"));
 
         $this->setUiNamespace('admin/pages/catalog/categories/managecategories');
+        //Determining the number of root categories which contains
+        $qtyRoot = $this->getXpathCount($this->getUiElement("locators/root_category",$categoryData['rootname']));
+        if ($qtyRoot == 1) {
         //Select Root Category
-        $this->click($this->getUiElement("locators/parentcategory",$categoryData['rootname']));
+        $this->click($this->getUiElement("locators/root_category",$categoryData['rootname']));
         $this->model->pleaseWait();
         //Verify that you can delete a root category
         if (!$this->isElementPresent($this->getUiElement("buttons/delete_category"))) {
-            $this->setVerificationErrors("You cannot remove a category");
-            $result = false;
+            $newName = 'Renamed_Root_Category';
+            $nameRoot = $this->getText($this->getUiElement("locators/root_category",$categoryData['rootname']));
+            $nameRoot = strstr(strrev($nameRoot), ' ');
+            $nameRoot = substr(strrev($nameRoot), 0, -1);
+        if ($categoryData['rootname'] == $nameRoot){
+            $this->printInfo("You cannot remove '".$nameRoot."' category.It will be renamed to the '".$newName."'");
+            $this->type($this->getUiElement("inputs/name"),$newName);
+            $this->click($this->getUiElement("buttons/savecategory"));
+            $this->model->pleaseWait();
         } else {
-            $this->chooseOkOnNextConfirmation();
+        $this->printInfo("You try to delete the wrong root category");
+        }
+        } else {
             $this->click($this->getUiElement("buttons/delete_category"));
+            $this->assertConfirmation('Are you sure you want to delete this category?');
+            $this->chooseOkOnNextConfirmation();
             $this->model->pleaseWait();
         // Check for success message
         if (!$this->isElementPresent($this->getUiElement("messages/categorysaved"))) {
@@ -138,7 +152,50 @@ class Model_Admin_Category extends Model_Admin
             $result = false;
         }
         if ($result) {
-            $this->printInfo('Root category deleted');
+            $this->printInfo("'".$categoryData['rootname']. "' root category deleted");
+        }
+        }
+        } 
+        if ($qtyRoot == 0) {
+            $this->printInfo("Deletion '".$categoryData['rootname']. "' categoty: There is no necessary root category");
+        }
+        if ($qtyRoot >= 2) {
+            $numNeededCat = array ();
+        for ($i=1; $i<=$qtyRoot; $i++) {
+            $mas = array ($categoryData['rootname'],$i);
+            $nameRoot = $this->getText($this->getUiElement("locators/root_many",$mas));
+            $nameRoot = strstr(strrev($nameRoot), ' ');
+            $nameRoot = substr(strrev($nameRoot), 0, -1);
+        if ($nameRoot == $categoryData['rootname']){
+            $numNeededCat[]= "$i";
+        }
+        }
+        $qtyRoot = count($numNeededCat);
+        if ($qtyRoot == 1) {
+            $mas = array ($categoryData['rootname'],$numNeededCat[0]);
+            $this->click($this->getUiElement("locators/root_many",$mas));
+            $this->model->pleaseWait();
+        //Verify that you can delete a root category
+        if (!$this->isElementPresent($this->getUiElement("buttons/delete_category"))) {
+            $newName = 'Renamed_Root_Category';
+            $this->printInfo("You cannot remove '".$categoryData['rootname']."' category.It will be renamed to the '".$newName."'");
+            $this->type($this->getUiElement("inputs/name"),$newName);
+            $this->click($this->getUiElement("buttons/savecategory"));
+            $this->model->pleaseWait();
+        } else{
+            $this->click($this->getUiElement("buttons/delete_category"));
+            $this->assertConfirmation('Are you sure you want to delete this category?');
+            $this->chooseOkOnNextConfirmation();
+            $this->model->pleaseWait();
+        // Check for success message
+        if (!$this->isElementPresent($this->getUiElement("messages/categorysaved"))) {
+            $this->setVerificationErrors("Check 2: no success message");
+            $result = false;
+        }
+        if ($result) {
+            $this->printInfo("'".$categoryData['rootname']. "' root category deleted");
+        }
+        }
         }
         }
     }
@@ -158,7 +215,7 @@ class Model_Admin_Category extends Model_Admin
 
         $this->setUiNamespace('admin/pages/catalog/categories/managecategories');
         //Select Sub Category
-        $this->click($this->getUiElement("locators/parentcategory",$categoryData['subcategoryname']));
+        $this->click($this->getUiElement("locators/sub_category",$categoryData['subcategoryname']));
         $this->model->pleaseWait();
         //delete a sub category
         $this->chooseOkOnNextConfirmation();
