@@ -131,7 +131,7 @@ function changeColorListener(id) {
     /**
      * Setting color field correct format for color value
      */
-    if ($(id).value.trim() == '') {
+    if ($(id).value == '' || $(id).value == ' ') {
         $(id).value = '_';
     }
     $(id).color.exportColor();

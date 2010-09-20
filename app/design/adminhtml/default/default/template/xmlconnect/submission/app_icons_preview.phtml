@@ -29,12 +29,16 @@
 // <![CDATA[
 
 <?php //$images = array ('conf/submit/loaderImage' => '/media/xmlconnect/home_screen.png'); ?>
-<?php $images = $this->getImages();?>
+<?php $images = $this->getImages(); ?>
 <?php if (is_array($images)) : ?>
     <?php foreach($images as $id => $src) : ?>
-        $('<?php echo $id ?>').parentNode.appendChild(
-            new Element('img', {'src': '<?php echo $src ?>', 'width': '100%', 'height': '100%'})
-        );
+        parent = $('<?php echo $id; ?>').parentNode;
+        inputField = parent.removeChild($('<?php echo $id; ?>'));
+        oldInnerHTML = parent.innerHTML;
+        parent.innerHTML = '<div><a href="<?php echo $src; ?>" onclick="imagePreview(\'<?php echo $id; ?>_image\'); return false;">'
+            + '<img src="<?php echo $src; ?>" id="<?php echo $id; ?>_image" title="" alt="" height="22" width="22" class="small-image-preview v-middle" /></a></div>';
+        parent.firstChild.appendChild(inputField);
+        parent.firstChild.innerHTML = parent.firstChild.innerHTML + oldInnerHTML;
     <?php endforeach; ?>
 <?php endif; ?>
 // ]]>

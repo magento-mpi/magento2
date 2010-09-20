@@ -168,6 +168,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'values'    => Mage::helper('xmlconnect')->getCountryOptionsArray(),
             'value'     => $selected,
             'note'      => Mage::helper('xmlconnect')->__('Make this app available in the following territories'),
+            'required'  => true,
         ));
 
         $fieldset->addField('conf/submit_text/copyright', 'text', array(
