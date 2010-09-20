@@ -36,10 +36,12 @@ class Mage_XmlConnect_Model_Observer
      *
      * @var array
      */
-    protected $_configFieldsOnWhichAppsDepends = array(
-        'business_account',
-        'max_recipients',
-        'allow_guest'
+    protected $_appDependOnConfigFieldPathes = array(
+        'paypal/general/business_account',
+        'sendfriend/email/max_recipients',
+        'sendfriend/email/allow_guest',
+        'general/locale/code',
+        'currency/options/default'
     );
 
     /**
@@ -50,7 +52,7 @@ class Mage_XmlConnect_Model_Observer
     public function changeUpdatedAtParamOnConfigSave($observer)
     {
         $configData = $observer->getEvent()->getConfigData();
-        if($configData && (int)$configData->isValueChanged() && in_array($configData->getField(), $this->_configFieldsOnWhichAppsDepends)){
+        if($configData && (int)$configData->isValueChanged() && in_array($configData->getPath(), $this->_appDependOnConfigFieldPathes)){
             Mage::getModel('xmlconnect/application')->updateAllAppsUpdatedAtParameter();
         }
     }

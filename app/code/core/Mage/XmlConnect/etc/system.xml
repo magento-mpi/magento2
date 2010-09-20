@@ -38,5 +38,16 @@
                 </secure>
             </groups>
         </web>
+        <currency>
+            <groups>
+                <options>
+                    <fields>
+                        <default module="xmlconnect">
+                            <backend_model>xmlconnect/adminhtml_system_config_backend_currency_default</backend_model>
+                        </default>
+                    </fields>
+                </options>
+            </groups>
+        </currency>
     </sections>
 </config>

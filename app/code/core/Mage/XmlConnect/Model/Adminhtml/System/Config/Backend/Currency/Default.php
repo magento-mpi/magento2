@@ -25,7 +25,7 @@
  */
 
 
-class Mage_XmlConnect_Model_Adminhtml_System_Config_Backend_Baseurl extends Mage_Adminhtml_Model_System_Config_Backend_Baseurl
+class Mage_XmlConnect_Model_Adminhtml_System_Config_Backend_Currency_Default extends Mage_Adminhtml_Model_System_Config_Backend_Currency_Default
 {
     /**
      * Update all applications "updated at" parameter with current date
