@@ -54,14 +54,14 @@ class Mage_GoogleCheckout_Model_Resource_Tax extends Mage_Core_Model_Resource_Db
     {
         $read   = $this->_getReadAdapter();
         $select = $read->select()
-            ->from(array('rule' => $this->getTable('tax/tax_rule')))
+            ->from(array('rule' => $this->getMainTable()))
             ->join(
                 array('rd' => $this->getTable('tax/tax_rate_data')),
                 'rd.rate_type_id = rule.tax_rate_type_id',
                 array('value' => new Zend_Db_Expr('rate_value/100')))
             ->join(
                 array('r' => $this->getTable('tax/tax_rate')),
-                'r.tax_rate_id=rd.tax_rate_id',
+                'r.tax_rate_id = rd.tax_rate_id',
                 array('country' => 'tax_country_id', 'postcode' => 'tax_postcode'))
             ->joinLeft(
                 array('reg' => $this->getTable('directory/country_region')),

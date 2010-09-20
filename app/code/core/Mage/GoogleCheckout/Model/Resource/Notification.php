@@ -86,7 +86,7 @@ class Mage_GoogleCheckout_Model_Resource_Notification extends Mage_Core_Model_Re
     {
         $this->_getWriteAdapter()->update($this->getMainTable(),
             array('status' => Mage_GoogleCheckout_Model_Notification::STATUS_PROCESSED),
-            array($this->_getWriteAdapter()->quoteInto('serial_number = ?', $serialNumber))
+            array('serial_number = ?' => $serialNumber)
         );
         return $this;
     }
@@ -101,8 +101,9 @@ class Mage_GoogleCheckout_Model_Resource_Notification extends Mage_Core_Model_Re
     {
         $this->_getWriteAdapter()->update($this->getMainTable(),
             array('started_at' => Varien_Date::now()),
-            array($this->_getWriteAdapter()->quoteInto('serial_number = ?', $serialNumber))
+            array('serial_number = ?' => $serialNumber)
         );
+
         return $this;
     }
 }
