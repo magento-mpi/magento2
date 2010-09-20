@@ -1,7 +1,6 @@
 <?php
 
-class Admin_AttributeSet_DeleteSet extends TestCaseAbstract
-{
+class Admin_AttributeSet_DeleteSet extends TestCaseAbstract {
 
     /**
      * Setup procedure.
@@ -13,14 +12,12 @@ class Admin_AttributeSet_DeleteSet extends TestCaseAbstract
     }
 
     /**
-    * Test deletion Attribute Set
-    */
-    function testAttributeSetDeletion()
-    {
+     * Test deletion Attribute Set
+     */
+    function testAttributeSetDeletion() {
         if ($this->model->doLogin()) {
-        if ($this->model->doOpenAtrSet()) {
             $this->model->doDeleteAtrSet();
         }
-        }
     }
+
 }
