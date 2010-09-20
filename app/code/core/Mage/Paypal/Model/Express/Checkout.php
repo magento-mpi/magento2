@@ -241,7 +241,7 @@ class Mage_Paypal_Model_Express_Checkout
     {
         $this->_quote->collectTotals();
 
-        if (!$this->_quote->getGrandTotal()) {
+        if (!$this->_quote->getGrandTotal() && !$this->_quote->hasNominalItems()) {
             Mage::throwException(Mage::helper('paypal')->__('PayPal does not support processing orders with zero amount. To complete your purchase, proceed to the standard checkout process.'));
         }
 
