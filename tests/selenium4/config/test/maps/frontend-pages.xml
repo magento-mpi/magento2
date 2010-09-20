@@ -144,7 +144,7 @@
             </orderReview>
             <orderPlaced>
                 <links>
-                    <orderID>//p[contains(text(),'Your order')]</orderID>
+                    <orderID>//p[contains(text(),'Your') and contains(text(),'order')]</orderID>
                 </links>
             </orderPlaced>
         </tabs>
@@ -250,11 +250,14 @@
                     <placeOrder>//button[contains(span,'Place Order')]</placeOrder>
                 </buttons>
             </placeOrder>
-            <orderSuccess>
+            <orderPlaced>
                 <messages>
                     <orderSuccess>//*[contains(text(),'Thank you for your purchase!')]</orderSuccess>
                 </messages>
-            </orderSuccess>
+                <links>
+                    <orderID>//p[contains(text(),'Your') and contains(text(),'order')]</orderID>
+                </links>
+            </orderPlaced>
         </tabs>
     </multiShippingCheckout>
 </pages>

@@ -7,7 +7,7 @@
     <sleepTime>0</sleepTime>
     <!-- Frontend section -->
     <frontend>
-        <baseUrl>http://kq.varien.com/builds/ee-nightly/current/smoke/index.php/</baseUrl>
+        <baseUrl>http://kq.varien.com/builds/ee-nightly/current/websites/smoke</baseUrl>
         <auth>
             <firstname>Smoke</firstname>
             <lastname>Test</lastname>
@@ -72,12 +72,12 @@
             <set_name>smoke_attrSet</set_name>
             <default_set>label=Default</default_set>
         </attribute_set>        
-        <createproduct>
+        <create_product>
             <sku>st-01</sku>
-            <duplicatedsku>st-02</duplicatedsku>
-            <productname>st-01</productname>
-            <price>10</price>
-        </createproduct>
+            <duplicated_sku>st-03</duplicated_sku>
+            <name>st-01</name>
+            <price>11</price>
+        </create_product>
         <user>
             <name>test</name>
         </user>
@@ -103,11 +103,11 @@
                 <status>label=Enabled</status>
             </store_view_for_delete>
         </scope>
-        <managecategories>
+        <manage_categories>
             <rootname>st-rootcat</rootname>
             <subcategoryname>st-subcat</subcategoryname>
             <parentsubcategoryname>st-rootcat</parentsubcategoryname>
-        </managecategories>
+        </manage_categories>
         
     </backend>
 </config>

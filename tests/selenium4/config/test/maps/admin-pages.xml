@@ -270,7 +270,6 @@
                 <elements>
                     <store_table>//table[@id='storeGrid_table']</store_table>
                     <body>//table[@id='storeGrid_table']</body>
-                    <no_records>No records found.</no_records>
                 </elements>
             </manage_stores>
             <site>
