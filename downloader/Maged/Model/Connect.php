@@ -63,7 +63,7 @@ class Maged_Model_Connect extends Maged_Model
      */
     public function installAll($force=false, $chanName='')
     {
-        $options = array();
+        $options = array('install_all'=>true);
         if ($force) {
             $this->connect()->cleanSconfig();
             $options['force'] = 1;
@@ -72,18 +72,19 @@ class Maged_Model_Connect extends Maged_Model
             'Mage_All_Latest',
         );
         $ftp = $this->controller()->config()->get('ftp');
-        if(!empty($ftp))
+        if (!empty($ftp)) {
             $options['ftp'] = $ftp;
+        }
         $params = array();
         $connectConfig = $this->connect()->getConfig();
         /** CE */
-        $uri="connect20.magentocommerce.com/community";
+        $uri = "connect20.magentocommerce.com/community";
         /* */
         /** PE
-        $uri="connect20.magentocommerce.com/professional";
+        $uri = "connect20.magentocommerce.com/professional";
         /* */
         /** EE
-        $uri="connect20.magentocommerce.com/enterprise";
+        $uri = "connect20.magentocommerce.com/enterprise";
         /* */
         $connectConfig->root_channel = $chanName;
         foreach ($packages as $package) {
@@ -92,6 +93,41 @@ class Maged_Model_Connect extends Maged_Model
         }
         $this->connect()->runHtmlConsole(array('command'=>'install', 'options'=>$options, 'params'=>$params));
     }
+
+    /**
+     * Prepare to install package
+     *
+     * @param string $id
+     * @return array
+     */
+    public function prepareToInstall($id)
+    {
+        if (!preg_match('#^([^ ]+)\/([^-]+)(-[^-]+)?$#', $id, $match)) {
+            echo('Invalid package identifier provided: '.$id);
+            exit;
+        }
+
+        $channel = $match[1];
+        $package = $match[2];
+        $version = (!empty($match[3]) ? trim($match[3],'/\-') : '');
+
+        $connect = $this->connect();
+        $sconfig = $connect->getSingleConfig();
+        
+        $options = array();
+        $params = array($channel, $package, $version);
+        $connect->run('package-prepare', $options, $params);
+        $output = $connect->getOutput();
+        
+        $packages = array();
+        if (is_array($output) && isset($output['package-prepare']['data'])){
+            $packages = $output['package-prepare']['data'];
+        } else {
+
+        }
+        return $packages;
+    }
+
 
     /**
      * Retrieve all installed packages

@@ -97,6 +97,7 @@ extends Mage_Connect_Frontend
             'list-available' => 'outputChannelsPackages',
             'list-installed' => 'writeInstalledList',
             'package-dependencies' => 'outputPackageDeps',
+            'package-prepare' => 'outputPackagePrepare',
             'list-files' => 'outputPackageContents',
             'config-help' => 'outputConfigHelp',
             'info' => 'outputRemoteInfo',
@@ -186,6 +187,20 @@ extends Mage_Connect_Frontend
         $this->writeln($title);
         foreach($data['data'] as $package) {
             $this->printf("%-20s %-20s %-20s %-20s\n", $package['channel'], $package['name'], $package['min'], $package['max']);
+        }
+    }
+
+    /**
+     * Output package prepare
+     * @param $data
+     * @return void
+     */
+    public function outputPackagePrepare($data)
+    {
+        $title = $data['title'];
+        $this->writeln($title);
+        foreach($data['data'] as $package) {
+            $this->printf("%-20s %-20s %-20s %-20s\n", $package['channel'], $package['name'], $package['version'], $package['install_state']);
         }
     }
 

@@ -44,6 +44,9 @@ extends Mage_Connect_Command
 
 
         $cache=null;
+        /**
+         * @var $cache Mage_Connect_Singleconfig
+         */
         $ftpObj=null;
 
 
@@ -56,6 +59,7 @@ extends Mage_Connect_Command
             $withDepsMode = !isset($options['nodeps']);
             $ignoreModifiedMode = true || !isset($options['ignorelocalmodification']);
             $clearInstallMode = $command == 'install' && !$forceMode;
+            $installAll = isset($options['install_all']);
 
             $rest = $this->rest();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
@@ -205,24 +209,8 @@ extends Mage_Connect_Command
                 $package = $params[1];
                 $argVersionMax = isset($params[2]) ? $params[2]: false;
                 $argVersionMin = false;
-
-                if($cache->isChannelName($channel)) {
-                    $uri = $cache->chanUrl($channel);
-                } elseif($this->validator()->validateUrl($channel)) {
-                    $uri = $channel;
-                } elseif($channel) {
-                    $uri = $config->protocol.'://'.$channel;
-                } else {
-                    throw new Exception("'{$channel}' is not existant channel name / valid uri");
-                }
-
-                if($uri && !$cache->isChannel($uri)) {
-                    $rest->setChannel($uri);
-                    $data = $rest->getChannelInfo();
-                    $data->uri = $uri;
-                    $cache->addChannel($data->name, $uri);
-                    $this->ui()->output("Successfully added channel: ".$uri);
-                }
+                
+                $cache->checkChannel($channel, $config);
                 $channelName = $cache->chanName($channel);
                 $this->ui()->output("Checking dependencies of packages");
                 $packagesToInstall = $packager->getDependenciesList( $channelName, $package, $cache, $config, $argVersionMax, $argVersionMin, $withDepsMode, false, $rest);
@@ -277,12 +265,13 @@ extends Mage_Connect_Command
                     $pName = $package['name'];
                     $pChan = $package['channel'];
                     $pVer = $package['downloaded_version'];
+                    $pInstallState = $package['install_state'];
                     $rest->setChannel($cache->chanUrl($pChan));
 
                     /**
                      * Skip existing packages
                      */
-                    if($upgradeMode && $cache->hasPackage($pChan, $pName, $pVer, $pVer)) {
+                    if ($upgradeMode && $cache->hasPackage($pChan, $pName, $pVer, $pVer) || ('already_installed' == $pInstallState && !$forceMode)) {
                         $this->ui()->output("Already installed: {$pChan}/{$pName} {$pVer}, skipping");
                         continue;
                     }
@@ -310,11 +299,15 @@ extends Mage_Connect_Command
                         }
                     }
 
+                    if('incompartible' == $pInstallState) {
+                        $this->ui()->output("Package incompartible with installed Magento: {$pChan}/{$pName} {$pVer}, skipping");
+                        continue;
+                    }
 
                     /**
                      * Modifications
                      */
-                    if ($upgradeMode && !$ignoreModifiedMode) {
+                    if (($upgradeMode || ($pInstallState == 'upgrade')) && !$ignoreModifiedMode) {
                         if($ftp) {
                             $modifications = $packager->getRemoteModifiedFiles($pChan, $pName, $cache, $config, $ftp);
                         } else {
@@ -352,7 +345,7 @@ extends Mage_Connect_Command
                         $this->ui()->output(sprintf("...done: %s bytes", number_format(filesize($file))));
                     }
                     $package = new Mage_Connect_Package($file);
-                    if ($clearInstallMode) {
+                    if ($clearInstallMode && $pInstallState != 'upgrade' && !$installAll) {
                         $this->validator()->validateContents($package->getContents(), $config);
                         $errors = $this->validator()->getErrors();
                         if (count($errors)) {
@@ -380,7 +373,7 @@ extends Mage_Connect_Command
                             throw new Exception($err);
                         }
                     }
-
+                    
                     /**
                      * @todo: make "Use custom permissions" functionality working
                      */

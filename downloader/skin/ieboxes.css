@@ -22,7 +22,8 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-button, .form-button    { overflow:visible; width:auto; }
+button, .form-button    { filter:chroma(color=#000000); overflow:visible; width:auto; }
 .main { height:400px; }
 .nav, .form-btn-set, .header-top, .bar-head { zoom:1; }
 .clear { clear:both; height:0; font-size:0; line-height:0; overflow:hidden; }
+.connect-packages td .select { margin:0 0 2px; }

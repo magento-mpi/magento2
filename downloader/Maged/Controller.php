@@ -259,7 +259,7 @@ final class Maged_Controller
             $this->model('connect', true)->connect()->setRemoteConfig($this->getFtpPost($p));
         }
 
-        /* EE_CHANNEL */
+        /* EE * /
         if (isset($p['auth_username']) && isset($p['auth_password']) && !empty($p['auth_username'])) {
             $auth = array(
                 'username' => $p['auth_username'],
@@ -270,7 +270,7 @@ final class Maged_Controller
         } else {
             $this->session()->set('auth', array());
         }
-        /* //EE_CHANNEL */
+        /* EE */
 
         $this->config()->saveConfigPost($_POST);
         $chan = $this->config()->get('root_channel');
@@ -309,6 +309,25 @@ final class Maged_Controller
     }
 
     /**
+     * Prepare package to install, get dependency info.
+     * 
+     */
+    public function connectPreparePackagePostAction()
+    {
+        if (!$_POST) {
+            echo "INVALID POST DATA";
+            return;
+        }
+
+        $packages = $this->model('connect', true)->prepareToInstall($_POST['install_package_id']);
+        
+        $this->view()->set('packages', $packages);
+        $this->view()->set('package_id', $_POST['install_package_id']);
+        
+        echo $this->view()->template('connect/packages_prepare.phtml');
+    }
+
+    /**
      * Install package
      *
      */
@@ -319,23 +338,18 @@ final class Maged_Controller
             return;
         }
 
-        /* EE_CHANNEL */
-        // TODO: avoid hardcode
-        if (strpos(trim($_POST['install_package_id'], '/'), 'community') !== 0) {
-            $auth = $this->config()->get('auth');
-            $auth = explode('@', $auth);
-            if (isset($auth[0]) && isset($auth[1]) && !empty($auth[0])) {
-                $this->session()->set('auth', array(
-                    'username' => $auth[0],
-                    'password' => $auth[1],
-                ));
-            } else {
-                $this->session()->set('auth', array());
-            }
+        /* EE * /
+        $auth = $this->config()->get('auth');
+        $auth = explode('@', $auth);
+        if (isset($auth[0]) && isset($auth[1]) && !empty($auth[0])) {
+            $this->session()->set('auth', array(
+                'username' => $auth[0],
+                'password' => $auth[1],
+            ));
         } else {
             $this->session()->set('auth', array());
         }
-        /* //EE_CHANNEL */
+        /* EE */
 
         $this->model('connect', true)->installPackage($_POST['install_package_id']);
     }
@@ -387,13 +401,13 @@ final class Maged_Controller
         $this->view()->set('use_custom_permissions_mode', $config->get('use_custom_permissions_mode'));
         $this->view()->set('mkdir_mode', $config->get('mkdir_mode'));
         $this->view()->set('chmod_file_mode', $config->get('chmod_file_mode'));
-        /* EE_CHANNEL */
+        /* EE * /
         if ($config->get('auth')) {
             $auth = explode('@', $config->get('auth'));
             $this->view()->set('auth_username', isset($auth[0]) ? $auth[0] : '');
             $this->view()->set('auth_password', isset($auth[1]) ? $auth[1] : '');
         }
-        /* //EE_CHANNEL */
+        /* EE */
 
         $fs_disabled=!$this->isWritable();
         $ftpParams=$connectConfig->__get('remote_config')?@parse_url($connectConfig->__get('remote_config')):'';
@@ -732,6 +746,7 @@ final class Maged_Controller
             $this->_isDispatched = true;
 
             $method = $this->getActionMethod();
+            //echo($method);exit();
             $this->$method();
         }
 

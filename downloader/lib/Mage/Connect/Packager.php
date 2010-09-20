@@ -37,6 +37,13 @@ class Mage_Connect_Packager
     const CONFIG_FILE_NAME='downloader/connect.cfg';
     const CACHE_FILE_NAME='downloader/cache.cfg';
 
+    protected  $install_states = array(
+                    'install' => 'Ready to install',
+                    'upgrade' => 'Ready to upgrade',
+                    'already_installed' => 'Already installed',
+                    'wrong_version' => 'Wrong version',
+                );
+
     /**
      * Constructor
      * @param Mage_connect_Config $config
@@ -560,6 +567,44 @@ class Mage_Connect_Packager
     }
 
     /**
+     * Add data to package dependencies hash array
+     * @param array $hash Package dependencies hash array
+     * @param string $name Package name
+     * @param string $channel Package chaannel
+     * @param string $downloaded_version Package downloaded version
+     * @param string $stability Package stability
+     * @param string $versionMin Required package minimum version
+     * @param string $versionMax Required package maximum version
+     * @param string $install_state Package install state
+     * @param string $message Package install message
+     * @param array $dependencies Package dependencies
+     */
+    private function addHashData(&$hash, $name, $channel, $downloaded_version = '', $stability = '', $versionMin = '',
+            $versionMax = '', $install_state = '', $message = '', $dependencies = '') 
+    {
+            /**
+             * @todo When we are building dependencies tree we should base this calculations not on full key as on a 
+             * unique value but check it by parts. First part which should be checked is EXTENSION_NAME also this 
+             * part should be unique globally not per channel.
+             */
+            //$key = $chanName . "/" . $package;
+            $key = $name;
+            $hash[$key] = array (
+                'name' => $name,
+                'channel' => $channel,
+                'downloaded_version' => $downloaded_version,
+                'stability' => $stability,
+                'min' => $versionMin,
+                'max' => $versionMax,
+                'install_state' => $install_state,
+                'message' => (isset($this->install_states[$install_state]) ? $this->install_states[$install_state] : '').$message,
+                'packages' => $dependencies,
+            );
+
+            return true;
+    }
+
+    /**
      * Get dependencies list/install order info
      *
      *
@@ -574,25 +619,31 @@ class Mage_Connect_Packager
      * @param Mage_Connect_Rest $rest
      * @return mixed
      */
-    public function getDependenciesList( $chanName, $package, $cache, $config, $versionMax = false, $versionMin = false, $withDepsRecursive = true, $forceRemote = false, $rest = null)
+    public function getDependenciesList( $chanName, $package, $cache, $config, $versionMax = false, $versionMin = false,
+            $withDepsRecursive = true, $forceRemote = false, $rest = null)
     {
 
         static $level = 0;
         static $_depsHash = array();
         static $_deps = array();
         static $_failed = array();
+        $install_state = 'install';
+        $version = '';
+        $stability = '';
+        $message = '';
+        $dependencies = array();
 
         $level++;
 
         try {
             $chanName = $cache->chanName($chanName);
 
-            if(!$rest){
+            if (!$rest){
                 $rest = new Mage_Connect_Rest($config->protocol);
             }
             $rest->setChannel($cache->chanUrl($chanName));
             $releases = $rest->getReleases($package);
-            if(!$releases || !count($releases)) {
+            if (!$releases || !count($releases)) {
                 throw new Exception("No releases for '{$package}', skipping");
             }
             $state = $config->preffered_state ? $confg->preffered_state : 'devel';
@@ -601,23 +652,65 @@ class Mage_Connect_Packager
                 throw new Exception("Version for '{$package}' was not detected");
             }
             $packageInfo = $rest->getPackageReleaseInfo($package, $version);
-            if(false === $packageInfo) {
+            if (false === $packageInfo) {
                 throw new Exception("Package release '{$package}' not found on server");
             }
-            $dependencies = $packageInfo->getDependencyPackages();
-            $keyOuter = $chanName . "/" . $package;
+            $stability = $packageInfo->getStability();
 
-            //print "Processing outer: {$keyOuter} \n";
-            $_depsHash[$keyOuter] = array (
-                        'name' => $package,
-                        'channel' => $chanName,
-                        'downloaded_version' => $version,
-                        'min' => $versionMin,
-                        'max' => $versionMax,
-                        'packages' => $dependencies,
-            );
+            /**
+             * @todo check is package already installed
+             */
+            if ($installedPackage = $cache->isPackageInstalled($package)) {
+                if ($chanName == $installedPackage['channel']){
+                    /**
+                     * @todo check versions!!!
+                     */
+                    if (version_compare($version, $installedPackage['version'], '>')) {
+                        $install_state = 'upgrade';
+                    } elseif (version_compare($version, $installedPackage['version'], '<')) {
+                        $version = $installedPackage['version'];
+                        $stability = $installedPackage['stability'];
+                        $install_state = 'wrong_version';
+                    } else {
+                        $install_state = 'already_installed';
+                    }
+                } else {
+                    $install_state = 'incompatible';
+                }
+            }
 
-            if($withDepsRecursive) {
+            $deps_tmp = $packageInfo->getDependencyPackages();
+
+            /**
+             * @todo Select distinct packages grouped by name
+             */
+            $dependencies = array();
+            foreach ($deps_tmp as $row) {
+                if (isset($dependencies[$row['name']])) {
+                    if ($installedPackageDep = $cache->isPackageInstalled($row['name'])) {
+                        if ($installedPackageDep['channel'] == $row['channel']) {
+                            $dependencies[$row['name']]=$row;
+                        }
+                    } elseif ($config->root_channel == $row['channel']) {
+                        $dependencies[$row['name']] = $row;
+                    }
+                } else {
+                    $dependencies[$row['name']] = $row;
+                }
+            }
+            
+            /**
+             * @todo When we are building dependencies tree we should base this calculations not on full key as on a
+             * unique value but check it by parts. First part which should be checked is EXTENSION_NAME also this part
+             * should be unique globally not per channel.
+             */
+            // $keyOuter = $chanName . "/" . $package;
+            $keyOuter = $package;
+
+            $this->addHashData($_depsHash, $package, $chanName, $version, $stability, $versionMin,
+                    $versionMax, $install_state, $message, $dependencies);
+
+            if ($withDepsRecursive && 'incompatible' != $install_state) {
                 $flds = array('name','channel','min','max');
                 $fldsCount = count($flds);
                 foreach($dependencies as $row) {
@@ -626,7 +719,13 @@ class Mage_Connect_Packager
                         $$varName = $row[$key];
                     }
                     $method = __FUNCTION__;
-                    $keyInner = $pChannel . "/" . $pName;
+                    /**
+                     * @todo When we are building dependencies tree we should base this calculations not on full key as 
+                     * on a unique value but check it by parts. First part which should be checked is EXTENSION_NAME
+                     * also this part should be unique globally not per channel.
+                     */
+                    //$keyInner = $pChannel . "/" . $pName;
+                    $keyInner = $pName;
                     if(!isset($_depsHash[$keyInner])) {
                         $_deps[] = $row;
                         $this->$method($pChannel, $pName, $cache, $config,
@@ -659,7 +758,13 @@ class Mage_Connect_Packager
                         if(!$cache->hasVersionRangeIntersect($pMin,$pMax, $hasMin, $hasMax)) {
                             $reason = "Detected {$pName} conflict of versions: {$hasMin}-{$hasMax} and {$pMin}-{$pMax}";
                             unset($_depsHash[$keyInner]);
-                            $_failed[] = array('name'=>$pName, 'channel'=>$pChannel, 'max'=>$pMax, 'min'=>$pMin, 'reason'=>$reason);
+                            $_failed[] = array(
+                                'name'=>$pName,
+                                'channel'=>$pChannel,
+                                'max'=>$pMax,
+                                'min'=>$pMin,
+                                'reason'=>$reason
+                            );
                             continue;
                         }
                         $newMaxIsLess = version_compare($pMax, $hasMax, "<");

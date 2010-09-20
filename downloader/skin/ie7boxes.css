@@ -23,3 +23,5 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 .main { height:auto !important; }
+button, .form-button { filter:chroma(color=#000000); }
+.connect-packages td .select { margin:0 0 2px; width:100%; }
