@@ -179,8 +179,9 @@ class Model_Admin_Product_Simple extends Model_Admin {
         $productData = $params ? $params : $this->productData;
         if ($this->model->doOpenProduct($params)) {
             $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
-            $this->chooseOkOnNextConfirmation();
             $this->clickAndWait($this->getUiElement("buttons/delete"));
+            $this->assertConfirmation('Are you sure?');
+            $this->chooseOkOnNextConfirmation();
             $this->waitForElement($this->getUiElement("/admin/messages/success"), 10);
             if (!$this->isElementPresent($this->getUiElement("/admin/messages/success"))) {
                 $this->setVerificationErrors("No success message about deleting");
