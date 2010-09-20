@@ -34,6 +34,11 @@
  */
 class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Resource_Quote_Collection
 {
+
+    const SELECT_COUNT_SQL_TYPE_CART = 1;
+    
+    protected $_selectCountSqlType = 0;
+
     /**
      * Join fields
      *
@@ -47,6 +52,20 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
      * @var array
      */
     protected $_map              = array('fields' => array('store_id' => 'main_table.store_id'));
+
+    /**
+     * Set type for COUNT SQL select
+     *
+     * @param int $type
+     * @return Mage_Reports_Model_Mysql4_Quote_Collection
+     */
+    public function setSelectCountSqlType($type)
+    {
+        $this->_selectCountSqlType = $type;
+        return $this;
+    }
+
+
 
     /**
      * Prepare for abandoned report
@@ -65,6 +84,88 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
         if (is_array($storeIds)) {
             $this->addFieldToFilter('store_id', array('in' => $storeIds));
         }
+        return $this;
+    }
+
+
+    /**
+     * Prepare select query for products in carts report
+     *
+     * @return Mage_Reports_Model_Mysql4_Quote_Collection
+     */
+    public function prepareForProductsInCarts()
+    {
+        $productEntity          = Mage::getResourceSingleton('catalog/product_collection');
+        $productAttrName        = $productEntity->getAttribute('name');
+        $productAttrNameId      = $productAttrName->getAttributeId();
+        $productAttrNameTable   = $productAttrName->getBackend()->getTable();
+        $productAttrPrice       = $productEntity->getAttribute('price');
+        $productAttrPriceId     = $productAttrPrice->getAttributeId();
+        $productAttrPriceTable  = $productAttrPrice->getBackend()->getTable();
+
+        $ordersSubSelect = clone $this->getSelect();
+        $ordersSubSelect->reset()
+            ->from(array('order_items' => $this->getTable('sales/order_item')), new Zend_Db_Expr('COUNT(1)'))
+            ->where('order_items.product_id = e.entity_id');
+
+        $this->getSelect()
+            ->useStraightJoin(true)
+            ->reset(Zend_Db_Select::COLUMNS)
+            ->joinInner(array('quote_items' => $this->getTable('sales/quote_item')), 'quote_items.quote_id = main_table.entity_id', null)
+            ->joinInner(array('e' => $this->getTable('catalog/product')), 'e.entity_id = quote_items.product_id', null)
+            ->joinInner(array('product_name' => $productAttrNameTable),
+                "product_name.entity_id = e.entity_id and product_name.attribute_id = {$productAttrNameId}",
+                array('name'=>'product_name.value'))
+            ->joinInner(array('product_price' => $productAttrPriceTable),
+                "product_price.entity_id = e.entity_id and product_price.attribute_id = {$productAttrPriceId}",
+                array('price'=>'product_price.value'))
+            ->columns('e.*')
+            ->columns(array('carts' => new Zend_Db_Expr('count(quote_items.item_id)')))
+            ->columns("({$ordersSubSelect}) AS orders")
+            ->where('main_table.is_active = ?', 1)
+            ->group('quote_items.product_id');
+
+        return $this;
+    }
+
+
+    /**
+     * Prepare select for produncts in carts report
+     *
+     * @return Mage_Reports_Model_Mysql4_Quote_Collection
+     */
+    public function prepareForProdunctsInCarts()
+    {
+        $productEntity          = Mage::getResourceSingleton('catalog/product_collection');
+        $productAttrName        = $productEntity->getAttribute('name');
+        $productAttrNameId      = $productAttrName->getAttributeId();
+        $productAttrNameTable   = $productAttrName->getBackend()->getTable();
+        $productAttrPrice       = $productEntity->getAttribute('price');
+        $productAttrPriceId     = $productAttrPrice->getAttributeId();
+        $productAttrPriceTable  = $productAttrPrice->getBackend()->getTable();
+
+        $ordersSubSelect = clone $this->getSelect();
+        $ordersSubSelect->reset()
+            ->from(array('order_items' => 'sales_flat_order_item'), new Zend_Db_Expr('COUNT(1)'))
+            ->where('order_items.product_id = e.entity_id');
+
+        $this->getSelect()
+            ->useStraightJoin(true)
+            ->reset(Zend_Db_Select::COLUMNS)
+            ->joinInner(array('quote_items' => 'sales_flat_quote_item'), 'quote_items.quote_id = main_table.entity_id', null)
+            ->joinInner(array('e' => 'catalog_product_entity'), 'e.entity_id = quote_items.product_id', null)
+            ->joinInner(array('product_name' => $productAttrNameTable),
+                "product_name.entity_id = e.entity_id and product_name.attribute_id = {$productAttrNameId}",
+                array('name'=>'product_name.value'))
+            ->joinInner(array('product_price' => $productAttrPriceTable),
+                "product_price.entity_id = e.entity_id and product_price.attribute_id = {$productAttrPriceId}",
+                array('price'=>'product_price.value'))
+            ->columns('e.*')
+            ->columns(array('carts' => new Zend_Db_Expr('count(quote_items.item_id)')))
+            ->columns("({$ordersSubSelect}) AS orders")
+            ->where('main_table.is_active = ?', 1)
+            ->group('quote_items.product_id');
+
         return $this;
     }
 
@@ -185,7 +286,11 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
         $countSelect->reset(Zend_Db_Select::COLUMNS);
         $countSelect->reset(Zend_Db_Select::GROUP);
 
-        $countSelect->columns("count(DISTINCT main_table.entity_id)");
+        if ($this->_selectCountSqlType == self::SELECT_COUNT_SQL_TYPE_CART) {
+            $countSelect->columns("count(DISTINCT e.entity_id)");
+        } else {
+            $countSelect->columns("count(DISTINCT main_table.entity_id)");
+        }
         $sql = $countSelect->__toString();
 
         return $sql;
