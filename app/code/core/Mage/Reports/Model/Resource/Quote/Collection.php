@@ -130,11 +130,11 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
 
 
     /**
-     * Prepare select for produncts in carts report
+     * Prepare select query for products in carts report
      *
      * @return Mage_Reports_Model_Mysql4_Quote_Collection
      */
-    public function prepareForProdunctsInCarts()
+    public function prepareForProductsInCarts()
     {
         $productEntity          = Mage::getResourceSingleton('catalog/product_collection');
         $productAttrName        = $productEntity->getAttribute('name');
