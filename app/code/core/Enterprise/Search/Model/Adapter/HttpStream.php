@@ -158,8 +158,28 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             $_params['solr_params']['qt'] = 'magento' . $languageSuffix;
         }
 
-        if (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on') {
+        /**
+         * Facets search
+         */
+        $useFacetSearch = (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on');
+        if ($useFacetSearch) {
             $searchParams += $this->_prepareFacetConditions($params['facet']);
+        }
+
+        /**
+         * Suggestions search
+         */
+        $useSpellcheckSearch = (isset($params['solr_params']['spellcheck']) && $params['solr_params']['spellcheck'] == 'true');
+        if ($useSpellcheckSearch) {
+            $spellcheckCount = (isset($params['solr_params']['spellcheck.count']) && $params['solr_params']['spellcheck.count'])
+                ? $params['solr_params']['spellcheck.count']
+                : self::DEFAULT_SPELLCHECK_COUNT;
+            $_params['solr_params'] += array(
+                'spellcheck.collate'         => 'true',
+                'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
+                'spellcheck.extendedResults' => 'true',
+                'spellcheck.count'           => $spellcheckCount
+            );
         }
 
         /**
@@ -192,10 +212,48 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
 
             $result = array('ids' => $this->_prepareQueryResponse($data));
 
-            if (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on'){
+            /**
+             * Extract facet search results
+             */
+            if ($useFacetSearch) {
                 $result['facets'] = $this->_prepareFacetsQueryResponse($data);
-            } else {
-                $result['facets'] = array();
+            }
+
+            /**
+             * Extract suggestions search results
+             */
+            if ($useSpellcheckSearch) {
+                $resultSuggestions = $this->_prepareSuggestionsQueryResponse($data);
+                /* Calc results count for each suggestion */
+                if (isset($params['spellcheck_result_counts'])
+                        && $params['spellcheck_result_counts'] == true
+                        && $spellcheckCount > 0) {
+                    /* Temporary store value for main search query */
+                    $tmpLastNumFound = $this->_lastNumFound;
+                    $this->_lastNumFound = 0;
+
+                    unset($params['solr_params']['spellcheck']);
+                    unset($params['solr_params']['spellcheck.count']);
+                    unset($params['spellcheck_result_counts']);
+
+                    $suggestions = array();
+                    foreach ($resultSuggestions as $key => $item) {
+                        $this->search($item['word'], $params);
+                        if ($this->_lastNumFound) {
+                            $resultSuggestions[$key]['num_results'] = $this->_lastNumFound;
+                            $suggestions[] = $resultSuggestions[$key];
+                            $spellcheckCount--;
+                        }
+                        if ($spellcheckCount <= 0) {
+                            break;
+                        }
+                    }
+                    /* Return store value for main search query */
+                    $this->_lastNumFound = $tmpLastNumFound;
+                } else {
+                    $suggestions = array_slice($resultSuggestions, 0, $spellcheckCount);
+                }
+                $result['suggestions'] = $suggestions;
             }
 
             return $result;
@@ -207,10 +265,15 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
     /**
      * Simple Search suggestions interface
      *
+     * @deprecated after 1.9.0.0 - integrated into $this->_search()
+     *
      * @param string $query The raw query string
-     * @return boolean|string
+     * @param array $params
+     * @param int|bool $limit
+     * @param bool $withResultsCounts
+     * @return array
      */
-    public function _searchSuggestions($query, $params=array(), $limit=false, $withResultsCounts=false)
+    public function _searchSuggestions($query, $params = array(), $limit = false, $withResultsCounts = false)
     {
         $query = $this->_prepareQueryText($query);
         if (!$query) {
@@ -243,7 +306,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                     $this->search($item['word'], $params);
                     if ($this->_lastNumFound) {
                         $result[$key]['num_results'] = $this->_lastNumFound;
-                        $resultLimit[]= $result[$key];
+                        $resultLimit[] = $result[$key];
                         $limit--;
                     }
                     if ($limit <= 0) {

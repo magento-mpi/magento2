@@ -397,21 +397,27 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             }
         }
 
-        if (!isset($_result['facets'])) {
-            $_result['facets'] = array();
-        }
+        $result = array(
+            'ids' => $ids,
+            'facetedData' => (isset($_result['facets'])) ? $_result['facets'] : array(),
+            'suggestionsData' => (isset($_result['suggestions'])) ? $_result['suggestions'] : array()
+        );
 
-        return array($ids, $_result['facets']);
+        return $result;
     }
 
     /**
      * Retrieve search suggestions by query
      *
+     * @depracated after 1.9.0.0
+     *
      * @param string $query
      * @param array $params
-     * @return boolean|string
+     * @param int $limit
+     * @param bool $withResultsCounts
+     * @return array
      */
-    public function getSuggestionsByQuery($query, $params = array(), $limit=false, $withResultsCounts=false)
+    public function getSuggestionsByQuery($query, $params = array(), $limit = false, $withResultsCounts = false)
     {
         return $this->_searchSuggestions($query, $params, $limit, $withResultsCounts);
     }
@@ -543,13 +549,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             foreach ($arrayResponse as $item) {
                 if (isset($item['suggestion']) && is_array($item['suggestion'])) {
                     foreach ($item['suggestion'] as $suggestion) {
-                        $suggestions[]=$suggestion;
+                        $suggestions[] = $suggestion;
                     }
                 }
             }
         }
         // It is assumed that the frequency corresponds to the number of results
-        if (count($suggestions) > 0) {
+        if (count($suggestions)) {
             usort($suggestions, array(get_class($this), 'sortSuggestions'));
         }
 

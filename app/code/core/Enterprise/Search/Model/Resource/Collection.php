@@ -93,6 +93,13 @@ class Enterprise_Search_Model_Resource_Collection
     protected $_facetedData = array();
 
     /**
+     * Suggestions search result data
+     *
+     * @var array
+     */
+    protected $_suggestionsData = array();
+
+    /**
      * Conditions for faceted search
      *
      * @var array
@@ -108,10 +115,20 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function getFacetedData($field)
     {
-        if (isset($this->_facetedData[$field])){
+        if (isset($this->_facetedData[$field])) {
             return $this->_facetedData[$field];
         }
         return array();
+    }
+
+    /**
+     * Return suggestions search result data
+     *
+     *  @return array
+     */
+    public function getSuggestionsData()
+    {
+        return $this->_suggestionsData;
     }
 
     /**
@@ -274,8 +291,9 @@ class Enterprise_Search_Model_Resource_Collection
             $params['solr_params']['facet'] = 'on';
             $params['facet'] = $this->_facetedConditions;
 
-            list($ids, $this->_facetedData) = $this->_engine->getIdsByQuery($query, $params);
-            $ids = (array)$ids;
+            $result = $this->_engine->getIdsByQuery($query, $params);
+            $ids = (array)$result['ids'];
+            $this->_facetedData = $result['facetedData'];
         }
 
         $this->_searchedEntityIds = &$ids;
@@ -330,7 +348,20 @@ class Enterprise_Search_Model_Resource_Collection
             }
             $params['filters'] = $this->_searchQueryFilters;
 
-            $this->_engine->getIdsByQuery($query, $params);
+            $helper = Mage::helper('enterprise_search');
+            $searchSuggestionsEnabled = $helper->getSolrConfigData('server_suggestion_enabled');
+            if ($searchSuggestionsEnabled) {
+                $params['solr_params']['spellcheck'] = 'true';
+                $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');
+                if ($searchSuggestionsCount < 1) {
+                    $searchSuggestionsCount = 1;
+                }
+                $params['solr_params']['spellcheck.count'] = $searchSuggestionsCount;
+                $params['spellcheck_result_counts'] = (bool)$helper->getSolrConfigData('server_suggestion_count_results_enabled');
+            }
+
+            $result = $this->_engine->getIdsByQuery($query, $params);
+            $this->_suggestionsData = $result['suggestionsData'];
             $this->_totalRecords = $this->_engine->getLastNumFound();
         }
 
@@ -364,7 +395,7 @@ class Enterprise_Search_Model_Resource_Collection
     }
 
     /**
-     * Set query *:* to disablet query limitation
+     * Set query *:* to disable query limitation
      *
      * @return Enterprise_Search_Model_Resource_Collection
      */

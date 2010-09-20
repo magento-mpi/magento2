@@ -260,14 +260,14 @@
       </analyzer>
     </fieldType>
     
-    <fieldtype name="phonetic" stored="false" indexed="true" class="solr.TextField" >
+    <fieldtype name="phonetic" stored="false" indexed="true" class="solr.TextField">
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.DoubleMetaphoneFilterFactory" inject="false"/>
       </analyzer>
     </fieldtype>
 
-    <fieldtype name="payloads" stored="false" indexed="true" class="solr.TextField" >
+    <fieldtype name="payloads" stored="false" indexed="true" class="solr.TextField">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <!--
@@ -320,7 +320,7 @@
     
     <!-- charFilter + WhitespaceTokenizer  -->
     <!--
-    <fieldType name="textCharNorm_en" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textCharNorm_en" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
@@ -362,7 +362,7 @@
 
     <!-- Less flexible matching, but less false matches.  Probably not ideal for product names,
          but may be good for SKUs.  Can insert dashes in the wrong place and still match. -->
-    <fieldType name="textTight_en" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_en" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_en.txt" ignoreCase="true" expand="false"/>
@@ -393,19 +393,6 @@
         <filter class="solr.LowerCaseFilterFactory"/>
         <!-- The TrimFilter removes any leading or trailing whitespace -->
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords_en.txt"/>
-        <!-- The PatternReplaceFilter gives you the flexibility to use
-             Java Regular expression to replace any sequence of characters
-             matching a pattern with an arbitrary replacement string, 
-             which may include back references to portions of the original
-             string matched by the pattern.
-             
-             See the Java Regular Expression documentation for more
-             information on pattern and replacement string syntax.
-             
-             http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/package-summary.html
-          -->
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -430,7 +417,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_fr" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_fr" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_fr.txt" ignoreCase="true" expand="false"/>
@@ -447,8 +434,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="French" protected="protwords_fr.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-zÀ-ÿ0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -473,7 +458,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_de" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_de" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_de.txt" ignoreCase="true" expand="false"/>
@@ -490,8 +475,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="German" protected="protwords_de.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-zäöüÄÖÜ0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -516,7 +499,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_da" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_da" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_da.txt" ignoreCase="true" expand="false"/>
@@ -533,8 +516,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Danish" protected="protwords_da.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-zA-ZæøåÆØÅ0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -559,7 +540,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_nl" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_nl" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_nl.txt" ignoreCase="true" expand="false"/>
@@ -576,8 +557,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Dutch" protected="protwords_nl.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -602,7 +581,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_fi" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_fi" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_fi.txt" ignoreCase="true" expand="false"/>
@@ -619,8 +598,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Finnish" protected="protwords_fi.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -645,7 +622,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_it" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_it" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_it.txt" ignoreCase="true" expand="false"/>
@@ -662,8 +639,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Italian" protected="protwords_it.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -688,7 +663,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_nb" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_nb" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_nb.txt" ignoreCase="true" expand="false"/>
@@ -705,8 +680,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Norwegian" protected="protwords_nb.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -731,7 +704,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_pt" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_pt" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_pt.txt" ignoreCase="true" expand="false"/>
@@ -748,8 +721,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Portuguese" protected="protwords_pt.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -774,7 +745,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_ro" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_ro" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_ro.txt" ignoreCase="true" expand="false"/>
@@ -791,8 +762,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Romanian" protected="protwords_ro.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -817,7 +786,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_ru" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_ru" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_ru.txt" ignoreCase="true" expand="false"/>
@@ -834,8 +803,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Russian" protected="protwords_ru.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -860,7 +827,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_es" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_es" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_es.txt" ignoreCase="true" expand="false"/>
@@ -877,8 +844,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Spanish" protected="protwords_es.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -903,7 +868,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_sv" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_sv" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_sv.txt" ignoreCase="true" expand="false"/>
@@ -920,8 +885,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Swedish" protected="protwords_sv.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -946,7 +909,7 @@
       </analyzer>
     </fieldType>
 
-    <fieldType name="textTight_tr" class="solr.TextField" positionIncrementGap="100" >
+    <fieldType name="textTight_tr" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_tr.txt" ignoreCase="true" expand="false"/>
@@ -963,8 +926,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.SnowballPorterFilterFactory" language="Turkish" protected="protwords_tr.txt"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -1003,7 +964,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -1042,7 +1002,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -1081,7 +1040,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -1120,7 +1078,6 @@
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
     
@@ -1128,14 +1085,14 @@
     JAPANESE LANGUAGE
     -->
     <fieldType name="text_ja" class="solr.TextField">
-      <analyzer type="index" class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <analyzer type="index">
+        <tokenizer class="solr.CJKTokenizerFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_ja.txt" enablePositionIncrements="true"/>
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1"/>
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
-      <analyzer type="query" class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <analyzer type="query">
+        <tokenizer class="solr.CJKTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_ja.txt" ignoreCase="true" expand="true"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_ja.txt" enablePositionIncrements="true"/>
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1"/>
@@ -1144,8 +1101,8 @@
     </fieldType>
 
     <fieldType name="textTight_ja" class="solr.TextField">
-      <analyzer class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <analyzer>
+        <tokenizer class="solr.CJKTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_ja.txt" ignoreCase="true" expand="false"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_ja.txt"/>
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0"/>
@@ -1155,26 +1112,25 @@
     </fieldType>
 
     <fieldType name="alphaOnlySort_ja" class="solr.TextField" sortMissingLast="true" omitNorms="true">
-      <analyzer class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
-        <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <analyzer>
+        <tokenizer class="solr.CJKTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
-    
+
     <!--
     KOREAN LANGUAGE
     -->
     <fieldType name="text_ko" class="solr.TextField">
-      <analyzer type="index" class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <analyzer type="index">
+        <tokenizer class="solr.CJKTokenizerFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_ko.txt" enablePositionIncrements="true"/>
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1"/>
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
-      <analyzer type="query" class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <analyzer type="query">
+        <tokenizer class="solr.CJKTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_ko.txt" ignoreCase="true" expand="true"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_ko.txt" enablePositionIncrements="true"/>
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1"/>
@@ -1183,8 +1139,8 @@
     </fieldType>
 
     <fieldType name="textTight_ko" class="solr.TextField">
-      <analyzer class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <analyzer>
+        <tokenizer class="solr.CJKTokenizerFactory"/>
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms_ko.txt" ignoreCase="true" expand="false"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_ko.txt"/>
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0"/>
@@ -1194,14 +1150,13 @@
     </fieldType>
 
     <fieldType name="alphaOnlySort_ko" class="solr.TextField" sortMissingLast="true" omitNorms="true">
-      <analyzer class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
-        <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <analyzer>
+        <tokenizer class="solr.CJKTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.TrimFilterFactory"/>
-        <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z\d\u0100-\uffff0-9])" replacement="" replace="all"/>
       </analyzer>
     </fieldType>
- </types>
+  </types>
 
     <fields>
         <!-- Valid attributes for fields:
@@ -1234,22 +1189,22 @@
         Numeric fields
         -->
 
-        <field name="id" type="string" indexed="true" stored="true" required="true"/> 
-        <field name="unique" type="string" indexed="true" stored="true" required="true"/> 
-        <field name="price" type="tfloat" indexed="true" stored="true" multiValued="true"/>
-        <field name="store_id" type="int" indexed="true" stored="true"/>
-        <field name="categories" type="int" indexed="true" stored="true" multiValued="true"/>
-        <field name="show_in_categories" type="int" indexed="true" stored="true" multiValued="true"/>
-        <field name="in_stock" type="boolean" indexed="true" stored="true"/>
-        <field name="visibility" type="int" indexed="true" stored="true"/>
+        <field name="id" type="string" indexed="true" stored="true" required="true"/>
+        <field name="unique" type="string" indexed="true" required="true"/>
+        <field name="price" type="tfloat" indexed="true" multiValued="true"/>
+        <field name="store_id" type="int" indexed="true"/>
+        <field name="categories" type="int" indexed="true" multiValued="true"/>
+        <field name="show_in_categories" type="int" indexed="true" multiValued="true"/>
+        <field name="in_stock" type="boolean" indexed="true"/>
+        <field name="visibility" type="int" indexed="true"/>
 
         <!--
         Text fields
         -->
 
-        <field name="sku" type="textTight_en" indexed="true" stored="true" omitNorms="true"/>
-        <field name="name" type="textgen" indexed="true" stored="true"/>
-        <field name="fulltext" type="textgen" indexed="true" stored="true"/>
+        <field name="sku" type="textTight_en" indexed="true" omitNorms="true"/>
+        <field name="name" type="textgen" indexed="true"/>
+        <field name="fulltext" type="textgen" indexed="true"/>
 
         <!--A field designed for sorting by name, its value will be pasted from name field-->
         <field name="alphaNameSort"    type="alphaOnlySort"    indexed="true" stored="false"/>
@@ -1277,7 +1232,7 @@
         <!-- The following will create a "timestamp" field using
             a default value of "NOW" to indicate when each document was indexed.
         -->
-        <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
+        <field name="timestamp" type="date" indexed="true" default="NOW" multiValued="false"/>
 
         <!-- Dynamic field definitions. If a field name is not found, dynamicFields 
             will be used if the name matches any of the patterns.
@@ -1290,35 +1245,35 @@
         <dynamicField name="ignored_*" type="ignored" multiValued="true"/>
         <dynamicField name="random_*" type="random"/>
 
-        <dynamicField name="attr_decimal_*" type="float" indexed="true" stored="true" multiValued="true"/>
-        <dynamicField name="attr_datetime_*" type="date" indexed="true" stored="true" multiValued="true"/>
-        <dynamicField name="attr_multi_*" type="string" indexed="true" stored="true" multiValued="true"/>
+        <dynamicField name="attr_decimal_*" type="float" indexed="true" multiValued="true"/>
+        <dynamicField name="attr_datetime_*" type="date" indexed="true" multiValued="true"/>
+        <dynamicField name="attr_multi_*" type="string" indexed="true" multiValued="true"/>
 
-        <dynamicField name="attr_select_*" type="string" indexed="true" stored="true" multiValued="true"/>
+        <dynamicField name="attr_select_*" type="string" indexed="true" multiValued="true"/>
 
-        <dynamicField name="price_*" type="tfloat" indexed="true" stored="true"/>
-        <dynamicField name="position_category_*" type="int" indexed="true" stored="true"/>
+        <dynamicField name="price_*" type="tfloat" indexed="true"/>
+        <dynamicField name="position_category_*" type="int" indexed="true"/>
 
-        <dynamicField name="*_en" type="text_en" indexed="true" stored="true"/>
-        <dynamicField name="*_fr" type="text_fr" indexed="true" stored="true"/>
-        <dynamicField name="*_de" type="text_de" indexed="true" stored="true"/>
-        <dynamicField name="*_da" type="text_da" indexed="true" stored="true"/>
-        <dynamicField name="*_nl" type="text_nl" indexed="true" stored="true"/>
-        <dynamicField name="*_fi" type="text_fi" indexed="true" stored="true"/>
-        <dynamicField name="*_it" type="text_it" indexed="true" stored="true"/>
-        <dynamicField name="*_nb" type="text_nb" indexed="true" stored="true"/>
-        <dynamicField name="*_pt" type="text_pt" indexed="true" stored="true"/>
-        <dynamicField name="*_ro" type="text_ro" indexed="true" stored="true"/>
-        <dynamicField name="*_ru" type="text_ru" indexed="true" stored="true"/>
-        <dynamicField name="*_es" type="text_es" indexed="true" stored="true"/>
-        <dynamicField name="*_sv" type="text_sv" indexed="true" stored="true"/>
-        <dynamicField name="*_tr" type="text_tr" indexed="true" stored="true"/>
-        <dynamicField name="*_cs" type="text_cs" indexed="true" stored="true"/>
-        <dynamicField name="*_el" type="text_el" indexed="true" stored="true"/>
-        <dynamicField name="*_th" type="text_th" indexed="true" stored="true"/>
-        <dynamicField name="*_zh" type="text_zh" indexed="true" stored="true"/>
-        <dynamicField name="*_ja" type="text_ja" indexed="true" stored="true"/>
-        <dynamicField name="*_ko" type="text_ko" indexed="true" stored="true"/>
+        <dynamicField name="*_en" type="text_en" indexed="true"/>
+        <dynamicField name="*_fr" type="text_fr" indexed="true"/>
+        <dynamicField name="*_de" type="text_de" indexed="true"/>
+        <dynamicField name="*_da" type="text_da" indexed="true"/>
+        <dynamicField name="*_nl" type="text_nl" indexed="true"/>
+        <dynamicField name="*_fi" type="text_fi" indexed="true"/>
+        <dynamicField name="*_it" type="text_it" indexed="true"/>
+        <dynamicField name="*_nb" type="text_nb" indexed="true"/>
+        <dynamicField name="*_pt" type="text_pt" indexed="true"/>
+        <dynamicField name="*_ro" type="text_ro" indexed="true"/>
+        <dynamicField name="*_ru" type="text_ru" indexed="true"/>
+        <dynamicField name="*_es" type="text_es" indexed="true"/>
+        <dynamicField name="*_sv" type="text_sv" indexed="true"/>
+        <dynamicField name="*_tr" type="text_tr" indexed="true"/>
+        <dynamicField name="*_cs" type="text_cs" indexed="true"/>
+        <dynamicField name="*_el" type="text_el" indexed="true"/>
+        <dynamicField name="*_th" type="text_th" indexed="true"/>
+        <dynamicField name="*_zh" type="text_zh" indexed="true"/>
+        <dynamicField name="*_ja" type="text_ja" indexed="true"/>
+        <dynamicField name="*_ko" type="text_ko" indexed="true"/>
     </fields>
 
     <!-- Field to use to determine and enforce document uniqueness. 

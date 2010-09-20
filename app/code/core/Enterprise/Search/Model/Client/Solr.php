@@ -232,6 +232,8 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
     /**
      * Simple Search interface
      *
+     * @deprecated after 1.9.0.0 - integrated into $this->combinedSearch()
+     *
      * @param string $query The raw query string
      * @param array $params key / value pairs for other query parameters (see Solr documentation), use arrays for parameter keys used more than once (e.g. facet.field)
      * @return Apache_Solr_Response

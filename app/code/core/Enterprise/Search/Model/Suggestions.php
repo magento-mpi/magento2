@@ -40,27 +40,16 @@ class Enterprise_Search_Model_Suggestions
      */
     public function getSearchSuggestions()
     {
-        $productCollection = Mage::getSingleton('enterprise_search/search_layer')->getProductCollection();
-        $searchQueryText = Mage::helper('catalogsearch')->getQuery()->getQueryText();
-
-        $params = array(
-            'store_id' => $productCollection->getStoreId(),
-        );
-
-        if (!Mage::helper('enterprise_search')->isThirdPartSearchEngine()) {
-            return array();
+        $helper = Mage::helper('enterprise_search');
+        if ($helper->isThirdPartSearchEngine()) {
+            $searchSuggestionsEnabled = $helper->getSolrConfigData('server_suggestion_enabled');
+            if ($searchSuggestionsEnabled) {
+                return Mage::getSingleton('enterprise_search/search_layer')
+                        ->getProductCollection()
+                        ->getSuggestionsData();
+            }
         }
 
-        $searchSuggestionsEnabled = Mage::helper('enterprise_search')->getSolrConfigData("server_suggestion_enabled");
-        $searchSuggestionsCount   = (int)Mage::helper('enterprise_search')->getSolrConfigData("server_suggestion_count");
-        if ($searchSuggestionsCount < 1) {
-            $searchSuggestionsCount = 1;
-        }
-        if ($searchSuggestionsEnabled) {
-            $model = Mage::getResourceModel('enterprise_search/suggestions');
-            return $model->getSuggestionsByQuery($searchQueryText, $params, $searchSuggestionsCount);
-        } else {
-            return array();
-        }
+        return array();
     }
 }

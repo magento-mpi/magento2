@@ -27,6 +27,8 @@
 /**
  * Catalog search suggestions resource model
  *
+ * @deprecated after 1.9.0.0
+ *
  * @category    Enterprise
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -35,36 +37,37 @@ class Enterprise_Search_Model_Resource_Suggestions extends Mage_Core_Model_Mysql
 {
     /**
      * Init main table
-     *
      */
     protected function _construct()
     {
         $this->_init('enterprise_search/query', 'id');
     }
 
-
     /**
      * Retrieve search suggestions
      *
      * @param string $query
+     * @param array $params
+     * @param int $searchRecommendationsCount
      * @return array
      */
     public function getSuggestionsByQuery($query, $params, $searchRecommendationsCount)
     {
-        $searchEngineResourceModel   = Mage::getResourceModel('enterprise_search/engine');
-        $searchSuggestionsEnabled    = (boolean)Mage::helper('enterprise_search')->getSolrConfigData("server_suggestion_enabled");
-        $searchSuggestionsCount      = (int)Mage::helper('enterprise_search')->getSolrConfigData("server_suggestion_count");
-        $searchSuggCountResEnabled   = (boolean)Mage::helper('enterprise_search')->getSolrConfigData("server_suggestion_count_results_enabled");
-        $store = Mage::app()->getStore();
-        $params["locale_code"]       = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-        if ($searchSuggestionsCount < 1) {
-            $searchSuggestionsCount = 1;
+        $helper = Mage::helper('enterprise_search');
+        $searchSuggestionsEnabled = (bool)$helper->getSolrConfigData('server_suggestion_enabled');
+        if ($searchSuggestionsEnabled) {
+            $searchSuggestionsCount     = (int)$helper->getSolrConfigData('server_suggestion_count');
+            if ($searchSuggestionsCount < 1) {
+                $searchSuggestionsCount = 1;
+            }
+            $searchSuggCountResEnabled  = (bool)$helper->getSolrConfigData('server_suggestion_count_results_enabled');
+            $params['locale_code']      = Mage::app()->getStore()
+                ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+
+            return Mage::getResourceSingleton('enterprise_search/engine')
+                ->getSuggestionsByQuery($query, $params, $searchRecommendationsCount, $searchSuggCountResEnabled);
         }
 
-        if ($searchSuggestionsEnabled) {
-            return $searchEngineResourceModel->getSuggestionsByQuery($query, $params, $searchRecommendationsCount, $searchSuggCountResEnabled);
-        } else {
-            return array();
-        }
+        return array();
     }
 }
