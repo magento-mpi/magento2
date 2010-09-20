@@ -1,7 +1,6 @@
 <?php
 
-class Admin_Product_AddSimple extends TestCaseAbstract
-{
+class Admin_Product_AddSimple extends TestCaseAbstract {
 
     /**
      * Setup procedure.
@@ -13,12 +12,12 @@ class Admin_Product_AddSimple extends TestCaseAbstract
     }
 
     /**
-    * Test addition new Attribute Set
-    */
-    function testSimpleProductCreation()
-    {
+     * Test addition new Attribute Set
+     */
+    function testSimpleProductCreation() {
         if ($this->model->doLogin()) {
             $this->model->doAddSimpleProduct();
         }
     }
+
 }

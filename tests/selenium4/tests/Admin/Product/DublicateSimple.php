@@ -1,7 +1,6 @@
 <?php
 
-class Admin_Product_DublicateSimple extends TestCaseAbstract
-{
+class Admin_Product_DublicateSimple extends TestCaseAbstract {
 
     /**
      * Setup procedure.
@@ -13,12 +12,12 @@ class Admin_Product_DublicateSimple extends TestCaseAbstract
     }
 
     /**
-    * Test addition new Attribute Set
-    */
-    function testSimpleProductDublication()
-    {
+     * Test addition new Attribute Set
+     */
+    function testSimpleProductDublication() {
         if ($this->model->doLogin()) {
             $this->model->duplicateProduct();
         }
     }
+
 }

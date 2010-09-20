@@ -1,7 +1,6 @@
 <?php
 
-class Admin_Product_DeleteMultipleProducts extends TestCaseAbstract
-{
+class Admin_Product_DeleteMultipleProducts extends TestCaseAbstract {
 
     /**
      * Setup procedure.
@@ -13,12 +12,12 @@ class Admin_Product_DeleteMultipleProducts extends TestCaseAbstract
     }
 
     /**
-    * Test addition new Attribute Set
-    */
-    function testTwoSimpleProductDeletion()
-    {
+     * Test addition new Attribute Set
+     */
+    function testTwoSimpleProductDeletion() {
         if ($this->model->doLogin()) {
             $this->model->doDeleteMultipleProducts();
         }
     }
+
 }
