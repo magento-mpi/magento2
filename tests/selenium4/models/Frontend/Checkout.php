@@ -59,6 +59,100 @@ class Model_Frontend_Checkout extends Model_Frontend {
         $this->printDebug('guestCheckout finished');
     }
 
+/**
+     * Perform Checkout with Registration from FrontEnd
+     * @param - array wirh expecteded values:
+     *       password
+     *       productUrl
+     *       qty"firstName
+     *       lastName
+     *       company
+     *       email
+     *       street1
+     *       street2
+     *       city
+     *       "country
+     *       region
+     *       postcode
+     *       telephone
+     *       fax
+     */
+    public function registerCheckout($params)
+    {
+        //Open ProductPage, place one to ShoppingCart, Press "Proceed to Checkout"
+        $this->startCheckout($params);
+
+        $this->setUiNamespace('/frontend/pages/onePageCheckout/tabs/');
+
+        //Select "...as Guest"
+        $this->click($this->getUiElement("checkoutMethod/inputs/register"));
+        $this->click($this->getUiElement("checkoutMethod/buttons/continue"));
+
+        // Fill billing address tab
+        $this->fillBillingTab($params);
+        //Specify password with confirmation
+        $this->setUiNamespace('/frontend/pages/onePageCheckout/tabs/');
+        $this->type($this->getUiElement("billingAddress/inputs/password"),$params["password"]);
+        $this->type($this->getUiElement("billingAddress/inputs/confirm"),$params["password"]);
+
+        //Press Continue
+        $this->click($this->getUiElement("billingAddress/buttons/continue"));
+        $this->pleaseWaitStep($this->getUiElement("billingAddress/elements/pleaseWait"));
+        $alert ='';
+
+        if ($this->isAlertPresent()) {
+                $this->storeAlert($alert);
+                $this->printInfo("BillingInfo tab could not be saved. Customer email already exists.");
+                //Use timestamp based value in email
+                $this->type($this->getUiElement('billingAddress/inputs/email'),$this->getStamp() . '@varien.com');
+                $this->type($this->getUiElement("billingAddress/inputs/password"),$params["password"]);
+                $this->type($this->getUiElement("billingAddress/inputs/confirm"),$params["password"]);
+                $this->click($this->getUiElement("billingAddress/buttons/continue"));
+                $this->pleaseWaitStep($this->getUiElement("billingAddress/elements/pleaseWait"));
+                $alert ='';
+
+                if ($this->isAlertPresent()) {
+                        $this->storeAlert($alert);
+                        $this->setVerificationErrors("Check2: BillingInfo tab could not be saved. Customer email already exists ?");
+                        return false;
+                }
+        }
+
+        //Perform rest of Checkout steps
+        $this->shippingMethodPaymentPlaceOrderSteps($params);
+    }
+
+    /**
+     * Perform Checkout with login from FrontEnd
+     * @param - array wirh expecteded values:
+     *       password
+     *       email
+     */
+    public function loginCheckout($params)
+    {
+        //Open ProductPage, place one to ShoppingCart, Press "Proceed to Checkout"
+        $this->startCheckout($params);
+
+        $this->setUiNamespace('/frontend/pages/onePageCheckout/tabs/');
+
+        //Select '...as login'
+        $this->type($this->getUiElement('checkoutMethod/inputs/loginEmail'),$params['email']);
+        $this->type($this->getUiElement('checkoutMethod/inputs/password'),$params['password']);
+        $this->clickAndWait($this->getUiElement('checkoutMethod/buttons/login'));
+        $this->pleaseWaitStep($this->getUiElement('billingAddress/elements/pleaseWait'));
+
+        // Fill billing address tab
+        if ($this->waitForElement($this->getUiElement('billingAddress/elements/tabLoaded'), 5)) {
+            $this->click($this->getUiElement('billingAddress/inputs/use_for_shipping'));
+        };
+
+        //Press Continue
+        $this->click($this->getUiElement('billingAddress/buttons/continue'));
+
+        //Perform rest of Checkout steps
+        $this->shippingMethodPaymentPlaceOrderSteps($params);
+    }
+
     /* Test-specific utilitary functions
      *
      */
@@ -159,11 +253,11 @@ class Model_Frontend_Checkout extends Model_Frontend {
             $this->setVerificationErrors("Check 4: 'Check / MoneyOrder' payment method is not available.");
             return false;
          }
+
          $this->printInfo('Using Check/Money Order method');
          $this->click($this->getUiElement('paymentInfo/inputs/check'));
          $this->click($this->getUiElement('paymentInfo/buttons/continue'));
          $this->pleaseWaitStep($this->getUiElement('paymentInfo/elements/pleaseWait'));
-
          //Place Order
          $this->clickAndWait($this->getUiElement('orderReview/buttons/placeOrder'));
 
@@ -173,7 +267,13 @@ class Model_Frontend_Checkout extends Model_Frontend {
             return false;
          }
 
-         $this->printInfo('Placing order');
+         if (!$this->waitForElement($this->getUiElement('orderPlaced/links/orderID'),10)) {
+
+
+         }
+         $orderID = $this->getText($this->getUiElement('orderPlaced/links/orderID'));
+
+         $this->printInfo('Order placed: ' . $orderID);
          $this->printDebug('shippingMethodPaymentPlaceOrderSteps finished');
          return true;
     }
