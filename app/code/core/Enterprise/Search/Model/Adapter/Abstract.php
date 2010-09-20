@@ -192,6 +192,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         $docs = array();
         $attributeParams = $this->_getIndexableAttributeParams();
         $this->_separator = Mage::getResourceSingleton('catalogsearch/fulltext')->getSeparator();
+        $fieldPrefix = Mage::getResourceSingleton('enterprise_search/engine')->getFieldsPrefix();
+        $fieldPrefixLength = strlen($fieldPrefix);
 
         foreach ($docData as $entityId => $index) {
             $doc = new $this->_clientDocObjectName;
@@ -218,14 +220,15 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
              */
             $attributesWeights = array();
             $needToReplaceSeparator = ($this->_separator != ' ');
-            $store = Mage::app()->getStore($index['store_id']);
+            $currentCurrency = Mage::app()->getStore($index['store_id'])->getCurrentCurrency();
             foreach ($index as $code => $value) {
                 $weight = 0;
 
                 if (!empty($attributeParams[$code])) {
                     $weight = $attributeParams[$code]['searchWeight'];
                     $frontendInput = $attributeParams[$code]['frontendInput'];
-                } elseif ((substr($code, 0, 6) == '#price' && !empty($attributeParams['price']))) {
+                } elseif ((substr($code, 0, 5 + $fieldPrefixLength) == $fieldPrefix . 'price'
+                        && !empty($attributeParams['price']))) {
                     $weight = $attributeParams['price']['searchWeight'];
                     $frontendInput = 'price';
                 }
@@ -234,7 +237,18 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                     if ($needToReplaceSeparator && $frontendInput == 'multiselect') {
                         $value = str_replace($this->_separator, ' ', $value);
                     } elseif ($code == 'price' || $frontendInput == 'price') {
-                        $value = $store->formatPrice($value, false);
+                        if (!is_array($value)) {
+                            $value = array($value);
+                        }
+
+                        foreach ($value as $key => $price) {
+                            if ($price == round($price, 0)) {
+                                $value[] = $currentCurrency->formatPrecision($price, 0, array(), false);
+                            } elseif ($price == round($price, 1)) {
+                                $value[] = $currentCurrency->formatPrecision($price, 1, array(), false);
+                            }
+                            $value[$key] = $currentCurrency->formatPrecision($price, 2, array(), false);
+                        }
                     }
 
                     $attributesWeights['fulltext' . $weight][] = $value;
