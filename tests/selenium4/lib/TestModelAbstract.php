@@ -327,7 +327,7 @@ abstract class TestModelAbstract
             '$countryName'  => $countryName
         );
 //        Core::debug($this->getUiElement('elements/selectedCountry',$paramsArray));
-        if (!$this->isElementPresent($this->getUiElement('elements/selectedCountry',$paramsArray))) {
+        if (!$this->isElementPresent($this->getUiElement('/elements/selectedCountry',$paramsArray))) {
             $this->select($selectorID, $countryName);
 //            Required  for Admin !
 //            $this->pleaseWait();

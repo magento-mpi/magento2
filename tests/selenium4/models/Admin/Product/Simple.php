@@ -99,13 +99,11 @@ class Model_Admin_Product_Simple extends Model_Admin {
 
     /**
      * Open product for the editing
-     * @param $sku - contains reurn
-     * @returns true on success
-     * @returns false and setVerificationErrors() on
+     * @param $sku 
+     * @returns boolean
      */
     public function doOpenProduct($params = array()) {
         $productData = $params ? $params : $this->productData;
-
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/manageproducts"));
         $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
         $this->click($this->getUiElement("buttons/reset_filter"));
@@ -118,7 +116,7 @@ class Model_Admin_Product_Simple extends Model_Admin {
             $this->clickAndWait($this->getUiElement('elements/filtered_product', $productData["sku"]));
             return true;
         } else {
-            $this->setVerificationErrors("Product with sku=" . $productData["sku"] . " could not be loaded");
+            $this->printInfo("Product with sku=" . $productData["sku"] . " could not be loaded");
             return false;
         }
     }
@@ -177,16 +175,17 @@ class Model_Admin_Product_Simple extends Model_Admin {
      * Delete product
      * @param $sku
      */
-    public function doDeleteOneProduct() {
-        if ($this->model->doOpenProduct()) {
+    public function doDeleteProduct($params = array()) {
+        $productData = $params ? $params : $this->productData;
+        if ($this->model->doOpenProduct($params)) {
             $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
             $this->chooseOkOnNextConfirmation();
             $this->clickAndWait($this->getUiElement("buttons/delete"));
             $this->waitForElement($this->getUiElement("/admin/messages/success"), 10);
-        }
-        if (!$this->isElementPresent($this->getUiElement("/admin/messages/success"))) {
-            $this->setVerificationErrors("No success message about deleting");
-            $result = false;
+            if (!$this->isElementPresent($this->getUiElement("/admin/messages/success"))) {
+                $this->setVerificationErrors("No success message about deleting");
+                $result = false;
+            }
         }
     }
 

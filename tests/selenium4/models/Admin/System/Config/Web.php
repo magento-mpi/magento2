@@ -49,7 +49,7 @@ class Model_Admin_System_Config_Web extends Model_Admin
             $this->click($this->getUiElement('unsecure_tab/checkboxes/useDefaultBaseLink'));
         }
         //Add prefix to base-url
-        $this->type($this->getUiElement('unsecure_tab/inputs/baselink'), '{{unsecure_base_url}}' . $siteCode . '/');
+        $this->type($this->getUiElement('unsecure_tab/inputs/baselink'), '{{unsecure_base_url}}' . 'websites/' . $siteCode . '/');
         //Open secure section        
         if ($this->waitForElement($this->getUiElement('elements/hidedSecure'),1)) {
             $this->click($this->getUiElement('links/secure'));
@@ -59,7 +59,7 @@ class Model_Admin_System_Config_Web extends Model_Admin
             $this->click($this->getUiElement('secure_tab/checkboxes/useDefaultBaseLink'));
         }
         //Add prefix to base-url
-        $this->type($this->getUiElement('secure_tab/inputs/baselink'), '{{secure_base_url}}' . $siteCode . '/');
+        $this->type($this->getUiElement('secure_tab/inputs/baselink'), '{{secure_base_url}}' . 'websites/' . $siteCode . '/');
         //Save Configuration
         $this->click($this->getUiElement('/admin/pages/system/configuration/buttons/save'));
 
@@ -72,10 +72,10 @@ class Model_Admin_System_Config_Web extends Model_Admin
             if (!$this->waitForElement($this->getUiElement('/admin/messages/success'), 30)) {
                 $this->setVerificationErrors('Check 2 : No successfull message');
             }
-            if (!$this->isElementPresent($this->getUiElement('elements/storedSecure', $siteCode))) {
+            if (!$this->isElementPresent($this->getUiElement('elements/storedSecure', 'websites/'.$siteCode))) {
                 $this->setVerificationErrors("Check 3 : Secure BaseUrl value wasn't saved");
             }
-            if (!$this->isElementPresent($this->getUiElement('elements/storedUnsecure', $siteCode))) {
+            if (!$this->isElementPresent($this->getUiElement('elements/storedUnsecure', 'websites/'.$siteCode))) {
                 $this->setVerificationErrors("Check 4 : UnSecure BaseUrl value wasn't saved");
             }
         }

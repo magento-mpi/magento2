@@ -29,7 +29,6 @@ class Admin_Scope_SetUp extends TestCaseAbstract
         if ($this->model->doLogin()) {
             $this->model->configURL($params);
             $this->model->doReindex();
-            sleep(10);
         }
     }
 }

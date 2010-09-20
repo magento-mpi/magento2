@@ -16,7 +16,7 @@ class Model_Frontend extends TestModelAbstract
 
         $this->baseUrl = Core::getEnvConfig('frontend/baseUrl');
         $this->setBrowserUrl($this->baseUrl);
-        $this->userName = Core::getEnvConfig('frontend/auth/username');
+        $this->userName = Core::getEnvConfig('frontend/auth/email');
         $this->password = Core::getEnvConfig('frontend/auth/password');
     }
 }

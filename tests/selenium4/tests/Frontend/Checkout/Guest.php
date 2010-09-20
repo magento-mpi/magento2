@@ -21,7 +21,6 @@ class Frontend_Checkout_Guest extends TestCaseAbstract
         $paramArray['firstName'] =  Core::getEnvConfig('frontend/checkout/guest/firstName');
         $paramArray['lastName'] =  Core::getEnvConfig('frontend/checkout/guest/lastName');
         $paramArray['email'] =  Core::getEnvConfig('frontend/checkout/guest/email');
-        $paramArray['password'] =  Core::getEnvConfig('frontend/checkout/guest/password');
 
         //Test Flow
         $this->model->guestCheckout($paramArray);

@@ -248,16 +248,17 @@ class Model_Frontend_Checkout extends Model_Frontend {
           return false;
         }
         // Change ShippingAddress for last item to Second Address
-        $secondAddressIndex = $this->findAddressByMask($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/elements/lastShippingAddress'), '/Second Address/');
-        $secondAddressOptionXpath = $this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/elements/lastShippingAddress') . '/option' . '[' . $secondAddressIndex . ']';
+        $this->setUiNamespace('/frontend/pages/multiShippingCheckout/tabs/');
+        $secondAddressIndex = $this->findAddressByMask($this->getUiElement('selectAddresses/elements/lastShippingAddress'), '/Second Address/');
+        $secondAddressOptionXpath = $this->getUiElement('selectAddresses/elements/lastShippingAddress') . '/option' . '[' . $secondAddressIndex . ']';
         $secondAddressText = $this->getText($secondAddressOptionXpath);
-        $this->select($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/elements/lastShippingAddress'), 'label=' . $secondAddressText );
+        $this->select($this->getUiElement('selectAddresses/elements/lastShippingAddress'), 'label=' . $secondAddressText );
 
         //Press 'Continue to shipping information'
-        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/buttons/continue'));
+        $this->clickAndWait($this->getUiElement('selectAddresses/buttons/continue'));
 
         //Select Free shipping for all items
-        $paneXpath = $this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/shippingInformation/elements/addressPane');
+        $paneXpath = $this->getUiElement('shippingInformation/elements/addressPane');
         $count = $this -> getXpathCount($paneXpath);
         Core::debug('address count:'.$count);
         for ($i=1; $i<=$count; $i++) {
@@ -265,17 +266,17 @@ class Model_Frontend_Checkout extends Model_Frontend {
         };
 
         //Continue
-        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/shippingInformation/buttons/continue'));
+        $this->clickAndWait($this->getUiElement('shippingInformation/buttons/continue'));
 
         // Fill billibg Information fields
-        $this->click($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/billingInformation/inputs/check'));
-        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/billingInformation/buttons/continue'));
+        $this->click($this->getUiElement('billingInformation/inputs/check'));
+        $this->clickAndWait($this->getUiElement('billingInformation/buttons/continue'));
 
         //Place order
-        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/placeOrder/buttons/placeOrder'));
+        $this->clickAndWait($this->getUiElement('placeOrder/buttons/placeOrder'));
 
         // Check for success message
-        if (!$this->waitForElement($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/orderSuccess/messages/orderSuccess'),10)) {
+        if (!$this->waitForElement($this->getUiElement('orderSuccess/messages/orderSuccess'),10)) {
             $this->setVerificationErrors("Check 1: no 'Order Placed'  message");
             return false;
         }
@@ -310,7 +311,6 @@ class Model_Frontend_Checkout extends Model_Frontend {
 
         // Change ShippingAddress for last item to Second Address
         $this->setUiNamespace('/frontend/pages/multiShippingCheckout/tabs/');
-        sleep(20);
         $secondAddressIndex = $this->findAddressByMask($this->getUiElement('selectAddresses/elements/lastShippingAddress'), '/Second Address/');
         $secondAddressOptionXpath = $this->getUiElement('selectAddresses/elements/lastShippingAddress') . '/option' . '[' . $secondAddressIndex . ']';
         $secondAddressText = $this->getText($secondAddressOptionXpath);
@@ -455,17 +455,17 @@ class Model_Frontend_Checkout extends Model_Frontend {
 
          // Check for success message
          if (!$this->waitForElement($this->getUiElement('/frontend/pages/onePageCheckout/messages/orderPlaced'),10)) {
-            $this->setVerificationErrors("Check 1: no 'Order Placed'  message");
+            $this->setVerificationErrors("Check 5: no 'Order Placed'  message");
             return false;
          }
 
          if (!$this->waitForElement($this->getUiElement('orderPlaced/links/orderID'),10)) {
-
-
+            $this->setVerificationErrors("Check 6: no 'OrderID'  element on the page");
+            return false;
          }
          $orderID = $this->getText($this->getUiElement('orderPlaced/links/orderID'));
 
-         $this->printInfo('Order placed: ' . $orderID);
+         $this->printInfo($orderID);
          $this->printDebug('shippingMethodPaymentPlaceOrderSteps finished');
          return true;
     }

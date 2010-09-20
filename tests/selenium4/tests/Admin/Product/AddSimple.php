@@ -16,6 +16,7 @@ class Admin_Product_AddSimple extends TestCaseAbstract {
      */
     function testSimpleProductCreation() {
         if ($this->model->doLogin()) {
+            $this->model->doDeleteProduct();
             $this->model->doAddSimpleProduct();
         }
     }
