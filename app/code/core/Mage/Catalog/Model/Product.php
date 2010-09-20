@@ -1722,17 +1722,22 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Get products for mass status through theirs identifiers
+     * Check for empty SKU on each product 
      *
      * @param  array $productIds
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return boolean|null
      */
-    public function getProductsForMassStatus(array $productIds)
+    public function isProductsHasSku(array $productIds)
     {
-        /** @var $products Mage_Catalog_Model_Resource_Product_Collection */
-        $products = $this->getCollection()
-                ->addAttributeToSelect('sku')
-                ->addIdFilter($productIds);
-        return $products;
+        $products = $this->_getResource()->getProductsSku($productIds);
+        if (count($products)) {
+            foreach ($products as $product) {
+                if (empty($product['sku'])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return null;
     }
 }
