@@ -22,6 +22,7 @@ class Admin_Scope_SetUp extends TestCaseAbstract
         $params = array (
             'siteName' => Core::getEnvConfig('backend/scope/site/name'),
             'siteCode' => Core::getEnvConfig('backend/scope/site/code'),
+            'storeName' => Core::getEnvConfig('backend/scope/store/name'),
             'storeViewName' => Core::getEnvConfig('backend/scope/store_view/name')
         );
 

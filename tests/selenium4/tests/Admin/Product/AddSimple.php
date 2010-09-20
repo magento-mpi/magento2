@@ -20,5 +20,4 @@ class Admin_Product_AddSimple extends TestCaseAbstract {
             $this->model->doAddSimpleProduct();
         }
     }
-
 }

@@ -15,9 +15,12 @@ class Admin_Product_DublicateSimple extends TestCaseAbstract {
      * Test addition new Attribute Set
      */
     function testSimpleProductDublication() {
+        // Test Data
+
+        // Test Flow
         if ($this->model->doLogin()) {
+            $this->model->doDeleteProduct(array ('sku' => $this->model->productData['duplicatedSku']));
             $this->model->duplicateProduct();
         }
     }
-
 }
