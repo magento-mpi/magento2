@@ -16,7 +16,7 @@ class Model_Admin_Order extends Model_Admin {
         $this->orderData = array(
             'email' => Core::getEnvConfig('backend/customer/email'),
             'name' => Core::getEnvConfig('backend/scope/store_view/name'),
-            'productSku' => Core::getEnvConfig('backend/createproduct/sku'),
+            'productSku' => Core::getEnvConfig('backend/create_product/sku'),
             'shippingMethod' => Core::getEnvConfig('backend/shipping_method/flat_rate'),
             'paymentMethod' => Core::getEnvConfig('backend/payment_method/check'),
             'number' => 200000041,

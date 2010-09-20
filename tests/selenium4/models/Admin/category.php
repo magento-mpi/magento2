@@ -14,7 +14,7 @@ class Model_Admin_Category extends Model_Admin
     public function loadConfigData() {
         parent::loadConfigData();
 
-        $this->categoryData = Core::getEnvConfig('backend/managecategories');
+        $this->categoryData = Core::getEnvConfig('backend/manage_categories');
     }
 
     /**
