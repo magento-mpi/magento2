@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * XmlConnect Model Resource Application Collection
  *
  * @category    Mage
  * @package     Mage_XmlConnect
@@ -35,7 +35,7 @@
 class Mage_XmlConnect_Model_Resource_Application_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Collection constructor
      *
      */
     protected function _construct()

@@ -37,7 +37,7 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     const PARENT_CATEGORIES_LEVEL = 2;
 
     /**
-     * Enter description here ...
+     * _beforeLoad
      *
      * @return unknown
      */
@@ -50,7 +50,7 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     }
 
     /**
-     * Enter description here ...
+     * 
      *
      * @param unknown_type $level
      * @return Mage_XmlConnect_Model_Resource_Category_Collection
@@ -62,7 +62,7 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     }
 
     /**
-     * Enter description here ...
+     * Set Limit
      *
      * @param unknown_type $offset
      * @param unknown_type $count
@@ -75,7 +75,7 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     }
 
     /**
-     * Enter description here ...
+     * Add parentId to filter
      *
      * @param unknown_type $parentId
      * @return Mage_XmlConnect_Model_Resource_Category_Collection

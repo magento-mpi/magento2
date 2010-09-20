@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * XmlConnect Model Resource History
  *
  * @category    Mage
  * @package     Mage_XmlConnect
@@ -35,7 +35,7 @@
 class Mage_XmlConnect_Model_Resource_History extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource constructor
      *
      */
     protected function _construct()

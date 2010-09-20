@@ -35,7 +35,7 @@
 class Mage_XmlConnect_Model_Resource_Filter_Collection extends Varien_Data_Collection
 {
     /**
-     * Enter description here ...
+     * Set category Id
      *
      * @param unknown_type $categoryId
      * @return Mage_XmlConnect_Model_Resource_Filter_Collection
@@ -49,7 +49,7 @@ class Mage_XmlConnect_Model_Resource_Filter_Collection extends Varien_Data_Colle
     }
 
     /**
-     * Enter description here ...
+     * Load filter collection
      *
      * @param unknown_type $printQuery
      * @param unknown_type $logQuery
