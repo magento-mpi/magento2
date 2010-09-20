@@ -56,6 +56,9 @@ class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_
         );
         if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieInfo) {
             $sessionInfo[$cookieName] = $cookieInfo;
+            // customer cookies have to be refreshed as well as the session cookie
+            $sessionInfo[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER] = $cookieInfo;
+            $sessionInfo[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP] = $cookieInfo;
             $sessionInfo = serialize($sessionInfo);
             Mage::app()->saveCache($sessionInfo, $cacheId, array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         }
