@@ -729,21 +729,23 @@ class Mage_Core_Model_Design_Package
             $fileDir = '';
             $pathParts = explode(DS, $uri);
             $fileDirParts = explode(DS, $this->_callbackFileDir);
+            $store = $this->getStore();
+            $secure = $store->isAdmin() ? $store->isAdminUrlSecure() : $store->isFrontUrlSecure();
+
             if ('skin' == $fileDirParts[0]) {
-                $baseUrl = Mage::getBaseUrl('skin');
+                $baseUrl = Mage::getBaseUrl('skin', $secure);
                 $fileDirParts = array_slice($fileDirParts, 1);
             } elseif ('media' == $fileDirParts[0]) {
-                $baseUrl = Mage::getBaseUrl('media');
+                $baseUrl = Mage::getBaseUrl('media', $secure);
                 $fileDirParts = array_slice($fileDirParts, 1);
             } else {
-                $baseUrl = Mage::getBaseUrl('web');
+                $baseUrl = Mage::getBaseUrl('web', $secure);
             }
 
             foreach ($pathParts as $key=>$part) {
                 if ($part == '.' || $part == '..') {
                     unset($pathParts[$key]);
                 }
-
                 if ($part == '..' && count($fileDirParts)) {
                     $fileDirParts = array_slice($fileDirParts, 0, count($fileDirParts) - 1);
                 }
