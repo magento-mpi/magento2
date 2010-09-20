@@ -25,7 +25,7 @@
  */
 
 /**
- * Sitemap data helper
+ * Strikeiron data helper
  *
  * @category   Mage
  * @package    Mage_Strikeiron

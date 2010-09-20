@@ -26,11 +26,11 @@
 
 
 /**
- * Sitemap model
+ * Strikeiron model
  *
  * @category   Mage
  * @package    Mage_Strikeiron
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 {
@@ -50,19 +50,20 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
         return Mage::getStoreConfig($path);
     }
 
-/*********************** EMAIL VERIFICATION***************************/
-    /*
-    verify email address is valid or not
-    wsdl = http://ws.strikeiron.com/varien.StrikeIron/emailverify_3_0?WSDL
-    */
+    /**
+     * Email verification
+     * verify email address is valid or not
+     * wsdl = http://ws.strikeiron.com/varien.StrikeIron/emailverify_3_0?WSDL
+     */
     public function emailVerify($email)
     {
         if ($email && $this->getConfigData('email_verification', 'active')) {
             $_session = Mage::getSingleton('strikeiron/session');
+
             /*
-            * following flag will set if the email is undetermined for the first time
-            * for second time, we just need to return true
-            */
+             * following flag will set if the email is undetermined for the first time
+             * for second time, we just need to return true
+             */
             if ($_session->getStrikeironUndertermined()==$email) {
                $_session->unsStrikeironUndertermined();
                return true;
@@ -79,7 +80,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 
             try {
                 $subscriptionInfo = $emailApi->getSubscriptionInfo();
-                if ($subscriptionInfo && $subscriptionInfo->remainingHits>0) {
+                if ($subscriptionInfo && $subscriptionInfo->remainingHits > 0) {
                     $result = $emailApi->validateEmail($emailArr);
                     if ($result) {
                         switch ($result->IsValid) {
@@ -103,23 +104,22 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                     }
 
                 } else {
-                   /*
+
+                   /**
                     * when there is no more remaining hits for service
                     * we will send email to email recipient for exception
                     */
+
                     /* @var $mailTemplate Mage_Core_Model_Email_Template */
                     $receipient = $this->getConfigData('email_verification', 'error_email');
                     if ($receipient) {
                         $translate = Mage::getSingleton('core/translate');
+
                         /* @var $translate Mage_Core_Model_Translate */
                         $translate->setTranslateInline(false);
 
                         $mailTemplate = Mage::getModel('core/email_template');
-                        $mailTemplate->setDesignConfig(
-                                array(
-                                    'area'  => 'frontend',
-                                )
-                            )
+                        $mailTemplate->setDesignConfig( array('area'  => 'frontend'))
                             ->sendTransactional(
                                 $this->getConfigData('email_verification', 'error_email_template'),
                                 $this->getConfigData('email_verification', 'error_email_identity'),
@@ -159,10 +159,10 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
         return $data;
     }
 
-    /*
-    retrieving foreign exchange rate for the currency
-    wsdl = http://ws.strikeiron.com/varien.StrikeIron/ForeignExchangeRate?WSDL
-    */
+    /**
+     * retrieving foreign exchange rate for the currency
+     * wsdl = http://ws.strikeiron.com/varien.StrikeIron/ForeignExchangeRate?WSDL
+     */
     public function fetchExchangeRate ($defaultCurrency, $currencies=array())
     {
         if(!$this->getConfigData('currency', 'foreigh_xrate')){
@@ -235,8 +235,8 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
         $us = $address->getCountryId() == 'US';
         $addressDataChange = sizeof($address) == 1 && ( $address->dataHasChangedFor('street') || $address->dataHasChangedFor('city') ||
             $address->dataHasChangedFor('postcode') || $address->dataHasChangedFor('country_id') || $address->dataHasChangedFor('region_id') ||
-            $address->dataHasChangedFor('region'))
-        ;
+            $address->dataHasChangedFor('region'));
+
         if ($addressDataChange) {
             if ($us) {
                 $this->UsAddressVerify($address);
@@ -245,13 +245,13 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 
     }
 
-    /*
-        verify US address is valid or not
-        wsdl = http://ws.strikeiron.com/varien.StrikeIron/USAddressVerification4_0?WSDL
-        $subscription = $taxBasic->getSubscriptionInfo();
-        echo $subscription->remainingHits;
-
-    */
+    /**
+     * verify US address is valid or not
+     * wsdl = http://ws.strikeiron.com/varien.StrikeIron/USAddressVerification4_0?WSDL
+     * $subscription = $taxBasic->getSubscriptionInfo();
+     * echo $subscription->remainingHits;
+     *
+     */
     public function UsAddressVerify($address)
     {
 //echo "<pre>";
@@ -286,22 +286,26 @@ $_session = Mage::getSingleton('strikeiron/session');
     }
 
 /*********************** SALES AND TAX RATE***************************/
-    /*
-    retrieveing the sale tax rate by zip code for US and by province by canada
-    wsdl = http://ws.strikeiron.com/varien.StrikeIron/TaxDataBasic4?WSDL
-    wsdl = http://ws.strikeiron.com/varien.StrikeIron/TaxDataComplete4?WSDL
-    this method is called by event handler
-    event is added in Mage_Tax_Model_Rate_Data
-    */
-    public function getTaxRate($observer)
+    /**
+     * retrieveing the sale tax rate by zip code for US and by province by canada
+     * wsdl = http://ws.strikeiron.com/varien.StrikeIron/TaxDataBasic4?WSDL
+     * wsdl = http://ws.strikeiron.com/varien.StrikeIron/TaxDataComplete4?WSDL
+     * this method is called by event handler
+     * event is added in Mage_Tax_Model_Rate_Data
+     */
+    public function getTaxRate($observer = null)
     {
-        $data = $observer->getEvent()->getRequest();
-//        $data = new Varien_Object();
-//        $data->setProductClassId(2)
-//             ->setCustomerClassId(3)
-//             ->setCountryId('CN')
-//             ->setRegionId('74')
-//             ->setPostcode('95618');
+        if (is_object($observer)) {
+            $data = $observer->getEvent()->getRequest();
+        } else {
+        // Suppose this is test mode - for TestController
+            $data = new Varien_Object();
+            $data->setProductClassId(2)
+                 ->setCustomerClassId(3)
+                 ->setCountryId('CN')
+                 ->setRegionId('74')
+                 ->setPostcode('95618');
+        }
 
         $tax_rate = 0;
         $customerTaxClass = array();

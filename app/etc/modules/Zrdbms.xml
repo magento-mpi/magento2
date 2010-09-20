@@ -214,7 +214,7 @@
             <active>true</active>
         </Mage_Sitemap>
         <Mage_Strikeiron>
-            <active>false</active>
+            <active>true</active>
         </Mage_Strikeiron>
         <Mage_Tag>
             <active>true</active>
