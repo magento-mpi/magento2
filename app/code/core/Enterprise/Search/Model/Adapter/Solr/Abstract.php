@@ -341,14 +341,19 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     {
         $result = array();
 
+        $languageCode = $this->_getLanguageCodeByLocaleCode(
+            Mage::app()->getStore()
+            ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
         /**
-         * Support specifing sort by field as only string name of field
+         * Support specifying sort by field as only string name of field
          */
         if (!empty($sortBy) && !is_array($sortBy)) {
             if ($sortBy == 'relevance') {
                 $sortBy = 'score';
             } elseif ($sortBy == 'name') {
-                $sortBy = 'alphaNameSort';
+                $sortBy = 'alphaNameSort' . $languageSuffix;
             } elseif ($sortBy == 'position') {
                 $sortBy = 'position_category_' . Mage::registry('current_category')->getId();
             } elseif ($sortBy == 'price') {
@@ -367,6 +372,8 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
             $sortType = $_sort['value'];
             if ($sortField == 'relevance') {
                 $sortField = 'score';
+            } elseif ($sortField == 'name') {
+                $sortField = 'alphaNameSort' . $languageSuffix;
             } elseif ($sortField == 'position') {
                 $sortField = 'position_category_' . Mage::registry('current_category')->getId();
             } elseif ($sortField == 'price') {
