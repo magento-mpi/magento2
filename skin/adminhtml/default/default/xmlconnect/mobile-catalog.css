@@ -175,8 +175,10 @@ body { margin: 0; padding: 0 }
 .edit-filter {
     width:75px;
     float:left;
-    margin-left:10px;
-}
+    margin-right:10px;
+    margin-top:0;
+}           
+
 .back-button { float:left; margin:0 0 0 7px; width:60px; }
 
 .clearB 

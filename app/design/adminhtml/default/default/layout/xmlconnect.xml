@@ -101,6 +101,9 @@
         <reference name="content">
             <block type="xmlconnect/adminhtml_mobile_submission" name="mobile_submission_content"/>
         </reference>
+        <reference name="head">
+            <action method="addCss"><name>xmlconnect/styles.css</name></action>
+        </reference>
     </adminhtml_mobile_submission>
 
     <adminhtml_mobile_grid>
