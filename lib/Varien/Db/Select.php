@@ -499,15 +499,6 @@ class Varien_Db_Select extends Zend_Db_Select
     protected function _renderHaving($sql)
     {
         if ($this->_parts[self::MAGIC_GROUP]) {
-            $index = 1;
-            foreach ($this->_parts[self::HAVING] as $havingPartIndex => $havingPart) {
-                $this->_parts[self::HAVING][$havingPartIndex]['alias'] = array();
-                foreach ($havingPart['values'] as $havingValueIndex => $havingValue) {
-                    $this->_parts[self::HAVING][$havingPartIndex]['alias'][$havingValueIndex] = 'having_value' . $index;
-                    $index++;
-                }
-            }
-
             return $sql;
         } else {
             $preparedHaving = array();
@@ -575,10 +566,14 @@ class Varien_Db_Select extends Zend_Db_Select
             throw new Varien_Db_Exception('Values are required for Varien_Db_Select');
         }
         $useOr = (func_num_args() > 2)?func_get_arg(1):false;
-
+        $aliases = array();
+        foreach ($values as $valueIndex => $value) {
+            $aliases[$valueIndex] = 'having_value_' . count($this->_parts[self::HAVING]) . '_' . (int)$valueIndex;
+        }
         $prepared = array(
             'cond'   => $cond,
             'values' => $values,
+            'alias'  => $aliases,
         );
         if ($this->_parts[self::HAVING]) {
             $prepared['cond']= (($useOr) ? self::SQL_OR : self::SQL_AND) . $prepared['cond'];
