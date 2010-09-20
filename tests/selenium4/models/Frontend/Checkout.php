@@ -139,6 +139,13 @@ class Model_Frontend_Checkout extends Model_Frontend {
         $this->type($this->getUiElement('checkoutMethod/inputs/loginEmail'),$params['email']);
         $this->type($this->getUiElement('checkoutMethod/inputs/password'),$params['password']);
         $this->clickAndWait($this->getUiElement('checkoutMethod/buttons/login'));
+        // check for error message
+        if ($this->waitForElement($this->getUiElement('/admin/messages/error'),1)) {
+            $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+            $this->setVerificationErrors("Login Error: " . $etext);
+            return false;
+        }
+
         $this->pleaseWaitStep($this->getUiElement('billingAddress/elements/pleaseWait'));
 
         // Fill billing address tab
@@ -151,6 +158,191 @@ class Model_Frontend_Checkout extends Model_Frontend {
 
         //Perform rest of Checkout steps
         $this->shippingMethodPaymentPlaceOrderSteps($params);
+    }
+
+   /**
+     * Perform Checkout witg Sign In from FrontEnd
+     * @param - array wirh expecteded values:
+     *       password
+     *       productUrl
+     *       qty"firstName
+     *       lastName
+     *       company
+     *       email
+     *       street1
+     *       street2
+     *       city
+     *       "country
+     *       region
+     *       postcode
+     *       telephone
+     *       fax
+     */
+    public function multiShippingRegisterCheckout($params)
+    {
+        //Open ProductPage, place one to ShoppingCart, Press "Proceed to Checkout"
+        $this->startCheckout($params, true);
+
+        //Press 'Register'
+        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/checkoutMethod/buttons/register'));
+
+        $this->setUiNamespace('/frontend/pages/multiShippingCheckout/createAccount/');
+
+        // Fill billing address tab
+        $this->type($this->getUiElement('inputs/firstName'),$params['firstName']);
+        $this->type($this->getUiElement('inputs/lastName'),$params['lastName']);
+        $this->type($this->getUiElement('inputs/company'),$params['company']);
+        $this->type($this->getUiElement('inputs/email'),$params['email']);
+        $this->type($this->getUiElement('inputs/street1'),$params['street1']);
+        $this->type($this->getUiElement('inputs/street2'),$params['street2']);
+        $this->type($this->getUiElement('inputs/city'),$params['city']);
+        $this->type($this->getUiElement('inputs/postcode'),$params['postcode']);
+        $this->type($this->getUiElement('inputs/telephone'),$params['telephone']);
+        //Country and Region
+        $this->selectCountry($this->getUiElement('selectors/country'),$params['country']);
+        $this->selectRegion($this->getUiElement('selectors/region'),$params['region']);
+
+        //Specify password with confirmation
+        $this->type($this->getUiElement('inputs/password'),$params['password']);
+        $this->type($this->getUiElement('inputs/confirm'),$params['password']);
+
+        //Press Submit
+        $this->clickAndWait($this->getUiElement('buttons/submit'));
+
+        if ($this->waitForElement($this->getUiElement('messages/alreadyExists'), 5)) {
+                $this->printInfo('Account could not be created. Customer email already exists');
+                $this->printInfo('Registering with new email');
+                //Using stamp based email
+                $this->type($this->getUiElement('inputs/email'),$this->getStamp() . '@varien.com');
+                $this->type($this->getUiElement('inputs/password'),$params['password']);
+                $this->type($this->getUiElement('inputs/confirm'),$params['password']);                
+                $this->clickAndWait($this->getUiElement('buttons/submit'));
+        } 
+        // Add new Address
+        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/buttons/enterNewAddress'));
+        // Fill new address fields
+        $this->setUiNamespace('/frontend/pages/multiShippingCheckout/tabs/createShippingAddress/');
+        $this->type($this->getUiElement('inputs/firstName'),$params['firstName'] . 'Second Address');
+        $this->type($this->getUiElement('inputs/lastName'),$params['lastName']);
+        $this->type($this->getUiElement('inputs/company'),$params['company']);
+        $this->type($this->getUiElement('inputs/street1'),$params['street1']);
+        $this->type($this->getUiElement('inputs/street2'),$params['street2']);
+        $this->type($this->getUiElement('inputs/city'),$params['city']);
+        $this->type($this->getUiElement('inputs/postcode'),$params['postcode']);
+        $this->type($this->getUiElement('inputs/telephone'),$params['telephone']);
+        //Country and Region
+        $this->selectCountry($this->getUiElement('selectors/country'),$params['country']);
+        $this->selectRegion($this->getUiElement('selectors/region'),$params['region']);
+        // Save address
+        $this->clickAndWait($this->getUiElement('buttons/saveAddress'));
+        // check for error message
+        if ($this->waitForElement($this->getUiElement("/admin/messages/error"),1)) {
+            $etext = $this->getText($this->getUiElement("/admin/messages/error"));
+            $this->setVerificationErrors("Adding new address: " . $etext);
+            return false;
+        } else {
+        // Check for success message
+          if (!$this->waitForElement($this->getUiElement("/admin/messages/success"),1)) {
+            $this->setVerificationErrors("Adding new address: no success message");
+          }
+          return false;
+        }
+        // Change ShippingAddress for last item to Second Address
+        $secondAddressIndex = $this->findAddressByMask($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/elements/lastShippingAddress'), '/Second Address/');
+        $secondAddressOptionXpath = $this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/elements/lastShippingAddress') . '/option' . '[' . $secondAddressIndex . ']';
+        $secondAddressText = $this->getText($secondAddressOptionXpath);
+        $this->select($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/elements/lastShippingAddress'), 'label=' . $secondAddressText );
+
+        //Press 'Continue to shipping information'
+        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/buttons/continue'));
+
+        //Select Free shipping for all items
+        $paneXpath = $this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/shippingInformation/elements/addressPane');
+        $count = $this -> getXpathCount($paneXpath);
+        Core::debug('address count:'.$count);
+        for ($i=1; $i<=$count; $i++) {
+            $this->click($paneXpath . '[' . $i . "]//label[contains(text(),'Free')]");
+        };
+
+        //Continue
+        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/shippingInformation/buttons/continue'));
+
+        // Fill billibg Information fields
+        $this->click($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/billingInformation/inputs/check'));
+        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/billingInformation/buttons/continue'));
+
+        //Place order
+        $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/placeOrder/buttons/placeOrder'));
+
+        // Check for success message
+        if (!$this->waitForElement($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/orderSuccess/messages/orderSuccess'),10)) {
+            $this->setVerificationErrors("Check 1: no 'Order Placed'  message");
+            return false;
+        }
+        return true;
+    }
+
+   /**
+     * Perform Checkout with login from FrontEnd
+     * @param - array wirh expecteded values:
+     *       email
+     *       password
+     *       productUrl
+     *       qty
+     */
+    public function multiShippingLoginCheckout($params)
+    {
+        //Open ProductPage, place one to ShoppingCart, Press "Proceed to Checkout"
+        $this->startCheckout($params, true);
+
+        //Login
+        $this->setUiNamespace('/frontend/pages/multiShippingCheckout/checkoutMethod/');
+        $this->type($this->getUiElement('inputs/email'),$params['email']);
+        $this->type($this->getUiElement('inputs/password'),$params['password']);
+        $this->clickAndWait($this->getUiElement('buttons/login'));
+        // check for error message
+        if ($this->waitForElement($this->getUiElement('/admin/messages/error'),1)) {
+            $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+            $this->setVerificationErrors("Login Error: " . $etext);
+            return false;
+        }
+
+
+        // Change ShippingAddress for last item to Second Address
+        $this->setUiNamespace('/frontend/pages/multiShippingCheckout/tabs/');
+        sleep(20);
+        $secondAddressIndex = $this->findAddressByMask($this->getUiElement('selectAddresses/elements/lastShippingAddress'), '/Second Address/');
+        $secondAddressOptionXpath = $this->getUiElement('selectAddresses/elements/lastShippingAddress') . '/option' . '[' . $secondAddressIndex . ']';
+        $secondAddressText = $this->getText($secondAddressOptionXpath);
+        $this->select($this->getUiElement('selectAddresses/elements/lastShippingAddress'), 'label=' . $secondAddressText );
+
+        //Press 'Continue to shipping information'
+        $this->clickAndWait($this->getUiElement('selectAddresses/buttons/continue'));
+
+        //Select Free shipping for all items
+        $paneXpath = $this->getUiElement('shippingInformation/elements/addressPane');
+        $count = $this -> getXpathCount($paneXpath);
+        Core::debug('address count:'.$count);
+        for ($i=1; $i<=$count; $i++) {
+            $this->click($paneXpath . '[' . $i . "]//label[contains(text(),'Free')]");
+        };
+
+        //Continue
+        $this->clickAndWait($this->getUiElement('shippingInformation/buttons/continue'));
+
+        // Fill billibg Information fields
+        $this->click($this->getUiElement('billingInformation/inputs/check'));
+        $this->clickAndWait($this->getUiElement('billingInformation/buttons/continue'));
+
+        //Place order
+        $this->clickAndWait($this->getUiElement('placeOrder/buttons/placeOrder'));
+
+        // Check for success message
+        if (!$this->waitForElement($this->getUiElement('orderSuccess/messages/orderSuccess'),10)) {
+            $this->setVerificationErrors('Check 1: no "Order Placed"  message');
+            return false;
+        }
+        return true;
     }
 
     /* Test-specific utilitary functions

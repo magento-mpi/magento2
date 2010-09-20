@@ -357,12 +357,35 @@ abstract class TestModelAbstract
             return true;
         } else {
             // region selector have "dropdown" type
-            $this->printDebug("region field is dropdown",5);
-            if (!$this->isElementPresent($this->getUiElement('elements/selectedRegion',$paramsArray))) {
+            $this->printDebug("region field is dropdown");
+            if (!$this->isElementPresent($this->getUiElement('/elements/selectedRegion',$paramsArray))) {
                 $this->select($selectorID, $regionName);
              return false;
             }
         }
+    }
+
+    /*
+     * Return index of address matched to specified $mask.
+     * @param $selector
+     * @param $mask
+     * @return address index or -1 when not
+     */
+    public function findAddressByMask($selector, $mask)
+    {
+            $this->printDebug('findAddressByMask started');
+            $addressCount = $this->getXpathCount($selector.'/option');
+            $this->printDebug($addressCount . ' addresses founded');
+
+            for ($i=1;$i<=$addressCount;$i++) {
+                $xpath = $selector . "/option[".$i."]";
+                $addressValue = $this->getText($xpath);
+                if (preg_match($mask, $addressValue)) {
+                    return $i;
+                }
+            };
+            $this->printDebug('NOT matched');
+            return -1;
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-class Frontend_Register_Guest extends TestCaseAbstract
+class Frontend_Register_Checkout extends TestCaseAbstract
 {
     /**
      * Setup procedure.
