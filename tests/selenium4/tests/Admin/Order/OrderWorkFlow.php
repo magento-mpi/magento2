@@ -1,7 +1,7 @@
 <?php
 
-class Admin_Order_OrderWorkFlow extends TestCaseAbstract
-{
+class Admin_Order_OrderWorkFlow extends TestCaseAbstract {
+
     /**
      * Setup procedure.
      * Initializes model and loads configuration
@@ -16,8 +16,7 @@ class Admin_Order_OrderWorkFlow extends TestCaseAbstract
      * and reorder.
      * Checking the status of order after performing each of the case (e.g. "creation order")
      */
-    function testOrderWorkFlow()
-    {
+    function testOrderWorkFlow() {
         if ($this->model->doLogin()) {
             $ordNum = $this->model->doCreateOrder();
             $this->model->doOpenOrder($ordNum);
@@ -30,4 +29,5 @@ class Admin_Order_OrderWorkFlow extends TestCaseAbstract
             $this->model->doReOrder();
         }
     }
+
 }
