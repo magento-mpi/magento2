@@ -82,13 +82,12 @@
             parameters:  params,
             evalScripts: true,
             onComplete: function () {
-                // Separate different functions, so exception in one does not prevent execution of all following
                 try {
                     thisObj.refreshTreeArea();
-                } catch (e) {};
-                try {
                     toolbarToggle.start();
-                } catch (e) {};
+                } catch (e) {
+                    alert(e.message);
+                };
             },
             onSuccess: function(transport) {
                 try {

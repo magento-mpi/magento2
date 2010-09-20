@@ -248,7 +248,7 @@ var toolbarToggle = {
     headerCopy: null, // Floating toolbar
     eventsAdded: false, // We're listening to scroll/resize
     compatible: !navigator.appVersion.match('MSIE 6.'), // Whether object is compatible with browser (do not support old browsers, legacy code)
-    
+
     // Inits object and pushes it into work. Can be used to init/reset(update) object by current DOM.
     reset: function () {
         // Maybe we are already using floating toolbar - just remove it to update from html
@@ -258,13 +258,13 @@ var toolbarToggle = {
         this.createToolbar();
         this.updateForScroll();
     },
-    
+
     // Creates toolbar and inits all needed properties
     createToolbar: function () {
         if (!this.compatible) {
             return;
         }
-        
+
         // Extract header that we will use as toolbar
         var headers = $$('.content-header');
         for (var i = headers.length - 1; i >= 0; i--) {
@@ -276,10 +276,10 @@ var toolbarToggle = {
         if (!this.header) {
             return;
         }
-        
+
         // Calculate header offset once - for optimization
         this.headerOffset = Element.cumulativeOffset(this.header)[1];
-        
+
         // Toolbar buttons
         var buttons = $$('.content-buttons')[0];
         if (buttons) {
@@ -288,28 +288,29 @@ var toolbarToggle = {
             buttons.placeholder = buttons.previous('.content-buttons-placeholder');
             buttons.remove();
             buttons.placeholder.appendChild(buttons);
-    
+
             this.headerOffset = Element.cumulativeOffset(buttons)[1];
         }
-    
+
         // Create copy of header, that will serve as floating toolbar docked to top of window
         this.headerCopy = $(document.createElement('div'));
         this.headerCopy.appendChild(this.header.cloneNode(true));
         document.body.insertBefore(this.headerCopy, document.body.lastChild)
         this.headerCopy.addClassName('content-header-floating');
-        
+
         // Remove duplicated buttons and their container
-        var placeholder = this.headerCopy.down('.content-buttons-placeholder'); 
+        var placeholder = this.headerCopy.down('.content-buttons-placeholder');
         if (placeholder) {
             placeholder.remove();
         }
     },
-    
+
     // Checks whether object properties are ready and valid
     ready: function () {
-        return !!(this.compatible && this.header && this.headerCopy && this.headerCopy.parentNode);
+        // Return definitely boolean value
+        return (this.compatible && this.header && this.headerCopy && this.headerCopy.parentNode) ? true : false;
     },
-    
+
     // Updates toolbars for current scroll - shows/hides normal and floating toolbar
     updateForScroll: function () {
         if (!this.ready()) {
@@ -335,7 +336,7 @@ var toolbarToggle = {
             this.showNormalToolbar();
         }
     },
-    
+
     // Shows normal toolbar (and hides floating one)
     showNormalToolbar: function () {
         if (!this.ready()) {
@@ -347,10 +348,10 @@ var toolbarToggle = {
             buttons.remove();
             buttons.oldParent.insertBefore(buttons, buttons.oldBefore);
         }
-        
+
         this.headerCopy.style.display = 'none';
     },
-    
+
     // Shows floating toolbar (and hides normal one)
     // Notice that buttons could had changed in html by setting new inner html,
     // so our added custom properties (placeholder, oldParent) can be not present in them any more
@@ -358,7 +359,7 @@ var toolbarToggle = {
         if (!this.ready()) {
             return;
         }
-        
+
         var buttons = $$('.content-buttons')[0];
 
         if (buttons) {
@@ -367,22 +368,22 @@ var toolbarToggle = {
                 buttons.oldParent = buttons.parentNode;
                 buttons.oldBefore = buttons.previous();
             }
-            
+
             // Move buttons from normal to floating toolbar
             if (buttons.oldParent == buttons.parentNode) {
                 // Make static dimensions for placeholder, so it's not collapsed when buttons are removed
                 if (buttons.placeholder) {
-                    var dimensions = buttons.placeholder.getDimensions() 
+                    var dimensions = buttons.placeholder.getDimensions()
                     buttons.placeholder.style.width = dimensions.width + 'px';
                     buttons.placeholder.style.height = dimensions.height + 'px';
                 }
 
                 // Move to floating
-                var target = this.headerCopy.down('div'); 
+                var target = this.headerCopy.down('div');
                 if (target) {
                     buttons.hide();
                     buttons.remove();
-                    
+
                     target.appendChild(buttons);
                     buttons.show();
                 }
@@ -391,19 +392,19 @@ var toolbarToggle = {
 
         this.headerCopy.style.display = 'block';
     },
-    
+
     // Starts object on window load
     startOnLoad: function () {
         if (!this.compatible) {
             return;
         }
-        
+
         if (!this.funcOnWindowLoad) {
             this.funcOnWindowLoad = this.start.bind(this);
         }
         Event.observe(window, 'load', this.funcOnWindowLoad);
     },
-    
+
     // Removes object start on window load
     removeOnLoad: function () {
         if (!this.funcOnWindowLoad) {
@@ -411,7 +412,7 @@ var toolbarToggle = {
         }
         Event.stopObserving(window, 'load', this.funcOnWindowLoad);
     },
-    
+
     // Starts object by creating toolbar and enabling scroll/resize events
     start: function () {
         if (!this.compatible) {
@@ -421,7 +422,7 @@ var toolbarToggle = {
         this.reset();
         this.startListening();
     },
-    
+
     // Stops object by removing toolbar and stopping listening to events
     stop: function () {
         this.stopListening();
@@ -434,17 +435,17 @@ var toolbarToggle = {
         if (this.eventsAdded) {
             return;
         }
-        
+
         if (!this.funcUpdateForViewport) {
             this.funcUpdateForViewport = this.updateForScroll.bind(this);
         }
-        
+
         Event.observe(window, 'scroll', this.funcUpdateForViewport);
         Event.observe(window, 'resize', this.funcUpdateForViewport);
-        
+
         this.eventsAdded = true;
     },
-    
+
     // Removes listening to events on resize/update
     stopListening: function () {
         if (!this.eventsAdded) {
@@ -452,25 +453,25 @@ var toolbarToggle = {
         }
         Event.stopObserving(window, 'scroll', this.funcUpdateForViewport);
         Event.stopObserving(window, 'resize', this.funcUpdateForViewport);
-        
+
         this.eventsAdded = false;
     }
 }
 
-// Deprecated since 1.4.2.0 - use toolbarToggle.reset() instead
+// Deprecated since 1.4.2.0-beta1 - use toolbarToggle.reset() instead
 function updateTopButtonToolbarToggle()
 {
     toolbarToggle.reset();
 }
 
-// Deprecated since 1.4.2.0 - use toolbarToggle.createToolbar() instead
+// Deprecated since 1.4.2.0-beta1 - use toolbarToggle.createToolbar() instead
 function createTopButtonToolbarToggle()
 {
     toolbarToggle.createToolbar();
 }
 
-// Deprecated since 1.4.2.0 - use toolbarToggle.updateForScroll() instead
-function floatingTopButtonToolbarToggle() 
+// Deprecated since 1.4.2.0-beta1 - use toolbarToggle.updateForScroll() instead
+function floatingTopButtonToolbarToggle()
 {
     toolbarToggle.updateForScroll();
 }
