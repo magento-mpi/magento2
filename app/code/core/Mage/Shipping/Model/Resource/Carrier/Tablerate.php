@@ -107,85 +107,62 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         $this->_init('shipping/tablerate', 'pk');
     }
 
+    /**
+     * Return table rate array or false by rate request
+     *
+     *
+     * @param Mage_Shipping_Model_Rate_Request $request
+     */
     public function getRate(Mage_Shipping_Model_Rate_Request $request)
     {
-        $read = $this->_getReadAdapter();
-
-        $select = $read->select()->from($this->getMainTable());
-        /*
-        //commented out code since we don't want to get state by using zip code
-        if (!$request->getDestCountryId() && !$request->getDestRegionId()) {
-
-            // assuming that request is coming from shopping cart
-            // for shipping prices pre-estimation...
-
-            // also probably it will be required to move this part to
-            // Sales/Model/Quote/Address.php !
-
-            $selectCountry = $read->select()->from(Mage::getSingleton('core/resource')->getTableName('usa/postcode'), array('country_id', 'region_id'));
-            $selectCountry->where('postcode=?', $request->getDestPostcode());
-            $selectCountry->limit(1);
-            $countryRegion = $read->fetchRow($selectCountry);
-            $region = $read->quote($countryRegion['region_id']);
-            $country = $read->quote($countryRegion['country_id']);
-        } else {
-            $region = $read->quote($request->getDestRegionId());
-            $country = $read->quote($request->getDestCountryId());
-        }
-        */
-//        $bind = array(
-//            'zip'       => $read->quote($request->getDestPostcode()),
-//            'region'    => $read->quote($request->getDestRegionId()),
-//            'country'   => $read->quote($request->getDestCountryId())
-//        );
-        $select->where(
-            $read->quoteInto(" (dest_country_id=? ", $request->getDestCountryId()).
-                $read->quoteInto(" AND dest_region_id=? ", $request->getDestRegionId()).
-                $read->quoteInto(" AND dest_zip=?) ", $request->getDestPostcode()).
-
-            $read->quoteInto(" OR (dest_country_id=? ", $request->getDestCountryId()).
-                $read->quoteInto(" AND dest_region_id=? AND dest_zip='') ", $request->getDestRegionId()).
-
-            $read->quoteInto(" OR (dest_country_id=? AND dest_region_id='0' AND dest_zip='') ", $request->getDestCountryId()).
-
-            $read->quoteInto(" OR (dest_country_id=? AND dest_region_id='0' ", $request->getDestCountryId()).
-                $read->quoteInto("  AND dest_zip=?) ", $request->getDestPostcode()).
-
-            " OR (dest_country_id='0' AND dest_region_id='0' AND dest_zip='')"
+        $adapter = $this->_getReadAdapter();
+        $bind    = array(
+            ':website_id'   => (int)$request->getWebsiteId(),
+            ':country_id'   => $request->getDestCountryId(),
+            ':region_id'    => $request->getDestRegionId(),
+            ':postcode'     => $request->getDestPostcode()
         );
+        $select  = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('website_id=:website_id')
+            ->order(array('dest_country_id DESC', 'dest_region_id DESC', 'dest_zip DESC'))
+            ->limit(1);
 
-//        $select->where("(dest_zip=:zip)
-//                     OR (dest_region_id=:region AND dest_zip='')
-//                     OR (dest_country_id=:country AND dest_region_id='0' AND dest_zip='')
-//                     OR (dest_country_id='0' AND dest_region_id='0' AND dest_zip='')");
+        // render destination condition
+        $orWhere = '(' . implode(') OR (', array(
+            "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = :postcode",
+            "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = ''",
+            "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = ''",
+            "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = :postcode",
+            "dest_country_id = '0' AND dest_region_id = 0 AND dest_zip = ''",
+        )) . ')';
+        $select->where($orWhere);
+
+        // render condition by condition name
         if (is_array($request->getConditionName())) {
-            $i = 0;
+            $orWhere = array();
+            $i       = 0;
             foreach ($request->getConditionName() as $conditionName) {
-                if ($i == 0) {
-                    $select->where('condition_name=?', $conditionName);
-                } else {
-                    $select->orWhere('condition_name=?', $conditionName);
-                }
-                $select->where('condition_value<=?', $request->getData($conditionName));
-                $i++;
+                $bindNameKey  = sprintf(':condition_name_%d', $i);
+                $bindValueKey = sprintf(':condition_value_%d', $i);
+                $orWhere[] = "(condition_name = {$bindNameKey} AND condition_value <= {$bindValueKey})";
+                $bind[$bindNameKey]  = $conditionName;
+                $bind[$bindValueKey] = $request->getData($conditionName);
+                $i ++;
+            }
+
+            if ($orWhere) {
+                $select->where(implode(' OR ', $orWhere));
             }
         } else {
-            $select->where('condition_name=?', $request->getConditionName());
-            $select->where('condition_value<=?', $request->getData($request->getConditionName()));
+            $bind[':condition_name']  = $request->getConditionName();
+            $bind[':condition_value'] = $request->getData($request->getConditionName());
+
+            $select->where('condition_name = :condition_name');
+            $select->where('condition_value <= :condition_value');
         }
-        $select->where('website_id=?', $request->getWebsiteId());
 
-        $select->order('dest_country_id DESC');
-        $select->order('dest_region_id DESC');
-        $select->order('dest_zip DESC');
-        $select->order('condition_value DESC');
-        $select->limit(1);
-
-        /*
-        pdo has an issue. we cannot use bind
-        */
-        $row = $read->fetchRow($select);
-        return $row;
+        return $adapter->fetchRow($select, $bind);
     }
 
     /**
