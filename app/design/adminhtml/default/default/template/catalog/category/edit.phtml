@@ -126,7 +126,7 @@
      */
     function refreshTreeArea(transport)
     {
-        if (tree && editingCategoryBreadcrumbs) {
+        if (tree && window.editingCategoryBreadcrumbs) {
             // category deleted - delete its node
             if (tree.nodeForDelete) {
                 var parentNode = tree.getNodeById(tree.nodeForDelete).parentNode;
