@@ -12,10 +12,18 @@ class Frontend_Checkout_Guest extends TestCaseAbstract
     }
 
     /**
-     * Test frontend checkout
+     * Test frontend guest checkout
      */
-    function testCheckoutGuest()
+    function testGuestCheckout()
     {
-        $this->model->doCreate();
+        // Test Dara
+        $paramArray = Core::getEnvConfig('frontend/checkout');
+        $paramArray['firstName'] =  Core::getEnvConfig('frontend/checkout/guest/firstName');
+        $paramArray['lastName'] =  Core::getEnvConfig('frontend/checkout/guest/lastName');
+        $paramArray['email'] =  Core::getEnvConfig('frontend/checkout/guest/email');
+        $paramArray['password'] =  Core::getEnvConfig('frontend/checkout/guest/password');
+
+        //Test Flow
+        $this->model->guestCheckout($paramArray);
     }
 }

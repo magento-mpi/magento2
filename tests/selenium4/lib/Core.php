@@ -10,9 +10,9 @@ final class Core
      * Debug level constants
      */
     const DEBUG_LEVEL_OFF   = 1000;
-    const DEBUG_LEVEL_INFO  = 1;
-    const DEBUG_LEVEL_DEBUG = 2;
-    const DEBUG_LEVEL_ERROR = 3;
+    const DEBUG_LEVEL_ERROR = 1;
+    const DEBUG_LEVEL_INFO  = 2;
+    const DEBUG_LEVEL_DEBUG = 3;
 
     private static $_debugLevelLabels = array(
         self::DEBUG_LEVEL_INFO  => 'INFO',
@@ -77,7 +77,7 @@ final class Core
         } elseif (getenv('SELENIUM_STAMP')) {
             self::$_magentoStamp = getenv('SELENIUM_STAMP');
         } else {
-            self::$_magentoStamp = date('Ymd/His');
+            self::$_magentoStamp = date('YmdHis');
         }
 
         // Fetching debug level
@@ -108,7 +108,7 @@ final class Core
                 self::$_debugLevel = self::DEBUG_LEVEL_ERROR;
         }
 
-        echo "\n*** Debug level:       " . self::$_debugLevelLabels[self::$_debugLevel];
+//        echo "\n*** Debug level:       " . self::$_debugLevelLabels[self::$_debugLevel];
         echo "\n*** Environment stamp: " . self::getStamp() . "\n\n";
 
         $envConfigPath = rtrim($configPath, DS) . DS . self::$_magentoEnv;
@@ -243,7 +243,6 @@ final class Core
      */
     public static function debug($line, $level = self::DEBUG_LEVEL_INFO)
     {
-//        echo ('zzzz=' . self::$_debugLevel);
         if ($level <= self::$_debugLevel) {
             echo "\n" . self::$_debugLevelLabels[$level] . ': ' . $line;
         }

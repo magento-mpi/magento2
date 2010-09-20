@@ -142,6 +142,11 @@
                         <pleaseWait>review-please-wait</pleaseWait>
                 </elements>
             </orderReview>
+            <orderPlaced>
+                <links>
+                    <orderID>//p[contains(text(),'Your order')]/a</orderID>
+                </links>
+            </orderPlaced>
         </tabs>
         <messages>
             <orderPlaced>//*[contains(text(),'Your order has been received')]</orderPlaced>
