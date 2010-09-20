@@ -73,12 +73,14 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             $app = $this->_initApp();
 
             $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
-            if (!isset($_COOKIE[$cookieName])) {
+            if (!isset($_COOKIE[$cookieName]) ||
+                (isset($_COOKIE[$cookieName]) && $_COOKIE[$cookieName] != $this->getRequest()->getParam('app_code'))
+                ) {
                 /**
                  * @todo add management of cookie expire to application admin panel
                  */
                 $cookieExpireOffset = 3600 * 24 * 30;
-                Mage::getModel('core/cookie')->set($cookieName, $app->getCode(), time() + $cookieExpireOffset, '/', null, null, true);
+                Mage::getModel('core/cookie')->set($cookieName, $app->getCode(), $cookieExpireOffset, '/', null, null, true);
             }
 
             if($this->getRequest()->getParam('updated_at')) {
