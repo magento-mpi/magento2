@@ -56,6 +56,7 @@ class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resourc
             array('status' => $status),
             $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $applicationId)
         );
+        return $this;
     }
 
     /**
@@ -106,5 +107,16 @@ class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resourc
             ->group(array('store_id', 'type'))
             ->order(array('store_id', 'type'));
         return $this->_getReadAdapter()->fetchAll($select, array('store_id', 'type'));
+    }
+
+    /**
+     * Update all applications "updated at" parameter with current date
+     *
+     * @return Mage_XmlConnect_Model_Mysql4_Application
+     */
+    public function updateAllAppsUpdatedAtParameter()
+    {
+        $select = $this->_getWriteAdapter()->update($this->getMainTable(), array('updated_at' => date('Y-m-d H:i:s')));
+        return $this;
     }
 }

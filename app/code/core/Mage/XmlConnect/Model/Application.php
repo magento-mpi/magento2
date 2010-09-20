@@ -646,4 +646,15 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         return $key;
     }
+
+    /**
+     * Perform update for all applications "updated at" parameter with current date
+     *
+     * @return Mage_XmlConnect_Model_Application
+     */
+    public function updateAllAppsUpdatedAtParameter()
+    {
+        $this->_getResource()->updateAllAppsUpdatedAtParameter();
+        return $this;
+    }
 }
