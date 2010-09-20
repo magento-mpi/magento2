@@ -125,10 +125,13 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 return;
             }
             $app->loadSubmit();
-            $data = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormSubmissionData(true));
-            if (!empty($data)) {
-                $app->setData(Mage::helper('xmlconnect')->arrayMergeRecursive($app->getData(), $data));
+            if ((bool) Mage::getSingleton('adminhtml/session')->getLoadSessionFlag(true)) {
+                $data = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormSubmissionData(true));
+                if (!empty($data)) {
+                    $app->setData(Mage::helper('xmlconnect')->arrayMergeRecursive($app->getData(), $data));
+                }
             }
+
             $this->loadLayout();
             $this->_setActiveMenu('xmlconnect/mobile');
             $this->renderLayout();
@@ -165,9 +168,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 return;
             }
             $app->loadSubmit();
-            $newAppData = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormData(true));
-            if (!empty($newAppData)) {
-                $app->setData(Mage::helper('xmlconnect')->arrayMergeRecursive($app->getData(), $newAppData));
+            if ((bool) Mage::getSingleton('adminhtml/session')->getLoadSessionFlag(true)) {
+                $newAppData = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormData(true));
+                if (!empty($newAppData)) {
+                    $app->setData(Mage::helper('xmlconnect')->arrayMergeRecursive($app->getData(), $newAppData));
+                }
             }
             $this->loadLayout();
             $this->_setActiveMenu('xmlconnect/mobile');
@@ -232,11 +237,13 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $this->_clearSessionData();
                 $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
             } else {
+                Mage::getSingleton('adminhtml/session')->setLoadSessionFlag(true);
                 $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             if (isset($app)) {
+                Mage::getSingleton('adminhtml/session')->setLoadSessionFlag(true);
                 $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
             } else {
                 $this->_redirect('*/*/');
@@ -245,6 +252,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t submit application.'));
             Mage::logException($e);
             if (isset($app)) {
+                Mage::getSingleton('adminhtml/session')->setLoadSessionFlag(true);
                 $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
             } else {
                 $this->_redirect('*/*/');
@@ -377,6 +385,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $redirectBack = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to save application.'));
+                $isError = true;
                 $redirectBack = true;
                 Mage::logException($e);
             }
@@ -384,6 +393,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if(!$isError && $app->getId() && $redirectSubmit) {
             $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
         } else if ($isError || ($app->getId() && $redirectBack)) {
+            if ($isError) {
+                Mage::getSingleton('adminhtml/session')->setLoadSessionFlag(true);
+            }
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } else {
             $this->_redirect('*/*/');
