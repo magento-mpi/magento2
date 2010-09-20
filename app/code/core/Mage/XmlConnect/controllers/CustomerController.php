@@ -439,16 +439,15 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 ->setEntity($address);
             $addressData    = $addressForm->extractData($this->getRequest());
             $addressErrors  = $addressForm->validateData($addressData);
+            if ($addressErrors !== true) {
+                $errors = $addressErrors;
+            }
 
             try {
-                if ($addressErrors === true) {
-                    $addressForm->compactData($addressData);
-                    $address->setCustomerId($customer->getId())
-                        ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                        ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
-                } else {
-                    $errors = array_merge($errors, $addressErrors);
-                }
+                $addressForm->compactData($addressData);
+                $address->setCustomerId($customer->getId())
+                    ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+                    ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
 
                 $addressErrors = $address->validate();
                 if ($addressErrors !== true) {
