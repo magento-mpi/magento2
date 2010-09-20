@@ -146,14 +146,14 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
 
         $ordersSubSelect = clone $this->getSelect();
         $ordersSubSelect->reset()
-            ->from(array('order_items' => 'sales_flat_order_item'), new Zend_Db_Expr('COUNT(1)'))
+            ->from(array('order_items' => $this->getTable('sales/order_item')), new Zend_Db_Expr('COUNT(1)'))
             ->where('order_items.product_id = e.entity_id');
 
         $this->getSelect()
             ->useStraightJoin(true)
             ->reset(Zend_Db_Select::COLUMNS)
-            ->joinInner(array('quote_items' => 'sales_flat_quote_item'), 'quote_items.quote_id = main_table.entity_id', null)
-            ->joinInner(array('e' => 'catalog_product_entity'), 'e.entity_id = quote_items.product_id', null)
+            ->joinInner(array('quote_items' => $this->getTable('sales/quote_item')), 'quote_items.quote_id = main_table.entity_id', null)
+            ->joinInner(array('e' => $this->getTable('catalog/product')), 'e.entity_id = quote_items.product_id', null)
             ->joinInner(array('product_name' => $productAttrNameTable),
                 "product_name.entity_id = e.entity_id and product_name.attribute_id = {$productAttrNameId}",
                 array('name'=>'product_name.value'))
