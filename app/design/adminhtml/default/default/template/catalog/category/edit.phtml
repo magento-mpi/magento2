@@ -67,17 +67,29 @@
             params.form_key = FORM_KEY;
         }
 
+        toolbarToggle.stop();
+
        /*if(params.node_name)
        {
            var currentNode = tree.getNodeById(tree.currentNodeId);
            currentNode.setText(params.node_name);
        }*/
+
         var categoryContainer = $('category-edit-container');
         var messagesContainer = $('messages');
+        var thisObj = this;
         new Ajax.Request(url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ), {
             parameters:  params,
             evalScripts: true,
-            onComplete:  refreshTree ? refreshTreeArea.bind(this) : false,
+            onComplete: function () {
+                // Separate different functions, so exception in one does not prevent execution of all following
+                try {
+                    thisObj.refreshTreeArea();
+                } catch (e) {};
+                try {
+                    toolbarToggle.start();
+                } catch (e) {};
+            },
             onSuccess: function(transport) {
                 try {
                     if (transport.responseText.isJSON()) {
@@ -108,12 +120,6 @@
                 }
             }
         });
-        var headers = $$('div.content-header-floating');
-        for(var i=0; i<headers.length;i++) {
-            if (headers[i].down('div.content-header')) {
-                headers[i].down('div.content-header').remove();
-            }
-        }
     }
 
     /**
