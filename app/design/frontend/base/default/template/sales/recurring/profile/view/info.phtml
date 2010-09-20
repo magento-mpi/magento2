@@ -33,15 +33,13 @@
 
 <?php else:?>
 
-<table>
+<table class="info-table">
     <tbody>
         <?php foreach ($this->getRenderedInfo() as $row):?>
         <?php $isAmount = $this->getObjectData($row, 'is_amount');?>
         <tr>
             <th><?php echo $this->escapeHtml($this->getObjectData($row, 'label'))?>:</th>
-            <td<?php echo $isAmount ? ' class="a-right"' : ''?>>
-            <?php echo $this->renderRowValue($row) ?>
-            </td>
+            <td><?php echo $this->renderRowValue($row) ?></td>
         </tr>
         <?php endforeach;?>
     </tbody>
