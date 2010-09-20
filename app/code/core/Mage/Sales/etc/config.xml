@@ -1241,6 +1241,7 @@
                         <cost/>
                         <is_recurring/>
                         <recurring_profile/>
+                        <gift_message_available/>
                     </product_attributes>
                 </item>
             </quote>
