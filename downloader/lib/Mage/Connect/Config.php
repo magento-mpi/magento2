@@ -59,6 +59,13 @@ implements Iterator
                 'doc' => 'preferred package state',
                 'rules' => array('beta','alpha','stable','devel')
         ),
+           'use_custom_permissions_mode'  => array (
+                'type' => 'bool',
+                'value' => false,
+                'prompt' => 'Use custom permissions for directory and file creation',
+                'doc' => 'Use custom permissions for directory and file creation',
+                'possible' => 'true, false',
+        ),
            'global_dir_mode' => array (
                 'type' => 'octal',
                 'value' => 0777,
@@ -108,7 +115,17 @@ implements Iterator
                 'prompt' => '',
                 'doc' => "",
                 'possible' => 'ftp://name:password@host.com:port/path/to/folder/',
-        ));
+        ),
+        /* EE * /
+            'auth' => array(
+                'type' => 'string',
+                'value' => '',
+                'prompt' => 'Athentication information to channel server',
+                'doc' => 'Athentication information to channel server',
+                'possible' => 'login@password',
+        ),
+        /* EE */
+            );
         $this->properties = $this->defaultProperties;
     }
 

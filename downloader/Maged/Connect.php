@@ -267,6 +267,27 @@ class Maged_Connect
     }
 
     /**
+     *
+     * @param array $errors Error messages
+     * @return Maged_Connect
+     */
+    public function showConnectErrors($errors)
+    {
+        echo '<script type="text/javascript">';
+        $run = new Maged_Model_Connect_Request();
+        if ($callback = $run->get('failure_callback')) {
+            if (is_array($callback)) {
+                call_user_func_array($callback, array($result));
+            } else {
+                echo $callback;
+            }
+        }
+        echo '</script>';
+
+        return $this;
+    }
+
+    /**
      * Run Mage_COnnect_Command with html output console style
      *
      * @param array|Maged_Model $runParams command, options, params,

@@ -141,7 +141,7 @@ class Mage_Connect_Ftp
      * @param $timeout
      * @return unknown_type
      */
-    public function connect($string, $timeout = 900)
+    public function connect($string, $timeout = 90)
     {
         $params = $this->validateConnectionString($string);
         $port = isset($params['port']) ? intval($params['port']) : 21;
@@ -190,7 +190,7 @@ class Mage_Connect_Ftp
     public function put($remoteFile, $localFile, $mode = FTP_BINARY, $startPos = 0)
     {
         $this->checkConnected();
-        return ftp_put($this->_conn, $remoteFile, $localFile, $mode, $startPos);
+        return @ftp_put($this->_conn, $remoteFile, $localFile, $mode, $startPos);
     }
 
 

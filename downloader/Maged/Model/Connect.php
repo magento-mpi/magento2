@@ -71,12 +71,12 @@ class Maged_Model_Connect extends Maged_Model
         $packages = array(
             'Mage_All_Latest',
         );
-        $ftp = $this->controller()->config()->get('ftp');
+        $connectConfig = $this->connect()->getConfig();
+        $ftp = $connectConfig->remote_config;
         if (!empty($ftp)) {
             $options['ftp'] = $ftp;
         }
         $params = array();
-        $connectConfig = $this->connect()->getConfig();
         /** CE */
         $uri = "connect20.magentocommerce.com/community";
         /* */
@@ -255,8 +255,8 @@ class Maged_Model_Connect extends Maged_Model
         if (!empty($ignoreLocalModification)) {
             $options = array('ignorelocalmodification'=>1);
         }
-        if(!$this->controller()->isWritable()||strlen($this->controller()->config()->get('ftp'))>0){
-            $options['ftp'] = $this->controller()->config()->get('ftp');
+        if(!$this->controller()->isWritable()||strlen($this->connect()->getConfig()->__get('remote_config'))>0){
+            $options['ftp'] = $this->connect()->getConfig()->__get('remote_config');
         }
 
         foreach ($actions as $action=>$packages) {
@@ -290,8 +290,8 @@ class Maged_Model_Connect extends Maged_Model
         $this->controller()->startInstall();
 
         $options = array();
-        if(!$this->controller()->isWritable()||strlen($this->controller()->config()->get('ftp'))>0){
-            $options['ftp'] = $this->controller()->config()->get('ftp');
+        if(!$this->controller()->isWritable()||strlen($this->connect()->getConfig()->__get('remote_config'))>0){
+            $options['ftp'] = $this->connect()->getConfig()->__get('remote_config');
         }
         $this->connect()->runHtmlConsole(array(
             'command'=>'install-file',
@@ -327,8 +327,8 @@ class Maged_Model_Connect extends Maged_Model
         if ($force) {
             $options['force'] = 1;
         }
-        if(!$this->controller()->isWritable()||strlen($this->controller()->config()->get('ftp'))>0){
-            $options['ftp'] = $this->controller()->config()->get('ftp');
+        if(!$this->controller()->isWritable()||strlen($this->connect()->getConfig()->__get('remote_config'))>0){
+            $options['ftp'] = $this->connect()->getConfig()->__get('remote_config');
         }
 
         $this->connect()->runHtmlConsole(array(
@@ -369,25 +369,105 @@ class Maged_Model_Connect extends Maged_Model
     }
 
     /**
+     * Validate settings post data.
+     *
+     * @param array $p
+     */
+    public function validateConfigPost($p)
+    {
+        $errors = array();
+        $configTestFile = 'connect.cfgt';
+        $configObj = $this->connect()->getConfig();
+        if ('ftp' == $p['deployment_type'] || '1' == $p['inst_protocol']) {
+            /*check ftp*/
+
+            $confFile = $configObj->downloader_path.DIRECTORY_SEPARATOR.$configTestFile;
+            try {
+                $ftpObj = new Mage_Connect_Ftp();
+                $ftpObj->connect($p['ftp']);
+                $tempFile = tempnam(sys_get_temp_dir(),'config');
+                $serial = md5('config test file');
+                $f = @fopen($tempFile, "w+");
+                @fwrite($f, $serial);
+                @fclose($f);
+                $ret=$ftpObj->upload($confFile, $tempFile);
+                
+                //read file
+                if (!$errors && is_file($configTestFile)) {
+                    $size = filesize($configTestFile);
+                    if(!$size) {
+                        $errors[]='Unable to read saved settings. Please check Installation Path of FTP Connection.';
+                    }
+
+                    if (!$errors) {
+                        $f = @fopen($configTestFile, "r");
+                        @fseek($f, 0, SEEK_SET);
+
+                        $contents = @fread($f, strlen($serial));
+                        if ($serial != $contents) {
+                            $errors[]='Wrong Installation Path of FTP Connection.';
+                        }
+                        fclose($f);
+                    }
+                } else {
+                    $errors[] = 'Unable to read saved settings. Please check Installation Path of FTP Connection.';
+                }
+                $ftpObj->delete($confFile);
+                $ftpObj->close();
+            } catch (Exception $e) {
+                $errors[] = 'Deployment FTP Error. ' . $e->getMessage();
+            }
+        } else {
+            $p['ftp'] = '';
+        }
+
+        if ('1' == $p['use_custom_permissions_mode']) {
+            /*check permissions*/
+            if (octdec(intval($p['mkdir_mode'])) < 73 || octdec(intval($p['mkdir_mode'])) > 511) {
+                $errors[]='Folders permissions not valid. ';
+            }
+            if (octdec(intval($p['chmod_file_mode'])) < 73 || octdec(intval($p['chmod_file_mode'])) > 511) {
+                $errors[]='Files permissions not valid. ';
+            }
+        }
+        /* EE * /
+        if (isset($p['auth'])) {
+            //$configObj->auth = $p['auth'];
+        } else {
+            //$configObj->auth = '';
+        }
+        /* EE */
+        //$this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
+        return $errors;
+    }
+    /**
      * Save settings.
      *
      * @param array $p
      */
     public function saveConfigPost($p)
     {
-        $configObj=$this->connect()->getConfig();
-        if('ftp' == $p['deployment_type'] || '1' == $p['inst_protocol']){
+        $configObj = $this->connect()->getConfig();
+        if ('ftp' == $p['deployment_type'] || '1' == $p['inst_protocol']){
             $this->set('ftp',$p['ftp']);
-        }else{
-            $p['ftp']='';
+        } else {
+            $p['ftp'] = '';
         }
-        $configObj->remote_config=$p['ftp'];
+        $configObj->remote_config = $p['ftp'];
         $configObj->preferred_state = $p['preferred_state'];
         $configObj->protocol = $p['protocol'];
-        if('1'==$p['use_custom_permissions_mode']){
-            $configObj->global_dir_mode=octdec(intval($p['mkdir_mode']));
-            $configObj->global_file_mode=octdec(intval($p['chmod_file_mode']));
+        $configObj->use_custom_permissions_mode = $p['use_custom_permissions_mode'];
+        if ('1' == $p['use_custom_permissions_mode']) {
+            $configObj->global_dir_mode = octdec(intval($p['mkdir_mode']));
+            $configObj->global_file_mode = octdec(intval($p['chmod_file_mode']));
         }
+        /* EE * /
+        if (isset($p['auth'])) {
+            $configObj->auth = $p['auth'];
+        } else {
+            $configObj->auth = '';
+        }
+        /* EE */
         $this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
         return $this;
     }
