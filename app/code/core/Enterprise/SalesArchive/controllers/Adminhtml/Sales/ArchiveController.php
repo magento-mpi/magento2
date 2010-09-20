@@ -262,6 +262,26 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     }
 
     /**
+     * Export order grid to CSV format
+     */
+    public function exportCsvAction()
+    {
+        $fileName   = 'orders_archive.csv';
+        $grid       = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
+    }
+
+    /**
+     *  Export order grid to Excel XML format
+     */
+    public function exportExcelAction()
+    {
+        $fileName   = 'orders_archive.xml';
+        $grid       = $this->getLayout()->createBlock('enterprise_salesarchive/adminhtml_sales_archive_order_grid');
+        $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
+    }
+
+    /**
      * Check ACL permissions
      *
      * @return boolean
