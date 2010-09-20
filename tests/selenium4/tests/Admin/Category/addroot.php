@@ -20,6 +20,7 @@ class Admin_Category_addroot extends TestCaseAbstract
     function testRootCategoryCreation() {
         // Test Flow
         if ($this->model->doLogin()) {
+            $this->model->doDeleteRootCategory();
             $this->model->doAddRootCategory();
         }
     }
