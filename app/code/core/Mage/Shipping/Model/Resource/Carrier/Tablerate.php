@@ -154,10 +154,10 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
             " OR (dest_country_id='0' AND dest_region_id='0' AND dest_zip='')"
         );
 
-        $select->where("(dest_zip=:zip)
-                     OR (dest_region_id=:region AND dest_zip='')
-                     OR (dest_country_id=:country AND dest_region_id='0' AND dest_zip='')
-                     OR (dest_country_id='0' AND dest_region_id='0' AND dest_zip='')");
+//        $select->where("(dest_zip=:zip)
+//                     OR (dest_region_id=:region AND dest_zip='')
+//                     OR (dest_country_id=:country AND dest_region_id='0' AND dest_zip='')
+//                     OR (dest_country_id='0' AND dest_region_id='0' AND dest_zip='')");
         if (is_array($request->getConditionName())) {
             $i = 0;
             foreach ($request->getConditionName() as $conditionName) {
