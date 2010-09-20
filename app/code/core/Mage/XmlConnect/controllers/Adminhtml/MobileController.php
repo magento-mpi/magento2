@@ -792,7 +792,12 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             }
             unset($arr['conf']['new_pages']);
         }
-
+        /**
+         * Restoring current_theme over selected but not applied theme
+         */
+        if (isset($arr['current_theme'])) {
+            $arr['conf']['extra']['theme'] = $arr['current_theme'];
+        }
         if (!isset($arr['conf']['defaultCheckout'])) {
             $arr['conf']['defaultCheckout'] = array();
         }

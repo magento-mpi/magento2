@@ -282,7 +282,6 @@ function saveThemeChanges() {
 ?>
 // ]]>
 </script>
-
 <tr><td colspan="2"  style="width:540px">
 <br />
 
@@ -292,19 +291,7 @@ function saveThemeChanges() {
     <input type="hidden" name="current_theme" id="theme_selector_id_value_flat" value="<?php echo $themeId; ?>"/>
     <ul class="dropdown theme_selector" id="theme_selector_id">
         <li class="ddtitle theme_selector "><a href="#"><?php echo $themeLabel ? $themeLabel : Mage::helper('xmlconnect')->__('Custom Colors');?><span>
-        <img src="<?php echo $_dataHelper->getSkinImagesUrl('swatch_default.gif'); ?>"/>
-
-<?php
-/*        <div style="display:inline">
-            <div class="brick" id="br_1">&nbsp;</div>
-            <div class="brick" id="br_2">&nbsp;</div>
-            <div class="brick" id="br_3">&nbsp;</div>
-            <div class="brick" id="br_4">&nbsp;</div>
-        </div>
-*/
-?>
-        </span>
-        </a></li>
+            <img src="<?php echo $_dataHelper->getSkinImagesUrl('swatch_'.$themeId.'.gif'); ?>"/></span></a></li>
         <li style="display:none;" class="ddlist">
             <ul>
             <?php foreach ($this->getThemes() as $theme): ?>
