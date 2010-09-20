@@ -549,8 +549,14 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             '48_container'   => $r->getContainer(),
             '49_residential' => $r->getDestType(),
         );
-        $params['10_action'] = $params['10_action']=='4'? 'Shop' : 'Rate';
-        $serviceCode = $r->getProduct() ? $r->getProduct() : '';
+
+        if ($params['10_action'] == '4') {
+            $params['10_action'] = 'Shop';
+            $serviceCode = null; // Service code is not relevant when we're asking ALL possible services' rates
+        } else {
+            $params['10_action'] = 'Rate';
+            $serviceCode = $r->getProduct() ? $r->getProduct() : '';
+        }
         $serviceDescription = $serviceCode ? $this->getShipmentByCode($serviceCode) : '';
 
 $xmlRequest .= <<< XMLRequest
@@ -570,11 +576,16 @@ $xmlRequest .= <<< XMLRequest
   </PickupType>
 
   <Shipment>
+XMLRequest;
 
-      <Service>
-          <Code>{$serviceCode}</Code>
-          <Description>{$serviceDescription}</Description>
-      </Service>
+        if ($serviceCode !== null) {
+            $xmlRequest .= "<Service>" .
+                "<Code>{$serviceCode}</Code>" .
+                "<Description>{$serviceDescription}</Description>" .
+                "</Service>";
+        }
+
+      $xmlRequest .= <<< XMLRequest
       <Shipper>
 XMLRequest;
 
