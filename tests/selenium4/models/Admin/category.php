@@ -5,7 +5,8 @@
  *
  * @author Magento Inc.
  */
-class Model_Admin_Category extends Model_Admin {
+class Model_Admin_Category extends Model_Admin
+{
 
     /**
      * Loading configuration data for the testCase
@@ -21,7 +22,8 @@ class Model_Admin_Category extends Model_Admin {
      * @param $params = array()
      *
      */
-    public function doAddSubCategory($params = array()) {
+    public function doAddSubCategory($params = array())
+    {
         $result = true;
         $categoryData = $params ? $params : $this->categoryData;
 
@@ -68,7 +70,8 @@ class Model_Admin_Category extends Model_Admin {
      * $@param $params = array()
      *
      */
-    public function doAddRootCategory($params = array()) {
+    public function doAddRootCategory($params = array())
+    {
         $result = true;
         $categoryData = $params ? $params : $this->categoryData;
 
@@ -110,7 +113,8 @@ class Model_Admin_Category extends Model_Admin {
      * @param $params = array()
      *
      */
-    public function doDeleteRootCategory($params = array()) {
+    public function doDeleteRootCategory($params = array())
+    {
         $result = true;
         $categoryData = $params ? $params : $this->categoryData;
         $mas = array($categoryData['rootname'], 1);
@@ -199,7 +203,8 @@ class Model_Admin_Category extends Model_Admin {
                     }
                 }
             } else {
-                for ($j = 0; $j <= $qtyRoot - 2; $j++) {
+                array_push($numNeededCat,0);
+                for ($j = 0; $j <= $qtyRoot - 1; $j++) {
                     $mas = array($categoryData['rootname'], $numNeededCat[$j]);
                     $this->click($this->getUiElement("locators/root_many", $mas));
                     $this->model->pleaseWait();
@@ -218,7 +223,8 @@ class Model_Admin_Category extends Model_Admin {
      * @param $params = array()
      *
      */
-    public function doDeleteSubCategory($params = array()) {
+    public function doDeleteSubCategory($params = array())
+    {
         $result = true;
         $categoryData = $params ? $params : $this->categoryData;
         $mas = array($categoryData['rootname'], 1);
@@ -297,7 +303,8 @@ class Model_Admin_Category extends Model_Admin {
                     }
                 }
             } else {
-                for ($j = 0; $j <= $qtyRoot - 2; $j++) {
+                array_push($numNeededCat,0);
+                for ($j = 0; $j <= $qtyRoot - 1; $j++) {
                     $mas = array($categoryData['subcategoryname'], $numNeededCat[$j]);
                     $this->click($this->getUiElement("locators/sub_many", $mas));
                     $this->model->pleaseWait();
