@@ -117,12 +117,12 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
         <field name="{$addressType}[street][]" type="text" label="{$helper->__('Address')}" required="true" value="$street1" />
         <field name="{$addressType}[street][]" type="text" label="{$helper->__('Address 2')}" value="$street2" />
         <field name="{$addressType}[city]" type="text" label="{$helper->__('City')}" required="true" value="$city" />
-        <field name="{$addressType}[region]" type="text" label="{$helper->__('State/Province')}" value="$region" />
-        <field name="{$addressType}[region_id]" type="select" label="{$helper->__('State/Province')}" required="true" />
-        <field name="{$addressType}[postcode]" type="text" label="{$helper->__('Zip/Postal Code')}" required="true" value="$postcode" />
         <field name="{$addressType}[country_id]" type="select" label="{$helper->__('Country')}" required="true">
             $countryOptionsXml
         </field>
+        <field name="{$addressType}[region]" type="text" label="{$helper->__('State/Province')}" value="$region" />
+        <field name="{$addressType}[region_id]" type="select" label="{$helper->__('State/Province')}" required="true" />
+        <field name="{$addressType}[postcode]" type="text" label="{$helper->__('Zip/Postal Code')}" required="true" value="$postcode" />
         <field name="{$addressType}[telephone]" type="text" label="{$helper->__('Telephone')}" required="true" value="$telephone" />
         <field name="{$addressType}[fax]" type="text" label="{$helper->__('Fax')}" value="$fax" />
         <field name="{$addressType}[save_in_address_book]" type="checkbox" label="{$helper->__('Save in address book')}"/>
