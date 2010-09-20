@@ -282,6 +282,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
          */
         $result['paypal']['businessAccount'] = Mage::getModel('paypal/config')->businessAccount;
         $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
+        $result['paypal']['isActive'] = (int)($result['paypal']['isActive'] && Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable());
         return $result;
     }
 
