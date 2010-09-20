@@ -65,7 +65,7 @@ abstract class TestCaseAbstract extends PHPUnit_Extensions_SeleniumTestCase
         $element = Core::getEnvMap($elem);
 
         if (null === $element) {
-            $this->printError('MAP({$elem}): No element found for key: <' . $elem);
+            $this->printError('MAP({$elem}): No element found for key: <' . $elem .'>');
             return $element;
         }
 

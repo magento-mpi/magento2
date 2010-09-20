@@ -326,7 +326,7 @@ abstract class TestModelAbstract
             '$selectorID' => $selectorID,
             '$countryName'  => $countryName
         );
-        Core::debug($this->getUiElement('elements/selectedCountry',$paramsArray));
+//        Core::debug($this->getUiElement('elements/selectedCountry',$paramsArray));
         if (!$this->isElementPresent($this->getUiElement('elements/selectedCountry',$paramsArray))) {
             $this->select($selectorID, $countryName);
 //            Required  for Admin !
@@ -352,12 +352,12 @@ abstract class TestModelAbstract
         );
         if ($this->isElementPresent("//select[@id='" . $selectorID . "' and contains(@style,'display: none')]")) {
             // region selector is input
-            Core::debug("region field is input\n".$selectorID."\n",5);
+            $this->printDebug("region field is input\n".$selectorID."\n");
             $this->type("billing:region",$regionName);
             return true;
         } else {
             // region selector have "dropdown" type
-            Core::debug("region field is dropdown",5);
+            $this->printDebug("region field is dropdown",5);
             if (!$this->isElementPresent($this->getUiElement('elements/selectedRegion',$paramsArray))) {
                 $this->select($selectorID, $regionName);
              return false;
