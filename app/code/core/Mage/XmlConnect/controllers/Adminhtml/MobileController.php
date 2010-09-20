@@ -165,9 +165,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 return;
             }
             $app->loadSubmit();
-            $data = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormData(true));
-            if (!empty($data)) {
-                $app->addData($data);
+            $newAppData = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormData(true));
+            if (!empty($newAppData)) {
+                $app->setData(Mage::helper('xmlconnect')->arrayMergeRecursive($app->getData(), $newAppData));
             }
             $this->loadLayout();
             $this->_setActiveMenu('xmlconnect/mobile');
