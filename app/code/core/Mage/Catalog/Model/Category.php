@@ -99,7 +99,8 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         'custom_design_from',
         'custom_design_to',
         'page_layout',
-        'custom_layout_update'
+        'custom_layout_update',
+        'custom_apply_to_products'
     );
 
     /**

@@ -35,7 +35,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     /**
      * Current applied design settings
      *
-     * @deprecated after 1.4.2.0
+     * @deprecated after 1.4.2.0-beta1
      * @var array
      */
     protected $_designProductSettingsApplied = array();
@@ -103,26 +103,34 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
      */
     protected function _initProductLayout($product)
     {
+        $design = Mage::getSingleton('catalog/design');
+        $settings = $design->getDesignSettings($product);
+
+        if ($settings->getCustomDesign()) {
+            $design->applyCustomDesign($settings->getCustomDesign());
+        }
+
         $update = $this->getLayout()->getUpdate();
         $update->addHandle('default');
         $this->addActionLayoutHandles();
 
         $update->addHandle('PRODUCT_TYPE_'.$product->getTypeId());
         $update->addHandle('PRODUCT_'.$product->getId());
-
         $this->loadLayoutUpdates();
-        // look for category/product custom design
-        $layoutSettings = Mage::getSingleton('catalog/design')->getCustomLayoutSettings($product);
 
         // apply custom layout update once layout is loaded
-        if (isset($layoutSettings['update'])) {
-            $update->addUpdate($layoutSettings['update']);
+        if ($layoutUpdates = $settings->getLayoutUpdates()) {
+            if (is_array($layoutUpdates)) {
+                foreach($layoutUpdates as $layoutUpdate) {
+                    $update->addUpdate($layoutUpdate);
+                }
+            }
         }
 
         $this->generateLayoutXml()->generateLayoutBlocks();
         // apply custom layout (page) template once the blocks are generated
-        if (isset($layoutSettings['layout'])) {
-            $this->getLayout()->helper('page/layout')->applyTemplate($layoutSettings['layout']);
+        if ($settings->getPageLayout()) {
+            $this->getLayout()->helper('page/layout')->applyTemplate($settings->getPageLayout());
         }
 
         $currentCategory = Mage::registry('current_category');
@@ -141,7 +149,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
      * category custom_use_for_products option is setted to 1.
      * If not or product shows not in category - applyes product's internal settings
      *
-     * @deprecated after 1.4.2.0, functionality moved to Mage_Catalog_Model_Design
+     * @deprecated after 1.4.2.0-beta1, functionality moved to Mage_Catalog_Model_Design
      * @param Mage_Catalog_Model_Category|Mage_Catalog_Model_Product $object
      * @param Mage_Core_Model_Layout_Update $update
      */
@@ -192,8 +200,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             }
 
             Mage::getSingleton('catalog/session')->setLastViewedProductId($product->getId());
-            Mage::getSingleton('catalog/design')->applyDesign($product, Mage_Catalog_Model_Design::APPLY_FOR_PRODUCT);
-
             $this->_initProductLayout($product);
             $this->_initLayoutMessages('catalog/session');
             $this->_initLayoutMessages('tag/session');

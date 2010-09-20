@@ -49,6 +49,8 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
     /**
      * Apply design from catalog object
      *
+     * @deprecated after 1.4.2.0-beta1
+     *
      * @param array|Mage_Catalog_Model_Category|Mage_Catalog_Model_Product $object
      * @param int $calledFrom
      * @return Mage_Catalog_Model_Design
@@ -79,6 +81,22 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
         Mage::getSingleton('core/design_package')
             ->setPackageName($package)
             ->setTheme($theme);
+    }
+
+    /**
+     * Apply custom design
+     *
+     * @param string $design
+     */
+    public function applyCustomDesign($design)
+    {
+        $designInfo = explode('/', $design);
+        if (count($designInfo) != 2) {
+            return false;
+        }
+        $package = $designInfo[0];
+        $theme   = $designInfo[1];
+        $this->_apply($package, $theme);
     }
 
     /**
@@ -144,6 +162,8 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
     /**
      * Check and apply design
      *
+     * @deprecated after 1.4.2.0-beta1
+     *
      * @param string $design
      * @param array $date
      */
@@ -173,6 +193,8 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
 
     /**
      * Recursively apply design
+     *
+     * @deprecated after 1.4.2.0-beta1
      *
      * @param Varien_Object $object
      * @param int $calledFrom
@@ -260,6 +282,9 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * @deprecated after 1.4.2.0-beta1
+     */
     protected function _applyDesign($designUpdateData, $calledFrom = 0, $loaded = false, $pass = 0)
     {
         $objects = array();
@@ -308,9 +333,9 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
      * Get custom layout settings
      *
      * @param Mage_Catalog_Model_Category|Mage_Catalog_Model_Product $object
-     * @return array
+     * @return Varien_Object
      */
-    public function getCustomLayoutSettings($object)
+    public function getDesignSettings($object)
     {
         if ($object instanceof Mage_Catalog_Model_Product) {
             $currentCategory = $object->getCategory();
@@ -325,12 +350,12 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
 
         if ($object instanceof Mage_Catalog_Model_Product) {
             if ($category && $category->getCustomApplyToProducts()) {
-                return $this->_extractCustomLayoutSettings($category);
+                return $this->_mergeSettings($this->_extractSettings($category), $this->_extractSettings($object));
             } else {
-                return $this->_extractCustomLayoutSettings($object);
+                return $this->_extractSettings($object);
             }
         } else {
-             return $this->_extractCustomLayoutSettings($category);
+             return $this->_extractSettings($category);
         }
     }
 
@@ -338,25 +363,43 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
      * Extract custom layout settings from category or product object
      *
      * @param Mage_Catalog_Model_Category|Mage_Catalog_Model_Product $object
-     * @return array
+     * @return Varien_Object
      */
-    protected function _extractCustomLayoutSettings($object)
+    protected function _extractSettings($object)
     {
-        $settings = array();
+        $settings = new Varien_Object;
         if (!$object) {
             return $settings;
         }
         $date = $object->getCustomDesignDate();
-
         if (array_key_exists('from', $date) && array_key_exists('to', $date)
             && Mage::app()->getLocale()->isStoreDateInInterval(null, $date['from'], $date['to'])) {
-            if ($object->getPageLayout()) {
-                $settings['layout'] = $object->getPageLayout();
-            }
-            if ($object->getCustomLayoutUpdate()) {
-                $settings['update'] = $object->getCustomLayoutUpdate();
-            }
+                $settings->setCustomDesign($object->getCustomDesign())
+                    ->setPageLayout($object->getPageLayout())
+                    ->setLayoutUpdates((array)$object->getCustomLayoutUpdate());
         }
         return $settings;
+    }
+
+    /**
+     * Merge custom design settings
+     *
+     * @param Varien_Object $categorySettings
+     * @param Varien_Object $productSettings
+     * @return Varien_Object
+     */
+    protected function _mergeSettings($categorySettings, $productSettings)
+    {
+        if ($productSettings->getCustomDesign()) {
+            $categorySettings->setCustomDesign($productSettings->getCustomDesign());
+        }
+        if ($productSettings->getPageLayout()) {
+            $categorySettings->setPageLayout($productSettings->getPageLayout());
+        }
+        if ($productSettings->getLayoutUpdates()) {
+            $update = array_merge($categorySettings->getLayoutUpdates(), $productSettings->getLayoutUpdates());
+            $categorySettings->setLayoutUpdates($update);
+        }
+        return $categorySettings;
     }
 }

@@ -69,7 +69,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
      * Recursively apply custom design settings to category if it's option
      * custom_use_parent_settings is setted to 1 while parent option is not
      *
-     * @deprecated after 1.4.2.0, functionality moved to Mage_Catalog_Model_Design
+     * @deprecated after 1.4.2.0-beta1, functionality moved to Mage_Catalog_Model_Design
      * @param Mage_Catalog_Model_Category $category
      * @param Mage_Core_Model_Layout_Update $update
      *
@@ -105,9 +105,13 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         if ($category = $this->_initCatagory()) {
+            $design = Mage::getSingleton('catalog/design');
+            $settings = $design->getDesignSettings($category);
 
-            $design = Mage::getSingleton('catalog/design')
-                ->applyDesign($category, Mage_Catalog_Model_Design::APPLY_FOR_CATEGORY);
+            // apply custom design
+            if ($settings->getCustomDesign()) {
+                $design->applyCustomDesign($settings->getCustomDesign());
+            }
 
             Mage::getSingleton('catalog/session')->setLastViewedCategoryId($category->getId());
 
@@ -121,20 +125,21 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             $this->addActionLayoutHandles();
             $update->addHandle($category->getLayoutUpdateHandle());
             $update->addHandle('CATEGORY_' . $category->getId());
-
             $this->loadLayoutUpdates();
-            // look for category custom design
-            $layoutSettings = $design->getCustomLayoutSettings($category);
 
             // apply custom layout update once layout is loaded
-            if (isset($layoutSettings['update'])) {
-                $update->addUpdate($layoutSettings['update']);
+            if ($layoutUpdates = $settings->getLayoutUpdates()) {
+                if (is_array($layoutUpdates)) {
+                    foreach($layoutUpdates as $layoutUpdate) {
+                        $update->addUpdate($layoutUpdate);
+                    }
+                }
             }
 
             $this->generateLayoutXml()->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
-            if (isset($layoutSettings['layout'])) {
-                $this->getLayout()->helper('page/layout')->applyTemplate($layoutSettings['layout']);
+            if ($settings->getPageLayout()) {
+                $this->getLayout()->helper('page/layout')->applyTemplate($settings->getPageLayout());
             }
 
             if ($root = $this->getLayout()->getBlock('root')) {
