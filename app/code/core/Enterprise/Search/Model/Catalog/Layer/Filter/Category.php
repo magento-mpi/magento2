@@ -91,7 +91,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
             $this->_categoryId = $filter;
         }
 
-        $category   = $this->getCategory();
+        $category = $this->getCategory();
         if (!Mage::registry('current_category_filter')) {
             Mage::register('current_category_filter', $category);
         }
@@ -108,7 +108,6 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
         $productCollection = $this->getLayer()->getProductCollection();
         $productCollection->setFacetCondition('categories', $categories);
 
-
         if (!$filter) {
             $this->addCategoryFilter($category, null);
             return $this;
@@ -117,7 +116,6 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
         $this->_appliedCategory = Mage::getModel('catalog/category')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($filter);
-
 
         if ($this->_isValidCategory($this->_appliedCategory)) {
             /*
