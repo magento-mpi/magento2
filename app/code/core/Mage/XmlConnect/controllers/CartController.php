@@ -158,7 +158,11 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             }
         }
         catch (Mage_Core_Exception $e) {
-            $this->_message($e->getMessage(), parent::MESSAGE_STATUS_ERROR);
+            if ($this->_getSession()->getUseNotice(true)) {
+                $this->_message($e->getMessage(), parent::MESSAGE_STATUS_ERROR);
+            } else {
+                $this->_message(implode("\n", array_unique(explode("\n", $e->getMessage()))), parent::MESSAGE_STATUS_ERROR);
+            }
         }
         catch (Exception $e) {
             $this->_message(Mage::helper('xmlconnect')->__('Cannot add the item to shopping cart.'), self::MESSAGE_STATUS_ERROR);
