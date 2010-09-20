@@ -257,14 +257,18 @@ tinyMceWysiwygSetup.prototype =
         }
     },
 
+    // retrieve directives URL with substituted directive value
+    makeDirectiveUrl: function(directive) {
+        return this.config.directives_url.replace('directive', 'directive/___directive/' + directive);
+    },
+
     encodeDirectives: function(content) {
         // collect all HTML tags with attributes that contain directives
         return content.gsub(/<([a-z0-9\-\_]+.+?)([a-z0-9\-\_]+=".*?\{\{.+?\}\}.*?".+?)>/i, function(match) {
             var attributesString = match[2];
             // process tag attributes string
             attributesString = attributesString.gsub(/([a-z0-9\-\_]+)="(.*?)(\{\{.+?\}\})(.*?)"/i, function(m) {
-                var url = this.config.directives_url;
-                return m[1] + '="' + m[2] + url + '___directive/' + Base64.mageEncode(m[3]) + '/' + m[4] + '"';
+                return m[1] + '="' + m[2] + this.makeDirectiveUrl(Base64.mageEncode(m[3])) + m[4] + '"';
             }.bind(this));
 
             return '<' + match[1] + attributesString + '>';
@@ -294,8 +298,8 @@ tinyMceWysiwygSetup.prototype =
 
     decodeDirectives: function(content) {
         // escape special chars in directives url to use it in regular expression
-        var url = this.config.directives_url.replace(/([$^.?*!+:=()\[\]{}|\\])/g, '\\$1');
-        var reg = new RegExp(url + '___directive/([a-zA-Z0-9,_-]+)/?');
+        var url = this.makeDirectiveUrl('%directive%').replace(/([$^.?*!+:=()\[\]{}|\\])/g, '\\$1');
+        var reg = new RegExp(url.replace('%directive%', '([a-zA-Z0-9,_-]+)'));
         return content.gsub(reg, function(match) {
             return Base64.mageDecode(match[1]);
         }.bind(this));
