@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Report settlement resource model
  *
  * @category    Mage
  * @package     Mage_Paypal
@@ -35,9 +35,9 @@
 class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Table name
      *
-     * @var unknown
+     * @var string
      */
     protected $_rowsTable;
 
@@ -48,7 +48,7 @@ class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resou
     protected function _construct()
     {
         $this->_init('paypal/settlement_report', 'report_id');
-        $this->_rowsTable = Mage::getSingleton('core/resource')->getTableName('paypal/settlement_report_row');
+        $this->_rowsTable = $this->getTable('paypal/settlement_report_row');
     }
 
     /**
@@ -61,21 +61,23 @@ class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resou
     {
         $rows = $object->getRows();
         if (is_array($rows)){
+            $adapter  = $this->_getWriteAdapter();
+            $reportId = (int)$object->getId();
             try {
-                $this->_getWriteAdapter()->beginTransaction();
-                if ($object->getId()) {
-                    $this->_getWriteAdapter()->query(sprintf('DELETE FROM %s WHERE report_id = :report', $this->_rowsTable), array('report' => $object->getId()));
+                $adapter->beginTransaction();
+                if ($reportId) {
+                    $adapter->delete($this->_rowsTable, array('report_id = ?' => $reportId));
                 }
                 foreach ($rows as $key => $row) {
-                    $rows[$key]['report_id'] = $object->getId();
+                    $rows[$key]['report_id'] = $reportId;
                 }
-                $this->_getWriteAdapter()->insertMultiple($this->_rowsTable, $rows);
-                $this->_getWriteAdapter()->commit();
-            }
-            catch (Exception $e) {
-                $this->_getWriteAdapter()->rollback();
+                $adapter->insertMultiple($this->_rowsTable, $rows);
+                $adapter->commit();
+            } catch (Exception $e) {
+                $adapter->rollback();
             }
         }
+
         return $this;
     }
 
@@ -89,13 +91,17 @@ class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resou
      */
     public function loadByAccountAndDate(Mage_Paypal_Model_Report_Settlement $report, $accountId, $reportDate)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('account_id=?', $accountId)
-            ->where('report_date=?', $reportDate);
-        if ($data = $this->_getReadAdapter()->fetchRow($select)) {
+            ->where('account_id = ?', (int)$accountId)
+            ->where('report_date = :report_date');
+
+        $data = $adapter->fetchRow($select, array(':report_date' => $reportDate));
+        if ($data) {
             $report->addData($data);
         }
+
         return $this;
     }
 }

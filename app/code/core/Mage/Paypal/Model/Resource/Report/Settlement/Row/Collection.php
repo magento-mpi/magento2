@@ -64,12 +64,12 @@ class Mage_Paypal_Model_Resource_Report_Settlement_Row_Collection
     /**
      * Filter items collection by account ID
      *
-     * @param unknown_type $accountId
+     * @param int $accountId
      * @return Mage_Paypal_Model_Resource_Report_Settlement_Row_Collection
      */
     public function addAccountFilter($accountId)
     {
-        $this->getSelect()->where('report.account_id = ?', $accountId);
+        $this->getSelect()->where('report.account_id = ?', (int)$accountId);
         return $this;
     }
 }

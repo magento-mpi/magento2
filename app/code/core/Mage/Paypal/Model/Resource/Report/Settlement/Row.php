@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ *Report settlement row resource model
  *
  * @category    Mage
  * @package     Mage_Paypal
@@ -35,8 +35,8 @@
 class Mage_Paypal_Model_Resource_Report_Settlement_Row extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource model initialization.
+     * Set main entity table name and primary key field name.
      */
     protected function _construct()
     {
