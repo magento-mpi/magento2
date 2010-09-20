@@ -13,7 +13,8 @@
             <password>123123</password>
         </auth>
         <checkout>
-            <productUrl>http://kq.varien.com/enterprise/1.8.0.0/smoke/st-01.html</productUrl>
+            <productUrl>http://kq.varien.com/builds/ee-nightly/current/websites/sergey/category-1/test-simple-product-four.html</productUrl>
+            <!-- <productUrl>http://kq.varien.com/builds/ee-nightly/current/websites/sergey/sergey_store_main/category-1/test-simple-product-four.html</productUrl> -->
             <qty>1</qty>
             <company>The Smokers</company>
             <street1>Address Line1</street1>
@@ -32,13 +33,13 @@
             <register>
                 <firstName>Register First Name</firstName>
                 <lastName>Register Last Name</lastName>
-                <email>st3-user@varien.com</email>
+                <email>st3a-user@varien.com</email>
                 <password>123123</password>
             </register>
             <mulitiShippingRegister>
                 <firstName>MS-Register First Name</firstName>
                 <lastName>MS-Last Name</lastName>
-                <email>st4-user@varien.com</email>
+                <email>st4c-user@varien.com</email>
                 <password>123123</password>
                 <qty>2</qty>
             </mulitiShippingRegister>
@@ -46,7 +47,8 @@
     </frontend>
     <!-- Backend section -->
     <backend>
-        <baseUrl>https://kq.varien.com/builds/ee-nightly/current/index.php/control/</baseUrl>
+        <!-- <baseUrl>https://kq.varien.com/builds/ee-nightly/current/index.php/control/</baseUrl> -->
+        <baseUrl>https://kq.varien.com/enterprise/1.8.0.0/index.php/control/</baseUrl>
         <auth>
             <username>admin</username>
             <password>123123q</password>

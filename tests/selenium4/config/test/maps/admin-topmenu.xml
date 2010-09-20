@@ -25,5 +25,7 @@
                 <openpage>link=Manage Stores</openpage>
             </link>
         </managestores>
+        <configuration>link=Configuration</configuration>
+        <indexmanagement>link=Index Management</indexmanagement>
     </system>
 </topmenu>

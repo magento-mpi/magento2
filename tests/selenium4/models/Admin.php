@@ -30,7 +30,7 @@ class Model_Admin extends TestModelAbstract
         $password = $password ? $password : $this->password;
 
         $this->open($this->baseUrl);
-        $this->waitForPageToLoad("10000");
+        $this->waitForPageToLoad("20000");
 
         $this->setUiNamespace('admin/pages/login');
 
