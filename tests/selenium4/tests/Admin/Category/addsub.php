@@ -20,6 +20,7 @@ class Admin_Category_addsub extends TestCaseAbstract
     function testSubCategoryCreation() {
         // Test Flow
         if ($this->model->doLogin()) {
+            $this->model->doDeleteSubCategory();
             $this->model->doAddSubCategory();
         }
     }
