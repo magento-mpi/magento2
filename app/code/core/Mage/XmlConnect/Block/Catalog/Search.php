@@ -56,6 +56,7 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
 
         $request        = $this->getRequest();
         $requestParams  = $request->getParams();
+        $hasMoreProductItems = 0;
 
         /**
          * Products
@@ -67,7 +68,10 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
                 ->setNeedBlockApplyingFilters(!$isLayeredNavigationAllowed)
                 ->getProductsXmlObject();
             $searchXmlObject->appendChild($productsXmlObj);
+            $hasMoreProductItems = (int)$productListBlock->getHasProductItems();
         }
+
+        $searchXmlObject->addAttribute('has_more_items', $hasMoreProductItems);
 
         /**
          * Filters

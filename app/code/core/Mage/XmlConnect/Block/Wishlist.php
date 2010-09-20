@@ -42,6 +42,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
     protected function _toHtml()
     {
         $wishlistXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<wishlist></wishlist>');
+        $hasMoreItems = 0;
         /**
          * Apply offset and count
          */
@@ -49,11 +50,15 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
         $offset = (int)$request->getParam('offset', 0);
         $count  = (int)$request->getParam('count', 0);
         $count  = $count <= 0 ? 1 : $count;
+        if($offset + $count < $this->getWishlist()->getSize()){
+            $hasMoreItems = 1;
+        }
         $this->getWishlist()->getSelect()->limit($count, $offset);
 
         $wishlistXmlObj->addAttribute('items_count', $this->getWishlistItemsCount());
-        if ($this->hasWishlistItems()) {
+        $wishlistXmlObj->addAttribute('has_more_items', $hasMoreItems);
 
+        if ($this->hasWishlistItems()) {
             /**
              * @var Mage_Wishlist_Model_Mysql4_Product_Collection
              */
@@ -63,7 +68,15 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 $itemXmlObj->addChild('entity_id', $item->getProductId());
                 $itemXmlObj->addChild('entity_type_id', $item->getTypeId());
                 $itemXmlObj->addChild('name', $wishlistXmlObj->xmlentities(strip_tags($item->getName())));
+                $itemXmlObj->addChild('in_stock', (int)$item->isSalable());
+                /**
+                 * If product type is grouped than it has options as its grouped items
+                 */
+                if ($item->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
+                    $item->setHasOptions(true);
+                }
                 $itemXmlObj->addChild('has_options', (int)$item->getHasOptions());
+
                 $icon = $this->helper('catalog/image')->init($item, 'small_image')
                     ->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM);
 
