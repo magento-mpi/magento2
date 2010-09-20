@@ -33,7 +33,7 @@ class Model_Admin_AttributeSet extends Model_Admin {
         // Set UiNamespace
         $this->setUiNamespace('admin/pages/catalog/attributes/create_attribute_set');
         // Fill fields Name and Based On
-        $this->type($this->getUiElement("input/set_name"), $atrSetData['set_name'] . $this->getStamp());
+        $this->type($this->getUiElement("input/set_name"), $atrSetData['set_name']);
         $this->select($this->getUiElement("input/based_on"), $atrSetData['default_set']);
         // Saving
         $this->click($this->getUiElement("buttons/save_set"));
@@ -89,6 +89,7 @@ class Model_Admin_AttributeSet extends Model_Admin {
         if ($qtyRoot == 0) {
             $this->printInfo("Attribute Set with name '" . $atrSetData['set_name'] . "' does not exist");
         }
+        $j = 0;
         if ($qtyRoot >= 2) {
             for ($i = 1; $i <= $qtyRoot; $i++) {
                 $mas = array($atrSetData['set_name'], $i);
@@ -98,9 +99,13 @@ class Model_Admin_AttributeSet extends Model_Admin {
                     $j = $i;
                 }
             }
-            $mas = array($atrSetData['set_name'], $j);
-            $this->clickAndWait($this->getUiElement("locators/set_many", $mas));
-            $this->printInfo("Attribute Set with name '" . $atrSetData['set_name'] . "' opened");
+            if ($j > 0) {
+                $mas = array($atrSetData['set_name'], $j);
+                $this->clickAndWait($this->getUiElement("locators/set_many", $mas));
+                $this->printInfo("Attribute Set with name '" . $atrSetData['set_name'] . "' opened");
+            } else {
+                $this->printInfo("Attribute Set with name '" . $atrSetData['set_name'] . "' does not exist");
+            }
         }
     }
 
