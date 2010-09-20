@@ -35,7 +35,8 @@
 class Mage_GoogleCheckout_Model_Resource_Notification extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Intialize resource model
+     * Intialize resource model.
+     * Set main entity table name and primary key field name.
      *
      */
     protected function _construct()
@@ -53,7 +54,8 @@ class Mage_GoogleCheckout_Model_Resource_Notification extends Mage_Core_Model_Re
     {
         $select = $this->_getWriteAdapter()->select()
             ->from($this->getMainTable(), array('*'))
-            ->where($this->_getWriteAdapter()->quoteInto('serial_number = ?', $serialNumber));
+            ->where('serial_number = ?', $serialNumber);
+
         return $this->_getWriteAdapter()->fetchRow($select);
     }
 
@@ -67,7 +69,7 @@ class Mage_GoogleCheckout_Model_Resource_Notification extends Mage_Core_Model_Re
     {
         $data = array(
             'serial_number' => $serialNumber,
-            'started_at'    => $this->formatDate(time()),
+            'started_at'    => Varien_Date::now(),
             'status'        => Mage_GoogleCheckout_Model_Notification::STATUS_INPROCESS
         );
         $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
@@ -98,7 +100,7 @@ class Mage_GoogleCheckout_Model_Resource_Notification extends Mage_Core_Model_Re
     public function updateProcess($serialNumber)
     {
         $this->_getWriteAdapter()->update($this->getMainTable(),
-            array('started_at' => $this->formatDate(time())),
+            array('started_at' => Varien_Date::now()),
             array($this->_getWriteAdapter()->quoteInto('serial_number = ?', $serialNumber))
         );
         return $this;
