@@ -19,7 +19,7 @@ class Model_Admin_Product_Simple extends Model_Admin {
             'price' => Core::getEnvConfig('backend/createproduct/price'),
             'categoryName' => Core::getEnvConfig('backend/managecategories/subcategoryname'),
             'webSiteName' => Core::getEnvConfig('backend/scope/site/name'),
-            'storeViewName' => Core::getEnvConfig('backend/scope/storeview/name'),
+            'storeViewName' => Core::getEnvConfig('backend/scope/store_view/name'),
             'description' => 'description',
             'short_description' => 'short description',
             'weight' => '10',
