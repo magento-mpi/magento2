@@ -221,7 +221,6 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
         if (Mage::helper('core')->isModuleEnabled('Mage_Tax')) {
             $taxClassId = $this->_addAttributeToSelect($select, 'tax_class_id', 'e.entity_id', 'cs.store_id');
-            $select->columns(array('tax_class_id' => $taxClassId));
         } else {
             $taxClassId = new Zend_Db_Expr('0');
         }
