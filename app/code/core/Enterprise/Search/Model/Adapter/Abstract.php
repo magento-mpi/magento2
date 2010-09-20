@@ -168,7 +168,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $this->_indexableAttributeParams[$item->getAttributeCode()] = array(
                     'backendType'   => $item->getBackendType(),
                     'frontendInput' => $item->getFrontendInput(),
-                    'searchWeight'  => $item->getSearchWeight()
+                    'searchWeight'  => $item->getSearchWeight(),
+                    'isSearchable'  => $item->getIsSearchable()
                 );
             }
         }
@@ -223,17 +224,20 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $currentCurrency = Mage::app()->getStore($index['store_id'])->getCurrentCurrency();
             foreach ($index as $code => $value) {
                 $weight = 0;
+                $isSearchable = 0;
 
                 if (!empty($attributeParams[$code])) {
                     $weight = $attributeParams[$code]['searchWeight'];
                     $frontendInput = $attributeParams[$code]['frontendInput'];
+                    $isSearchable = $attributeParams[$code]['isSearchable'];
                 } elseif ((substr($code, 0, 5 + $fieldPrefixLength) == $fieldPrefix . 'price'
                         && !empty($attributeParams['price']))) {
                     $weight = $attributeParams['price']['searchWeight'];
                     $frontendInput = 'price';
+                    $isSearchable = $attributeParams['price']['isSearchable'];
                 }
 
-                if ($weight) {
+                if ($weight && $isSearchable) {
                     if ($needToReplaceSeparator && $frontendInput == 'multiselect') {
                         $value = str_replace($this->_separator, ' ', $value);
                     } elseif ($code == 'price' || $frontendInput == 'price') {
