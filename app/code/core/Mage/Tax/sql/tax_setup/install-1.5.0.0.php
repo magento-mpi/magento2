@@ -25,6 +25,7 @@
  */
 /** @var $installer Mage_Tax_Model_Resource_Setup */
 $installer = $this;
+//
 /**
  * Create table 'tax/class'
  */
@@ -234,6 +235,33 @@ $table = $installer->getConnection()
         'store_id', $installer->getTable('core/store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tax Order Aggregation');
-
 $installer->getConnection()->createTable($table);
 
+/**
+ * Add tax_class_id attribute to the 'eav/attribute' table
+ */
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'tax_class_id', array(
+    'group'                      => 'Prices',
+    'type'                       => 'int',
+    'backend'                    => '',
+    'frontend'                   => '',
+    'label'                      => 'Tax Class',
+    'input'                      => 'select',
+    'class'                      => '',
+    'source'                     => 'tax/class_source_product',
+    'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'visible'                    => true,
+    'required'                   => true,
+    'user_defined'               => false,
+    'default'                    => '',
+    'searchable'                 => true,
+    'filterable'                 => false,
+    'comparable'                 => false,
+    'visible_on_front'           => false,
+    'visible_in_advanced_search' => true,
+    'used_in_product_listing'    => true,
+    'unique'                     => false,
+    'apply_to'                   => 'simple,configurable,virtual',
+));
+
+$installer->endSetup();
