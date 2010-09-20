@@ -285,7 +285,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
         $select = parent::getSelectCountSql();
 
         $select->reset(Zend_Db_Select::HAVING);
-        $select->reset(Varien_Db_Select::SOFT_GROUP);
+        $select->reset(Varien_Db_Select::MAGIC_GROUP);
         $select->columns('COUNT(DISTINCT main_table.tag_id)');
         return $select;
     }
