@@ -597,7 +597,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
         if (isset($importData['websites'])) {
             $websiteIds = $product->getWebsiteIds();
-            if (!is_array($websiteIds)) {
+            if (!is_array($websiteIds) || !$store->getId()) {
                 $websiteIds = array();
             }
             $websiteCodes = explode(',', $importData['websites']);
