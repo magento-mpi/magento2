@@ -988,7 +988,7 @@ class Mage_Core_Model_Url extends Varien_Object
     }
 
     /**
-     * Check if users originated URL is one of the domain URLs assigned to this website
+     * Check if users originated URL is one of the domain URLs assigned to stores
      *
      * @return boolean
      */
@@ -996,7 +996,7 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $storeDomains = array();
         $referer = parse_url(Mage::app()->getFrontController()->getRequest()->getServer('HTTP_REFERER'), PHP_URL_HOST);
-        foreach (Mage::app()->getWebsite()->getStores() as $store) {
+        foreach (Mage::app()->getStores() as $store) {
             $storeDomains[] = parse_url($store->getBaseUrl(), PHP_URL_HOST);
         }
         $storeDomains = array_unique($storeDomains);
