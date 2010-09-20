@@ -65,17 +65,16 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             $this->_message(Mage::helper('xmlconnect')->__('The onepage checkout is disabled.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
-        $customerSession = Mage::getSingleton('customer/session');
-        if (!sizeof($customerSession->getCustomer()->getAddresses())) {
-            $this->_message(Mage::helper('xmlconnect')->__('No one address were found. It is necessary to create new address in address book.'), self::MESSAGE_STATUS_ERROR);
-            return ;
-        }
         $quote = $this->getOnepage()->getQuote();
-        if (!$quote->hasItems() || $quote->getHasError()) {
-            $this->_message(Mage::helper('xmlconnect')->__('Cart has some errors.'), self::MESSAGE_STATUS_ERROR);
+        if ($quote->getHasError()) {
+            $this->_message(Mage::helper('xmlconnect')->__('Shopping Cart has some errors.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
-        if (!$quote->validateMinimumAmount()) {
+        else if(!$quote->hasItems()){
+            $this->_message(Mage::helper('xmlconnect')->__('Shopping Cart is empty.'), self::MESSAGE_STATUS_ERROR);
+            return;
+        }
+        else if (!$quote->validateMinimumAmount()) {
             $error = Mage::getStoreConfig('sales/minimum_order/error_message');
             $this->_message($error, self::MESSAGE_STATUS_ERROR);
             return;
