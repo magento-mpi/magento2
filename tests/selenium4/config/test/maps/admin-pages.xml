@@ -59,26 +59,26 @@
                     <get_shipping>link=Get shipping methods and rates</get_shipping>
                 </locators>
                                         <!-- related pages-->
-            <salect_user_for_order>
-                <buttons>
-                    <user_search>//button[span='Search']</user_search>
-                </buttons>
-                <inputs>
-                    <search_by_user_email>filter_email</search_by_user_email>
-                    <search_by_store_view_name>filter_store_name</search_by_store_view_name>
-                </inputs>
-                <locators>
-                    <select_user>//table[@id="sales_order_create_customer_grid_table"]//td[contains(text(),'%s')]</select_user>
-                </locators>
-            </salect_user_for_order>
-            <select_sore_view_for_order>
-                <page_elements>
-                    <loaded_store_view>//div[@id='order-store-selector' and contains(@style,'')]</loaded_store_view>
-                </page_elements>
-                <locators>
-                    <select_store_view>//label[text()='%s']</select_store_view>
-                </locators>
-            </select_sore_view_for_order>
+                <salect_user_for_order>
+                    <buttons>
+                        <user_search>//button[span='Search']</user_search>
+                    </buttons>
+                    <inputs>
+                        <search_by_user_email>filter_email</search_by_user_email>
+                        <search_by_store_view_name>filter_store_name</search_by_store_view_name>
+                    </inputs>
+                    <locators>
+                        <select_user>//table[@id="sales_order_create_customer_grid_table"]//td[contains(text(),'%s')]</select_user>
+                    </locators>
+                </salect_user_for_order>
+                <select_sore_view_for_order>
+                    <page_elements>
+                        <loaded_store_view>//div[@id='order-store-selector' and contains(@style,'')]</loaded_store_view>
+                    </page_elements>
+                    <locators>
+                        <select_store_view>//label[text()='%s']</select_store_view>
+                    </locators>
+                </select_sore_view_for_order>
                                         <!-- related pages-->
             </create_order>
             <create_invoice>
@@ -103,6 +103,7 @@
             <manage_attribute_sets>
                 <locators>
                     <open_set>//td[contains(text(),'%s')]</open_set>
+                    <set_many>//tr[contains(td,'%s')][%s]</set_many>
                 </locators>
                 <buttons>
                     <add_set>//button[span="Add New Set"]</add_set>
@@ -228,12 +229,12 @@
                         <search>//button[span="Search"]</search>
                     </buttons>
                     <filters>
-                            <user_name>//input[@id='filter_username']</user_name>
+                        <user_name>//input[@id='filter_username']</user_name>
                     </filters>
                     <elements>
-                            <user_table>//table[@id='permissionsUserGrid_table']</user_table>
-                            <heading>//table[@id='permissionsUserGrid_table']//tr[contains(@class,'heading')]</heading>
-                            <body>//table[@id='permissionsUserGrid_table']//tbody</body>
+                        <user_table>//table[@id='permissionsUserGrid_table']</user_table>
+                        <heading>//table[@id='permissionsUserGrid_table']//tr[contains(@class,'heading')]</heading>
+                        <body>//table[@id='permissionsUserGrid_table']//tbody</body>
                     </elements>
                 </manage_users>
                 <user>
@@ -262,9 +263,9 @@
                     <search>//button[span="Search"]</search>
                 </buttons>
                 <filters>
-                     <site_name>//input[@id='filter_website_title']</site_name>
-                     <store_name>//input[@id='filter_group_title']</store_name>
-                     <store_view_name>//input[@id='filter_store_title']</store_view_name>
+                    <site_name>//input[@id='filter_website_title']</site_name>
+                    <store_name>//input[@id='filter_group_title']</store_name>
+                    <store_view_name>//input[@id='filter_store_title']</store_view_name>
                 </filters>
                 <elements>
                     <store_table>//table[@id='storeGrid_table']</store_table>
