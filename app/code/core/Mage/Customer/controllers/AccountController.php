@@ -604,7 +604,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     $confPass   = $this->getRequest()->getPost('confirmation');
 
                     $oldPass = $this->_getSession()->getCustomer()->getPasswordHash();
-                    if (strpos($oldPass, ':')) {
+                    if (Mage::helper('core/string')->strpos($oldPass, ':')) {
                         list($_salt, $salt) = explode(':', $oldPass);
                     } else {
                         $salt = false;
