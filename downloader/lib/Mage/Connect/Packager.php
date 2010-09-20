@@ -225,19 +225,53 @@ class Mage_Connect_Packager
      * Validation of mode permissions
      *
      * @param int $mode
-     * @throws Exception
      * @return int
      */
-    protected function validPermMode ($mode)
+    protected function validPermMode($mode)
     {
         $mode = intval($mode);
         if ($mode < 73 || $mode > 511) {
-            throw new Exception("Invalid mode permissions");
+            return false;
         }
-
-        return $mode;
+        return true;
+    }
+    /**
+     *
+     * Return correct global dir mode in octal representation
+     *
+     * @param Maged_Model_Config $config
+     * @return int
+     */
+    protected function _getDirMode($config)
+    {
+        if ($this->validPermMode($config->global_dir_mode)) {
+            return $config->global_dir_mode;
+        } else {
+            return $config->getDefaultValue('global_dir_mode');
+        }
     }
 
+    /**
+     * Return global file mode in octal representation
+     *
+     * @param Maged_Model_Config $config
+     * @return int
+     */
+    protected function _getFileMode($config)
+    {
+        if ($this->validPermMode($config->global_file_mode)) {
+            return $config->global_file_mode;
+        } else {
+            return $config->getDefaultValue('global_file_mode');
+        }
+    }
+
+    /**
+     * Convert FTP path
+     *
+     * @param string $str
+     * @return string
+     */
     protected function convertFtpPath($str)
     {
         return str_replace("\\", "/", $str);
@@ -251,8 +285,8 @@ class Mage_Connect_Packager
         $target = dirname($file).DS.$package->getReleaseFilename();
         @mkdir($target, 0777, true);
         $tar = $arc->unpack($file, $target);
-        $modeFile = is_string($configObj->global_file_mode)?$this->validPermMode(decoct(intval($configObj->global_file_mode))):$configObj->global_file_mode;
-        $modeDir = is_string($configObj->global_dir_mode)?$this->validPermMode(decoct(intval($configObj->global_dir_mode))):$configObj->global_dir_mode;
+        $modeFile = $this->_getFileMode($configObj);
+        $modeDir = $this->_getDirMode($configObj);
         foreach($contents as $file) {
             $fileName = basename($file);
             $filePath = $this->convertFtpPath(dirname($file));
@@ -291,8 +325,8 @@ class Mage_Connect_Packager
         $target = dirname($file).DS.$package->getReleaseFilename();
         @mkdir($target, 0777, true);
         $tar = $arc->unpack($file, $target);
-        $modeFile = is_string($configObj->global_file_mode)?$this->validPermMode(decoct(intval($configObj->global_file_mode))):$configObj->global_file_mode;
-        $modeDir = is_string($configObj->global_dir_mode)?$this->validPermMode(decoct(intval($configObj->global_dir_mode))):$configObj->global_dir_mode;
+        $modeFile = $this->_getFileMode($configObj);
+        $modeDir = $this->_getDirMode($configObj);
         foreach($contents as $file) {
             $fileName = basename($file);
             $filePath = dirname($file);
