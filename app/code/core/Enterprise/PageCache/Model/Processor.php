@@ -256,7 +256,9 @@ class Enterprise_PageCache_Model_Processor
                 if (isset($_COOKIE[$cookieName]) && isset($cookieInfo['lifetime'])
                     && isset($cookieInfo['path']) && isset($cookieInfo['domain'])
                     && isset($cookieInfo['secure']) && isset($cookieInfo['httponly'])) {
-                    setcookie($cookieName, $_COOKIE[$cookieName], time() + $cookieInfo['lifetime'],
+
+                    $lifeTime = (0 == $cookieInfo['lifetime']) ? 0 : time() + $cookieInfo['lifetime'];
+                    setcookie($cookieName, $_COOKIE[$cookieName], $lifeTime,
                         $cookieInfo['path'], $cookieInfo['domain'],
                         $cookieInfo['secure'], $cookieInfo['httponly']);
                 }
