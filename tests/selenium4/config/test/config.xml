@@ -3,6 +3,8 @@
     <browser>*chrome</browser>
     <host>127.0.0.1</host>
     <port>4444</port>
+    <timeOut>60</timeOut>
+    <sleepTime>0</sleepTime>
     <!-- Frontend section -->
     <frontend>
         <baseUrl>http://kq.varien.com/builds/ee-nightly/current/smoke/index.php/</baseUrl>
@@ -13,8 +15,7 @@
             <password>123123</password>
         </auth>
         <checkout>
-            <productUrl>http://kq.varien.com/builds/ee-nightly/current/websites/sergey/category-1/test-simple-product-four.html</productUrl>
-            <!-- <productUrl>http://kq.varien.com/builds/ee-nightly/current/websites/sergey/sergey_store_main/category-1/test-simple-product-four.html</productUrl> -->
+            <productUrl>http://kq.varien.com/builds/ee-nightly/current/websites/smoke/st-subcat/st-01.html</productUrl>
             <qty>1</qty>
             <company>The Smokers</company>
             <street1>Address Line1</street1>
@@ -47,8 +48,8 @@
     </frontend>
     <!-- Backend section -->
     <backend>
-        <!-- <baseUrl>https://kq.varien.com/builds/ee-nightly/current/index.php/control/</baseUrl> -->
-        <baseUrl>https://kq.varien.com/enterprise/1.8.0.0/index.php/control/</baseUrl>
+        <baseUrl>https://kq.varien.com/builds/ee-nightly/current/index.php/control/</baseUrl>
+        <!-- <baseUrl>https://kq.varien.com/enterprise/1.8.0.0/index.php/control/</baseUrl> -->
         <auth>
             <username>admin</username>
             <password>123123q</password>
@@ -79,7 +80,7 @@
         </createproduct>
         <user>
             <name>test</name>
-	</user>
+        </user>
         <scope>
             <site>
                 <name>SmokeTestSite</name>

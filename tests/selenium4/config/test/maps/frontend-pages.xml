@@ -144,7 +144,7 @@
             </orderReview>
             <orderPlaced>
                 <links>
-                    <orderID>//p[contains(text(),'Your order')]/a</orderID>
+                    <orderID>//p[contains(text(),'Your order')]</orderID>
                 </links>
             </orderPlaced>
         </tabs>
