@@ -59,9 +59,9 @@ class Mage_Reports_Model_Resource_Product_Sold_Collection extends Mage_Reports_M
      */
     public function setStoreIds($storeIds)
     {
-        if (!empty($storeIds[0])) {
-            $storeIds = array_values($storeIds);
-            $this->getSelect()->where('order_items.store_id IN(?)', $storeIds);
+        $vals = array_values($storeIds);
+        if (count($storeIds) >= 1 && $vals[0] != '') {
+            $this->getSelect()->where('order_items.store_id IN(?)', $vals);
         }
 
         return $this;
