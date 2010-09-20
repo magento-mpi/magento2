@@ -24,22 +24,17 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * @deprecated after 1.4.2.0
+ */
 class Mage_XmlConnect_Helper_Payment extends Mage_Core_Helper_Abstract
 {
     /**
-     * Retrieve all payment methods list as an array
-     * Output assoc array as <code> => <title>
-     *
+     * @deprecated after 1.4.2.0
      * @return array
      */
     public function getPaymentMethodCodeList()
     {
-        $methods = array();
-        $methodList = Mage::getStoreConfig(Mage_Payment_Helper_Data::XML_PATH_PAYMENT_METHODS, null);
-        foreach ($methodList as $code => $data) {
-            $methods[] = $code;
-        }
-        asort($methods);
-        return $methods;
+        return array();
     }
 }

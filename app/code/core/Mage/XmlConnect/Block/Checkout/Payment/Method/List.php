@@ -64,71 +64,92 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     {
         $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<payment_methods></payment_methods>');
 
-        $methodBlocks = $this->getChild();
-        $usedCodes = array();
+        $methodBlocks         = $this->getChild();
+        $ccSaveMethodRenderer = null;
+        $usedMethods          = $sordetAvailableMethodCodes = $usedCodes = array();
+        $allAvailableMethods  = Mage::helper('payment')->getStoreMethods(Mage::app()->getStore(), $this->getQuote());
 
+        foreach ($allAvailableMethods as $method){
+            $sordetAvailableMethodCodes[] = $method->getCode();
+        }
+
+        /**
+         * Collect directly supported by xmlconnect methods
+         */
         foreach ($methodBlocks as $block) {
             if (!$block) {
                 continue;
             }
-            $code = $this->_addToXml($block, $methodsXmlObj, $usedCodes);
-            if ($code !== false) {
-                $usedCodes[] = $code; 
+
+            $method = $block->getMethod();
+            if (!$this->_canUseMethod($method) || in_array($method->getCode(), $usedCodes)) {
+                continue;
             }
-            /*
-             * adding all ccsave childs
-             */
+            $this->_assignMethod($method);
+            $usedCodes[] = $method->getCode();
+            $usedMethods[$method->getCode()] = array('renderer' => $block, 'method' => $method);
+
             if ($block instanceOf Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave) {
-                $paymentMethodList =  Mage::helper('xmlconnect/payment')->getPaymentMethodCodeList();
-                foreach ($paymentMethodList as $methodCode) {
-                    if (in_array($methodCode, $usedCodes)) {
+                $ccSaveMethodRenderer = $block;
+            }
+        }
+
+        /**
+         * Collect all Credit Card method compatible methods
+         */
+        if (!is_null($ccSaveMethodRenderer)) {
+            foreach ($sordetAvailableMethodCodes as $methodCode) {
+                if (in_array($methodCode, $usedCodes)) {
+                    continue;
+                }
+                try {
+                    $method = Mage::helper('payment')->getMethodInstance($methodCode);
+                    if (!is_subclass_of($method, 'Mage_Payment_Model_Method_Cc')) {
                         continue;
                     }
-                    try {
-                        $methodInstance = Mage::helper('payment')->getMethodInstance($methodCode);
-                        if (is_subclass_of($methodInstance, 'Mage_Payment_Model_Method_Cc')) {
-                            $block->setData('method', $methodInstance);
-                            $code = $this->_addToXml($block, $methodsXmlObj, $usedCodes);
-                            if ($code !== false) {
-                                $usedCodes[] = $code;
-                            }
-                        }
-                    } catch (Exception $e) {
-                        Mage::logException($e);
+                    if(!$this->_canUseMethod($method)){
+                        continue;
                     }
+
+                    $this->_assignMethod($method);
+                    $usedCodes[] = $method->getCode();
+                    $usedMethods[$method->getCode()] = array('renderer' => $ccSaveMethodRenderer, 'method' => $method);
+                }
+                catch (Exception $e) {
+                    Mage::logException($e);
                 }
             }
         }
 
-
-        return $methodsXmlObj->asNiceXml();
-    }
-
-    /**
-     * Create child payment method xml node 
-     * @param  Mage_Core_Block_Template                     $block
-     * @param  Mage_XmlConnect_Model_Simplexml_Element      $methodsXmlObj
-     * @param  array                                        $used codes
-     * @return string|bool
-     */
-    protected function _addToXml($block, $methodsXmlObj, $usedCodes)
-    {
-            $method = $block->getMethod();
-            if (!$this->_canUseMethod($method) || in_array($method->getCode(), $usedCodes)) {
-                return false;
+        /**
+         * Generate methods XML according to sort order
+         */
+        foreach ($sordetAvailableMethodCodes as $code){
+            if (!in_array($code, $usedCodes)){
+                continue;
             }
-            $this->_assignMethod($method);
+
+            $method   = $usedMethods[$code]['method'];
+            $renderer = $usedMethods[$code]['renderer'];
+            /**
+             * Render all Credit Card method compatible methods
+             */
+            if ($renderer instanceOf Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave) {
+                $renderer->setData('method', $method);
+            }
 
             $methodItemXmlObj = $methodsXmlObj->addChild('method');
             $methodItemXmlObj->addAttribute('post_name', 'payment[method]');
-
             $methodItemXmlObj->addAttribute('code', $method->getCode());
             $methodItemXmlObj->addAttribute('label', $methodsXmlObj->xmlentities(strip_tags($method->getTitle())));
             if ($this->getQuote()->getPayment()->getMethod() == $method->getCode()) {
                 $methodItemXmlObj->addAttribute('selected', 1);
             }
-            $block->addPaymentFormToXmlObj($methodItemXmlObj);
-        return $method->getCode();
+            $renderer->addPaymentFormToXmlObj($methodItemXmlObj);
+        }
+
+
+        return $methodsXmlObj->asNiceXml();
     }
 
     /**
@@ -138,19 +159,31 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
      */
     protected function _canUseMethod($method)
     {
-        if (!$method || !$method->canUseCheckout() || !$method->canUseForMultishipping() || !$this->isAvailable($method)) {
+        if (!$method || !$method->canUseCheckout() || !$method->canUseForMultishipping() || !$method->isAvailable($this->getQuote())) {
             return false;
         }
         return parent::_canUseMethod($method);
     }
 
     /**
-     * Check whether payment method can be used
+     * @deprecated after 1.4.2.0
+     * @param  Mage_Core_Block_Template                     $block
+     * @param  Mage_XmlConnect_Model_Simplexml_Element      $methodsXmlObj
+     * @param  array                                        $used codes
+     * @return string|bool
+     */
+    protected function _addToXml($block, $methodsXmlObj, $usedCodes)
+    {
+        return false;
+    }
+
+    /**
+     * @deprecated after 1.4.2.0
      * @param $method Mage_Payment_Model_Method_Abstract
      * @return bool
      */
     public function isAvailable($method)
     {
-        return (bool)(int)$method->getConfigData('active', ($this->getQuote() ? $this->getQuote()->getStoreId() : null));
+        return $method->isAvailable($this->getQuote());
     }
 }
