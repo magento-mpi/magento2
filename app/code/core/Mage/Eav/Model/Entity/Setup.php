@@ -608,6 +608,28 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     }
 
     /**
+     * Validate attribute data before insert into table
+     *
+     * @param  array $data
+     * @throws Mage_Eav_Exception
+     * @return true
+     */
+    protected function _validateAttributeData($data)
+    {
+        $attributeCodeMaxLength = Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH;
+
+        if(isset($data['attribute_code']) &&
+           !Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
+        {
+            throw Mage::exception('Mage_Eav',
+                Mage::helper('eav')->__('Maximum length of attribute code must be less then %s symbols', $attributeCodeMaxLength)
+            );
+        }
+
+        return true;
+    }
+
+    /**
      * Add attribute to an entity type
      *
      * If attribute is system will add to all existing attribute sets
@@ -627,6 +649,8 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             ),
             $this->_prepareValues($attr)
          );
+
+        $this->_validateAttributeData($data);
 
         $sortOrder = isset($attr['sort_order']) ? $attr['sort_order'] : null;
         $attributeId = $this->getAttribute($entityTypeId, $code, 'attribute_id');

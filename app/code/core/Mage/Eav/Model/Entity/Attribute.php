@@ -39,7 +39,9 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
      *
      * @var string
      */
-    protected $_eventPrefix = 'eav_entity_attribute';
+    protected $_eventPrefix                         = 'eav_entity_attribute';
+
+    CONST ATTRIBUTE_CODE_MAX_LENGTH                 = 30;
 
     /**
      * Parameter name in event
@@ -119,8 +121,17 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     {
         // prevent overriding product data
         if (isset($this->_data['attribute_code'])
-            && Mage::getModel('catalog/product')->isReservedAttribute($this)) {
+            && Mage::getModel('catalog/product')->isReservedAttribute($this))
+        {
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('The attribute code \'%s\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
+        }
+
+        if(isset($this->_data['attribute_code']) &&
+           !Zend_Validate::is($this->_data['attribute_code'], 'StringLength', array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH)))
+        {
+            throw Mage::exception('Mage_Eav',
+                Mage::helper('eav')->__('Maximum length of attribute code must be less then %s symbols', self::ATTRIBUTE_CODE_MAX_LENGTH)
+            );
         }
 
         $defaultValue   = $this->getDefaultValue();
