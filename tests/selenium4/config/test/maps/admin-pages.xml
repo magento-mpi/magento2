@@ -138,7 +138,9 @@
         <categories>
             <managecategories>
                 <locators>
-                    <parentcategory>//div[contains(@class,'tree-holder') ]//a[contains(span,'%s')]</parentcategory>
+                    <root_category>//div/li[@class='x-tree-node']/div/a[contains(span,'%s')]</root_category>
+                    <sub_category>//ul/li[@class='x-tree-node']/div/a[contains(span,'%s')]</sub_category>
+                    <root_many>//li[contains(@class,'x-tree-node') and contains(div/a/span,'%s') and not(contains(../@class,'x-tree-node'))][%s]/div/a</root_many>
                 </locators>
                 <buttons>
                     <addrootcategory>add_root_category_button</addrootcategory>
