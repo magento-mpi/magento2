@@ -470,8 +470,10 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         // Prohibit disabled store actions
-        if (!Mage::app()->getStore()->getIsActive()) {
-            Mage::app()->throwStoreException('');
+        if (Mage::isInstalled()) {
+            if (!Mage::app()->getStore()->getIsActive()) {
+                Mage::app()->throwStoreException('');
+            }
         }
 
         if ($this->_rewrite()) {
