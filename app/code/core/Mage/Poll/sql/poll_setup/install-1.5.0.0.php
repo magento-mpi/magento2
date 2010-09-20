@@ -43,8 +43,6 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Poll Id')
     ->addColumn('poll_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Poll title')
     ->addColumn('votes_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
@@ -99,8 +97,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Poll Id')
     ->addColumn('answer_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Answer title')
     ->addColumn('votes_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
