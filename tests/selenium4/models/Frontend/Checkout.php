@@ -4,7 +4,8 @@
  *
  * @author Magento Inc.
  */
-class Model_Frontend_Checkout extends Model_Frontend {
+class Model_Frontend_Checkout extends Model_Frontend
+{
     /**
      * Loading configuration data for the testCase
      */
@@ -245,42 +246,11 @@ class Model_Frontend_Checkout extends Model_Frontend {
           if (!$this->waitForElement($this->getUiElement("/admin/messages/success"),1)) {
             $this->setVerificationErrors("Adding new address: no success message");
           }
-          return false;
+//          return false;
         }
-        // Change ShippingAddress for last item to Second Address
-        $this->setUiNamespace('/frontend/pages/multiShippingCheckout/tabs/');
-        $secondAddressIndex = $this->findAddressByMask($this->getUiElement('selectAddresses/elements/lastShippingAddress'), '/Second Address/');
-        $secondAddressOptionXpath = $this->getUiElement('selectAddresses/elements/lastShippingAddress') . '/option' . '[' . $secondAddressIndex . ']';
-        $secondAddressText = $this->getText($secondAddressOptionXpath);
-        $this->select($this->getUiElement('selectAddresses/elements/lastShippingAddress'), 'label=' . $secondAddressText );
 
-        //Press 'Continue to shipping information'
-        $this->clickAndWait($this->getUiElement('selectAddresses/buttons/continue'));
-
-        //Select Free shipping for all items
-        $paneXpath = $this->getUiElement('shippingInformation/elements/addressPane');
-        $count = $this -> getXpathCount($paneXpath);
-        Core::debug('address count:'.$count);
-        for ($i=1; $i<=$count; $i++) {
-            $this->click($paneXpath . '[' . $i . "]//label[contains(text(),'Free')]");
-        };
-
-        //Continue
-        $this->clickAndWait($this->getUiElement('shippingInformation/buttons/continue'));
-
-        // Fill billibg Information fields
-        $this->click($this->getUiElement('billingInformation/inputs/check'));
-        $this->clickAndWait($this->getUiElement('billingInformation/buttons/continue'));
-
-        //Place order
-        $this->clickAndWait($this->getUiElement('placeOrder/buttons/placeOrder'));
-
-        // Check for success message
-        if (!$this->waitForElement($this->getUiElement('orderSuccess/messages/orderSuccess'),10)) {
-            $this->setVerificationErrors("Check 1: no 'Order Placed'  message");
-            return false;
-        }
-        return true;
+        //Perform rest checkout steps
+        $this->shippingMethodPaymentPlaceOrderStepsForMS();
     }
 
    /**
@@ -308,41 +278,8 @@ class Model_Frontend_Checkout extends Model_Frontend {
             return false;
         }
 
-
-        // Change ShippingAddress for last item to Second Address
-        $this->setUiNamespace('/frontend/pages/multiShippingCheckout/tabs/');
-        $secondAddressIndex = $this->findAddressByMask($this->getUiElement('selectAddresses/elements/lastShippingAddress'), '/Second Address/');
-        $secondAddressOptionXpath = $this->getUiElement('selectAddresses/elements/lastShippingAddress') . '/option' . '[' . $secondAddressIndex . ']';
-        $secondAddressText = $this->getText($secondAddressOptionXpath);
-        $this->select($this->getUiElement('selectAddresses/elements/lastShippingAddress'), 'label=' . $secondAddressText );
-
-        //Press 'Continue to shipping information'
-        $this->clickAndWait($this->getUiElement('selectAddresses/buttons/continue'));
-
-        //Select Free shipping for all items
-        $paneXpath = $this->getUiElement('shippingInformation/elements/addressPane');
-        $count = $this -> getXpathCount($paneXpath);
-        Core::debug('address count:'.$count);
-        for ($i=1; $i<=$count; $i++) {
-            $this->click($paneXpath . '[' . $i . "]//label[contains(text(),'Free')]");
-        };
-
-        //Continue
-        $this->clickAndWait($this->getUiElement('shippingInformation/buttons/continue'));
-
-        // Fill billibg Information fields
-        $this->click($this->getUiElement('billingInformation/inputs/check'));
-        $this->clickAndWait($this->getUiElement('billingInformation/buttons/continue'));
-
-        //Place order
-        $this->clickAndWait($this->getUiElement('placeOrder/buttons/placeOrder'));
-
-        // Check for success message
-        if (!$this->waitForElement($this->getUiElement('orderSuccess/messages/orderSuccess'),10)) {
-            $this->setVerificationErrors('Check 1: no "Order Placed"  message');
-            return false;
-        }
-        return true;
+        //Perform rest checkout steps
+        $this->shippingMethodPaymentPlaceOrderStepsForMS();
     }
 
     /* Test-specific utilitary functions
@@ -372,9 +309,11 @@ class Model_Frontend_Checkout extends Model_Frontend {
         //Proceed to checkout
         if ($isMultiple) {
             $this->printInfo('Starting multipleShipping checkout');
+            $this->waitForElement($this->getUiElement('/frontend/pages/shoppingCart/links/multipleShippingCheckout'),5);
             $this->clickAndWait($this->getUiElement('/frontend/pages/shoppingCart/links/multipleShippingCheckout'));
         } else {
             $this->printInfo('Starting ordinal checkout');
+            $this->waitForElement($this->getUiElement('/frontend/pages/shoppingCart/buttons/proceedToCheckout'),5);
             $this->clickAndWait($this->getUiElement('/frontend/pages/shoppingCart/buttons/proceedToCheckout'));
         }
         $this->printDebug('startCheckout finished');
@@ -399,9 +338,7 @@ class Model_Frontend_Checkout extends Model_Frontend {
     function fillBillingTab($params)
     {
         $this->printDebug('fillBillingTab() started...');
-
         $this->setUiNamespace('frontend/pages/onePageCheckout/tabs/billingAddress/');
-
         $this->type($this->getUiElement('inputs/firstName'),$params['firstName']);
         $this->type($this->getUiElement('inputs/lastName'),$params['lastName']);
         $this->type($this->getUiElement('inputs/company'),$params['company']);
@@ -421,10 +358,10 @@ class Model_Frontend_Checkout extends Model_Frontend {
     }
 
     /*
-     *  Sequentally fill all fields in the ShippingMethod, PaymentInfo, OrderReview Checkout Steps
+     *  Sequentally fill all fields in the ShippingMethod, PaymentInfo, OrderReview Checkout Steps for ordinal CheckOut
      *  used free shipping and check/money order options
      */
-    function shippingMethodPaymentPlaceOrderSteps($params)
+    function shippingMethodPaymentPlaceOrderSteps()
     {
          $this->printDebug('shippingMethodPaymentPlaceOrderSteps started...');
 
@@ -464,7 +401,6 @@ class Model_Frontend_Checkout extends Model_Frontend {
             return false;
          }
          $orderID = $this->getText($this->getUiElement('orderPlaced/links/orderID'));
-
          $this->printInfo($orderID);
          $this->printDebug('shippingMethodPaymentPlaceOrderSteps finished');
          return true;
@@ -475,6 +411,52 @@ class Model_Frontend_Checkout extends Model_Frontend {
      * Since all steps has unique block id, its should be passed as parameter
      * @param - ID of '$element-please-wait' block
      */
+
+     /*
+     *  Sequentally fill all fields in the ShippingMethod, PaymentInfo, OrderReview Checkout Steps for MultiShippingAddress CheckOut
+     *  used free shipping and check/money order options
+     */
+    function shippingMethodPaymentPlaceOrderStepsForMS ()
+    {
+        // Change ShippingAddress for last item to Second Address
+        $this->setUiNamespace('/frontend/pages/multiShippingCheckout/tabs/');
+        $secondAddressIndex = $this->findAddressByMask($this->getUiElement('selectAddresses/elements/lastShippingAddress'), '/Second Address/');
+        $secondAddressOptionXpath = $this->getUiElement('selectAddresses/elements/lastShippingAddress') . '/option' . '[' . $secondAddressIndex . ']';
+        $secondAddressText = $this->getText($secondAddressOptionXpath);
+        $this->select($this->getUiElement('selectAddresses/elements/lastShippingAddress'), 'label=' . $secondAddressText );
+
+        //Press 'Continue to shipping information'
+        $this->clickAndWait($this->getUiElement('selectAddresses/buttons/continue'));
+
+        //Select Free shipping for all items
+        $paneXpath = $this->getUiElement('shippingInformation/elements/addressPane');
+        $count = $this -> getXpathCount($paneXpath);
+        $this->printDebug('address count:'.$count);
+        for ($i=1; $i<=$count; $i++) {
+            $this->click($paneXpath . '[' . $i . "]//label[contains(text(),'Free')]");
+        };
+
+        //Continue
+        $this->clickAndWait($this->getUiElement('shippingInformation/buttons/continue'));
+
+        // Fill billibg Information fields
+        $this->click($this->getUiElement('billingInformation/inputs/check'));
+        $this->clickAndWait($this->getUiElement('billingInformation/buttons/continue'));
+
+        //Place order
+        $this->clickAndWait($this->getUiElement('placeOrder/buttons/placeOrder'));
+
+        // Check for success message
+        if (!$this->waitForElement($this->getUiElement('orderPlaced/messages/orderSuccess'),10)) {
+            $this->setVerificationErrors("Check 1: no 'Order Placed'  message");
+            return false;
+        }
+
+        $orderID = $this->getText($this->getUiElement('orderPlaced/links/orderID'));
+        $this->printInfo($orderID);
+        return true;
+    }
+
     public function pleaseWaitStep($element)
     {
         $this->printDebug('pleaseWaitStep started :' . $element);

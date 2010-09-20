@@ -25,12 +25,14 @@ class Model_Admin_System_Config_Web extends Model_Admin
      */
      public function configURL($params = array()) {
         $this->printDebug('adding URL started');
+        $result = true;
 
         $systemConfig = $params ? $params : $this->systemConfig;
         $siteCode = $systemConfig['siteCode'];
         $siteName = $systemConfig['siteName'];
+        $storeName = $systemConfig['storeName'];
         $storeViewName = $systemConfig['storeViewName'];
-        $this->printInfo($siteName . ' \ ' . $storeViewName);
+        $this->printInfo('Configuring baseUrl for ' . $siteName . ' \ ' . $storeName . ' \ ' . $storeViewName);
 
         //Open SystemConfiguration
         $this->clickAndWait($this->getUiElement('/admin/topmenu/system/configuration'));
@@ -67,19 +69,28 @@ class Model_Admin_System_Config_Web extends Model_Admin
         if ($this->waitForElement($this->getUiElement('/admin/messages/error'),1)) {
             $etext = $this->getText($this->getUiElement('/admin/messages/error'));
             $this->setVerificationErrors('Check 1: ' . $etext);
+            $result = false;
         } else {
             //check for successful message
             if (!$this->waitForElement($this->getUiElement('/admin/messages/success'), 30)) {
                 $this->setVerificationErrors('Check 2 : No successfull message');
+                $result = false;
             }
             if (!$this->isElementPresent($this->getUiElement('elements/storedSecure', 'websites/'.$siteCode))) {
                 $this->setVerificationErrors("Check 3 : Secure BaseUrl value wasn't saved");
+                $result = false;
             }
             if (!$this->isElementPresent($this->getUiElement('elements/storedUnsecure', 'websites/'.$siteCode))) {
                 $this->setVerificationErrors("Check 4 : UnSecure BaseUrl value wasn't saved");
+                $result = false;
             }
         }
         $this->printDebug('adding URL finished');
+
+        if ($result) {
+            $this->printInfo('Configuring URL was successfull');
+        }
+        return $result;
      }
 
     /**
@@ -87,6 +98,7 @@ class Model_Admin_System_Config_Web extends Model_Admin
      *
      */
      public function doReindex() {
+        $result = true;
         $this->printDebug('Reindex started...');
         $this->clickAndWait($this->getUiElement('/admin/topmenu/system/indexmanagement'));
         $this->click($this->getUiElement('/admin/pages/system/reindex/buttons/selectall'));
@@ -97,14 +109,20 @@ class Model_Admin_System_Config_Web extends Model_Admin
         if ($this->waitForElement($this->getUiElement('/admin/messages/error'),1)) {
             $etext = $this->getText($this->getUiElement('/admin/messages/error'));
             $this->setVerificationErrors('Check 1: ' . $etext);
+            $result = false;
         } else {
         //check for successful message
             if (!$this->isElementPresent($this->getUiElement('/admin/messages/success'))) {
                 $this->setVerificationErrors('Check 2 : No successfull message');
+                $result = false;
             }
             if (!$this->isTextPresent($this->getUiElement('/admin/pages/system/reindex/messages/allsuccess'))) {
                 $this->setVerificationErrors("Check 3 : data wasn't reindexed");
+                $result = false;
             }
+        }
+        if ($result) {
+            $this->printInfo('Reindex successfull');
         }
         $this->printDebug('Reidex finished');
      }

@@ -15,7 +15,7 @@ class Model_Admin_Scope_Store extends Model_Admin {
         $this->storeData = array(
             'name'         => Core::getEnvConfig('backend/scope/store/name'),
             'siteName'     => Core::getEnvConfig('backend/scope/site/name'),
-            'rootCategory' => Core::getEnvConfig('backend/managecategories/rootname'),
+            'rootCategory' => Core::getEnvConfig('backend/manage_categories/rootname'),
         );
     }
 
@@ -130,7 +130,7 @@ class Model_Admin_Scope_Store extends Model_Admin {
         $this->clickAndWait($this->getUiElement('buttons/search'));
         sleep(1);
         //Open user with 'Store Name' == name
-        if ($this->isTextPresent($this->getUiElement('elements/no_records'),2)) {
+        if ($this->isTextPresent($this->getUiElement('/admin/elements/no_records'),2)) {
           // Store not founded
           $this->printDebug('doOpenStore finished with false');
           return false;
