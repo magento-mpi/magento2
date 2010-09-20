@@ -18,7 +18,7 @@ class Frontend_Category_Open extends TestCaseAbstract
     {
         // Test Dara
         $paramArray = Core::getEnvConfig('backend/manage_categories');
-
+        $cat = Core::getEnvConfig('backend/manage_categories/subcategoryname');
         //Test Flow
         if ($this->model->doOpen($paramArray)) {
             $this->model->testCategory();

@@ -25,12 +25,16 @@ class Model_Frontend_Category extends Model_Frontend
      * @params $subcategoryname
      * return boolean
      */
-    public function  doOpen($params = array())
+//    public function  doOpen($params = array())
+    public function  doOpen($params)
     {
-       $this->printDebug('doOpenCategory started...');
-       $categoryData = $params ? $params : $this->categoryData;
-       $categoryName = $categoryData['subcategoryname'];
-
+        if (is_array($params)) {
+            $categoryData = $params ? $params : $this->categoryData;
+            $categoryName = $categoryData['subcategoryname'];
+        } else {
+            $categoryName = $params;
+        }
+        $this->printDebug("doOpenCategory($categoryName) started...");
         //Open home page
         $this->open($this->baseUrl);
 
@@ -41,8 +45,8 @@ class Model_Frontend_Category extends Model_Frontend
             $this->printInfo('doOpenCategory: "' . $categoryName . '" category page could not be opened');
             return false;
         }
-       $this->printInfo('doOpenCategory: "' . $categoryName . '" category page has been opened');
-       return true;
+        $this->printInfo('doOpenCategory: "' . $categoryName . '" category page has been opened');
+        return true;
     }
 
     /**
