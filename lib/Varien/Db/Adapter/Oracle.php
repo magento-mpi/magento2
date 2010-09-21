@@ -3581,9 +3581,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $select
      * @return string
      */
-    public function getMagicGroupSelect($select)
+    public function getMagicGroupSelect($sql, $select)
     {
-        $sql = "SELECT * FROM ({$select}) varien_magicgroup_select \n"
+        $sql = "SELECT * FROM ({$sql}) varien_magicgroup_select \n"
             . "WHERE varien_magicgroup_select.varien_rank_column = 1";
 
         $having = $select->getPart(Zend_Db_Select::HAVING);

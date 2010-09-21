@@ -484,7 +484,7 @@ class Varien_Db_Select extends Zend_Db_Select
     protected function _renderMagicgroup($sql)
     {
         if ($this->_parts[self::FROM] && $this->_parts[self::MAGIC_GROUP] && $this->_parts[self::GROUP]) {
-            $sql = $this->getAdapter()->getMagicGroupSelect($sql);
+            $sql = $this->getAdapter()->getMagicGroupSelect($sql, $this);
         }
 
         return $sql;
@@ -503,7 +503,7 @@ class Varien_Db_Select extends Zend_Db_Select
         } else {
             $preparedHaving = array();
             foreach ($this->_parts[self::HAVING] as $havingPart) {
-                $preparedHaving[] = vsprintf($havingPart['expression'], $havingPart['values']);
+                $preparedHaving[] = vsprintf($havingPart['cond'], $havingPart['values']);
             };
             $this->_parts[self::HAVING] = $preparedHaving;
         }

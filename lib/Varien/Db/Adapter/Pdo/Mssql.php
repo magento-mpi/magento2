@@ -4102,10 +4102,10 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
      * @param string $select
      * @return string
      */
-    public function getMagicGroupSelect($select)
+    public function getMagicGroupSelect($sql, $select)
     {
         $sql = "SELECT varien_magicgroup_select.* \n"
-            .  "FROM ({$select}) varien_magicgroup_select \n"
+            .  "FROM ({$sql}) varien_magicgroup_select \n"
             .  "WHERE varien_magicgroup_select.varien_rank_column = 1 ";
         $having = $select->getPart(Zend_Db_Select::HAVING);
         foreach ($having as $havingPart) {
