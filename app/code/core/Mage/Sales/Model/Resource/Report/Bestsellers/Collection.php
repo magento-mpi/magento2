@@ -75,7 +75,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
                 $this->_selectedColumns = $this->getAggregatedColumns();
             } else {
                 $this->_selectedColumns = array(
-                    'period'         => 'period',
+                    'period'         => 'MAX(period)',
                     'qty_ordered'    => 'SUM(qty_ordered)',
                     'product_id'     => 'product_id',
                     'product_name'   => 'MAX(product_name)',
