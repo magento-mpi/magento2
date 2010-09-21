@@ -207,7 +207,7 @@ extends Mage_Connect_Command
                 $argVersionMax = isset($params[2]) ? $params[2]: false;
                 $argVersionMin = false;
                 
-                $cache->checkChannel($channel, $config);
+                $cache->checkChannel($channel, $config, $rest);
                 $channelName = $cache->chanName($channel);
                 $this->ui()->output("Checking dependencies of packages");
                 $packagesToInstall = $packager->getDependenciesList( $channelName, $package, $cache, $config, $argVersionMax, $argVersionMin, $withDepsMode, false, $rest);
