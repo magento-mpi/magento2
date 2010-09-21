@@ -79,7 +79,7 @@ Event.observe(document, 'dom:loaded', function() {
     if ($("mobile_app_tabs_design_section")) {
         $("mobile_app_tabs_design_section").observe('click', function() {
             if (!tabsDesignSectionPreviewClicked) {
-                updatePreview();
+                setTimeout("updatePreview()", 200);
                 tabsDesignSectionPreviewClicked = true;
             }
         });

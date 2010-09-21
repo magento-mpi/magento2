@@ -275,14 +275,20 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         $result['general']['emailToFriendMaxRecepients'] = $maxRecepients;
         $result['general']['emailAllowGuest'] = $allowGuest;
-        $result['general']['primaryStoreLang'] = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $result['general']['primaryStoreLang'] = Mage::app()->getStore($this->getStoreId())->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         $result['general']['magentoVersion'] = Mage::getVersion();
         /**
          * PayPal configuration
          */
         $result['paypal']['businessAccount'] = Mage::getModel('paypal/config')->businessAccount;
         $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
-        $result['paypal']['isActive'] = (int)($result['paypal']['isActive'] && Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable());
+
+        $isActive = 0;
+        if (isset($result['paypal']) && isset($result['paypal']['isActive'])) {
+            $isActive = (int)($result['paypal']['isActive'] && Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable());
+        }
+        $result['paypal']['isActive'] = $isActive;
+
         return $result;
     }
 
@@ -591,7 +597,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 $params['country'] = implode(',', $params['country']);
             }
             if ($this->getIsResubmitAction()) {
-                $params['key'] = isset($params['resubmission_activation_key']) ? trim($params['resubmission_activation_key']) : '';
+                if (isset($params['resubmission_activation_key'])) {
+                    $params['resubmission_activation_key'] = trim($params['resubmission_activation_key']);
+                    $params['key'] = $params['resubmission_activation_key'];
+                } else {
+                    $params['key'] = '';
+                }
             } else {
                 $params['key'] = isset($params['key']) ? trim($params['key']) : '';
             }
