@@ -146,7 +146,7 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
             if ($r['scope'] !== 'stores') {
                 continue;
             }
-            $value = str_replace($subst_from, $subst_to, $r['value']);
+            $value = str_replace($substFrom, $substTo, $r['value']);
             if (isset($stores[$r['scope_id']])) {
                 $xmlConfig->setNode('stores/'.$stores[$r['scope_id']]['code'].'/'.$r['path'], $value);
             } else {
