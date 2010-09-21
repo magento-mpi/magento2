@@ -718,8 +718,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function duplicateAction()
     {
-        $productId = (int) $this->getRequest()->getParam('id');
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = $this->_initProduct();
         try {
             $newProduct = $product->duplicate();
             $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
