@@ -85,7 +85,13 @@ extends Mage_Connect_Command
     public function doPackagePrepare($command, $options, $params)
     {
         $this->cleanupParams($params);
+        $channelAuth = array();
+        if (isset($options['auth'])) {
+            $channelAuth = $options['auth'];
+            $options['auth'] = null;
+        }
         try {
+
             if(count($params) < 2) {
                 return $this->doError($command, "Argument count should be >= 2");
             }
@@ -105,8 +111,16 @@ extends Mage_Connect_Command
                 $config = $this->config();
             }
 
-            $cache->checkChannel($channel, $config);
-            $data = $packager->getDependenciesList($channel, $package, $cache, $config, $argVersionMax, $argVersionMin);
+            $rest = new Mage_Connect_Rest($config->protocol);
+            if(!empty($channelAuth)){
+                $rest->getLoader()->setCredentials($channelAuth['username'], $channelAuth['password']);
+            }
+
+            $data = $packager->getDependenciesList($channel, $package, $cache, $config, 
+                    $argVersionMax, $argVersionMin, true, false, $rest
+            );
+            
+            $cache->checkChannel($channel, $config, $rest);
             
             $result = array();
             foreach ($data['result'] as $_package) {

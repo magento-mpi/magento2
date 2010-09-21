@@ -60,6 +60,7 @@ extends Mage_Connect_Command
             $ignoreModifiedMode = true || !isset($options['ignorelocalmodification']);
             $clearInstallMode = $command == 'install' && !$forceMode;
             $installAll = isset($options['install_all']);
+            $channelAuth = isset($options['auth'])?$options['auth']:array();
 
             $rest = $this->rest();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
@@ -104,12 +105,8 @@ extends Mage_Connect_Command
                 $this->doError($command, $err);
                 throw new Exception('Your Magento folder does not have sufficient write permissions, which downloader requires.');
             }
-            if('ftp'==$config->protocol){
-                if(isset($_SESSION['auth']['username'])){
-                    $login=$_SESSION['auth']['username'];
-                    $pass=$_SESSION['auth']['password'];
-                    $rest->getLoader()->setCredentials($login, $pass);
-                }
+            if(!empty($channelAuth)){
+                $rest->getLoader()->setCredentials($channelAuth['username'], $channelAuth['password']);
             }
 
             if($installFileMode) {

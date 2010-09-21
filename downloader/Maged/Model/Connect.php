@@ -77,15 +77,11 @@ class Maged_Model_Connect extends Maged_Model
             $options['ftp'] = $ftp;
         }
         $params = array();
-        /** CE */
-        $uri = "connect20.magentocommerce.com/community";
-        /* */
-        /** PE
-        $uri = "connect20.magentocommerce.com/professional";
-        /* */
-        /** EE
-        $uri = "connect20.magentocommerce.com/enterprise";
-        /* */
+
+        $uri = $this->controller()->channelConfig()->getRootChannelUri();
+
+        $this->controller()->channelConfig()->setCommandOptions($connectConfig, $options);
+
         $connectConfig->root_channel = $chanName;
         foreach ($packages as $package) {
             $params[] = $uri;
@@ -116,6 +112,9 @@ class Maged_Model_Connect extends Maged_Model
         
         $options = array();
         $params = array($channel, $package, $version);
+
+        $this->controller()->channelConfig()->setCommandOptions($this->connect()->getConfig(), $options);
+        
         $connect->run('package-prepare', $options, $params);
         $output = $connect->getOutput();
         
@@ -259,6 +258,8 @@ class Maged_Model_Connect extends Maged_Model
             $options['ftp'] = $this->connect()->getConfig()->__get('remote_config');
         }
 
+        $this->controller()->channelConfig()->setCommandOptions($this->connect()->getConfig(), $options);
+
         foreach ($actions as $action=>$packages) {
             foreach ($packages as $package) {
                 switch ($action) {
@@ -273,7 +274,7 @@ class Maged_Model_Connect extends Maged_Model
                     case 'reinstall':
                         $this->connect()->runHtmlConsole(array(
                             'command'=>'install',
-                            'options'=>array('force'=>1),
+                            'options'=>array_merge($options,array('force'=>1)),
                             'params'=>$package
                         ));
                         break;
@@ -331,6 +332,7 @@ class Maged_Model_Connect extends Maged_Model
             $options['ftp'] = $this->connect()->getConfig()->__get('remote_config');
         }
 
+        $this->controller()->channelConfig()->setCommandOptions($this->connect()->getConfig(), $options);
         $this->connect()->runHtmlConsole(array(
             'command'=>'install',
             'options'=>$options,
@@ -430,13 +432,6 @@ class Maged_Model_Connect extends Maged_Model
                 $errors[]='Files permissions not valid. ';
             }
         }
-        /* EE * /
-        if (isset($p['auth'])) {
-            //$configObj->auth = $p['auth'];
-        } else {
-            //$configObj->auth = '';
-        }
-        /* EE */
         //$this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
         return $errors;
     }
@@ -461,13 +456,6 @@ class Maged_Model_Connect extends Maged_Model
             $configObj->global_dir_mode = octdec(intval($p['mkdir_mode']));
             $configObj->global_file_mode = octdec(intval($p['chmod_file_mode']));
         }
-        /* EE * /
-        if (isset($p['auth'])) {
-            $configObj->auth = $p['auth'];
-        } else {
-            $configObj->auth = '';
-        }
-        /* EE */
         $this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
         return $this;
     }

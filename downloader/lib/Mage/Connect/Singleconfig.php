@@ -228,9 +228,10 @@ class Mage_Connect_Singleconfig
      * Check channel, add if valid name and not exist
      * @param string $chanName
      * @param Mage_Connect_Config $config
+     * @param Mage_Connect_Rest $rest
      * @return boolean
      */
-    public function checkChannel($chanName, $config)
+    public function checkChannel($chanName, $config, $rest = null)
     {
         if ($this->isChannel($chanName)) {
             return true;
@@ -250,7 +251,9 @@ class Mage_Connect_Singleconfig
         }
 
         if ($uri && !$this->isChannel($uri)) {
-            $rest = new Mage_Connect_Rest($config->protocol);
+            if (!isset($rest)) {
+                $rest = new Mage_Connect_Rest($config->protocol);
+            }
             $rest->setChannel($uri);
             $data = $rest->getChannelInfo();
             $data->uri = $uri;

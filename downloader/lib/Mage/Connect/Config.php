@@ -116,15 +116,13 @@ implements Iterator
                 'doc' => "",
                 'possible' => 'ftp://name:password@host.com:port/path/to/folder/',
         ),
-        /* EE * /
             'auth' => array(
                 'type' => 'string',
                 'value' => '',
                 'prompt' => 'Athentication information to channel server',
                 'doc' => 'Athentication information to channel server',
-                'possible' => 'login@password',
+                'possible' => '',
         ),
-        /* EE */
             );
         $this->properties = $this->defaultProperties;
     }

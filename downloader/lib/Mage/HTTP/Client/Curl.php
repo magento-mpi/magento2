@@ -124,6 +124,13 @@ implements Mage_HTTP_IClient
     protected $_curlUserOptions = array();
 
     /**
+     * User credentials
+     *
+     * @var array();
+     */
+    protected $_auth = array();
+
+    /**
      * Set request timeout, msec
      *
      * @param int $value
@@ -194,8 +201,10 @@ implements Mage_HTTP_IClient
      */
     public function setCredentials($login, $pass)
     {
-        $val= base64_encode( "$login:$pass" );
-        $this->addHeader( "Authorization", "Basic $val" );
+        $this->_auth['login'] = $login;
+        $this->_auth['password'] = $pass;
+        //$val= base64_encode( "$login:$pass" );
+        //$this->addHeader( "Authorization", "Basic $val" );
     }
 
     /**
@@ -372,28 +381,19 @@ implements Mage_HTTP_IClient
         $this->curlOption(CURLOPT_SSL_VERIFYPEER, FALSE);
         $this->curlOption(CURLOPT_SSL_VERIFYHOST, 2);
 
-        /* EE * /
         // force method to POST if secured
         if ($isAuthorizationRequired) {
             $method = 'POST';
         }
-        /* EE */
 
         if($method == 'POST') {
             $this->curlOption(CURLOPT_POST, 1);
             $postFields = is_array($params) ? $params : array();
-            /* EE * /
             if ($isAuthorizationRequired) {
                 $this->curlOption(CURLOPT_COOKIEJAR, self::COOKIE_FILE);
                 $this->curlOption(CURLOPT_COOKIEFILE, self::COOKIE_FILE);
-                $postFields = array_merge($postFields,
-                    array(
-                        'login'     => $_SESSION['auth']['username'],
-                        'password'  => $_SESSION['auth']['password']
-                    )
-                );
+                $postFields = array_merge($postFields, $this->_auth);
             }
-            /* EE */
             if (!empty($postFields)) {
                 $this->curlOption(CURLOPT_POSTFIELDS, $postFields);
             }
@@ -447,7 +447,6 @@ implements Mage_HTTP_IClient
             return $this->doError("Invalid response headers returned from server.");
         }
         curl_close($this->_ch);
-        /* EE * /
         if (403 == $this->getStatus()) {
             if (!$isAuthorizationRequired) {
                 $isAuthorizationRequired++;
@@ -457,7 +456,6 @@ implements Mage_HTTP_IClient
                 return $this->doError(sprintf('Access denied for %s@%s', $_SESSION['auth']['login'], $uri));
             }
         }
-        /* EE */
     }
 
     /**
@@ -555,5 +553,4 @@ implements Mage_HTTP_IClient
     {
         $this->_curlUserOptions[$name] = $value;
     }
-
 }

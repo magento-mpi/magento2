@@ -68,20 +68,7 @@ function changeDeploymentType (element)
                         </select>
                     </td>
                 </tr>
-                <?php /** PE|EE */?>
-                <tr>
-                    <td class="label">User Login:</td>
-                    <td class="value">
-                        <input id="auth_username" name="auth_username" value="<?php echo($this->get('auth_username'));?>" class="input-text" type="text"></input>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label">User Password:</td>
-                    <td class="value">
-                        <input id="auth_password" name="auth_password" value="<?php echo($this->get('auth_password'));?>" class="input-text" type="password"></input>
-                    </td>
-                </tr>
-                <?php /**/ ?>
+                <?php echo $this->get('channel_protocol_fields'); ?>
                 <tr>
                     <td class="label">Preferred State:</td>
                     <td class="value">
