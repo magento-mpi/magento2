@@ -83,7 +83,9 @@
             evalScripts: true,
             onComplete: function () {
                 try {
-                    thisObj.refreshTreeArea();
+                    if (refreshTree) {
+                        thisObj.refreshTreeArea();
+                    }
                     toolbarToggle.start();
                 } catch (e) {
                     alert(e.message);

@@ -178,7 +178,16 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
     public function getHeader()
     {
         if ($this->hasStoreRootCategory()) {
-            return $this->getCategoryId() ? $this->getCategoryName() : Mage::helper('catalog')->__('New Category');
+            if ($this->getCategoryId()) {
+                return $this->getCategoryName();
+            } else {
+                $parentId = (int) $this->getRequest()->getParam('parent');
+                if ($parentId && ($parentId != Mage_Catalog_Model_Category::TREE_ROOT_ID)) {
+                    return Mage::helper('catalog')->__('New Subcategory');
+                } else {
+                    return Mage::helper('catalog')->__('New Root Category');
+                }
+            }
         }
         return Mage::helper('catalog')->__('Set Root Category for Store');
     }
