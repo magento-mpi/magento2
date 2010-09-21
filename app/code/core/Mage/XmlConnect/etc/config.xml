@@ -216,4 +216,12 @@
             </devices>
         </xmlconnect>
     </default>
+    <crontab>
+        <jobs>
+            <delete_obsolete_dir>
+                <schedule><cron_expr>7 3 * * *</cron_expr></schedule>
+                <run><model>xmlconnect/observer::deleteObsoleteDirs</model></run>
+            </delete_obsolete_dir>
+        </jobs>
+    </crontab>
 </config>
