@@ -156,7 +156,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     }
 
     /**
-     * Initialize data for prise rules
+     * Initialize data for price rules
      *
      * @return Mage_Adminhtml_Model_Sales_Order_Create
      */
@@ -246,6 +246,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
 
         $this->getSession()->setStoreId($order->getStoreId());
+
+        /**
+         * Initialize catalog rule data with new session values
+         */
+        $this->initRuleData();
 
         foreach ($order->getItemsCollection(
             array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),

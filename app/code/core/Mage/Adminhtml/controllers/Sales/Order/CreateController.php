@@ -128,6 +128,11 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
 
         /**
+         * Initialize catalog rule data
+         */
+        $this->_getOrderCreateModel()->initRuleData();
+
+        /**
          * init first billing address, need for virtual products
          */
         $this->_getOrderCreateModel()->getBillingAddress();
@@ -217,7 +222,6 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         Mage::dispatchEvent('adminhtml_sales_order_create_process_data', $eventData);
 
         $this->_getOrderCreateModel()
-            ->initRuleData()
             ->saveQuote();
 
         if ($paymentData = $this->getRequest()->getPost('payment')) {
