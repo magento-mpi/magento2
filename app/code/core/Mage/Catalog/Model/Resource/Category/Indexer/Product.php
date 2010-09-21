@@ -521,7 +521,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                 'position'      => new Zend_Db_Expr('0'),
                 'is_parent'     => new Zend_Db_Expr('1'),
                 'store_id'      => 's.store_id',
-                'visibility'    => $adapter->getCheckSql('sv.value_id IS NOT NULL', 'sv.value', 'dv.value');
+                'visibility'    => $adapter->getCheckSql('sv.value_id IS NOT NULL', 'sv.value', 'dv.value'),
             ));
 
         $sql = $select->insertFromSelect($this->getMainTable());
