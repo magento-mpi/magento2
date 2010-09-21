@@ -296,10 +296,12 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 
         //Saving attributes used in rule
         $ruleProductAttributes = array_merge(
-                $this->_getUsedAttributes($this->getConditionsSerialized()),
-                $this->_getUsedAttributes($this->getActionsSerialized())
-            );
-        $this->getResource()->setActualProductAttributes($this, $ruleProductAttributes);
+            $this->_getUsedAttributes($this->getConditionsSerialized()),
+            $this->_getUsedAttributes($this->getActionsSerialized())
+        );
+        if (count($ruleProductAttributes)) {
+            $this->getResource()->setActualProductAttributes($this, $ruleProductAttributes);
+        }
         return parent::_afterSave();
     }
 
