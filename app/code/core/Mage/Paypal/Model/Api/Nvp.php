@@ -545,10 +545,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $this->_exportLineItems($request);
 
         // import/suppress shipping address, if any
-        $address = $this->getAddress();
         $options = $this->getShippingOptions();
-        if ($address) {
-            $request = $this->_importAddress($address, $request);
+        if ($this->getAddress()) {
+            $request = $this->_importAddresses($request);
             $request['ADDROVERRIDE'] = 1;
         } elseif ($options && (count($options) < 10)) { // doesn't support more than 10 shipping options
             $request['CALLBACK'] = $this->getShippingOptionsCallbackUrl();
@@ -605,8 +604,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $request = $this->_exportToRequest($this->_doDirectPaymentRequest);
         $this->_exportLineItems($request);
-        if ($address = $this->getAddress()) {
-            $request = $this->_importAddress($address, $request);
+        if ($this->getAddress()) {
+            $request = $this->_importAddresses($request);
         }
         $response = $this->call(self::DO_DIRECT_PAYMENT, $request);
         $this->_importFromResponse($this->_doDirectPaymentResponse, $response);
@@ -1094,24 +1093,41 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     /**
      * Prepare request data basing on provided address
      *
+     * @deprecated after 1.4.2.0-beta1, use _importAddresses() instead
+     *
      * @param Varien_Object $address
      * @param array $to
      * @return array
      */
     protected function _importAddress(Varien_Object $address, array $to)
     {
-        $to = Varien_Object_Mapper::accumulateByMap($address, $to, array_flip($this->_billingAddressMap));
-        if ($regionCode = $this->_lookupRegionCodeFromAddress($address)) {
+        $this->setAddress($address);
+        return $this->_importAddresses($to);
+    }
+
+    /**
+     * Prepare request data basing on provided addresses
+     *
+     * @param array $to
+     * @return array
+     */
+    protected function _importAddresses(array $to)
+    {
+        $billingAddress  = ($this->getBillingAddress()) ? $this->getBillingAddress() : $this->getAddress();
+        $shippingAddress = $this->getAddress();
+
+        $to = Varien_Object_Mapper::accumulateByMap($billingAddress, $to, array_flip($this->_billingAddressMap));
+        if ($regionCode = $this->_lookupRegionCodeFromAddress($billingAddress)) {
             $to['STATE'] = $regionCode;
         }
         if (!$this->getSuppressShipping()) {
-            $to = Varien_Object_Mapper::accumulateByMap($address, $to, array_flip($this->_shippingAddressMap));
-            if ($regionCode = $this->_lookupRegionCodeFromAddress($address)) {
+            $to = Varien_Object_Mapper::accumulateByMap($shippingAddress, $to, array_flip($this->_shippingAddressMap));
+            if ($regionCode = $this->_lookupRegionCodeFromAddress($shippingAddress)) {
                 $to['SHIPTOSTATE'] = $regionCode;
             }
-            $this->_importStreetFromAddress($address, $to, 'SHIPTOSTREET', 'SHIPTOSTREET2');
-            $this->_importStreetFromAddress($address, $to, 'STREET', 'STREET2');
-            $to['SHIPTONAME'] = $address->getName();
+            $this->_importStreetFromAddress($shippingAddress, $to, 'SHIPTOSTREET', 'SHIPTOSTREET2');
+            $this->_importStreetFromAddress($billingAddress, $to, 'STREET', 'STREET2');
+            $to['SHIPTONAME'] = $shippingAddress->getName();
         }
         $this->_applyCountryWorkarounds($to);
         return $to;

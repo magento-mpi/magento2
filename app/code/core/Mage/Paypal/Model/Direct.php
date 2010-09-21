@@ -325,11 +325,12 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             $this->getCentinelValidator()->exportCmpiData($api);
         }
 
-        // add shipping address
+        // add shipping and billing addresses
         if ($order->getIsVirtual()) {
             $api->setAddress($order->getBillingAddress())->setSuppressShipping(true);
         } else {
             $api->setAddress($order->getShippingAddress());
+            $api->setBillingAddress($order->getBillingAddress());
         }
 
         // add line items
