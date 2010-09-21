@@ -116,11 +116,11 @@ extends Mage_Connect_Command
                 $rest->getLoader()->setCredentials($channelAuth['username'], $channelAuth['password']);
             }
 
+            $cache->checkChannel($channel, $config, $rest);
+
             $data = $packager->getDependenciesList($channel, $package, $cache, $config, 
                     $argVersionMax, $argVersionMin, true, false, $rest
             );
-            
-            $cache->checkChannel($channel, $config, $rest);
             
             $result = array();
             foreach ($data['result'] as $_package) {
