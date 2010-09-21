@@ -577,6 +577,9 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     protected function _getValue($array, $key, $default = null)
     {
+        if (isset($array[$key]) && is_bool($array[$key])) {
+            $array[$key] = (int) $array[$key];
+        }
         return isset($array[$key]) ? $array[$key] : $default;
     }
 
