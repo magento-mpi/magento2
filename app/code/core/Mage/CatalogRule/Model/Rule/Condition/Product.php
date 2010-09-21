@@ -248,6 +248,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         }
         switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'select':
+            case 'boolean':
                 return 'select';
 
             case 'multiselect':

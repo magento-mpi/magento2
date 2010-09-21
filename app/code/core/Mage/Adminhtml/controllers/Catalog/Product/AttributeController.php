@@ -142,12 +142,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     {
         if ($data = $this->getRequest()->getPost()) {
             $redirectBack   = $this->getRequest()->getParam('back', false);
-            $model = Mage::getModel('catalog/resource_eav_attribute');
             /* @var $model Mage_Catalog_Model_Entity_Attribute */
-
+            $model = Mage::getModel('catalog/resource_eav_attribute');
+            /* @var $helper Mage_Catalog_Helper_Product */
+            $helper = Mage::helper('catalog/product');
 
             if ($id = $this->getRequest()->getParam('attribute_id')) {
-
                 $model->load($id);
 
                 if (!$model->getId()) {
@@ -167,6 +167,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $data['attribute_code'] = $model->getAttributeCode();
                 $data['is_user_defined'] = $model->getIsUserDefined();
                 $data['frontend_input'] = $model->getFrontendInput();
+            } else {
+                /**
+                * @todo add to helper and specify all relations for properties
+                */
+                $data['source_model'] = $helper->getAttributeSourceModelByInputType($data['frontend_input']);
+                $data['backend_model'] = $helper->getAttributeBackendModelByInputType($data['frontend_input']);
             }
 
             if (!isset($data['is_configurable'])) {
@@ -191,14 +197,6 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             if(!isset($data['apply_to'])) {
                 $data['apply_to'] = array();
             }
-
-            /**
-             * @todo need specify relations for properties
-             */
-            if (isset($data['frontend_input']) && $data['frontend_input'] == 'multiselect') {
-                $data['backend_model'] = 'eav/entity_attribute_backend_array';
-            }
-
 
             $model->addData($data);
 
