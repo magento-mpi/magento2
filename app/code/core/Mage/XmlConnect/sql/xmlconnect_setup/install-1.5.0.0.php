@@ -127,15 +127,15 @@ $installer->addAttribute('catalog_category', 'thumbnail', array(
     'class'             => '',
     'source'            => '',
     'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
-    'visible'           => 1,
-    'required'          => 0,
-    'user_defined'      => 0,
+    'visible'           => true,
+    'required'          => false,
+    'user_defined'      => false,
     'default'           => '',
-    'searchable'        => 0,
-    'filterable'        => 0,
-    'comparable'        => 0,
-    'visible_on_front'  => 0,
-    'unique'            => 0,
+    'searchable'        => false,
+    'filterable'        => false,
+    'comparable'        => false,
+    'visible_on_front'  => false,
+    'unique'            => false,
 ));
 
 $installer->addAttributeToGroup(
