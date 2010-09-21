@@ -26,13 +26,10 @@
 
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 $installer = $this;
-$installer->startSetup();
 
 $entityTypeId = $installer->getEntityTypeId('catalog_product');
 $installer->run("
-    UPDATE `{$installer->getTable('eav_attribute')}`
+    UPDATE `{$installer->getTable('eav/attribute')}`
     SET `source_model` = 'eav/entity_attribute_source_boolean'
     WHERE `entity_type_id` = {$entityTypeId} AND `frontend_input` = 'boolean'"
 );
-
-$installer->endSetup();
