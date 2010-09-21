@@ -91,7 +91,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         if ($app && $app->getId()) {
             return Mage::helper('xmlconnect')->__('Edit App "%s"', $this->htmlEscape($app->getName()));
         } else {
-            return Mage::helper('xmlconnect')->__('New Application');
+            return Mage::helper('xmlconnect')->__('New App');
         }
     }
 }

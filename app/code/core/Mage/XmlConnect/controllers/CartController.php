@@ -89,13 +89,13 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
                     ->save();
             }
             $this->_getSession()->setCartWasUpdated(true);
-            $this->_message(Mage::helper('xmlconnect')->__('Cart was successfully updated.'), parent::MESSAGE_STATUS_SUCCESS);
+            $this->_message(Mage::helper('xmlconnect')->__('Cart has been updated.'), parent::MESSAGE_STATUS_SUCCESS);
         }
         catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         }
         catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Cannot update shopping cart.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Can\'t update cart.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -130,7 +130,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
              * Check product availability
              */
             if (!$product) {
-                $this->_message(Mage::helper('xmlconnect')->__('This product is unavailable.'), parent::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Product is unavailable.'), parent::MESSAGE_STATUS_ERROR);
                 return;
             }
 
@@ -151,7 +151,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             );
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
-                $message = Mage::helper('xmlconnect')->__('%s was added to your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
+                $message = Mage::helper('xmlconnect')->__('%s has been added to your cart.', Mage::helper('core')->htmlEscape($product->getName()));
                 if ($cart->getQuote()->getHasError()){
                     $message .= Mage::helper('xmlconnect')->__(' But cart has some errors.');
                 }
@@ -166,7 +166,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             }
         }
         catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Cannot add the item to shopping cart.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Can\'t add item to shopping cart.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -179,13 +179,13 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
         if ($id) {
             try {
                 $this->_getCart()->removeItem($id)->save();
-                $this->_message(Mage::helper('xmlconnect')->__('Item was successfully deleted from shopping cart.'), parent::MESSAGE_STATUS_SUCCESS);
+                $this->_message(Mage::helper('xmlconnect')->__('Item has been deleted from cart.'), parent::MESSAGE_STATUS_SUCCESS);
             }
             catch (Mage_Core_Exception $e) {
                 $this->_message($e->getMessage(), parent::MESSAGE_STATUS_ERROR);
             }
             catch (Exception $e) {
-                $this->_message(Mage::helper('xmlconnect')->__('Cannot remove the item.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Can\'t remove the item.'), self::MESSAGE_STATUS_ERROR);
             }
         }
     }
@@ -236,7 +236,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         }
         catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Cannot apply the coupon code.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Can\'t apply the coupon code.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 

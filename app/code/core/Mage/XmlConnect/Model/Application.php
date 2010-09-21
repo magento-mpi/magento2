@@ -470,7 +470,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $errors = $validateConf;
         }
         if (!Zend_Validate::is($this->getName(), 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Application Title".');
+            $errors[] = Mage::helper('xmlconnect')->__('Please enter "App Title".');
         }
 
         if (empty($errors)) {
@@ -506,7 +506,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
 
         if (!Zend_Validate::is(isset($params['country']) ? $params['country'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please select at least one Country.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please select at least one country.');
         }
 
         if ($this->getIsResubmitAction()) {
@@ -542,7 +542,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             || (!isset($native['navigationBar']) || !is_array($native['navigationBar'])
             || !isset($native['navigationBar']['icon'])
             || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty'))) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in header" field from Design Tab.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
         }
 
         if ( ($native === false)
@@ -556,7 +556,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             || (!isset($native['body']) || !is_array($native['body'])
             || !isset($native['body']['backgroundImage'])
             || !Zend_Validate::is($native['body']['backgroundImage'], 'NotEmpty'))) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Application Background" field from Design Tab.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
         }
 
         if (empty($errors)) {

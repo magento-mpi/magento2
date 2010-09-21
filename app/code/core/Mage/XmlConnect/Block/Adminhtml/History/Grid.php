@@ -63,14 +63,14 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('title', array(
-            'header'    => Mage::helper('xmlconnect')->__('Application Title'),
+            'header'    => Mage::helper('xmlconnect')->__('App Title'),
             'align'     => 'left',
             'index'     => 'title',
             'type'      => 'text',
         ));
 
         $this->addColumn('code', array(
-            'header'    => Mage::helper('xmlconnect')->__('Application Code'),
+            'header'    => Mage::helper('xmlconnect')->__('App Code'),
             'align'     => 'left',
             'index'     => 'code',
         ));

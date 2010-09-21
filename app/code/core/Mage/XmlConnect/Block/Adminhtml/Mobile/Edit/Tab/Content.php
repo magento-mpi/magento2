@@ -80,7 +80,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
             'options' => $this->_pages,
             'class' => ' scalable save ',
             'label' => Mage::helper('xmlconnect')->__('Label'),
-            'before_element_html' => Mage::helper('xmlconnect')->__('Get content from CMS page').'</td><td class="label">',
+            'before_element_html' => Mage::helper('xmlconnect')->__('Get Content from CMS Page').'</td><td class="label">',
         ));
 
         if (isset($conf['native']['pages'])) {
@@ -90,7 +90,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
         }
 
         $data = $model->getFormData();
-        $data['page_row_add'] = Mage::helper('xmlconnect')->__('Add page');
+        $data['page_row_add'] = Mage::helper('xmlconnect')->__('Add Page');
         $form->setValues($data);
         return parent::_prepareForm();
     }

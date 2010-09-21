@@ -233,7 +233,7 @@ function resetThemeChanges() {
                      } else {
                          mmColorThemes = responseJSON;
                          mmSetTheme(currentTheme);
-                         message = '<?php echo Mage::helper('xmlconnect')->__('Reset Successfull');?>';
+                         message = '<?php echo Mage::helper('xmlconnect')->__('Reset Successful');?>';
                      }
                 } else {
                     message = '<?php echo Mage::helper('xmlconnect')->__('Unknown Error'); ?>';
@@ -266,7 +266,7 @@ function saveThemeChanges() {
                         message = responseJSON.message;
                      } else {
                          mmColorThemes = responseJSON;
-                         message = '<?php echo Mage::helper('xmlconnect')->__('Theme saved successfully.');?>';
+                         message = '<?php echo Mage::helper('xmlconnect')->__('Theme has been saved.');?>';
                      }
                 } else {
                     message = '<?php echo Mage::helper('xmlconnect')->__('Unknown Error.'); ?>';

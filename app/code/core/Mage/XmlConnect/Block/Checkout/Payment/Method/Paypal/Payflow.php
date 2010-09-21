@@ -137,7 +137,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
         </field>
         <field name="payment[cc_number]" type="text" label="{$this->helper('xmlconnect')->__('Credit Card Number')}" required="true">
             <validators>
-                <validator relation="payment[cc_type]" type="credit_card" message="{$this->helper('xmlconnect')->__('Credit card number does not match credit card type')}"/>
+                <validator relation="payment[cc_type]" type="credit_card" message="{$this->helper('xmlconnect')->__('Credit card number does not match credit card type.')}"/>
             </validators>
         </field>
         <field name="payment[cc_exp_month]" type="select" label="{$this->helper('xmlconnect')->__('Expiration Date - Month')}" required="true">

@@ -46,9 +46,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_B
 
         $app = Mage::registry('current_app');
         if ($app && $app->getIsResubmitAction()) {
-            $label = Mage::helper('xmlconnect')->__('Resubmit Application');
+            $label = Mage::helper('xmlconnect')->__('Resubmit App');
         } else {
-            $label = Mage::helper('xmlconnect')->__('Submit Application');
+            $label = Mage::helper('xmlconnect')->__('Submit App');
         }
 
         $this->_addButton('submission_post', array(

@@ -55,7 +55,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         }
         catch (Exception $e) {
             Mage::logException($e);
-            $this->_message(Mage::helper('xmlconnect')->__('There are apear some errors while loading category filters.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('An error occurred while loading category filters.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -184,12 +184,12 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         $session = Mage::getSingleton('customer/session');
 
         if (!$helper->isEnabled()) {
-            $this->_message(Mage::helper('xmlconnect')->__('Email to Friend is disabled.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Tell a Friend is disabled.'), self::MESSAGE_STATUS_ERROR);
             return $this;
         }
 
         if (!$helper->isAllowForGuest() && !$session->isLoggedIn()) {
-            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
             return $this;
         }
 
@@ -198,7 +198,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
          */
         $productId  = (int)$this->getRequest()->getParam('product_id');
         if (!$productId) {
-            $this->_message(Mage::helper('xmlconnect')->__('No selected product.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('No product selected.'), self::MESSAGE_STATUS_ERROR);
             return $this;
         }
         $product = Mage::getModel('catalog/product')
@@ -221,7 +221,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         Mage::register('send_to_friend_model', $model);
 
         if ($model->getMaxSendsToFriend()) {
-//            $this->_message(Mage::helper('xmlconnect')->__('The messages cannot be sent more than %d times in an hour', $model->getMaxSendsToFriend()), self::MESSAGE_STATUS_WARNING);
+//            $this->_message(Mage::helper('xmlconnect')->__('Messages cannot be sent more than %d times in an hour.', $model->getMaxSendsToFriend()), self::MESSAGE_STATUS_WARNING);
 //            return $this;
         }
 
@@ -257,7 +257,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
             $validate = $model->validate();
             if ($validate === true) {
                 $model->send();
-                $this->_message(Mage::helper('xmlconnect')->__('The link to a friend was sent.'), self::MESSAGE_STATUS_SUCCESS);
+                $this->_message(Mage::helper('xmlconnect')->__('Tell a Friend link has been sent.'), self::MESSAGE_STATUS_SUCCESS);
                 return;
             }
             else {

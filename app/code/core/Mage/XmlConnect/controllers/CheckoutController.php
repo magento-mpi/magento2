@@ -41,7 +41,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         parent::preDispatch();
         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
     }
@@ -62,16 +62,16 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     public function indexAction()
     {
         if (!Mage::helper('checkout')->canOnepageCheckout()) {
-            $this->_message(Mage::helper('xmlconnect')->__('The onepage checkout is disabled.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Onepage checkout is disabled.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
         $quote = $this->getOnepage()->getQuote();
         if ($quote->getHasError()) {
-            $this->_message(Mage::helper('xmlconnect')->__('Shopping Cart has some errors.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Cart has some errors.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
         else if(!$quote->hasItems()){
-            $this->_message(Mage::helper('xmlconnect')->__('Shopping Cart is empty.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Cart is empty.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
         else if (!$quote->validateMinimumAmount()) {
@@ -130,7 +130,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         }
         $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
         if (!isset($result['error'])) {
-            $this->_message(Mage::helper('xmlconnect')->__('Billing address was successfully set.'), self::MESSAGE_STATUS_SUCCESS);
+            $this->_message(Mage::helper('xmlconnect')->__('Billing address has been set.'), self::MESSAGE_STATUS_SUCCESS);
         }
         else {
             if (!is_array($result['message'])) {
@@ -163,7 +163,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
         $result = $this->getOnepage()->saveShipping($data, $customerAddressId);
         if (!isset($result['error'])) {
-            $this->_message(Mage::helper('xmlconnect')->__('Shipping address was successfully set.'), self::MESSAGE_STATUS_SUCCESS);
+            $this->_message(Mage::helper('xmlconnect')->__('Shipping address has been set.'), self::MESSAGE_STATUS_SUCCESS);
         }
         else {
             if (!is_array($result['message'])) {
@@ -197,7 +197,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         $data = $this->getRequest()->getPost('shipping_method', '');
         $result = $this->getOnepage()->saveShippingMethod($data);
         if (!isset($result['error'])) {
-            $this->_message(Mage::helper('xmlconnect')->__('Shipping method was successfully set.'), self::MESSAGE_STATUS_SUCCESS);
+            $this->_message(Mage::helper('xmlconnect')->__('Shipping method has been set.'), self::MESSAGE_STATUS_SUCCESS);
         }
         else {
             if (!is_array($result['message'])) {
@@ -242,7 +242,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         }
         catch (Exception $e) {
             Mage::logException($e);
-            $result['error'] = Mage::helper('xmlconnect')->__('Unable to set Payment Method.');
+            $result['error'] = Mage::helper('xmlconnect')->__('Unable to set payment method.');
         }
         $this->_message($result['error'], self::MESSAGE_STATUS_ERROR);
     }
@@ -307,7 +307,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         catch (Exception $e) {
             Mage::logException($e);
             Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
-            $error = Mage::helper('xmlconnect')->__('There was an error processing your order. Please contact us or try again later.');
+            $error = Mage::helper('xmlconnect')->__('An error occurred while processing your order. Please contact us or try again later.');
         }
         $this->getOnepage()->getQuote()->save();
 

@@ -41,7 +41,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
         parent::preDispatch();
         if (!$this->_getCustomerSession()->isLoggedIn()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
     }
@@ -73,7 +73,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             return false;
         }
         catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Cannot create wishlist.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Can\'t create wishlist.'), self::MESSAGE_STATUS_ERROR);
             return false;
         }
         return $wishlist;
@@ -109,7 +109,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
         $product = Mage::getModel('catalog/product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            $this->_message(Mage::helper('xmlconnect')->__('Cannot specify product'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Can\'t specify product.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
 
@@ -149,7 +149,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             try {
                 $item->delete();
                 $wishlist->save();
-                $this->_message(Mage::helper('xmlconnect')->__('Item was successfully removed from wishlist.'), self::MESSAGE_STATUS_SUCCESS);
+                $this->_message(Mage::helper('xmlconnect')->__('Item has been removed from wishlist.'), self::MESSAGE_STATUS_SUCCESS);
             }
             catch (Mage_Core_Exception $e) {
                 $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
@@ -159,7 +159,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             }
         }
         else {
-            $this->_message(Mage::helper('xmlconnect')->__('Specified item down not exist in wishlist.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Specified item does not exist in wishlist.'), self::MESSAGE_STATUS_ERROR);
         }
 
         Mage::helper('wishlist')->calculate();
@@ -178,7 +178,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
                 $item->delete();
             }
             $wishlist->save();
-            $this->_message(Mage::helper('xmlconnect')->__('Wishlist was successfully cleared.'), self::MESSAGE_STATUS_SUCCESS);
+            $this->_message(Mage::helper('xmlconnect')->__('Wishlist has been cleared.'), self::MESSAGE_STATUS_SUCCESS);
         }
         catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
@@ -225,10 +225,10 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
                 try {
                     $wishlist->save();
                     if ($problemsFlag) {
-                        $message = Mage::helper('xmlconnect')->__('Wishist was successfully updated. But there are accrued some errors while updating some items.');
+                        $message = Mage::helper('xmlconnect')->__('Wishlist has been updated. But there are accrued some errors while updating some items.');
                     }
                     else {
-                        $message = Mage::helper('xmlconnect')->__('Wishist was successfully updated.');
+                        $message = Mage::helper('xmlconnect')->__('Wishlist has been updated.');
                     }
                     $this->_message($message, self::MESSAGE_STATUS_SUCCESS);
                 }
@@ -237,7 +237,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
                 }
             }
             else {
-                $this->_message(Mage::helper('xmlconnect')->__('No one items were updated.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('No items were updated.'), self::MESSAGE_STATUS_ERROR);
             }
         }
         else {
@@ -264,7 +264,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
         $item       = Mage::getModel('wishlist/item')->load($itemId);
 
         if (!$item->getId() || $item->getWishlistId() != $wishlist->getId()) {
-            $this->_message(Mage::helper('xmlconnect')->__('Ivalid item or wishlist.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Invalid item or wishlist.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
 
@@ -279,11 +279,11 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
             Mage::helper('wishlist')->calculate();
 
-            $this->_message(Mage::helper('xmlconnect')->__('Item was successfully added to cart.'), self::MESSAGE_STATUS_SUCCESS);
+            $this->_message(Mage::helper('xmlconnect')->__('Item has been added to cart.'), self::MESSAGE_STATUS_SUCCESS);
         }
         catch (Mage_Core_Exception $e) {
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
-                $this->_message(Mage::helper('xmlconnect')->__('This product(s) is currently out of stock.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Product(s) currently out of stock.'), self::MESSAGE_STATUS_ERROR);
             }
             else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS ||
                      $e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_IS_GROUPED_PRODUCT) {
@@ -300,7 +300,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
             }
         }
         catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Cannot add item to shopping cart.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Can\'t add item to shopping cart.'), self::MESSAGE_STATUS_ERROR);
         }
 
         Mage::helper('wishlist')->calculate();

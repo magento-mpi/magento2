@@ -120,7 +120,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $app = $this->_initApp();
             if (!$app->getId()) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Application does not exist.'));
+                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('App does not exist.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -163,7 +163,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $app = $this->_initApp();
 
             if (!$app->getId() && $id) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Application does not exist.'));
+                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('App does not exist.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -233,7 +233,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $history->save();
                 $app->getResource()->updateApplicationStatus($app->getId(),
                     Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS);
-                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been submitted.'));
+                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('App has been submitted.'));
                 $this->_clearSessionData();
                 $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
             } else {
@@ -337,7 +337,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 if (is_array($message)) {
                     $message = implode(' ,', $message);
                 }
-                Mage::throwException(Mage::helper('xmlconnect')->__('Submit Application failure. %s', $message));
+                Mage::throwException(Mage::helper('xmlconnect')->__('Submit App failure. %s', $message));
             }
         } catch (Exception $e) {
             throw $e;
@@ -360,7 +360,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $id = $this->getRequest()->getParam('application_id');
                 $app = $this->_initApp();
                 if (!$app->getId() && $id) {
-                    $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Application does not exist.'));
+                    $this->_getSession()->addError(Mage::helper('xmlconnect')->__('App does not exist.'));
                     $this->_redirect('*/*/');
                     return;
                 }
@@ -376,7 +376,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 if (!$isError) {
                     $this->_saveThemeAction($data, 'current_theme');
                     $app->save();
-                    $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been saved.'));
+                    $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('App has been saved.'));
                     $this->_clearSessionData();
                 }
             } catch (Mage_Core_Exception $e) {
@@ -384,7 +384,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $isError = true;
                 $redirectBack = true;
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to save application.'));
+                $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to save app.'));
                 $isError = true;
                 $redirectBack = true;
                 Mage::logException($e);
@@ -434,7 +434,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
                 }
             } else {
-                $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Theme Name is not set.'));
+                $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Theme name is not set.'));
             }
         }
         catch (Mage_Core_Exception $e) {
@@ -446,7 +446,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         catch (Exception $e) {
             $response = array(
                 'error'     => true,
-                'message'   => Mage::helper('xmlconnect')->__('Cannot Save Theme.')
+                'message'   => Mage::helper('xmlconnect')->__('Can\'t save theme.')
             );
         }
         if (is_array($response)) {
@@ -511,7 +511,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         catch (Exception $e) {
             $response = array(
                 'error'     => true,
-                'message'   => Mage::helper('xmlconnect')->__('Cannot Reset Theme.')
+                'message'   => Mage::helper('xmlconnect')->__('Can\'t reset theme.')
             );
         }
         if (is_array($response)) {
@@ -580,14 +580,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $app = $this->_initApp();
             if (!$app->getIsSubmitted()) {
                 $app->delete();
-                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been deleted.'));
+                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('App has been deleted.'));
             } else {
                 Mage::throwException(Mage::helper('xmlconnect')->__('It\'s not allowed to delete submitted application.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to find an application to delete.'));
+            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to find an app to delete.'));
         }
         $this->_redirect('*/*/');
     }

@@ -123,7 +123,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'label'     => Mage::helper('xmlconnect')->__('Title'),
             'maxlength' => '200',
             'value'     => isset($formData['conf[submit_text][title]']) ? $formData['conf[submit_text][title]'] : null,
-            'note'      => Mage::helper('xmlconnect')->__('This is the name that will appear beneath your app when users install it to their device.  .  We recommend choosing a name that is 10-12 characters in length, and that your customers will recognize.'),
+            'note'      => Mage::helper('xmlconnect')->__('Name that appears beneath your app when users install it to their device. We recommend choosing a name that is 10-12 characters and that your customers will recognize.'),
             'required'  => true,
         ));
 
@@ -132,7 +132,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'label'     => Mage::helper('xmlconnect')->__('Description'),
             'maxlength' => '500',
             'value'     => isset($formData['conf[submit_text][description]']) ? $formData['conf[submit_text][description]'] : null,
-            'note'      => Mage::helper('xmlconnect')->__('This is the description that will appear in the iTunes marketplace, 4000 chars are maximum. '),
+            'note'      => Mage::helper('xmlconnect')->__('Description that appears in the iTunes App Store. 4000 chars maximum. '),
             'required'  => true,
         ));
         $field->setRows(15);
@@ -143,7 +143,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'class'     => 'email',
             'maxlength' => '40',
             'value'     => isset($formData['conf[submit_text][email]']) ? $formData['conf[submit_text][email]'] : null,
-            'note'      => Mage::helper('xmlconnect')->__('This will be a contact email address.'),
+            'note'      => Mage::helper('xmlconnect')->__('Administrative contact for this app and for app submission issues.'),
             'required'  => true,
         ));
 
@@ -153,7 +153,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'value'     => Mage::helper('xmlconnect')->__('Free'),
             'maxlength' => '40',
             'checked'   => 'checked',
-            'note'      => Mage::helper('xmlconnect')->__('Only free applications are allowed in this version.'),
+            'note'      => Mage::helper('xmlconnect')->__('Only free apps are allowed in this version.'),
         ));
 
         $fieldset->addField('conf/submit_text/price_free', 'hidden', array(
@@ -176,7 +176,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'label'     => Mage::helper('xmlconnect')->__('Copyright'),
             'maxlength' => '200',
             'value'     => isset($formData['conf[submit_text][copyright]']) ? $formData['conf[submit_text][copyright]'] : null,
-            'note'      => Mage::helper('xmlconnect')->__('This will appear in the info section of your App (example:  Copyright 2010 – Your Company, Inc.)'),
+            'note'      => Mage::helper('xmlconnect')->__('Appears in the info section of your app (example:  Copyright 2010 – Your Company, Inc.)'),
             'required'  => true,
         ));
 
@@ -189,15 +189,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         ));
 
         $fieldset = $form->addFieldset('submit_icons', array('legend' => Mage::helper('xmlconnect')->__('Icons')));
-        $this->addImage($fieldset, 'conf/submit/icon', Mage::helper('xmlconnect')->__('Large iTunes icon'),
-            Mage::helper('xmlconnect')->__('This is the large-sized icon that will appear in the iTunes marketplace. Apple will automatically resize this image for display in the App Store. There is no need to provide a gradient. Image must be 512x512.'), '', true);
+        $this->addImage($fieldset, 'conf/submit/icon', Mage::helper('xmlconnect')->__('Large iTunes Icon'),
+            Mage::helper('xmlconnect')->__('Large icon that appears in the iTunes App Store. You do not need to apply a gradient or soft edges (this is done automatically by Apple). Required size: 512px x 512px.'), '', true);
         $this->addImage($fieldset, 'conf/submit/loader_image', 'Loader Splash Screen',
-            Mage::helper('xmlconnect')->__('Users will see this image as the first screen while your application is loading.  It is a 320x460 image.'), '', true);
+            Mage::helper('xmlconnect')->__('Image that appears on first screen while your app is loading. Required size: 320px x 460px.'), '', true);
 
-        $this->addImage($fieldset, 'conf/submit/logo', Mage::helper('xmlconnect')->__('Custom application icon'),
-            Mage::helper('xmlconnect')->__('This image is the icon that will appear on the user’s phone after they download your app.  You do not need to apply a gradient or soft edges (this is done automatically by Apple).  The image should be 57x57-pixels and 72 dpi.'), '', true);
-        $this->addImage($fieldset, 'conf/submit/big_logo', Mage::helper('xmlconnect')->__('Copyright page logo'),
-            Mage::helper('xmlconnect')->__('Store logo that will be displayed on copyright page of application. Preferred size: 100px x 100px.'), '', true);
+        $this->addImage($fieldset, 'conf/submit/logo', Mage::helper('xmlconnect')->__('Custom App Icon'),
+            Mage::helper('xmlconnect')->__('Icon that will appear on the user’s phone after they download your app.  You do not need to apply a gradient or soft edges (this is done automatically by Apple).  Recommended size: 57px x 57px at 72 dpi.'), '', true);
+        $this->addImage($fieldset, 'conf/submit/big_logo', Mage::helper('xmlconnect')->__('Copyright Page Logo'),
+            Mage::helper('xmlconnect')->__('Store logo that is displayed on copyright page of app. Preferred size: 100px x 100px.'), '', true);
 
         return parent::_prepareForm();
     }

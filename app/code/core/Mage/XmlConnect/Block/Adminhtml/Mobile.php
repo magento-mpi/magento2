@@ -36,7 +36,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile extends Mage_Adminhtml_Block_Widget
         $this->_controller = 'adminhtml_mobile';
         $this->_blockGroup = 'xmlconnect';
         $this->_headerText = Mage::helper('xmlconnect')->__('Manage Apps');
-        $this->_addButtonLabel = Mage::helper('xmlconnect')->__('Add Application');
+        $this->_addButtonLabel = Mage::helper('xmlconnect')->__('Add App');
 
         parent::__construct();
     }

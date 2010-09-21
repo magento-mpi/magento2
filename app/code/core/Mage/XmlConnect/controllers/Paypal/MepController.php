@@ -54,7 +54,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         parent::preDispatch();
         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
     }
@@ -67,7 +67,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         try {
             $this->_initCheckout();
             $reservedOrderId = $this->_checkout->initCheckout();
-            $this->_message(Mage::helper('xmlconnect')->__('Checkout was successfully initialized.'), self::MESSAGE_STATUS_SUCCESS);
+            $this->_message(Mage::helper('xmlconnect')->__('Checkout has been initialized.'), self::MESSAGE_STATUS_SUCCESS);
             return;
         }
         catch (Mage_Core_Exception $e) {
@@ -93,7 +93,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             $data = $this->getRequest()->getPost('shipping', array());
             $result = $this->_checkout->saveShipping($data);
             if (!isset($result['error'])) {
-                $this->_message(Mage::helper('xmlconnect')->__('Shipping address was successfully set.'), self::MESSAGE_STATUS_SUCCESS);
+                $this->_message(Mage::helper('xmlconnect')->__('Shipping address has been set.'), self::MESSAGE_STATUS_SUCCESS);
             }
             else {
                 if (!is_array($result['message'])) {
@@ -146,7 +146,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             if (!isset($result['error'])) {
                 $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
-                $message->addChild('text', Mage::helper('xmlconnect')->__('Shipping method was successfully set.'));
+                $message->addChild('text', Mage::helper('xmlconnect')->__('Shipping method has been set.'));
                 if ($this->_getQuote()->isVirtual()) {
                     $quoteAddress = $this->_getQuote()->getBillingAddress();
                 }

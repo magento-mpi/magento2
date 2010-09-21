@@ -47,7 +47,7 @@ class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resourc
      * Update Application Status field, insert data to history table
      *
      * @param int $applicationId
-     * @param unknown_type $status
+     * @param Mage_XmlConnect_Model_Mysql4_Application $status
      */
     public function updateApplicationStatus($applicationId, $status)
     {

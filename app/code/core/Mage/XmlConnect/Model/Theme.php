@@ -41,12 +41,12 @@ class Mage_XmlConnect_Model_Theme
         $text = file_get_contents($file);
         $this->_xml = simplexml_load_string($text);
         if (empty($this->_xml)) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Invalid XML'));
+            Mage::throwException(Mage::helper('xmlconnect')->__('Invalid XML.'));
         }
         $this->_conf = $this->_xmlToArray($this->_xml->configuration);
         $this->_conf = $this->_conf['configuration'];
         if (!is_array($this->_conf)) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Wrong theme format'));
+            Mage::throwException(Mage::helper('xmlconnect')->__('Wrong theme format.'));
         }
     }
 

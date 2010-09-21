@@ -57,7 +57,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
             'label'     => Mage::helper('xmlconnect')->__('Enable Standard Checkout'),
             'name'      => 'conf[native][defaultCheckout][isActive]',
             'values'   => $yesNoValues,
-            'note'      => Mage::helper('xmlconnect')->__('Standard Checkout uses the default checkout provided by Magento. Only Inline payment methods are supported. (e.g PayPal Direct,  authorize.net, etc)'),
+            'note'      => Mage::helper('xmlconnect')->__('Standard Checkout uses the checkout methods provided by Magento. Only inline payment methods are supported. (e.g PayPal Direct,  Authorize.Net, etc.)'),
             'value'     => (isset($data['conf[native][defaultCheckout][isActive]']) ? $data['conf[native][defaultCheckout][isActive]'] : '1')
         ));
 
@@ -78,7 +78,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
         $businessAccountNote = Mage::helper('xmlconnect')->__('MEP is PayPal\'s native checkout experience for the iPhone. You can choose to use MEP alongside standard checkout, or use it as your only checkout method for Magento mobile. PayPal MEP requires a <a href="%s">PayPal business account</a>', $paypalConfigurationUrl);
 
         $paypalActiveField = $fieldset2->addField('conf/native/paypal/isActive', 'select', array(
-            'label'     => Mage::helper('xmlconnect')->__('Activate paypal checkout'),
+            'label'     => Mage::helper('xmlconnect')->__('Activate PayPal Checkout'),
             'name'      => 'conf[native][paypal][isActive]',
             'note'      => (!$isExpressCheckoutAvaliable ? $activateMepMethodNote : $businessAccountNote),
             'values'    => $yesNoValues,

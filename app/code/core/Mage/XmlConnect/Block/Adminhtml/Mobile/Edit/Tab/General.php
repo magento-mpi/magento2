@@ -38,7 +38,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
 
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('app_');
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => Mage::helper('xmlconnect')->__('Application Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => Mage::helper('xmlconnect')->__('App Information')));
 
         if ($model->getId()) {
             $fieldset->addField('application_id', 'hidden', array(
@@ -48,15 +48,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
 
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => Mage::helper('xmlconnect')->__('Application Name'),
-            'title'     => Mage::helper('xmlconnect')->__('Application Name'),
+            'label'     => Mage::helper('xmlconnect')->__('App Name'),
+            'title'     => Mage::helper('xmlconnect')->__('App Name'),
             'required'  => true,
         ));
 
         if ($model->getId()) {
             $field = $fieldset->addField('code', 'label', array(
-                'label'     => Mage::helper('xmlconnect')->__('Application Code'),
-                'title'     => Mage::helper('xmlconnect')->__('Application Code'),
+                'label'     => Mage::helper('xmlconnect')->__('App Code'),
+                'title'     => Mage::helper('xmlconnect')->__('App Code'),
             ));
         }
 
@@ -96,7 +96,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         $fieldset->addField('browsing_mode', 'select', array(
             'label'     => Mage::helper('xmlconnect')->__('Catalog Only App?'),
             'name'      => 'browsing_mode',
-            'note'      => Mage::helper('xmlconnect')->__('A Catalog Only App will not support functions such as add to cart or add to wishlist or login'),
+            'note'      => Mage::helper('xmlconnect')->__('A Catalog Only App will not support functions such as add to cart, add to wishlist, or login.'),
             'values'   => $yesNoValues
         ));
 
