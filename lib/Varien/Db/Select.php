@@ -512,6 +512,20 @@ class Varien_Db_Select extends Zend_Db_Select
     }
 
     /**
+     * Render Group clause
+     *
+     * @param string   $sql SQL query
+     * @return string
+     */
+    protected function _renderGroup($sql)
+    {
+        if ($this->_parts[self::MAGIC_GROUP]) {
+            return $sql;
+        }
+        return parent::_renderGroup($sql);
+    }
+
+    /**
      * Render ORDER clause
      *
      * @param string   $sql SQL query
