@@ -69,6 +69,14 @@
                     </massaction>
                 </observers>
             </adminhtml_controller_action_predispatch_start>
+            <admin_user_authenticate_after>
+                <observers>
+                    <configuration_files_access_level_verification>
+                        <class>adminhtml/observer</class>
+                        <method>clearCacheConfigurationFilesAccessLevelVerification</method>
+                    </configuration_files_access_level_verification>
+                </observers>
+            </admin_user_authenticate_after>
         </events>
     </global>
     <admin>

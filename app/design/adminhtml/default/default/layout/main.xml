@@ -117,6 +117,7 @@ Default layout, loads most of the pages
                 <block type="adminhtml/notification_baseurl" name="notification_baseurl" as="notification_baseurl" template="notification/baseurl.phtml"></block>
                 <block type="adminhtml/cache_notifications" name="cache_notifications" template="system/cache/notifications.phtml"></block>
                 <block type="adminhtml/notification_survey" name="notification_survey" template="notification/survey.phtml"/>
+                <block type="adminhtml/notification_security" name="notification_security" as="notification_security" template="notification/security.phtml"></block>
             </block>
             <block type="adminhtml/widget_breadcrumbs" name="breadcrumbs" as="breadcrumbs"></block>
 
