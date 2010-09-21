@@ -134,6 +134,9 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
                 }
             }
         }
+        if ($isPrevWord == 'predicate') {
+            array_pop($words);
+        }
         if ($isOpenBracket > 0) {
             $words[] = sprintf("%')".$isOpenBracket."s", '');
         } else if ($isOpenBracket < 0) {
@@ -141,6 +144,9 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
         }
         if ($maxWordLength && count($terms) > $maxWordLength) {
             $terms = array_slice($terms, 0, $maxWordLength);
+        }
+        if (count($words) == 1) {
+            $words[0] = '""';
         }
         $result = array($words, $terms);
         return $result;

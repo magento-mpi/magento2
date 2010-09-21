@@ -328,7 +328,6 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $bind = array(
                 ':query' => implode(' ', $preparedTerms[0])
             );
-            
             $like = array();
 
             $likeCond  = '';
