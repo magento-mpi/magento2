@@ -26,7 +26,7 @@
 
 
 /**
- * eWAY Setup Mysql4 resourcre model
+ * Eway Setup resourcre model
  *
  * @category    Mage
  * @package     Mage_Eway
