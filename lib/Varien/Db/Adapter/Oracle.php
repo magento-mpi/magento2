@@ -3553,7 +3553,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $orderSql
      * @return string
      */
-    public function addRankColumn($select, $groupColumns, $orderSql, &$having)
+    public function addRankColumn($select, $groupColumns, $orderSql)
     {
         $sql = !count($select->getPart(Zend_Db_Select::COLUMNS))?' ':', ';
         $sql .= 'RANK() OVER (PARTITION BY ' .
