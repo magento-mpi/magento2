@@ -201,32 +201,30 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $xml->addAttribute('USERID', $r->getUserId());
 
             $package = $xml->addChild('Package');
-                $package->addAttribute('ID', 0);
-                $service = $this->getCode('service_to_code', $r->getService());
-                if (!$service) {
-                    $service = $r->getService();
-                }
-                $package->addChild('Service', $service);
+            $package->addAttribute('ID', 0);
+            $service = $this->getCode('service_to_code', $r->getService());
+            if (!$service) {
+                $service = $r->getService();
+            }
+            $package->addChild('Service', $service);
 
-                // no matter Letter, Flat or Parcel, use Parcel
-                if ($r->getService() == 'FIRST CLASS') {
-                    $package->addChild('FirstClassMailType', 'PARCEL');
-                }
-                $package->addChild('ZipOrigination', $r->getOrigPostal());
-                //only 5 chars avaialble
-                $package->addChild('ZipDestination', substr($r->getDestPostal(),0,5));
-                $package->addChild('Pounds', $r->getWeightPounds());
-                $package->addChild('Ounces', $r->getWeightOunces());
-//                $package->addChild('Pounds', '0');
-//                $package->addChild('Ounces', '3');
+            // no matter Letter, Flat or Parcel, use Parcel
+            if ($r->getService() == 'FIRST CLASS') {
+                $package->addChild('FirstClassMailType', 'PARCEL');
+            }
+            $package->addChild('ZipOrigination', $r->getOrigPostal());
+            //only 5 chars avaialble
+            $package->addChild('ZipDestination', substr($r->getDestPostal(),0,5));
+            $package->addChild('Pounds', $r->getWeightPounds());
+            $package->addChild('Ounces', $r->getWeightOunces());
 
-                // Because some methods don't accept VARIABLE and (NON)RECTANGULAR containers
-                if (strtoupper($r->getContainer()) == 'FLAT RATE ENVELOPE' || strtoupper($r->getContainer()) == 'FLAT RATE BOX') {
-                    $package->addChild('Container', $r->getContainer());
-                }
+            // Because some methods don't accept VARIABLE and (NON)RECTANGULAR containers
+            if (strtoupper($r->getContainer()) == 'FLAT RATE ENVELOPE' || strtoupper($r->getContainer()) == 'FLAT RATE BOX') {
+                $package->addChild('Container', $r->getContainer());
+            }
 
-                $package->addChild('Size', $r->getSize());
-                $package->addChild('Machinable', $r->getMachinable());
+            $package->addChild('Size', $r->getSize());
+            $package->addChild('Machinable', $r->getMachinable());
 
             $api = 'RateV3';
             $request = $xml->asXML();
@@ -300,10 +298,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                         if ($this->_isUSCountry($r->getDestCountryId())) {
                             if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                                 foreach ($xml->Package->Postage as $postage) {
-//                                    if (in_array($this->getCode('service_to_code', (string)$postage->MailService), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$postage->MailService))) {
                                     if (in_array((string)$postage->MailService, $allowedMethods)) {
                                         $costArr[(string)$postage->MailService] = (string)$postage->Rate;
-//                                        $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, $this->getCode('service_to_code', (string)$postage->MailService));
                                         $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, (string)$postage->MailService);
                                     } elseif (!in_array((string)$postage->MailService, $allMethods)) {
                                         $allMethods[] = (string)$postage->MailService;
@@ -315,10 +311,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                         } else {
                             if (is_object($xml->Package) && is_object($xml->Package->Service)) {
                                 foreach ($xml->Package->Service as $service) {
-//                                    if (in_array($this->getCode('service_to_code', (string)$service->SvcDescription), $allowedMethods) && $this->getCode('service', $this->getCode('service_to_code', (string)$service->SvcDescription))) {
                                     if (in_array((string)$service->SvcDescription, $allowedMethods)) {
                                         $costArr[(string)$service->SvcDescription] = (string)$service->Postage;
-//                                        $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, $this->getCode('service_to_code', (string)$service->SvcDescription));
                                         $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, (string)$service->SvcDescription);
                                     } elseif (!in_array((string)$service->SvcDescription, $allMethods)) {
                                         $allMethods[] = (string)$service->SvcDescription;
@@ -349,7 +343,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
-            //$error->setErrorMessage($errorTitle);
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
@@ -379,31 +372,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 'PARCEL'      => Mage::helper('usa')->__('Parcel Post'),
                 'MEDIA'       => Mage::helper('usa')->__('Media Mail'),
                 'LIBRARY'     => Mage::helper('usa')->__('Library'),
-//                'ALL'         => Mage::helper('usa')->__('All Services'),
             ),
-
-/*
-            'method'=>array(
-                'First-Class',
-                'Express Mail',
-                'Express Mail PO to PO',
-                'Priority Mail',
-                'Parcel Post',
-                'Express Mail Flat-Rate Envelope',
-                'Priority Mail Flat-Rate Box',
-                'Bound Printed Matter',
-                'Media Mail',
-                'Library Mail',
-                'Priority Mail Flat-Rate Envelope',
-                'Global Express Guaranteed',
-                'Global Express Guaranteed Non-Document Rectangular',
-                'Global Express Guaranteed Non-Document Non-Rectangular',
-                'Express Mail International (EMS)',
-                'Express Mail International (EMS) Flat Rate Envelope',
-                'Priority Mail International',
-                'Priority Mail International Flat Rate Box',
-            ),
-*/
 
             'service_to_code'=>array(
                 'First-Class'                                   => 'FIRST CLASS',
@@ -477,14 +446,12 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid USPS XML code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid USPS XML code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];

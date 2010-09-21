@@ -222,7 +222,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $this->getSelect()
             ->columns(array("carts" => "({$countSelect})"))
             ->group("e.{$this->getProductEntityId()}")
-            ->having('carts > 0');
+            ->having('carts > ?', 0);
 
         return $this;
     }
@@ -362,10 +362,12 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 array('e' => $this->getProductEntityTableName()),
                 $joinCondition)
             ->where('table_views.event_type_id = ?', $productViewEvent)
-            ->group('e.entity_id')
+            ->magicGroup('e.entity_id')
             ->order('views ' . self::SORT_ORDER_DESC)
-            ->having('views > 0');
+            ->having('%s > 0', 'views');
 
+//            ->having('views > ?', 0);
+//var_dump($this->getSelect()->__toString());
         if ($from != '' && $to != '') {
             $this->getSelect()
                 ->where('logged_at >= ?', $from)

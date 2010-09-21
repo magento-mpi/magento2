@@ -37,15 +37,15 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     implements Mage_Shipping_Model_Carrier_Interface
 {
 
-    protected $_code = 'ups';
+    protected $_code                        = 'ups';
 
-    protected $_request = null;
+    protected $_request                     = null;
 
-    protected $_result = null;
+    protected $_result                      = null;
 
-    protected $_xmlAccessRequest = null;
+    protected $_xmlAccessRequest            = null;
 
-    protected $_defaultCgiGatewayUrl = 'http://www.ups.com:80/using/services/rave/qcostcgi.cgi';
+    protected $_defaultCgiGatewayUrl        = 'http://www.ups.com:80/using/services/rave/qcostcgi.cgi';
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
@@ -317,7 +317,6 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $error = Mage::getModel('shipping/rate_result_error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
-            //$error->setErrorMessage($errorTitle);
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
@@ -333,16 +332,9 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                 $result->append($rate);
             }
         }
-#echo "<pre>".print_r($result,1)."</pre>";
+
         return $result;
     }
-
-/*
-    public function isEligibleForFree($method)
-    {
-        return $method=='GND' || $method=='GNDCOM' || $method=='GNDRES';
-    }
-*/
 
     public function getCode($type, $code='')
     {

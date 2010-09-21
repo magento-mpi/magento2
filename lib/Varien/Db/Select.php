@@ -503,8 +503,15 @@ class Varien_Db_Select extends Zend_Db_Select
         } else {
             $preparedHaving = array();
             foreach ($this->_parts[self::HAVING] as $havingPart) {
-                $preparedHaving[] = vsprintf($havingPart['cond'], $havingPart['values']);
+                if (is_array($havingPart)) {
+                    $preparedHaving[] = vsprintf($havingPart['cond'], $havingPart['values']);
+                } else {
+                    $preparedHaving[] = $havingPart;
+                }
+
+                print_r($preparedHaving);
             };
+
             $this->_parts[self::HAVING] = $preparedHaving;
         }
 
@@ -570,6 +577,24 @@ class Varien_Db_Select extends Zend_Db_Select
     {
         if (func_num_args() > 1) {
             $values = func_get_arg(1);
+
+            if (strpos($cond, '%s') === false) {
+                $cond       = $this->_adapter->quoteInto($cond, $values);
+                $delimiters = array('>', '<', '=<', '<=', '=', '!=', ' IN ', ' NOT IN ', ' BETWEEN ', ' NOT BETWEEN ',
+                    ' BEGINS WITH ', ' CONTAINS ', ' NOT CONTAINS ', ' IS NULL ', ' IS NOT NULL ', ' LIKE ', ' NOT LIKE ');
+
+                foreach ($delimiters as $delimiter) {
+                    $tmpCond = strtoupper($cond);
+                    $result  = explode($delimiter, $tmpCond);
+                    if (is_array($result) && count($result) > 1) {
+                        $values = strtolower($result[0]);
+                        $cond   = str_replace(strtolower($result[0]), '%s ', $cond);
+
+                        break;
+                    }
+                }
+            }
+
             if (!is_array($values)) {
                 $values = array($values);
             }
@@ -579,10 +604,10 @@ class Varien_Db_Select extends Zend_Db_Select
         } else {
             throw new Varien_Db_Exception('Values are required for Varien_Db_Select');
         }
-        $useOr = (func_num_args() > 2)?func_get_arg(1):false;
+        $useOr = (func_num_args() > 2) ? func_get_arg(1) : false;
         $aliases = array();
         foreach ($values as $valueIndex => $value) {
-            $aliases[$valueIndex] = 'having_value_' . count($this->_parts[self::HAVING]) . '_' . (int)$valueIndex;
+            $aliases[$valueIndex] = sprintf('having_value_%s_%s', count($this->_parts[self::HAVING]), (int)$valueIndex);
         }
         $prepared = array(
             'cond'   => $cond,
@@ -590,7 +615,7 @@ class Varien_Db_Select extends Zend_Db_Select
             'alias'  => $aliases,
         );
         if ($this->_parts[self::HAVING]) {
-            $prepared['cond']= (($useOr) ? self::SQL_OR : self::SQL_AND) . $prepared['cond'];
+            $prepared['cond']= (strtoupper($useOr) ? self::SQL_OR : self::SQL_AND) . $prepared['cond'];
         }
 
         $this->_parts[self::HAVING][] = $prepared;

@@ -302,20 +302,20 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
 
         $adapter = $this->getConnection();
 
-        $baseSubtotalRefunded     = $adapter->getCheckSql('main_table.base_subtotal_refunded', 0, 'main_table.base_subtotal_refunded');
-        $baseSubtotalCanceled     = $adapter->getCheckSql('main_table.base_subtotal_canceled', 0, 'main_table.base_subtotal_canceled');
-        $baseDiscountAmount       = $adapter->getCheckSql('main_table.base_discount_amount', 0, 'main_table.base_discount_amount');
-        $baseDiscountRefunded     = $adapter->getCheckSql('main_table.base_discount_refunded', 0, 'main_table.base_discount_refunded');
-        $baseTaxRefunded          = $adapter->getCheckSql('main_table.base_tax_refunded', 0, 'main_table.base_tax_refunded');
-        $baseTaxCanceled          = $adapter->getCheckSql('main_table.base_tax_canceled', 0, 'main_table.base_tax_canceled');
-        $baseShippingRefunded     = $adapter->getCheckSql('main_table.base_shipping_refunded', 0, 'main_table.base_shipping_refunded');
-        $baseShippingCanceled     = $adapter->getCheckSql('main_table.base_shipping_canceled', 0, 'main_table.base_shipping_canceled');
+        $baseSubtotalRefunded     = $adapter->getCheckSql('main_table.base_subtotal_refunded IS NULL', 0, 'main_table.base_subtotal_refunded');
+        $baseSubtotalCanceled     = $adapter->getCheckSql('main_table.base_subtotal_canceled IS NULL', 0, 'main_table.base_subtotal_canceled');
+        $baseDiscountAmount       = $adapter->getCheckSql('main_table.base_discount_amount IS NULL', 0, 'main_table.base_discount_amount');
+        $baseDiscountRefunded     = $adapter->getCheckSql('main_table.base_discount_refunded IS NULL', 0, 'main_table.base_discount_refunded');
+        $baseTaxRefunded          = $adapter->getCheckSql('main_table.base_tax_refunded IS NULL', 0, 'main_table.base_tax_refunded');
+        $baseTaxCanceled          = $adapter->getCheckSql('main_table.base_tax_canceled IS NULL', 0, 'main_table.base_tax_canceled');
+        $baseShippingRefunded     = $adapter->getCheckSql('main_table.base_shipping_refunded IS NULL', 0, 'main_table.base_shipping_refunded');
+        $baseShippingCanceled     = $adapter->getCheckSql('main_table.base_shipping_canceled IS NULL', 0, 'main_table.base_shipping_canceled');
 
         if ($isFilter == 0) {
             $sumArgument      = 'main_table.base_to_global_rate';
-            $revenueArgument  = "(main_table.base_subtotal - {$baseSubtotalRefunded} - {$baseSubtotalCanceled} - ABS({$baseDiscountAmount}) + {$baseDiscountRefunded}) * {$sumArgument}";
-            $taxArgument      = "(main_table.base_tax_amount - {$baseTaxRefunded} - {$baseTaxCanceled}) * {$sumArgument}";
-            $shippingArgument = "(main_table.base_shipping_amount - {$baseShippingRefunded} - {$baseShippingCanceled}) * {$sumArgument}";
+            $revenueArgument  = "(main_table.base_subtotal - ({$baseSubtotalRefunded}) - ({$baseSubtotalCanceled}) - ABS({$baseDiscountAmount}) + ({$baseDiscountRefunded})) * ({$sumArgument})";
+            $taxArgument      = "(main_table.base_tax_amount - ({$baseTaxRefunded}) - ({$baseTaxCanceled})) * ({$sumArgument})";
+            $shippingArgument = "(main_table.base_shipping_amount - ({$baseShippingRefunded}) - ({$baseShippingCanceled})) * ({$sumArgument})";
         } else {
             $revenueArgument = "(main_table.base_subtotal - {$baseSubtotalRefunded} - {$baseSubtotalCanceled} - ABS({$baseDiscountAmount}) + {$baseDiscountRefunded})";
             $taxArgument     = "(main_table.base_tax_amount - {$baseTaxRefunded} - {$baseTaxCanceled})";
@@ -399,10 +399,10 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
             $this->setMainTable('sales/order');
             $this->removeAllFieldsFromSelect();
 
-            $baseSubtotal           = $adapter->getCheckSql('main_table.base_subtotal', 0, 'main_table.base_subtotal');
-            $baseSubtotalRefunded   = $adapter->getCheckSql('main_table.base_subtotal_refunded', 0, 'main_table.base_subtotal_refunded');
-            $baseSubtotalCanceled   = $adapter->getCheckSql('main_table.base_subtotal_canceled', 0, 'main_table.base_subtotal_canceled');
-            $baseDiscountRefunded   = $adapter->getCheckSql('main_table.base_discount_refunded', 0, 'main_table.base_discount_refunded');
+            $baseSubtotal           = $adapter->getCheckSql('main_table.base_subtotal IS NULL', 0, 'main_table.base_subtotal');
+            $baseSubtotalRefunded   = $adapter->getCheckSql('main_table.base_subtotal_refunded IS NULL', 0, 'main_table.base_subtotal_refunded');
+            $baseSubtotalCanceled   = $adapter->getCheckSql('main_table.base_subtotal_canceled IS NULL', 0, 'main_table.base_subtotal_canceled');
+            $baseDiscountRefunded   = $adapter->getCheckSql('main_table.base_discount_refunded IS NULL', 0, 'main_table.base_discount_refunded');
             $expr = sprintf('%s - %s - %s - ABS(%s) + %s',
                 $baseSubtotal, $baseSubtotalRefunded, $baseSubtotalCanceled, $baseSubtotalCanceled, $baseDiscountRefunded);
 
@@ -448,11 +448,11 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     {
         $vals = array_values($storeIds);
         $adapter = $this->getConnection();
-        $baseSubtotalInvoiced = $adapter->getCheckSql('main_table.base_subtotal_invoiced', 0, 'main_table.base_subtotal_invoiced');
-        $baseDiscountRefunded = $adapter->getCheckSql('main_table.base_discount_refunded', 0, 'main_table.base_discount_refunded');
-        $baseSubtotalRefunded = $adapter->getCheckSql('main_table.base_subtotal_refunded', 0, 'main_table.base_subtotal_refunded');
-        $baseDiscountInvoiced = $adapter->getCheckSql('main_table.base_discount_invoiced', 0, 'main_table.base_discount_invoiced');
-        $baseTotalInvocedCost = $adapter->getCheckSql('main_table.base_total_invoiced_cost', 0, 'main_table.base_discount_invoiced');
+        $baseSubtotalInvoiced = $adapter->getCheckSql('main_table.base_subtotal_invoiced IS NULL', 0, 'main_table.base_subtotal_invoiced');
+        $baseDiscountRefunded = $adapter->getCheckSql('main_table.base_discount_refunded IS NULL', 0, 'main_table.base_discount_refunded');
+        $baseSubtotalRefunded = $adapter->getCheckSql('main_table.base_subtotal_refunded IS NULL', 0, 'main_table.base_subtotal_refunded');
+        $baseDiscountInvoiced = $adapter->getCheckSql('main_table.base_discount_invoiced IS NULL', 0, 'main_table.base_discount_invoiced');
+        $baseTotalInvocedCost = $adapter->getCheckSql('main_table.base_total_invoiced_cost IS NULL', 0, 'main_table.base_discount_invoiced');
         if (count($storeIds) >= 1 && $vals[0] != '') {
             $this->getSelect()->columns(array(
                 'subtotal'  => 'SUM(main_table.base_subtotal)',
@@ -556,8 +556,8 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     public function addSumAvgTotals($storeId = 0)
     {
         $adapter = $this->getConnection();
-        $baseSubtotalRefunded = $adapter->getCheckSql('main_table.base_subtotal_refunded', 0, 'main_table.base_subtotal_refunded');
-        $baseSubtotalCanceled = $adapter->getCheckSql('main_table.base_subtotal_canceled', 0, 'main_table.base_subtotal_canceled');
+        $baseSubtotalRefunded = $adapter->getCheckSql('main_table.base_subtotal_refunded IS NULL', 0, 'main_table.base_subtotal_refunded');
+        $baseSubtotalCanceled = $adapter->getCheckSql('main_table.base_subtotal_canceled IS NULL', 0, 'main_table.base_subtotal_canceled');
         /**
          * calculate average and total amount
          */

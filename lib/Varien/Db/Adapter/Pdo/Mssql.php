@@ -2166,6 +2166,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $sql  = $this->_prepareQuery($sql, $bind);
                 $bind = $this->_bindParams;
             }
+//            echo $sql;
             $result = parent::query($sql, $bind);
         }
         catch (Exception $e) {
@@ -4104,6 +4105,7 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
      */
     public function getMagicGroupSelect($sql, $select)
     {
+        $sqlHaving = '';
         $sql = "SELECT varien_magicgroup_select.* \n"
             .  "FROM ({$sql}) varien_magicgroup_select \n"
             .  "WHERE varien_magicgroup_select.varien_rank_column = 1 ";
