@@ -39,12 +39,13 @@ class Enterprise_Search_Adminhtml_Search_System_Config_TestconnectionController 
     public function pingAction()
     {
         if (!isset($_REQUEST['host']) || !($host = $_REQUEST['host'])
-            || !isset($_REQUEST['port']) || !($port = (int)$_REQUEST['port'])) {
+            || !isset($_REQUEST['port']) || !($port = (int)$_REQUEST['port'])
+            || !isset($_REQUEST['path']) || !($path = $_REQUEST['path'])) {
             echo 0;
             die;
         }
 
-        $pingUrl = 'http://' . $host . ':' . $port . '/solr/admin/ping';
+        $pingUrl = 'http://' . $host . ':' . $port . '/' . $path . '/admin/ping';
 
         if (isset($_REQUEST['timeout'])) {
             $timeout = (int)$_REQUEST['timeout'];

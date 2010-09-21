@@ -37,6 +37,7 @@
             host: $('catalog_search_solr_server_hostname').value,
             port: $('catalog_search_solr_server_port').value,
             timeout: $('catalog_search_solr_server_timeout').value,
+            path: $('catalog_search_solr_server_path').value,
         };
 
         new Ajax.Request('<?php echo $this->getAjaxUrl() ?>', {
