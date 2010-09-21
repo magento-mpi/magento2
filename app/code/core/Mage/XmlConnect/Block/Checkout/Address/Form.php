@@ -46,6 +46,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
         $xmlModel = new Mage_XmlConnect_Model_Simplexml_Element('<node></node>');
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         $addressType = $this->getType() == 'shipping' || $this->getType() == 'billing' ? $this->getType() : 'billing';
+        $isAllowedGuestCheckout= Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout();
         if($addressType == 'shipping'){
             $addressId = $customer->getDefaultShipping();
             $address   = $customer->getAddressById($addressId);
@@ -60,6 +61,9 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
             $firstname  = $xmlModel->xmlentities(strip_tags($address->getFirstname()));
             $lastname   = $xmlModel->xmlentities(strip_tags($address->getLastname()));
             $company    = $xmlModel->xmlentities(strip_tags($address->getCompany()));
+            if ($isAllowedGuestCheckout) {
+                $email  = $xmlModel->xmlentities(strip_tags($address->getEmail()));
+            }
             $street1    = $xmlModel->xmlentities(strip_tags($address->getStreet(1)));
             $street2    = $xmlModel->xmlentities(strip_tags($address->getStreet(2)));
             $city       = $xmlModel->xmlentities(strip_tags($address->getCity()));
@@ -114,6 +118,13 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
         <field name="{$addressType}[firstname]" type="text" label="{$helper->__('First Name')}" required="true" value="$firstname" />
         <field name="{$addressType}[lastname]" type="text" label="{$helper->__('Last Name')}" required="true" value="$lastname" />
         <field name="{$addressType}[company]" type="text" label="{$helper->__('Company')}" value="$company" />
+EOT;
+        if ($isAllowedGuestCheckout) {
+            $xml .= <<<EOT
+        <field name="{$addressType}[email]" type="text" label="{$helper->__('Email Address')}" value="$email" />
+EOT;
+        }
+        $xml .= <<<EOT
         <field name="{$addressType}[street][]" type="text" label="{$helper->__('Address')}" required="true" value="$street1" />
         <field name="{$addressType}[street][]" type="text" label="{$helper->__('Address 2')}" value="$street2" />
         <field name="{$addressType}[city]" type="text" label="{$helper->__('City')}" required="true" value="$city" />

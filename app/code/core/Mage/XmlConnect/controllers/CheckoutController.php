@@ -39,7 +39,8 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()
+            && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message(Mage::helper('xmlconnect')->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
             return ;
@@ -205,6 +206,26 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             }
             Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request'=>$this->getRequest(), 'quote'=>$this->getOnepage()->getQuote()));
             $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
+        }
+    }
+
+
+    /**
+     * Save checkout method
+     */
+    public function saveMethodAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $method = (string) $this->getRequest()->getPost('method');
+            $result = $this->getOnepage()->saveCheckoutMethod($method);
+            if (!isset($result['error'])) {
+                $this->_message(Mage::helper('xmlconnect')->__('Payment Method has been set.'), self::MESSAGE_STATUS_SUCCESS);
+            } else {
+                if (!is_array($result['message'])) {
+                    $result['message'] = array($result['message']);
+                }
+                $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
+            }
         }
     }
 

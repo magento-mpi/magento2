@@ -275,8 +275,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         $result['general']['emailToFriendMaxRecepients'] = $maxRecepients;
         $result['general']['emailAllowGuest'] = $allowGuest;
-        $result['general']['primaryStoreLang'] = Mage::app()->getStore($this->getStoreId())->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $result['general']['primaryStoreLang'] = Mage::app()
+            ->getStore($this->getStoreId())->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         $result['general']['magentoVersion'] = Mage::getVersion();
+        $result['general']['isAllowedGuestCheckout'] = Mage::getSingleton('checkout/session')
+            ->getQuote()->isAllowedGuestCheckout();
+
         /**
          * PayPal configuration
          */
