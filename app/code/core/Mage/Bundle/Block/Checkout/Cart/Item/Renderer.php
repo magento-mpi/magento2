@@ -130,4 +130,24 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
         }
         return $optionList;
     }
+
+    /**
+     * Return cart backorder messages
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        $messages = array();
+        if ($this->getItem()->getCartBackorderMessage(false)) {
+            foreach ($this->getItem()->getCartBackorderMessage(false) as $message) {
+                $messages[] = array(
+                    'text'  => $message,
+                    'type'  => $this->getItem()->getHasError() ? 'error' : 'notice'
+                );
+            }
+        }
+
+        return $messages;
+    }
 }

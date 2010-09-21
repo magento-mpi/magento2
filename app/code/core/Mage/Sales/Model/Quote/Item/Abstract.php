@@ -43,6 +43,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     protected $_parentItem  = null;
     protected $_children    = array();
     protected $_messages    = array();
+    protected $_messagesBackorder = array();
 
     /**
      * Retrieve Quote instance
@@ -115,7 +116,49 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     }
 
     /**
-     * Set masseges for quote item
+     * Set cart backorder messages for quote item
+     *
+     * @param mixed $messages
+     * @return Mage_Sales_Model_Quote_Item_Abstract
+     */
+    public function setCartBackorderMessage($messages) {
+        if (!is_array($messages)) {
+            $messages = array($messages);
+        }
+        foreach ($messages as $message) {
+            $this->addCartBackorderMessage($message);
+        }
+        return $this;
+    }
+
+    /**
+     * Add cart backorder message of quote item to array of cart backorder messages
+     *
+     * @param   string $message
+     * @return  Mage_Sales_Model_Quote_Item_Abstract
+     */
+    public function addCartBackorderMessage($message)
+    {
+        $this->_messagesBackorder[] = $message;
+        return $this;
+    }
+
+    /**
+     * Get cart backorder messages array of quote item
+     *
+     * @param   bool $string flag for converting messages to string
+     * @return  array|string
+     */
+    public function getCartBackorderMessage($string = true)
+    {
+        if ($string) {
+            return join("\n", $this->_messagesBackorder);
+        }
+        return $this->_messagesBackorder;
+    }
+
+    /**
+     * Set messages for quote item
      *
      * @param mixed $messages
      * @return Mage_Sales_Model_Quote_Item_Abstract
@@ -146,7 +189,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      * Get messages array of quote item
      *
      * @param   bool $string flag for converting messages to string
-     * @return  array | string
+     * @return  array|string
      */
     public function getMessage($string = true)
     {

@@ -268,6 +268,9 @@ class Mage_CatalogInventory_Model_Observer
                      */
                     $quoteItem->setData('qty', intval($qty));
                 }
+                if (!is_null($result->getCartBackorderMessage())) {
+                    $option->setCartBackorderMessage($result->getCartBackorderMessage());
+                }
                 if (!is_null($result->getMessage())) {
                     $option->setMessage($result->getMessage());
                 }
@@ -290,7 +293,6 @@ class Mage_CatalogInventory_Model_Observer
             if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
                 Mage::throwException(Mage::helper('cataloginventory')->__('The stock item for Product is not valid.'));
             }
-
 
             /**
              * When we work with subitem (as subproduct of bundle or configurable product)
@@ -338,6 +340,14 @@ class Mage_CatalogInventory_Model_Observer
                     $quoteItem->getParentItem()->setMessage($result->getMessage());
                 }
             }
+
+            if (!is_null($result->getCartBackorderMessage())) {
+                $quoteItem->setCartBackorderMessage($result->getCartBackorderMessage());
+                if ($quoteItem->getParentItem()) {
+                    $quoteItem->getParentItem()->setCartBackorderMessage($result->getCartBackorderMessage());
+                }
+            }
+
             if (!is_null($result->getItemBackorders())) {
                 $quoteItem->setBackorders($result->getItemBackorders());
             }

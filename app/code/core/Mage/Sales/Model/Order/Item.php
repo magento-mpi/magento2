@@ -403,6 +403,9 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function getStatusId()
     {
         $backordered = (float)$this->getQtyBackordered();
+        if (!$backordered && $this->getHasChildren()) {
+            $backordered = (float)$this->_getQtyChildrenBackordered();
+        }
         $canceled    = (float)$this->getQtyCanceled();
         $invoiced    = (float)$this->getQtyInvoiced();
         $ordered     = (float)$this->getQtyOrdered();
@@ -439,6 +442,21 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         }
 
         return self::STATUS_MIXED;
+    }
+
+    /**
+     * Retrieve backordered qty of children items
+     *
+     * @return float|null
+     */
+    protected function _getQtyChildrenBackordered()
+    {
+        $backordered = null;
+        foreach ($this->_children as $childItem) {
+            $backordered += (float)$childItem->getQtyBackordered();
+        }
+
+        return $backordered;
     }
 
     /**
