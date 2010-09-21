@@ -163,11 +163,12 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
         ));
 
         $fieldset->addField('used_in_forms', 'multiselect', array(
-            'name'      => 'used_in_forms',
-            'label'     => Mage::helper('enterprise_customer')->__('Forms to Use In'),
-            'title'     => Mage::helper('enterprise_customer')->__('Forms to Use In'),
-            'values'    => $helper->getCustomerAddressAttributeFormOptions(),
-            'value'     => $attribute->getUsedInForms()
+            'name'         => 'used_in_forms',
+            'label'        => Mage::helper('enterprise_customer')->__('Forms to Use In'),
+            'title'        => Mage::helper('enterprise_customer')->__('Forms to Use In'),
+            'values'       => $helper->getCustomerAddressAttributeFormOptions(),
+            'value'        => $attribute->getUsedInForms(),
+            'can_be_empty' => true,
         ))->setSize(5);
 
         if ($attribute->getId()) {
