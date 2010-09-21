@@ -41,7 +41,16 @@ class Maged_Model_Config extends Maged_Model_Config_Abstract
     public function getChannelConfig()
     {
         $this->load();
-        return $this->controller()->model('config_'.$this->get('root_channel'), true);
+        $channel = trim($this->get('root_channel'));
+        if(!empty($channel)){
+            try {
+                return $this->controller()->model('config_'.$channel, true);
+            } catch (Exception $e) {
+                throw new Exception('Not valid config.ini file.');
+            }
+        } else {
+            throw new Exception('Not valid config.ini file.');
+        }
     }
 
     /**
