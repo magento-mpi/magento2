@@ -55,38 +55,43 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
      */
     protected function _prepareLayout()
     {
-        $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
-            ->setLayer($this->getLayer());
+        $helper = Mage::helper('enterprise_search');
+        if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
+            $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
+                ->setLayer($this->getLayer());
 
-        $categoryBlock = $this->getLayout()->createBlock($this->_categoryBlockName)
-            ->setLayer($this->getLayer())
-            ->init();
+            $categoryBlock = $this->getLayout()->createBlock($this->_categoryBlockName)
+                ->setLayer($this->getLayer())
+                ->init();
 
-        $filterableAttributes = $this->_getFilterableAttributes();
-        $filters = array();
-        foreach ($filterableAttributes as $attribute) {
-            if ($attribute->getAttributeCode() == 'price') {
-                $filterBlockName = $this->_priceFilterBlockName;
-            } elseif ($attribute->getBackendType() == 'decimal') {
-                $filterBlockName = $this->_decimalFilterBlockName;
-            } else {
-                $filterBlockName = $this->_attributeFilterBlockName;
+            $filterableAttributes = $this->_getFilterableAttributes();
+            $filters = array();
+            foreach ($filterableAttributes as $attribute) {
+                if ($attribute->getAttributeCode() == 'price') {
+                    $filterBlockName = $this->_priceFilterBlockName;
+                } elseif ($attribute->getBackendType() == 'decimal') {
+                    $filterBlockName = $this->_decimalFilterBlockName;
+                } else {
+                    $filterBlockName = $this->_attributeFilterBlockName;
+                }
+
+                $filters[$attribute->getAttributeCode() . '_filter'] = $this->getLayout()->createBlock($filterBlockName)
+                    ->setLayer($this->getLayer())
+                    ->setAttributeModel($attribute)
+                    ->init();
             }
 
-            $filters[$attribute->getAttributeCode() . '_filter'] = $this->getLayout()->createBlock($filterBlockName)
-                ->setLayer($this->getLayer())
-                ->setAttributeModel($attribute)
-                ->init();
+            $this->setChild('layer_state', $stateBlock);
+            $this->setChild('category_filter', $categoryBlock->addFacetCondition());
+
+            foreach ($filters as $filterName => $block) {
+                $this->setChild($filterName, $block->addFacetCondition());
+            }
+
+            $this->getLayer()->apply();
+        } else {
+            parent::_prepareLayout();
         }
-
-        $this->setChild('layer_state', $stateBlock);
-        $this->setChild('category_filter', $categoryBlock->addFacetCondition());
-
-        foreach ($filters as $filterName => $block) {
-            $this->setChild($filterName, $block->addFacetCondition());
-        }
-
-        $this->getLayer()->apply();
 
         return $this;
     }

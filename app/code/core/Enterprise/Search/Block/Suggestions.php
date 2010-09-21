@@ -40,8 +40,10 @@ class Enterprise_Search_Block_Suggestions extends Mage_Core_Block_Template
      */
     public function getSuggestions()
     {
-        $searchSuggestionsEnabled = Mage::helper('enterprise_search')->getSolrConfigData("server_suggestion_enabled");
-        if (!Mage::helper('enterprise_search')->isThirdPartSearchEngine() || !$searchSuggestionsEnabled) {
+        $helper = Mage::helper('enterprise_search');
+
+        $searchSuggestionsEnabled = (bool)$helper->getSolrConfigData('server_suggestion_enabled');
+        if (!($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) || !$searchSuggestionsEnabled) {
             return array();
         }
 
@@ -49,7 +51,7 @@ class Enterprise_Search_Block_Suggestions extends Mage_Core_Block_Template
         $suggestions = $suggestionsModel->getSearchSuggestions();
 
         foreach ($suggestions as $key => $suggestion) {
-            $suggestions[$key]['link']  = $this->getUrl("*/*/") . "?q=" . urlencode($suggestion['word']);
+            $suggestions[$key]['link'] = $this->getUrl('*/*/') . '?q=' . urlencode($suggestion['word']);
         }
         return $suggestions;
     }
@@ -61,6 +63,6 @@ class Enterprise_Search_Block_Suggestions extends Mage_Core_Block_Template
      */
     public function isCountResultsEnabled()
     {
-        return (boolean)Mage::helper('enterprise_search')->getSolrConfigData("server_suggestion_count_results_enabled");
+        return (bool)Mage::helper('enterprise_search')->getSolrConfigData('server_suggestion_count_results_enabled');
     }
 }
