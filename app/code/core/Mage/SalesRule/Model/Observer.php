@@ -217,5 +217,29 @@ class Mage_SalesRule_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Append sales rule product attributes to select by quote item collection
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_SalesRule_Model_Observer
+     */
+    public function addProductAttributes(Varien_Event_Observer $observer)
+    {
+        // @var Varien_Object
+        $attributesTransfer = $observer->getEvent()->getAttributes();
+
+        $attributes = Mage::getResourceModel('salesrule/rule')
+            ->getActiveAttributes(
+                Mage::app()->getWebsite()->getId(),
+                Mage::getSingleton('customer/session')->getCustomer()->getGroupId()
+            );
+        $result = array();
+        foreach ($attributes as $attribute) {
+            $result[$attribute['attribute_code']] = true;
+        }
+        $attributesTransfer->addData($result);
+        return $this;
+    }
 }
 
