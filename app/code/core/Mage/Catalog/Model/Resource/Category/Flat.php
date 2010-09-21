@@ -375,6 +375,8 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                 ->addUrlRewriteToResult()
                 ->addParentPathFilter($parentPath)
                 ->addStoreFilter()
+                ->addIsActiveFilter()
+                ->addAttributeToFilter('include_in_menu', 1)
                 ->addSortedField($sorted);
             if ($toLoad) {
                 return $collection->load();
