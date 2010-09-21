@@ -26,7 +26,7 @@
 
 
 /**
- * Setup Model of Sales Module 
+ * Setup Model of Sales Module
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -97,8 +97,8 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
      */
     public function addAttribute($entityTypeId, $code, array $attr)
     {
-        if (isset($this->_flatEntityTables[$entityTypeId]) && 
-            $this->_flatTableExist($this->_flatEntityTables[$entityTypeId])) 
+        if (isset($this->_flatEntityTables[$entityTypeId]) &&
+            $this->_flatTableExist($this->_flatEntityTables[$entityTypeId]))
         {
             $this->_addFlatAttribute($this->_flatEntityTables[$entityTypeId], $code, $attr);
             $this->_addGridAttribute($this->_flatEntityTables[$entityTypeId], $code, $attr, $entityTypeId);
@@ -509,7 +509,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                     'customer_is_guest' => array('type'=>'int', 'visible'=>false),
                     'email_sent' => array('type'=>'int', 'visible'=>false),
                     'customer_taxvat'   => array('type'=>'varchar', 'visible'=>false),
-                    'customer_dob'      => array('type'=>'datetime', 
+                    'customer_dob'      => array('type'=>'datetime',
                         'backend'=>'eav/entity_attribute_backend_datetime'),
                     'customer_gender'   => array('type'=>'int', 'visible'=>false),
                 ),
