@@ -118,15 +118,16 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     /**
      * Set cart backorder messages for quote item
      *
-     * @param mixed $messages
+     * @param  int $productid
+     * @param  mixed $messages
      * @return Mage_Sales_Model_Quote_Item_Abstract
      */
-    public function setCartBackorderMessage($messages) {
+    public function setCartBackorderMessage($productId, $messages) {
         if (!is_array($messages)) {
-            $messages = array($messages);
+            $messages = array($productId => $messages);
         }
         foreach ($messages as $message) {
-            $this->addCartBackorderMessage($message);
+            $this->addCartBackorderMessage($productId, $message);
         }
         return $this;
     }
@@ -134,20 +135,21 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     /**
      * Add cart backorder message of quote item to array of cart backorder messages
      *
-     * @param   string $message
-     * @return  Mage_Sales_Model_Quote_Item_Abstract
+     * @param  int $productid
+     * @param  string $message
+     * @return Mage_Sales_Model_Quote_Item_Abstract
      */
-    public function addCartBackorderMessage($message)
+    public function addCartBackorderMessage($productId, $message)
     {
-        $this->_messagesBackorder[] = $message;
+        $this->_messagesBackorder[$productId] = $message;
         return $this;
     }
 
     /**
      * Get cart backorder messages array of quote item
      *
-     * @param   bool $string flag for converting messages to string
-     * @return  array|string
+     * @param  bool $string flag for converting messages to string
+     * @return array|string
      */
     public function getCartBackorderMessage($string = true)
     {
@@ -160,7 +162,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     /**
      * Set messages for quote item
      *
-     * @param mixed $messages
+     * @param  mixed $messages
      * @return Mage_Sales_Model_Quote_Item_Abstract
      */
     public function setMessage($messages) {

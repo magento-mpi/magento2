@@ -202,8 +202,8 @@ class Mage_CatalogInventory_Model_Observer
     /**
      * Check product inventory data when quote item quantity declaring
      *
-     * @param   Varien_Event_Observer $observer
-     * @return  Mage_CatalogInventory_Model_Observer
+     * @param  Varien_Event_Observer $observer
+     * @return Mage_CatalogInventory_Model_Observer
      */
     public function checkQuoteItemQty($observer)
     {
@@ -268,8 +268,10 @@ class Mage_CatalogInventory_Model_Observer
                      */
                     $quoteItem->setData('qty', intval($qty));
                 }
-                if (!is_null($result->getCartBackorderMessage())) {
-                    $option->setCartBackorderMessage($result->getCartBackorderMessage());
+                $cartBackorderMessage = $result->getCartBackorderMessage();
+                if (!is_null($cartBackorderMessage)) {
+                    $message = each($cartBackorderMessage);
+                    $option->setCartBackorderMessage($message['value']);
                 }
                 if (!is_null($result->getMessage())) {
                     $option->setMessage($result->getMessage());
@@ -298,7 +300,7 @@ class Mage_CatalogInventory_Model_Observer
              * When we work with subitem (as subproduct of bundle or configurable product)
              */
             if ($quoteItem->getParentItem()) {
-                $rowQty = $quoteItem->getParentItem()->getQty()*$qty;
+                $rowQty = $quoteItem->getParentItem()->getQty() * $qty;
                 /**
                  * we are using 0 because original qty was processed
                  */
@@ -341,10 +343,12 @@ class Mage_CatalogInventory_Model_Observer
                 }
             }
 
-            if (!is_null($result->getCartBackorderMessage())) {
-                $quoteItem->setCartBackorderMessage($result->getCartBackorderMessage());
+            $cartBackorderMessage = $result->getCartBackorderMessage();
+            if (!is_null($cartBackorderMessage)) {
+                $message = each($cartBackorderMessage);
+                $quoteItem->setCartBackorderMessage($message['key'], $message['value']);
                 if ($quoteItem->getParentItem()) {
-                    $quoteItem->getParentItem()->setCartBackorderMessage($result->getCartBackorderMessage());
+                    $quoteItem->getParentItem()->setCartBackorderMessage($message['key'], $message['value']);
                 }
             }
 
