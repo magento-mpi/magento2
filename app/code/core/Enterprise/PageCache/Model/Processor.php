@@ -255,12 +255,13 @@ class Enterprise_PageCache_Model_Processor
             foreach ($sessionInfo as $cookieName => $cookieInfo) {
                 if (isset($_COOKIE[$cookieName]) && isset($cookieInfo['lifetime'])
                     && isset($cookieInfo['path']) && isset($cookieInfo['domain'])
-                    && isset($cookieInfo['secure']) && isset($cookieInfo['httponly'])) {
-
+                    && isset($cookieInfo['secure']) && isset($cookieInfo['httponly'])
+                ) {
                     $lifeTime = (0 == $cookieInfo['lifetime']) ? 0 : time() + $cookieInfo['lifetime'];
                     setcookie($cookieName, $_COOKIE[$cookieName], $lifeTime,
                         $cookieInfo['path'], $cookieInfo['domain'],
-                        $cookieInfo['secure'], $cookieInfo['httponly']);
+                        $cookieInfo['secure'], $cookieInfo['httponly']
+                    );
                 }
             }
         } else {
