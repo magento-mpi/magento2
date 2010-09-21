@@ -190,22 +190,59 @@
                         <sku>sku</sku>
                         <weight>weight</weight>
                         <price>price</price>
-                        <inventory_qty>inventory_qty</inventory_qty>
                         <website>//*[text()='%s']</website>
-                        <category>//div[@id='product-categories']//a[contains(span,'%s')]</category>
+                        <website_many>//div[contains(div/big/strong/label,'%s')][%s]//input</website_many>
+                        <category>//ul/li[@class='x-tree-node']/div/a[contains(span,'%s')]</category>
+                        <category_many>//div[contains(@class,'x-tree-root-node')]/li[contains(ul/li/div/a/span,'%s')][%s]/ul/li/div/a/span</category_many>
                         <news_from_date>news_from_date</news_from_date>
                         <news_to_date>news_to_date</news_to_date>
                         <url_key>url_key</url_key>
                         <special_price>special_price</special_price>
                         <special_from_date>special_from_date</special_from_date>
                         <special_to_date>special_to_date</special_to_date>
+                        <use_default_manage_stock>inventory_use_config_manage_stock</use_default_manage_stock>
+                        <use_default_inventory_min_qty>inventory_use_config_min_qty</use_default_inventory_min_qty>
+                        <use_default_min_sale_qty>inventory_use_config_min_sale_qty</use_default_min_sale_qty>
+                        <use_default_max_sale_qty>inventory_use_config_max_sale_qty</use_default_max_sale_qty>
+                        <use_default_backorders>inventory_use_config_backorders</use_default_backorders>
+                        <use_default_notify_stock_qty>inventory_use_config_notify_stock_qty</use_default_notify_stock_qty>
+                        <use_default_enable_qty_increments>inventory_use_config_enable_qty_increments</use_default_enable_qty_increments>
+                        <use_default_qty_increments>inventory_use_config_qty_increments</use_default_qty_increments>
+                        <inventory_qty>inventory_qty</inventory_qty>
+                        <inventory_min_qty>inventory_min_qty</inventory_min_qty>
+                        <min_sale_qty>inventory_min_sale_qty</min_sale_qty>
+                        <max_sale_qty>inventory_max_sale_qty</max_sale_qty>
+                        <notify_stock_qty>inventory_notify_stock_qty</notify_stock_qty>
+                        <qty_increments>inventory_qty_increments</qty_increments>
+                        <attribute_for_configurable_product>//input[@title='%s']</attribute_for_configurable_product>
+                        <open_amount_max>open_amount_max</open_amount_max>
+                        <open_amount_min>open_amount_min</open_amount_min>
+                        <giftcard_amounts>product[giftcard_amounts][%s][price]</giftcard_amounts>
+                        <giftcard_use_default_is_redeemable>giftcard_use_config_is_redeemable</giftcard_use_default_is_redeemable>
+                        <giftcard_use_default_lifetime>giftcard_use_config_lifetime</giftcard_use_default_lifetime>
+                        <giftcard_use_default_allow_message>giftcard_use_config_allow_message</giftcard_use_default_allow_message>
+                        <giftcard_use_default_email_template>giftcard_use_config_email_template</giftcard_use_default_email_template>
+                        <giftcard_lifetime>giftcard_lifetime</giftcard_lifetime>
+                        <downloadable_links_title>downloadable_links_title</downloadable_links_title>
+                        <downloadable_link_title>downloadable[link][%s][title]</downloadable_link_title>
+                        <downloadable_link_price>downloadable[link][%s][price]</downloadable_link_price>
+                        <downloadable_link_max_downloads>downloadable_link_%s_downloads</downloadable_link_max_downloads>
+                        <downloadable_link_sample_url_type>downloadable_link_%s_sample_url_type</downloadable_link_sample_url_type>
+                        <downloadable_link_sample_url>downloadable[link][%s][sample][url]</downloadable_link_sample_url>
+                        <downloadable_link_url_type>downloadable_link_%s_url_type</downloadable_link_url_type>
+                        <downloadable_link_url>downloadable[link][%s][link_url]</downloadable_link_url>
+                        <downloadable_link_sort_order>downloadable[link][%s][sort_order]</downloadable_link_sort_order>
+                        <downloadable_samples_title>downloadable_samples_title</downloadable_samples_title>
+                        <downloadable_sample_title>downloadable[sample][%s][title]</downloadable_sample_title>
+                        <downloadable_sample_url_type>downloadable_sample_%s_url_type</downloadable_sample_url_type>
+                        <downloadable_sample_url>downloadable[sample][%s][sample_url]</downloadable_sample_url>
+                        <downloadable_sample_sort_order>downloadable[sample][%s][sort_order]</downloadable_sample_sort_order>
                     </inputs>
                     <selectors>
                         <attribute_set>attribute_set_id</attribute_set>
                         <type>product_type</type>
                         <status>status</status>
                         <tax_class>tax_class_id</tax_class>
-                        <inventory_stock_availability>inventory_stock_availability</inventory_stock_availability>
                         <visibility>visibility</visibility>
                         <allow_gift_message>gift_message_available</allow_gift_message>
                         <sku_type>sku_type</sku_type>
@@ -213,17 +250,34 @@
                         <price_type>price_type</price_type>
                         <enable_googlecheckout>enable_googlecheckout</enable_googlecheckout>
                         <price_view>price_view</price_view>
+                        <manage_stock>inventory_manage_stock</manage_stock>
+                        <is_qty_decimal>inventory_is_qty_decimal</is_qty_decimal>
+                        <backorders>inventory_backorders</backorders>
+                        <enable_qty_increments>inventory_enable_qty_increments</enable_qty_increments>
+                        <stock_availability>inventory_stock_availability</stock_availability>
+                        <allow_open_amount>allow_open_amount</allow_open_amount>
+                        <giftcard_type>giftcard_type</giftcard_type>
+                        <giftcard_is_redeemable>giftcard_is_redeemable</giftcard_is_redeemable>
+                        <giftcard_allow_message>giftcard_allow_message</giftcard_allow_message>
+                        <giftcard_email_template>giftcard_email_template</giftcard_email_template>
+                        <downloadable_link_purchase_type>downloadable_link_purchase_type</downloadable_link_purchase_type>
+                        <downloadable_link_shareable>downloadable_link _%s_shareable</downloadable_link_shareable>
                     </selectors>
                     <tabs>
                         <price>link=Prices</price>
                         <inventory>link=Inventory</inventory>
                         <websites>link=Websites</websites>
                         <categories>//*[@id='product_info_tabs_categories']/span</categories>
+                        <gift_card_information>link=Gift Card Information</gift_card_information>
+                        <downloadable_information>link=Downloadable Information</downloadable_information>
                     </tabs>
                     <buttons>
                         <save>//button[span="Save"]</save>
                         <duplicate>//button[span="Duplicate"]</duplicate>
                         <delete>//button[span="Delete"]</delete>
+                        <add_amount>//button[span="Add Amount"]</add_amount>
+                        <add_link_item>add_link_item</add_link_item>
+                        <add_sample_item>add_sample_item</add_sample_item>
                     </buttons>
                     <messages>
                         <productsaved>//div[@id="messages"]//li[@class="success-msg"]</productsaved>
@@ -339,7 +393,7 @@
                 </selectors>
             </create_backup>
         </scope>
-       <configuration>
+        <configuration>
             <elements>
                 <store_selector>store_switcher</store_selector>
             </elements>
