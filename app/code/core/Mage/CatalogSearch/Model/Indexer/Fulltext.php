@@ -35,6 +35,16 @@
 class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer_Abstract
 {
     /**
+     * Retrieve resource instance
+     *
+     * @return Mage_CatalogSearch_Model_Mysql4_Indexer_Fulltext
+     */
+    protected function _getResource()
+    {
+        return Mage::getResourceSingleton('catalogsearch/indexer_fulltext');
+    }
+
+    /**
      * Indexer must be match entities
      *
      * @var array
@@ -286,6 +296,18 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
     }
 
     /**
+     * Check if product is composite
+     *
+     * @param int $productId
+     * @return bool
+     */
+    protected function _isProductComposite($productId)
+    {
+        $product = Mage::getModel('catalog/product')->load($productId);
+        return $product->isComposite();
+    }
+
+    /**
      * Process event
      *
      * @param Mage_Index_Model_Event $event
@@ -298,11 +320,28 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
             $this->reindexAll();
         } else if (!empty($data['catalogsearch_delete_product_id'])) {
             $productId = $data['catalogsearch_delete_product_id'];
+
+            if (!$this->_isProductComposite($productId)) {
+                $parentIds = $this->_getResource()->getRelationsByChild($productId);
+                if (!empty($parentIds)) {
+                    $this->_getIndexer()->rebuildIndex(null, $parentIds);
+                }
+            }
+
             $this->_getIndexer()->cleanIndex(null, $productId)
                 ->resetSearchResults();
         } else if (!empty($data['catalogsearch_update_product_id'])) {
             $productId = $data['catalogsearch_update_product_id'];
-            $this->_getIndexer()->rebuildIndex(null, $productId)
+            $productIds = array($productId);
+
+            if (!$this->_isProductComposite($productId)) {
+                $parentIds = $this->_getResource()->getRelationsByChild($productId);
+                if (!empty($parentIds)) {
+                    $productIds = array_merge($productIds, $parentIds);
+                }
+            }
+
+            $this->_getIndexer()->rebuildIndex(null, $productIds)
                 ->resetSearchResults();
         } else if (!empty($data['catalogsearch_product_ids'])) {
             // mass action
