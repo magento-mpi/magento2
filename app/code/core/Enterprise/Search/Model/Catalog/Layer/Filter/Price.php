@@ -33,6 +33,18 @@
  */
 class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Filter_Price
 {
+    const CACHE_TAG = 'MAXPRICE';
+
+    /**
+     * Return cache tag for layered price filter 
+     *
+     * @return string
+     */
+    public function getCacheTag()
+    {
+        return self::CACHE_TAG;
+    }
+
     /**
      * Get facet field name based on current website and customer group
      *
@@ -43,6 +55,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $websiteId       = Mage::app()->getStore()->getWebsiteId();
         $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
+
         return $priceField;
     }
 
@@ -66,26 +79,47 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
                     $data[] = array(
                         'label' => $this->_renderItemLabel($range, $rangeKey),
                         'value' => $rangeKey . ',' . $range,
-                        'count' => $count,
+                        'count' => $count
                     );
                 }
             }
         }
+
         return $data;
     }
 
     /**
-     * Apply price range filter to collection
+     * Get maximum price from layer products set using cache
      *
-     * @param Zend_Controller_Request_Abstract $request
-     * @param $filterBlock
+     * @return float
+     */
+    public function getMaxPriceInt()
+    {
+        $searchParams = $this->getLayer()->getProductCollection()->getExtendedSearchParams();
+        $uniquePart = strtoupper(md5(serialize($searchParams)));
+        $cacheKey = 'MAXPRICE_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
+
+        $cachedData = Mage::app()->loadCache($cacheKey);
+        if (!$cachedData) {
+            $stats = $this->getLayer()->getProductCollection()->getStats($this->_getFilterField());
+            $cachedData = (float)$stats[$this->_getFilterField()]['max'];
+            $tags = $this->getLayer()->getStateTags();
+            $tags[] = self::CACHE_TAG;
+            Mage::app()->saveCache($cachedData, $cacheKey, $tags);
+        }
+
+        return $cachedData;
+    }
+
+    /**
+     * Add params to faceted search
      *
      * @return Enterprise_Search_Model_Catalog_Layer_Filter_Price
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function addFacetCondition()
     {
-        $range       = $this->getPriceRange();
-        $maxPrice    = $this->getMaxPriceInt();
+        $range    = $this->getPriceRange();
+        $maxPrice = $this->getMaxPriceInt();
         if ($maxPrice > 0) {
             $priceFacets = array();
             $facetCount  = ceil($maxPrice / $range);
@@ -99,7 +133,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 
             $this->getLayer()->getProductCollection()->setFacetCondition($this->_getFilterField(), $priceFacets);
         }
-        return parent::apply($request, $filterBlock);
+
+        return $this;
     }
 
     /**
@@ -117,7 +152,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
                 'to'   => $range * $index - 0.001
             )
         );
+
         $this->getLayer()->getProductCollection()->addFqFilter($value);
+
         return $this;
     }
 }

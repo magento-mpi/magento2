@@ -73,34 +73,14 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        $range    = $this->getRange();
-        $maxValue = $this->getMaxValue();
-        if ($maxValue > 0) {
-            $facets = array();
-            $facetCount  = ceil($maxValue / $range);
-            for ($i = 0; $i < $facetCount; $i++) {
-                $facets[] = array(
-                    'from' => $i * $range,
-                    'to'   => ($i + 1) * $range - 0.001
-                );
-            }
-
-            $attributeCode = $this->getAttributeModel()->getAttributeCode();
-            $field         = 'attr_decimal_' . $attributeCode;
-
-            $productCollection = $this->getLayer()->getProductCollection();
-            $productCollection->setFacetCondition($field, $facets);
-        }
-
         /**
          * Filter must be string: $index, $range
          */
         $filter = $request->getParam($this->getRequestVar());
-
-
         if (!$filter) {
             return $this;
         }
+
         $filter = explode(',', $filter);
         if (count($filter) != 2) {
             return $this;
@@ -114,7 +94,36 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
             $this->getLayer()->getState()->addFilter(
                 $this->_createItem($this->_renderItemLabel($range, $index), $filter)
             );
+
             $this->_items = array();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add params to faceted search
+     *
+     * @return Enterprise_Search_Model_Catalog_Layer_Filter_Decimal
+     */
+    public function addFacetCondition()
+    {
+        $range    = $this->getRange();
+        $maxValue = $this->getMaxValue();
+        if ($maxValue > 0) {
+            $facets = array();
+            $facetCount = ceil($maxValue / $range);
+            for ($i = 0; $i < $facetCount; $i++) {
+                $facets[] = array(
+                    'from' => $i * $range,
+                    'to'   => ($i + 1) * $range - 0.001
+                );
+            }
+
+            $attributeCode = $this->getAttributeModel()->getAttributeCode();
+            $field         = 'attr_decimal_' . $attributeCode;
+
+            $this->getLayer()->getProductCollection()->setFacetCondition($field, $facets);
         }
 
         return $this;
@@ -145,5 +154,4 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
         $productCollection->addFqFilter($value);
         return $this;
     }
-
 }

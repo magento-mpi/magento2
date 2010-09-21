@@ -147,6 +147,20 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected $_indexableAttributeParams;
 
+    protected function _beforeCommit()
+    {
+
+    }
+
+    protected function _afterCommit()
+    {
+        /**
+         * Cleaning MAXPRICE cache
+         */
+        $cacheTag = Mage::getSingleton('enterprise_search/catalog_layer_filter_price')->getCacheTag();
+        Mage::app()->cleanCache(array($cacheTag));
+    }
+
     /**
      * Retrieve attributes selected parameters
      *
@@ -407,6 +421,18 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
+     * Collect statistics about specified fields
+     *
+     * @param string $query
+     * @param array $params
+     * @return array
+     */
+    public function getStats($query, $params = array())
+    {
+        return $this->_search($query, $params);
+    }
+
+    /**
      * Retrieve search suggestions by query
      *
      * @depracated after 1.9.0.0
@@ -441,7 +467,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     public function commit()
     {
-        return $this->_client->commit();
+        $this->_beforeCommit();
+        $result = $this->_client->commit();
+        $this->_afterCommit();
+
+        return $result;
     }
 
     /**
@@ -452,7 +482,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     public function optimize()
     {
-        return $this->_client->optimize();
+        $this->_beforeCommit();
+        $result = $this->_client->optimize();
+        $this->_afterCommit();
+
+        return $result;
     }
 
     /**
@@ -571,6 +605,17 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     protected function _prepareFacetsQueryResponse($response)
     {
         return $this->_facetObjectToArray($response->facet_counts);
+    }
+
+    /**
+     * Convert Solr Query Response collected statistics to array
+     *
+     * @param object $response
+     * @return array
+     */
+    protected function _prepateStatsQueryResponce($response)
+    {
+        return $this->_objectToArray($response->stats->stats_fields);
     }
 
     /**

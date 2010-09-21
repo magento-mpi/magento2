@@ -41,4 +41,15 @@ class Enterprise_Search_Block_Catalog_Layer_Filter_Category extends Mage_Catalog
         parent::__construct();
         $this->_filterModelName = 'enterprise_search/catalog_layer_filter_category';
     }
+
+    /**
+     * Add params to faceted search
+     *
+     * @return Enterprise_Search_Block_Catalog_Layer_Filter_Category
+     */
+    public function addFacetCondition()
+    {
+        $this->_filter->addFacetCondition();
+        return $this;
+    }
 }

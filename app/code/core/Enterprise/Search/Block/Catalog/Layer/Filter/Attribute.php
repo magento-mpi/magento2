@@ -52,4 +52,15 @@ class Enterprise_Search_Block_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $this->_filter->setAttributeModel($this->getAttributeModel());
         return $this;
     }
+
+    /**
+     * Add params to faceted search
+     *
+     * @return Enterprise_Search_Block_Catalog_Layer_Filter_Attribute
+     */
+    public function addFacetCondition()
+    {
+        $this->_filter->addFacetCondition();
+        return $this;
+    }
 }

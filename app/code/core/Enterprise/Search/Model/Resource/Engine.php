@@ -40,6 +40,7 @@ class Enterprise_Search_Model_Resource_Engine
     protected $_advancedIndexFieldsPrefix = '#';
 
     /**
+     * List of static fields for index
      *
      * @var array
      */
@@ -50,6 +51,7 @@ class Enterprise_Search_Model_Resource_Engine
     );
 
     /**
+     * List of obligatory dynamic fields for index
      *
      * @var array
      */
@@ -103,14 +105,23 @@ class Enterprise_Search_Model_Resource_Engine
         return $this->_adapter->getIdsByQuery($query, $params);
     }
 
+    public function getStats($query, $params = array(), $entityType = 'product')
+    {
+        return $this->_adapter->getStats($query, $params);
+    }
+
     /**
      * Retrieve search suggestions
      *
+     * @deprecated after 1.9.0.0
+     *
      * @param string $query
      * @param array $params see description in appropriate search adapter
+     * @param int|bool $limit
+     * @param bool $withResultsCounts
      * @return array
      */
-    public function getSuggestionsByQuery($query, $params=array(), $limit=false, $withResultsCounts=false)
+    public function getSuggestionsByQuery($query, $params = array(), $limit = false, $withResultsCounts = false)
     {
         return $this->_adapter->getSuggestionsByQuery($query, $params, $limit, $withResultsCounts);
     }
@@ -144,8 +155,8 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entityType = 'product')
     {
-        $store             = Mage::app()->getStore($storeId);
-        $localeCode        = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $store      = Mage::app()->getStore($storeId);
+        $localeCode = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         foreach ($entityIndexes as $entityId => $indexData) {
             $entityIndexes[$entityId]['store_id'] = $storeId;
         }

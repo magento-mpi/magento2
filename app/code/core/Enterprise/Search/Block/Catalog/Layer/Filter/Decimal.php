@@ -53,4 +53,15 @@ class Enterprise_Search_Block_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
         $this->_filter->setAttributeModel($this->getAttributeModel());
         return $this;
     }
+
+    /**
+     * Add params to faceted search
+     *
+     * @return Enterprise_Search_Block_Catalog_Layer_Filter_Decimal
+     */
+    public function addFacetCondition()
+    {
+        $this->_filter->addFacetCondition();
+        return $this;
+    }
 }

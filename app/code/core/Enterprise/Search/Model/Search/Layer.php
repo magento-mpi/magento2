@@ -50,6 +50,21 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
     }
 
     /**
+     * Get default tags for current layer state
+     *
+     * @param   array $additionalTags
+     * @return  array
+     */
+    public function getStateTags(array $additionalTags = array())
+    {
+        $additionalTags = array_merge($additionalTags, array(
+            Mage_Catalog_Model_Category::CACHE_TAG . $this->getCurrentCategory()->getId() . '_SEARCH'
+        ));
+
+        return parent::getStateTags($additionalTags);
+    }
+
+    /**
      * Get collection of all filterable attributes for layer products set
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection

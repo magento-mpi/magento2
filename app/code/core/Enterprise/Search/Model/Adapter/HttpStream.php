@@ -73,13 +73,13 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             'path'     => $helper->getSolrConfigData('server_path')
         );
         $options = array_merge($def_options, $options);
+
         try {
             $this->_client = Mage::getSingleton('enterprise_search/client_solr', $options);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             Mage::logException($e);
         }
+
         return $this->_client;
     }
 
@@ -106,7 +106,6 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
     protected function _search($query, $params = array())
     {
         $searchConditions = $this->prepareSearchConditions($query);
-
         if (!$searchConditions) {
             return array();
         }
@@ -116,11 +115,8 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
         }
 
-        $offset = (int)$_params['offset'];
-        $limit  = (int)$_params['limit'];
-        if (!$limit) {
-            $limit = 100;
-        }
+        $offset = (isset($_params['offset'])) ? (int)$_params['offset'] : 0;
+        $limit  = (isset($_params['limit'])) ? (int)$_params['limit'] : 100;
 
         $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
@@ -145,7 +141,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         /**
          * Fields to retrieve
          */
-        if (!empty($_params['fields'])) {
+        if ($limit && !empty($_params['fields'])) {
             $searchParams['fl'] = implode(',', $_params['fields']);
         }
 
@@ -210,50 +206,54 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             $response = $this->_client->search($searchConditions, $offset, $limit, $searchParams);
             $data = json_decode($response->getRawResponse());
 
-            $result = array('ids' => $this->_prepareQueryResponse($data));
+            if (!isset($params['solr_params']['stats']) || $params['solr_params']['stats'] != 'true') {
+                $result = array('ids' => $this->_prepareQueryResponse($data));
 
-            /**
-             * Extract facet search results
-             */
-            if ($useFacetSearch) {
-                $result['facets'] = $this->_prepareFacetsQueryResponse($data);
-            }
-
-            /**
-             * Extract suggestions search results
-             */
-            if ($useSpellcheckSearch) {
-                $resultSuggestions = $this->_prepareSuggestionsQueryResponse($data);
-                /* Calc results count for each suggestion */
-                if (isset($params['spellcheck_result_counts'])
-                        && $params['spellcheck_result_counts'] == true
-                        && $spellcheckCount > 0) {
-                    /* Temporary store value for main search query */
-                    $tmpLastNumFound = $this->_lastNumFound;
-                    $this->_lastNumFound = 0;
-
-                    unset($params['solr_params']['spellcheck']);
-                    unset($params['solr_params']['spellcheck.count']);
-                    unset($params['spellcheck_result_counts']);
-
-                    $suggestions = array();
-                    foreach ($resultSuggestions as $key => $item) {
-                        $this->search($item['word'], $params);
-                        if ($this->_lastNumFound) {
-                            $resultSuggestions[$key]['num_results'] = $this->_lastNumFound;
-                            $suggestions[] = $resultSuggestions[$key];
-                            $spellcheckCount--;
-                        }
-                        if ($spellcheckCount <= 0) {
-                            break;
-                        }
-                    }
-                    /* Return store value for main search query */
-                    $this->_lastNumFound = $tmpLastNumFound;
-                } else {
-                    $suggestions = array_slice($resultSuggestions, 0, $spellcheckCount);
+                /**
+                 * Extract facet search results
+                 */
+                if ($useFacetSearch) {
+                    $result['facets'] = $this->_prepareFacetsQueryResponse($data);
                 }
-                $result['suggestions'] = $suggestions;
+
+                /**
+                 * Extract suggestions search results
+                 */
+                if ($useSpellcheckSearch) {
+                    $resultSuggestions = $this->_prepareSuggestionsQueryResponse($data);
+                    /* Calc results count for each suggestion */
+                    if (isset($params['spellcheck_result_counts'])
+                            && $params['spellcheck_result_counts'] == true
+                            && $spellcheckCount > 0) {
+                        /* Temporary store value for main search query */
+                        $tmpLastNumFound = $this->_lastNumFound;
+                        $this->_lastNumFound = 0;
+
+                        unset($params['solr_params']['spellcheck']);
+                        unset($params['solr_params']['spellcheck.count']);
+                        unset($params['spellcheck_result_counts']);
+
+                        $suggestions = array();
+                        foreach ($resultSuggestions as $key => $item) {
+                            $this->search($item['word'], $params);
+                            if ($this->_lastNumFound) {
+                                $resultSuggestions[$key]['num_results'] = $this->_lastNumFound;
+                                $suggestions[] = $resultSuggestions[$key];
+                                $spellcheckCount--;
+                            }
+                            if ($spellcheckCount <= 0) {
+                                break;
+                            }
+                        }
+                        /* Return store value for main search query */
+                        $this->_lastNumFound = $tmpLastNumFound;
+                    } else {
+                        $suggestions = array_slice($resultSuggestions, 0, $spellcheckCount);
+                    }
+                    $result['suggestions'] = $suggestions;
+                }
+            } else {
+                $result = $this->_prepateStatsQueryResponce($data);
             }
 
             return $result;

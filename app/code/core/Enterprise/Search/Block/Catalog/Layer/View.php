@@ -49,11 +49,54 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
     {
         parent::_initBlocks();
         if ($this->getIsEngineAvailable()) {
-            $this->_categoryBlockName = 'enterprise_search/catalog_layer_filter_category';
+            $this->_categoryBlockName        = 'enterprise_search/catalog_layer_filter_category';
             $this->_attributeFilterBlockName = 'enterprise_search/catalog_layer_filter_attribute';
-            $this->_priceFilterBlockName = 'enterprise_search/catalog_layer_filter_price';
-            $this->_decimalFilterBlockName = 'enterprise_search/catalog_layer_filter_decimal';
+            $this->_priceFilterBlockName     = 'enterprise_search/catalog_layer_filter_price';
+            $this->_decimalFilterBlockName   = 'enterprise_search/catalog_layer_filter_decimal';
         }
+    }
+
+    /**
+     * Prepare child blocks
+     *
+     * @return Enterprise_Search_Block_Catalog_Layer_View
+     */
+    protected function _prepareLayout()
+    {
+        $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
+            ->setLayer($this->getLayer());
+
+        $categoryBlock = $this->getLayout()->createBlock($this->_categoryBlockName)
+            ->setLayer($this->getLayer())
+            ->init();
+
+        $filterableAttributes = $this->_getFilterableAttributes();
+        $filters = array();
+        foreach ($filterableAttributes as $attribute) {
+            if ($attribute->getAttributeCode() == 'price') {
+                $filterBlockName = $this->_priceFilterBlockName;
+            } elseif ($attribute->getBackendType() == 'decimal') {
+                $filterBlockName = $this->_decimalFilterBlockName;
+            } else {
+                $filterBlockName = $this->_attributeFilterBlockName;
+            }
+
+            $filters[$attribute->getAttributeCode() . '_filter'] = $this->getLayout()->createBlock($filterBlockName)
+                ->setLayer($this->getLayer())
+                ->setAttributeModel($attribute)
+                ->init();
+        }
+
+        $this->setChild('layer_state', $stateBlock);
+        $this->setChild('category_filter', $categoryBlock->addFacetCondition());
+
+        foreach ($filters as $filterName => $block) {
+            $this->setChild($filterName, $block->addFacetCondition());
+        }
+
+        $this->getLayer()->apply();
+
+        return $this;
     }
 
     /**
@@ -82,6 +125,7 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
                 && !Mage::helper('enterprise_search')->getTaxInfluence();
             $this->setData('is_engine_available', $available);
         }
+
         return $this->_getData('is_engine_available');
     }
 }

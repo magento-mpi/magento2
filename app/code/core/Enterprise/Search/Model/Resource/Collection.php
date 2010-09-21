@@ -86,6 +86,13 @@ class Enterprise_Search_Model_Resource_Collection
     protected $_sortBy = array();
 
     /**
+     * General default query *:* to disable query limitation
+     *
+     * @var array
+     */
+    protected $_generalDefaultQuery = array('*' => '*');
+
+    /**
      * Faceted search result data
      *
      * @var array
@@ -111,7 +118,7 @@ class Enterprise_Search_Model_Resource_Collection
      *
      * @param string $field
      *
-     * @return array | false
+     * @return array
      */
     public function getFacetedData($field)
     {
@@ -189,12 +196,20 @@ class Enterprise_Search_Model_Resource_Collection
         return $this;
     }
 
+    public function getExtendedSearchParams()
+    {
+        $result = $this->_searchQueryFilters;
+        $result['query_text'] = $this->_searchQueryText;
+        return $result;
+    }
+
     /**
      * Add search query filter (qf)
      *
+     * @deprecated after 1.9.0.0
+     *
      * @param   string|array $param
      * @param   string|array $value
-     *
      * @return  Enterprise_Search_Model_Resource_Collection
      */
     public function addSearchQfFilter($param, $value = null)
@@ -257,6 +272,24 @@ class Enterprise_Search_Model_Resource_Collection
         return $this;
     }
 
+    protected function _prepareBaseParams()
+    {
+        $store                 = Mage::app()->getStore();
+        $params['store_id']    = $store->getId();
+        $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+
+        $params['filters'] = $this->_searchQueryFilters;
+
+        if (!empty($this->_searchQueryParams)) {
+            $params['ignore_handler'] = true;
+            $query = $this->_searchQueryParams;
+        } else {
+            $query = $this->_searchQueryText;
+        }
+
+        return array($query, $params);
+    }
+
     /**
      * Search documents by query
      * Set found ids and number of found results
@@ -265,11 +298,9 @@ class Enterprise_Search_Model_Resource_Collection
      */
     protected function _beforeLoad()
     {
-        $ids = $params = array();
+        $ids = array();
         if ($this->_engine) {
-            $store                 = Mage::app()->getStore();
-            $params['store_id']    = $store->getId();
-            $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+            list($query, $params) = $this->_prepareBaseParams();
 
             if ($this->_sortBy) {
                 $params['sort_by'] = $this->_sortBy;
@@ -278,15 +309,6 @@ class Enterprise_Search_Model_Resource_Collection
             $rowCount              = ($this->_pageSize > 0) ? $this->_pageSize : 1;
             $params['offset']      = (int)$rowCount * ($page - 1);
             $params['limit']       = (int)$rowCount;
-
-            $params['filters'] = $this->_searchQueryFilters;
-
-            if (!empty($this->_searchQueryParams)) {
-                $params['ignore_handler'] = true;
-                $query = $this->_searchQueryParams;
-            } else {
-                $query = $this->_searchQueryText;
-            }
 
             $params['solr_params']['facet'] = 'on';
             $params['facet'] = $this->_facetedConditions;
@@ -335,61 +357,70 @@ class Enterprise_Search_Model_Resource_Collection
     {
         $params = array();
         if (is_null($this->_totalRecords)) {
-            $store                 = Mage::app()->getStore();
-            $params['store_id']    = $store->getId();
-            $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-            $params['limit']       = 1;
+            list($query, $params) = $this->_prepareBaseParams();
+            $params['limit'] = 1;
 
-            if (!empty($this->_searchQueryParams)) {
-                $params['ignore_handler'] = true;
-                $query = $this->_searchQueryParams;
-            } else {
-                $query = $this->_searchQueryText;
-            }
-            $params['filters'] = $this->_searchQueryFilters;
-
-            $helper = Mage::helper('enterprise_search');
-            $searchSuggestionsEnabled = $helper->getSolrConfigData('server_suggestion_enabled');
-            if ($searchSuggestionsEnabled) {
-                $params['solr_params']['spellcheck'] = 'true';
-                $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');
-                if ($searchSuggestionsCount < 1) {
-                    $searchSuggestionsCount = 1;
+            if ($this->_searchQueryParams != $this->_generalDefaultQuery) {
+                $helper = Mage::helper('enterprise_search');
+                $searchSuggestionsEnabled = $helper->getSolrConfigData('server_suggestion_enabled');
+                if ($searchSuggestionsEnabled) {
+                    $params['solr_params']['spellcheck'] = 'true';
+                    $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');
+                    if ($searchSuggestionsCount < 1) {
+                        $searchSuggestionsCount = 1;
+                    }
+                    $params['solr_params']['spellcheck.count'] = $searchSuggestionsCount;
+                    $params['spellcheck_result_counts'] = (bool)$helper->getSolrConfigData('server_suggestion_count_results_enabled');
                 }
-                $params['solr_params']['spellcheck.count'] = $searchSuggestionsCount;
-                $params['spellcheck_result_counts'] = (bool)$helper->getSolrConfigData('server_suggestion_count_results_enabled');
             }
 
             $result = $this->_engine->getIdsByQuery($query, $params);
             $this->_suggestionsData = $result['suggestionsData'];
-            $this->_totalRecords = $this->_engine->getLastNumFound();
+            $this->_totalRecords    = $this->_engine->getLastNumFound();
         }
 
         return $this->_totalRecords;
     }
 
     /**
+     * Collect stats per field
+     *
+     * @param array $fields
+     * @return array
+     */
+    public function getStats($fields)
+    {
+        list($query, $params) = $this->_prepareBaseParams();
+        $params['limit'] = 0;
+        $params['solr_params']['stats'] = 'true';
+
+        if (!is_array($fields)) {
+            $fields = array($fields);
+        }
+        foreach ($fields as $field) {
+            $params['solr_params']['stats.field'][] = $field;
+        }
+
+        /**
+         * To prevent limitations to the collection, because of new data logic
+         */
+        $this->_pageSize = false;
+
+        return $this->_engine->getStats($query, $params);
+    }
+
+    /**
      * Retrieve faceted search results
      *
-     * @param array $params
+     * @deprecated after 1.9.0.0 - integrated into $this->getSize()
      *
+     * @param array $params
      * @return array
      */
     public function getFacets($params)
     {
-        $store                 = Mage::app()->getStore();
-        $params['store_id']    = $store->getId();
-        $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-        $params['limit']       = 1;
-
-        if (!empty($this->_searchQueryParams)) {
-            $params['ignore_handler'] = true;
-            $query = $this->_searchQueryParams;
-        }
-        else {
-            $query = $this->_searchQueryText;
-        }
-        $params['filters'] = $this->_searchQueryFilters;
+        list($query, $params) = $this->_prepareBaseParams();
+        $params['limit'] = 1;
 
         return (array)$this->_engine->getFacetsByQuery($query, $params);
     }
@@ -401,7 +432,7 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function setGeneralDefaultQuery()
     {
-        $this->_searchQueryParams = array('*' => '*');
+        $this->_searchQueryParams = $this->_generalDefaultQuery;
         return $this;
     }
 

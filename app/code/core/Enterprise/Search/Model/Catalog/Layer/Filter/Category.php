@@ -96,18 +96,6 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
             Mage::register('current_category_filter', $category);
         }
 
-        $childrenCategories = $category->getChildrenCategories();
-
-        $useFlat = Mage::getStoreConfig('catalog/frontend/flat_catalog_category');
-        if ($useFlat) {
-            $categories = array_keys($childrenCategories);
-        } else {
-            $categories = array_keys($childrenCategories->toArray());
-        }
-
-        $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->setFacetCondition('categories', $categories);
-
         if (!$filter) {
             $this->addCategoryFilter($category, null);
             return $this;
@@ -127,6 +115,26 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
                 $this->_createItem($this->_appliedCategory->getName(), $filter)
             );
         }
+
+        return $this;
+    }
+
+    /**
+     * Add params to faceted search
+     *
+     * @return Enterprise_Search_Model_Catalog_Layer_Filter_Category
+     */
+    public function addFacetCondition()
+    {
+        $category = $this->getCategory();
+        $childrenCategories = $category->getChildrenCategories();
+
+        $useFlat = (bool)Mage::getStoreConfig('catalog/frontend/flat_catalog_category');
+        $categories = ($useFlat)
+            ? array_keys($childrenCategories)
+            : array_keys($childrenCategories->toArray());
+
+        $this->getLayer()->getProductCollection()->setFacetCondition('categories', $categories);
 
         return $this;
     }

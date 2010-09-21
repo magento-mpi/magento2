@@ -81,21 +81,29 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        $facetField = Mage::helper('enterprise_search')->getAttributeSolrFieldName($this->getAttributeModel());
-        $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->setFacetCondition($facetField);
-
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
             return $this;
         }
 
         if ($filter) {
-            $text = $this->_getOptionText($filter);
             $this->applyFilterToCollection($this, $filter);
             $this->getLayer()->getState()->addFilter($this->_createItem($filter, $filter));
             $this->_items = array();
         }
+
+        return $this;
+    }
+
+    /**
+     * Add params to faceted search
+     *
+     * @return Enterprise_Search_Model_Catalog_Layer_Filter_Attribute
+     */
+    public function addFacetCondition()
+    {
+        $facetField = Mage::helper('enterprise_search')->getAttributeSolrFieldName($this->getAttributeModel());
+        $this->getLayer()->getProductCollection()->setFacetCondition($facetField);
 
         return $this;
     }
