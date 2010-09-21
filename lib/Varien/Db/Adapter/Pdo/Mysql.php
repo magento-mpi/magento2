@@ -2889,9 +2889,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string $select
      * @return string
      */
-    public function getMagicGroupSelect($select)
+    public function getMagicGroupSelect($sql, $select)
     {
-        return $select;
+        return $sql;
     }
 
    /**
