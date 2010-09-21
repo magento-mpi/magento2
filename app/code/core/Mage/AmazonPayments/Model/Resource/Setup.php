@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Setup resource model
  *
  * @category    Mage
  * @package     Mage_AmazonPayments

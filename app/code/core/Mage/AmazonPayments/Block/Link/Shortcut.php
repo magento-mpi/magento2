@@ -35,14 +35,12 @@ class Mage_AmazonPayments_Block_Link_Shortcut extends Mage_Core_Block_Template
 {
     public function getCheckoutUrl()
     {
-        #return $this->getUrl('amazonpayments/cba', array('_secure'=>true));
         return $this->getUrl('amazonpayments/cba/shortcut');
     }
 
     public function getImageUrl()
     {
         return Mage::getStoreConfig('payment/amazonpayments_cba/button_url');
-        #return 'http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-large.gif';
     }
 
     public function _toHtml()
