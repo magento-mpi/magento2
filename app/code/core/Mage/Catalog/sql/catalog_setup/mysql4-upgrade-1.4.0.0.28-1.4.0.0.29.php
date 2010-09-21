@@ -34,7 +34,7 @@ $entityTypeId = $installer->getEntityTypeId('catalog_category');
 $designApplyAttributeId = $installer->getAttributeId($entityTypeId, 'custom_design_apply');
 $designAttributeId = $installer->getAttributeId($entityTypeId, 'custom_design');
 $catalogCategoryEntityIntTable = $installer->getAttributeTable($entityTypeId, $designApplyAttributeId);
-$eavAttributeTable = $installer->getTable('eav_attribute');
+$eavAttributeTable = $installer->getTable('eav/attribute');
 
 $installer->addAttribute($entityTypeId, 'custom_use_parent_settings', array(
     'type'          => 'int',
@@ -69,7 +69,7 @@ $productValueExpr = new Zend_Db_Expr('IF (e.value IN (1,3), 1, 0)');
 $valueExpr = new Zend_Db_Expr('IF (e_a.attribute_id = e.attribute_id, 1, '. $productValueExpr .')');
 $select = $installer->getConnection()->select()
     ->from(
-        array('e' => $catalogCategoryEntityIntTable), 
+        array('e' => $catalogCategoryEntityIntTable),
         array(
             'entity_type_id',
             'attribute_id' => $attributeIdExpr,
