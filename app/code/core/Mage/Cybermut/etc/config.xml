@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Cybermut>
-            <version>0.1.0</version>
+            <version>1.5.0.0</version>
         </Mage_Cybermut>
     </modules>
     <global>
