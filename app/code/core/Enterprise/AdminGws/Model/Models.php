@@ -496,11 +496,13 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if (!$this->_role->hasExclusiveCategoryAccess($model->getPath())) {
             $model->unlockAttributes();
             $attributes = $model->getAttributes();
+            $hasWebsites = count($this->_role->getWebsiteIds()) > 0;
+            $hasStoreAccess = $this->_role->hasStoreAccess($model->getResource()->getStoreId());
             foreach ($attributes as $attribute) {
                 /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
                 if ($attribute->isScopeGlobal() ||
-                    ($attribute->isScopeWebsite() && count($this->_role->getWebsiteIds())==0) ||
-                    !$this->_role->hasStoreAccess($model->getResource()->getStoreId())) {
+                    ($attribute->isScopeWebsite() && !$hasWebsites) ||
+                    !$hasStoreAccess) {
                     $model->lockAttribute($attribute->getAttributeCode());
                 }
             }
@@ -525,28 +527,31 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             return;
         }
 
-        // no saving under disallowed root categories
+        // No saving to wrong stores
+        if (!$this->_role->hasStoreAccess($model->getStoreIds())) {
+            $this->_throwSave();
+        }
+
+        // No saving under disallowed root categories
         $categoryPath = $model->getPath();
         $allowed = false;
         foreach ($this->_role->getAllowedRootCategories() as $rootPath) {
             if ($categoryPath != $rootPath) {
                 if (0 === strpos($categoryPath, "{$rootPath}/")) {
-                    if ($this->_role->hasExclusiveCategoryAccess($categoryPath)) {
-                        $allowed = true;
-                    }
+                    $allowed = true;
                 }
             } else {
                 if ($this->_role->hasExclusiveCategoryAccess($rootPath)) {
                     $allowed = true;
                 }
             }
+
+            if ($allowed) {
+                break;
+            }
         }
 
         if (!$allowed) {
-            $this->_throwSave();
-        }
-
-        if (!$this->_role->hasStoreAccess($model->getStoreIds())) {
             $this->_throwSave();
         }
     }
