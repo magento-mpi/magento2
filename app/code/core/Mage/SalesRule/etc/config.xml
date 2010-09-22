@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_SalesRule>
-            <version>1.4.0.0.5</version>
+            <version>1.5.0.0</version>
         </Mage_SalesRule>
     </modules>
     <global>
@@ -67,7 +67,9 @@
                     <coupon_aggregated_order>
                         <table>coupon_aggregated_order</table>
                     </coupon_aggregated_order>
-                    <product_attribute><table>salesrule_product_attribute</table></product_attribute>
+                    <product_attribute>
+                        <table>salesrule_product_attribute</table>
+                    </product_attribute>
                 </entities>
             </salesrule_resource>
         </models>

@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Model Resource Rule Customer_Collection
  *
  * @category    Mage
  * @package     Mage_SalesRule
@@ -35,7 +35,7 @@
 class Mage_SalesRule_Model_Resource_Rule_Customer_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Collection constructor
      *
      */
     protected function _construct()

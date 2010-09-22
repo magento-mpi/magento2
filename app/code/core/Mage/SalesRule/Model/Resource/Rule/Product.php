@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Model Resource Rule_Product
  *
  * @category    Mage
  * @package     Mage_SalesRule

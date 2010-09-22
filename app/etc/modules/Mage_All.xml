@@ -376,6 +376,7 @@
                 <Mage_Catalog/>
                 <Mage_CatalogInventory/>
                 <Mage_Sales/>
+                <Mage_SalesRule/>
                 <Mage_Wishlist/>
              </depends>
         </Mage_Rss>
