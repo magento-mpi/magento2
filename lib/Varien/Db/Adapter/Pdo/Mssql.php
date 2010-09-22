@@ -4089,7 +4089,7 @@ public function insertFromSelect(Varien_Db_Select $select, $table, array $fields
         $having = $select->getPart(Zend_Db_Select::HAVING);
         foreach ($having as $havingPart) {
             foreach ($havingPart['values'] as $havingValueIndex => $havingValue) {
-                $sql .= ', ' . $havingValue . ' OVER (PARTITION BY GROUP) AS '
+                $sql .= ', ' . $havingValue . ' OVER (PARTITION BY ' . implode(",\n\t", $groupColumns) . ') AS '
                 . $havingPart['alias'][$havingValueIndex];
             }
         }

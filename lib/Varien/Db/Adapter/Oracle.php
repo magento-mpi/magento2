@@ -3567,7 +3567,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $having = $select->getPart(Zend_Db_Select::HAVING);
         foreach ($having as $havingPart) {
             foreach ($havingPart['values'] as $havingValueIndex => $havingValue) {
-                $sql .= ', ' . $havingValue . ' OVER (PARTITION BY GROUP) AS '
+                $sql .= ', ' . $havingValue . ' OVER (PARTITION BY ' . implode(",\n\t", $groupColumns) . ') AS '
                 . $havingPart['alias'][$havingValueIndex];
             }
         }
