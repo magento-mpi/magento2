@@ -79,7 +79,7 @@
             <active>true</active>
         </Mage_Compiler>
         <Mage_Connect>
-            <active>false</active>
+            <active>true</active>
         </Mage_Connect>
         <Mage_Contacts>
             <active>true</active>
