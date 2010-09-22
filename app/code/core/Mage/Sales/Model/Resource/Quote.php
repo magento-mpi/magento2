@@ -156,7 +156,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
     {
         $selectProductId = $this->_getReadAdapter()->select()
             ->from($this->getTable('catalogrule/rule_product_price'), 'product_id')
-            ->distinct(true);
+            ->distinct();
 
         $selectQuoteId = $this->_getReadAdapter()->select()
             ->from($this->getTable('sales/quote_item'), 'quote_id')
@@ -164,7 +164,8 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
             ->distinct();
 
         $data  = array('trigger_recollect' => 1);
-        $where = array('entity_id IN(?)', $selectQuoteId);
+        $where = array('entity_id IN(?)' => $selectQuoteId);
+
         $this->_getWriteAdapter()->update($this->getTable('sales/quote'), $data, $where);
 
         return $this;
