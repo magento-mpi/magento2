@@ -208,7 +208,13 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 ->collectTotals();
             $billingAddress->collectTotals();
 
-            if ($gRequestMethods = $this->getData('root/calculate/shipping/method')) {
+            $gRequestMethods = $this->getData('root/calculate/shipping/method');
+            if ($gRequestMethods) {
+                // Make stable format of $gRequestMethods for convenient usage
+                if (array_key_exists('VALUE', $gRequestMethods)) {
+                    $gRequestMethods = array($gRequestMethods);
+                }
+
                 $carriers = array();
                 $errors = array();
                 foreach (Mage::getStoreConfig('carriers', $storeId) as $carrierCode=>$carrierConfig) {
@@ -217,8 +223,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                     }
                     $title = $carrierConfig['title'];
                     foreach ($gRequestMethods as $method) {
-                        $methodName = is_array($method) ? $method['name'] : $method;
-                        if ($title && $method && strpos($methodName, $title)===0) {
+                        $methodName = $method['name'];
+                        if ($title && strpos($methodName, $title) === 0) {
                             $carriers[$carrierCode] = $title;
                             $errors[$title] = true;
                         }
@@ -252,7 +258,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 }
 
                 foreach ($gRequestMethods as $method) {
-                    $methodName = is_array($method) ? $method['name'] : $method;
+                    $methodName = $method['name'];
                     $result = new GoogleResult($addressId);
 
                     if (isset($rates[$methodName])) {
