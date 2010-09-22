@@ -202,7 +202,7 @@
             <active>true</active>
         </Mage_Sales>
         <Mage_SalesRule>
-            <active>true</active>
+            <active>false</active>
         </Mage_SalesRule>
         <Mage_Sendfriend>
             <active>true</active>
