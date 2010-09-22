@@ -552,8 +552,8 @@ class Varien_Db_Select extends Zend_Db_Select
      */
     public function magicGroup($spec = array())
     {
+        $this->_parts[self::MAGIC_GROUP] = true;
         if (!empty($spec)) {
-            $this->_parts[self::MAGIC_GROUP] = true;
             return $this->group($spec);
         }
 
