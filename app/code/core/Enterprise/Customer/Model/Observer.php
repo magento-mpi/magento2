@@ -379,6 +379,23 @@ class Enterprise_Customer_Model_Observer
     }
 
     /**
+     * Observer for converting quote address to customer address
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function coreCopyFieldsetQuoteAddressToCustomerAddress(Varien_Event_Observer $observer)
+    {
+        $this->_copyFieldset(
+            $observer,
+            self::CONVERT_ALGORITM_SOURCE_WITHOUT_PREFIX,
+            self::CONVERT_TYPE_CUSTOMER_ADDRESS
+        );
+
+        return $this;
+    }
+
+    /**
      * Observer for converting quote to customer
      *
      * @param Varien_Event_Observer $observer
