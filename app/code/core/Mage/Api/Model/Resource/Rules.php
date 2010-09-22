@@ -65,10 +65,10 @@ class Mage_Api_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
                         $adapter->insert($this->getMainTable(), array(
                             'role_type'     => 'G',
                             'resource_id'   => trim($resName, '/'),
-                            'privileges'    => null,
+                            'api_privileges'    => null,
                             'assert_id'     => 0,
                             'role_id'       => $roleId,
-                            'permission'    => $permission
+                            'api_permission'    => $permission
                             ));
                     }
                     if ($resName == 'all' && $permission == 'allow') {

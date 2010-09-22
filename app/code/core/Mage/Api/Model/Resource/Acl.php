@@ -117,7 +117,7 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
         foreach ($rulesArr as $rule) {
             $role = $rule['role_type'].$rule['role_id'];
             $resource = $rule['resource_id'];
-            $privileges = !empty($rule['privileges']) ? explode(',', $rule['privileges']) : null;
+            $privileges = !empty($rule['api_privileges']) ? explode(',', $rule['api_privileges']) : null;
 
             $assert = null;
             if (0!=$rule['assert_id']) {
@@ -125,9 +125,9 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             try {
-                if ($rule['permission'] == 'allow') {
+                if ($rule['api_permission'] == 'allow') {
                     $acl->allow($role, $resource, $privileges, $assert);
-                } else if ($rule['permission'] == 'deny') {
+                } else if ($rule['api_permission'] == 'deny') {
                     $acl->deny($role, $resource, $privileges, $assert);
                 }
             } catch (Exception $e) {
@@ -141,7 +141,7 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
                 //}
             }
             /*
-            switch ($rule['permission']) {
+            switch ($rule['api_permission']) {
                 case Mage_Api_Model_Acl::RULE_PERM_ALLOW:
                     $acl->allow($role, $resource, $privileges, $assert);
                     break;

@@ -116,7 +116,7 @@ $table = $installer->getConnection()
         ), 'Api role Id')
     ->addColumn('resource_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Module code')
-    ->addColumn('privileges', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
+    ->addColumn('api_privileges', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
         ), 'Privileges')
     ->addColumn('assert_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
@@ -125,7 +125,7 @@ $table = $installer->getConnection()
         ), 'Assert id')
     ->addColumn('role_type', Varien_Db_Ddl_Table::TYPE_TEXT, 1, array(
         ), 'Role type')
-    ->addColumn('permission', Varien_Db_Ddl_Table::TYPE_TEXT, 10, array(
+    ->addColumn('api_permission', Varien_Db_Ddl_Table::TYPE_TEXT, 10, array(
         ), 'Permission')
     ->addIndex($installer->getIdxName('api/rule', array('resource_id', 'role_id')),
         array('resource_id', 'role_id'))
