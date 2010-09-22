@@ -959,7 +959,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         if (is_null($this->_customerForm)) {
             $this->_customerForm = Mage::getModel('customer/form')
-                ->setFormCode('adminhtml_checkout');
+                ->setFormCode('adminhtml_checkout')
+                ->ignoreInvisible(false);
         }
         return $this->_customerForm;
     }
@@ -973,7 +974,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         if (is_null($this->_customerAddressForm)) {
             $this->_customerAddressForm = Mage::getModel('customer/form')
-                ->setFormCode('adminhtml_customer_address');
+                ->setFormCode('adminhtml_customer_address')
+                ->ignoreInvisible(false);
         }
         return $this->_customerAddressForm;
     }

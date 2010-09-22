@@ -142,10 +142,6 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
 
         foreach ($attributes as $attribute) {
             /* @var $attribute Mage_Customer_Model_Attribute */
-            if (!$attribute->getIsVisible()) {
-                continue;
-            }
-
             $inputType = $attribute->getFrontend()->getInputType();
 
             if ($inputType) {
