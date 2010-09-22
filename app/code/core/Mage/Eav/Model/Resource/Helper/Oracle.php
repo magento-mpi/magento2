@@ -32,7 +32,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Abstract
+class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Oracle
 {
     /**
      * Returns expresion for field unification
