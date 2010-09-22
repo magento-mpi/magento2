@@ -73,7 +73,7 @@
             <active>false</active>
         </Mage_Chronopay>
         <Mage_Cms>
-            <active>false</active>
+            <active>true</active>
         </Mage_Cms>
         <Mage_Compiler>
             <active>true</active>
@@ -166,7 +166,7 @@
             <active>false</active>
         </Mage_Paygate>
         <Mage_Payment>
-            <active>false</active>
+            <active>true</active>
         </Mage_Payment>
         <Mage_Paypal>
             <active>false</active>
@@ -193,16 +193,16 @@
             <active>true</active>
         </Mage_Review>
         <Mage_Rss>
-            <active>false</active>
+            <active>true</active>
         </Mage_Rss>
         <Mage_Rule>
             <active>true</active>
         </Mage_Rule>
         <Mage_Sales>
-            <active>false</active>
+            <active>true</active>
         </Mage_Sales>
         <Mage_SalesRule>
-            <active>false</active>
+            <active>true</active>
         </Mage_SalesRule>
         <Mage_Sendfriend>
             <active>true</active>
