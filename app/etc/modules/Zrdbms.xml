@@ -145,7 +145,7 @@
             <active>true</active>
         </Mage_Log>
         <Mage_Media>
-            <active>false</active>
+            <active>true</active>
         </Mage_Media>
         <Mage_Newsletter>
             <active>true</active>
