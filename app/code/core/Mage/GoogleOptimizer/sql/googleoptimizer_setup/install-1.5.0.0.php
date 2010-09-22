@@ -50,7 +50,7 @@ $table = $installer->getConnection()
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
-        ), 'Optimized entity id - product id, catalog id')
+        ), 'Optimized entity id product id or catalog id')
     ->addColumn('entity_type', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         ), 'Optimized entity type')
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
