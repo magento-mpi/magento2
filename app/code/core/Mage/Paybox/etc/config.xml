@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Paybox>
-            <version>0.1.3</version>
+            <version>1.5.0.0</version>
         </Mage_Paybox>
     </modules>
     <global>

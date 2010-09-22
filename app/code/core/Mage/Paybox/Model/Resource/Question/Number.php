@@ -35,8 +35,8 @@
 class Mage_Paybox_Model_Resource_Question_Number extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Resource initialization.
+     * Set main entity table name and primary key field name.
      */
     protected function _construct()
     {

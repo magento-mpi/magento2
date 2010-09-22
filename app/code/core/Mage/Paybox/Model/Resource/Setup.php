@@ -26,7 +26,7 @@
 
 
 /**
- * Paybox Setup Mysql4 resourcre model
+ * Paybox Setup resource model
  *
  * @category    Mage
  * @package     Mage_Paybox

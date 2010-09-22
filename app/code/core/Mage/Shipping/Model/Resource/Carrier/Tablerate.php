@@ -111,20 +111,20 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
      * Return table rate array or false by rate request
      *
      * @param Mage_Shipping_Model_Rate_Request $request
-     * @return array|false
+     * @return array
      */
     public function getRate(Mage_Shipping_Model_Rate_Request $request)
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array(
             ':website_id'   => (int)$request->getWebsiteId(),
-            ':country_id'   => $request->getDestCountryId(),
-            ':region_id'    => $request->getDestRegionId(),
+            ':country_id'   => (int)$request->getDestCountryId(),
+            ':region_id'    => (int)$request->getDestRegionId(),
             ':postcode'     => $request->getDestPostcode()
         );
         $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('website_id=:website_id')
+            ->where('website_id = :website_id')
             ->order(array('dest_country_id DESC', 'dest_region_id DESC', 'dest_zip DESC'))
             ->limit(1);
 
@@ -148,7 +148,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
                 $orWhere[] = "(condition_name = {$bindNameKey} AND condition_value <= {$bindValueKey})";
                 $bind[$bindNameKey]  = $conditionName;
                 $bind[$bindValueKey] = $request->getData($conditionName);
-                $i ++;
+                $i++;
             }
 
             if ($orWhere) {

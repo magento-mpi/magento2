@@ -25,7 +25,7 @@
  */
 
 
-/* @var $installer Mage_GiftMessage_Model_Resource_Setup */
+/** @var $installer Mage_GiftMessage_Model_Resource_Setup */
 
 $installer = $this;
 
@@ -64,7 +64,7 @@ $installer->addAttribute('quote',        'gift_message_id', array('type' => 'int
     ->addAttribute('order',              'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('order_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('order_item',         'gift_message_available', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('catalog_product',    'gift_message_available', array(
+    ->addAttribute(Mage_Catalog_Model_Product::ENTITY,    'gift_message_available', array(
         'backend'       => 'giftmessage/entity_attribute_backend_boolean_config',
         'frontend'      => '',
         'label'         => 'Allow Gift Message',
@@ -79,7 +79,7 @@ $installer->addAttribute('quote',        'gift_message_id', array('type' => 'int
         'is_configurable'  => 0,
         'visible_on_front' => false
     ))
-    ->removeAttribute('catalog_product', 'gift_message_aviable')
+    ->removeAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_message_aviable')
     ->setConfigData('sales/gift_messages/allow', 1);
 
 $installer->endSetup();
