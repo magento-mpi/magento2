@@ -65,7 +65,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
                     }
                 }
 
-                if (count($items)<$this->_maxItemCount) {
+                if (count($items) < $this->_maxItemCount) {
                     $collection = $this->_getCollection()
                         ->addProductFilter($this->_getCartProductIds())
                         ->addExcludeProductFilter($ninProductIds)
@@ -77,6 +77,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
                         $items[] = $item;
                     }
                 }
+                
             }
 
             $this->setData('items', $items);

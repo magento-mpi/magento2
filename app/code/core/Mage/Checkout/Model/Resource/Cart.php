@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Resource model for Checkout Cart
  *
  * @category    Mage
  * @package     Mage_Checkout
@@ -35,7 +35,7 @@
 class Mage_Checkout_Model_Resource_Cart extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -44,44 +44,10 @@ class Mage_Checkout_Model_Resource_Cart extends Mage_Core_Model_Resource_Db_Abst
     }
 
     /**
-     * Enter description here ...
+     * Fetch items summary
      *
-     * @param unknown_type $cart
-     * @return unknown
-     */
-    public function getItemsQty($cart)
-    {
-        return $this->fetchItemsSummaryQty($cart->getQuote()->getId());
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param unknown_type $quoteId
-     * @return unknown
-     */
-    public function fetchItemsSummaryQty($quoteId)
-    {
-        $entityType = Mage::getSingleton('eav/config')->getEntityType('quote_item');
-        $attribute  = Mage::getSingleton('eav/config')->getAttribute($entityType->getEntityTypeId(), 'qty');
-
-        $qtyAttributeTable = $this->getMainTable().'_'.$attribute->getBackendType();
-        $read = $this->_getReadAdapter();
-        $select = $read->select()
-            ->from(array('qty'=>$qtyAttributeTable), 'sum(qty.value)')
-            ->join(array('e'=>$this->getMainTable()), 'e.entity_id=qty.entity_id', array())
-            ->where('e.parent_id=?', $quoteId)
-            ->where('qty.entity_type_id=?', $entityType->getEntityTypeId())
-            ->where('qty.attribute_id=?', $attribute->getAttributeId());
-        $qty = $read->fetchOne($select);
-        return $qty;
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param unknown_type $quoteId
-     * @return unknown
+     * @param int $quoteId
+     * @return array
      */
     public function fetchItemsSummary($quoteId)
     {
@@ -95,16 +61,17 @@ class Mage_Checkout_Model_Resource_Cart extends Mage_Core_Model_Resource_Db_Abst
     }
 
     /**
-     * Enter description here ...
+     * Fetch items
      *
-     * @param unknown_type $quoteId
-     * @return unknown
+     * @param int $quoteId
+     * @return array
      */
     public function fetchItems($quoteId)
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from(array('qi'=>$this->getTable('sales/quote_item')), array('id'=>'item_id', 'product_id', 'super_product_id', 'qty', 'created_at'))
+            ->from(array('qi'=>$this->getTable('sales/quote_item')), 
+                array('id'=>'item_id', 'product_id', 'super_product_id', 'qty', 'created_at'))
             ->where('qi.quote_id=?', $quoteId);
 
         return $read->fetchAll($select);
@@ -115,12 +82,16 @@ class Mage_Checkout_Model_Resource_Cart extends Mage_Core_Model_Resource_Db_Abst
      *
      * @param Mage_Catalog_Model_Resource_Product_Collection $collection
      * @param int $quoteId
+     * @return Mage_Checkout_Model_Resource_Cart
      */
     public function addExcludeProductFilter($collection, $quoteId)
     {
-        $collection->getSelect()->where(new Zend_Db_Expr(sprintf(
-            'e.entity_id NOT IN (SELECT product_id FROM %s WHERE quote_id=%d)',
-            $this->getTable('sales/quote_item'), $quoteId
-        )));
+        $adapter = $this->_getReadAdapter();
+        $exclusionSelect = $adapter->select()
+            ->from($this->getTable('sales/quote_item'), array('product_id'))
+            ->where('quote_id = ?', $quoteId);
+        $condition = $adapter->prepareSqlCondition('e.entity_id', array('nin' => $exclusionSelect));
+        $collection->getSelect()->where($condition);
+        return $this
     }
 }

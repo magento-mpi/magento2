@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Resource Model for Checkout Agreement
  *
  * @category    Mage
  * @package     Mage_Checkout
@@ -35,7 +35,7 @@
 class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -44,10 +44,10 @@ class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
+     * Method to run before save
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
@@ -64,10 +64,10 @@ class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
+     * Method to run after save
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
@@ -85,10 +85,10 @@ class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
+     * Method to run after load
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
@@ -108,20 +108,21 @@ class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
+     * Get load select
      *
-     * @param unknown_type $field
-     * @param unknown_type $value
-     * @param unknown_type $object
-     * @return unknown
+     * @param string $field
+     * @param value $value
+     * @param Varien_Object $object
+     * @return Varien_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-
         if ($object->getStoreId()) {
-            $select->join(array('cps' => $this->getTable('checkout/agreement_store')), $this->getMainTable().'.agreement_id = `cps`.agreement_id')
-                    ->where('is_active=1 AND `cps`.store_id in (0, ?) ', $object->getStoreId())
+            $select->join(array('cps' => $this->getTable('checkout/agreement_store')), 
+                $this->getMainTable() . '.agreement_id = cps.agreement_id')
+                    ->where('is_active=1')
+                    ->where('cps.store_id IN (0, ?)', $object->getStoreId())
                     ->order('store_id DESC')
                     ->limit(1);
         }

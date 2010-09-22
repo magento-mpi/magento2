@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Resource Model for Agreement Collection
  *
  * @category    Mage
  * @package     Mage_Checkout
@@ -35,7 +35,7 @@
 class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Is store filter with admin store
      *
      * @var bool
      */
@@ -61,22 +61,28 @@ class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_
         // check and prepare data
         if ($store instanceof Mage_Core_Model_Store) {
             $store = array($store->getId());
-        }elseif(is_numeric($store)){
+        } else if(is_numeric($store)){
             $store = array($store);
         }
+        
         $alias = 'store_table_' . implode('_', $store);
         if ($this->getFlag($alias)) {
             return $this;
         }
+
         $read = $this->getConnection();
+        $storeFilter = array($store);
+        if ($this->_isStoreFilterWithAdmin) {
+            $storeFilter[] = 0;
+        }
 
         // add filter
         $this->getSelect()->join(
             array($alias => $this->getTable('checkout/agreement_store')),
-            'main_table.agreement_id = '.$alias.'.agreement_id',
+            'main_table.agreement_id = ' . $alias . '.agreement_id',
             array()
         )
-        ->where($alias . '.store_id in (?)', ($this->_isStoreFilterWithAdmin ? array(0, $store) : $store))
+        ->where($alias . '.store_id IN (?)', $storeFilter)
         ->group('main_table.agreement_id');
 
         $this->setFlag($alias, true);
