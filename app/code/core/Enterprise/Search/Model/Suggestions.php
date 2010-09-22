@@ -40,16 +40,8 @@ class Enterprise_Search_Model_Suggestions
      */
     public function getSearchSuggestions()
     {
-        $helper = Mage::helper('enterprise_search');
-        if ($helper->isThirdPartSearchEngine()) {
-            $searchSuggestionsEnabled = $helper->getSolrConfigData('server_suggestion_enabled');
-            if ($searchSuggestionsEnabled) {
-                return Mage::getSingleton('enterprise_search/search_layer')
-                        ->getProductCollection()
-                        ->getSuggestionsData();
-            }
-        }
-
-        return array();
+        return Mage::getSingleton('enterprise_search/search_layer')
+            ->getProductCollection()
+            ->getSuggestionsData();
     }
 }

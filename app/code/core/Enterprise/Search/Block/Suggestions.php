@@ -47,12 +47,13 @@ class Enterprise_Search_Block_Suggestions extends Mage_Core_Block_Template
             return array();
         }
 
-        $suggestionsModel = Mage::getModel('enterprise_search/suggestions');
+        $suggestionsModel = Mage::getSingleton('enterprise_search/suggestions');
         $suggestions = $suggestionsModel->getSearchSuggestions();
 
         foreach ($suggestions as $key => $suggestion) {
             $suggestions[$key]['link'] = $this->getUrl('*/*/') . '?q=' . urlencode($suggestion['word']);
         }
+
         return $suggestions;
     }
 
