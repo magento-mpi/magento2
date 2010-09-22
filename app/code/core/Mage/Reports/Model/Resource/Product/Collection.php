@@ -354,25 +354,30 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $joinCondition = $this->getConnection()->quoteInto(
             'e.entity_id = table_views.object_id AND e.entity_type_id = ?', $this->getProductEntityTypeId()
         );
-        $this->getSelect()->reset()
-            ->from(
-                array('table_views' => $this->getTable('reports/event')),
-                array('views' => 'COUNT(table_views.event_id)'))
-            ->join(
-                array('e' => $this->getProductEntityTableName()),
-                $joinCondition)
-            ->where('table_views.event_type_id = ?', $productViewEvent)
-            ->magicGroup('e.entity_id')
-            ->order('views ' . self::SORT_ORDER_DESC)
-            ->having('%s > 0', 'views');
 
-//            ->having('views > ?', 0);
-//var_dump($this->getSelect()->__toString());
+        $innerSelect = $this->getConnection()->select()
+            ->from(array('t_v' => $this->getTable('reports/event')),
+                array('views' => 'COUNT(t_v.event_id)', 'object_id', 'logged_at'))
+            ->where('t_v.event_type_id = ?', $productViewEvent)
+            ->group(array('t_v.object_Id', 't_v.logged_at'))
+            ->having('%s > 0', 'COUNT(t_v.event_id)');
+
         if ($from != '' && $to != '') {
-            $this->getSelect()
+            $innerSelect
                 ->where('logged_at >= ?', $from)
                 ->where('logged_at <= ?', $to);
         }
+
+        $this->getSelect()
+            ->join(
+                array('table_views' => $innerSelect),
+                $joinCondition,
+                array()
+            )
+            ->order('views ' . self::SORT_ORDER_DESC);
+//            ->having('views > ?', 0);
+//var_dump($this->getSelect()->__toString());
+
 
         return $this;
     }
