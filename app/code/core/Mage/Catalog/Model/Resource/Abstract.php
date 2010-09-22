@@ -143,8 +143,9 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
         $attribute = $this->getAttribute($valueRow['attribute_id']);
         if ($attribute) {
             $attributeCode = $attribute->getAttributeCode();
+            $isDefaultStore = $valueRow['store_id'] == $this->getDefaultStoreId();
             if (isset($this->_attributes[$valueRow['attribute_id']])) {
-                if ($valueRow['store_id'] == $this->getDefaultStoreId()) {
+                if ($isDefaultStore) {
                     $object->setAttributeDefaultValue($attributeCode, $valueRow['value']);
                 } else {
                     $object->setAttributeDefaultValue(
@@ -160,6 +161,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
             $valueId = $valueRow['value_id'];
 
             $object->setData($attributeCode, $value);
+            $object->setAttributeDefaultFlag($attributeCode, $isDefaultStore);
             $attribute->getBackend()->setValueId($valueId);
         }
 

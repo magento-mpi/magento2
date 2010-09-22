@@ -96,8 +96,13 @@ class Mage_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element extends Mage_A
      */
     public function usedDefault()
     {
-        $defaultValue = $this->getDataObject()->getAttributeDefaultValue($this->getAttribute()->getAttributeCode());
-        if (!$defaultValue && !$this->getAttribute()->getIsRequired() && $this->getElement()->getValue()) {
+        $attributeCode = $this->getAttribute()->getAttributeCode();
+        $defaultValue = $this->getDataObject()->getAttributeDefaultValue($attributeCode);
+
+        if ($this->getDataObject()->isUsedAttributeDefaultValue($attributeCode)) {
+            return true;
+        }
+        if ($defaultValue === false && !$this->getAttribute()->getIsRequired() && $this->getElement()->getValue()) {
             return false;
         }
         return $defaultValue === false;
