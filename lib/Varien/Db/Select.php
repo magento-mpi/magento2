@@ -508,8 +508,6 @@ class Varien_Db_Select extends Zend_Db_Select
                 } else {
                     $preparedHaving[] = $havingPart;
                 }
-
-                print_r($preparedHaving);
             };
 
             $this->_parts[self::HAVING] = $preparedHaving;
