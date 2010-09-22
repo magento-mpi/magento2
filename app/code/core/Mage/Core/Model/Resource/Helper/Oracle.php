@@ -33,5 +33,14 @@
  */
 class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Abstract
 {
-
+    /**
+     * Returns analytic expression for database column
+     *
+     * @param string $columnType
+     * @return string
+     */
+    public function getAnalyticColumn($column, $group)
+    {
+        return new Zend_Db_Expr($column . ' OVER ( PARTITION BY ' . implode(', ', $group) . ')');
+    }
 }
