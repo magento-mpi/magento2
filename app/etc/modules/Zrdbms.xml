@@ -76,7 +76,7 @@
             <active>false</active>
         </Mage_Cms>
         <Mage_Compiler>
-            <active>false</active>
+            <active>true</active>
         </Mage_Compiler>
         <Mage_Connect>
             <active>false</active>
