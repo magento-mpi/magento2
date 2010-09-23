@@ -79,7 +79,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
             $fax        = $xmlModel->xmlentities(strip_tags($address->getFax()));
         }
         else {
-            $firstname = $lastname = $company = $street1 = $street2 = '';
+            $firstname = $lastname = $company = $email = $street1 = $street2 = '';
             $city = $region = $postcode = $telephone = $fax = '';
             $countryId = $regionId = null;
         }

@@ -61,7 +61,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $item->addChild('name', $item->xmlentities(strip_tags($product->getName())));
             $item->addChild('entity_type', $product->getTypeId());
             $item->addChild('short_description', $item->xmlentities(strip_tags($product->getShortDescription())));
-            $item->addChild('description', $item->xmlentities(strip_tags($product->getDescription())));
+            $item->addChild('description', Mage::helper('xmlconnect')->htmlize($item->xmlentities($product->getDescription())));
 
             $icon = clone Mage::helper('catalog/image')->init($product, 'image')
                 ->resize($itemNodeName == 'item' ? self::PRODUCT_IMAGE_SMALL_RESIZE_PARAM : self::PRODUCT_IMAGE_BIG_RESIZE_PARAM);

@@ -229,4 +229,22 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $target;
     }
+
+    /**
+     * Wrap $body with HTML4 headers
+     *
+     * @param string $text
+     * @return string
+     */
+    public function htmlize($body)
+    {
+        return <<<EOT
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;style.css&quot; media=&quot;screen&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;$body&lt;/body&gt;&lt;/html&gt;
+EOT;
+    }
 }
