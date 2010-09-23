@@ -10,6 +10,7 @@
     <catalog>
         <attributes>
             <manage_attibute_set>//div[@class="nav-bar"]//a[span="Manage Attribute Sets"]</manage_attibute_set>
+            <manage_attibutes>//li[a/span="Attributes"]//li[a/span="Manage Attributes"]/a</manage_attibutes>
         </attributes>
         <categories>
             <managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
