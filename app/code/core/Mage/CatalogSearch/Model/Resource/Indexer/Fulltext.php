@@ -32,7 +32,29 @@
  * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Mysql4_Indexer_Fulltext extends Mage_CatalogSearch_Model_Resource_Indexer_Fulltext
+class Mage_CatalogSearch_Model_Resource_Indexer_Fulltext extends Mage_Core_Model_Mysql4_Abstract
 {
-    
+    /**
+     * Initialize connection and define catalog product table as main table
+     */
+    protected function _construct()
+    {
+        $this->_init('catalogsearch/fulltext', 'product_id');
+    }
+
+    /**
+     * Retrieve product relations by children
+     *
+     * @param int|array $childIds
+     * @return array
+     */
+    public function getRelationsByChild($childIds)
+    {
+        $write = $this->_getWriteAdapter();
+        $select = $write->select()
+            ->from($this->getTable('catalog/product_relation'), 'parent_id')
+            ->where('child_id IN(?)', $childIds);
+
+        return $write->fetchCol($select);
+    }
 }
