@@ -135,6 +135,59 @@
                     <delete_set>//button[span="Delete Attribute Set"]</delete_set>
                 </buttons>
             </edit_atrribute_set>
+            <manage_attributes>
+                <attribute>
+                    <selectors>
+                        <attrribute_type>frontend_input</attrribute_type>
+                        <scope>is_global</scope>
+                        <unique_value>is_unique</unique_value>
+                        <values_required>is_required</values_required>
+                        <input_validation>frontend_class</input_validation>
+                        <apply_to>//select[@onchange='toggleApplyVisibility(this)']</apply_to>
+                        <use_to_create_configurable >is_configurable</use_to_create_configurable>
+                        <use_in_quick_search>is_searchable</use_in_quick_search>
+                        <use_in_advanced_search>is_visible_in_advanced_search</use_in_advanced_search>
+                        <comparable>is_comparable</comparable>
+                        <use_in_layered_navigation>is_filterable</use_in_layered_navigation>
+                        <use_in_search_results>is_filterable_in_search</use_in_search_results>
+                        <use_for_promo_rules>is_used_for_promo_rules</use_for_promo_rules>
+                        <wysiwyg_enable>is_wysiwyg_enabled</wysiwyg_enable>
+                        <html_allowed_on_front>is_html_allowed_on_front</html_allowed_on_front>
+                        <visible_on_front>is_visible_on_front</visible_on_front>
+                        <use_in_product_listing>used_in_product_listing</use_in_product_listing>
+                        <use_for_sort_by>used_for_sort_by</use_for_sort_by>
+                        <default_value_yesno>default_value_yesno</default_value_yesno>
+                    </selectors>
+                    <inputs>
+                        <attrribute_code>attribute_code</attrribute_code>
+                        <default_value>default_value_text</default_value>
+                        <position>position</position>
+                        <default_value_date>default_value_date</default_value_date>
+                        <default_value_textarea>default_value_textarea</default_value_textarea>
+                        <default_value_text>default_value_text</default_value_text>
+                        <attribute_admin_title>frontend_label[0]</attribute_admin_title>
+                        <attribute_store_view_title>frontend_label[%s]</attribute_store_view_title>
+                        <attribute_admin_option_name>option[value][option_%s][0]</attribute_admin_option_name>
+                        <attribute_store_view_option_name>option[value][option_%s][%s]</attribute_store_view_option_name>
+                        <attribute_admin_option_position>option[order][option_%s]</attribute_admin_option_position>
+                    </inputs>
+                    <buttons>
+                        <save_attribute>//button[span="Save Attribute"]</save_attribute>
+                        <add_new_option>add_new_option_button</add_new_option>
+                    </buttons>
+                    <tabs>
+                        <properties>//a[@id='product_attribute_tabs_main']/span</properties>
+                        <manage_label>//a[@id='product_attribute_tabs_labels']/span</manage_label>
+                    </tabs>
+                    <elements>
+                        <store_view_name_for_title>//table[@id='attribute-labels-table']//th</store_view_name_for_title>
+                        <store_view_name_for_title_many>//table[@id='attribute-labels-table']//th[%s]</store_view_name_for_title_many>
+                    </elements>
+                </attribute>
+                <buttons>
+                    <add_attribute>//button[span="Add New Attribute"]</add_attribute>
+                </buttons>
+            </manage_attributes>
         </attributes>
         <categories>
             <managecategories>
@@ -183,6 +236,15 @@
                 </inputs>
                                         <!-- related pages-->
                 <product>
+                    <elements>
+                        <bundel_items_filtered_product>//*[@id='bundle_selection_search_grid_%s_table']//td[contains(text(),'%s')]</bundel_items_filtered_product>
+                        <bundel_items_mark_filtered_product>//*[@id='bundle_selection_search_grid_%s_table']//td[contains(text(),'%s')]/ancestor::tr//input[@type='checkbox']</bundel_items_mark_filtered_product>
+                        <filtered_product>//td[contains(text(),'%s')]</filtered_product>
+                        <mark_filtered_product>//td[contains(text(),'%s')]/ancestor::tr//input[@type='checkbox']</mark_filtered_product>
+                        <grouped_items_search_table>//div[@id='super_product_grid']</grouped_items_search_table>
+                        <configurable_items_search_table>//div[@id='super_product_links']</configurable_items_search_table>
+                        <bundle_items_search_table>//*[@id='bundle_selection_search_grid_%s_table']</bundle_items_search_table>
+                    </elements>
                     <inputs>
                         <name>name</name>
                         <description>description</description>
@@ -232,11 +294,14 @@
                         <downloadable_link_url_type>downloadable_link_%s_url_type</downloadable_link_url_type>
                         <downloadable_link_url>downloadable[link][%s][link_url]</downloadable_link_url>
                         <downloadable_link_sort_order>downloadable[link][%s][sort_order]</downloadable_link_sort_order>
-                        <downloadable_samples_title>downloadable_samples_title</downloadable_samples_title>
+                        <downloadable_samples_title>product[samples_title]</downloadable_samples_title>
                         <downloadable_sample_title>downloadable[sample][%s][title]</downloadable_sample_title>
                         <downloadable_sample_url_type>downloadable_sample_%s_url_type</downloadable_sample_url_type>
                         <downloadable_sample_url>downloadable[sample][%s][sample_url]</downloadable_sample_url>
                         <downloadable_sample_sort_order>downloadable[sample][%s][sort_order]</downloadable_sample_sort_order>
+                        <bundle_options_title>id_bundle_options_%s_title</bundle_options_title>
+                        <bundle_options_position>bundle_options[%s][position]</bundle_options_position>
+                        <filter_sku>filter_sku</filter_sku>
                     </inputs>
                     <selectors>
                         <attribute_set>attribute_set_id</attribute_set>
@@ -262,6 +327,9 @@
                         <giftcard_email_template>giftcard_email_template</giftcard_email_template>
                         <downloadable_link_purchase_type>downloadable_link_purchase_type</downloadable_link_purchase_type>
                         <downloadable_link_shareable>downloadable_link _%s_shareable</downloadable_link_shareable>
+                        <bundle_shipment_type>shipment_type</bundle_shipment_type>
+                        <bundle_options_type>bundle_option_%s_type</bundle_options_type>
+                        <bundle_options_required>bundle_option_%s_required</bundle_options_required>
                     </selectors>
                     <tabs>
                         <price>link=Prices</price>
@@ -270,6 +338,8 @@
                         <categories>//*[@id='product_info_tabs_categories']/span</categories>
                         <gift_card_information>link=Gift Card Information</gift_card_information>
                         <downloadable_information>link=Downloadable Information</downloadable_information>
+                        <bundle_items>link=Bundle Items</bundle_items>
+                        <associated_products>link=Associated Products</associated_products>
                     </tabs>
                     <buttons>
                         <save>//button[span="Save"]</save>
@@ -278,6 +348,12 @@
                         <add_amount>//button[span="Add Amount"]</add_amount>
                         <add_link_item>add_link_item</add_link_item>
                         <add_sample_item>add_sample_item</add_sample_item>
+                        <add_new_bundle_option>add_new_option</add_new_bundle_option>
+                        <bundle_option_add_product>bundle_option_%s_add_button</bundle_option_add_product>
+                        <bundle_option_add_product_confirm>add_button_%s</bundle_option_add_product_confirm>
+                        <bundle_items_search>//*[@id='bundle_option_search_%s']//button[contains(span,'Search')]</bundle_items_search>
+                        <search>//button[contains(span,'Search')]</search>
+                        <create_new_attribute>//button[contains(span,'Create New Attribute')]</create_new_attribute>
                     </buttons>
                     <messages>
                         <productsaved>//div[@id="messages"]//li[@class="success-msg"]</productsaved>
