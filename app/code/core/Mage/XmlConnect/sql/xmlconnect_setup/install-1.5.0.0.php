@@ -97,7 +97,7 @@ $table = $installer->getConnection()
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Store Id')
-    ->addColumn('params', Varien_Db_Ddl_Table::TYPE_BLOB, '64K', array(
+    ->addColumn('params', Varien_Db_Ddl_Table::TYPE_TEXT, '64K', array(
         ), 'Params')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 200, array(
         ), 'Title')
