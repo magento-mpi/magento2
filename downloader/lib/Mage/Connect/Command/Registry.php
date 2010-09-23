@@ -135,6 +135,8 @@ extends Mage_Connect_Command
         $this->cleanupParams($params);
         //$this->splitPackageArgs($params);
 
+        $cache = null;
+        $ftp = empty($options['ftp']) ? false : $options['ftp'];
         try {
             $channel = false;
             if(count($params) < 2) {
@@ -143,7 +145,6 @@ extends Mage_Connect_Command
             $channel = $params[0];
             $package = $params[1];
             $packager = $this->getPackager();
-            $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
                 list($cache, $ftpObj) = $packager->getRemoteCache($ftp);
             } else {
@@ -166,7 +167,7 @@ extends Mage_Connect_Command
             }
             $this->ui()->output($data);
         } catch (Exception $e) {
-            if($ftp) {
+            if ($ftp && isset($cache)) {
                 @unlink($cache->getFilename());
             }
             $this->doError($command, $e->getMessage());

@@ -42,7 +42,7 @@ class Maged_Model_Config extends Maged_Model_Config_Abstract
     {
         $this->load();
         $channel = trim($this->get('root_channel'));
-        if(!empty($channel)){
+        if (!empty($channel)) {
             try {
                 return $this->controller()->model('config_'.$channel, true);
             } catch (Exception $e) {

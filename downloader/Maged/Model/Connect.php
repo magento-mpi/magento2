@@ -272,9 +272,14 @@ class Maged_Model_Connect extends Maged_Model
                         break;
 
                     case 'reinstall':
+                        $package_info = $this->connect()->getSingleConfig()->getPackage($package[0], $package[1]);
+                        if (isset($package_info['version'])) {
+                            $package[2] = $package_info['version'];
+                            $package[3] = $package_info['version'];
+                        }
                         $this->connect()->runHtmlConsole(array(
                             'command'=>'install',
-                            'options'=>array_merge($options,array('force'=>1)),
+                            'options'=>array_merge($options, array('force'=>1, 'nodeps'=>1)),
                             'params'=>$package
                         ));
                         break;
