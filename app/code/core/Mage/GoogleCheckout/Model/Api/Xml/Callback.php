@@ -26,6 +26,8 @@
 
 class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Model_Api_Xml_Abstract
 {
+    protected $_cachedShippingInfo = array(); // Cache of possible shipping carrier-methods combinations per storeId
+
     /**
      * Process notification from google
      * @return Mage_GoogleCheckout_Model_Api_Xml_Callback
@@ -449,7 +451,58 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
     }
 
     /**
-     * Return shipping method code by shipping method name sent to GC
+     * Returns array of possible shipping methods combinations
+     * Includes internal GoogleCheckout shipping methods, that can be created
+     * after successful Google Checkout
+     *
+     * @return array
+     */
+    protected function _getShippingInfos($storeId = null)
+    {
+        $cacheKey = ($storeId === null) ? 'nofilter' : $storeId;
+        if (!isset($this->_cachedShippingInfo[$cacheKey])) {
+            /* @var $shipping Mage_Shipping_Model_Shipping */
+            $shipping = Mage::getModel('shipping/shipping');
+            $carriers = Mage::getStoreConfig('carriers', $storeId);
+            $infos = array();
+
+            foreach (array_keys($carriers) as $carrierCode) {
+                $carrier = $shipping->getCarrierByCode($carrierCode);
+                if (!$carrier) {
+                    continue;
+                }
+
+                if ($carrierCode == 'googlecheckout') {
+                    // Add info about internal google checkout methods
+                    $methods = array_merge($carrier->getAllowedMethods(), $carrier->getInternallyAllowedMethods());
+                    $carrierName = 'Google Checkout';
+                } else {
+                    $methods = $carrier->getAllowedMethods();
+                    $carrierName = Mage::getStoreConfig('carriers/' . $carrierCode . '/title', $storeId);
+                }
+
+                foreach ($methods as $methodCode => $methodName) {
+                    $code = $carrierCode . '_' . $methodCode;
+                    $name = sprintf('%s - %s', $carrierName, $methodName);
+                    $infos[$code] = array(
+                        'code' => $code,
+                        'name' => $name, // Internal name for google checkout api - to distinguish it in google requests
+                        'carrier' => $carrierCode,
+                        'carrier_title' => $carrierName,
+                        'method' => $methodCode,
+                        'method_title' => $methodName,
+                        'method_description' => '' // FIXME - set description
+                    );
+                }
+            }
+            $this->_cachedShippingInfo[$cacheKey] = $infos;
+        }
+
+        return $this->_cachedShippingInfo[$cacheKey];
+    }
+
+    /**
+     * Return shipping method code by shipping method name received from Google
      *
      * @param string $name
      * @param int|string|Mage_Core_Model_Store $storeId
@@ -457,23 +510,41 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
      */
     protected function _getShippingMethodByName($name, $storeId = null)
     {
-        $methodNames = array();
-        foreach (array_keys(Mage::getStoreConfig('carriers', $storeId)) as $carrierCode) {
-            $carrier = Mage::getModel('shipping/shipping')->getCarrierByCode($carrierCode);
-            if ($carrier) {
-                foreach ($carrier->getAllowedMethods() as $methodCode => $methodName) {
-                    $carrierName = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $storeId);
-                    $methodName  = sprintf('%s - %s', $carrierName, $methodName);
-                    $methodNames[$methodName] = implode('_', array($carrierCode, $methodCode));
-                }
+        $code = false;
+        $infos = $this->_getShippingInfos($storeId);
+        foreach ($infos as $info) {
+            if ($info['name'] == $name) {
+                $code = $info['code'];
+                break;
             }
         }
+        return $code;
+    }
 
-        if (isset($methodNames[$name])) {
-            return $methodNames[$name];
+    /**
+     * Creates rate by method code
+     * Sets shipping rate's accurate description, titles and so on,
+     * so it will get in order description properly
+     *
+     * @param string $code
+     * @return Mage_Sales_Model_Quote_Address_Rate
+     */
+    protected function _createShippingRate($code, $storeId = null)
+    {
+        $rate = Mage::getModel('sales/quote_address_rate')
+            ->setCode($code);
+
+        $infos = $this->_getShippingInfos($storeId);
+        if (isset($infos[$code])) {
+            $info = $infos[$code];
+            $rate->setCarrier($info['carrier'])
+                ->setCarrierTitle($info['carrier_title'])
+                ->setMethod($info['method'])
+                ->setMethodTitle($info['method_title'])
+                ->setMethodDescription($info['method_description']);
         }
 
-        return false;
+        return $rate;
     }
 
     /**
@@ -489,6 +560,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         );
         $qAddress->setBaseTaxAmount($this->getData('root/order-adjustment/total-tax/VALUE'));
 
+        $method = null;
         $prefix = 'root/order-adjustment/shipping/';
         if (null !== ($shipping = $this->getData($prefix.'carrier-calculated-shipping-adjustment'))) {
             $method = 'googlecheckout_carrier';
@@ -503,10 +575,9 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $method = 'googlecheckout_pickup';
         }
 
-        if (!empty($method)) {
+        if ($method) {
             Mage::getSingleton('tax/config')->setShippingPriceIncludeTax(false);
-            $rate = Mage::getModel('sales/quote_address_rate')
-                ->setCode($method)
+            $rate = $this->_createShippingRate($method)
                 ->setPrice($shipping['shipping-cost']['VALUE']);
             $qAddress->addShippingRate($rate)
                 ->setShippingMethod($method)
