@@ -213,10 +213,12 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
     public function useManageStockFilter($storeId = null)
     {
         $this->joinInventoryItem();
-        $this->getSelect()->where(sprintf('IF(%s,%d,%s)=1',
-            $this->_getInventoryItemField('use_config_manage_stock'),
+        $manageStockExpr = $this->getConnection()->getCheckSql(
+            $this->_getInventoryItemField('use_config_manage_stock') . ' IS NULL',
             (int) Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK,$storeId),
-            $this->_getInventoryItemIdField('manage_stock')));
+            $this->_getInventoryItemIdField('manage_stock')
+        );
+        $this->getSelect()->where($manageStockExpr . ' = ?', 1);
         return $this;
     }
 
@@ -229,10 +231,12 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
     public function useNotifyStockQtyFilter($storeId = null)
     {
         $this->joinInventoryItem(array('qty'));
-        $this->getSelect()->where(sprintf('qty < IF(%s,%d,%s)',
-            $this->_getInventoryItemField('use_config_notify_stock_qty'),
+        $notifyStockExpr = $this->getConnection()->getCheckSql(
+            $this->_getInventoryItemField('use_config_notify_stock_qty') . ' IS NULL',
             (int)Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY,$storeId),
-            $this->_getInventoryItemField('notify_stock_qty')));
+            $this->_getInventoryItemField('notify_stock_qty')
+        );
+        $this->getSelect()->where(sprintf('qty < %s', $notifyStockExpr));
         return $this;
     }
 }
