@@ -96,9 +96,13 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     protected function _prepareSummaryLive($range, $customStart, $customEnd, $isFilter = 0)
     {
         $this->setMainTable('sales/order');
-        if ($isFilter==0) {
+        /**
+         * Reset all columns, because result will group only by 'created_at' field
+         */
+        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+        if ($isFilter == 0) {
             $this->getSelect()->columns(array(
-                'revenue' => 'SUM(main_table.base_grand_total*main_table.base_to_global_rate)'
+                'revenue' => 'SUM(main_table.base_grand_total * main_table.base_to_global_rate)'
             ));
         } else{
             $this->getSelect()->columns(array(
@@ -106,14 +110,18 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
             ));
         }
 
-        $this->getSelect()->columns(array(
-            'quantity' => 'COUNT(main_table.entity_id)',
-            'range' => $this->_getRangeExpressionForAttribute($range, 'created_at'),
-        ))->order('range')
-            ->group('range');
+        $rangeCreatedAt = $this->_getRangeExpressionForAttribute($range, 'created_at');
+        $this->getSelect()
+            ->columns(array(
+                'quantity' => 'COUNT(main_table.entity_id)',
+                'range' => $rangeCreatedAt,
+            ))
+            ->order('range')
+            ->group($rangeCreatedAt);
 
         $this->addFieldToFilter('created_at', $this->getDateRange($range, $customStart, $customEnd))
             ->addFieldToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED));
+
         return $this;
     }
 
@@ -128,12 +136,18 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     protected function _prepareSummaryAggregated($range, $customStart, $customEnd)
     {
         $this->setMainTable('sales/order_aggregated_created');
+        /**
+         * Reset all columns, because result will group only by 'created_at' field
+         */
+        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+        $rangePeriod = $this->_getRangeExpressionForAttribute($range, 'main_table.period');
         $this->getSelect()->columns(array(
-            'revenue' => 'SUM(main_table.total_revenue_amount)',
+            'revenue'  => 'SUM(main_table.total_revenue_amount)',
             'quantity' => 'SUM(main_table.orders_count)',
-            'range' => $this->_getRangeExpressionForAttribute($range, 'main_table.period'),
-        ))->order('range')
-        ->group('range');
+            'range' => $rangePeriod,
+        ))
+        ->order('range')
+        ->group($rangePeriod);
 
         $this->getSelect()->where(
             $this->_getConditionSql('main_table.period', $this->getDateRange($range, $customStart, $customEnd))
@@ -145,8 +159,8 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         if (empty($statuses)) {
             $statuses = array(0);
         }
+        $this->addFieldToFilter('main_table.order_status', array('nin' => $statuses));
 
-        $this->getSelect()->where('main_table.order_status NOT IN(?)', $statuses);
         return $this;
     }
 

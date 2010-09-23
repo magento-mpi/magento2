@@ -191,7 +191,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         'OPERATION', 'OPTION', 'OR', 'ORDER', 'ORDINALITY', 'OUT', 'OUTER', 'OUTPUT', 'OVER', 'OVERLAPS', 'PAD',
         'PARAMETER', 'PARAMETERS', 'PARTIAL', 'PASCAL', 'PATH', 'PERCENT', 'PLAN', 'POSITION', 'POSTFIX', 'PRECISION',
         'PREFIX', 'PREORDER', 'PREPARE', 'PRESERVE', 'PRIMARY', 'PRINT', 'PRIOR', 'PRIVILEGES', 'PROC', 'PROCEDURE',
-        'PUBLIC', 'RAISERROR', 'READ', 'READS', 'READTEXT', 'REAL', 'RECONFIGURE', 'RECURSIVE', 'REF', 'REFERENCES',
+        'PUBLIC', 'RAISERROR', 'READ', 'READS', 'READTEXT', 'REAL', 'RANGE', 'RECONFIGURE', 'RECURSIVE', 'REF', 'REFERENCES',
         'REFERENCING', 'RELATIVE', 'REPLICATION', 'RESTORE', 'RESTRICT', 'RESULT', 'RETURN', 'RETURNS', 'REVOKE',
         'RIGHT', 'ROLE', 'ROLLBACK', 'ROLLUP', 'ROUTINE', 'ROW', 'ROWCOUNT', 'ROWGUIDCOL', 'ROWS', 'RULE', 'SAVE',
         'SAVEPOINT', 'SCHEMA', 'SCOPE', 'SCROLL', 'SEARCH', 'SECOND', 'SECTION', 'SELECT', 'SEQUENCE', 'SESSION',
@@ -2935,6 +2935,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         switch ($format) {
             case '%Y-%m-%d %H:%i:%s':
                 $expr = sprintf('CONVERT(VARCHAR(20), %s, 120)', $date);
+                break;
+            case '%Y-%m-%d %H:%i':
+                $expr = sprintf('CONVERT(VARCHAR(16), %s, 120)', $date);
+                break;
+            case '%Y-%m-%d %H':
+                $expr = sprintf('CONVERT(VARCHAR(14), %s, 120)', $date);
                 break;
             case '%Y-%m-%d':
                 $expr = sprintf('CONVERT(VARCHAR(10), %s, 120)', $date);
