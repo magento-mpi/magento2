@@ -69,7 +69,7 @@ class Varien_Debug
     public static function backtrace($return = false, $html = true, $withArgs = true)
     {
         $trace  = debug_backtrace();
-        self::trace($trace, $return, $html, $withArgs);
+        return self::trace($trace, $return, $html, $withArgs);
     }
 
     /**

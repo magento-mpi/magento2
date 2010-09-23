@@ -134,7 +134,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
             "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = ''",
             "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = ''",
             "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = :postcode",
-            "dest_country_id = '0' AND dest_region_id = 0 AND dest_zip = ''",
+            "dest_country_id = '0' AND dest_region_id = 0 AND dest_zip = '*'",
         )) . ')';
         $select->where($orWhere);
 
@@ -162,7 +162,13 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
             $select->where('condition_value <= :condition_value');
         }
 
-        return $adapter->fetchRow($select, $bind);
+        $result = $adapter->fetchRow($select, $bind);
+        // normalize destination zip code
+        if ($result && $result['dest_zip'] == '*') {
+            $result['dest_zip'] = '';
+        }
+
+        return $result;
     }
 
     /**
@@ -366,7 +372,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
 
         // detect zip code
         if ($row[2] == '*' || $row[2] == '') {
-            $zipCode = '';
+            $zipCode = '*';
         } else {
             $zipCode = $row[2];
         }

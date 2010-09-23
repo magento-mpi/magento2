@@ -2025,8 +2025,16 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $vals = array();
         $bind = array();
+        $over = false;
+        $i    = 0;
         $columnsCount = count($columns);
         foreach ($data as $row) {
+            $i ++;
+            // SQL Server supports a maximum of 2100 parameters
+            if (count($bind) > 2000) {
+                $over = array_slice($data, $i);
+                break;
+            }
             if ($columnsCount != count($row)) {
                 throw new Varien_Exception('Invalid data for insert');
             }
@@ -2063,6 +2071,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         // execute the statement and return the number of affected rows
         $stmt = $this->query($sql, $bind);
         $result = $stmt->rowCount();
+
+        if ($over) {
+            $result += $this->insertArray($table, $columns, $over);
+        }
+
         return $result;
     }
 
@@ -2212,7 +2225,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         if (strpos($sql, ':') !== false || strpos($sql, '?') !== false) {
             $before = count($this->_bindParams);
-            $sql = preg_replace_callback('#(([\'"])((\\2)|((.*?[^\\\\])\\2)))#', array($this, '_processBindCallback'),
+            $sql = preg_replace_callback('#((N?)([\'"])((\\3)|((.*?[^\\\\])\\3)))#', array($this, '_processBindCallback'),
                 $sql);
             Varien_Exception::processPcreError();
             if (!$isNamedBind && count($this->_bindParams) != $before) {
@@ -2321,12 +2334,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _processBindCallback($matches)
     {
-        if (isset($matches[6]) && (
-            strpos($matches[6], "'") !== false ||
-            strpos($matches[6], ":") !== false ||
-            strpos($matches[6], "?") !== false)) {
+        if ($matches[1] != 'N' && isset($matches[7]) && (
+            strpos($matches[7], "'") !== false ||
+            strpos($matches[7], ":") !== false ||
+            strpos($matches[7], "?") !== false)) {
             $bindName = ':_mage_bind_var_' . ( ++ $this->_bindIncrement );
-            $this->_bindParams[$bindName] = $this->_unQuote($matches[6]);
+            $this->_bindParams[$bindName] = $this->_unQuote($matches[7]);
             return ' ' . $bindName;
         }
         return $matches[0];
@@ -3746,7 +3759,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 //    }
 
 
-public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
+    public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
     {
         if (!$mode) {
             return $this->_getInsertFromSelectSql($select, $table, $fields);

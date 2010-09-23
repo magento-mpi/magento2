@@ -3677,7 +3677,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /*
-     * Render Sql using Windows(Analitic) functions
+     * Render Sql using Windows(Analytic) functions
      *
      * @param Varien_Db_Select $select
      * @return select
@@ -3715,14 +3715,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $groupByCondition = implode(', ', $group);
         }
 
-        if($groupByCondition) {
+        if ($groupByCondition) {
             $select->reset('GROUP');
             $select->columns(array("varien_group_rank" =>
                 Zend_Db_Expr(sprintf("RANK() OVER (%s ORDER BY rownum)", $groupByCondition)))
             );
         }
 
-        if($orderCondition) {
+        if ($orderCondition) {
             $select->reset('ORDER');
             $select->columns(array("varien_order_condition" =>
                 Zend_Db_Expr(sprintf("RANK() OVER (ORDER BY %s)", $orderCondition)))

@@ -420,6 +420,7 @@ class Varien_Db_Select extends Zend_Db_Select
 
         return $sql;
     }
+
     /**
      * Adds to the internal table-to-column mapping array.
      *
