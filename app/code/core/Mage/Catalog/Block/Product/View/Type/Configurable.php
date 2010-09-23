@@ -116,14 +116,20 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
                     if(!$this->_validateAttributeValue($attributeId, $value, $options)) {
                         continue;
                     }
+                    $this->getProduct()->setConfigurablePrice($this->_preparePrice($value['pricing_value'], $value['is_percent']));
+                    Mage::dispatchEvent(
+                        'catalog_product_type_configurable_price',
+                        array('product' => $this->getProduct())
+                    );
+                    $configurablePrice = $this->getProduct()->getConfigurablePrice();
 
                     $info['options'][] = array(
                         'id'    => $value['value_index'],
                         'label' => $value['label'],
-                        'price' => $this->_preparePrice($value['pricing_value'], $value['is_percent']),
+                        'price' => $configurablePrice,
                         'products'   => isset($options[$attributeId][$value['value_index']]) ? $options[$attributeId][$value['value_index']] : array(),
                     );
-                    $optionPrices[] = $this->_preparePrice($value['pricing_value'], $value['is_percent']);
+                    $optionPrices[] = $configurablePrice;
                     //$this->_registerAdditionalJsPrice($value['pricing_value'], $value['is_percent']);
                 }
             }

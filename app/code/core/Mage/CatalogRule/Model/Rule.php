@@ -90,6 +90,13 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     protected $_now;
 
     /**
+     * Cached data of prices calculated by price rules
+     *
+     * @var array
+     */
+    protected static $_priceRulesData = array();
+
+    /**
      * Init resource model and id field
      */
     protected function _construct()
@@ -281,5 +288,35 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         if ($indexProcess) {
             $indexProcess->reindexAll();
         }
+    }
+
+    /**
+     * Calculate price using catalog price rule of product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param float $price
+     * @return float|null
+     */
+    public function calcProductPriceRule(Mage_Catalog_Model_Product $product, $price)
+    {
+        $pId        = $product->getId();
+        $storeId    = $product->getStoreId();
+        $wId        = Mage::app()->getStore($storeId)->getWebsiteId();
+        $gId        = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $dateTs     = Mage::app()->getLocale()->storeTimeStamp($storeId);
+        $key        = date('Y-m-d', $dateTs)."|$wId|$gId|$pId|$price";
+
+        if (!isset(self::$_priceRulesData[$key])) {
+            if ($ruleData = $this->_getResource()->getRuleFromProduct($dateTs, $wId, $gId, $pId)) {
+                self::$_priceRulesData[$key] = Mage::helper('catalogrule')->calcPriceRule(
+                    $ruleData['simple_action'],
+                    $ruleData['discount_amount'],
+                    $price);
+                return self::$_priceRulesData[$key];
+            }
+        } else {
+            return self::$_priceRulesData[$key];
+        }
+        return null;
     }
 }

@@ -490,23 +490,11 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             }
         }
 
-        $amount = $ruleData['action_amount'];
-        switch ($ruleData['action_operator']) {
-            case 'to_fixed':
-                $productPrice = $amount;
-                break;
-            case 'to_percent':
-                $productPrice= $productPrice*$amount/100;
-                break;
-            case 'by_fixed':
-                $productPrice -= $amount;
-                break;
-            case 'by_percent':
-                $productPrice = $productPrice*(1-$amount/100);
-                break;
-        }
+        $productPrice = Mage::helper('catalogrule')->calcPriceRule(
+            $ruleData['action_operator'],
+            $ruleData['action_amount'],
+            $productPrice);
 
-        $productPrice = max($productPrice, 0);
         return Mage::app()->getStore()->roundPrice($productPrice);
     }
 
@@ -580,6 +568,32 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             ->where('customer_group_id = ?', $customerGroupId)
             ->where('product_id IN(?)', $productIds);
         return $adapter->fetchPairs($select);
+    }
+
+    /**
+     * Get active rule data based on few filters
+     *
+     * @param int|string $date
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @param int $productId
+     * @return array
+     */
+    public function getRuleFromProduct($date, $websiteId, $customerGroupId, $productId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $dateQuote = $adapter->quote($this->formatDate($date, false));
+        $subSelect  = $adapter->select()
+            ->from($this->getTable('catalogrule/rule_product'), array('rule_id'))
+            ->where('website_id = ?', $websiteId)
+            ->where('customer_group_id = ?', $customerGroupId)
+            ->where('product_id = ?', $productId)
+            ->limit(1);
+        $select = $adapter->select()
+            ->from(array('main_table' => $this->getTable('catalogrule/rule')), 'main_table.*')
+            ->where('main_table.rule_id = ?', $subSelect)
+            ->where(new Zend_Db_Expr("{$dateQuote} BETWEEN IFNULL(main_table.from_date, {$dateQuote}) AND IFNULL(main_table.to_date, {$dateQuote})"));
+        return $adapter->fetchRow($select);
     }
 
     /**

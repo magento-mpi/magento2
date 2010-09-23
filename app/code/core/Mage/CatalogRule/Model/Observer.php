@@ -161,6 +161,27 @@ class Mage_CatalogRule_Model_Observer
     }
 
     /**
+     * Calculate price using catalog price rules of configurable product
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogRule_Model_Observer
+     */
+    public function catalogProductTypeConfigurablePrice(Varien_Event_Observer $observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        if ($product instanceof Mage_Catalog_Model_Product
+            && $product->getConfigurablePrice() !== null
+        ) {
+            $configurablePrice = $product->getConfigurablePrice();
+            $productPriceRule = Mage::getModel('catalogrule/rule')->calcProductPriceRule($product, $configurablePrice);
+            if ($productPriceRule !== null) {
+                $product->setConfigurablePrice($productPriceRule);
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Daily update catalog price rule by cron
      * Update include interval 3 days - current day - 1 days before + 1 days after
      * This method is called from cron process, cron is working in UTC time and
