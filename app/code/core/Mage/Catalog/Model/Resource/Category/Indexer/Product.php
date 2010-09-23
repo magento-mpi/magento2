@@ -696,14 +696,13 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             )
             ->joinInner(array('pv' => $enabledTable), 'pv.product_id = ap.product_id', array('visibility'));
 
-
             $query = $select->insertFromSelect(
                 $idxTable,
                 array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
                 false
             );
             $idxAdapter->query($query);
-            
+
             $select = $idxAdapter->select()
                 ->from(array('e' => $this->getTable('catalog/product')), null)
                 ->join(
@@ -723,7 +722,13 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                     'store_id'      => new Zend_Db_Expr($storeId),
                     'visibility'    => 'ei.visibility'
                 ));
-            $query = $select->insertFromSelect($idxTable);
+
+            $query = $select->insertFromSelect(
+                $idxTable,
+                array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
+                false
+            );
+
             $idxAdapter->query($query, array('store_id' => $storeId, 'category_id' => $rootId));
 	}
 
