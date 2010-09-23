@@ -41,6 +41,6 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
      */
     public function getAnalyticColumn($column, $group)
     {
-        return new Zend_Db_Expr($column . ' OVER ( PARTITION BY ' . implode(', ', $group) . ')');
+        return $column;
     }
 }
