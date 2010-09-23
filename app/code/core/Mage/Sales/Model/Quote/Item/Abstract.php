@@ -43,7 +43,6 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     protected $_parentItem  = null;
     protected $_children    = array();
     protected $_messages    = array();
-    protected $_messagesBackorder = array();
 
     /**
      * Retrieve Quote instance
@@ -113,50 +112,6 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         $this->setHasChildren(true);
         $this->_children[] = $child;
         return $this;
-    }
-
-    /**
-     * Set cart backorder messages for quote item
-     *
-     * @param  int $productid
-     * @param  mixed $messages
-     * @return Mage_Sales_Model_Quote_Item_Abstract
-     */
-    public function setCartBackorderMessage($productId, $messages) {
-        if (!is_array($messages)) {
-            $messages = array($productId => $messages);
-        }
-        foreach ($messages as $message) {
-            $this->addCartBackorderMessage($productId, $message);
-        }
-        return $this;
-    }
-
-    /**
-     * Add cart backorder message of quote item to array of cart backorder messages
-     *
-     * @param  int $productid
-     * @param  string $message
-     * @return Mage_Sales_Model_Quote_Item_Abstract
-     */
-    public function addCartBackorderMessage($productId, $message)
-    {
-        $this->_messagesBackorder[$productId] = $message;
-        return $this;
-    }
-
-    /**
-     * Get cart backorder messages array of quote item
-     *
-     * @param  bool $string flag for converting messages to string
-     * @return array|string
-     */
-    public function getCartBackorderMessage($string = true)
-    {
-        if ($string) {
-            return join("\n", $this->_messagesBackorder);
-        }
-        return $this->_messagesBackorder;
     }
 
     /**

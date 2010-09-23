@@ -242,6 +242,7 @@ class Mage_CatalogInventory_Model_Observer
                 $increaseOptionQty = ($quoteItem->getQtyToAdd() ? $quoteItem->getQtyToAdd() : $qty) * $option->getValue();
 
                 $stockItem = $option->getProduct()->getStockItem();
+                $stockItem->setIsChildItem(true);
                 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
                     Mage::throwException(Mage::helper('cataloginventory')->__('The stock item for Product in option is not valid.'));
@@ -268,11 +269,6 @@ class Mage_CatalogInventory_Model_Observer
                      */
                     $quoteItem->setData('qty', intval($qty));
                 }
-                $cartBackorderMessage = $result->getCartBackorderMessage();
-                if (!is_null($cartBackorderMessage)) {
-                    $message = each($cartBackorderMessage);
-                    $option->setCartBackorderMessage($message['value']);
-                }
                 if (!is_null($result->getMessage())) {
                     $option->setMessage($result->getMessage());
                 }
@@ -287,6 +283,8 @@ class Mage_CatalogInventory_Model_Observer
                     $quoteItem->getQuote()->setHasError(true)
                         ->addMessage($result->getQuoteMessage(), $result->getQuoteMessageIndex());
                 }
+
+                $stockItem->unsIsChildItem();
             }
         }
         else {
@@ -340,15 +338,6 @@ class Mage_CatalogInventory_Model_Observer
                 $quoteItem->setMessage($result->getMessage());
                 if ($quoteItem->getParentItem()) {
                     $quoteItem->getParentItem()->setMessage($result->getMessage());
-                }
-            }
-
-            $cartBackorderMessage = $result->getCartBackorderMessage();
-            if (!is_null($cartBackorderMessage)) {
-                $message = each($cartBackorderMessage);
-                $quoteItem->setCartBackorderMessage($message['key'], $message['value']);
-                if ($quoteItem->getParentItem()) {
-                    $quoteItem->getParentItem()->setCartBackorderMessage($message['key'], $message['value']);
                 }
             }
 

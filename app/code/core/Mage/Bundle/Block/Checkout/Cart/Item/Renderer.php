@@ -70,7 +70,11 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
             $bundleOptions = $optionsCollection->appendSelections($selectionsCollection, true);
             foreach ($bundleOptions as $bundleOption) {
                 if ($bundleOption->getSelections()) {
-                    $option = array('label' => $bundleOption->getTitle(), "value" => array());
+                    $option = array(
+                        'label' => $bundleOption->getTitle(),
+                        'value' => array()
+                    );
+
                     $bundleSelections = $bundleOption->getSelections();
 
                     foreach ($bundleSelections as $bundleSelection) {
@@ -81,6 +85,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
                 }
             }
         }
+
         return $options;
     }
 
@@ -128,6 +133,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
             $optionList = array_merge($this->_getBundleOptions(), parent::getOptionList());
             $item->setBlockOptionList($optionList);
         }
+
         return $optionList;
     }
 
@@ -138,12 +144,17 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      */
     public function getMessages()
     {
-        $messages = array();
-        if ($this->getItem()->getCartBackorderMessage(false)) {
-            foreach ($this->getItem()->getCartBackorderMessage(false) as $message) {
+        $messages = $this->getData('messages');
+        if (is_null($messages)) {
+            $messages = array();
+        }
+        $options = $this->getItem()->getQtyOptions();
+
+        foreach ($options as $option) {
+            if ($option->getMessage()) {
                 $messages[] = array(
-                    'text'  => $message,
-                    'type'  => $this->getItem()->getHasError() ? 'error' : 'notice'
+                    'text' => $option->getMessage(),
+                    'type' => ($this->getItem()->getHasError()) ? 'error' : 'notice'
                 );
             }
         }

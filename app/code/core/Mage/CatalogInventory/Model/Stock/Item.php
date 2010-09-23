@@ -595,18 +595,16 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             if (($this->getQty() - $summaryQty) < 0) {
                 if ($this->getProductName()) {
                     $backorderQty = ($this->getQty() > 0) ? ($summaryQty - $this->getQty()) * 1 : $qty * 1;
-                    $totalBackorderQty = $backorderQty;
                     if ($backorderQty > $qty) {
                         $backorderQty = $qty;
                     }
                     $result->setItemBackorders($backorderQty);
                     if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY) {
-                        $result->setMessage(Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %s of the items will be backordered.', ($backorderQty * 1), $this->getProductName()));
-
-                        $result->setCartBackorderMessage(array(
-                            $this->getProductId() =>
-                            $this->getProductName() . ' - ' . Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %s of the items will be backordered.', ($totalBackorderQty * 1), $this->getProductName())
-                        ));
+                        if (!$this->getIsChildItem()) {
+                            $result->setMessage(Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %s of the items will be backordered.', ($backorderQty * 1)));
+                        } else {
+                            $result->setMessage(Mage::helper('cataloginventory')->__('"%s" is not available in the requested quantity. %s of the items will be backordered.', $this->getProductName(), ($backorderQty * 1)));
+                        }
                     }
                 }
             }
