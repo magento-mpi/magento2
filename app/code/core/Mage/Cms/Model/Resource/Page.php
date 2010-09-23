@@ -95,7 +95,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
         }
 
         // modify create / update dates
-        if ($object->isObjectNew()) {
+        if ($object->isObjectNew() && !$object->hasCreationTime()) {
             $object->setCreationTime(Mage::getSingleton('core/date')->gmtDate());
         }
 
@@ -238,7 +238,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function getIsUniquePageToStores(Mage_Core_Model_Abstract $object)
     {
-        if (Mage::app()->isSingleStoreMode()) {
+        if (Mage::app()->isSingleStoreMode() || !$object->hasStores()) {
             $stores = array(Mage_Core_Model_App::ADMIN_STORE_ID);
         } else {
             $stores = (array)$object->getData('stores');
