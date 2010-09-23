@@ -97,6 +97,16 @@
               failonerror="true"/>
     </target>
 
+    <target name="prepare-enterprise" description="Prepare enterprise edution checkout.">
+        <property name="dir.staging" value="${dir.src}/staging"/>
+        <mkdir dir="${dir.staging}"/>
+        <chmod dir="${dir.staging}" perm="777"/>
+    </target>
+
+    <target name="prepare-professional" description="Prepare professional edition checkout.">
+        <antcall target="prepare-enterprise"/>
+    </target>
+
     <target name="clean-unreleased" description="Cleaning checkout from unreleased things">
         <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg value="rm"/>
