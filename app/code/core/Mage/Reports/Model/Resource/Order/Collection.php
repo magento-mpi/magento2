@@ -587,7 +587,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     public function orderByTotalAmount($dir = self::SORT_ORDER_DESC)
     {
-        $this->getSelect()->order('avg_and_sum.orders_sum_amount ' . $dir);
+        $this->getSelect()->order('orders_sum_amount ' . $dir);
         return $this;
     }
 
