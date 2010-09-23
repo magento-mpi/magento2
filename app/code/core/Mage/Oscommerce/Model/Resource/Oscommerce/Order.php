@@ -52,11 +52,10 @@ class Mage_Oscommerce_Model_Resource_Oscommerce_Order extends Mage_Core_Model_Re
     {
         $order = Mage::registry('current_oscommerce_order');
         $result = array();
-        if ($order && $order->getData() && $id = $order->getId())
-        {
+        if ($order && $order->getData() && $id = $order->getId()) {
             $select = $this->_getReadAdapter()->select();
             $select->from($this->getTable('oscommerce_order_products'))
-                ->where("osc_magento_id={$id}");
+                ->where("osc_magento_id = ?", (int)$id);
             $result = $this->_getReadAdapter()->fetchAll($select);
         }
         return $result;
@@ -71,11 +70,11 @@ class Mage_Oscommerce_Model_Resource_Oscommerce_Order extends Mage_Core_Model_Re
     {
         $order = Mage::registry('current_oscommerce_order');
         $result = array();
-        if ($order && $order->getData() && $id = $order->getId())
-        {
+        if ($order && $order->getData() && $id = $order->getId()) {
             $select = $this->_getReadAdapter()->select();
             $select->from($this->getTable('oscommerce_order_total'))
-                ->where("osc_magento_id={$id}")->order('sort_order');
+                ->where("osc_magento_id = ?", (int)$id)
+                ->order('sort_order');
             $result = $this->_getReadAdapter()->fetchAll($select);
         }
         return $result;
@@ -90,11 +89,10 @@ class Mage_Oscommerce_Model_Resource_Oscommerce_Order extends Mage_Core_Model_Re
     {
         $order = Mage::registry('current_oscommerce_order');
         $result = array();
-        if ($order && $order->getData() && $id = $order->getId())
-        {
+        if ($order && $order->getData() && $id = $order->getId()) {
             $select = $this->_getReadAdapter()->select();
             $select->from($this->getTable('oscommerce_order_history'))
-                ->where("osc_magento_id={$id}");
+                ->where("osc_magento_id = ?", (int)$id);
             $result = $this->_getReadAdapter()->fetchAll($select);
         }
         return $result;

@@ -35,8 +35,7 @@
 class Mage_Oscommerce_Model_Resource_Oscommerce_Order_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
+     * Init resource model
      */
     protected function _construct()
     {
@@ -44,22 +43,22 @@ class Mage_Oscommerce_Model_Resource_Oscommerce_Order_Collection extends Mage_Co
     }
 
     /**
-     * Enter description here ...
+     * Format order total
      *
      * @return Mage_Oscommerce_Model_Resource_Oscommerce_Order_Collection
      */
     public function addOrderTotalField()
     {
-        $this->_select
-            ->columns(array('orders_total'=>new Zend_Db_Expr('FORMAT(main_table.orders_total,2)')));
+        //$this->getSelect()
+        //    ->columns(array('orders_total'=>new Zend_Db_Expr('FORMAT(main_table.orders_total,2)')));*/
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Load collection
      *
-     * @param unknown_type $printQuery
-     * @param unknown_type $logQuery
+     * @param boolean $printQuery
+     * @param boolean $logQuery
      * @return Mage_Oscommerce_Model_Resource_Oscommerce_Order_Collection
      */
     public function load($printQuery = false, $logQuery = false)

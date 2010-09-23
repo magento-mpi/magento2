@@ -166,7 +166,7 @@ function sendImportData(data) {
     countOfStartedProfiles++;
 
     data.form_key = \''.Mage::getSingleton('core/session')->getFormKey().'\'
-    new Ajax.Request("'.$this->getUrl('*/*/batchRun').'", {
+    new Ajax.Request("'.$this->getUrl('*/*/batchRun', array('id' => $importModel->getId())).'", {
       method: "post",
       parameters: data,
       onSuccess: function(transport) {
@@ -200,7 +200,7 @@ function sendImportData(data) {
 }
 
 function getPercent(data) {
-    if (parseInt(totalRecords[data["import_type"]]) == 0)	{
+    if (parseInt(totalRecords[data["import_type"]]) == 0) {
         return 0;
     } else {
         totalImportedRecords[data["import_type"]] = countOfUpdated;

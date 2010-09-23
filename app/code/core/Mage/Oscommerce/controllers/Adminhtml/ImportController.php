@@ -33,31 +33,25 @@
 class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Initailization action of importController
-     */
-    protected function _initAction()
-    {
-        $this->loadLayout();
-        $this->_setActiveMenu('system/convert');
-        return $this;
-    }
-
-    /**
      * Initialization of importController
      *
      * @param idFieldnName string
      * @return Mage_Oscommerce_Adminhtml_ImportController
      */
-    protected function _initImport($idFieldName = 'id')
+    protected function _initImport()
     {
-        $id = (int) $this->getRequest()->getParam($idFieldName);
-        $model = Mage::getModel('oscommerce/oscommerce');
-        if ($id) {
-            $model->load($id);
+        $importId    = (int) $this->getRequest()->getParam('id');
+        $importModel = Mage::getModel('oscommerce/oscommerce');
+        if ($importId) {
+            $importModel->load($importId);
+            if (!$importModel->getId()) {
+                Mage::getSingleton('adminhtml/session')->addError('The profile you are trying to use no longer exists');
+                $this->_redirect('*/*');
+            }
+        } else {
+            $importModel->load(0);
         }
-
-        Mage::register('oscommerce_adminhtml_import', $model);
-        return $this;
+        return $importModel;
     }
 
     /**
@@ -65,14 +59,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Import and Export'))
-             ->_title($this->__('osCommerce Profiles'));
-
-        $this->_initAction();
-        $this->_addContent(
-            $this->getLayout()->createBlock('oscommerce/adminhtml_import')
-        );
+        $this->loadLayout();
+        $this->_setActiveMenu('system/convert');
         $this->renderLayout();
     }
 
@@ -81,33 +69,18 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function editAction()
     {
+        $model = $this->_initImport();
+        if (!$model) {
+            return $this;
+        }
         $this->_title($this->__('System'))
              ->_title($this->__('Import and Export'))
              ->_title($this->__('osCommerce Profiles'));
-
-        $this->_initImport();
-        $this->loadLayout();
-
-        $model = Mage::registry('oscommerce_adminhtml_import');
-        $data = Mage::getSingleton('adminhtml/session')->getSystemConvertOscData(true);
-
-        if (!empty($data)) {
-            $model->addData($data);
-        }
-
         $this->_title($model->getId() ? $model->getName() : $this->__('New Profile'));
-
-        $this->_initAction();
-        $this->_addBreadcrumb
-                (Mage::helper('oscommerce')->__('Edit osCommerce Profile'),
-                 Mage::helper('oscommerce')->__('Edit osCommerce Profile'));
-        /**
-         * Append edit tabs to left block
-         */
-        $this->_addLeft($this->getLayout()->createBlock('oscommerce/adminhtml_import_edit_tabs'));
-
-        $this->_addContent($this->getLayout()->createBlock('oscommerce/adminhtml_import_edit'));
-
+        $this->loadLayout();
+        $this->_setActiveMenu('system/convert');
+        $this->_addBreadcrumb(Mage::helper('oscommerce')->__('Edit osCommerce Profile'),
+            Mage::helper('oscommerce')->__('Edit osCommerce Profile'));
         $this->renderLayout();
     }
 
@@ -130,21 +103,15 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             } else {
                 $data['send_subscription'] = 0;
             }
-
-            $this->_initImport('import_id');
-            $model = Mage::registry('oscommerce_adminhtml_import');
-
-            // Prepare saving data
+            $model = $this->_initImport();
             if (isset($data)) {
                 $model->addData($data);
             }
-
-//            if (empty($data['port']))
-//                $data['port'] = Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT;
-
+            if (empty($data['port'])) {
+                $data['port'] = Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT;
+            }
             try {
                 $model->save();
-
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('oscommerce')->__('The osCommerce profile has been saved.'));
             }
             catch (Exception $e){
@@ -164,9 +131,12 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function batchRunAction()
     {
         @set_time_limit(0);
-        $this->_initImport('import_id');
-        $importModel = Mage::registry('oscommerce_adminhtml_import');
-
+        $importModel = $this->_initImport();
+        if (!$importModel) {
+            return $result = array(
+                'savedRows' => 0,
+                'errors'    => array('The profile you are trying to use no longer exists'));
+        }
         if ($tablePrefix = $importModel->getTablePrefix()) {
             $importModel->getResource()->setTablePrefix($tablePrefix);
         }
@@ -192,21 +162,20 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         // Resetting connection charset
         $importModel->getResource()->resetConnectionCharset();
 
-           $importModel->getResource()->setImportModel($importModel);
+        $importModel->getResource()->setImportModel($importModel);
         if ($collections =  $importModel->getResource()->importCollection($importModel->getId())) {
             if (isset($collections['website'])) {
                 $importModel->getResource()->getWebsiteModel()->load($collections['website']);
             }
             if (isset($collections['root_category'])) {
-                $importModel->getResource()->setRootCategory(clone $importModel->getResource()->getCategoryModel()->load($collections['root_category']));
+                $rootCategory = clone $importModel->getResource()->getCategoryModel()->load($collections['root_category']);
+                $importModel->getResource()->setRootCategory($rootCategory);
             }
             if (isset($collections['group'])) {
                 $importModel->getResource()->getStoreGroupModel()->load($collections['group']);
-
             }
         }
 
-        //$isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
         $importType = $this->getRequest()->getParam('import_type');
         $importFrom = $this->getRequest()->getParam('from');
         $isImportDone = $this->getRequest()->getParam('is_done');
@@ -239,9 +208,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function runAction()
     {
         @set_time_limit(0);
-        Mage::app()->cleanCache(); // Clean all cach
-        $this->_initImport();
-        $importModel = Mage::registry('oscommerce_adminhtml_import');
+        Mage::app()->cleanCache(); // Clean all cache
+        $importModel = $this->_initImport();
+
         /** @var $importModel Mage_Oscommerce_Model_Oscommerce */
         $totalRecords = array();
 
@@ -295,7 +264,6 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
 
         $importModel->getResource()->importStores();
         $importModel->getResource()->importTaxClasses();
-        $importModel->getResource()->createOrderTables();
 
         if (isset($options['categories'])) {
             $importModel->getSession()->setIsProductWithCategories(true);
@@ -323,15 +291,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     {
         if ($importId = $this->getRequest()->getParam('id')) {
             $importModel = Mage::getModel('oscommerce/oscommerce')->load($importId);
-            /* @var $batchModel Mage_Dataflow_Model_Batch */
 
             if ($importId = $importModel->getId()) {
                 $importModel->deleteImportedRecords($importId);
-//                $importModel->getSession()->unsStoreLocales();
-//                $importModel->getSession()->unsIsProductWithCategories();
-//                if ($importModel->getSession()->getTablePrefix()) {
-//                    $importModel->getSession()->unsTablePrefix();
-//                }
                 $importModel->getSession()->clear();
             }
         }
@@ -342,8 +304,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function deleteAction()
     {
-        $this->_initImport();
-        $model = Mage::registry('oscommerce_adminhtml_import');
+        $model = $this->_initImport();
         if ($model->getId()) {
             try {
                 $model->delete();
@@ -362,15 +323,10 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function checkStoreAction()
     {
-        $this->_initImport();
-        $importModel = Mage::registry('oscommerce_adminhtml_import');
+        $importModel = $this->_initImport();
         $error = false;
         if ($importModel->getId()) {
             try {
-                $charset = $importModel->getResource()->getConnectionCharset();
-                $defaultOscCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_OSC_CHARSET;
-                $defaultMageCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_MAGENTO_CHARSET;
-
                 $stores = $importModel->getResource()->getOscStores();
 
                 $locales = Mage::app()->getLocale()->getOptionLocales();
@@ -409,16 +365,17 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function checkWebsiteCodeAction()
     {
 
-        $this->_initImport();
-        $model = Mage::registry('oscommerce_adminhtml_import');
+        $model = $this->_initImport();
         if ($model->getId()) {
             $website = Mage::getModel('core/website');
             $collections = $website->getCollection();
             $result = 'false';
             $websiteCode = $this->getRequest()->getParam('website_code');
-            if ($collections) foreach ($collections as $collection) {
-                if ($collection->getCode() == $websiteCode) {
-                    $result = 'true';
+            if ($collections) {
+                foreach ($collections as $collection) {
+                    if ($collection->getCode() == $websiteCode) {
+                        $result = 'true';
+                    }
                 }
             }
             $this->getResponse()->setBody($result);

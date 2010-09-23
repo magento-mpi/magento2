@@ -28,14 +28,13 @@
 <config>
     <modules>
         <Mage_Oscommerce>
-            <version>0.8.10</version>
+            <version>1.5.0.0</version>
         </Mage_Oscommerce>
     </modules>
     <global>
         <models>
             <oscommerce>
                 <class>Mage_Oscommerce_Model</class>
-                <!-- <resourceModel>oscommerce_mysql4</resourceModel> -->
                 <resourceModel>oscommerce_resource</resourceModel>
             </oscommerce>
             <oscommerce_resource>
@@ -113,6 +112,13 @@
                 </observers>
             </controller_action_predispatch_oscommerce>
         </events>
+        <layout>
+            <updates>
+                <tag>
+                    <file>oscommerce.xml</file>
+                </tag>
+            </updates>
+        </layout>
     </adminhtml>
     <frontend>
         <routers>

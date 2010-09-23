@@ -58,7 +58,7 @@
  */
 class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
 {
-    const DEFAULT_PORT = 3360;
+    const DEFAULT_PORT = 3306;
     const CONNECTION_TYPE = 'pdo_mysql';
     const CONNECTION_NAME = 'oscommerce_db';
 
@@ -71,17 +71,9 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
     {
         parent::_afterLoad();
         Mage::getSingleton('oscommerce/config')->initForeignConnection($this->getData());
-
-//		if (Mage::app()->getRequest()->getActionName() == 'run') {
-//			$this->importStores();
-//		}
-
+        Mage::register('oscommerce_adminhtml_import', $this);
     }
-    /**
-     * Get paypal session namespace
-     *
-     * @return Mage_Paypal_Model_Session
-     */
+
     public function getSession()
     {
         return Mage::getSingleton('oscommerce/session');
