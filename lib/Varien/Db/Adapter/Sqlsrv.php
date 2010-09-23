@@ -2868,7 +2868,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
     public function getIndexName($tableName, $fields, $indexType = '')
     {
         if (is_array($fields)) {
-            $fields = join('-', $fields);
+            $fields = join('__', $fields);
         }
 
         switch (strtolower($indexType)) {
