@@ -271,34 +271,31 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function addOrderedQty($from = '', $to = '')
     {
-        $qtyOrderedTableName = $this->getTable('sales/order_item');
-        $qtyOrderedFieldName = 'qty_ordered';
+        $qtyOrderedTableName  = $this->getTable('sales/order_item');
+        $compositeTypeIds     = Mage::getSingleton('catalog/product_type')->getCompositeTypes();
 
-        $productIdFieldName = 'product_id';
-
-        $compositeTypeIds = Mage::getSingleton('catalog/product_type')->getCompositeTypes();
-        $productJoinCondition     = array(
+        $productJoinCondition = array(
             $this->getConnection()->quoteInto('(e.type_id NOT IN (?))', $compositeTypeIds),
-            "e.entity_id = order_items.{$productIdFieldName}",
+            "e.entity_id = order_items.product_id",
             $this->getConnection()->quoteInto('e.entity_type_id = ?', $this->getProductEntityTypeId())
         );
 
+        $orderTableAliasName = $this->getConnection()->quoteIdentifier('order');
         $dateFilter = array();
         if ($from != '' && $to != '') {
             $from = $this->getConnection()->quote($from);
             $to   = $this->getConnection()->quote($to);
 
-            $dateFilter[] = sprintf('order.created_at BETWEEN %s AND %s', $from, $to);
+            $dateFilter[] = sprintf('(%s.created_at BETWEEN %s AND %s)', $orderTableAliasName, $from, $to);
         }
 
         $this->getSelect()->reset()->from(
             array('order_items' => $qtyOrderedTableName),
-            array('ordered_qty' => "SUM(order_items.{$qtyOrderedFieldName})")
+            array('ordered_qty' => "SUM(order_items.qty_ordered)")
         );
 
-         $dateFilter[] = $this->getConnection()->quoteInto(
-            'order.entity_id = order_items.order_id AND order.state <> ?', Mage_Sales_Model_Order::STATE_CANCELED
-         );
+        $dateFilter[] = "{$orderTableAliasName}.entity_id = order_items.order_id";
+        $dateFilter[] = $this->getConnection()->quoteInto("{$orderTableAliasName}.state <> ?", Mage_Sales_Model_Order::STATE_CANCELED);
 
          $this->getSelect()
             ->joinInner(
@@ -307,9 +304,10 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 array())
             ->joinInner(
                 array('e' => $this->getProductEntityTableName()),
-                implode(' AND ', $productJoinCondition))
+                implode(' AND ', $productJoinCondition),
+                array('entity_id'))
             ->group('e.entity_id')
-            ->having('ordered_qty > ?', 0);
+            ->having('SUM(order_items.qty_ordered) > ?', 0);
 
         return $this;
     }
