@@ -705,10 +705,10 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     {
         $this->_renderFilters();
 
-        $countSelect = $this->_getClearSelect();
-        $countSelect->columns('COUNT(DISTINCT e.entity_id)');
-        $countSelect->resetJoinLeft();
-
+        $countSelect = $this->_getClearSelect()
+            ->columns('COUNT(DISTINCT e.entity_id)')
+            ->resetJoinLeft()
+            ->reset(Varien_Db_Select::MAGIC_GROUP);
         return $countSelect;
     }
 

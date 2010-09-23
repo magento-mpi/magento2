@@ -307,7 +307,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
-    protected function _addProductAttributesAndPrices(Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection)
+    protected function _addProductAttributesAndPrices(Mage_Catalog_Model_Resource_Product_Collection $collection)
     {
         return $collection
             ->addMinimalPrice()

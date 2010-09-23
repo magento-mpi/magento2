@@ -186,7 +186,8 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
      */
     public function setGroupBy($groupBy = 'e.entity_id')
     {
-        $this->getSelect()->group($groupBy);
+        $select = $this->getSelect()
+            ->magicGroup($groupBy);
         return $this;
     }
 
@@ -227,7 +228,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
                 $joinCondition[] = $adapter->quoteInto('links.product_id = ?', $productId);
             }
             $this->addFieldToFilter('entity_id', array('neq' => $productId));
-        } elseif ($this->_isStrongMode) {
+        } else if ($this->_isStrongMode) {
             $this->addFieldToFilter('entity_id', array('eq' => -1));
         }
         if($this->_hasLinkFilter) {
@@ -238,7 +239,6 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
             );
             $this->joinAttributes();
         }
-
         return $this;
     }
     
