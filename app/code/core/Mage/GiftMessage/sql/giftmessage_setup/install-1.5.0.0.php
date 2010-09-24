@@ -57,7 +57,7 @@ $table = $installer->getConnection()
 
 $installer->getConnection()->createTable($table);
 
-$installer->addAttribute('quote',        'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
+$installer->addAttribute('quote',  'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('quote_address',      'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('quote_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
     ->addAttribute('quote_address_item', 'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))

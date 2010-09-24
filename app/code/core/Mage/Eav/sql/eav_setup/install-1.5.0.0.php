@@ -809,8 +809,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Is System')
     ->addColumn('theme', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'Theme')
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,

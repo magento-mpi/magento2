@@ -1267,10 +1267,11 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     protected function _getAttributeConditionSql($attribute, $condition, $joinType = 'inner')
     {
         if (isset($this->_joinFields[$attribute])) {
+            
             return $this->_getConditionSql($this->_getAttributeFieldName($attribute), $condition);
         }
         if (isset($this->_staticFields[$attribute])) {
-            return $this->_getConditionSql('e.' . $attribute, $condition);
+            return $this->_getConditionSql($this->getConnection()->quoteIdentifier('e.' . $attribute), $condition);
         }
         // process linked attribute
         if (isset($this->_joinAttributes[$attribute])) {
@@ -1282,14 +1283,16 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         }
 
         if ($entity->isAttributeStatic($attribute)) {
-            $conditionSql = $this->_getConditionSql('e.' . $attribute, $condition);
+            $conditionSql = $this->_getConditionSql($this->getConnection()->quoteIdentifier('e.' . $attribute), $condition);
         } else {
             $this->_addAttributeJoin($attribute, $joinType);
             if (isset($this->_joinAttributes[$attribute]['condition_alias'])) {
                 $field = $this->_joinAttributes[$attribute]['condition_alias'];
             } else {
                 $field = $this->_getAttributeTableAlias($attribute) . '.value';
+            
             }
+        
             $conditionSql = $this->_getConditionSql($field, $condition);
         }
 

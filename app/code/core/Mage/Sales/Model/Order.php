@@ -395,7 +395,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * Init mapping array of short fields to
      * its full names
      * 
-     * @resturn Varien_Object
+     * @return Varien_Object
      */
     protected function _initShortFieldsMap()
     {
@@ -404,6 +404,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             'forced_shipment_with_invoice' => 'forced_do_shipment_with_invoice',
             'base_shipping_hidden_tax_amnt' => 'base_shipping_hidden_tax_amount',
         );
+        return $this;
     }
     
     /**
