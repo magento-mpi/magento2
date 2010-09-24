@@ -112,7 +112,7 @@ class Mage_Log_Model_Resource_Customer extends Mage_Core_Model_Resource_Db_Abstr
                     array('http_referer', 'remote_addr'))
                 ->joinInner(
                     array('luit' => $this->_urlInfoTable),
-                    'luit.url_id = vti.last_url_id',
+                    'luit.url_id = lvt.last_url_id',
                     array('url'))
                 ->order("{$table}.login_at DESC")
                 ->limit(1);
