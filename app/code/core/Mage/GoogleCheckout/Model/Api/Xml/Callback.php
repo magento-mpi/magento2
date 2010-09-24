@@ -490,8 +490,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                         'carrier' => $carrierCode,
                         'carrier_title' => $carrierName,
                         'method' => $methodCode,
-                        'method_title' => $methodName,
-                        'method_description' => '' // FIXME - set description
+                        'method_title' => $methodName
                     );
                 }
             }
@@ -540,8 +539,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $rate->setCarrier($info['carrier'])
                 ->setCarrierTitle($info['carrier_title'])
                 ->setMethod($info['method'])
-                ->setMethodTitle($info['method_title'])
-                ->setMethodDescription($info['method_description']);
+                ->setMethodTitle($info['method_title']);
         }
 
         return $rate;
@@ -581,7 +579,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 ->setPrice($shipping['shipping-cost']['VALUE']);
             $qAddress->addShippingRate($rate)
                 ->setShippingMethod($method)
-                ->setShippingDescription($shipping['shipping-name']['VALUE']);
+                ->setShippingDescription($shipping['shipping-name']['VALUE'])
+                ->setShippingAmountForDiscount(0); // We get from Google price with discounts applied via merchant calculations
 
             /*if (!Mage::helper('tax')->shippingPriceIncludesTax($quote->getStore())) {
                 $includingTax = Mage::helper('tax')->getShippingPrice($excludingTax, true, $qAddress, $quote->getCustomerTaxClassId());
