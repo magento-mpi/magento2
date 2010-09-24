@@ -62,7 +62,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     /**
      * Current search engine
      *
-     * @var object | Mage_CatalogSearch_Model_Mysql4_Fulltext_Engine
+     * @var object | Mage_CatalogSearch_Model_Resource_Fulltext_Engine
      */
     protected $_engine = null;
 
@@ -88,7 +88,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_CatalogSearch_Model_Mysql4_Advanced
+     * @return Mage_CatalogSearch_Model_Resource_Advanced
      */
     protected function _getResource()
     {
@@ -106,7 +106,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
      */
     public function getAttributes()
     {
-        /* @var $attributes Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection */
+        /* @var $attributes Mage_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection */
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
             $product = Mage::getModel('catalog/product');
@@ -127,7 +127,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     /**
      * Prepare search condition for attribute
      *
-     * @deprecated after 1.4.1.0 - use Mage_CatalogSearch_Model_Mysql4_Advanced->_prepareCondition()
+     * @deprecated after 1.4.1.0 - use Mage_CatalogSearch_Model_Resource_Advanced->_prepareCondition()
      *
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
@@ -277,7 +277,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     /**
      * Retrieve advanced search product collection
      *
-     * @return Mage_CatalogSearch_Model_Mysql4_Advanced_Collection
+     * @return Mage_CatalogSearch_Model_Resource_Advanced_Collection
      */
     public function getProductCollection(){
         if (is_null($this->_productCollection)) {
@@ -295,7 +295,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     /**
      * Prepare product collection
      *
-     * @param Mage_CatalogSearch_Model_Mysql4_Advanced_Collection $collection
+     * @param Mage_CatalogSearch_Model_Resource_Advanced_Collection $collection
      * @return Mage_Catalog_Model_Layer
      */
     public function prepareProductCollection($collection)

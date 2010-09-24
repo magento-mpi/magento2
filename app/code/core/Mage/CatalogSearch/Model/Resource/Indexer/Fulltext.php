@@ -32,7 +32,7 @@
  * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Indexer_Fulltext extends Mage_Core_Model_Mysql4_Abstract
+class Mage_CatalogSearch_Model_Resource_Indexer_Fulltext extends Mage_Core_Model_Resource_Abstract
 {
     /**
      * Initialize connection and define catalog product table as main table

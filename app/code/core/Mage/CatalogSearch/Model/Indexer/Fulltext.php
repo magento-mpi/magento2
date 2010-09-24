@@ -37,7 +37,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
     /**
      * Retrieve resource instance
      *
-     * @return Mage_CatalogSearch_Model_Mysql4_Indexer_Fulltext
+     * @return Mage_CatalogSearch_Model_Resource_Indexer_Fulltext
      */
     protected function _getResource()
     {

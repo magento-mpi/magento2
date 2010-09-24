@@ -85,7 +85,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     /**
      * Retrieve search collection
      *
-     * @return Mage_CatalogSearch_Model_Mysql4_Search_Collection
+     * @return Mage_CatalogSearch_Model_Resource_Search_Collection
      */
     public function getSearchCollection()
     {
@@ -120,7 +120,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     /**
      * Retrieve collection of suggest queries
      *
-     * @return Mage_CatalogSearch_Model_Mysql4_Query_Collection
+     * @return Mage_CatalogSearch_Model_Resource_Query_Collection
      */
     public function getSuggestCollection()
     {
