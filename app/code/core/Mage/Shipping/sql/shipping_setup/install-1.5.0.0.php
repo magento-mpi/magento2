@@ -72,7 +72,8 @@ $table = $installer->getConnection()
         'default'   => '0.0000',
         ), 'Cost')
     ->addIndex($installer->getIdxName('shipping/tablerate', array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE));
+        array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip', 'condition_name', 'condition_value'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
+    ->setComment('Shipping Tablerate');
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();
