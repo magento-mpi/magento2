@@ -114,10 +114,14 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $baseSecureUrl = $uri->getUri();
         }
 
+        $connectDefault = Mage::getConfig()
+                ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+
         $data = Mage::getModel('varien/object')
-            ->setDbHost('localhost')
-            ->setDbName('magento')
-            ->setDbUser('root')
+            ->setDbHost($connectDefault->host)
+            ->setDbName($connectDefault->dbname)
+            ->setDbUser($connectDefault->username)
+            ->setDbModel($connectDefault->model)
             ->setDbPass('')
             ->setSecureBaseUrl($baseSecureUrl)
             ->setUnsecureBaseUrl($baseUrl)
@@ -130,7 +134,8 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected function _checkHostsInfo($data)
     {
         $url = $data['protocol'] . '://' . $data['host'] . ':' . $data['port'] . $data['base_path'];
-        $surl= $data['secure_protocol'] . '://' . $data['secure_host'] . ':' . $data['secure_port'] . $data['secure_base_path'];
+        $surl= $data['secure_protocol'] . '://' . $data['secure_host'] . ':' . $data['secure_port']
+            . $data['secure_base_path'];
 
         $this->_checkUrl($url);
         $this->_checkUrl($surl, true);
@@ -148,12 +153,14 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $body = $response->getBody();
         }
         catch (Exception $e){
-            $this->_getInstaller()->getDataModel()->addError(Mage::helper('install')->__('The URL "%s" is not accessible.', $url));
+            $this->_getInstaller()->getDataModel()
+                ->addError(Mage::helper('install')->__('The URL "%s" is not accessible.', $url));
             throw $e;
         }
 
         if ($body != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
-            $this->_getInstaller()->getDataModel()->addError(Mage::helper('install')->__('The URL "%s" is invalid.', $url));
+            $this->_getInstaller()->getDataModel()
+                ->addError(Mage::helper('install')->__('The URL "%s" is invalid.', $url));
             Mage::throwException(Mage::helper('install')->__('Response from server isn\'t valid.'));
         }
         return $this;

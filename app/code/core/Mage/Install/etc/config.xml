@@ -64,7 +64,14 @@
     </frontend>
     <install>
         <databases>
-            <mysql4 />
+            <mysql4>
+                <type>pdo_mysql</type>
+                <initStatements>SET NAMES utf8</initStatements>
+                <min_version>4.1.20</min_version>
+                <extensions>
+                    <pdo_mysql/>
+                </extensions>
+            </mysql4>
         </databases>
         <layout>
             <updates>

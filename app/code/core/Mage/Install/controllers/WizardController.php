@@ -309,23 +309,18 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->_checkIfInstalled();
         $step = $this->_getWizard()->getStepByName('config');
 
-        if ($data = $this->getRequest()->getPost('config')) {
-            //make all table prefix to lower letter
-            if ($data['db_prefix'] !='') {
-               $data['db_prefix'] = strtolower($data['db_prefix']);
-            }
+        $config             = $this->getRequest()->getPost('config');
+        $connectionConfig   = $this->getRequest()->getPost('connection');
+
+        if ($config && $connectionConfig && isset($connectionConfig[$config['db_model']])) {
+
+            $data = array_merge($config, $connectionConfig[$config['db_model']]);
 
             Mage::getSingleton('install/session')
                 ->setConfigData($data)
                 ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'))
                 ->setSkipBaseUrlValidation($this->getRequest()->getPost('skip_base_url_validation'));
             try {
-                if($data['db_prefix']!='') {
-                    if(!preg_match('/^[a-z]+[a-z0-9_]*$/',$data['db_prefix'])) {
-                        Mage::throwException(
-                            Mage::helper('install')->__('The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_), the first character should be a letter.'));
-                    }
-                }
                 $this->_getInstaller()->installConfig($data);
                 $this->_redirect('*/*/installDb');
                 return $this;

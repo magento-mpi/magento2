@@ -142,7 +142,9 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function installConfig($data)
     {
         $data['db_active'] = true;
-        Mage::getSingleton('install/installer_db')->checkDatabase($data);
+
+        $data = Mage::getSingleton('install/installer_db')->checkDbConnectionData($data);
+
         Mage::getSingleton('install/installer_config')
             ->setConfigData($data)
             ->install();

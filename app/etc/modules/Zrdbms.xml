@@ -139,7 +139,7 @@
             <active>true</active>
         </Mage_Index>
         <Mage_Install>
-            <active>false</active>
+            <active>true</active>
         </Mage_Install>
         <Mage_Log>
             <active>true</active>
