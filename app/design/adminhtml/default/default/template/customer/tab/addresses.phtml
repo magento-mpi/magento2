@@ -410,20 +410,16 @@ addressesModel.prototype = {
 
     deleteAddress : function(item){
         if(confirm('<?php echo Mage::helper('customer')->__('Are you sure you want to delete this address?') ?>')){
-            if( item.isNewAddress || 1 == this.itemList.length){
-                this.formContainer.removeChild(item.formBlock);
-            } else {
-                if($('deleted_'+item.id)){
-                    $('deleted_'+item.id).value = 1;
-                    if(item.formBlock){
-                        item.formBlock.addClassName('ignore-validation');
-                    }
+            if (!item.isNewAddress && $('deleted_'+item.id)){
+                $('deleted_'+item.id).value = 1;
+                if (item.formBlock){
+                    item.formBlock.addClassName('ignore-validation');
                 }
             }
+            if (this.activeItem == item && item != this.itemList[0]) this.setActiveItem(this.itemList[0]);
+            if (item == this.itemList[0] && (this.itemList[1])) this.setActiveItem(this.itemList[1]);
 
-            if ( this.activeItem == item && item != this.itemList[0] ) this.setActiveItem(this.itemList[0]);
-            if ( item == this.itemList[0] && (this.itemList[1]) ) this.setActiveItem(this.itemList[1]);
-
+            this.formContainer.removeChild(item.formBlock);
             this.itemContainer.removeChild(item);
             this.reloadItemList();
             this.setAddressAsDefault();
