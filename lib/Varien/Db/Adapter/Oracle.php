@@ -57,6 +57,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     const LENGTH_TABLE_NAME         = 30;
     const LENGTH_INDEX_NAME         = 25;
     const LENGTH_FOREIGN_NAME       = 30;
+
+    const SQL_FOR_UPDATE            = 'FOR UPDATE';
     /**
      * Default class name for a DB statement.
      *

@@ -60,7 +60,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     const LENGTH_TABLE_NAME         = 128;
     const LENGTH_INDEX_NAME         = 128;
     const LENGTH_FOREIGN_NAME       = 128;
-
+    const SQL_FOR_UPDATE            = 'UPDLOCK';
     /**
      * Current Transaction Level
      *
@@ -2956,7 +2956,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $expr = sprintf('CONVERT(VARCHAR(14), %s, 120)', $date);
                 break;
             case '%Y-%m-%d':
-                $expr = sprintf('CONVERT(VARCHAR(10), %s, 120)', $date);
+                $expr = sprintf('CONVERT(VARCHAR(10), %s, 102)', $date);
                 break;
             default:
                 $expr = sprintf("dbo.date_format(%s, '%s')", $date, $format);

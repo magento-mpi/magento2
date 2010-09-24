@@ -638,5 +638,19 @@ class Varien_Db_Select extends Zend_Db_Select
         return $this->having($cond, (func_num_args() > 1) ? func_get_arg(1) : array(), true);
     }
 
+    /**
+     * Render FOR UPDATE clause
+     *
+     * @param string   $sql SQL query
+     * @return string
+     */
+    protected function _renderForupdate($sql)
+    {
+        if ($this->_parts[self::FOR_UPDATE]) {
+            $sql .= ' ' . $this->_adapter::SQL_FOR_UPDATE;
+        }
+
+        return $sql;
+    }
 
 }
