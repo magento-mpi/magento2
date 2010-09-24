@@ -52,7 +52,7 @@
             <active>true</active>
         </Mage_Catalog>
         <Mage_CatalogIndex>
-            <active>false</active>
+            <active>true</active>
         </Mage_CatalogIndex>
         <Mage_CatalogInventory>
             <active>true</active>
@@ -61,7 +61,7 @@
             <active>true</active>
         </Mage_CatalogRule>
         <Mage_CatalogSearch>
-            <active>false</active>
+            <active>true</active>
         </Mage_CatalogSearch>
         <Mage_Centinel>
             <active>false</active>
@@ -226,7 +226,7 @@
             <active>false</active>
         </Mage_Usa>
         <Mage_Weee>
-            <active>false</active>
+            <active>true</active>
         </Mage_Weee>
         <Mage_Widget>
             <active>true</active>
