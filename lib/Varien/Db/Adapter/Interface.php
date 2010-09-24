@@ -58,8 +58,6 @@ interface Varien_Db_Adapter_Interface
     const INTERVAL_MONTH        = 'MONTHS';
     const INTERVAL_YEAR         = 'YEARS';
 
-    const SQL_FOR_UPDATE        = 'FOR UPDATE';
-
     /**
      * Begin new DB transaction for connection
      *
