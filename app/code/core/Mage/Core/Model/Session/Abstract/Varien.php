@@ -114,6 +114,9 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 
         session_start();
 
+        /**
+        * Renew cookie expiration time if session id did not change
+        */
         if ($cookie->get(session_name()) == $this->getSessionId()) {
             $cookie->renew(session_name());
         }
