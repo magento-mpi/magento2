@@ -1939,6 +1939,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         switch ($column['DATA_TYPE']) {
             case 'SMALLINT':
             case 'INT':
+            case 'INTEGER':
             case 'BIGINT':
                 if (is_null($value) && $column['NULLABLE']) {
                     return null;

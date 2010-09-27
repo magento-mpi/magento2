@@ -2760,6 +2760,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         switch ($column['DATA_TYPE']) {
             case 'smallint':
             case 'int':
+            case 'integer':
             case 'bigint':
                 $value = (int)$value;
                 break;
