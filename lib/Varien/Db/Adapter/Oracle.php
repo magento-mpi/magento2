@@ -440,6 +440,112 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
     /**
      * Returns the column descriptions for a table.
+     * 
+     * @param string $tableName
+     * @param string $schemaName OPTIONAL
+     * @return array
+     */
+    public function _describeTable($tableName, $schemaName = null)
+    {
+        $version = $this->getServerVersion();
+        if (($version === null) || version_compare($version, '9.0.0', '>=')) {
+            $sql = "SELECT TC.TABLE_NAME, TC.OWNER, TC.COLUMN_NAME,
+                    CASE
+                        WHEN tc.data_type = 'NUMBER' AND tc.data_scale = 0 AND tc.data_precision IS NULL
+                            THEN 'INTEGER'
+                        ELSE tc.data_type
+                    END AS DATA_TYPE,
+                    TC.DATA_DEFAULT, TC.NULLABLE, TC.COLUMN_ID, TC.DATA_LENGTH,
+                    TC.DATA_SCALE, TC.DATA_PRECISION, C.CONSTRAINT_TYPE, CC.POSITION
+                FROM ALL_TAB_COLUMNS TC
+                LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C
+                    ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P'))
+                  ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME
+                WHERE UPPER(TC.TABLE_NAME) = UPPER(:TBNAME)";
+            $bind[':TBNAME'] = $tableName;
+            if ($schemaName) {
+                $sql .= ' AND UPPER(TC.OWNER) = UPPER(:SCNAME)';
+                $bind[':SCNAME'] = $schemaName;
+            }
+            $sql .= ' ORDER BY TC.COLUMN_ID';
+        } else {
+            $subSql="SELECT AC.OWNER, AC.TABLE_NAME, ACC.COLUMN_NAME, AC.CONSTRAINT_TYPE, ACC.POSITION
+                from ALL_CONSTRAINTS AC, ALL_CONS_COLUMNS ACC
+                  WHERE ACC.CONSTRAINT_NAME = AC.CONSTRAINT_NAME
+                    AND ACC.TABLE_NAME = AC.TABLE_NAME
+                    AND ACC.OWNER = AC.OWNER
+                    AND AC.CONSTRAINT_TYPE = 'P'
+                    AND UPPER(AC.TABLE_NAME) = UPPER(:TBNAME)";
+            $bind[':TBNAME'] = $tableName;
+            if ($schemaName) {
+                $subSql .= ' AND UPPER(ACC.OWNER) = UPPER(:SCNAME)';
+                $bind[':SCNAME'] = $schemaName;
+            }
+            $sql="SELECT TC.TABLE_NAME, TC.OWNER, TC.COLUMN_NAME, TC.DATA_TYPE,
+                    TC.DATA_DEFAULT, TC.NULLABLE, TC.COLUMN_ID, TC.DATA_LENGTH,
+                    TC.DATA_SCALE, TC.DATA_PRECISION, CC.CONSTRAINT_TYPE, CC.POSITION
+                FROM ALL_TAB_COLUMNS TC, ($subSql) CC
+                WHERE UPPER(TC.TABLE_NAME) = UPPER(:TBNAME)
+                  AND TC.OWNER = CC.OWNER(+) AND TC.TABLE_NAME = CC.TABLE_NAME(+) AND TC.COLUMN_NAME = CC.COLUMN_NAME(+)";
+            if ($schemaName) {
+                $sql .= ' AND UPPER(TC.OWNER) = UPPER(:SCNAME)';
+            }
+            $sql .= ' ORDER BY TC.COLUMN_ID';
+        }
+
+        $stmt = $this->query($sql, $bind);
+
+        /**
+         * Use FETCH_NUM so we are not dependent on the CASE attribute of the PDO connection
+         */
+        $result = $stmt->fetchAll(Zend_Db::FETCH_NUM);
+
+        $table_name      = 0;
+        $owner           = 1;
+        $column_name     = 2;
+        $data_type       = 3;
+        $data_default    = 4;
+        $nullable        = 5;
+        $column_id       = 6;
+        $data_length     = 7;
+        $data_scale      = 8;
+        $data_precision  = 9;
+        $constraint_type = 10;
+        $position        = 11;
+
+        $desc = array();
+        foreach ($result as $key => $row) {
+            list ($primary, $primaryPosition, $identity) = array(false, null, false);
+            if ($row[$constraint_type] == 'P') {
+                $primary = true;
+                $primaryPosition = $row[$position];
+                /**
+                 * Oracle does not support auto-increment keys.
+                 */
+                $identity = false;
+            }
+            $desc[$this->foldCase($row[$column_name])] = array(
+                'SCHEMA_NAME'      => $this->foldCase($row[$owner]),
+                'TABLE_NAME'       => $this->foldCase($row[$table_name]),
+                'COLUMN_NAME'      => $this->foldCase($row[$column_name]),
+                'COLUMN_POSITION'  => $row[$column_id],
+                'DATA_TYPE'        => $row[$data_type],
+                'DEFAULT'          => $row[$data_default],
+                'NULLABLE'         => (bool) ($row[$nullable] == 'Y'),
+                'LENGTH'           => $row[$data_length],
+                'SCALE'            => $row[$data_scale],
+                'PRECISION'        => $row[$data_precision],
+                'UNSIGNED'         => null, // @todo
+                'PRIMARY'          => $primary,
+                'PRIMARY_POSITION' => $primaryPosition,
+                'IDENTITY'         => $identity
+            );
+        }
+        return $desc;
+    }
+
+    /**
+     * Returns the column descriptions for a table.
      *
      * The return value is an associative array keyed by the column name,
      * as returned by the RDBMS.
@@ -474,7 +580,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if (is_null($schemaName)) {
                 $schemaName = $this->_getSchemaName();
             }
-            $ddl = parent::describeTable($tableName, $schemaName);
+            $ddl = $this->_describeTable($tableName, $schemaName);
             // convert field name to lower case
             if ($this->_caseFolding == Zend_Db::CASE_NATURAL) {
                 $ddl = array_change_key_case($ddl, CASE_LOWER);
