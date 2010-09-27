@@ -901,19 +901,11 @@ interface Varien_Db_Adapter_Interface
      */
     public function orderRand(Varien_Db_Select $select, $field = null);
 
-
     /**
-     * Return sql expression analog MySql Unix_TimeStamp function
+     * Render SQL FOR UPDATE clause
      *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function getUnixTimeStamp($field = null);
-
-    /**
-     * Return constant FOR UPDATE
-     * 
+     * @param string $sql
      * @return string
      */
-    public function getConstSqlForUpdate();
+    public function forUpdate($sql);
 }

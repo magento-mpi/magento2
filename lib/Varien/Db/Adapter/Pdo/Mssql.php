@@ -4142,28 +4142,50 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Return sql expresion analog MySql Unix_TimeStamp function
-
-     * @param string $field
-     * @return Zend_Db_Expr
+     * Render SQL FOR UPDATE clause
+     *
+     * @param string $sql
+     * @return string
      */
-    public function getUnixTimeStamp($field = null)
+    public function forUpdate($sql)
     {
-        if (!$field){
-            $field = 'GETDATE()';
-        }
-        return new Zend_Db_Expr(
-            sprintf("DATEDIFF(SECOND, CAST ('19700101' AS DATE), %s)", $field)
-        );
+        $sql = preg_replace_callback('#FROM ([^ ]+)( (AS )?([^ ]+))?#i',
+            array($this, '_forUpdateFromCallback'), $sql);
+        $sql = preg_replace_callback('#(INNER|OUTER|LEFT|RIGHT) JOIN ([^ ]+)( (AS )?([^ ]+))?( ON)#i',
+            array($this, '_forUpdateJoinCallback'), $sql);
+        $sql = preg_replace_callback('#(CROSS JOIN ([^ ]+)( (AS )?([^ ]+))?)#i',
+            array($this, '_forUpdateJoinCallback'), $sql);
+
+        return $sql;
     }
 
     /**
-     * Return constant FOR UPDATE
-     * 
+     * Call-back replace function for forUpdate method
+     *
+     * @param array $match
      * @return string
      */
-    public function getConstSqlForUpdate()
+    protected function _forUpdateFromCallback($match)
     {
-        return self::SQL_FOR_UPDATE;
+        $alias = '';
+        if (!empty($match[2])) {
+            $skip = array('INNER','LEFT','RIGHT','OUTER','CROSS','JOIN','WHERE','ORDER','GROUP');
+            if (!in_array(strtoupper($match[2]), $skip)) {
+                $alias = $match[2];
+            }
+        }
+        return sprintf('FROM %s%s WITH(UPDLOCK)', $match[1], $alias);
+    }
+
+    /**
+     * Call-back replace function for forUpdate method
+     *
+     * @param array $match
+     * @return string
+     */
+    protected function _forUpdateJoinCallback($match)
+    {
+        $on = !empty($match[6]) ? $match[6] : '';
+        return sprintf('%s WITH(UPDLOCK)%s', $match[1], $on);
     }
 }

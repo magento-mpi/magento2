@@ -2005,7 +2005,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         return new Zend_Db_Expr("CASE WHEN {$condition} THEN {$true} ELSE {$false} END");
     }
-    
+
     /**
      * Generate fragment of SQL, that check value against multiple condition cases
      * and return different result depends on them
@@ -3861,13 +3861,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
-     * Return constant FOR UPDATE
-     * 
+     * Render SQL FOR UPDATE clause
+     *
+     * @param string $sql
      * @return string
      */
-    public function getConstSqlForUpdate()
+    public function forUpdate($sql)
     {
-        return self::SQL_FOR_UPDATE;
+        return sprintf('%s FOR UPDATE', $sql);
     }
 }
 
