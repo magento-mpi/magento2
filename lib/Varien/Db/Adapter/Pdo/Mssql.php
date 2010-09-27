@@ -2179,7 +2179,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $sql  = $this->_prepareQuery($sql, $bind);
                 $bind = $this->_bindParams;
             }
-//            echo $sql;
             $result = parent::query($sql, $bind);
         }
         catch (Exception $e) {
@@ -3767,6 +3766,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $indexes    = $this->getIndexList($table);
         $columns    = $this->describeTable($table);
+
         if (!$fields) {
             $fields = array_keys($columns);
         }
@@ -3776,6 +3776,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $fields    = array_values($fields);
         $i         = 0;
         $colsPart  = $select->getPart(Zend_Db_Select::COLUMNS);
+
         if (count($colsPart) != count($fields)) {
             throw new Varien_Db_Exception('Wrong columns count in SELECT for INSERT');
         }
@@ -3857,6 +3858,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         // prepare insert columns condition and values
         $insertCond = array_map(array($this, 'quoteIdentifier'), $insertCols);
         $insertVals = array();
+
         foreach ($insertCols as $column) {
             $insertVals[] = sprintf('t2.%s', $this->quoteIdentifier($column));
         }
@@ -4151,7 +4153,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $sql = preg_replace_callback('#FROM ([^ ]+)( (AS )?([^ ]+))?#i',
             array($this, '_forUpdateFromCallback'), $sql);
-        $sql = preg_replace_callback('#(INNER|OUTER|LEFT|RIGHT) JOIN ([^ ]+)( (AS )?([^ ]+))?( ON)#i',
+        $sql = preg_replace_callback('#((INNER|OUTER|LEFT|RIGHT) JOIN ([^ ]+)( (AS )?([^ ]+))?)( ON)#i',
             array($this, '_forUpdateJoinCallback'), $sql);
         $sql = preg_replace_callback('#(CROSS JOIN ([^ ]+)( (AS )?([^ ]+))?)#i',
             array($this, '_forUpdateJoinCallback'), $sql);
@@ -4168,13 +4170,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     protected function _forUpdateFromCallback($match)
     {
         $alias = '';
+        $afterAlias = '';
+
         if (!empty($match[2])) {
             $skip = array('INNER','LEFT','RIGHT','OUTER','CROSS','JOIN','WHERE','ORDER','GROUP');
-            if (!in_array(strtoupper($match[2]), $skip)) {
+            if (!in_array(strtoupper(trim($match[2])), $skip)) {
                 $alias = $match[2];
+            } else {
+                $afterAlias = $match[2];
             }
         }
-        return sprintf('FROM %s%s WITH(UPDLOCK)', $match[1], $alias);
+        return sprintf('FROM %s%s WITH(UPDLOCK) %s', $match[1], $alias, $afterAlias);
     }
 
     /**
@@ -4185,7 +4191,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _forUpdateJoinCallback($match)
     {
-        $on = !empty($match[6]) ? $match[6] : '';
+        $on = !empty($match[7]) ? $match[7] : '';
         return sprintf('%s WITH(UPDLOCK)%s', $match[1], $on);
     }
 }

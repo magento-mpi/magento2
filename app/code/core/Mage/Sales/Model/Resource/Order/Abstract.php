@@ -172,10 +172,13 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
                 return $this;
             }
             $columnsToSelect = array();
-
+            $adapter = $this->_getWriteAdapter();
+            $table = $this->getGridTable();
             $select = $this->getUpdateGridRecordsSelect($ids, $columnsToSelect);
-
-            $this->_getWriteAdapter()->query($select->insertFromSelect($this->getGridTable(), $columnsToSelect, true));
+            
+            Mage::getResourceHelper('sales')->identityInsertOn($adapter, $table);
+            $adapter->query($select->insertFromSelect($table, $columnsToSelect, true));
+            Mage::getResourceHelper('sales')->identityInsertOff($adapter, $table);
         }
 
         return $this;
@@ -191,8 +194,8 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
      */
     public function getUpdateGridRecordsSelect($ids, &$flatColumnsToSelect, $gridColumns = null)
     {
-        $flatColumns = array_keys(
-            $this->_getReadAdapter()->describeTable(
+        $flatColumns = array_keys($this->_getReadAdapter()
+            ->describeTable(
                 $this->getMainTable()
             )
         );

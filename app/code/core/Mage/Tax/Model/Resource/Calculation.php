@@ -247,11 +247,12 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
             if ($productClassId) {
                 $select->where('product_tax_class_id IN (?)', $productClassId);
             }
-
+            $ifnullTitleValue = $this->_getReadAdapter()->getCheckSql('title_table.value IS NULL', 'rate.code', 'title_table.value');
+            $ruleTableAliasName = $this->_getReadAdapter()->quoteIdentifier('rule.tax_calculation_rule_id');
             $select
                 ->join(
                     array('rule' => $this->getTable('tax/tax_calculation_rule')),
-                    'rule.tax_calculation_rule_id = main_table.tax_calculation_rule_id',
+                    $ruleTableAliasName . ' = main_table.tax_calculation_rule_id',
                     array('rule.priority', 'rule.position'))
                 ->join(
                     array('rate'=>$this->getTable('tax/tax_calculation_rate')),
@@ -267,7 +268,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
                 ->joinLeft(
                     array('title_table'=>$this->getTable('tax/tax_calculation_rate_title')),
                     "rate.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = '{$storeId}'",
-                    array('title'=>'IFNULL(title_table.value, rate.code)'))
+                    array('title' => $ifnullTitleValue))
                 ->where('rate.tax_country_id = ?', (int)$countryId)
                 ->where("rate.tax_region_id IN('*', '', ?)", (int)$regionId);
 
