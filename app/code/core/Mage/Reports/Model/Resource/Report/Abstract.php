@@ -146,7 +146,6 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
             }
             $deleteCondition = implode(' AND ', $condition);
         }
-
         $this->_getWriteAdapter()->delete($table, $deleteCondition);
         return $this;
     }
@@ -226,15 +225,14 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         } else {
             $selectResult = $selectResultCache[$cacheKey];
         }
-
         if ($selectResult === false) {
             return false;
         }
 
-        $dateMin = $this->_getReadAdapter()->getDateFormatSql("{$date} 00:00:00", '%Y-%m-%d %H:%i:%s')->__toString();
-        $dateMax = $this->_getReadAdapter()->getDateFormatSql("{$date} 23:59:59", '%Y-%m-%d %H:%i:%s')->__toString();
         $whereCondition = array();
         foreach ($selectResult as $date) {
+            $dateMin = $this->_getReadAdapter()->getDateFormatSql("{$date} 00:00:00", '%Y-%m-%d %H:%i:%s')->__toString();
+            $dateMax = $this->_getReadAdapter()->getDateFormatSql("{$date} 23:59:59", '%Y-%m-%d %H:%i:%s')->__toString();
             $whereCondition[] = sprintf('%s BETWEEN %s AND %s', $periodColumn, $dateMin, $dateMax);
         }
         $whereCondition = implode(' OR ', $whereCondition);
