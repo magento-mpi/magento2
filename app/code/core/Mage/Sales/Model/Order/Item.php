@@ -227,10 +227,10 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
      * 
      * @resturn Varien_Object
      */
-    protected function _initShortFieldsMap()
+    protected function _initOldFieldsMap()
     {
-        $this->_shortFieldsMap = array(
-            'base_weee_tax_applied_row_amnt' => 'base_weee_tax_applied_row_amount'
+        $this->_oldFieldsMap = array(
+            'base_weee_tax_applied_row_amount' => 'base_weee_tax_applied_row_amnt'
         );
     }
 

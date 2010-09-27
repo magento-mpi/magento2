@@ -143,11 +143,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      * 
      * @resturn Varien_Object
      */
-    protected function _initShortFieldsMap()
+    protected function _initOldFieldsMap()
     {
-        $this->_shortFieldsMap = array(
-            'stock_status_changed_auto' => 'stock_status_changed_automatically',
-            'use_config_enable_qty_inc' => 'use_config_enable_qty_increments'
+        $this->_oldFieldsMap = array(
+            'stock_status_changed_automatically' => 'stock_status_changed_auto',
+            'use_config_enable_qty_increments'   => 'use_config_enable_qty_inc'
         );
     }
     

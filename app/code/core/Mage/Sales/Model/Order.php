@@ -397,12 +397,12 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * 
      * @return Varien_Object
      */
-    protected function _initShortFieldsMap()
+    protected function _initOldFieldsMap()
     {
-        $this->_shortFieldsMap = array(
-            'payment_auth_expiration' => 'payment_authorization_expiration',
-            'forced_shipment_with_invoice' => 'forced_do_shipment_with_invoice',
-            'base_shipping_hidden_tax_amnt' => 'base_shipping_hidden_tax_amount',
+        $this->_oldFieldsMap = array(
+            'payment_authorization_expiration' => 'payment_auth_expiration',
+            'forced_do_shipment_with_invoice'  => 'forced_shipment_with_invoice',
+            'base_shipping_hidden_tax_amount'  => 'base_shipping_hidden_tax_amnt',
         );
         return $this;
     }

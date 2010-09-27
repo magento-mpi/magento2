@@ -92,7 +92,7 @@ class Varien_Object implements ArrayAccess
      */
     public function __construct()
     {
-        $this->_initShortFieldsMap();
+        $this->_initOldFieldsMap();
         $args = func_get_args();
         if (empty($args[0])) {
             $args[0] = array();
@@ -105,10 +105,10 @@ class Varien_Object implements ArrayAccess
     
     protected function _addFullNames()
     {
-        $existedShortKeys = array_intersect(array_keys($this->_shortFieldsMap), array_keys($this->_data));
+        $existedShortKeys = array_intersect($this->_shortFieldsMap, array_keys($this->_data));
         if (!empty($existedShortKeys)) {
             foreach ($existedShortKeys as $key) {
-                $fullFieldName = $this->_shortFieldsMap[$key];
+                $fullFieldName = array_search($key, $this->_shortFieldsMap);
                 $this->_data[$fullFieldName] = $this->_data[$key];
             }
         }
@@ -120,7 +120,7 @@ class Varien_Object implements ArrayAccess
      * 
      * @resturn Varien_Object
      */
-    protected function _initShortFieldsMap()
+    protected function _initOldFieldsMap()
     {
 
     }
