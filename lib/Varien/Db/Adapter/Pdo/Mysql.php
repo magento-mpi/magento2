@@ -47,7 +47,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     const LENGTH_INDEX_NAME     = 64;
     const LENGTH_FOREIGN_NAME   = 64;
 
-    const SQL_FOR_UPDATE        = 'FOR UPDATE';    
+    const SQL_FOR_UPDATE        = 'FOR UPDATE';
     /**
      * Current Transaction Level
      *
@@ -2929,15 +2929,15 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string $primaryKey  OPTIONAL Name of primary key column.
      * @return string
      */
-    public function lastInsertId($tableName, $primaryKey = null)
+    public function lastInsertId($tableName = null, $primaryKey = null)
     {
         $this->_connect();
-        return $this->_connection->lastInsertId();
+        return $this->_connection->lastInsertId($tableName);
     }
 
     /**
      * Return constant FOR UPDATE
-     * 
+     *
      * @return string
      */
     public function getConstSqlForUpdate()
