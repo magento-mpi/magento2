@@ -509,6 +509,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     public function initTotals($items, Mage_Sales_Model_Quote_Address $address)
     {
+        $address->setCartFixedRules(array());
+
         if (!$items) {
             return $this;
         }
