@@ -155,12 +155,27 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
     }
 
     /**
-     * Proces loaded collection data
+     * Load data
      *
-     * @return Varien_Data_Collection_Db
+     * @return  Varien_Data_Collection_Db
      */
-    protected function _afterLoad()
+    public function load($printQuery = false, $logQuery = false)
     {
+        if ($this->isLoaded()) {
+            return $this;
+        }
+
+        $this->_beforeLoad();
+
+        $this->_renderFilters()
+             ->_renderOrders()
+             ->_renderLimit();
+
+        $this->printLogQuery($printQuery, $logQuery);
+
+        $data = $this->getData();
+        $this->resetData();
+
         $stores = Mage::getResourceModel('core/store_collection')
             ->setWithoutDefaultFilter()
             ->load()
@@ -182,9 +197,11 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
         if ($this->_totals['num_orders']) {
             $this->_totals['avgsale'] = $this->_totals['base_lifetime'] / $this->_totals['num_orders'];
         }
+
+        $this->_setIsLoaded();
+        $this->_afterLoad();
         return $this;
     }
-
 
     /**
      * Retrieve totals data converted into Varien_Object
