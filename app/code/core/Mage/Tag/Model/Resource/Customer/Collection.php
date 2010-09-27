@@ -262,7 +262,6 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
         if ($this->_allowDisableGrouping) {
             $countSelect->reset(Zend_Db_Select::COLUMNS);
             $countSelect->reset(Zend_Db_Select::GROUP);
-            $countSelect->reset(Varien_Db_Select::MAGIC_GROUP);
             $countSelect->columns('COUNT(DISTINCT ' . $this->getCountAttribute() . ')');
         }
         return $countSelect;

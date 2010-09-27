@@ -707,8 +707,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
         $countSelect = $this->_getClearSelect()
             ->columns('COUNT(DISTINCT e.entity_id)')
-            ->resetJoinLeft()
-            ->reset(Varien_Db_Select::MAGIC_GROUP);
+            ->resetJoinLeft();
         return $countSelect;
     }
 
