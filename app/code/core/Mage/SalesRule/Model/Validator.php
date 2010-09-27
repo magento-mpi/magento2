@@ -320,9 +320,9 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
                             $discountAmount = min($itemPrice * $qty, $quoteAmount);
                             $baseDiscountAmount = min($baseItemPrice * $qty, $maximumItemDiscount);
-                            $cartRules[$rule->getId()] -= $baseDiscountAmount;
                             $this->_rulesItemTotals[$rule->getId()]['items_count']--;
                         }
+                        $cartRules[$rule->getId()] -= $baseDiscountAmount;
                     }
                     $address->setCartFixedRules($cartRules);
                     break;
