@@ -202,8 +202,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function checkCoreFlag()
     {
-        $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-        if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+        $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
+        if ($process->isLocked()) {
             return false;
         } else {
             return true;
@@ -217,9 +217,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function setCoreFlag()
     {
-        Mage::getModel('catalogindex/catalog_index_flag')->loadSelf()
-            ->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING)
-            ->save();
+        $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
+        $process->lock();
         return $this;
     }
 
@@ -230,10 +229,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function releaseCoreFlag()
     {
-        $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-        if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-            $catalogIndexFlag->delete();
-        }
+        $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
+        $process->isLocked() && $process->unlock();
         return $this;
     }
 
