@@ -2933,5 +2933,15 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     {
         $this->_connect();
         return $this->_connection->lastInsertId();
-    }    
+    }
+
+    /**
+     * Return constant FOR UPDATE
+     * 
+     * @return string
+     */
+    public function getConstSqlForUpdate()
+    {
+        return self::SQL_FOR_UPDATE;
+    }
 }

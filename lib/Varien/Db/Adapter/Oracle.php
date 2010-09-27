@@ -1899,6 +1899,24 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         return new Zend_Db_Expr("CASE WHEN {$condition} THEN {$true} ELSE {$false} END");
     }
+    
+    /**
+     * Generate fragment of SQL, that check value against multiple condition cases
+     * and return different result depends on them
+     *
+     * @param string $valueName Name of value to check
+     * @param array $casesResults Cases and results
+     * @param string $defaultValue value to use if value doesnt conforme to any cases
+     */
+    public function getCaseSql($valueName, $casesResults, $defaultValue)
+    {
+        $expression = "CASE {$valueName}";
+        foreach ($casesResults as $case => $result) {
+            $expression .= " WHEN {$case} THEN {$result}";
+        }
+        $expression .= " ELSE {$defaultValue} END";
+        return new Zend_Db_Expr($expression);
+    }
 
     /**
      * Generate fragment of SQL, that combine together (concatenate) the results from data array
@@ -3734,6 +3752,16 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $select->assemble(),
             !empty($groupByCondition) ? "" : "WHERE varien_wind_table.varien_group_rank = 1"
         );
+    }
+
+    /**
+     * Return constant FOR UPDATE
+     * 
+     * @return string
+     */
+    public function getConstSqlForUpdate()
+    {
+        return self::SQL_FOR_UPDATE;
     }
 }
 

@@ -909,4 +909,11 @@ interface Varien_Db_Adapter_Interface
      * @return Zend_Db_Expr
      */
     public function getUnixTimeStamp($field = null);
+
+    /**
+     * Return constant FOR UPDATE
+     * 
+     * @return string
+     */
+    public function getConstSqlForUpdate();
 }

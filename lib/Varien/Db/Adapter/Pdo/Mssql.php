@@ -4156,4 +4156,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             sprintf("DATEDIFF(SECOND, CAST ('19700101' AS DATE), %s)", $field)
         );
     }
+
+    /**
+     * Return constant FOR UPDATE
+     * 
+     * @return string
+     */
+    public function getConstSqlForUpdate()
+    {
+        return self::SQL_FOR_UPDATE;
+    }
 }
