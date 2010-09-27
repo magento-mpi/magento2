@@ -81,7 +81,7 @@ class Varien_Object implements ArrayAccess
      * 
      * @var array
      */
-    protected $_shortFieldsMap = array();
+    protected $_oldFieldsMap = array();
 
     /**
      * Constructor
@@ -105,10 +105,10 @@ class Varien_Object implements ArrayAccess
     
     protected function _addFullNames()
     {
-        $existedShortKeys = array_intersect($this->_shortFieldsMap, array_keys($this->_data));
+        $existedShortKeys = array_intersect($this->_oldFieldsMap, array_keys($this->_data));
         if (!empty($existedShortKeys)) {
             foreach ($existedShortKeys as $key) {
-                $fullFieldName = array_search($key, $this->_shortFieldsMap);
+                $fullFieldName = array_search($key, $this->_oldFieldsMap);
                 $this->_data[$fullFieldName] = $this->_data[$key];
             }
         }
@@ -245,8 +245,8 @@ class Varien_Object implements ArrayAccess
             $this->_addFullNames();
         } else {
             $this->_data[$key] = $value;
-            if (isset($this->_shortFieldsMap[$key])) {
-                $fullFieldName = $this->_shortFieldsMap[$key];
+            if (isset($this->_oldFieldsMap[$key])) {
+                $fullFieldName = $this->_oldFieldsMap[$key];
                 $this->_data[$fullFieldName] = $value;
             }
         }
@@ -268,8 +268,8 @@ class Varien_Object implements ArrayAccess
             $this->_data = array();
         } else {
             unset($this->_data[$key]);
-            if (isset($this->_shortFieldsMap[$key])) {
-                $fullFieldName = $this->_shortFieldsMap[$key];
+            if (isset($this->_oldFieldsMap[$key])) {
+                $fullFieldName = $this->_oldFieldsMap[$key];
                 unset($this->_data[$fullFieldName]);
             }
         }
