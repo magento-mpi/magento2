@@ -121,7 +121,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
     protected function _beforeLoad()
     {
         $this->getSelect()
-            ->from(array('sales' => $this->_resource->getMainTable()),
+            ->from(array('sales' => Mage::getResourceSingleton('sales/order')->getMainTable()),
                 array(
                     'store_id',
                     'lifetime'      => 'sum(sales.base_grand_total)',
