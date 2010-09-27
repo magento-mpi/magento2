@@ -392,7 +392,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
         if ($object->getId() && !empty($data)) {
             $table = $this->getMainTable();
             $this->_getWriteAdapter()->update($table, $data, 
-                array($this->getIdFieldName() . '=?', (int) $object->getId())
+                array($this->getIdFieldName() . '=?' => (int) $object->getId())
             );
             $object->addData($data);
         }
