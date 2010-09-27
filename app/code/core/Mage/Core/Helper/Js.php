@@ -142,7 +142,8 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
                     $this->__('Please enter a valid email address. For example johndoe@domain.com.'),
                 'Please enter 6 or more characters.' => $this->__('Please enter 6 or more characters.'),
                 'Please make sure your passwords match.' => $this->__('Please make sure your passwords match.'),
-                'Please enter a valid URL. http:// is required' => $this->__('Please enter a valid URL. http:// is required'),
+                'Please enter a valid URL. Protocol is required (http://, https:// or ftp://)' =>
+                    $this->__('Please enter a valid URL. Protocol is required (http://, https:// or ftp://)'),
                 'Please enter a valid URL. For example http://www.example.com or www.example.com' =>
                     $this->__('Please enter a valid URL. For example http://www.example.com or www.example.com'),
                 'Please enter a valid social security number. For example 123-45-6789.' =>
