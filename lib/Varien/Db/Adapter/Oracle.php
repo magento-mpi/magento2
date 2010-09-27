@@ -440,7 +440,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
     /**
      * Returns the column descriptions for a table.
-     * 
+     *
      * @param string $tableName
      * @param string $schemaName OPTIONAL
      * @return array
@@ -3669,60 +3669,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $select->order($spec);
 
         return $this;
-    }
-
-    /**
-     * Adds column for getting rank
-     *
-     * @param Varien_Db_Select $select
-     * @param array $groupColumns
-     * @param string $orderSql
-     * @return string
-     */
-    public function addRankColumn($select, $groupColumns, $orderSql)
-    {
-        $sql = !count($select->getPart(Zend_Db_Select::COLUMNS))?' ':', ';
-        $sql .= 'RANK() OVER (PARTITION BY ' .
-                implode(",\n\t", $groupColumns) .
-                ' ORDER BY ROWNUM ) AS varien_rank_column';
-
-        if ($orderSql != '') {
-            $sql .= ', RANK() OVER (' . $orderSql . ') AS varien_order_column';
-        }
-
-        $having = $select->getPart(Zend_Db_Select::HAVING);
-        foreach ($having as $havingPart) {
-            foreach ($havingPart['values'] as $havingValueIndex => $havingValue) {
-                $sql .= ', ' . $havingValue . ' OVER (PARTITION BY ' . implode(",\n\t", $groupColumns) . ') AS '
-                . $havingPart['alias'][$havingValueIndex];
-            }
-        }
-
-        return $sql;
-    }
-
-    /**
-     * Get soft group select
-     *
-     * @param string $select
-     * @return string
-     */
-    public function getMagicGroupSelect($sql, $select)
-    {
-        $sql = "SELECT * FROM ({$sql}) varien_magicgroup_select \n"
-            . "WHERE varien_magicgroup_select.varien_rank_column = 1";
-
-        $having = $select->getPart(Zend_Db_Select::HAVING);
-        foreach ($having as $havingPart) {
-             $sqlHaving .= vsprintf($havingPart['cond'], $havingPart['alias']);
-        }
-        if (!empty($having)) {
-            $sql .= ' AND (' . $sqlHaving . ')';
-            unset($having);
-            unset($sqlHaving);
-        }
-
-        return $sql;
     }
 
     /**
