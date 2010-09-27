@@ -181,7 +181,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
             ->load()
             ->toOptionHash();
         $this->_items = array();
-        foreach ($this->_data as $v) {
+        foreach ($data as $v) {
             $storeObject = new Varien_Object($v);
             $storeId = $v['store_id'];
             $storeName = isset($stores[$storeId]) ? $stores[$storeId] : null;
