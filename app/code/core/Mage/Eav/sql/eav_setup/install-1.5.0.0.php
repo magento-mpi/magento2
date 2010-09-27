@@ -535,12 +535,10 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store Id')
     ->addColumn('increment_prefix', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'Increment Prefix')
     ->addColumn('increment_last_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'Last Incremented Id')
     ->addIndex($installer->getIdxName('eav/entity_store', array('entity_type_id')),
         array('entity_type_id'))
