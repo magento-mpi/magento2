@@ -306,7 +306,6 @@ class Mage_Reports_Model_Resource_Report_Collection
      */
     public function timeShift($datetime)
     {
-        $date = Varien_Date::toTimestamp($datetime) - Mage::getModel('core/date')->getGmtOffset();
-        return Varien_Date::formatDate($date, true);
+        return Mage::app()->getLocale()->utcDate(null, $datetime, true, Varien_Date::DATETIME_INTERNAL_FORMAT)->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
     }
 }
