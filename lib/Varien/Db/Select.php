@@ -56,7 +56,6 @@ class Varien_Db_Select extends Zend_Db_Select
     const TYPE_CONDITION    = 'TYPE_CONDITION';
 
     const STRAIGHT_JOIN     = 'straightjoin';
-    const MAGIC_GROUP        = 'magicgroup';
 
     const SQL_STRAIGHT_JOIN = 'STRAIGHT_JOIN';
 
@@ -79,7 +78,6 @@ class Varien_Db_Select extends Zend_Db_Select
             self::GROUP         => array(),
             self::HAVING        => array(),
             self::ORDER         => array(),
-            self::MAGIC_GROUP    => false,
             self::LIMIT_COUNT   => null,
             self::LIMIT_OFFSET  => null,
             self::FOR_UPDATE    => false
