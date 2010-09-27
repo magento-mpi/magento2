@@ -197,8 +197,8 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
      */
     public function addOrdersStatistics($isFilter = false)
     {
-        $this->_addOrderStatistics = true;
-        $this->_addOrderStatisticsIsFilter = $isFilter;
+        $this->_addOrderStatistics          = true;
+        $this->_addOrderStatisticsIsFilter  = (bool)$isFilter;
         return $this;
     }
 

@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
         if ($storeId instanceof Mage_Core_Model_Store) {
             $storeId = $storeId->getId();
         }
-        $this->_storeId = $storeId;
+        $this->_storeId = (int)$storeId;
         return $this;
     }
 
