@@ -37,7 +37,7 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
 
     protected $_datetypeMap = array(
             'INTEGER'     => 'integer',
-            'NUMBER'      => 'integer',
+            'NUMBER'      => 'float',
             'FLOAT'       => 'float',
             'VARCHAR2'    => 'string',
             'TIMESTAMP(6)'=> 'string',
