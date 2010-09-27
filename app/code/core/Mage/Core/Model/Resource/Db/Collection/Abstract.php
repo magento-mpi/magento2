@@ -100,6 +100,18 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     protected $_resetItemsDataChanged   = false;
 
     /**
+     * Event prefix key
+     * @var string
+     */
+    protected $_eventPrefix = '';
+
+    /**
+     * Event object key
+     * @var string
+     */
+    protected $_eventObject = '';
+
+    /**
      * Collection constructor
      *
      * @param Mage_Core_Model_Resource_Db_Abstract $resource
@@ -522,6 +534,9 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     {
         parent::_beforeLoad();
         Mage::dispatchEvent('core_collection_abstract_load_before', array('collection' => $this));
+        Mage::dispatchEvent($this->_eventPrefix.'_load_before', array(
+            $this->_eventObject => $this
+        ));
         return $this;
     }
 

@@ -35,20 +35,6 @@
 abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Event prefix
-     *
-     * @var string
-     */
-    protected $_eventPrefix    = '';
-
-    /**
-     * Event object
-     *
-     * @var string
-     */
-    protected $_eventObject    = '';
-
-    /**
      * Check if $attribute is Mage_Eav_Model_Entity_Attribute and convert to string field name
      *
      * @param string|Mage_Eav_Model_Entity_Attribute $attribute

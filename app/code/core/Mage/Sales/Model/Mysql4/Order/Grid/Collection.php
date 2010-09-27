@@ -34,4 +34,27 @@
  */
 class Mage_Sales_Model_Mysql4_Order_Grid_Collection extends Mage_Sales_Model_Resource_Order_Grid_Collection
 {
+
+    /**
+     * Get SQL for get record count
+     *
+     * @return Varien_Db_Select
+     */
+    public function getSelectCountSql()
+    {
+        $this->_renderFilters();
+
+        $unionSelect = clone $this->getSelect();
+
+        $unionSelect->reset(Zend_Db_Select::ORDER);
+        $unionSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $unionSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $unionSelect->reset(Zend_Db_Select::COLUMNS);
+
+        $countSelect = clone $this->getSelect();
+        $countSelect->reset();
+        $countSelect->from(array('a' => $unionSelect), 'COUNT(*)');
+
+        return $countSelect;
+    }
 }

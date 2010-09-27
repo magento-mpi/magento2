@@ -133,4 +133,27 @@ class Enterprise_SalesArchive_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Add archived orders to order grid collection select
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_SalesArchive_Model_Observer
+     */
+    public function appendGridCollection(Varien_Event_Observer $observer)
+    {
+        $collection = $observer->getEvent()->getOrderGridCollection();
+        $collectionSelect = $collection->getSelect();
+        $cloneSelect = clone $collectionSelect;
+
+        $union = Mage::getResourceModel('enterprise_salesarchive/order_collection')
+            ->getOrderGridArchiveSelect($cloneSelect);
+
+        $unionParts = array($cloneSelect, $union);
+
+        $collectionSelect->reset();
+        $collectionSelect->union($unionParts, Zend_Db_Select::SQL_UNION_ALL);
+
+        return $this;
+    }
 }
