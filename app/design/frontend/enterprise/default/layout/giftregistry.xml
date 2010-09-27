@@ -36,10 +36,8 @@
         </reference>
     </checkout_cart_index>
 
-   <wishlist_index_index>
-        <reference name="my.account.wrapper">
-            <block type="enterprise_giftregistry/wishlist_view" name="customer.wishlist" template="giftregistry/wishlist/view.phtml"/>
-        </reference>
+    <wishlist_index_index>
+        <block type="enterprise_giftregistry/wishlist_view" name="giftregistry.customer.wishlist" template="giftregistry/wishlist/view.phtml"/>
     </wishlist_index_index>
 
     <enterprise_giftregistry_index_index>

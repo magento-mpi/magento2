@@ -29,6 +29,23 @@
  */
 class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Customer_Wishlist
 {
+    /**
+     * Prepare block layout, override wishlist block with different template
+     *
+     * @return Enterprise_GiftRegistry_Block_Wishlist_View
+     */
+    protected function _prepareLayout()
+    {
+        $outputEnabled = Mage::helper('core')->isModuleOutputEnabled($this->getModuleName());
+        if ($outputEnabled) {
+            $block = $this->getLayout()->getBlock('my.account.wrapper');
+            if ($block) {
+                $block->unsetChild('customer.wishlist');
+                $block->append($this, 'customer.wishlist');
+            }
+        }
+        return parent::_prepareLayout();
+    }
 
     /**
      * Return add url
