@@ -1145,7 +1145,7 @@ $installer->getConnection()->query('DROP TEMPORARY TABLE ' . $temporaryTable);
  * Workaround for the coupon_code attribute that may be missed in the Mage_SalesRule/sql/mysql4-upgrade-0.7.10-0.7.11.php
  * The problem is that Mage_SalesRule depends on Mage_Sales and sometimes the attribute doesn't get updated before this line of code.
  * As a result: an existing column in the sales_flat_order table, but wrong type in the attribute registry and sometimes even data lost
- * Reproduces on upgrading from 1.4.0.x to 1.4.1.0 or from 1.6 to 1.8/1.9
+ * Reproduces on upgrading from 1.4.0.x to 1.4.1.0
  * 
  * Test case:
  * 1) Have Magento instance without flat sales yet, and without Mage_SalesRule/sql/mysql4-upgrade-0.7.10-0.7.11.php
