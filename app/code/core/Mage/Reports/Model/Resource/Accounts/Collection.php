@@ -43,9 +43,12 @@ class Mage_Reports_Model_Resource_Accounts_Collection extends Mage_Reports_Model
      */
     protected function _joinFields($from = '', $to = '')
     {
+
         $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
         $this->addAttributeToFilter('created_at' , array('from' => $from, 'to' => $to, 'datetime' => true))
-            ->addExpressionAttributeToSelect('accounts', 'COUNT({{entity_id}})', array('entity_id'));
+             ->addExpressionAttributeToSelect('accounts', 'COUNT({{entity_id}})', array('entity_id'));
+
+        $this->getSelect()->having("{$this->_joinFields['accounts']['field']} > ?", 0);
 
         return $this;
     }
