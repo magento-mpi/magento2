@@ -507,7 +507,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     public function groupByCustomer()
     {
-        $this->getSelect()->magicGroup('main_table.customer_id');
+        $this->getSelect()->group('main_table.customer_id');
 
         return $this;
     }
@@ -535,11 +535,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     {
         $this->addFieldToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED));
         $this->getSelect()
-            ->columns(array('orders_count' =>
-                Mage::getResourceHelper('reports')->getAnalyticColumn(
-                    'COUNT(main_table.entity_id)', $this->getSelect()->getPart(Zend_Db_Select::GROUP)
-                )
-            ));
+            ->columns(array('orders_count' => 'COUNT(main_table.entity_id)'));
 
         return $this;
     }
@@ -573,8 +569,19 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     public function addSumAvgTotals($storeId = 0)
     {
-        $helper = Mage::getResourceHelper('reports');
-        $helper->orderCollectionaddSumAvgTotals($storeId, $this);
+        $adapter = $this->getConnection();
+        $baseSubtotalRefunded = $adapter->getCheckSql('main_table.base_subtotal_refunded IS NULL', 0, 'main_table.base_subtotal_refunded');
+        $baseSubtotalCanceled = $adapter->getCheckSql('main_table.base_subtotal_canceled IS NULL', 0, 'main_table.base_subtotal_canceled');
+        /**
+         * calculate average and total amount
+         */
+        $expr = ($storeId == 0)
+            ? "(main_table.base_subtotal - {$baseSubtotalRefunded} - {$baseSubtotalCanceled}) * main_table.base_to_global_rate"
+            : "main_table.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
+
+        $this->getSelect()
+            ->columns(array('orders_avg_amount' => "AVG({$expr})"))
+            ->columns(array('orders_sum_amount' => "SUM({$expr})"));
 
         return $this;
     }
