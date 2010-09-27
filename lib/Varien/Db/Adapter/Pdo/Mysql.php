@@ -2482,7 +2482,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     public function getDateFormatSql($date, $format)
     {
-        $expr = sprintf("DATE_FORMAT(%s, '%s')", $date, $format);
+        $expr = sprintf("DATE_FORMAT('%s', '%s')", $date, $format);
         return new Zend_Db_Expr($expr);
     }
 
