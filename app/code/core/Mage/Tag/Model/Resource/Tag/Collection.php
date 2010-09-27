@@ -163,7 +163,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
                 'relation.tag_id = summary.tag_id AND relation.store_id = summary.store_id',
                 array('popularity')
             )
-            ->magicGroup('main_table.tag_id');
+            ->group('main_table.tag_id');
 
             if (!is_null($limit)) {
                 $this->getSelect()->limit($limit);
@@ -308,7 +308,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
 
             $this->getSelect()->where('summary_store.store_id IN (?)', $storeId);
 
-            $this->getSelect()->magicGroup('summary_store.tag_id');
+            $this->getSelect()->group('summary_store.tag_id');
 
             if ($this->getFlag('relation') && $allFilter) {
                 $this->getSelect()->where('relation.store_id IN (?)', $storeId);
@@ -389,7 +389,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
      */
     public function addTagGroup()
     {
-        $this->getSelect()->magicGroup('main_table.tag_id');
+        $this->getSelect()->group('main_table.tag_id');
         return $this;
     }
 

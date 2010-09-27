@@ -284,7 +284,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
                 array('ao' => $this->getTable('eav/attribute_option')),
                 'ao.attribute_id = main_table.attribute_id',
                 'option_id')
-            ->magicGroup('main_table.attribute_id')
+            ->group('main_table.attribute_id')
             ->where($orWhere);
 
         return $this;
