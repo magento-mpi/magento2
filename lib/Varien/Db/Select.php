@@ -647,7 +647,7 @@ class Varien_Db_Select extends Zend_Db_Select
     protected function _renderForupdate($sql)
     {
         if ($this->_parts[self::FOR_UPDATE]) {
-            $sql .= ' ' . $this->_adapter::SQL_FOR_UPDATE;
+            $sql .= ' ' . $this->_adapter->getConstSqlForUpdate();
         }
 
         return $sql;
