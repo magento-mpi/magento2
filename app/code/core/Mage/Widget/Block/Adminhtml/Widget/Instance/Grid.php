@@ -80,7 +80,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
         $this->addColumn('type', array(
             'header'    => Mage::helper('widget')->__('Type'),
             'align'     => 'left',
-            'index'     => 'type',
+            'index'     => 'instance_type',
             'type'      => 'options',
             'options'   => $this->getTypesOptionsArray()
         ));

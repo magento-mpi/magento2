@@ -88,6 +88,20 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         }
     }
 
+     /**
+     * Init mapping array of short fields to
+     * its full names
+     *
+     * @return Varien_Object
+     */
+    protected function _initOldFieldsMap()
+    {
+        $this->_oldFieldsMap = array(
+            'type' => 'instance_type',
+        );
+        return $this;
+    }
+
     /**
      * Processing object before save data
      *
@@ -145,6 +159,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         }
         $this->setData('page_groups', $tmpPageGroups);
         $this->setData('page_group_ids', $pageGroupIds);
+
         return parent::_beforeSave();
     }
 

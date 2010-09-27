@@ -97,12 +97,12 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
         foreach ($object->getData('page_groups') as $pageGroup) {
             $pageLayoutUpdateIds = $this->_saveLayoutUpdates($object, $pageGroup);
             $data = array(
-                'group'           => $pageGroup['group'],
+                'page_group'      => $pageGroup['group'],
                 'layout_handle'   => $pageGroup['layout_handle'],
                 'block_reference' => $pageGroup['block_reference'],
-                'for'             => $pageGroup['for'],
+                'page_for'        => $pageGroup['for'],
                 'entities'        => $pageGroup['entities'],
-                'template'        => $pageGroup['template'],
+                'page_template'   => $pageGroup['template'],
             );
             $pageId = $pageGroup['page_id'];
             if (in_array($pageGroup['page_id'], $pageIds)) {
@@ -197,8 +197,8 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
                 'layout_page_table.page_id = main_table.page_id',
                 array('layout_update_id')
             )
-            ->where('main_table.instance_id=:instance_id');
-        $result = $writeAdapter->fetchCol($select, $object->getId());
+            ->where('main_table.instance_id=?', $object->getId());
+        $result = $writeAdapter->fetchCol($select);
         $object->setLayoutUpdateIdsToDelete($result);
         return $this;
     }

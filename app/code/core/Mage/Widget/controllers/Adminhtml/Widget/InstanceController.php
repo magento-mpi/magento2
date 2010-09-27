@@ -78,8 +78,6 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
                 $this->_getSession()->addError(Mage::helper('widget')->__('Wrong wigdet instance specified.'));
                 return false;
             }
-            $data['type'] = $widgetInstance->getType();
-            $data['package_theme'] = $widgetInstance->getPackageTheme();
         } else {
             $widgetInstance->setType($type)
                 ->setPackageTheme($packageTheme);

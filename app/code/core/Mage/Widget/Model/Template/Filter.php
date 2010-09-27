@@ -55,7 +55,7 @@ class Mage_Widget_Model_Template_Filter extends Mage_Cms_Model_Template_Filter
         } elseif (!empty($params['id'])) {
             $preconfigured = Mage::getResourceSingleton('widget/widget')
                 ->loadPreconfiguredWidget($params['id']);
-            $type = $preconfigured['type'];
+            $type = $preconfigured['widget_type'];
             $params = $preconfigured['parameters'];
         } else {
             return '';
