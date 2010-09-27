@@ -300,7 +300,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
             ->from($tagRelationTable, array('product_id', 'popularity' => 'COUNT(DISTINCT tag_relation_id)'))
             ->where('tag_id = :tag_id')
             ->group('product_id')
-            ->having($this->_getConditionSql(new Zend_Db_Expr('%s'), $condition), 'popularity');
+            ->having($this->_getConditionSql('popularity', $condition));
 
         $prodIds = array();
         foreach ($this->getConnection()->fetchAll($select, array('tag_id' => $this->_tagIdFilter)) as $item) {

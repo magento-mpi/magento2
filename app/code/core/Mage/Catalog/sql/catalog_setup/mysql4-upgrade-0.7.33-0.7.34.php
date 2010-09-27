@@ -38,7 +38,7 @@ $select = $installer->getConnection()->select()
     ))
     ->group('category_id')
     ->group('product_id')
-    ->having('%s > 1', 'cnt');
+    ->having('cnt > 1');
 $rowSet = $installer->getConnection()->fetchAll($select);
 
 foreach ($rowSet as $row) {

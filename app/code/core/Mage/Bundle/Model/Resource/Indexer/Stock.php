@@ -123,7 +123,7 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
 
         $select->where('bo.required = ?', 1);
         $selectNonRequired->where('bo.required = ?', 0)
-            ->having('%s = 1', $status);
+            ->having($status . ' = 1');
         $query = $select->insertFromSelect($this->_getBundleOptionTable());
         $adapter->query($query);
 

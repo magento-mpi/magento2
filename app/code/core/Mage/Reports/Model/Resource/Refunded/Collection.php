@@ -51,7 +51,7 @@ class Mage_Reports_Model_Resource_Refunded_Collection extends Mage_Sales_Model_E
         $this->getSelect()
             ->where('base_total_refunded>0')
             ->group('("*")')
-            ->having('%s > 0', 'orders');
+            ->having('orders > 0');
 
         return $this;
     }

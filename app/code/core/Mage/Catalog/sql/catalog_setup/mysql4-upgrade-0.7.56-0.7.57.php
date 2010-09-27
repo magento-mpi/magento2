@@ -37,7 +37,7 @@ $select = $installer->getConnection()->select()
         'store_id'    => 'store_id',
         'rows_count'  => 'COUNT(*)'))
     ->group(array('category_id' , 'product_id' , 'is_parent' , 'store_id'))
-    ->having('%s > 1', 'rows_count');
+    ->having('rows_count > 1');
 $query = $installer->getConnection()->query($select);
 
 while ($row = $query->fetch()) {

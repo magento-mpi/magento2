@@ -92,7 +92,7 @@ class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
             ));
         }
 
-        $this->getSelect()->having('%s > 0', 'coupon_uses');
+        $this->getSelect()->having('coupon_uses > 0');
 
         $this->_inited = true;
         return $this;

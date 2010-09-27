@@ -358,7 +358,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 array('views' => 'COUNT(t_v.event_id)', 'object_id', 'logged_at'))
             ->where('t_v.event_type_id = ?', $productViewEvent)
             ->group(array('t_v.object_Id', 't_v.logged_at'))
-            ->having('%s > 0', 'COUNT(t_v.event_id)');
+            ->having('COUNT(t_v.event_id) > 0');
 
         if ($from != '' && $to != '') {
             $innerSelect

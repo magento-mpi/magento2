@@ -132,7 +132,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'order_table.status'
             ));
 
-            $select->having('%s > 0', $countExpr);
+            $select->having($countExpr . ' > 0');
 
             $adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
@@ -224,7 +224,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'status'
             ));
 
-            $select->having('%s > 0', $countExpr);
+            $select->having($countExpr . ' > 0');
 
             $adapter->query($select->insertFromSelect($table, array_keys($columns)));
 

@@ -114,7 +114,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
                 'coupon_code'
             ));
 
-            $select->having('%s > 0', 'rows_count');
+            $select->having('rows_count > 0');
 
             $this->_getWriteAdapter()->query($select->insertFromSelect($table, array_keys($columns)));
 

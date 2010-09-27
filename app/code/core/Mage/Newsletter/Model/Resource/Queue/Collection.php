@@ -162,7 +162,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
                 array('queue_id', 'total' => new Zend_Db_Expr('COUNT(queue_link_id)'))
             )
             ->group('queue_id')
-            ->having($this->_getConditionSql(new Zend_Db_Expr('%s'), $condition), 'total');
+            ->having($this->_getConditionSql('total', $condition));
 
         if ($field == 'subscribers_sent') {
             $select->where('letter_sent_at IS NOT NULL');
