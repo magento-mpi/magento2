@@ -49,7 +49,6 @@ class Mage_Sales_Model_Mysql4_Order_Grid_Collection extends Mage_Sales_Model_Res
         $unionSelect->reset(Zend_Db_Select::ORDER);
         $unionSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $unionSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $unionSelect->reset(Zend_Db_Select::COLUMNS);
 
         $countSelect = clone $this->getSelect();
         $countSelect->reset();
