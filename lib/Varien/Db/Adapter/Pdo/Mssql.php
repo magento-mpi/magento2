@@ -2713,7 +2713,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             } else if (isset($condition['lteq'])) {
                 $query = $this->quoteInto("{$fieldName} <= ?", $condition['lteq']);
             } else if (isset($condition['finset'])) {
-                $query = $this->quoteInto("dbo.find_in_set(?, {$fieldName})", $condition['finset']);
+                $query = $this->quoteInto("dbo.find_in_set(?, {$fieldName}) = 1", $condition['finset']);
             } else if (isset($condition['regexp'])) {
                 $query = $this->quoteInto("dbo.regexp({$fieldName}, ?, 1) = 1", $condition['regexp']);
             } else if (isset($condition['regexp_replace'])) {
