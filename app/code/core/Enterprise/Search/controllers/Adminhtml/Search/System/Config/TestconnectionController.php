@@ -40,7 +40,8 @@ class Enterprise_Search_Adminhtml_Search_System_Config_TestconnectionController 
     {
         if (!isset($_REQUEST['host']) || !($host = $_REQUEST['host'])
             || !isset($_REQUEST['port']) || !($port = (int)$_REQUEST['port'])
-            || !isset($_REQUEST['path']) || !($path = $_REQUEST['path'])) {
+            || !isset($_REQUEST['path']) || !($path = $_REQUEST['path'])
+        ) {
             echo 0;
             die;
         }
