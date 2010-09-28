@@ -322,7 +322,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         Mage::app()->cleanCache();
 
         $cacheData = array();
-        foreach (Mage::helper('core')->getCacheTypes() as $type=>$label) {
+        foreach (Mage::helper('core')->getCacheTypes() as $type => $label) {
             $cacheData[$type] = 1;
         }
         Mage::app()->saveUseCache($cacheData);

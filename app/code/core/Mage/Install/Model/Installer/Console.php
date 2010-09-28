@@ -75,6 +75,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
                 'locale'              => array('required' => true, 'comment' => ''),
                 'timezone'            => array('required' => true, 'comment' => ''),
                 'default_currency'    => array('required' => true, 'comment' => ''),
+                'db_model'            => array('comment' => ''),
                 'db_host'             => array('required' => true, 'comment' => ''),
                 'db_name'             => array('required' => true, 'comment' => ''),
                 'db_user'             => array('required' => true, 'comment' => ''),
@@ -286,6 +287,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
          * Database and web config
          */
         $this->_getDataModel()->setConfigData(array(
+            'db_model'             => $this->_args['db_model'],
             'db_host'             => $this->_args['db_host'],
             'db_name'             => $this->_args['db_name'],
             'db_user'             => $this->_args['db_user'],
@@ -421,6 +423,9 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             if ($this->hasErrors()) {
                 return false;
             }
+
+            // apply data updates
+            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
 
             /**
              * Change directories mode to be writable by apache user
