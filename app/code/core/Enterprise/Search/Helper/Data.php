@@ -37,7 +37,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Define if search engine is used for layered navigation
      *
-     * @var null | bool
+     * @var bool
      */
     protected $_useEngineInLayeredNavigation = null;
 
@@ -51,14 +51,19 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Show if taxes have influence on price
      *
-     * @var null | bool
+     * @var bool
      */
     protected $_taxInfluence = null;
 
     /**
-     * Defines text type fields
-     * Integer attributes are saved at metadata as text because in fact they are values for
-     * options of select type inputs but their values are presented as text aliases
+     * Define if engine is available for layered navigation
+     *
+     * @var bool
+     */
+    protected $_isEngineAvailableForNavigation = null;
+
+    /**
+     * Define text type fields
      *
      * @var array
      */
@@ -161,6 +166,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
         }
+
         return $default;
     }
 
@@ -250,6 +256,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
             isset($value['to']) && empty($value['to']))) {
             return false;
         }
+
         $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         $languageCode = $this->getLanguageCodeByLocaleCode($locale);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
@@ -293,7 +300,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrive attribute field's name for sorting
+     * Retrieve attribute field's name for sorting
      *
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      *
@@ -361,5 +368,22 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return $this->_taxInfluence;
+    }
+
+    /**
+     * Check if search engine can be used for catalog navigation
+     *
+     * @param bool $catalog - define if checking availability for catalog navigation or search result navigation
+     * @return bool
+     */
+    public function getIsEngineAvailableForNavigation($catalog = true)
+    {
+        if (is_null($this->_isEngineAvailableForNavigation)) {
+            $this->_isEngineAvailableForNavigation = $this->isActiveEngine()
+                && ($this->getSearchConfigData('solr_server_use_in_catalog_navigation') || !$catalog)
+                && !$this->getTaxInfluence();
+        }
+
+        return $this->_isEngineAvailableForNavigation;
     }
 }

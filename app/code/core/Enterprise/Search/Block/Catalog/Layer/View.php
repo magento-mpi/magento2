@@ -48,7 +48,8 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
     protected function _initBlocks()
     {
         parent::_initBlocks();
-        if ($this->getIsEngineAvailable()) {
+
+        if (Mage::helper('enterprise_search')->getIsEngineAvailableForNavigation()) {
             $this->_categoryBlockName        = 'enterprise_search/catalog_layer_filter_category';
             $this->_attributeFilterBlockName = 'enterprise_search/catalog_layer_filter_attribute';
             $this->_priceFilterBlockName     = 'enterprise_search/catalog_layer_filter_price';
@@ -64,7 +65,7 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
     protected function _prepareLayout()
     {
         $helper = Mage::helper('enterprise_search');
-        if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
+        if ($helper->isThirdPartSearchEngine() && $helper->getIsEngineAvailableForNavigation()) {
             $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
                 ->setLayer($this->getLayer());
 
@@ -111,26 +112,22 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
      */
     public function getLayer()
     {
-        if ($this->getIsEngineAvailable()) {
+        if (Mage::helper('enterprise_search')->getIsEngineAvailableForNavigation()) {
             return Mage::getSingleton('enterprise_search/catalog_layer');
         }
+
         return parent::getLayer();
     }
 
     /**
      * Check if search engine gen be used for catalog navigation
      *
+     * @deprecated after 1.9.0.0 - use Enterprise_Search_Helper_Data::getIsEngineAvailableForNavigation()
+     *
      * @return bool
      */
     public function getIsEngineAvailable()
     {
-        if (!$this->hasData('is_engine_available')) {
-            $available = Mage::helper('enterprise_search')->isActiveEngine()
-                && Mage::helper('enterprise_search')->getSearchConfigData('solr_server_use_in_catalog_navigation')
-                && !Mage::helper('enterprise_search')->getTaxInfluence();
-            $this->setData('is_engine_available', $available);
-        }
-
-        return $this->_getData('is_engine_available');
+        return Mage::helper('enterprise_search')->getIsEngineAvailableForNavigation();
     }
 }
