@@ -6,6 +6,18 @@
  */
 class Model_Frontend_Product extends Model_Frontend
 {
+
+    /**
+     * Product type constants
+     */
+    const SIMPLE   = 1;
+    const GROUPED = 2;
+    const CONFIGURABLE  = 3;
+    const BUNDLE = 4;
+    const VIRTUAL = 5;
+    const GIFTCARD = 6;
+    const DOWNLODABLE = 7;
+
     /**
      * Loading configuration data for the testCase
      */
@@ -30,9 +42,10 @@ class Model_Frontend_Product extends Model_Frontend
     {
         $this->printDebug('doOpenProduct started...');
         $productData = $params ? $params : $this->productData;
-        $productName = $productData['name'];
-        $sku = $productData['sku'];
-        $categoryName = $productData['subcategoryname'];
+//        print_r($productData);
+        $productName = $productData['productName'];
+//        $sku = $productData['sku'];
+//        $categoryName = $productData['subcategoryname'];
 
         if ($this->categoryModel->doOpen ($productData)) {
             if ($this->waitForElement($this->getUiElement("/frontend/pages/category/links/productName",$productName),5)) {
@@ -47,6 +60,49 @@ class Model_Frontend_Product extends Model_Frontend
         }
 
      }
+
+    /*
+     * Tries to determine type of opened product.
+     * Default value is SIMPLE(VIRTUAL)
+     */
+    public function detectType()
+    {
+        $this->printDebug('detectType() started');
+        $result = self::SIMPLE;
+
+        $type_markers = $this->getUiElement('frontend/pages/product/elements/types');
+
+        if ($this->isElementPresent($type_markers['grouped'])) {
+            $result = self::GROUPED;
+        }   elseif ($this->isElementPresent($type_markers['downlodable'])) {
+                $result = self::DOWNLODABLE;
+            }   elseif ($this->isElementPresent($type_markers['configurable'])) {
+                    $result = self::CONFIGURABLE;
+                }   elseif ($this->isElementPresent($type_markers['bundle'])) {
+                        $result = self::BUNDLE;
+                    }
+
+        $this->printDebug('detectType() finished: ' . $result);
+        return $result;
+    }
+
+    /*
+     *
+     */
+    public function placeToCart($params = array())
+    {
+        $this->printDebug('placeToCart() started...');
+        switch ($this->detectType()) {
+            case self::SIMPLE:
+                // Place product to the cart
+                $this->type($this->getUiElement("/frontend/pages/product/inputs/qty"),$params["qty"]);
+                $this->clickAndWait($this->getUiElement("/frontend/pages/product/buttons/addToCart"));
+                break;
+        }
+        $this->printDebug('placeToCart() finished');
+    }
+
+    // Test case
 
     /**
      * Test correcteness of appearing $product category page.

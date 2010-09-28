@@ -14,6 +14,7 @@
     <category>
         <links>
             <subCategory>//a[contains(span,'%s')]</subCategory>
+            <sub_category_with_parent>//ul[@id='nav']//li[contains(a/span,'%s')]//li[contains(a/span,'%s')]</sub_category_with_parent>
             <productImg>//a[contains(@class,'product-image') and contains(@title,'%s') and contains(@href,'%s')]</productImg>
             <productName>//*[contains(@class,'product-name')]/a[contains(text(),'%s')]</productName>
         </links>
@@ -52,6 +53,13 @@
             <breadcrumb>//div[contains(@class,'breadcrumbs')]//li[contains(@class,'product')]//*[contains(text(),'%s')]</breadcrumb>
             <name>//*[contains(@class,'product-name')]//*[text()='%s']</name>
             <price>//*[contains(@class,'price-box')]//span[starts-with(@class,'price')]</price>
+            <types>
+                <grouped>//div[contains(@class,'product-main-info')]//table[@id='super-product-table']</grouped>
+                <configurable>//div[normalize-space(@class)='options-container-big']/fieldset[normalize-space(@id='product-options-wrapper')]</configurable>
+                <bundle>//div[normalize-space(@id)='bundle-product-wrapper']</bundle>
+                <giftcard>//div[normalize-space(@class)='giftcard-form']</giftcard>
+                <downlodable>//ul[normalize-space(@id)='downloadable-links-list']</downlodable>
+            </types>
         </elements>
     </product>
     <shoppingCart>
@@ -114,7 +122,7 @@
             <shippingMethod>
                 <inputs>
                         <freeShipping>s_method_freeshipping_freeshipping</freeShipping>
-                        <flatrate>s_method_flatrate_flatrate</flatrate>
+                        <flatShipping>s_method_flatrate_flatrate</flatShipping>
                 </inputs>
                 <buttons>
                         <continue>//li[@id='opc-shipping_method']//button[contains(span,'Continue')]</continue>

@@ -16,6 +16,46 @@ class Model_Frontend_Checkout extends Model_Frontend
         $this->userData = Core::getEnvConfig('backend/user');
     }
 
+    /*
+     *  Performs Checkout
+     * @param - array wirh expecteded values:
+     *       productUrl
+     *       qty'firstName
+     *       lastName
+     *       company
+     *       email
+     *       street1
+     *       street2
+     *       city
+     *       'country
+     *       region
+     *       postcode
+     *       telephone
+     *       fax
+     */
+    public function  doCheckout($params)
+    {
+        $this->printDebug('doCheckout started...');
+        $this->setUiNamespace('frontend/pages/onePageCheckout/tabs/');
+
+        if ('Checkout as Guest'==$params['checkoutMethod']) {
+            //Select '...as Guest'
+            $this->click($this->getUiElement('checkoutMethod/inputs/asGuest'));
+            $this->click($this->getUiElement('checkoutMethod/buttons/continue'));
+            // Fill billing address tab
+            $this->fillBillingTab($params);
+        }
+
+        $this->fillShippingTab($params);
+        $this->fillPaymentInfoTab($params);
+        $this->placeOrder();
+
+        //Perform rest of Checkout steps
+//        $this->shippingMethodPaymentPlaceOrderSteps($params);
+
+
+        $this->printDebug('doCheckout finished');
+    }
 
     /**
      * Perform Checkout as a Guest from FrontEnd
@@ -278,6 +318,7 @@ class Model_Frontend_Checkout extends Model_Frontend
             return false;
         }
 
+
         //Perform rest checkout steps
         $this->shippingMethodPaymentPlaceOrderStepsForMS();
     }
@@ -354,7 +395,96 @@ class Model_Frontend_Checkout extends Model_Frontend
         $this->selectRegion($this->getUiElement('selectors/region'),$params['region']);
         //Use billing address for shipping
         $this->click($this->getUiElement('inputs/use_for_shipping'));
+        //Press Continue
+        $this->setUiNamespace('frontend/pages/onePageCheckout/tabs/');
+        $this->click($this->getUiElement('billingAddress/buttons/continue'));
+        $this->pleaseWaitStep($this->getUiElement('billingAddress/elements/pleaseWait'));
         $this->printDebug('fillBillingTab finished...');
+    }
+
+    /*
+     * Fill Shipping Method Tab
+     * @params - array with expected values of:
+     *  shippingMethod ('Free', 'Flat')
+     */
+    public function fillShippingTab($params)
+    {
+        $this->printDebug('fillShippingTab started');
+        $this->setUiNamespace('/frontend/pages/onePageCheckout/tabs/');
+
+        if ('Free' == $params['shippingMethod']) {
+            //Select Free method
+            if (!$this->waitForElement($this->getUiElement('shippingMethod/inputs/freeShipping'),10)) {
+                $this->setVerificationErrors('Check 3: Free shipping method not available.');
+                return false;
+            }
+            $this->printInfo('Using Free shipping');
+            $this->click($this->getUiElement('shippingMethod/inputs/freeShipping'));
+        } elseif ('Flat' == $params['shippingMethod']) {
+            //Select Flat method
+            if (!$this->waitForElement($this->getUiElement('shippingMethod/inputs/flatShipping'),10)) {
+                $this->setVerificationErrors('Check 3: Flat shipping method not available.');
+                return false;
+            }
+            $this->printInfo('Using Flat shipping');
+            $this->click($this->getUiElement('shippingMethod/inputs/freeShipping'));
+        }
+         $this->click($this->getUiElement('shippingMethod/buttons/continue'));
+         $this->pleaseWaitStep($this->getUiElement('shippingMethod/elements/pleaseWait'));
+         $this->printDebug('fillShippingTab finished...');
+    }
+
+
+    /*
+     * Fill Payment Info Tab
+     * @params - array with expected values of:
+     *  paymentMethod ('Money/Check Order')
+     */
+    public function fillPaymentInfoTab($params)
+    {
+         $this->printDebug('fillPaymentInformationTab started');
+         if ('Check / Money order' == $params['paymentMethod']) {
+             if (!$this->waitForElement($this->getUiElement('paymentInfo/inputs/check'),10)) {
+                $this->setVerificationErrors("Check 4: 'Check / MoneyOrder' payment method is not available.");
+                return false;
+             }
+
+             $this->printInfo('Using Check/Money Order method');
+             $this->click($this->getUiElement('paymentInfo/inputs/check'));
+         }
+         $this->click($this->getUiElement('paymentInfo/buttons/continue'));
+         $this->pleaseWaitStep($this->getUiElement('paymentInfo/elements/pleaseWait'));
+         $this->printDebug('fillPaymentInformationTab finished');
+    }
+
+    /*
+     * Place order from last page
+     * @return boolean
+     */
+    public function placeOrder()
+    {
+        $result = false;
+        $this->printDebug('placeOrder started...');
+        $this->setUiNamespace('/frontend/pages/onePageCheckout/tabs/');
+        $this->clickAndWait($this->getUiElement('orderReview/buttons/placeOrder'));
+
+         // Check for success message
+         if (!$this->waitForElement($this->getUiElement('/frontend/pages/onePageCheckout/messages/orderPlaced'),10)) {
+            $this->setVerificationErrors("Check 5: no 'Order Placed'  message");
+            $result = false;
+         } else  {
+             if (!$this->waitForElement($this->getUiElement('orderPlaced/links/orderID'),10)) {
+                $this->setVerificationErrors("Check 6: no 'OrderID'  element on the page");
+                $result = false;
+             } else {
+                 //Success
+                 $result = true;
+                 $orderID = $this->getText($this->getUiElement('orderPlaced/links/orderID'));
+                 $this->printInfo($orderID);
+             }
+         }
+         $this->printDebug('placeOrder finished');
+         return $result;
     }
 
     /*
@@ -406,12 +536,6 @@ class Model_Frontend_Checkout extends Model_Frontend
          return true;
     }
 
-    /*
-     * wait for appearance and disappearence of 'Loading Next step...' block during frontend checkout
-     * Since all steps has unique block id, its should be passed as parameter
-     * @param - ID of '$element-please-wait' block
-     */
-
      /*
      *  Sequentally fill all fields in the ShippingMethod, PaymentInfo, OrderReview Checkout Steps for MultiShippingAddress CheckOut
      *  used free shipping and check/money order options
@@ -457,6 +581,11 @@ class Model_Frontend_Checkout extends Model_Frontend
         return true;
     }
 
+    /*
+     * wait for appearance and disappearence of 'Loading Next step...' block during frontend checkout
+     * Since all steps has unique block id, its should be passed as parameter
+     * @param - ID of '$element-please-wait' block
+     */
     public function pleaseWaitStep($element)
     {
         $this->printDebug('pleaseWaitStep started :' . $element);

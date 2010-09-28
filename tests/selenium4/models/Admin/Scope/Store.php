@@ -123,12 +123,9 @@ class Model_Admin_Scope_Store extends Model_Admin {
 
         // Filter users by name
         $this->click($this->getUiElement('buttons/reset_filter'));
-        sleep(1);
         //Filter by store name
         $this->type($this->getUiElement('filters/store_name'),$name);
-        sleep(10);
         $this->clickAndWait($this->getUiElement('buttons/search'));
-        sleep(1);
         //Open user with 'Store Name' == name
         if ($this->isTextPresent($this->getUiElement('/admin/elements/no_records'),2)) {
           // Store not founded

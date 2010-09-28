@@ -30,18 +30,26 @@ class Model_Frontend_Category extends Model_Frontend
     {
         if (is_array($params)) {
             $categoryData = $params ? $params : $this->categoryData;
-            $categoryName = $categoryData['subcategoryname'];
+            $categoryName = $categoryData['categoryName'];
         } else {
             $categoryName = $params;
-        }
+        };
         $this->printDebug("doOpenCategory($categoryName) started...");
+        $link = '//ul[@id="nav"]';
+        $nodes = explode('/', $categoryName);
+        foreach ($nodes as $node) {
+            $link = $link . '//li[contains(a/span,"' . $node . '")]';
+        }
+        $link = $link . '/a';
+        $this->printDebug($link);
         //Open home page
         $this->open($this->baseUrl);
 
-        if ($this->waitForElement($this->getUiElement('frontend/pages/category/links/subCategory',$categoryName),5)) {
+        if ($this->waitForElement($link,2)) {
             //Move to Category
-            $this->clickAndWait($this->getUiElement('frontend/pages/category/links/subCategory',$categoryName));
-        } else {
+            $this->clickAndWait($link);
+        }
+        else {
             $this->printInfo('doOpenCategory: "' . $categoryName . '" category page could not be opened');
             return false;
         }
