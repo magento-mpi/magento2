@@ -56,6 +56,27 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterp
         return $this->_defaultOperatorInputByType;
     }
 
+     /**
+     * Customize default operator options getter
+     * Inverted logic for UpToDate condition. For example, condition:
+     * Period "equals or less" than 10 Days Up To Date - means:
+     * days from _10 day before today_ till today: days >= (today - 10), etc.
+     *
+     * @return array
+     */
+    public function getDefaultOperatorOptions()
+    {
+        if (null === $this->_defaultOperatorOptions) {
+            $this->_defaultOperatorOptions = array(
+                '<='  => Mage::helper('rule')->__('equals or greater than'),
+                '>='  => Mage::helper('rule')->__('equals or less than'),
+                '<'   => Mage::helper('rule')->__('greater than'),
+                '>'   => Mage::helper('rule')->__('less than')
+            );
+        }
+        return $this->_defaultOperatorOptions;
+    }
+
     /**
      * Get inherited conditions selectors
      *
