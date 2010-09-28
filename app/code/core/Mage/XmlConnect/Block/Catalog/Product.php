@@ -92,6 +92,10 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             }
             $item->addChild('has_options', (int)$product->getHasOptions());
 
+            if ($minSaleQty = $this->_getMinimalQty($product)) {
+                $item->addChild('min_sale_qty', (int) $minSaleQty);
+            }
+
             if (!$product->getRatingSummary()) {
                 Mage::getModel('review/review')
                    ->getEntitySummary($product, Mage::app()->getStore()->getId());
@@ -114,6 +118,18 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
         return $item;
     }
 
+    /**
+     * Get MinSaleQty for product
+     * @param  Mage_Catalog_Model_Product $product
+     * @return int|null 
+     */
+    protected function _getMinimalQty($product)
+    {
+        if ($stockItem = $product->getStockItem()) {
+            return ($stockItem->getMinSaleQty() && $stockItem->getMinSaleQty() > 0 ? $stockItem->getMinSaleQty() * 1 : null);
+        }
+        return null;
+    }
     /**
      * Render product info xml
      *

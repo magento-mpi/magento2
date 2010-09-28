@@ -93,12 +93,16 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         }
 
         /*
-        * want to laod the correct customer information by assiging to address
+        * want to load the correct customer information by assigning to address
         * instead of just loading from sales/quote_address
         */
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         if ($customer) {
             $this->_quote->assignCustomer($customer);
+        }
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()
+            && Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()) {
+            $this->_prepareGuestQuote();
         }
         return $this->_quote->getReservedOrderId();
     }
@@ -121,10 +125,16 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
          *
          * @todo remove this hard code
          */
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
         $data['country_id'] = 'US';
-        $data['firstname'] = $customer->getFirstname();
-        $data['lastname'] = $customer->getLastname();
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $data['firstname'] = $customer->getFirstname();
+            $data['lastname'] = $customer->getLastname();
+
+        } else {
+            $data['firstname'] = Mage::helper('xmlconnect')->__('Guest');
+            $data['lastname'] = Mage::helper('xmlconnect')->__('Guest');
+        }
         /**
          * End hard code
          */
@@ -197,8 +207,10 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         $data['method'] = $this->_methodType;
         $payment->importData($data);
 
-        $payment->setAdditionalInformation(self::PAYMENT_INFO_PAYER_EMAIL, isset($data['payer']) ? $data['payer'] : null);
+        $email = isset($data['payer']) ? $data['payer'] : null;
+        $payment->setAdditionalInformation(self::PAYMENT_INFO_PAYER_EMAIL, $email);
         $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSACTION_ID, isset($data['transaction_id']) ? $data['transaction_id'] : null);
+        $this->_quote->setCustomerEmail($email);
 
         $this->_quote->collectTotals()->save();
 
@@ -278,5 +290,19 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     protected function _getCheckoutSession()
     {
         return $this->_checkoutSession;
+    }
+
+    /**
+     * Prepare quote for guest checkout order submit
+     *
+     * @return Mage_XmlConnect_Model_Paypal_Mep_Checkout
+     */
+    protected function _prepareGuestQuote()
+    {
+        $quote = $this->_quote;
+        $quote->setCustomerId(null)
+            ->setCustomerIsGuest(true)
+            ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
+        return $this;
     }
 }

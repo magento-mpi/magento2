@@ -52,7 +52,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()
+                && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message(Mage::helper('xmlconnect')->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
             return ;
