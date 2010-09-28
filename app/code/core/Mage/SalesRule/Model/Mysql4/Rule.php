@@ -69,26 +69,28 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_SalesRule_Model_Resource_Rul
         //Getting attribute IDs for attribute codes
         $attributeIds = array();
         $select = $this->_getReadAdapter()->select()
-            ->from(array('a'=>$this->getTable('eav/attribute')), array('a.attribute_id'))
-            ->where('a.attribute_code IN (?)', array($attributes));
-        foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
-            $attributeIds[] = $row['attribute_id'];
-        }
+                ->from(array('a'=>$this->getTable('eav/attribute')), array('a.attribute_id'))
+                ->where('a.attribute_code IN (?)', array($attributes));
+        if ($attributesFound = $this->_getReadAdapter()->fetchAll($select)) {
+            foreach ($attributesFound as $attr) {
+                $attributeIds[] = $attr['attribute_id'];
+            }
 
-        $data = array();
-        foreach (explode(',', $rule->getCustomerGroupIds()) as $customerGroupId) {
-            foreach (explode(',', $rule->getWebsiteIds()) as $websiteId) {
-                foreach ($attributeIds as $attribute) {
-                    $data[] = array (
+            $data = array();
+            foreach (explode(',', $rule->getCustomerGroupIds()) as $customerGroupId) {
+                foreach (explode(',', $rule->getWebsiteIds()) as $websiteId) {
+                    foreach ($attributeIds as $attribute) {
+                        $data[] = array (
                             'rule_id'           => $rule->getId(),
                             'website_id'        => $websiteId,
                             'customer_group_id' => $customerGroupId,
                             'attribute_id'      => $attribute
                         );
+                    }
                 }
             }
+            $write->insertMultiple($this->getTable('salesrule/product_attribute'), $data);
         }
-        $write->insertMultiple($this->getTable('salesrule/product_attribute'), $data);
         return $this;
     }
 }
