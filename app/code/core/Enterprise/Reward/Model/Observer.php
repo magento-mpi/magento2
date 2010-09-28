@@ -263,9 +263,9 @@ class Enterprise_Reward_Model_Observer
             && (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) - $order->getBaseTotalPaid()) < 0.0001) {
             /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = Mage::getModel('enterprise_reward/reward')
+                ->setActionEntity($order)
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($order->getStore()->getWebsiteId())
-                ->setActionEntity($order)
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
                 ->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {

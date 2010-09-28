@@ -720,4 +720,12 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    public function setActionEntity($entity)
+    {
+        if ($entity->getCustomerGroupId()) {
+            $this->setCustomerGroupId($entity->getCustomerGroupId());
+        }
+        return parent::setData('action_entity', $entity);
+    }
 }

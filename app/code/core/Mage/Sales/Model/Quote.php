@@ -413,7 +413,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getCustomerGroupId()
     {
         if ($this->getCustomerId()) {
-            return $this->getCustomer()->getGroupId();
+            return ($this->getData('customer_group_id')) ? $this->getData('customer_group_id')
+                : $this->getCustomer()->getGroupId();
         } else {
             return Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
         }
