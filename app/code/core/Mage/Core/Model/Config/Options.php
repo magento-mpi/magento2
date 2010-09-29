@@ -214,9 +214,11 @@ class Mage_Core_Model_Config_Options extends Varien_Object
                 return false;
             }
         } else {
+            $oldUmask = umask(0);
             if (!@mkdir($dir, 0777, true)) {
                 return false;
             }
+            umask($oldUmask);
         }
         $this->_dirExists[$dir] = true;
         return true;
