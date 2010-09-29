@@ -242,7 +242,13 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
             // Make SELECT and get data
             $select = $this->_getReadAdapter()->select();
             $select
-                ->from(array('main_table' => $this->getMainTable()))
+                ->from(array('main_table' => $this->getMainTable()),
+                array(  'tax_calculation_rate_id',
+                        'tax_calculation_rule_id',
+                        'customer_tax_class_id', 
+                        'product_tax_class_id'
+                    )
+                )
                 ->where('customer_tax_class_id = ?', (int)$customerClassId);
             if ($productClassId) {
                 $select->where('product_tax_class_id IN (?)', $productClassId);
@@ -279,8 +285,10 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
                 ->where("rate.tax_postcode IN('*', '', ?)", $this->_createSearchPostCodeTemplates($postcode));
 
             $selectClone
-                ->where("rate.zip_is_range IS NOT NULL")
-                ->where('? BETWEEN rate.zip_from AND rate.zip_to', $postcode);
+                ->where("rate.zip_is_range IS NOT NULL");
+            
+                /* Wrong expresion for mssql string to int comparison */
+                //->where('? BETWEEN rate.zip_from AND rate.zip_to', $postcode);
 
             /**
              * @see ZF-7592 issue http://framework.zend.com/issues/browse/ZF-7592
