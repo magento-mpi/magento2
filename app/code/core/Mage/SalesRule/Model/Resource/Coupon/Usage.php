@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Model Resource Coupon_Usage
  *
  * @category    Mage
  * @package     Mage_SalesRule
@@ -35,7 +35,7 @@
 class Mage_SalesRule_Model_Resource_Coupon_Usage extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Constructor
      *
      */
     protected function _construct()

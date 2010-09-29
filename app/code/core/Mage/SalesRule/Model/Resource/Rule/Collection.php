@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Model Resource Rule_Collection
  *
  * @category    Mage
  * @package     Mage_SalesRule
@@ -35,7 +35,7 @@
 class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Constructor
      *
      */
     protected function _construct()
@@ -45,7 +45,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
     }
 
     /**
-     * Enter description here ...
+     * Set filter to select rules that matches current criteria
      *
      * @param unknown_type $websiteId
      * @param unknown_type $customerGroupId
@@ -58,33 +58,37 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
         if (is_null($now)) {
             $now = Mage::getModel('core/date')->date('Y-m-d');
         }
+        /* We need to overwrite joinLeft if coupon is applied */
+        $this->getSelect()->reset();
+        parent::_initSelect();
 
-        $this->getSelect()->where('is_active=1');
-        $this->getSelect()->where('find_in_set(?, website_ids)', (int)$websiteId);
-        $this->getSelect()->where('find_in_set(?, customer_group_ids)', (int)$customerGroupId);
+        $this->addFieldToFilter('website_ids', array('finset' => (int)$websiteId))
+            ->addFieldToFilter('customer_group_ids', array('finset' => (int)$customerGroupId))
+            ->addFieldToFilter('is_active', 1);
 
         if ($couponCode) {
-            $this->getSelect()->joinLeft(
-                array('extra_coupon' => $this->getTable('salesrule/coupon')),
-                'extra_coupon.rule_id = main_table.rule_id AND extra_coupon.is_primary IS NULL',
-                array()
-            );
+            $this->getSelect()
+                ->joinLeft(
+                    array('rule_coupons' => $this->getTable('salesrule/coupon')),
+                    'main_table.rule_id = rule_coupons.rule_id '
+                    .$this->getSelect()->getAdapter()->quoteInto('AND rule_coupons.code = ?', $couponCode),
+                    array('code')
+                );
             $this->getSelect()->group('main_table.rule_id');
-            $this->getSelect()->where(''
-                . $this->getSelect()->getAdapter()->quoteInto(' main_table.coupon_type <> ?', Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
-                . $this->getSelect()->getAdapter()->quoteInto(' OR primary_coupon.code = ?', $couponCode)
-            );
-            $this->getSelect()->having(''
-                . $this->getSelect()->getAdapter()->quoteInto(' main_table.coupon_type <> ?', Mage_SalesRule_Model_Rule::COUPON_TYPE_AUTO)
-                . $this->getSelect()->getAdapter()->quoteInto(' OR FIND_IN_SET(?, GROUP_CONCAT(extra_coupon.code))', $couponCode)
-            );
         } else {
-            $this->getSelect()->where('main_table.coupon_type = ?', Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON);
+            $this->getSelect()
+                ->joinLeft(
+                    array('rule_coupons' => $this->getTable('salesrule/coupon')),
+                    'main_table.rule_id = rule_coupons.rule_id AND rule_coupons.is_primary = 1',
+                    array('code')
+                );
+            $this->addFieldToFilter('main_table.coupon_type', Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON);
         }
         $this->getSelect()->where('from_date is null or from_date<=?', $now);
         $this->getSelect()->where('to_date is null or to_date>=?', $now);
-        $this->getSelect()->order('sort_order');
-
+        $this->getSelect()->group('main_table.rule_id');        
+       echo $this->getSelect()->order('sort_order');
+        die;
         return $this;
     }
 
@@ -101,7 +105,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
         }
         $parts = array();
         foreach ($websiteIds as $websiteId) {
-            $parts[] = $this->getConnection()->quoteInto('FIND_IN_SET(?, main_table.website_ids)', $websiteId);
+            $parts[] = $this->getConnection()->prepareSqlCondition('main_table.website_ids',  array('finset' => $websiteId));
         }
         if ($parts) {
             $this->getSelect()->where(new Zend_Db_Expr(implode(' OR ', $parts)));
@@ -112,6 +116,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
     /**
      * Init collection select
      *
+     *
      * @return Mage_SalesRule_Model_Resource_Rule_Collection
      */
     public function _initSelect()
@@ -119,8 +124,8 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
         parent::_initSelect();
         $this->getSelect()
             ->joinLeft(
-                array('primary_coupon' => $this->getTable('salesrule/coupon')),
-                'main_table.rule_id = primary_coupon.rule_id AND primary_coupon.is_primary = 1',
+                array('rule_coupons' => $this->getTable('salesrule/coupon')),
+                'main_table.rule_id = rule_coupons.rule_id AND rule_coupons.is_primary = 1',
                 array('code')
             );
         return $this;

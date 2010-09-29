@@ -26,7 +26,7 @@
 
 
 /**
- * Rule report resource model
+ * Rule report Resource Model
  *
  * @category    Mage
  * @package     Mage_SalesRule

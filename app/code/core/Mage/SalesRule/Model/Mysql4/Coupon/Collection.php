@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Mysql4 coupon collection
  *
  * @category    Mage
  * @package     Mage_SalesRule

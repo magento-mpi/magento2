@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Mysql4 Rule Customer Collection
  *
  * @category    Mage
  * @package     Mage_SalesRule

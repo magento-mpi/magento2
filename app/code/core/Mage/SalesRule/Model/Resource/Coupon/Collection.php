@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Model Resource Coupon_Collection
  *
  * @category    Mage
  * @package     Mage_SalesRule
@@ -35,7 +35,7 @@
 class Mage_SalesRule_Model_Resource_Coupon_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Constructor
      *
      */
     protected function _construct()

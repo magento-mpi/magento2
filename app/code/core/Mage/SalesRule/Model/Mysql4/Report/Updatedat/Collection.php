@@ -26,7 +26,7 @@
 
 
 /**
- * Sales report coupons collection
+ * SalesRule Report Updatedat Collection
  *
  * @category    Mage
  * @package     Mage_SalesRule

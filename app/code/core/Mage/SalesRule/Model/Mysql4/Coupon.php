@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Coupon Resource Model
  *
  * @category    Mage
  * @package     Mage_SalesRule
