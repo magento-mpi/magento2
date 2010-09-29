@@ -177,4 +177,21 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
 
         return $this;
     }
+
+    /**
+     * Specify filter for attributes used in quick search
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
+     */
+    public function addSearchableAttributeFilter()
+    {
+        $this->getSelect()->where(
+            'additional_table.is_searchable = 1 OR '.
+            $this->getConnection()->quoteInto('main_table.attribute_code IN (?)', array('status', 'visibility'))
+        );
+
+        return $this;
+    }
+    
+}
 }

@@ -406,17 +406,19 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $entityType   = $this->getEavConfig()->getEntityType(Mage_Catalog_Model_Product::ENTITY);
             $entity       = $entityType->getEntity();
 
-            $attributes = Mage::getResourceModel('catalog/product_attribute_collection')
-                ->setEntityTypeFilter($entityType->getEntityTypeId())
-                //->addVisibleFilter()
-                ->addToIndexFilter(true)
-                ->getItems();
+            $productAttributeCollection = Mage::getResourceModel('catalog/product_attribute_collection')
+                ->setEntityTypeFilter($entityType->getEntityTypeId());
+            if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
+                $productAttributeCollection->addToIndexFilter(true);
+            } else {
+                $productAttributeCollection->addSearchableAttributeFilter();
+            }
+            $attributes = $productAttributeCollection->getItems();
 
             foreach ($attributes as $attribute) {
                 $attribute->setEntity($entity);
                 $this->_searchableAttributes[$attribute->getId()] = $attribute;
             }
-            unset($attributes);
         }
         if (!is_null($backendType)) {
             $attributes = array();
