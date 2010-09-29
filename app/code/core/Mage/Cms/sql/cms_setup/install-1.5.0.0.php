@@ -95,12 +95,10 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Page ID')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true
         ), 'Page Title')
     ->addColumn('root_template', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true
         ), 'Page Template')
     ->addColumn('meta_keywords', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => true,
