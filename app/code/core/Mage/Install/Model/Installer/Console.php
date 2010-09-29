@@ -377,6 +377,9 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
                 return false;
             }
 
+            // apply data updates
+            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+
             /**
              * Validate entered data for administrator user
              */
@@ -423,9 +426,6 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             if ($this->hasErrors()) {
                 return false;
             }
-
-            // apply data updates
-            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
 
             /**
              * Change directories mode to be writable by apache user
