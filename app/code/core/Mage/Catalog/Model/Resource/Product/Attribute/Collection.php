@@ -82,8 +82,15 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _getLoadDataFields()
     {
-        $fields = parent::_getLoadDataFields();
-        $fields = array_merge($fields, array('additional_table.is_global'));
+        $fields = array_merge(
+            parent::_getLoadDataFields(),
+            array(
+                'additional_table.is_global',
+                'additional_table.is_html_allowed_on_front',
+                'additional_table.is_wysiwyg_enabled'
+            )
+        );
+
         return $fields;
     }
 

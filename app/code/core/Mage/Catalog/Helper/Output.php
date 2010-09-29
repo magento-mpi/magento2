@@ -134,10 +134,12 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }
+
         $attributeHtml = $this->process('productAttribute', $attributeHtml, array(
             'product'   => $product,
             'attribute' => $attributeName
         ));
+
         return $attributeHtml;
     }
 
