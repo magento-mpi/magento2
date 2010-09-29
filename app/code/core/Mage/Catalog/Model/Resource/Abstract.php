@@ -161,7 +161,9 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
             $valueId = $valueRow['value_id'];
 
             $object->setData($attributeCode, $value);
-            $object->setAttributeDefaultFlag($attributeCode, $isDefaultStore);
+            if (!$isDefaultStore) {
+                $object->setExistsStoreValueFlag($attributeCode);
+            }
             $attribute->getBackend()->setValueId($valueId);
         }
 

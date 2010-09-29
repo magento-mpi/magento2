@@ -50,12 +50,11 @@ abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
     protected $_defaultValues = array();
 
     /**
-     * This array contains flags for attributes which have not value in
-     * current store and use value for default store instead
+     * This array contains codes of attributes which have value in current store
      *
      * @var array
      */
-    protected $_defaultAttributeFlags = array();
+    protected $_storeValuesFlags = array();
 
     /**
      * Locked attributes
@@ -273,32 +272,27 @@ abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Set attribute code flag if attribute has not value in current store and uses
+     * Set attribute code flag if attribute has value in current store and does not use
      * value of default store as value
      *
      * @param   string $attributeCode
-     * @param   bool $isDefaultStore
      * @return  Mage_Catalog_Model_Abstract
      */
-    public function setAttributeDefaultFlag($attributeCode, $isDefaultStore = false)
+    public function setExistsStoreValueFlag($attributeCode)
     {
-        if (isset($this->_defaultAttributeFlags[$attributeCode])) {
-            unset($this->_defaultAttributeFlags[$attributeCode]);
-        } else if ($isDefaultStore) {
-            $this->_defaultAttributeFlags[$attributeCode] = 1;
-        }
+        $this->_storeValuesFlags[$attributeCode] = true;
         return $this;
     }
 
     /**
-     * Check if current attribute value is its default value
+     * Check if object attribute has value in current store
      *
      * @param   string $attributeCode
      * @return  bool
      */
-    public function isUsedAttributeDefaultValue($attributeCode)
+    public function getExistsStoreValueFlag($attributeCode)
     {
-        return array_key_exists($attributeCode, $this->_defaultAttributeFlags);
+        return array_key_exists($attributeCode, $this->_storeValuesFlags);
     }
 
     /**
