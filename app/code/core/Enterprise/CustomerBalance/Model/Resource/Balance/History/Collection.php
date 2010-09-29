@@ -70,7 +70,7 @@ class Enterprise_CustomerBalance_Model_Resource_Balance_History_Collection
     public function addWebsitesFilter($websiteIds)
     {
         $this->getSelect()->where(
-            $this->getConnection()->quoteInto('b.website_id IN (?)', $websiteIds)
+            array('b.website_id IN (?)' => $websiteIds)
         );
         return $this;
     }

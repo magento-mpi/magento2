@@ -89,7 +89,7 @@ class Enterprise_CustomerBalance_Model_Resource_Balance extends Mage_Core_Model_
         $adapter = $this->_getWriteAdapter();
 
         $adapter->delete(
-            $this->getMainTable(), $adapter->quoteInto('customer_id = ? AND website_id IS NULL', $customerId)
+            $this->getMainTable(), array('customer_id = ?' => $customerId, 'website_id IS NULL')
         );
         return $this;
     }
@@ -105,7 +105,7 @@ class Enterprise_CustomerBalance_Model_Resource_Balance extends Mage_Core_Model_
         $adapter = $this->_getReadAdapter();
         return $adapter->fetchOne($adapter->select()
             ->from($this->getMainTable(), 'count(*)')
-            ->where('customer_id = ?', $customerId)
-            ->where('website_id IS NULL'));
+            ->where('customer_id = :customer_id')
+            ->where('website_id IS NULL'), array('customer_id' => $customerId));
     }
 }

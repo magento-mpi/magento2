@@ -53,7 +53,7 @@ class Enterprise_CustomerBalance_Model_Resource_Balance_Collection
     public function addWebsitesFilter($websiteIds)
     {
         $this->getSelect()->where(
-            $this->getConnection()->quoteInto('main_table.website_id IN (?)', $websiteIds)
+            array('main_table.website_id IN (?)' => $websiteIds)
         );
         return $this;
     }
