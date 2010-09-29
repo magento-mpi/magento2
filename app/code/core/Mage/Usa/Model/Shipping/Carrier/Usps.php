@@ -246,28 +246,31 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $request = $xml->asXML();
         }
 
-        $debugData = array('request' => $request);
+        $responseBody = $this->_getCachedQuotes($request);
+        if ($responseBody === null) {
+            $debugData = array('request' => $request);
+            try {
+                $url = $this->getConfigData('gateway_url');
+                if (!$url) {
+                    $url = $this->_defaultGatewayUrl;
+                }
+                $client = new Zend_Http_Client();
+                $client->setUri($url);
+                $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+                $client->setParameterGet('API', $api);
+                $client->setParameterGet('XML', $request);
+                $response = $client->request();
+                $responseBody = $response->getBody();
 
-        try {
-            $url = $this->getConfigData('gateway_url');
-            if (!$url) {
-                $url = $this->_defaultGatewayUrl;
+                $debugData['result'] = $responseBody;
+                $this->_setCachedQuotes($request, $responseBody);
             }
-            $client = new Zend_Http_Client();
-            $client->setUri($url);
-            $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-            $client->setParameterGet('API', $api);
-            $client->setParameterGet('XML', $request);
-            $response = $client->request();
-            $responseBody = $response->getBody();
-            $debugData['result'] = $responseBody;
+            catch (Exception $e) {
+                $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+                $responseBody = '';
+            }
+            $this->_debug($debugData);
         }
-        catch (Exception $e) {
-            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
-            $responseBody = '';
-        }
-
-        $this->_debug($debugData);
         return $this->_parseXmlResponse($responseBody);;
     }
 

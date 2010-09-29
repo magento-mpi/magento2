@@ -244,25 +244,32 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             'weight_std'     => strtolower($r->getUnitMeasure()),
         );
         $params['47_rate_chart'] = $params['47_rate_chart']['label'];
-        $debugData = array('request' => $params);
-        try {
-            $url = $this->getConfigData('gateway_url');
-            if (!$url) {
-                $url = $this->_defaultCgiGatewayUrl;
+
+        $responseBody = $this->_getCachedQuotes($params);
+        if ($responseBody === null) {
+            $debugData = array('request' => $params);
+            try {
+                $url = $this->getConfigData('gateway_url');
+                if (!$url) {
+                    $url = $this->_defaultCgiGatewayUrl;
+                }
+                $client = new Zend_Http_Client();
+                $client->setUri($url);
+                $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+                $client->setParameterGet($params);
+                $response = $client->request();
+                $responseBody = $response->getBody();
+
+                $debugData['result'] = $responseBody;
+                $this->_setCachedQuotes($params, $responseBody);
             }
-            $client = new Zend_Http_Client();
-            $client->setUri($url);
-            $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
-            $client->setParameterGet($params);
-            $response = $client->request();
-            $responseBody = $response->getBody();
-            $debugData['result'] = $responseBody;
+            catch (Exception $e) {
+                $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+                $responseBody = '';
+            }
+            $this->_debug($debugData);
         }
-        catch (Exception $e) {
-            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
-            $responseBody = '';
-        }
-        $this->_debug($debugData);
+
         return $this->_parseCgiResponse($responseBody);
     }
 
@@ -634,25 +641,30 @@ $xmlRequest .= <<< XMLRequest
 XMLRequest;
 
 
-        $debugData = array('request' => $xmlRequest);
-        try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, (boolean)$this->getConfigFlag('mode_xml'));
-            $xmlResponse = curl_exec ($ch);
-            $debugData['result'] = $xmlResponse;
-        }
-        catch (Exception $e) {
-            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
-            $xmlResponse = '';
+        $xmlResponse = $this->_getCachedQuotes($xmlRequest);
+        if ($xmlResponse === null) {
+            $debugData = array('request' => $xmlRequest);
+            try {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, (boolean)$this->getConfigFlag('mode_xml'));
+                $xmlResponse = curl_exec ($ch);
+
+                $debugData['result'] = $xmlResponse;
+                $this->_setCachedQuotes($xmlRequest, $xmlResponse);
+            }
+            catch (Exception $e) {
+                $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+                $xmlResponse = '';
+            }
+            $this->_debug($debugData);
         }
 
-        $this->_debug($debugData);
         return $this->_parseXmlResponse($xmlResponse);
     }
 
