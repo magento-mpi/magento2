@@ -265,7 +265,7 @@
             <active>false</active>
         </Enterprise_CustomerSegment>
         <Enterprise_Enterprise>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Enterprise>
         <Enterprise_GiftCard>
             <active>false</active>
