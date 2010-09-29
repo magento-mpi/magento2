@@ -180,6 +180,7 @@
                         <manage_label>//a[@id='product_attribute_tabs_labels']/span</manage_label>
                     </tabs>
                     <elements>
+                        <tab_container>//*[@id='product_attribute_tabs']</tab_container>
                         <store_view_name_for_title>//table[@id='attribute-labels-table']//th</store_view_name_for_title>
                         <store_view_name_for_title_many>//table[@id='attribute-labels-table']//th[%s]</store_view_name_for_title_many>
                     </elements>
@@ -237,13 +238,15 @@
                                         <!-- related pages-->
                 <product>
                     <elements>
-                        <bundel_items_filtered_product>//*[@id='bundle_selection_search_grid_%s_table']//td[contains(text(),'%s')]</bundel_items_filtered_product>
-                        <bundel_items_mark_filtered_product>//*[@id='bundle_selection_search_grid_%s_table']//td[contains(text(),'%s')]/ancestor::tr//input[@type='checkbox']</bundel_items_mark_filtered_product>
-                        <filtered_product>//td[contains(text(),'%s')]</filtered_product>
                         <mark_filtered_product>//td[contains(text(),'%s')]/ancestor::tr//input[@type='checkbox']</mark_filtered_product>
                         <grouped_items_search_table>//div[@id='super_product_grid']</grouped_items_search_table>
                         <configurable_items_search_table>//div[@id='super_product_links']</configurable_items_search_table>
-                        <bundle_items_search_table>//*[@id='bundle_selection_search_grid_%s_table']</bundle_items_search_table>
+                        <tab_container>//*[@id='product_info_tabs']</tab_container>
+                        <bundle_items_container>//*[@id='product_bundle_container']//div[contains(@class,'option-box')]</bundle_items_container>
+                        <bundle_items_search_table>//*[@id='bundle_option_search_%s']</bundle_items_search_table>
+                        <download_sample_container>//*[@id='sample_items_body']/tr</download_sample_container>
+                        <download_link_container>//*[@id='link_items_body']/tr</download_link_container>
+                        <tier_price_table>//tbody[@id='tier_price_container']</tier_price_table>
                     </elements>
                     <inputs>
                         <name>name</name>
@@ -262,20 +265,13 @@
                         <special_price>special_price</special_price>
                         <special_from_date>special_from_date</special_from_date>
                         <special_to_date>special_to_date</special_to_date>
-                        <use_default_manage_stock>inventory_use_config_manage_stock</use_default_manage_stock>
-                        <use_default_inventory_min_qty>inventory_use_config_min_qty</use_default_inventory_min_qty>
-                        <use_default_min_sale_qty>inventory_use_config_min_sale_qty</use_default_min_sale_qty>
-                        <use_default_max_sale_qty>inventory_use_config_max_sale_qty</use_default_max_sale_qty>
-                        <use_default_backorders>inventory_use_config_backorders</use_default_backorders>
-                        <use_default_notify_stock_qty>inventory_use_config_notify_stock_qty</use_default_notify_stock_qty>
-                        <use_default_enable_qty_increments>inventory_use_config_enable_qty_increments</use_default_enable_qty_increments>
-                        <use_default_qty_increments>inventory_use_config_qty_increments</use_default_qty_increments>
-                        <inventory_qty>inventory_qty</inventory_qty>
-                        <inventory_min_qty>inventory_min_qty</inventory_min_qty>
-                        <min_sale_qty>inventory_min_sale_qty</min_sale_qty>
-                        <max_sale_qty>inventory_max_sale_qty</max_sale_qty>
-                        <notify_stock_qty>inventory_notify_stock_qty</notify_stock_qty>
-                        <qty_increments>inventory_qty_increments</qty_increments>
+                        <ucheck_use_default>/following-sibling::*[%s][@checked='checked' and contains(class,checkbox)]</ucheck_use_default>
+                        <inventory_qty>//*[@id='inventory_qty']</inventory_qty>
+                        <inventory_min_qty>//*[@id='inventory_min_qty']</inventory_min_qty>
+                        <min_sale_qty>//*[@id='inventory_min_sale_qty']</min_sale_qty>
+                        <max_sale_qty>//*[@id='inventory_max_sale_qty']</max_sale_qty>
+                        <notify_stock_qty>//*[@id='inventory_notify_stock_qty']</notify_stock_qty>
+                        <qty_increments>//*[@id='inventory_qty_increments']</qty_increments>
                         <attribute_for_configurable_product>//input[@title='%s']</attribute_for_configurable_product>
                         <open_amount_max>open_amount_max</open_amount_max>
                         <open_amount_min>open_amount_min</open_amount_min>
@@ -284,7 +280,7 @@
                         <giftcard_use_default_lifetime>giftcard_use_config_lifetime</giftcard_use_default_lifetime>
                         <giftcard_use_default_allow_message>giftcard_use_config_allow_message</giftcard_use_default_allow_message>
                         <giftcard_use_default_email_template>giftcard_use_config_email_template</giftcard_use_default_email_template>
-                        <giftcard_lifetime>giftcard_lifetime</giftcard_lifetime>
+                        <giftcard_lifetime>//*[@id='giftcard_lifetime']</giftcard_lifetime>
                         <downloadable_links_title>downloadable_links_title</downloadable_links_title>
                         <downloadable_link_title>downloadable[link][%s][title]</downloadable_link_title>
                         <downloadable_link_price>downloadable[link][%s][price]</downloadable_link_price>
@@ -299,9 +295,11 @@
                         <downloadable_sample_url_type>downloadable_sample_%s_url_type</downloadable_sample_url_type>
                         <downloadable_sample_url>downloadable[sample][%s][sample_url]</downloadable_sample_url>
                         <downloadable_sample_sort_order>downloadable[sample][%s][sort_order]</downloadable_sample_sort_order>
-                        <bundle_options_title>id_bundle_options_%s_title</bundle_options_title>
+                        <bundle_options_title>//*[@id='id_bundle_options_%s_title']</bundle_options_title>
                         <bundle_options_position>bundle_options[%s][position]</bundle_options_position>
-                        <filter_sku>filter_sku</filter_sku>
+                        <filter_sku>//*[@id='filter_sku']</filter_sku>
+                        <tier_price_price>//*[@id='tier_price_row_%s_price']</tier_price_price>
+                        <tier_price_qty>//*[@id='tier_price_row_%s_qty']</tier_price_qty>
                     </inputs>
                     <selectors>
                         <attribute_set>attribute_set_id</attribute_set>
@@ -315,31 +313,32 @@
                         <price_type>price_type</price_type>
                         <enable_googlecheckout>enable_googlecheckout</enable_googlecheckout>
                         <price_view>price_view</price_view>
-                        <manage_stock>inventory_manage_stock</manage_stock>
-                        <is_qty_decimal>inventory_is_qty_decimal</is_qty_decimal>
-                        <backorders>inventory_backorders</backorders>
-                        <enable_qty_increments>inventory_enable_qty_increments</enable_qty_increments>
-                        <stock_availability>inventory_stock_availability</stock_availability>
+                        <manage_stock>//*[@id='inventory_manage_stock']</manage_stock>
+                        <is_qty_decimal>//*[@id='inventory_is_qty_decimal']</is_qty_decimal>
+                        <backorders>//*[@id='inventory_backorders']</backorders>
+                        <enable_qty_increments>//*[@id='inventory_enable_qty_increments']</enable_qty_increments>
+                        <stock_availability>//*[@id='inventory_stock_availability']</stock_availability>
                         <allow_open_amount>allow_open_amount</allow_open_amount>
                         <giftcard_type>giftcard_type</giftcard_type>
-                        <giftcard_is_redeemable>giftcard_is_redeemable</giftcard_is_redeemable>
-                        <giftcard_allow_message>giftcard_allow_message</giftcard_allow_message>
-                        <giftcard_email_template>giftcard_email_template</giftcard_email_template>
+                        <giftcard_is_redeemable>//*[@id='giftcard_is_redeemable']</giftcard_is_redeemable>
+                        <giftcard_allow_message>//*[@id='giftcard_allow_message']</giftcard_allow_message>
+                        <giftcard_email_template>//*[@id='giftcard_email_template']</giftcard_email_template>
                         <downloadable_link_purchase_type>downloadable_link_purchase_type</downloadable_link_purchase_type>
                         <downloadable_link_shareable>downloadable_link _%s_shareable</downloadable_link_shareable>
                         <bundle_shipment_type>shipment_type</bundle_shipment_type>
-                        <bundle_options_type>bundle_option_%s_type</bundle_options_type>
-                        <bundle_options_required>bundle_option_%s_required</bundle_options_required>
+                        <bundle_options_type>//*[@id='bundle_option_%s_type']</bundle_options_type>
+                        <bundle_options_required>//*[@id='bundle_option_%s_required']</bundle_options_required>
                     </selectors>
                     <tabs>
-                        <price>link=Prices</price>
-                        <inventory>link=Inventory</inventory>
-                        <websites>link=Websites</websites>
-                        <categories>//*[@id='product_info_tabs_categories']/span</categories>
-                        <gift_card_information>link=Gift Card Information</gift_card_information>
-                        <downloadable_information>link=Downloadable Information</downloadable_information>
-                        <bundle_items>link=Bundle Items</bundle_items>
-                        <associated_products>link=Associated Products</associated_products>
+                        <general>//a[@title='General']</general>
+                        <price>//a[@title='Prices']</price>
+                        <inventory>//a[@title='Inventory']</inventory>
+                        <websites>//a[@title='Websites']</websites>
+                        <categories>//a[@title='Categories']</categories>
+                        <gift_card_information>//a[@title='Gift Card Information']</gift_card_information>
+                        <downloadable_information>//a[@title='Downloadable Information']</downloadable_information>
+                        <bundle_items>//a[@title='Bundle Items']</bundle_items>
+                        <associated_products>//a[@title='Associated Products']</associated_products>
                     </tabs>
                     <buttons>
                         <save>//button[span="Save"]</save>
@@ -354,6 +353,7 @@
                         <bundle_items_search>//*[@id='bundle_option_search_%s']//button[contains(span,'Search')]</bundle_items_search>
                         <search>//button[contains(span,'Search')]</search>
                         <create_new_attribute>//button[contains(span,'Create New Attribute')]</create_new_attribute>
+                        <add_tier_price>//button[contains(span,'Add Tier')]</add_tier_price>
                     </buttons>
                     <messages>
                         <productsaved>//div[@id="messages"]//li[@class="success-msg"]</productsaved>
