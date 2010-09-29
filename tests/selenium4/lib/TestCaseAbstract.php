@@ -48,6 +48,29 @@ abstract class TestCaseAbstract extends PHPUnit_Extensions_SeleniumTestCase
         $this->printError($error);
     }
 
+    /*
+     * Return last error from stack
+     */
+    function getLastVerificationError()
+    {
+        if (isset($this->verificationErrors)) {
+            return end($this->verificationErrors);
+        }
+    }
+
+
+    /**
+     * 
+     * Remove an error from the top of stack
+     *
+     * @param string $error
+     */
+    function popVerificationErrors()
+    {
+        print_r($this->verificationErrors);
+        return array_pop($this->verificationErrors);
+    }
+
     /**
      * Fetch an Xpath to access a certain UI element
      *

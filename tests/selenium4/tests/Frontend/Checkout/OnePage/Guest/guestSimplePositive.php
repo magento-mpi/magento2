@@ -24,12 +24,7 @@ class Frontend_Checkout_Guest extends TestCaseAbstract
             'baseUrl' => 'http://kq.varien.com/builds/ee-nightly/current/websites/smoke',
             'categoryName' => 'SL-Category/Base',
             //'categoryName' => 'SL-Category/wCO',
-            //'productName' => 'Simple Product - Base',
-            'productName' => 'Configurable Product - Base',
-            //'productName' => 'Grouped Product - Base',
-            //'productName' => 'Bundle Product - Base',
-            //'productName' => 'Downlodable Product - Base',
-            //'productName' => 'VirtProduct - wCO',
+            'productName' => 'Simple Product - Base',
             'qty' => 1,
             //checkout data
             'checkoutMethod' => 'Checkout as Guest',

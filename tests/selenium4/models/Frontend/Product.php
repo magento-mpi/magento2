@@ -87,22 +87,81 @@ class Model_Frontend_Product extends Model_Frontend
     }
 
     /*
+     * Place opened product to shopping cart.
+     * Supports SIMPLE, VIRTUAL, GROUPED product types
+     * next entries expected in $params array :
+     *  'baseUrl',
+        'categoryName' => 'SL-Category/Base',
+        'productName' => 'Grouped Product - Base',
+        'associatedProducts' => array (
+                                    'productName' => Qty,
+                                    'productName' => Qty,
+                                    )
      *
      */
     public function placeToCart($params = array())
     {
+        $result = true;
         $this->printDebug('placeToCart() started...');
-        switch ($this->detectType()) {
+        $productType = $this->detectType();
+        switch ($productType):
             case self::SIMPLE:
-                // Place product to the cart
-                $this->type($this->getUiElement("/frontend/pages/product/inputs/qty"),$params["qty"]);
-                $this->clickAndWait($this->getUiElement("/frontend/pages/product/buttons/addToCart"));
-                break;
+                    $this->type($this->getUiElement('/frontend/pages/product/inputs/qty'),$params['qty']);
+                    break;
+            case self::GROUPED:
+                $associatedProducts = $params['associatedProducts'];
+                foreach ($associatedProducts as $key => $value) {
+                    $this->printDebug($key . ' ->' . $value);
+                    $qty_input = $this->getUiElement('/frontend/pages/product/inputs/grouped_qty',$key);
+                    if (!$this->waitForElement($qty_input,1)) {
+                        $this->setVerificationErrors("Check 2: Grouped Product " . $key . " Qty input box could not be located");
+                        $result = false;
+                    }
+                    $this->type($qty_input,$value);
+                }                
+
+                ;
+        endswitch;
+        $this->clickAndWait($this->getUiElement('/frontend/pages/product/buttons/addToCart'));
+
+        // Check for success message
+        if ($this->waitForElement($this->getUiElement('/frontend/pages/shopping_cart/messages/added',$params["productName"]),1)) {
+            $this->printInfo($params["productName"]. ' has been added to Shopping Cart');
+        } else {
+            $this->setVerificationErrors('placeToCart: No success message');
+            $result = false;
+        };
+
+        //Check for presence and qty
+        if (($productType == self::SIMPLE) || ($productType == self::VIRTUAL)) {
+            //Check for product presense in the list
+            if (!$this->waitForElement($this->getUiElement('/frontend/pages/shopping_cart/elements/shoping_cart_item',$params["productName"]),1)) {
+                $this->setVerificationErrors("Check 2: Product " . $params['productName'] . " doesn't appeared in the shopping cart list");
+                $result = false;
+            }
         }
-        $this->printDebug('placeToCart() finished');
+        if (($productType == self::GROUPED)) {
+            $associatedProducts = $params['associatedProducts'];
+            foreach ($associatedProducts as $key => $value) {
+                $qty_input = $this->getUiElement('/frontend/pages/shopping_cart/inputs/item_qty',$key);
+                //Check for product presense in the list
+                if (!$this->waitForElement($this->getUiElement('/frontend/pages/shopping_cart/elements/shoping_cart_item',$key),1)) {
+                    $this->setVerificationErrors("Check 2: Product " . $key . " doesn't appeared in the shopping cart list");
+                    $result = false;
+                } elseif ($this->waitForElement($qty_input,1)) {
+                    //Check for product qty in the list                    
+                    if ($this->getValue($qty_input) != $value) {
+                        $this->setVerificationErrors("Check 3: Product " . $key . " qty=[" . $this->getValue($qty_input) . "] in the shopping cart does not macthed to " . $value);
+                        $result = false;
+                    }                               
+                }
+            }
+        }
+        $this->printDebug('placeToCart() finished with ' . $result);
+        return $result;
     }
 
-    // Test case
+    // Smoke TestCase
 
     /**
      * Test correcteness of appearing $product category page.
