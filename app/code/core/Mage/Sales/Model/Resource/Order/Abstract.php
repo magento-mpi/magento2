@@ -227,7 +227,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     {
         foreach ($this->getVirtualGridColumns() as $alias => $expression) {
             list($table, $joinCondition, $column) = $expression;
-            $tableAlias = '_table_' . $alias;
+            $tableAlias = 'table_' . $alias;
 
             $joinConditionExpr = array();
             foreach ($joinCondition as $fkField=>$pkField) {
