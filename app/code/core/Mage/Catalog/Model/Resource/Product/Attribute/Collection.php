@@ -192,6 +192,4 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
 
         return $this;
     }
-    
-}
 }
