@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
                             'link_id'                   => $linkId,
                             'value'                     => $value
                         );
-                        $adapter->insertOnDuplicate($attributeTable, $bind, array('value'));
+                        $adapter->insert($attributeTable, $bind, array('value'));
                     } else {
                         $adapter->delete($attributeTable, array(
                             'link_id = ?'                   => $linkId,
