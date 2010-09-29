@@ -68,27 +68,21 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
 
         if ($couponCode) {
             $this->getSelect()
-                ->joinLeft(
-                    array('rule_coupons' => $this->getTable('salesrule/coupon')),
-                    'main_table.rule_id = rule_coupons.rule_id '
-                    .$this->getSelect()->getAdapter()->quoteInto('AND rule_coupons.code = ?', $couponCode),
-                    array('code')
-                );
-            $this->getSelect()->group('main_table.rule_id');
+                ->joinLeft(array('rule_coupons' => $this->getTable('salesrule/coupon')),
+                    'main_table.rule_id = rule_coupons.rule_id '.$this->getSelect()->getAdapter()->quoteInto('AND rule_coupons.code = ?', $couponCode),
+                array('code')
+            );
         } else {
             $this->getSelect()
-                ->joinLeft(
-                    array('rule_coupons' => $this->getTable('salesrule/coupon')),
+                ->joinLeft(array('rule_coupons' => $this->getTable('salesrule/coupon')),
                     'main_table.rule_id = rule_coupons.rule_id AND rule_coupons.is_primary = 1',
-                    array('code')
-                );
+                array('code')
+            );
             $this->addFieldToFilter('main_table.coupon_type', Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON);
         }
         $this->getSelect()->where('from_date is null or from_date<=?', $now);
         $this->getSelect()->where('to_date is null or to_date>=?', $now);
-        $this->getSelect()->group('main_table.rule_id');        
-       echo $this->getSelect()->order('sort_order');
-        die;
+        $this->getSelect()->order('sort_order');
         return $this;
     }
 
