@@ -34,8 +34,8 @@ class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends 
      */
     public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
-        $creditmemo->setBaseCustomerBalanceTotalRefunded(0);
-        $creditmemo->setCustomerBalanceTotalRefunded(0);
+        $creditmemo->setBsCustomerBalTotalRefunded(0);
+        $creditmemo->setCustomerBalTotalRefunded(0);
 
         $creditmemo->setBaseCustomerBalanceReturnMax(0);
         $creditmemo->setCustomerBalanceReturnMax(0);

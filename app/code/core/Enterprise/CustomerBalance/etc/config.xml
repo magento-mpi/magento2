@@ -254,7 +254,7 @@
                 </enterprise_customerbalance>
                 <enterprise_customerbalance_total_refunded translate="title">
                     <title>Refunded to Store Credit</title>
-                    <source_field>customer_balance_total_refunded</source_field>
+                    <source_field>customer_bal_total_refunded</source_field>
                     <font_size>7</font_size>
                     <display_zero>0</display_zero>
                     <sort_order>700</sort_order>

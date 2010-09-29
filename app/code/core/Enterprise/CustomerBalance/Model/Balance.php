@@ -245,7 +245,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             return false;
         }
         return $this->getAmount() >=
-            ((float)$quote->getBaseGrandTotal() + (float)$quote->getBaseCustomerBalanceAmountUsed());
+            ((float)$quote->getBaseGrandTotal() + (float)$quote->getBaseCustomerBalAmountUsed());
     }
 
     /**

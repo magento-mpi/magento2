@@ -33,7 +33,7 @@
         <dt>
             <input type="hidden" name="payment[use_customer_balance]" value="0" />
             <input type="checkbox" class="checkbox" name="payment[use_customer_balance]" value="1" id="use_customer_balance" <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
-    
+
             <?php $balance = Mage::helper('core')->currency($this->getBalance()); ?>
             <label for="use_customer_balance">
             <strong>
@@ -50,7 +50,7 @@
     var customerBalanceSubstracted = <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>;
 
     if (customerBalanceSubstracted) {
-        quoteBaseGrandTotal += <?php echo (float)$this->getQuote()->getBaseCustomerBalanceAmountUsed(); ?>;
+        quoteBaseGrandTotal += <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>;
         customerBalanceSubstracted = false;
     }
 

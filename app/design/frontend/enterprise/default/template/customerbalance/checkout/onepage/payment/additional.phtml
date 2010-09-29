@@ -50,7 +50,7 @@
     var customerBalanceSubstracted = <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>;
 
     if (customerBalanceSubstracted) {
-        quoteBaseGrandTotal += <?php echo (float)$this->getQuote()->getBaseCustomerBalanceAmountUsed(); ?>;
+        quoteBaseGrandTotal += <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>;
         customerBalanceSubstracted = false;
     }
 
