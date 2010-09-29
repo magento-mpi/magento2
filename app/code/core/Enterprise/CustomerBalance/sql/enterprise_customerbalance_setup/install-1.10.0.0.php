@@ -53,7 +53,7 @@ $table = $installer->getConnection()
         ), 'Balance Amount')
     ->addColumn('base_currency_code', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
         ), 'Base Currency Code')
-    ->addIndex($installer->getIdxName('enterprise_customerbalance/balance', array('customer_id', 'website_id'), true),
+    ->addIndex($installer->getIdxName('enterprise_customerbalance/balance', array('customer_id', 'website_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('customer_id', 'website_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('enterprise_customerbalance/balance', array('website_id')),
         array('website_id'))
