@@ -81,7 +81,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
             } else {
                 $subSelect = null;
             }
-
+            
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
 
             $columns = array(
@@ -113,8 +113,8 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
                 'order_status',
                 'coupon_code'
             ));
-
-            $select->having('rows_count > 0');
+            
+            $select->having('%s > 0', 'coupon_uses');
 
             $this->_getWriteAdapter()->query($select->insertFromSelect($table, array_keys($columns)));
 
