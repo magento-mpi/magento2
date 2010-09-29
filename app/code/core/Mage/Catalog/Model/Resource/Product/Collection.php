@@ -129,6 +129,27 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     protected $_isWebsiteFilter              = false;
 
     /**
+     * Additional field filters, applied in _productLimitationJoinPrice()
+     *
+     * @var array
+     */
+    protected $_priceDataFieldFilters = array();
+
+    /**
+     * Map of price fields
+     *
+     * @var array
+     */
+    protected $_map = array('fields' => array(
+        'price'         => 'price_index.price',
+        'final_price'   => 'price_index.final_price',
+        'min_price'     => 'price_index.min_price',
+        'max_price'     => 'price_index.max_price',
+        'tier_price'    => 'price_index.tier_price',
+        'special_price' => 'price_index.special_price',
+    ));
+
+    /**
      * Retrieve Catalog Product Flat Helper object
      *
      * @return Mage_Catalog_Helper_Product_Flat
@@ -1531,6 +1552,11 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 $joinCond,
                 $colls
             );
+
+            // Set additional field filters
+            foreach ($this->_priceDataFieldFilters as $filterData) {
+                $this->getSelect()->where(call_user_func_array('sprintf', $filterData));
+            }
         } else {
             $fromPart['price_index']['joinCondition'] = $joinCond;
             $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
@@ -1775,6 +1801,30 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         }
 
         $this->setFlag('tier_price_added', true);
+        return $this;
+    }
+
+    /**
+     * Add field comparsion expression
+     *
+     * @param string $comparsionFormat Expression for sprintf()
+     * @param string $fields,... List of fields
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function addPriceDataFieldFilter($comparsionFormat)
+    {
+        if (!preg_match('/^%s( (<|>|=|<=|>=|<>) %s)*$/', $comparsionFormat)) {
+            throw new Exception('Invalid comparsion format.');
+        }
+
+        $args = func_get_args();
+        foreach ($args as $key => $arg) {
+            if ($key != 0) {
+                $args[$key] = $this->_getMappedField($arg);
+            }
+        }
+
+        $this->_priceDataFieldFilters[] = $args;
         return $this;
     }
 }
