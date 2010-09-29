@@ -1494,19 +1494,18 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
 
             if ($origValueId === false && ($newValue !== null)) {
                 $this->_insertAttribute($object, $attribute, $newValue);
-                $backend->setValueId($adapter->lastInsertId($table));
             } elseif ($origValueId !== false && ($newValue !== null)) {
                 $this->_updateAttribute($object, $attribute, $origValueId, $newValue);
             } elseif ($origValueId !== false && ($newValue === null)) {
                 $adapter->delete($table, $where);
             }
+            $this->_processAttributeValues();
             $adapter->commit();
         } catch (Exception $e) {
             $adapter->rollback();
             throw $e;
         }
-
-        $this->_processAttributeValues();
+        
 
         return $this;
     }
