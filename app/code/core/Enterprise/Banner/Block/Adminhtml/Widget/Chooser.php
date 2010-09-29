@@ -272,6 +272,7 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
             'editable'       => true,
             'filter'         => false,
             'edit_only'      => true,
+            'sortable'       => false
         ));
         $this->addColumnsOrder('position', 'banner_is_enabled');
 
