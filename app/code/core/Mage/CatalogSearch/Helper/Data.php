@@ -335,7 +335,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get current search engine resource model
      *
-     * @return object|false
+     * @return object
      */
     public function getEngine()
     {
@@ -351,9 +351,10 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
                 $model = Mage::getResourceSingleton($engine);
                 if ($model && $model->test()) {
                     $this->_engine = $model;
-                } else {
-                    $this->_engine = Mage::getResourceSingleton('catalogsearch/fulltext_engine');
                 }
+            }
+            if (!$this->_engine) {
+                $this->_engine = Mage::getResourceSingleton('catalogsearch/fulltext_engine');
             }
         }
 
