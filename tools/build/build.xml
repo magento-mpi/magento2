@@ -331,7 +331,7 @@
 
     <target name="update-mmdb-current" description="Update 'current' symlink and successful in scope of build name.">
         <exec executable="/bin/sh" failonerror="true">
-            <arg value="mmdb/curr   ent.sh"/>
+            <arg value="mmdb/current.sh"/>
             <arg value="${teamcity.buildConfName}"/>
             <arg value="${build.number}"/>
             <arg value="${db.model}"/>
