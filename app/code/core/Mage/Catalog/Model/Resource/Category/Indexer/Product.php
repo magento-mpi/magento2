@@ -703,7 +703,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             );
             $idxAdapter->query($query);
 
-            /*$select = $idxAdapter->select()
+            $select = $idxAdapter->select()
                 ->from(array('e' => $this->getTable('catalog/product')), null)
                 ->join(
                     array('ei' => $enabledTable),
@@ -727,7 +727,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                 $idxTable,
                 array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
                 false
-            );*/
+            );
 
             $idxAdapter->query($query, array('store_id' => $storeId, 'category_id' => $rootId));
 	}
