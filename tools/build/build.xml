@@ -172,7 +172,7 @@
 
     <target name="pdepend" description="Dependencies report.">
         <exec dir="${dir.src}" executable="pdepend" failonerror="false">
-            <arg line="--jdepend-xml='${dir.reports}/depend.xml' 
+            <arg line="--jdepend-xml='${dir.reports}/depend.xml'
                         --jdepend-chart='${dir.reports}/depend.svg'
                         --overview-pyramid='${dir.reports}/depend-pyramid.svg'
                         --summary-xml='${dir.reports}/depend-summary.xml'
@@ -298,6 +298,44 @@
             <arg value="siege.sh"/>
             <arg value="trunk-sample-data"/>
             <arg value="${build.number}"/>
+        </exec>
+    </target>
+
+    <!-- MMDB -->
+
+    <target name="prepare-mmdb" depends="clean" description="Prepare basic (clean) ENV for instance.">
+        <chmod dir="${dir.src}/media" perm="777"/>
+        <chmod dir="${dir.src}/var" perm="777"/>
+        <chmod dir="${dir.src}/app/etc" perm="777"/>
+
+        <mkdir dir="${dir.reports}"/>
+        <mkdir dir="${dir.docs}"/>
+
+        <!--DB name problem should use script-->
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="mmdb/prepare.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+            <arg value="${db.model}"/>
+        </exec>
+    </target>
+
+    <target name="install-mmdb" description="Installing Magento instance.">
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="mmdb/install.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+            <arg value="${db.model}"/>
+        </exec>
+    </target>
+
+    <target name="update-mmdb-current" description="Update 'current' symlink and successful in scope of build name.">
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="mmdb/curr   ent.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+            <arg value="${db.model}"/>
+            <arg value="${teamcity.buildType.id}"/>
         </exec>
     </target>
 </project>
