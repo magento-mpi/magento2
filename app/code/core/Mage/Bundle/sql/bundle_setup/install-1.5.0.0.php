@@ -85,8 +85,8 @@ $table = $installer->getConnection()
         ), 'Store Id')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Title')
-    ->addIndex($installer->getIdxName('bundle/option_value', array('option_id', 'store_id'), true),
-        array('option_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('bundle/option_value', array('option_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('option_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('bundle/option_value', 'option_id', 'bundle/option', 'option_id'),
         'option_id', $installer->getTable('bundle/option'), 'option_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

@@ -1029,8 +1029,8 @@ $table = $installer->getConnection()
         array('product_link_attribute_id'))
     ->addIndex($installer->getIdxName('catalog/product_link_attribute_decimal', array('link_id')),
         array('link_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_decimal', array('product_link_attribute_id', 'link_id')),
-        array('product_link_attribute_id', 'link_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_link_attribute_decimal', array('product_link_attribute_id', 'link_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('product_link_attribute_id', 'link_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('catalog/product_link_attribute_decimal', 'link_id', 'catalog/product_link', 'link_id'),
         'link_id', $installer->getTable('catalog/product_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -1066,8 +1066,8 @@ $table = $installer->getConnection()
         array('product_link_attribute_id'))
     ->addIndex($installer->getIdxName('catalog/product_link_attribute_int', array('link_id')),
         array('link_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_int', array('product_link_attribute_id', 'link_id')),
-        array('product_link_attribute_id', 'link_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_link_attribute_int', array('product_link_attribute_id', 'link_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('product_link_attribute_id', 'link_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('catalog/product_link_attribute_int', 'link_id', 'catalog/product_link', 'link_id'),
         'link_id', $installer->getTable('catalog/product_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -1103,8 +1103,8 @@ $table = $installer->getConnection()
         array('product_link_attribute_id'))
     ->addIndex($installer->getIdxName('catalog/product_link_attribute_varchar', array('link_id')),
         array('link_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_varchar', array('product_link_attribute_id', 'link_id')),
-        array('product_link_attribute_id', 'link_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('catalog/product_link_attribute_varchar', array('product_link_attribute_id', 'link_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('product_link_attribute_id', 'link_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('catalog/product_link_attribute_varchar', 'link_id', 'catalog/product_link', 'link_id'),
         'link_id', $installer->getTable('catalog/product_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

@@ -95,8 +95,8 @@ $table = $installer->getConnection()
         ), 'Active')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('tag/relation', array('tag_id', 'customer_id', 'product_id', 'store_id'), true),
-        array('tag_id', 'customer_id', 'product_id', 'store_id'), array('unique' => true))
+    ->addIndex($installer->getIdxName('tag/relation', array('tag_id', 'customer_id', 'product_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('tag_id', 'customer_id', 'product_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('tag/relation', array('product_id')),
         array('product_id'))
     ->addIndex($installer->getIdxName('tag/relation', array('tag_id')),
