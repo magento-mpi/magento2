@@ -1,6 +1,6 @@
 <?php
 
-class Frontend_Checkout_Guest_Simple extends TestCaseAbstract
+class Frontend_Checkout_Guest_Grouped extends TestCaseAbstract
 {
     /**
      * Setup procedure.
@@ -15,18 +15,20 @@ class Frontend_Checkout_Guest_Simple extends TestCaseAbstract
 
     /**
      * Test frontend guest checkout
-     * MAGE-37:Performs Guest checkout of Simple product
+     * MAGE-39:Performs Guest checkout of Groupped product.
      */
-    function testGuestSimplePositive()
+    function testGuestGroupedPositive()
     {
         // Test Dara
         $paramArray = array (
             //product data
             'baseUrl' => 'http://kq.varien.com/builds/ee-nightly/current/websites/smoke',
             'categoryName' => 'SL-Category/Base',
-            //'categoryName' => 'SL-Category/wCO',
-            'productName' => 'Simple Product - Base',
-            'qty' => 1,
+            'productName' => 'Grouped Product - Base',
+            'associatedProducts' => array (
+                                    'A Product - A' => '3',
+                                    'A Product - B' => '2',
+                                    ),
             //checkout data
             'checkoutMethod' => 'Checkout as Guest',
             'shippingMethod' => 'Flat',

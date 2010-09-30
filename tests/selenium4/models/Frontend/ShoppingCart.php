@@ -25,10 +25,10 @@ class Model_Frontend_ShoppingCart extends Model_Frontend
        //Proceed to checkout
         if ($isMultiple) {
             $this->printDebug('Starting multipleShipping checkout');
-            $this->clickAndWait($this->getUiElement("/frontend/pages/shoppingCart/links/multipleShippingCheckout"));
+            $this->clickAndWait($this->getUiElement("/frontend/pages/shopping_cart/links/multipleShippingCheckout"));
         } else {
             $this->printDebug('Starting ordinal checkout');
-            $this->clickAndWait($this->getUiElement("/frontend/pages/shoppingCart/buttons/proceedToCheckout"));
+            $this->clickAndWait($this->getUiElement("/frontend/pages/shopping_cart/buttons/proceedToCheckout"));
         }
         $this->printDebug('proceedCheckout finished');
     }

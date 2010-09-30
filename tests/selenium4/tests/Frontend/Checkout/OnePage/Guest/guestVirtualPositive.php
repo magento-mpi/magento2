@@ -1,6 +1,6 @@
 <?php
 
-class Frontend_Checkout_Guest_Simple extends TestCaseAbstract
+class Frontend_Checkout_Guest_Virtual extends TestCaseAbstract
 {
     /**
      * Setup procedure.
@@ -17,7 +17,7 @@ class Frontend_Checkout_Guest_Simple extends TestCaseAbstract
      * Test frontend guest checkout
      * MAGE-37:Performs Guest checkout of Simple product
      */
-    function testGuestSimplePositive()
+    function testGuestVirtualPositive()
     {
         // Test Dara
         $paramArray = array (
@@ -25,7 +25,7 @@ class Frontend_Checkout_Guest_Simple extends TestCaseAbstract
             'baseUrl' => 'http://kq.varien.com/builds/ee-nightly/current/websites/smoke',
             'categoryName' => 'SL-Category/Base',
             //'categoryName' => 'SL-Category/wCO',
-            'productName' => 'Simple Product - Base',
+            'productName' => 'Virtual Product - Base',
             'qty' => 1,
             //checkout data
             'checkoutMethod' => 'Checkout as Guest',
@@ -50,7 +50,21 @@ class Frontend_Checkout_Guest_Simple extends TestCaseAbstract
         //Test Flow
         $this->modelProduct->doOpen($paramArray);
         $this->modelProduct->placeToCart($paramArray);
+        sleep(20);
         $this->modelShoppingCart->proceedCheckout();
         $this->modelCheckout->doCheckout($paramArray);
+        $errorsStackWasChanged = true;
+        while ($errorsStackWasChanged) :
+        {
+            $error = $this->getLastVerificationError();
+            $errorsStackWasChanged = false;
+            $this->printDebug($error);
+            if (strpos($error, "Shipping method tab is not visible")) {
+                $this->popVerificationErrors();
+                $errorsStackWasChanged = true;
+            }
+        };
+        endwhile;
+
     }
 }

@@ -394,7 +394,9 @@ class Model_Frontend_Checkout extends Model_Frontend
         $this->selectCountry($this->getUiElement('selectors/country'),$params['country']);
         $this->selectRegion($this->getUiElement('selectors/region'),$params['region']);
         //Use billing address for shipping
-        $this->click($this->getUiElement('inputs/use_for_shipping'));
+        if ($this->isElementPresent($this->getUiElement('inputs/use_for_shipping'))) {
+            $this->click($this->getUiElement('inputs/use_for_shipping'));
+        }
         //Press Continue
         $this->setUiNamespace('frontend/pages/onePageCheckout/tabs/');
         $this->click($this->getUiElement('billingAddress/buttons/continue'));
@@ -412,25 +414,30 @@ class Model_Frontend_Checkout extends Model_Frontend
         $this->printDebug('fillShippingTab started');
         $this->setUiNamespace('/frontend/pages/onePageCheckout/tabs/');
 
-        if ('Free' == $params['shippingMethod']) {
-            //Select Free method
-            if (!$this->waitForElement($this->getUiElement('shippingMethod/inputs/freeShipping'),10)) {
-                $this->setVerificationErrors('Check 3: Free shipping method not available.');
-                return false;
+        if ($this->waitForElement($this->getUiElement('shippingMethod/elements/container'),1)) {
+            if ('Free' == $params['shippingMethod']) {
+                //Select Free method
+                if (!$this->waitForElement($this->getUiElement('shippingMethod/inputs/freeShipping'),10)) {
+                    $this->setVerificationErrors('Check 3: Free shipping method not available.');
+                    return false;
+                }
+                $this->printInfo('Using Free shipping');
+                $this->click($this->getUiElement('shippingMethod/inputs/freeShipping'));
+            } elseif ('Flat' == $params['shippingMethod']) {
+                //Select Flat method
+                if (!$this->waitForElement($this->getUiElement('shippingMethod/inputs/flatShipping'),10)) {
+                    $this->setVerificationErrors('Check 3: Flat shipping method not available.');
+                    return false;
+                }
+                $this->printInfo('Using Flat shipping');
+                $this->click($this->getUiElement('shippingMethod/inputs/flatShipping'));
             }
-            $this->printInfo('Using Free shipping');
-            $this->click($this->getUiElement('shippingMethod/inputs/freeShipping'));
-        } elseif ('Flat' == $params['shippingMethod']) {
-            //Select Flat method
-            if (!$this->waitForElement($this->getUiElement('shippingMethod/inputs/flatShipping'),10)) {
-                $this->setVerificationErrors('Check 3: Flat shipping method not available.');
-                return false;
-            }
-            $this->printInfo('Using Flat shipping');
-            $this->click($this->getUiElement('shippingMethod/inputs/freeShipping'));
+             $this->click($this->getUiElement('shippingMethod/buttons/continue'));
+             $this->pleaseWaitStep($this->getUiElement('shippingMethod/elements/pleaseWait'));
+        } else {
+                    $this->setVerificationErrors('Check 4: Shipping method tab is not visible.');
+                    return false;
         }
-         $this->click($this->getUiElement('shippingMethod/buttons/continue'));
-         $this->pleaseWaitStep($this->getUiElement('shippingMethod/elements/pleaseWait'));
          $this->printDebug('fillShippingTab finished...');
     }
 

@@ -139,6 +139,7 @@
                 </buttons>
                 <elements>
                         <pleaseWait>shipping-method-please-wait</pleaseWait>
+                        <container>//*[normalize-space(@id)='checkoutSteps']//*[normalize-space(@id)='opc-shipping_method']</container>
                 </elements>
             </shippingMethod>
             <paymentInfo>

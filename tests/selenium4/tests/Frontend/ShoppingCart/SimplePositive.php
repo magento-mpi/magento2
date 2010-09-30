@@ -1,6 +1,6 @@
 <?php
 
-class Frontend_ShoppingCart_AddGroupedPositive extends TestCaseAbstract
+class Frontend_ShoppingCart_AddSimplePositive extends TestCaseAbstract
 {
     /**
      * Setup procedure.
@@ -13,7 +13,8 @@ class Frontend_ShoppingCart_AddGroupedPositive extends TestCaseAbstract
     }
 
     /**
-     * Test frontend guest checkout
+     * Test frontend simple product placing to Shopping Cart
+     * MAGE-26:Placing Simple product to Shopping Cart
      */
     function testAddGroupedPositive()
     {
@@ -21,7 +22,7 @@ class Frontend_ShoppingCart_AddGroupedPositive extends TestCaseAbstract
         $paramArray = array (
             'baseUrl' => 'http://kq.varien.com/builds/ee-nightly/current/websites/smoke',
             'categoryName' => 'SL-Category/Base',
-            'productName' => 'Grouped Product - Base',
+            'productName' => 'Simple Product - Base',
             'qty' => 1,
         );
 

@@ -14,6 +14,7 @@ class Frontend_ShoppingCart_AddGroupedNegative extends TestCaseAbstract
 
     /**
      * Test Grouped product placing to the Shopping Cart (Negative)
+     * MAGE-29:Placing Grouped product to Shopping Cart. Neg
      */
     function testAddGroupedNegative()
     {
