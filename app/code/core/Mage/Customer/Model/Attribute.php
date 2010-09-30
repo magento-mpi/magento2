@@ -33,9 +33,23 @@
  */
 class Mage_Customer_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
 {
+    /**
+     * Name of the module
+     */
     const MODULE_NAME = 'Mage_Customer';
 
+    /**
+     * Prefix of model events names
+     *
+     * @var string
+     */
     protected $_eventPrefix = 'customer_entity_attribute';
+
+    /**
+     * Prefix of model events object
+     *
+     * @var string
+     */
     protected $_eventObject = 'attribute';
 
     /**
@@ -71,6 +85,9 @@ class Mage_Customer_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
         return $this->_website;
     }
 
+    /**
+     * Init resource model
+     */
     protected function _construct()
     {
         $this->_init('customer/attribute');
