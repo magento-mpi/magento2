@@ -41,19 +41,30 @@ class Model_Frontend_Checkout extends Model_Frontend
         if ('Checkout as Guest'==$params['checkoutMethod']) {
             //Select '...as Guest'
             $this->click($this->getUiElement('checkoutMethod/inputs/asGuest'));
-            $this->click($this->getUiElement('checkoutMethod/buttons/continue'));
-            // Fill billing address tab
-            $this->fillBillingTab($params);
+            $this->click($this->getUiElement('checkoutMethod/buttons/continue'));            
         }
 
+        if ('Login'==$params['checkoutMethod']) {
+            //Select '...as login'
+            $this->type($this->getUiElement('checkoutMethod/inputs/loginEmail'),$params['email']);
+            $this->type($this->getUiElement('checkoutMethod/inputs/password'),$params['password']);
+            $this->clickAndWait($this->getUiElement('checkoutMethod/buttons/login'));
+
+            // check for error message
+            if ($this->waitForElement($this->getUiElement('/admin/messages/error'),1)) {
+                $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+                $this->setVerificationErrors("Login Error: " . $etext);
+                return false;
+            }
+        }
+
+        // Fill billing address tab
+        $this->fillBillingTab($params);
         $this->fillShippingTab($params);
         $this->fillPaymentInfoTab($params);
         $this->placeOrder();
 
         //Perform rest of Checkout steps
-//        $this->shippingMethodPaymentPlaceOrderSteps($params);
-
-
         $this->printDebug('doCheckout finished');
     }
 
@@ -100,7 +111,7 @@ class Model_Frontend_Checkout extends Model_Frontend
         $this->printDebug('guestCheckout finished');
     }
 
-/**
+    /**
      * Perform Checkout with Registration from FrontEnd
      * @param - array wirh expecteded values:
      *       password
@@ -383,7 +394,10 @@ class Model_Frontend_Checkout extends Model_Frontend
         $this->type($this->getUiElement('inputs/firstName'),$params['firstName']);
         $this->type($this->getUiElement('inputs/lastName'),$params['lastName']);
         $this->type($this->getUiElement('inputs/company'),$params['company']);
-        $this->type($this->getUiElement('inputs/email'),$params['email']);
+        if ($this->isElementPresent($this->getUiElement('inputs/email'))) {
+            //For guest checkout
+            $this->type($this->getUiElement('inputs/email'),$params['email']);
+        }
         $this->type($this->getUiElement('inputs/street1'),$params['street1']);
         $this->type($this->getUiElement('inputs/street2'),$params['street2']);
         $this->type($this->getUiElement('inputs/city'),$params['city']);
