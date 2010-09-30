@@ -39,7 +39,7 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
      *
      * @var null | string
      */
-    protected $_columnPrefix       = 'c';
+    protected $_columnPrefix       = 'customer';
 
     /**
      * Primery key auto increment flag

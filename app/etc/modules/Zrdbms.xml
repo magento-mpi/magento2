@@ -256,7 +256,7 @@
             <active>false</active>
         </Enterprise_Cms>
         <Enterprise_Customer>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Customer>
         <Enterprise_CustomerBalance>
             <active>false</active>
