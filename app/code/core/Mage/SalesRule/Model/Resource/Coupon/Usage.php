@@ -52,17 +52,34 @@ class Mage_SalesRule_Model_Resource_Coupon_Usage extends Mage_Core_Model_Resourc
      */
     public function updateCustomerCouponTimesUsed($customerId, $couponId)
     {
-        $this->_getWriteAdapter()->insertOnDuplicate(
-            $this->getMainTable(),
-            array(
-                'coupon_id' => $couponId,
-                'customer_id' => $customerId,
-                'times_used' => 1
-            ),
-            array(
-                'times_used' => new Zend_Db_Expr('times_used + 1')
-            )
-        );
+        $select = $this->_getReadAdapter()->select();
+        $select->from($this->getMainTable(), array('times_used'))
+                ->where('coupon_id = ?', $couponId)
+                ->where('customer_id = ?', $customerId);
+
+        $times_used = $this->_getReadAdapter()->fetchOne($select);
+
+        if ($times_used > 0) {
+            $this->_getWriteAdapter()->update(
+                $this->getMainTable(),
+                array(
+                    'times_used' => $times_used + 1
+                ),
+                array(
+                    'coupon_id = ?' => $couponId,
+                    'customer_id = ?' => $customerId,
+                )
+            );
+        } else {
+            $this->_getWriteAdapter()->insert(
+                $this->getMainTable(),
+                array(
+                    'coupon_id' => $couponId,
+                    'customer_id' => $customerId,
+                    'times_used' => 1
+                )
+            );
+        }
     }
 
     /**
