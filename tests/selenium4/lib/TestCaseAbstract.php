@@ -67,7 +67,6 @@ abstract class TestCaseAbstract extends PHPUnit_Extensions_SeleniumTestCase
      */
     function popVerificationErrors()
     {
-        print_r($this->verificationErrors);
         return array_pop($this->verificationErrors);
     }
 
