@@ -118,18 +118,18 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
             'product_id' => $productId
         );
         $select = $this->_getReadAdapter()->select()
-            ->from(array('option' => $this->getMainTable()), array())
+            ->from(array('opt' => $this->getMainTable()), array())
             ->join(
                 array('option_title_default' => $this->getTable('bundle/option_value')),
-                'option_title_default.option_id=option.option_id AND option_title_default.store_id=0',
+                'option_title_default.option_id=opt.option_id AND option_title_default.store_id=0',
                 array()
             )
             ->joinLeft(
                 array('option_title_store' => $this->getTable('bundle/option_value')),
-                'option_title_store.option_id=option.option_id AND option_title_store.store_id=:store_id',
+                'option_title_store.option_id=opt.option_id AND option_title_store.store_id=:store_id',
                 array('title' => $title)
             )
-            ->where('option.parent_id=:product_id');
+            ->where('opt.parent_id=:product_id');
         if (!$searchData = $this->_getReadAdapter()->fetchCol($select, $bind)) {
             $searchData = array();
         }
