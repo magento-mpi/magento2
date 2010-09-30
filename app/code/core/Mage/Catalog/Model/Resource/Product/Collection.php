@@ -1805,26 +1805,26 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Add field comparsion expression
+     * Add field comparison expression
      *
-     * @param string $comparsionFormat Expression for sprintf()
-     * @param string $fields,... List of fields
+     * @param string $comparisonFormat - expression for sprintf()
+     * @param array $fields - list of fields
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
-    public function addPriceDataFieldFilter($comparsionFormat)
+    public function addPriceDataFieldFilter($comparisonFormat, $fields)
     {
-        if (!preg_match('/^%s( (<|>|=|<=|>=|<>) %s)*$/', $comparsionFormat)) {
-            throw new Exception('Invalid comparsion format.');
+        if (!preg_match('/^%s( (<|>|=|<=|>=|<>) %s)*$/', $comparisonFormat)) {
+            throw new Exception('Invalid comparison format.');
         }
 
-        $args = func_get_args();
-        foreach ($args as $key => $arg) {
-            if ($key != 0) {
-                $args[$key] = $this->_getMappedField($arg);
-            }
+        if (!is_array($fields)) {
+            $fields = array($fields);
+        }
+        foreach ($fields as $key => $field) {
+            $fields[$key] = $this->_getMappedField($field);
         }
 
-        $this->_priceDataFieldFilters[] = $args;
+        $this->_priceDataFieldFilters[] = array_merge(array($comparisonFormat), $fields);
         return $this;
     }
 }

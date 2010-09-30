@@ -60,8 +60,12 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
 
         $product = Mage::getModel('catalog/product');
 
+        $fields = array(
+            'final_price',
+            'price'
+        );
         $specials = $product->setStoreId($storeId)->getResourceCollection()
-            ->addPriceDataFieldFilter('%s < %s', 'final_price', 'price')
+            ->addPriceDataFieldFilter('%s < %s', $fields)
             ->addPriceData($customerGroupId, $websiteId)
             ->addAttributeToSelect(
                     array('name', 'short_description', 'description', 'price', 'thumbnail',
