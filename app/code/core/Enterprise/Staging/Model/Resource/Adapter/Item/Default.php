@@ -623,6 +623,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 foreach ($masterStoreIds as $masterStoreId) {
                     $masterStoreId = intval($masterStoreId);
 
+                    $this->_beforeStoreMerge($entityName, $fields, $masterStoreId, $stagingStoreId);
+
                     $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$updateField}`=VALUES(`{$updateField}`)";
                     $_storeFieldNameSql = 'store_id';
                     $_fields = $fields;
@@ -638,9 +640,41 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
                     $connection->query($destInsertSql);
+
+                    $this->_afterStoreMerge($entityName, $fields, $masterStoreId, $stagingStoreId);
                 }
             }
         }
+        return $this;
+    }
+
+    /**
+     * Executed before merging staging store to master store
+     *
+     * @param string $entityName
+     * @param mixed $fields
+     * @param int $masterStoreId
+     * @param int $stagingStoreId
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    protected function _beforeStoreMerge($entityName, $fields, $masterStoreId, $stagingStoreId)
+    {
+        return $this;
+    }
+
+    /**
+     * Executed after merging staging store to master store
+     *
+     * @param string $entityName
+     * @param mixed $fields
+     * @param int $stagingStoreId
+     * @param int $masterStoreId
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    protected function _afterStoreMerge($entityName, $fields, $masterStoreId, $stagingStoreId)
+    {
         return $this;
     }
 
@@ -764,7 +798,9 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $mergedStores   = $staging->getMapperInstance()->getStores();
 
         if (!empty($mergedStores)) {
+            $origSrcTable = $srcTable;
             $srcTable    = $this->getTable($srcTable);
+            $origTargetTable = $targetTable;
             $targetTable = $this->getTable($targetTable);
             $updateField = end($fields);
             foreach ($mergedStores as $stagingStoreId => $masterStoreIds) {
@@ -778,6 +814,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                         continue;
                     }
                     $masterStoreId = intval($masterStoreId);
+
+                    $this->_beforeStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
 
                     $_storeFieldNameSql = "`{$srcTable}`.`store_id`";
                     $_fields = $fields;
@@ -825,9 +863,45 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
                     $connection->query($destInsertSql);
+
+                    $this->_afterStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
                 }
             }
         }
+        return $this;
+    }
+
+    /**
+     * Executed before rolling back backup to master store
+     *
+     * @param string $srcTable
+     * @param string $targetTable
+     * @param object $connection
+     * @param mixed $fields
+     * @param int $masterStoreId
+     * @param int $stagingStoreId
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    protected function _beforeStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, $stagingStoreId)
+    {
+        return $this;
+    }
+
+    /**
+     * Executed after rolling back backup to master store
+     *
+     * @param string $srcTable
+     * @param string $targetTable
+     * @param object $connection
+     * @param mixed $fields
+     * @param int $masterStoreId
+     * @param int $stagingStoreId
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    protected function _afterStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, $stagingStoreId)
+    {
         return $this;
     }
 

@@ -166,6 +166,7 @@
                         <entities>
                             <page_store/>
                         </entities>
+                        <resource_adapter>enterprise_staging/adapter_item_cms_page</resource_adapter>
                     </cms_page>
                     <cms_block translate="label">
                         <module>Mage_Cms</module>
