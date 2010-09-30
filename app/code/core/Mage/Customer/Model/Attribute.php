@@ -118,6 +118,12 @@ class Mage_Customer_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
         return array();
     }
 
+    /**
+     * Set validate rules
+     *
+     * @param array|string $rules
+     * @return Mage_Customer_Model_Attribute
+     */
     public function setValidateRules($rules)
     {
         if (empty($rules)) {
@@ -126,6 +132,8 @@ class Mage_Customer_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
             $rules = serialize($rules);
         }
         $this->setData('validate_rules', $rules);
+
+        return $this;
     }
 
     /**
