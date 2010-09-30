@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Coupon Model
  *
  * @method Mage_SalesRule_Model_Resource_Coupon _getResource()
  * @method Mage_SalesRule_Model_Resource_Coupon getResource()

@@ -35,7 +35,7 @@
 class Mage_SalesRule_Model_Resource_Rule_Product extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Constructor
      *
      */
     protected function _construct()

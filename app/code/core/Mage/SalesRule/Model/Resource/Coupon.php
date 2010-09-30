@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * SalesRule Resource Coupon
  *
  * @category    Mage
  * @package     Mage_SalesRule
@@ -35,7 +35,7 @@
 class Mage_SalesRule_Model_Resource_Coupon extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Constructor adds unique fileds
+     * Constructor adds unique fields
      *
      */
     protected function _construct()

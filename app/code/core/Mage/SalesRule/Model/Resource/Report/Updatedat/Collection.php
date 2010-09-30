@@ -36,9 +36,9 @@ class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
     extends Mage_Sales_Model_Resource_Report_Order_Updatedat_Collection
 {
     /**
-     * Enter description here ...
+     * Selected columns array
      *
-     * @var unknown
+     * @var array
      */
     protected $_selectedColumns    = array(
         'store_id'                => 'e.store_id',
