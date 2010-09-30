@@ -721,6 +721,12 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     *  Override setter for setting customer group id  from order
+     *
+     *  @param mixed $entity
+     *  @return Enterprise_Reward_Model_Reward
+     */
     public function setActionEntity($entity)
     {
         if ($entity->getCustomerGroupId()) {
