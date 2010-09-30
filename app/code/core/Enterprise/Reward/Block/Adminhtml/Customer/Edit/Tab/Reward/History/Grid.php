@@ -201,4 +201,15 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
     {
         return $this->getUrl('*/*/historyGrid', array('_current' => true));
     }
+
+    /**
+     * Return grid row url
+     *
+     * @param Enterprise_Reward_Model_Reward_History $row
+     * @return string
+     */
+    public function getRowUrl($row)
+    {
+        return '';
+    }
 }
