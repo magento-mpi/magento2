@@ -91,14 +91,5 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Sales_Model_Resource_
 
         return $this;
     }
-    
-    public function identityInsertOn($adapter, $table)
-    {
 
-    }
-
-    public function identityInsertOff($adapter, $table)
-    {
-
-    }
 }

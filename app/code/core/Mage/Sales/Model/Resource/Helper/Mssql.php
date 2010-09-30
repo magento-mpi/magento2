@@ -34,13 +34,5 @@
  */
 class Mage_Sales_Model_Resource_Helper_Mssql extends Mage_Sales_Model_Resource_Helper_Abstract
 {
-    public function identityInsertOn($adapter, $table)
-    {
-         $adapter->query(sprintf('SET IDENTITY_INSERT %s ON', $adapter->quoteIdentifier($table)));
-    }
 
-    public function identityInsertOff($adapter, $table)
-    {
-         $adapter->query(sprintf('SET IDENTITY_INSERT %s OFF', $adapter->quoteIdentifier($table)));
-    }
 }

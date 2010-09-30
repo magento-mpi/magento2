@@ -34,13 +34,5 @@
  */
 class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Sales_Model_Resource_Helper_Abstract
 {
-    public function identityInsertOn($adapter, $table)
-    {
 
-    }
-
-    public function identityInsertOff($adapter, $table)
-    {
-
-    }
 }

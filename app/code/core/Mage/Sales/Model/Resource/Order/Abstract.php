@@ -175,10 +175,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
             $adapter = $this->_getWriteAdapter();
             $table = $this->getGridTable();
             $select = $this->getUpdateGridRecordsSelect($ids, $columnsToSelect);
-            
-            Mage::getResourceHelper('sales')->identityInsertOn($adapter, $table);
             $adapter->query($select->insertFromSelect($table, $columnsToSelect, true));
-            Mage::getResourceHelper('sales')->identityInsertOff($adapter, $table);
         }
 
         return $this;
