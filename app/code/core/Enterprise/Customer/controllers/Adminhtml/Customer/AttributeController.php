@@ -245,6 +245,9 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
             }
 
             try {
+                Mage::dispatchEvent('enterprise_customer_attribute_before_save', array(
+                    'attribute' => $attributeObject
+                ));
                 $attributeObject->save();
                 Mage::dispatchEvent('enterprise_customer_attribute_save', array(
                     'attribute' => $attributeObject

@@ -32,6 +32,6 @@
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Model_Mysql4_Sales_Abstract extends Enterprise_Customer_Model_Resource_Sales_Abstract
+abstract class Enterprise_Customer_Model_Mysql4_Sales_Abstract extends Enterprise_Customer_Model_Resource_Sales_Abstract
 {
 }

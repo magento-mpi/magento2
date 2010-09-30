@@ -26,7 +26,7 @@
 
 
 /**
- * Customer Order Address Mysql4 model
+ * Customer Order Address resource model
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
@@ -36,7 +36,7 @@ class Enterprise_Customer_Model_Resource_Sales_Order_Address
     extends Enterprise_Customer_Model_Resource_Sales_Address_Abstract
 {
     /**
-     * Initializes Mysql4 resource
+     * Initializes resource
      *
      */
     protected function _construct()

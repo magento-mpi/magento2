@@ -26,7 +26,7 @@
 
 
 /**
- * Customer Sales Mysql4 abstract resource
+ * Customer Sales abstract resource
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
@@ -39,7 +39,7 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
      *
      * @var null | string
      */
-    protected $_columnPrefix       = 'customer';
+    protected $_columnPrefix       = 'c';
 
     /**
      * Primery key auto increment flag
@@ -56,10 +56,11 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
      */
     protected function _getColumnName(Mage_Customer_Model_Attribute $attribute)
     {
+        $columnName = $attribute->getAttributeCode();
         if ($this->_columnPrefix) {
-            return sprintf('%s_%s', $this->_columnPrefix, $attribute->getAttributeCode());
+            $columnName = sprintf('%s_%s', $this->_columnPrefix, $columnName);
         }
-        return $attribute->getAttributeCode();
+        return $columnName;
     }
 
     /**
@@ -77,25 +78,37 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
 
         switch ($backendType) {
             case 'datetime':
-                $defination = "DATE NULL DEFAULT NULL";
+                $definition = array(
+                    'type'      => Varien_Db_Ddl_Table::TYPE_DATE,
+                );
                 break;
             case 'decimal':
-                $defination = "DECIMAL(12,4) DEFAULT NULL";
+                $definition = array(
+                    'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
+                    'length'    => 12,4,
+                );
                 break;
             case 'int':
-                $defination = "INT(11) DEFAULT NULL";
+                $definition = array(
+                    'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+                );
                 break;
             case 'text':
-                $defination = "TEXT DEFAULT NULL";
+                $definition = array(
+                    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+                );
                 break;
             case 'varchar':
-                $defination = "VARCHAR(255) DEFAULT NULL";
+                $definition = array(
+                    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+                    'length'    => 255,
+                );
                 break;
             default:
                 return $this;
         }
 
-        $this->_getWriteAdapter()->addColumn($this->getMainTable(), $this->_getColumnName($attribute), $defination);
+        $this->_getWriteAdapter()->addColumn($this->getMainTable(), $this->_getColumnName($attribute), $definition);
 
         return $this;
     }

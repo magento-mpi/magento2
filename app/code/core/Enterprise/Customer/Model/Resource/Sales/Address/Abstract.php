@@ -26,7 +26,7 @@
 
 
 /**
- * Customer Sales Address Mysql4 abstract model
+ * Customer Sales Address abstract resource
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
@@ -66,7 +66,7 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Address_Abstract
                 $items[$row[$this->getIdFieldName()]]->addData($row);
             }
         }
-        
+
         return $this;
     }
 }

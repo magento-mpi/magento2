@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Customer>
-            <version>0.1.1</version>
+            <version>1.10.0.0</version>
         </Enterprise_Customer>
     </modules>
     <global>
@@ -139,6 +139,14 @@
                     </enterprise_customer>
                 </observers>
             </sales_order_address_save_after>
+            <enterprise_customer_attribute_before_save>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>enterpriseCustomerAttributeBeforeSave</method>
+                    </enterprise_customer>
+                </observers>
+            </enterprise_customer_attribute_before_save>
             <enterprise_customer_attribute_save>
                 <observers>
                     <enterprise_customer>

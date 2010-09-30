@@ -176,6 +176,38 @@ class Enterprise_Customer_Model_Observer
     }
 
     /**
+     * Before save observer for customer attribute
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function enterpriseCustomerAttributeBeforeSave(Varien_Event_Observer $observer)
+    {
+        $attribute = $observer->getEvent()->getAttribute();
+        if ($attribute instanceof Mage_Customer_Model_Attribute
+            && $attribute->isObjectNew()
+        ) {
+            /**
+             * Check for maximum attribute_code length
+             */
+            $attributeCodeMaxLength = 28;
+            if($attribute->getAttributeCode() &&
+               !Zend_Validate::is(
+                   $attribute->getAttributeCode(),
+                   'StringLength',
+                   array('max' => $attributeCodeMaxLength)))
+            {
+                throw Mage::exception('Mage_Eav',
+                    Mage::helper('eav')->__(
+                        'Maximum length of attribute code must be less then %s symbols',
+                        $attributeCodeMaxLength));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * After save observer for customer attribute
      *
      * @param Varien_Event_Observer $observer
@@ -428,7 +460,7 @@ class Enterprise_Customer_Model_Observer
         if ($source instanceof Mage_Core_Model_Abstract && $target instanceof Mage_Core_Model_Abstract) {
             if ($convertType == self::CONVERT_TYPE_CUSTOMER) {
                 $attributes = Mage::helper('enterprise_customer')->getCustomerUserDefinedAttributeCodes();
-                $prefix     = 'customer_';
+                $prefix     = 'c_';
             } else if ($convertType == self::CONVERT_TYPE_CUSTOMER_ADDRESS) {
                 $attributes = Mage::helper('enterprise_customer')->getCustomerAddressUserDefinedAttributeCodes();
                 $prefix     = '';

@@ -26,7 +26,7 @@
 
 
 /**
- * Customer Quote Address Mysql4 model
+ * Customer Quote Address resource model
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
@@ -36,7 +36,7 @@ class Enterprise_Customer_Model_Resource_Sales_Quote_Address
     extends Enterprise_Customer_Model_Resource_Sales_Address_Abstract
 {
     /**
-     * Initialize Mysql4 resource
+     * Initialize resource
      *
      */
     protected function _construct()
