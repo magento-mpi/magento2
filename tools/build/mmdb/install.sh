@@ -54,4 +54,8 @@ php -f shell/indexer.php -- reindexall
 check_failure $?
 chmod -fR 777 var/locks
 
+if [ -L "var/debug" ]; then
+    chmod -fR 0777 var/debug
+fi
+
 cd $OLDPWD
