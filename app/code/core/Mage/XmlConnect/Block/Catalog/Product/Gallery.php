@@ -74,6 +74,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
             $path = str_replace($baseUrl, '', $bigImage);
             $file = Mage::getBaseDir('media') . DS . str_replace('/', DS, $path);
 
+            $fileNode->addAttribute('id', ($id = $item->getId()) ? (int) $id : 0);
             $fileNode->addAttribute('modification_time', filemtime($file));
 
             /**

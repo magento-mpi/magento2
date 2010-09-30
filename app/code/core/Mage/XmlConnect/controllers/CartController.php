@@ -100,6 +100,29 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     }
 
     /**
+     * Get request for product add to cart procedure
+     *
+     * @param   mixed $requestInfo
+     * @return  Varien_Object
+     */
+    protected function _getProductRequest($requestInfo)
+    {
+        if ($requestInfo instanceof Varien_Object) {
+            $request = $requestInfo;
+        } elseif (is_numeric($requestInfo)) {
+            $request = new Varien_Object();
+            $request->setQty($requestInfo);
+        } else {
+            $request = new Varien_Object($requestInfo);
+        }
+
+        if (!$request->hasQty()) {
+            $request->setQty(1);
+        }
+        return $request;
+    }
+
+    /**
      * Add product to shopping cart action
      */
     public function addAction()
@@ -132,6 +155,27 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             if (!$product) {
                 $this->_message(Mage::helper('xmlconnect')->__('Product is unavailable.'), parent::MESSAGE_STATUS_ERROR);
                 return;
+            }
+
+            if ($product->isConfigurable()) {
+
+                $request = $this->_getProductRequest($params);
+                $cartCandidates = $product->getTypeInstance(true)->prepareForCart($request, $product);
+                /**
+                 * Hardcoded Configurable product default
+                 */
+                $minSaleQty = ((isset($params['qty']) ? $params['qty'] : 0) > 1) ? $params['qty'] : 1;
+                if (is_array($cartCandidates)) {
+                    foreach ($cartCandidates as $candidate) {
+                        $current = $candidate->getStockItem()->getMinSaleQty();
+                        if ($minSaleQty < $current) {
+                            $minSaleQty = $current;
+                        }
+                    }
+                }
+                if ($minSaleQty) {
+                    $params['qty'] = $minSaleQty;
+                }
             }
 
             $cart->addProduct($product, $params);
