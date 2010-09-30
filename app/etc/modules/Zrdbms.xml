@@ -37,7 +37,7 @@
             <active>true</active>
         </Mage_AdminNotification>
         <Mage_AmazonPayments>
-            <active>false</active>
+            <active>true</active>
         </Mage_AmazonPayments>
         <Mage_Api>
             <active>true</active>
@@ -64,13 +64,13 @@
             <active>true</active>
         </Mage_CatalogSearch>
         <Mage_Centinel>
-            <active>false</active>
+            <active>true</active>
         </Mage_Centinel>
         <Mage_Checkout>
-            <active>false</active>
+            <active>true</active>
         </Mage_Checkout>
         <Mage_Chronopay>
-            <active>false</active>
+            <active>true</active>
         </Mage_Chronopay>
         <Mage_Cms>
             <active>true</active>
@@ -94,10 +94,10 @@
             <active>true</active>
         </Mage_Customer>
         <Mage_Cybermut>
-            <active>false</active>
+            <active>true</active>
         </Mage_Cybermut>
         <Mage_Cybersource>
-            <active>false</active>
+            <active>true</active>
         </Mage_Cybersource>
         <Mage_Dataflow>
             <active>true</active>
@@ -112,13 +112,13 @@
             <active>true</active>
         </Mage_Eav>
         <Mage_Eway>
-            <active>false</active>
+            <active>true</active>
         </Mage_Eway>
         <Mage_Flo2Cash>
-            <active>false</active>
+            <active>true</active>
         </Mage_Flo2Cash>
         <Mage_GiftMessage>
-            <active>false</active>
+            <active>true</active>
         </Mage_GiftMessage>
         <Mage_GoogleAnalytics>
             <active>true</active>
@@ -127,13 +127,13 @@
             <active>true</active>
         </Mage_GoogleBase>
         <Mage_GoogleCheckout>
-            <active>false</active>
+            <active>true</active>
         </Mage_GoogleCheckout>
         <Mage_GoogleOptimizer>
             <active>true</active>
         </Mage_GoogleOptimizer>
         <Mage_Ideal>
-            <active>false</active>
+            <active>true</active>
         </Mage_Ideal>
         <Mage_Index>
             <active>true</active>
@@ -151,28 +151,28 @@
             <active>true</active>
         </Mage_Newsletter>
         <Mage_Ogone>
-            <active>false</active>
+            <active>true</active>
         </Mage_Ogone>
         <Mage_Oscommerce>
-            <active>false</active>
+            <active>true</active>
         </Mage_Oscommerce>
         <Mage_Page>
             <active>true</active>
         </Mage_Page>
         <Mage_Paybox>
-            <active>false</active>
+            <active>true</active>
         </Mage_Paybox>
         <Mage_Paygate>
-            <active>false</active>
+            <active>true</active>
         </Mage_Paygate>
         <Mage_Payment>
             <active>true</active>
         </Mage_Payment>
         <Mage_Paypal>
-            <active>false</active>
+            <active>true</active>
         </Mage_Paypal>
         <Mage_PaypalUk>
-            <active>false</active>
+            <active>true</active>
         </Mage_PaypalUk>
         <Mage_Poll>
             <active>true</active>
@@ -181,7 +181,7 @@
             <active>true</active>
         </Mage_ProductAlert>
         <Mage_Protx>
-            <active>false</active>
+            <active>true</active>
         </Mage_Protx>
         <Mage_Rating>
             <active>true</active>
@@ -223,7 +223,7 @@
             <active>true</active>
         </Mage_Tax>
         <Mage_Usa>
-            <active>false</active>
+            <active>true</active>
         </Mage_Usa>
         <Mage_Weee>
             <active>true</active>
@@ -235,7 +235,7 @@
             <active>true</active>
         </Mage_Wishlist>
         <Mage_XmlConnect>
-            <active>false</active>
+            <active>true</active>
         </Mage_XmlConnect>
         <Enterprise_AdminGws>
             <active>false</active>
