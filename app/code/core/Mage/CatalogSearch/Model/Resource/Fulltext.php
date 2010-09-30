@@ -325,11 +325,8 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $preparedTerms = Mage::getResourceHelper('catalogsearch')
                 ->prepareTerms($queryText, $query->getMaxQueryWords());
 
-            $bind = array(
-                ':query' => implode(' ', $preparedTerms[0])
-            );
+            $bind = array();
             $like = array();
-
             $likeCond  = '';
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
@@ -357,6 +354,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
 
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
+                $bind[':query'] = implode(' ', $preparedTerms[0]);
                 $where = Mage::getResourceHelper('catalogsearch')
                     ->chooseFulltext($this->getMainTable(), $mainTableAlias, $select);
             }
@@ -365,11 +363,13 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                     $where .= ($where ? ' OR ' : '') . $likeCond;
             }
             if ($likeCond!='' && $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE) {
+                $select->columns(array('relevance'  => new Zend_Db_Expr(0))); 
                 $where = $likeCond;
             }
             if ($where != '') {
                 $select->where($where);
             }
+
             $sql = $adapter->insertFromSelect($select,
                 $this->getTable('catalogsearch/result'),
                 array(),
