@@ -38,9 +38,9 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
     const EVENT_FROM_PARENT_LAST  = 2;
 
     /**
-     * Enter description here ...
+     * Child to parent list
      *
-     * @var unknown
+     * @var array
      */
     protected $_childToParentList;
 
@@ -58,7 +58,11 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
     protected function _construct()
     {
         $this->_init('enterprise_catalogevent/event', 'event_id');
-        $this->addUniqueField(array('field' => 'category_id' , 'title' => Mage::helper('enterprise_catalogevent')->__('Event for selected category')));
+        $this->addUniqueField(
+            array(
+                'field' => 'category_id' , 
+                'title' => Mage::helper('enterprise_catalogevent')->__('Event for selected category'))
+        );
     }
 
     /**
@@ -107,10 +111,11 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
 
         $select
             ->joinLeft(
-                array('event'=>$this->getMainTable()),
+                array('event' => $this->getMainTable()),
                 'event.category_id = ' . $categoryCorrelationName . '.entity_id',
                 'event_id'
-        )->order($categoryCorrelationName . '.level ASC');
+            )
+            ->order($categoryCorrelationName . '.level ASC');
 
         $this->_eventCategories = $this->_getReadAdapter()->fetchAssoc($select);
 
@@ -119,10 +124,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
         }
         $this->_setChildToParentList();
 
-        foreach ($this->_eventCategories as $categoryId => $category){
+        foreach ($this->_eventCategories as $categoryId => $category) {
             if ($category['event_id'] === null && isset($category['level']) && $category['level'] > 2) {
                 $result[$categoryId] = $this->_getEventFromParent($categoryId, self::EVENT_FROM_PARENT_LAST);
-            } elseif  ($category['event_id'] !== null) {
+            } else if ($category['event_id'] !== null) {
                 $result[$categoryId] = $category['event_id'];
             } else {
                 $result[$categoryId] = null;
@@ -160,7 +165,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
      *
      * @param int $categoryId
      * @param int $flag
-     * @return unknown
+     * @return int
      */
     protected function _getEventFromParent($categoryId, $flag = 2)
     {
@@ -174,11 +179,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
         if (isset($this->_eventCategories[$parentId])) {
             $eventId = $this->_eventCategories[$parentId]['event_id'];
         }
-        if ($flag == self::EVENT_FROM_PARENT_LAST){
+        if ($flag == self::EVENT_FROM_PARENT_LAST) {
             if (isset($eventId) && ($eventId !== null)) {
                 return $eventId;
-            }
-            elseif ($eventId === null) {
+            } else if ($eventId === null) {
                 return $this->_getEventFromParent($parentId, $flag);
             }
         }
@@ -193,20 +197,24 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $this->_getWriteAdapter()->delete(
-            $this->getTable('event_image'),
-             $object->getIdFieldName() . ' = ' . $object->getId() .
-            ' AND store_id = ' . $object->getStoreId()
+        $where = array(
+            $object->getIdFieldName() . '=?' => $object->getId(),
+            'store_id = ?' => $object->getStoreId()
         );
 
+        $this->_getWriteAdapter()
+            ->delete($this->getTable('event_image'), $where);
+
         if ($object->getImage() !== null) {
-            $this->_getWriteAdapter()->insert(
-                $this->getTable('event_image'),
-                array(
+            $data = array(
                     $object->getIdFieldName() => $object->getId(),
                     'store_id' => $object->getStoreId(),
-                    'image' => $object->getImage()
-                )
+                    'image'    => $object->getImage()
+            );
+
+            $this->_getWriteAdapter()->insert(
+                $this->getTable('event_image'), 
+                $data
             );
         }
         return parent::_afterSave($object);
@@ -220,15 +228,16 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->getTable('event_image'), array(
-                'type' => 'IF(store_id = 0, \'default\', \'store\')',
+                'type' => $adapter->getCheckSql('store_id = 0', "'default'", "'store'"),
                 'image'
             ))
-            ->where($object->getIdFieldName() . ' = ?', $object->getId())
-            ->where('store_id IN (0,?)', $object->getStoreId());
+            ->where($object->getIdFieldName() . '=?', $object->getId())
+            ->where('store_id IN (0, ?)', $object->getStoreId());
 
-        $images = $this->_getReadAdapter()->fetchPairs($select);
+        $images = $adapter->fetchPairs($select);
 
         if (isset($images['store'])) {
             $object->setImage($images['store']);

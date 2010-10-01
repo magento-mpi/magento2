@@ -72,7 +72,12 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
             if (is_array($condition) && isset($condition['eq'])) {
                 $condition = $condition['eq'];
             }
-            $this->_select->where('(' . $field . ' & ' . (int) $condition . ') = ' . (int) $condition);
+            if (in_array((int) $condition, array(0, 1))) {
+                $this->getSelect()->where('display_state=?', (int) $condition);
+                //$this->getSelect()->where('(' . $field . ' & ' . (int) $condition . ') = ' . (int) $condition);
+            } else {
+                $this->getSelect()->where('display_state=?', 0);
+            }
             return $this;
         }
         if ($field == 'status') {
@@ -122,13 +127,23 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
     {
         if (!$this->_categoryDataAdded) {
              $this->getSelect()
-                ->joinLeft(array('category' => $this->getTable('catalog/category')), 'category.entity_id = main_table.category_id', array('category_position' => 'position'))
-                ->joinLeft(array('category_name_attribute' => $this->getTable('eav/attribute')), 'category_name_attribute.entity_type_id = category.entity_type_id
-                    AND category_name_attribute.attribute_code = \'name\'', array())
-                ->joinLeft(array('category_varchar' => $this->getTable('catalog/category') . '_varchar'), 'category_varchar.entity_id = category.entity_id
+                ->joinLeft(array(
+                    'category' => $this->getTable('catalog/category')), 
+                    'category.entity_id = main_table.category_id', 
+                    array('category_position' => 'position')
+                 )
+                ->joinLeft(array(
+                    'category_name_attribute' => $this->getTable('eav/attribute')), 
+                    'category_name_attribute.entity_type_id = category.entity_type_id
+                    AND category_name_attribute.attribute_code = \'name\'', array()
+                )
+                ->joinLeft(array(
+                    'category_varchar' => $this->getTable('catalog/category') . '_varchar'), 
+                    'category_varchar.entity_id = category.entity_id
                     AND category_varchar.attribute_id = category_name_attribute.attribute_id
                     AND category_varchar.store_id = 0
-                ', array('category_name' => 'value'));
+                ', array('category_name' => 'value')
+                );
             $this->_map['fields']['category_name'] = 'category_varchar.value';
             $this->_map['fields']['category_position'] = 'category.position';
             $this->_categoryDataAdded = true;
@@ -144,16 +159,21 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
      */
     public function addSortByStatus()
     {
+        $adapter = $this->getConnection();
         $this->getSelect()
             ->order(array(
-                $this->getConnection()->quoteInto(
-                    'IF (' . $this->_getStatusColumnExpr() . ' = ?, 0, 1) ASC',
-                    Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
-                ),
-                $this->getConnection()->quoteInto(
-                    'IF (' . $this->_getStatusColumnExpr() . ' = ?, main_table.date_end, main_table.date_start) ASC',
-                    Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
-                ),
+                $adapter->getCheckSql(
+                    $adapter->quoteInto(
+                        $this->_getStatusColumnExpr() . ' = ?', 
+                        Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
+                    ), 0, 1
+                ) . ' ASC',
+                $adapter->getCheckSql(
+                    $adapter->quoteInto(
+                        $this->_getStatusColumnExpr() . ' = ?', 
+                        Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
+                    ), 'main_table.date_end', 'main_table.date_start'
+                ) . ' ASC',
                 'main_table.sort_order ASC'
         ));
 
@@ -167,11 +187,14 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
      */
     public function addImageData()
     {
+        $adapter = $this->getConnection();
         $this->getSelect()->joinLeft(
             array('event_image' => $this->getTable('event_image')),
             'event_image.event_id = main_table.event_id
             AND event_image.store_id = ' . Mage::app()->getStore()->getId() . '',
-            array('image' => 'IFNULL(event_image.image, event_image_default.image)')
+            array('image' => 
+                $adapter->getCheckSql('event_image.image IS NULL', 'event_image_default.image', 'event_image.image')
+            )
         )
         ->joinLeft(
             array('event_image_default' => $this->getTable('event_image')),
@@ -179,7 +202,6 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
             AND event_image_default.store_id = 0',
             array())
         ->group('main_table.event_id');
-
         return $this;
     }
 
@@ -237,19 +259,14 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
      */
     protected function _getStatusColumnExpr()
     {
-        $timeNow = $this->getResource()->formatDate(time());
-        $connection = $this->getConnection();
-        $timeNowQuoted = $connection->quote($timeNow);
-        return new Zend_Db_Expr(vsprintf('(CASE WHEN (`date_start` <= %s AND `date_end` >= %s) THEN %s'
-        . ' WHEN (`date_start` > %s AND `date_end` > %s) THEN %s ELSE %s END)', array(
-            $timeNowQuoted,
-            $timeNowQuoted,
-            $connection->quote(Enterprise_CatalogEvent_Model_Event::STATUS_OPEN),
-            $timeNowQuoted,
-            $timeNowQuoted,
-            $connection->quote(Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING),
-            $connection->quote(Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED)
-        )));
+        $adapter = $this->getConnection();
+        $timeNow = $this->getResource()->formatDate(now());
+        return $adapter->getCaseSql('', array(
+            $adapter->quoteInto('(date_start <= ? AND date_end >= ?)', $timeNow, $timeNow) => 
+                $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_OPEN),
+            $adapter->quoteInto('(date_start > ? AND date_end > ?)', $timeNow, $timeNow) => 
+                $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING)
+        ), $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED));
     }
 
     /**
