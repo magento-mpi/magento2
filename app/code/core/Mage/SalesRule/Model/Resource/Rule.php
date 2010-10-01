@@ -187,9 +187,10 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
         $select = $this->_getReadAdapter()->select()
                 ->from(array('a'=>$this->getTable('eav/attribute')), array('a.attribute_id'))
                 ->where('a.attribute_code IN (?)', array($attributes));
-        if ($attributesFound = $this->_getReadAdapter()->fetchAll($select)) {
-            foreach ($attributesFound as $attr) {
-                $attributeIds[] = $attr['attribute_id'];
+        $attributesFound = $this->_getReadAdapter()->fetchAll($select);
+        if ($attributesFound) {
+            foreach ($attributesFound as $attribute) {
+                $attributeIds[] = $attribute['attribute_id'];
             }
 
             $data = array();
