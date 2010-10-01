@@ -125,7 +125,9 @@ class Enterprise_Staging_Model_Entry
     {
         $this->_ensureWebsite();
         $this->getBaseFolder();
-        return $masterWebsite->getConfig('web/' . ($secure ? '' : 'un') . 'secure/base_url') . $this->_baseFolderName . '/' . $this->_website->getCode() . '/';
+        $masterUri = $masterWebsite->getConfig('web/' . ($secure ? '' : 'un') . 'secure/base_url');
+        $masterUri = str_replace($this->_baseFolderName . '/' . $masterWebsite->getCode() . '/', '', $masterUri);
+        return $masterUri . $this->_baseFolderName . '/' . $this->_website->getCode() . '/';
     }
 
     /**
