@@ -92,6 +92,6 @@ class Mage_Checkout_Model_Resource_Cart extends Mage_Core_Model_Resource_Db_Abst
             ->where('quote_id = ?', $quoteId);
         $condition = $adapter->prepareSqlCondition('e.entity_id', array('nin' => $exclusionSelect));
         $collection->getSelect()->where($condition);
-        return $this
+        return $this;
     }
 }
