@@ -429,39 +429,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     protected function _compareColumnProperties($column, $describe)
     {
-        $type       = $column['type'];
-        if (isset($column['length'])) {
-            $type = sprintf('%s(%s)', $type[0], $column['length']);
-        } else {
-            $type = $type[0];
-        }
-        $length     = null;
-        $precision  = null;
-        $scale      = null;
-
-        $matches = array();
-        if (preg_match('/^((?:var)?char)\((\d+)\)/', $type, $matches)) {
-            $type       = $matches[1];
-            $length     = $matches[2];
-        } else if (preg_match('/^decimal\((\d+),(\d+)\)/', $type, $matches)) {
-            $type       = 'decimal';
-            $precision  = $matches[1];
-            $scale      = $matches[2];
-        } else if (preg_match('/^float\((\d+),(\d+)\)/', $type, $matches)) {
-            $type       = 'float';
-            $precision  = $matches[1];
-            $scale      = $matches[2];
-        } else if (preg_match('/^((?:big|medium|small|tiny)?int)\((\d+)\)?/', $type, $matches)) {
-            $type       = $matches[1];
-        }
-
-        return ($describe['DATA_TYPE'] == $type)
-            && ($describe['DEFAULT'] == $column['default'])
-            && ((bool)$describe['NULLABLE'] == (bool)$column['nullable'])
-            && ((bool)$describe['UNSIGNED'] == (bool)$column['unsigned'])
-            && ($describe['LENGTH'] == $length)
-            && ($describe['SCALE'] == $scale)
-            && ($describe['PRECISION'] == $precision);
+        return Mage::getResourceHelper('catalog')->compareIndexColumnProperties($column, $describe);
     }
 
     /**
