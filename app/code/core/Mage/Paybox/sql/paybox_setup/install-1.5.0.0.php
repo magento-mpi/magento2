@@ -53,7 +53,7 @@ $table = $installer->getConnection()
         ), 'Increment Value')
     ->addColumn('reset_date', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
-        'default'   => 'CURRENT_TIMESTAMP',
+        'default'   => Varien_Db_Ddl_Table::TIMESTAMP_INIT,
         ), 'Reset Date')
     ->setComment('Paybox Question Number Table');
 $installer->getConnection()->createTable($table);
