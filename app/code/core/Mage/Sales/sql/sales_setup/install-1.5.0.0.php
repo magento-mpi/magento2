@@ -2474,7 +2474,6 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Code')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
         ), 'Value')
     ->addIndex($installer->getIdxName('sales/quote_item_option', array('item_id')),
         array('item_id'))
