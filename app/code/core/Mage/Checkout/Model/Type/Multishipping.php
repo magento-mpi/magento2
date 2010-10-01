@@ -238,10 +238,10 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
             /**
              * Delete all not virtual quote items which are not added to shipping address
-             * MultisippingQty should be defined for each quote item when it processed with _addShippingItem
+             * MultishippingQty should be defined for each quote item when it processed with _addShippingItem
              */
             foreach ($quote->getAllItems() as $_item) {
-                if (!$_item->getProduct()->getIsVirtual() && !$_item->getParentItem() && !$_item->getMultisippingQty()) {
+                if (!$_item->getProduct()->getIsVirtual() && !$_item->getParentItem() && !$_item->getMultishippingQty()) {
                     $_item->delete();
                 }
             }
@@ -302,8 +302,8 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 }
                 return $this;
             }
-            $quoteItem->setMultisippingQty((int)$quoteItem->getMultisippingQty()+$qty);
-            $quoteItem->setQty($quoteItem->getMultisippingQty());
+            $quoteItem->setMultishippingQty((int)$quoteItem->getMultishippingQty()+$qty);
+            $quoteItem->setQty($quoteItem->getMultishippingQty());
             $address = $this->getCustomer()->getAddressById($addressId);
             if ($address->getId()) {
                 if (!$quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId())) {
