@@ -1231,7 +1231,7 @@ class Mage_Oscommerce_Model_Resource_Oscommerce extends Mage_Core_Model_Resource
     }
 
     /**
-     * Set if assign product to category. 
+     * Set if assign product to category.
      *
      * @param unknown_type $yn
      */
@@ -1679,7 +1679,7 @@ class Mage_Oscommerce_Model_Resource_Oscommerce extends Mage_Core_Model_Resource
             $select = $this->_getReadAdapter()->select();
             $select->from(array('ref'=>$this->getTable('oscommerce_ref')),
                 array('value'=>'value', 'ref_id'=>'ref_id'));
-            $select->where('ref.import_id=:import_id'); 
+            $select->where('ref.import_id=:import_id');
             $select->where('ref.type_id=:type_id');
             $bind = array(
                 ':import_id' => $importId,
@@ -2217,13 +2217,13 @@ class Mage_Oscommerce_Model_Resource_Oscommerce extends Mage_Core_Model_Resource
         $result = array();
         if (!empty($customerId)) {
             $select = $this->_getReadAdapter()->select()
-                ->from(array('order'=>$this->getTable('oscommerce_order')))
+                ->from(array('ord'=>$this->getTable('oscommerce_order')))
                 ->join(
                     array('order_total'=>$this->getTable('oscommerce_order_total')),
-                    "order_total.osc_magento_id=order.osc_magento_id AND order_total.class='ot_total'",
+                    "order_total.osc_magento_id=ord.osc_magento_id AND order_total.class='ot_total'",
                     array('value'))
-                ->where("order.magento_customers_id={$customerId}")
-                ->where("order.website_id={$websiteId}");
+                ->where("ord.magento_customers_id={$customerId}")
+                ->where("ord.website_id={$websiteId}");
                 $result = $this->_getReadAdapter()->fetchAll($select);
         }
         return $result;
