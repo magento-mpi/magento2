@@ -232,6 +232,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         $whereCondition = array();
         $adapter = $this->_getReadAdapter();
         foreach ($selectResult as $date) {
+            $date = substr($date, 0, 10);
             $dateMin = $adapter->getDateFormatSql(
                 $adapter->quote("{$date} 00:00:00"),
                 '%Y-%m-%d %H:%i:%s')->__toString();
