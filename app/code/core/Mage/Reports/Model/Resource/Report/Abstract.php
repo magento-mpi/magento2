@@ -230,10 +230,16 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         }
 
         $whereCondition = array();
+        $adapter = $this->_getReadAdapter();
         foreach ($selectResult as $date) {
-            $dateMin = $this->_getReadAdapter()->getDateFormatSql("{$date} 00:00:00", '%Y-%m-%d %H:%i:%s')->__toString();
-            $dateMax = $this->_getReadAdapter()->getDateFormatSql("{$date} 23:59:59", '%Y-%m-%d %H:%i:%s')->__toString();
-            $whereCondition[] = sprintf('%s BETWEEN %s AND %s', $periodColumn, $dateMin, $dateMax);
+            $dateMin = $adapter->getDateFormatSql(
+                $adapter->quote("{$date} 00:00:00"),
+                '%Y-%m-%d %H:%i:%s')->__toString();
+            $dateMax = $adapter->getDateFormatSql(
+                $adapter->quote("{$date} 23:59:59"),
+                '%Y-%m-%d %H:%i:%s')->__toString();
+            $whereCondition[] = sprintf('%s BETWEEN %s AND %s',
+                $periodColumn, $dateMin, $dateMax);
         }
         $whereCondition = implode(' OR ', $whereCondition);
         if ($whereCondition == '') {

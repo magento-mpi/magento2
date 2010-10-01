@@ -74,6 +74,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
         $table = $this->getTable('salesrule/coupon_aggregated');
         $sourceTable = $this->getTable('sales/order');
         $this->_getWriteAdapter()->beginTransaction();
+        $adapter = $this->_getWriteAdapter();
 
         try {
             if ($from !== null || $to !== null) {
@@ -83,10 +84,16 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
             }
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
+            $periodExpr = new Zend_Db_Expr(
+                $adapter->getDateAddSql(
+                    'source_table.created_at',
+                    $this->_getStoreTimezoneUtcOffset(),
+                    Varien_Db_Adapter_Interface::INTERVAL_HOUR)
+            );
 
             $columns = array(
                 // convert dates from UTC to current admin timezone
-                'period'                  => "DATE(CONVERT_TZ(created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
+                'period'                  => $periodExpr,
                 'store_id'                => 'store_id',
                 'order_status'            => 'status',
                 'coupon_code'             => 'coupon_code',
@@ -100,7 +107,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
             );
 
             $select = $this->_getWriteAdapter()->select();
-            $select->from($sourceTable, $columns)
+            $select->from(array('source_table' => $sourceTable), $columns)
                  ->where('coupon_code <> ?', '');
 
             if ($subSelect !== null) {
