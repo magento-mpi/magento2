@@ -126,26 +126,6 @@
         </reference>
     </default>
 
-    <wishlist_index_index>
-        <reference name="customer.wishlist">
-            <action method="addPriceBlockType">
-                <type>giftcard</type>
-                <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
-            </action>
-        </reference>
-    </wishlist_index_index>
-
-    <wishlist_shared_index>
-        <reference name="customer.wishlist">
-            <action method="addPriceBlockType">
-                <type>giftcard</type>
-                <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
-            </action>
-        </reference>
-    </wishlist_shared_index>
-
     <catalog_product_view>
         <reference name="catalog.product.related">
             <action method="addPriceBlockType">
