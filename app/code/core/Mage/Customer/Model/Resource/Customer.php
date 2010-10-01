@@ -286,7 +286,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     public function getWebsiteId($customerId)
     {
-        $bind = array('entity_id', (int)$customerId);
+        $bind = array('entity_id' => (int)$customerId);
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('customer/entity'), 'website_id')
             ->where('entity_id = :entity_id');
