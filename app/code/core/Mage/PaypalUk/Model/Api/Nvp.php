@@ -344,6 +344,19 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
     }
 
     /**
+     * Override transaction id getting to process payflow accounts not assigned to paypal side
+     *
+     * @return string
+     */
+    public function getPaypalTransactionId()
+    {
+        if ($this->getData('paypal_transaction_id')) {
+            return $this->getData('paypal_transaction_id');
+        }
+        return $this->getTransactionId();
+    }
+
+    /**
      * Add method to request array
      *
      * @param string $methodName
