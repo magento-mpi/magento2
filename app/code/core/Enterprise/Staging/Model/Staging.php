@@ -230,7 +230,9 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function releaseCoreFlag()
     {
         $process = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product');
-        $process->isLocked() && $process->unlock();
+        if ($process->isLocked()) {
+            $process->unlock();
+        }
         return $this;
     }
 
