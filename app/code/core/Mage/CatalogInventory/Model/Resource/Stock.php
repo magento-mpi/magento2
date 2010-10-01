@@ -124,6 +124,9 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
      */
     public function getProductsStock($stock, $productIds, $lockRows = false)
     {
+        if (empty($productIds)) {
+            return array();
+        }
         $itemTable = $this->getTable('cataloginventory/stock_item');
         $productTable = $this->getTable('catalog/product');
         $select = $this->_getWriteAdapter()->select()
@@ -148,7 +151,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
         if (empty($productQtys)) {
             return $this;
         }
-        
+
         $adapter = $this->_getWriteAdapter();
         $conditions = array();
         foreach ($productQtys as $productId => $qty) {
@@ -156,7 +159,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
             $result = $adapter->quoteInto("qty{$operator}?", $qty);
             $conditions[$case] = $result;
         }
-        
+
         $value = $adapter->getCaseSql('product_id', $conditions, 'qty');
 
         $where = array(
@@ -167,7 +170,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
         $adapter->beginTransaction();
         $adapter->update($this->getTable('cataloginventory/stock_item'), array('qty' => $value), $where);
         $adapter->commit();
-        
+
         return $this;
     }
 
@@ -290,13 +293,13 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
     public function updateLowStockDate()
     {
         $this->_initConfig();
-        
+
         $adapter = $this->_getWriteAdapter();
-        $condition = $adapter->quoteInto('(use_config_notify_stock_qty = 1 AND qty < ?)', 
+        $condition = $adapter->quoteInto('(use_config_notify_stock_qty = 1 AND qty < ?)',
             $this->_configNotifyStockQty) . ' OR (use_config_notify_stock_qty = 0 AND qty < notify_stock_qty)';
         $currentDbTime = $adapter->quoteInto('?', $this->formatDate(true));
         $conditionalDate = $adapter->getCheckSql($condition, $currentDbTime, 'NULL');
-        
+
         $value  = array(
             'low_stock_date' => new Zend_Db_Expr($conditionalDate),
         );
