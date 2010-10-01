@@ -443,15 +443,17 @@ Product.Config.prototype = {
     },
 
     reloadPrice: function(){
-        var price = 0;
+        var price    = 0;
+        var oldPrice = 0;
         for(var i=this.settings.length-1;i>=0;i--){
             var selected = this.settings[i].options[this.settings[i].selectedIndex];
             if(selected.config){
-                price += parseFloat(selected.config.price);
+                price    += parseFloat(selected.config.price);
+                oldPrice += parseFloat(selected.config.oldPrice);
             }
         }
 
-        optionsPrice.changePrice('config', price);
+        optionsPrice.changePrice('config', price, oldPrice);
         optionsPrice.reload();
 
         return price;
@@ -546,8 +548,8 @@ Product.OptionsPrice.prototype = {
         this.oldMinusDisposition = config.oldMinusDisposition;
         this.minusDisposition    = config.minusDisposition;
 
-        this.optionPrices = {};
-        this.containers = {};
+        this.optionPrices    = {};
+        this.containers      = {};
 
         this.displayZeroPrice   = true;
 
@@ -566,21 +568,23 @@ Product.OptionsPrice.prototype = {
         this.containers[4] = 'old-price-' + this.productId;
     },
 
-    changePrice: function(key, price) {
-        this.optionPrices[key] = parseFloat(price);
+    changePrice: function(key, price, oldPrice) {
+        this.optionPrices[key] = new Array (parseFloat(price), parseFloat(oldPrice));
     },
 
     getOptionPrices: function() {
-        var result = 0;
+        var price = 0;
+        var oldPrice = 0;
         var nonTaxable = 0;
         $H(this.optionPrices).each(function(pair) {
             if (pair.key == 'nontaxable') {
-                nonTaxable = pair.value;
+                nonTaxable = pair.value[0];
             } else {
-                result += pair.value;
+                price += pair.value[0];
             }
+            oldPrice = pair.value[1];
         });
-        var r = new Array(result, nonTaxable);
+        var r = new Array(price, nonTaxable, oldPrice);
         return r;
     },
 
@@ -589,6 +593,7 @@ Product.OptionsPrice.prototype = {
         var formattedPrice;
         var optionPrices = this.getOptionPrices();
         var nonTaxable = optionPrices[1];
+        var optionOldPrice = optionPrices[2];
         optionPrices = optionPrices[0];
         $H(this.containers).each(function(pair) {
             var _productPrice;
@@ -605,7 +610,12 @@ Product.OptionsPrice.prototype = {
                     _minusDisposition = this.minusDisposition;
                 }
 
-                var price = optionPrices+parseFloat(_productPrice)
+                var price = 0;
+                if (pair.value == 'old-price-'+this.productId) {
+                    price = optionOldPrice+parseFloat(_productPrice);
+                } else {
+                    price = optionPrices+parseFloat(_productPrice);
+                }
                 if (this.includeTax == 'true') {
                     // tax = tax included into product price by admin
                     var tax = price / (100 + this.defaultTax) * this.defaultTax;

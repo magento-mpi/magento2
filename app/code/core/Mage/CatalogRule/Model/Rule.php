@@ -299,23 +299,32 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function calcProductPriceRule(Mage_Catalog_Model_Product $product, $price)
     {
-        $pId        = $product->getId();
-        $storeId    = $product->getStoreId();
-        $wId        = Mage::app()->getStore($storeId)->getWebsiteId();
-        $gId        = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        $dateTs     = Mage::app()->getLocale()->storeTimeStamp($storeId);
-        $key        = date('Y-m-d', $dateTs)."|$wId|$gId|$pId|$price";
+        $priceRules      = null;
+        $productId       = $product->getId();
+        $storeId         = $product->getStoreId();
+        $websiteId       = Mage::app()->getStore($storeId)->getWebsiteId();
+        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $dateTs          = Mage::app()->getLocale()->storeTimeStamp($storeId);
+        $cacheKey        = date('Y-m-d', $dateTs)."|$websiteId|$customerGroupId|$productId|$price";
 
-        if (!isset(self::$_priceRulesData[$key])) {
-            if ($ruleData = $this->_getResource()->getRuleFromProduct($dateTs, $wId, $gId, $pId)) {
-                self::$_priceRulesData[$key] = Mage::helper('catalogrule')->calcPriceRule(
-                    $ruleData['simple_action'],
-                    $ruleData['discount_amount'],
-                    $price);
-                return self::$_priceRulesData[$key];
+        if (!array_key_exists($cacheKey, self::$_priceRulesData)) {
+            $rulesData = $this->_getResource()->getRulesFromProduct($dateTs, $websiteId, $customerGroupId, $productId);
+            if ($rulesData) {
+                foreach ($rulesData as $ruleData) {
+                    $priceRules = Mage::helper('catalogrule')->calcPriceRule(
+                        $ruleData['simple_action'],
+                        $ruleData['discount_amount'],
+                        $priceRules ? $priceRules :$price);
+                    if ($ruleData['stop_rules_processing']) {
+                        break;
+                    }
+                }
+                return self::$_priceRulesData[$cacheKey] = $priceRules;
+            } else {
+                self::$_priceRulesData[$cacheKey] = null;
             }
         } else {
-            return self::$_priceRulesData[$key];
+            return self::$_priceRulesData[$cacheKey];
         }
         return null;
     }
