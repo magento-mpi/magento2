@@ -84,7 +84,7 @@ class Mage_Customer_Model_Resource_Customer_Collection extends Mage_Eav_Model_En
             $concatenate[] = $adapter
                 ->getCheckSql('{{middlename}} IS NOT NULL AND {{middlename}} != \'\'', "LTRIM(RTRIM({{middlename}}))", "''");
         }
-        $concatenate[] = 'TRIM({{lastname}})';
+        $concatenate[] = 'LTRIM(RTRIM({{lastname}}))';
         if (isset($fields['suffix'])) {
             $concatenate[] = $adapter
                 ->getCheckSql('{{suffix}} IS NOT NULL AND {{suffix}} != \'\'', "LTRIM(RTRIM({{suffix}}))", "''");
