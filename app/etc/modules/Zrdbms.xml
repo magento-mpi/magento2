@@ -244,13 +244,13 @@
             <active>false</active>
         </Enterprise_Banner>
         <Enterprise_CatalogEvent>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_CatalogEvent>
         <Enterprise_CatalogPermissions>
             <active>false</active>
         </Enterprise_CatalogPermissions>
         <Enterprise_Checkout>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Checkout>
         <Enterprise_Cms>
             <active>false</active>
@@ -316,7 +316,7 @@
             <active>false</active>
         </Enterprise_TargetRule>
         <Enterprise_WebsiteRestriction>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_WebsiteRestriction>
     </modules>
 </config>
