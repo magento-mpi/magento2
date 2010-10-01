@@ -358,16 +358,6 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
                         'group'                      => 'Display Settings',
                     ),
-                    'thumbnail'          => array(
-                        'type'                       => 'varchar',
-                        'label'                      => 'Thumbnail Image',
-                        'input'                      => 'image',
-                        'backend'                    => 'catalog/category_attribute_backend_image',
-                        'required'                   => false,
-                        'sort_order'                 => 4,
-                        'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
-                        'group'                      => 'General Information',
-                    ),
                 )
             ),
             'catalog_product'                => array(

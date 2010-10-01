@@ -784,7 +784,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $bind = array();
             foreach ($field as $k => $v) {
                 if (isset($attributeFields[$k])) {
-                    $bind[$k] = $v;
+                    $bind[$k] = $this->getConnection()->prepareColumnValue($attributeFields[$k], $v);
                 }
             }
             if (!$bind) {
@@ -821,14 +821,14 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         if (!$additionalTable) {
             return $this;
         }
-        $additionalTableExists = $this->getConnection()->showTableStatus($this->getTable($additionalTable));
+        $additionalTableExists = $this->getConnection()->isTableExists($this->getTable($additionalTable));
         if ($additionalTable && $additionalTableExists) {
             $attributeFields = $this->getConnection()->describeTable($this->getTable($additionalTable));
             if (is_array($field)) {
                 $bind = array();
                 foreach ($field as $k => $v) {
                     if (isset($attributeFields[$k])) {
-                        $bind[$k] = $v;
+                        $bind[$k] = $this->getConnection()->prepareColumnValue($attributeFields[$k], $v);
                     }
                 }
                 if (!$bind) {
@@ -1399,7 +1399,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         if (!$additionalTable) {
             return $this;
         }
-        $additionalTableExists = $this->getConnection()->showTableStatus($this->getTable($additionalTable));
+        $additionalTableExists = $this->getConnection()->isTableExists($this->getTable($additionalTable));
         if ($additionalTable && $additionalTableExists) {
             $bind   = array();
             $fields = $this->getConnection()->describeTable($this->getTable($additionalTable));

@@ -1220,7 +1220,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
     {
         if (!isset($this->_existsFlatTables[$storeId])) {
             $tableName     = $this->getFlatTableName($storeId);
-            $isTableExists = $this->_getWriteAdapter()->showTableStatus($tableName);
+            $isTableExists = $this->_getWriteAdapter()->isTableExists($tableName);
 
             $this->_existsFlatTables[$storeId] = $isTableExists ? true : false;
         }

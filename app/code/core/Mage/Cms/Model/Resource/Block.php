@@ -63,7 +63,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Perform operations before object save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Mage_Cms_Model_Block $object
      * @return Mage_Cms_Model_Resource_Block
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)

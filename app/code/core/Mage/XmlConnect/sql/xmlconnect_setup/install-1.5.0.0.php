@@ -24,9 +24,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-/* @var $installer Mage_Core_Model_Resource_Setup */
-
+/** @var $installer Mage_XmlConnect_Model_Resource_Setup */
+/** @var $this Mage_XmlConnect_Model_Resource_Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -119,31 +118,14 @@ $attributeSetId   = $installer->getDefaultAttributeSetId($entityTypeId);
 $attributeGroupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 
 $installer->addAttribute('catalog_category', 'thumbnail', array(
-    'type'              => 'varchar',
-    'backend'           => 'catalog/category_attribute_backend_image',
-    'frontend'          => '',
-    'label'             => 'Thumbnail Image',
-    'input'             => 'image',
-    'class'             => '',
-    'source'            => '',
-    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
-    'visible'           => true,
-    'required'          => false,
-    'user_defined'      => false,
-    'default'           => '',
-    'searchable'        => false,
-    'filterable'        => false,
-    'comparable'        => false,
-    'visible_on_front'  => false,
-    'unique'            => false,
+    'type'          => 'varchar',
+    'label'         => 'Thumbnail Image',
+    'input'         => 'image',
+    'backend'       => 'catalog/category_attribute_backend_image',
+    'required'      => false,
+    'sort_order'    => 4,
+    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'group'         => 'General Information'
 ));
-
-$installer->addAttributeToGroup(
-    $entityTypeId,
-    $attributeSetId,
-    $attributeGroupId,
-    'thumbnail',
-    '4'
-);
 
 $installer->endSetup();

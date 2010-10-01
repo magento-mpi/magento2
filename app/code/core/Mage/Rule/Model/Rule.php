@@ -90,12 +90,19 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         return $this->_conditions;
     }
 
+    /**
+     * @return Mage_Rule_Model_Action_Collection
+     */
     public function getActionsInstance()
     {
         return Mage::getModel('rule/action_collection');
     }
 
-    public function _resetActions($actions=null)
+    /**
+     * @param Mage_Rule_Model_Action_Collection $actions
+     * @return Mage_Rule_Model_Rule
+     */
+    public function _resetActions($actions = null)
     {
         if (is_null($actions)) {
             $actions = $this->getActionsInstance();
