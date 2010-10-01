@@ -71,7 +71,7 @@
             <?php echo $this->__("Finished profile execution.");?>
             </li>
             </ul>
-            <?php if ($this->getBatchModel()->getId()):?>
+            <?php if ($batchId = $this->getBatchModel()->getId()):?>
                 <?php if ($this->getBatchModelHasAdapter()):?>
                 <script type="text/javascript">
                     var countOfStartedProfiles = 0;
@@ -102,7 +102,7 @@
                                 $("liBeforeFinish").show();
                             }
 
-                            new Ajax.Request("<?php echo $this->getUrl('*/*/batchFinish', array('id' => $this->getBatchModel()->getId()));?>", {
+                            new Ajax.Request("<?php echo $this->getUrl('*/*/batchFinish', array('id' => $batchId));?>", {
                                 method: "post",
                                 parameters: {form_key: FORM_KEY},
                                 onComplete: function(transport) {

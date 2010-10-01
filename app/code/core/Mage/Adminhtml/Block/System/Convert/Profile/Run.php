@@ -103,6 +103,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
                 $batchModel->delete();
             }
         }
+        $this->_batchModelPrepared = true;
         return $this;
     }
     /**
