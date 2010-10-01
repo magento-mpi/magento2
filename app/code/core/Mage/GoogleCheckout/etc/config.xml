@@ -160,6 +160,7 @@
                 <use_secure_callback_url>0</use_secure_callback_url>
                 <disable_default_tax_tables>0</disable_default_tax_tables>
                 <hide_cart_contents>1</hide_cart_contents>
+                <title>Google Checkout</title>
             </checkout>
             <checkout_shipping_carrier>
                 <address_category>COMMERCIAL</address_category>
