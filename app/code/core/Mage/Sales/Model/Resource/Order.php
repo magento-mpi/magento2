@@ -119,7 +119,7 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
             ->from(array('o' => $this->getTable('sales/order_item')), new Zend_Db_Expr('o.product_type, COUNT(*)'))
             ->joinInner(array('p' => $this->getTable('catalog/product')), 'o.product_id=p.entity_id', array())
             ->where('o.order_id=?', $orderId)
-            ->group('(1)')
+            ->group('o.product_type')
         ;
         if ($productTypeIds) {
             $select->where($this->getReadConnection()->quoteInto(
