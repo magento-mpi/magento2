@@ -283,7 +283,7 @@
             <active>false</active>
         </Enterprise_License>
         <Enterprise_Logging>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Logging>
         <Enterprise_PageCache>
             <active>false</active>
