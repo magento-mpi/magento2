@@ -456,6 +456,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      * Forsed save object data
      * forsed update If duplicate unique key data
      *
+     * @deprecated
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Core_Model_Resource_Db_Abstract
      */
