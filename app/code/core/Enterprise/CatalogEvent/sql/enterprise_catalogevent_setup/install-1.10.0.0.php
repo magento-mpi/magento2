@@ -82,8 +82,6 @@ $table = $installer->getConnection()
     ->addColumn('image', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Image')
-    ->addIndex($installer->getIdxName('enterprise_catalogevent/event_image', array('event_id', 'store_id'), true),
-        array('event_id', 'store_id'), array('unique' => true))
     ->addIndex($installer->getIdxName('enterprise_catalogevent/event_image', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('enterprise_catalogevent/event_image', 'event_id', 'enterprise_catalogevent/event', 'event_id'),
