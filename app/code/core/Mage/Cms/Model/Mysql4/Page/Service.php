@@ -70,14 +70,13 @@ class Mage_Cms_Model_Mysql4_Page_Service extends Mage_Core_Model_Mysql4_Abstract
             ->join(array('by_link' => $byLinkTable), $readAdapter->quoteInto('by_link.page_id = by_entity.page_id AND by_link.store_id = ?', $byStoreId), array());
         $pageIds = $readAdapter->fetchCol($select);
 
-        if (!$pageIds) {
-            return;
-        }
-
         // Unlink found pages
-        $writeAdapter = $this->_getWriteAdapter();
-        $where = $writeAdapter->quoteInto('page_id IN (?)', $pageIds);
-        $where .= $writeAdapter->quoteInto('AND store_id = ?', $fromStoreId);
-        $writeAdapter->delete($linkTable,  $where);
+        if ($pageIds) {
+            $writeAdapter = $this->_getWriteAdapter();
+            $where = $writeAdapter->quoteInto('page_id IN (?)', $pageIds);
+            $where .= $writeAdapter->quoteInto('AND store_id = ?', $fromStoreId);
+            $writeAdapter->delete($linkTable,  $where);
+        }
+        return $this;
     }
 }
