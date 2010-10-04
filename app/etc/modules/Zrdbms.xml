@@ -259,7 +259,7 @@
             <active>true</active>
         </Enterprise_Customer>
         <Enterprise_CustomerBalance>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_CustomerBalance>
         <Enterprise_CustomerSegment>
             <active>false</active>
@@ -268,7 +268,7 @@
             <active>true</active>
         </Enterprise_Enterprise>
         <Enterprise_GiftCard>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_GiftCard>
         <Enterprise_GiftCardAccount>
             <active>false</active>

@@ -57,17 +57,22 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
                 'website_id',
                 'value'
             ))
-            ->where('entity_id=?', $product->getId())
-            ->where('attribute_id=?', $attribute->getId());
+            ->where('entity_id=:product_id')
+            ->where('attribute_id=:attribute_id');
+        $bind = array(
+            'product_id'   => $product->getId(),
+            'attribute_id' => $attribute->getId()
+        );
         if ($attribute->isScopeGlobal()) {
-            $select->where('website_id=?', 0);
+            $select->where('website_id=0');
         }
         else {
             if ($storeId = $product->getStoreId()) {
-                $select->where('website_id IN (?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
+                $select->where('website_id IN (0, :website_id)');
+                $bind['website_id'] = Mage::app()->getStore($storeId)->getWebsiteId();
             }
         }
-        return $this->_getReadAdapter()->fetchAll($select);
+        return $this->_getReadAdapter()->fetchAll($select, $bind);
     }
 
     /**
@@ -83,14 +88,14 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
 
         if (!$attribute->isScopeGlobal()) {
             if ($storeId = $product->getStoreId()) {
-                $condition[] = $this->_getWriteAdapter()->quoteInto('website_id IN (?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
+                $condition['website_id IN (?)'] = array(0, Mage::app()->getStore($storeId)->getWebsiteId());
             }
         }
 
-        $condition[] = $this->_getWriteAdapter()->quoteInto('entity_id=?', $product->getId());
-        $condition[] = $this->_getWriteAdapter()->quoteInto('attribute_id=?', $attribute->getId());
+        $condition['entity_id=?']    = $product->getId();
+        $condition['attribute_id=?'] = $attribute->getId();
 
-        $this->_getWriteAdapter()->delete($this->getMainTable(), implode(' AND ', $condition));
+        $this->_getWriteAdapter()->delete($this->getMainTable(), $condition);
         return $this;
     }
 

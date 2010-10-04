@@ -64,13 +64,16 @@ class Enterprise_GiftCard_Model_Resource_Catalogindex_Data_Giftcard
             $select = $this->_getReadAdapter()->select()
                 ->from($this->getTable('enterprise_giftcard/amount'), array('value', 'website_id'))
                 ->where('entity_id=?', $product);
-
+            $bind = array(
+                'product_id' => $product
+            );
             if ($isGlobal) {
-                $select->where('website_id=?', 0);
+                $select->where('website_id=0');
             } else {
-                $select->where('website_id IN (?)', array(0, $website));
+                $select->where('website_id IN (0, :website_id)');
+                $bind['website_id'] = $website;
             }
-            $fetched = $this->_getReadAdapter()->fetchAll($select);
+            $fetched = $this->_getReadAdapter()->fetchAll($select, $bind);
             $this->_cache[$key] = $this->_convertPrices($fetched, $store);
         }
         return $this->_cache[$key];

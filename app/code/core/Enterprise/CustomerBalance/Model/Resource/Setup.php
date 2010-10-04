@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Resource Setup Model
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerBalance

@@ -121,8 +121,10 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
 
         $allowOpenAmount = $this->_addAttributeToSelect($select, 'allow_open_amount', 'e.entity_id', 'cs.store_id');
-        $openAmounMin    = $this->_addAttributeToSelect($select, 'open_amount_min', 'e.entity_id', 'cs.store_id');
+        $openAmountMin    = $this->_addAttributeToSelect($select, 'open_amount_min', 'e.entity_id', 'cs.store_id');
 //        $openAmounMax    = $this->_addAttributeToSelect($select, 'open_amount_max', 'e.entity_id', 'cs.store_id');
+
+
 
         $attrAmounts     = $this->_getAttribute('giftcard_amounts');
         // join giftCard amounts table
@@ -132,14 +134,29 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
                 . ' AND (gca.website_id = cw.website_id OR gca.website_id = 0)',
             array());
 
-        $amountsExpr    = new Zend_Db_Expr("IF(gca.value_id IS NULL, NULL, MIN(gca.value))");
-        $openAmountExpr = new Zend_Db_Expr("IF({$allowOpenAmount} = 1, IF({$openAmounMin} > 0, {$openAmounMin}, 0), 'undefined')");
-        $priceExpr      = new Zend_Db_Expr("ROUND("
-            . " CASE {$openAmountExpr}"
-            . " WHEN 'undefined'"
-            . " THEN IF({$amountsExpr} IS NULL, 0, {$amountsExpr})"
-            . " ELSE IF({$amountsExpr} IS NULL, {$openAmountExpr}, LEAST({$amountsExpr}, {$openAmountExpr}))"
-            . " END, 4)");
+        $amountsExpr    = 'MIN('. $write->getCheckSql('gca.value_id IS NULL','NULL','gca.value') . ')';
+
+        $openAmountExpr = 'MIN(' . $write->getCheckSql(
+            $allowOpenAmount . ' = 1',
+            $write->getCheckSql($openAmountMin . ' > 0', $openAmountMin, '0'),
+            'NULL'
+        ) . ')';
+
+        $priceExpr = new Zend_Db_Expr(
+            'ROUND(' . $write->getCheckSql(
+                $openAmountExpr . ' = NULL',
+                $write->getCheckSql($amountsExpr . ' IS NULL', '0', $amountsExpr),
+                $write->getCheckSql(
+                    $amountsExpr . ' IS NULL',
+                    $openAmountExpr,
+                    $write->getCheckSql(
+                        $openAmountExpr . ' > ' .$amountsExpr,
+                        $amountsExpr,
+                        $openAmountExpr
+                    )
+                )
+            ) . ', 4)'
+        );
 
         $select->group(array('e.entity_id', 'cg.customer_group_id', 'cw.website_id'))
             ->columns(array(
