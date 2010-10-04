@@ -432,7 +432,7 @@ class Mage_Connect_Packager
         }
 
         if(!$restObj) {
-            $restObj = new Mage_Connect_Rest();
+            $restObj = new Mage_Connect_Rest($configObj->protocol);
         }
 
         $updates = array();

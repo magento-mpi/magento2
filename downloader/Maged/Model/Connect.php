@@ -154,7 +154,9 @@ class Maged_Model_Connect extends Maged_Model
         }
 
         if (!empty($_GET['updates'])) {
-            $result = $connect->run('list-upgrades');
+            $options = array();
+            $this->controller()->channelConfig()->setCommandOptions($this->connect()->getConfig(), $options);
+            $result = $connect->run('list-upgrades', $options);
             $output = $connect->getOutput();
             if (is_array($output)) {
                 $channelData = $output;
