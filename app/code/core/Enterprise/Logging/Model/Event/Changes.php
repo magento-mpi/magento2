@@ -141,7 +141,7 @@ class Enterprise_Logging_Model_Event_Changes extends Mage_Core_Model_Abstract
                 $newParams  = array_diff_key($resultData, $origData);
                 $sameParams = array_intersect_key($origData, $resultData);
                 foreach ($sameParams as $key => $value) {
-                    if ($origData[$key] != $resultData[$key]){
+                    if ($origData[$key] != $resultData[$key]) {
                         $updatedParams[$key] = $resultData[$key];
                     }
                 }

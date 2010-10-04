@@ -81,12 +81,10 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Details
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 $html = $columnData;
             }
-        }
-        catch (Exception $e){
+        } catch (Exception $e) {
             $html = $columnData;
         }
         return $html;

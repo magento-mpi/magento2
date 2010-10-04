@@ -68,12 +68,10 @@ class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
                     }
                     $html .= '</dl>';
                 }
-            }
-            else {
+            } else {
                 $html = $columnData;
             }
-        }
-        catch (Exception $e){
+        }catch (Exception $e) {
             $html = $columnData;
         }
         return $html;

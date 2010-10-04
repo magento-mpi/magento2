@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Logging event resource model
  *
  * @category    Enterprise
  * @package     Enterprise_Logging
@@ -35,7 +35,7 @@
 class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Constructor
+     * Initialize resource
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Before save ip convertor
+     * Convert data before save ip
      *
      * @param Mage_Core_Model_Abstract $event
      */
@@ -61,32 +61,44 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
      */
     public function rotate($lifetime)
     {
+        $this->beginTransaction();
         try {
-            $this->beginTransaction();
-
+            $readAdapter  = $this->_getReadAdapter();
+            $writeAdapter = $this->_getWriteAdapter();
             $table = $this->getTable('enterprise_logging/event');
 
             // get the latest log entry required to the moment
             $clearBefore = $this->formatDate(time() - $lifetime);
-            $latestLogEntry = $this->_getWriteAdapter()->fetchOne("SELECT log_id FROM {$table}
-                WHERE `time` < '{$clearBefore}' ORDER BY 1 DESC LIMIT 1");
-            if (!$latestLogEntry) {
-                return;
-            }
 
-            // make sure folder for dump file will exist
-            $archive = Mage::getModel('enterprise_logging/archive');
-            $archive->createNew();
+            $select = $readAdapter->select()
+                ->from($this->getMainTable(), 'log_id')
+                ->where('time < ?', $clearBefore)
+                ->order('log_id DESC')
+                ->limit(1);
+            $latestLogEntry = $readAdapter->fetchOne($select);
+            if ($latestLogEntry) {
+                // make sure folder for dump file will exist
+                $archive = Mage::getModel('enterprise_logging/archive');
+                $archive->createNew();
 
-            // dump all records before this log entry into a CSV-file
-            $csv = fopen($archive->getFilename(), 'w');
-            foreach ($this->_getWriteAdapter()->fetchAll("SELECT *, INET_NTOA(ip)
-                FROM {$table} WHERE log_id <= {$latestLogEntry}") as $row) {
-                fputcsv($csv, $row);
+                $expr = Mage::getResourceHelper('enterprise_logging')->getInetNtoaExpr('ip');
+                $select = $readAdapter->select()
+                    ->from($this->getMainTable())
+                    ->where('log_id <= ?', $latestLogEntry)
+                    ->columns($expr);
+
+                $rows = $readAdapter->fetchAll($select);
+
+                // dump all records before this log entry into a CSV-file
+                $csv = fopen($archive->getFilename(), 'w');
+                foreach ($rows as $row) {
+                    fputcsv($csv, $row);
+                }
+                fclose($csv);
+
+                $writeAdapter->delete($this->getMainTable(), array('log_id <= ?' => $latestLogEntry));
+                $this->commit();
             }
-            fclose($csv);
-            $this->_getWriteAdapter()->query("DELETE FROM {$table} WHERE log_id <= {$latestLogEntry}");
-            $this->commit();
         } catch (Exception $e) {
             $this->rollBack();
         }
@@ -101,10 +113,14 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
      */
     public function getAllFieldValues($field, $order = true)
     {
-        return $this->_getReadAdapter()->fetchCol("SELECT DISTINCT
-            {$this->_getReadAdapter()->quoteIdentifier($field)} FROM {$this->getMainTable()}"
-            . (null !== $order ? ' ORDER BY 1' . ($order ? '' : ' DESC') : '')
-        );
+        $adapter = $this->_getReadAdapter();
+        $select  = $adapter->select()
+            ->distinct(true)
+            ->from($this->getMainTable(), $field);
+        if (!is_null($order)) {
+            $select->order($field . ($order ? '' : ' DESC'));
+        }
+        return $adapter->fetchCol($select);
     }
 
     /**
@@ -115,12 +131,15 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
      */
     public function getUserNames()
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->distinct()
             ->from(array('admins' => $this->getTable('admin/user')), 'username')
-            ->joinInner(array('events' => $this->getTable('enterprise_logging/event')),
-                'admins.username = events.user', array());
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->joinInner(
+                array('events' => $this->getTable('enterprise_logging/event')),
+                'admins.username = events.'.$adapter->quoteIdentifier('user'),
+                array());
+        return $adapter->fetchCol($select);
     }
 
     /**
