@@ -561,6 +561,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      */
     public function duplicate($oldId, $newId)
     {
+        $adapter = $this->_getWriteAdapter();
         $eavTables = array('datetime', 'decimal', 'int', 'text', 'varchar');
 
         $adapter = $this->_getWriteAdapter();
@@ -594,6 +595,19 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             ));
         }
 
+        // set status as disabled
+        $statusAttribute      = $this->getAttribute('status');
+        $statusAttributeId    = $statusAttribute->getAttributeId();
+        $statusAttributeTable = $statusAttribute->getBackend()->getTable();
+        $updateCond[]         = 'store_id > 0';
+        $updateCond[]         = $adapter->quoteInto('entity_id = ?', $newId);
+        $updateCond[]         = $adapter->quoteInto('attribute_id = ?', $statusAttributeId);
+        $adapter->update(
+            $statusAttributeTable,
+            array('value' => Mage_Catalog_Model_Product_Status::STATUS_DISABLED),
+            $updateCond
+        );
+        
         return $this;
     }
 }
