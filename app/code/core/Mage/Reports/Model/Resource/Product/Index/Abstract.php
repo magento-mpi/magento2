@@ -120,7 +120,50 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
      */
     public function save(Mage_Core_Model_Abstract  $object)
     {
-        return $this->forsedSave($object);
+        $this->_beforeSave($object);
+        $bind = $this->_prepareDataForSave($object);
+        $adapter = $this->_getWriteAdapter();
+
+        $id = false;
+        if (!is_null($object->getId()) && $this->_isPkAutoIncrement) {
+            unset($bind[$this->getIdFieldName()]);
+            $id = $object->getId();
+        } else {
+            $uniqIndexes = $this->_getUniqColumns();
+            $orWhere = array();
+            foreach ($uniqIndexes as $columnSet) {
+                $isNullUnique = false;
+                $where = array();
+                foreach ($columnSet as $column) {
+                    if (is_null($bind[$column])) {
+                        $isNullUnique = true;
+                        break;
+                    }
+                    $where[] = $adapter->quoteInto($adapter->quoteIdentifier($column) . '=?',  $bind[$column]);
+                }
+                if (!$isNullUnique) {
+                    $orWhere[] = implode(' AND ', $where);
+                }
+            }
+
+            if (!empty($orWhere)) {
+                $where = '(' . implode(') OR (', $orWhere) .')';
+                $select = $adapter->select()
+                    ->from($this->getMainTable(), array($object->getIdFieldName()))
+                    ->where($where);
+                $id = $adapter->fetchOne($select);
+            }
+        }
+
+        if ($id !== false) {
+            $condition = $adapter->quoteInto($adapter->quoteIdentifier($id) . '=?', $id);
+            $adapter->update($this->getMainTable(), $bind, $condition);
+        } else {
+            $adapter->insert($this->getMainTable(), $bind);
+            $object->setId($adapter->lastInsertId($this->getMainTable()));
+        }
+        $this->_afterSave($object);
+        return $this;
     }
 
     /**
