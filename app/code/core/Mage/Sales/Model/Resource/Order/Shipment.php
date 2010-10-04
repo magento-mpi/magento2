@@ -79,15 +79,21 @@ class Mage_Sales_Model_Resource_Order_Shipment extends Mage_Sales_Model_Resource
     protected function _initVirtualGridColumns()
     {
         parent::_initVirtualGridColumns();
-        $checkedFirstname = $this->getReadConnection()
-            ->getCheckSql('{{table}}.firstname IS NULL', '', '{{table}}.firstname');
-        $checkedLastname = $this->getReadConnection()
-            ->getCheckSql('{{table}}.lastname IS NULL', '', '{{table}}.lastname');
+        $adapter = $this->getReadConnection();
+        $checkedFirstname = $adapter->getCheckSql(
+            '{{table}}.firstname IS NULL', '', '{{table}}.firstname'
+        );
+        $checkedLastname = $adapter->getCheckSql(
+            '{{table}}.lastname IS NULL', '', '{{table}}.lastname'
+        );
+        $concatName = new Zend_Db_Expr(
+            $adapter->getConcatSql(array($checkedFirstname, "' '", $checkedLastname))
+        );
         $this->addVirtualGridColumn(
             'shipping_name',
             'sales/order_address',
             array('shipping_address_id' => 'entity_id'),
-            "CONCAT($checkedFirstname}, ' ', {$checkedLastname})"
+            $concatName
         )
         ->addVirtualGridColumn(
             'order_increment_id',

@@ -79,15 +79,20 @@ class Mage_Sales_Model_Resource_Order_Creditmemo extends Mage_Sales_Model_Resour
     protected function _initVirtualGridColumns()
     {
         parent::_initVirtualGridColumns();
-        $checkedFirstname = $this->getReadConnection()
+        $adapter = $this->getReadConnection();
+        $checkedFirstname = $adapter
             ->getCheckSql('{{table}}.firstname IS NULL', '', '{{table}}.firstname');
-        $checkedLastname = $this->getReadConnection()
+        $checkedLastname = $adapter
             ->getCheckSql('{{table}}.lastname IS NULL', '', '{{table}}.lastname');
+        $concatName = new Zend_Db_Expr(
+            $adapter->getConcatSql(array($checkedFirstname, "' '", $checkedLastname))
+        );
+
         $this->addVirtualGridColumn(
             'billing_name',
             'sales/order_address',
             array('billing_address_id' => 'entity_id'),
-            "CONCAT({$checkedFirstname}, ' ', {$checkedLastname})"
+            $concatName
         )
         ->addVirtualGridColumn(
             'order_increment_id',
