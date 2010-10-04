@@ -72,9 +72,9 @@
  */
 class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 {
-    const XML_PATH_GLOBAL            = 'cataloginventory/options/';
-    const XML_PATH_CAN_SUBTRACT      = 'cataloginventory/options/can_subtract';
-    const XML_PATH_CAN_BACK_IN_STOCK = 'cataloginventory/options/can_back_in_stock';
+    const XML_PATH_GLOBAL                = 'cataloginventory/options/';
+    const XML_PATH_CAN_SUBTRACT          = 'cataloginventory/options/can_subtract';
+    const XML_PATH_CAN_BACK_IN_STOCK     = 'cataloginventory/options/can_back_in_stock';
 
     const XML_PATH_ITEM                  = 'cataloginventory/item_options/';
     const XML_PATH_MIN_QTY               = 'cataloginventory/item_options/min_qty';
@@ -86,7 +86,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     const XML_PATH_ENABLE_QTY_INCREMENTS = 'cataloginventory/item_options/enable_qty_increments';
     const XML_PATH_QTY_INCREMENTS        = 'cataloginventory/item_options/qty_increments';
 
-    const ENTITY                    = 'cataloginventory_stock_item';
+    const ENTITY                         = 'cataloginventory_stock_item';
 
     /**
      * @var array
@@ -626,14 +626,15 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if (!$this->getManageStock() || $this->getSuppressCheckQtyIncrements()) {
             return $result;
         }
-        $qtyIncrements = $this->getQtyIncrements();
 
+        $qtyIncrements = $this->getQtyIncrements();
         if ($qtyIncrements && ($qty % $qtyIncrements != 0)) {
             $result->setHasError(true)
                 ->setMessage(Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $qtyIncrements * 1))
                 ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity.'))
                 ->setQuoteMessageIndex('qty');
         }
+
         return $result;
     }
 

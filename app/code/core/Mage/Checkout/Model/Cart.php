@@ -235,7 +235,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         }
 
         if ($product->getId()) {
-            $result = $this->getQuote()->addProduct($product, $request);
+            try {
+                $result = $this->getQuote()->addProduct($product, $request);
+            } catch (Mage_Core_Exception $e) {
+                $this->getCheckoutSession()->setUseNotice(false);
+                $result = $e->getMessage();
+            }
             /**
              * String we can get if prepare process has error
              */
@@ -251,7 +256,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
         }
 
-        Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item'=>$result, 'product'=>$product));
+        Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item' => $result, 'product' => $product));
         $this->getCheckoutSession()->setLastAddedProductId($product->getId());
         return $this;
     }
@@ -304,7 +309,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     /**
      * Returns suggested quantities for items.
      * Can be used to automatically fix user entered quantities before updating cart
-     * so that cart contains valit qty values
+     * so that cart contains valid qty values
      *
      * $data is an array of ($quoteItemId => (item info array with 'qty' key), ...)
      *
@@ -313,6 +318,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     public function suggestItemsQty($data)
     {
+        $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
             if (!isset($itemInfo['qty'])) {
                 continue;
@@ -338,8 +344,27 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 continue;
             }
 
+            $newQty = $stockItem->suggestQty($qty);
+            if ($newQty != $qty) {
+                $qtyRecalculatedFlag = true;
+
+                $quoteItem->addOption(array(
+                    'code'  => 'additional_messages',
+                    'value' => serialize(array(
+                        Mage::helper('checkout')->__('Quantity was recalculated from %d to %d', $qty, $newQty)
+                    ))
+                ));
+            }
+
             $data[$itemId]['qty'] = $stockItem->suggestQty($qty);
         }
+
+        if ($qtyRecalculatedFlag) {
+            $this->getCheckoutSession()->addNotice(
+                Mage::helper('checkout')->__('Some products quantities were recalculated because of quantity increment mismatch')
+            );
+        }
+
         return $data;
     }
 

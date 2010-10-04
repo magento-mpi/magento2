@@ -251,23 +251,35 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
      * Retrieve item messages
      * Return array with keys
      *
-     * type     => type of a message
-     * text     => the message text
+     * text => the message text
+     * type => type of a message
      *
      * @return array
      */
     public function getMessages()
     {
         $messages = array();
-        if ($this->getItem()->getMessage(false)) {
-            foreach ($this->getItem()->getMessage(false) as $message) {
+        $quoteItem = $this->getItem();
+
+        $baseMessages = $quoteItem->getMessage(false);
+        $additionalOption = $quoteItem->getOptionByCode('additional_messages');
+        if (!is_null($additionalOption)) {
+            $additionalMessages = unserialize($additionalOption->getValue());
+            $quoteItem->removeOption('additional_messages');
+            $additionalOption->delete();
+            $baseMessages = array_merge($baseMessages, $additionalMessages);
+        }
+
+        if ($baseMessages) {
+            foreach ($baseMessages as $message) {
                 $messages[] = array(
-                    'text'  => $message,
-                    'type'  => $this->getItem()->getHasError() ? 'error' : 'notice'
+                    'text' => $message,
+                    'type' => $quoteItem->getHasError() ? 'error' : 'notice'
                 );
             }
         }
-        return array_unique($messages);
+
+        return $messages;
     }
 
     /**

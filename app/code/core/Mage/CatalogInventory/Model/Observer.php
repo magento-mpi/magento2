@@ -242,11 +242,15 @@ class Mage_CatalogInventory_Model_Observer
                 $increaseOptionQty = ($quoteItem->getQtyToAdd() ? $quoteItem->getQtyToAdd() : $qty) * $option->getValue();
 
                 $stockItem = $option->getProduct()->getStockItem();
-                $stockItem->setIsChildItem(true);
                 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
                     Mage::throwException(Mage::helper('cataloginventory')->__('The stock item for Product in option is not valid.'));
                 }
+
+                /**
+                 * define that stock item is child for composite product
+                 */
+                $stockItem->setIsChildItem(true);
                 /**
                  * don't check qty increments value for option product
                  */
@@ -327,7 +331,8 @@ class Mage_CatalogInventory_Model_Observer
             if ($result->getHasQtyOptionUpdate()
                 && (!$quoteItem->getParentItem()
                     || $quoteItem->getParentItem()->getProduct()->getTypeInstance(true)
-                        ->getForceChildItemQtyChanges($quoteItem->getParentItem()->getProduct()))) {
+                        ->getForceChildItemQtyChanges($quoteItem->getParentItem()->getProduct()))
+            ) {
                 $quoteItem->setData('qty', $result->getOrigQty());
             }
 
@@ -457,7 +462,7 @@ class Mage_CatalogInventory_Model_Observer
             }
             $items[$productId] = array(
                 'item' => $stockItem,
-                'qty' => $quoteItem->getTotalQty()
+                'qty'  => $quoteItem->getTotalQty()
             );
         }
     }
