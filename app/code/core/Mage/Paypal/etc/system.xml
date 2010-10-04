@@ -562,7 +562,7 @@
                         </heading_cc>
                         <cctypes translate="label comment">
                             <label>Allowed Credit Card Types</label>
-                            <comment><![CDATA[Supporting of American Express cards require additional agreement. Learn more at <a href="http://www.paypal.com/amexupdate">http://www.paypal.com/amexupdate</a>.]]></comment>
+                            <comment><![CDATA[3D Secure validation is required for Maestro cards. Supporting of American Express cards require additional agreement. Learn more at <a href="http://www.paypal.com/amexupdate">http://www.paypal.com/amexupdate</a>.]]></comment>
                             <config_path>payment/paypal_direct/cctypes</config_path>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>paypal/config::getWppCcTypesAsOptionArray</source_model>
@@ -875,6 +875,7 @@
                         </heading_cc>
                         <cctypes translate="label">
                             <label>Allowed Credit Card Types</label>
+                            <comment><![CDATA[3D Secure validation is required for Maestro cards.]]></comment>
                             <config_path>payment/paypaluk_direct/cctypes</config_path>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>paypal/config::getWppPeCcTypesAsOptionArray</source_model>
