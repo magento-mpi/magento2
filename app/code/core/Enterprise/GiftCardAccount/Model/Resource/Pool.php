@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * GiftCard pool resource model
  *
  * @category    Enterprise
  * @package     Enterprise_GiftCardAccount
@@ -35,7 +35,7 @@
 class Enterprise_GiftCardAccount_Model_Resource_Pool extends Enterprise_GiftCardAccount_Model_Resource_Pool_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table and primary key field
      *
      */
     protected function _construct()
@@ -44,9 +44,9 @@ class Enterprise_GiftCardAccount_Model_Resource_Pool extends Enterprise_GiftCard
     }
 
     /**
-     * Enter description here ...
+     * Save some code
      *
-     * @param unknown_type $code
+     * @param string $code
      */
     public function saveCode($code)
     {
@@ -60,18 +60,18 @@ class Enterprise_GiftCardAccount_Model_Resource_Pool extends Enterprise_GiftCard
     }
 
     /**
-     * Enter description here ...
+     * Check if code exists
      *
-     * @param unknown_type $code
-     * @return unknown
+     * @param string $code
+     * @return bool
      */
     public function exists($code)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->getMainTable(), $this->getIdFieldName());
-        $select->where($this->getIdFieldName() . ' = ?', $code);
+        $select->where($this->getIdFieldName() . ' = :code');
 
-        if ($this->_getReadAdapter()->fetchOne($select) === false){
+        if ($this->_getReadAdapter()->fetchOne($select, array('code' => $code)) === false) {
             return false;
         }
         return true;

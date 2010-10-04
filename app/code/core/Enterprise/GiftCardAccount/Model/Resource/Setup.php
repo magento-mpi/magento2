@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Setup model for GiftCard Account module
  *
  * @category    Enterprise
  * @package     Enterprise_GiftCardAccount

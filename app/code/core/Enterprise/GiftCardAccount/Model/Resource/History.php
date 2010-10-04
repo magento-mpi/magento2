@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * GiftCard account history serource model
  *
  * @category    Enterprise
  * @package     Enterprise_GiftCardAccount
@@ -35,7 +35,7 @@
 class Enterprise_GiftCardAccount_Model_Resource_History extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table and primary key field
      *
      */
     protected function _construct()
@@ -44,10 +44,10 @@ class Enterprise_GiftCardAccount_Model_Resource_History extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Setting "updated_at" date before saving
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Enterprise_GiftCardAccount_Model_Resource_History
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {

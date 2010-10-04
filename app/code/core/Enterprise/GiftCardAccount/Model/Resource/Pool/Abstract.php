@@ -42,7 +42,7 @@ abstract class Enterprise_GiftCardAccount_Model_Resource_Pool_Abstract extends M
      */
     public function cleanupByStatus($status)
     {
-        $where = $this->_getWriteAdapter()->quoteInto('status = ?', $status);
+        $where = array('status = ?' => $status);
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         return $this;
     }

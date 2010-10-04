@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * GiftCard account resource model
  *
  * @category    Enterprise
  * @package     Enterprise_GiftCardAccount
@@ -35,7 +35,7 @@
 class Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table  and primary key field
      *
      */
     protected function _construct()
@@ -53,9 +53,9 @@ class Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount extends Mage_Cor
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->getMainTable(), $this->getIdFieldName());
-        $select->where('code = ?', $code);
+        $select->where('code = :code');
 
-        if ($id = $this->_getReadAdapter()->fetchOne($select)) {
+        if ($id = $this->_getReadAdapter()->fetchOne($select, array('code' => $code))) {
             return $id;
         }
 
@@ -71,6 +71,9 @@ class Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount extends Mage_Cor
      */
     public function updateState($ids, $state)
     {
+        if (empty($ids)) {
+            return $this;
+        }
         $bind = array('state'=>$state);
         $where = $this->_getReadAdapter()->quoteInto($this->getIdFieldName() . ' IN (?)', $ids);
 
