@@ -104,7 +104,7 @@ class Maged_Connect
     *
     * @return Maged_Connect
     */
-    public function getInstance()
+    public static function getInstance()
     {
         if (!self::$_instance) {
             self::$_instance = new self;

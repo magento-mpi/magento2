@@ -96,8 +96,7 @@ implements Iterator
         ),
             'root_channel_uri' => array(
                 'type' => 'string',
-//                'value' => 'http://connect20.magentocommerce.com/',
-                'value' => 'http://connect.kiev-dev/',
+                'value' => 'connect20.magentocommerce.com/',
                 'prompt' => '',
                 'doc' => "",
                 'possible' => '',

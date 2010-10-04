@@ -64,7 +64,7 @@ class Maged_Model_Config_Abstract extends Maged_Model
                 continue;
             }
             $key = trim($arr[0]);
-            $value = trim($arr[1], " \t\"'\n");
+            $value = trim($arr[1], " \t\"'\n\r");
             if (!$key || $key[0]=='#' || $key[0]==';') {
                 continue;
             }
