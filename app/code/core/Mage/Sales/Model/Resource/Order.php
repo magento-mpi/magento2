@@ -35,42 +35,42 @@
 class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Abstract
 {
     /**
-     * Enter description here ...
+     * Event prefix
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventPrefix                  = 'sales_order_resource';
 
     /**
-     * Enter description here ...
+     * Event object
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject                  = 'resource';
 
     /**
-     * Enter description here ...
+     * Is grid
      *
-     * @var unknown
+     * @var boolean
      */
     protected $_grid                         = true;
 
     /**
-     * Enter description here ...
+     * Use increment id
      *
-     * @var unknown
+     * @var boolean
      */
     protected $_useIncrementId               = true;
 
     /**
-     * Enter description here ...
+     * Entity code for increment id
      *
-     * @var unknown
+     * @var string
      */
     protected $_entityCodeForIncrementId     = 'order';
 
     /**
-     * Enter description here ...
+     * Model Initialization
      *
      */
     protected function _construct()
