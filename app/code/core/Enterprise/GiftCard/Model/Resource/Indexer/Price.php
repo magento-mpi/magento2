@@ -109,7 +109,8 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
             ->join(
                 array('cg' => $this->getTable('customer/customer_group')),
                 '',
-                array('customer_group_id'));
+                array('customer_group_id')
+            );
         $this->_addWebsiteJoinToSelect($select, true);
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
         $select->columns(array('website_id'), 'cw')
@@ -131,10 +132,11 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
         $select->joinLeft(
             array('gca' => $this->getTable('enterprise_giftcard/amount')),
             'gca.entity_id = e.entity_id AND gca.attribute_id = ' . $attrAmounts->getAttributeId()
-                . ' AND (gca.website_id = cw.website_id OR gca.website_id = 0)',
-            array());
+            . ' AND (gca.website_id = cw.website_id OR gca.website_id = 0)',
+            array()
+        );
 
-        $amountsExpr    = 'MIN('. $write->getCheckSql('gca.value_id IS NULL','NULL','gca.value') . ')';
+        $amountsExpr    = 'MIN('. $write->getCheckSql('gca.value_id IS NULL', 'NULL', 'gca.value') . ')';
 
         $openAmountExpr = 'MIN(' . $write->getCheckSql(
             $allowOpenAmount . ' = 1',

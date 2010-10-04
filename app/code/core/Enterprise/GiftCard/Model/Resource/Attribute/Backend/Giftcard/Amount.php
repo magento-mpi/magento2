@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Giftcard Amount Backend Model
  *
  * @category    Enterprise
  * @package     Enterprise_GiftCard
@@ -35,7 +35,7 @@
 class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table and primary key
      *
      */
     protected function _construct()
@@ -44,11 +44,11 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
     }
 
     /**
-     * Enter description here ...
+     * Load product data by product and attribute_id
      *
-     * @param unknown_type $product
-     * @param unknown_type $attribute
-     * @return unknown
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @return array
      */
     public function loadProductData($product, $attribute)
     {
@@ -65,8 +65,7 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
         );
         if ($attribute->isScopeGlobal()) {
             $select->where('website_id=0');
-        }
-        else {
+        } else {
             if ($storeId = $product->getStoreId()) {
                 $select->where('website_id IN (0, :website_id)');
                 $bind['website_id'] = Mage::app()->getStore($storeId)->getWebsiteId();
@@ -76,10 +75,10 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
     }
 
     /**
-     * Enter description here ...
+     * Delete product data
      *
-     * @param unknown_type $product
-     * @param unknown_type $attribute
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Eav_Model_Entity_Attribute $attribute
      * @return Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
      */
     public function deleteProductData($product, $attribute)
@@ -100,10 +99,10 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
     }
 
     /**
-     * Enter description here ...
+     * Insert product data
      *
-     * @param unknown_type $product
-     * @param unknown_type $data
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $data
      * @return Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
      */
     public function insertProductData($product, $data)

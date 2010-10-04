@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Catalog data index model for giftcards
  *
  * @category    Enterprise
  * @package     Enterprise_GiftCard
@@ -36,18 +36,18 @@ class Enterprise_GiftCard_Model_Resource_Catalogindex_Data_Giftcard
     extends Mage_CatalogIndex_Model_Resource_Data_Abstract
 {
     /**
-     * Enter description here ...
+     * Amounts cache
      *
-     * @var unknown
+     * @var array
      */
     protected $_cache  = array();
 
     /**
-     * Enter description here ...
+     * Get amounts by product and store
      *
-     * @param unknown_type $product
-     * @param unknown_type $store
-     * @return unknown
+     * @param int $product
+     * @param Mage_Core_Model_Store $store
+     * @return array
      */
     public function getAmounts($product, $store)
     {
@@ -80,11 +80,11 @@ class Enterprise_GiftCard_Model_Resource_Catalogindex_Data_Giftcard
     }
 
     /**
-     * Enter description here ...
+     * Convert amounts to store base currency
      *
-     * @param unknown_type $amounts
-     * @param unknown_type $store
-     * @return unknown
+     * @param array $amounts
+     * @param Mage_Core_Model_Store $store
+     * @return array
      */
     protected function _convertPrices($amounts, $store)
     {
