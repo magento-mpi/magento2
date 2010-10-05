@@ -117,7 +117,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         );
 
         if (!empty($orderCondition)) {
-            $query .= sprintf(' %s %s', Zend_Db_Select::SQL_ORDER_BY, $orderCondition);
+            $query .= sprintf(' ORDER BY %s', $orderCondition);
         }
 
         $query = $this->_assembleLimit($query, $limitCount, $limitOffset, $columnList);
@@ -144,9 +144,9 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             if (is_array($term)) {
                 if (!is_numeric($term[0])) {
                     if (strpos($term[0], '.') !== false) {
-//                            $size = strpos($term[0], '.');
-//                            $orderField = substr($term[0], $size + 1);
-                        $orderField = $term[0];
+                        $size       = strpos($term[0], '.');
+                        $orderField = substr($term[0], $size + 1);
+//                        $orderField = $term[0];
                     } else {
                         $orderField = $term[0];
                     }
@@ -293,6 +293,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             return $select->getPart(Zend_Db_Select::COLUMNS);
         }
 
+        $adapter          = $this->_getReadAdapter();
         $columns          = $select->getPart(Zend_Db_Select::COLUMNS);
         $tables           = $select->getPart(Zend_Db_Select::FROM);
         $preparedColumns  = array();
@@ -304,7 +305,8 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
                     if (preg_match('/(^|[^a-zA-Z_])^(SELECT)?(SUM|MIN|MAX|AVG|COUNT)\s*\(/i', $column, $matches)) {
                         $column = $this->prepareColumn($column, $groupByCondition);
                     }
-                    $preparedColumns[strtoupper($alias)] = array(null, $column, $alias);
+                    $quotedAlias = $adapter->quoteIdentifier($alias);
+                    $preparedColumns[strtoupper($alias)] = array(null, $column, $quotedAlias);
                 } else {
                     throw new Zend_Db_Exception("Can't prepare expression without alias");
                 }
@@ -315,10 +317,13 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
                     }
                     $tableColumns = $this->_getReadAdapter()->describeTable($tables[$correlationName]['tableName']);
                     foreach(array_keys($tableColumns) as $col) {
-                        $preparedColumns[strtoupper($col)] = array($correlationName, $col, null);
+                        $quotedColumn = $adapter->quoteIdentifier($col);
+                        $preparedColumns[strtoupper($col)] = array($correlationName, $quotedColumn, null);
                     }
                 } else {
-                    $preparedColumns[strtoupper(!is_null($alias) ? $alias : $column)] = array($correlationName, $column, $alias);
+                    $quatedColumn = $adapter->quoteIdentifier($column);
+                    $quotedAlias  = $adapter->quoteIdentifier($alias);
+                    $preparedColumns[strtoupper(!is_null($alias) ? $alias : $column)] = array($correlationName, $quatedColumn, $quotedAlias);
                 }
             }
         }
