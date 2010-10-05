@@ -665,7 +665,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     public function getChildren($category, $recursive = true)
     {
         $attributeId  = (int)$this->_getIsActiveAttributeId();
-        $backendTable = $this->getTable(array($this->getEntityTable(), 'int'));
+        $backendTable = $this->getTable(array($this->getEntityTablePrefix(), 'int'));
         $adapter      = $this->_getReadAdapter();
         $checkSql     = $adapter->getCheckSql('c.value_id > 0', 'c.value', 'd.value');
         $bind = array(

@@ -653,9 +653,9 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
                 throw $e;
             } catch (Exception $e) {
-                $exception = Mage::getModel('eav/entity_attribute_exception', $e->getMessage());
-                $exception->setAttributeCode($attrCode)->setPart($part);
-                throw $exception;
+                $e = Mage::getModel('eav/entity_attribute_exception', $e->getMessage());
+                $e->setAttributeCode($attrCode)->setPart($part);
+                throw $e;
             }
         }
 
@@ -1505,7 +1505,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             $adapter->rollback();
             throw $e;
         }
-        
+
 
         return $this;
     }
