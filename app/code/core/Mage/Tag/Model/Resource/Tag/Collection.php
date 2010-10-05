@@ -165,6 +165,11 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
             )
             ->group('main_table.tag_id');
 
+            /*
+             * Allow analytic function usage
+             */
+            $this->_useAnalyticFunction = true;
+
             if (!is_null($limit)) {
                 $this->getSelect()->limit($limit);
             }
