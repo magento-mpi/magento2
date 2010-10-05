@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Order creditmemo model
  *
  * @method Mage_Sales_Model_Resource_Order_Creditmemo _getResource()
  * @method Mage_Sales_Model_Resource_Order_Creditmemo getResource()
@@ -164,6 +164,18 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     protected function _construct()
     {
         $this->_init('sales/order_creditmemo');
+    }
+
+    /**
+     * Init mapping array of short fields to
+     * its full names
+     *
+     * @return Varien_Object
+     */
+    protected function _initOldFieldsMap()
+    {
+        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_creditmemo');
+        return $this;
     }
 
     /**

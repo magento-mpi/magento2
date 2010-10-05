@@ -221,17 +221,16 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         $this->_init('sales/order_item');
     }
 
-    /**
+     /**
      * Init mapping array of short fields to
      * its full names
-     * 
-     * @resturn Varien_Object
+     *
+     * @return Varien_Object
      */
     protected function _initOldFieldsMap()
     {
-        $this->_oldFieldsMap = array(
-            'base_weee_tax_applied_row_amount' => 'base_weee_tax_applied_row_amnt'
-        );
+        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_item');
+        return $this;
     }
 
     /**
