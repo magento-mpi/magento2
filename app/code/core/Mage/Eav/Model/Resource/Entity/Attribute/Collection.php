@@ -287,6 +287,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             ->group('main_table.attribute_id')
             ->where($orWhere);
 
+        $this->_useAnalyticFunction = true;
+
         return $this;
     }
 
