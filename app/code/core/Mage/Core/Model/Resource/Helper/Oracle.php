@@ -154,7 +154,9 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
                 }
             } else {
                 if (!is_numeric($term)) {
-                    $orders[] = $this->_getReadAdapter()->quoteIdentifier($term, true);
+                    $size       = strpos($term, '.');
+                    $orderField = substr($term, $size + 1);
+                    $orders[] = $this->_getReadAdapter()->quoteIdentifier($orderField, true);
                 }
             }
         }
