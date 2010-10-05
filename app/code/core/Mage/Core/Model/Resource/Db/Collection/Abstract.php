@@ -533,7 +533,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
             return $helper->getQueryUsingAnalyticFunction($select);
         }
 
-        return $select->__toString();
+        return (string)$select;
     }
     /**
      * Join table to collection select

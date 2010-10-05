@@ -1414,6 +1414,6 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             return $helper->getQueryUsingAnalyticFunction($select);
         }
 
-        return $select->__toString();
+        return (string)$select;
     }
 }
