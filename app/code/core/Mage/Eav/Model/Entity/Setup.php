@@ -697,10 +697,10 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function addAttributeOption($option)
     {
-        if (isset($option['value'])) {
-            $optionTable        = $this->getTable('eav/attribute_option');
-            $optionValueTable   = $this->getTable('eav/attribute_option_value');
+        $optionTable        = $this->getTable('eav/attribute_option');
+        $optionValueTable   = $this->getTable('eav/attribute_option_value');
 
+        if (isset($option['value'])) {
             foreach ($option['value'] as $optionId => $values) {
                 $intOptionId = (int) $optionId;
                 if (!empty($option['delete'][$optionId])) {
@@ -735,10 +735,27 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                     $data = array(
                         'option_id' => $intOptionId,
                         'store_id'  => $storeId,
-                        'value'     => $value,
+                        'value'     => $val,
                     );
                     $this->_conn->insert($optionValueTable, $data);
                 }
+            }
+        } else if (isset($option['values'])) {
+            foreach ($option['values'] as $sortOrder => $label) {
+                // add option
+                $data = array(
+                    'attribute_id' => $option['attribute_id'],
+                    'sort_order'   => $sortOrder,
+                );
+                $this->_conn->insert($optionTable, $data);
+                $intOptionId = $this->_conn->lastInsertId($optionTable);
+
+                $data = array(
+                    'option_id' => $intOptionId,
+                    'store_id'  => 0,
+                    'value'     => $label,
+                );
+                $this->_conn->insert($optionValueTable, $data);
             }
         }
     }

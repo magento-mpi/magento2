@@ -321,7 +321,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'validate_rules'     => 'a:0:{}',
                         'position'           => 110,
                         'admin_checkout'     => 1,
-                        'option'             => array('Male', 'Female')
+                        'option'             => array('values' => array('Male', 'Female'))
                     ),
                 )
             ),
