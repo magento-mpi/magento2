@@ -483,7 +483,6 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
              ->_renderLimit();
 
         $this->printLogQuery($printQuery, $logQuery);
-
         $data = $this->getData();
         $this->resetData();
 
@@ -649,12 +648,12 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     /**
      * Get cache identifier base on select
      *
-     * @param Zend_Db_Select $select
+     * @param Zend_Db_Select|string $select
      * @return string
      */
     protected function _getSelectCacheId($select)
     {
-        $id = md5($select->__toString());
+        $id = md5((string)$select);
         if (isset($this->_cacheConf['prefix'])) {
             $id = $this->_cacheConf['prefix'].'_'.$id;
         }
