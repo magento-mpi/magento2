@@ -47,6 +47,8 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
             'DATE'        => 'string',
             'VARCHAR2'    => 'string',
         );
+
+    protected $_lobDescriptors = array();
     /**
      * Fetches a row from the result set.
      *
@@ -294,5 +296,85 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
         return $row;
     }
 
+    /**
+     * Executes a prepared statement.
+     *
+     * @param array $params OPTIONAL Values to bind to parameter placeholders.
+     * @return bool
+     * @throws Zend_Db_Statement_Exception
+     */
+    public function _execute(array $params = null)
+    {
+        $connection = $this->_adapter->getConnection();
 
+        if (!$this->_stmt) {
+            return false;
+        }
+
+        if ($params !== null) {
+            if (!is_array($params)) {
+                $params = array($params);
+            }
+            $error = false;
+            foreach (array_keys($params) as $name) {
+                if (strlen($params[$name]) > 4000) {
+                    $this->_lobDescriptors[$name] = oci_new_descriptor($connection);
+                    if (!oci_bind_by_name($this->_stmt, $name, $this->_lobDescriptors[$name], -1, OCI_B_CLOB)) {
+                        $error = true;
+                        break;
+                    }
+                    $this->_lobDescriptors[$name]->writeTemporary($params[$name], OCI_TEMP_CLOB);
+                } else {
+                    if (!oci_bind_by_name($this->_stmt, $name, $params[$name], -1)) {
+                        $error = true;
+                        break;
+                    }
+                }
+            }
+            if ($error) {
+                /**
+                 * @see Zend_Db_Adapter_Oracle_Exception
+                 */
+                #require_once 'Zend/Db/Statement/Oracle/Exception.php';
+                throw new Zend_Db_Statement_Oracle_Exception(oci_error($this->_stmt));
+            }
+        }
+
+        $retval = @oci_execute($this->_stmt, $this->_adapter->_getExecuteMode());
+        if ($retval === false) {
+            /**
+             * @see Zend_Db_Adapter_Oracle_Exception
+             */
+            #require_once 'Zend/Db/Statement/Oracle/Exception.php';
+            throw new Zend_Db_Statement_Oracle_Exception(oci_error($this->_stmt));
+        }
+
+        $this->_keys = Array();
+        if ($field_num = oci_num_fields($this->_stmt)) {
+            for ($i = 1; $i <= $field_num; $i++) {
+                $name = oci_field_name($this->_stmt, $i);
+                $this->_keys[] = $name;
+            }
+        }
+
+        $this->_values = Array();
+        if ($this->_keys) {
+            $this->_values = array_fill(0, count($this->_keys), null);
+        }
+
+        return $retval;
+    }
+
+    /**
+     * Closes the cursor, allowing the statement to be executed again.
+     *
+     * @return bool
+     */
+    public function closeCursor()
+    {
+        foreach ($this->_lobDescriptors as $descriptor) {
+            $descriptor->close();
+        }
+        return parent::closeCursor();
+    }
 }

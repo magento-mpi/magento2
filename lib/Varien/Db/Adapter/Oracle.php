@@ -1399,6 +1399,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $cols   = array();
         $values = array();
 
+        $ddl = $this->describeTable($table);
+        
         if (is_array($row)) { // Array of column-value pairs
             $cols = array_keys($row);
             $i    = 0;
@@ -1410,11 +1412,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 foreach ($row as $col => $val) {
                     if ($val instanceof Zend_Db_Expr) {
                         $line[] = $val->__toString() . ' AS ' . $col;
-                    } /*else if (is_null($val)) {
-                        $line[] = 'NULL AS ' . $col;
-                    } */else {
+                    } else {
                         $key    = ':vv' . $i++;
-                        $line[] = "{$key} AS {$col}";
+                        if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
+                            $line[] = "to_clob({$key}) AS {$col}";
+                        } else {
+                            $line[] = "{$key} AS {$col}";
+                        }
                         $bind[$key] = $val;
                     }
                 }
@@ -1428,11 +1432,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             foreach ($data as $col => $val) {
                 if ($val instanceof Zend_Db_Expr) {
                     $line[] = $val->__toString() . ' AS ' . $col;
-                } /*else if (is_null($val)) {
-                    $line[] = 'NULL AS ' . $col;
-                } */else {
+                } else {
                     $key    = ':vv' . $i++;
-                    $line[] = "{$key} AS {$col}";
+                    if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
+                        $line[] = "to_clob({$key}) AS {$col}";
+                    } else {
+                        $line[] = "{$key} AS {$col}";
+                    }
                     $bind[$key] = $val;
                 }
             }
@@ -1565,6 +1571,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $inc  = 0;
         $vals = array();
         $bind = array();
+        $ddl = $this->describeTable($table);
         $columnsCount = count($columns);
         foreach ($data as $row) {
             if ($columnsCount != count($row)) {
@@ -1578,19 +1585,27 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $line = 'NULL';
                 } else {
                     $key  = ':vv' . ($inc ++);
-                    $line = $key;
+                    if ($ddl[$columns[0]]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
+                        $line = "to_clob({$key})";
+                    } else {
+                        $line = $key;
+                    }
                     $bind[$key] = $row;
                 }
                 $vals[] = sprintf('%s', $line);
             } else {
-                foreach ($row as $value) {
+                foreach ($row as $col=>$value) {
                     if ($value instanceof Zend_Db_Expr) {
                         $line[] = $value->__toString();
                     } else if (is_null($value)) {
                         $line[] = 'NULL';
                     } else {
                         $key  = ':vv' . ($inc ++);
-                        $line[] = $key;
+                        if ($ddl[$columns[$col]]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
+                            $line[] = "to_clob({$key})";
+                        } else {
+                            $line[] = $key;
+                        }
                         $bind[$key] = $value;
                     }
                 }
