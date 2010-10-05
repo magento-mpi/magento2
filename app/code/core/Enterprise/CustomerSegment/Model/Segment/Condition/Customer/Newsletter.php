@@ -120,7 +120,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
             ->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'main.store_id');
         if (!$value) {
-            $select = 'IFNULL(('.$select.'), 1)';
+            $select = $this->getResource()->getReadConnection()
+                    ->getCheckSql("($select) IS NULL", '1', "($select)");
         }
         return $select;
     }

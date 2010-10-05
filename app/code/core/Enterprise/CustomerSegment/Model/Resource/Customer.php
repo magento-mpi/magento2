@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Enterprise CustomerSegment Customer Resource Model
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerSegment

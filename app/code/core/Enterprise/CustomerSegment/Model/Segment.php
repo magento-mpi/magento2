@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 /**
- * Enter description here ...
+ * Enterprise CustomerSegment Segment Model
  *
  * @method Enterprise_CustomerSegment_Model_Resource_Segment _getResource()
  * @method Enterprise_CustomerSegment_Model_Resource_Segment getResource()

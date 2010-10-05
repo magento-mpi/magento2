@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Enterprise CustomerSegment Model Resource Segment Collection
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerSegment
@@ -36,9 +36,9 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
     extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Flag to check if customerCount was added
      *
-     * @var unknown
+     * @var boolean
      */
     protected $_customerCountAdded   = false;
 
@@ -97,18 +97,23 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
             $select = $this->getConnection()->select()
                 ->from($this->getTable('enterprise_customersegment/website'), array(
                     'segment_id',
-                    new Zend_Db_Expr('GROUP_CONCAT(website_id)')
+                    'website_id'
                 ))
-                ->where('segment_id IN (?)', array_keys($this->_items))
-                ->group('segment_id');
-            $websites = $this->getConnection()->fetchPairs($select);
+                ->where('segment_id IN (?)', array_keys($this->_items));
+
+            $websites = $this->getConnection()->fetchAll($select);
             foreach ($this->_items as $item) {
-                if (isset($websites[$item->getId()])) {
-                    $item->setWebsiteIds(explode(',', $websites[$item->getId()]));
+                $websiteIds = array();
+                foreach ($websites as $website) {
+                    if ($item->getId() == $website['segment_id']) {
+                        array_push($websiteIds, $website['website_id']);
+                    }
+                }
+                if(count($websiteIds)) {
+                    $item->setWebsiteIds($websiteIds);
                 }
             }
         }
-
         return $this;
     }
 

@@ -43,16 +43,16 @@ class Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection
     protected $_viewMode;
 
     /**
-     * Enter description here ...
+     * Subquery for filter
      *
-     * @var unknown
+     * @var Varien_Db_Select
      */
     protected $_subQuery     = null;
 
     /**
-     * Enter description here ...
+     * Websites array for filter
      *
-     * @var unknown
+     * @var array
      */
     protected $_websites     = null;
 

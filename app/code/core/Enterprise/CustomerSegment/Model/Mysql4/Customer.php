@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Enterprise CustomerSegment Customer Mysql4 Model
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerSegment

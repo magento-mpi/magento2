@@ -73,18 +73,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
         $select = $this->getResource()->createSelect();
 
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
-        if ($this->getAttribute() == 'total') {
-            $result = "IF (SUM(order.total_qty_ordered) {$operator} {$this->getValue()}, 1, 0)";
-        } else {
-            $result = "IF (AVG(order.total_qty_ordered) {$operator} {$this->getValue()}, 1, 0)";
-        }
+        $aggrFunc = ($this->getAttribute() == 'total') ? 'SUM' : 'AVG';
+        $adapter = $this->getResource()->getReadConnection();
+        $result = $adapter->getCheckSql("{$aggrFunc} {$operator} {$this->getValue()}", 1, 0);
 
         $select->from(
-            array('order' => $this->getResource()->getTable('sales/order')),
+            array('sales_order' => $this->getResource()->getTable('sales/order')),
             array(new Zend_Db_Expr($result))
         );
-        $this->_limitByStoreWebsite($select, $website, 'order.store_id');
-        $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
+        $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
+        $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));
 
         return $select;
     }

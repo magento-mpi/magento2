@@ -141,9 +141,11 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         /**
          * Add children subselects conditions
          */
+        $adapter = $this->getResource()->getReadConnection();
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
-                $criteriaSql = "(IFNULL(($sql), 0) {$operator} 1)";
+                $isnull = $adapter->getCheckSql("($sql) IS NULL", '0', "($sql)");
+                $criteriaSql = "($isnull {$operator} 1)";
                 $select->$whereFunction($criteriaSql);
                 $gotConditions = true;
             }
@@ -169,7 +171,6 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         if (!$gotConditions) {
             $select->where('1=1');
         }
-
         return $select;
     }
 

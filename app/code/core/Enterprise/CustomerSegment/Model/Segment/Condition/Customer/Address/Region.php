@@ -119,14 +119,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
      */
     public function getConditionsSql($customer, $website)
     {
-        $inversion = ((int)$this->getValue() ? '' : '!');
+        $inversion = ((int)$this->getValue() ? '' : ' NOT ');
         $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'region');
         $select = $this->getResource()->createSelect();
-        $select->from(array('caev'=>$attribute->getBackendTable()), "{$inversion}(IFNULL(caev.value, '') <> '')");
+
+        $ifnull = $this->getResource()->getReadConnection()
+                ->getCheckSql('caev.value IS NULL', '', 'caev.value');
+        $select->from(array('caev'=>$attribute->getBackendTable()), "{$inversion}({$ifnull} <> '')");
         $select->where('caev.attribute_id = ?', $attribute->getId())
             ->where("caev.entity_id = customer_address.entity_id");
         $select->limit(1);
-
         return $select;
     }
 }

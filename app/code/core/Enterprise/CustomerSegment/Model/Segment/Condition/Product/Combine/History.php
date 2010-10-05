@@ -142,12 +142,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
                     array(new Zend_Db_Expr(1))
                 );
                 $select->joinInner(
-                    array('order' => $this->getResource()->getTable('sales/order')),
+                    array('sales_order' => $this->getResource()->getTable('sales/order')),
                     'item.order_id = order.entity_id',
                     array()
                 );
-                $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
-                $this->_limitByStoreWebsite($select, $website, 'order.store_id');
+                $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));
+                $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
                 break;
             default:
                 $select->from(

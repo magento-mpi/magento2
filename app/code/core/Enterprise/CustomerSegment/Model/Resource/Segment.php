@@ -150,44 +150,16 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
     }
 
     /**
-     * Get comparison condition for rule condition operatr which will be used in SQL query
+     * Get comparison condition for rule condition operator which will be used in SQL query
+     * depending of database we using
      *
      * @param string $operator
      * @return string
      */
     public function getSqlOperator($operator)
     {
-        /*
-            '{}'  => Mage::helper('rule')->__('contains'),
-            '!{}' => Mage::helper('rule')->__('does not contain'),
-            '()'  => Mage::helper('rule')->__('is one of'),
-            '!()' => Mage::helper('rule')->__('is not one of'),
-            requires custom selects
-        */
-
-        switch ($operator) {
-            case '==':
-                return '=';
-            case '!=':
-                return '<>';
-            case '{}':
-                return 'LIKE';
-            case '!{}':
-                return 'NOT LIKE';
-            case '[]':
-                return 'FIND_IN_SET(%s, %s)';
-            case '![]':
-                return 'FIND_IN_SET(%s, %s) IS NULL';
-            case 'between':
-                return "BETWEEN '%s' AND '%s'";
-            case '>':
-            case '<':
-            case '>=':
-            case '<=':
-                return $operator;
-            default:
-                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified.'));
-        }
+        return Mage::getResourceHelper('enterprise_customersegment')
+                ->getSqlOperator($operator);
     }
 
     /**
@@ -221,19 +193,23 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
             case '[]':
             case '![]':
                 if (is_array($value) && !empty($value)) {
-                    $format = 'FIND_IN_SET(%s, %s)';
                     $conditions = array();
                     foreach ($value as $v) {
-                        $conditions[] = sprintf($format, $this->_getReadAdapter()->quote($v), $field);
+                        $conditions[] = $this->_getReadAdapter()->prepareSqlCondition(
+                               $field, array('finset' => $this->_getReadAdapter()->quote($v))
+                        );
                     }
                     $condition  = sprintf('(%s)=%d', join(' AND ', $conditions), $operator == '[]' ? 1 : 0);
                 } else {
                     if ($operator == '[]') {
-                        $format = 'FIND_IN_SET(%s, %s)';
+                        $condition = $this->_getReadAdapter()->prepareSqlCondition(
+                               $field, array('finset' => $this->_getReadAdapter()->quote($value))
+                        );
                     } else {
-                        $format = 'FIND_IN_SET(%s, %s) IS NULL';
+                        $condition = 'NOT ('.$this->_getReadAdapter()->prepareSqlCondition(
+                               $field, array('finset' => $this->_getReadAdapter()->quote($value))
+                        ).')';
                     }
-                    $condition = sprintf($format, $this->_getReadAdapter()->quote($value), $field);
                 }
                 break;
             case 'between':
@@ -311,11 +287,12 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
     public function getSegmentCustomersQty($segmentId)
     {
         return (int)$this->_getReadAdapter()->fetchOne("SELECT COUNT(DISTINCT customer_id)
-            FROM {$this->getTable('enterprise_customersegment/customer')} WHERE segment_id = " . (int)$segmentId);
+            FROM {$this->getTable('enterprise_customersegment/customer')}
+            WHERE segment_id = " . (int)$segmentId);
     }
 
     /**
-     * Enter description here ...
+     * save CustomerSegments from select
      *
      * @deprecate after 1.6.0.0 - please use saveCustomersFromSelect
      *

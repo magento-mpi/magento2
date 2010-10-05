@@ -111,9 +111,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
         /**
          * Add children subselects conditions
          */
+        $adapter = $this->getResource()->getReadConnection();
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
-                $conditions[] = "(IFNULL(($sql), 0) {$operator} 1)";
+                $isnull = $adapter->getCheckSql("($sql) IS NULL", '0', "($sql)");
+                $conditions[] = "($isnull {$operator} 1)";
             }
         }
 

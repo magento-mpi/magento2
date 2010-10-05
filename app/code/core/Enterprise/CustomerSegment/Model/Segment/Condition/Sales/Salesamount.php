@@ -73,19 +73,17 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
         $select = $this->getResource()->createSelect();
 
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
-        if ($this->getAttribute() == 'total') {
-            $result = "IF (IF(SUM(order.base_grand_total), SUM(order.base_grand_total), 0) {$operator} {$this->getValue()}, 1, 0)";
-        } else {
-            $result = "IF (IF(AVG(order.base_grand_total), AVG(order.base_grand_total), 0) {$operator} {$this->getValue()}, 1, 0)";
-        }
+        $aggrFunc = ($this->getAttribute() == 'total') ? 'SUM' : 'AVG';
+        $adapter = $this->getResource()->getReadConnection();
+        $firstIf = $adapter->getCheckSql($aggrFunc.'(sales_order.base_grand_total)', $aggrFunc.'(sales_order.base_grand_total)', 0);
+        $result = $adapter->getCheckSql($firstIf.' '.$operator.' '.$this->getValue(), 1, 0);
 
         $select->from(
-            array('order' => $this->getResource()->getTable('sales/order')),
+            array('sales_order' => $this->getResource()->getTable('sales/order')),
             array(new Zend_Db_Expr($result))
         );
-        $this->_limitByStoreWebsite($select, $website, 'order.store_id');
-        $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
-
+        $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
+        $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));
         return $select;
     }
 }
