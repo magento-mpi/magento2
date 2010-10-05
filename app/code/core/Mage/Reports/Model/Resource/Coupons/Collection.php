@@ -87,8 +87,8 @@ class Mage_Reports_Model_Resource_Coupons_Collection extends Mage_Sales_Model_En
         $this->groupByAttribute('coupon_code')
             ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to, 'datetime' => true))
             ->addAttributeToFilter('coupon_code', array('neq' => ''))
-            ->getselect()->columns(array('uses' => 'COUNT(e.entity_id)'))
-            ->having('uses > 0')
+            ->getSelect()->columns(array('uses' => 'COUNT(e.entity_id)'))
+            ->having('uses > ?', 0)
             ->order('uses ' . self::SORT_ORDER_DESC);
 
         $storeIds = array_values($storeIds);
@@ -120,6 +120,7 @@ class Mage_Reports_Model_Resource_Coupons_Collection extends Mage_Sales_Model_En
                     'SUM(({{base_subtotal}}-{{base_discount_amount}})*{{base_to_global_rate}})',
                     array('base_subtotal', 'base_discount_amount', 'base_to_global_rate'));
         }
+
     }
 
     /**
@@ -136,8 +137,8 @@ class Mage_Reports_Model_Resource_Coupons_Collection extends Mage_Sales_Model_En
         $countSelect->reset(Zend_Db_Select::COLUMNS);
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::HAVING);
-        $countSelect->columns("count(DISTINCT main_table.rule_id)");
-        $sql = $countSelect->__toString();
-        return $sql;
+        $countSelect->columns('COUNT(DISTINCT main_table.rule_id)');
+
+        return $countSelect->__toString();
     }
 }

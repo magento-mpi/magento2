@@ -68,9 +68,9 @@ class Mage_Tax_Model_Resource_Report_Collection extends Mage_Sales_Model_Resourc
     protected function _getSelectedColumns()
     {
         if ('month' == $this->_period) {
-            $this->_periodFormat = 'DATE_FORMAT(period, \'%Y-%m\')';
+            $this->_periodFormat = $this->getConnection()->getDateFormatSql('period', '%Y-%m');;
         } elseif ('year' == $this->_period) {
-            $this->_periodFormat = 'EXTRACT(YEAR FROM period)';
+            $this->_periodFormat = $this->getConnection()->getDateFormatSql('period', '%Y');
         } else {
             $this->_periodFormat = 'period';
         }
@@ -80,8 +80,8 @@ class Mage_Tax_Model_Resource_Report_Collection extends Mage_Sales_Model_Resourc
                 'period'                => $this->_periodFormat,
                 'code'                  => 'code',
                 'percent'               => 'percent',
-                'orders_count'          => 'sum(orders_count)',
-                'tax_base_amount_sum'   => 'sum(tax_base_amount_sum)'
+                'orders_count'          => 'SUM(orders_count)',
+                'tax_base_amount_sum'   => 'SUM(tax_base_amount_sum)'
             );
         }
 
@@ -116,6 +116,11 @@ class Mage_Tax_Model_Resource_Report_Collection extends Mage_Sales_Model_Resourc
                 $this->_periodFormat
             ));
         }
+
+        /**
+         * Allow to use analytic function
+         */
+        $this->_useAnalyticFunction = true;
 
         return $this;
     }

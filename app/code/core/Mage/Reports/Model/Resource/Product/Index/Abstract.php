@@ -100,14 +100,16 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
      */
     public function purgeVisitorByCustomer(Mage_Reports_Model_Product_Index_Abstract $object)
     {
+        /**
+         * Do nothing if customer not logged in
+         */
         if (!$object->getCustomerId()) {
             return $this;
         }
-        $adapter = $this->_getWriteAdapter();
 
-        $bind   = array('visitor_id' => null);
-        $where  = $adapter->quoteInto('customer_id = ?', (int)$object->getCustomerId());
-        $adapter->update($this->getMainTable(), $bind, $where);
+        $bind   = array('visitor_id'      => null);
+        $where  = array('customer_id = ?' => (int)$object->getCustomerId());
+        $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
 
         return $this;
     }

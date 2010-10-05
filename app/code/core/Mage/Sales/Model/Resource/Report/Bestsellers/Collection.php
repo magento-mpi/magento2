@@ -100,6 +100,9 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
      */
     protected function _makeBoundarySelect($from, $to)
     {
+        $from = $this->getConnection()->getDateFormatSql($from, '%Y-%m-%d');
+        $to   = $this->getConnection()->getDateFormatSql($to, '%Y-%m-%d');
+
         $cols = $this->_getSelectedColumns();
         $cols['qty_ordered'] = 'SUM(qty_ordered)';
         $sel = $this->getConnection()->select()
@@ -107,9 +110,11 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             ->where('period >= ?', $from)
             ->where('period <= ?', $to)
             ->group('product_id')
-            ->order('qty_ordered DESC')
+            ->order('qty_ordered')
             ->limit($this->_ratingLimit);
+        
         $this->_applyStoresFilterToSelect($sel);
+
         return $sel;
     }
 
@@ -133,7 +138,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             $this->_applyDateRangeFilter();
             $this->getSelect()
                 ->group('product_id')
-                ->order('qty_ordered DESC')
+                ->order('qty_ordered ' . Varien_Db_Select::SQL_DESC)
                 ->limit($this->_ratingLimit);
             return $this;
         }
@@ -238,9 +243,11 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
         if ($selectUnions) {
             $unionParts = array();
             $cloneSelect = clone $this->getSelect();
+            $helper = Mage::getResourceHelper('core');
             $unionParts[] = '(' . $cloneSelect . ')';
             foreach ($selectUnions as $union) {
-                $unionParts[] = '(' . $union . ')';
+                $query = $helper->getQueryUsingAnalyticFunction($union);
+                $unionParts[] = '(' . $query . ')';
             }
             $this->getSelect()->reset()->union($unionParts, Zend_Db_Select::SQL_UNION_ALL);
         }
@@ -253,6 +260,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             // add sorting
             $this->getSelect()->order(array('period ASC', 'qty_ordered DESC'));
         }
+
         return $this;
     }
 

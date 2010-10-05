@@ -49,6 +49,28 @@
                 </tag>
              </children>
         </catalog>
+        <report translate="title" module="reports">
+            <children>
+                <tags translate="title" module="tag">
+                    <title>Tags</title>
+                    <sort_order>50</sort_order>
+                    <children>
+                        <customer translate="title" module="tag">
+                            <title>Customers</title>
+                            <action>adminhtml/report_tag/customer</action>
+                        </customer>
+                        <product translate="title" module="tag">
+                            <title>Products</title>
+                            <action>adminhtml/report_tag/product</action>
+                        </product>
+                        <popular translate="title" module="tag">
+                            <title>Popular</title>
+                            <action>adminhtml/report_tag/popular</action>
+                        </popular>
+                    </children>
+                </tags>
+            </children>
+        </report>
     </menu>
     <acl>
         <resources>

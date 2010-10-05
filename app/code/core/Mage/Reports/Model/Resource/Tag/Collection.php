@@ -56,16 +56,20 @@ class Mage_Reports_Model_Resource_Tag_Collection extends Mage_Tag_Model_Resource
     {
         $select = $this->getSelect()
             ->joinLeft(
-                array('tr'=>$this->getTable('tag/relation')),
+                array('tr' => $this->getTable('tag/relation')),
                 'main_table.tag_id = tr.tag_id',
-                array(
-                    'popularity' => 'COUNT(tr.tag_id)'
-                )
+                array('popularity' => 'COUNT(tr.tag_id)')
             );
         if (!empty($storeIds)) {
             $select->where('tr.store_id IN(?)', $storeIds);
         }
         $select->group('main_table.tag_id');
+
+        /**
+         * Allow to use analytic function
+         */
+        $this->_useAnalyticFunction = true;
+
         return $this;
     }
 }

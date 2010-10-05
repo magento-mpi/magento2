@@ -43,6 +43,7 @@ class Mage_Reports_Model_Resource_Invoiced_Collection extends Mage_Sales_Model_E
      */
     public function setDateRange($from, $to)
     {
+        $orderInvoicedExpr = $this->getConnection()->getCheckSql('{{base_total_invoiced}} > 0', 1, 0);
         $this->_reset()
             ->addAttributeToSelect('*')
             ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to))
@@ -50,10 +51,12 @@ class Mage_Reports_Model_Resource_Invoiced_Collection extends Mage_Sales_Model_E
                 'COUNT({{base_total_invoiced}})',
                  array('base_total_invoiced'))
             ->addExpressionAttributeToSelect('orders_invoiced',
-                'SUM(IF({{base_total_invoiced}} > 0, 1, 0))',
+                "SUM({$orderInvoicedExpr})",
                  array('base_total_invoiced'))
             ->addAttributeToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED))
-            ->getSelect()->group('("*")')->having('orders > 0');
+            ->getSelect()
+                ->group('("*")')
+                ->having('orders > ?', 0);
 
         return $this;
     }

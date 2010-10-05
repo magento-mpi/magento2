@@ -41,6 +41,14 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
      */
     protected $_idFieldName    = 'link_id';
 
+    protected function _construct()
+    {
+        parent::_construct();
+        /**
+         * Allow to use analytic function
+         */
+        $this->_useAnalyticFunction = true;
+    }
     /**
      * Add downloads summary grouping by product
      *
@@ -48,28 +56,29 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
      */
     public function addSummary()
     {
-        $linkExpr = $this->getConnection()->getCheckSql('l_store.title', 'l.title', 'l_store.title');
+        $adapter  = $this->getConnection();
+        $linkExpr = $adapter->getCheckSql('l_store.title IS NULL', 'l.title', 'l_store.title');
+
         $this->getSelect()
             ->joinInner(
-                array('d' => $this->getTable('downloadable/link_purchased_item')),
+                array('d' =>  $this->getTable('downloadable/link_purchased_item')),
                 'e.entity_id = d.product_id',
                 array(
                     'purchases' => new Zend_Db_Expr('SUM(d.number_of_downloads_bought)'),
-                    'downloads' => new Zend_Db_Expr('SUM(d.number_of_downloads_used)')
-                )
-            )
+                    'downloads' => new Zend_Db_Expr('SUM(d.number_of_downloads_used)'),
+                ))
             ->joinInner(
                 array('l' => $this->getTable('downloadable/link_title')),
-                'd.link_id=l.link_id',
-                array('l.link_id')
-            )
+                'd.link_id = l.link_id',
+                array('l.link_id'))
             ->joinLeft(
                 array('l_store' => $this->getTable('downloadable/link_title')),
-                $this->getConnection()->quoteInto('l.link_id = l_store.link_id AND l_store.store_id = ?', (int)$this->getStoreId()),
-                array('link_title' => $linkExpr)
-            )
-            ->where('d.number_of_downloads_bought > 0 OR d.number_of_downloads_used > 0')
-            ->group('d.link_id');
+                $adapter->quoteInto('l.link_id = l_store.link_id AND l_store.store_id = ?', (int)$this->getStoreId()),
+                array('link_title' => $linkExpr))
+            ->where(implode(' OR ', array(
+                $adapter->quoteInto('d.number_of_downloads_bought > ?', 0),
+                $adapter->quoteInto('d.number_of_downloads_used > ?', 0),
+            )));
 
         return $this;
     }

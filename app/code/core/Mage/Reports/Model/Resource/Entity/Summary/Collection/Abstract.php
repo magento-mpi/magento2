@@ -91,10 +91,11 @@ class Mage_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends Var
      * Set date period
      *
      * @param int $period
+     * @return Mage_Reports_Model_Resource_Entity_Summary_Collection_Abstract
      */
     public function setDatePeriod($period)
     {
-
+        return $this;
     }
 
     /**

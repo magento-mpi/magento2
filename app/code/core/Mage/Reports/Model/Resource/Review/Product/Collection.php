@@ -34,6 +34,11 @@
  */
 class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->_useAnalyticFunction = true;
+    }
     /**
      * Join review table to result
      *
@@ -41,26 +46,48 @@ class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog
      */
     public function joinReview()
     {
+        $helper    = Mage::getResourceHelper('core');
+
+        $subSelect = clone $this->getSelect();
+        $subSelect->reset()
+            ->from(array('rev' => $this->getTable('review/review')), 'COUNT(DISTINCT rev.review_id)')
+            ->where('e.entity_id = rev.entity_pk_value');
+
         $this->addAttributeToSelect('name');
-        $this->getSelect()->join(
+
+        $this->getSelect()
+            ->join(
             array('r' => $this->getTable('review/review')),
             'e.entity_id = r.entity_pk_value',
             array(
-                'review_cnt'    => 'COUNT(DISTINCT r.review_id)',
+                'review_cnt'    => new Zend_Db_Expr(sprintf('(%s)', $subSelect)),
                 'last_created'  => 'MAX(r.created_at)',
-            )
+            ))
+            ->group('e.entity_id');
+
+        $joinCondition      = array(
+            'e.entity_id = table_rating.entity_pk_value',
+            $this->getConnection()->quoteInto('table_rating.store_id > ?', 0)
         );
 
-        $this->getSelect()->joinLeft(
-            array('table_rating' => $this->getTable('rating/rating_vote_aggregated')),
-            'e.entity_id = table_rating.entity_pk_value AND table_rating.store_id > 0',
-            array(
-                'avg_rating'          => 'SUM(table_rating.percent)/COUNT(table_rating.rating_id)',
-                'avg_rating_approved' => 'SUM(table_rating.percent_approved)/COUNT(table_rating.rating_id)'
-            )
-        );
-        $this->getSelect()->group('e.entity_id');
+        /**
+         * @var $groupByCondition array of group by fields
+         */
+        $groupByCondition   = $this->getSelect()->getPart(Zend_Db_Select::GROUP);
+        $percentField       = $this->getConnection()->quoteIdentifier('table_rating.percent');
+        $sumPercentField    = $helper->prepareColumn("SUM({$percentField})", $groupByCondition);
+        $sumPercentApproved = $helper->prepareColumn('SUM(table_rating.percent_approved)', $groupByCondition);
+        $countRatingId      = $helper->prepareColumn('COUNT(table_rating.rating_id)', $groupByCondition);
 
+        $this->getSelect()
+            ->joinLeft(
+                array('table_rating' => $this->getTable('rating/rating_vote_aggregated')),
+                implode(' AND ', $joinCondition),
+                array(
+                    'avg_rating'          => sprintf('%s/%s', $sumPercentField, $countRatingId),
+                    'avg_rating_approved' => sprintf('%s/%s', $sumPercentApproved, $countRatingId),
+            ));
+//ECHO $this->getSelect();dd();
         return $this;
     }
 

@@ -58,7 +58,7 @@ class Mage_Reports_Model_Resource_Shopcart_Product_Collection extends Mage_Repor
      */
     public function setDateRange($from, $to)
     {
-        $this->resetSelect();
+        $this->getSelect()->reset();
         return $this;
     }
 }

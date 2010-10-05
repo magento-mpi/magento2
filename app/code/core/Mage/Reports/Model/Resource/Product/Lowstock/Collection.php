@@ -215,7 +215,7 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
         $this->joinInventoryItem();
         $manageStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_manage_stock') . ' IS NULL',
-            (int) Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK,$storeId),
+            (int) Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK, $storeId),
             $this->_getInventoryItemIdField('manage_stock')
         );
         $this->getSelect()->where($manageStockExpr . ' = ?', 1);

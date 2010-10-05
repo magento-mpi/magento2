@@ -34,5 +34,4 @@
  */
 class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Oracle
 {
-
 }

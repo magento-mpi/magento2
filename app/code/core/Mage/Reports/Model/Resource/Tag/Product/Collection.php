@@ -34,6 +34,14 @@
  */
 class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_Resource_Product_Collection
 {
+    protected function _construct()
+    {
+        parent::_construct();
+        /**
+         * Allow to use analytic function
+         */
+        $this->_useAnalyticFunction = true;
+    }
     /**
      * Add unique target count to result
      *
@@ -41,8 +49,14 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
      */
     public function addUniqueTagedCount()
     {
+        $select = clone $this->getSelect();
+        
+        $select->reset()
+            ->from(array('rel' => $this->getTable('tag/relation')), 'COUNT(DISTINCT rel.tag_id)')
+            ->where('rel.product_id = e.entity_id');
+
         $this->getSelect()
-            ->columns(array('utaged' => 'COUNT(DISTINCT(relation.tag_id))'));
+            ->columns(array('utaged' => new Zend_Db_Expr(sprintf('(%s)', $select))));
         return $this;
     }
 
@@ -137,15 +151,14 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
      */
     protected function _joinFields()
     {
-        $tagTable         = $this->getTable('tag/tag');
-        $tagRelationTable = $this->getTable('tag/relation');
         $this->addAttributeToSelect('name');
         $this->getSelect()
             ->join(
-                array('relation' => $tagRelationTable),
-                'relation.product_id = e.entity_id')
+                array('relation' => $this->getTable('tag/relation')),
+                'relation.product_id = e.entity_id',
+                array())
             ->join(
-                array('t' => $tagTable),
+                array('t' => $this->getTable('tag/tag')),
                 't.tag_id = relation.tag_id',
                 array('tag_id',  'status', 'tag_name' => 'name')
             );

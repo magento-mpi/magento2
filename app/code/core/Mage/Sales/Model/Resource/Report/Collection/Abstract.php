@@ -129,7 +129,7 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
     public function setDateRange($from = null, $to = null)
     {
         $this->_from = $from;
-        $this->_to = $to;
+        $this->_to   = $to;
         return $this;
     }
 
@@ -152,11 +152,13 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
      */
     protected function _applyDateRangeFilter()
     {
-        if (!is_null($this->_from)) {
-            $this->getSelect()->where('period >= ?', $this->_from);
+        if ($this->_from !== null) {
+            $from = $this->getConnection()->getDateFormatSql($this->_from, '%Y-%m-%d');
+            $this->getSelect()->where('period >= ?', $from);
         }
-        if (!is_null($this->_to)) {
-            $this->getSelect()->where('period <= ?', $this->_to);
+        if ($this->_to !== null) {
+            $to = $this->getConnection()->getDateFormatSql($this->_to, '%Y-%m-%d');
+            $this->getSelect()->where('period <= ?', $to);
         }
         return $this;
     }
@@ -307,6 +309,7 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
             $this->_applyStoresFilter();
             $this->_applyOrderStatusFilter();
         }
+
         return parent::load($printQuery, $logQuery);
     }
 }

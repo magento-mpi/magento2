@@ -116,6 +116,9 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
                 'coupon_code'
             ));
         }
+
         return $this;
     }
+
+
 }

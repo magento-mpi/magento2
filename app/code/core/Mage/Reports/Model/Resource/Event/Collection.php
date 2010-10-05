@@ -76,15 +76,15 @@ class Mage_Reports_Model_Resource_Event_Collection extends Mage_Core_Model_Resou
     {
         $stores = $this->getResource()->getCurrentStoreIds($this->_storeIds);
         $this->getSelect()
-            ->where('event_type_id=?', $typeId)
-            ->where('subject_id=?', $subjectId)
-            ->where('subtype=?', $subtype)
+            ->where('event_type_id = ?', $typeId)
+            ->where('subject_id = ?', $subjectId)
+            ->where('subtype = ?', $subtype)
             ->where('store_id IN(?)', $stores);
         if ($ignore) {
             if (is_array($ignore)) {
                 $this->_select->where('object_id NOT IN(?)', $ignore);
             } else {
-                $this->_select->where('object_id<>?', $ignore);
+                $this->_select->where('object_id <> ?', $ignore);
             }
         }
         $this->getSelect()

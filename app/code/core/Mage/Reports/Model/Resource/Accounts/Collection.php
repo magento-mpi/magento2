@@ -34,8 +34,9 @@
  */
 class Mage_Reports_Model_Resource_Accounts_Collection extends Mage_Reports_Model_Resource_Customer_Collection
 {
+
     /**
-     * Join fields
+     * Join created_at and accounts fields
      *
      * @param string $from
      * @param string $to
@@ -63,21 +64,25 @@ class Mage_Reports_Model_Resource_Accounts_Collection extends Mage_Reports_Model
     public function setDateRange($from, $to)
     {
         $this->_reset()
-            ->_joinFields($from, $to);
+             ->_joinFields($from, $to);
         return $this;
     }
 
     /**
-     * Set store ids
+     * Set store ids to final result
      *
      * @param array $storeIds
      * @return Mage_Reports_Model_Resource_Accounts_Collection
      */
     public function setStoreIds($storeIds)
     {
+        if (!is_array($storeIds)) {
+            $storeIds = array($storeIds);
+        }
+
         $vals = array_values($storeIds);
         if (count($storeIds) >= 1 && $vals[0] != '') {
-            $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds));
+            $this->addAttributeToFilter('store_id', array('in' => $storeIds));
         }
 
         return $this;

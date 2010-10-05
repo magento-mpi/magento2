@@ -34,6 +34,11 @@
  */
 class Mage_Reports_Model_Resource_Tag_Customer_Collection extends Mage_Tag_Model_Resource_Customer_Collection
 {
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->_useAnalyticFunction = true;
+    }
     /**
      * Add target count
      *
@@ -75,13 +80,10 @@ class Mage_Reports_Model_Resource_Tag_Customer_Collection extends Mage_Tag_Model
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
-        switch( $attribute ) {
-            case 'taged':
-                $this->getSelect()->order($attribute . ' ' . $dir);
-                break;
-
-            default:
-                parent::setOrder($attribute, $dir);
+        if (in_array($attribute, array('taged'))) {
+            $this->getSelect()->order($attribute . ' ' . $dir);
+        } else {
+            parent::setOrder($attribute, $dir);
         }
         return $this;
     }

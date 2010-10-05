@@ -42,7 +42,8 @@ class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Hel
      */
     public function castField($field)
     {
-        return new Zend_Db_Expr('to_clob(' . $this->_getReadAdapter()->quoteIdentifier($field) . ')');
+        $expression = sprintf('to_clob(%s)', $this->_getReadAdapter()->quoteIdentifier($field));
+        return new Zend_Db_Expr($expression);
     }
 
     /**

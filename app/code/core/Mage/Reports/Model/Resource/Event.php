@@ -35,8 +35,10 @@
 class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Initialize main table and identifier field
+     * Initialize main table and identifier field.
+     * Set main entity table name and primary key field name.
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -56,11 +58,11 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
     {
         if ($types) {
             $this->_getWriteAdapter()->update($this->getMainTable(),
-                array('subject_id' => $customerId, 'subtype' => 0),
+                array('subject_id' => (int)$customerId, 'subtype' => 0),
                 array(
-                    $this->_getWriteAdapter()->quoteInto('subject_id = ?', (int)$visitorId),
-                    $this->_getWriteAdapter()->quoteInto('subtype = ?', 1),
-                    $this->_getWriteAdapter()->quoteInto('event_type_id IN(?)', $types)
+                    'subject_id = ?'      => (int)$visitorId,
+                    'subtype = ?'         => 1,
+                    'event_type_id IN(?)' => $types
                 )
             );
         }

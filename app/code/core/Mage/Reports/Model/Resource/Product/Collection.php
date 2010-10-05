@@ -34,7 +34,7 @@
  */
 class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
-    const SELECT_COUNT_SQL_TYPE_CART= 1;
+    const SELECT_COUNT_SQL_TYPE_CART           = 1;
 
     /**
      * Product entity identifier
@@ -62,7 +62,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      *
      * @var int
      */
-    protected $_selectCountSqlType       = 0;
+    protected $_selectCountSqlType               = 0;
 
     /**
      * Init main class options
@@ -236,25 +236,25 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function addOrdersCount($from = '', $to = '')
     {
+        $orderItemTableName = $this->getTable('sales/order_item');
+        $productFieldName   = sprintf('e.%s', $this->getProductEntityId());
+
         $this->getSelect()
             ->joinLeft(
-                array("order_items" => $this->getTable('sales/order_item')),
-                "order_items.product_id = e.{$this->getProductEntityId()}",
+                array('order_items' => $orderItemTableName),
+                "order_items.product_id = {$productFieldName}",
                 array())
-            ->columns(array("orders" => "COUNT(order_items2.item_id)"))
-            ->group("e.{$this->getProductEntityId()}");
+            ->columns(array('orders' => 'COUNT(order_items2.item_id)'))
+            ->group($productFieldName);
 
-        $dateFilter = array("order_items2.item_id = order_items.item_id");
+        $dateFilter = array('order_items2.item_id = order_items.item_id');
         if ($from != '' && $to != '') {
-            $from = $this->getConnection()->quote($from);
-            $to   = $this->getConnection()->quote($to);
-
-            $dateFilter[] = sprintf('order_items2.created_at BETWEEN %s AND %s', $from, $to);
+            $dateFilter[] = $this->_prepareBetweenSql('order_items2.created_at', $from, $to);
         }
 
         $this->getSelect()
             ->joinLeft(
-                array("order_items2" => $this->getTable('sales/order_item')),
+                array('order_items2' => $orderItemTableName),
                 implode(' AND ', $dateFilter),
                 array()
             );
@@ -263,7 +263,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Add ordered qtys
+     * Add ordered qty's
      *
      * @param string $from
      * @param string $to
@@ -271,36 +271,36 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function addOrderedQty($from = '', $to = '')
     {
-        $qtyOrderedTableName  = $this->getTable('sales/order_item');
+        $adapter              = $this->getConnection();
         $compositeTypeIds     = Mage::getSingleton('catalog/product_type')->getCompositeTypes();
+        $orderTableAliasName  = $adapter->quoteIdentifier('order');
+
+        $orderJoinCondition   = array(
+            sprintf('%s.entity_id = order_items.order_id', $orderTableAliasName),
+            $adapter->quoteInto("{$orderTableAliasName}.state <> ?", Mage_Sales_Model_Order::STATE_CANCELED),
+
+        );
 
         $productJoinCondition = array(
-            $this->getConnection()->quoteInto('(e.type_id NOT IN (?))', $compositeTypeIds),
-            "e.entity_id = order_items.product_id",
-            $this->getConnection()->quoteInto('e.entity_type_id = ?', $this->getProductEntityTypeId())
+            $adapter->quoteInto('(e.type_id NOT IN (?))', $compositeTypeIds),
+            'e.entity_id = order_items.product_id',
+            $adapter->quoteInto('e.entity_type_id = ?', $this->getProductEntityTypeId())
         );
 
-        $orderTableAliasName = $this->getConnection()->quoteIdentifier('order');
-        $dateFilter = array();
-        if ($from != '' && $to != '') {
-            $from = $this->getConnection()->quote($from);
-            $to   = $this->getConnection()->quote($to);
 
-            $dateFilter[] = sprintf('(%s.created_at BETWEEN %s AND %s)', $orderTableAliasName, $from, $to);
+
+        if ($from != '' && $to != '') {
+            $fieldName            = sprintf('%s.created_at', $orderTableAliasName);
+            $orderJoinCondition[] = $this->_prepareBetweenSql($fieldName, $from, $to); 
         }
 
-        $this->getSelect()->reset()->from(
-            array('order_items' => $qtyOrderedTableName),
-            array('ordered_qty' => "SUM(order_items.qty_ordered)")
-        );
-
-        $dateFilter[] = "{$orderTableAliasName}.entity_id = order_items.order_id";
-        $dateFilter[] = $this->getConnection()->quoteInto("{$orderTableAliasName}.state <> ?", Mage_Sales_Model_Order::STATE_CANCELED);
-
-         $this->getSelect()
+        $this->getSelect()->reset()
+            ->from(
+                array('order_items' => $this->getTable('sales/order_item')),
+                array('ordered_qty' => 'SUM(order_items.qty_ordered)'))
             ->joinInner(
-                array('order' => $this->getTable('sales/order')),
-                implode(' AND ', $dateFilter),
+                array($orderTableAliasName => $this->getTable('sales/order')),
+                implode(' AND ', $orderJoinCondition),
                 array())
             ->joinInner(
                 array('e' => $this->getProductEntityTableName()),
@@ -358,12 +358,10 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 array('views' => 'COUNT(t_v.event_id)', 'object_id', 'logged_at'))
             ->where('t_v.event_type_id = ?', $productViewEvent)
             ->group(array('t_v.object_Id', 't_v.logged_at'))
-            ->having('COUNT(t_v.event_id) > 0');
+            ->having('COUNT(t_v.event_id) > ?', 0);
 
         if ($from != '' && $to != '') {
-            $innerSelect
-                ->where('logged_at >= ?', $from)
-                ->where('logged_at <= ?', $to);
+            $innerSelect->where($this->_prepareBetweenSql('logged_at', $from, $to));
         }
 
         $this->getSelect()
@@ -374,9 +372,24 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             )
             ->order('views ' . self::SORT_ORDER_DESC);
 //            ->having('views > ?', 0);
-//var_dump($this->getSelect()->__toString());
-
 
         return $this;
+    }
+
+    /**
+     * Prepare between sql
+     *
+     * @param  string $fieldName Field name with table suffix ('created_at' or 'main_table.created_at')
+     * @param  string $from
+     * @param  string $to
+     * @return string Formatted sql string
+     */
+    protected function _prepareBetweenSql($fieldName, $from, $to)
+    {
+        return sprintf('(%s BETWEEN %s AND %s)',
+            $fieldName,
+            $this->getConnection()->quote($from),
+            $this->getConnection()->quote($to)
+        );
     }
 }

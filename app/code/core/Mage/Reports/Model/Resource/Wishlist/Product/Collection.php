@@ -110,12 +110,10 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
-        switch ($attribute) {
-            case 'wishlists':
-                $this->getSelect()->order($attribute . ' ' . $dir);
-                break;
-            default:
-                parent::setOrder($attribute, $dir);
+        if (in_array($attribute, array('wishlists'))) {
+            $this->getSelect()->order($attribute . ' ' . $dir);
+        } else {
+            parent::setOrder($attribute, $dir);
         }
 
         return $this;

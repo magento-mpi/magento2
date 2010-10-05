@@ -49,9 +49,9 @@ class Mage_Reports_Model_Resource_Refunded_Collection extends Mage_Sales_Model_E
             ->addExpressionAttributeToSelect('orders', 'COUNT({{total_refunded}})', array('total_refunded'));
 
         $this->getSelect()
-            ->where('base_total_refunded>0')
+            ->where('base_total_refunded > ?', 0)
             ->group('("*")')
-            ->having('orders > 0');
+            ->having('orders > ?', 0);
 
         return $this;
     }
@@ -111,7 +111,7 @@ class Mage_Reports_Model_Resource_Refunded_Collection extends Mage_Sales_Model_E
         $countSelect->reset(Zend_Db_Select::COLUMNS);
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::HAVING);
-        $countSelect->columns("count(*)");
+        $countSelect->columns('COUNT(*)');
         $sql = $countSelect->__toString();
         return $sql;
     }
