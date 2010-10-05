@@ -112,6 +112,14 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     protected $_eventObject = '';
 
     /**
+     * Use analytic function flag
+     * If true - allows to prepare final select with analytic function
+     *
+     * @var bool
+     */
+    protected $_useAnalyticFunction         = false;
+
+    /**
      * Collection constructor
      *
      * @param Mage_Core_Model_Resource_Db_Abstract $resource
@@ -494,6 +502,39 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
         return $this->getConnection()->fetchCol($idsSelect);
     }
 
+    public function getData()
+    {
+        if ($this->_data === null) {
+            $this->_renderFilters()
+                 ->_renderOrders()
+                 ->_renderLimit();
+
+            /**
+             * Prepare select for execute
+             * @var string $query
+             */
+            $query       = $this->getLoadSelect();
+            $this->_data = $this->_fetchAll($query, $this->_bindParams);
+            $this->_afterLoadData();
+        }
+        return $this->_data;
+    }
+
+    /**
+     * Prepare select for load
+     * 
+     * @return string
+     */
+    public function getLoadSelect()
+    {
+        $select = $this->getSelect();
+        if ($this->_useAnalyticFunction) {
+            $helper = Mage::getResourceHelper('core');
+            return $helper->getQueryUsingAnalyticFunction($select);
+        }
+
+        return $select->__toString();
+    }
     /**
      * Join table to collection select
      *
@@ -658,4 +699,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     {
         return Varien_Date::formatDate($date, $includeTime);
     }
+
+
+
 }

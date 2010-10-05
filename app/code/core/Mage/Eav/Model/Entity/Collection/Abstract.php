@@ -97,6 +97,14 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     protected $_joinFields                = array();
 
     /**
+     * Use analytic function flag
+     * If true - allows to prepare final select with analytic functions
+     *
+     * @var bool
+     */
+    protected $_useAnalyticFunction         = false;
+
+    /**
      * Collection constructor
      *
      * @param Mage_Core_Model_Resource_Abstract $resource
@@ -984,10 +992,15 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         $this->printLogQuery($printQuery, $logQuery);
 
         try {
-            $rows = $this->_fetchAll($this->getSelect());
+            /**
+             * Prepare select query
+             * @var string $query
+             */
+            $query = $this->getLoadSelect();
+            $rows = $this->_fetchAll($query);
         } catch (Exception $e) {
-            Mage::printException($e, $this->getSelect());
-            $this->printLogQuery(true, true, $this->getSelect());
+            Mage::printException($e, $query);
+            $this->printLogQuery(true, true, $query);
             throw $e;
         }
 
@@ -1033,7 +1046,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
 
         $selects = array();
         foreach ($tableAttributes as $table=>$attributes) {
-            $selects[] = $this->_getLoadAttributesSelect($table, $attributes);
+            $select    = $this->_getLoadAttributesSelect($table, $attributes);
+            $selects[] = $this->getLoadSelect($select);
         }
         if (!empty($selects)) {
             try {
@@ -1382,5 +1396,24 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     public function getLoadedIds()
     {
         return array_keys($this->_items);
+    }
+
+    /**
+     * Prepare select for load
+     *
+     * @param Varien_Db_Select $select OPTIONAL
+     * @return string
+     */
+    public function getLoadSelect(Varien_Db_Select $select = null)
+    {
+        if ($select === null) {
+            $select = $this->getSelect();
+        }
+        if ($this->_useAnalyticFunction) {
+            $helper = Mage::getResourceHelper('core');
+            return $helper->getQueryUsingAnalyticFunction($select);
+        }
+
+        return $select->__toString();
     }
 }

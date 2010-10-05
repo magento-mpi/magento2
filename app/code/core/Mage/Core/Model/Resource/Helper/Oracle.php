@@ -33,147 +33,299 @@
  */
 class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Abstract
 {
-
- protected $_delimiters = array(
-     '>', '<', '=<', '<=', '=', '!=', ' IN ', ' NOT IN ', ' BETWEEN ', ' NOT BETWEEN ',
-     ' BEGINS WITH ', ' CONTAINS ', ' NOT CONTAINS ', ' IS NULL ', ' IS NOT NULL ', ' LIKE ', ' NOT LIKE ');
-
     /**
      * Returns analytic expression for database column
      *
-     * @param string $columnType
-     * @return string
+     * @param string $column
+     * @param string $groupAliasName OPTIONAL
+     * @param string $orderBy OPTIONAL
+     * @return Zend_Db_Expr
      */
-    public function getAnalyticColumn($column, $group)
+    public function prepareColumn($column, $groupByCondition = null, $orderBy = null)
     {
-        return new Zend_Db_Expr($column . ' OVER ( PARTITION BY ' . implode(', ', $group) . ')');
+        // if the column already have OVER()
+        if (strpos($column, ' OVER(') !== false) {
+            return $column;
+        }
+
+        if ($groupByCondition) {
+            if (is_array($groupByCondition)) {
+                $groupByCondition = implode(', ', $groupByCondition);
+            }
+            $groupByCondition = 'PARTITION BY ' . $groupByCondition;
+        }
+
+        if ($orderBy) {
+            if (is_array($orderBy)) {
+                $orderBy = implode(', ', $orderBy);
+            }
+            $orderBy = ' ORDER BY ' . $orderBy;
+        }
+        $expression = sprintf('%s OVER(%s%s)', $column, $groupByCondition, $orderBy);
+
+        return new Zend_Db_Expr($expression);
     }
 
-//    public function isAggregatedFunction($value)
-//    {
-//        return preg_match('/(^|\s)(SUM|MIN|MAX|AVG|COUNT)\s*\(/i', )
-//    }
-
-
-    public function preapareColumnsList(Varien_Db_Select $select, $groupByCond = null)
+    /**
+     * Returns select query with analytic functions
+     *
+     * @param Varien_Db_Select $select
+     * @return string
+     */
+    public function getQueryUsingAnalyticFunction(Varien_Db_Select $select)
     {
-        if (!count($select->getPart(Zend_Db_Select::COLUMNS)) || !count($select->getPart(Zend_Db_Select::FROM))) {
-            return null;
+        $clonedSelect                = clone $select;
+        $adapter                     = $this->_getReadAdapter();
+        $wrapperTableName            = 'analytic_tbl';
+        $wrapperTableColumnName      = 'analytic_clmn';
+
+        /**
+         * Prepare where condition for wrapper select
+         */
+        $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
+        $whereCondition = array(
+            sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName)
+        );
+
+
+        $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
+        $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
+        $having           = $this->_prepareHaving($clonedSelect, true);
+        if ($having) {
+            $whereCondition[] = implode(', ', $having);
         }
-        $tables = $select->getPart(Zend_Db_Select::FROM);
-        $preaparedColumns = array();
-        $columns = $select->getPart(Zend_Db_Select::COLUMNS);
-        foreach ($select->getPart(Zend_Db_Select::COLUMNS) as $columnEntry) {
-            list($correlationName, $column, $alias) = $columnEntry;
-            if($column instanceof Zend_Db_Expr) {
-                if (!is_null($alias)) {
-                    if(!is_null($groupByCond)) {
-                        $partitionByCond = ($groupByCond == '') ? '' : "PARTITION BY " . $groupByCond;
-                        if (preg_match('/(^|[^a-zA-Z_])(SUM|MIN|MAX|AVG|COUNT)\s*\(/i', $column)) {
-                            $column = $column . " OVER ( {$partitionByCond})";
-                        }
+
+        $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
+
+        $clonedSelect->columns(array(
+            $wrapperTableColumnName => $this->prepareColumn('RANK()', $groupByCondition, 'NEWID()')
+        ));
+
+        $limitCount  = $clonedSelect->getPart(Zend_Db_Select::LIMIT_COUNT);
+        $limitOffset = $clonedSelect->getPart(Zend_Db_Select::LIMIT_OFFSET);
+        $clonedSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $clonedSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+
+        /**
+         * Assemble sql query
+         */
+        $query = sprintf('SELECT %s.* FROM (%s) %s %s',
+            $wrapperTableName,
+            $clonedSelect->assemble(),
+            $wrapperTableName,
+            implode(' AND ', $whereCondition)
+        );
+
+        if (!empty($orderCondition)) {
+            $query .= sprintf(' %s %s', Zend_Db_Select::SQL_ORDER_BY, $orderCondition);
+        }
+
+        $query = $this->_assembleLimit($query, $limitCount, $limitOffset, $columnList);
+
+        return $query;
+    }
+
+    /**
+     * Returns array of quoted orders with direction
+     *
+     * @param Varien_Db_Select $select
+     * @param bool $autoReset
+     * @return array
+     */
+    protected function _prepareOrder(Varien_Db_Select $select, $autoReset = false)
+    {
+        $selectOrders = $select->getPart(Zend_Db_Select::ORDER);
+        if (!$selectOrders) {
+            return array();
+        }
+
+        $orders = array();
+        foreach ($selectOrders as $term) {
+            if (is_array($term)) {
+                if (!is_numeric($term[0])) {
+                    if (strpos($term[0], '.') !== false) {
+//                            $size = strpos($term[0], '.');
+//                            $orderField = substr($term[0], $size + 1);
+                        $orderField = $term[0];
+                    } else {
+                        $orderField = $term[0];
                     }
-                    $preaparedColumns[strtoupper($alias)] = array(null, $column, $alias);
+                    $orders[]   = sprintf('%s %s', $this->_getReadAdapter()->quoteIdentifier($orderField, true), $term[1]);
+                }
+            } else {
+                if (!is_numeric($term)) {
+                    $orders[] = $this->_getReadAdapter()->quoteIdentifier($term, true);
+                }
+            }
+        }
+
+        if ($autoReset) {
+            $select->reset(Zend_Db_Select::ORDER);
+        }
+
+        return $orders;
+    }
+
+    /**
+     * Returns quoted group by fields
+     *
+     * @param Varien_Db_Select $select
+     * @param bool $autoReset
+     * @return array
+     */
+    protected function _prepareGroup(Varien_Db_Select $select, $autoReset = false)
+    {
+        $selectGroups = $select->getPart(Zend_Db_Select::GROUP);
+        if (!$selectGroups) {
+            return array();
+        }
+
+        $groups = array();
+        foreach ($selectGroups as $term) {
+            $groups[] = $this->_getReadAdapter()->quoteIdentifier($term, true);
+        }
+
+        if ($autoReset) {
+            $select->reset(Zend_Db_Select::GROUP);
+        }
+
+        return $groups;
+    }
+
+    /**
+     * Prepare and returns having array
+     *
+     * @param Varien_Db_Select $select
+     * @param bool $autoReset
+     * @return array
+     * @throws Exception
+     */
+    protected function _prepareHaving(Varien_Db_Select $select, $autoReset = false)
+    {
+        $selectHavings = $select->getPart(Zend_Db_Select::HAVING);
+        if (!$selectHavings) {
+            return array();
+        }
+
+        $havings = array();
+        $columns = $select->getPart(Zend_Db_Select::COLUMNS);
+        foreach ($columns as $columnEntry) {
+            $correlationName = (string)$columnEntry[1];
+            $column          = $columnEntry[2];
+            foreach ($selectHavings as $having) {
+                /**
+                 * Looking for column expression in the having clause
+                 */
+                if (strpos($having, $correlationName) !== false) {
+                    if (is_string($column)) {
+                        /**
+                         * Replace column expression to column alias in having clause
+                         */
+                        $havings[] = str_replace($correlationName, $column, $having);
+                    } else {
+                        throw new Exception(sprintf("Can't prepare expression without column alias: '%s'", $correlationName));
+                    }
+                }
+            }
+        }
+
+        if ($autoReset) {
+            $select->reset(Zend_Db_Select::HAVING);
+        }
+
+        return $havings;
+    }
+
+    /**
+     * Assemble limit to the query
+     *
+     * @param string $query
+     * @param int $limitCount
+     * @param int $limitOffset
+     * @param array $columnList
+     * @return string
+     * @throws Exception
+     */
+    protected function _assembleLimit($query, $limitCount, $limitOffset, $columnList)
+    {
+        if ($limitCount !== null) {
+              $limitCount = intval($limitCount);
+            if ($limitCount <= 0) {
+                throw new Exception("LIMIT argument count={$limitCount} is not valid");
+            }
+
+            $limitOffset = intval($limitOffset);
+            if ($limitOffset < 0) {
+                throw new Exception("LIMIT argument offset={$limitOffset} is not valid");
+            }
+
+            $query = preg_replace('/^SELECT\s+(DISTINCT\s)?/i', 'SELECT $1TOP ' . ($limitCount + $limitOffset) . ' ', $query);
+
+            if ($limitOffset + $limitCount != $limitOffset + 1) {
+                $columns = array();
+                foreach ($columnList as $columnEntry) {
+                    $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
+                }
+                $rowNumberColumn = $this->prepareColumn('ROW_NUMBER()', null, 'RAND()');
+                $query = sprintf('SELECT %s FROM (SELECT m1.*, %s AS analytic_row_number_tbl FROM (%s) m1) m2 WHERE m2.analytic_row_number_tbl >= %d',
+                    implode(', ', $columns),
+                    $rowNumberColumn,
+                    $query,
+                    $limitOffset + 1
+                );
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Prepare select column list
+     *
+     * @param Varien_Db_Select $select
+     * @param  $groupByCondition OPTIONAL
+     * @return array|mixed
+     * @throws Zend_Db_Exception
+     */
+    public function prepareColumnsList(Varien_Db_Select $select, $groupByCondition = null)
+    {
+        if (!count($select->getPart(Zend_Db_Select::FROM))) {
+            return $select->getPart(Zend_Db_Select::COLUMNS);
+        }
+
+        $columns          = $select->getPart(Zend_Db_Select::COLUMNS);
+        $tables           = $select->getPart(Zend_Db_Select::FROM);
+        $preparedColumns  = array();
+
+        foreach ($columns as $columnEntry) {
+            list($correlationName, $column, $alias) = $columnEntry;
+            if ($column instanceof Zend_Db_Expr) {
+                if ($alias !== null) {
+                    if (preg_match('/(^|[^a-zA-Z_])^(SELECT)?(SUM|MIN|MAX|AVG|COUNT)\s*\(/i', $column, $matches)) {
+                        $column = $this->prepareColumn($column, $groupByCondition);
+                    }
+                    $preparedColumns[strtoupper($alias)] = array(null, $column, $alias);
                 } else {
-                    throw new Zend_Db_Exception("Cann't preapare expresion without alias");
+                    throw new Zend_Db_Exception("Can't prepare expression without alias");
                 }
             } else {
                 if ($column == Zend_Db_Select::SQL_WILDCARD) {
-                    foreach(array_keys($this->_getReadAdapter()->describeTable($tables[$correlationName]['tableName'])) as $col) {
-                        $preaparedColumns[strtoupper($col)] = array($correlationName, $col, null);
+                    if ($tables[$correlationName]['tableName'] instanceof Zend_Db_Expr) {
+                        throw new Zend_Db_Exception("Can't prepare expression when tableName is instance of Zend_Db_Expr");
+                    }
+                    $tableColumns = $this->_getReadAdapter()->describeTable($tables[$correlationName]['tableName']);
+                    foreach(array_keys($tableColumns) as $col) {
+                        $preparedColumns[strtoupper($col)] = array($correlationName, $col, null);
                     }
                 } else {
-                    $preaparedColumns[strtoupper(!is_null($alias) ? $alias : $column)] = array(
-                        $correlationName, $column, $alias);
+                    $preparedColumns[strtoupper(!is_null($alias) ? $alias : $column)] = array($correlationName, $column, $alias);
                 }
             }
         }
+
         $select->reset(Zend_Db_Select::COLUMNS);
-        $select->setPart(Zend_Db_Select::COLUMNS, array_values($preaparedColumns));
-        return $select;
-    }    
-    /*
-     * Render Sql using Windows(Analytic) functions
-     *
-     * @param Varien_Db_Select $select
-     * @return select
-     */
-    public function getWindSql(Varien_Db_Select $select)
-    {
-        $i = 0;
-        $winSelect = clone $select;
+        $select->setPart(Zend_Db_Select::COLUMNS, array_values($preparedColumns));
 
-        echo "<pre>";
-        $orderCondition = null;
-        $groupByCondition = null;
-        $havingByCondition = null;
-
-        // redo order
-        if ($winSelect->getPart(Zend_Db_Select::ORDER)) {
-            $order = array();
-            foreach ($winSelect->getPart(Zend_Db_Select::ORDER) as $term) {
-                if (is_array($term)) {
-                    if (!is_numeric($term[0])) {
-                        $order[] = $this->quoteIdentifier($term[0], true) . ' ' . $term[1];
-                    } else {
-                        throw new Zend_Db_Exception("Cann't use field number as order field");
-                    }
-                } else {
-                    if (!is_numeric($term)) {
-                        $order[] = $this->quoteIdentifier($term, true);
-                    } else {
-                        throw new Zend_Db_Exception("Cann't use field number as order field");
-                    }
-                }
-            $orderCondition = implode(', ', $order);
-
-            }
-        }
-
-        // redo Group
-        $group = array();
-       // var_dump($winSelect->getPart(Zend_Db_Select::GROUP));
-        if ($winSelect->getPart(Zend_Db_Select::GROUP)) {
-            $group = array();
-            foreach ($winSelect->getPart(Zend_Db_Select::GROUP) as $term) {
-                $group[] = $this->quoteIdentifier($term, true);
-            }
-            $groupByCondition = implode(', ', $group);
-        }
-        $this->preapareColumnsList($winSelect, is_null($groupByCondition) ? '' : $groupByCondition);
-        // redo Having 
-//        $having = array();
-//        if ($winSelect->getPart(Zend_Db_Select::HAVING)) {
-//            foreach ($winSelect->getPart(Zend_Db_Select::HAVING) as $term) {
-//                foreach ($this->_delimiters as $delimiter) {
-//                    $tmpCond = strtoupper($term);
-//                    $result  = explode($delimiter, $tmpCond);
-//                    if (is_array($result) && count($result) > 1) {
-//                        $term   = str_replace(strtolower($result[0]), '%s ', $term);
-//                        break;
-//                    }
-//                }
-//                $having["varien_super_param_{$i}"] = $term;
-//            }
-//        }
-            $winSelect->reset(Zend_Db_Select::GROUP);
-            $winSelect->columns(array("varien_group_rank" =>
-                new Zend_Db_Expr(sprintf("RANK() OVER (%s ORDER BY rownum)",
-                    is_null($groupByCondition) ? '' : 'PARTITION BY ' . $groupByCondition ))));
-
-        // redo Order 
-        if ($orderCondition) {
-            $winSelect->reset(Zend_Db_Select::ORDER);
-            $winSelect->columns(array("varien_order_condition" =>
-                new Zend_Db_Expr(sprintf("RANK() OVER (ORDER BY %s)", $orderCondition)))
-            );
-        }
-        //ECHO var_dump($winSelect->assemble());
-        //die();
-        ECHO sprintf("SELECT varien_wind_table.* FROM (%s) varien_wind_table %s",
-            $winSelect->assemble(),
-            !empty($groupByCondition) ? "" : "WHERE varien_wind_table.varien_group_rank = 1"
-        );
-        die();
-    }    
+        return $preparedColumns;
+    }
 }
