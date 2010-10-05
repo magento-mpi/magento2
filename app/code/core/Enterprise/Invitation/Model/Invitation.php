@@ -73,6 +73,12 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     protected $_eventObject = 'invitation';
 
     /**
+     * Mapping old field names
+     * @var array
+     */
+    protected $_oldFieldsMap = array('invitation_date' => 'date');
+
+    /**
      * Intialize resource
      */
     protected function _construct()
@@ -126,7 +132,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             $this->addData(array(
                 'protection_code' => Mage::helper('core')->uniqHash(),
                 'status'          => self::STATUS_NEW,
-                'date'            => $this->getResource()->formatDate(time()),
+                'invitation_date' => $this->getResource()->formatDate(time()),
                 'store_id'        => $this->getStoreId(),
             ));
             $inviter = $this->getInviter();

@@ -42,12 +42,27 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Collection
      */
     protected function _joinFields()
     {
-        $acceptedExpr = 'SUM(IF((main_table.status = "'
-                . Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED . '" AND main_table.referral_id is not NULL), 1, 0))';
-        $canceledExpr = 'SUM(IF(main_table.status = "'
-                . Enterprise_Invitation_Model_Invitation::STATUS_CANCELED . '", 1, 0))';
+;
+        $acceptedExpr = 'SUM('
+            . $this->getConnection()->getCheckSql(
+                'main_table.status = '
+                    . $this->getConnection()->quote(Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED)
+                    . 'AND main_table.referral_id IS NOT NULL',
+                '1',
+                '0'
+            )
+            . ')';
+        $canceledExpr = 'SUM('
+            . $this->getConnection()->getCheckSql(
+                'main_table.status = '
+                    . $this->getConnection()->quote(Enterprise_Invitation_Model_Invitation::STATUS_CANCELED),
+                '1',
+                '0'
+            )
+            . ')';
 
         $this->getSelect()
+            ->reset(Zend_Db_Select::COLUMNS)
             ->columns(array('sent' => new Zend_Db_Expr('COUNT(main_table.invitation_id)')))
             ->columns(array('accepted' => new Zend_Db_Expr($acceptedExpr)))
             ->columns(array('canceled' => new Zend_Db_Expr($canceledExpr)));
@@ -97,7 +112,7 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Collection
         $select->reset(Zend_Db_Select::COLUMNS)
             ->joinRight(array('o' => $this->getTable('sales/order')),
                 'o.customer_id = main_table.referral_id AND o.store_id = main_table.store_id',
-                array('COUNT(DISTINCT main_table.invitation_id)'));
+                array('COUNT( main_table.invitation_id)'));
 
        return $this->getConnection()->fetchOne($select);
     }

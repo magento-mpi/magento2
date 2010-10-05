@@ -51,9 +51,14 @@ class Enterprise_Invitation_Model_Resource_Invitation extends Mage_Core_Model_Re
      */
     public function trackReferral($inviterId, $referralId)
     {
-        $inviterId  = (int)$inviterId;
-        $referralId = (int)$referralId;
-        $this->_getWriteAdapter()->query("REPLACE INTO {$this->getTable('enterprise_invitation/invitation_track')}
-            (inviter_id, referral_id) VALUES ({$inviterId}, {$referralId})");
+        $data = array(
+                'inviter_id'  => (int)$inviterId,
+                'referral_id' => (int)$referralId
+            );
+        $this->_getWriteAdapter()->insertOnDuplicate(
+            $this->getTable('enterprise_invitation/invitation_track'),
+            $data,
+            array_keys($data)
+        );
     }
 }

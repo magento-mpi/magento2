@@ -43,6 +43,12 @@
 class Enterprise_Invitation_Model_Invitation_History extends Mage_Core_Model_Abstract
 {
     /**
+     * Mapping old names
+     * @var array
+     */
+    protected $_oldFieldsMap = array('invitation_date' => 'date');
+
+    /**
      * Initialize model
      *
      * @return void

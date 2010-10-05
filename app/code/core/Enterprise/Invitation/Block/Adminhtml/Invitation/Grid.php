@@ -89,9 +89,9 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'renderer' => $renderer,
         ));
 
-        $this->addColumn('date', array(
+        $this->addColumn('invitation_date', array(
             'header' => Mage::helper('enterprise_invitation')->__('Sent'),
-            'index' => 'date',
+            'index' => 'invitation_date',
             'type' => 'datetime',
             'gmtoffset' => true,
             'width' => 170

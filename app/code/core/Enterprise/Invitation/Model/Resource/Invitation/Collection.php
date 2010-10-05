@@ -35,9 +35,9 @@
 class Enterprise_Invitation_Model_Resource_Invitation_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Fields mapping 
      *
-     * @var unknown
+     * @var array
      */
     protected $_map    = array('fields' => array(
         'invitee_email'    => 'c.email',
@@ -100,7 +100,11 @@ class Enterprise_Invitation_Model_Resource_Invitation_Collection extends Mage_Co
     public function addWebsiteInformation()
     {
         $this->getSelect()
-            ->joinInner(array('w' => $this->getTable('core/store')), 'main_table.store_id = w.store_id', 'w.website_id');
+            ->joinInner(
+                array('w' => $this->getTable('core/store')),
+                'main_table.store_id = w.store_id',
+                'w.website_id'
+            );
         return $this;
     }
 

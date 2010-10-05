@@ -47,15 +47,15 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
         $this->_reset();
         $this->getSelect()
             ->join(array('invitation'=>$this->getTable('enterprise_invitation/invitation')),
-                 'invitation.customer_id = e.entity_id',
-                 array(
+                'invitation.customer_id = e.entity_id',
+                array(
                     'sent' => new Zend_Db_Expr('COUNT(invitation.invitation_id)'),
-                    'accepted' => new Zend_Db_Expr('COUNT(DISTINCT invitation.referral_id) '
-                 )
-           ))->group('e.entity_id');
+                    'accepted' => new Zend_Db_Expr('COUNT(invitation.referral_id) ')
+                )
+            )->group('e.entity_id');
 
         $this->_joinFields['invitation_store_id'] = array('table'=>'invitation', 'field' => 'store_id');
-        $this->_joinFields['invitation_date'] = array('table'=>'invitation', 'field' => 'date');
+        $this->_joinFields['invitation_date'] = array('table'=>'invitation', 'field' => 'invitation_date');
 
         // Filter by date range
         $this->addFieldToFilter('invitation_date', array('from' => $from, 'to' => $to, 'time'=>true));
@@ -68,6 +68,12 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
         $this->joinField('group_name', 'customer/customer_group', 'customer_group_code', 'customer_group_id=group_id');
 
         $this->orderByCustomerRegistration();
+
+        /**
+         * Allow analytic columns usage
+         */
+        $this->_useAnalyticFunction = true;
+
         return $this;
     }
 
