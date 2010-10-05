@@ -453,7 +453,7 @@ Product.Config.prototype = {
             }
         }
 
-        optionsPrice.changePrice('config', price, oldPrice);
+        optionsPrice.changePrice('config', {'price': price, 'oldPrice': oldPrice});
         optionsPrice.reload();
 
         return price;
@@ -568,24 +568,27 @@ Product.OptionsPrice.prototype = {
         this.containers[4] = 'old-price-' + this.productId;
     },
 
-    changePrice: function(key, price, oldPrice) {
-        this.optionPrices[key] = new Array (parseFloat(price), parseFloat(oldPrice));
+    changePrice: function(key, price) {
+        this.optionPrices[key] = price;
     },
 
     getOptionPrices: function() {
         var price = 0;
-        var oldPrice = 0;
         var nonTaxable = 0;
+        var oldPrice = 0;
         $H(this.optionPrices).each(function(pair) {
-            if (pair.key == 'nontaxable') {
-                nonTaxable = pair.value[0];
+            if ('undefined' != typeof(pair.value.price) && 'undefined' != typeof(pair.value.oldPrice)) {
+                price += parseFloat(pair.value.price);
+                oldPrice += parseFloat(pair.value.oldPrice);
+            } else if (pair.key == 'nontaxable') {
+                nonTaxable = pair.value;
             } else {
-                price += pair.value[0];
+                price += parseFloat(pair.value);
+                oldPrice += parseFloat(pair.value);
             }
-            oldPrice = pair.value[1];
         });
-        var r = new Array(price, nonTaxable, oldPrice);
-        return r;
+        var result = [price, nonTaxable, oldPrice];
+        return result;
     },
 
     reload: function() {
@@ -611,7 +614,7 @@ Product.OptionsPrice.prototype = {
                 }
 
                 var price = 0;
-                if (pair.value == 'old-price-'+this.productId) {
+                if (pair.value == 'old-price-'+this.productId && optionOldPrice !== undefined) {
                     price = optionOldPrice+parseFloat(_productPrice);
                 } else {
                     price = optionPrices+parseFloat(_productPrice);
