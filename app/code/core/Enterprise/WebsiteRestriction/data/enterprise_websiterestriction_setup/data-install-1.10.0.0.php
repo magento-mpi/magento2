@@ -27,7 +27,7 @@
 $cmsPages = array(
     array(
         'title' => '503 Service Unavailable',
-        'identifier' => 'service-unavialable',
+        'identifier' => 'service-unavailable',
         'content' => '<div class="page-title"><h1>We\'re Offline...</h1></div>
 <p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>',
         'is_active' => '1',
