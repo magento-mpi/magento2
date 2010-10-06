@@ -361,7 +361,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
                 $this->getSelect()->order($entityField . ' ' . $dir);
             } else {
                 $this->_addAttributeJoin($attribute, 'left');
-                if (isset($this->_joinAttributes[$attribute])) {
+                if (isset($this->_joinAttributes[$attribute])||isset($this->_joinFields[$attribute])) {
                     $this->getSelect()->order($attribute . ' ' . $dir);
                 } else {
                     $this->getSelect()->order($this->_getAttributeTableAlias($attribute) . '.value ' . $dir);
@@ -1283,7 +1283,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     protected function _getAttributeConditionSql($attribute, $condition, $joinType = 'inner')
     {
         if (isset($this->_joinFields[$attribute])) {
-            
+
             return $this->_getConditionSql($this->_getAttributeFieldName($attribute), $condition);
         }
         if (isset($this->_staticFields[$attribute])) {
@@ -1306,9 +1306,9 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
                 $field = $this->_joinAttributes[$attribute]['condition_alias'];
             } else {
                 $field = $this->_getAttributeTableAlias($attribute) . '.value';
-            
+
             }
-        
+
             $conditionSql = $this->_getConditionSql($field, $condition);
         }
 
