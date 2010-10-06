@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Dashboard_Searches_Top extends Mage_Adminhtml_Block_D
         $this->addColumn('search_query', array(
             'header'    => $this->__('Search Term'),
             'sortable'  => false,
-            'index'     => 'query_text',
+            'index'     => 'name',
             'renderer'  => 'adminhtml/dashboard_searches_renderer_searchquery',
         ));
 
