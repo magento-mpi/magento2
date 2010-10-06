@@ -36,18 +36,6 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
 {
 
     /**
-     * Returns expresion for datetime unification
-     *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function convertDatetime($field)
-    {
-        $field = $this->_getReadAdapter()->quoteIdentifier($field);
-        return new Zend_Db_Expr('CONVERT ( VARCHAR(20), ' . $field . ', 120 )');
-    }
-
-    /**
      * Join information for usin full text search
      *
      * @param  Varien_Db_Select $select

@@ -36,17 +36,6 @@ class Mage_CatalogSearch_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Res
 {
 
     /**
-     * Returns expresion for datetime unification
-     *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function convertDatetime($field)
-    {
-        return $this->castField($field);
-    }
-
-    /**
      * Join information for usin full text search
      *
      * @param  Varien_Db_Select $select

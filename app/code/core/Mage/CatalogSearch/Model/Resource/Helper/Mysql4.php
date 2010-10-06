@@ -34,16 +34,6 @@
  */
 class Mage_CatalogSearch_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Resource_Helper_Mysql4
 {
-    /**
-     * Returns expresion for datetime unification
-     *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function convertDatetime($field)
-    {
-        return $field;
-    }
 
     /**
      * Join information for usin full text search
