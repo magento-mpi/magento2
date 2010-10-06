@@ -504,7 +504,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->from(array('pw' => $this->_productWebsiteTable), array())
             ->joinInner(array('g' => $this->_groupTable), 'g.website_id = pw.website_id', array())
             ->joinInner(array('s' => $this->_storeTable), 's.group_id = g.group_id', array())
-            ->joinLeft(array('i'  => $this->getMainTable()), 'i.product_id = pw.product_id', array())
+            ->joinLeft(array('i'  => $this->getMainTable()), 'i.product_id = pw.product_id AND i.category_id = g.root_category_id', array())
             ->joinLeft(
                 array('dv' => $visibilityInfo['table']),
                 "dv.entity_id = pw.product_id AND dv.attribute_id = {$visibilityInfo['id']} AND dv.store_id = 0",
