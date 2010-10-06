@@ -35,7 +35,7 @@
 class Enterprise_CatalogPermissions_Model_Resource_Permission extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Intialize resource
+     * Initialize resource
      *
      */
     protected function _construct()

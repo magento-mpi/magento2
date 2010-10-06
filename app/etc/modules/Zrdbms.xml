@@ -247,7 +247,7 @@
             <active>true</active>
         </Enterprise_CatalogEvent>
         <Enterprise_CatalogPermissions>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_CatalogPermissions>
         <Enterprise_Checkout>
             <active>true</active>
