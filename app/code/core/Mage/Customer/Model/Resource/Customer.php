@@ -245,16 +245,15 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
-            ->from($this->getTable('customer/entity'), array('email', array('cnt' => 'COUNT(*)')))
+            ->from($this->getTable('customer/entity'), array('email', 'cnt' => 'COUNT(*)'))
             ->group('email')
             ->order('cnt DESC')
             ->limit(1);
-
         $lookup = $adapter->fetchRow($select);
         if (empty($lookup)) {
             return false;
         }
-        return $lookup['qty'] > 1;
+        return $lookup['cnt'] > 1;
     }
 
     /**
