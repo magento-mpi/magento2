@@ -227,7 +227,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      *
      * @return null|Mage_Core_Model_Message_Collection
      */
-    protected function _getItemAdditionalMessages($itemKey, $clear = false)
+    public function getItemAdditionalMessages($itemKey, $clear = false)
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
@@ -251,7 +251,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      *
      * @return Mage_Checkout_Model_Session
      */
-    protected function _addItemAdditionalMessage($itemKey, $message)
+    public function addItemAdditionalMessage($itemKey, $message)
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
@@ -270,7 +270,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function getQuoteItemMessages($itemId, $clear = false)
     {
-        return $this->_getItemAdditionalMessages('quote_item' . $itemId, $clear);
+        return $this->getItemAdditionalMessages('quote_item' . $itemId, $clear);
     }
 
     /**
@@ -283,7 +283,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     function addQuoteItemMessage($itemId, $message)
     {
-        return $this->_addItemAdditionalMessage('quote_item' . $itemId, $message);
+        return $this->addItemAdditionalMessage('quote_item' . $itemId, $message);
     }
 
     public function clear()
