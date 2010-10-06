@@ -36,6 +36,16 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     implements Enterprise_Staging_Model_Resource_Adapter_Interface
 {
     /**
+     * Replace direction for mapping table name
+     */
+    const REPLACE_DIRECTION_TO      = true;
+
+    /**
+     * Replace direction for mapping table name 
+     */
+    const REPLACE_DIRECTION_FROM    = false;
+
+    /**
      * Staging instance
      *
      * @var object Enterprise_Staging_Model_Staging
@@ -78,6 +88,18 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         'sales/order_entity'        => 'sales',
         'customer/entity'           => 'customer',
         'customer/address_entity'   => 'customer',
+    );
+
+    /**
+     * Table names replaces map
+     *
+     * @var mixed
+     */
+    protected $_tableNameMap = array(
+        'catalog'   => 'ctl',
+        'category'  => 'ctg',
+        'entity'    => 'ntt',
+        'product'   => 'prd'
     );
 
     /**
@@ -798,8 +820,30 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         if ($internalPrefix) {
             $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')
                 ->getTablePrefix($this->getStaging(), $internalPrefix);
-            return $tablePrefix . $table;
+            $table = $tablePrefix . str_replace(Mage::getConfig()->getTablePrefix(), '', $table);
+            return $this->_mapTableName($table);
         }
         return $table;
     }
+
+    /**
+     * Maping table name
+     *
+     * @param string $tableName
+     * @param bool $direction
+     * @return string
+     */
+    protected function _mapTableName($tableName, $direction = self::REPLACE_DIRECTION_TO)
+    {
+        foreach ($this->_tableNameMap as $from => $to) {
+            if ($direction == self::REPLACE_DIRECTION_TO) {
+                $tableName = str_replace($from, $to, $tableName);
+            } else {
+                $tableName = str_replace($to, $from, $tableName);
+            }
+        }
+
+        return $tableName;
+    }
+
 }
