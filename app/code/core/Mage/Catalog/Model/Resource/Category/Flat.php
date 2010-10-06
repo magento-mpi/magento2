@@ -35,44 +35,44 @@
 class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Store id
      *
-     * @var unknown
+     * @var int
      */
     protected $_storeId                  = null;
 
     /**
-     * Enter description here ...
+     * Loaded
      *
-     * @var unknown
+     * @var boolean
      */
     protected $_loaded                   = false;
 
     /**
-     * Enter description here ...
+     * Nodes
      *
-     * @var unknown
+     * @var array
      */
     protected $_nodes                    = array();
 
     /**
-     * Enter description here ...
+     * Columns
      *
-     * @var unknown
+     * @var array
      */
     protected $_columns                  = null;
 
     /**
-     * Enter description here ...
+     * Columns sql
      *
-     * @var unknown
+     * @var array
      */
     protected $_columnsSql               = null;
 
     /**
-     * Enter description here ...
+     * Attribute codes
      *
-     * @var unknown
+     * @var array
      */
     protected $_attributeCodes           = null;
 
@@ -84,9 +84,9 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     protected $_inactiveCategoryIds      = null;
 
     /**
-     * Enter description here ...
+     * Is rebuild
      *
-     * @var unknown
+     * @var boolean
      */
     protected $_isRebuilt                = null;
 
@@ -552,10 +552,10 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         }
 
         // Adding indexes
-        $table->addIndex('IDX_ENTITY', array('entity_id'), array('type' => 'primary'));
-        $table->addIndex('IDX_STORE',  array('store_id'),  array('type' => 'index'));
-        $table->addIndex('IDX_PATH',   array('path'),      array('type' => 'index'));
-        $table->addIndex('IDX_LEVEL',  array('level'),     array('type' => 'index'));
+        $table->addIndex('IDX_ENTITY_' . strtoupper($tableName), array('entity_id'), array('type' => 'primary'));
+        $table->addIndex('IDX_STORE_'  . strtoupper($tableName),  array('store_id'),  array('type' => 'index'));
+        $table->addIndex('IDX_PATH_'   . strtoupper($tableName),   array('path'),      array('type' => 'index'));
+        $table->addIndex('IDX_LEVEL_'  . strtoupper($tableName),  array('level'),     array('type' => 'index'));
 
         // Adding foreign keys
         $table->addForeignKey(
