@@ -342,9 +342,9 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     /**
      * Send mail to recipient
      *
-     * @param   string      $email		  E-mail
-     * @param   string|null $name         receiver name
-     * @param   array       $variables    template variables
+     * @param   array|string       $email        E-mail(s)
+     * @param   array|string|null  $name         receiver name(s)
+     * @param   array              $variables    template variables
      * @return  boolean
      **/
     public function send($email, $name = null, array $variables = array())
@@ -354,12 +354,17 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             return false;
         }
 
-        if (is_null($name)) {
-            $name = substr($email, 0, strpos($email, '@'));
+        $emails = array_values((array)$email);
+        $names = is_array($name) ? $name : (array)$name;
+        $names = array_values($names);
+        foreach ($emails as $key => $email) {
+            if (!isset($names[$key])) {
+                $names[$key] = substr($email, 0, strpos($email, '@'));
+            }
         }
 
-        $variables['email'] = $email;
-        $variables['name'] = $name;
+        $variables['email'] = reset($emails);
+        $variables['name'] = reset($names);
 
         ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
         ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
@@ -384,12 +389,8 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             Zend_Mail::setDefaultTransport($mailTransport);
         }
 
-        if (is_array($email)) {
-            foreach ($email as $emailOne) {
-                $mail->addTo($emailOne, $name);
-            }
-        } else {
-            $mail->addTo($email, '=?utf-8?B?'.base64_encode($name).'?=');
+        foreach ($emails as $key => $email) {
+            $mail->addTo($email, '=?utf-8?B?' . base64_encode($names[$key]) . '?=');
         }
 
         $this->setUseAbsoluteLinks(true);
@@ -401,7 +402,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             $mail->setBodyHTML($text);
         }
 
-        $mail->setSubject('=?utf-8?B?'.base64_encode($this->getProcessedTemplateSubject($variables)).'?=');
+        $mail->setSubject('=?utf-8?B?' . base64_encode($this->getProcessedTemplateSubject($variables)) . '?=');
         $mail->setFrom($this->getSenderEmail(), $this->getSenderName());
 
         try {
