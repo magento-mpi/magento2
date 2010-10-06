@@ -130,7 +130,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
                 }
 
                 if ($attribute->getBackendType() == 'static') {
-                    $param = $attribute->getAttributeCode().'_search_query';
+                    $param = Varien_Db_Helper::shortName($attribute->getAttributeCode().'_search_query');
                     $selects[] = $this->getConnection()->select()
                         ->from($table, 'entity_id')
                         ->where($attribute->getAttributeCode().' LIKE :'.$param);
@@ -143,7 +143,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
 
         $ifValueId = $this->getConnection()->getCheckSql('t2.value_id>0', 't2.value', 't1.value');
         foreach ($tables as $table => $attributeIds) {
-            $param = $table.'_search_query';
+            $param = Varien_Db_Helper::shortName($table.'_search_query');
             $selects[] = $this->getConnection()->select()
                 ->from(array('t1' => $table), 'entity_id')
                 ->joinLeft(
@@ -160,6 +160,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         if ($sql = $this->_getSearchInOptionSql($query)) {
             $selects[] = "SELECT * FROM ({$sql}) AS inoptionsql"; // inheritant unions may be inside
         }
+
         $sql = $this->getConnection()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
         return $sql;
     }
@@ -197,18 +198,25 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         /**
          * Select option Ids
          */
+        $ifStoreId = $this->getConnection()->getCheckSql('s.store_id IS NULL', 'd.store_id', 's.store_id');
+        $ifValue   = $this->getConnection()->getCheckSql('s.value_id > 0', 's.value', 'd.value');
         $select = $this->getConnection()->select()
-            ->from(array('default'=>$optionValueTable), array('option_id','option.attribute_id', 'store_id'=>'IFNULL(store.store_id, default.store_id)', 'a.frontend_input'))
-            ->joinLeft(array('store'=>$optionValueTable),
-                $this->getConnection()->quoteInto('store.option_id=default.option_id AND store.store_id=?', $storeId),
+            ->from(array('d'=>$optionValueTable),
+                   array('option_id',
+                         'o.attribute_id',
+                         'store_id' => $ifStoreId,
+                         'a.frontend_input'))
+            ->joinLeft(array('s'=>$optionValueTable),
+                $this->getConnection()->quoteInto('s.option_id = d.option_id AND s.store_id=?', $storeId),
                 array())
-            ->join(array('option'=>$optionTable),
-                'option.option_id=default.option_id',
+            ->join(array('o'=>$optionTable),
+                'o.option_id=d.option_id',
                 array())
-            ->join(array('a' => $attributesTable), 'option.attribute_id=a.attribute_id', array())
-            ->where('default.store_id=0')
-            ->where('option.attribute_id IN (?)', $attributeIds)
-            ->where('IF(store.value_id>0, store.value, default.value) LIKE :search_query');
+            ->join(array('a' => $attributesTable), 'o.attribute_id=a.attribute_id', array())
+            ->where('d.store_id=0')
+            ->where('o.attribute_id IN (?)', $attributeIds)
+            ->where($ifValue . ' LIKE :search_query');
+
         $options = $this->getConnection()->fetchAll($select, array('search_query'=>$this->_searchQuery));
         if (empty($options)) {
             return false;
