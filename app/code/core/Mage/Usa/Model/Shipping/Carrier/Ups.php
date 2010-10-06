@@ -138,6 +138,11 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $destCountry = self::PUERTORICO_COUNTRY_ID;
         }
 
+        // For UPS, Guam state of the USA will be represented by Guam country
+        if ($destCountry == self::USA_COUNTRY_ID && $request->getDestRegionCode() == self::GUAM_REGION_CODE) {
+            $destCountry = self::GUAM_COUNTRY_ID;
+        }
+
         $r->setDestCountry(Mage::getModel('directory/country')->load($destCountry)->getIso2Code());
 
         $r->setDestRegionCode($request->getDestRegionCode());
