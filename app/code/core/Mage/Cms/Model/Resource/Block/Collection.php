@@ -35,6 +35,15 @@
 class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
+     * Mapping for fields with correlation names
+     *
+     * @var array
+     */
+    protected $_map = array('fields' => array(
+        'store' => 'store_table.store_id',
+    ));
+
+    /**
      * Define resource model
      *
      */
@@ -54,7 +63,7 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Add Filter by store
+     * Add filter by store
      *
      * @param int|Mage_Core_Model_Store $store
      * @param bool $withAdmin
@@ -74,13 +83,7 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
             $store[] = Mage_Core_Model_App::ADMIN_STORE_ID;
         }
 
-        $this->getSelect()->join(
-            array('store_table' => $this->getTable('cms/block_store')),
-            'main_table.block_id = store_table.block_id',
-            array()
-        )
-        ->where('store_table.store_id in (?)', $store)
-        ->group('main_table.block_id');
+        $this->addFilter('store', array('in' => $store), 'public');
 
         return $this;
     }
@@ -99,4 +102,20 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
 
         return $countSelect;
     }
+
+    /**
+     * Join store relation table if there is store filter
+     */
+    protected function _renderFiltersBefore()
+    {
+        if ($this->getFilter('store')) {
+            $this->getSelect()->join(
+                array('store_table' => $this->getTable('cms/block_store')),
+                'main_table.block_id = store_table.block_id',
+                array()
+            )->group('main_table.block_id');
+        }
+        return parent::_renderFiltersBefore();
+    }
+
 }

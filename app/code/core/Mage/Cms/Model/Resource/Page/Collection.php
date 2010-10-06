@@ -35,11 +35,22 @@
 class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
+     * Mapping for fields with correlation names
+     *
+     * @var array
+     */
+    protected $_map = array('fields' => array(
+        'store' => 'store_table.store_id',
+    ));
+
+
+    /**
      * Load data for preview flag
      *
      * @var bool
      */
     protected $_previewFlag;
+
 
     /**
      * Define resource model
@@ -141,7 +152,7 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Add Filter by store
+     * Add filter by store
      *
      * @param int|Mage_Core_Model_Store $store
      * @param bool $withAdmin
@@ -162,19 +173,26 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
                 $store[] = Mage_Core_Model_App::ADMIN_STORE_ID;
             }
 
+            $this->addFilter('store', array('in' => $store), 'public');
+        }    
+        return $this;
+    }
+
+    /**
+     * Join store relation table if there is store filter
+     */
+    protected function _renderFiltersBefore()
+    {
+        if ($this->getFilter('store')) {
             $this->getSelect()->join(
                 array('store_table' => $this->getTable('cms/page_store')),
                 'main_table.page_id = store_table.page_id',
                 array()
-            )
-            ->where('store_table.store_id in (?)', $store)
-            ->group('main_table.page_id');
-
-            $this->setFlag('store_filter_added', true);
+            )->group('main_table.page_id');
         }
-
-        return $this;
+        return parent::_renderFiltersBefore();
     }
+
 
     /**
      * Get SQL for get record count.
