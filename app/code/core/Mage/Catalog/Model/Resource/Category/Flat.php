@@ -553,9 +553,9 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
 
         // Adding indexes
         $table->addIndex('IDX_ENTITY_' . strtoupper($tableName), array('entity_id'), array('type' => 'primary'));
-        $table->addIndex('IDX_STORE_'  . strtoupper($tableName),  array('store_id'),  array('type' => 'index'));
-        $table->addIndex('IDX_PATH_'   . strtoupper($tableName),   array('path'),      array('type' => 'index'));
-        $table->addIndex('IDX_LEVEL_'  . strtoupper($tableName),  array('level'),     array('type' => 'index'));
+        $table->addIndex('IDX_STORE_'  . strtoupper($tableName), array('store_id'),  array('type' => 'index'));
+        $table->addIndex('IDX_PATH_'   . strtoupper($tableName), array('path'),      array('type' => 'index'));
+        $table->addIndex('IDX_LEVEL_'  . strtoupper($tableName), array('level'),     array('type' => 'index'));
 
         // Adding foreign keys
         $table->addForeignKey(
