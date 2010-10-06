@@ -752,7 +752,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     $columns[] = $columnData['NAME'];
                 }
                 $this->addIndex($this->quoteIdentifier($table->getName()),
-                    $indexData['INDEX_NAME'],                    $columns,                    $indexData['TYPE']);            }
+                    $indexData['INDEX_NAME'],
+                    $columns,
+                    $indexData['TYPE']);
+           }
         }
     }
 
@@ -768,8 +771,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         if (!empty($foreignKeys)) {
             foreach ($foreignKeys as $fkData) {
-
                 if (in_array($fkData['ON_DELETE'], $fkActions)) {
+                    
                     $this->_addForeignKeyDeleteAction($table->getName(), $fkData['COLUMN_NAME'],
                         $fkData['REF_TABLE_NAME'], $fkData['REF_COLUMN_NAME'], $fkData['ON_DELETE']);
                 }
@@ -1153,7 +1156,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             );
             $this->raw_query($query);
         }
-        $constraintName = strtoupper('PF__' . substr($tableName, 0, 12) . '_' . substr($columnName, 0, 12));
+        $constraintName = strtoupper('PF__' . $tableName . '_' . $columnName);
         $query = sprintf("ALTER TABLE %s ADD CONSTRAINT %s DEFAULT ('%s') FOR %s",
             $tableName, $constraintName, $defaultValue, $columnName);
         $this->raw_query($query);
@@ -1456,7 +1459,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $indexList = $this->getIndexList($tableName, $schemaName);
         $keyName = strtoupper($keyName);
-
         if (!isset($indexList[$keyName])) {
             return $this;
         }
@@ -1669,21 +1671,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (!isset($foreignKeys[strtoupper($fkName)])) {
             return $this;
         }
-
         $fkActions = array (Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
-        // drop cascade triggers
-        $columnName = "";
+
         foreach ($foreignKeys as $foreignKey) {
             if ($fkName == $foreignKey['FK_NAME']) {
-
-                if (in_array($foreignKey['ON_UPDATE'], $fkActions)) {
-                     $this->raw_fetchRow(sprintf(" DROP TRIGGER %s",
-                     $this->quoteIdentifier($this->_getTriggerName($tableName))));
-                }
-                if (in_array($foreignKey['ON_DELETE'], $fkActions)) {
-                     $this->raw_fetchRow(sprintf(" DROP TRIGGER %s",
-                     $this->quoteIdentifier($this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL))));
-                }
+                $query  = sprintf("IF  EXISTS (SELECT * FROM sys.triggers "
+                    . "WHERE object_id = OBJECT_ID(N'%s'))\n"
+                    . " DROP TRIGGER [%s]", 
+                    $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL),
+                    $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL)
+                    );
+                    $this->query($query);
             }
         }
 
@@ -3308,7 +3306,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _getTriggerName($tableName, $triggerType = self::TRIGGER_CASCADE_UPD)
     {
-        return strtoupper(sprintf("TRIGGER_%s_%s",$triggerType, $tableName));
+        return strtoupper(sprintf("TRIGGER_%s_%s", $triggerType, $tableName));
     }
 
     /**
