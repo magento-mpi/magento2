@@ -204,6 +204,8 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      * Returned: array(itemKey => messageCollection, ...)
      * where itemKey is a unique hash (e.g 'quote_item17') to distinguish item messages among message collections
      *
+     * @param bool $clear
+     *
      * @return array
      */
     public function getAdditionalMessages($clear = false)
@@ -265,6 +267,8 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
     /**
      * Retrieves list of quote item messages
+     * @param int $itemId
+     * @param bool $clear
      *
      * @return null|Mage_Core_Model_Message_Collection
      */
