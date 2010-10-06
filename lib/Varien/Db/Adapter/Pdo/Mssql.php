@@ -3030,7 +3030,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         if ($auto === false || $this->_autoQuoteIdentifiers === true) {
             $upperValue = strtoupper($value);
-            if (in_array($upperValue, $this->_reservedWords)) {
+            if (in_array($upperValue, $this->_reservedWords) || (int)$upperValue[0] > 0 || $upperValue[0] === "0") {
                 $value = sprintf('[%s]', $value);
             }
         }
