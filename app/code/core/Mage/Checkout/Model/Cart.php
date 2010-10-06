@@ -318,7 +318,6 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     public function suggestItemsQty($data)
     {
-        $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
             if (!isset($itemInfo['qty'])) {
                 continue;
@@ -344,25 +343,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 continue;
             }
 
-            $newQty = $stockItem->suggestQty($qty);
-            if ($newQty != $qty) {
-                $qtyRecalculatedFlag = true;
-
-                $quoteItem->addOption(array(
-                    'code'  => 'additional_messages',
-                    'value' => serialize(array(
-                        Mage::helper('checkout')->__('Quantity was recalculated from %d to %d', $qty, $newQty)
-                    ))
-                ));
-            }
-
+            $data[$itemId]['before_suggest_qty'] = $qty;
             $data[$itemId]['qty'] = $stockItem->suggestQty($qty);
-        }
-
-        if ($qtyRecalculatedFlag) {
-            $this->getCheckoutSession()->addNotice(
-                Mage::helper('checkout')->__('Some products quantities were recalculated because of quantity increment mismatch')
-            );
         }
 
         return $data;
@@ -378,6 +360,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         Mage::dispatchEvent('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
 
+        /* @var $messageFactory Mage_Core_Model_Message */
+        $messageFactory = Mage::getSingleton('core/message');
+        $session = $this->getCheckoutSession();
+        $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
             $item = $this->getQuote()->getItemById($itemId);
             if (!$item) {
@@ -392,7 +378,19 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             $qty = isset($itemInfo['qty']) ? (float) $itemInfo['qty'] : false;
             if ($qty > 0) {
                 $item->setQty($qty);
+
+                if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
+                    $qtyRecalculatedFlag = true;
+                    $message = $messageFactory->notice(Mage::helper('checkout')->__('Quantity was recalculated from %d to %d', $itemInfo['before_suggest_qty'], $qty));
+                    $session->addQuoteItemMessage($item->getId(), $message);
+                }
             }
+        }
+
+        if ($qtyRecalculatedFlag) {
+            $session->addNotice(
+                Mage::helper('checkout')->__('Some products quantities were recalculated because of quantity increment mismatch')
+            );
         }
 
         Mage::dispatchEvent('checkout_cart_update_items_after', array('cart'=>$this, 'info'=>$data));

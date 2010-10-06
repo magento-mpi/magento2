@@ -33,6 +33,8 @@
  */
 class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
 {
+    /** @var Mage_Checkout_Model_Session */
+    protected $_checkout;
     protected $_item;
     protected $_productUrl = null;
     protected $_productThumbnail = null;
@@ -248,6 +250,19 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     }
 
     /**
+     * Get checkout session
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    public function getCheckout()
+    {
+        if (null === $this->_checkout) {
+            $this->_checkout = Mage::getSingleton('checkout/session');
+        }
+        return $this->_checkout;
+    }
+
+    /**
      * Retrieve item messages
      * Return array with keys
      *
@@ -261,21 +276,31 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
         $messages = array();
         $quoteItem = $this->getItem();
 
+        // Add basic messages occuring during this page load
         $baseMessages = $quoteItem->getMessage(false);
-        $additionalOption = $quoteItem->getOptionByCode('additional_messages');
-        if (!is_null($additionalOption)) {
-            $additionalMessages = unserialize($additionalOption->getValue());
-            $quoteItem->removeOption('additional_messages');
-            $additionalOption->delete();
-            $baseMessages = array_merge($baseMessages, $additionalMessages);
-        }
-
         if ($baseMessages) {
             foreach ($baseMessages as $message) {
                 $messages[] = array(
                     'text' => $message,
                     'type' => $quoteItem->getHasError() ? 'error' : 'notice'
                 );
+            }
+        }
+
+        // Add messages saved previously in checkout session
+        $checkout = $this->getCheckout();
+        if ($checkout) {
+            /* @var $collection Mage_Core_Model_Message_Collection */
+            $collection = $checkout->getQuoteItemMessages($quoteItem->getId(), true);
+            if ($collection) {
+                $additionalMessages = $collection->getItems();
+                foreach ($additionalMessages as $message) {
+                    /* @var $message Mage_Core_Model_Message_Abstract */
+                    $messages[] = array(
+                        'text' => $message->getCode(),
+                        'type' => ($message->getType() == Mage_Core_Model_Message::ERROR) ? 'error' : 'notice'
+                    );
+                }
             }
         }
 
