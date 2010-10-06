@@ -92,6 +92,33 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         return $orders;
     }
 
+
+    /**
+     * Truncate alias name from field.
+     *
+     * Result string depends from second optional argument $reverse
+     * which can be true if you need the first part of the field.
+     * Field can be with 'dot' delimiter.
+     *
+     * @param string $field
+     * @param bool   $reverse OPTIONAL
+     * @return string
+     */
+    protected function _truncateAliasName($field, $reverse = false)
+    {
+        $string = $field;
+        if (!is_numeric($field) && (strpos($field, '.') !== false)) {
+            $size  = strpos($field, '.');
+            if ($reverse) {
+                $string = substr($field, 0, $size);
+            } else {
+                $string = substr($field, $size + 1);
+            }
+        }
+
+        return $string;
+    }
+
     /**
      * Returns quoted group by fields
      *
