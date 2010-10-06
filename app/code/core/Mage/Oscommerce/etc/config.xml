@@ -114,9 +114,9 @@
         </events>
         <layout>
             <updates>
-                <tag>
+                <oscommerce>
                     <file>oscommerce.xml</file>
-                </tag>
+                </oscommerce>
             </updates>
         </layout>
     </adminhtml>
