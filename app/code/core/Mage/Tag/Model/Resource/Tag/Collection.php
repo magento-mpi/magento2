@@ -231,7 +231,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
         $tagsStores = array();
         if (sizeof($tagIds)>0) {
             $select = $this->getConnection()->select()
-                ->from($this->getTable('summary'), array('store_id', 'tag_id'))
+                ->from($this->getTable('tag/summary'), array('store_id', 'tag_id'))
                 ->where('tag_id IN(?)', $tagIds);
             $tagsRaw = $this->getConnection()->fetchAll($select);
 
@@ -303,7 +303,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
         if (!$this->getFlag('store_filter')) {
 
             $this->getSelect()->joinLeft(
-                array('summary_store'=>$this->getTable('summary')),
+                array('summary_store'=>$this->getTable('tag/summary')),
                 'main_table.tag_id = summary_store.tag_id'
             );
 

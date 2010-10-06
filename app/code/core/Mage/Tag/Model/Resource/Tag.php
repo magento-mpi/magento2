@@ -323,9 +323,9 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
 
         // remove old and insert new data
         $this->_getWriteAdapter()->delete(
-            $this->getTable('summary'), array('tag_id = ?' => $tagId)
+            $this->getTable('tag/summary'), array('tag_id = ?' => $tagId)
         );
-        $this->_getWriteAdapter()->insertMultiple($this->getTable('summary'), $finalSummary);
+        $this->_getWriteAdapter()->insertMultiple($this->getTable('tag/summary'), $finalSummary);
 
         return $object;
     }
@@ -342,7 +342,7 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
         $whereCond    = array('tag_id IN (?)' => $tagsId);
 
         return $writeAdapter->update(
-            $this->getTable('summary'),
+            $this->getTable('tag/summary'),
             array('products' => new Zend_Db_Expr('products - 1')),
             $whereCond
         );
