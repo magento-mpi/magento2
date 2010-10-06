@@ -158,7 +158,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
         }
 
         if ($id !== false) {
-            $condition = $adapter->quoteInto($adapter->quoteIdentifier($id) . '=?', $id);
+            $condition = $adapter->quoteInto($adapter->quoteIdentifier($object->getIdFieldName()) . '=?', $id);
             $adapter->update($this->getMainTable(), $bind, $condition);
         } else {
             $adapter->insert($this->getMainTable(), $bind);
