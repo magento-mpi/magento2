@@ -55,12 +55,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     const TRIGGER_CASCADE_UPD       = 'on_update';
     const TRIGGER_CASCADE_DEL       = 'on_delete';
 
-    const EXTPROP_COMMENT_TABLE     = 'TABLE_COMMENT';
+    const EXTPROP_COMMMENT_TABLE    = 'TABLE_COMMENT';
     const EXTPROP_COMMENT_COLUMN    = 'COLUMN_COMMENT';
     const LENGTH_TABLE_NAME         = 128;
     const LENGTH_INDEX_NAME         = 128;
     const LENGTH_FOREIGN_NAME       = 128;
-    const SQL_FOR_UPDATE            = 'UPDLOCK';
+
     /**
      * Current Transaction Level
      *
@@ -1675,15 +1675,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $columnName = "";
         foreach ($foreignKeys as $foreignKey) {
             if ($fkName == $foreignKey['FK_NAME']) {
-                $columnName = $foreignKey['COLUMN_NAME'];
 
                 if (in_array($foreignKey['ON_UPDATE'], $fkActions)) {
                      $this->raw_fetchRow(sprintf(" DROP TRIGGER %s",
-                     $this->quoteIdentifier($this->_getTriggerName($tableName, $columnName))));
+                     $this->quoteIdentifier($this->_getTriggerName($tableName))));
                 }
                 if (in_array($foreignKey['ON_DELETE'], $fkActions)) {
                      $this->raw_fetchRow(sprintf(" DROP TRIGGER %s",
-                     $this->quoteIdentifier($this->_getTriggerName($tableName, $columnName, self::TRIGGER_CASCADE_DEL))));
+                     $this->quoteIdentifier($this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL))));
                 }
             }
         }
@@ -3305,13 +3304,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * Retrieve trigger name for cascade update / delete
      *
      * @param string $tableName
-     * @param string $fieldName
      * @return string
      */
-    protected function _getTriggerName($tableName, $fieldName, $triggerType = self::TRIGGER_CASCADE_UPD)
+    protected function _getTriggerName($tableName, $triggerType = self::TRIGGER_CASCADE_UPD)
     {
-        $hash = sprintf('trigger-%s-%s-%s', $triggerType, $tableName, $fieldName);
-        return substr(strtoupper(md5($hash)), 1, -1);
+        return strtoupper(sprintf("TRIGGER_%s_%s",$triggerType, $tableName));
     }
 
     /**
@@ -3389,7 +3386,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             . "      FROM {$tableName} t                                    \n"
             . "        INNER JOIN deleted ON                                 \n"
             . "         t.{$columnName} = deleted.{$refColumnName};         \n";
-        $sqlTrigger = $this->_getInsteadTrrigerBody($refTableName);
+        $sqlTrigger = $this->_getInsteadTriggerBody($refTableName);
         $sqlTrigger = str_replace(
             "/*place core here*/",
              "/*ACTION ADDED BY {$tableName}*/ \n". $deleteAction . "/*place core here*/ \n",
@@ -4036,7 +4033,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $tableName
      * @return string
      */
-    protected function _getInsteadTrrigerBody($tableName)
+    protected function _getInsteadTriggerBody($tableName)
     {
         $query = sprintf(" SELECT CAST(OBJECT_DEFINITION (object_id) AS VARCHAR(MAX)) \n"
                 . " FROM sys.triggers t                \n"
@@ -4051,7 +4048,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         );
 
         if ($triggerBody == ""){
-            $triggerName = $this->_getTriggerName($tableName,'',self::TRIGGER_CASCADE_DEL);
+            $triggerName = $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL);
 
             $triggerBody = "CREATE TRIGGER [{$triggerName}]                 \n"
                 . "    ON  {$tableName}                                     \n"
