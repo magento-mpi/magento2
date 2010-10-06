@@ -187,16 +187,16 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
     public function getSearchableData($productId, $storeId)
     {
         $adapter    = $this->_getReadAdapter();
-        $ifNullDefaultTitle = $adapter->getCheckSql('st.title IS NULL', 'd.title', 'st.title');
+        $ifNullDefaultTitle = $adapter->getCheckSql('st.title IS NULL', 's.title', 'st.title');
         $select = $adapter->select()
             ->from(array('m' => $this->getMainTable()), null)
             ->join(
                 array('s' => $this->getTable('downloadable/link_title')),
-                'd.link_id=m.link_id AND d.store_id=0',
+                's.link_id=m.link_id AND s.store_id=0',
                 array())
             ->joinLeft(
                 array('st' => $this->getTable('downloadable/link_title')),
-                'st.link_id=m.link_id AND st.store_id=' . (int)$storeId,
+                $adapter->quoteInto('st.link_id=m.link_id AND st.store_id=?', (int)$storeId),
                 array('title' => $ifNullDefaultTitle))
             ->where('m.product_id=?', $productId);
         if (!$searchData = $adapter->fetchCol($select)) {
