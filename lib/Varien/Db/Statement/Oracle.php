@@ -319,13 +319,13 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
             foreach (array_keys($params) as $name) {
                 if (strlen($params[$name]) > 4000) {
                     $this->_lobDescriptors[$name] = oci_new_descriptor($connection);
-                    if (!oci_bind_by_name($this->_stmt, $name, $this->_lobDescriptors[$name], -1, OCI_B_CLOB)) {
+                    if (!@oci_bind_by_name($this->_stmt, $name, $this->_lobDescriptors[$name], -1, OCI_B_CLOB)) {
                         $error = true;
                         break;
                     }
                     $this->_lobDescriptors[$name]->writeTemporary($params[$name], OCI_TEMP_CLOB);
                 } else {
-                    if (!oci_bind_by_name($this->_stmt, $name, $params[$name], -1)) {
+                    if (!@oci_bind_by_name($this->_stmt, $name, $params[$name], -1)) {
                         $error = true;
                         break;
                     }

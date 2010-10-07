@@ -82,6 +82,8 @@ class Varien_Db_Helper
         'newsletter'    => 'nlttr',
         'shipping'      => 'shpp',
         'calculation'   => 'calc',
+        'search'        => 'srch',
+        'query'         => 'qr'
     );
 
     /**
