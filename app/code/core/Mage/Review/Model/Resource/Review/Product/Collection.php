@@ -37,21 +37,21 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
     /**
      * Entities alias
      *
-     * @var unknown
+     * @var array
      */
     protected $_entitiesAlias        = array();
 
     /**
      * Review store table
      *
-     * @var unknown
+     * @var string
      */
     protected $_reviewStoreTable;
 
     /**
      * Add store data flag
      *
-     * @var unknown
+     * @var boolean
      */
     protected $_addStoreDataFlag     = false;
 
@@ -239,7 +239,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                 array('rt.review_id', 'review_created_at'=> 'rt.created_at', 'rt.entity_pk_value', 'rt.status_id'))
             ->join(array('rdt' => $reviewDetailTable),
                 'rdt.review_id = rt.review_id',
-                array('rdt.title','rdt.nickname', 'rdt.detail'));
+                array('rdt.title','rdt.nickname', 'rdt.detail', 'rdt.customer_id', 'rdt.store_id'));
         return $this;
     }
 
