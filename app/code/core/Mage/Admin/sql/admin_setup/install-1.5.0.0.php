@@ -149,24 +149,19 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'User ID')
     ->addColumn('firstname', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'User First Name')
     ->addColumn('lastname', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'User Last Name')
     ->addColumn('email', Varien_Db_Ddl_Table::TYPE_TEXT, 128, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'User Email')
     ->addColumn('username', Varien_Db_Ddl_Table::TYPE_TEXT, 40, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'User Login')
     ->addColumn('password', Varien_Db_Ddl_Table::TYPE_TEXT, 40, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'User Password')
     ->addColumn('created', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,

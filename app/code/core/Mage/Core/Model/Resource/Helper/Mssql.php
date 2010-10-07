@@ -309,7 +309,6 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             return $select->getPart(Zend_Db_Select::COLUMNS);
         }
 
-        $adapter          = $this->_getReadAdapter();
         $columns          = $select->getPart(Zend_Db_Select::COLUMNS);
         $tables           = $select->getPart(Zend_Db_Select::FROM);
         $preparedColumns  = array();
@@ -321,8 +320,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
                     if (preg_match('/(^|[^a-zA-Z_])^(SELECT)?(SUM|MIN|MAX|AVG|COUNT)\s*\(/i', $column, $matches)) {
                         $column = $this->prepareColumn($column, $groupByCondition);
                     }
-                    $quotedAlias = $adapter->quoteIdentifier($alias);
-                    $preparedColumns[strtoupper($alias)] = array(null, $column, $quotedAlias);
+                    $preparedColumns[strtoupper($alias)] = array(null, $column, $alias);
                 } else {
                     throw new Zend_Db_Exception("Can't prepare expression without alias");
                 }
@@ -333,13 +331,11 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
                     }
                     $tableColumns = $this->_getReadAdapter()->describeTable($tables[$correlationName]['tableName']);
                     foreach(array_keys($tableColumns) as $col) {
-                        $quotedColumn = $adapter->quoteIdentifier($col);
-                        $preparedColumns[strtoupper($col)] = array($correlationName, $quotedColumn, null);
+                        $preparedColumns[strtoupper($col)] = array($correlationName, $col, null);
                     }
                 } else {
-                    $quatedColumn = $adapter->quoteIdentifier($column);
-                    $quotedAlias  = $adapter->quoteIdentifier($alias);
-                    $preparedColumns[strtoupper(!is_null($alias) ? $alias : $column)] = array($correlationName, $quatedColumn, $quotedAlias);
+                    $columnKey = is_null($alias) ? $column : $alias;
+                    $preparedColumns[strtoupper($columnKey)] = array($correlationName, $column, $alias);
                 }
             }
         }
