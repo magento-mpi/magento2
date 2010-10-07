@@ -78,15 +78,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         $adapter                     = $this->_getReadAdapter();
         $wrapperTableName            = 'analytic_tbl';
         $wrapperTableColumnName      = 'analytic_clmn';
-
-        /**
-         * Prepare where condition for wrapper select
-         */
-        $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
-        $whereCondition = array(
-            sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName)
-        );
-
+        $whereCondition              = array();
 
         $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
         $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
@@ -97,9 +89,20 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
 
         $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
 
-        $clonedSelect->columns(array(
-            $wrapperTableColumnName => $this->prepareColumn('RANK()', $groupByCondition, 'rownum')
-        ));
+        if (!empty($groupByCondition)) {
+            /**
+             * Prepare where condition for wrapper select
+             */
+            $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
+            $whereCondition[] = sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName);
+
+            /**
+             * Prepare column with analytic function
+             */
+            $clonedSelect->columns(array(
+                $wrapperTableColumnName => $this->prepareColumn('RANK()', $groupByCondition, 'rownum')
+            ));
+        }
 
         $limitCount  = $clonedSelect->getPart(Zend_Db_Select::LIMIT_COUNT);
         $limitOffset = $clonedSelect->getPart(Zend_Db_Select::LIMIT_OFFSET);
