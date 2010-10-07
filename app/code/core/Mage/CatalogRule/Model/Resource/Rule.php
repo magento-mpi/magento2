@@ -446,7 +446,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             $select = $write->select()
                 ->distinct(true)
                 ->from($this->getTable('catalogrule/rule_product'), array('rule_id', 'customer_group_id', 'website_id'))
-                ->where("{$timestamp} >= from_time AND {$timestamp} <= to_time");
+                ->where("{$timestamp} >= from_time AND (({$timestamp} <= to_time AND to_time > 0) OR to_time = 0)");
             $query = $select->insertFromSelect($this->getTable('catalogrule/rule_group_website'));
             $write->query($query);
 
@@ -591,7 +591,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             ->distinct()
             ->from(array('main_table' => $this->getTable('catalogrule/rule')), 'main_table.*')
             ->joinInner(
-                array('rp' => $this->getTable('catalogrule/rule_product')), 
+                array('rp' => $this->getTable('catalogrule/rule_product')),
                 implode(' AND ', $joinCondsQuoted),
                 array())
             ->where(new Zend_Db_Expr("{$dateQuoted} BETWEEN IFNULL(main_table.from_date, {$dateQuoted}) AND IFNULL(main_table.to_date, {$dateQuoted})"))
