@@ -70,14 +70,14 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
 
             if ($idx) {
                 $adapter->delete($this->getMainTable(), array('index_id = ?' => $row['index_id']));
-                $where = array('index_id = ?', $idx['index_id']);
+                $where = array('index_id = ?' => $idx['index_id']);
                 $data  = array(
                     'visitor_id'    => (int)$object->getVisitorId(),
                     'store_id'      => (int)$object->getStoreId(),
                     'added_at'      => Varien_Date::now(),
                 );
             } else {
-                $where = array('index_id = ?', $row['index_id']);
+                $where = array('index_id = ?' => $row['index_id']);
                 $data  = array(
                     'customer_id'   => (int)$object->getCustomerId(),
                     'store_id'      => (int)$object->getStoreId(),
