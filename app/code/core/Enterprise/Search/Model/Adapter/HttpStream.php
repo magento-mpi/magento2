@@ -222,12 +222,12 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                 if ($useSpellcheckSearch) {
                     $resultSuggestions = $this->_prepareSuggestionsQueryResponse($data);
                     /* Calc results count for each suggestion */
-                    if (isset($params['spellcheck_result_counts'])
-                            && $params['spellcheck_result_counts'] == true
-                            && $spellcheckCount > 0) {
+                    if (isset($params['spellcheck_result_counts']) && $params['spellcheck_result_counts'] == true
+                        && count($resultSuggestions)
+                        && $spellcheckCount > 0
+                    ) {
                         /* Temporary store value for main search query */
                         $tmpLastNumFound = $this->_lastNumFound;
-                        $this->_lastNumFound = 0;
 
                         unset($params['solr_params']['spellcheck']);
                         unset($params['solr_params']['spellcheck.count']);
@@ -235,6 +235,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
 
                         $suggestions = array();
                         foreach ($resultSuggestions as $key => $item) {
+                            $this->_lastNumFound = 0;
                             $this->search($item['word'], $params);
                             if ($this->_lastNumFound) {
                                 $resultSuggestions[$key]['num_results'] = $this->_lastNumFound;
