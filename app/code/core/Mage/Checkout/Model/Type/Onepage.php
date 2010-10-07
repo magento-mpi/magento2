@@ -573,7 +573,7 @@ class Mage_Checkout_Model_Type_Onepage
     }
 
     /**
-     * Validate quote state to be integrated with obe page checkout process
+     * Validate quote state to be integrated with one page checkout process
      */
     public function validate()
     {
