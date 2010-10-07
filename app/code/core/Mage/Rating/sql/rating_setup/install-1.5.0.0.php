@@ -145,7 +145,7 @@ $table = $installer->getConnection()
     ->addColumn('remote_ip', Varien_Db_Ddl_Table::TYPE_TEXT, 16, array(
         'nullable'  => false
         ), 'Customer IP')
-    ->addColumn('remote_ip_long', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('remote_ip_long', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'nullable'  => false,
         'default'   => 0
         ), 'Customer IP converted to long integer format')

@@ -160,7 +160,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
 
         $adapter = $this->getConnection();
 
-        $inCond = $adapter->prepareSqlCondition("{$this->getTable('rating_option_vote')}.rating_id", array(
+        $inCond = $adapter->prepareSqlCondition('rating_option_vote.rating_id', array(
             'in' => $arrRatingId
         ));
         $sumCond = new Zend_Db_Expr("SUM(rating_option_vote.{$adapter->quoteIdentifier('percent')})");
