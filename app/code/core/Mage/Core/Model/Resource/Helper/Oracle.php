@@ -79,9 +79,17 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         $wrapperTableName            = 'analytic_tbl';
         $wrapperTableColumnName      = 'analytic_clmn';
         $whereCondition              = array();
+        $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
+
+        if (!empty($groupByCondition)) {
+            /**
+             * Prepare where condition for wrapper select
+             */
+            $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
+            $whereCondition = array(sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName));
+        }
 
         $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
-        $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
         $having           = $this->_prepareHaving($clonedSelect, true);
         if ($having) {
             $whereCondition[] = implode(', ', $having);
@@ -90,12 +98,6 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
 
         if (!empty($groupByCondition)) {
-            /**
-             * Prepare where condition for wrapper select
-             */
-            $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
-            $whereCondition[] = sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName);
-
             /**
              * Prepare column with analytic function
              */

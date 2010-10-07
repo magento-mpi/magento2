@@ -79,25 +79,24 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $wrapperTableName            = 'analytic_tbl';
         $wrapperTableColumnName      = 'analytic_clmn';
         $whereCondition              = array();
-
-        $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
         $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
-        $having           = $this->_prepareHaving($clonedSelect, true);
-        if ($having) {
-            $whereCondition[] = implode(', ', $having);
-        }
-
-
-
-        $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
-
         if (!empty($groupByCondition)) {
             /**
              * Prepare where condition for wrapper select
              */
             $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
-            $whereCondition[] = sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName);
+            $whereCondition = array(sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName));
+        }
 
+        $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
+        $having           = $this->_prepareHaving($clonedSelect, true);
+        if ($having) {
+            $whereCondition[] = implode(', ', $having);
+        }
+
+        $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
+
+        if (!empty($groupByCondition)) {
             /**
              * Prepare column with analytic function
              */
