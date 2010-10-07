@@ -55,7 +55,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     const TRIGGER_CASCADE_UPD       = 'on_update';
     const TRIGGER_CASCADE_DEL       = 'on_delete';
 
-    const EXTPROP_COMMMENT_TABLE    = 'TABLE_COMMENT';
+    const EXTPROP_COMMENT_TABLE    = 'TABLE_COMMENT';
     const EXTPROP_COMMENT_COLUMN    = 'COLUMN_COMMENT';
     const LENGTH_TABLE_NAME         = 128;
     const LENGTH_INDEX_NAME         = 128;
@@ -3879,7 +3879,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $query = sprintf('INSERT INTO %s ', $this->quoteIdentifier($table));
         if ($fields) {
-            $columns = array_map(array($this, 'quoteIdentifier'), $fields);
+            $columns = array_map(array($this, 'quoteIdentifier'), $fields);echo '<pre>';
             $query .= sprintf('(%s)', join(', ', $columns));
         }
 
