@@ -46,7 +46,10 @@
         <?php echo $this->getChildHtml('order_totals') ?>
     </tbody>
 </table>
-<?php if($_order->getGiftMessageId() && $_giftMessage = $this->helper('giftmessage/message')->getGiftMessage($_order->getGiftMessageId())): ?>
+<?php if ($this->helper('giftmessage/message')->isMessagesAvailable('order', $_order, $_order->getStore())
+          && $_order->getGiftMessageId()
+          && $_giftMessage = $this->helper('giftmessage/message')->getGiftMessage($_order->getGiftMessageId())
+): ?>
 <br />
 <table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #EAEAEA;">
     <thead>
@@ -56,7 +59,7 @@
     </thead>
 
     <tbody>
-        
+
         <tr>
             <td colspan="4" align="left" style="padding:3px 9px">
             <strong><?php echo $this->__('From:'); ?></strong> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
