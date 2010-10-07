@@ -52,8 +52,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                 throw new Exception('Solr extension not enabled!');
             }
             $this->_connect($options);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             Mage::throwException(Mage::helper('enterprise_search')->__('Unable to perform search because of search engine missed configuration.'));
         }
@@ -62,14 +61,13 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
     /**
      * Connect to Solr Client by specified options that will be merged with default
      *
-     * @param array $options
+     * @param  array $options
      * @return SolrClient
      */
     protected function _connect($options = array())
     {
         $helper = Mage::helper('enterprise_search');
-        $def_options = array
-        (
+        $def_options = array(
             'hostname' => $helper->getSolrConfigData('server_hostname'),
             'login'    => $helper->getSolrConfigData('server_username'),
             'password' => $helper->getSolrConfigData('server_password'),
@@ -78,13 +76,13 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             'path'     => $helper->getSolrConfigData('server_path')
         );
         $options = array_merge($def_options, $options);
+
         try {
             $this->_client = new SolrClient($options);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             Mage::logException($e);
         }
+
         return $this->_client;
     }
 
@@ -122,7 +120,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         }
 
         $searchConditions = $this->prepareSearchConditions($query);
-
         if (!$searchConditions) {
             return array();
         }
@@ -132,11 +129,8 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
         }
 
-        $offset = (int)$_params['offset'];
-        $limit  = (int)$_params['limit'];
-        if (!$limit) {
-            $limit = 100;
-        }
+        $offset = (isset($_params['offset'])) ? (int)$_params['offset'] : 0;
+        $limit  = (isset($_params['limit'])) ? (int)$_params['limit'] : 100;
 
         /**
          * Now supported search only in fulltext field
@@ -157,7 +151,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $_params['fields'] = array($_params['fields']);
         }
 
-        if (!is_array($_params['solr_params'])){
+        if (!is_array($_params['solr_params'])) {
             $_params['solr_params'] = array($_params['solr_params']);
         }
 
@@ -173,7 +167,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         /**
          * Fields to retrieve
          */
-        if (!empty($_params['fields'])) {
+        if ($limit && !empty($_params['fields'])) {
             foreach ($_params['fields'] as $field) {
                 $solrQuery->addField($field);
             }
@@ -221,8 +215,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                     foreach ($value as $val) {
                         $solrQuery->addParam($name, $val);
                     }
-                }
-                else {
+                } else {
                     $solrQuery->addParam($name, $value);
                 }
             }
@@ -249,50 +242,54 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $response = $this->_client->query($solrQuery);
             $data = $response->getResponse();
 
-            $result = array('ids' => $this->_prepareQueryResponse($data));
+            if (!isset($params['solr_params']['stats']) || $params['solr_params']['stats'] != 'true') {
+                $result = array('ids' => $this->_prepareQueryResponse($data));
 
-            /**
-             * Extract facet search results
-             */
-            if ($useFacetSearch) {
-                $result['facets'] = $this->_prepareFacetsQueryResponse($data);
-            }
-
-            /**
-             * Extract suggestions search results
-             */
-            if ($useSpellcheckSearch) {
-                $resultSuggestions = $this->_prepareSuggestionsQueryResponse($data);
-                /* Calc results count for each suggestion */
-                if (isset($params['spellcheck_result_counts'])
-                        && $params['spellcheck_result_counts'] == true
-                        && $spellcheckCount > 0) {
-                    /* Temporary store value for main search query */
-                    $tmpLastNumFound = $this->_lastNumFound;
-                    $this->_lastNumFound = 0;
-
-                    unset($params['solr_params']['spellcheck']);
-                    unset($params['solr_params']['spellcheck.count']);
-                    unset($params['spellcheck_result_counts']);
-
-                    $suggestions = array();
-                    foreach ($resultSuggestions as $key => $item) {
-                        $this->search($item['word'], $params);
-                        if ($this->_lastNumFound) {
-                            $resultSuggestions[$key]['num_results'] = $this->_lastNumFound;
-                            $suggestions[] = $resultSuggestions[$key];
-                            $spellcheckCount--;
-                        }
-                        if ($spellcheckCount <= 0) {
-                            break;
-                        }
-                    }
-                    /* Return store value for main search query */
-                    $this->_lastNumFound = $tmpLastNumFound;
-                } else {
-                    $suggestions = array_slice($resultSuggestions, 0, $spellcheckCount);
+                /**
+                 * Extract facet search results
+                 */
+                if ($useFacetSearch) {
+                    $result['facets'] = $this->_prepareFacetsQueryResponse($data);
                 }
-                $result['suggestions'] = $suggestions;
+
+                /**
+                 * Extract suggestions search results
+                 */
+                if ($useSpellcheckSearch) {
+                    $resultSuggestions = $this->_prepareSuggestionsQueryResponse($data);
+                    /* Calc results count for each suggestion */
+                    if (isset($params['spellcheck_result_counts'])
+                            && $params['spellcheck_result_counts'] == true
+                            && $spellcheckCount > 0) {
+                        /* Temporary store value for main search query */
+                        $tmpLastNumFound = $this->_lastNumFound;
+                        $this->_lastNumFound = 0;
+
+                        unset($params['solr_params']['spellcheck']);
+                        unset($params['solr_params']['spellcheck.count']);
+                        unset($params['spellcheck_result_counts']);
+
+                        $suggestions = array();
+                        foreach ($resultSuggestions as $key => $item) {
+                            $this->search($item['word'], $params);
+                            if ($this->_lastNumFound) {
+                                $resultSuggestions[$key]['num_results'] = $this->_lastNumFound;
+                                $suggestions[] = $resultSuggestions[$key];
+                                $spellcheckCount--;
+                            }
+                            if ($spellcheckCount <= 0) {
+                                break;
+                            }
+                        }
+                        /* Return store value for main search query */
+                        $this->_lastNumFound = $tmpLastNumFound;
+                    } else {
+                        $suggestions = array_slice($resultSuggestions, 0, $spellcheckCount);
+                    }
+                    $result['suggestions'] = $suggestions;
+                }
+            } else {
+                $result = $this->_prepateStatsQueryResponce($data);
             }
 
             return $result;
@@ -393,9 +390,9 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             } else {
                 $resultLimit = array_slice($result, 0, $limit);
             }
+
             return $resultLimit;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             return array();
         }
