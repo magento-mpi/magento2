@@ -72,7 +72,7 @@
                             <show_in_store>0</show_in_store>
                         </publish_history>
                         <min_points_balance translate="label comment">
-                            <label>Minimum Reward Points Balance to be Able to Redeem</label>
+                            <label>Minimum Reward Points Balance to Be Able to Redeem</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>enterprise_reward/system_config_backend_balance</backend_model>
                             <sort_order>30</sort_order>
