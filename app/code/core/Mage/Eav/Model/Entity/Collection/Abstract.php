@@ -998,7 +998,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
              * Prepare select query
              * @var string $query
              */
-            $query = $this->getLoadSelect();
+            $query = $this->_prepareSelect($this->getSelect());
             $rows = $this->_fetchAll($query);
         } catch (Exception $e) {
             Mage::printException($e, $query);
@@ -1048,8 +1048,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
 
         $selects = array();
         foreach ($tableAttributes as $table=>$attributes) {
-            $select    = $this->_getLoadAttributesSelect($table, $attributes);
-            $selects[] = $this->getLoadSelect($select);
+            $selects[] = $this->_getLoadAttributesSelect($table, $attributes);
         }
         if (!empty($selects)) {
             try {
@@ -1406,11 +1405,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
      * @param Varien_Db_Select $select OPTIONAL
      * @return string
      */
-    public function getLoadSelect(Varien_Db_Select $select = null)
+    public function _prepareSelect(Varien_Db_Select $select)
     {
-        if ($select === null) {
-            $select = $this->getSelect();
-        }
         if ($this->_useAnalyticFunction) {
             $helper = Mage::getResourceHelper('core');
             return $helper->getQueryUsingAnalyticFunction($select);

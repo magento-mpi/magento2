@@ -513,7 +513,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
              * Prepare select for execute
              * @var string $query
              */
-            $query       = $this->getLoadSelect();
+            $query       = $this->_prepareSelect($this->getSelect());
             $this->_data = $this->_fetchAll($query, $this->_bindParams);
             $this->_afterLoadData();
         }
@@ -525,9 +525,8 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      * 
      * @return string
      */
-    public function getLoadSelect()
+    protected function _prepareSelect(Varien_Db_Select $select)
     {
-        $select = $this->getSelect();
         if ($this->_useAnalyticFunction) {
             $helper = Mage::getResourceHelper('core');
             return $helper->getQueryUsingAnalyticFunction($select);
