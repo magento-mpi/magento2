@@ -1036,6 +1036,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         $entityIdField = $entity->getEntityIdField();
 
         $tableAttributes = array();
+        $attributeTypes  = array();
         foreach ($this->_selectAttributes as $attributeCode => $attributeId) {
             if (!$attributeId) {
                 continue;
@@ -1043,25 +1044,32 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             $attribute = Mage::getSingleton('eav/config')->getCollectionAttribute($entity->getType(), $attributeCode);
             if ($attribute && !$attribute->isStatic()) {
                 $tableAttributes[$attribute->getBackendTable()][] = $attributeId;
+                if (!isset($attributeTypes[$attribute->getBackendTable()])) {
+                    $attributeTypes[$attribute->getBackendTable()] = $attribute->getBackendType();
+                }
             }
         }
 
         $selects = array();
         foreach ($tableAttributes as $table=>$attributes) {
-            $selects[] = $this->_getLoadAttributesSelect($table, $attributes);
+            $select = $this->_getLoadAttributesSelect($table, $attributes);
+            $selects[$attributeTypes[$table]][] = $this->_addLoadAttributesSelectValues($select, $table, $attributeTypes[$table]);
         }
-        if (!empty($selects)) {
-            try {
-                $select = implode(' UNION ALL ', $selects);
-                $values = $this->_fetchAll($select);
-            } catch (Exception $e) {
-                Mage::printException($e, $select);
-                $this->printLogQuery(true, true, $select);
-                throw $e;
-            }
+        $selectGroups = Mage::getResourceHelper('eav')->getLoadAttributesSelectGroups($selects);
+        foreach ($selectGroups as $selects) {
+            if (!empty($selects)) {
+                try {
+                    $select = implode(' UNION ALL ', $selects);
+                    $values = $this->_fetchAll($select);
+                } catch (Exception $e) {
+                    Mage::printException($e, $select);
+                    $this->printLogQuery(true, true, $select);
+                    throw $e;
+                }
 
-            foreach ($values as $value) {
-                $this->_setItemAttributeValue($value);
+                foreach ($values as $value) {
+                    $this->_setItemAttributeValue($value);
+                }
             }
         }
 
@@ -1082,10 +1090,29 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         $helper = Mage::getResourceHelper('eav');
         $entityIdField = $this->getEntity()->getEntityIdField();
         $select = $this->getConnection()->select()
-            ->from($table, array($entityIdField, 'attribute_id', 'value' => $helper->castField($table .'.value')))
+            ->from($table, array(
+                $entityIdField, 'attribute_id',
+//                'value' => $helper->castField($table .'.value')
+            ))
             ->where('entity_type_id =?', $this->getEntity()->getTypeId())
             ->where("$entityIdField IN (?)", array_keys($this->_itemsById))
             ->where('attribute_id IN (?)', $attributeIds);
+        return $select;
+    }
+
+    /**
+     * @param Varien_Db_Select $select
+     * @param string $table
+     * @param string $type
+     * @return Varien_Db_Select
+     */
+    protected function _addLoadAttributesSelectValues($select, $table, $type)
+    {
+        $helper = Mage::getResourceHelper('eav');
+        $select->columns(array(
+            'value' => $helper->prepareEavAttributeValue($table. '.value', $type),
+        ));
+
         return $select;
     }
 

@@ -57,9 +57,10 @@ class Mage_Catalog_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Resource_
      * Returns columns for select
      *
      * @param string $tableAlias
-     * @return string|array
+     * @param string $eavType
+     * @return array
      */
-    public function attributeSelectFields($tableAlias)
+    public function attributeSelectFields($tableAlias, $eavType)
     {
         return '*';
     }

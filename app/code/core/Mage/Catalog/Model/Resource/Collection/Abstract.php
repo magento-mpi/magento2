@@ -107,7 +107,7 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
         $storeId = $this->getStoreId();
 
         if ($storeId) {
-            $helper = Mage::getResourceHelper('eav');
+//            $helper = Mage::getResourceHelper('eav');
             $adapter        = $this->getConnection();
             $entityIdField  = $this->getEntity()->getEntityIdField();
             $joinCondition  = array(
@@ -115,22 +115,22 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
                 't_s.entity_id = t_d.entity_id',
                 $adapter->quoteInto('t_s.store_id = ?', $storeId)
             );
-            $valueExpr      = $adapter->getCheckSql(
-                't_s.value_id IS NULL',
-                $helper->castField('t_d.value'),
-                $helper->castField('t_s.value')
-            );
-
+//            $valueExpr      = $adapter->getCheckSql(
+//                't_s.value_id IS NULL',
+//                $helper->castField('t_d.value'),
+//                $helper->castField('t_s.value')
+//            );
+//
             $select = $adapter->select()
                 ->from(array('t_d' => $table), array($entityIdField, 'attribute_id',
-                    'default_value' => $helper->castField('t_s.value')
+//                    'default_value' => $helper->castField('t_d.value')
                 ))
                 ->joinLeft(
                     array('t_s' => $table),
                     implode(' AND ', $joinCondition),
                     array(
-                        'store_value'   => $helper->castField('t_s.value'),
-                        'value'         => $valueExpr
+//                        'store_value'   => $helper->castField('t_s.value'),
+//                        'value'         => $valueExpr
                     ))
                 ->where('t_d.entity_type_id = ?', $this->getEntity()->getTypeId())
                 ->where("t_d.{$entityIdField} IN (?)", array_keys($this->_itemsById))
@@ -141,6 +141,35 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
                 ->where('store_id = ?', $this->getDefaultStoreId());
         }
 
+        return $select;
+    }
+
+    /**
+     * @param Varien_Db_Select $select
+     * @param string $table
+     * @param string $type
+     * @return Varien_Db_Select
+     */
+    protected function _addLoadAttributesSelectValues($select, $table, $type)
+    {
+        $storeId = $this->getStoreId();
+        if ($storeId) {
+            $helper = Mage::getResourceHelper('eav');
+            $adapter        = $this->getConnection();
+            $valueExpr      = $adapter->getCheckSql(
+                't_s.value_id IS NULL',
+                $helper->prepareEavAttributeValue('t_d.value', $type),
+                $helper->prepareEavAttributeValue('t_s.value', $type)
+            );
+
+            $select->columns(array(
+                'default_value' => $helper->prepareEavAttributeValue('t_d.value', $type),
+                'store_value'   => $helper->prepareEavAttributeValue('t_s.value', $type),
+                'value'         => $valueExpr
+            ));
+        } else {
+            $select = parent::_addLoadAttributesSelectValues($select, $table, $type);
+        }
         return $select;
     }
 

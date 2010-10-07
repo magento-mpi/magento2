@@ -961,14 +961,19 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
 
         $selects = array();
         foreach (array_keys($this->getAttributesByTable()) as $table) {
-            $selects[] = $this->_getLoadAttributesSelect($object, $table);
+            $attribute = current($this->_attributesByTable[$table]);
+            $eavType = $attribute->getBackendType();
+            $select = $this->_getLoadAttributesSelect($object, $table);
+            $selects[$eavType][] = $this->_addLoadAttributesSelectFields($select, $table, $eavType);
         }
-
-        if (!empty($selects)) {
-            $select = $this->_prepareLoadSelect($selects);
-            $values = $this->_getReadAdapter()->fetchAll($select);
-            foreach ($values as $valueRow) {
-                $this->_setAttributeValue($object, $valueRow);
+        $selectGroups = Mage::getResourceHelper('eav')->getLoadAttributesSelectGroups($selects);
+        foreach ($selectGroups as $selects) {
+            if (!empty($selects)) {
+                $select = $this->_prepareLoadSelect($selects);
+                $values = $this->_getReadAdapter()->fetchAll($select);
+                foreach ($values as $valueRow) {
+                    $this->_setAttributeValue($object, $valueRow);
+                }
             }
         }
 
@@ -1014,11 +1019,33 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     protected function _getLoadAttributesSelect($object, $table)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($table, Mage::getResourceHelper('eav')->attributeSelectFields($table))
+            ->from(
+                $table,
+                array()
+//                Mage::getResourceHelper('eav')->attributeSelectFields($table)
+            )
             ->where($this->getEntityIdField() . ' =?', $object->getId());
 
         return $select;
     }
+
+    /**
+     * Adds Columns prepared for union
+     *
+     * @param Varien_Db_Select $select
+     * @param string $table
+     * @param string $type
+     * @return Varien_Db_Select
+     */
+    protected function _addLoadAttributesSelectFields($select, $table, $type)
+    {
+        $select->columns(
+            Mage::getResourceHelper('eav')->attributeSelectFields($table, $type)
+        );
+        return $select;
+    }
+
+
 
     /**
      * Initialize attribute value for object

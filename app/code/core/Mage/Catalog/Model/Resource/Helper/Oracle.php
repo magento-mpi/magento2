@@ -57,9 +57,10 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
      * Returns columns for select
      *
      * @param string $tableAlias
+     * @param string $eavType
      * @return array
      */
-    public function attributeSelectFields($tableAlias)
+    public function attributeSelectFields($tableAlias, $eavType)
     {
         return array(
             'value_id',
@@ -67,7 +68,7 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
             'attribute_id',
             'store_id',
             'entity_id',
-            'value' => $this->castField($tableAlias . '.value')
+            'value' => $this->prepareEavAttributeValue($tableAlias . '.value', $eavType)
         );
     }
 

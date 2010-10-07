@@ -103,7 +103,8 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
 
         $select = $this->_getReadAdapter()->select()
             ->from(array('attr_table' => $table),
-                Mage::getResourceHelper('catalog')->attributeSelectFields('attr_table')
+                array()
+//                Mage::getResourceHelper('catalog')->attributeSelectFields('attr_table')
             )
             ->where("attr_table.{$this->getEntityIdField()} = ?", $object->getId())
             ->where('attr_table.store_id IN (?)', $storeIds);
@@ -115,6 +116,22 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
                 array()
             );
         }
+        return $select;
+    }
+
+    /**
+     * Adds Columns prepared for union
+     *
+     * @param Varien_Db_Select $select
+     * @param string $table
+     * @param string $type
+     * @return Varien_Db_Select
+     */
+    protected function _addLoadAttributesSelectFields($select, $table, $type)
+    {
+        $select->columns(
+            Mage::getResourceHelper('catalog')->attributeSelectFields('attr_table', $type)
+        );
         return $select;
     }
 

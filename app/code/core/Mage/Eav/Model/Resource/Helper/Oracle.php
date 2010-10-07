@@ -50,16 +50,44 @@ class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Hel
      * Returns columns for select
      *
      * @param string $tableAlias
+     * @param string $eavType
      * @return string|array
      */
-    public function attributeSelectFields($tableAlias)
+    public function attributeSelectFields($tableAlias, $eavType)
     {
         return array(
             'value_id',
             'entity_type_id',
             'attribute_id',
             'entity_id',
-            'value' => $this->castField($tableAlias . '.value')
+            'value' => $this->prepareEavAttributeValue($tableAlias . '.value', $eavType)
         );
+    }
+
+    /**
+     * Prepares value fields for unions depend on type
+     *
+     * @param string $value
+     * @param string $eavType
+     * @return Zend_Db_Expr
+     */
+    public function prepareEavAttributeValue($value, $eavType)
+    {
+        return $this->castField($value . '.value');
+    }
+
+    /**
+     * Groups selects to separate unions depend on type
+     *
+     * @param array $selects
+     * @return array
+     */
+    public function getLoadAttributesSelectGroups($selects)
+    {
+        $mainGroup  = array();
+        foreach ($selects as $eavType => $selectGroup) {
+            $mainGroup = array_merge($mainGroup, $selectGroup);
+        }
+        return array($mainGroup);
     }
 }

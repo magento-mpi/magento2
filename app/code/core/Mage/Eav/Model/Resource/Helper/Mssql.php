@@ -51,16 +51,49 @@ class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Help
      * Returns columns for select
      *
      * @param string $tableAlias
+     * @param string $eavType
      * @return string|array
      */
-    public function attributeSelectFields($tableAlias)
+    public function attributeSelectFields($tableAlias, $eavType)
     {
         return array(
             'value_id',
             'entity_type_id',
             'attribute_id',
             'entity_id',
-            'value' => $this->castField($tableAlias . '.value')
+            'value' => $this->prepareEavAttributeValue($tableAlias . '.value', $eavType)
         );
+    }
+
+    /**
+     * Prepares value fields for unions depend on type
+     *
+     * @param string $value
+     * @param string $eavType
+     * @return Zend_Db_Expr
+     */
+    public function prepareEavAttributeValue($value, $eavType)
+    {
+        return ($eavType != 'text') ? $this->castField($value) : new Zend_Db_Expr($value);
+    }
+
+    /**
+     * Groups selects to separate unions depend on type
+     *
+     * @param array $selects
+     * @return array
+     */
+    public function getLoadAttributesSelectGroups($selects)
+    {
+        $mainGroup  = array();
+        $textGroup = array();
+        foreach ($selects as $eavType => $selectGroup) {
+            if ($eavType == 'text') {
+                $textGroup = array_merge($textGroup, $selectGroup);
+            } else {
+                $mainGroup = array_merge($mainGroup, $selectGroup);
+            }
+        }
+        return array($mainGroup,$textGroup);
     }
 }
