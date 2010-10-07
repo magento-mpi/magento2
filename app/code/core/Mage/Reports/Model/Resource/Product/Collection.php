@@ -153,7 +153,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function getProductEntityTypeId()
     {
-        return $this->_productEntityTypeId;
+        return  $this->_productEntityTypeId;
     }
 
     /**
@@ -349,30 +349,26 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             }
         }
 
-        $joinCondition = $this->getConnection()->quoteInto(
-            'e.entity_id = table_views.object_id AND e.entity_type_id = ?', $this->getProductEntityTypeId()
-        );
-
-        $innerSelect = $this->getConnection()->select()
-            ->from(array('t_v' => $this->getTable('reports/event')),
-                array('views' => 'COUNT(t_v.event_id)', 'object_id', 'logged_at'))
-            ->where('t_v.event_type_id = ?', $productViewEvent)
-            ->group(array('t_v.object_Id', 't_v.logged_at'))
-            ->having('COUNT(t_v.event_id) > ?', 0);
-
+        $this->getSelect()->reset()
+            ->from(
+                array('report_table_views' => $this->getTable('reports/event')),
+                array('views' => 'COUNT(report_table_views.event_id)'))
+            ->join(array('e' => $this->getProductEntityTableName()),
+                $this->getConnection()->quoteInto(
+                    "e.entity_id = report_table_views.object_id AND e.entity_type_id = ?",
+                    $this->getProductEntityTypeId()))
+            ->where('report_table_views.event_type_id = ?', $productViewEvent)
+            ->group('e.entity_id')
+            ->order('views ' . self::SORT_ORDER_DESC)
+            ->having('COUNT(report_table_views.event_id) > ?', 0);
+    
         if ($from != '' && $to != '') {
-            $innerSelect->where($this->_prepareBetweenSql('logged_at', $from, $to));
+            $this->getSelect()
+                ->where('logged_at >= ?', $from)
+                ->where('logged_at <= ?', $to);
         }
 
-        $this->getSelect()
-            ->join(
-                array('table_views' => $innerSelect),
-                $joinCondition,
-                array()
-            )
-            ->order('views ' . self::SORT_ORDER_DESC);
-//            ->having('views > ?', 0);
-
+        $this->_useAnalyticFunction = true;
         return $this;
     }
 
