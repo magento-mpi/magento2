@@ -107,8 +107,8 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
                 $deleteCondition = $adapter->quoteInto('entity_id=?', (int)$productCondition->getId());
             } elseif ($productCondition instanceof Mage_Catalog_Model_Product_Condition_Interface) {
                 $productCondition = $productCondition->getIdsSelect($adapter)->__toString();
-                $select->where('product_id IN (?)', $productCondition);
-                $deleteCondition = $adapter->quoteInto('entity_id IN (?)', $productCondition);
+                $select->where("product_id IN ({$productCondition})");
+                $deleteCondition = "entity_id IN ({$productCondition})";
             } else {
                 $select->where('product_id = ?', (int)$productCondition);
                 $deleteCondition = $adapter->quoteInto('entity_id = ?', (int)$productCondition);
