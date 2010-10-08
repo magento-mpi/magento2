@@ -211,18 +211,24 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     {
         parent::beforeSave($product);
 
-        $this->getProduct($product)->canAffectOptions(false);
+        $product = $this->getProduct($product);
+        // If bundle product has dynamic weight, than delete weight attribute
+        if (!$product->getData('weight_type') && $product->hasData('weight')) {
+            $product->setData('weight', false);
+        }
+        
+        $product->canAffectOptions(false);
 
-        if ($this->getProduct($product)->getCanSaveBundleSelections()) {
-            $this->getProduct($product)->canAffectOptions(true);
-            if ($selections = $this->getProduct($product)->getBundleSelectionsData()) {
+        if ($product->getCanSaveBundleSelections()) {
+            $product->canAffectOptions(true);
+            if ($selections = $product->getBundleSelectionsData()) {
                 if (!empty($selections)) {
-                    if ($options = $this->getProduct($product)->getBundleOptionsData()) {
+                    if ($options = $product->getBundleOptionsData()) {
                         foreach ($options as $option) {
                             if (empty($option['delete']) || 1 != (int)$option['delete']) {
-                                $this->getProduct($product)->setTypeHasOptions(true);
+                                $product->setTypeHasOptions(true);
                                 if (1 == (int)$option['required']) {
-                                    $this->getProduct($product)->setTypeHasRequiredOptions(true);
+                                    $product->setTypeHasRequiredOptions(true);
                                     break;
                                 }
                             }
