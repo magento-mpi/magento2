@@ -107,7 +107,7 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
         $storeId = $this->getStoreId();
 
         if ($storeId) {
-//            $helper = Mage::getResourceHelper('eav');
+
             $adapter        = $this->getConnection();
             $entityIdField  = $this->getEntity()->getEntityIdField();
             $joinCondition  = array(
@@ -115,23 +115,12 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
                 't_s.entity_id = t_d.entity_id',
                 $adapter->quoteInto('t_s.store_id = ?', $storeId)
             );
-//            $valueExpr      = $adapter->getCheckSql(
-//                't_s.value_id IS NULL',
-//                $helper->castField('t_d.value'),
-//                $helper->castField('t_s.value')
-//            );
-//
             $select = $adapter->select()
-                ->from(array('t_d' => $table), array($entityIdField, 'attribute_id',
-//                    'default_value' => $helper->castField('t_d.value')
-                ))
+                ->from(array('t_d' => $table), array($entityIdField, 'attribute_id'))
                 ->joinLeft(
                     array('t_s' => $table),
                     implode(' AND ', $joinCondition),
-                    array(
-//                        'store_value'   => $helper->castField('t_s.value'),
-//                        'value'         => $valueExpr
-                    ))
+                    array())
                 ->where('t_d.entity_type_id = ?', $this->getEntity()->getTypeId())
                 ->where("t_d.{$entityIdField} IN (?)", array_keys($this->_itemsById))
                 ->where('t_d.attribute_id IN (?)', $attributeIds)

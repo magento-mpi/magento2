@@ -1019,11 +1019,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     protected function _getLoadAttributesSelect($object, $table)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from(
-                $table,
-                array()
-//                Mage::getResourceHelper('eav')->attributeSelectFields($table)
-            )
+            ->from($table, array())
             ->where($this->getEntityIdField() . ' =?', $object->getId());
 
         return $select;

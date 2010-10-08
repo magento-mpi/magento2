@@ -1033,7 +1033,6 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         }
 
         $entity = $this->getEntity();
-        $entityIdField = $entity->getEntityIdField();
 
         $tableAttributes = array();
         $attributeTypes  = array();
@@ -1090,10 +1089,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         $helper = Mage::getResourceHelper('eav');
         $entityIdField = $this->getEntity()->getEntityIdField();
         $select = $this->getConnection()->select()
-            ->from($table, array(
-                $entityIdField, 'attribute_id',
-//                'value' => $helper->castField($table .'.value')
-            ))
+            ->from($table, array($entityIdField, 'attribute_id'))
             ->where('entity_type_id =?', $this->getEntity()->getTypeId())
             ->where("$entityIdField IN (?)", array_keys($this->_itemsById))
             ->where('attribute_id IN (?)', $attributeIds);

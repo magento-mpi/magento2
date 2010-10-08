@@ -102,10 +102,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
         }
 
         $select = $this->_getReadAdapter()->select()
-            ->from(array('attr_table' => $table),
-                array()
-//                Mage::getResourceHelper('catalog')->attributeSelectFields('attr_table')
-            )
+            ->from(array('attr_table' => $table), array())
             ->where("attr_table.{$this->getEntityIdField()} = ?", $object->getId())
             ->where('attr_table.store_id IN (?)', $storeIds);
         if ($setId) {
