@@ -79,17 +79,9 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         $wrapperTableName            = 'analytic_tbl';
         $wrapperTableColumnName      = 'analytic_clmn';
         $whereCondition              = array();
-        $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
-
-        if (!empty($groupByCondition)) {
-            /**
-             * Prepare where condition for wrapper select
-             */
-            $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
-            $whereCondition = array(sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName));
-        }
 
         $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
+        $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
         $having           = $this->_prepareHaving($clonedSelect, true);
         if ($having) {
             $whereCondition[] = implode(', ', $having);
@@ -104,6 +96,12 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
             $clonedSelect->columns(array(
                 $wrapperTableColumnName => $this->prepareColumn('RANK()', $groupByCondition, 'rownum')
             ));
+
+            /**
+             * Prepare where condition for wrapper select
+             */
+            $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
+            $whereCondition = array(sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName));
         }
 
         $limitCount  = $clonedSelect->getPart(Zend_Db_Select::LIMIT_COUNT);
@@ -114,8 +112,24 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         /**
          * Assemble sql query
          */
-        $query = sprintf('SELECT %s.* FROM (%s) %s %s',
-            $wrapperTableName,
+//        $query = sprintf('SELECT %s.* FROM (%s) %s %s',
+//            $wrapperTableName,
+//            $clonedSelect->assemble(),
+//            $wrapperTableName,
+//            implode(' AND ', $whereCondition)
+//        );
+
+        $columns = array();
+        foreach ($columnList as $columnEntry) {
+            $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
+        }
+
+        /**
+         * Assemble sql query
+         */
+        $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), $columns);
+        $query = sprintf('SELECT %s FROM (%s) %s %s',
+            implode(', ', $quotedColumns),
             $clonedSelect->assemble(),
             $wrapperTableName,
             implode(' AND ', $whereCondition)
@@ -285,10 +299,10 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
             foreach ($columnList as $columnEntry) {
                 $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
             }
-
+            $quotedColumns = array_map(array($this->_getReadAdapter(), 'quoteIdentifier'), $columns);
             if ($limitOffset + $limitCount != $limitOffset + 1) {
                 $query = sprintf('SELECT %s FROM (%s) m1 WHERE ROWNUM <= %d',
-                    implode(', ', $columns),
+                    implode(', ', $quotedColumns),
                     $query,
                     $limitOffset + $limitCount);
             } else {
@@ -297,7 +311,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
                                       FROM (%s) m1
                                       WHERE ROWNUM <= %d) m2
                                   WHERE m2.analytic_row_number_tbl >= %d',
-                    implode(', ', $columns),
+                    implode(', ', $quotedColumns),
                     $query,
                     $limitOffset + $limitCount,
                     $limitOffset + 1

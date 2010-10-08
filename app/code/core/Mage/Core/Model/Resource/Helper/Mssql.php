@@ -79,16 +79,9 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $wrapperTableName            = 'analytic_tbl';
         $wrapperTableColumnName      = 'analytic_clmn';
         $whereCondition              = array();
-        $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
-        if (!empty($groupByCondition)) {
-            /**
-             * Prepare where condition for wrapper select
-             */
-            $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
-            $whereCondition = array(sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName));
-        }
 
         $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
+        $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
         $having           = $this->_prepareHaving($clonedSelect, true);
         if ($having) {
             $whereCondition[] = implode(', ', $having);
@@ -97,6 +90,12 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
 
         if (!empty($groupByCondition)) {
+            /**
+             * Prepare where condition for wrapper select
+             */
+            $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
+            $whereCondition[] = sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName);
+
             /**
              * Prepare column with analytic function
              */
@@ -113,12 +112,29 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         /**
          * Assemble sql query
          */
-        $query = sprintf('SELECT %s.* FROM (%s) %s %s',
-            $wrapperTableName,
+//        $query = sprintf('SELECT %s.* FROM (%s) %s %s',
+//            $wrapperTableName,
+//            $clonedSelect->assemble(),
+//            $wrapperTableName,
+//            implode(' AND ', $whereCondition)
+//        );
+
+        $columns = array();
+        foreach ($columnList as $columnEntry) {
+            $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
+        }
+
+        /**
+         * Assemble sql query
+         */
+        $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), $columns);
+        $query = sprintf('SELECT %s FROM (%s) %s %s',
+            implode(', ', $quotedColumns),
             $clonedSelect->assemble(),
             $wrapperTableName,
             implode(' AND ', $whereCondition)
         );
+
 
         if (!empty($orderCondition)) {
             $query .= sprintf(' ORDER BY %s', $orderCondition);
@@ -286,9 +302,10 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
                 foreach ($columnList as $columnEntry) {
                     $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
                 }
+                $quotedColumns = array_map(array($this->_getReadAdapter(), 'quoteIdentifier'), $columns);
                 $rowNumberColumn = $this->prepareColumn('ROW_NUMBER()', null, 'RAND()');
                 $query = sprintf('SELECT %s FROM (SELECT m1.*, %s AS analytic_row_number_tbl FROM (%s) m1) m2 WHERE m2.analytic_row_number_tbl >= %d',
-                    implode(', ', $columns),
+                    implode(', ', $quotedColumns),
                     $rowNumberColumn,
                     $query,
                     $limitOffset + 1
