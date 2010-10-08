@@ -73,7 +73,7 @@ class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Hel
      */
     public function prepareEavAttributeValue($value, $eavType)
     {
-        return $this->castField($value . '.value');
+        return $this->castField($value);
     }
 
     /**
