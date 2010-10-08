@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* @var $installer Mage_Sales_Model_Entity_Setup */
+/** @var $installer Mage_Sales_Model_Entity_Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -2297,9 +2297,9 @@ $table = $installer->getConnection()
         array('quote_id'))
     ->addIndex($installer->getIdxName('sales/quote_item', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('sales/quote_item', 'parent_item_id', 'sales/quote_item', 'item_id'),
-        'parent_item_id', $installer->getTable('sales/quote_item'), 'item_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+//    ->addForeignKey($installer->getFkName('sales/quote_item', 'parent_item_id', 'sales/quote_item', 'item_id'),
+//        'parent_item_id', $installer->getTable('sales/quote_item'), 'item_id',
+//        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/quote_item', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog/product'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -2311,7 +2311,6 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Quote Item');
 $installer->getConnection()->createTable($table);
-
 
 /**
  * Create table 'sales/quote_address_item'
