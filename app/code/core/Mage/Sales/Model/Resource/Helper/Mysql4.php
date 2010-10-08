@@ -85,8 +85,9 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Sales_Model_Resource_
         $cols['rating_pos']  = 't.rating_pos';
         $ratingSelect->from($ratingSubSelect, $cols);
 
-        $sql = $ratingSelect->insertFromSelect($aggregationTable, array_keys($cols));
+        $sql = $ratingSelect->insertFromSelect($aggregationTable, array_keys($cols), false);
         $this->_getWriteAdapter()->query("SET @pos = 0, @prevStoreId = -1, @prevPeriod = '0000-00-00'");
+        
         $this->_getWriteAdapter()->query($sql);
 
         return $this;

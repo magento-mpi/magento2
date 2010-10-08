@@ -75,15 +75,16 @@ abstract class Mage_Sales_Model_Resource_Helper_Abstract extends Mage_Core_Model
      * Update rating position
      *
      * @param string $aggregationTableName
-     * @return Mage_Sales_Model_Resource_Report_Bestsellers
+     * @return Mage_Sales_Model_Resource_Helper_Abstract
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationTable)
     {
+        $helper = Mage::getResourceHelper('core');
         $adapter = $this->_getWriteAdapter();
         $periodSubSelect = $adapter->select();
         $ratingSubSelect = $adapter->select();
         $ratingSelect = $adapter->select();
-        
+
         $periodCol = 't.period';
         if ($aggregation == $this->_aggregationAliases['monthly']) {
             $periodCol = $adapter->getDateFormatSql('t.period', '%Y-%m-01');
@@ -103,6 +104,8 @@ abstract class Mage_Sales_Model_Resource_Helper_Abstract extends Mage_Core_Model
         $periodSubSelect->from(array('t' => $this->_mainTableName), $cols)
             ->group(array('t.store_id', $periodCol, 't.product_id'));
 
+        $periodSubSelect = $helper->getQueryUsingAnalyticFunction($periodSubSelect);
+
         $columns = array(
             'period'        => 't.period',
             'store_id'      => 't.store_id',
@@ -113,8 +116,8 @@ abstract class Mage_Sales_Model_Resource_Helper_Abstract extends Mage_Core_Model
 
         $cols = $columns;
         $cols['qty_ordered'] = 't.total_qty_ordered';
-        $cols['rating_pos']  = new Zend_Db_Expr('RANK() OVER ( PARTITION BY t.store_id, t.period  ORDER BY t.store_id ASC, t.period ASC, total_qty_ordered DESC )');
-        $ratingSubSelect->from($periodSubSelect, $cols);
+        $cols['rating_pos']  = $helper->prepareColumn('RANK()', 't.store_id, t.period', 't.store_id ASC, t.period ASC, total_qty_ordered DESC');
+        $ratingSubSelect->from(new Zend_Db_Expr(sprintf('(%s)', $periodSubSelect)), $cols);
 
         $cols = $columns;
         $cols['period']      = $periodCol;  // important!
@@ -122,7 +125,10 @@ abstract class Mage_Sales_Model_Resource_Helper_Abstract extends Mage_Core_Model
         $cols['rating_pos']  = 't.rating_pos';
         $ratingSelect->from($ratingSubSelect, $cols);
 
-        $sql = $ratingSelect->insertFromSelect($aggregationTable, array_keys($cols));
+        $sql = $ratingSelect->insertFromSelect($this->_mainTableName, array_keys($cols), false);
+
         $this->_getWriteAdapter()->query($sql);
+
+        return $this;
     }
 }
