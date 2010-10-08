@@ -735,7 +735,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                     $data = array(
                         'option_id' => $intOptionId,
                         'store_id'  => $storeId,
-                        'value'     => $val,
+                        'value'     => $value,
                     );
                     $this->_conn->insert($optionValueTable, $data);
                 }
