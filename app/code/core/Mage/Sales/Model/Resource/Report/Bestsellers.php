@@ -76,21 +76,40 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
 
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('source_table.created_at', $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
-            $ifnullProductNameValue = $adapter->getCheckSql('product_name.value IS NULL', 'product_default_name.value', 'product_name.value');
-            $ifnullProductPriceValue = new Zend_Db_Expr($adapter->getCheckSql('product_price.value IS NULL', 'product_default_price.value', 'product_price.value'));
-            $ifnullSourcetableToGlobalRate = new Zend_Db_Expr($adapter->getCheckSql('source_table.base_to_global_rate IS NULL', 0, 'source_table.base_to_global_rate'));
+            $periodExpr                    = $adapter->getDateAddSql('source_table.created_at',
+                $this->_getStoreTimezoneUtcOffset(),
+                Varien_Db_Adapter_Interface::INTERVAL_HOUR
+            );
+
+
+            
+            $helper = Mage::getResourceHelper('core');
+
+
+
+            $ifnullProductNameValue        = $adapter->getCheckSql('product_name.value IS NULL', 'product_default_name.value', 'product_name.value');
+            $ifnullProductPriceValue       = $adapter->getCheckSql('product_price.value IS NULL', 'product_default_price.value', 'product_price.value');
+            $ifnullSourcetableToGlobalRate = $adapter->getCheckSql('source_table.base_to_global_rate IS NULL', 0, 'source_table.base_to_global_rate');
+
+            $select = $adapter->select();
+
+            $select->group(array(
+                $periodExpr,
+                'source_table.store_id',
+                'order_item.product_id'
+            ));
+
+            $minProductPriceValue          = $helper->prepareColumn("MIN({$ifnullProductPriceValue})", $select->getPart(Zend_Db_Select::GROUP));
+            $minSourcetableToGlobalRate    = $helper->prepareColumn("MIN({$ifnullSourcetableToGlobalRate})", $select->getPart(Zend_Db_Select::GROUP));
 
             $columns = array(
                 'period'                         => $periodExpr,
                 'store_id'                       => 'source_table.store_id',
                 'product_id'                     => 'order_item.product_id',
                 'product_name'                   => "MIN({$ifnullProductNameValue})",
-                'product_price'                  => "MIN({$ifnullProductPriceValue}) * MIN({$ifnullSourcetableToGlobalRate})",
+                'product_price'                  => "{$minProductPriceValue} * {$minSourcetableToGlobalRate}",
                 'qty_ordered'                    => 'SUM(order_item.qty_ordered)',
             );
-
-            $select = $adapter->select();
 
             $select->from(array('source_table' => $this->getTable('sales/order')), $columns)
                 ->joinInner(
@@ -175,20 +194,20 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'source_table.created_at'));
             }
-            $select->group(array(
-                $periodExpr,
-                'source_table.store_id',
-                'order_item.product_id'
-            ));
+
 
             $select->useStraightJoin();  // important!
 
-            $sql = $select->insertFromSelect($this->getMainTable(), array_keys($columns));
-            $adapter->query($sql);
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $this->getMainTable(), implode(', ', $quotedColumns), $selectQuery);
+
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns), false));
 
             $columns = array(
                 'period'                         => 'period',
-                'store_id'                       => new Zend_Db_Expr('0'),
+                'store_id'                       => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'product_id'                     => 'product_id',
                 'product_name'                   => 'MIN(product_name)',
                 'product_price'                  => 'MIN(product_price)',
@@ -197,7 +216,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
 
             $select->reset();
             $select->from($this->getMainTable(), $columns)
-                ->where('store_id <> 0');
+                ->where('store_id <> ?', 0);
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
@@ -208,8 +227,11 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 'product_id'
             ));
 
-            $sql = $select->insertFromSelect($this->getMainTable(), array_keys($columns));
-            $adapter->query($sql);
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $this->getMainTable(), implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
 
 
             // update rating
@@ -220,24 +242,24 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
 
             $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_BESTSELLERS_FLAG_CODE);
         } catch (Exception $e) {
-            //$this->_getWriteAdapter()->rollBack();
+            $this->_getWriteAdapter()->rollBack();
             throw $e;
         }
 
-        //$this->_getWriteAdapter()->commit();
+        $this->_getWriteAdapter()->commit();
         return $this;
     }
 
     /**
      * Update rating position
      *
-     * @param string $aggregation One of Mage_Sales_Model_Mysql4_Report_Bestsellers::AGGREGATION_XXX constants
+     * @param string $aggregation One of Mage_Sales_Model_Resource_Report_Bestsellers::AGGREGATION_XXX constants
      * @return Mage_Sales_Model_Resource_Report_Bestsellers
      */
-    public function _updateRatingPos($aggregation)
+    protected function _updateRatingPos($aggregation)
     {
         $aggregationTable = $this->getTable('sales/bestsellers_aggregated_' . $aggregation);
-        $resourceHelper = Mage::getResourceHelper('sales')
+        Mage::getResourceHelper('sales')
             ->setMainTableName($this->getMainTable())
             ->setAggregationAliases(array(
                 'daily'   => self::AGGREGATION_DAILY,

@@ -58,7 +58,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
 
         $this->_checkDates($from, $to);
         $this->_aggregateByOrderCreatedAt($from, $to);
-        $this->_aggregateByShippingCreatedAt($from, $to); die();
+        $this->_aggregateByShippingCreatedAt($from, $to);
         $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE);
         return $this;
     }
@@ -86,8 +86,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(), 'HOURS'));
-            $countExpr = new Zend_Db_Expr('COUNT(entity_id)');
+            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(),  Varien_Db_Adapter_Interface::INTERVAL_HOUR));
             $ifnullBaseShippingCanceled = $adapter->getCheckSql('base_shipping_canceled IS NULL', 0, 'base_shipping_canceled');
             $ifnullBaseShippingRefunded = $adapter->getCheckSql('base_shipping_refunded IS NULL', 0, 'base_shipping_refunded');
             $columns = array(
@@ -95,7 +94,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'store_id'              => 'store_id',
                 'order_status'          => 'status',
                 'shipping_description'  => 'shipping_description',
-                'orders_count'          => $countExpr,
+                'orders_count'          => 'COUNT(entity_id)',
                 'total_shipping'        => new Zend_Db_Expr("SUM((base_shipping_amount - {$ifnullBaseShippingCanceled}) * base_to_global_rate)"),
                 'total_shipping_actual' => new Zend_Db_Expr("SUM((base_shipping_invoiced - {$ifnullBaseShippingRefunded}) * base_to_global_rate)"),
             );
@@ -119,14 +118,21 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'shipping_description'
             ));
 
-            $select->having($countExpr . ' > 0');
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $select->having('orders_count > 0');
+
+            $helper        = Mage::getResourceHelper('core');
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns), false));
 
             $select->reset();
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr('0'),
+                'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
                 'shipping_description'  => 'shipping_description',
                 'orders_count'          => new Zend_Db_Expr('SUM(orders_count)'),
@@ -148,7 +154,12 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'shipping_description'
             ));
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
+
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;
@@ -228,13 +239,18 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'order_table.shipping_description'
             ));
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $helper        = Mage::getResourceHelper('core');
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr('0'),
+                'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
                 'shipping_description'  => 'shipping_description',
                 'orders_count'          => new Zend_Db_Expr('SUM(orders_count)'),
@@ -255,8 +271,11 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'order_status',
                 'shipping_description'
             ));
-
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;

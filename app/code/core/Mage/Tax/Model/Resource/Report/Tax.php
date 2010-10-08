@@ -70,14 +70,21 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
             }
 
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
+            // convert dates from UTC to current admin timezone
+            $periodExpr = $writeAdapter->getDateAddSql('e.created_at', $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR);
+
+            $countDistinctSubSelect = clone $writeAdapter->select();
+            $countDistinctSubSelect->reset()
+                ->from(array('sales_order' => $this->getTable('sales/order')), 'COUNT(DISTINCT sales_order.entity_id)')
+                ->where('sales_order.entity_id = tax.order_id');
 
             $columns = array(
-                'period'                => "DATE(CONVERT_TZ(e.created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
+                'period'                => $periodExpr,
                 'store_id'              => 'e.store_id',
                 'code'                  => 'tax.code',
                 'order_status'          => 'e.status',
                 'percent'               => 'tax.percent',
-                'orders_count'          => 'COUNT(DISTINCT(e.entity_id))',
+                'orders_count'          => new Zend_Db_Expr(sprintf('(%s)', $countDistinctSubSelect)),
                 'tax_base_amount_sum'   => 'SUM(tax.base_real_amount * e.base_to_global_rate)'
             );
 
@@ -91,19 +98,24 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
             }
 
             $select->group(array(
-                'period',
-                'store_id',
+                $periodExpr,
+                'e.store_id',
                 'code',
-                'order_status'
+                'e.status'
             ));
 
-            $writeAdapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
+            $helper        = Mage::getResourceHelper('core');
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($writeAdapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $this->getMainTable(), implode(', ', $quotedColumns), $selectQuery);
+            $writeAdapter->query($insertQuery);
+            //$writeAdapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns), false));
 
             $select->reset();
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr('0'),
+                'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'code'                  => 'code',
                 'order_status'          => 'order_status',
                 'percent'               => 'percent',
@@ -125,8 +137,12 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
                 'order_status'
             ));
 
-            $writeAdapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($writeAdapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $this->getMainTable(), implode(', ', $quotedColumns), $selectQuery);
+            $writeAdapter->query($insertQuery);
 
+            //$writeAdapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns), false));
             $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
         } catch (Exception $e) {
             $writeAdapter->rollBack();

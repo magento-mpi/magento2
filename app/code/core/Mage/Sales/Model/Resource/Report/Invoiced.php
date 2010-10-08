@@ -92,13 +92,12 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
             $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('source_table.created_at', $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
-            $countExpr = new Zend_Db_Expr('COUNT(order_table.entity_id)');
             $columns = array(
                 // convert dates from UTC to current admin timezone
                 'period'                => $periodExpr,
                 'store_id'              => 'order_table.store_id',
                 'order_status'          => 'order_table.status',
-                'orders_count'          => $countExpr,
+                'orders_count'          => 'COUNT(order_table.entity_id)',
                 'orders_invoiced'       => 'COUNT(order_table.entity_id)',
                 'invoiced'              => 'SUM(order_table.base_total_invoiced * order_table.base_to_global_rate)',
                 'invoiced_captured'     => 'SUM(order_table.base_total_paid * order_table.base_to_global_rate)',
@@ -132,15 +131,20 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'order_table.status'
             ));
 
-            $select->having($countExpr . ' > 0');
+            $select->having('orders_count > 0');
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $helper        = Mage::getResourceHelper('core');
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr('0'),
+                'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
                 'orders_count'          => 'SUM(orders_count)',
                 'orders_invoiced'       => 'SUM(orders_invoiced)',
@@ -162,7 +166,11 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'order_status'
             ));
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;
@@ -196,14 +204,13 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
             $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
-            $countExpr = new Zend_Db_Expr('COUNT(base_total_invoiced)');
             $ifBaseTotalInvoiced = $adapter->getCheckSql('base_total_invoiced > 0', 1, 0);
 
             $columns = array(
                 'period'                => $periodExpr,
                 'store_id'              => 'store_id',
                 'order_status'          => 'status',
-                'orders_count'          => $countExpr,
+                'orders_count'          => 'COUNT(base_total_invoiced)',
                 'orders_invoiced'       => "SUM({$ifBaseTotalInvoiced})",
                 'invoiced'              => 'SUM(base_total_invoiced * base_to_global_rate)',
                 'invoiced_captured'     => 'SUM(base_total_paid * base_to_global_rate)',
@@ -224,15 +231,20 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'status'
             ));
 
-            $select->having($countExpr . ' > 0');
+            $select->having('orders_count > 0');
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $helper        = Mage::getResourceHelper('core');
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+//            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr('0'),
+                'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
                 'orders_count'          => 'SUM(orders_count)',
                 'orders_invoiced'       => 'SUM(orders_invoiced)',
@@ -254,7 +266,11 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'order_status'
             ));
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;

@@ -72,7 +72,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
 
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('o.created_at', $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
+            $periodExpr = $adapter->getDateAddSql('o.created_at', $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR);
             
             $ifnullBaseTotalCanceled = $adapter->getCheckSql('o.base_total_canceled IS NULL', 0, 'o.base_total_canceled');
             $ifnullBaseTotalRefunded = $adapter->getCheckSql('o.base_total_refunded IS NULL', 0, 'o.base_total_refunded');
@@ -113,10 +113,10 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
             $select = $adapter->select();
             $selectOrderItem = $adapter->select();
 
-            $ifnullQtyCanceled = $adapter->getCheckSql('qty_canceled IS NULL', 0, 'qty_canceled');
+            $qtyCanceledExpr = $adapter->getCheckSql('qty_canceled IS NULL', 0, 'qty_canceled');
             $cols = array(
                 'order_id'           => 'order_id',
-                'total_qty_ordered'  => "SUM(qty_ordered - {$ifnullQtyCanceled})",
+                'total_qty_ordered'  => "SUM(qty_ordered - {$qtyCanceledExpr})",
                 'total_qty_invoiced' => 'SUM(qty_invoiced)',
             );
             $selectOrderItem->from($this->getTable('sales/order_item'), $cols)
@@ -140,14 +140,12 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
                 'o.status',
             ));
 
-            $adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
-
             // setup all columns to select SUM() except period, store_id and order_status
             foreach ($columns as $k => $v) {
                 $columns[$k] = 'SUM(' . $k . ')';
             }
             $columns['period']         = 'period';
-            $columns['store_id']       = new Zend_Db_Expr('0');
+            $columns['store_id']       = new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID);
             $columns['order_status']   = 'order_status';
 
             $select->reset();
@@ -163,7 +161,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
                 'order_status'
             ));
 
-            $adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
+            $adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns), false));
 
             $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE);
         } catch (Exception $e) {

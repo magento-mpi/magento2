@@ -88,12 +88,11 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
             $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(), 'HOURS'));
-            $countExpr = new Zend_Db_Expr('COUNT(total_refunded)');
             $columns = array(
                 'period'            => $periodExpr,
                 'store_id'          => 'store_id',
                 'order_status'      => 'status',
-                'orders_count'      => $countExpr,
+                'orders_count'      => 'COUNT(total_refunded)',
                 'refunded'          => new Zend_Db_Expr('SUM(base_total_refunded * base_to_global_rate)'),
                 'online_refunded'   => new Zend_Db_Expr('SUM(base_total_online_refunded * base_to_global_rate)'),
                 'offline_refunded'  => new Zend_Db_Expr('SUM(base_total_offline_refunded * base_to_global_rate)')
@@ -114,9 +113,14 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
                 'status'
             ));
 
-            $select->having($countExpr . ' > 0');
+            $select->having('orders_count > 0');
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $helper        = Mage::getResourceHelper('core');
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();
 
@@ -143,7 +147,11 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
                 'order_status'
             ));
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;
@@ -187,7 +195,7 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
                 'period'            => $periodExpr,
                 'store_id'          => 'order_table.store_id',
                 'order_status'      => 'order_table.status',
-                'orders_count'      => $countExpr,
+                'orders_count'      => 'COUNT(order_table.entity_id)',
                 'refunded'          => new Zend_Db_Expr('SUM(order_table.base_total_refunded * order_table.base_to_global_rate)'),
                 'online_refunded'   => new Zend_Db_Expr('SUM(order_table.base_total_online_refunded * order_table.base_to_global_rate)'),
                 'offline_refunded'  => new Zend_Db_Expr('SUM(order_table.base_total_offline_refunded * order_table.base_to_global_rate)')
@@ -220,9 +228,14 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
                 'order_table.status'
             ));
 
-            $select->having($countExpr . ' > 0');
+            $select->having('orders_count > 0');
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $helper        = Mage::getResourceHelper('core');
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();
 
@@ -249,7 +262,11 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
                 'order_status'
             ));
 
-            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
+            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
+            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $adapter->query($insertQuery);
+            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;
