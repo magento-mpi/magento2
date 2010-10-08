@@ -509,6 +509,11 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     {
         $this->getSelect()->group('main_table.customer_id');
 
+        /*
+         * Allow Analytic functions usage
+         */
+        $this->_useAnalyticFunction = true;
+
         return $this;
     }
 

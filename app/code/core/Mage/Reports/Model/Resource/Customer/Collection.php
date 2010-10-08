@@ -213,8 +213,8 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
 
         if ($this->_addOrderStatistics && !empty($customerIds)) {
             $adapter = $this->getConnection();
-            $baseSubtotalRefunded   = $adapter->getCheckSql('orders.base_subtotal_refunded', 0, 'orders.base_subtotal_refunded');
-            $baseSubtotalCanceled   = $adapter->getCheckSql('orders.base_subtotal_canceled', 0, 'orders.base_subtotal_canceled');
+            $baseSubtotalRefunded   = $adapter->getCheckSql('orders.base_subtotal_refunded IS NULL', 0, 'orders.base_subtotal_refunded');
+            $baseSubtotalCanceled   = $adapter->getCheckSql('orders.base_subtotal_canceled IS NULL', 0, 'orders.base_subtotal_canceled');
 
             $totalExpr = ($this->_addOrderStatisticsIsFilter)
                 ? "(orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}) * orders.base_to_global_rate"
@@ -229,6 +229,11 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
             ))->where('orders.state <> ?', Mage_Sales_Model_Order::STATE_CANCELED)
               ->where('orders.customer_id IN(?)', $customerIds)
               ->group('orders.customer_id');
+
+            /*
+             * Analytic functions usage
+             */
+            $select = Mage::getResourceHelper('core')->getQueryUsingAnalyticFunction($select);
 
             foreach ($this->getConnection()->fetchAll($select) as $ordersInfo) {
                 $this->getItemById($ordersInfo['customer_id'])->addData($ordersInfo);
