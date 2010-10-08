@@ -83,9 +83,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
         $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
         $having           = $this->_prepareHaving($clonedSelect, true);
-        if ($having) {
-            $whereCondition[] = implode(', ', $having);
-        }
+
 
         $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
 
@@ -100,8 +98,11 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
             /**
              * Prepare where condition for wrapper select
              */
-            $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
-            $whereCondition = array(sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName));
+            $whereCondition[] = sprintf('%s.%s = 1', $wrapperTableName, $wrapperTableColumnName);
+        }
+
+        if ($having) {
+            $whereCondition[] = implode(', ', $having);
         }
 
         $limitCount  = $clonedSelect->getPart(Zend_Db_Select::LIMIT_COUNT);
@@ -124,6 +125,9 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
             $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
         }
 
+        if (!empty($whereCondition)) {
+            $whereCondition = sprintf('WHERE %s', implode(' AND ', $whereCondition));
+        }
         /**
          * Assemble sql query
          */
@@ -132,7 +136,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
             implode(', ', $quotedColumns),
             $clonedSelect->assemble(),
             $wrapperTableName,
-            implode(' AND ', $whereCondition)
+            $whereCondition
         );
 
         if (!empty($orderCondition)) {

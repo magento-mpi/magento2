@@ -83,25 +83,25 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
         $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
         $having           = $this->_prepareHaving($clonedSelect, true);
-        if ($having) {
-            $whereCondition[] = implode(', ', $having);
-        }
+
 
         $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
 
         if (!empty($groupByCondition)) {
-            /**
-             * Prepare where condition for wrapper select
-             */
-            $quotedCondition = $adapter->quoteInto('WHERE %s.%s = ?', 1);
-            $whereCondition[] = sprintf($quotedCondition, $wrapperTableName, $wrapperTableColumnName);
-
             /**
              * Prepare column with analytic function
              */
             $clonedSelect->columns(array(
                 $wrapperTableColumnName => $this->prepareColumn('RANK()', $groupByCondition, 'NEWID()')
             ));
+            /**
+             * Prepare where condition for wrapper select
+             */
+            $whereCondition[] = sprintf('%s.%s = 1', $wrapperTableName, $wrapperTableColumnName);
+        }
+
+        if ($having) {
+            $whereCondition[] = implode(', ', $having);
         }
 
         $limitCount  = $clonedSelect->getPart(Zend_Db_Select::LIMIT_COUNT);
@@ -124,6 +124,10 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
         }
 
+        if (!empty($whereCondition)) {
+            $whereCondition = sprintf('WHERE %s', implode(' AND ', $whereCondition));
+        }
+
         /**
          * Assemble sql query
          */
@@ -132,7 +136,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             implode(', ', $quotedColumns),
             $clonedSelect->assemble(),
             $wrapperTableName,
-            implode(' AND ', $whereCondition)
+            $whereCondition
         );
 
 
