@@ -3426,8 +3426,56 @@ $table = $installer->getConnection()
     ->setComment('Sales Recurring Profile Order');
 $installer->getConnection()->createTable($table);
 
+/**
+ * Create table 'sales/order_tax'
+ */
+$table = $installer->getConnection()
+    ->newTable($installer->getTable('sales/order_tax'))
+    ->addColumn('tax_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'identity'  => true,
+        'unsigned'  => true,
+        'nullable'  => false,
+        'primary'   => true,
+        ), 'Tax Id')
+    ->addColumn('order_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        ), 'Order Id')
+    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        ), 'Code')
+    ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        ), 'Title')
+    ->addColumn('percent', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+        ), 'Percent')
+    ->addColumn('amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+        ), 'Amount')
+    ->addColumn('priority', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'nullable'  => false,
+        ), 'Priority')
+    ->addColumn('position', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'nullable'  => false,
+        ), 'Position')
+    ->addColumn('base_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+        ), 'Base Amount')
+    ->addColumn('process', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+        'nullable'  => false,
+        ), 'Process')
+    ->addColumn('base_real_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+        ), 'Base Real Amount')
+    ->addColumn('hidden', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        'default'   => '0',
+        ), 'Hidden')
+    ->addIndex($installer->getIdxName('sales/order_tax', array('order_id', 'priority', 'position')),
+        array('order_id', 'priority', 'position'))
+    ->setComment('Sales Order Tax Table');
+$installer->getConnection()->createTable($table);
 
-// Add eav entity types
+
+/**
+ * Install eav entity types to the eav/entity_type table
+ */
 $installer->addEntityType('order', array(
     'entity_model'          => 'sales/order',
     'table'                 =>'sales/order',
@@ -3437,23 +3485,23 @@ $installer->addEntityType('order', array(
 
 $installer->addEntityType('invoice', array(
     'entity_model'          => 'sales/order_invoice',
-    'table'                 =>'sales/invoice',
-    'increment_model'       =>'eav/entity_increment_numeric',
-    'increment_per_store'   =>true
+    'table'                 => 'sales/invoice',
+    'increment_model'       => 'eav/entity_increment_numeric',
+    'increment_per_store'   => true
 ));
 
 $installer->addEntityType('creditmemo', array(
     'entity_model'          => 'sales/order_creditmemo',
-    'table'                 =>'sales/creditmemo',
-    'increment_model'       =>'eav/entity_increment_numeric',
-    'increment_per_store'   =>true
+    'table'                 => 'sales/creditmemo',
+    'increment_model'       => 'eav/entity_increment_numeric',
+    'increment_per_store'   => true
 ));
 
 $installer->addEntityType('shipment', array(
     'entity_model'          => 'sales/order_shipment',
-    'table'                 =>'sales/shipment',
-    'increment_model'       =>'eav/entity_increment_numeric',
-    'increment_per_store'   =>true
+    'table'                 => 'sales/shipment',
+    'increment_model'       => 'eav/entity_increment_numeric',
+    'increment_per_store'   => true
 ));
 
 $installer->endSetup();
