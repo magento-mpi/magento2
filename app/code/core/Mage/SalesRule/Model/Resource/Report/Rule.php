@@ -84,6 +84,8 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
             }
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
+
+            // convert dates from UTC to current admin timezone
             $periodExpr = new Zend_Db_Expr(
                 $adapter->getDateAddSql(
                     'source_table.created_at',
@@ -91,19 +93,45 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
                     Varien_Db_Adapter_Interface::INTERVAL_HOUR)
             );
 
+            $helper = Mage::getResourceHelper('core');
+
             $columns = array(
-                // convert dates from UTC to current admin timezone
                 'period'                  => $periodExpr,
                 'store_id'                => 'store_id',
                 'order_status'            => 'status',
                 'coupon_code'             => 'coupon_code',
-                'coupon_uses'             => 'COUNT(`entity_id`)',
-                'subtotal_amount'         => 'SUM((`base_subtotal` - IFNULL(`base_subtotal_canceled`, 0)) * `base_to_global_rate`)',
-                'discount_amount'         => 'SUM((ABS(`base_discount_amount`) - IFNULL(`base_discount_canceled`, 0)) * `base_to_global_rate`)',
-                'total_amount'            => 'SUM((`base_subtotal` - IFNULL(`base_subtotal_canceled`, 0) + IFNULL(ABS(`base_discount_amount`) - IFNULL(`base_discount_canceled`, 0), 0)) * `base_to_global_rate`)',
-                'subtotal_amount_actual'  => 'SUM((`base_subtotal_invoiced` - IFNULL(`base_subtotal_refunded`, 0)) * `base_to_global_rate`)',
-                'discount_amount_actual'  => 'SUM((`base_discount_invoiced` - IFNULL(`base_discount_refunded`, 0)) * `base_to_global_rate`)',
-                'total_amount_actual'     => 'SUM((`base_subtotal_invoiced` - IFNULL(`base_subtotal_refunded`, 0) - IFNULL(`base_discount_invoiced` - IFNULL(`base_discount_refunded`, 0), 0)) * `base_to_global_rate`)',
+                'coupon_uses'             => 'COUNT(entity_id)',
+
+                'subtotal_amount'         =>
+                    $helper->getIfnullSql('SUM((base_subtotal - ' .
+                        $helper->getIfnullSql('base_subtotal_canceled', 0).') * base_to_global_rate)', 0),
+
+                'discount_amount'         =>
+                    $helper->getIfnullSql('SUM((ABS(base_discount_amount) - ' .
+                        $helper->getIfnullSql('base_discount_canceled', 0).') * base_to_global_rate)', 0),
+
+                'total_amount'            =>
+                    $helper->getIfnullSql('SUM((base_subtotal - ' .
+                        $helper->getIfnullSql('base_subtotal_canceled', 0) . ' + '.
+                        $helper->getIfnullSql('ABS(base_discount_amount) - ' .
+                        $helper->getIfnullSql('base_discount_canceled', 0), 0). ')
+                        * base_to_global_rate)', 0),
+
+                'subtotal_amount_actual'  =>
+                    $helper->getIfnullSql('SUM((base_subtotal_invoiced - ' .
+                        $helper->getIfnullSql('base_subtotal_refunded', 0). ') * base_to_global_rate)', 0),
+
+                'discount_amount_actual'  =>
+                    $helper->getIfnullSql('SUM((base_discount_invoiced - ' .
+                        $helper->getIfnullSql('base_discount_refunded', 0) . ')
+                        * base_to_global_rate)' , 0),
+
+                'total_amount_actual'     =>
+                    $helper->getIfnullSql('SUM((base_subtotal_invoiced - ' .
+                        $helper->getIfnullSql('base_subtotal_refunded', 0) . ' - ' .
+                        $helper->getIfnullSql('base_discount_invoiced - ' .
+                        $helper->getIfnullSql('base_discount_refunded', 0), 0) .
+                        ') * base_to_global_rate)', 0),
             );
 
             $select = $this->_getWriteAdapter()->select();
@@ -115,13 +143,14 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
             }
 
             $select->group(array(
-                'period',
+                $periodExpr,
                 'store_id',
-                'order_status',
+                'status',
                 'coupon_code'
             ));
 
-            $select->having('coupon_uses > 0');
+            $select->having('COUNT(entity_id) > 0');
+            $select->insertFromSelect($table, array_keys($columns));
 
             $this->_getWriteAdapter()->query($select->insertFromSelect($table, array_keys($columns)));
 
@@ -132,13 +161,13 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
                 'store_id'                => new Zend_Db_Expr('0'),
                 'order_status'            => 'order_status',
                 'coupon_code'             => 'coupon_code',
-                'coupon_uses'             => 'SUM(`coupon_uses`)',
-                'subtotal_amount'         => 'SUM(`subtotal_amount`)',
-                'discount_amount'         => 'SUM(`discount_amount`)',
-                'total_amount'            => 'SUM(`total_amount`)',
-                'subtotal_amount_actual'  => 'SUM(`subtotal_amount_actual`)',
-                'discount_amount_actual'  => 'SUM(`discount_amount_actual`)',
-                'total_amount_actual'     => 'SUM(`total_amount_actual`)',
+                'coupon_uses'             => 'SUM(coupon_uses)',
+                'subtotal_amount'         => 'SUM(subtotal_amount)',
+                'discount_amount'         => 'SUM(discount_amount)',
+                'total_amount'            => 'SUM(total_amount)',
+                'subtotal_amount_actual'  => 'SUM(subtotal_amount_actual)',
+                'discount_amount_actual'  => 'SUM(discount_amount_actual)',
+                'total_amount_actual'     => 'SUM(total_amount_actual)',
             );
 
             $select

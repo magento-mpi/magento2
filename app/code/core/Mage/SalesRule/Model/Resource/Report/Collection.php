@@ -94,7 +94,9 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
         }
 
         if ($this->isSubTotals()) {
-            $this->_selectedColumns = $this->getAggregatedColumns() + array('period' => $this->_periodFormat);
+            $this->_selectedColumns =
+                $this->getAggregatedColumns() +
+                    array('period' => $this->_periodFormat);
         }
 
         return $this->_selectedColumns;
