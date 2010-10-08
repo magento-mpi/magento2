@@ -287,8 +287,6 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             $adapter->quoteInto('e.entity_type_id = ?', $this->getProductEntityTypeId())
         );
 
-
-
         if ($from != '' && $to != '') {
             $fieldName            = sprintf('%s.created_at', $orderTableAliasName);
             $orderJoinCondition[] = $this->_prepareBetweenSql($fieldName, $from, $to); 
@@ -299,7 +297,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 array('order_items' => $this->getTable('sales/order_item')),
                 array('ordered_qty' => 'SUM(order_items.qty_ordered)'))
             ->joinInner(
-                array($orderTableAliasName => $this->getTable('sales/order')),
+                array('order' => $this->getTable('sales/order')),
                 implode(' AND ', $orderJoinCondition),
                 array())
             ->joinInner(
@@ -308,7 +306,6 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 array('entity_id'))
             ->group('e.entity_id')
             ->having('SUM(order_items.qty_ordered) > ?', 0);
-
         return $this;
     }
 
