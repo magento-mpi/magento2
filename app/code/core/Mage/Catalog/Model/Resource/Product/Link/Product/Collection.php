@@ -70,6 +70,14 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
     protected $_hasLinkFilter  = false;
 
     /**
+     * Use analytic function flag
+     * If true - allows to prepare final select with analytic functions
+     *
+     * @var bool
+     */
+    protected $_useAnalyticFunction = true;
+
+    /**
      * Declare link model and initialize type attributes join
      *
      * @param Mage_Catalog_Model_Product_Link $linkModel
