@@ -108,8 +108,9 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
         $productTable = $this->getTable('catalog/product');
 
         $bind = array('attribute_id' => $object->getAttributeId());
-        $select = $adapter->select()
-            ->from(array('main_table' => $attrTable), 'COUNT(product_super_attribute_id)')
+        $select = clone $adapter->select();
+        $select->reset()
+            ->from(array('main_table' => $attrTable), array('psa_count' => 'COUNT(product_super_attribute_id)'))
             ->join(array('entity' => $productTable), 'main_table.product_id = entity.entity_id')
             ->where('main_table.attribute_id = :attribute_id')
             ->group('main_table.attribute_id')
@@ -120,6 +121,8 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
             $select->where('entity.attribute_set_id = :attribute_set_id');
         }
 
-        return $adapter->fetchOne($select, $bind);
+        $helper = Mage::getResourceHelper('core');
+        $query  = $helper->getQueryUsingAnalyticFunction($select);
+        return $adapter->fetchOne($query, $bind);
     }
 }
