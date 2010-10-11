@@ -3387,21 +3387,44 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addForeignKeyDeleteAction($tableName, $columnName, $refTableName, $refColumnName, $fkAction)
     {
-        $deleteAction = ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE) ?
-            "        DELETE t FROM {$tableName} t                           \n"
-            . "        INNER JOIN deleted ON                               \n"
-            . "         t.{$columnName} = deleted.{$refColumnName};         \n":
-            "        UPDATE t \n"
-            . "        SET t.{$columnName} = NULL                           \n"
-            . "      FROM {$tableName} t                                    \n"
-            . "        INNER JOIN deleted ON                                 \n"
-            . "         t.{$columnName} = deleted.{$refColumnName};         \n";
         $sqlTrigger = $this->_getInsteadTriggerBody($refTableName);
-        $sqlTrigger = str_replace(
-            "/*place core here*/",
-             "/*ACTION ADDED BY {$tableName}*/ \n". $deleteAction . "/*place core here*/ \n",
-            $sqlTrigger
-        );
+        $ids = '';
+        if ( $tableName == $refTableName ) {
+            $ids = "\n;WITH depended_ids ({$refColumnName}) AS ( \n"
+		        . "SELECT m.{$refColumnName} \n"
+                . "FROM {$tableName} AS m\n"
+		        . "INNER JOIN deleted d ON m.{$refColumnName} = d.{$refColumnName}\n"
+                . "UNION ALL\n"
+                . "SELECT m.{$refColumnName}\n"
+                . "FROM {$tableName} AS m\n"
+                . "INNER JOIN depended_ids AS di ON di.{$refColumnName} = m.{$columnName}\n)"
+                . "INSERT INTO @deletedRows\n"
+                . "SELECT $refColumnName FROM depended_ids\n";
+            if (strpos($sqlTrigger, "/*place ids here*/") === false) {
+                throw new Varien_Db_Exception("Hierarchical query already exist! cannot add one more!");
+            }
+            $sqlTrigger = str_replace(
+                "/*place ids here*/",
+                 "/*HIERARCHICAL ACTION*/ \n". $ids,
+                $sqlTrigger
+            );
+        } else {
+            $deleteAction = ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE) ?
+                "        DELETE t FROM {$tableName} t                           \n"
+                . "        INNER JOIN @deletedRows d ON                               \n"
+                . "         t.{$columnName} = d.{$refColumnName};         \n"
+                . " " :
+                "        UPDATE t \n"
+                . "        SET t.{$columnName} = NULL                           \n"
+                . "      FROM {$tableName} t                                    \n"
+                . "        INNER JOIN @deletedRows d ON                                 \n"
+                . "         t.{$columnName} = d.{$refColumnName};         \n";
+            $sqlTrigger = str_replace(
+                "/*place code here*/",
+                 "/*ACTION ADDED BY {$tableName}*/ \n". $deleteAction . "/*place code here*/",
+                $sqlTrigger
+            );
+        }
         $this->getConnection()->exec("SET ANSI_NULLS ON");
         $this->getConnection()->exec("SET QUOTED_IDENTIFIER ON");
         $this->getConnection()->exec($sqlTrigger);
@@ -4045,12 +4068,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _getInsteadTriggerBody($tableName)
     {
+        $pkColumns = $this->_getPrimaryKeyColumns($tableName); 
         $query = sprintf(" SELECT CAST(OBJECT_DEFINITION (object_id) AS VARCHAR(MAX)) \n"
                 . " FROM sys.triggers t                \n"
                 . " WHERE t.is_instead_of_trigger = 1 \n"
                 . " AND t.parent_id = OBJECT_ID('{$tableName}')",
             $tableName
         );
+        $deletedRows = array();
+        foreach ($pkColumns as $column) {
+            $deletedRows[] = sprintf("%s %s",
+                $column,
+                $this->_getColumnDataType($tableName, $column)
+            );
+
+            
+        }
         $triggerBody = str_replace(
             "CREATE TRIGGER",
             "ALTER TRIGGER",
@@ -4067,14 +4100,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $triggerBody = $triggerBody
                 . "BEGIN                                                    \n"
                 . "    SET NOCOUNT ON;                                      \n"
+                . "    DECLARE @deletedRows TABLE (" . implode(",\n", $deletedRows) . " )\n"
+                . "    INSERT INTO @deletedRows SELECT " . implode(", ", $pkColumns) . " FROM deleted       \n"
+                . "    /*place ids here*/                                  \n"
+
                 . "    BEGIN TRANSACTION                                    \n"
                 . "    BEGIN TRY                                            \n";
-            $triggerBody = $triggerBody . "  /*place core here*/            \n"
-                . "        DELETE t FROM {$tableName} t INNER JOIN deleted ON\n";
+            $triggerBody = $triggerBody . "  /*place code here*/            \n"
+                . "        DELETE t FROM {$tableName} t INNER JOIN @deletedRows d ON\n";
 
             $pKeysCond = array();
-            foreach ($this->_getPrimaryKeyColumns($tableName) as $column) {
-                $pKeysCond[] = sprintf('t.%s = deleted.%s', $column, $column);
+            foreach ($pkColumns as $column) {
+                $pKeysCond[] = sprintf('t.%s = d.%s', $column, $column);
             }
             $triggerBody = $triggerBody . join(' AND ', $pKeysCond);
             $triggerBody = $triggerBody .
