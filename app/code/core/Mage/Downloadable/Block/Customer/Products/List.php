@@ -49,6 +49,9 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
         foreach ($purchased as $_item) {
             $purchasedIds[] = $_item->getId();
         }
+        if (empty($purchasedIds)) {
+            $purchasedIds = array(null);
+        }
         $purchasedItems = Mage::getResourceModel('downloadable/link_purchased_item_collection')
             ->addFieldToFilter('purchased_id', array('in' => $purchasedIds))
             ->addFieldToFilter('status', array('nin' => Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING_PAYMENT))
