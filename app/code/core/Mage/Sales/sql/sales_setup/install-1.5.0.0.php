@@ -1915,7 +1915,7 @@ $table = $installer->getConnection()
     ->addColumn('applied_rule_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Applied Rule Ids')
     ->addColumn('reserved_order_id', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        'default'   => '',
+        'nullable'  => true,
         ), 'Reserved Order Id')
     ->addColumn('password_hash', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Password Hash')
