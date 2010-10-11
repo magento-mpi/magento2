@@ -1160,6 +1160,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
+        'identity'  => true
         ), 'Entity Id')
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
@@ -1279,7 +1280,6 @@ $installer->getConnection()->createTable($table);
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales/invoice_grid'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
