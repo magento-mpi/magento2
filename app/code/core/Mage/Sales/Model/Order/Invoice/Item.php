@@ -115,6 +115,17 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Init mapping array of short fields to
+     * its full names
+     *
+     * @return Varien_Object
+     */
+    protected function _initOldFieldsMap()
+    {
+        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('invoice_item');
+        return $this;
+    }
+    /**
      * Declare invoice instance
      *
      * @param   Mage_Sales_Model_Order_Invoice $invoice

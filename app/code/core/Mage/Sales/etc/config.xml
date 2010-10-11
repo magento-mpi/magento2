@@ -1188,9 +1188,6 @@
                     <forced_do_shipment_with_invoice>forced_shipment_with_invoice</forced_do_shipment_with_invoice>
                     <base_shipping_hidden_tax_amount>base_shipping_hidden_tax_amnt</base_shipping_hidden_tax_amount>
                 </order>
-                <order_item>
-                    <base_weee_tax_applied_row_amount>base_weee_tax_applied_row_amnt</base_weee_tax_applied_row_amount>
-                </order_item>
             </old_fields_map>
             <quote>
                 <totals>
