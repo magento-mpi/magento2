@@ -64,7 +64,7 @@ class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_
         } else if(is_numeric($store)){
             $store = array($store);
         }
-        
+
         $alias = 'store_table_' . implode('_', $store);
         if ($this->getFlag($alias)) {
             return $this;
@@ -86,6 +86,12 @@ class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_
         ->group('main_table.agreement_id');
 
         $this->setFlag($alias, true);
+
+        /*
+         * Allow Analytic functions usage
+         */
+        $this->_useAnalyticFunction = true;
+
 
         return $this;
     }
