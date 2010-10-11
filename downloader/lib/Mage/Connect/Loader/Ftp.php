@@ -106,6 +106,9 @@ class Mage_Connect_Loader_Ftp
         if (!is_dir($tmpDir)) {
             $tmpDir = sys_get_temp_dir();
         }
+        if (substr($tmpDir, -1) != DS) {
+            $tmpDir .= DS;
+        }
         $localFile = $tmpDir . time() . ".xml";
 
         if ($this->getFtp()->get($localFile, $remoteFile)) {
