@@ -311,13 +311,18 @@ PaypalConfig.prototype = {
     trackWpp: function()
     {
         var enabled = this.getMethodSwitcher('wpp').checked;
+        var wpppeEnabled = this.getMethodSwitcher('wpppe').checked;
 
         if (enabled) {
             this.enableMethod('wpp',false);
-            this.enableMethod('ec',true);
+            if (!wpppeEnabled) {
+                this.enableMethod('ec',true);
+            }
         } else {
             this.disableMethod('wpp',false);
-            this.markMethodAsReadonly('ec',false);
+            if (!wpppeEnabled) {
+                this.markMethodAsReadonly('ec',false);
+            }
         }
         this.trackWps();
     },
@@ -343,7 +348,11 @@ PaypalConfig.prototype = {
             this.disableMethod('ec',true);
             return;
         } else {
-            this.markMethodAsReadonly('ec', false);
+            if (!this.getMethodSwitcher('wpp').checked) {
+                this.markMethodAsReadonly('ec', false);
+            } else {
+                this.enableMethod('ec',true);
+            }
         }
         var disabled = !wpppeEnabled && !this.getMethodSwitcher('payflowpro').checked;
         if (disabled) {
