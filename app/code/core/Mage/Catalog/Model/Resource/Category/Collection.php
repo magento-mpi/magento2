@@ -49,9 +49,9 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     protected $_eventObject              = 'category_collection';
 
     /**
-     * Enter description here ...
+     * Name of product table
      *
-     * @var unknown
+     * @var string
      */
     protected $_productTable;
 
@@ -63,16 +63,16 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     protected $_productStoreId;
 
     /**
-     * Enter description here ...
+     * Name of product website table
      *
-     * @var unknown
+     * @var string
      */
     protected $_productWebsiteTable;
 
     /**
-     * Enter description here ...
+     * Load with product count flag
      *
-     * @var unknown
+     * @var boolean
      */
     protected $_loadWithProductCount     = false;
 
@@ -89,7 +89,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     }
 
     /**
-     * Enter description here...
+     * Add Id filter
      *
      * @param array $categoryIds
      * @return Mage_Catalog_Model_Resource_Category_Collection
@@ -117,7 +117,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     }
 
     /**
-     * Enter description here...
+     * Set flag for loading product count
      *
      * @param boolean $flag
      * @return Mage_Catalog_Model_Resource_Category_Collection
@@ -287,10 +287,12 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     }
 
     /**
-     * Enter description here...
+     * Add category path filter
      *
      * @param string $regexp
      * @return Mage_Catalog_Model_Resource_Category_Collection
+     *
+     * @deprecated since 1.5.0.0 version
      */
     public function addPathFilter($regexp)
     {
@@ -320,7 +322,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     }
 
     /**
-     * Enter description here ...
+     * Add active category filter
      *
      * @return Mage_Catalog_Model_Resource_Category_Collection
      */
@@ -333,7 +335,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     }
 
     /**
-     * Enter description here ...
+     * Add name attribute to result
      *
      * @return Mage_Catalog_Model_Resource_Category_Collection
      */
@@ -344,7 +346,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     }
 
     /**
-     * Enter description here ...
+     * Add url rewrite rules to collection
      *
      * @return Mage_Catalog_Model_Resource_Category_Collection
      */
@@ -355,7 +357,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     }
 
     /**
-     * Enter description here ...
+     * Add category path filter
      *
      * @param array|string $paths
      * @return Mage_Catalog_Model_Resource_Category_Collection
@@ -379,21 +381,33 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     }
 
     /**
-     * Enter description here ...
+     * Add category level filter
      *
-     * @param unknown_type $level
+     * @param int|string $level
      * @return Mage_Catalog_Model_Resource_Category_Collection
      */
     public function addLevelFilter($level)
     {
-        $this->addFieldToFilter('e.level', array('lteq' => $level));
+        $this->addFieldToFilter('level', array('lteq' => $level));
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add root category filter
      *
-     * @param unknown_type $field
+     * @return Mage_Catalog_Model_Resource_Category_Collection
+     */
+    public function addRootLevelFilter()
+    {
+        $this->addFieldToFilter('path', array('neq' => '1'));
+        $this->addLevelFilter(1);
+        return $this;
+    }
+
+    /**
+     * Add order field
+     *
+     * @param string $field
      * @return Mage_Catalog_Model_Resource_Category_Collection
      */
     public function addOrderField($field)
