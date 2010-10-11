@@ -232,7 +232,6 @@ $table = $installer->getConnection()
         'nullable' => false,
         ), 'Template Subject')
     ->addColumn('template_sender_name', Varien_Db_Ddl_Table::TYPE_TEXT, 200, array(
-        'nullable' => false,
         ), 'Template Sender Name')
     ->addColumn('template_sender_email', Varien_Db_Ddl_Table::TYPE_TEXT, 200, array(
         ), 'Template Sender Email')
