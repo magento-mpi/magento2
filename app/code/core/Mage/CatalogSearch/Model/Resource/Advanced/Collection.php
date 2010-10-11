@@ -70,13 +70,15 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
                         elseif (isset($conditionValue['from']) && isset($conditionValue['to'])) {
                             if ($conditionValue['from']) {
                                 if (!is_numeric($conditionValue['from'])){
-                                    $conditionValue['from'] = Mage::getSingleton('core/date')->gmtDate(null, $conditionValue['from']);
+                                    $conditionValue['from'] = Mage::getSingleton('core/date')
+                                        ->gmtDate(null, $conditionValue['from']);
                                 }
                                 $conditionData[] = array('gteq' => $conditionValue['from']);
                             }
                             if ($conditionValue['to']) {
                                 if (!is_numeric($conditionValue['to'])){
-                                    $conditionValue['to'] = Mage::getSingleton('core/date')->gmtDate(null, $conditionValue['to']);
+                                    $conditionValue['to'] = Mage::getSingleton('core/date')
+                                        ->gmtDate(null, $conditionValue['to']);
                                 }
                                 $conditionData[] = array('lteq' => $conditionValue['to']);
                             }
@@ -91,13 +93,21 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
                     }
                     else {
                         $storeId = $this->getStoreId();
+                        $onCondition = 't1.entity_id = t2.entity_id'
+                                . ' AND t1.attribute_id = t2.attribute_id'
+                                . ' AND t2.store_id=?';
+
                         $select->joinLeft(
                             array('t2' => $table),
-                            $this->getConnection()->quoteInto('t1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id=?', $storeId),
+                            $this->getConnection()->quoteInto($onCondition, $storeId),
                             array()
                         );
                         $select->where('t1.store_id = ?', 0);
                         $select->where('t1.attribute_id = ?', $attributeId);
+
+                        if (array_key_exists('price_index', $this->getSelect()->getPart(Varien_Db_Select::FROM))) {
+                            $select->where('t1.entity_id = price_index.entity_id');
+                        }
 
                         $ifCondition = $this->getConnection()->getCheckSql('t2.value_id>0', 't2.value', 't1.value');
                         foreach ($conditionData as $data) {
@@ -111,7 +121,7 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
                     $previousSelect = $select;
                 }
             }
-            $this->addFieldToFilter('entity_id', array('in' => new Zend_Db_Expr($select)));
+            $this->getSelect()->where('EXISTS(?)', new Zend_Db_Expr($select));
         }
 
         return $this;
