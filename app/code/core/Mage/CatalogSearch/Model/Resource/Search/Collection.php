@@ -225,14 +225,15 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         // build selects of entity ids for specified options ids by frontend input
         $selects = array();
         foreach (array(
-            'select'      => 'value = %d',
-            'multiselect' => 'FIND_IN_SET(%d, value)')
+            'select'      => 'eq',
+            'multiselect' => 'finset')
             as $frontendInput => $condition) {
             if (isset($attributeTables[$frontendInput])) {
                 $where = array();
                 foreach ($options as $option) {
                     if ($frontendInput === $option['frontend_input']) {
-                        $where[] = sprintf("attribute_id=%d AND store_id=%d AND {$condition}", $option['attribute_id'], $option['store_id'], $option['option_id']);
+                        $findSet = $this->getConnection()->prepareSqlCondition('value', array($condition => $option['option_id']));
+                        $where[] = sprintf("(attribute_id=%d AND store_id=%d AND {$findSet})", $option['attribute_id'], $option['store_id']);
                     }
                 }
                 if ($where) {
@@ -246,7 +247,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         // search in catalogindex for products as part of configurable/grouped/bundle products (current store)
         $where = array();
         foreach ($options as $option) {
-            $where[] = sprintf('attribute_id=%d AND value=%d', $option['attribute_id'], $option['option_id']);
+            $where[] = sprintf('(attribute_id=%d AND value=%d)', $option['attribute_id'], $option['option_id']);
         }
         if ($where) {
             $selects[] = (string)$this->getConnection()->select()
@@ -254,7 +255,6 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
                 ->where(implode(' OR ', $where))
                 ->where("store_id={$storeId}");
         }
-
         $sql = $this->getConnection()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
         return $sql;
     }

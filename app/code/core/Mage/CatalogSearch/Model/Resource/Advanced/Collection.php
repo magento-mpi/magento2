@@ -54,6 +54,14 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
                             $conditionData[] = array('in' => $conditionValue['in']);
                         }
                         elseif (isset($conditionValue['in_set'])) {
+                            //TODO: use LIKE as
+                            //foreach ($conditionValue['in_set'])) {
+                            //    $conditionDataOr[] = array('like' => $conditionValue['in_set'][0]);
+                            //    $conditionDataOr[] = array('like' => $conditionValue['in_set'][0] . ',%');
+                            //    $conditionDataOr[] = array('like' => '%,' . $conditionValue['in_set'][0]);
+                            //    $conditionDataOr[] = array('like' => '%,' . $conditionValue['in_set'][0] . ',%');
+                            //}
+
                             $conditionData[] = array('regexp' => '\'(^|,)('.implode('|', $conditionValue['in_set']).')(,|$)\'');
                         }
                         elseif (isset($conditionValue['like'])) {
