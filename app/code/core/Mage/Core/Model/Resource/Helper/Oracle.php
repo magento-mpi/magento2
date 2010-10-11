@@ -126,8 +126,11 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         }
 
         if (!empty($whereCondition)) {
-            $whereCondition = sprintf('WHERE %s', implode(' AND ', $whereCondition));
+            $whereConditionExpr = sprintf('WHERE %s', implode(' AND ', $whereCondition));
+        } else {
+            $whereConditionExpr = '';
         }
+
         /**
          * Assemble sql query
          */
@@ -136,7 +139,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
             implode(', ', $quotedColumns),
             $clonedSelect->assemble(),
             $wrapperTableName,
-            $whereCondition
+            $whereConditionExpr
         );
 
         if (!empty($orderCondition)) {
@@ -290,12 +293,12 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         if ($limitCount !== null) {
               $limitCount = intval($limitCount);
             if ($limitCount <= 0) {
-                throw new Exception("LIMIT argument count={$limitCount} is not valid");
+//                throw new Exception("LIMIT argument count={$limitCount} is not valid");
             }
 
             $limitOffset = intval($limitOffset);
             if ($limitOffset < 0) {
-                throw new Exception("LIMIT argument offset={$limitOffset} is not valid");
+//                throw new Exception("LIMIT argument offset={$limitOffset} is not valid");
             }
 
             //Prepare columns for result select

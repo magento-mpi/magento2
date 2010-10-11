@@ -44,10 +44,8 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
     protected function _construct()
     {
         parent::_construct();
-        /**
-         * Allow to use analytic function
-         */
-        $this->_useAnalyticFunction = true;
+
+
     }
     /**
      * Add downloads summary grouping by product
@@ -79,6 +77,10 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
                 $adapter->quoteInto('d.number_of_downloads_bought > ?', 0),
                 $adapter->quoteInto('d.number_of_downloads_used > ?', 0),
             )));
+        /**
+         * Allow to use analytic function
+         */
+        $this->_useAnalyticFunction = true;
 
         return $this;
     }
