@@ -74,6 +74,9 @@ $table = $installer->getConnection()
         array('country'))
     ->addIndex($installer->getIdxName('weee/tax', array('attribute_id')),
         array('attribute_id'))
+    ->addForeignKey($installer->getFkName('weee/tax', 'country', 'directory/country', 'country_id'),
+        'country', $installer->getTable('directory/country'), 'country_id',
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('weee/tax', 'entity_id', 'catalog/product', 'entity_id'),
         'entity_id', $installer->getTable('catalog/product'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

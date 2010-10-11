@@ -202,7 +202,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
      */
     public function getBackendTypeByInput($type)
     {
-        $field = '';
+        $field = null;
         switch ($type) {
             case 'text':
             case 'gallery':
