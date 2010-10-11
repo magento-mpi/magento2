@@ -224,8 +224,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $sourceStoreId  = (int)$store->getMasterStoreId();
         $targetStoreId  = (int)$store->getStagingStoreId();
 
-        $sourceTable    = $resource->getFlatTableName($sourceStoreId);
-        $targetTable    = $resource->getFlatTableName($targetStoreId);
+        $sourceTable    = $resource->setStoreId($sourceStoreId)->getMainTable();
+        $targetTable    = $resource->setStoreId($targetStoreId)->getMainTable();
 
         $this->_copyFlatTable($sourceTable, $targetTable, true);
 
@@ -283,8 +283,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $sourceStoreId  = (int)$store->getStagingStoreId();
         $targetStoreId  = (int)$store->getMasterStoreId();
 
-        $sourceTable    = $resource->getFlatTableName($sourceStoreId);
-        $targetTable    = $resource->getFlatTableName($targetStoreId);
+        $sourceTable    = $resource->setStoreId($sourceStoreId)->getMainTable();
+        $targetTable    = $resource->setStoreId($targetStoreId)->getMainTable();
 
         $this->_copyFlatTable($sourceTable, $targetTable, false);
 

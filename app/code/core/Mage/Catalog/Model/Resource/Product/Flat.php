@@ -69,7 +69,11 @@ class Mage_Catalog_Model_Resource_Product_Flat extends Mage_Core_Model_Resource_
      */
     public function setStoreId($store)
     {
-        $this->_storeId = (int)Mage::app()->getStore($store)->getId();
+        if (is_int($store)) {
+            $this->_storeId = $store;
+        } else {        
+            $this->_storeId = (int)Mage::app()->getStore($store)->getId();
+        }
         return $this;
     }
 
