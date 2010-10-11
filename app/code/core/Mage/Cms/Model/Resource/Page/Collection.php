@@ -35,16 +35,6 @@
 class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Mapping for fields with correlation names
-     *
-     * @var array
-     */
-    protected $_map = array('fields' => array(
-        'store' => 'store_table.store_id',
-    ));
-
-
-    /**
      * Load data for preview flag
      *
      * @var bool
@@ -59,8 +49,8 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
     protected function _construct()
     {
         $this->_init('cms/page');
-
         $this->_map['fields']['page_id'] = 'main_table.page_id';
+        $this->_map['fields']['store']   = 'store_table.store_id';
     }
 
     /**
