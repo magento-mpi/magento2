@@ -774,9 +774,9 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
         $childrenCount  = $this->getChildrenCount($category->getId()) + 1;
         $table          = $this->getEntityTable();
         $adapter        = $this->_getWriteAdapter();
-        $categoryId     = $category->getId();
         $levelFiled     = $adapter->quoteIdentifier('level');
         $pathField      = $adapter->quoteIdentifier('path');
+
         /**
          * Decrease children count for all old category parent categories
          */
@@ -785,12 +785,13 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
             array('children_count' => new Zend_Db_Expr('children_count - ' . $childrenCount)),
             array('entity_id IN(?)' => $category->getParentIds())
         );
+
         /**
          * Increase children count for new category parents
          */
         $adapter->update(
             $table,
-            array('children_count' => new Zend_Db_Expr('children_count +' . $childrenCount)),
+            array('children_count' => new Zend_Db_Expr('children_count + ' . $childrenCount)),
             array('entity_id IN(?)' => $newParent->getPathIds())
         );
 

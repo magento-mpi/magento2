@@ -183,11 +183,6 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function move($parentId, $afterCategoryId)
     {
         /**
-         * Setting affected category ids for third party engine index refresh
-        */
-        $this->setMovedCategoryId($this->getId());
-
-        /**
          * Validate new parent category id. (category model is used for backward
          * compatibility in event params)
          */
@@ -200,6 +195,17 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
                 Mage::helper('catalog')->__('Category move operation is not possible: the new parent category was not found.')
             );
         }
+
+        if (!$this->getId()) {
+            Mage::throwException(
+                Mage::helper('catalog')->__('Category move operation is not possible: the current category was not found.')
+            );
+        }
+
+        /**
+         * Setting affected category ids for third party engine index refresh
+        */
+        $this->setMovedCategoryId($this->getId());
 
         $eventParams = array(
             $this->_eventObject => $this,
