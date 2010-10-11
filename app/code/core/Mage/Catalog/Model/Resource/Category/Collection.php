@@ -291,8 +291,6 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
      *
      * @param string $regexp
      * @return Mage_Catalog_Model_Resource_Category_Collection
-     *
-     * @deprecated since 1.5.0.0 version
      */
     public function addPathFilter($regexp)
     {
