@@ -525,7 +525,8 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     protected function _createTable($store)
     {
         $tableName = $this->getMainStoreTable($store);
-        $this->_getWriteAdapter()->dropTable($tableName);
+        $_writeAdapter = $this->_getWriteAdapter();
+        $_writeAdapter->dropTable($tableName);
         $table = $this->_getWriteAdapter()
             ->newTable($tableName)
             ->setComment(ucwords(str_replace('_', ' ', $tableName)));
@@ -552,21 +553,21 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         }
 
         // Adding indexes
-        $table->addIndex('IDX_ENTITY_' . strtoupper($tableName), array('entity_id'), array('type' => 'primary'));
-        $table->addIndex('IDX_STORE_'  . strtoupper($tableName), array('store_id'),  array('type' => 'index'));
-        $table->addIndex('IDX_PATH_'   . strtoupper($tableName), array('path'),      array('type' => 'index'));
-        $table->addIndex('IDX_LEVEL_'  . strtoupper($tableName), array('level'),     array('type' => 'index'));
+        $table->addIndex($_writeAdapter->getIndexName($tableName, array('entity_id')), array('entity_id'), array('type' => 'primary'));
+        $table->addIndex($_writeAdapter->getIndexName($tableName, array('store_id')),  array('store_id'),  array('type' => 'index'));
+        $table->addIndex($_writeAdapter->getIndexName($tableName, array('path')),      array('path'),      array('type' => 'index'));
+        $table->addIndex($_writeAdapter->getIndexName($tableName, array('level')),     array('level'),     array('type' => 'index'));
 
         // Adding foreign keys
         $table->addForeignKey(
-            'FK_CTG_FL_CTG_ID_STORE_' . $store, 'entity_id',
-            $this->getTable('catalog/category'), 'entity_id',
+            $_writeAdapter->getForeignKeyName($table, 'entity_id', $this->getTable('catalog/category'), 'entity_id'), 
+            'entity_id', $this->getTable('catalog/category'), 'entity_id',
             Varien_Db_Ddl_Table::ACTION_CASCADE. Varien_Db_Ddl_Table::ACTION_CASCADE);
         $table->addForeignKey(
-            'FK_CTG_FL_STR_ID_STORE_' . $store, 'store_id',
-            $this->getTable('core/store'), 'store_id',
+            $_writeAdapter->getForeignKeyName($table, 'store_id', $this->getTable('core/store'), 'store_id'),
+            'store_id', $this->getTable('core/store'), 'store_id',
             Varien_Db_Ddl_Table::ACTION_CASCADE. Varien_Db_Ddl_Table::ACTION_CASCADE);
-        $this->_getWriteAdapter()->createTable($table);
+        $_writeAdapter->createTable($table);
         return $this;
     }
 
