@@ -697,6 +697,16 @@ interface Varien_Db_Adapter_Interface
     public function getCheckSql($condition, $true, $false);
 
     /**
+     * Returns valid IFNULL expresion
+     *
+     * @param string $column
+     * @param string $value OPTIONAL. Applies when $expresion is NULL
+     * @return Zend_Db_Expr
+     */
+
+    public function getIfnullSql($expresion, $value = 0);
+
+    /**
      * Generate fragment of SQL, that combine together (concatenate) the results from data array
      * All arguments in data must be quoted
      *

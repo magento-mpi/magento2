@@ -153,7 +153,6 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
     protected function _applyDateRangeFilter()
     {
         if ($this->_from !== null) {
-            echo $this->_from;
             $this->getSelect()->where('period >= ?', $this->_from);
         }
         if ($this->_to !== null) {
@@ -308,7 +307,6 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
             $this->_applyStoresFilter();
             $this->_applyOrderStatusFilter();
         }
-
         return parent::load($printQuery, $logQuery);
     }
 }

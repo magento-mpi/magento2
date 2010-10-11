@@ -376,15 +376,4 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
 
         return $preparedColumns;
     }
-    /**
-     * Returns database correct IFNULL expresion
-     *
-     * @param string $column
-     * @param string $value OPTIONAL if $expresion is NULL
-     * @return Zend_Db_Expr
-     */
-    public function getIfnullSql($expresion, $value = 0)
-    {
-        return sprintf("NVL(%s, %s)", $expresion, $value);
-    }
 }

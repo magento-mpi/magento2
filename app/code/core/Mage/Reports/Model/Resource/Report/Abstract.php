@@ -232,7 +232,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         $whereCondition = array();
         $adapter = $this->_getReadAdapter();
         foreach ($selectResult as $date) {
-            $date = substr($date, 0, 10);
+            $date = substr($date, 0, 10); // to fix differences in oracle
             $whereCondition[] = sprintf("%s BETWEEN '%s' AND '%s'",
                 $periodColumn, "{$date} 00:00:00", "{$date} 23:59:59");
         }

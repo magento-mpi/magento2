@@ -2347,6 +2347,18 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
+     * Returns valid IFNULL expresion
+     *
+     * @param string $column
+     * @param string $value OPTIONAL. Applies when $expresion is NULL
+     * @return Zend_Db_Expr
+     */
+    public function getIfnullSql($expresion, $value = 0)
+    {
+        return new Zend_Db_Expr(sprintf("IFNULL(%s, %s)", $expresion, $value));
+    }
+
+    /**
      * Generate fragment of SQL, that check value against multiple condition cases
      * and return different result depends on them
      *

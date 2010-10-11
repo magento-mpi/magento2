@@ -189,7 +189,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         'NONCLUSTERED', 'NONE', 'NOT', 'NTEXT', 'NULL', 'NULLIF', 'NUMERIC', 'NVARCHAR', 'OBJECT', 'OCTET_LENGTH', 'OF',
         'OFF', 'OFFSETS', 'OLD', 'ON', 'ONLY', 'OPEN', 'OPENDATASOURCE', 'OPENQUERY', 'OPENROWSET', 'OPENXML',
         'OPERATION', 'OPTION', 'OR', 'ORDER', 'ORDINALITY', 'OUT', 'OUTER', 'OUTPUT', 'OVER', 'OVERLAPS', 'PAD',
-        'PARAMETER', 'PARAMETERS', 'PARTIAL', 'PASCAL', 'PATH', 'PERCENT', 'PLAN', 'POSITION', 'POSTFIX', 'PRECISION',
+        'PARAMETER', 'PARAMETERS', 'PARTIAL', 'PASCAL', 'PATH', 'PERCENT', 'PERIOD', 'PLAN', 'POSITION', 'POSTFIX', 'PRECISION',
         'PREFIX', 'PREORDER', 'PREPARE', 'PRESERVE', 'PRIMARY', 'PRINT', 'PRIOR', 'PRIVILEGES', 'PROC', 'PROCEDURE',
         'PUBLIC', 'RAISERROR', 'READ', 'READS', 'READTEXT', 'REAL', 'RANGE', 'RECONFIGURE', 'RECURSIVE', 'REF', 'REFERENCES',
         'REFERENCING', 'RELATIVE', 'REPLICATION', 'RESTORE', 'RESTRICT', 'RESULT', 'RETURN', 'RETURNS', 'REVOKE',
@@ -2805,6 +2805,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function getCheckSql($condition, $true, $false)
     {
         return new Zend_Db_Expr("CASE WHEN {$condition} THEN {$true} ELSE {$false} END");
+    }
+
+    /**
+     * Returns valid IFNULL expresion
+     *
+     * @param string $column
+     * @param string $value OPTIONAL. Applies when $expresion is NULL
+     * @return Zend_Db_Expr
+     */
+    public function getIfnullSql($expresion, $value = 0)
+    {
+        return new Zend_Db_Expr(sprintf("ISNULL(%s, %s)", $expresion, $value));
     }
 
     /**
