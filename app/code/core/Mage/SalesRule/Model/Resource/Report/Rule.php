@@ -134,7 +134,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
 
             $select = $this->_getWriteAdapter()->select();
             $select->from(array('source_table' => $sourceTable), $columns)
-                 ->where('coupon_code <> ?', '');
+                 ->where('coupon_code IS NOT NULL');
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'created_at'));

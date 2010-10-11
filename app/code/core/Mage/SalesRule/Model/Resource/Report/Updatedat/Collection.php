@@ -40,40 +40,72 @@ class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
      *
      * @var array
      */
-    protected $_selectedColumns    = array(
-        'store_id'                => 'e.store_id',
-        'order_status'            => 'e.status',
-        'coupon_code'             => 'e.coupon_code',
-        'coupon_uses'             => 'COUNT(e.entity_id)',
+    protected $_selectedColumns    = array();
 
-        'subtotal_amount'         =>
-            'SUM((e.base_subtotal -
-            IFNULL(e.base_subtotal_canceled, 0)) * e.base_to_global_rate)',
+    /**
+     * Retrieve array of columns to select
+     *
+     * @return array
+     */
 
-        'discount_amount'         =>
-            'SUM((ABS(e.base_discount_amount) -
-            IFNULL(e.base_discount_canceled, 0)) * e.base_to_global_rate)',
+    protected function _getSelectedColumns()
+    {
+        $adapter = $this->getConnection();
 
-        'total_amount'            =>
-            'SUM((e.base_subtotal - 
-            IFNULL(e.base_subtotal_canceled, 0) +
-            IFNULL(ABS(e.base_discount_amount) -
-            IFNULL(e.base_discount_canceled, 0), 0)) * e.base_to_global_rate)',
+        $this->_selectedColumns = array(
+            'store_id'                => 'MIN(e.store_id)',
+            'order_status'            => 'MIN(e.status)',
+            'coupon_code'             => 'MIN(e.coupon_code)',
+            'coupon_uses'             => 'COUNT(e.entity_id)',
 
-        'subtotal_amount_actual'  =>
-            'SUM((e.base_subtotal_invoiced -
-            IFNULL(e.base_subtotal_refunded, 0)) * e.base_to_global_rate)',
+            'subtotal_amount'         =>
+                'SUM((e.base_subtotal - '.
+                $adapter->getIfnullSql('e.base_subtotal_canceled', 0).
+                    ') * e.base_to_global_rate)',
 
-        'discount_amount_actual'  =>
-            'SUM((e.base_discount_invoiced -
-            IFNULL(e.base_discount_refunded, 0)) * e.base_to_global_rate)',
+            'discount_amount'         =>
+                'SUM((ABS(e.base_discount_amount) - '.
+                $adapter->getIfnullSql('e.base_discount_canceled', 0).
+                    ') * e.base_to_global_rate)',
 
-        'total_amount_actual'     =>
-            'SUM((e.base_subtotal_invoiced -
-            IFNULL(e.base_subtotal_refunded, 0) -
-            IFNULL(e.base_discount_invoiced -
-            IFNULL(e.base_discount_refunded, 0), 0)) * e.base_to_global_rate)',
-    );
+            'total_amount'            =>
+                'SUM((e.base_subtotal - '.
+                $adapter->getIfnullSql('e.base_subtotal_canceled', 0) . ' + ' .
+                $adapter->getIfnullSql('ABS(e.base_discount_amount) - ' .
+                $adapter->getIfnullSql('e.base_discount_canceled', 0), 0) .
+                    ') * e.base_to_global_rate)',
+
+            'subtotal_amount_actual'  =>
+                'SUM((e.base_subtotal_invoiced - '.
+                $adapter->getIfnullSql('e.base_subtotal_refunded', 0).
+                    ') * e.base_to_global_rate)',
+
+            'discount_amount_actual'  =>
+                'SUM((e.base_discount_invoiced - '.
+                $adapter->getIfnullSql('e.base_discount_refunded', 0).
+                    ') * e.base_to_global_rate)',
+
+            'total_amount_actual'     =>
+                'SUM((e.base_subtotal_invoiced - '.
+                $adapter->getIfnullSql('e.base_subtotal_refunded', 0) . ' - '.
+                $adapter->getIfnullSql('e.base_discount_invoiced - '.
+                $adapter->getIfnullSql('e.base_discount_refunded', 0), 0).
+                    ') * e.base_to_global_rate)',
+        );
+
+        if (!$this->isTotals()) {
+            if ('month' == $this->_period) {
+                $this->_periodFormat = $adapter->getDateFormatSql('e.updated_at', '%Y-%m');
+            } elseif ('year' == $this->_period) {
+                $this->_periodFormat = $adapter->getDateExtractSql('e.updated_at', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
+            } else {
+                $this->_periodFormat = $adapter->getDatePartSql('e.updated_at');
+            }
+            $this->_selectedColumns['period'] = $this->_periodFormat;
+        }
+
+        return $this->_selectedColumns;
+    }
 
     /**
      * Add selected data
@@ -93,16 +125,16 @@ class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
 
         $this->getSelect()
             ->from(array('e' => $this->getResource()->getMainTable()), $columns)
-            ->where('e.coupon_code <> ?', '');
+            ->where('e.coupon_code IS NOT NULL');
 
         $this->_applyStoresFilter();
         $this->_applyOrderStatusFilter();
 
         if ($this->_to !== null) {
-            $this->getSelect()->where('DATE(e.updated_at) <= DATE(?)', $this->_to);
+            $this->getSelect()->where('e.updated_at <= ?', $this->_to);
         }
         if ($this->_from !== null) {
-            $this->getSelect()->where('DATE(e.updated_at) >= DATE(?)', $this->_from);
+            $this->getSelect()->where('e.updated_at >= ?', $this->_from);
         }
 
         if ($this->isSubTotals()) {
@@ -114,7 +146,7 @@ class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
             ));
         }
 
-        $this->getSelect()->having('coupon_uses > 0');
+        $this->getSelect()->having('COUNT(e.entity_id) > 0');
 
         $this->_inited = true;
         return $this;
