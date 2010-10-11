@@ -399,6 +399,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
     public function addTagGroup()
     {
         $this->getSelect()->group('main_table.tag_id');
+        $this->_useAnalyticFunction = true;
         return $this;
     }
 

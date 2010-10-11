@@ -339,12 +339,14 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
     public function decrementProducts(array $tagsId)
     {
         $writeAdapter = $this->_getWriteAdapter();
-        $whereCond    = array('tag_id IN (?)' => $tagsId);
+        if (empty($tagsId)) {
+            return 0;
+        }
 
         return $writeAdapter->update(
             $this->getTable('tag/summary'),
-            array('products' => new Zend_Db_Expr('products - 1')),
-            $whereCond
+            array('products' => $writeAdapter->quoteInto('products - ?', 1)),
+            array('tag_id IN (?)' => $tagsId)
         );
     }
 

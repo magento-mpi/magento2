@@ -183,22 +183,25 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
         if (!$productId) {
             return $this;
         }
+        $adapter   = $this->_getWriteAdapter();
+        $subSelect = $adapter->select();
 
-        $data  = array(
-            'q.items_qty'   => 'q.items_qty - qi.qty',
-            'q.items_count' => $this->_getReadAdapter()->quoteInto('q.items_count - ?', 1)
+        $subSelect->from(false, array(
+            'items_qty'   => 'q.items_qty - qi.qty AS items_qty',
+            'items_count' => $this->_getReadAdapter()->quoteInto('q.items_count - ?', 1)
+        ))
+        ->join(
+            array('qi' => $this->getTable('sales/quote_item')),
+            implode(' AND ', array(
+                'q.entity_id = qi.quote_id',
+                'qi.parent_item_id IS NULL',
+                $adapter->quoteInto('qi.product_id = ?', 1)
+            )),
+            array()
         );
-        $where = array(
-            $this->_getReadAdapter()->quoteInto('qi.product_id = ?', $productId),
-            'q.entity_id = qi.quote_id',
-            'qi.parent_item_id IS NULL'
-        );
 
-        $quoteTable     = $this->_getWriteAdapter()->quoteTableAs($this->getTable('sales/quote'), 'q', true);
-        $quoteItemTable = $this->_getWriteAdapter()->quoteTableAs($this->getTable('sales/quote_item'), 'qi', true);
-        $tables         = new Zend_Db_Expr($quoteTable. ', ' . $quoteItemTable);
-
-        $this->_getWriteAdapter()->update($tables, $data, $where);
+        $updateQuery = $adapter->updateFromSelect($subSelect, array('q' => $this->getTable('sales/quote')));
+        $adapter->query($updateQuery);
 
         return $this;
     }
