@@ -57,26 +57,27 @@ class Mage_Sales_Model_Resource_Billing_Agreement_Collection extends Mage_Core_M
         );
 
         $customer = Mage::getResourceSingleton('customer/customer');
-
+        $adapter = $this->getConnection();
         $attr = $customer->getAttribute('firstname');
-        $joinExprTemplate = 'firstname.entity_id = main_table.customer_id'
-                          . ' AND firstname.entity_type_id = ?'
-                          . ' AND firstname.attribute_id = ?';
-        $joinExpr = $this->getConnection()->quoteInto($joinExprTemplate, 
-            array($customer->getTypeId(), $attr->getAttributeId())
-        );
+        $joinExpr = $adapter->quoteInto(
+                'firstname.entity_id = main_table.customer_id'
+                . ' AND firstname.entity_type_id = ?',
+                $customer->getTypeId()
+            )
+            . $adapter->quoteInto(' AND firstname.attribute_id = ?', $attr->getAttributeId());
         $select->joinLeft(array('firstname' => $attr->getBackend()->getTable()),
             $joinExpr,
             array('customer_firstname' => 'value')
         );
 
         $attr = $customer->getAttribute('lastname');
-        $joinExprTemplate = 'lastname.entity_id = main_table.customer_id'
-                          . ' AND lastname.entity_type_id = ?'
-                          . ' AND lastname.attribute_id = ?';
-        $joinExpr = $this->getConnection()->quoteInto($joinExprTemplate, 
-            array($customer->getTypeId(), $attr->getAttributeId())
-        );
+        $joinExpr = $adapter->quoteInto(
+                'lastname.entity_id = main_table.customer_id'
+                . ' AND lastname.entity_type_id = ?',
+                $customer->getTypeId()
+            )
+            . $adapter->quoteInto(' AND lastname.attribute_id = ?', $attr->getAttributeId());
+
         $select->joinLeft(array('lastname' => $attr->getBackend()->getTable()),
             $joinExpr,
             array('customer_lastname' => 'value')
