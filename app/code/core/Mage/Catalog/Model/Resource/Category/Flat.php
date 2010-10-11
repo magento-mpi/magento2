@@ -560,11 +560,11 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
 
         // Adding foreign keys
         $table->addForeignKey(
-            $_writeAdapter->getForeignKeyName($table, 'entity_id', $this->getTable('catalog/category'), 'entity_id'), 
+            $_writeAdapter->getForeignKeyName($tableName, 'entity_id', $this->getTable('catalog/category'), 'entity_id'),
             'entity_id', $this->getTable('catalog/category'), 'entity_id',
             Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);
         $table->addForeignKey(
-            $_writeAdapter->getForeignKeyName($table, 'store_id', $this->getTable('core/store'), 'store_id'),
+            $_writeAdapter->getForeignKeyName($tableName, 'store_id', $this->getTable('core/store'), 'store_id'),
             'store_id', $this->getTable('core/store'), 'store_id',
             Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);
         $_writeAdapter->createTable($table);
