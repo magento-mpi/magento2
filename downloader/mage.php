@@ -24,10 +24,10 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-        define('DS', DIRECTORY_SEPARATOR);
-        define('PS', PATH_SEPARATOR);
-        define('BP', dirname(dirname(__FILE__)));
-        define('MAGENTO_ROOT', dirname(dirname(__FILE__)));
+define('DS', DIRECTORY_SEPARATOR);
+define('PS', PATH_SEPARATOR);
+define('BP', dirname(dirname(__FILE__)));
+define('MAGENTO_ROOT', dirname(dirname(__FILE__)));
 
 class __cli_Mage_Connect
 {
@@ -53,10 +53,6 @@ class __cli_Mage_Connect
 
     public function setIncludes()
     {
-
-        //define('CACHE_ROOT', ('var').DS.'.cache');
-        //var_dump();
-
         if (defined('DEVELOPMENT_MODE')) {
             $libPath = PS . dirname(BP) . DS . 'lib';
         } else {
@@ -148,12 +144,5 @@ class __cli_Mage_Connect
 }
 
 if (defined('STDIN') && defined('STDOUT') && (defined('STDERR'))) {
-    /*$argv = array(
-      0=>"mage.php",
-      1=>"package-prepare",
-      2=>"community",
-      3=>"testpackage_deps"
-    );/**/
-    //var_dump($argv);
     __cli_Mage_Connect::instance()->init($argv)->run();
 }
