@@ -277,7 +277,7 @@
             <active>false</active>
         </Enterprise_GiftRegistry>
         <Enterprise_Invitation>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Invitation>
         <Enterprise_License>
             <active>false</active>
