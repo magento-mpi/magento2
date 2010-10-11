@@ -242,19 +242,11 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
         $additionalTable = $this->getAdditionalAttributeTable($object->getEntityTypeId());
         if ($additionalTable) {
             $adapter    = $this->_getWriteAdapter();
-            $describe   = $this->describeTable($this->getTable($additionalTable));
-            $data       = array();
-            foreach (array_keys($describe) as $field) {
-                $value = $object->getData($field);
-                if ($value !== null) {
-                    $data[$field] = $value;
-                }
-            }
+            $data = $this->_prepareDataForTable($object, $this->getTable($additionalTable));
             $bind   = array('attribute_id' => $object->getId());
             $select = $adapter->select()
                 ->from($this->getTable($additionalTable), array('attribute_id'))
                 ->where('attribute_id = :attribute_id');
-
             $result = $adapter->fetchOne($select, $bind);
             if ($result) {
                 $where = array('attribute_id =?' => $object->getId());
