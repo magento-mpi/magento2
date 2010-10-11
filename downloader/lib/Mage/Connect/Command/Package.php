@@ -132,6 +132,13 @@ extends Mage_Connect_Command
                 $_result['message'] = $_package['message'];
                 $result[] = $_result;
             }
+            if (!count($data['result']) && isset($data['failed']) && !empty($data['failed'])) {
+                foreach ($data['failed'] as $_package) {
+                    $reason = $_package['channel'] . '/' . $_package['name'] . ': ' . $_package['reason'];
+                    $this->doError($command, $reason);
+                }
+            }
+
             $this->ui()->output(array($command=> array('data'=>$result, 'title'=>"Package installation information for {$params[1]}: ")));
 
         } catch (Exception $e) {

@@ -24,6 +24,10 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+        define('DS', DIRECTORY_SEPARATOR);
+        define('PS', PATH_SEPARATOR);
+        define('BP', dirname(dirname(__FILE__)));
+        define('MAGENTO_ROOT', dirname(dirname(__FILE__)));
 
 class __cli_Mage_Connect
 {
@@ -43,15 +47,12 @@ class __cli_Mage_Connect
         $this->setIncludes();
         require_once("Mage/Autoload/Simple.php");
         Mage_Autoload_Simple::register();
+        chdir(BP . DS . 'downloader' . DS);
         return $this;
     }
 
     public function setIncludes()
     {
-        define('DS', DIRECTORY_SEPARATOR);
-        define('PS', PATH_SEPARATOR);
-        define('BP', dirname(dirname(__FILE__)));
-        define('MAGENTO_ROOT', dirname(dirname(__FILE__)));
 
         //define('CACHE_ROOT', ('var').DS.'.cache');
         //var_dump();
@@ -147,6 +148,12 @@ class __cli_Mage_Connect
 }
 
 if (defined('STDIN') && defined('STDOUT') && (defined('STDERR'))) {
+    /*$argv = array(
+      0=>"mage.php",
+      1=>"package-prepare",
+      2=>"community",
+      3=>"testpackage_deps"
+    );/**/
     //var_dump($argv);
     __cli_Mage_Connect::instance()->init($argv)->run();
 }

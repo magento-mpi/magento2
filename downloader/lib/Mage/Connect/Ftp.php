@@ -146,7 +146,7 @@ class Mage_Connect_Ftp
         $params = $this->validateConnectionString($string);
         $port = isset($params['port']) ? intval($params['port']) : 21;
 
-        $this->_conn = ftp_connect($params['host'], $port, $timeout);
+        $this->_conn = @ftp_connect($params['host'], $port, $timeout);
 
         if(!$this->_conn) {
             throw new Exception("Cannot connect to host: {$params['host']}");

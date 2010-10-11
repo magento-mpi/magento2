@@ -315,9 +315,13 @@ final class Maged_Controller
         
         $this->channelConfig()->setSettingsSession($this->config(),$this->session());
         
-        $packages = $this->model('connect', true)->prepareToInstall($_POST['install_package_id']);
+        $prepareResult = $this->model('connect', true)->prepareToInstall($_POST['install_package_id']);
+
+        $packages = isset($prepareResult['data'])? $prepareResult['data']:array();
+        $errors = isset($prepareResult['errors'])? $prepareResult['errors']:array();
         
         $this->view()->set('packages', $packages);
+        $this->view()->set('errors', $errors);
         $this->view()->set('package_id', $_POST['install_package_id']);
         
         echo $this->view()->template('connect/packages_prepare.phtml');

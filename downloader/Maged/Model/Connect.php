@@ -117,12 +117,19 @@ class Maged_Model_Connect extends Maged_Model
         
         $connect->run('package-prepare', $options, $params);
         $output = $connect->getOutput();
+        $errors = $connect->getFrontend()->getErrors();
+        $package_error = array();
+        foreach ($errors as $error){
+            if (isset($error[1])){
+                $package_error[] = $error[1];
+            }
+        }
         
         $packages = array();
-        if (is_array($output) && isset($output['package-prepare']['data'])){
-            $packages = $output['package-prepare']['data'];
-        } else {
-
+        if (is_array($output) && isset($output['package-prepare'])){
+            $packages = array_merge($output['package-prepare'], array('errors'=>array('error'=>$package_error)));
+        } elseif (is_array($output) && !empty($package_error)) {
+            $packages = array('errors'=>array('error'=>$package_error));
         }
         return $packages;
     }
