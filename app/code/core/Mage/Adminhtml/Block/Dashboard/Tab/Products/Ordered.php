@@ -109,8 +109,15 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
      */
     public function getRowUrl($row)
     {
-    	// getId() would return id of bestseller row, and product id we get by getProductId()
-        $params = array('id' => $row->getProductId());
+        // getId() would return id of bestseller row, and product id we get by getProductId()
+        $productId = $row->getProductId();
+
+        // No url is possible for non-existing products
+        if (!$productId) {
+            return '';
+        }
+
+        $params = array('id' => $productId);
         if ($this->getRequest()->getParam('store')) {
             $params['store'] = $this->getRequest()->getParam('store');
         }
