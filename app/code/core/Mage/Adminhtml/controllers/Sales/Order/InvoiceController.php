@@ -197,6 +197,11 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     {
         try {
             $invoice = $this->_initInvoice(true);
+            // Save invoice comment text in current invoice object in order to display it in corresponding view
+            $invoiceRawData = $this->getRequest()->getParam('invoice');
+            $invoiceRawCommentText = $invoiceRawData['comment_text'];
+            $invoice->setCommentText($invoiceRawCommentText);
+
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('order_items')->toHtml();
         } catch (Mage_Core_Exception $e) {
