@@ -1064,7 +1064,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function getCreatedAtTimestamp()
     {
         if ($date = $this->getCreatedAt()) {
-            return $this->_getResource()->mktime($date);
+            return Varien_Date::toTimestamp($date);
         }
         return null;
     }
