@@ -56,6 +56,24 @@
 		        </setup>
 		    </directpayment_setup>
 		</resources>
+		<events>
+    		<checkout_submit_all_after>
+                <observers>
+                    <directpayment_save_order_after_submit>
+                        <class>directpayment/observer</class>
+                        <method>saveOrderAfterSubmit</method>
+                    </directpayment_save_order_after_submit>                    
+                </observers>
+            </checkout_submit_all_after> 
+            <controller_action_postdispatch_checkout_onepage_saveOrder>
+            	<observers>
+                    <directpayment_save_order_onepage>
+                        <class>directpayment/observer</class>
+                        <method>addAdditionalFieldsToResponse</method>
+                    </directpayment_save_order_onepage>                    
+                </observers>
+            </controller_action_postdispatch_checkout_onepage_saveOrder>          
+    	</events>
     </global>
 
     <adminhtml>

@@ -28,16 +28,79 @@
 class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorizenet
 {
     protected $_code  = 'directpayment';
-    protected $_formBlockType = 'directpayment/form';	
+    protected $_formBlockType = 'directpayment/form';
     protected $_infoBlockType = 'directpayment/info';
+    
+    /**
+     * Availability options
+     */
+    protected $_canUseInternal          = false;
+    protected $_canUseCheckout          = true;
+    protected $_canUseForMultishipping  = true;
+    protected $_canSaveCc = false;
+    
+    // no need to debug
+    protected $_debugReplacePrivateDataKeys = array();
     
     /**
      * (non-PHPdoc)
      * @see app/code/core/Mage/Payment/Model/Method/Mage_Payment_Model_Method_Cc#validate()
      */
     public function validate()
-    {        
+    {
         return true;
     }
     
+	/**
+     * Send authorize request to gateway
+     *
+     * @param  Varien_Object $payment
+     * @param  decimal $amount
+     * @return Mage_Paygate_Model_Authorizenet
+     * @throws Mage_Core_Exception
+     */
+    public function authorize(Varien_Object $payment, $amount)
+    {
+        
+    }
+    
+	/**
+     * Send capture request to gateway
+     *
+     * @param Varien_Object $payment
+     * @param decimal $amount
+     * @return Mage_Paygate_Model_Authorizenet
+     * @throws Mage_Core_Exception
+     */
+    public function capture(Varien_Object $payment, $amount)
+    {
+        if (!$payment->getParentTransactionId()){
+            return;
+        }
+        parent::capture($payment, $amount);
+    }
+    
+	/**
+     *  Return Order Place Redirect URL.
+     *  Need to prevent emails sending for new orders to store's directors.
+     *
+     *  @return	  string 1
+     */
+    public function getOrderPlaceRedirectUrl()
+    {
+        return 1;
+    }
+    
+	/**
+     * Instantiate state and set it to state object
+     *
+     * @param string $paymentAction
+     * @param Varien_Object
+     */
+    public function initialize($paymentAction, $stateObject)
+    {
+        $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
+        $stateObject->setStatus('pending_payment');
+        $stateObject->setIsNotified(true);
+    }
 }
