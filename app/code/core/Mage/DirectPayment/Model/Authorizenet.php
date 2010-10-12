@@ -80,38 +80,32 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         parent::capture($payment, $amount);
     }
     
-	/**
-     *  Return Order Place Redirect URL.
-     *  Need to prevent emails sending for new orders to store's directors.
-     *
-     *  @return	  string 1
-     */
-    public function getOrderPlaceRedirectUrl()
-    {
-        return 1;
-    }
-    
-	/**
-     * Instantiate state and set it to state object
-     *
-     * @param string $paymentAction
-     * @param Varien_Object
-     */
-    public function initialize($paymentAction, $stateObject)
-    {
-        $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
-        $stateObject->setStatus('pending_payment');
-        $stateObject->setIsNotified(true);
-    }
-    
     /**
      * Get CGI url
-     * 
+     *
      * @return string
      */
     public function getCgiUrl()
     {
         $uri = $this->getConfigData('cgi_url');
         return $uri ? $uri : self::CGI_URL;
+    }
+    
+    /**
+     * Return request model for form data building
+     *
+     * @return Mage_DirectPayment_Model_Authorizenet_Request
+     */
+    public function getRequestModel()
+    {
+        return Mage::getModel('directpayment/authorizenet_request');
+    }
+    
+    public function generateRequestFromQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $request = $this->getRequestModel();
+        $request->setConstantData($this)
+            ->setDataFromQuote($quote);
+        return $request;
     }
 }

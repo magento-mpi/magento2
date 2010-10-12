@@ -98,6 +98,15 @@
                 </Mage_DirectPayment>
             </modules>
         </translate>
+         <routers>
+            <directpayment>
+                <use>standard</use>
+                <args>
+                    <module>Mage_DirectPayment</module>
+                    <frontName>directpayment</frontName>
+                </args>
+            </directpayment>
+        </routers>
         <layout>
             <updates>
                 <directpayment>
