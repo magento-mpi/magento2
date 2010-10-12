@@ -24,10 +24,11 @@
  */
 var directPayment = Class.create();
 directPayment.prototype = {
-	initialize: function (iframeId, controller)
+	initialize: function (iframeId, controller, orderSaveUrl)
     {		
         this.iframeId = iframeId;
-        this.controller = controller;    
+        this.controller = controller;
+        this.orderSaveUrl = orderSaveUrl;
         this.code = 'directpayment';
         this.inputs = {
             'directpayment_cc_type'       : 'cc_type',
@@ -37,7 +38,9 @@ directPayment.prototype = {
             'directpayment_cc_cid'        : 'cc_cid'
         };
         this.isValid = true;
-        this.preparePayment();        
+        this.paymentRequestSent = false;
+        this.preparePayment();
+        this.paymentData = {};
     },
     
     validate: function ()
@@ -65,7 +68,8 @@ directPayment.prototype = {
 		    			return function(){
 			    			if (obj.validate()) {			    				
 			    				//TODO: custom logic
-			    				review.save();			    				
+			    				obj.saveOnepageOrder();
+			    				//review.save();			    				
 			    			}
 		    			}
 		    		}(this));	    		
@@ -99,6 +103,73 @@ directPayment.prototype = {
 			    	}
 		    		break;
 	    	}
+	    	
+	    	$(this.iframId).observe('load', function(obj){
+	    		return function() {
+	    			if (obj.paymentRequestSent) {
+	    				//TODO: parse request, etc
+	    				obj.paymentRequestSent = true;
+	    			}
+	    			else {
+	    				//TODO: send payment request
+	    			}
+	    		}
+	    	}(this));
+    	}
+    },
+    
+    saveOnepageOrder: function()
+    {
+    	checkout.setLoadWaiting('review');
+        var params = Form.serialize(payment.form);
+        if (review.agreementsForm) {
+            params += '&'+Form.serialize(review.agreementsForm);
+        }
+    	new Ajax.Request(
+    		this.orderSaveUrl,
+            {
+                method:'post',
+                parameters:params,
+                onComplete: function(transport) {
+    				if (transport && transport.responseText) {
+    					try{
+    		                response = eval('(' + transport.responseText + ')');
+    		            }
+    		            catch (e) {
+    		                response = {};
+    		            }
+    		            
+    		            if (response.success && response.data) {
+    		                for(var key in response.data) {
+    		                	this.paymentData.key = response.data.key;
+    		                }
+    		                if (this.paymentData.length) {
+    		                }
+    		            }
+    		            else{
+    		                var msg = response.error_messages;
+    		                if (typeof(msg)=='object') {
+    		                    msg = msg.join("\n");
+    		                }
+    		                alert(msg);
+    		            }
+    				}
+    			},                
+                onFailure: function(transport) {    				
+    				review.resetLoadWaiting();
+    				alert('Can not load order url');
+    			}
+            }
+        );
+    },
+    
+    preparePaymentRequest: function(data)
+    {
+    	for (var elemId in this.inputs) {
+    		if (elemId == 'directpayment_cc_cid') {
+    			this.paymentData.x_fp_sequence = $(elemId).value;
+    		}
     	}
     }
+    	
 };

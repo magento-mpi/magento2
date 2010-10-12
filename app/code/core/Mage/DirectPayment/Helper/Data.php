@@ -33,4 +33,40 @@
  */
 class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Retrieve url
+     *    
+     * @return  string
+     */
+    public function getSaveOrderUrl()
+    {
+        switch ($this->getControllerName()) {
+            case 'onepage':
+                $path = 'checkout/onepage/saveOrder';
+                break;
+            case 'multishipping':
+                $path = 'directpayment/multishipping';
+                break;
+            case 'sales_order_create':
+                $path = 'directpayment/backend';
+                break;
+            default:
+                $path = 'checkout/onepage/saveOrder';
+                break;
+        }
+        
+        return $this->_getUrl($path);
+    }
+    
+    /**
+     * Get controller name
+     * 
+     * @return string
+     */
+    public function getControllerName()
+    {
+        return Mage::app()->getFrontController()
+                            ->getRequest()
+                            ->getControllerName();
+    }
 }
