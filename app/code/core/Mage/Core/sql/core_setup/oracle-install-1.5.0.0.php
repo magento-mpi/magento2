@@ -115,6 +115,20 @@ $installer->getConnection()->query("
    ");
 
 $installer->getConnection()->query("
+    CREATE OR REPLACE FUNCTION inet_ntoa( p_ip_addr NUMBER ) RETURN VARCHAR2
+    IS
+        v_inet_ntoa VARCHAR(50);
+    BEGIN
+        v_inet_ntoa:= MOD( TRUNC(p_ip_addr/256/256/256), 256 ) || '.' ||
+            MOD( TRUNC(p_ip_addr/256/256), 256 ) || '.' ||
+            MOD( TRUNC(p_ip_addr/256), 256 ) || '.' ||
+            MOD( p_ip_addr , 256 );
+        RETURN v_inet_ntoa;
+    END inet_ntoa;
+");
+
+
+$installer->getConnection()->query("
    create or replace function calculate_checksum(
      p_owner in varchar2,
      p_tname in varchar2,
