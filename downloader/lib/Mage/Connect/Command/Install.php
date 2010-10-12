@@ -278,7 +278,7 @@ extends Mage_Connect_Command
                      */
                     if ($cache->hasPackage($pChan, $pName)) {
                         if ($ftp) {
-                            $packager->processUninstallPackageFtp($pChan, $pName, $cache, $ftp);
+                            $packager->processUninstallPackageFtp($pChan, $pName, $cache, $ftpObj);
                         } else {
                             $packager->processUninstallPackage($pChan, $pName, $cache, $config);
                         }
