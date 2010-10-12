@@ -28,15 +28,15 @@
 $installer = $this;
 
 $installer->getConnection()->query("
-    create or replace function inet_ntoa( ip_addr in integer ) return string
-    as
-    begin
-        return
-            mod( trunc(ip_addr/256/256/256), 256 ) || '.' ||
-            mod( trunc(ip_addr/256/256), 256 ) || '.' ||
-            mod( trunc(ip_addr/256), 256 ) || '.' ||
-            mod( ip_addr , 256 );
-    end;
+    CREATE OR REPLACE FUNCTION inet_ntoa( p_ip_addr NUMBER ) RETURN VARCHAR2
+    IS
+    BEGIN
+        RETURN
+            MOD( TRUNC(p_ip_addr/256/256/256), 256 ) || '.' ||
+            MOD( TRUNC(p_ip_addr/256/256), 256 ) || '.' ||
+            MOD( TRUNC(p_ip_addr/256), 256 ) || '.' ||
+            MOD( p_ip_addr , 256 );
+    END inet_ntoa;
 ");
 
 $installFile = dirname(__FILE__) . DS . 'install-1.10.0.0.php';
