@@ -61,7 +61,7 @@ directPayment.prototype = {
     },
     
     preparePayment: function ()
-    {    	
+    {	
     	if ($(this.iframeId)) {
 	    	switch (this.controller) {
 		    	case 'onepage':
@@ -69,12 +69,14 @@ directPayment.prototype = {
 		    		button.writeAttribute('onclick','');
 		    		button.observe('click', function(obj){
 		    			return function(){
-			    			if (obj.validate()) {			    				
-			    				//TODO: custom logic
-			    				var result = obj.saveOnepageOrder();
-			    				if (result) {alert(result);
-			    					//review.save();
+			    			if ($(obj.iframeId)) {			    				
+			    				if (obj.validate()) {
+				    				//TODO: custom logic
+				    				obj.saveOnepageOrder();			    				
 			    				}			    							    				
+			    			}
+			    			else {
+			    				review.save();
 			    			}
 		    			}
 		    		}(this));	    		
