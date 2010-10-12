@@ -3080,8 +3080,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Rating Pos')
-    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('period', 'store_id', 'product_id'), true),
-        array('period', 'store_id', 'product_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('period', 'store_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('store_id')),
         array('store_id'))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('product_id')),
@@ -3131,8 +3131,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Rating Pos')
-    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_monthly', array('period', 'store_id', 'product_id'), true),
-        array('period', 'store_id', 'product_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_monthly', array('period', 'store_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_monthly', array('store_id')),
         array('store_id'))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_monthly', array('product_id')),
@@ -3181,8 +3181,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Rating Pos')
-    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_yearly', array('period', 'store_id', 'product_id'), true),
-        array('period', 'store_id', 'product_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_yearly', array('period', 'store_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_yearly', array('store_id')),
         array('store_id'))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_yearly', array('product_id')),

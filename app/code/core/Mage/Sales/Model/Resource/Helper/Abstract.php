@@ -124,8 +124,7 @@ abstract class Mage_Sales_Model_Resource_Helper_Abstract extends Mage_Core_Model
         $cols['qty_ordered'] = 't.qty_ordered';
         $cols['rating_pos']  = 't.rating_pos';
         $ratingSelect->from($ratingSubSelect, $cols);
-
-        $sql = $ratingSelect->insertFromSelect($this->_mainTableName, array_keys($cols), false);
+        $sql = $ratingSelect->insertFromSelect($aggregationTable, array_keys($cols));
 
         $this->_getWriteAdapter()->query($sql);
 
