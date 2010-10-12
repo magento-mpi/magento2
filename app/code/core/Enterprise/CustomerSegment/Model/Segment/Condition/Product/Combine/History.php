@@ -159,7 +159,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
                 break;
         }
 
-        $select->limit(1);
+        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+
         return $select;
     }
 

@@ -223,14 +223,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         $attribute = $this->getAttributeObject();
 
         $select->from(array('val'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
-        $select->limit(1);
-
         $condition = $this->getResource()->createConditionSql(
             'val.value', $this->getOperator(), $this->getValue()
         );
         $select->where('val.attribute_id = ?', $attribute->getId())
             ->where("val.entity_id = customer_address.entity_id")
             ->where($condition);
+
+        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
 
         return $select;
     }

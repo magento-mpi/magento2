@@ -124,11 +124,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
         $select = $this->getResource()->createSelect();
 
         $ifnull = $this->getResource()->getReadConnection()
-                ->getCheckSql('caev.value IS NULL', '', 'caev.value');
+                ->getIfnullSql('caev.value', '');
         $select->from(array('caev'=>$attribute->getBackendTable()), "{$inversion}({$ifnull} <> '')");
         $select->where('caev.attribute_id = ?', $attribute->getId())
             ->where("caev.entity_id = customer_address.entity_id");
-        $select->limit(1);
+
+        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
+
         return $select;
     }
 }

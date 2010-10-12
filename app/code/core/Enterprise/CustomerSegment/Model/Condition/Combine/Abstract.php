@@ -144,7 +144,11 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         $adapter = $this->getResource()->getReadConnection();
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
-                $isnull = $adapter->getCheckSql("($sql) IS NULL", '0', "($sql)");
+                if($sql instanceof Varien_Db_Select) {
+                    $isnull = $adapter->getIfnullSql($sql);
+                } else {
+                    $isnull = $adapter->getCheckSql($sql, 1, 0);
+                }
                 $criteriaSql = "($isnull {$operator} 1)";
                 $select->$whereFunction($criteriaSql);
                 $gotConditions = true;

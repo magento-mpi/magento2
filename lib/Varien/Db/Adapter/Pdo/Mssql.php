@@ -2816,7 +2816,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function getIfnullSql($expresion, $value = 0)
     {
-        return new Zend_Db_Expr(sprintf("ISNULL(%s, %s)", $expresion, $value));
+        if ($expresion instanceof Zend_Db_Expr || $expresion instanceof Zend_Db_Select) {
+            return new Zend_Db_Expr(sprintf("ISNULL((%s), %s)", $expresion, $value));
+        } else {
+            return new Zend_Db_Expr(sprintf("ISNULL(%s, %s)", $expresion, $value));
+        }
     }
 
     /**

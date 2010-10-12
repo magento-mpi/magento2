@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
         $aggrFunc = ($this->getAttribute() == 'total') ? 'SUM' : 'AVG';
         $adapter = $this->getResource()->getReadConnection();
-        $firstIf = $adapter->getCheckSql($aggrFunc.'(sales_order.base_grand_total)', $aggrFunc.'(sales_order.base_grand_total)', 0);
+        $firstIf = $adapter->getCheckSql($aggrFunc.'(sales_order.base_grand_total) IS NOT NULL', $aggrFunc.'(sales_order.base_grand_total)', 0);
         $result = $adapter->getCheckSql($firstIf.' '.$operator.' '.$this->getValue(), 1, 0);
 
         $select->from(
@@ -84,6 +84,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
         );
         $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
         $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));
+        Mage::getResourceHelper('enterprise_customersegment')->setOneRowLimit($select);
         return $select;
     }
 }
