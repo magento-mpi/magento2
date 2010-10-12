@@ -228,7 +228,7 @@ $table = $installer->getConnection()
         'default'   => '0.0000',
         ), 'Tax Base Amount Sum')
     ->addIndex($installer->getIdxName('tax/tax_order_aggregated_created', array('period', 'store_id', 'code', 'order_status'), true),
-        array('period', 'store_id', 'code', 'order_status'), array('unique' => true))
+        array('period', 'store_id', 'code', 'order_status'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('tax/tax_order_aggregated_created', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('tax/tax_order_aggregated_created', 'store_id', 'core/store', 'store_id'),

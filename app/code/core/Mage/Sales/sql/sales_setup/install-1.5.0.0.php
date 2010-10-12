@@ -2651,7 +2651,7 @@ $table = $installer->getConnection()
         'default'   => '0.0000',
         ), 'Invoiced Not Captured')
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('unique' => true))
+        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/invoiced_aggregated', 'store_id', 'core/store', 'store_id'),
@@ -2702,7 +2702,7 @@ $table = $installer->getConnection()
         'default'   => '0.0000',
         ), 'Invoiced Not Captured')
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated_order', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('unique' => true))
+        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/invoiced_aggregated_order', 'store_id', 'core/store', 'store_id'),
@@ -2797,7 +2797,7 @@ $table = $installer->getConnection()
         'default'   => '0.0000',
         ), 'Total Discount Amount Actual')
     ->addIndex($installer->getIdxName('sales/order_aggregated_created', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('unique' => true))
+        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/order_aggregated_created', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/order_aggregated_created', 'store_id', 'core/store', 'store_id'),
@@ -2847,7 +2847,7 @@ $table = $installer->getConnection()
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
     ->addIndex($installer->getIdxName('sales/payment_transaction', array('order_id', 'payment_id', 'txn_id'), true),
-        array('order_id', 'payment_id', 'txn_id'), array('unique' => true))
+        array('order_id', 'payment_id', 'txn_id'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/payment_transaction', array('order_id')),
         array('order_id'))
     ->addIndex($installer->getIdxName('sales/payment_transaction', array('parent_id')),
@@ -2904,7 +2904,7 @@ $table = $installer->getConnection()
         'default'   => '0.0000',
         ), 'Offline Refunded')
     ->addIndex($installer->getIdxName('sales/refunded_aggregated', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('unique' => true))
+        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/refunded_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/refunded_aggregated', 'store_id', 'core/store', 'store_id'),
@@ -2949,7 +2949,7 @@ $table = $installer->getConnection()
         'default'   => '0.0000',
         ), 'Offline Refunded')
     ->addIndex($installer->getIdxName('sales/refunded_aggregated_order', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('unique' => true))
+        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/refunded_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/refunded_aggregated_order', 'store_id', 'core/store', 'store_id'),
@@ -2992,7 +2992,7 @@ $table = $installer->getConnection()
         'default'   => '0.0000',
         ), 'Total Shipping Actual')
     ->addIndex($installer->getIdxName('sales/shipping_aggregated', array('period', 'store_id', 'order_status', 'shipping_description'), true),
-        array('period', 'store_id', 'order_status', 'shipping_description'), array('unique' => true))
+        array('period', 'store_id', 'order_status', 'shipping_description'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/shipping_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/shipping_aggregated', 'store_id', 'core/store', 'store_id'),
@@ -3035,7 +3035,7 @@ $table = $installer->getConnection()
         'default'   => '0.0000',
         ), 'Total Shipping Actual')
     ->addIndex($installer->getIdxName('sales/shipping_aggregated_order', array('period', 'store_id', 'order_status', 'shipping_description'), true),
-        array('period', 'store_id', 'order_status', 'shipping_description'), array('unique' => true))
+        array('period', 'store_id', 'order_status', 'shipping_description'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/shipping_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/shipping_aggregated_order', 'store_id', 'core/store', 'store_id'),
@@ -3065,8 +3065,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Product Id')
     ->addColumn('product_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'Product Name')
     ->addColumn('product_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
@@ -3082,7 +3081,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Rating Pos')
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('period', 'store_id', 'product_id'), true),
-        array('period', 'store_id', 'product_id'), array('unique' => true))
+        array('period', 'store_id', 'product_id'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('store_id')),
         array('store_id'))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('product_id')),
@@ -3117,8 +3116,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Product Id')
     ->addColumn('product_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'Product Name')
     ->addColumn('product_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
@@ -3134,7 +3132,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Rating Pos')
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_monthly', array('period', 'store_id', 'product_id'), true),
-        array('period', 'store_id', 'product_id'), array('unique' => true))
+        array('period', 'store_id', 'product_id'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_monthly', array('store_id')),
         array('store_id'))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_monthly', array('product_id')),
@@ -3168,8 +3166,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Product Id')
     ->addColumn('product_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
+        'nullable'  => true,
         ), 'Product Name')
     ->addColumn('product_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
@@ -3185,7 +3182,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Rating Pos')
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_yearly', array('period', 'store_id', 'product_id'), true),
-        array('period', 'store_id', 'product_id'), array('unique' => true))
+        array('period', 'store_id', 'product_id'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_yearly', array('store_id')),
         array('store_id'))
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_yearly', array('product_id')),
@@ -3377,7 +3374,7 @@ $table = $installer->getConnection()
     ->addColumn('additional_info', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Additional Info')
     ->addIndex($installer->getIdxName('sales/recurring_profile', array('internal_reference_id'), true),
-        array('internal_reference_id'), array('unique' => true))
+        array('internal_reference_id'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/recurring_profile', array('customer_id')),
         array('customer_id'))
     ->addIndex($installer->getIdxName('sales/recurring_profile', array('store_id')),
@@ -3414,7 +3411,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Order Id')
     ->addIndex($installer->getIdxName('sales/recurring_profile_order', array('profile_id', 'order_id'), true),
-        array('profile_id', 'order_id'), array('unique' => true))
+        array('profile_id', 'order_id'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('sales/recurring_profile_order', array('order_id')),
         array('order_id'))
     ->addForeignKey($installer->getFkName('sales/recurring_profile_order', 'order_id', 'sales/order', 'entity_id'),

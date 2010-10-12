@@ -56,7 +56,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Last Modified')
     ->addIndex($installer->getIdxName('paypal/settlement_report', array('report_date', 'account_id'), true),
-        array('report_date', 'account_id'), array('unique' => true))
+        array('report_date', 'account_id'), array('type' => 'unique'))
     ->setComment('Paypal Settlement Report Table');
 $installer->getConnection()->createTable($table);
 

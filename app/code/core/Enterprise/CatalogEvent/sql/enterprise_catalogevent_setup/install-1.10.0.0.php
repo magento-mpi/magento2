@@ -55,7 +55,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Sort Order')
     ->addIndex($installer->getIdxName('enterprise_catalogevent/event', array('category_id'), true),
-        array('category_id'), array('unique' => true))
+        array('category_id'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('enterprise_catalogevent/event', array('date_start', 'date_end')),
         array('date_start', 'date_end'))
     ->addForeignKey($installer->getFkName('enterprise_catalogevent/event', 'category_id', 'catalog/category', 'entity_id'),
