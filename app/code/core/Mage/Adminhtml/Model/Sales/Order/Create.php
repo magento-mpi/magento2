@@ -529,6 +529,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                             $info = new Varien_Object(
                                 unserialize($info->getValue())
                             );
+                            $info->setQty($qty);
                             $info->setOptions($this->_prepareOptionsForRequest($item));
                         } else {
                             $info = new Varien_Object(array(
@@ -543,7 +544,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                             Mage::throwException($cartItem);
                         }
                         $product->unsSkipCheckRequiredOption();
-                        $cartItem->setQty($qty);
                         $cartItem->setPrice($item->getProduct()->getPrice());
                         $this->_needCollectCart = true;
                     }
