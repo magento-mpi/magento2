@@ -121,7 +121,7 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
                     $previousSelect = $select;
                 }
             }
-            $this->getSelect()->where('EXISTS(?)', new Zend_Db_Expr($select));
+            $this->addFieldToFilter('entity_id', array('in' => new Zend_Db_Expr($select)));
         }
 
         return $this;
