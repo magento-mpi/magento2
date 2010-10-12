@@ -244,31 +244,31 @@
             <active>false</active>
         </Enterprise_Banner>
         <Enterprise_CatalogEvent>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_CatalogEvent>
         <Enterprise_CatalogPermissions>
             <active>false</active>
         </Enterprise_CatalogPermissions>
         <Enterprise_Checkout>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_Checkout>
         <Enterprise_Cms>
             <active>false</active>
         </Enterprise_Cms>
         <Enterprise_Customer>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_Customer>
         <Enterprise_CustomerBalance>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_CustomerBalance>
         <Enterprise_CustomerSegment>
             <active>false</active>
         </Enterprise_CustomerSegment>
         <Enterprise_Enterprise>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_Enterprise>
         <Enterprise_GiftCard>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_GiftCard>
         <Enterprise_GiftCardAccount>
             <active>false</active>
@@ -277,13 +277,13 @@
             <active>false</active>
         </Enterprise_GiftRegistry>
         <Enterprise_Invitation>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_Invitation>
         <Enterprise_License>
             <active>false</active>
         </Enterprise_License>
         <Enterprise_Logging>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_Logging>
         <Enterprise_PageCache>
             <active>false</active>
@@ -316,7 +316,7 @@
             <active>false</active>
         </Enterprise_TargetRule>
         <Enterprise_WebsiteRestriction>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_WebsiteRestriction>
     </modules>
 </config>
