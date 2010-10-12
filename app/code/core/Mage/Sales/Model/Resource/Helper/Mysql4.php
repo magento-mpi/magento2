@@ -32,15 +32,18 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Sales_Model_Resource_Helper_Abstract
+class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Mysql4
 {
     /**
      * Update rating position
      *
-     * @param string $aggregationTableName
-     * @return Mage_Sales_Model_Resource_Report_Bestsellers
+     * @param string $aggregation One of Mage_Sales_Model_Resource_Report_Bestsellers::AGGREGATION_XXX constants
+     * @param array $aggregationAliases
+     * @param string $mainTable
+     * @param string $aggregationTable
+     * @return Mage_Sales_Model_Resource_Helper_Abstract
      */
-    public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationTable)
+    public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases, $mainTable, $aggregationTable)
     {
         $adapter = $this->_getWriteAdapter();
         $periodSubSelect = $adapter->select();
@@ -48,9 +51,9 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Sales_Model_Resource_
         $ratingSelect = $adapter->select();
 
         $periodCol = 't.period';
-        if ($aggregation == $this->_aggregationAliases['monthly']) {
+        if ($aggregation == $aggregationAliases['monthly']) {
             $periodCol = $adapter->getDateFormatSql('t.period', '%Y-%m-01');
-        } else if ($aggregation == $this->_aggregationAliases['yearly']) {
+        } elseif ($aggregation == $aggregationAliases['yearly']) {
             $periodCol = $adapter->getDateFormatSql('t.period', '%Y-01-01');
         }
 
@@ -62,13 +65,13 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Sales_Model_Resource_
             'product_price' => 't.product_price',
         );
 
-        if ($aggregation == $this->_aggregationAliases['daily']) {
+        if ($aggregation == $aggregationAliases['daily']) {
             $columns['id'] = 't.id';  // to speed-up insert on duplicate key update
         }
 
         $cols = array_keys($columns);
-        $cols[] = new Zend_Db_Expr('SUM(t.qty_ordered) AS total_qty_ordered');
-        $periodSubSelect->from(array('t' => $this->_mainTableName), $cols)
+        $cols[] = $adapter->quoteColumnAs('SUM(t.qty_ordered)', 'total_qty_ordered');
+        $periodSubSelect->from(array('t' => $mainTable), $cols)
             ->group(array('t.store_id', $periodCol, 't.product_id'))
             ->order(array('t.store_id', $periodCol, 'total_qty_ordered DESC'));
 
@@ -92,5 +95,4 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Sales_Model_Resource_
 
         return $this;
     }
-
 }

@@ -258,15 +258,15 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
      */
     protected function _updateRatingPos($aggregation)
     {
-        $aggregationTable = $this->getTable('sales/bestsellers_aggregated_' . $aggregation);
+        $aggregationTable   = $this->getTable('sales/bestsellers_aggregated_' . $aggregation);
+
+        $aggregationAliases = array(
+            'daily'   => self::AGGREGATION_DAILY,
+            'monthly' => self::AGGREGATION_MONTHLY,
+            'yearly'  => self::AGGREGATION_YEARLY
+        );
         Mage::getResourceHelper('sales')
-            ->setMainTableName($this->getMainTable())
-            ->setAggregationAliases(array(
-                'daily'   => self::AGGREGATION_DAILY,
-                'monthly' => self::AGGREGATION_MONTHLY,
-                'yearly'  => self::AGGREGATION_YEARLY
-            ))
-            ->getBestsellersReportUpdateRatingPos($aggregation, $aggregationTable);
+            ->getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases, $this->getMainTable(), $aggregationTable);
 
         return $this;
     }
