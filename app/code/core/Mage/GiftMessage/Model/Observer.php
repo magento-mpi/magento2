@@ -183,8 +183,8 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         if (!Mage::helper('giftmessage/message')->isMessagesAvailable('order', $order, $order->getStore())){
             return $this;
         }
-
-        if($giftMessageId = $order->getGiftMessageId()) {
+        $giftMessageId = $order->getGiftMessageId();
+        if($giftMessageId) {
             $giftMessage = Mage::getModel('giftmessage/message')->load($giftMessageId)
                 ->setId(null)
                 ->save();
