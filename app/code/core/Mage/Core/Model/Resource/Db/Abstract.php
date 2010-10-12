@@ -604,10 +604,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      */
     protected function _prepareValueForSave($value, $type)
     {
-        if ($type == 'decimal') {
-            $value = Mage::app()->getLocale()->getNumber($value);
-        }
-        return $value;
+        return $this->_prepareTableValueForSave($value, $type);
     }
 
     /**

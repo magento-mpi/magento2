@@ -73,7 +73,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
                 $condition = $condition['eq'];
             }
             if (in_array((int) $condition, array(0, 1))) {
-                $this->getSelect()->where('display_state=?', (int) $condition);
+                $this->getSelect()->where('display_state = ?', (int)$condition);
                 //$this->getSelect()->where('(' . $field . ' & ' . (int) $condition . ') = ' . (int) $condition);
             } else {
                 $this->getSelect()->where('display_state=?', 0);
@@ -138,7 +138,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
                     AND category_name_attribute.attribute_code = \'name\'', array()
                 )
                 ->joinLeft(array(
-                    'category_varchar' => $this->getTable('catalog/category') . '_varchar'), 
+                    'category_varchar' => $this->getTable(array('catalog/category', 'varchar'))), 
                     'category_varchar.entity_id = category.entity_id
                     AND category_varchar.attribute_id = category_name_attribute.attribute_id
                     AND category_varchar.store_id = 0
@@ -190,8 +190,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
         $adapter = $this->getConnection();
         $this->getSelect()->joinLeft(
             array('event_image' => $this->getTable('event_image')),
-            'event_image.event_id = main_table.event_id
-            AND event_image.store_id = ' . Mage::app()->getStore()->getId() . '',
+            implode(' AND ', array(
+                'event_image.event_id = main_table.event_id',
+                $adapter->quoteInto('event_image.store_id = ?', Mage::app()->getStore()->getId())
+            )),
             array('image' => 
                 $adapter->getCheckSql('event_image.image IS NULL', 'event_image_default.image', 'event_image.image')
             )
@@ -202,6 +204,9 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
             AND event_image_default.store_id = 0',
             array())
         ->group('main_table.event_id');
+
+//        $this->_useAnalyticFunction = true;
+
         return $this;
     }
 
