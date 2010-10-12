@@ -129,7 +129,7 @@ $_orderUrl = $this->helper('directpayment')->getSaveOrderUrl();
 //<![CDATA[
 <?php echo @file_get_contents($this->getJsUrl().'mage/directpayment.js') ?>
 document.observe('dom:loaded', function() {
-	var directPaymentModel = new directPayment('directpayment-iframe','<?php echo $_controller ?>','<?php echo $_orderUrl ?>');
+	var directPaymentModel = new directPayment('directpayment-iframe','<?php echo $_controller ?>','<?php echo $_orderUrl ?>','<?php echo $_method->getCgiUrl() ?>');
 });
 //]]>
 </script>

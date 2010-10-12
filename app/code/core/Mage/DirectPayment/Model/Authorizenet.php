@@ -103,4 +103,15 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         $stateObject->setStatus('pending_payment');
         $stateObject->setIsNotified(true);
     }
+    
+    /**
+     * Get CGI url
+     * 
+     * @return string
+     */
+    public function getCgiUrl()
+    {
+        $uri = $this->getConfigData('cgi_url');
+        return $uri ? $uri : self::CGI_URL;
+    }
 }

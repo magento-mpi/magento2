@@ -131,7 +131,7 @@ $_orderUrl = $this->helper('directpayment')->getSaveOrderUrl();
 <?php if ($_controller == 'multishipping'): ?>
 Event.observe(window, 'load', function() {
 <?php endif; ?>
-var directPaymentModel = new directPayment('directpayment-iframe','<?php echo $_controller ?>','<?php echo $_orderUrl ?>');
+var directPaymentModel = new directPayment('directpayment-iframe','<?php echo $_controller ?>','<?php echo $_orderUrl ?>','<?php echo $_method->getCgiUrl() ?>');
 <?php if ($_controller == 'multishipping'): ?>
 });
 <?php endif; ?>
