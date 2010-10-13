@@ -42,7 +42,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($this->getControllerName()) {
             case 'onepage':
-                $path = 'checkout/onepage/saveOrder';
+                $path = 'directpayment/paygate/getCheckoutRequestData';
                 break;
             case 'multishipping':
                 $path = 'directpayment/multishipping';
@@ -51,7 +51,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 $path = 'directpayment/backend';
                 break;
             default:
-                $path = 'checkout/onepage/saveOrder';
+                $path = 'directpayment/paygate/getCheckoutRequestData';
                 break;
         }
         

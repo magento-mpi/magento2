@@ -41,8 +41,7 @@ directPayment.prototype = {
         };
         this.isValid = true;
         this.paymentRequestSent = false;
-        this.onServerSuccuess = this.serverSuccess.bindAsEventListener(this);
-        
+        this.onServerSuccuess = this.serverSuccess.bindAsEventListener(this);        
         this.preparePayment();        
     },
     
@@ -142,10 +141,10 @@ directPayment.prototype = {
             response = {};
         }
         
-        if (response.success && response.directpayment) {
+        if (response.success && response.directpost) {
         	var paymentData = {};
-            for(var key in response.directpayment) {
-            	paymentData[key] = response.directpayment[key];
+            for(var key in response.directpost) {
+            	paymentData[key] = response.directpost[key];
             }            
             var preparedData = this.preparePaymentRequest(paymentData);            
         	return this.sendPaymentRequest(preparedData);

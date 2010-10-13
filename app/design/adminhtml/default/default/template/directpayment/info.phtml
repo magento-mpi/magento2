@@ -31,7 +31,6 @@ $_method = $_form->getMethod();
 $_controller = $this->helper('directpayment')->getControllerName();
 $_orderUrl = $this->helper('directpayment')->getSaveOrderUrl();
 ?>
-<div style="padding:1em;" class="step a-item">
 <!-- IFRAME for request to Authorize.net -->
 <iframe id="directpayment-iframe" name="iframeDirectPayment" style="display:none;" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
 
@@ -133,4 +132,3 @@ document.observe('dom:loaded', function() {
 });
 //]]>
 </script>
-</div>
