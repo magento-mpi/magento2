@@ -31,6 +31,7 @@
             <active>false</active>
             <codePool>core</codePool>
             <depends>
+                <Mage_Cms/>
                 <Mage_Catalog/>
                 <Enterprise_WebsiteRestriction/>
             </depends>
