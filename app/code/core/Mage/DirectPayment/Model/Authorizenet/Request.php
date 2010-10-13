@@ -81,6 +81,8 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
     {
         $this->setXVersion('3.1')
             ->setXDelimData('FALSE')
+            ->setXDelimData('TRUE')
+            ->setXDelimChar(',')
             ->setXRelayResponse('TRUE');
 
         $this->setXTestRequest($paymentMethod->getConfigData('test') ? 'TRUE' : 'FALSE');
@@ -105,7 +107,7 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
         $this->setXFpSequence($order->getId());
         $this->setXInvoiceNum($order->getIncrementId());
         $amount = $order->getBaseGrandTotal();
-        $this->setXAmount(number_format($amount, 2, '.', ''));
+        $this->setXAmount($amount);
         $this->setXCurrencyCode($order->getBaseCurrencyCode());
         return $this;
     }
