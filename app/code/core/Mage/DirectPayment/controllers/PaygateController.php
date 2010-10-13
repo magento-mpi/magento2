@@ -37,7 +37,14 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     
     public function placeAction()
     {
-        Mage::log($this->getRequest());
+        Mage::log($this->getRequest()->getParams());
+        $body = '<html><head><script language=\"javascript\">
+            <!--
+            window.location="'.Mage::getBaseUrl().'";
+            //-->
+            </script>
+            </head><body></body></html>';
+        $this->getResponse()->setBody($body);
     }
     
     public function cancelAction()
