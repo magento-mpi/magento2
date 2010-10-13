@@ -163,7 +163,10 @@ directPayment.prototype = {
     	if ($('directpayment_cc_cid')) {
     		data.x_fp_sequence = $('directpayment_cc_cid').value;
 		}
-    	var year = parseInt($('directpayment_expiration_yr').value, 10);
+    	var year = $('directpayment_expiration_yr').value;
+    	if (year.length > 2) {
+    		year = year.substring(2);
+    	}
         var month = parseInt($('directpayment_expiration').value, 10);
         if (month < 10){
             month = '0' + month;
