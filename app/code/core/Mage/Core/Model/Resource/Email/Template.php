@@ -115,7 +115,8 @@ class Mage_Core_Model_Resource_Email_Template extends Mage_Core_Model_Resource_D
         $pathesCounter = 1;
         $bind = array();
         foreach ($paths as $path) {
-            $orWhere[] = 'path = :' . 'path_' . $pathesCounter;
+            $pathAlias = 'path_' . $pathesCounter;
+            $orWhere[] = 'path = :' . $pathAlias;
             $bind[$pathAlias] = $path;
             $pathesCounter++;
         }
