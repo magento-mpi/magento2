@@ -44,8 +44,9 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         Mage::log($this->getRequest()->getParams());
        
         $this->getResponse()->setBody(
-        	'<html><head><script language="javascript">
-            <!--            
+        	'<html><head><script language="javascript" type="text/javascript">
+            <!--
+            window.parent.directPayment.isResponse = true;
             //-->
             </script>
             </head><body></body></html>'
@@ -62,7 +63,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         if ($orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
             if ($order->getId()){
-                $orderIds = $this->_getCheckout()->setDirectPostOrderIds();
+                $orderIds = $this->_getCheckout()->getDirectPostOrderIds();
                 if (is_array($orderIds) && !empty($orderIds[$order->getId()])){
             
                     //check if order exists and assigned to
