@@ -46,7 +46,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         $this->getResponse()->setBody(
         	'<html><head><script language="javascript" type="text/javascript">
             <!--
-            window.parent.directPayment.isResponse = true;
+            
             //-->
             </script>
             </head><body></body></html>'
