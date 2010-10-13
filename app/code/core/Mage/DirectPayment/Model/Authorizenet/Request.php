@@ -29,11 +29,24 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
 {
     protected $_transKey = null;
     
+    /**
+     * Return merchant transaction key.
+     * Needed to generate sign.
+     *
+     * @return string
+     */
     public function getTransactionKey()
     {
         return $this->_transKey;
     }
     
+    /**
+     * Set merchant transaction key.
+     * Needed to generate sign.
+     *
+     * @param string $transKey
+     * @return Mage_DirectPayment_Model_Authorizenet_Request
+     */
     public function setTransactionKey($transKey)
     {
         $this->_transKey = $transKey;
