@@ -105,7 +105,7 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
         $this->setXFpSequence($order->getId());
         $this->setXInvoiceNum($order->getIncrementId());
         $amount = $order->getBaseGrandTotal();
-        $this->setXAmount($amount);
+        $this->setXAmount(number_format($amount, 2, '.', ''));
         $this->setXCurrencyCode($order->getBaseCurrencyCode());
         return $this;
     }
