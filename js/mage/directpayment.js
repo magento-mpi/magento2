@@ -24,13 +24,13 @@
  */
 var directPayment = Class.create();
 directPayment.prototype = {
-	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl)
+	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl, orderCancelUrl)
     {		
         this.iframeId = iframeId;
         this.controller = controller;
         this.orderSaveUrl = orderSaveUrl;
-        this.cgiUrl = cgiUrl;
-        
+        this.orderCancelUrl = orderCancelUrl;
+        this.cgiUrl = cgiUrl;        
         this.code = 'directpayment';
         this.inputs = {
             'directpayment_cc_type'       : 'cc_type',
@@ -41,7 +41,13 @@ directPayment.prototype = {
         };
         this.isValid = true;
         this.paymentRequestSent = false;
-        this.onServerSuccuess = this.serverSuccess.bindAsEventListener(this);        
+        this.isResponse = false;
+        this.orderId = false;
+        
+        this.onSaveOnepageOrderSuccess = this.saveOnepageOrderSuccess.bindAsEventListener(this);
+        this.onCancelOrderSuccess = this.cancelOrderSuccess.bindAsEventListener(this);
+        this.onLoadIframe = this.loadIframe.bindAsEventListener(this);
+        
         this.preparePayment();        
     },
     
@@ -92,6 +98,7 @@ directPayment.prototype = {
 		    			}
 		    		}(this));
 		    		break;
+		    	case 'sales_order_edit':
 		    	case 'sales_order_create':		    				    		
 			    	var buttons = document.getElementsByClassName('scalable save');
 			    	for(var i = 0; i < buttons.length; i++){
@@ -108,8 +115,71 @@ directPayment.prototype = {
 				    	}(this));
 			    	}
 		    		break;
-	    	}	    		    	
+	    	}
+	    	
+	    	$(this.iframeId).observe('load', this.onLoadIframe);
     	}
+    },
+    
+    loadIframe: function() 
+    {
+    	if (this.paymentRequestSent) {
+    		setTimeout(this.checkResponseFlag.bind(this), 3000);
+	    	this.paymentRequestSent = false;
+    	}
+    },
+    
+    checkResponseFlag: function() 
+    {
+    	if (!this.isResponse) {
+    		if (this.orderId) {
+    			this.cancelOrder();
+    		}
+    		else {
+	    		review.resetLoadWaiting();
+	    		alert('Payment authorization error');
+    		}
+    	}
+    },
+    
+    cancelOrder: function()
+    {    	
+    	var params = 'orderId=' + this.orderId;            
+    	new Ajax.Request(
+    		this.orderCancelUrl,
+            {
+                method:'post',
+                parameters:params,
+                onComplete: this.onCancelOrderSuccess,               
+                onFailure: function(transport) {    				
+    				review.resetLoadWaiting();
+    				alert('Can not load order url');
+    			}
+            }
+        );
+    	this.orderId = false;    	
+    },
+    
+    cancelOrderSuccess: function(transport)
+    {
+    	try{
+            response = eval('(' + transport.responseText + ')');
+        }
+        catch (e) {
+            response = {};
+        }
+        
+        if (response.success) {
+        	alert('Payment transaction failed');
+        }
+        else{
+            var msg = response.error_messages;
+            if (typeof(msg)=='object') {
+                msg = msg.join("\n");
+            }
+            alert(msg);
+        }
+        review.resetLoadWaiting();
     },
     
     saveOnepageOrder: function()
@@ -124,7 +194,7 @@ directPayment.prototype = {
             {
                 method:'post',
                 parameters:params,
-                onComplete: this.onServerSuccuess,               
+                onComplete: this.onSaveOnepageOrderSuccess,               
                 onFailure: function(transport) {    				
     				review.resetLoadWaiting();
     				alert('Can not load order url');
@@ -133,7 +203,8 @@ directPayment.prototype = {
         );
     },
     
-    serverSuccess: function(transport) {    	
+    saveOnepageOrderSuccess: function(transport) 
+    {    	
     	try{
             response = eval('(' + transport.responseText + ')');
         }
@@ -141,10 +212,11 @@ directPayment.prototype = {
             response = {};
         }
         
-        if (response.success && response.directpost) {
+        if (response.success && response.directpayment) {
+        	this.orderId = response.directpayment.fields.x_fp_sequence;
         	var paymentData = {};
-            for(var key in response.directpost) {
-            	paymentData[key] = response.directpost[key];
+            for(var key in response.directpayment.fields) {
+            	paymentData[key] = response.directpayment.fields[key];
             }            
             var preparedData = this.preparePaymentRequest(paymentData);            
         	return this.sendPaymentRequest(preparedData);

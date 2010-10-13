@@ -34,7 +34,7 @@
 class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Retrieve url
+     * Retrieve save order url
      *    
      * @return  string
      */
@@ -42,20 +42,31 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($this->getControllerName()) {
             case 'onepage':
-                $path = 'directpayment/paygate/getCheckoutRequestData';
+                $path = 'checkout/onepage/saveOrder';
                 break;
             case 'multishipping':
                 $path = 'directpayment/multishipping';
                 break;
             case 'sales_order_create':
+            case 'sales_order_edit':
                 $path = 'directpayment/backend';
                 break;
             default:
-                $path = 'directpayment/paygate/getCheckoutRequestData';
+                $path = 'checkout/onepage/saveOrder';
                 break;
         }
         
         return $this->_getUrl($path);
+    }
+    
+    /**
+     * Retrieve cancel order url
+     *    
+     * @return  string
+     */
+    public function getCancelOrderUrl()
+    {
+        return $this->_getUrl('directpayment/paygate/cancel');
     }
     
     /**

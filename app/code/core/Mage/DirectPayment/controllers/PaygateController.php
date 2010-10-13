@@ -39,4 +39,23 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     {
         Mage::log($this->getRequest());
     }
+    
+    public function cancelAction()
+    {
+        $orderId = $this->getRequest()->getPost('orderId');
+        if ($orderId) {
+            $order = Mage::getModel('sales/order')->load($orderId);
+            $quoteId = $order->getQuoteId();
+            $order->cancel()
+                    ->save();
+            $quote = Mage::getModel('sales/quote')
+                        ->load($quoteId)
+                        ->setIsActive(1)
+                        ->setReservedOrderId(NULL)
+                        ->save();
+            Mage::getSingleton('checkout/session')->replaceQuote($quote);
+            $result['success'] = 1;
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        }
+    }
 }
