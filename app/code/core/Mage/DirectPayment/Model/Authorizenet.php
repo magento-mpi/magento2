@@ -64,22 +64,6 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         
     }
     
-	/**
-     * Send capture request to gateway
-     *
-     * @param Varien_Object $payment
-     * @param decimal $amount
-     * @return Mage_Paygate_Model_Authorizenet
-     * @throws Mage_Core_Exception
-     */
-    public function capture(Varien_Object $payment, $amount)
-    {
-        if (!$payment->getParentTransactionId()){
-            return;
-        }
-        parent::capture($payment, $amount);
-    }
-    
     /**
      * Get CGI url
      *
@@ -101,11 +85,29 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         return Mage::getModel('directpayment/authorizenet_request');
     }
     
-    public function generateRequestFromQuote(Mage_Sales_Model_Quote $quote)
+	/**
+     *  Return Order Place Redirect URL.
+     *  Need to prevent emails sending for new orders to store's directors.
+     *
+     *  @return	  string 1
+     */
+    public function getOrderPlaceRedirectUrl()
+    {
+        return 1;
+    }
+    
+    /**
+     * Generate request object and fill its fields from Quote object
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return Mage_DirectPayment_Model_Authorizenet_Request
+     */
+    public function generateRequestFromOrder(Mage_Sales_Model_Order $order)
     {
         $request = $this->getRequestModel();
         $request->setConstantData($this)
-            ->setDataFromQuote($quote);
+            ->setDataFromOrder($order)
+            ->signRequestData();
         return $request;
     }
 }

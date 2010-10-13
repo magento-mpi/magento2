@@ -35,20 +35,6 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         return Mage::getModel('checkout/cart');
     }
     
-    public function getCheckoutRequestDataAction()
-    {
-        $cart = $this->_getCart();
-        $quote = $cart->getQuote();
-        $quote->collectTotals();
-        $paymentMethod = $quote->getPayment()->getMethodInstance();
-        $formData = $paymentMethod->generateRequestFromQuote($quote)->getData();
-        $result = array(
-            'success' => 1,
-            'directpost' => $formData
-        );
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-    }
-    
     public function placeAction()
     {
         Mage::log($this->getRequest());

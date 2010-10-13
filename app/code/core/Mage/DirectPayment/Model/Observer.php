@@ -69,26 +69,8 @@ class Mage_DirectPayment_Model_Observer
                 
                 if (empty($result['error'])){
                     //if is success, then add new fields
-                    //TEMPORARY FOR TEST ONLY. Will be refactored.
-                    $merchant_api_login_id = '36sCtGS8w';
-                    $merchant_transaction_key = '7UWKj2Y6B3s74dY4';
-                    $amount = $order->getGrandTotal();
-                    $fp_sequence = $order->getIncrementId();
-                    $fp_timestamp = time();
-                    $hash = hash_hmac("md5", $merchant_api_login_id . "^" . $fp_sequence . "^" . $fp_timestamp . "^" . $amount . "^", $merchant_transaction_key);
-                    $result['directpayment'] = array(
-                        'x_relay_response' => 'TRUE',
-                        'x_version' => '3.1',
-                        'x_delim_char' => ',',
-                        'x_delim_data' => 'TRUE',
-                        'x_amount' => $amount,
-                        'x_fp_sequence' => $fp_sequence,
-                        'x_fp_hash' => $hash,
-                        'x_fp_timestamp' => $fp_timestamp,
-                        'x_relay_url' => 'http://kd.varien.com/dev/andrey.moskvenkov/direct_post/direct_post.php',
-                        'x_login' => $merchant_api_login_id
-                    );
-                    //
+                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
+                    $result['directpayment'] = array('fields' => $requestToPaygate->getData());
                     
                     $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
                 }
