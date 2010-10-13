@@ -187,7 +187,7 @@ class Mage_Connect_Packager
     protected function removeEmptyDirectory($dir, $ftp = null)
     {
         if ($ftp) {
-            if (count($ftp->nlist(dirname($file)))==0) {
+            if (count($ftp->nlist($dir))==0) {
                 if ($ftp->rmdir($dir)) {
                     $this->removeEmptyDirectory(dirname($dir), $ftp);
                 }
