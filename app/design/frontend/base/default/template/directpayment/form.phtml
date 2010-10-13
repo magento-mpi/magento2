@@ -132,7 +132,7 @@ $_cancelOrderUrl = $this->helper('directpayment')->getCancelOrderUrl();
 <?php if ($_controller == 'multishipping'): ?>
 Event.observe(window, 'load', function() {
 <?php endif; ?>
-var directPaymentModel = new directPayment(
+directPaymentModel = new directPayment(
 		'directpayment-iframe',
 		'<?php echo $_controller ?>',
 		'<?php echo $_orderUrl ?>',
