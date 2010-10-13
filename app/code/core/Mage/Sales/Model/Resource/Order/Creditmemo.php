@@ -81,11 +81,11 @@ class Mage_Sales_Model_Resource_Order_Creditmemo extends Mage_Sales_Model_Resour
         parent::_initVirtualGridColumns();
         $adapter = $this->getReadConnection();
         $checkedFirstname = $adapter
-            ->getCheckSql('{{table}}.firstname IS NULL', '', '{{table}}.firstname');
+            ->getCheckSql('{{table}}.firstname IS NULL', $adapter->quote(''), '{{table}}.firstname');
         $checkedLastname = $adapter
-            ->getCheckSql('{{table}}.lastname IS NULL', '', '{{table}}.lastname');
+            ->getCheckSql('{{table}}.lastname IS NULL', $adapter->quote(''), '{{table}}.lastname');
         $concatName = new Zend_Db_Expr(
-            $adapter->getConcatSql(array($checkedFirstname, "' '", $checkedLastname))
+            $adapter->getConcatSql(array($checkedFirstname, $adapter->quote(' '), $checkedLastname))
         );
 
         $this->addVirtualGridColumn(

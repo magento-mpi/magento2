@@ -1603,7 +1603,6 @@ $installer->getConnection()->createTable($table);
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales/creditmemo_grid'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
