@@ -68,7 +68,15 @@ class Mage_DirectPayment_Model_Observer
                 $result = Mage::helper('core')->jsonDecode($controller->getResponse()->getBody('default'), Zend_Json::TYPE_ARRAY);
                 
                 if (empty($result['error'])){
-                    //if is success, then add new fields
+                    //if is success, then set order to session and add new fields
+                    $session =  Mage::getSingleton('checkout/session');
+                    $orderIds = $session->getDirectPostOrderIds();
+                    if (!$orderIds) {
+                        $orderIds = array();
+                    }
+                    $orderIds[$order->getId()] = 1;
+                    $session->setDirectPostOrderIds($orderIds);
+                    
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $result['directpayment'] = array('fields' => $requestToPaygate->getData());
                     

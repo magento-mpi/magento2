@@ -28,41 +28,62 @@
 class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * @return Mage_Checkout_Model_Cart
+     * @return Mage_Checkout_Model_Session
      */
-    protected function _getCart()
+    protected function _getCheckout()
     {
-        return Mage::getModel('checkout/cart');
+        return Mage::getSingleton('checkout/session');
     }
     
+    /**
+     * Place order action.
+     * Action for Authorize.net SIM Relay Request.
+     */
     public function placeAction()
     {
         Mage::log($this->getRequest()->getParams());
-        $body = '<html><head><script language=\"javascript\">
+       
+        $this->getResponse()->setBody(
+        	'<html><head><script language="javascript">
             <!--
-            alert("'.Mage::getBaseUrl().'");
+            window.parent.directPayment.isResponse = true;
             //-->
             </script>
-            </head><body></body></html>';
-        $this->getResponse()->setBody($body);
+            </head><body></body></html>'
+        );
     }
     
+    /**
+     * Cancel wrong order and return quote to customer.
+     */
     public function cancelAction()
     {
         $orderId = $this->getRequest()->getPost('orderId');
+        $result = array();
         if ($orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
-            $quoteId = $order->getQuoteId();
-            $order->cancel()
-                    ->save();
-            $quote = Mage::getModel('sales/quote')
-                        ->load($quoteId)
-                        ->setIsActive(1)
-                        ->setReservedOrderId(NULL)
+            if ($order->getId()){
+                $orderIds = $this->_getCheckout()->setDirectPostOrderIds();
+                if (is_array($orderIds) && !empty($orderIds[$order->getId()])){
+            
+                    //check if order exists and assigned to
+                    $quoteId = $order->getQuoteId();
+                    $order->cancel()
                         ->save();
-            Mage::getSingleton('checkout/session')->replaceQuote($quote);
-            $result['success'] = 1;
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+                    if ($quoteId){
+                        $quote = Mage::getModel('sales/quote')
+                            ->load($quoteId);
+                        if ($quote->getId()){
+                            $quote->setIsActive(1)
+                                ->setReservedOrderId(NULL)
+                                ->save();
+                            $this->_getCheckout()->replaceQuote($quote);
+                            $result['success'] = 1;
+                        }
+                    }
+                }
+            }
         }
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 }
