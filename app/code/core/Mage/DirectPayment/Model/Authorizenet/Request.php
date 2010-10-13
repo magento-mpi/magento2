@@ -85,10 +85,10 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
             ->setXDelimChar(',')
             ->setXRelayResponse('TRUE');
 
-        //$this->setXTestRequest($paymentMethod->getConfigData('test') ? 'TRUE' : 'FALSE');
+        $this->setXTestRequest($paymentMethod->getConfigData('test') ? 'TRUE' : 'FALSE');
 
         $this->setXLogin($paymentMethod->getConfigData('login'))
-            //->setXType('AUTH_ONLY')
+            ->setXType('AUTH_ONLY')
             //->setXMethod(Mage_Paygate_Model_Authorizenet::REQUEST_METHOD_CC)
             ->setXRelayUrl(Mage::getBaseUrl().'directpayment/paygate/place');
             
