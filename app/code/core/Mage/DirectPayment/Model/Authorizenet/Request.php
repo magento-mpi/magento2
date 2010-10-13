@@ -80,9 +80,7 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
     public function setConstantData(Mage_DirectPayment_Model_Authorizenet $paymentMethod)
     {
         $this->setXVersion('3.1')
-            ->setXDelimData('FALSE')
-            ->setXDelimData('TRUE')
-            ->setXDelimChar(',')
+            ->setXDelimData('FALSE')            
             ->setXRelayResponse('TRUE');
 
         $this->setXTestRequest($paymentMethod->getConfigData('test') ? 'TRUE' : 'FALSE');
