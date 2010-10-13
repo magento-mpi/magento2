@@ -861,19 +861,21 @@ final class Maged_Controller
      */
     public function endInstall()
     {
-        try {
-            if (!empty($_GET['clean_sessions'])) {
-                Mage::app()->cleanAllSessions();
+        if ($this->isInstalled()) {
+            try {
+                if (!empty($_GET['clean_sessions'])) {
+                    Mage::app()->cleanAllSessions();
+                }
+                Mage::app()->cleanCache();
+            } catch (Exception $e) {
+                $this->session()->addMessage('error', "Exception during cache and session cleaning: ".$e->getMessage());
             }
-            Mage::app()->cleanCache();
-        } catch (Exception $e) {
-            $this->session()->addMessage('error', "Exception during cache and session cleaning: ".$e->getMessage());
-        }
 
-        // reinit config and apply all updates
-        Mage::app()->getConfig()->reinit();
-        Mage_Core_Model_Resource_Setup::applyAllUpdates();
-        Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+            // reinit config and apply all updates
+            Mage::app()->getConfig()->reinit();
+            Mage_Core_Model_Resource_Setup::applyAllUpdates();
+            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+        }
 
         if ($this->_getMaintenanceFlag()) {
             $maintenance_filename='maintenance.flag';

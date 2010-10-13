@@ -490,6 +490,11 @@ class Mage_Connect_Ftp
         return $str;
     }
     
+    /**
+     * Delete file
+     * @param string $file
+     * @return bool
+     */
     public function delete($file)
     {
         $this->checkConnected();
@@ -497,8 +502,16 @@ class Mage_Connect_Ftp
         return @ftp_delete($this->_conn, $file);        
     }
 
-    
-    
-
+    /**
+     * Remove directory
+     * @param string $dir
+     * @return bool
+     */
+    public function rmdir($dir)
+    {
+        $this->checkConnected();
+        $dir = $this->correctFilePath($dir);
+        return @ftp_rmdir($this->_conn, $dir);
+    }
 
 }

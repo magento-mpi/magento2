@@ -496,16 +496,27 @@ extends Mage_Connect_Command
                             throw new Exception($errMessage);
                         }
                     }
-
+                } catch(Exception $e) {
+                    if($forceMode) {
+                        $this->doError($command, $e->getMessage());
+                    } else {
+                        throw new Exception($e->getMessage());
+                    }
+                }
+            }
+            foreach($list['list'] as $packageData) {
+                try {
                     list($chan, $pack) = array($packageData['channel'], $packageData['name']);
+                    $packageName = $packageData['channel'] . "/" . $packageData['name'];
+                    $this->ui()->output("Starting to uninstall $packageName ");
                     if($ftp) {
-                        $packager->processUninstallPackageFtp($chan, $pack, $cache,$ftpObj);
+                        $packager->processUninstallPackageFtp($chan, $pack, $cache, $ftpObj);
                     } else {
                         $packager->processUninstallPackage($chan, $pack, $cache, $config);
                     }
                     $cache->deletePackage($chan, $pack);
                     $deletedPackages[] = array($chan, $pack);
-
+                    $this->ui()->output("Package {$packageName} uninstalled");
                 } catch(Exception $e) {
                     if($forceMode) {
                         $this->doError($command, $e->getMessage());

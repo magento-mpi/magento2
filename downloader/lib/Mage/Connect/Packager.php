@@ -180,11 +180,31 @@ class Mage_Connect_Packager
     }
 
     /**
+     * Remove empty directories recursively up
+     * @param string $dir
+     * @param Mage_Connect_Ftp $ftp
+     */
+    protected function removeEmptyDirectory($dir, $ftp = null)
+    {
+        if ($ftp) {
+            if (count($ftp->nlist(dirname($file)))==0) {
+                if ($ftp->rmdir($dir)) {
+                    $this->removeEmptyDirectory(dirname($dir), $ftp);
+                }
+            }
+        } else {
+            if (@rmdir($dir)) {
+                $this->removeEmptyDirectory(dirname($dir), $ftp);
+            }
+        }
+    }
+
+    /**
      *
      * @param $chanName
      * @param $package
      * @param Mage_Connect_Singleconfig $cacheObj
-     * @param $ftp
+     * @param Mage_Connect_Config $configObj
      * @return unknown_type
      */
     public function processUninstallPackage($chanName, $package, $cacheObj, $configObj)
@@ -199,6 +219,7 @@ class Mage_Connect_Packager
             $dest = $targetPath . DIRECTORY_SEPARATOR . $filePath . DIRECTORY_SEPARATOR . $fileName;
             if(@file_exists($dest)) {
                 @unlink($dest);
+                $this->removeEmptyDirectory(dirname($dest));
             }
         }
 
@@ -222,6 +243,7 @@ class Mage_Connect_Packager
         $contents = $package->getContents();
         foreach($contents as $file) {
             $res = $ftp->delete($file);
+            $this->removeEmptyDirectory(dirname($file), $ftp);
         }
         $remoteXml = Mage_Connect_Package::PACKAGE_XML_DIR . DS . $package->getReleaseFilename() . '.xml';
         $ftp->delete($remoteXml);
