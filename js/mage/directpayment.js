@@ -128,7 +128,15 @@ directPayment.prototype = {
     		$(this.iframeId).show();    		
     		review.resetLoadWaiting();    			    
     	}
-    },        
+    },
+    
+    showError: function(msg)
+    {
+    	this.paymentRequestSent = false;
+    	$(this.iframeId).hide();
+    	$(this.iframeId).next('ul').show();
+    	alert(msg);
+    }
     
     placeOrder: function()
     {    	

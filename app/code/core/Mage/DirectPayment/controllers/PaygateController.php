@@ -81,7 +81,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                $jS .= 'window.top.location="'.Mage::getUrl('checkout/onepage/success').'"';                
             }
             else {
-                $jS .= 'this.paymentRequestSent = false;$(this.iframeId).hide();$(this.iframeId).next(\'ul\').show();alert("'.$params['x_response_reason_text'].'")';
+                $jS .= 'window.top.directPaymentModel.showError("'.$params['x_response_reason_text'].'");';
             }
         }
         $this->getResponse()->setBody(

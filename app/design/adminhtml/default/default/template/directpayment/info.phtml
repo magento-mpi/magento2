@@ -129,7 +129,7 @@ $_ckeckOrderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
 //<![CDATA[
 <?php echo @file_get_contents($this->getJsUrl().'mage/directpayment.js') ?>
 document.observe('dom:loaded', function() {
-	var directPaymentModel = new directPayment(
+	directPaymentModel = new directPayment(
 			'directpayment-iframe',
 			'<?php echo $_controller ?>',
 			'<?php echo $_orderUrl ?>',
