@@ -2527,14 +2527,16 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         // prepare default value string
         if ($ddlType == Varien_Db_Ddl_Table::TYPE_TIMESTAMP) {
-            if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT) {
+            if ($cDefault === null) {
+                $cDefault = new Zend_Db_Expr('NULL');
+            } elseif ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT) {
                 $cDefault = new Zend_Db_Expr('sysdate');
             } else if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_UPDATE) {
                 $cDefault = new Zend_Db_Expr('/*0 ON UPDATE CURRENT_TIMESTAMP*/');
             } else if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT_UPDATE) {
                 $cDefault = new Zend_Db_Expr('sysdate /*CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP*/');
             } else {
-                $cDefault = new Zend_Db_Expr('NULL');
+                $cDefault = false;
             }
         } else if (is_null($cDefault) && $cNullable) {
             $cDefault = new Zend_Db_Expr('NULL');
