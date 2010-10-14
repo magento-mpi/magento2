@@ -30,11 +30,11 @@ $_code = $_form->getMethodCode();
 $_method = $_form->getMethod();
 $_controller = $this->helper('directpayment')->getControllerName();
 $_orderUrl = $this->helper('directpayment')->getSaveOrderUrl();
-$_cancelOrderUrl = $this->helper('directpayment')->getCancelOrderUrl();
+$_checkOrderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
 ?>
 <div style="padding:1em;" class="step a-item">
 <!-- IFRAME for request to Authorize.net -->
-<iframe id="directpayment-iframe" name="iframeDirectPayment" style="display:none; width: 5em;" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
+<iframe id="directpayment-iframe" allowtransparency="true" background-color="transparent" frameborder="0" name="iframeDirectPayment" style="display:none; width: 100%;" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
 
 <ul id="payment_form_<?php echo $_code ?>">
     <li>
@@ -137,7 +137,7 @@ directPaymentModel = new directPayment(
 		'<?php echo $_controller ?>',
 		'<?php echo $_orderUrl ?>',
 		'<?php echo $_method->getCgiUrl() ?>',
-		'<?php echo $_cancelOrderUrl ?>');
+		'<?php echo $_checkOrderUrl ?>');
 <?php if ($_controller == 'multishipping'): ?>
 });
 <?php endif; ?>

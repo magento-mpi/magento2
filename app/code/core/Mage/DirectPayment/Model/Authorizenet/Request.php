@@ -88,7 +88,7 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
         $this->setXLogin($paymentMethod->getConfigData('login'))
             ->setXType('AUTH_ONLY')
             ->setXMethod(Mage_Paygate_Model_Authorizenet::REQUEST_METHOD_CC)
-            ->setXRelayUrl(Mage::getBaseUrl().'directpayment/paygate/place');
+            ->setXRelayUrl(Mage::getBaseUrl().'directpayment/paygate/response');
             
         $this->setTransactionKey($paymentMethod->getConfigData('trans_key'));
         return $this;

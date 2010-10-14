@@ -60,13 +60,13 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
     
     /**
-     * Retrieve cancel order url
+     * Retrieve place order url
      *    
      * @return  string
      */
-    public function getCancelOrderUrl()
+    public function getPlaceOrderUrl()
     {
-        return $this->_getUrl('directpayment/paygate/cancel');
+        return $this->_getUrl('directpayment/paygate/place');
     }
     
     /**

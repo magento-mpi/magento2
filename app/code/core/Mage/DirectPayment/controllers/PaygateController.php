@@ -36,6 +36,8 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     }
     
     /**
+     * Get session model
+
      * @return Mage_DirectPayment_Model_Session
      */
     protected function _getDirectPaymentSession()
@@ -45,32 +47,71 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     
     
     /**
-     * Place order action.
+     * Response action.
      * Action for Authorize.net SIM Relay Request.
+     */
+    public function responseAction()
+    {
+        $params = $this->getRequest()->getParams();
+        Mage::log($params);
+        $message = $this->getRequest()->getParam('x_response_reason_text');
+        //$this->cancelAction($orderId);        
+        $this->getResponse()->setBody(
+        	'<html>
+        		<head>
+        			<script type="text/javascript">
+        			//<![CDATA[
+        			window.location="'.Mage::getUrl('directpayment/paygate/redirect', array_filter($params)).'"
+        			//]]>
+        			</script>
+        		</head>
+        		<body></body>
+        	</html>'
+        );
+    }
+    
+    public function redirectAction()
+    {
+        $params = $this->getRequest()->getParams();
+        Mage::log('redirected');
+        Mage::log($params);
+    }
+    
+    /**
+     * Check order responce status and place or cancel order
+     * 
      */
     public function placeAction()
     {
-        Mage::log($this->getRequest()->getParams());
-       
-        $this->getResponse()->setBody(
-        	'<html><head><script language="javascript" type="text/javascript">
-            <!--
-            
-            //-->
-            </script>
-            </head><body></body></html>'
-        );
+        $orderIncrementId = $this->getRequest()->getPost('orderIncrementId');
+        $result = array();
+        if ($orderIncrementId && $this->_getDirectPaymentSession()->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
+            //check request from authorize.net in db
+            if (true) {
+                //TODO:change order status
+                $result['success'] = 1;
+                $result['redirect'] = 1;
+                $result['redirectUrl'] = Mage::getUrl('checkout/onepage/success');
+            }
+            else {               
+               $result['error_messages'] = 'Payment Error'; 
+            }
+        }
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
     
     /**
      * Cancel wrong order and return quote to customer.
+     * 
+     * @param int $orderId
+     * @return bool
      */
-    public function cancelAction()
+    protected function _cancelOrder($orderIncrementId)
     {
         $orderIncrementId = $this->getRequest()->getPost('orderIncrementId');
         $result = array();
-        if ($orderId && $this->_getDirectPaymentSession()->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+        if ($orderIncrementId && $this->_getDirectPaymentSession()->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
+            $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
             if ($order->getId()){
                     //check if order exists and assigned to
                     $quoteId = $order->getQuoteId();
@@ -84,12 +125,12 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                                 ->setReservedOrderId(NULL)
                                 ->save();
                             $this->_getCheckout()->replaceQuote($quote);
-                            $result['success'] = 1;
+                            return true;
                         }
                     }
                 }
             $this->_getDirectPaymentSession()->removeCheckoutOrderIncrementId($orderIncrementId);
-        }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        }        
+        return false;
     }
 }

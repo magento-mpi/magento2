@@ -24,12 +24,12 @@
  */
 var directPayment = Class.create();
 directPayment.prototype = {
-	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl, orderCancelUrl)
+	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl, orderPlaceUrl)
     {		
         this.iframeId = iframeId;
         this.controller = controller;
         this.orderSaveUrl = orderSaveUrl;
-        this.orderCancelUrl = orderCancelUrl;
+        this.orderPlaceUrl = orderPlaceUrl;
         this.cgiUrl = cgiUrl;        
         this.code = 'directpayment';
         this.inputs = {
@@ -42,10 +42,10 @@ directPayment.prototype = {
         this.isValid = true;
         this.paymentRequestSent = false;
         this.isResponse = false;
-        this.orderId = false;
+        this.orderIncrementId = false;
         
         this.onSaveOnepageOrderSuccess = this.saveOnepageOrderSuccess.bindAsEventListener(this);
-        this.onCancelOrderSuccess = this.cancelOrderSuccess.bindAsEventListener(this);
+        this.onPlaceOrderSuccess = this.placeOrderSuccess.bindAsEventListener(this);
         this.onLoadIframe = this.loadIframe.bindAsEventListener(this);
         
         this.preparePayment();        
@@ -122,45 +122,33 @@ directPayment.prototype = {
     },
     
     loadIframe: function() 
-    {
-    	if (this.paymentRequestSent) {
-    		setTimeout(this.checkResponseFlag.bind(this), 3000);
-	    	this.paymentRequestSent = false;
-    	}
-    },
-    
-    checkResponseFlag: function() 
-    {
-    	if (!this.isResponse) {
-    		if (this.orderId) {
-    			this.cancelOrder();
-    		}
-    		else {
-	    		review.resetLoadWaiting();
-	    		alert('Payment authorization error');
-    		}
-    	}
-    },
-    
-    cancelOrder: function()
     {    	
-    	var params = 'orderId=' + this.orderId;            
+    	if (this.paymentRequestSent) {
+    		/*this.placeOrder();*/
+    		$(this.iframeId).show();    		
+    		review.resetLoadWaiting();    			    
+    	}
+    },        
+    
+    placeOrder: function()
+    {    	
+    	var params = 'orderIncrementId=' + this.orderIncrementId;            
     	new Ajax.Request(
-    		this.orderCancelUrl,
+    		this.orderPlaceUrl,
             {
                 method:'post',
                 parameters:params,
-                onComplete: this.onCancelOrderSuccess,               
+                onComplete: this.onPlaceOrderSuccess,               
                 onFailure: function(transport) {    				
     				review.resetLoadWaiting();
     				alert('Can not load order url');
     			}
             }
         );
-    	this.orderId = false;    	
+    	this.orderIncrementId = false;    	
     },
     
-    cancelOrderSuccess: function(transport)
+    placeOrderSuccess: function(transport)
     {
     	try{
             response = eval('(' + transport.responseText + ')');
@@ -170,7 +158,9 @@ directPayment.prototype = {
         }
         
         if (response.success) {
-        	alert('Payment transaction failed');
+        	if (response.redirect) {
+        		window.location = response.redirectUrl;
+        	}
         }
         else{
             var msg = response.error_messages;
@@ -184,6 +174,7 @@ directPayment.prototype = {
     
     saveOnepageOrder: function()
     {
+    	$(this.iframeId).next('ul').hide();
     	checkout.setLoadWaiting('review');
         var params = Form.serialize(payment.form);
         if (review.agreementsForm) {
@@ -213,7 +204,7 @@ directPayment.prototype = {
         }
         
         if (response.success && response.directpayment) {
-        	this.orderId = response.directpayment.fields.x_fp_sequence;
+        	this.orderIncrementId = response.directpayment.fields.x_invoice_num;
         	var paymentData = {};
             for(var key in response.directpayment.fields) {
             	paymentData[key] = response.directpayment.fields[key];
@@ -276,7 +267,8 @@ directPayment.prototype = {
         }        
         
         this.paymentRequestSent = true;
-        tmpForm.submit();        
+        tmpForm.submit();
+        tmpForm.remove();
         
         return this.paymentRequestSent;
     }
