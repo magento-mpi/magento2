@@ -262,9 +262,8 @@ class Mage_Checkout_Model_Type_Onepage
             }
             $addressForm->compactData($addressData);
 
-            if (!empty($data['save_in_address_book'])) {
-                $address->setSaveInAddressBook(1);
-            }
+            // Additional form data, not fetched by extractData (as it fetches only attributes)
+            $address->setSaveInAddressBook(empty($data['save_in_address_book']) ? 0 : 1);
         }
 
         // validate billing address
@@ -302,6 +301,7 @@ class Mage_Checkout_Model_Type_Onepage
                     $shippingMethod = $shipping->getShippingMethod();
                     $shipping->addData($billing->getData())
                         ->setSameAsBilling(1)
+                        ->setSaveInAddressBook(0)
                         ->setShippingMethod($shippingMethod)
                         ->setCollectShippingRates(true);
                     $this->getCheckout()->setStepData('shipping', 'complete', true);
@@ -492,6 +492,10 @@ class Mage_Checkout_Model_Type_Onepage
                 return array('error' => 1, 'message' => $addressErrors);
             }
             $addressForm->compactData($addressData);
+
+            // Additional form data, not fetched by extractData (as it fetches only attributes)
+            $address->setSaveInAddressBook(empty($data['save_in_address_book']) ? 0 : 1);
+            $address->setSameAsBilling(empty($data['same_as_billing']) ? 0 : 1);
         }
 
         $address->implodeStreetAddress();
@@ -654,8 +658,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->addAddress($customerBilling);
             $billing->setCustomerAddress($customerBilling);
         }
-        if ($shipping && ((!$shipping->getCustomerId() && !$shipping->getSameAsBilling())
-            || (!$shipping->getSameAsBilling() && $shipping->getSaveInAddressBook()))) {
+        if ($shipping && !$shipping->getSameAsBilling() && (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())) {
             $customerShipping = $shipping->exportCustomerAddress();
             $customer->addAddress($customerShipping);
             $shipping->setCustomerAddress($customerShipping);
