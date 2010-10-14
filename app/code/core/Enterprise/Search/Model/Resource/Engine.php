@@ -168,9 +168,8 @@ class Enterprise_Search_Model_Resource_Engine
     }
 
     /**
-     * Stub method
+     * Refresh products indexes affected on category update
      *
-     * @param null | int $storeId
      * @param array $productIds
      * @param array $categoryIds
      * @return Enterprise_Search_Model_Resource_Engine
@@ -183,8 +182,7 @@ class Enterprise_Search_Model_Resource_Engine
         }
 
         if (!empty($productIds)) {
-            Mage::getResourceSingleton('enterprise_search/index')
-                ->updateCategoryIndexData($productIds);
+            Mage::getResourceSingleton('catalogsearch/fulltext')->rebuildIndex(null, $productIds);
         }
 
         return $this;

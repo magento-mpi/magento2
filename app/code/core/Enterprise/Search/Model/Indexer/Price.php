@@ -27,6 +27,8 @@
  /**
  * Enterprise search model indexer price
  *
+ * @deprecated after 1.9.0.0
+ *
  * @category   Enterprise
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
