@@ -90,7 +90,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
         }
 
         /**
-         * Quote super mode flag meen whot we work with quote without restriction
+         * Quote super mode flag mean what we work with quote without restriction
          */
         if ($item->getQuote()->getIsSuperMode()) {
             if (!$product) {
