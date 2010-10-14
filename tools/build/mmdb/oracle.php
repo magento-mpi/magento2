@@ -89,7 +89,7 @@ BEGIN
   FOR cur_session IN (
     SELECT s.SID, s.SERIAL#
     FROM sys.v_\$session s
-    WHERE schemaname = '{$this->_database}'
+    WHERE schemaname = UPPER('{$this->_database}')
   )
   LOOP
     dbms_output.put_line('ALTER SYSTEM KILL SESSION ''' || cur_session.sid || ',' || cur_session.serial# || ''' IMMEDIATE');
@@ -103,8 +103,18 @@ SQL;
         oci_rollback($this->_connect);
         echo "User session was killed successfully\n";
 
+        $query = "SELECT * FROM all_users WHERE USERNAME=UPPER('{$this->_database}')";
+        $stmt = oci_parse($this->_connect, $query);
+        oci_execute($stmt);
+        $user = oci_fetch_row($stmt);
+        if ($user) {
+            $query = "DROP USER {$this->_database} CASCADE";
+            $stmt = oci_parse($this->_connect, $query);
+            oci_execute($stmt);
+        }
+
+        // create user
         $queries = array(
-            "DROP USER {$this->_database} CASCADE",
             "CREATE USER {$this->_database} IDENTIFIED BY \"{$this->_database}\""
                 . " DEFAULT TABLESPACE MGNTDB_DATA TEMPORARY TABLESPACE TEMP profile DEFAULT",
             "GRANT CONNECT TO {$this->_database}",

@@ -8,8 +8,15 @@ PHP_BIN="/usr/bin/php"
 BUILD_NAME="$1"
 BUILD_NUMBER="$2"
 
+if [ "$3" = 'oracle' ]
+    then
+        DB_NAME_PREFIX="b"
+    else
+        DB_NAME_PREFIX="builds"
+fi
+
 # define database name
-DB_NAME="builds-${BUILD_NAME}-${BUILD_NUMBER}"
+DB_NAME="${DB_NAME_PREFIX}-${BUILD_NAME}-${BUILD_NUMBER}"
 DB_NAME=${DB_NAME//-/_}
 
 # default database user

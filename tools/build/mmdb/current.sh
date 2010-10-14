@@ -7,7 +7,7 @@ cd $PWD/../
 log "Searching for last successful build..."
 SB=`wget -q -O - http://rest:gyroscope@kn.varien.com/teamcity/httpAuth/app/rest/buildTypes/id:$4/builds/status:SUCCESS/number`
 if [ -d $SB ]; then
-    SB_DB_TEMP="builds-$BUILD_NAME-$SB"
+    SB_DB_TEMP="${DB_NAME_PREFIX}-${BUILD_NAME}-${SB}"
     SB_DB=${SB_DB_TEMP//-/_}
 else
     SB=""
