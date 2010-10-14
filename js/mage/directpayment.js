@@ -123,8 +123,7 @@ directPayment.prototype = {
     
     loadIframe: function() 
     {    	
-    	if (this.paymentRequestSent) {
-    		/*this.placeOrder();*/
+    	if (this.paymentRequestSent) {    		
     		$(this.iframeId).show();    		
     		review.resetLoadWaiting();    			    
     	}
@@ -135,6 +134,7 @@ directPayment.prototype = {
     	this.paymentRequestSent = false;
     	$(this.iframeId).hide();
     	$(this.iframeId).next('ul').show();
+    	review.resetLoadWaiting();
     	alert(msg);
     },
     

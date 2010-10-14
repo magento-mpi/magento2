@@ -53,8 +53,12 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     public function responseAction()
     {
         $params = $this->getRequest()->getParams();
-        Mage::log($params);
-        $message = $this->getRequest()->getParam('x_response_reason_text');
+        if (isset($params['x_response_code'])) {
+            if ($params['x_response_code'] != 1 && 
+                isset($params['x_invoice_num'])) {
+                $this->_cancelOrder($params['x_invoice_num']);
+            }
+        }        
         //$this->cancelAction($orderId);        
         $this->getResponse()->setBody(
         	'<html>
@@ -70,11 +74,13 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         );
     }
     
+    /**
+     * Redirect action on local iframe
+     * 
+     */
     public function redirectAction()
     {
-        $params = $this->getRequest()->getParams();
-        Mage::log('redirected');
-        Mage::log($params);        
+        $params = $this->getRequest()->getParams();        
         if (isset($params['x_response_code'])) {
             $jS = '';
             if ($params['x_response_code'] == 1) {
@@ -83,6 +89,9 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
             else {
                 $jS .= 'window.top.directPaymentModel.showError("'.$params['x_response_reason_text'].'");';
             }
+        }
+        else {
+            $jS .= 'window.top.directPaymentModel.showError("Payment request failed");';
         }
         $this->getResponse()->setBody(
         	'<html>
