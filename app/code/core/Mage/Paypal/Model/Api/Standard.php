@@ -216,14 +216,25 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
             }
             return;
         }
+
         $request = Varien_Object_Mapper::accumulateByMap($address, $request, array_flip($this->_addressMap));
-        if ($regionCode = $this->_lookupRegionCodeFromAddress($address)) {
+
+        // Address may come without email info (user is not always required to enter it), so add email from order
+        if (!$request['email']) {
+            $order = $this->getOrder();
+            if ($order) {
+                $request['email'] = $order->getCustomerEmail();
+            }
+        }
+
+        $regionCode = $this->_lookupRegionCodeFromAddress($address);
+        if ($regionCode) {
             $request['state'] = $regionCode;
         }
         $this->_importStreetFromAddress($address, $request, 'address1', 'address2');
         $this->_applyCountryWorkarounds($request);
-        $request['address_override'] = 1;
 
+        $request['address_override'] = 1;
     }
 
     /**
