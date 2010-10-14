@@ -136,7 +136,7 @@ directPayment.prototype = {
     	$(this.iframeId).hide();
     	$(this.iframeId).next('ul').show();
     	alert(msg);
-    }
+    },
     
     placeOrder: function()
     {    	
