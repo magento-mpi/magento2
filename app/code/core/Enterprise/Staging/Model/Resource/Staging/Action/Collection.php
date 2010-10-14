@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging action collection
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -36,7 +36,7 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
     extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Collection initialization
      *
      */
     public function _construct()
@@ -77,7 +77,7 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
     }
 
     /**
-     * Enter description here ...
+     * Add backuped filter
      *
      * @deprecated after 1.8.0.0
      *
@@ -91,7 +91,7 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
     }
 
     /**
-     * Enter description here ...
+     * Add staging to collection
      *
      * @return Enterprise_Staging_Model_Resource_Staging_Action_Collection
      */
@@ -108,7 +108,7 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
     }
 
     /**
-     * Enter description here ...
+     * Add websites to collection
      *
      * @return Enterprise_Staging_Model_Resource_Staging_Action_Collection
      */

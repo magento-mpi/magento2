@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging log resource module
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -35,7 +35,7 @@
 class Enterprise_Staging_Model_Resource_Staging_Log extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -78,12 +78,13 @@ class Enterprise_Staging_Model_Resource_Staging_Log extends Mage_Core_Model_Reso
      */
     public function getLastLogAction($stagingId)
     {
+        $adapter = $this->_getReadAdapter();
         if ($stagingId) {
-            $select = $this->_getReadAdapter()->select()
+            $select = $adapter->select()
                 ->from(array('main_table' => $this->getMainTable()), array('action'))
                 ->where('main_table.staging_id=?', $stagingId)
                 ->order('log_id DESC');
-            return $this->_getReadAdapter()->fetchOne($select);
+            return $adapter->fetchOne($select);
         }
         return false;
     }

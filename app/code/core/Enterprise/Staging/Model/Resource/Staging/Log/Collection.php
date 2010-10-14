@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging log collection
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -35,7 +35,7 @@
 class Enterprise_Staging_Model_Resource_Staging_Log_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Collection initialization
      *
      */
     public function _construct()
@@ -60,7 +60,7 @@ class Enterprise_Staging_Model_Resource_Staging_Log_Collection extends Mage_Core
     }
 
     /**
-     * Enter description here ...
+     * Add backuped filter
      *
      * @deprecated after 1.8.0.0
      *

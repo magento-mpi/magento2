@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging item resource model
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -35,7 +35,7 @@
 class Enterprise_Staging_Model_Resource_Staging_Item extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -47,7 +47,7 @@ class Enterprise_Staging_Model_Resource_Staging_Item extends Mage_Core_Model_Res
      * Before save processing
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Enterprise_Staging_Model_Resource_Staging_Item
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {

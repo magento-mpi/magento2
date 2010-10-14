@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging action resource
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -35,7 +35,7 @@
 class Enterprise_Staging_Model_Resource_Staging_Action extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -75,7 +75,8 @@ class Enterprise_Staging_Model_Resource_Staging_Action extends Mage_Core_Model_R
     }
 
     /**
-     * Needto delete all backup tables also
+     * Action after delete
+     * Need to delete all backup tables also
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Enterprise_Staging_Model_Resource_Staging_Action

@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging item collection
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -35,7 +35,7 @@
 class Enterprise_Staging_Model_Resource_Staging_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Collection initialization
      *
      */
     protected function _construct()

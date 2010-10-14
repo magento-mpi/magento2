@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging collection
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -35,12 +35,32 @@
 class Enterprise_Staging_Model_Resource_Staging_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Collection initialization
      *
      */
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging');
+    }
+
+    /**
+     * Get SQL for get record count
+     *
+     * @return Varien_Db_Select
+     */
+    public function getSelectCountSql()
+    {
+        $this->_renderFilters();
+
+        $countSelect = clone $this->getSelect();
+        $countSelect->reset(Zend_Db_Select::ORDER);
+        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(Zend_Db_Select::COLUMNS);
+
+        $countSelect->columns('COUNT(main_table.staging_id)');
+
+        return $countSelect;
     }
 
     /**
@@ -82,20 +102,18 @@ class Enterprise_Staging_Model_Resource_Staging_Collection extends Mage_Core_Mod
      */
     public function addLastLogComment()
     {
-        $subSelect1 = clone $this->getSelect();
-        $subSelect2 = clone $this->getSelect();
+        $helper     = Mage::getResourceHelper('enterprise_staging');
 
-        $subSelect1->reset();
-        $subSelect2->reset();
+        $subSelect = clone $this->getSelect();
+        $subSelect->reset();
+        $subSelect = $helper->getLastStagingLogQuery($this->getTable('enterprise_staging/staging_log'), $subSelect);
 
-        $subSelect1->from($this->getTable('enterprise_staging/staging_log'), array('staging_id', 'log_id', 'action'))
-            ->order('log_id DESC');
-
-        $subSelect2->from(array('t' => new Zend_Db_Expr('(' . $subSelect1 . ')')))
-            ->group('staging_id');
-
-       $this->getSelect()->joinLeft(array('staging_log' => new Zend_Db_Expr('(' . $subSelect2 . ')')), 'main_table.staging_id = staging_log.staging_id', array('log_id', 'action'));
-       return $this;
+        $this->getSelect()
+            ->joinLeft(
+                array('staging_log' => new Zend_Db_Expr('(' . $subSelect . ')')),
+                'main_table.staging_id = staging_log.staging_id',
+                array('log_id', 'action'));
+        return $this;
     }
 
     /**
@@ -126,7 +144,7 @@ class Enterprise_Staging_Model_Resource_Staging_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Set staging is sheduled flag filter into collection
+     * Set staging is scheduled flag filter into collection
      *
      * @return Enterprise_Staging_Model_Resource_Staging_Collection
      */

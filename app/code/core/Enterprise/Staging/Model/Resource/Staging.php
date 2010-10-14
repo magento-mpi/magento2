@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging resource model
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -35,7 +35,7 @@
 class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialization of model
      *
      */
     protected function _construct()
@@ -81,9 +81,9 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Save items
      *
-     * @param unknown_type $staging
+     * @param Enterprise_Staging_Model_Staging $staging
      * @return Enterprise_Staging_Model_Resource_Staging
      */
     public function saveItems($staging)
@@ -116,14 +116,13 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     public function updateAttribute($staging, $attribute, $value)
     {
-        if (!$stagingId = (int)$staging->getId()) {
-            return $this;
+        if ($stagingId = (int)$staging->getId()) {
+            $whereSql = array('staging_id = ?' =>$stagingId);
+            $this->_getWriteAdapter()
+                ->update($this->getMainTable(), array($attribute => $value), $whereSql);
+            $staging->setData($attribute, $value);
         }
-        $whereSql = "staging_id = {$stagingId}";
-        $this->_getWriteAdapter()
-           ->update($this->getMainTable(), array($attribute => $value), $whereSql);
-       $staging->setData($attribute, $value);
-       return $this;
+        return $this;
     }
 
     /**
@@ -133,9 +132,10 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     public function getProcessingWebsites()
     {
-        $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), array('staging_website_id'))
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()->from($this->getMainTable(), array('staging_website_id'))
             ->where("status = ?", Enterprise_Staging_Model_Staging_Config::STATUS_STARTED);
-        return $this->_getReadAdapter()->fetchAll($select);
+        return $adapter->fetchAll($select);
     }
 
     /**
@@ -146,11 +146,13 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     public function isWebsiteInProcessing($currentWebsiteId)
     {
-        $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), array('COUNT(*)'))
-            ->where("status = ?", Enterprise_Staging_Model_Staging_Config::STATUS_STARTED)
-            ->where("staging_website_id = " . $currentWebsiteId);
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable(), array('COUNT(*)'))
+            ->where('status = ?', Enterprise_Staging_Model_Staging_Config::STATUS_STARTED)
+            ->where('staging_website_id = ?', $currentWebsiteId);
 
-        $result = (int) $this->_getReadAdapter()->fetchOne($select);
+        $result = (int) $adapter->fetchOne($select);
         if ($result > 0) {
             return true;
         } else {
@@ -278,36 +280,35 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     public function checkfrontendRun($staging)
     {
-        if (Mage::registry('staging/frontend_checked_started')) {
-            return $this;
-        }
-        Mage::register('staging/frontend_checked_started', true);
+        if (!Mage::registry('staging/frontend_checked_started')) {
+            Mage::register('staging/frontend_checked_started', true);
 
-        $stagingItems = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems();
-        foreach ($stagingItems as $stagingItem) {
-            if (!$stagingItem->is_backend) {
-                continue;
-            }
+            $stagingItems = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems();
+            foreach ($stagingItems as $stagingItem) {
+                if (!$stagingItem->is_backend) {
+                    continue;
+                }
 
-            $adapter = $this->getItemAdapterInstanse($stagingItem);
-            $adapter->checkfrontendRun($staging);
+                $adapter = $this->getItemAdapterInstanse($stagingItem);
+                $adapter->checkfrontendRun($staging);
 
-            if ($stagingItem->extends) {
-                foreach ($stagingItem->extends->children() as $extendItem) {
-                    if (!$extendItem->is_backend) {
-                        continue;
+                if ($stagingItem->extends) {
+                    foreach ($stagingItem->extends->children() as $extendItem) {
+                        if (!$extendItem->is_backend) {
+                            continue;
+                        }
+                        if ((string)$extendItem->use_storage_method !== 'table_prefix') {
+                            continue;
+                        }
+                        $adapter = $this->getItemAdapterInstanse($extendItem);
+                        $adapter->checkfrontendRun($staging);
                     }
-                    if ((string)$extendItem->use_storage_method !== 'table_prefix') {
-                        continue;
-                    }
-                    $adapter = $this->getItemAdapterInstanse($extendItem);
-                    $adapter->checkfrontendRun($staging);
                 }
             }
-        }
 
-        Mage::unregister('staging/frontend_checked_started');
-        Mage::getSingleton("core/session")->setData('staging_frontend_website_is_checked', true);
+            Mage::unregister('staging/frontend_checked_started');
+            Mage::getSingleton("core/session")->setData('staging_frontend_website_is_checked', true);
+        }
         return $this;
     }
 
@@ -334,12 +335,12 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Process staging itemsCallback
      *
-     * @param unknown_type $callback
-     * @param unknown_type $staging
-     * @param unknown_type $event
-     * @param unknown_type $ignoreExtends
+     * @param string $callback
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @param Enterprise_Staging_Model_Staging_Event $event
+     * @param boolean $ignoreExtends
      * @return Enterprise_Staging_Model_Resource_Staging
      */
     protected function _processStagingItemsCallback($callback, $staging, $event = null, $ignoreExtends = false)

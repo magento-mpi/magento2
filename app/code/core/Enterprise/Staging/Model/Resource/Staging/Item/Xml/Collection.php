@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging item xml collection
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -37,10 +37,10 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
     /**
      * As this collection will be filled manually and there will be no call for load method
      * geSize will return result of count instead of original functionality.
-     * This is done to avoid replacing of tempalte.
+     * This is done to avoid replacing of template.
      * return int
      *
-     * @return unknown
+     * @return int
      */
     public function getSize()
     {
@@ -50,8 +50,7 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
     /**
      * Adding staging items from configuration into collection as objects
      *
-     *
-     * @param unknown_type $extendInfo
+     * @param array $extendInfo
      * @return Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection
      */
     public function fillCollectionWithStagingItems($extendInfo = array())
@@ -119,9 +118,9 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
     }
 
     /**
-     * Enter description here ...
+     * Set extend info
      *
-     * @param unknown_type $info
+     * @param array $info
      * @return Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection
      */
     public function setExtendInfo($info)
@@ -131,9 +130,9 @@ class Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection extends Vari
     }
 
     /**
-     * Enter description here ...
+     * Get extend info
      *
-     * @return unknown
+     * @return array
      */
     public function getExtendInfo()
     {
