@@ -135,7 +135,7 @@ extends Mage_Connect_Command
 
 
                 if(!$cache->isChannel($pChan)) {
-                    throw new Exception("'{$pChan}' is not installed channel");
+                    throw new Exception("The '{$pChan}' channel is not installed. Please use the MAGE shell script to install the '{$pChan}' channel.");
                 }
 
                 $conflicts = $cache->hasConflicts($pChan, $pName, $pVer);
