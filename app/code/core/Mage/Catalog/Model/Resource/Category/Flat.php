@@ -149,13 +149,16 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     public function getMainStoreTable($storeId = 0)
     {
-        $table = parent::getMainTable();
         if (is_string($storeId)) {
             $storeId = intval($storeId);
         }
         if ($this->getUseStoreTables() && $storeId) {
-            $table .= '_store_'.$storeId;
+            $suffix = sprintf('store_%d', $storeId);
+            $table = $this->getTable(array('catalog/category_flat', $suffix));
+        } else {
+            $table = parent::getMainTable();
         }
+
         return $table;
     }
 
@@ -529,7 +532,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         $_writeAdapter->dropTable($tableName);
         $table = $this->_getWriteAdapter()
             ->newTable($tableName)
-            ->setComment(ucwords(str_replace('_', ' ', $tableName)));
+            ->setComment(sprintf('Catalog Category Flat (Store %d)', $store));
 
         //Adding columns
         if ($this->_columnsSql === null) {
