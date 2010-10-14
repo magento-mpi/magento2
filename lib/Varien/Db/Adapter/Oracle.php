@@ -1400,7 +1400,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $values = array();
 
         $ddl = $this->describeTable($table);
-        
+
         if (is_array($row)) { // Array of column-value pairs
             $cols = array_keys($row);
             $i    = 0;
@@ -1917,7 +1917,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             } else if (isset($condition['lteq'])) {
                 $query = $this->quoteInto("{$fieldName} <= ?", $condition['lteq']);
             } else if (isset($condition['finset'])) {
-                $query = $this->quoteInto("FIND_IN_SET(?, {$fieldName}) = 1", $condition['finset']);
+                $query = $this->quoteInto("FIND_IN_SET({$fieldName}, ?) = 1", $condition['finset']);
             } else if (isset($condition['regexp'])) {
                 $query = $this->quoteInto("REGEXP_LIKE({$fieldName}, ?)", $condition['regexp']);
             } else if (isset($condition['regexp_replace'])) {
