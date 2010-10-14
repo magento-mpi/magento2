@@ -35,31 +35,31 @@ class Mage_DirectPayment_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->init('directpayment');
     }
 
-    public function addCheckoutOrderId($orderId)
+    public function addCheckoutOrderIncrementId($orderId)
     {
-        $orderIds = $this->getCheckoutOrderIds();
+        $orderIds = $this->getCheckoutOrderIncrementIds();
         if (!$orderIds) {
             $orderIds = array();
         }
         $orderIds[$orderId] = 1;
-        $this->setDirectPostOrderIds($orderIds);
+        $this->setDirectPostOrderIncrementIds($orderIds);
     }
     
-    public function removeCheckoutOrderId($orderId)
+    public function removeCheckoutOrderIncrementId($orderId)
     {
-        $orderIds = $this->getCheckoutOrderIds();
+        $orderIds = $this->getCheckoutOrderIncrementIds();
         if (!$orderIds) {
             $orderIds = array();
         }
         elseif (!empty($orderIds[$orderId])){
             unset($orderIds[$orderId]);
         }
-        $this->setDirectPostOrderIds($orderIds);
+        $this->setDirectPostOrderIncrementIds($orderIds);
     }
     
-    public function isCheckoutOrderIdExist($orderId)
+    public function isCheckoutOrderIncrementIdExist($orderId)
     {
-        $orderIds = $this->getCheckoutOrderIds();
+        $orderIds = $this->getCheckoutOrderIncrementIds();
         if (is_array($orderIds) && !empty($orderIds[$orderId])) {
             return true;
         }

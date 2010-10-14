@@ -67,9 +67,9 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
      */
     public function cancelAction()
     {
-        $orderId = $this->getRequest()->getPost('orderId');
+        $orderIncrementId = $this->getRequest()->getPost('orderIncrementId');
         $result = array();
-        if ($orderId && $this->_getDirectPaymentSession()->isCheckoutOrderIdExist($orderId)) {
+        if ($orderId && $this->_getDirectPaymentSession()->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
             $order = Mage::getModel('sales/order')->load($orderId);
             if ($order->getId()){
                     //check if order exists and assigned to
@@ -88,7 +88,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                         }
                     }
                 }
-            $this->_getDirectPaymentSession()->removeCheckoutOrderId($orderId);
+            $this->_getDirectPaymentSession()->removeCheckoutOrderIncrementId($orderIncrementId);
         }
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
