@@ -8,7 +8,7 @@ if [ "$DB_MODEL" = 'mssql' ]; then
 fi
 
 if [ "$DB_MODEL" = 'oracle' ]; then
-    ${PHP_BIN} -f mmdb/oracle.php -- --shell prepare --db_name=${DB_NAME} --db_host=${DB_HOST} --db_user=${DB_SA_USER} --db_pass=${DB_SA_PASS}
+    ${PHP_BIN} -f mmdb/oracle.php -- --shell prepare --db_name ${DB_NAME} --db_host ${DB_HOST} --db_user ${DB_SA_USER} --db_pass ${DB_SA_PASS}
     check_failure $?
 fi
 
