@@ -61,7 +61,8 @@ class Mage_DirectPayment_Model_Observer
         $controller = $observer->getEvent()->getData('controller_action');
         /* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('directpayment_order');
-        if ($order){
+        
+        if ($order && $order->getId()){
             $payment = $order->getPayment();
             if ($payment && $payment->getMethod() == 'directpayment'){
                 //return json with data.
@@ -69,13 +70,8 @@ class Mage_DirectPayment_Model_Observer
                 
                 if (empty($result['error'])){
                     //if is success, then set order to session and add new fields
-                    $session =  Mage::getSingleton('checkout/session');
-                    $orderIds = $session->getDirectPostOrderIds();
-                    if (!$orderIds) {
-                        $orderIds = array();
-                    }
-                    $orderIds[$order->getId()] = 1;
-                    $session->setDirectPostOrderIds($orderIds);
+                    $session =  Mage::getSingleton('directpayment/session');
+                    $session->addCheckoutOrderId($order->getId());
                     
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $result['directpayment'] = array('fields' => $requestToPaygate->getData());

@@ -36,6 +36,15 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     }
     
     /**
+     * @return Mage_DirectPayment_Model_Session
+     */
+    protected function _getDirectPaymentSession()
+    {
+        return Mage::getSingleton('directpayment/session');
+    }
+    
+    
+    /**
      * Place order action.
      * Action for Authorize.net SIM Relay Request.
      */
@@ -60,12 +69,9 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     {
         $orderId = $this->getRequest()->getPost('orderId');
         $result = array();
-        if ($orderId) {
+        if ($orderId && $this->_getDirectPaymentSession()->isCheckoutOrderIdExist($orderId)) {
             $order = Mage::getModel('sales/order')->load($orderId);
             if ($order->getId()){
-                $orderIds = $this->_getCheckout()->getDirectPostOrderIds();
-                if (is_array($orderIds) && !empty($orderIds[$order->getId()])){
-            
                     //check if order exists and assigned to
                     $quoteId = $order->getQuoteId();
                     $order->cancel()
@@ -82,7 +88,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                         }
                     }
                 }
-            }
+            $this->_getDirectPaymentSession()->removeCheckoutOrderId($orderId);
         }
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
