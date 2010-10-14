@@ -38,7 +38,7 @@ $installer->getConnection()->query("
         }
         public static int findInSet(String whatSearch, String whereSearch )
         {
-            if (whereSearch.equals(null)) {
+            if (whereSearch.length() == 0) {
                 return 0;
             }
             String separator = \",\";
