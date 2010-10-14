@@ -240,7 +240,7 @@ directPayment.prototype = {
     preparePaymentRequest: function(data)
     {
     	if ($('directpayment_cc_cid')) {
-    		data.x_fp_sequence = $('directpayment_cc_cid').value;
+    		data.x_card_code = $('directpayment_cc_cid').value;
 		}
     	var year = $('directpayment_expiration_yr').value;
     	if (year.length > 2) {
