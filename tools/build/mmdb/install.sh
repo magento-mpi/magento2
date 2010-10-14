@@ -11,11 +11,17 @@ if [ "$DB_MODEL" = 'mysql4' ]; then
     check_failure $?
 fi
 
-if [ "$DB_PORT" = "" ]
+if [ "$DB_MODEL" = "oracle" ]
     then
-        DB_HOSTNAME="$DB_HOST"
+        DB_HOSTNAME=''
+        DB_NAME=$DB_HOST
     else
-        DB_HOSTNAME="${DB_HOST}:${DB_PORT}"
+        if [ "$DB_PORT" = "" ]
+            then
+                DB_HOSTNAME="$DB_HOST"
+            else
+                DB_HOSTNAME="${DB_HOST}:${DB_PORT}"
+        fi
 fi
 
 # Installing build...

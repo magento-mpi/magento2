@@ -32,13 +32,12 @@ fi
 
 if [ "$3" = 'oracle' ]; then
     DB_MODEL='oracle'
-    DB_HOST=''
+    DB_HOST='(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=orcl.kiev-dev)(PORT=1521)))(CONNECT_DATA=(SID=MGNTDB)))'
     DB_PORT=''
     DB_SA_USER='MAGENTO'
     DB_SA_PASS='12345'
     DB_USER=$DB_NAME
     DB_PASS=$DB_NAME
-    DB_NAME='(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=orcl.kiev-dev)(PORT=1521)))(CONNECT_DATA=(SID=MGNTDB)))'
 fi
 
 if [ "$DB_MODEL" = 'mysql4' ]; then
