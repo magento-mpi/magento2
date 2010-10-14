@@ -145,13 +145,13 @@ SQL;
         $secure         = sprintf('http://kq.varien.com/builds/%s/%s/', $buildName, $buildNumber);
         $unSecure       = sprintf('http://kq.varien.com/builds/%s/%s/', $buildName, $buildNumber);
 
-        $query = "UPDATE {$coreCacheTable} SET \"value\" = '{$unSecure}' WHERE \"path\" LIKE 'web/unsecure/base_url'";
-        $stmt = $this->_connect->query($query);
-        $stmt->execute();
+        $query = "UPDATE {$coreCacheTable} SET \"VALUE\" = '{$unSecure}' WHERE \"PATH\" LIKE 'web/unsecure/base_url'";
+        $stmt = oci_parse($this->_connect, $query);
+        oci_execute($stmt);
 
-        $query = "UPDATE {$coreCacheTable} SET \"value\" = '{$secure}' WHERE \"path\" LIKE 'web/secure/base_url'";
-        $stmt = $this->_connect->query($query);
-        $stmt->execute();
+        $query = "UPDATE {$coreCacheTable} SET \"VALUE\" = '{$secure}' WHERE \"PATH\" LIKE 'web/secure/base_url'";
+        $stmt = oci_parse($this->_connect, $query);
+        oci_execute($stmt);
     }
 }
 
