@@ -182,7 +182,7 @@ directPayment.prototype = {
     
     saveOnepageOrder: function()
     {
-    	$(this.iframeId).next('ul').hide();
+    	//$(this.iframeId).next('ul').hide();
     	checkout.setLoadWaiting('review');
         var params = Form.serialize(payment.form);
         if (review.agreementsForm) {
