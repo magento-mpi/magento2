@@ -150,10 +150,15 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
      */
     protected function _applyToCollection($range, $index)
     {
+        $to = $range * $index;
+        if ($to < $this->getMaxPriceInt()) {
+            $to -= 0.001;
+        }
+
         $value = array(
             $this->_getFilterField() => array(
                 'from' => ($range * ($index - 1)),
-                'to'   => $range * $index - 0.001
+                'to'   => $to
             )
         );
 
