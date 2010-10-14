@@ -580,16 +580,16 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         // prepare default value string
         if ($ddlType == Varien_Db_Ddl_Table::TYPE_TIMESTAMP) {
-            if (is_null($cDefault)) {
-                $cDefault = new Zend_Db_Expr('NULL');
-            } else if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT) {
+            if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT) {
                 $cDefault = new Zend_Db_Expr('(getdate())');
             } else if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_UPDATE) {
                 $cDefault = new Zend_Db_Expr('/*0 ON UPDATE CURRENT_TIMESTAMP*/');
             } else if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT_UPDATE) {
                 $cDefault = new Zend_Db_Expr('(getdate())/*CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP*/');
+            } else {
+                $cDefault = new Zend_Db_Expr('NULL');
             }
-        } else if (is_null($cDefault) && $cNullable) {
+        } elseif (is_null($cDefault) && $cNullable) {
             $cDefault = new Zend_Db_Expr('NULL');
         }
         return $cDefault;
@@ -611,7 +611,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         foreach ($columns as $columnData) {
-            $columnDefination = $this->_getColumnDefinition($columnData);
+            $columnDefinition = $this->_getColumnDefinition($columnData);
 
             if ($columnData['PRIMARY']) {
                 $primary[$columnData['COLUMN_NAME']] = $columnData['PRIMARY_POSITION'];
@@ -619,7 +619,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
             $definition[] = sprintf('  %s %s',
                 $this->quoteIdentifier($columnData['COLUMN_NAME']),
-                $columnDefination
+                $columnDefinition
             );
         }
 
@@ -3918,7 +3918,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $query = sprintf('INSERT INTO %s ', $this->quoteIdentifier($table));
         if ($fields) {
-            $columns = array_map(array($this, 'quoteIdentifier'), $fields);echo '<pre>';
+            $columns = array_map(array($this, 'quoteIdentifier'), $fields);
             $query .= sprintf('(%s)', join(', ', $columns));
         }
 

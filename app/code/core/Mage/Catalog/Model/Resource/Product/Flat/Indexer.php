@@ -542,18 +542,18 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
         $adapter        = $this->_getWriteAdapter();
         $tableName      = $this->getFlatTableName($storeId);
 
-        $foreightEntityKey = $this->getFkName($tableName, 'entity_id', 'catalog/product', 'entity_id');
-        $foreightChildKey  = $this->getFkName($tableName, 'child_id', 'catalog/product', 'entity_id');
+        $foreignEntityKey = $this->getFkName($tableName, 'entity_id', 'catalog/product', 'entity_id');
+        $foreignChildKey  = $this->getFkName($tableName, 'child_id', 'catalog/product', 'entity_id');
 
         if (!$this->_isFlatTableExists($storeId)) {
-            /* @var $table Varien_Db_Ddl_Table */
+            /** @var $table Varien_Db_Ddl_Table */
             $table = $adapter->newTable($tableName);
             foreach ($columns as $fieldName => $fieldProp) {
                 $table->addColumn($fieldName, $fieldProp['type'], $fieldProp['length'], array(
-                    'nullable' => $fieldProp['nullable'],
-                    'unsigned' => $fieldProp['unsigned'],
+                    'nullable' => isset($fieldProp['nullable']) ? (bool)$fieldProp['nullable'] : false,
+                    'unsigned' => isset($fieldProp['unsigned']) ? (bool)$fieldProp['unsigned'] : false,
                     'default'  => $fieldProp['default'],
-                    'primary'  => isset($fieldProp['primary']) ? $fieldProp['primary'] : false,
+                    'primary'  => isset($fieldProp['primary']) ? (bool)$fieldProp['primary'] : false,
                 ), $fieldProp['comment']);
             }
 
@@ -564,12 +564,12 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 $table->addIndex($indexName, $indexProp['fields'], array('type' => $indexProp['type']));
             }
 
-            $table->addForeignKey($foreightEntityKey,
+            $table->addForeignKey($foreignEntityKey,
                 'entity_id', $this->getTable('catalog/product'), 'entity_id',
                 Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);
 
             if ($this->getFlatHelper()->isAddChildData()) {
-                $table->addForeignKey($foreightChildKey,
+                $table->addForeignKey($foreignChildKey,
                     'child_id', $this->getTable('catalog/product'), 'entity_id',
                     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);
             }
@@ -590,7 +590,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             $dropIndexes    = array_diff_key($indexList, $indexes);
             $addConstraints = array();
 
-            $addConstraints[$foreightEntityKey] = array(
+            $addConstraints[$foreignEntityKey] = array(
                 'table_index'   => 'entity_id',
                 'ref_table'     => $this->getTable('catalog/product'),
                 'ref_index'     => 'entity_id',
@@ -601,14 +601,14 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             $isAddChildData = $this->getFlatHelper()->isAddChildData();
             if (!$isAddChildData && isset($describe['is_child'])) {
                 $adapter->delete($tableName, array('is_child = ?' => 1));
-                $adapter->dropForeignKey($tableName, $foreightChildKey);
+                $adapter->dropForeignKey($tableName, $foreignChildKey);
             }
             if ($isAddChildData && !isset($describe['is_child'])) {
                 $adapter->truncate($tableName);
                 $dropIndexes['PRIMARY'] = $indexList['PRIMARY'];
                 $addIndexes['PRIMARY']  = $indexes['PRIMARY'];
 
-                $addConstraints[$foreightChildKey] = array(
+                $addConstraints[$foreignChildKey] = array(
                     'table_index'   => 'child_id',
                     'ref_table'     => $this->getTable('catalog/product'),
                     'ref_index'     => 'entity_id',
@@ -631,7 +631,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 }
             }
 
-            $adapter->dropForeignKey($tableName, $foreightEntityKey);
+            $adapter->dropForeignKey($tableName, $foreignEntityKey);
             // drop indexes
             foreach (array_keys($dropIndexes) as $indexName) {
                 $adapter->dropIndex($tableName, $indexName);
@@ -734,10 +734,10 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 array())
             ->where('t1.entity_type_id = :entity_type_id')
             ->where('t1.attribute_id = :attribute_id')
-            ->where('t1.store_id = ?', 0)
+            ->where('t1.store_id = ?', Mage_Core_Model_App::ADMIN_STORE_ID)
             ->where("{$fieldExpr} = ?", Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
         foreach ($this->getAttributes() as $attributeCode => $attribute) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /** @var $attribute Mage_Eav_Model_Entity_Attribute */
             if ($attribute->getBackend()->getType() == 'static') {
                 if (!isset($columns[$attributeCode])) {
                     continue;

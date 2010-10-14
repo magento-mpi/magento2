@@ -195,12 +195,13 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
             implode(' AND ', array(
                 'q.entity_id = qi.quote_id',
                 'qi.parent_item_id IS NULL',
-                $adapter->quoteInto('qi.product_id = ?', 1)
+                $adapter->quoteInto('qi.product_id = ?', $productId)
             )),
             array()
         );
 
         $updateQuery = $adapter->updateFromSelect($subSelect, array('q' => $this->getTable('sales/quote')));
+
         $adapter->query($updateQuery);
 
         return $this;
