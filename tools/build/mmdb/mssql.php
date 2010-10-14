@@ -27,7 +27,7 @@
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR .  'abstract.php';
 
 /**
- * Magento Compiler Shell Script
+ * Magento SQL Server Build Shell Script
  *
  * @category    Mage
  * @package     Mage_Shell
