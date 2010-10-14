@@ -174,7 +174,9 @@ directPayment.prototype = {
             if (typeof(msg)=='object') {
                 msg = msg.join("\n");
             }
-            alert(msg);
+            if (msg) { 
+            	alert(msg);
+            }
         }
         review.resetLoadWaiting();
     },
@@ -195,14 +197,19 @@ directPayment.prototype = {
                 onComplete: this.onSaveOnepageOrderSuccess,               
                 onFailure: function(transport) {    				
     				review.resetLoadWaiting();
-    				alert('Can not load order url');
+    				if (transport.status == 403) {
+    		    		checkout.ajaxFailure();
+    		    	}
     			}
             }
         );
     },
     
     saveOnepageOrderSuccess: function(transport) 
-    {    	
+    {
+    	if (transport.status == 403) {
+    		checkout.ajaxFailure();
+    	}
     	try{
             response = eval('(' + transport.responseText + ')');
         }
@@ -224,7 +231,9 @@ directPayment.prototype = {
             if (typeof(msg)=='object') {
                 msg = msg.join("\n");
             }
-            alert(msg);
+            if (msg) {
+            	alert(msg);
+            }
         }
 	},
     
