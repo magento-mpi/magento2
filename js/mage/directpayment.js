@@ -133,8 +133,7 @@ directPayment.prototype = {
     {
     	this.paymentRequestSent = false;
     	$(this.iframeId).hide();
-    	$(this.iframeId).next('ul').show();
-    	review.resetLoadWaiting();
+    	$(this.iframeId).next('ul').show();    	
     	alert(msg);
     },
     
