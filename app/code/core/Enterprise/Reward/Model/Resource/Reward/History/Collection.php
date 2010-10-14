@@ -35,9 +35,9 @@
 class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Expiry config
      *
-     * @var unknown
+     * @var array
      */
     protected $_expiryConfig     = array();
 
@@ -202,6 +202,7 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
     public function addExpirationDate($websiteId = null)
     {
         $expiryConfig = $this->_getExpiryConfig($websiteId);
+        $adapter = $this->getConnection();
         if (!$expiryConfig) {
             return $this;
         }
@@ -210,15 +211,15 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
             $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
             $this->getSelect()->columns(array('expiration_date' => $field));
         } else {
-            $sql = " CASE main_table.website_id ";
             $cases = array();
             foreach ($expiryConfig as $wId => $config) {
                 $field = $config->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
-                $cases[] = " WHEN '{$wId}' THEN `{$field}` ";
+                $cases[$wId] = $field;
             }
+            
             if (count($cases) > 0) {
-                $sql .= implode(' ', $cases) . ' END ';
-                $this->getSelect()->columns( array('expiration_date' => new Zend_Db_Expr($sql)) );
+                $sql = $adapter->getCaseSql('main_table.website_id', $cases);
+                $this->getSelect()->columns(array('expiration_date' => new Zend_Db_Expr($sql)));
             }
         }
 
@@ -250,17 +251,19 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
         $this->addWebsiteFilter($websiteId);
 
         $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
-        $now = $this->getResource()->formatDate(time());
+        $now = $this->formatDate(time());
         $expireAtLimit = new Zend_Date($now);
         $expireAtLimit->addDay($inDays);
-        $expireAtLimit = $this->getResource()->formatDate($expireAtLimit);
+        $expireAtLimit = $this->formatDate($expireAtLimit);
 
         $this->getSelect()
-            ->columns( array('total_expired' => new Zend_Db_Expr('SUM(`points_delta`-`points_used`)')) )
-            ->where('`points_delta`-`points_used`>0')
-            ->where('`is_expired`=0')
-            ->where("`{$field}` IS NOT NULL") // expire_at - BEFORE_DAYS < NOW()
-            ->where("`{$field}` < ?", $expireAtLimit) // eq. expire_at - BEFORE_DAYS < NOW()
+            ->columns(
+                array('total_expired' => new Zend_Db_Expr('SUM(points_delta-points_used)'))
+            )
+            ->where('points_delta-points_used > 0')
+            ->where('is_expired=0')
+            ->where("{$field} IS NOT NULL") // expire_at - BEFORE_DAYS < NOW()
+            ->where("{$field} < ?", $expireAtLimit) // eq. expire_at - BEFORE_DAYS < NOW()
             ->group(array('reward_table.customer_id', 'main_table.store_id'));
 
         if ($subscribedOnly) {
@@ -299,15 +302,17 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
 
         $additionalWhere = array();
         foreach ($this as $item) {
-            $where = $this->getConnection()->quoteInto('reward_table.customer_id=?', $item->getCustomerId());
-            $where.= $this->getConnection()->quoteInto(' AND main_table.store_id=?', $item->getStoreId());
-            $additionalWhere[] = $where;
+            $where = array(
+                $this->getConnection()->quoteInto('reward_table.customer_id=?', $item->getCustomerId()),
+                $this->getConnection()->quoteInto('main_table.store_id=?', $item->getStoreId())
+            );
+            $additionalWhere[] = '(' . implode(' AND ', $where). ')';
         }
         if (count($additionalWhere) == 0) {
             return array();
         }
         // filter rows by customer and store, as result of grouped query
-        $where = new Zend_Db_Expr('(' . implode(') OR (', $additionalWhere). ')');
+        $where = new Zend_Db_Expr(implode(' OR ', $additionalWhere));
 
         $select = clone $this->getSelect();
         $select->reset(Zend_Db_Select::COLUMNS)

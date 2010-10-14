@@ -81,7 +81,6 @@ class Enterprise_Reward_Model_Resource_Reward_Rate extends Mage_Core_Model_Resou
      */
     public function getRateData($websiteId, $customerGroupId, $direction)
     {
-        $result = true;
         $select = $this->_getWriteAdapter()->select()
             ->from($this->getMainTable())
             ->where('website_id = ?', $websiteId)

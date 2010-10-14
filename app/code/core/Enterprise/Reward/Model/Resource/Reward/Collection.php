@@ -51,7 +51,8 @@ class Enterprise_Reward_Model_Resource_Reward_Collection extends Mage_Core_Model
      */
     public function addWebsiteFilter($websiteId)
     {
-        $this->getSelect()->where(is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?', $websiteId);
+        $this->getSelect()
+            ->where(is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?', $websiteId);
         return $this;
     }
 }

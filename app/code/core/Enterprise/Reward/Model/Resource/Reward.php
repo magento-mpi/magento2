@@ -76,7 +76,7 @@ class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_D
         if (!$object->getId() || !is_array($data)) {
             return $this;
         }
-        $where = array($this->getIdFieldName().'=?' => $object->getId());
+        $where = array($this->getIdFieldName() . '=?' => $object->getId());
         $this->_getWriteAdapter()
             ->update($this->getMainTable(), $data, $where);
         return $this;
@@ -92,12 +92,13 @@ class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_D
      */
     public function prepareOrphanPoints($websiteId, $baseCurrencyCode)
     {
+        $adapter = $this->_getWriteAdapter();
         if ($websiteId) {
-            $this->_getWriteAdapter()->update($this->getMainTable(),
+            $adapter->update($this->getMainTable(),
                 array(
                     'website_id' => null,
                     'website_currency_code' => $baseCurrencyCode
-                ), $this->_getWriteAdapter()->quoteInto('website_id = ?', $websiteId));
+                ), array('website_id = ?' => $websiteId));
         }
         return $this;
     }
@@ -112,7 +113,11 @@ class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_D
     {
         if ($customerId) {
             $this->_getWriteAdapter()->delete($this->getMainTable(),
-                $this->_getWriteAdapter()->quoteInto('customer_id = ?', $customerId) . ' AND `website_id` IS NULL');
+                array(
+                    'customer_id = ?' => $customerId,
+                    new Zend_Db_Expr('website_id IS NULL')
+                )
+            );
         }
         return $this;
     }
@@ -126,19 +131,14 @@ class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_D
      */
     public function saveRewardSalesrule($ruleId, $pointsDelta)
     {
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->getTable('enterprise_reward/reward_salesrule'), array('rule_id'))
-            ->where('rule_id = ?', $ruleId);
-        if ($this->_getWriteAdapter()->fetchOne($select)) {
-            $this->_getWriteAdapter()->update($this->getTable('enterprise_reward/reward_salesrule'), array(
-                'points_delta' => $pointsDelta), $this->_getWriteAdapter()->quoteInto('rule_id = ?', $ruleId));
-        } else {
-            $this->_getWriteAdapter()->insert($this->getTable('enterprise_reward/reward_salesrule'), array(
+        $select = $this->_getWriteAdapter()->insertOnDuplicate(
+            $this->getTable('enterprise_reward/reward_salesrule'), 
+            array(
                 'rule_id' => $ruleId,
                 'points_delta' => $pointsDelta
-            ));
-        }
-        return $this;
+            ), 
+            array('points_delta')
+        );
     }
 
     /**
@@ -151,12 +151,11 @@ class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_D
     {
         $data = array();
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('enterprise_reward/reward_salesrule'));
+            ->from($this->getTable('enterprise_reward/reward_salesrule'))
+            ->where('rule_id IN (?)', $rule);
         if (is_array($rule)) {
-            $select->where('rule_id IN (?)', $rule);
             $data = $this->_getReadAdapter()->fetchAll($select);
-        } elseif (intval($rule)) {
-            $select->where('rule_id = ?', intval($rule));
+        } else {
             $data = $this->_getReadAdapter()->fetchRow($select);
         }
         return $data;
