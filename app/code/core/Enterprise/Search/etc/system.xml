@@ -178,7 +178,7 @@
                             <depends><engine>enterprise_search/engine</engine></depends>
                         </solr_server_use_in_catalog_navigation>
                         <search_type>
-                            <depends><engine>enterprise_search/fulltext_engine</engine></depends>
+                            <depends><engine>catalogsearch/fulltext_engine</engine></depends>
                         </search_type>
                         <use_layered_navigation_count>
                             <depends><engine>catalogsearch/fulltext_engine</engine></depends>

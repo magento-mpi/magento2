@@ -337,7 +337,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                     $likeI ++;
                 }
                 if ($like) {
-                    $likeCond = '(' . join(' AND ', $like) . ')';
+                    $likeCond = '(' . join(' OR ', $like) . ')';
                 }
             }
             $mainTableAlias = 's';
