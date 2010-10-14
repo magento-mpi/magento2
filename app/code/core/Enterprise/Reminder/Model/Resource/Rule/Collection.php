@@ -94,14 +94,17 @@ class Enterprise_Reminder_Model_Resource_Rule_Collection extends Mage_Core_Model
             $select = $this->getConnection()->select()
                 ->from($this->getTable('enterprise_reminder/website'), array(
                     'rule_id',
-                    new Zend_Db_Expr('GROUP_CONCAT(website_id)')
+                    'website_id'
                 ))
-                ->where('rule_id IN (?)', array_keys($this->_items))
-                ->group('rule_id');
-            $websites = $this->getConnection()->fetchPairs($select);
+                ->where('rule_id IN (?)', array_keys($this->_items));
+            $data = $this->getConnection()->fetchAll($select);
+            $websites = array_fill_keys(array_keys($this->_items), array());
+            foreach ($data as $row) {
+                $websites[$row['rule_id']][] = $row['website_id'];
+            }
             foreach ($this->_items as $item) {
                 if (isset($websites[$item->getId()])) {
-                    $item->setWebsiteIds(explode(',', $websites[$item->getId()]));
+                    $item->setWebsiteIds($websites[$item->getId()]);
                 }
             }
         }

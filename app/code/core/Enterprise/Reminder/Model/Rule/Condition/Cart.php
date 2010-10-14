@@ -131,11 +131,14 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
-        $select->where("UNIX_TIMESTAMP('" . now() . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(quote.updated_at)", $conditionValue);
+
+        $currentTime = Mage::getModel('core/date')->gmtDate();
+        $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')->getDaysDifferenceSql('quote.updated_at', $currentTime);
+        $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        $select->limit(1);
+        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
         return $select;
     }
 
@@ -156,7 +159,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
 
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
-                $conditions[] = "(IFNULL(($sql), 0) {$operator} 1)";
+                $conditions[] = "(" . $select->getAdapter()->getIfnullSql("(" . $sql . ")", 0) . " {$operator} 1)";
             }
         }
 

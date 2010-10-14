@@ -98,7 +98,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
         $select->where('quote.is_active = 1');
         $select->where("item.sku {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        $select->limit(1);
+        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
 
         return $select;
     }

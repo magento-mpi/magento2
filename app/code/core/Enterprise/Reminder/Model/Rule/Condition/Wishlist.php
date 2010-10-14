@@ -139,9 +139,12 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
         );
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
-        $select->where("UNIX_TIMESTAMP('" . now() . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(list.updated_at)", $conditionValue);
+
+        $currentTime = Mage::getModel('core/date')->gmtDate();
+        $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')->getDaysDifferenceSql('list.updated_at', $currentTime);
+        $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
-        $select->limit(1);
+        Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);
         return $select;
     }
 
@@ -162,7 +165,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
 
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
-                $conditions[] = "(IFNULL(($sql), 0) {$operator} 1)";
+                $conditions[] = "(" . $select->getAdapter()->getIfnullSql("(" . $sql . ")", 0) . " {$operator} 1)";
             }
         }
 

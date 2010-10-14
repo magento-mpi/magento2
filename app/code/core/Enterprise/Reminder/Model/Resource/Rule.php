@@ -129,12 +129,15 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->delete($this->_websiteTable, array('rule_id=?' => $rule->getId()));
+        $insertData = array();
         foreach ($rule->getWebsiteIds() as $websiteId) {
-            $adapter->insert($this->_websiteTable, array(
+            $insertData[] = array(
                 'website_id' => $websiteId,
                 'rule_id' => $rule->getId()
-            ));
+            );
         }
+        $adapter->insertMultiple($this->_websiteTable, $insertData);
+
         return $this;
     }
 
@@ -148,8 +151,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->_websiteTable, 'website_id')
-            ->where('rule_id=?', $ruleId);
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('rule_id=:rule_id');
+        return $this->_getReadAdapter()->fetchCol($select,  array('rule_id' => $ruleId));
     }
 
     /**
@@ -167,7 +170,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
 
         $labels = $rule->getStoreLabels();
         $descriptions = $rule->getStoreDescriptions();
-
+        $insertData = array();
         foreach ($rule->getStoreTemplates() as $storeId => $templateId) {
             if (!$templateId) {
                 continue;
@@ -175,14 +178,19 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
             if (!is_numeric($templateId)) {
                 $templateId = null;
             }
-            $adapter->insert($templateTable, array(
+            $insertData[] = array(
                 'rule_id'     => $rule->getId(),
                 'store_id'    => $storeId,
                 'template_id' => $templateId,
                 'label'       => $labels[$storeId],
                 'description' => $descriptions[$storeId]
-            ));
+            );
         }
+
+        if (!empty($insertData)) {
+            $adapter->insertMultiple($templateTable, $insertData);
+        }
+
         return $this;
     }
 
@@ -197,8 +205,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
         $templateTable = $this->getTable('enterprise_reminder/template');
         $select = $this->createSelect()
             ->from($templateTable, array('store_id', 'template_id', 'label', 'description'))
-            ->where('rule_id=?', $ruleId);
-        return $this->_getReadAdapter()->fetchAll($select);
+            ->where('rule_id=:rule_id');
+        return $this->_getReadAdapter()->fetchAll($select, array('rule_id' => $ruleId));
     }
 
     /**
@@ -214,22 +222,26 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
         $templateTable = $this->getTable('enterprise_reminder/template');
         $ruleTable = $this->getTable('enterprise_reminder/rule');
 
-        $select = $this->createSelect()->from(array('t' => $templateTable),
-            't.template_id,
-            IF(t.label != \'\', t.label, r.default_label) as label,
-            IF(t.description != \'\', t.description, r.default_description) as description'
-        );
+        $select = $this->createSelect()
+            ->from(
+                array('t' => $templateTable),
+                array(
+                    'template_id',
+                    'label' => $this->_getReadAdapter()
+                        ->getCheckSql('t.label IS NOT NULL', 't.label', 'r.default_label'),
+                    'description' => $this->_getReadAdapter()
+                        ->getCheckSql('t.description IS NOT NULL', 't.description', 'r.default_description')
+                )
+            )->join(
+                array('r' => $ruleTable),
+                'r.rule_id=t.rule_id',
+                array()
+            );
 
-        $select->join(
-            array('r' => $ruleTable),
-            'r.rule_id=t.rule_id',
-            array()
-        );
+        $select->where('t.rule_id=:rule_id');
+        $select->where('t.store_id=:store_id');
 
-        $select->where('t.rule_id=?', $ruleId);
-        $select->where('t.store_id=?', $storeId);
-
-        return $this->_getReadAdapter()->fetchRow($select);
+        return $this->_getReadAdapter()->fetchRow($select, array('rule_id' => $ruleId, 'store_id' => $storeId));
     }
 
     /**
@@ -419,7 +431,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
         $select->join(
             array('r' => $ruleTable),
             'c.rule_id=r.rule_id',
-            array('schedule')
+            array('schedule' => 'schedule')
         );
 
         $select->joinLeft(
@@ -434,13 +446,25 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
 
         $select->where('c.is_active = 1');
         $select->group(array('c.customer_id', 'c.rule_id'));
-        $select->having("(MAX(l.sent_at) IS NULL) OR (FIND_IN_SET(TO_DAYS('{$currentDate}') - TO_DAYS(MIN(l.sent_at)), r.schedule) AND TO_DAYS('{$currentDate}') != TO_DAYS(MAX(l.sent_at)))");
+        $select->columns(array(
+            'log_sent_at_max' => 'MAX(l.sent_at)',
+            'log_sent_at_min' => 'MIN(l.sent_at)'
+        ));
+
+        $_helper = Mage::getResourceHelper('enterprise_reminder');
+        $findInSetSql = $this->getReadConnection()->prepareSqlCondition(
+            'schedule',
+            array('finset' => $_helper->getDaysDifferenceSql('log_sent_at_min', $currentDate))
+        );
+        $select->having('log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND '
+            . $_helper->getDaysDifferenceSql('log_sent_at_max', $currentDate) . ' = 0)');
 
         if ($limit) {
             $select->limit($limit);
         }
 
-        return $this->_getReadAdapter()->fetchAll($select);
+        $sql = $_helper->getQueryUsingAnalyticFunction($select);
+        return $this->_getReadAdapter()->fetchAll($sql);
     }
 
     /**
@@ -481,16 +505,16 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     /**
      * Return count of reminder rules assigned to specified sales rule.
      *
-     * @param int $salesruleId
+     * @param int $salesRuleId
      * @return int
      */
-    public function getAssignedRulesCount($salesruleId)
+    public function getAssignedRulesCount($salesRuleId)
     {
         $select = $this->createSelect()->from(
             array('r' => $this->getTable('enterprise_reminder/rule')),
-            array(new Zend_Db_Expr('count(*)'))
+            array(new Zend_Db_Expr('count(1)'))
         );
-        $select->where('r.salesrule_id = ?', $salesruleId);
-        return $this->_getReadAdapter()->fetchOne($select);
+        $select->where('r.salesrule_id = :salesrule_id');
+        return $this->_getReadAdapter()->fetchOne($select, array('salesrule_id' => $salesRuleId));
     }
 }
