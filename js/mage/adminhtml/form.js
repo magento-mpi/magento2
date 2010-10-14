@@ -409,8 +409,12 @@ FormElementDependenceController.prototype = {
         }
         for (var idTo in elementsMap) {
             for (var idFrom in elementsMap[idTo]) {
-                Event.observe($(idFrom), 'change', this.trackChange.bindAsEventListener(this, idTo, elementsMap[idTo]));
-                this.trackChange(null, idTo, elementsMap[idTo]);
+                if ($(idFrom)) {
+                    Event.observe($(idFrom), 'change', this.trackChange.bindAsEventListener(this, idTo, elementsMap[idTo]));
+                    this.trackChange(null, idTo, elementsMap[idTo]);
+                } else {
+                    this.trackChange(null, idTo, elementsMap[idTo]);
+                }
             }
         }
     },
@@ -434,10 +438,11 @@ FormElementDependenceController.prototype = {
     trackChange : function(e, idTo, valuesFrom)
     {
         // define whether the target should show up
-        var shouldShowUp = true;
+        var shouldShowUp = false;
         for (var idFrom in valuesFrom) {
-            if ($(idFrom).value != valuesFrom[idFrom]) {
-                shouldShowUp = false;
+            var from = $(idFrom);
+            if (from && from.value == valuesFrom[idFrom]) {
+                shouldShowUp = true;
             }
         }
 
