@@ -247,6 +247,7 @@ class Mage_CatalogInventory_Model_Observer
                     Mage::throwException(Mage::helper('cataloginventory')->__('The stock item for Product in option is not valid.'));
                 }
 
+                $stockItem->setOrderedItems(0);
                 /**
                  * define that stock item is child for composite product
                  */

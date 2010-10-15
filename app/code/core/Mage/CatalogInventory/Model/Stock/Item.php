@@ -594,11 +594,24 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         else {
             if (($this->getQty() - $summaryQty) < 0) {
                 if ($this->getProductName()) {
-                    $backorderQty = ($this->getQty() > 0) ? ($summaryQty - $this->getQty()) * 1 : $qty * 1;
-                    if ($backorderQty > $qty) {
-                        $backorderQty = $qty;
+                    if ($this->getIsChildItem()) {
+                        $backorderQty = ($this->getQty() > 0) ? ($summaryQty - $this->getQty()) * 1 : $qty * 1;
+                        if ($backorderQty > $qty) {
+                            $backorderQty = $qty;
+                        }
+
+                        $result->setItemBackorders($backorderQty);
+                    } else {
+                        $orderedItems = $this->getOrderedItems();
+                        $itemsLeft = ($this->getQty() > $orderedItems) ? ($this->getQty() - $orderedItems) * 1 : 0;
+                        $backorderQty = ($itemsLeft > 0) ? ($qty - $itemsLeft) * 1 : $qty * 1;
+
+                        if ($backorderQty > 0) {
+                            $result->setItemBackorders($backorderQty);
+                        }
+                        $this->setOrderedItems($orderedItems + $qty);
                     }
-                    $result->setItemBackorders($backorderQty);
+
                     if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY) {
                         if (!$this->getIsChildItem()) {
                             $result->setMessage(Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %s of the items will be backordered.', ($backorderQty * 1)));
