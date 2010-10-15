@@ -114,6 +114,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                             'name'  => 'sendemail',
                             'label' => Mage::helper('customer')->__('Send Welcome Email after Confirmation')
                         ));
+                        $customer->setData('sendemail', '1');
                     }
                 }
             }
@@ -138,6 +139,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 'name'  => 'sendemail',
                 'id'    => 'sendemail',
             ));
+            $customer->setData('sendemail', '1');
             if (!Mage::app()->isSingleStoreMode()) {
                 $fieldset->addField('sendemail_store_id', 'select', array(
                     'label' => $this->helper('customer')->__('Send From'),
