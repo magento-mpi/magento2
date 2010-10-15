@@ -42,21 +42,21 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($this->getControllerName()) {
             case 'onepage':
-                $path = 'checkout/onepage/saveOrder';
+                $route = 'checkout/onepage/saveOrder';
                 break;
             case 'multishipping':
-                $path = 'directpayment/multishipping';
+                $route = 'directpayment/multishipping';
                 break;
             case 'sales_order_create':
             case 'sales_order_edit':
-                $path = 'directpayment/backend';
+                $route = '*/'.$this->getControllerName().'/save';
                 break;
             default:
-                $path = 'checkout/onepage/saveOrder';
+                $route = 'checkout/onepage/saveOrder';
                 break;
         }
         
-        return $this->_getUrl($path);
+        return $this->_getUrl($route);
     }
     
     /**
@@ -69,6 +69,36 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_getUrl('directpayment/paygate/place');
     }
     
+	/**
+     * Retrieve place order url
+     *    
+     * @return  string
+     */
+    public function getSuccessOrderUrl()
+    {
+        $params = array();
+        switch ($this->getControllerName()) {
+            case 'onepage':
+                $route = 'checkout/onepage/success';
+                break;
+            case 'multishipping':
+                $route = 'checkout/multishipping/success';                
+                break;
+            case 'sales_order_create':
+            case 'sales_order_edit':
+                $route = '*/sales_order/view';
+                if ($order = Mage::registry('directpayment_order')) {
+                    $params['order_id'] = $order->getId();
+                }
+                break;
+            default:
+                $route = 'checkout/onepage/success';
+                break;
+        }
+        
+        return $this->_getUrl($route, $params);
+    }
+    
     /**
      * Get controller name
      * 
@@ -79,5 +109,62 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::app()->getFrontController()
                             ->getRequest()
                             ->getControllerName();
+    }
+    
+    /**
+     * Wrap js code for iframe
+     * 
+     * @param mixed $jsCode
+     * @return string
+     */
+    public function wrapHtml($jsCode)
+    {
+        return '<html>
+            		<head>
+            			<script type="text/javascript">
+            			//<![CDATA[
+            			'.$jsCode.'
+            			//]]>
+            			</script>
+            		</head>
+            		<body></body>
+        	    </html>';
+    }
+    
+    /**
+     * Get iframe html
+     * 
+     * @param array $params
+     * @return string
+     */
+    public function getIframeHtml($params)
+    {
+        if (isset($params['x_response_code'])) {
+            $jS = '';
+            if ($params['x_response_code'] == 1) {
+               $jS .= 'window.top.location="'.$this->getSuccessOrderUrl().'"';                
+            }
+            else {
+                switch ($this->getControllerName()) {
+                    case 'onepage':
+                        $jS .= 'window.top.review.resetLoadWaiting();
+                        		window.top.directPaymentModel.showOnepageError("'.$params['x_response_reason_text'].'");';
+                        break;
+                    case 'multishipping':                        
+                        break;
+                    case 'sales_order_create':
+                    case 'sales_order_edit':
+                        $jS .= 'window.top.directPaymentModel.showAdminError("'.$params['x_response_reason_text'].'");';
+                        if ($order = Mage::registry('directpayment_order')) {
+                            $jS .= 'window.top.directPaymentModel.successUrl='.$this->getSuccessOrderUrl();
+                        }
+                        break;
+                    default:                        
+                        break;
+                }                
+            }
+            
+            return $this->wrapHtml($jS);
+        }        
     }
 }

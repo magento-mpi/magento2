@@ -19,21 +19,17 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_DirectPayment
+ * @category    design
+ * @package     base_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+
 -->
-<config>
-    <modules>
-        <Mage_DirectPayment>
-            <active>true</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Paygate/>
-                <Mage_Sales/>
-            </depends>
-        </Mage_DirectPayment>
-    </modules>
-</config>
+<layout version="0.1.0">
+	<adminhtml_sales_order_create_index>		
+		<reference name="head">			
+            <action method="addJs"><file>mage/directpayment.js</file></action>
+        </reference>
+    </adminhtml_sales_order_create_index>
+</layout>

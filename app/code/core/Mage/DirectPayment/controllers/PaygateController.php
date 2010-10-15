@@ -58,20 +58,10 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                 isset($params['x_invoice_num'])) {
                 $this->_cancelOrder($params['x_invoice_num']);
             }
-        }        
-        //$this->cancelAction($orderId);        
-        $this->getResponse()->setBody(
-        	'<html>
-        		<head>
-        			<script type="text/javascript">
-        			//<![CDATA[
-        			window.location="'.Mage::getUrl('directpayment/paygate/redirect', array_filter($params)).'"
-        			//]]>
-        			</script>
-        		</head>
-        		<body></body>
-        	</html>'
-        );
+        }
+        $jScript = 'window.location="'.Mage::getUrl('directpayment/paygate/redirect', array_filter($params)).'"';        
+        $iframeHtml = Mage::helper('directpayment')->wrapHtml($jScript);     
+        $this->getResponse()->setBody($iframeHtml);
     }
     
     /**
@@ -80,31 +70,9 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
      */
     public function redirectAction()
     {
-        $params = $this->getRequest()->getParams();        
-        if (isset($params['x_response_code'])) {
-            $jS = '';
-            if ($params['x_response_code'] == 1) {
-               $jS .= 'window.top.location="'.Mage::getUrl('checkout/onepage/success').'"';                
-            }
-            else {
-                $jS .= 'window.top.review.resetLoadWaiting();window.top.directPaymentModel.showError("'.$params['x_response_reason_text'].'");';
-            }
-        }
-        else {
-            $jS .= 'window.top.review.resetLoadWaiting();window.top.directPaymentModel.showError("Payment request failed");';
-        }
-        $this->getResponse()->setBody(
-        	'<html>
-        		<head>
-        			<script type="text/javascript">
-        			//<![CDATA[
-        			'.$jS.'
-        			//]]>
-        			</script>
-        		</head>
-        		<body></body>
-        	</html>'
-        );
+        $params = $this->getRequest()->getParams(); 
+        $iframeHtml = Mage::helper('directpayment')->getIframeHtml($params);        
+        $this->getResponse()->setBody($iframeHtml);
     }
     
     /**

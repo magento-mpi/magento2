@@ -75,7 +75,7 @@ class Mage_DirectPayment_Model_Observer
                     
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $result['directpayment'] = array('fields' => $requestToPaygate->getData());
-                    
+                    $controller->getResponse()->clearHeader('Location');
                     $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
                 }
             }

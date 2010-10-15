@@ -30,10 +30,10 @@ $_code = $_form->getMethodCode();
 $_method = $_form->getMethod();
 $_controller = $this->helper('directpayment')->getControllerName();
 $_orderUrl = $this->helper('directpayment')->getSaveOrderUrl();
-$_ckeckOrderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
+$_checkOrderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
 ?>
 <!-- IFRAME for request to Authorize.net -->
-<iframe id="directpayment-iframe" name="iframeDirectPayment" style="display:none;width:100%" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
+<iframe id="directpayment-iframe" allowtransparency="true" background-color="transparent" frameborder="0"  name="iframeDirectPayment" style="display:none;width:100%" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
 
 <ul id="payment_form_<?php echo $_code ?>" style="display:none;">
     <li>
@@ -127,14 +127,11 @@ $_ckeckOrderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
 </ul>
 <script type="text/javascript">
 //<![CDATA[
-<?php echo @file_get_contents($this->getJsUrl().'mage/directpayment.js') ?>
-document.observe('dom:loaded', function() {
-	directPaymentModel = new directPayment(
-			'directpayment-iframe',
-			'<?php echo $_controller ?>',
-			'<?php echo $_orderUrl ?>',
-			'<?php echo $_method->getCgiUrl() ?>',
-			'<?php echo $_checkOrderUrl ?>');
-});
+directPaymentModel = new directPayment(
+		'directpayment-iframe',
+		'<?php echo $_controller ?>',
+		'<?php echo $_orderUrl ?>',
+		'<?php echo $_method->getCgiUrl() ?>',
+		'<?php echo $_checkOrderUrl ?>');
 //]]>
 </script>

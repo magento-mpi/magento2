@@ -72,7 +72,23 @@
                         <method>addAdditionalFieldsToResponse</method>
                     </directpayment_save_order_onepage>                    
                 </observers>
-            </controller_action_postdispatch_checkout_onepage_saveOrder>          
+            </controller_action_postdispatch_checkout_onepage_saveOrder>
+            <controller_action_postdispatch_adminhtml_sales_order_create_save>
+            	<observers>
+                    <directpayment_save_order_admin>
+                        <class>directpayment/observer</class>
+                        <method>addAdditionalFieldsToResponse</method>
+                    </directpayment_save_order_admin>                    
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_create_save>
+            <controller_action_postdispatch_adminhtml_sales_order_edit_save>
+            	<observers>
+                    <directpayment_save_order_admin>
+                        <class>directpayment/observer</class>
+                        <method>addAdditionalFieldsToResponse</method>
+                    </directpayment_save_order_admin>                    
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_edit_save>          
     	</events>
     </global>
 
@@ -86,6 +102,13 @@
                 </Mage_DirectPayment>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <directpayment>
+                    <file>directpayment.xml</file>
+                </directpayment>
+            </updates>
+        </layout>
     </adminhtml>
 
     <frontend>

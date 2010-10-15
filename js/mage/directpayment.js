@@ -43,9 +43,10 @@ directPayment.prototype = {
         this.paymentRequestSent = false;
         this.isResponse = false;
         this.orderIncrementId = false;
+        this.successUrl = false;
+        this.buttons = [];
         
-        this.onSaveOnepageOrderSuccess = this.saveOnepageOrderSuccess.bindAsEventListener(this);
-        this.onPlaceOrderSuccess = this.placeOrderSuccess.bindAsEventListener(this);
+        this.onSaveOnepageOrderSuccess = this.saveOnepageOrderSuccess.bindAsEventListener(this);        
         this.onLoadIframe = this.loadIframe.bindAsEventListener(this);
         
         this.preparePayment();        
@@ -63,6 +64,33 @@ directPayment.prototype = {
 		}
     	
     	return this.isValid;
+    },
+    
+    disableInputs: function()
+    {
+    	for (var elemIndex in this.inputs) {
+			if ($(elemIndex)) {				
+				$(elemIndex).writeAttribute('disabled','disabled');
+			}
+		}
+    },
+    
+    enableInputs: function()
+    {
+    	for (var elemIndex in this.inputs) {
+			if ($(elemIndex)) {				
+				$(elemIndex).writeAttribute('disabled',false);
+			}
+		}
+    },
+    
+    disableServerValidation: function()
+    {
+    	for (var elemIndex in this.inputs) {
+			if ($(elemIndex)) {				
+				$(elemIndex).stopObserving();
+			}
+		}
     },
     
     preparePayment: function ()
@@ -98,26 +126,44 @@ directPayment.prototype = {
 		    			}
 		    		}(this));
 		    		break;
-		    	case 'sales_order_edit':
-		    	case 'sales_order_create':		    				    		
-			    	var buttons = document.getElementsByClassName('scalable save');
-			    	for(var i = 0; i < buttons.length; i++){
-			    		var button = buttons[i];			    		
-				    	button.writeAttribute('onclick','');
-				    	button.observe('click', function(obj){			    		
-				    		return function(){
-				    			var paymentMethod = $('edit_form').getInputs('radio','payment[method]').find(function(radio){return radio.checked;}).value;
-				    			if (paymentMethod == obj.code) {
-					    			//TODO: custom logic				    				
-					    		}
-				    			order.submit();
-			    			}				    	
-				    	}(this));
-			    	}
-		    		break;
+		    	case 'sales_order_create':	    		
+	    		this.disableServerValidation();
+	    		$('p_method_'+this.code).observe('click', function(obj){
+	    			return function(){
+	    				obj.disableServerValidation();
+	    			}
+	    		}(this));		    		
+		    	this.buttons = document.getElementsByClassName('scalable save');
+		    	for(var i = 0; i < this.buttons.length; i++){
+		    		var button = this.buttons[i];			    		
+			    	button.writeAttribute('onclick','');
+			    	button.observe('click', function(obj){			    		
+			    		return function(){
+			    			var paymentMethod = $(this).up('form').getInputs('radio','payment[method]').find(function(radio){return radio.checked;}).value;				    			
+			    			if (paymentMethod == obj.code) {					    			
+			    				if (obj.validate()) {
+			    					//TODO: custom logic
+				    				toggleSelectsUnderBlock($('loading-mask'), false);
+				    				$('loading-mask').show();
+				    	            setLoaderPosition();
+				    				obj.disableInputs();					    				
+				    				obj.paymentRequestSent = true;
+				    				obj.orderRequestSent = true;
+				    				$(this).up('form').writeAttribute('target',$(obj.iframeId).readAttribute('name'));
+				    				$(this).up('form').submit();
+			    				}				    								    			
+				    		}
+			    			else {
+			    				$(this).up('form').writeAttribute('target','_top');
+			    				order.submit();
+			    			}
+		    			}				    	
+			    	}(this));
+		    	}
+	    		break;
 	    	}
 	    	
-	    	$(this.iframeId).observe('load', this.onLoadIframe);
+	    	$(this.iframeId).observe('load', this.onLoadIframe.bind(this));
     	}
     },
     
@@ -125,11 +171,45 @@ directPayment.prototype = {
     {    	
     	if (this.paymentRequestSent) {    		
     		$(this.iframeId).show();    		
-    		review.resetLoadWaiting();    			    
+    		switch (this.controller) {
+	    		case 'onepage':
+	    			review.resetLoadWaiting();
+	    			break;
+	    		case 'sales_order_edit':
+		    	case 'sales_order_create':
+		    		if (this.orderRequestSent) {
+		    			$(this.iframeId).hide();
+			    		var data = $(this.iframeId).contentWindow.document.body.innerHTML;		    		
+			    		this.saveAdminOrderSuccess(data);
+			    		this.orderRequestSent = false;
+		    		}
+		    		else {
+		    			this.paymentRequestSent = false;
+		    			$(this.iframeId).show();
+		    			this.enableInputs();
+		    			toggleSelectsUnderBlock($('loading-mask'), true);
+		    			$('loading-mask').hide();
+		    			for(var i = 0; i < this.buttons.length; i++) {
+		    				var button = this.buttons[i];			    		
+		    		    	button.writeAttribute('onclick','');
+		    		    	button.observe('click', function(obj){			    		
+		    		    		return function(){
+		    		    			if (!obj.successUrl) {
+		    		    				window.location = obj.orderSaveUrl.replace('save','');
+		    		    			}
+		    		    			else {
+		    		    				window.location = obj.successUrl;
+		    		    			}
+		    		    		}
+		    		    	}(this));
+		    			}
+		    		}
+		    		break;
+    		}
     	}
     },
     
-    showError: function(msg)
+    showOnepageError: function(msg)
     {
     	this.paymentRequestSent = false;
     	$(this.iframeId).hide();
@@ -137,53 +217,14 @@ directPayment.prototype = {
     	alert(msg);
     },
     
-    placeOrder: function()
+    showAdminError: function(msg)
     {    	
-    	var params = 'orderIncrementId=' + this.orderIncrementId;            
-    	new Ajax.Request(
-    		this.orderPlaceUrl,
-            {
-                method:'post',
-                parameters:params,
-                onComplete: this.onPlaceOrderSuccess,               
-                onFailure: function(transport) {    				
-    				review.resetLoadWaiting();
-    				alert('Can not load order url');
-    			}
-            }
-        );
-    	this.orderIncrementId = false;    	
-    },
-    
-    placeOrderSuccess: function(transport)
-    {
-    	try{
-            response = eval('(' + transport.responseText + ')');
-        }
-        catch (e) {
-            response = {};
-        }
-        
-        if (response.success) {
-        	if (response.redirect) {
-        		window.location = response.redirectUrl;
-        	}
-        }
-        else{
-            var msg = response.error_messages;
-            if (typeof(msg)=='object') {
-                msg = msg.join("\n");
-            }
-            if (msg) { 
-            	alert(msg);
-            }
-        }
-        review.resetLoadWaiting();
+    	$(this.iframeId).hide();    	
+    	alert(msg);
     },
     
     saveOnepageOrder: function()
-    {
-    	//$(this.iframeId).next('ul').hide();
+    {    	
     	checkout.setLoadWaiting('review');
         var params = Form.serialize(payment.form);
         if (review.agreementsForm) {
@@ -236,23 +277,43 @@ directPayment.prototype = {
             }
         }
 	},
+	
+	saveAdminOrderSuccess: function(data) 
+    {    	
+    	try{
+            response = eval('(' + data + ')');
+        }
+        catch (e) {
+            response = {};
+        }
+        
+        if (response.directpayment) {
+        	this.orderIncrementId = response.directpayment.fields.x_invoice_num;
+        	var paymentData = {};
+            for(var key in response.directpayment.fields) {
+            	paymentData[key] = response.directpayment.fields[key];
+            }            
+            var preparedData = this.preparePaymentRequest(paymentData);            
+        	return this.sendPaymentRequest(preparedData);
+        }        
+	},
     
     preparePaymentRequest: function(data)
     {
-    	if ($('directpayment_cc_cid')) {
-    		data.x_card_code = $('directpayment_cc_cid').value;
+    	if ($(this.code+'_cc_cid')) {
+    		data.x_card_code = $(this.code+'_cc_cid').value;
 		}
-    	var year = $('directpayment_expiration_yr').value;
+    	var year = $(this.code+'_expiration_yr').value;
     	if (year.length > 2) {
     		year = year.substring(2);
     	}
-        var month = parseInt($('directpayment_expiration').value, 10);
+        var month = parseInt($(this.code+'_expiration').value, 10);
         if (month < 10){
             month = '0' + month;
         }
 
         data.x_exp_date = month + '/' + year;
-        data.x_card_num = $('directpayment_cc_number').value;
+        data.x_card_num = $(this.code+'_cc_number').value;
         
         return data;
     },
@@ -289,4 +350,46 @@ directPayment.prototype = {
         return this.paymentRequestSent;
     }
     	
+};
+
+/**
+ * Disable cart server validation in admin
+ */
+AdminOrder.prototype.switchPaymentMethod = function(method){
+        this.setPaymentMethod(method);
+        if (method != 'directpayment') {
+	        var data = {};
+	        data['order[payment_method]'] = method;
+	        this.loadArea(['card_validation'], true, data);
+        }
+};
+AdminOrder.prototype.setPaymentMethod = function(method){
+    if (this.paymentMethod && $('payment_form_'+this.paymentMethod)) {
+        var form = $('payment_form_'+this.paymentMethod);
+        form.hide();
+        var elements = form.select('input', 'select');
+        for (var i=0; i<elements.length; i++) elements[i].disabled = true;
+    }
+
+    if(!this.paymentMethod || method){
+        $('order-billing_method_form').select('input', 'select').each(function(elem){
+            if(elem.type != 'radio') elem.disabled = true;
+        })
+    }
+
+    if ($('payment_form_'+method)){
+        this.paymentMethod = method;
+        var form = $('payment_form_'+method);
+        form.show();
+        var elements = form.select('input', 'select');
+        for (var i=0; i<elements.length; i++) {
+            elements[i].disabled = false;
+            if(!elements[i].bindChange && method != 'directpayment'){
+                elements[i].bindChange = true;
+                elements[i].paymentContainer = 'payment_form_'+method; //@deprecated after 1.4.0.0-rc1
+                elements[i].method = method;
+                elements[i].observe('change', this.changePaymentData.bind(this))
+            }
+        }
+    }
 };
