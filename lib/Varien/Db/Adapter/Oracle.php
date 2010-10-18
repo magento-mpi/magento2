@@ -1525,6 +1525,151 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $this->query($query, $bind);
     }
 
+
+
+
+    /**
+     * Inserts a table row with specified data. compatible with Oracle 8 
+     *
+     * @param mixed $table The table to insert data into.
+     * @param array $data Column-value pairs or array of column-value pairs.
+     * @param arrat $fields update fields pairs or values
+     * @return int The number of affected rows.
+     */
+    public function insertOnDuplicateCompatible($table, array $data, array $fields = array())
+    {
+        // extract and quote col names from the array keys
+        $row    = reset($data);     // get first elemnt from data array
+        $bind   = array();          // SQL bind array
+        $cols   = array();
+        $values = array();
+
+        $ddl = $this->describeTable($table);
+
+        if (is_array($row)) { // Array of column-value pairs
+            $cols = array_keys($row);
+            $i    = 0;
+            foreach ($data as $row) {
+                $line = array();
+                if (array_diff($cols, array_keys($row))) {
+                    throw new Varien_Exception('Invalid data for insert');
+                }
+                foreach ($row as $col => $val) {
+                    if ($val instanceof Zend_Db_Expr) {
+                        $line[] = $val->__toString() . ' AS ' . $col;
+                    } else {
+                        $key    = ':vv' . $i++;
+                        if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
+                            $line[] = "to_clob({$key}) AS {$col}";
+                        } else {
+                            $line[] = "{$key} AS {$col}";
+                        }
+                        $bind[$key] = $val;
+                    }
+                }
+                $values[] = sprintf('SELECT %s FROM dual', implode(', ', $line));
+            }
+            unset($row);
+        } else { // Column-value pairs
+            $cols = array_keys($data);
+            $line = array();
+            $i    = 0;
+            foreach ($data as $col => $val) {
+                if ($val instanceof Zend_Db_Expr) {
+                    $line[] = $val->__toString() . ' AS ' . $col;
+                } else {
+                    $key    = ':vv' . $i++;
+                    if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
+                        $line[] = "to_clob({$key}) AS {$col}";
+                    } else {
+                        $line[] = "{$key} AS {$col}";
+                    }
+                    $bind[$key] = $val;
+                }
+            }
+            $values[] = sprintf('SELECT %s FROM dual', implode(', ', $line));
+        }
+
+        // update fields
+        if (empty($fields)) {
+            $fields = $cols;
+        }
+
+        $joinConditions = array();
+
+        // Obtain primary key fields
+        $pkColumns = $this->_getPrimaryKeyColumns($table);
+        $groupCond = array();
+        $usePkCond = true;
+        foreach ($pkColumns as $column) {
+            if (!in_array($column, $cols)) {
+                $usePkCond = false;
+            }
+            if (false !== ($k = array_search($column, $fields))) {
+                unset($fields[$k]);
+            }
+            $groupCond[] = sprintf('t1.%s = t2.%s', $column, $column);
+        }
+        if (!empty($groupCond) && $usePkCond) {
+            $joinConditions[] = sprintf('(%s)', join(') AND (', $groupCond));
+        }
+
+        foreach ($this->getIndexList($table) as $indexData) {
+            if ($indexData['INDEX_TYPE'] != self::INDEX_TYPE_UNIQUE) {
+                continue;
+            }
+            // Obtain unique indexes fields
+            $groupCond  = array();
+            $useUnqCond = true;
+            foreach($indexData['COLUMNS_LIST'] as $column) {
+                if (!in_array($column, $cols)) {
+                    $useUnqCond = false;
+                }
+                if (false !== ($k = array_search($column, $fields))) {
+                    unset($fields[$k]);
+                }
+                $groupCond[] = sprintf('t1.%s = t2.%s', $column, $column);
+            }
+            if (!empty($groupCond) && $useUnqCond) {
+                $joinConditions[] = sprintf('(%s)', join(' AND ', $groupCond));
+            }
+        }
+
+        if (empty($joinConditions)) {
+            throw new Exception('Invalid primary or unique columns in merge data');
+        }
+        
+        $insertCols = array_map(array($this, 'quoteIdentifier'), $cols);
+        $insertVals = array();
+        foreach ($insertCols as $col) {
+            $insertVals[] = sprintf('t2.%s', $col);
+        }
+
+        $query = sprintf('INSERT INTO %s (%s) SELECT * FROM (%s) t2 WHERE NOT EXISTS ( SELECT 1 FROM %s t1 WHERE %s )',
+            $table,
+            join(', ', $insertCols),
+            join(' UNION ALL ', $values),
+            $table,
+            join(' OR ', $joinConditions));
+
+        if ($fields) {
+            $query = sprintf("BEGIN\n %s;\n %s;\n END;",
+                $query,
+                sprintf('UPDATE %s t1 SET (%s)= (SELECT %s FROM (%s) t2 WHERE %s) WHERE EXISTS ( SELECT 1 FROM %s t3 WHERE %s )',
+                    $table,
+                    join(', ', $fields),
+                    join(', ', $fields),
+                    join(' UNION ALL ', $values),
+                    join(' OR ', $joinConditions),
+                    $table,
+                    str_replace('t2','t3', join(' OR ', $joinConditions))
+                )
+            );
+        }
+        return $this->query($query, $bind);
+    }
+
+    
     /**
      * Inserts a table multiply rows with specified data.
      *
@@ -3449,6 +3594,116 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return $query;
     }
 
+
+    /**
+     * Get insert from Select object query compatible with Oracle 8
+     *
+     * @param Varien_Db_Select $select
+     * @param string $table     insert into table
+     * @param array $fields
+     * @param int $mode
+     * @return string
+     */
+    public function insertFromSelectCompatible(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
+    {
+        if (!$mode) {
+            return $this->_getInsertFromSelectSql($select, $table, $fields);
+        }
+
+        $indexes    = $this->getIndexList($table);
+        $columns    = $this->describeTable($table);
+        if (!$fields) {
+            $fields = array_keys($columns);
+        }
+
+        // remap column aliases
+        $select    = clone $select;
+        $fields    = array_values($fields);
+        $i         = 0;
+        $colsPart  = $select->getPart(Zend_Db_Select::COLUMNS);
+        if (count($colsPart) != count($fields)) {
+            throw new Varien_Db_Exception('Wrong columns count in SELECT for INSERT');
+        }
+        foreach ($colsPart as &$colData) {
+            $colData[2] = $fields[$i];
+            $i ++;
+        }
+        $select->setPart(Zend_Db_Select::COLUMNS, $colsPart);
+
+        $insertCols = $fields;
+        $updateCols = $fields;
+        $whereCond  = array();
+
+        // Obtain primary key fields
+        $pkColumns = $this->_getPrimaryKeyColumns($table);
+        $groupCond = array();
+        $usePkCond = true;
+        foreach ($pkColumns as $pkColumn) {
+            if (!in_array($pkColumn, $insertCols)) {
+                $usePkCond = false;
+            } else {
+                $groupCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($pkColumn));
+            }
+
+            if (false !== ($k = array_search($pkColumn, $updateCols))) {
+                unset($updateCols[$k]);
+            }
+        }
+
+        if (!empty($groupCond) && $usePkCond) {
+            $whereCond[] = sprintf('(%s)', join(') AND (', $groupCond));
+        }
+
+        // Obtain unique indexes fields
+        foreach ($indexes as $indexData) {
+            if ($indexData['INDEX_TYPE'] != self::INDEX_TYPE_UNIQUE) {
+                continue;
+            }
+
+            $groupCond  = array();
+            $useUnqCond = true;
+            foreach($indexData['COLUMNS_LIST'] as $column) {
+                if (!in_array($column, $insertCols)) {
+                    $useUnqCond = false;
+                }
+                if (false !== ($k = array_search($column, $updateCols))) {
+                    unset($updateCols[$k]);
+                }
+                $groupCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($column));
+            }
+            if (!empty($groupCond) && $useUnqCond) {
+                $whereCond[] = sprintf('(%s)', join(' AND ', $groupCond));
+            }
+        }
+
+        if (empty($whereCond)) {
+            throw new Varien_Db_Exception('Invalid primary or unique columns in merge data');
+        }
+
+        $iodSelect = $this->select()
+            ->from(array('t3' => new Zend_Db_Expr($select->assemble())));
+
+        ;
+
+        $query = $this->_getInsertFromSelectSql(
+            $iodSelect->where(new Zend_Db_Expr('EXISTS (SELECT 1 FROM {$table} t2 WHERE {$whereCond})')),
+            $table, $fields);
+
+
+        if ($mode == self::INSERT_ON_DUPLICATE && $updateCols) {
+            $query = sprintf("BEGIN\n%s;\n%s;\nEND:",
+                $query,
+                $this->_getUpdateFromSelectSql(
+                    $iodSelect->where(new Zend_Db_Expr('EXISTS (SELECT 1 FROM {$table} t2 WHERE {$whereCond})')),
+                    $table, $fields)
+                );
+        }
+        echo $query;
+        die();
+        return $query;
+
+    }
+    
     /**
      * Get insert to table from select
      *
