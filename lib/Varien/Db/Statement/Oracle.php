@@ -143,14 +143,21 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
 
         if ($style != Zend_Db::FETCH_NUM) {
             for ($i = 1; $i <= $ncols; $i++) {
-                $columns_datatype[oci_field_name($this->_stmt, $i)] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
+                if (oci_field_type($this->_stmt, $i) == 'NUMBER'
+                        && oci_field_scale($this->_stmt, $i) == '-127'
+                        && oci_field_precision($this->_stmt, $i) == '126') {
+                    $columns_datatype[oci_field_name($this->_stmt, $i)] = 'FLOAT';
+
+                } else {
+                    $columns_datatype[oci_field_name($this->_stmt, $i)] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
+                }
             }
+
         } else {
             for ($i = 1; $i <= $ncols; $i++) {
                 $columns_datatype[$i - 1] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
             }
         }
-
 
         $flags = OCI_FETCHSTATEMENT_BY_ROW;
 
@@ -265,26 +272,33 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
 
     protected function _typedFetch($style, $fetchMode)
     {
-
         $ncols = oci_num_fields($this->_stmt);
 
         $columns_datatype = array();
 
         if ($style != Zend_Db::FETCH_NUM) {
             for ($i = 1; $i <= $ncols; $i++) {
-                $columns_datatype[oci_field_name($this->_stmt, $i)] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
+                if (oci_field_type($this->_stmt, $i) == 'NUMBER'
+                        && oci_field_scale($this->_stmt, $i) == '-127'
+                        && oci_field_precision($this->_stmt, $i) == '126') {
+                    $columns_datatype[oci_field_name($this->_stmt, $i)] = 'FLOAT';
+
+                } else {
+                    $columns_datatype[oci_field_name($this->_stmt, $i)] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
+                }
             }
+               
         } else {
             for ($i = 1; $i <= $ncols; $i++) {
                 $columns_datatype[$i - 1] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
             }
         }
+
         $row = oci_fetch_array($this->_stmt, $fetchMode);
 
         if ($row){
             $datarow = array();
             foreach ($row as $key => $item) {
-
                 if(!is_null($item)) {
                     settype($item, $columns_datatype[$key]);
                 }
