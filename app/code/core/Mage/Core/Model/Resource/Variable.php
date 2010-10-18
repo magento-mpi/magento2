@@ -132,17 +132,17 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
     protected function _addValueToSelect(Zend_Db_Select $select, $storeId = 0)
     {
         $ifNullPlainValue = $this->_getReadAdapter()
-            ->getCheckSql('store.plain_value IS NULL', 'default.plain_value', 'store.plain_value');
+            ->getCheckSql('store.plain_value IS NULL', 'def.plain_value', 'store.plain_value');
         $ifNullHtmlValue  = $this->_getReadAdapter()
-            ->getCheckSql('store.html_value IS NULL', 'default.html_value', 'store.html_value');
+            ->getCheckSql('store.html_value IS NULL', 'def.html_value', 'store.html_value');
 
         $select->joinLeft(
-                array('default' => $this->getTable('core/variable_value')),
-                'default.variable_id = '.$this->getMainTable().'.variable_id AND default.store_id = 0',
+                array('def' => $this->getTable('core/variable_value')),
+                'def.variable_id = '.$this->getMainTable().'.variable_id AND def.store_id = 0',
                 array())
             ->joinLeft(
                 array('store' => $this->getTable('core/variable_value')),
-                'store.variable_id = default.variable_id AND store.store_id = ' . $storeId,
+                'store.variable_id = def.variable_id AND store.store_id = ' . $storeId,
                 array())
             ->columns(array(
                 'plain_value'       => $ifNullPlainValue,
