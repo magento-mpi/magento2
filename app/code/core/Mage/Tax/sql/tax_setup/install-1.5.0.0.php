@@ -261,7 +261,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'tax_class_id', arr
     'visible_in_advanced_search' => true,
     'used_in_product_listing'    => true,
     'unique'                     => false,
-    'apply_to'                   => 'simple,configurable,virtual',
+    'apply_to'                   => 'simple,configurable,virtual,downloadable,bundle'
 ));
 
 $installer->endSetup();

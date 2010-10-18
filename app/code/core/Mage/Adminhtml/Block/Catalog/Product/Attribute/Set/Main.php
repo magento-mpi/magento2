@@ -173,6 +173,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $groups = Mage::getModel('eav/entity_attribute_group')
             ->getResourceCollection()
             ->setAttributeSetFilter($setId)
+            ->setSortOrder()
             ->load();
 
         $configurable = Mage::getResourceModel('catalog/product_type_configurable_attribute')

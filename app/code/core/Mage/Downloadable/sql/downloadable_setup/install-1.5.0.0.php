@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* @var $installer Mage_Catalog_Model_Resource_Setup */
+/** @var $installer Mage_Catalog_Model_Resource_Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -418,26 +418,9 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 
-$fieldList = array(
-    'price',
-    'special_price',
-    'special_from_date',
-    'special_to_date',
-    'minimal_price',
-    'cost',
-    'tier_price',
-    'tax_class_id'
-);
-
-// make these attributes applicable to downloadable products
-foreach ($fieldList as $field) {
-    $applyTo = explode(',', $installer->getAttribute(Mage_Catalog_Model_Product::ENTITY, $field, 'apply_to'));
-    if (!in_array('downloadable', $applyTo)) {
-        $applyTo[] = 'downloadable';
-        $installer->updateAttribute(Mage_Catalog_Model_Product::ENTITY, $field, 'apply_to', join(',', $applyTo));
-    }
-}
-
+/**
+ * Add attributes to the eav/attribute table
+ */
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'links_purchased_separately', array(
     'type'              => 'int',
     'backend'           => '',

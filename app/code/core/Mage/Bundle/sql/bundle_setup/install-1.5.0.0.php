@@ -529,4 +529,122 @@ $table = $installer->getConnection()
     ->setComment('Catalog Product Index Price Bundle Opt Tmp');
 $installer->getConnection()->createTable($table);
 
+/**
+ * Add attributes to the eav/attribute 
+ */
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'price_type', array(
+        'type'              => 'int',
+        'backend'           => '',
+        'frontend'          => '',
+        'label'             => '',
+        'input'             => '',
+        'class'             => '',
+        'source'            => '',
+        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'visible'           => false,
+        'required'          => true,
+        'user_defined'      => false,
+        'default'           => '',
+        'searchable'        => false,
+        'filterable'        => false,
+        'comparable'        => false,
+        'visible_on_front'  => false,
+        'used_in_product_listing' => true,
+        'unique'            => false,
+        'apply_to'          => 'bundle',
+        'is_configurable'   => false
+    ));
+
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'sku_type', array(
+        'type'              => 'int',
+        'backend'           => '',
+        'frontend'          => '',
+        'label'             => '',
+        'input'             => '',
+        'class'             => '',
+        'source'            => '',
+        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'visible'           => false,
+        'required'          => true,
+        'user_defined'      => false,
+        'default'           => '',
+        'searchable'        => false,
+        'filterable'        => false,
+        'comparable'        => false,
+        'visible_on_front'  => false,
+        'unique'            => false,
+        'apply_to'          => 'bundle',
+        'is_configurable'   => false
+    ));
+
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'weight_type', array(
+        'type'              => 'int',
+        'backend'           => '',
+        'frontend'          => '',
+        'label'             => '',
+        'input'             => '',
+        'class'             => '',
+        'source'            => '',
+        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'visible'           => false,
+        'required'          => true,
+        'user_defined'      => false,
+        'default'           => '',
+        'searchable'        => false,
+        'filterable'        => false,
+        'comparable'        => false,
+        'visible_on_front'  => false,
+        'used_in_product_listing' => true,
+        'unique'            => false,
+        'apply_to'          => 'bundle',
+        'is_configurable'   => false
+    ));
+
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'price_view', array(
+        'group'             => 'Prices',
+        'type'              => 'int',
+        'backend'           => '',
+        'frontend'          => '',
+        'label'             => 'Price View',
+        'input'             => 'select',
+        'class'             => '',
+        'source'            => 'bundle/product_attribute_source_price_view',
+        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'visible'           => true,
+        'required'          => true,
+        'user_defined'      => false,
+        'default'           => '',
+        'searchable'        => false,
+        'filterable'        => false,
+        'comparable'        => false,
+        'visible_on_front'  => false,
+        'used_in_product_listing' => true,
+        'unique'            => false,
+        'apply_to'          => 'bundle',
+        'is_configurable'   => false
+    ));
+
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'shipment_type', array(
+        'type'              => 'int',
+        'backend'           => '',
+        'frontend'          => '',
+        'label'             => 'Shipment',
+        'input'             => '',
+        'class'             => '',
+        'source'            => '',
+        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'visible'           => false,
+        'required'          => true,
+        'user_defined'      => false,
+        'default'           => '',
+        'searchable'        => false,
+        'filterable'        => false,
+        'comparable'        => false,
+        'visible_on_front'  => false,
+        'used_in_product_listing' => true,
+        'unique'            => false,
+        'apply_to'          => 'bundle',
+        'is_configurable'   => false
+    ));
+
 $installer->endSetup();
