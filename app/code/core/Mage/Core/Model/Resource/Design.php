@@ -146,11 +146,16 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
         }
 
         $bind = array(
-            'date_to'    => $dateFrom,
-            'date_from'  => $dateTo,
             'store_id'   => (int)$storeId,
             'current_id' => (int)$currentId,
         );
+
+        if (!is_null($dateTo)) {
+            $bind['date_to'] = $dateTo;
+        }
+        if (!is_null($dateFrom)) {
+            $bind['date_from'] = $dateFrom;
+        }
 
         $result = $this->_getReadAdapter()->fetchOne($select, $bind);
         return $result;
