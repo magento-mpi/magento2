@@ -150,6 +150,7 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
                 'store_plain_value' => 'store.plain_value',
                 'store_html_value'  => 'store.html_value'
             ));
+        
         return $this;
     }
 }
