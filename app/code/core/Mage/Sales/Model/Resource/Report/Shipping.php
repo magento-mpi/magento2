@@ -121,12 +121,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
             $select->having('orders_count > 0');
 
             $helper        = Mage::getResourceHelper('core');
-            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
-            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
-            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
-
-            //$adapter->query($select->insertFromSelect($table, array_keys($columns), false));
 
             $select->reset();
 
@@ -155,11 +151,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
             ));
 
             $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
-            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
-            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
-            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
-
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;
@@ -240,11 +233,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
             ));
 
             $helper        = Mage::getResourceHelper('core');
-            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
-            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
-            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
-            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();
 
@@ -271,11 +261,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'order_status',
                 'shipping_description'
             ));
-            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
-            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
-            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $table, implode(', ', $quotedColumns), $selectQuery);
+            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
-            //$adapter->query($select->insertFromSelect($table, array_keys($columns)));
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;

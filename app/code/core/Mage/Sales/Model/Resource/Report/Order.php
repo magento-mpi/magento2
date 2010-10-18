@@ -160,9 +160,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
                 'period',
                 'order_status'
             ));
-
-            $adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns), false));
-
+            $adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
             $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE);
         } catch (Exception $e) {
             $adapter->rollBack();

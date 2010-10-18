@@ -152,6 +152,69 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
     }
 
     /**
+     * 
+     * Returns Insert From Select On Duplicate query with analytic functions
+     *
+     * @param Varien_Db_Select $select
+     * @param string $table
+     * @param array $table
+     * @return string
+     */
+    public function getInsertFromSelectUsingAnalytic(Varien_Db_Select $select, $table, $fields)
+    {
+        $clonedSelect                = clone $select;
+        $adapter                     = $this->_getReadAdapter();
+        $wrapperTableName            = 'analytic_tbl';
+        $wrapperTableColumnName      = 'analytic_clmn';
+        $whereCondition              = array();
+
+        $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
+        $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
+        $having           = $this->_prepareHaving($clonedSelect, true);
+
+
+        $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
+
+        if (!empty($groupByCondition)) {
+            /**
+             * Prepare column with analytic function
+             */
+            $clonedSelect->columns(array(
+                $wrapperTableColumnName => $this->prepareColumn('RANK()', $groupByCondition, 'NEWID()')
+            ));
+            /**
+             * Prepare where condition for wrapper select
+             */
+            $whereCondition[] = sprintf('%s.%s = 1', $wrapperTableName, $wrapperTableColumnName);
+        }
+
+        if ($having) {
+            $whereCondition[] = implode(', ', $having);
+        }
+
+        $clonedSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $clonedSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+
+        $columns = array();
+        foreach ($columnList as $columnEntry) {
+            $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
+        }
+
+        /**
+         * Assemble sql query
+         */
+        $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), $columns);
+        $select = $adapter->select()
+            ->from(array($wrapperTableName => $clonedSelect), $quotedColumns);
+        foreach ($whereCondition as $cond) {
+            $select->where($cond);
+        }
+        $select->order($orderCondition);
+        $query = $select->insertFromSelect($table, $fields);
+        return $query;
+    }
+
+    /**
      * Returns array of quoted orders with direction
      *
      * @param Varien_Db_Select $select

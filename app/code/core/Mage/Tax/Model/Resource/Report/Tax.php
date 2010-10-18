@@ -105,11 +105,8 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
             ));
 
             $helper        = Mage::getResourceHelper('core');
-            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
-            $quotedColumns = array_map(array($writeAdapter, 'quoteIdentifier'), array_keys($columns));
-            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $this->getMainTable(), implode(', ', $quotedColumns), $selectQuery);
+            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $this->getMainTable(), array_keys($columns));
             $writeAdapter->query($insertQuery);
-            //$writeAdapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns), false));
 
             $select->reset();
 
@@ -136,13 +133,8 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
                 'code',
                 'order_status'
             ));
-
-            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
-            $quotedColumns = array_map(array($writeAdapter, 'quoteIdentifier'), array_keys($columns));
-            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $this->getMainTable(), implode(', ', $quotedColumns), $selectQuery);
+            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $this->getMainTable(), array_keys($columns));
             $writeAdapter->query($insertQuery);
-
-            //$writeAdapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns), false));
             $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
         } catch (Exception $e) {
             $writeAdapter->rollBack();

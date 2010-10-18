@@ -197,13 +197,9 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
 
 
             $select->useStraightJoin();  // important!
-
-            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
-            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
-            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $this->getMainTable(), implode(', ', $quotedColumns), $selectQuery);
-
+            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $this->getMainTable(), array_keys($columns));
             $adapter->query($insertQuery);
-            //$adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns), false));
+
 
             $columns = array(
                 'period'                         => 'period',
@@ -227,12 +223,8 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 'product_id'
             ));
 
-            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
-            $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), array_keys($columns));
-            $insertQuery   = sprintf('INSERT INTO %s (%s) %s', $this->getMainTable(), implode(', ', $quotedColumns), $selectQuery);
-            $adapter->query($insertQuery);
-            //$adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
-
+            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $this->getMainTable(), array_keys($columns));
+            $adapter->query($insertQuery); 
 
             // update rating
             $this->_updateRatingPos(self::AGGREGATION_DAILY);

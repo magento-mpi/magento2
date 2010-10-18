@@ -57,6 +57,20 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         return $select->assemble();
     }
 
+    /**
+     * 
+     * Returns Insert From Select On Duplicate query with analytic functions
+     *
+     * @param Varien_Db_Select $select
+     * @param string $table
+     * @param array $table
+     * @return string
+     */
+    public function getInsertFromSelectUsingAnalytic(Varien_Db_Select $select, $table, $fields)
+    {
+        return $select->insertFromSelect($table, $fields);
+    }
+
 
     /**
      * Returns array of quoted orders with direction
