@@ -303,7 +303,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $customer->save();
 
                 // send welcome email
-                if ($customer->getWebsiteId() && (!empty($data['account']['sendemail']) || $sendPassToEmail)) {
+                if ($customer->getWebsiteId() && (isset($data['account']['sendemail']) || $sendPassToEmail)) {
                     $storeId = $customer->getSendemailStoreId();
                     if ($isNewCustomer) {
                         $customer->sendNewAccountEmail('registered', '', $storeId);
