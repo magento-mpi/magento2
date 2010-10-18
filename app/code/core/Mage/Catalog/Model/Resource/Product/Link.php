@@ -68,8 +68,8 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
         $adapter    = $this->_getWriteAdapter();
 
         $bind   = array(
-            'product_id'    => (int)$product->getId(),
-            'link_type_id'  => (int)$typeId
+            ':product_id'    => (int)$product->getId(),
+            ':link_type_id'  => (int)$typeId
         );
         $select = $adapter->select()
             ->from($this->getMainTable(), array('linked_product_id', 'link_id'))
@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
                             'link_id'                   => $linkId,
                             'value'                     => $value
                         );
-                        $adapter->insert($attributeTable, $bind, array('value'));
+                        $adapter->insertOnDuplicate($attributeTable, $bind, array('value'));
                     } else {
                         $adapter->delete($attributeTable, array(
                             'link_id = ?'                   => $linkId,
