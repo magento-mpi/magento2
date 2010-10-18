@@ -33,6 +33,11 @@
  */
 class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller_Action
 {
+    /** 
+     * The greatest value which could be stored in CatalogInventory Qty field
+     */
+    const MAX_QTY_VALUE = 99999999.9999;
+
     /**
      * Array of actions which can be processed without secret key validation
      *
@@ -539,8 +544,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $product    = $this->_initProduct();
         $productData = $this->getRequest()->getPost('product');
-        if ($productData && !isset($productData['stock_data']['use_config_manage_stock'])) {
-            $productData['stock_data']['use_config_manage_stock'] = 0;
+        if ($productData) {
+            if (!isset($productData['stock_data']['use_config_manage_stock'])) {
+                $productData['stock_data']['use_config_manage_stock'] = 0;
+            }
+            if (isset($productData['stock_data']['qty']) && (float)$productData['stock_data']['qty'] > self::MAX_QTY_VALUE) {
+                $productData['stock_data']['qty'] = self::MAX_QTY_VALUE;
+            }
         }
 
         /**
