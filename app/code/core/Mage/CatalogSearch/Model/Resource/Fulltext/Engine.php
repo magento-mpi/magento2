@@ -84,7 +84,8 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
         }
 
         if ($data) {
-            $adapter->insertOnDuplicate($this->getMainTable(), $data, array('data_index'));
+            Mage::getResourceHelper('catalogsearch')
+                ->insertOnDuplicate($this->getMainTable(), $data, array('data_index'));
         }
 
         return $this;

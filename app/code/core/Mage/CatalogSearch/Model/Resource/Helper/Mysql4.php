@@ -106,4 +106,16 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
         $result = array($words, $terms);
         return $result;
     }
+
+    /**
+     * Use sql compatible with Full Text indexes
+     *
+     * @param mixed $table The table to insert data into.
+     * @param array $data Column-value pairs or array of column-value pairs.
+     * @param arrat $fields update fields pairs or values
+     * @return int The number of affected rows.
+     */
+    public function insertOnDuplicate($table, array $data, array $fields = array()) {
+        return $this->_readAdapter->insertOnDuplicate($table, $data, $fields);
+    }
 }
