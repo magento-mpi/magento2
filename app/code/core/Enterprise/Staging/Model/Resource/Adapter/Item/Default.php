@@ -362,8 +362,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
             $sql = $readAdapter->insertFromSelect(
                 $srcSelectSql,
                 $targetTable,
-                $fields,
-                Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
+                $fields);
 
             $writeAdapter->query($sql);
         }
@@ -415,12 +414,11 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                         }
                     }
                     $srcSelectSql  = $this->_getSimpleSelect($srcTable, $selectFields, $_storeFieldNameSql);
-
+                    echo "<br><pre>".$srcSelectSql."</pre>";
                     $sql = $readAdapter->insertFromSelect(
                         $srcSelectSql,
                         $targetTable,
-                        $fields,
-                        Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
+                        $fields);
 
                     $writeAdapter->query($sql);
 
