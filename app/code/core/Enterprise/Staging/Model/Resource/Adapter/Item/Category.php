@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Adapter item category resource
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -36,7 +36,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Category
     extends Enterprise_Staging_Model_Resource_Adapter_Item_Default
 {
     /**
-     * List of table codes which shuldn't process if product item were not chosen
+     * List of table codes which shouldn't process if product item were not chosen
      *
      * @var array
      */

@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging website resource adapter
  *
  * @category    Enterprise
  * @package     Enterprise_Staging

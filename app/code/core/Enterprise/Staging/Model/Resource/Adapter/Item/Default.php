@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Adapter item default resource
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -52,7 +52,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      * Check backend Staging Tables Creates
      *
      * @param object Enterprise_Staging_Model_Staging $staging
-     * @param unknown_type $event
+     * @param Enterprise_Staging_Model_Staging_Event $event
      * @return Enterprise_Staging_Model_Resource_Adapter_Item_Default
      */
     public function checkfrontendRun(Enterprise_Staging_Model_Staging $staging, $event = null)
@@ -313,7 +313,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
     protected function _createWebsiteScopeItemTableData($entityName, $fields)
     {
         $staging            = $this->getStaging();
-        $connection         = $this->_getWriteAdapter();
+        $readAdapter        = $this->_getReadAdapter();
+        $writeAdapter       = $this->_getWriteAdapter();
 
         $masterWebsiteId    = (int) $staging->getMasterWebsiteId();
         $stagingWebsiteId   = (int) $staging->getStagingWebsiteId();
@@ -323,32 +324,49 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
         $srcTable    = $this->getTable($entityName);
         $targetTable = $this->_getStagingTableName($srcTable);
-        $updateField = end($fields);
+        $updateField = end($fields);//!!! was used in insert on duplicate
 
         if (in_array('website_ids', $fields)) {
-            $destInsertSql = "UPDATE `{$targetTable}` SET `website_ids` = IF(FIND_IN_SET({$stagingWebsiteId},`website_ids`), `website_ids`, CONCAT(`website_ids`,',{$stagingWebsiteId}'))
-                    WHERE FIND_IN_SET({$masterWebsiteId},`website_ids`)";
-        } else {
-            $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$updateField}`=VALUES(`{$updateField}`)";
+            $stagingCond = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$stagingWebsiteId));
+            $masterCond  = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$masterWebsiteId));
+            $concatVal   = $readAdapter->getConcatSql('website_ids', ','.$stagingWebsiteId);
 
+            $writeAdapter->update(
+                $targetTable,
+                array('website_ids = ?' => $concatVal),
+                array($stagingCond, ' NOT '. $masterCond)
+            );
+        } else {
+            $selectFields = $fields;
             $_websiteFieldNameSql = 'website_id';
-            foreach ($fields as $id => $field) {
+            foreach ($selectFields as $id => $field) {
                 if ($field == 'website_id') {
-                    $fields[$id] = $stagingWebsiteId;
-                    $_websiteFieldNameSql = "`{$field}` = {$masterWebsiteId}";
+                    $selectFields[$id] = $stagingWebsiteId;
+                    $_websiteFieldNameSql = $readAdapter->quoteIdentifier($field)
+                        . $readAdapter->quoteInto(' = ?', $masterWebsiteId);
                 } elseif ($field == 'scope_id') {
-                    $fields[$id] = $stagingWebsiteId;
-                    $_websiteFieldNameSql = "scope = 'websites' AND `{$field}` = {$masterWebsiteId}";
+                    $selectFields[$id] = $stagingWebsiteId;
+                    $_websiteFieldNameSql = $readAdapter->quoteIdentifier('scope')
+                        . $readAdapter->quoteInto(' = ?', 'websites')
+                        . ' AND '.$readAdapter->quoteIdentifier($field)
+                        . $readAdapter->quoteInto(' = ?', $masterWebsiteId);
                 } elseif ($field == 'website_ids') {
-                    $fields[$id] = new Zend_Db_Expr("CONCAT(website_ids,',{$stagingWebsiteId}')");
-                    $_websiteFieldNameSql = "FIND_IN_SET({$masterWebsiteId},website_ids)";
+                    $selectFields[$id]    = $readAdapter->getConcatSql('website_ids', ','.$stagingWebsiteId);
+                    $_websiteFieldNameSql = $readAdapter->prepareSqlCondition(
+                        'website_ids',
+                        array('finset'=>$masterWebsiteId));
                 }
             }
 
-            $srcSelectSql  = $this->_getSimpleSelect($srcTable, $fields, $_websiteFieldNameSql);
-            $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+            $srcSelectSql  = $this->_getSimpleSelect($srcTable, $selectFields, $_websiteFieldNameSql);
+            $sql = $readAdapter->insertFromSelect(
+                $srcSelectSql,
+                $targetTable,
+                $fields,
+                Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
+
+            $writeAdapter->query($sql);
         }
-        $connection->query($destInsertSql);
 
         return $this;
     }
@@ -362,9 +380,10 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     protected function _createStoreScopeItemTableData($entityName, $fields)
     {
-        $staging    = $this->getStaging();
-        $connection = $this->_getWriteAdapter();
-        $websites   = $staging->getMapperInstance()->getWebsiteObjects();
+        $staging      = $this->getStaging();
+        $readAdapter  = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
+        $websites     = $staging->getMapperInstance()->getWebsiteObjects();
 
         if (!empty($websites)) {
             $srcTable    = $this->getTable($entityName);
@@ -379,22 +398,32 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                         return $this;
                     }
 
-                    $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$updateField}`=VALUES(`{$updateField}`)";
                     $_storeFieldNameSql = 'store_id';
 
-                    $_fields = $fields;
-                    foreach ($_fields as $id => $field) {
+                    $selectFields = $fields;
+                    foreach ($selectFields as $id => $field) {
                         if ($field == 'store_id') {
-                            $_fields[$id] = $stagingStoreId;
-                            $_storeFieldNameSql = "({$field} = {$masterStoreId})";
+                            $selectFields[$id] = $stagingStoreId;
+                            $_storeFieldNameSql = $readAdapter->quoteIdentifier($field)
+                                . $readAdapter->quoteInto(' = ?',$masterStoreId);
                         } elseif ($field == 'scope_id') {
-                            $_fields[$id] = $stagingStoreId;
-                            $_storeFieldNameSql = "`scope` = 'stores' AND `{$field}` = {$masterStoreId}";
+                            $selectFields[$id] = $stagingStoreId;
+                            $_storeFieldNameSql = $readAdapter->quoteIdentifier('scope')
+                                . $readAdapter->quoteInto(' = ?','stores')
+                                . ' AND ' .  $readAdapter->quoteIdentifier($field)
+                                . $readAdapter->quoteInto(' = ?',$masterStoreId);
                         }
                     }
-                    $srcSelectSql  = $this->_getSimpleSelect($srcTable, $_fields, $_storeFieldNameSql);
-                    $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-                    $connection->query($destInsertSql);
+                    $srcSelectSql  = $this->_getSimpleSelect($srcTable, $selectFields, $_storeFieldNameSql);
+
+                    $sql = $readAdapter->insertFromSelect(
+                        $srcSelectSql,
+                        $targetTable,
+                        $fields,
+                        Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
+
+                    $writeAdapter->query($sql);
+
                 }
             }
         }
@@ -449,15 +478,17 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     protected function _backupItemData($srcTable, $targetTable)
     {
-        $this->_getWriteAdapter()->query("SET foreign_key_checks = 0;");
+        $readAdapter  = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
+
+        $writeAdapter->disableTableKeys($targetTable);
         try {
-            $destInsertSql = "INSERT INTO `{$targetTable}` (%s)";
             $srcSelectSql  = $this->_getSimpleSelect($srcTable, '*');
-            $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-            $this->_getWriteAdapter()->query($destInsertSql);
-            $this->_getWriteAdapter()->query("SET foreign_key_checks = 1;");
+            $sql = $readAdapter->insertFromSelect($srcSelectSql, $targetTable);
+            $writeAdapter->query($sql);
+            $writeAdapter->enableTableKeys($targetTable);
         } catch (Exception $e) {
-            $this->_getWriteAdapter()->query("SET foreign_key_checks = 1;");
+            $writeAdapter->enableTableKeys($targetTable);
             throw $e;
         }
         return $this;
@@ -507,12 +538,11 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
     protected function _mergeTableDataInWebsiteScope($entityName, $fields)
     {
         $staging        = $this->getStaging();
-        $connection     = $this->_getWriteAdapter();
         $mappedWebsites = $staging->getMapperInstance()->getWebsites();
         if (in_array('website_ids', $fields)) {
-            $this->_mergeTableDataInWebsiteScopeUpdate($mappedWebsites, $connection, $entityName);
+            $this->_mergeTableDataInWebsiteScopeUpdate($mappedWebsites, null, $entityName);
         } else {
-            $this->_mergeTableDataInWebsiteScopeInsert($mappedWebsites, $connection, $entityName, $fields);
+            $this->_mergeTableDataInWebsiteScopeInsert($mappedWebsites, null, $entityName, $fields);
         }
         return $this;
     }
@@ -521,16 +551,18 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      * Insert New data on merge
      *
      * @param array $mappedWebsites
-     * @param object $connection
+     * @param object|null $connection
      * @param string $entityName
      * @param array $fields
      * @return Enterprise_Staging_Model_Resource_Adapter_Item_Default
      */
     protected function _mergeTableDataInWebsiteScopeInsert($mappedWebsites, $connection, $entityName, $fields)
     {
-        $srcTable    = $this->getTable($entityName);
-        $targetTable = $this->_getStagingTableName($srcTable);
-        $updateField = end($fields);
+        $readAdapter  = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
+        $srcTable     = $this->getTable($entityName);
+        $targetTable  = $this->_getStagingTableName($srcTable);
+        $updateField  = end($fields);//!!! was in duplicate key update
 
         foreach ($mappedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
             if (empty($stagingWebsiteId) || empty($masterWebsiteIds)) {
@@ -545,23 +577,30 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 }
                 $masterWebsiteId = intval($masterWebsiteId);
 
-                $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$updateField}`=VALUES(`{$updateField}`)";
-
-                $_fields = $fields;
-                foreach ($_fields as $id => $field) {
+                $selectFields = $fields;
+                foreach ($selectFields as $id => $field) {
                     if ($field == 'website_id') {
-                        $_fields[$id] = $masterWebsiteId;
-                        $_websiteFieldNameSql = "{$field} = {$stagingWebsiteId}";
+                        $selectFields[$id] = $masterWebsiteId;
+                        $_websiteFieldNameSql = $readAdapter->quoteIdentifier($field)
+                            . $readAdapter->quoteInto(' = ?', $stagingWebsiteId);
                     } elseif ($field == 'scope_id') {
-                        $_fields[$id] = $masterWebsiteId;
-                        $_websiteFieldNameSql = "`scope` = 'websites' AND `{$field}` = {$stagingWebsiteId}";
+                        $selectFields[$id] = $masterWebsiteId;
+                        $_websiteFieldNameSql = $readAdapter->quoteIdentifier('scope')
+                            . $readAdapter->quoteInto(' = ?', 'websites')
+                            . ' AND '.$readAdapter->quoteIdentifier($field)
+                            . $readAdapter->quoteInto(' = ?', $stagingWebsiteId);
                     }
                 }
 
-                $srcSelectSql = $this->_getSimpleSelect($srcTable, $_fields, $_websiteFieldNameSql);
-                $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+                $srcSelectSql = $this->_getSimpleSelect($srcTable, $selectFields, $_websiteFieldNameSql);
 
-                $connection->query($destInsertSql);
+                $sql = $readAdapter->insertFromSelect(
+                    $srcSelectSql,
+                    $targetTable,
+                    $fields,
+                    Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
+
+                $writeAdapter->query($sql);
             }
         }
         return $this;
@@ -571,13 +610,15 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      * Update data on merge
      *
      * @param array $mappedWebsites
-     * @param object $connection
+     * @param object|null $connection
      * @param string $entityName
      * @return Enterprise_Staging_Model_Resource_Adapter_Item_Default
      */
     protected function _mergeTableDataInWebsiteScopeUpdate($mappedWebsites, $connection, $entityName)
     {
-        $targetTable = $this->_getStagingTableName($entityName);
+        $readAdapter  = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
+        $targetTable  = $this->_getStagingTableName($entityName);
 
         foreach ($mappedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
             if (empty($stagingWebsiteId) || empty($masterWebsiteIds)) {
@@ -591,10 +632,15 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 }
                 $masterWebsiteId = intval($masterWebsiteId);
 
-                $destInsertSql = "UPDATE `{$targetTable}` SET `website_ids` = IF(FIND_IN_SET({$masterWebsiteId},`website_ids`), `website_ids`, CONCAT(`website_ids`,',{$masterWebsiteId}'))
-                    WHERE FIND_IN_SET({$stagingWebsiteId},`website_ids`)";
+                $stagingCond = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$stagingWebsiteId));
+                $masterCond  = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$masterWebsiteId));
+                $concatVal   = $readAdapter->getConcatSql('website_ids', ','.$masterWebsiteId);
 
-                $connection->query($destInsertSql);
+                $writeAdapter->update(
+                    $targetTable,
+                    array('website_ids = ?' => $concatVal),
+                    array($stagingCond, ' NOT '. $masterCond)
+                );
             }
         }
         return $this;
@@ -609,9 +655,10 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     protected function _mergeTableDataInStoreScope($entityName, $fields)
     {
-        $staging    = $this->getStaging();
-        $connection = $this->_getWriteAdapter();
-        $storesMap  = $staging->getMapperInstance()->getStores();
+        $staging      = $this->getStaging();
+        $readAdapter  = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
+        $storesMap    = $staging->getMapperInstance()->getStores();
 
         if (!empty($storesMap)) {
             $srcTable    = $this->getTable($entityName);
@@ -625,21 +672,28 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
                     $this->_beforeStoreMerge($entityName, $fields, $masterStoreId, $stagingStoreId);
 
-                    $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$updateField}`=VALUES(`{$updateField}`)";
-                    $_storeFieldNameSql = 'store_id';
-                    $_fields = $fields;
+                    $_storeFieldNameSql = $readAdapter->quoteInto('store_id = ?', $stagingStoreId);
+                    $selectFields = $fields;
                     foreach ($fields as $id => $field) {
                         if ($field == 'store_id') {
-                            $_fields[$id] = $masterStoreId;
+                            $selectFields[$id] = $masterStoreId;
                         } elseif ($field == 'scope_id') {
-                            $_fields[$id] = $masterStoreId;
-                            $_storeFieldNameSql = "`scope` = 'stores' AND `{$field}`";
+                            $selectFields[$id] = $masterStoreId;
+                            $_storeFieldNameSql = $readAdapter->quoteIdentifier('scope')
+                            . $readAdapter->quoteInto(' = ?', 'stores')
+                            . ' AND '.$readAdapter->quoteIdentifier($field)
+                            . $readAdapter->quoteInto(' = ?', $stagingStoreId);
                         }
                     }
-                    $srcSelectSql = $this->_getSimpleSelect($srcTable, $_fields, "{$_storeFieldNameSql} = {$stagingStoreId}");
-                    $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+                    $srcSelectSql = $this->_getSimpleSelect($srcTable, $selectFields, $_storeFieldNameSql);
 
-                    $connection->query($destInsertSql);
+                    $sql = $readAdapter->insertFromSelect(
+                        $srcSelectSql,
+                        $targetTable,
+                        $fields,
+                        Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
+
+                    $writeAdapter->query($sql);
 
                     $this->_afterStoreMerge($entityName, $fields, $masterStoreId, $stagingStoreId);
                 }
@@ -725,23 +779,31 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $mergedWebsites = $staging->getMapperInstance()->getWebsites();
 
         if (!empty($mergedWebsites)) {
-            $srcTable    = $this->getTable($srcTable);
-            $targetTable = $this->getTable($targetTable);
-            $updateField = end($fields);
+            $srcTable     = $this->getTable($srcTable);
+            $targetTable  = $this->getTable($targetTable);
+            $updateField  = end($fields);
+            $readAdapter  = $this->getReadAdapter();
+            $writeAdapter = $this->getWriteAdapter();
             foreach ($mergedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
                 if (!empty($masterWebsiteIds)) {
                     $_websiteFieldNameSql = 'website_id';
                     if (in_array('website_id', $fields)) {
-                        $_websiteFieldNameSql = " `{$srcTable}`.`website_id` IN (" . implode(", ", $masterWebsiteIds). ")";
+                        $_websiteFieldNameSql = $readAdapter->quoteInto('website_id in (?)', $masterWebsiteIds);
                     } elseif (in_array('scope_id', $fields)) {
-                        $_websiteFieldNameSql = "`{$srcTable}`.`scope` = 'websites' AND `{$srcTable}`.`scope_id` IN (" . implode(", ", $masterWebsiteIds). ")";
+                        $_websiteFieldNameSql = $readAdapter->quoteIdentifier($srcTable.'.scope')
+                            . $readAdapter->quoteInto(' = ?', 'websites')
+                            . ' AND ' . $readAdapter->quoteIdentifier($srcTable.'.scope_id')
+                            . $readAdapter->quoteInto(' IN (?)', $masterWebsiteIds);
                     } elseif (in_array('website_ids', $fields)) {
                         $whereFields = array();
                         foreach ($masterWebsiteIds AS $webId) {
-                            $whereFields[] = "FIND_IN_SET($webId, `{$srcTable}`.`website_ids`)";
+                            $whereFields[] = $readAdapter->prepareSqlCondition(
+                                $srcTable .'.website_ids',
+                                array('finset'=>$webId));
                         }
                         $_websiteFieldNameSql = implode(" OR " , $whereFields);
                     }
+                    //!!!
                     // FIXME need to investigate next code ASAP !
                     $tableDestDesc = $this->getTableProperties($targetTable);
                     if (!$tableDestDesc) {
@@ -749,25 +811,32 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     }
                     //1 - need remove all resords from web_site tables, which added via marging
                     if (!empty($tableDestDesc['keys'])) {
-                        if (!empty($tableDestDesc['keys']['PRIMARY']) && !empty($tableDestDesc['keys']['PRIMARY']['fields'])) {
+                        if (!empty($tableDestDesc['keys']['PRIMARY'])
+                            && !empty($tableDestDesc['keys']['PRIMARY']['fields'])
+                        ) {
                             $primaryFields = $tableDestDesc['keys']['PRIMARY']['fields'];
                         } else {
                             $primaryFields = array();
                         }
-                        $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'website',$srcTable, $targetTable, $stagingWebsiteId, $masterWebsiteIds, $tableDestDesc['keys']);
+                        $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'website',$srcTable, $targetTable,
+                            $stagingWebsiteId, $masterWebsiteIds, $tableDestDesc['keys']);
                         if (!empty($destDeleteSql)) {
-                            $connection->query($destDeleteSql);
+                            $writeAdapter->query($destDeleteSql);
                         }
 
                         $additionalWhereCondition = $_websiteFieldNameSql;
-                        if (in_array('website_id', $primaryFields) || in_array('scope_id', $primaryFields) || in_array('website_ids', $primaryFields)) {
+                        if (in_array('website_id', $primaryFields) || in_array('scope_id', $primaryFields)
+                            || in_array('website_ids', $primaryFields)
+                        ) {
                             $additionalWhereCondition = "";
                         }
-                        $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'website', $srcTable, $targetTable, $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys'], $additionalWhereCondition);
+                        $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'website', $srcTable, $targetTable,
+                            $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys'], $additionalWhereCondition);
                         //if ($destDeleteSql) {
-                            //$connection->query($destDeleteSql);
+                            //$writeAdapter->query($destDeleteSql);
                         //}
                     }
+
 
                     //2 - copy old data from bk_ tables
                     $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$updateField}`=VALUES(`{$updateField}`)";
@@ -775,7 +844,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $srcSelectSql = $this->_getSimpleSelect($srcTable, $fields, $_websiteFieldNameSql);
                     $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
-                    $connection->query($destInsertSql);
+                    $writeAdapter->query($destInsertSql);
                 }
             }
         }

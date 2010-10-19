@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Staging group resource adapter
  *
  * @category    Enterprise
  * @package     Enterprise_Staging
@@ -35,7 +35,7 @@
 class Enterprise_Staging_Model_Resource_Adapter_Group extends Enterprise_Staging_Model_Resource_Adapter_Abstract
 {
     /**
-     * Enter description here...
+     * Create run
      *
      * @param Enterprise_Staging_Model_Staging $staging
      * @param Enterprise_Staging_Model_Staging_Event $event
