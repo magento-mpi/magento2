@@ -53,17 +53,4 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
         return $select;
     }
 
-    /**
-     * Fetch existed table names from like condition
-     *
-     * @param  string $tableLikeExpr
-     * @return mixed Array, object, or scalar depending on fetch mode
-     */
-    public function getExistedTables($tableLikeExpr)
-    {
-        $connection = $this->_getReadAdapter();
-        $sql        = $connection->quoteInto('SELECT table_name FROM tabs where table_name LIKE ?', $tableLikeExpr);
-        $stmt       = $connection->query($sql);
-        return $stmt->fetch();
-    }
 }

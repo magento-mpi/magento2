@@ -41,7 +41,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     const REPLACE_DIRECTION_TO      = true;
 
     /**
-     * Replace direction for mapping table name 
+     * Replace direction for mapping table name
      */
     const REPLACE_DIRECTION_FROM    = false;
 
@@ -579,11 +579,8 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      */
     public function getTableProperties($entityName, $strongRestrict = false)
     {
-        if (strpos($entityName, '/') !== false) {
-            $table = $this->getTable($entityName);
-        } else {
-            $table = $entityName;
-        }
+        $table = $this->getTable($entityName);
+        $adapter = $this->_getWriteAdapter();
 
         if (!$this->tableExists($table)) {
             if ($strongRestrict) {
@@ -592,89 +589,12 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
             return false;
         }
 
-        $prefix = '';
-
         $tableProp = array(
             'table_name'  => $table,
-            'fields'      => array(),
-            'keys'        => array(),
-            'constraints' => array(),
-            'engine'      => 'MYISAM',
-            'charset'     => 'utf8',
-            'collate'     => null,
-            'create_sql'  => null
+            'fields'      => $adapter->describeTable($table),
+            'indexes'     => $adapter->getIndexList($table),
+            'foreign_keys' => $adapter->getForeignKeys($table),
         );
-
-        // collect fields
-        $sql = "SHOW FULL COLUMNS FROM `{$table}`";
-        $result = $this->_getReadAdapter()->fetchAll($sql);
-
-        foreach($result as $row) {
-            $tableProp['fields'][$row["Field"]] = array(
-                'name'      => $row["Field"],
-                'type'      => $row["Type"],
-                'collation' => $row["Collation"],
-                'is_null'   => strtoupper($row["Null"]) == 'YES' ? true : false,
-                'key'       => $row["Key"],
-                'default'   => $row["Default"],
-                'extra'     => $row["Extra"],
-                'privileges'=> $row["Privileges"]
-            );
-        }
-
-        // create sql
-        $sql = "SHOW CREATE TABLE `{$table}`";
-        $result = $this->_getReadAdapter()->fetchRow($sql);
-
-        $tableProp['create_sql'] = $result["Create Table"];
-
-        // collect keys
-        foreach ($this->_getWriteAdapter()->getIndexList($table) as $keyName => $key) {
-            $tableProp['keys'][$keyName] = array(
-                'type'   => $key['INDEX_TYPE'],
-                'name'   => $keyName,
-                'fields' => $key['fields']
-            );
-        }
-
-        // collect CONSTRAINT
-        $regExp  = '#,\s+CONSTRAINT `([^`]*)` FOREIGN KEY \(`([^`]*)`\) '
-            . 'REFERENCES (`[^`]*\.)?`([^`]*)` \(`([^`]*)`\)'
-            . '( ON DELETE (RESTRICT|CASCADE|SET NULL|NO ACTION))?'
-            . '( ON UPDATE (RESTRICT|CASCADE|SET NULL|NO ACTION))?#';
-        $matches = array();
-        preg_match_all($regExp, $tableProp['create_sql'], $matches, PREG_SET_ORDER);
-        foreach ($matches as $match) {
-            $tableProp['constraints'][strtoupper($match[1])] = array(
-                'fk_name'   => strtoupper($match[1]),
-                'ref_db'    => isset($match[3]) ? $match[3] : null,
-                'pri_table' => $table,
-                'pri_field' => $match[2],
-                'ref_table' => substr($match[4], strlen($prefix)),
-                'ref_field' => $match[5],
-                'on_delete' => isset($match[6]) ? $match[7] : '',
-                'on_update' => isset($match[8]) ? $match[9] : ''
-            );
-        }
-
-        // engine
-        $regExp = "#(ENGINE|TYPE)="
-            . "(MEMORY|HEAP|INNODB|MYISAM|ISAM|BLACKHOLE|BDB|BERKELEYDB|MRG_MYISAM|ARCHIVE|CSV|EXAMPLE)"
-            . "#i";
-        $match  = array();
-        if (preg_match($regExp, $tableProp['create_sql'], $match)) {
-            $tableProp['engine'] = strtoupper($match[2]);
-        }
-
-        //charset
-        $regExp = "#DEFAULT CHARSET=([a-z0-9]+)( COLLATE=([a-z0-9_]+))?#i";
-        $match  = array();
-        if (preg_match($regExp, $tableProp['create_sql'], $match)) {
-            $tableProp['charset'] = strtolower($match[1]);
-            if (isset($match[3])) {
-                $tableProp['collate'] = $match[3];
-            }
-        }
 
         return $tableProp;
     }
@@ -687,14 +607,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      */
     public function tableExists($table)
     {
-        $connection = $this->_getReadAdapter();
-        $sql        = $connection->quoteInto("SHOW TABLES LIKE ?", $table);
-        $stmt       = $connection->query($sql);
-        if (!$stmt->fetch()) {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->_getWriteAdapter()->isTableExists($table);
     }
 
     /**
@@ -707,20 +620,18 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      */
     protected function _getSimpleSelect($entityName, $fields, $where = null)
     {
-        if (is_array($fields)) {
-            $fields = $this->_prepareFields($fields);
-        }
-
+        $select = $this->_getWriteAdapter()->select()->from($this->getTable($entityName), $fields);
         if (isset($where)) {
-            $where = " WHERE " . $where;
+            $select->where($where);
         }
 
-        return "SELECT $fields FROM `".$this->getTable($entityName)."` $where";
+        return $select;
     }
 
     /**
      * Add sql quotes to fields and return imploded string
      *
+     * @deprecered since 1.10.0.0
      * @param array $fields
      * @return string
      */
@@ -748,12 +659,15 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      * @param mixed $masterIds
      * @param mixed $slaveIds
      * @param mixed $keys
-     * @param string $addidtionalWhereCondition
+     * @param string $additionalWhereCondition
      * @return value
      */
-    protected function _deleteDataByKeys($type, $scope, $srcTable, $targetTable, $masterIds, $slaveIds, $keys, 
-        $addidtionalWhereCondition = null)
+    protected function _deleteDataByKeys($type, $scope, $srcTable, $targetTable, $masterIds, $slaveIds, $keys,
+        $additionalWhereCondition = null)
     {
+        $adapter = $this->_getWriteAdapter();
+        $select = $adapter->select();
+        $select->from(array('TGT' => $targetTable), array());
         if (is_array($masterIds)) {
             $masterWhere = " IN (" . implode(", ", $masterIds). ") ";
         } else {
@@ -782,10 +696,18 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                 }
 
                 $sql = "DELETE T1.* FROM `{$targetTable}` as T1, `{$srcTable}` as T2 WHERE " . implode(" AND ", $_websiteFieldNameSql);
-                if (!empty($addidtionalWhereCondition)) {
-                    $addidtionalWhereCondition = str_replace(array($srcTable, $targetTable), array("T2", "T1") , $addidtionalWhereCondition);
-                    $sql .= " AND " . $addidtionalWhereCondition;
+
+                $select->join(
+                    arraY('SRCT' => $srcTable),
+                    implode(" AND ", $_websiteFieldNameSql),
+                    array()
+                );
+
+                if (!empty($additionalWhereCondition)) {
+                    $additionalWhereCondition = str_replace(array($srcTable, $targetTable), array("T2", "T1") , $additionalWhereCondition);
+                    $sql .= " AND " . $additionalWhereCondition;
                 }
+                $adapter->deleteFromSelect($select, $targetTable);
                 return $sql;
             }
         }

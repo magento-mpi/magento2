@@ -50,23 +50,30 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Config
             $_where[] = $where;
         }
 
+        $adapter = $this->_getReadAdapter();
+
         if ($this->getEvent()->getCode() !== 'rollback') {
             $itemXmlConfig = $this->getConfig();
             if ($itemXmlConfig->ignore_nodes) {
                 foreach ($itemXmlConfig->ignore_nodes->children() as $node) {
                     $path = (string) $node->path;
-                    $_where[] = "path NOT LIKE '%{$path}%'";
+                    $_where[] = $adapter->quoteIdentifier('path') .' NOT LIKE ' . $adapter->quote('%' . $path . '%');
                 }
             }
         }
+        /*
         if (is_array($fields)) {
             $fields = $this->_prepareFields($fields);
         }
+        */
+
+        $select = $adapter->select();
+        $select->from($table, $fields);
         if (!empty($_where)) {
             $_where = implode(' AND ', $_where);
-            $_where = " WHERE " . $_where;
+            $select->where($_where);
         }
 
-        return "SELECT $fields FROM `{$table}` $_where";
+        return $select;
     }
 }
