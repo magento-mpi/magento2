@@ -2372,13 +2372,16 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param array $casesResults Cases and results
      * @param string $defaultValue value to use if value doesnt conforme to any cases
      */
-    public function getCaseSql($valueName, $casesResults, $defaultValue)
+    public function getCaseSql($valueName, $casesResults, $defaultValue = null)
     {
         $expression = "CASE {$valueName}";
         foreach ($casesResults as $case => $result) {
             $expression .= " WHEN {$case} THEN {$result}";
         }
-        $expression .= " ELSE {$defaultValue} END";
+        if (!is_null($defaultValue)) {
+            $expression .= ' ELSE ' . $defaultValue;
+        }
+        $expression .= ' END';
         return new Zend_Db_Expr($expression);
     }
 

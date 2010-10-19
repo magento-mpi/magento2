@@ -2196,13 +2196,16 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param array $casesResults Cases and results
      * @param string $defaultValue value to use if value doesnt conforme to any cases
      */
-    public function getCaseSql($valueName, $casesResults, $defaultValue)
+    public function getCaseSql($valueName, $casesResults, $defaultValue = null)
     {
         $expression = "CASE {$valueName}";
         foreach ($casesResults as $case => $result) {
             $expression .= " WHEN {$case} THEN {$result}";
         }
-        $expression .= " ELSE {$defaultValue} END";
+        if (!is_null($defaultValue)) {
+            $expression .= ' ELSE ' . $defaultValue;
+        }
+        $expression .= ' END';
         return new Zend_Db_Expr($expression);
     }
 
