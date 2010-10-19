@@ -2839,7 +2839,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         foreach ($casesResults as $case => $result) {
             $expression .= " WHEN {$case} THEN {$result}";
         }
-        $expression .= " ELSE {$defaultValue} END";
+        if (!is_null($defaultValue)) {
+            $expression .= ' ELSE ' . $defaultValue;
+        }
+        $expression .= ' END';
         return new Zend_Db_Expr($expression);
     }
 
