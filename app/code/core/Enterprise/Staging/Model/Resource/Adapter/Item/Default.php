@@ -192,7 +192,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $fields = $srcTableDesc['fields'];
         foreach ($fields as $id => $field) {
             if ((strpos($entityName, 'product_website') === false)) {
-                if ($field['extra'] == 'auto_increment') {
+                if ($field['IDENTITY']) {
                     unset($fields[$id]);
                 }
             }
@@ -341,11 +341,11 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
             $_websiteFieldNameSql = 'website_id';
             foreach ($selectFields as $id => $field) {
                 if ($field == 'website_id') {
-                    $selectFields[$id] = $stagingWebsiteId;
+                    $selectFields[$id] = new Zend_Db_Expr($stagingWebsiteId);
                     $_websiteFieldNameSql = $readAdapter->quoteIdentifier($field)
                         . $readAdapter->quoteInto(' = ?', $masterWebsiteId);
                 } elseif ($field == 'scope_id') {
-                    $selectFields[$id] = $stagingWebsiteId;
+                    $selectFields[$id] = new Zend_Db_Expr($stagingWebsiteId);
                     $_websiteFieldNameSql = $readAdapter->quoteIdentifier('scope')
                         . $readAdapter->quoteInto(' = ?', 'websites')
                         . ' AND '.$readAdapter->quoteIdentifier($field)
@@ -403,11 +403,11 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $selectFields = $fields;
                     foreach ($selectFields as $id => $field) {
                         if ($field == 'store_id') {
-                            $selectFields[$id] = $stagingStoreId;
+                            $selectFields[$id] = new Zend_Db_Select($stagingStoreId);
                             $_storeFieldNameSql = $readAdapter->quoteIdentifier($field)
                                 . $readAdapter->quoteInto(' = ?',$masterStoreId);
                         } elseif ($field == 'scope_id') {
-                            $selectFields[$id] = $stagingStoreId;
+                            $selectFields[$id] = new Zend_Db_Select($stagingStoreId);
                             $_storeFieldNameSql = $readAdapter->quoteIdentifier('scope')
                                 . $readAdapter->quoteInto(' = ?','stores')
                                 . ' AND ' .  $readAdapter->quoteIdentifier($field)
