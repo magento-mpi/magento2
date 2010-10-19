@@ -509,11 +509,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 if (empty($options['LENGTH'])) {
                     $options['LENGTH'] = Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
                 }
-                if ($options['LENGTH'] <= 1024) {
-                    $cType = $ddlType == Varien_Db_Ddl_Table::TYPE_TEXT ? 'varchar' : 'varbinary';
-                    $cType = sprintf('%s(%d)', $cType, $options['LENGTH']);
+                if ($options['LENGTH'] <= 8000) {
+                    $ddlType = 'varchar';
+                    $cType = sprintf('%s(%d)', $ddlType, $options['LENGTH']);
                 } else {
-                    $cType = $ddlType == Varien_Db_Ddl_Table::TYPE_TEXT ? 'text' : 'image';
+                    $cType = $ddlType = 'text';
                 }
                 break;
         }
