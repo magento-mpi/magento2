@@ -155,7 +155,14 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
 
         } else {
             for ($i = 1; $i <= $ncols; $i++) {
-                $columns_datatype[$i - 1] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
+                if (oci_field_type($this->_stmt, $i) == 'NUMBER'
+                        && oci_field_scale($this->_stmt, $i) == '-127'
+                        && oci_field_precision($this->_stmt, $i) == '126') {
+                    $columns_datatype[$i - 1] = 'FLOAT';
+
+                } else {
+                    $columns_datatype[$i - 1] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
+                }
             }
         }
 
@@ -290,7 +297,14 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
                
         } else {
             for ($i = 1; $i <= $ncols; $i++) {
-                $columns_datatype[$i - 1] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
+                if (oci_field_type($this->_stmt, $i) == 'NUMBER'
+                        && oci_field_scale($this->_stmt, $i) == '-127'
+                        && oci_field_precision($this->_stmt, $i) == '126') {
+                    $columns_datatype[$i - 1] = 'FLOAT';
+
+                } else {
+                    $columns_datatype[$i - 1] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
+                }
             }
         }
 
