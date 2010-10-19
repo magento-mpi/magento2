@@ -74,7 +74,7 @@ $table = $installer->getConnection()
     ->addColumn('discount_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, array(12,4), array(
         'nullable'  => false,
         ), 'Discount Amount')
-    ->addColumn('website_ids', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('website_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 4000, array(
         ), 'Website Ids')
     ->addIndex($installer->getIdxName('catalogrule/rule', array('is_active', 'sort_order', 'to_date', 'from_date')),
         array('is_active', 'sort_order', 'to_date', 'from_date'))

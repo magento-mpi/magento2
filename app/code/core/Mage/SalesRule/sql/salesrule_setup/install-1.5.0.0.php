@@ -108,7 +108,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Rss')
-    ->addColumn('website_ids', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+    ->addColumn('website_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 4000, array(
         ), 'Website Ids')
     ->addColumn('coupon_type', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
