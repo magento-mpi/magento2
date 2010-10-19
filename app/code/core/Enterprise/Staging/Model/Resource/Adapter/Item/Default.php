@@ -329,7 +329,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         if (in_array('website_ids', $fields)) {
             $stagingCond = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$stagingWebsiteId));
             $masterCond  = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$masterWebsiteId));
-            $concatVal   = $readAdapter->getConcatSql('website_ids', ','.$stagingWebsiteId);
+            $concatVal   = $readAdapter->getConcatSql(array('website_ids', $readAdapter->quote(','.$stagingWebsiteId)));
 
             $writeAdapter->update(
                 $targetTable,
@@ -351,7 +351,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                         . ' AND '.$readAdapter->quoteIdentifier($field)
                         . $readAdapter->quoteInto(' = ?', $masterWebsiteId);
                 } elseif ($field == 'website_ids') {
-                    $selectFields[$id]    = $readAdapter->getConcatSql('website_ids', ','.$stagingWebsiteId);
+                    $selectFields[$id]    = $concatVal;
                     $_websiteFieldNameSql = $readAdapter->prepareSqlCondition(
                         'website_ids',
                         array('finset'=>$masterWebsiteId));
@@ -634,7 +634,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
                 $stagingCond = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$stagingWebsiteId));
                 $masterCond  = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$masterWebsiteId));
-                $concatVal   = $readAdapter->getConcatSql('website_ids', ','.$masterWebsiteId);
+                $concatVal   = $readAdapter->getConcatSql('website_ids', $readAdapter->quote(','.$masterWebsiteId));
 
                 $writeAdapter->update(
                     $targetTable,
