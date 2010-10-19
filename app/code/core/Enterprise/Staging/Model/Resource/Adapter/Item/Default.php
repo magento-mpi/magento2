@@ -414,7 +414,6 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                         }
                     }
                     $srcSelectSql  = $this->_getSimpleSelect($srcTable, $selectFields, $_storeFieldNameSql);
-                    echo "<br><pre>".$srcSelectSql."</pre>";
                     $sql = $readAdapter->insertFromSelect(
                         $srcSelectSql,
                         $targetTable,
@@ -1076,9 +1075,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 if ($this->_isBackendProcessing) {
                     $this->{$callbackMethod}($entityName);
                 }
-                $srcTable = $this->getTable($entityName);
                 foreach ($this->_eavTableTypes as $type) {
-                    $_srcTable = $srcTable . '_' . $type;
+                    $_srcTable = $this->getTable(array($entityName, $type));
                     $this->{$callbackMethod}($_srcTable);
                 }
                 continue;

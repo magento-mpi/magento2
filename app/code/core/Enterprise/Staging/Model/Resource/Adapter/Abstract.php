@@ -720,7 +720,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      */
     public function getTable($entityName)
     {
-        if (strpos($entityName, '/') !== false) {
+        if (is_array($entityName) || strpos($entityName, '/') !== false) {
             $table = parent::getTable($entityName);
         } else {
             $table = $entityName;
