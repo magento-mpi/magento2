@@ -403,11 +403,11 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $selectFields = $fields;
                     foreach ($selectFields as $id => $field) {
                         if ($field == 'store_id') {
-                            $selectFields[$id] = new Zend_Db_Select($stagingStoreId);
+                            $selectFields[$id] = new Zend_Db_Expr($stagingStoreId);
                             $_storeFieldNameSql = $readAdapter->quoteIdentifier($field)
                                 . $readAdapter->quoteInto(' = ?',$masterStoreId);
                         } elseif ($field == 'scope_id') {
-                            $selectFields[$id] = new Zend_Db_Select($stagingStoreId);
+                            $selectFields[$id] = new Zend_Db_Expr($stagingStoreId);
                             $_storeFieldNameSql = $readAdapter->quoteIdentifier('scope')
                                 . $readAdapter->quoteInto(' = ?','stores')
                                 . ' AND ' .  $readAdapter->quoteIdentifier($field)
