@@ -53,4 +53,46 @@ class Enterprise_Staging_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
         return $select;
     }
 
+    /**
+     * Returns Ddl Column info from native Db format
+     * @param  $field
+     * @return array
+     */
+    public function getDdlInfoByDescription($field)
+    {
+        var_dump($field);
+        $columnName = $field['COLUMN_NAME'];
+        $ddlOptions = array();
+        $ddlSize = null;
+        switch ($field['DATA_TYPE']) {
+            case 'int':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_INTEGER;
+                break;
+            case 'boolean':
+
+                break;
+            default:
+                echo "PROBLEM:";
+                var_dump($field);
+                exit;
+                break;
+        }
+
+        
+        if ($field['UNSIGNED']) {
+            $ddlOptions['unsigned'] = true;
+        }
+        if ($field['NULLABLE']) {
+            $ddlOptions['nullable'] = true;
+        }
+        if ($field['IDENTITY']) {
+            $ddlOptions['identity'] = true;
+        }
+        if ($field['PRIMARY']) {
+            $ddlOptions['primary'] = true;
+        }
+
+        return array($columnName, $ddlType, $ddlSize, $ddlOptions);
+    }
+
 }

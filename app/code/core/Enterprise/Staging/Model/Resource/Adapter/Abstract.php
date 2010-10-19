@@ -314,10 +314,10 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         }
         $srcTableDesc['table_name'] = $this->getTable($tableName);
         $srcTableDesc['src_table_name'] = $this->getTable($srcTableName);
-        $sql = $this->_getCreateSql($srcTableDesc, $isFlat);
+        $newTable = $this->_getCreateDdl($srcTableDesc, $isFlat);
 
         try {
-            $this->_getWriteAdapter()->query($sql);
+            $this->_getWriteAdapter()->createTable($newTable);
         } catch (Exception $e) {
             $message = Mage::helper('enterprise_staging')->__('An exception occurred while performing an SQL query: %s. Query: %s', $e->getMessage(), $sql);
             throw new Enterprise_Staging_Exception($message);
@@ -383,56 +383,54 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                         $srcTableDesc['constraints'][$constraint]['fk_name'] = $prefix . $data['fk_name'];
                     }
                 }
-                $sql = $this->_getCreateSql($srcTableDesc);
-                $this->_getWriteAdapter()->query($sql);
+                $newTable = $this->_getCreateDdl($srcTableDesc);
+                $this->_getWriteAdapter()->createTable($newTable);
             }
         }
         return $this;
     }
 
     /**
-     * Get create table sql
+     * Get create table Ddl
      *
      * @param mixed $tableDescription
      * @param bool $isFlat
      * @return string
      */
-    protected function _getCreateSql($tableDescription, $isFlat = false)
+    protected function _getCreateDdl($tableDescription, $isFlat = false)
     {
-        $_sql = "CREATE TABLE IF NOT EXISTS `{$tableDescription['table_name']}`\n";
+        $adapter = $this->_getWriteAdapter();
+        $newTable = $adapter->newTable($adapter->getTableName($tableDescription['table_name']));
 
-        $rows = array();
         if (!empty($tableDescription['fields'])) {
             foreach ($tableDescription['fields'] as $field) {
-                $rows[] = $this->_getFieldSql($field);
+                list($columnName, $ddlType, $ddlSize, $ddlOptions, $comment) =
+                    Mage::getResourceHelper('enterprise_staging')->getDdlInfoByDescription($field);
+                $newTable->addColumn($columnName, $ddlType, $ddlSize, $ddlOptions, $comment);
             }
         }
-
-        foreach ($tableDescription['keys'] as $key) {
-            $rows[] = $this->_getKeySql($key);
+        /*
+        foreach ($tableDescription['indexes'] as $index) {
+            var_dump($index);
+            $newTable->addIndex(
+                $adapter->getIndexName($tableDescription['table_name'], $index['fields']),
+                $index['fields'],
+                array('type' => $index['type'])
+            );
         }
-        foreach ($tableDescription['constraints'] as $key) {
-            if ($isFlat) {
-                $rows[] = $this->_getFlatConstraintSql($key, $tableDescription);
-            }
-            else {
-                $rows[] = $this->_getConstraintSql($key);
-            }
+        /*
+        foreach ($tableDescription['foreign_keys'] as $foreignKey) {
+            $newTable->addForeignKey(
+                $adapter->getForeignKeyName(
+                    $tableDescription['table_name'], $foreignKey['COLUMN_NAME'],
+                    $foreignKey['REF_TABLE_NAME'], $foreignKey['REF_COLUMN_NAME']
+                ),
+                $foreignKey['COLUMN_NAME'], $foreignKey['REF_TABLE_NAME'], $foreignKey['REF_COLUMN_NAME'],
+                $foreignKey['ON_DELETE'], $foreignKey['ON_UPDATE']
+            );
         }
-        $rows = implode(",\n", $rows);
-        $_sql .= " ({$rows})";
-
-        if (!empty($tableDescription['engine'])) {
-            $_sql .= " ENGINE={$tableDescription['engine']}";
-        }
-        if (!empty($tableDescription['charset'])) {
-            $_sql .= " DEFAULT CHARSET={$tableDescription['charset']}";
-        }
-        if (!empty($tableDescription['collate'])) {
-            $_sql .= " COLLATE={$tableDescription['collate']}";
-        }
-
-        return $_sql;
+        */
+        return $newTable;
     }
 
     /**

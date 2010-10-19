@@ -53,4 +53,50 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
         return $select;
     }
 
+    /**
+     * Returns Ddl Column info from native Db format
+     * @param  $field
+     * @return array
+     */
+    public function getDdlInfoByDescription($field)
+    {
+        $columnName = $field['COLUMN_NAME'];
+        $ddlOptions = array();
+        $ddlSize = null;
+        switch ($field['DATA_TYPE']) {
+            case 'int':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_INTEGER;
+                break;
+            case 'bigint':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_BIGINT;
+                break;
+            case 'boolean':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_BOOLEAN;
+                break;
+            case 'varchar':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $ddlSize = $field['LENGTH'];
+                break;
+            default:
+                echo "PROBLEM TYPE: " . $field['DATA_TYPE'];
+                var_dump($field);
+                exit;
+                break;
+        }
+
+        if ($field['UNSIGNED']) {
+            $ddlOptions['unsigned'] = true;
+        }
+        if (!$field['NULLABLE']) {
+            $ddlOptions['nullable'] = false;
+        }
+        if ($field['IDENTITY']) {
+            $ddlOptions['identity'] = true;
+        }
+        if ($field['PRIMARY']) {
+            $ddlOptions['primary'] = true;
+        }
+
+        return array($columnName, $ddlType, $ddlSize, $ddlOptions, $field['COLUMN_NAME']);
+    }
 }
