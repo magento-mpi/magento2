@@ -435,4 +435,46 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         
         return $preparedColumns;
     }
+
+    /**
+     * Add prepared column group_concat expression
+     *
+     * @param string $fieldAlias Field alias which will be added with column group_concat expression
+     * @param string $fieldExpr
+     * @param string $delimiter
+     * @param  Varien_Db_Select $select
+     * @return Varien_Db_Select
+     */
+    public function addGroupConcatColumn($fieldAlias, $fieldExpr, $delimiter = ',', $select = null)
+    {
+        $groupConcatSelect = clone $select;
+        $groupConcatSelect->reset();
+
+        $tables = $select->getPart(Zend_Db_Select::FROM);
+        $tableAliases = array_keys($tables);
+        $tableAlias = array_shift($tableAliases);
+
+        $table  = array_shift($tables);
+
+        $groupParts = $select->getPart(Zend_Db_Select::GROUP);
+
+
+        $fieldExpr = sprintf("cast('%s' as varchar(max)) + %s", $delimiter ? $delimiter : ',', $fieldExpr);
+        $tableAliasGroup = 'gc_' . md5($table['tableName']);
+        $groupConcatSelect->from(array($tableAliasGroup => $table['tableName']), new Zend_Db_Expr($fieldExpr));
+
+        $where = array();
+        foreach ($groupParts as $fieldName) {
+            $where[] = sprintf('%s.%s = %s.%s', $tableAliasGroup, $fieldName, $tableAlias, $fieldName);
+        }
+
+        if (!empty($where)) {
+            $groupConcatSelect->where(implode(' AND ', $where));
+        }
+
+
+        $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf("stuff((%s for xml path('')), 1, 1, '')", $groupConcatSelect))));
+
+        return $select;
+    }
 }

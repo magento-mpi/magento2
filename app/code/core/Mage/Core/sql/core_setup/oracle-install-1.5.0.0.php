@@ -217,6 +217,105 @@ $installer->getConnection()->query("
       return java.lang.int';
 ");
 
+/**
+ * Create GROUP_CONCAT function
+ */
+
+$installer->getConnection()->query("
+CREATE OR REPLACE TYPE typ_group_concat_expr AS OBJECT (
+  string_value VARCHAR2 (4000),
+  separator VARCHAR2 (4000)
+);
+");
+
+$installer->getConnection()->query("
+CREATE OR REPLACE TYPE typ_group_concat IS OBJECT (
+  string_value VARCHAR2 (4000),
+  separator VARCHAR2 (4000),
+
+    STATIC FUNCTION ODCIAggregateInitialize (
+      sctx IN OUT typ_group_concat)
+      RETURN NUMBER,
+
+    MEMBER FUNCTION ODCIAggregateIterate (
+      SELF IN OUT typ_group_concat,
+      ctx IN typ_group_concat_expr)
+      RETURN NUMBER,
+
+    MEMBER FUNCTION ODCIAggregateTerminate (
+      SELF IN typ_group_concat,
+      return_value OUT VARCHAR2,
+      flags IN NUMBER)
+      RETURN NUMBER,
+
+    MEMBER FUNCTION ODCIAggregateMerge (
+      SELF IN OUT typ_group_concat,
+      ctx2 typ_group_concat)
+      RETURN NUMBER
+);
+");
+
+$installer->getConnection()->query("
+CREATE OR REPLACE TYPE BODY typ_group_concat
+AS
+  STATIC FUNCTION ODCIAggregateInitialize (
+    sctx IN OUT typ_group_concat)
+    RETURN NUMBER
+  IS
+    BEGIN
+      sctx := typ_group_concat (NULL, NULL);
+      RETURN ODCIConst.Success;
+  END;
+
+  MEMBER FUNCTION ODCIAggregateIterate (
+    SELF IN OUT typ_group_concat,
+    ctx IN typ_group_concat_expr)
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF SELF.string_value IS NOT NULL THEN
+      SELF.string_value := SELF.string_value || ctx.separator;
+    END IF;
+    SELF.string_value := SELF.string_value || ctx.string_value;
+    RETURN ODCIConst.Success;
+  END;
+
+  MEMBER FUNCTION ODCIAggregateTerminate (
+    SELF IN typ_group_concat,
+    return_value OUT VARCHAR2,
+    flags IN NUMBER)
+    RETURN NUMBER
+  IS
+  BEGIN
+    return_value := SELF.string_value;
+    RETURN ODCIConst.Success;
+  END;
+
+  MEMBER FUNCTION ODCIAggregateMerge (
+    SELF IN OUT typ_group_concat,
+    ctx2 IN typ_group_concat)
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF SELF.string_value IS NOT NULL THEN
+      SELF.string_value := SELF.string_value || SELF.separator;
+    END IF;
+    SELF.string_value := SELF.string_value || ctx2.string_value;
+    RETURN ODCIConst.Success;
+  END;
+END;
+");
+
+
+$installer->getConnection()->query("
+CREATE OR REPLACE FUNCTION group_concat (
+  ctx IN typ_group_concat_expr)
+  RETURN VARCHAR2
+     DETERMINISTIC
+    PARALLEL_ENABLE
+  AGGREGATE USING typ_group_concat;
+");
+
 $installFile = dirname(__FILE__) . DS . 'install-1.5.0.0.php';
 if (file_exists($installFile)) {
     include $installFile;

@@ -288,4 +288,24 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
 
         return $preparedColumns;
     }
+
+    /**
+     * Add prepared column group_concat expression
+     *
+     * @param string $fieldAlias Field alias which will be added with column group_concat expression
+     * @param string $fieldExpr
+     * @param string $delimiter
+     * @param  Varien_Db_Select $select
+     * @return Varien_Db_Select
+     */
+    public function addGroupConcatColumn($fieldAlias, $fieldExpr, $delimiter = ',', $select = null)
+    {
+        $separator = '';
+        if ($delimiter) {
+            $separator = sprintf(" SEPARATOR '%s'",  $delimiter);
+        }
+        $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf('GROUP_CONCAT(%s%s)', $fieldExpr, $separator))));
+
+        return $select;
+    }
 }
