@@ -319,7 +319,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         try {
             $this->_getWriteAdapter()->createTable($newTable);
         } catch (Exception $e) {
-            $message = Mage::helper('enterprise_staging')->__('An exception occurred while performing an SQL query: %s. Query: %s', $e->getMessage(), $sql);
+            $message = Mage::helper('enterprise_staging')->__('An exception occurred while performing an SQL query: %s. ', $e->getMessage());
             throw new Enterprise_Staging_Exception($message);
         }
         return $this;
@@ -409,16 +409,17 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                 $newTable->addColumn($columnName, $ddlType, $ddlSize, $ddlOptions, $comment);
             }
         }
-        /*
+
         foreach ($tableDescription['indexes'] as $index) {
-            var_dump($index);
-            $newTable->addIndex(
-                $adapter->getIndexName($tableDescription['table_name'], $index['fields']),
-                $index['fields'],
-                array('type' => $index['type'])
-            );
+            if ($index['type'] != Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
+                $newTable->addIndex(
+                    $adapter->getIndexName($tableDescription['table_name'], $index['fields']),
+                    $index['fields'],
+                    array('type' => $index['type'])
+                );
+            }
         }
-        /*
+
         foreach ($tableDescription['foreign_keys'] as $foreignKey) {
             $newTable->addForeignKey(
                 $adapter->getForeignKeyName(
@@ -429,13 +430,14 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                 $foreignKey['ON_DELETE'], $foreignKey['ON_UPDATE']
             );
         }
-        */
+
         return $newTable;
     }
 
     /**
      * Get sql fields list
      *
+     * @deprecated since 1.10.0.0
      * @param mixed $field
      * @return string
      */
@@ -469,6 +471,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     /**
      * Get sql keys list
      *
+     * @deprecated since 1.10.0.0
      * @param mixed $key
      * @return string
      */
@@ -500,6 +503,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     /**
      * Retrieve SQL fragment for FOREIGN KEY
      *
+     * @deprecated since 1.10.0.0
      * @param array $properties the foreign key properties
      * @param array $table      the table properties
      * @return string
@@ -528,6 +532,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     /**
      * Retrieve SQL FOREIGN KEY list
      *
+     * @deprecated since 1.10.0.0
      * @param mixed $key
      * @return string
      */
