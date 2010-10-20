@@ -265,7 +265,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
         $method = $process.'Run';
 
-        $this->_getResource()->beginTransaction();
+        //$this->_getResource()->beginTransaction();
         try {
             $this->_beforeStagingProcessRun($process, $logBefore);
 
@@ -275,12 +275,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
             $this->_afterStagingProcessRun($process, $logAfter);
 
-            $this->_getResource()->commit();
+            //$this->_getResource()->commit();
 
             $logAfter->saveOnProcessRun($this, $process, 'after');
         }
         catch (Exception $e) {
-            $this->_getResource()->rollBack();
+            //$this->_getResource()->rollBack();
             $logBefore->saveOnProcessRun($this, $process, 'before', $e);
             throw $e;
         }
