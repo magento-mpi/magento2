@@ -77,8 +77,10 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
             $store = array($store->getId());
         }
         $this->addCmsPageInStoresColumn();
-        $this->getFlag('page_in_stores_select')->where('store.store_id in (?)', ($withAdmin ? array(0, $store) : $store));
-        $this->getSelect()->having('main_table.page_id IS NULL OR page_in_stores IS NOT NULL');
+        $this->getFlag('page_in_stores_select')
+            ->where('store.store_id IN (?)', ($withAdmin ? array(0, $store) : $store));
+        $this->getSelect()
+            ->having('main_table.page_id IS NULL OR page_in_stores IS NOT NULL');
         return $this;
     }
 
@@ -91,9 +93,9 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
     {
         if (!$this->getFlag('cms_page_in_stores_data_joined')) {
             $subSelect = $this->getConnection()->select();
-            $subSelect->from(array('store' => $this->getTable('cms/page_store')), new Zend_Db_Expr('GROUP_CONCAT(`store_id`)'))
+            $subSelect->from(array('store' => $this->getTable('cms/page_store')), array())
                 ->where('store.page_id = main_table.page_id');
-
+            $subSelect = Mage::getResourceHelper('core')->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
             $this->getSelect()->columns(array('page_in_stores' => new Zend_Db_Expr('(' . $subSelect . ')')));
 
             // save subSelect to use later
@@ -127,6 +129,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
      */
     public function setOrderByLevel()
     {
+        Mage::getResourceHelper('core')->prepareColumnsList($this->getSelect());
         $this->getSelect()->order(array('level', 'sort_order'));
         return $this;
     }
@@ -139,25 +142,26 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
     public function joinMetaData()
     {
         if (!$this->getFlag('meta_data_joined')) {
-            $this->getSelect()->joinLeft(array('metadata_table' => $this->getTable('enterprise_cms/hierarchy_metadata')),
-                'main_table.node_id = metadata_table.node_id',
-                array(
-                    'meta_first_last',
-                    'meta_next_previous',
-                    'meta_chapter',
-                    'meta_section',
-                    'meta_cs_enabled',
-                    'pager_visibility',
-                    'pager_frame',
-                    'pager_jump',
-                    'menu_visibility',
-                    'menu_layout',
-                    'menu_brief',
-                    'menu_excluded',
-                    'menu_levels_down',
-                    'menu_ordered',
-                    'menu_list_type'
-                ));
+            $this->getSelect()
+                ->joinLeft(array('metadata_table' => $this->getTable('enterprise_cms/hierarchy_metadata')),
+                    'main_table.node_id = metadata_table.node_id',
+                    array(
+                        'meta_first_last',
+                        'meta_next_previous',
+                        'meta_chapter',
+                        'meta_section',
+                        'meta_cs_enabled',
+                        'pager_visibility',
+                        'pager_frame',
+                        'pager_jump',
+                        'menu_visibility',
+                        'menu_layout',
+                        'menu_brief',
+                        'menu_excluded',
+                        'menu_levels_down',
+                        'menu_ordered',
+                        'menu_list_type'
+                    ));
         }
         $this->setFlag('meta_data_joined', true);
         return $this;
@@ -177,12 +181,13 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
                 $page = $page->getId();
             }
 
-            $onClause = 'main_table.node_id = clone.parent_node_id AND clone.page_id = ?';
-            $ifPageExistExpr = new Zend_Db_Expr('IF(clone.node_id is NULL, 0, 1)');
-            $ifCurrentPageExpr = new Zend_Db_Expr(
-                    $this->getConnection()->quoteInto('IF(main_table.page_id = ?, 1, 0)', $page)
-                );
+            $connection = $this->getConnection();
 
+            $onClause = 'main_table.node_id = clone.parent_node_id AND clone.page_id = ?';
+            $ifPageExistExpr = $connection->getCheckSql('clone.node_id IS NULL', '0', '1');
+            $ifCurrentPageExpr = $connection->quoteInto(
+                $this->getConnection()->getCheckSql('main_table.page_id = ?', '1', '0'),
+                $page);
             $this->getSelect()->joinLeft(
                     array('clone' => $this->getResource()->getMainTable()),
                     $this->getConnection()->quoteInto($onClause, $page),
@@ -209,7 +214,9 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
             if (!$this->getFlag('page_exists_joined')) {
                 $this->joinPageExistsNodeInfo($page);
             }
-
+            if (count($nodeIds) == 0) {
+                $nodeIds = 0;
+            }
             $whereExpr = new Zend_Db_Expr(
                 $this->getConnection()->quoteInto('clone.node_id IS NOT NULL OR main_table.node_id IN (?)', $nodeIds)
             );
@@ -232,9 +239,8 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
         if (!$this->getFlag('last_child_sort_order_column_added')) {
             $subSelect = $this->getConnection()->select();
             $subSelect->from($this->getResource()->getMainTable(), new Zend_Db_Expr('MAX(sort_order)'))
-                ->where('parent_node_id = `main_table`.`node_id`');
+                ->where('parent_node_id = main_table.node_id');
             $this->getSelect()->columns(array('last_child_sort_order' => $subSelect));
-
             $this->setFlag('last_child_sort_order_column_added', true);
         }
 

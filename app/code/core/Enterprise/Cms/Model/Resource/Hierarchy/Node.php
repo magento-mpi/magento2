@@ -272,8 +272,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                 array(
                     'page_identifier' => 'identifier',
                 ))
-            ->where('xpath LIKE ?', $xpath. '/%')
-            ->orWhere('xpath = ?', $xpath)
+            ->where('xpath LIKE ? OR xpath = ?', $xpath. '/%')
             ->group('node_table.node_id')
             ->order(array('level', 'node_table.sort_order'));
 
@@ -346,10 +345,10 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
             ->from(array('main_table' => $this->getTable('cms/page')), array('page_id', 'website_root'))
             ->join(
                 array('cps' => $this->getTable('cms/page_store')),
-                'main_table.page_id = `cps`.page_id',
+                'main_table.page_id = cps.page_id',
                 array())
             ->where('main_table.identifier = ?', $identifier)
-            ->where('main_table.is_active=1 AND `cps`.store_id in (0, ?) ', $storeId)
+            ->where('main_table.is_active=1 AND cps.store_id in (0, ?) ', $storeId)
             ->order('store_id DESC')
             ->limit(1);
 

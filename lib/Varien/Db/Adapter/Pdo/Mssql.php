@@ -320,6 +320,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $this->_connection->exec('SET TEXTSIZE 2147483647');
         $this->_connection->exec('SET LANGUAGE us_english');
+        $this->_connection->exec('SET CONCAT_NULL_YIELDS_NULL ON');
+        $this->_connection->exec('SET ANSI_NULLS ON');
+        $this->_connection->exec('SET ANSI_WARNINGS ON');
+        $this->_connection->exec('SET ANSI_PADDING ON');
 
         $this->_debugStat(self::DEBUG_CONNECT, '');
     }
@@ -3972,12 +3976,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $joinSelect->reset(Zend_Db_Select::COLUMNS);
         $joinSelect->from(array($tableAlias => $tableName), null);
 
+        echo $joinSelect;
+
         $query = sprintf('UPDATE %s SET %s %s',
             $this->quoteIdentifier($tableAlias),
             join(', ', $updateSet),
             $joinSelect->assemble()
         );
-
         return $query;
     }
 

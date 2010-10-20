@@ -58,11 +58,13 @@ class Enterprise_Cms_Model_Resource_Increment extends Mage_Core_Model_Resource_D
 
         $select = $read->select()->from($this->getMainTable())
             ->forUpdate(true)
-            ->where('type=?', $type)
-            ->where('node=?', $node)
-            ->where('level=?', $level);
+            ->where('increment_type = :increment_type AND increment_node = :increment_node AND increment_level = :increment_level');
 
-        $data = $read->fetchRow($select);
+        $bind = array(':increment_type'  => $type,
+                      ':increment_node'  => $node,
+                      ':increment_level' => $level);
+
+        $data = $read->fetchRow($select, $bind);
 
         if (!$data) {
             return false;
@@ -87,9 +89,9 @@ class Enterprise_Cms_Model_Resource_Increment extends Mage_Core_Model_Resource_D
     {
         $write = $this->_getWriteAdapter();
         $write->delete($this->getMainTable(),
-            array('type=?' => $type,
-                'node=?' => $node,
-                'level=?' => $level));
+            array('increment_type=?'  => $type,
+                  'increment_node=?'  => $node,
+                  'increment_level=?' => $level));
 
         return $this;
     }

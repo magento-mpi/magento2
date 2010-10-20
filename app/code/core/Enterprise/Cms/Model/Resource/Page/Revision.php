@@ -157,11 +157,20 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
     {
         $versionTable = $this->getTable('enterprise_cms/page_version');
 
-        $select = 'UPDATE `' . $versionTable . '` SET `revisions_count` =
-            (SELECT count(*) from `' . $this->getMainTable() . '` where `version_id` = ' . (int)$versionId . ')
-            where `version_id` = ' . (int)$versionId;
+        $selectCount = $this->_getReadAdapter()
+            ->select()
+            ->from($this->getMainTable(), array('version_id', 'revisions_count'=>'COUNT(1)'))
+            ->where('version_id = ?', (int)$versionId)
+            ->group('version_id');
 
-        $this->_getWriteAdapter()->query($select);
+        $sql = new Zend_Db_Expr(sprintf('(%s)',$selectCount->assemble()));
+        $select = clone $selectCount;
+        $select->reset()
+            ->join(array('r'=> $sql), 'p.version_id = r.version_id', array('revisions_count'))
+            ->where('r.version_id = ?', (int)$versionId);
+
+        $query = $this->_getReadAdapter()->updateFromSelect($select, array('p' => $versionTable));
+        $this->_getReadAdapter()->query($query);
 
         return $this;
     }
@@ -301,7 +310,7 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
         } else if ($accessLevel) {
             $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level = ?', $accessLevel);
         } else {
-            $permissionCondition[] = $versionTableAlias . '.access_level = ""';
+            $permissionCondition[] = $this->_versionTableAlias . '.access_level = ""';
         }
 
         return '(' . implode(' OR ', $permissionCondition) . ')';

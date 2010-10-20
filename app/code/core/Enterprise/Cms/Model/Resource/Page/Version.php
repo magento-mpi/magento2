@@ -53,11 +53,15 @@ class Enterprise_Cms_Model_Resource_Page_Version extends Mage_Core_Model_Resourc
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->getMainTable(), 'count(*)')
-            ->where('page_id = ?', $object->getPageId())
-            ->where('access_level = ?', Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
-            ->where('version_id <> ? ', $object->getVersionId());
+            ->where('page_id = :page_id AND access_level = :access_level AND version_id = :version_id');
 
-        return !$this->_getReadAdapter()->fetchOne($select);
+        $bind = array(
+            ':page_id'      => $object->getPageId(),
+            ':access_level' => Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC,
+            ':version_id'   => $object->getVersionId()
+        );
+
+        return !$this->_getReadAdapter()->fetchOne($select, $bind);
     }
 
     /**
@@ -72,7 +76,8 @@ class Enterprise_Cms_Model_Resource_Page_Version extends Mage_Core_Model_Resourc
         $select->from(array('p' => $this->getTable('cms/page')), array())
             ->where('p.page_id = ?', $object->getPageId())
             ->join(array('r' => $this->getTable('enterprise_cms/page_revision')),
-                'r.revision_id = p.published_revision_id', array('r.version_id'));
+                'r.revision_id = p.published_revision_id',
+                'r.version_id');
 
         $result = $this->_getReadAdapter()->fetchOne($select);
 
@@ -89,19 +94,20 @@ class Enterprise_Cms_Model_Resource_Page_Version extends Mage_Core_Model_Resourc
      */
     protected function _addAccessRestrictionsToSelect($select, $accessLevel, $userId)
     {
-        $conditions = array('user_id = ' . $userId);
+        $conditions = array();
 
-        if (is_array($accessLevel) && !empty($accessLevel)) {
-            $conditions[] = 'access_level in ("' . implode('","', $accessLevel) . '")';
-        } else if ($accessLevel) {
-            $conditions[] = 'access_level = "' . $accessLevel . '"';
+        $conditions[] = $this->_getReadAdapter()->quoteInto('user_id = ?', $userId);
+
+        if (!empty($accessLevel)) {
+            if (!is_array($accessLevel)) {
+                $accessLevel = array($accessLevel);
+            }
+            $conditions[] = $this->_getReadAdapter()->quoteInto('access_level IN (?)', $accessLevel);
         } else {
-            $conditions[] = 'access_level = ""';
+            $conditions[] = 'access_level IS NULL';
         }
 
-        $conditions = implode(' OR ', $conditions);
-
-        $select->where($conditions);
+        $select->where(implode(' OR ', $conditions));
 
         return $select;
     }

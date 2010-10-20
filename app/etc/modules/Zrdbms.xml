@@ -253,7 +253,7 @@
             <active>false</active>
         </Enterprise_Checkout>
         <Enterprise_Cms>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Cms>
         <Enterprise_Customer>
             <active>false</active>

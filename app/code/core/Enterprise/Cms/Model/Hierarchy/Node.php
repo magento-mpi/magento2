@@ -176,7 +176,8 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
             }
 
             $object = clone $this;
-            $object->setData($v)->save();
+            $object->setData($v)
+                ->save();
 
             if (isset($nodes[$k])) {
                 $this->_collectTree($nodes, $object->getId(), $object->getRequestUrl(), $object->getXpath(), $k);

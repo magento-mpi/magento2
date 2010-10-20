@@ -523,7 +523,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             $groupConcatSelect->where(implode(' AND ', $where));
         }
 
-        $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf("stuff((%s for xml path('')), 1, 1, '')", $groupConcatSelect))));
+        $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf("stuff((%s for xml path(''),type).value('.','varchar(max)'), 1, 1, '')", $groupConcatSelect))));
 
         return $select;
     }
