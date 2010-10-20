@@ -480,8 +480,19 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
         $writeAdapter->disableTableKeys($targetTable);
         try {
-            $srcSelectSql  = $this->_getSimpleSelect($srcTable, '*');
-            $sql = $readAdapter->insertFromSelect($srcSelectSql, $targetTable);
+            // Get all non-auto-increment fields
+            $srcTableDesc = $this->getTableProperties($srcTable);
+            $fields = $srcTableDesc['fields'];
+            foreach ($fields as $id => $field) {
+                if ((strpos($srcTable, 'product_website') === false)) {
+                    if ($field['IDENTITY']) {
+                        unset($fields[$id]);
+                    }
+                }
+            }
+            $fields = array_keys($fields);
+            $srcSelectSql  = $this->_getSimpleSelect($srcTable, $fields);
+            $sql = $readAdapter->insertFromSelect($srcSelectSql, $targetTable, $fields);
             $writeAdapter->query($sql);
             $writeAdapter->enableTableKeys($targetTable);
         } catch (Exception $e) {
@@ -507,7 +518,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $fields = $srcTableDesc['fields'];
         foreach ($fields as $id => $field) {
             if ((strpos($entityName, 'product_website') === false)) {
-                if ($field['extra'] == 'auto_increment') {
+                if ($field['IDENTITY']) {
                     unset($fields[$id]);
                 }
             }
@@ -577,11 +588,11 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 $selectFields = $fields;
                 foreach ($selectFields as $id => $field) {
                     if ($field == 'website_id') {
-                        $selectFields[$id] = $masterWebsiteId;
+                        $selectFields[$id] = new Zend_Db_Expr($masterWebsiteId);
                         $_websiteFieldNameSql = $readAdapter->quoteIdentifier($field)
                             . $readAdapter->quoteInto(' = ?', $stagingWebsiteId);
                     } elseif ($field == 'scope_id') {
-                        $selectFields[$id] = $masterWebsiteId;
+                        $selectFields[$id] = new Zend_Db_Expr($masterWebsiteId);
                         $_websiteFieldNameSql = $readAdapter->quoteIdentifier('scope')
                             . $readAdapter->quoteInto(' = ?', 'websites')
                             . ' AND '.$readAdapter->quoteIdentifier($field)
