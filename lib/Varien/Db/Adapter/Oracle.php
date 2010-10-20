@@ -2274,7 +2274,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             throw new Varien_Db_Exception(sprintf('Undefined interval unit "%s" specified', $unit));
         }
 
-        return sprintf("INTERVAL '%d' %s", $interval, $this->_intervalUnits[$unit]);
+        return sprintf("INTERVAL TO_DATE('%d') %s", $interval, $this->_intervalUnits[$unit]);
     }
 
     /**
