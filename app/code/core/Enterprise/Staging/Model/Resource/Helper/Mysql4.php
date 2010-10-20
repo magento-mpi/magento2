@@ -60,25 +60,46 @@ class Enterprise_Staging_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
      */
     public function getDdlInfoByDescription($field)
     {
-        var_dump($field);
+
         $columnName = $field['COLUMN_NAME'];
         $ddlOptions = array();
         $ddlSize = null;
         switch ($field['DATA_TYPE']) {
+            case 'bigint':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_BIGINT;
+                break;
             case 'int':
                 $ddlType = Varien_Db_Ddl_Table::TYPE_INTEGER;
                 break;
-            case 'boolean':
-
+            case 'smallint':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_SMALLINT;
                 break;
-            default:
-                echo "PROBLEM:";
-                var_dump($field);
+            case 'decimal':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_DECIMAL;
+                $ddlSize = $field['PRECISION'] . '.' . $field['SCALE'];
+            case 'float':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_FLOAT;
+                break;
+            case 'varchar':
+            case 'text':
+            case 'longtext':
+            case 'mediumtext':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $ddlSize = $field['LENGTH'];
+                break;
+            case 'datetime':
+            case 'timestamp':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+                break;
+            case 'date':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_DATE;
+                break;
+            default:Zend_Debug::dump($field);
+                echo "PROBLEM:"; //!!!
                 exit;
                 break;
         }
 
-        
         if ($field['UNSIGNED']) {
             $ddlOptions['unsigned'] = true;
         }

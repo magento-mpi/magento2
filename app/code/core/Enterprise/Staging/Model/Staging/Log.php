@@ -130,7 +130,9 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
         if ($process == 'update') {
             return $this;
         }
-        if ($onState == 'before' && (($process == 'merge' && $staging->getIsMergeLater()) || $process == 'reset' || $process == 'unscheduleMerge')) {
+        if ($onState == 'before' && (($process == 'merge' && $staging->getIsMergeLater())
+            || $process == 'reset' || $process == 'unscheduleMerge')
+        ) {
             return $this;
         }
 
