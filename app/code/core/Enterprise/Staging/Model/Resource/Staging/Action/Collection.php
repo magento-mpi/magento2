@@ -126,6 +126,8 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
                 array('staging_website_id' => 'website_id',
                     'staging_website_name' => 'name')
         );
+        
+        Mage::getResourceHelper('core')->prepareColumnsList($this->getSelect());
 
         return $this;
     }

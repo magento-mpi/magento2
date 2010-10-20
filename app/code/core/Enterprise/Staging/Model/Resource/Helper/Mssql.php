@@ -62,7 +62,7 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
     {
         $columnName = $field['COLUMN_NAME'];
         $ddlOptions = array();
-        $ddlSize = null;
+        $ddlSize = $ddlType = null;
         switch ($field['DATA_TYPE']) {
             case 'int':
                 $ddlType = Varien_Db_Ddl_Table::TYPE_INTEGER;
@@ -73,14 +73,22 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
             case 'boolean':
                 $ddlType = Varien_Db_Ddl_Table::TYPE_BOOLEAN;
                 break;
+            case 'float':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_FLOAT;
+                break;
+            case 'decimal':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_DECIMAL;
+                $ddlSize = $field['PRECISION'] . ',' .$field['SCALE'];
+                break;
+            case 'datetime':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+                break;
             case 'varchar':
+            case 'text':
                 $ddlType = Varien_Db_Ddl_Table::TYPE_TEXT;
                 $ddlSize = $field['LENGTH'];
                 break;
             default:
-                echo "PROBLEM TYPE: " . $field['DATA_TYPE'];
-                var_dump($field);
-                exit;
                 break;
         }
 
@@ -96,7 +104,10 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
         if ($field['PRIMARY']) {
             $ddlOptions['primary'] = true;
         }
+        if ($field['DEFAULT']) {
+            $ddlOptions['default'] = $field['DEFAULT'];
+        }
 
-        return array($columnName, $ddlType, $ddlSize, $ddlOptions, $field['COLUMN_NAME']);
+        return array($columnName, $ddlType, $ddlSize, $ddlOptions);
     }
 }

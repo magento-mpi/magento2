@@ -99,7 +99,11 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         'catalog'   => 'ctl',
         'category'  => 'ctg',
         'entity'    => 'ntt',
-        'product'   => 'prd'
+        'product'   => 'prd',
+        'salesrule' => 'slsr',
+        'downloadable' => 'dnl',
+        'index'     => 'idx',
+        'price'     => 'prc'
     );
 
     /**
