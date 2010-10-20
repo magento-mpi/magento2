@@ -34,17 +34,6 @@
  */
 class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Oracle
 {
-    /**
-     * Returns expresion for field unification
-     *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function castField($field)
-    {
-        $expression = sprintf('to_clob(%s)', $this->_getReadAdapter()->quoteIdentifier($field));
-        return new Zend_Db_Expr($expression);
-    }
 
     /**
      * Returns columns for select

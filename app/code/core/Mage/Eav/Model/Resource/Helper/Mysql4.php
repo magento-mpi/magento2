@@ -32,18 +32,8 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Abstract
+class Mage_Eav_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Mysql4
 {
-    /**
-     * Returns expresion for field unification
-     *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function castField($field)
-    {
-        return $field;
-    }
 
     /**
      * Returns columns for select

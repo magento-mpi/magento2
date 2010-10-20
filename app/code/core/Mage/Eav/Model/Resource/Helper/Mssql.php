@@ -32,21 +32,8 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Abstract
+class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Mssql
 {
-    /**
-     * Returns expresion for field unification
-     *
-     * @param string $field Field name
-     * @param string $type OPTIONAL Field type
-     * @return Zend_Db_Expr
-     */
-    public function castField($field, $type = 'VARCHAR(8000)')
-    {
-        $expression = sprintf('CAST(%s AS %s)', $this->_getReadAdapter()->quoteIdentifier($field), $type);
-        return new Zend_Db_Expr($expression);
-    }
-
     /**
      * Returns columns for select
      *

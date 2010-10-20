@@ -34,6 +34,19 @@
 class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Abstract
 {
     /**
+     * Returns expresion for field unification
+     *
+     * @param string $field Field name
+     * @param string $type OPTIONAL Field type
+     * @return Zend_Db_Expr
+     */
+    public function castField($field, $type = 'VARCHAR(8000)')
+    {
+        $expression = sprintf('CAST(%s AS %s)', $this->_getReadAdapter()->quoteIdentifier($field), $type);
+        return new Zend_Db_Expr($expression);
+    }
+
+    /**
      * Returns analytic expression for database column
      *
      * @param string $column
@@ -484,9 +497,10 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $fields = array();
         foreach ($columns as $column => $tableAlias) {
             $field = $this->_getReadAdapter()->quoteIdentifier($tableAlias . '.' . $column);
-            $fields[] = sprintf("cast(%s as varchar(max))", $field);
+            $fields[] = $this->castField($field, 'varchar(max)');
         }
         $fieldExpr = $this->_getReadAdapter()->getConcatSql($fields, $fieldsDelimiter);
+
         $fieldExpr = sprintf("cast('%s' as varchar(max)) + %s", $groupConcatDelimiter, $fieldExpr);
 
         $groupConcatSelect->setPart(Zend_Db_Select::FROM, $newTables);
