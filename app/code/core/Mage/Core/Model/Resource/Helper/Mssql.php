@@ -483,7 +483,8 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
 
         $fields = array();
         foreach ($columns as $column => $tableAlias) {
-            $fields[] = $this->_getReadAdapter()->quoteIdentifier($tableAlias . '.' . $column);
+            $field = $this->_getReadAdapter()->quoteIdentifier($tableAlias . '.' . $column);
+            $fields[] = sprintf("cast(%s as varchar(max))", $field);
         }
         $fieldExpr = $this->_getReadAdapter()->getConcatSql($fields, $fieldsDelimiter);
         $fieldExpr = sprintf("cast('%s' as varchar(max)) + %s", $groupConcatDelimiter, $fieldExpr);
