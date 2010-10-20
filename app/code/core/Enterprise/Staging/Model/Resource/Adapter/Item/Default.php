@@ -324,7 +324,6 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
         $srcTable    = $this->getTable($entityName);
         $targetTable = $this->_getStagingTableName($srcTable);
-        $updateField = end($fields);//!!! was used in insert on duplicate
 
         if (in_array('website_ids', $fields)) {
             $stagingCond = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$stagingWebsiteId));
@@ -357,7 +356,6 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                         array('finset'=>$masterWebsiteId));
                 }
             }
-
             $srcSelectSql  = $this->_getSimpleSelect($srcTable, $selectFields, $_websiteFieldNameSql);
             $sql = $readAdapter->insertFromSelect(
                 $srcSelectSql,
@@ -642,7 +640,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
                 $stagingCond = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$stagingWebsiteId));
                 $masterCond  = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$masterWebsiteId));
-                $concatVal   = $readAdapter->getConcatSql('website_ids', $readAdapter->quote(','.$masterWebsiteId));
+                $concatVal   = $readAdapter->getConcatSql(array('website_ids', $readAdapter->quote(','.$masterWebsiteId)));
 
                 $writeAdapter->update(
                     $targetTable,
