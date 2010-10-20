@@ -404,8 +404,9 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
 
         if (!empty($tableDescription['fields'])) {
             foreach ($tableDescription['fields'] as $field) {
-                list($columnName, $ddlType, $ddlSize, $ddlOptions, $comment) =
+                list($columnName, $ddlType, $ddlSize, $ddlOptions) =
                     Mage::getResourceHelper('enterprise_staging')->getDdlInfoByDescription($field);
+                $comment = 'Staging ' . str_replace('_', ' ', $columnName);
                 $newTable->addColumn($columnName, $ddlType, $ddlSize, $ddlOptions, $comment);
             }
         }
@@ -430,6 +431,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                 $foreignKey['ON_DELETE'], $foreignKey['ON_UPDATE']
             );
         }
+        $newTable->setComment($tableDescription['comment']);
 
         return $newTable;
     }
@@ -593,10 +595,11 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         }
 
         $tableProp = array(
-            'table_name'  => $table,
-            'fields'      => $adapter->describeTable($table),
-            'indexes'     => $adapter->getIndexList($table),
-            'foreign_keys' => $adapter->getForeignKeys($table),
+            'table_name'    => $table,
+            'fields'        => $adapter->describeTable($table),
+            'indexes'       => $adapter->getIndexList($table),
+            'foreign_keys'  => $adapter->getForeignKeys($table),
+            'comment'       => 'Staging table',
         );
 
         return $tableProp;
