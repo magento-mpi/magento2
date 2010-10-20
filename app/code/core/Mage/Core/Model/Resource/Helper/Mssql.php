@@ -439,39 +439,74 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
     /**
      * Add prepared column group_concat expression
      *
+     * @param Varien_Db_Select $select
      * @param string $fieldAlias Field alias which will be added with column group_concat expression
-     * @param string $fieldExpr
-     * @param string $delimiter
-     * @param  Varien_Db_Select $select
+     * @param string $fields
+     * @param string $groupConcatDelimiter
+     * @param string $fieldsDelimiter
      * @return Varien_Db_Select
      */
-    public function addGroupConcatColumn($fieldAlias, $fieldExpr, $delimiter = ',', $select = null)
+    public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '')
     {
         $groupConcatSelect = clone $select;
-        $groupConcatSelect->reset();
+        $groupConcatSelect->reset(Zend_Db_Select::COLUMNS);
+        $groupConcatSelect->reset(Zend_Db_Select::GROUP);
+        $groupConcatSelect->reset(Zend_Db_Select::HAVING);
+        $groupConcatSelect->reset(Zend_Db_Select::FROM);
 
         $tables = $select->getPart(Zend_Db_Select::FROM);
-        $tableAliases = array_keys($tables);
-        $tableAlias = array_shift($tableAliases);
 
-        $table  = array_shift($tables);
+        $fields = !is_array($fields) ? array($fields) : $fields;
+        $columns = array();
+        foreach ($fields as $field) {
+            $column = explode('.', $field);
+            if (count($column) == 2) {
+                $currentCorrelationName = $column[0];
+                $field = $column[1];
+            } else {
+                $fromTable = array_keys($tables);
+                $currentCorrelationName = $fromTable[0];
+            }
+            $columns[$field] = $currentCorrelationName;
+        }
+
+        $newTables = array();
+        foreach ($tables as $tableAlias => $tableData) {
+            $newTableAlias = 'gc_' . md5($tableAlias);
+            foreach ($columns as $column => &$currentCorrelationName) {
+                if ($tableAlias == $currentCorrelationName) {
+                    $currentCorrelationName = $newTableAlias;
+                }
+            }
+            $newTables[$newTableAlias] = $tableData;
+        }
+
+        $fields = array();
+        foreach ($columns as $column => $tableAlias) {
+            $fields[] = $this->_getReadAdapter()->quoteIdentifier($tableAlias . '.' . $column);
+        }
+        $fieldExpr = $this->_getReadAdapter()->getConcatSql($fields, $fieldsDelimiter);
+        $fieldExpr = sprintf("cast('%s' as varchar(max)) + %s", $groupConcatDelimiter, $fieldExpr);
+
+        $groupConcatSelect->setPart(Zend_Db_Select::FROM, $newTables);
+        $groupConcatSelect->columns(new Zend_Db_Expr($fieldExpr));
 
         $groupParts = $select->getPart(Zend_Db_Select::GROUP);
 
+        $tableAliases = array_keys($tables);
+        $tableAlias   = array_shift($tableAliases);
 
-        $fieldExpr = sprintf("cast('%s' as varchar(max)) + %s", $delimiter ? $delimiter : ',', $fieldExpr);
-        $tableAliasGroup = 'gc_' . md5($table['tableName']);
-        $groupConcatSelect->from(array($tableAliasGroup => $table['tableName']), new Zend_Db_Expr($fieldExpr));
+        $newTableAliases = array_keys($newTables);
+        $newTableAlias   = array_shift($newTableAliases);
 
         $where = array();
         foreach ($groupParts as $fieldName) {
-            $where[] = sprintf('%s.%s = %s.%s', $tableAliasGroup, $fieldName, $tableAlias, $fieldName);
+            $where[] = sprintf('%s.%s = %s.%s', $newTableAlias, $fieldName, $tableAlias, $fieldName);
         }
 
         if (!empty($where)) {
             $groupConcatSelect->where(implode(' AND ', $where));
         }
-
 
         $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf("stuff((%s for xml path('')), 1, 1, '')", $groupConcatSelect))));
 

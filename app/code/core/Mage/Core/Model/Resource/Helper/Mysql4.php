@@ -292,18 +292,26 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Add prepared column group_concat expression
      *
+     * @param Varien_Db_Select $select
      * @param string $fieldAlias Field alias which will be added with column group_concat expression
-     * @param string $fieldExpr
-     * @param string $delimiter
-     * @param  Varien_Db_Select $select
+     * @param string $fields
+     * @param string $groupConcatDelimiter
+     * @param string $fieldsDelimiter
      * @return Varien_Db_Select
      */
-    public function addGroupConcatColumn($fieldAlias, $fieldExpr, $delimiter = ',', $select = null)
+    public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '')
     {
-        $separator = '';
-        if ($delimiter) {
-            $separator = sprintf(" SEPARATOR '%s'",  $delimiter);
+        if (is_array($fields)) {
+            $fieldExpr = $this->_getReadAdapter()->getConcatSql($fields, $fieldsDelimiter);
+        } else {
+            $fieldExpr = $fields; 
         }
+
+        $separator = '';
+        if ($groupConcatDelimiter) {
+            $separator = sprintf(" SEPARATOR '%s'",  $groupConcatDelimiter);
+        }
+
         $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf('GROUP_CONCAT(%s%s)', $fieldExpr, $separator))));
 
         return $select;
