@@ -30,7 +30,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Rule_Conditions implements Varien_Da
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         if ($element->getRule() && $element->getRule()->getConditions()) {
-           return $element->getRule()->getConditions()->asHtmlRecursive();
+            return $element->getRule()->getConditions()->asHtmlRecursive();
         }
         return '';
     }

@@ -129,7 +129,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     public function getFieldName($field)
     {
-        return $this->getFormPrefix() . '_targetrule_' . $field;
+        return $this->getFormPrefix() . '_tgtr_' . $field;
     }
 
     /**

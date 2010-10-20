@@ -89,7 +89,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
     public function loadProductIds($object)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'value')
+            ->from($this->getMainTable(), 'product_ids')
             ->where('entity_id=?', $object->getProduct()->getEntityId())
             ->where('store_id=?', $object->getStoreId())
             ->where('customer_group_id=?', $object->getCustomerGroupId());
@@ -118,10 +118,10 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
             'entity_id'         => $object->getProduct()->getEntityId(),
             'store_id'          => $object->getStoreId(),
             'customer_group_id' => $object->getCustomerGroupId(),
-            'value'             => $value
+            'product_ids'       => $value
         );
 
-        $adapter->insertOnDuplicate($this->getMainTable(), $data, array('value'));
+        $adapter->insertOnDuplicate($this->getMainTable(), $data, array('product_ids'));
 
         return $this;
     }
@@ -150,7 +150,7 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
     public function cleanIndex($store = null)
     {
         if (is_null($store)) {
-            $this->_getWriteAdapter()->truncate($this->getMainTable());
+            $this->_getWriteAdapter()->truncateTable($this->getMainTable());
             return $this;
         }
         if ($store instanceof Mage_Core_Model_Store) {

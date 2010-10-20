@@ -209,7 +209,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
     }
 
     /**
-     * Delete targer rule
+     * Delete target rule
      */
     public function deleteAction()
     {
@@ -272,4 +272,5 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/targetrule');
     }
+
 }

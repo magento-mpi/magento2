@@ -190,6 +190,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
 
         $actionSelect = $rule->getActionSelect();
         $actionBind   = $rule->getActionSelectBind();
+
         if (is_null($actionSelect)) {
             $actionBind   = array();
             $actionSelect = $rule->getActions()->getConditionForCollection($collection, $object, $actionBind);
@@ -369,11 +370,12 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
                 break;
 
             case '()':
-                $condition = sprintf('FIND_IN_SET(%s, %s)', $field, $bindName);
+                $condition = $this->getReadConnection()->prepareSqlCondition($bindName, array('finset' => new Zend_Db_Expr($field)));
                 break;
 
             case '!()':
-                $condition = sprintf('FIND_IN_SET(%s, %s) IS NULL', $field, $bindName);
+                $condition = $this->getReadConnection()->prepareSqlCondition($bindName, array('finset' => new Zend_Db_Expr($field)));
+                $condition = sprintf('NOT (%s)', $condition);
                 break;
 
             default:
@@ -452,7 +454,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
                 $this->getTypeIndex($typeId)->cleanIndex($store);
             }
             if (is_null($store)) {
-                $adapter->truncate($this->getMainTable());
+                $adapter->truncateTable($this->getMainTable());
             } else {
                 $where = array('store_id IN(?)' => $store);
                 $adapter->delete($this->getMainTable(), $where);

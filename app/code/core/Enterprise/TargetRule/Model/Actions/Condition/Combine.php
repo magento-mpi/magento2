@@ -66,12 +66,12 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
     {
         $conditions = array();
         $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
-        $operator   = $this->getValue() ? '1' : '0';
+        $operator   = $this->getValue() ? '' : 'NOT';
 
         foreach ($this->getConditions() as $condition) {
             $subCondition = $condition->getConditionForCollection($collection, $object, $bind);
             if ($subCondition) {
-                $conditions[] = sprintf('%s=%d', $subCondition, $operator);
+                $conditions[] = sprintf('%s %s', $operator, $subCondition);
             }
         }
 

@@ -37,7 +37,7 @@ class Enterprise_TargetRule_Model_Observer
      */
     public function prepareTargetRuleSave(Varien_Event_Observer $observer)
     {
-        $_vars = array('targetrule_rule_based_positions', 'targetrule_position_behavior');
+        $_vars = array('targetrule_rule_based_positions', 'tgtr_position_behavior');
         $_varPrefix = array('related_', 'upsell_', 'crosssell_');
         if ($product = $observer->getEvent()->getProduct()) {
             foreach ($_vars as $var) {
