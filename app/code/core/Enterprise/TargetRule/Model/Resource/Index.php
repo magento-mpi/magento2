@@ -527,14 +527,15 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
      * @param int $productId
      * @return Enterprise_TargetRule_Model_Resource_Index
      */
-    public function saveProductIndex($ruleId, $productId)
+    public function saveProductIndex($ruleId, $productId, $storeId)
     {
         $this->removeProductIndex($productId, $ruleId);
 
         $adapter = $this->_getWriteAdapter();
         $bind    = array(
             'rule_id'       => $ruleId,
-            'product_id'    => $productId
+            'product_id'    => $productId,
+            'store_id'      => $storeId
         );
 
         $adapter->insert($this->getTable('enterprise_targetrule/product'), $bind);

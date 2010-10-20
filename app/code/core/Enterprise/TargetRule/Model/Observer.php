@@ -76,7 +76,7 @@ class Enterprise_TargetRule_Model_Observer
         foreach ($ruleCollection as $rule) {
             /* @var $rule Enterprise_TargetRule_Model_Rule */
             if ($rule->validate($product)) {
-                $indexResource->saveProductIndex($rule->getId(), $product->getId());
+                $indexResource->saveProductIndex($rule->getId(), $product->getId(), $product->getStoreId());
             }
         }
     }
