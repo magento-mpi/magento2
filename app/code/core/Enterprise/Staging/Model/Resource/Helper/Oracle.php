@@ -53,4 +53,54 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
         return $select;
     }
 
+    /**
+     * Returns Ddl Column info from native Db format
+     * @param  $field
+     * @return array
+     */
+    public function getDdlInfoByDescription($field)
+    {
+        $columnName = $field['COLUMN_NAME'];
+        $ddlOptions = array();
+        $ddlSize = $ddlType = null;
+        switch ($field['DATA_TYPE']) {
+            /*
+            * Fill types here
+            *
+            */
+
+            default:
+                break;
+        }
+
+        if ($field['UNSIGNED']) {
+            $ddlOptions['unsigned'] = true;
+        }
+        if (!$field['NULLABLE']) {
+            $ddlOptions['nullable'] = false;
+        }
+        if ($field['IDENTITY']) {
+            $ddlOptions['identity'] = true;
+        }
+        if ($field['PRIMARY']) {
+            $ddlOptions['primary'] = true;
+        }
+        if ($field['DEFAULT']) {
+            $ddlOptions['default'] = $field['DEFAULT'];
+        }
+
+        return array($columnName, $ddlType, $ddlSize, $ddlOptions);
+    }
+    /**
+     * Add custom option to Table Ddl
+     *
+     * @param Varien_Db_Ddl_Table $ddlTable
+     * @param string $sourceTableName
+     * @return void
+     */
+    public function setCustomTableOptions($ddlTable, $sourceTableName)
+    {
+
+    }
+
 }

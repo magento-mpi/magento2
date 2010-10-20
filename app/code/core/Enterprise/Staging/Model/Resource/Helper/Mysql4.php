@@ -116,4 +116,17 @@ class Enterprise_Staging_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
         return array($columnName, $ddlType, $ddlSize, $ddlOptions);
     }
 
+    /**
+     * Add custom option to Table Ddl
+     * 
+     * @param Varien_Db_Ddl_Table $ddlTable
+     * @param string $sourceTableName
+     * @return void
+     */
+    public function setCustomTableOptions($ddlTable, $sourceTableName)
+    {
+        $tableData = $this->_getWriteAdapter()->showTableStatus($sourceTableName);
+        $ddlTable->setOption('type', $tableData['Engine']);
+    }
+
 }

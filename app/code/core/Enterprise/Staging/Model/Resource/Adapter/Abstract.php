@@ -430,6 +430,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                 $foreignKey['ON_DELETE'], $foreignKey['ON_UPDATE']
             );
         }
+        Mage::getResourceHelper('enterprise_staging')->setCustomTableOptions($newTable, $tableDescription['src_table_name']);
         $newTable->setComment($tableDescription['comment']);
 
         return $newTable;
