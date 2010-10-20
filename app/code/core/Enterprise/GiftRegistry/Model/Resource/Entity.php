@@ -112,7 +112,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
      * Perform action after object is saved - saving data to the eventTable
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
@@ -124,10 +124,9 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
             }
         }
 
-        $updateFields = array_keys($data);
         if ($object->getId()) {
             $data['entity_id'] = (int)$object->getId();
-            $this->_getWriteAdapter()->insertOnDuplicate($this->_eventTable, $data, $updateFields);
+            $this->_getWriteAdapter()->insertOnDuplicate($this->_eventTable, $data, array_keys($data));
         }
         return parent::_afterSave($object);
     }
@@ -140,25 +139,24 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
      */
     public function getTypeIdByEntityId($entityId)
     {
-        return $this->_getReadAdapter()->fetchOne(
-            $this->_getReadAdapter()->select()
-                ->from($this->getMainTable(), 'type_id')
-                ->where($this->getIdFieldName() . ' = ?', $entityId));
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), 'type_id')
+            ->where($this->getIdFieldName() . ' = ?', $entityId);
+        return $this->_getReadAdapter()->fetchOne($select);
     }
 
     /**
      * Fetches websiteId for entity
      *
-     *
-     * @param unknown_type $entityId
+     * @param int $entityId
      * @return string
      */
     public function getWebsiteIdByEntityId($entityId)
     {
-        return $this->_getReadAdapter()->fetchOne(
-            $this->_getReadAdapter()->select()
-                ->from($this->getMainTable(), 'website_id')
-                ->where($this->getIdFieldName() . ' = ?', (int)$entityId));
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), 'website_id')
+            ->where($this->getIdFieldName() . ' = ?', (int)$entityId);
+        return $this->_getReadAdapter()->fetchOne($select);
     }
 
     /**

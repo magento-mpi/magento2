@@ -48,7 +48,7 @@ $table = $installer->getConnection()
         ), 'Code')
     ->addColumn('meta_xml', Varien_Db_Ddl_Table::TYPE_BLOB, '64K', array(
         ), 'Meta Xml')
-    ->setComment('Enterprise Gift Regystry Type Table');
+    ->setComment('Enterprise Gift Registry Type Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -84,7 +84,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('enterprise_giftregistry/info', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core/store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Regystry Info Table');
+    ->setComment('Enterprise Gift Registry Info Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -94,23 +94,18 @@ $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry/label'))
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
-        'nullable'  => false,
         'primary'   => true,
         'default'   => '0',
         ), 'Type Id')
     ->addColumn('attribute_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
         'primary'   => true,
-        'default'   => '',
         ), 'Attribute Code')
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
-        'nullable'  => false,
         'primary'   => true,
         'default'   => '0',
         ), 'Store Id')
     ->addColumn('option_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
         'primary'   => true,
         ), 'Option Code')
     ->addColumn('label', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
@@ -126,7 +121,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('enterprise_giftregistry/label', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core/store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Regystry Label Table');
+    ->setComment('Enterprise Gift Registry Label Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -137,7 +132,6 @@ $table = $installer->getConnection()
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
-        'nullable'  => false,
         'primary'   => true,
         ), 'Entity Id')
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -195,7 +189,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('enterprise_giftregistry/entity', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core/website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Regystry Entity Table');
+    ->setComment('Enterprise Gift Registry Entity Table');
 
 $installer->getConnection()->createTable($table);
 
@@ -207,7 +201,6 @@ $table = $installer->getConnection()
     ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
-        'nullable'  => false,
         'primary'   => true,
         ), 'Item Id')
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -244,7 +237,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('enterprise_giftregistry/item', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog/product'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Regystry Item Table');
+    ->setComment('Enterprise Gift Registry Item Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -255,7 +248,6 @@ $table = $installer->getConnection()
     ->addColumn('person_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
-        'nullable'  => false,
         'primary'   => true,
         ), 'Person Id')
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -283,7 +275,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('enterprise_giftregistry/person', 'entity_id', 'enterprise_giftregistry/entity', 'entity_id'),
         'entity_id', $installer->getTable('enterprise_giftregistry/entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Regystry Person Table');
+    ->setComment('Enterprise Gift Registry Person Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -293,9 +285,7 @@ $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry/data'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
-        'nullable'  => false,
         'primary'   => true,
-        'default'   => '0',
         ), 'Entity Id')
     ->addColumn('event_date', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
         ), 'Event Date')
@@ -310,16 +300,24 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('enterprise_giftregistry/data', 'entity_id', 'enterprise_giftregistry/entity', 'entity_id'),
         'entity_id', $installer->getTable('enterprise_giftregistry/entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Regystry Data Table');
+    ->setComment('Enterprise Gift Registry Data Table');
 $installer->getConnection()->createTable($table);
 
-///**
-// * Add attributes
-// */
-$installer->addAttribute('quote_item', 'giftregistry_item_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER, 'visible' => false));
-$installer->addAttribute('order_item', 'giftregistry_item_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER, 'visible' => false));
-$installer->addAttribute('quote_address', 'giftregistry_item_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER, 'visible' => false));
-$installer->addAttribute('order_address', 'giftregistry_item_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER, 'visible' => false));
+/**
+ * Add attributes
+ */
+$installer->addAttribute(
+    'quote_item', 'giftregistry_item_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER, 'visible' => false)
+);
+$installer->addAttribute(
+    'order_item', 'giftregistry_item_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER, 'visible' => false)
+);
+$installer->addAttribute(
+    'quote_address', 'giftregistry_item_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER, 'visible' => false)
+);
+$installer->addAttribute(
+    'order_address', 'giftregistry_item_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER, 'visible' => false)
+);
 
 /**
  * Prepare database after module installation

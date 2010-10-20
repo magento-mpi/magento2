@@ -68,7 +68,6 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
     {
         parent::_afterLoad();
         $this->_assignProducts();
-
         return $this;
     }
 
@@ -107,7 +106,9 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
             if (!$currentProduct) {
                 unset($this->_items[$offset]);
             } else {
-                $item->setProduct(clone $currentProduct);//clone - prevent bundle collection single attribute attaching
+                //clone - prevent bundle collection single attribute attaching
+                $item->setProduct(clone $currentProduct);
+                
                 $item->setProductName($currentProduct->getName());
                 $item->setProductSku($currentProduct->getSku());
                 $item->setProductPrice($currentProduct->getPrice());

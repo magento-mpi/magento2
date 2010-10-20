@@ -104,8 +104,6 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
             array('qty', 'qty_fulfilled', 'qty_remaining')
         );
 
-
-
         return $this;
     }
 
