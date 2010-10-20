@@ -382,11 +382,6 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
             if ($srcTableDesc) {
                 $srcTableDesc['table_name'] = $tableName;
                 $srcTableDesc['src_table_name'] = $srcTableName;
-                if (!empty($srcTableDesc['constraints'])) {
-                    foreach ($srcTableDesc['constraints'] as $constraint => $data) {
-                        $srcTableDesc['constraints'][$constraint]['fk_name'] = $prefix . $data['fk_name'];
-                    }
-                }
                 $newTable = $this->_getCreateDdl($srcTableDesc);
                 $this->_getWriteAdapter()->createTable($newTable);
             }
