@@ -2305,7 +2305,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getDateSubSql($date, $interval, $unit)
     {
-        $expr = sprintf('(%s - %s)', $date, $this->_getIntervalUnitSql($interval, $unit));
+        $expr = sprintf('(TO_DATE(%s) - %s)', $date, $this->_getIntervalUnitSql($interval, $unit));
         return new Zend_Db_Expr($expr);
     }
 
