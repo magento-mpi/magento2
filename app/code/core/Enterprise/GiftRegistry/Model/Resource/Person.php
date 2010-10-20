@@ -35,7 +35,7 @@
 class Enterprise_GiftRegistry_Model_Resource_Person extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Intialize resource model
+     * Resource model initialization
      *
      */
     protected function _construct()
@@ -56,7 +56,7 @@ class Enterprise_GiftRegistry_Model_Resource_Person extends Mage_Core_Model_Reso
     }
 
     /**
-     * Deserialization for custom attributes
+     * De-serialization for custom attributes
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Core_Model_Resource_Db_Abstract
@@ -76,16 +76,19 @@ class Enterprise_GiftRegistry_Model_Resource_Person extends Mage_Core_Model_Reso
      */
     public function deleteOrphan($entityId, $personLeft = array())
     {
-        $condition = array();
+        $adapter     = $this->_getWriteAdapter();
+        $condition   = array();
         $conditionIn = array();
-        $condition[] = $this->_getWriteAdapter()->quoteInto('entity_id=?', $entityId);
+        
+        $condition[] = $adapter->quoteInto('entity_id = ?', (int)$entityId);
         if (is_array($personLeft)) {
             foreach ($personLeft as $personId) {
-                $conditionIn[] = $this->_getWriteAdapter()->quoteInto('?', $personId);
+                $conditionIn[] = $adapter->quoteInto('?', $personId);
             }
-            $condition[] = '`person_id` NOT IN(' . implode(',', $conditionIn) . ')';
+            $condition[] = $adapter->quoteInto('person_id NOT IN (?)', $conditionIn);
         }
-        $this->_getWriteAdapter()->delete($this->getMainTable(), implode(' AND ', $condition));
+        $adapter->delete($this->getMainTable(), $condition);
+
         return $this;
     }
 }

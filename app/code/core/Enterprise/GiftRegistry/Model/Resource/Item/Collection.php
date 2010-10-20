@@ -35,7 +35,7 @@
 class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Internal constructor
+     * Collection initialization
      *
      */
     protected function _construct()
@@ -54,7 +54,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
         $this->getSelect()
             ->join(array('e' => $this->getTable('enterprise_giftregistry/entity')),
                 'e.entity_id = main_table.entity_id', 'website_id')
-            ->where('main_table.entity_id = ?', $entityId);
+            ->where('main_table.entity_id = ?', (int)$entityId);
 
         return $this;
     }
@@ -79,12 +79,11 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
      */
     protected function _assignProducts()
     {
-        $itemIds = array();
-        $tempItems = $this->_items;
+        $tempItems  = $this->_items;
         $productIds = array();
 
         foreach ($tempItems as $offset => $item) {
-            $productIds[] = $item->getproductId();
+            $productIds[] = $item->getProductId();
         }
 
         $productCollection = Mage::getModel('catalog/product')->getCollection()
@@ -93,8 +92,8 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Mage_Core_M
             ->addAttributeToSelect(Mage::getSingleton('sales/quote_config')->getProductAttributes())
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->addOptionsToResult()
-            ;
+            ->addOptionsToResult();
+
 
         foreach ($tempItems as $offset => $item) {
             $currentProduct = false;

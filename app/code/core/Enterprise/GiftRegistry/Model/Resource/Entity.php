@@ -69,7 +69,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
      *
      * @param string $field
      * @param mixed $value
-     * @param unknown_type $object
+     * @param Mage_Core_Model_Abstract $object
      * @return Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -83,15 +83,13 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
     /**
      * Join event table to select object
      *
-     * @param Zend_Db_Select $select
-     * @return Zend_Db_Select
+     * @param Varien_Db_Select $select
+     * @return Varien_Db_Select
      */
     protected function _joinEventData($select)
     {
-        $select->joinLeft(array(
-            'e' => $this->_eventTable),
-            'e.' . $this->getIdFieldName() . '=' . $this->getMainTable() . '.' . $this->getIdFieldName(), '*'
-        );
+        $joinCondition = sprintf('e.%s = %s.%s', $this->getIdFieldName(), $this->getMainTable(), $this->getIdFieldName());
+        $select->joinLeft(array('e' => $this->_eventTable), $joinCondition, '*');
         return $select;
     }
 
@@ -99,7 +97,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
      * Perform actions after object is loaded
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
@@ -118,6 +116,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
+        $data = array();
         foreach ($object->getStaticTypeIds() as $code) {
             $objectData = $object->getData($code);
             if ($objectData) {
@@ -127,7 +126,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
 
         $updateFields = array_keys($data);
         if ($object->getId()) {
-            $data['entity_id'] = $object->getId();
+            $data['entity_id'] = (int)$object->getId();
             $this->_getWriteAdapter()->insertOnDuplicate($this->_eventTable, $data, $updateFields);
         }
         return parent::_afterSave($object);
@@ -136,8 +135,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
     /**
      * Fetches typeId for entity
      *
-     *
-     * @param unknown_type $entityId
+     * @param int $entityId
      * @return string
      */
     public function getTypeIdByEntityId($entityId)
@@ -160,7 +158,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
         return $this->_getReadAdapter()->fetchOne(
             $this->_getReadAdapter()->select()
                 ->from($this->getMainTable(), 'website_id')
-                ->where($this->getIdFieldName() . ' = ?', $entityId));
+                ->where($this->getIdFieldName() . ' = ?', (int)$entityId));
     }
 
     /**
@@ -174,12 +172,12 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->update($this->getMainTable(),
-            array('is_active' => '0'),
-            array('customer_id =?' => $customerId)
+            array('is_active'      => new Zend_Db_Expr('0')),
+            array('customer_id =?' => (int)$customerId)
         );
         $adapter->update($this->getMainTable(),
-            array('is_active' => '1'),
-            array('customer_id =?' => $customerId, 'entity_id =?' => $entityId)
+            array('is_active' => new Zend_Db_Expr('1')),
+            array('customer_id =?' => (int)$customerId, 'entity_id = ?' => (int)$entityId)
         );
         return $this;
     }
@@ -197,10 +195,15 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
         $select = $adapter->select()->from(array('e' => $this->getMainTable()));
         $select->joinInner(
             array('i' => $this->getTable('enterprise_giftregistry/item')),
-            'e.entity_id = i.entity_id AND i.item_id = ' . $itemId,
+            implode(' AND ', array(
+                'e.entity_id = i.entity_id',
+                $adapter->quoteInto('i.item_id = ?', (int)$itemId),
+            )),
             array()
         );
-        if ($data = $adapter->fetchRow($select)) {
+
+        $data = $adapter->fetchRow($select);
+        if ($data) {
             $object->setData($data);
             $this->_afterLoad($object);
         }
@@ -219,11 +222,12 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('url_key=?', $urlKey);
+            ->where('url_key = ?', $urlKey);
 
         $this->_joinEventData($select);
 
-        if ($data = $adapter->fetchRow($select)) {
+        $data = $adapter->fetchRow($select);
+        if ($data) {
             $object->setData($data);
             $this->_afterLoad($object);
         }

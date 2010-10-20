@@ -35,7 +35,7 @@
 class Enterprise_GiftRegistry_Model_Resource_Item extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource model initialization
      *
      */
     protected function _construct()
@@ -52,7 +52,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item extends Mage_Core_Model_Resour
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getAddedAt()) {
-            $object->setAddedAt($this->formatDate(time()));
+            $object->setAddedAt($this->formatDate(true));
         }
         return parent::_beforeSave($object);
     }
@@ -70,10 +70,11 @@ class Enterprise_GiftRegistry_Model_Resource_Item extends Mage_Core_Model_Resour
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('entity_id=?', $registryId)
-            ->where('product_id=?', $productId);
+            ->where('entity_id = ?', (int)$registryId)
+            ->where('product_id = ?', (int)$productId);
 
-        if ($data = $adapter->fetchRow($select)) {
+        $data = $adapter->fetchRow($select);
+        if ($data) {
             $object->setData($data);
         }
 

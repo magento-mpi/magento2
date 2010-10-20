@@ -35,7 +35,7 @@
 class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Internal constructor
+     * Collection initialization
      *
      */
     protected function _construct()
@@ -51,7 +51,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
      */
     public function filterByCustomerId($id)
     {
-        $this->getSelect()->where('main_table.customer_id = ?', $id);
+        $this->getSelect()->where('main_table.customer_id = ?', (int)$id);
         return $this;
     }
 
@@ -62,7 +62,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
      */
     public function filterByActive()
     {
-        $this->getSelect()->where('main_table.is_active = 1');
+        $this->getSelect()->where('main_table.is_active = ?', 1);
         return $this;
     }
 
@@ -90,17 +90,22 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
         $select = $this->getConnection()->select()
             ->from(array('item' => $this->getTable('enterprise_giftregistry/item')), array(
                 'entity_id',
-                'qty' => new Zend_Db_Expr('SUM(item.qty)'),
+                'qty'           => new Zend_Db_Expr('SUM(item.qty)'),
                 'qty_fulfilled' => new Zend_Db_Expr('SUM(item.qty_fulfilled)'),
                 'qty_remaining' => new Zend_Db_Expr('SUM(item.qty - item.qty_fulfilled)')
             ))
             ->group('entity_id');
+        $helper = Mage::getResourceHelper('core');
+        $query = $helper->getQueryUsingAnalyticFunction($select);
 
         $this->getSelect()->joinLeft(
-            array('items' => $select),
+            array('items' => new Zend_Db_Expr(sprintf('(%s)', $query))),
             'main_table.entity_id = items.entity_id',
             array('qty', 'qty_fulfilled', 'qty_remaining')
         );
+
+
+
         return $this;
     }
 
@@ -127,17 +132,19 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
     protected function _addRegistrantData()
     {
         $select = $this->getConnection()->select()
-            ->from($this->getTable('enterprise_giftregistry/person'), array(
-                'entity_id',
-                'registrants' => new Zend_Db_Expr("GROUP_CONCAT(firstname,' ',lastname SEPARATOR ', ')")
-            ))
+            ->from($this->getTable('enterprise_giftregistry/person'), array('entity_id'))
             ->group('entity_id');
 
+        $helper = Mage::getResourceHelper('core');
+        $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
+        $query  = $helper->getQueryUsingAnalyticFunction($select);
+
         $this->getSelect()->joinLeft(
-            array('person' => $select),
+            array('person' => new Zend_Db_Expr(sprintf('(%s)', $query))),
             'main_table.entity_id = person.entity_id',
             array('registrants')
         );
+
         return $this;
     }
 
@@ -149,10 +156,12 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
      */
     public function applySearchFilters($params)
     {
-        $select = $this->getConnection()->select();
+        $adapter = $this->getConnection();
+        $select  = $adapter->select();
         $select->from(array('m' => $this->getMainTable()), array('*'))
-            ->where('m.is_public = 1 AND m.is_active = 1')
-            ->where('m.website_id=?', Mage::app()->getStore()->getWebsiteId());
+            ->where('m.is_public = ?', 1)
+            ->where('m.is_active = ?', 1)
+            ->where('m.website_id = ?', (int)Mage::app()->getStore()->getWebsiteId());
 
         /*
          * Join registry type store label
@@ -162,19 +171,21 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
             'i1.type_id = m.type_id AND i1.store_id = 0',
             array()
         );
+        $typeExpr = $adapter->getCheckSql('i2.label IS NULL', 'i1.label', 'i2.label');
         $select->joinLeft(
             array('i2' => $this->getTable('enterprise_giftregistry/info')),
-            'i2.type_id = m.type_id AND i2.store_id = ' . Mage::app()->getStore()->getId(),
-            array('type' => new Zend_Db_Expr('IFNULL(i2.label, i1.label)'))
+            $adapter->quoteInto('i2.type_id = m.type_id AND i2.store_id = ?', (int)Mage::app()->getStore()->getId()),
+            array('type' => $typeExpr)
         );
 
         /*
          * Join registrant data
          */
+        $registrantExpr = $adapter->getConcatSql(array('firstname', 'lastname'), ' ');
         $select->joinInner(
             array('p' => $this->getTable('enterprise_giftregistry/person')),
             'm.entity_id = p.entity_id',
-            array('registrant' => new Zend_Db_Expr("CONCAT(firstname,' ',lastname)"))
+            array('registrant' => $registrantExpr)
         );
 
         /*
@@ -190,44 +201,46 @@ class Enterprise_GiftRegistry_Model_Resource_Entity_Collection extends Mage_Core
          * Apply search filters
          */
         if (!empty($params['type_id'])) {
-            $select->where('m.type_id=?', $params['type_id']);
+            $select->where('m.type_id = ?', (int)$params['type_id']);
         }
         if (!empty($params['id'])) {
-            $select->where($this->getConnection()->quoteInto('m.url_key =?', $params['id']));
+            $select->where('m.url_key =?', (int)$params['id']);
         }
         if (!empty($params['firstname'])) {
-            $select->where($this->getConnection()->quoteInto('p.firstname LIKE ?', $params['firstname'] . '%'));
+            $select->where($adapter->quoteInto('p.firstname LIKE ?', $params['firstname'] . '%'));
         }
         if (!empty($params['lastname'])) {
-            $select->where($this->getConnection()->quoteInto('p.lastname LIKE ?', $params['lastname'] . '%'));
+            $select->where($adapter->quoteInto('p.lastname LIKE ?', $params['lastname'] . '%'));
         }
         if (!empty($params['email'])) {
-            $select->where($this->getConnection()->quoteInto('p.email =?', $params['email']));
+            $select->where('p.email = ?', $params['email']);
         }
 
         /*
          * Apply search filters by static attributes
          */
+        /** @var $config Enterprise_GiftRegistry_Model_Attribute_Config */
         $config = Mage::getSingleton('enterprise_giftregistry/attribute_config');
         $staticCodes = $config->getStaticTypesCodes();
         foreach ($staticCodes as $code) {
             if (!empty($params[$code])) {
-                $select->where($this->getConnection()->quoteInto($code . ' =?', $params[$code]));
+                $select->where($adapter->quoteInto($code . ' =?', $params[$code]));
             }
         }
         $dateType = $config->getStaticDateType();
         if (!empty($params[$dateType . '_from'])) {
-            $select->where($this->getConnection()->quoteInto($dateType . ' >= ?', $params[$dateType . '_from']));
+            $select->where($adapter->quoteInto($dateType . ' >= ?', $params[$dateType . '_from']));
         }
         if (!empty($params[$dateType . '_to'])) {
-            $select->where($this->getConnection()->quoteInto($dateType . ' <= ?', $params[$dateType . '_to']));
+            $select->where($adapter->quoteInto($dateType . ' <= ?', $params[$dateType . '_to']));
         }
 
-        $select->group(array('m.entity_id'));
-        $this->getSelect()->reset()->from(
-            array('main_table' => $select),
-            array('*')
-        );
+        $select->group('m.entity_id');
+
+        $helper = Mage::getResourceHelper('core');
+        $query  = $helper->getQueryUsingAnalyticFunction($select);
+        $this->getSelect()->reset()->from(array('main_table' => new Zend_Db_Expr(sprintf('(%s)', $query))), array('*'));
+
         return $this;
     }
 

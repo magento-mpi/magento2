@@ -35,7 +35,14 @@
 class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Intialize collection
+     * If the table was joined flag
+     *
+     * @var bool
+     */
+    protected $_isTableJoined                       = false;
+
+    /**
+     * Collection initialization
      *
      */
     protected function _construct()
@@ -49,32 +56,29 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
      * @param int $storeId
      * @return Enterprise_GiftRegistry_Model_Resource_Type_Collection
      */
-    public function addStoreData($storeId = 0)
+    public function addStoreData($storeId = Mage_Core_Model_App::ADMIN_STORE_ID)
     {
         $infoTable = $this->getTable('enterprise_giftregistry/info');
+        $adapter   = $this->getConnection();
 
-        $select = $this->getConnection()->select();
-        $select->from(array('m' => $this->getMainTable()), array('*'));
+        $select = $adapter->select();
+        $select->from(array('m' => $this->getMainTable()))
+            ->joinInner(
+                array('d' => $infoTable),
+                $adapter->quoteInto('m.type_id = d.type_id AND d.store_id = ?', Mage_Core_Model_App::ADMIN_STORE_ID),
+                array())
+            ->joinLeft(
+                array('s' => $infoTable),
+                $adapter->quoteInto('s.type_id = m.type_id AND s.store_id = ?', (int)$storeId),
+                array(
+                    'label'     => $adapter->getCheckSql('s.label IS NULL', 'd.label', 's.label'),
+                    'is_listed' => $adapter->getCheckSql('s.is_listed IS NULL', 'd.is_listed', 's.is_listed'),
+                    'sort_order'=> $adapter->getCheckSql('s.sort_order IS NULL', 'd.sort_order', 's.sort_order')
+            ));
 
-        $select->joinInner(
-            array('d' => $infoTable),
-            'm.type_id = d.type_id AND d.store_id = 0',
-            array()
-        );
-        $select->joinLeft(
-            array('s' => $infoTable),
-            's.type_id = m.type_id AND s.store_id = ' . $storeId,
-            array(
-                'label' => new Zend_Db_Expr('IFNULL(s.label, d.label)'),
-                'is_listed' => new Zend_Db_Expr('IFNULL(s.is_listed, d.is_listed)'),
-                'sort_order' => new Zend_Db_Expr('IFNULL(s.sort_order, d.sort_order)')
-            )
-        );
+        $this->getSelect()->reset()->from(array('main_table' => $select));
 
-        $this->getSelect()->reset()->from(
-            array('main_table' => $select),
-            array('*')
-        );
+        $this->_isTableJoined = true;
 
         return $this;
     }
@@ -86,7 +90,9 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
      */
     public function applyListedFilter()
     {
-        $this->getSelect()->where('is_listed = 1');
+        if ($this->_isTableJoined) {
+            $this->getSelect()->where('is_listed = ?', 1);
+        }
         return $this;
     }
 
@@ -97,7 +103,9 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
      */
     public function applySortOrder()
     {
-        $this->getSelect()->order('sort_order');
+        if ($this->_isTableJoined) {
+            $this->getSelect()->order('sort_order');
+        }
         return $this;
     }
 

@@ -35,7 +35,7 @@
 class Enterprise_GiftRegistry_Model_Resource_Person_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Intialize collection
+     * Collection initialization
      *
      */
     protected function _construct()
@@ -51,7 +51,7 @@ class Enterprise_GiftRegistry_Model_Resource_Person_Collection extends Mage_Core
      */
     public function addRegistryFilter($entityId)
     {
-        $this->getSelect()->where('main_table.entity_id = ?', $entityId);
+        $this->getSelect()->where('main_table.entity_id = ?', (int)$entityId);
         return $this;
     }
 }
