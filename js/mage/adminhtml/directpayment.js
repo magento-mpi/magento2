@@ -25,41 +25,55 @@
 /**
  * Disable cart server validation in admin
  */
-AdminOrder.prototype.switchPaymentMethod = function(method){
-        this.setPaymentMethod(method);
-        if (method != 'directpayment') {
-	        var data = {};
-	        data['order[payment_method]'] = method;
-	        this.loadArea(['card_validation'], true, data);
-        }
+
+AdminOrder.prototype.prepareParams = function(params){
+    if (!params) {
+        params = {};
+    }
+    if (!params.customer_id) {
+        params.customer_id = this.customerId;
+    }
+    if (!params.store_id) {
+        params.store_id = this.storeId;
+    }
+    if (!params.currency_id) {
+        params.currency_id = this.currencyId;
+    }
+    if (!params.form_key) {
+        params.form_key = FORM_KEY;
+    }
+    
+    if (this.paymentMethod != 'directpayment') {
+	    var data = this.serializeData('order-billing_method');
+	    if (data) {
+	        data.each(function(value) {
+	            params[value[0]] = value[1];
+	        });
+	    }
+    }
+    else {
+    	params['payment[method]'] = 'directpayment';
+    }
+    return params;
 };
-AdminOrder.prototype.setPaymentMethod = function(method){
-    if (this.paymentMethod && $('payment_form_'+this.paymentMethod)) {
-        var form = $('payment_form_'+this.paymentMethod);
-        form.hide();
-        var elements = form.select('input', 'select');
-        for (var i=0; i<elements.length; i++) elements[i].disabled = true;
-    }
-
-    if(!this.paymentMethod || method){
-        $('order-billing_method_form').select('input', 'select').each(function(elem){
-            if(elem.type != 'radio') elem.disabled = true;
-        })
-    }
-
-    if ($('payment_form_'+method)){
-        this.paymentMethod = method;
-        var form = $('payment_form_'+method);
-        form.show();
-        var elements = form.select('input', 'select');
-        for (var i=0; i<elements.length; i++) {
-            elements[i].disabled = false;
-            if(!elements[i].bindChange && method != 'directpayment'){
-                elements[i].bindChange = true;
-                elements[i].paymentContainer = 'payment_form_'+method; //@deprecated after 1.4.0.0-rc1
-                elements[i].method = method;
-                elements[i].observe('change', this.changePaymentData.bind(this))
-            }
+AdminOrder.prototype.getPaymentData = function(currentMethod){
+    if (typeof(currentMethod) == 'undefined') {
+        if (this.paymentMethod) {
+            currentMethod = this.paymentMethod;
+        } else {
+            return false;
         }
     }
+    if (currentMethod == 'directpayment') {
+    	return false;
+    }
+    var data = {};
+    var fields = $('payment_form_' + currentMethod).select('input', 'select');
+    for(var i=0;i<fields.length;i++){
+        data[fields[i].name] = fields[i].getValue();
+    }
+    if ((typeof data['payment[cc_type]']) != 'undefined' && (!data['payment[cc_type]'] || !data['payment[cc_number]'])) {
+        return false;
+    }
+    return data;
 };
