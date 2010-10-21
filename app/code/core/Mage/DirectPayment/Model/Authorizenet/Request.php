@@ -146,8 +146,8 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
         }
 
         $this->setXPoNum($payment->getPoNumber())
-            ->setXTax($order->getBaseTaxAmount())
-            ->setXFreight($order->getBaseShippingAmount());
+            ->setXTax(sprintf('%.2F', $order->getBaseTaxAmount()))
+            ->setXFreight(sprintf('%.2F', $order->getBaseShippingAmount()));
             
         return $this;
     }
