@@ -29,8 +29,7 @@ $_form = $this->getForm() ? $this->getForm() : $this;
 $_code = $_form->getMethodCode();
 $_method = $_form->getMethod();
 $_controller = $this->helper('directpayment')->getControllerName();
-$_orderUrl = $this->helper('directpayment')->getSaveOrderUrl();
-$_checkOrderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
+$_orderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
 ?>
 <div style="padding:1em;" class="step a-item">
 <!-- IFRAME for request to Authorize.net -->
@@ -129,18 +128,11 @@ $_checkOrderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
 <script type="text/javascript">
 //<![CDATA[
 <?php echo @file_get_contents($this->getJsUrl().'mage/directpayment.js') ?>
-<?php if ($_controller == 'multishipping'): ?>
-Event.observe(window, 'load', function() {
-<?php endif; ?>
 directPaymentModel = new directPayment(
 		'directpayment-iframe',
 		'<?php echo $_controller ?>',
 		'<?php echo $_orderUrl ?>',
-		'<?php echo $_method->getCgiUrl() ?>',
-		'<?php echo $_checkOrderUrl ?>');
-<?php if ($_controller == 'multishipping'): ?>
-});
-<?php endif; ?>
+		'<?php echo $_method->getCgiUrl() ?>');
 //]]>
 </script>
 </div>

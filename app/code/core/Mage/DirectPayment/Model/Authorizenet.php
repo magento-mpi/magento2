@@ -36,7 +36,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
      */
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = true;
+    protected $_canUseForMultishipping  = false;
     protected $_canSaveCc = false;
     protected $_isInitializeNeeded      = true;
     

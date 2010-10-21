@@ -24,12 +24,11 @@
  */
 var directPayment = Class.create();
 directPayment.prototype = {
-	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl, orderPlaceUrl)
+	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl)
     {		
         this.iframeId = iframeId;
         this.controller = controller;
-        this.orderSaveUrl = orderSaveUrl;
-        this.orderPlaceUrl = orderPlaceUrl;
+        this.orderSaveUrl = orderSaveUrl;        
         this.cgiUrl = cgiUrl;        
         this.code = 'directpayment';
         this.inputs = {

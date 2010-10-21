@@ -34,26 +34,28 @@
 class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Retrieve save order url
+     * Retrieve save order url params
      *
-     * @return  string
+     * @return array
      */
-    public function getSaveOrderUrl()
-    {
-        switch ($this->getControllerName()) {
-            case 'onepage' :
-                $route = 'checkout/onepage/saveOrder';
-                break;            
-            case 'sales_order_create' :
-            case 'sales_order_edit' :
-                $route = '*/' . $this->getControllerName() . '/save';
-                break;
-            default :
-                $route = 'checkout/onepage/saveOrder';
-                break;
+    public function getSaveOrderUrlParams()
+    {        
+        if (Mage::app()->getStore()->isAdmin()) {
+            $route = array(
+                'action' => 'save',
+                'controller' => 'sales_order_create',
+                'module' => 'adminhtml'
+            );
+        }
+        else {
+            $route = array(
+                'action' => 'saveOrder',
+                'controller' => 'onepage',
+                'module' => 'checkout'
+            );
         }
         
-        return $this->_getUrl ( $route );
+        return $route;
     }
     
     /**
@@ -74,13 +76,13 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getSuccessOrderUrl($params)
     {
-        $param = array ();
-        switch ($params ['controller_action_name']) {
-            case 'onepage' :
+        $param = array();
+        switch ($params['controller_action_name']) {
+            case 'onepage':
                 $route = 'checkout/onepage/success';
-                break;            
-            case 'sales_order_create' :
-            case 'sales_order_edit' :
+                break;
+            case 'sales_order_create':
+            case 'sales_order_edit':
                 $route = 'adminhtml/sales_order/view';
                 $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
@@ -100,8 +102,6 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getControllerName()
     {
-        return Mage::app()->getFrontController()
-                            ->getRequest()
-                            ->getControllerName();
-    }        
+        return Mage::app()->getFrontController()->getRequest()->getControllerName();
+    }
 }

@@ -106,50 +106,52 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
             && isset($redirectParams['controller_action_name'])) {
             $params['redirect_parent'] = Mage::helper('directpayment')->getSuccessOrderUrl($redirectParams);
         }
+        if (!empty($redirectParams['error_msg'])
+            && isset($redirectParams['x_invoice_num'])) {
+            $this->_returnCustomerQuote($redirectParams['x_invoice_num']);
+        }
         $block = $this->_getIframeBlock()->setParams(array_merge($params, $redirectParams));
         $this->getResponse()->setBody($block->toHtml());
     }
     
     /**
-     * Check order responce status and place or cancel order
+     * Place order before payment
      *
      */
     public function placeAction()
     {
-        $orderIncrementId = $this->getRequest()->getPost('orderIncrementId');
-        $result = array();
-        if ($orderIncrementId && $this->_getDirectPaymentSession()->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
-            //check request from authorize.net in db
-            if (true) {
-                //TODO:change order status
-                $result['success'] = 1;
-                $result['redirect'] = 1;
-                $result['redirectUrl'] = Mage::getUrl('checkout/onepage/success');
+        $payment = $this->getRequest()->getPost('payment');
+        if (isset($payment['method'])) {
+            $saveOrderFlag = Mage::getStoreConfig('payment/'.$payment['method'].'/create_order_before');
+            if ($saveOrderFlag) {
+                $params = Mage::helper('directpayment')->getSaveOrderUrlParams();
+                $this->_forward(
+                            $params['action'],
+                            $params['controller'],
+                            $params['module'],
+                            $this->getRequest()->getParams()
+                );
             }
             else {
-               $result['error_messages'] = 'Payment Error';
+                //TODO: place order, not save
             }
         }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
     
     /**
-     * Cancel wrong order and return quote to customer.
-     *
-     * @param int $orderId
+     * Return customer quote
+     * 
+     * @param int $orderIncrementId
      * @return bool
      */
-    protected function _cancelOrder($orderIncrementId)
+    protected function _returnCustomerQuote($orderIncrementId)
     {
-        $orderIncrementId = $this->getRequest()->getPost('orderIncrementId');
-        $result = array();
-        if ($orderIncrementId && $this->_getDirectPaymentSession()->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
+        if ($orderIncrementId && 
+            $this->_getDirectPaymentSession()
+                    ->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-            if ($order->getId()) {
-                //check if order exists and assigned to
-                $quoteId = $order->getQuoteId();
-                $order->cancel()
-                    ->save();
+            if ($order->getId()) {                
+                $quoteId = $order->getQuoteId();                
                 if ($quoteId) {
                     $quote = Mage::getModel('sales/quote')
                         ->load($quoteId);
@@ -164,6 +166,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
             $this->_getDirectPaymentSession()->removeCheckoutOrderIncrementId($orderIncrementId);
             return true;
         }
+        
         return false;
-    }
+    }        
 }
