@@ -42,27 +42,27 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
     protected $_callAfterApplyAllUpdates     = true;
 
     /**
-     * Enter description here ...
+     * Map of tables aliases to archive tables
      *
-     * @var unknown
+     * @var array
      */
-    protected $_tablesMap                    = array(
-        'sales/order_grid' =>'enterprise_salesarchive/order_grid',
-        'sales/invoice_grid' => 'enterprise_salesarchive/invoice_grid',
+    protected $_tablesMap = array(
+        'sales/order_grid'      => 'enterprise_salesarchive/order_grid',
+        'sales/invoice_grid'    => 'enterprise_salesarchive/invoice_grid',
         'sales/creditmemo_grid' => 'enterprise_salesarchive/creditmemo_grid',
-        'sales/shipment_grid' => 'enterprise_salesarchive/shipment_grid'
+        'sales/shipment_grid'   => 'enterprise_salesarchive/shipment_grid'
     );
 
     /**
-     * Enter description here ...
+     * Map of flat tables to archive tables
      *
-     * @var unknown
+     * @var array
      */
-    protected $_tableContraintMap            = array(
-        'sales/order_grid' => array('SALES_FLAT_ORDER_GRID', 'SALES_FLAT_ORDER_GRID_ARCHIVE'),
-        'sales/invoice_grid' => array('SALES_FLAT_INVOICE_GRID', 'SALES_FLAT_INVOICE_GRID_ARCHIVE'),
+    protected $_tableContraintMap = array(
+        'sales/order_grid'      => array('SALES_FLAT_ORDER_GRID',      'SALES_FLAT_ORDER_GRID_ARCHIVE'),
+        'sales/invoice_grid'    => array('SALES_FLAT_INVOICE_GRID',    'SALES_FLAT_INVOICE_GRID_ARCHIVE'),
         'sales/creditmemo_grid' => array('SALES_FLAT_CREDITMEMO_GRID', 'SALES_FLAT_CREDITMEMO_GRID_ARCHIVE'),
-        'sales/shipment_grid' => array('SALES_FLAT_SHIPMENT_GRID', 'SALES_FLAT_SHIPMENT_GRID_ARCHIVE')
+        'sales/shipment_grid'   => array('SALES_FLAT_SHIPMENT_GRID',   'SALES_FLAT_SHIPMENT_GRID_ARCHIVE')
     );
 
     /**
@@ -80,6 +80,7 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
     /**
      * Synchronize archive structure
      *
+     * @return Enterprise_SalesArchive_Model_Resource_Setup
      */
     protected function _syncArchiveStructure()
     {
@@ -88,7 +89,84 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
                 $this->getTable($sourceTable),
                 $this->getTable($targetTable)
             );
+        }
+        return $this;
+    }
 
+    /**
+     * Fast table describe retrieve
+     *
+     * @param string $table
+     * @return array
+     */
+    protected function _fastDescribe($table)
+    {
+        $description = $this->getConnection()->describeTable($table);
+        $result = array();
+        foreach ($description as $column) {
+            $result[$column['COLUMN_NAME']] = $column['DATA_TYPE'];
+        }
+        return $result;
+    }
+
+    /**
+     * Synchronize tables structure
+     *
+     * @param string $sourceTable
+     * @param string $targetTable
+     * @return Enterprise_SalesArchive_Model_Resource_Setup
+     */
+    protected function _syncTable($sourceTable, $targetTable)
+    {
+        $adapter = $this->getConnection();
+        if (!$this->tableExists($targetTable)) {
+            $newTable = $adapter->createTableByDdl($sourceTable, $targetTable);
+            $adapter->createTable($newTable);
+        } else {
+            $sourceFields = $adapter->describeTable($sourceTable);
+            $targetFields = $adapter->describeTable($targetTable);
+            foreach ($sourceFields as $field => $definition) {
+                if (isset($targetFields[$field])) {
+                    if ($this->_checkColumnDifference($targetFields[$field], $definition)) {
+                        $adapter->modifyColumnByDdl($targetTable, $field, $definition);
+                    }
+                } else {
+                    $adapter->addColumn($targetTable, $field, $definition);
+                    $targetFields[$field] = $definition;
+                }
+            }
+
+            $previous = false;
+            // Synchronize column positions
+            $sourceFields = $this->_fastDescribe($sourceTable);
+            $targetFields = $this->_fastDescribe($targetTable);
+            foreach ($sourceFields as $field => $definition) {
+                if ($previous === false) {
+                    reset($targetFields);
+                    if (key($targetFields) !== $field) {
+                        $this->changeColumnPosition($targetTable, $field, false, true);
+                    }
+                } else {
+                    reset($targetFields);
+                    $currentKey = key($targetFields);
+                    // Search for column position in target table
+                    while ($currentKey !== $field) {
+                        if (next($targetFields) === false) {
+                            $currentKey = false;
+                            break;
+                        }
+                        $currentKey = key($targetFields);
+                    }
+                    if ($currentKey) {
+                        $moved = prev($targetFields) !== false;
+                        // If column positions diffrent
+                        if (($moved && $previous !== key($targetFields)) || !$moved) { 
+                            $this->changeColumnPosition($targetTable, $field, $previous);
+                        }
+                    }
+                }
+                $previous = $field;
+            }
             $this->_syncTableIndex(
                 $this->getTable($sourceTable),
                 $this->getTable($targetTable)
@@ -102,93 +180,8 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
                     $this->_tableContraintMap[$sourceTable][1]
                 );
             }
+            
         }
-    }
-
-    /**
-     * Fast table describe retrieve
-     *
-     * @param string $table
-     * @return array
-     */
-    protected function _fastDescribe($table)
-    {
-        return $this->getConnection()->fetchPairs('DESCRIBE ' . $table);
-    }
-
-    /**
-     * Synchronize tables structure
-     *
-     * @param string $sourceTable
-     * @param string $targetTable
-     * @return Enterprise_SalesArchive_Model_Resource_Setup
-     */
-    protected function _syncTable($sourceTable, $targetTable)
-    {
-        $sourceFields = $this->_fastDescribe($sourceTable);
-
-        if (!$this->tableExists($targetTable)) {
-            $sql = 'CREATE TABLE ' . $this->getConnection()->quoteIdentifier($targetTable) . '(';
-            foreach ($sourceFields as $field => $definition) {
-                $sql .= ' ' . $this->getConnection()->quoteIdentifier($field) . ' ' . $definition . ',';
-            }
-            $indecies = $this->getConnection()->getIndexList($sourceTable);
-            if (isset($indecies['PRIMARY'])) {
-                $sql .= ' PRIMARY KEY (' . implode(',', array_map(
-                    array($this->getConnection(), 'quoteIdentifier'),
-                    $indecies['PRIMARY']['COLUMNS_LIST']
-                )) . ')';
-            } else {
-                $sql = rtrim($sql, ',');
-            }
-
-            $sql .= ') ENGINE=InnoDB DEFAULT CHARSET = utf8';
-            $this->getConnection()->query($sql);
-        } else {
-            $targetFields = $this->_fastDescribe($targetTable);
-            foreach ($sourceFields as $field => $definition) {
-                if (isset($targetFields[$field]) && $targetFields[$field] === $definition) {
-                    continue;
-                }
-
-                if (isset($targetFields[$field])) {
-                    $this->getConnection()->modifyColumn($targetTable, $field, $definition);
-                } else {
-                    $this->getConnection()->addColumn($targetTable, $field, $definition);
-                    $targetFields[$field] = $definition;
-                }
-            }
-
-            $previous = false;
-            // Synchronize column positions
-            foreach ($sourceFields as $field => $definition) {
-                if ($previous === false) {
-                    reset($targetFields);
-                    if (key($targetFields) !== $field) {
-                        $this->changeColumnPosition($targetTable, $field, false, true);
-                    }
-                } else {
-                    reset($targetFields);
-                    $currentKey = key($targetFields);
-                    while($currentKey !== $field) { // Search for column position in target table
-                        if (next($targetFields) === false) {
-                            $currentKey = false;
-                            break;
-                        }
-                        $currentKey = key($targetFields);
-                    }
-                    if ($currentKey) {
-                        $moved = prev($targetFields) !== false;
-                        if (($moved && $previous !== key($targetFields)) || !$moved) { // If column positions diffrent
-                            $this->changeColumnPosition($targetTable, $field, $previous);
-                        }
-                    }
-                }
-
-                $previous = $field;
-            }
-        }
-
         return $this;
     }
 
@@ -203,53 +196,14 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
-        if ($after && $first) {
-            if (is_string($after)) {
-                $first = false;
-            } else {
-                $after = false;
-            }
-        } elseif (!$after && !$first) {
-            // If no new position specified
-            return $this;
-        }
-
-        if (!$this->tableExists($table)) {
-            Mage::throwException(Mage::helper('enterprise_salesarchive')->__('Table not found'));
-        }
-
-        $columns = $this->_fastDescribe($table);
-
-        if (!isset($columns[$column])) {
-            Mage::throwException(Mage::helper('enterprise_salesarchive')->__('Column not found'));
-        } elseif ($after && !isset($columns[$after])) {
-            Mage::throwException(Mage::helper('enterprise_salesarchive')->__('Positioning column not found'));
-        }
-
-        if ($after) {
-            $sql = sprintf(
-                'ALTER TABLE %s MODIFY COLUMN %s %s AFTER %s',
-                $this->getConnection()->quoteIdentifier($table),
-                $this->getConnection()->quoteIdentifier($column),
-                $columns[$column],
-                $this->getConnection()->quoteIdentifier($after)
-            );
-       } else {
-            $sql = sprintf(
-                'ALTER TABLE %s MODIFY COLUMN %s %s FIRST',
-                $this->getConnection()->quoteIdentifier($table),
-                $this->getConnection()->quoteIdentifier($column),
-                $columns[$column]
-            );
-       }
-
-        $this->getConnection()->query($sql);
+        $helper = Mage::getResorceHelper('enterprise_salesarchive');
+        $helper->changeColumnPosition($table, $column, $after, $first);
         return $this;
     }
 
     /**
-     * Syncronize table indicies
-     *
+     * Syncronize table indexes
+     * 
      * @param string $sourceTable
      * @param string $targetTable
      * @return Enterprise_SalesArchive_Model_Resource_Setup
@@ -260,13 +214,30 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
         $targetIndex = $this->getConnection()->getIndexList($targetTable);
 
         foreach ($sourceIndex as $indexKey => $indexData) {
-             if (!isset($targetIndex[$indexKey]) ||
-                $this->_checkIndexDifference($sourceIndex[$indexKey], $targetIndex[$indexKey])) {
-                $this->getConnection()->addKey($targetTable, $indexData['KEY_NAME'], $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']);
-             }
+            if (!isset($targetIndex[$indexKey]) ||
+                $this->_checkIndexDifference($sourceIndex[$indexKey], $targetIndex[$indexKey])) 
+            {
+                $this->getConnection()->addIndex(
+                    $targetTable, $indexData['KEY_NAME'], $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']
+                );
+            }
         }
 
         return $this;
+    }
+
+    /**
+     * Check column difference for synchronization
+     *
+     * @param array $sourceColumn
+     * @param array $targetColumn
+     * @return boolean
+     */
+    protected function _checkColumnDifference($sourceColumn, $targetColumn)
+    {
+        unset($sourceColumn['TABLE_NAME']);
+        unset($targetColumn['TABLE_NAME']);
+        return $sourceColumn !== $targetColumn;
     }
 
     /**
@@ -283,7 +254,7 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
     }
 
     /**
-     * Check indicies difference for synchronization
+     * Check indexes difference for synchronization
      *
      * @param array $sourceConstraint
      * @param array $targetConstraint
@@ -303,8 +274,8 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
      *
      * @param string $sourceTable
      * @param string $targetTable
-     * @param unknown_type $sourceKey
-     * @param unknown_type $targetKey
+     * @param string $sourceKey
+     * @param string $targetKey
      * @return Enterprise_SalesArchive_Model_Resource_Setup
      */
     protected function _syncTableConstraint($sourceTable, $targetTable, $sourceKey, $targetKey)
@@ -315,8 +286,9 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
         $targetConstraintUsedInSource = array();
         foreach ($sourceConstraints as $sourceConstraint => $constraintInfo) {
             $targetConstraint = str_replace($sourceKey, $targetKey, $sourceConstraint);
-            if ($sourceConstraint == $targetConstraint) { // Constraint have invalid prefix,
-                continue;                                 // we will have conflict in synchoronizing
+            if ($sourceConstraint == $targetConstraint) {
+                // Constraint have invalid prefix,
+                continue; // we will have conflict in synchoronizing
             }
 
             if (!isset($targetConstraints[$targetConstraint]) ||
@@ -337,7 +309,8 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
 
         $constraintToDelete = array_diff(array_keys($targetConstraints), $targetConstraintUsedInSource);
 
-        foreach ($constraintToDelete as $constraint) { // Clear old not used constraints
+        foreach ($constraintToDelete as $constraint) {
+            // Clear old not used constraints
             $this->getConnection()->dropForeignKey($targetTable, $constraint);
         }
 

@@ -732,7 +732,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         if (!$this->tableColumnExists($tableName, $columnName, $schemaName)) {
             throw new Exception(sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName));
         }
-
         if (is_array($definition)) {
             $definition = $this->_getColumnDefinition($definition);
         }
@@ -1298,6 +1297,164 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         }
 
         return $ddl;
+    }
+
+    /**
+     * Create Varien_Db_Ddl_Table object by data from describe table
+     * 
+     * @param $tableName
+     * @param $newTableName
+     * @return Varien_Db_Ddl_Table
+     */
+    public function createTableByDdl($tableName, $newTableName)
+    {
+        $describe = $this->describeTable($tableName);
+        $table = $this->newTable($newTableName)
+            ->setComment(ucwords(str_replace('_', ' ', $newTableName)));
+        foreach ($describe as $columnData) {
+            $type = $this->_getColumnTypeByDdl($columnData);
+            $options = array();
+            if ($columnData['IDENTITY'] === true) {
+                $options['identity']  = true;
+            }
+            if ($columnData['UNSIGNED'] === true) {
+                $options['unsigned']  = true;
+            }
+            if ($columnData['NULLABLE'] === false
+                && !($type == Varien_Db_Ddl_Table::TYPE_TEXT
+                && strlen($columnData['DEFAULT']) == 0)
+                ) {
+                $options['nullable'] = false;
+            }
+            if ($columnData['PRIMARY'] === true) {
+                $options['primary'] = true;
+            }
+            if (!is_null($columnData['DEFAULT'])
+                && $type != Varien_Db_Ddl_Table::TYPE_TEXT
+                ) {
+                $options['default'] = $this->quote($columnData['DEFAULT']);
+            }
+            if (strlen($columnData['SCALE']) > 0) {
+                $options['scale'] = $columnData['SCALE'];
+            }
+            if (strlen($columnData['PRECISION']) > 0) {
+                $options['precision'] = $columnData['PRECISION'];
+            }
+            $comment = ucwords(str_replace('_', ' ', $columnData['COLUMN_NAME']));
+            $table->addColumn($columnData['COLUMN_NAME'], $type, $columnData['LENGTH'], $options, $comment);
+        }
+
+        $indexes = $this->getIndexList($tableName);
+        foreach ($indexes as $indexData) {
+            if ($indexData['KEY_NAME'] == 'PRIMARY') {
+                continue;
+            }
+            
+            $fields = $indexData['COLUMNS_LIST'];
+            $options = array();
+            $indexType = '';
+            if ($indexData['INDEX_TYPE'] == 'UNIQUE') {
+                $options = array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE);
+                $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE;
+            }
+            $table->addIndex($this->getIndexName($newTableName, $fields, $indexType), $fields, $options);
+        }
+
+        $foreignKeys = $this->getForeignKeys($tableName);
+        foreach ($foreignKeys as $keyData) {
+            $fkName = $this->getForeignKeyName(
+                $newTableName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'], $keyData['REF_COLUMN_NAME']
+            );
+            $onDelete = '';
+            if ($keyData['ON_DELETE'] == 'CASCADE') {
+                $onDelete = Varien_Db_Ddl_Table::ACTION_CASCADE;
+            } else if ($keyData['ON_DELETE'] == 'SET NULL') {
+                $onDelete = Varien_Db_Ddl_Table::ACTION_SET_NULL;
+            } else if ($keyData['ON_DELETE'] == 'RESTRICT') {
+                $onDelete = Varien_Db_Ddl_Table::ACTION_RESTRICT;
+            } else {
+                $onDelete = Varien_Db_Ddl_Table::ACTION_NO_ACTION;
+            }
+            $onUpdate = '';
+            if ($keyData['ON_UPDATE'] == 'CASCADE') {
+               $onUpdate = Varien_Db_Ddl_Table::ACTION_CASCADE;
+            } else if ($keyData['ON_UPDATE'] == 'SET NULL') {
+               $onUpdate = Varien_Db_Ddl_Table::ACTION_SET_NULL;
+            } else if ($keyData['ON_UPDATE'] == 'RESTRICT') {
+               $onUpdate = Varien_Db_Ddl_Table::ACTION_RESTRICT;
+            } else {
+               $onUpdate = Varien_Db_Ddl_Table::ACTION_NO_ACTION;
+            }
+            $table->addForeignKey(
+                $fkName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'], 
+                $keyData['REF_COLUMN_NAME'], $onDelete, $onUpdate
+            );
+        }
+        return $table;
+    }
+
+    /**
+     * Modify the column definition by data from describe table
+     *
+     * @param string $tableName
+     * @param string $columnName
+     * @param array|string $definition
+     * @param boolean $flushData
+     * @param string $schemaName
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    public function modifyColumnByDdl($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
+    {
+        $definition['COLUMN_TYPE'] = $this->_getColumnTypeByDdl($definition);
+        if (array_key_exists('DEFAULT', $definition) && is_null($definition['DEFAULT'])) {
+            unset($definition['DEFAULT']);
+        }
+        return $this->modifyColumn($tableName, $columnName, $definition, $flushData, $schemaName);
+    }
+
+    /**
+     * Retrieve column data type by data from describe table
+     * 
+     * @param array $column
+     * @return string
+     */
+    protected function _getColumnTypeByDdl($column)
+    {
+        switch ($column['DATA_TYPE']) {
+            case 'char':
+                return Varien_Db_Ddl_Table::TYPE_TEXT;
+            case 'varchar':
+                return Varien_Db_Ddl_Table::TYPE_TEXT;
+            case 'text':
+                return Varien_Db_Ddl_Table::TYPE_TEXT;
+            case 'mediumtext':
+                return Varien_Db_Ddl_Table::TYPE_TEXT;
+            case 'longtext':
+                return Varien_Db_Ddl_Table::TYPE_TEXT;
+            case 'tinytext':
+                return Varien_Db_Ddl_Table::TYPE_TEXT;
+            case 'blob':
+                return Varien_Db_Ddl_Table::TYPE_BLOB;
+            case 'mediumblob':
+                return Varien_Db_Ddl_Table::TYPE_BLOB;
+            case 'mediumint':
+            case 'int':
+                return Varien_Db_Ddl_Table::TYPE_INTEGER;
+            case 'bigint':
+                $type = Varien_Db_Ddl_Table::TYPE_BIGINT;
+            case 'datetime':
+            case 'timestamp':
+                return Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+            case 'date':
+                return Varien_Db_Ddl_Table::TYPE_DATE;
+            case 'tinyint':
+            case 'smallint':
+                return Varien_Db_Ddl_Table::TYPE_SMALLINT;
+            case 'float':
+                return Varien_Db_Ddl_Table::TYPE_FLOAT;
+            case 'decimal':
+                return Varien_Db_Ddl_Table::TYPE_DECIMAL;
+        }
     }
 
     /**

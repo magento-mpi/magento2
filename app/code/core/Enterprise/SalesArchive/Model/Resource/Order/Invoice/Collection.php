@@ -36,7 +36,7 @@ class Enterprise_SalesArchive_Model_Resource_Order_Invoice_Collection
     extends Mage_Sales_Model_Resource_Order_Invoice_Grid_Collection
 {
     /**
-     * Enter description here ...
+     * Collection initialization
      *
      */
     protected function _construct()

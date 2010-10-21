@@ -40,14 +40,18 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
      * @var $_tables array
      */
     protected $_tables   = array(
-        Enterprise_SalesArchive_Model_Archive::ORDER     => array('sales/order_grid', 'enterprise_salesarchive/order_grid'),
-        Enterprise_SalesArchive_Model_Archive::INVOICE   => array('sales/invoice_grid', 'enterprise_salesarchive/invoice_grid'),
-        Enterprise_SalesArchive_Model_Archive::SHIPMENT  => array('sales/shipment_grid', 'enterprise_salesarchive/shipment_grid'),
-        Enterprise_SalesArchive_Model_Archive::CREDITMEMO=> array('sales/creditmemo_grid', 'enterprise_salesarchive/creditmemo_grid')
+        Enterprise_SalesArchive_Model_Archive::ORDER
+            => array('sales/order_grid', 'enterprise_salesarchive/order_grid'),
+        Enterprise_SalesArchive_Model_Archive::INVOICE
+            => array('sales/invoice_grid', 'enterprise_salesarchive/invoice_grid'),
+        Enterprise_SalesArchive_Model_Archive::SHIPMENT
+            => array('sales/shipment_grid', 'enterprise_salesarchive/shipment_grid'),
+        Enterprise_SalesArchive_Model_Archive::CREDITMEMO
+            => array('sales/creditmemo_grid', 'enterprise_salesarchive/creditmemo_grid')
     );
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -160,13 +164,18 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
      */
     protected function _getOrderIdsForArchiveSelect($statuses, $archiveAge)
     {
+        $adapter = $this->_getReadAdapter();
         $table = $this->getArchiveEntitySourceTable(Enterprise_SalesArchive_Model_Archive::ORDER);
-        $select = $this->_getReadAdapter()->select()
+        $select = $adapter->select()
             ->from($table, 'entity_id')
             ->where('status IN(?)', $statuses);
 
         if ($archiveAge) { // Check archive age
-            $select->where('(TO_DAYS(?) - TO_DAYS(updated_at)) >= ' . (int) $archiveAge, $this->formatDate(time()));
+            $archivePeriodExpr = $adapter->getDateSubSql($adapter->quote($this->formatDate(time())),
+                (int) $archiveAge,
+                Varien_Db_Adapter_Interface::INTERVAL_DAY
+            );
+            $select->where($archivePeriodExpr . ' <= updated_at');
         }
 
         return $select;
@@ -203,21 +212,21 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
         if (!$this->isArchiveEntityExists($archiveEntity)) {
             return $this;
         }
-
+        $adapter = $this->_getWriteAdapter();
         $sourceTable = $this->getArchiveEntitySourceTable($archiveEntity);
         $targetTable = $this->getArchiveEntityTable($archiveEntity);
 
         $insertFields = array_intersect(
-            array_keys($this->_getWriteAdapter()->describeTable($targetTable)),
-            array_keys($this->_getWriteAdapter()->describeTable($sourceTable))
+            array_keys($adapter->describeTable($targetTable)),
+            array_keys($adapter->describeTable($sourceTable))
         );
 
-        $fieldCondition = $this->_getWriteAdapter()->quoteIdentifier($conditionField) . ' IN(?)';
-        $select = $this->_getWriteAdapter()->select()
+        $fieldCondition = $adapter->quoteIdentifier($conditionField) . ' IN(?)';
+        $select = $adapter->select()
             ->from($sourceTable, $insertFields)
             ->where($fieldCondition, $conditionValue);
 
-        $this->_getWriteAdapter()->query($select->insertFromSelect($targetTable, $insertFields, true));
+        $adapter->query($select->insertFromSelect($targetTable, $insertFields, true));
         return $this;
     }
 
@@ -235,20 +244,21 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
         if (!$this->isArchiveEntityExists($archiveEntity)) {
             return $this;
         }
-
+        $adapter = $this->_getWriteAdapter();
         $sourceTable = $this->getArchiveEntitySourceTable($archiveEntity);
         $targetTable = $this->getArchiveEntityTable($archiveEntity);
         $sourceResource = Mage::getResourceSingleton($archive->getEntityModel($archiveEntity));
         if ($conditionValue instanceof Zend_Db_Expr) {
-            $select = $this->_getWriteAdapter()->select();
-            $select->from($targetTable, $sourceResource->getIdFieldName()); // Remove order grid records moved to archive
-            $condition = $this->_getWriteAdapter()->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new Zend_Db_Expr($select));
+            $select = $adapter->select();
+            // Remove order grid records moved to archive
+            $select->from($targetTable, $sourceResource->getIdFieldName());
+            $condition = $adapter->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new Zend_Db_Expr($select));
         } else {
-            $fieldCondition = $this->_getWriteAdapter()->quoteIdentifier($conditionField) . ' IN(?)';
-            $condition = $this->_getWriteAdapter()->quoteInto($fieldCondition, $conditionValue);
+            $fieldCondition = $adapter->quoteIdentifier($conditionField) . ' IN(?)';
+            $condition = $adapter->quoteInto($fieldCondition, $conditionValue);
         }
 
-        $this->_getWriteAdapter()->delete($sourceTable, $condition);
+        $adapter->delete($sourceTable, $condition);
         return $this;
     }
 
@@ -266,14 +276,14 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
         if (!$this->isArchiveEntityExists($archiveEntity)) {
             return $this;
         }
-
+        $adapter = $this->_getWriteAdapter();
         $sourceTable = $this->getArchiveEntityTable($archiveEntity);
         $targetTable = $this->getArchiveEntitySourceTable($archiveEntity);
         $sourceResource = Mage::getResourceSingleton($archive->getEntityModel($archiveEntity));
 
         $insertFields = array_intersect(
-            array_keys($this->_getWriteAdapter()->describeTable($targetTable)),
-            array_keys($this->_getWriteAdapter()->describeTable($sourceTable))
+            array_keys($adapter->describeTable($targetTable)),
+            array_keys($adapter->describeTable($sourceTable))
         );
         $updatedAtIndex = array_search('updated_at', $insertFields);
         if ($updatedAtIndex !== false) {
@@ -281,27 +291,27 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
             $insertFields['updated_at'] = new Zend_Db_Expr("'".$this->formatDate(time())."'");
         }
 
-        $select = $this->_getWriteAdapter()->select()
+        $select = $adapter->select()
             ->from($sourceTable, $insertFields);
 
         if (!empty($conditionField)) {
-            $select->where($this->_getWriteAdapter()->quoteIdentifier($conditionField) . ' IN(?)', $conditionValue);
+            $select->where($adapter->quoteIdentifier($conditionField) . ' IN(?)', $conditionValue);
         }
 
-        $this->_getWriteAdapter()->query($select->insertFromSelect($targetTable, $insertFields, true));
+        $adapter->query($select->insertFromSelect($targetTable, $insertFields, true));
         if ($conditionValue instanceof Zend_Db_Expr) {
             $select->reset()
                 ->from($targetTable, $sourceResource->getIdFieldName()); // Remove order grid records from archive
-            $condition = $this->_getWriteAdapter()->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new Zend_Db_Expr($select));
+            $condition = $adapter->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new Zend_Db_Expr($select));
         } elseif (!empty($conditionField)) {
-            $condition = $this->_getWriteAdapter()->quoteInto(
-                $this->_getWriteAdapter()->quoteIdentifier($conditionField) . ' IN(?)', $conditionValue
+            $condition = $adapter->quoteInto(
+                $adapter->quoteIdentifier($conditionField) . ' IN(?)', $conditionValue
             );
         } else {
             $condition = '';
         }
 
-        $this->_getWriteAdapter()->delete($sourceTable, $condition);
+        $adapter->delete($sourceTable, $condition);
         return $this;
     }
 
@@ -328,7 +338,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
 
         $columnsToSelect = array();
 
-        $select = $resource->getUpdateGridRecordsSelect($ids, $columnsToSelect,  $gridColumns, true);
+        $select = $resource->getUpdateGridRecordsSelect($ids, $columnsToSelect, $gridColumns, true);
 
         $this->_getWriteAdapter()->query(
             $select->insertFromSelect($this->getArchiveEntityTable($archiveEntity), $columnsToSelect, true)
