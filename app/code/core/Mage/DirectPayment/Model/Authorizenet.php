@@ -332,7 +332,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
     protected function _decline(Mage_Sales_Model_Order $order, $message = '', $voidPayment = true)
     {
         $response = $this->getResponse();
-        if ($voidPayment && $response->getXTransId() && $response->getXType() == 'AUTH_ONLY'){
+        if ($voidPayment && $response->getXTransId() && strtoupper($response->getXType()) == 'AUTH_ONLY'){
             $order->getPayment()
                 ->setTransactionId(null)
                 ->setParentTransactionId($response->getXTransId())
