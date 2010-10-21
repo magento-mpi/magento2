@@ -126,8 +126,7 @@ class Enterprise_Banner_Block_Widget_Banner
     {
         if (!$this->_getData('banner_ids')) {
             $this->setData('banner_ids', array(0));
-        }
-        elseif (is_string($this->_getData('banner_ids'))) {
+        } elseif (is_string($this->_getData('banner_ids'))) {
             $bannerIds = explode(',', $this->_getData('banner_ids'));
             foreach ($bannerIds as $_key => $_id) {
                 $bannerIds[$_key] = (int)trim($_id);
@@ -162,7 +161,7 @@ class Enterprise_Banner_Block_Widget_Banner
      */
     public function getUniqueId()
     {
-        if (!$this->_getData('unique_id')){
+        if (!$this->_getData('unique_id')) {
             $this->setData('unique_id', md5(implode('-', $this->getBannerIds())));
         }
         return $this->_getData('unique_id');
@@ -253,8 +252,7 @@ class Enterprise_Banner_Block_Widget_Banner
                     $bannerId = $bannerIds[0];
                     if (!$this->_sessionInstance->_getData($this->getUniqueId())) {
                         $this->_sessionInstance->setData($this->getUniqueId(), array($bannerIds[0]));
-                    }
-                    else {
+                    } else {
                         $bannersSequence = $this->_sessionInstance->_getData($this->getUniqueId());
                         $canShowIds = array_merge(array_diff($bannerIds, $bannersSequence), array());
                         if (!empty($canShowIds)) {
@@ -264,8 +262,7 @@ class Enterprise_Banner_Block_Widget_Banner
                             }
                             $bannersSequence[] = $canShowIds[$showId];
                             $bannerId = $canShowIds[$showId];
-                        }
-                        else {
+                        } else {
                             $bannersSequence = array($bannerIds[0]);
                         }
                         $this->_sessionInstance->setData($this->getUniqueId(), $bannersSequence);

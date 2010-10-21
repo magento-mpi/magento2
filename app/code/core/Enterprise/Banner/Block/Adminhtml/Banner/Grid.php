@@ -151,10 +151,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
      */
     protected function _addColumnFilterToCollection($column)
     {
-        if($column->getIndex() == 'stores') {
+        if ($column->getIndex() == 'stores') {
             $this->getCollection()->addStoreFilter($column->getFilter()->getCondition(), false);
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;

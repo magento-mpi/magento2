@@ -293,14 +293,12 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
             }
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addBannerIdsFilter($bannerIds);
-            }
-            else {
-                if($bannerIds) {
+            } else {
+                if ($bannerIds) {
                     $this->getCollection()->addBannerIdsFilter($bannerIds, true);
                 }
             }
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;

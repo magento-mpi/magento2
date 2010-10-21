@@ -81,22 +81,22 @@ class Enterprise_Banner_Model_Resource_Banner_Collection extends Mage_Core_Model
         $bannerIds = $this->getColumnValues('banner_id');
         $bannersStores = array();
         if (sizeof($bannerIds)>0) {
-            $select = $this->getConnection()->select()
+            $adapter = $this->getConnection();
+            $select = $adapter->select()
                 ->from($this->getTable('enterprise_banner/content'), array('store_id', 'banner_id'))
                 ->where('banner_id IN(?)', $bannerIds);
-            $bannersRaw = $this->getConnection()->fetchAll($select);
+            $bannersRaw = $adapter->fetchAll($select);
 
             foreach ($bannersRaw as $banner) {
                 if (!isset($bannersStores[$banner['banner_id']])) {
                     $bannersStores[$banner['banner_id']] = array();
                 }
-
                 $bannersStores[$banner['banner_id']][] = $banner['store_id'];
             }
         }
 
         foreach ($this as $item) {
-            if(isset($bannersStores[$item->getId()])) {
+            if (isset($bannersStores[$item->getId()])) {
                 $item->setStores($bannersStores[$item->getId()]);
             } else {
                 $item->setStores(array());
@@ -125,7 +125,7 @@ class Enterprise_Banner_Model_Resource_Banner_Collection extends Mage_Core_Model
                 'main_table.banner_id = store_table.banner_id',
                 array()
             )
-            ->where('store_table.store_id in (?)', $storeIds)
+            ->where('store_table.store_id IN (?)', $storeIds)
             ->group('main_table.banner_id');
 
             $this->setFlag('store_filter', true);

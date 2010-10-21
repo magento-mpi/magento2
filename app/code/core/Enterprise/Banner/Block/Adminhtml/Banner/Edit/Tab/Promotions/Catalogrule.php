@@ -72,14 +72,12 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
             }
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('rule_id', array('in'=>$ruleIds));
-            }
-            else {
-                if($ruleIds) {
+            } else {
+                if ($ruleIds) {
                     $this->getCollection()->addFieldToFilter('rule_id', array('nin'=>$ruleIds));
                 }
             }
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;

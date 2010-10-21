@@ -74,7 +74,7 @@ class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_SalesRu
                 array('rule_related_banners' => $this->getTable('enterprise_banner/salesrule')),
                 array('banner_id')
             );
-            if(empty($aplliedRules)){
+            if (empty($aplliedRules)) {
                 $aplliedRules = array(0);
             }
             $select->where('rule_related_banners.rule_id IN (?)', $aplliedRules);
@@ -105,12 +105,13 @@ class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_SalesRu
             $select->joinLeft(
                 array('banner_segments' => $this->getTable('enterprise_banner/customersegment')),
                 'banners.banner_id = banner_segments.banner_id',
-                array()
-            );
+                array());
+            
             if (empty($matchedCustomerSegments)) {
                 $select->where('banner_segments.segment_id IS NULL');
             } else {
-                $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)', $matchedCustomerSegments);
+                $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)',
+                    $matchedCustomerSegments);
             }
             $this->_isCustomerSegmentFilterAdded = true;
         }

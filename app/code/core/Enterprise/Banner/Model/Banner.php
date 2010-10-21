@@ -134,13 +134,11 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
             $contents = $this->_getData('store_contents');
             if (isset($contents[$storeId])) {
                 return $contents[$storeId];
-            }
-            elseif ($contents[0]) {
+            } elseif ($contents[0]) {
                 return $contents[0];
             }
             return false;
-        }
-        elseif (!isset($this->_contents[$storeId])) {
+        } elseif (!isset($this->_contents[$storeId])) {
             $this->_contents[$storeId] = $this->_getResource()->getStoreContent($this->getId(), $storeId);
         }
         return $this->_contents[$storeId];

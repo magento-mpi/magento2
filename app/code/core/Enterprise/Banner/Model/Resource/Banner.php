@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Banner resource module
  *
  * @category    Enterprise
  * @package     Enterprise_Banner
@@ -131,22 +131,22 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
                     array('banner_id' => $bannerId, 'store_id' => $storeId, 'banner_content' => $content),
                     array('banner_content')
                 );
-            }
-            else {
+            } else {
                 $deleteContentsByStores[] = $storeId;
             }
         }
         if (!empty($deleteContentsByStores) || !empty($notuse)) {
-            $adapter->delete($this->_contentsTable,
-                $adapter->quoteInto('banner_id=? AND ', $bannerId) . $adapter->quoteInto('store_id IN (?)',
-                array_merge($deleteContentsByStores, array_keys($notuse)))
+            $condition = array(
+                'banner_id = ?'   => $bannerId,
+                'store_id IN (?)' => array_merge($deleteContentsByStores, array_keys($notuse)),
             );
+            $adapter->delete($this->_contentsTable, $condition);
         }
         return $this;
     }
 
     /**
-     * Delete unckecked catalog rules
+     * Delete unchecked catalog rules
      *
      * @param int $bannerId
      * @param array $rules
@@ -157,8 +157,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $adapter = $this->_getWriteAdapter();
         if (empty($rules)) {
             $rules = array(0);
-        }
-        else {
+        } else {
             foreach ($rules as $ruleId) {
                 $adapter->insertOnDuplicate(
                     $this->_catalogRuleTable,
@@ -167,9 +166,11 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
                 );
             }
         }
-        $adapter->delete($this->_catalogRuleTable,
-            $adapter->quoteInto('banner_id=? AND ', $bannerId) . $adapter->quoteInto('rule_id NOT IN (?)', $rules)
+        $condition = array(
+            'banner_id=?'        => $bannerId,
+            'rule_id NOT IN (?)' => $rules
         );
+        $adapter->delete($this->_catalogRuleTable, $condition);
         return $this;
     }
 
@@ -185,8 +186,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $adapter = $this->_getWriteAdapter();
         if (empty($rules)) {
             $rules = array(0);
-        }
-        else {
+        } else {
             foreach ($rules as $ruleId) {
                 $adapter->insertOnDuplicate(
                     $this->_salesRuleTable,
@@ -196,7 +196,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
             }
         }
         $adapter->delete($this->_salesRuleTable,
-            $adapter->quoteInto('banner_id=? AND ', $bannerId) . $adapter->quoteInto('rule_id NOT IN (?)', $rules)
+            array('banner_id=?' => $bannerId, 'rule_id NOT IN (?)' => $rules)
         );
         return $this;
     }
@@ -247,7 +247,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
             $select->joinInner(array('b' => $this->getTable('enterprise_banner/banner')), 'main.banner_id = b.banner_id');
             $filter = array();
             foreach ($this->_bannerTypesFilter as $type) {
-                $filter[] = $this->getReadConnection()->quoteInto('FIND_IN_SET(?, b.types)', $type);
+                $filter[] = $adapter->prepareSqlCondition('b.types',  array('finset' => $type));
             }
             $select->where(implode(' OR ', $filter));
         }
@@ -357,7 +357,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         }
 
         $adapter->delete($this->_catalogRuleTable,
-            $adapter->quoteInto('rule_id=? AND ', $ruleId) . $adapter->quoteInto('banner_id NOT IN (?)', $banners)
+            array('rule_id = ?' => $ruleId, 'banner_id NOT IN (?)' => $banners)
         );
         return $this;
     }
@@ -385,7 +385,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         }
 
         $adapter->delete($this->_salesRuleTable,
-            $adapter->quoteInto('rule_id=? AND ', $ruleId) . $adapter->quoteInto('banner_id NOT IN (?)', $banners)
+            array('rule_id = ?' => $ruleId, 'banner_id NOT IN (?)' => $banners)
         );
         return $this;
     }
@@ -491,7 +491,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         }
 
         $adapter->delete($this->_customerSegmentTable,
-            $adapter->quoteInto('banner_id=? AND ', $bannerId) . $adapter->quoteInto('segment_id NOT IN (?)', $segments)
+            array('banner_id = ?' => $bannerId, 'segment_id NOT IN (?)' => $segments)
         );
         return $this;
     }
