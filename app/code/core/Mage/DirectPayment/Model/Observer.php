@@ -49,7 +49,7 @@ class Mage_DirectPayment_Model_Observer
         return $this;
     }
     
-	/**
+    /**
      * Save order into registry to use it in the overloaded controller.
      *
      * @param Varien_Event_Observer $observer

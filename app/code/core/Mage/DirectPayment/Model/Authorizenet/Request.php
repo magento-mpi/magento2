@@ -53,7 +53,7 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
         return $this;
     }
     
-	/**
+    /**
      * Generates the fingerprint for request.
      *
      * @param string $merchantApiLoginId

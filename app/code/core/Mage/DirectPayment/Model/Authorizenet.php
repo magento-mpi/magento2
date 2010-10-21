@@ -54,7 +54,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         return true;
     }
     
-	/**
+    /**
      * Send authorize request to gateway
      *
      * @param  Varien_Object $payment
@@ -88,7 +88,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         return Mage::getModel('directpayment/authorizenet_request');
     }
     
-	/**
+    /**
      * Return response.
      *
      * @return Mage_DirectPayment_Model_Authorizenet_Response
@@ -106,7 +106,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
      *  Return Order Place Redirect URL.
      *  Need to prevent emails sending for new orders to store's directors.
      *
-     *  @return	  string 1
+     *  @return      string 1
      */
     public function getOrderPlaceRedirectUrl()
     {
@@ -253,34 +253,35 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         }
         
         $payment->setTransactionId($response->getXTransId())
-            ->setIsTransactionClosed(true);
+            ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId())
+            ->setIsTransactionClosed(0);
         
         $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
         
         // Set transaction apporval message
-		$message = Mage::helper('directpayment')->__(
-			'Amount of %s approved by payment gateway. Transaction ID: "%s".',
-			$order->getBaseCurrency()->formatTxt($payment->getBaseAmountAuthorized()),
-			$response->getXTransId()
-		);
-		
-		$order->setState(Mage_Sales_Model_Order::STATE_NEW, true, $message, true)
-			->save();
+        $message = Mage::helper('directpayment')->__(
+            'Amount of %s approved by payment gateway. Transaction ID: "%s".',
+            $order->getBaseCurrency()->formatTxt($payment->getBaseAmountAuthorized()),
+            $response->getXTransId()
+        );
+        
+        $order->setState(Mage_Sales_Model_Order::STATE_NEW, true, $message, true)
+            ->save();
 
-		if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
-			$payment->capture(null);
-			$order->save();
-		}
+        if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
+            $payment->capture(null);
+            $order->save();
+        }
 
-		try {
-			$order->sendNewOrderEmail();
-			
-			Mage::getModel('sales/quote')
-				->load($order->getQuoteId())
-				->setIsActive(false)
-				->save();
-		}
-		// do not cancel order if we couldn't send email
-		catch (Exception $e) {}
+        try {
+            $order->sendNewOrderEmail();
+            
+            Mage::getModel('sales/quote')
+                ->load($order->getQuoteId())
+                ->setIsActive(false)
+                ->save();
+        }
+        // do not cancel order if we couldn't send email
+        catch (Exception $e) {}
     }
 }
