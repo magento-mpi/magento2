@@ -44,6 +44,7 @@ directPayment.prototype = {
         this.isResponse = false;
         this.orderIncrementId = false;
         this.successUrl = false;
+        this.hasError = false;
         this.buttons = [];
         
         this.onSaveOnepageOrderSuccess = this.saveOnepageOrderSuccess.bindAsEventListener(this);        
@@ -185,7 +186,9 @@ directPayment.prototype = {
 		    		}
 		    		else {
 		    			this.paymentRequestSent = false;
-		    			$(this.iframeId).show();
+		    			if (!this.hasError) {
+		    				$(this.iframeId).show();
+		    			}
 		    			this.enableInputs();
 		    			toggleSelectsUnderBlock($('loading-mask'), true);
 		    			$('loading-mask').hide();
@@ -219,8 +222,7 @@ directPayment.prototype = {
     			break;
     		case 'sales_order_edit':
 	    	case 'sales_order_create':
-	    		$(this.iframeId).style.height = '0px';
-	    		$(this.iframeId).hide();
+	    		this.hasError = true;
 	    		break;
     	}    	  	
     	alert(msg);
