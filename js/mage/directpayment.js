@@ -24,11 +24,12 @@
  */
 var directPayment = Class.create();
 directPayment.prototype = {
-	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl)
+	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl, nativeAction)
     {		
         this.iframeId = iframeId;
         this.controller = controller;
-        this.orderSaveUrl = orderSaveUrl;  
+        this.orderSaveUrl = orderSaveUrl;
+        this.nativeAction = nativeAction;
         this.cgiUrl = cgiUrl;        
         this.code = 'directpayment';
         this.inputs = {
@@ -114,16 +115,15 @@ directPayment.prototype = {
 		    		}(this));	    		
 		    		break;		    	
 		    	case 'sales_order_create':
-		    	case 'sales_order_edit':		    				    		
-			    	this.buttons = document.getElementsByClassName('scalable save');
+		    	case 'sales_order_edit':		    		
+			    	this.buttons = document.getElementsByClassName('scalable save');			    	
 			    	for(var i = 0; i < this.buttons.length; i++){
 			    		var button = this.buttons[i];			    		
 				    	button.writeAttribute('onclick','');
 				    	button.observe('click', function(obj){		    		
 				    		return function(){
-				    			if (editForm.validator.validate()) {
-				    				var nativeAction = $(this).up('form').readAttribute('action');
-					    			var paymentMethodEl = $(this).up('form').getInputs('radio','payment[method]').find(function(radio){return radio.checked;});				    			
+				    			if (editForm.validator.validate()) {				    				
+					    			var paymentMethodEl = $(this).up('form').getInputs('radio','payment[method]').find(function(radio){return radio.checked;});					    			
 					    			if (paymentMethodEl && paymentMethodEl.value == obj.code) {					    			
 					    				if (obj.validate()) {					    				
 						    				toggleSelectsUnderBlock($('loading-mask'), false);
@@ -135,13 +135,15 @@ directPayment.prototype = {
 						    				$(this).up('form').writeAttribute('action', obj.orderSaveUrl);
 						    				$(this).up('form').writeAttribute('target',$(obj.iframeId).readAttribute('name'));
 						    				$(this).up('form').appendChild(obj.createHiddenElement('controller', obj.controller));
+						    				disableElements('save');
 						    				$(this).up('form').submit();
 					    				}				    								    			
 						    		}
 					    			else {
-					    				$(this).up('form').writeAttribute('action', nativeAction);
+					    				$(this).up('form').writeAttribute('action', obj.nativeAction);
 					    				$(this).up('form').writeAttribute('target','_top');
-					    				order.submit();
+					    				disableElements('save');
+					    				$(this).up('form').submit();
 					    			}
 				    			}
 			    			}				    	
@@ -177,7 +179,8 @@ directPayment.prototype = {
 		    			}
 		    			this.enableInputs();
 		    			toggleSelectsUnderBlock($('loading-mask'), true);
-		    			$('loading-mask').hide();		    			
+		    			$('loading-mask').hide();
+		    			enableElements('save');
 		    		}
 		    		break;
     		}

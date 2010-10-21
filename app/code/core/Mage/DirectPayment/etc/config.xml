@@ -170,6 +170,7 @@
                 <trans_md5 backend_model="adminhtml/system_config_backend_encrypted"/>
                 <allowspecific>0</allowspecific>
                 <currency>USD</currency>
+                <create_order_before>1</create_order_before>
             </directpayment>
         </payment>
     </default>

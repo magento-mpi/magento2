@@ -94,7 +94,7 @@ class Mage_DirectPayment_Adminhtml_Directpayment_PaygateController extends Mage_
      */
     public function redirectAction()
     {
-        $redirectParams = $this->getRequest()->getParams();Mage::log($redirectParams);
+        $redirectParams = $this->getRequest()->getParams();
         $params = array();
         if (!empty($redirectParams['success'])
             && isset($redirectParams['x_invoice_num'])
@@ -103,7 +103,7 @@ class Mage_DirectPayment_Adminhtml_Directpayment_PaygateController extends Mage_
         }
         if (!empty($redirectParams['error_msg'])
             && isset($redirectParams['x_invoice_num'])) {
-            $this->_returnCustomerQuote($redirectParams['x_invoice_num']);
+            $this->_returnQuote($redirectParams['x_invoice_num']);
         }
         $block = $this->getLayout()
                         ->createBlock('directpayment/iframe')
@@ -112,12 +112,12 @@ class Mage_DirectPayment_Adminhtml_Directpayment_PaygateController extends Mage_
     }
     
 	/**
-     * Return customer quote
+     * Return quote
      * 
      * @param int $orderIncrementId
      * @return bool
      */
-    protected function _returnCustomerQuote($orderIncrementId)
+    protected function _returnQuote($orderIncrementId)
     {
         if ($orderIncrementId && 
             $this->_getDirectPaymentSession()

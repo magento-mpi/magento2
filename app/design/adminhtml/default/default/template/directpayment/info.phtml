@@ -133,7 +133,8 @@ directPaymentModel = new directPayment(
 		'directpayment-iframe',
 		'<?php echo $_controller ?>',
 		'<?php echo $_orderUrl ?>',
-		'<?php echo $_method->getCgiUrl() ?>');
+		'<?php echo $_method->getCgiUrl() ?>',
+		$('edit_form').readAttribute('action'));
 <?php if (!$this->isAjaxRequest()): ?>
 });
 <?php endif; ?>
