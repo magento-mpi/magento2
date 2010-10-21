@@ -70,6 +70,13 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     protected $_groupTable;
 
     /**
+     * Array of info about stores
+     *
+     * @var array
+     */
+    protected $_storesInfo;
+
+    /**
      * Enter description here ...
      *
      */
@@ -194,6 +201,24 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     }
 
     /**
+     * Return array of used root category id - path pairs
+     *
+     * @return array
+     */
+    protected function _getRootCategories()
+    {
+        $rootCategories = array();
+        $stores = $this->_getStoresInfo();
+        foreach ($stores as $storeInfo) {
+            if ($storeInfo['root_id']) {
+                $rootCategories[$storeInfo['root_id']] = $storeInfo['root_path'];
+            }
+        }
+
+        return $rootCategories;
+    }
+
+    /**
      * Process category index after category save
      *
      * @param Mage_Index_Model_Event $event
@@ -202,13 +227,24 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     {
         $data = $event->getNewData();
 
+        $checkRootCategories        = false;
+        $processRootCategories      = false;
+        $affectedRootCategoryIds    = array();
+        $rootCategories             = $this->_getRootCategories();
+
         /**
          * Check if we have reindex category move results
          */
         if (isset($data['affected_category_ids'])) {
-            $categoryIds = $event->getNewData('affected_category_ids');
+            $categoryIds = $data['affected_category_ids'];
+            $checkRootCategories = true;
         } else if (isset($data['products_was_changed'])) {
             $categoryIds = array($event->getEntityPk());
+
+            if (isset($rootCategories[$event->getEntityPk()])) {
+                $processRootCategories = true;
+                $affectedRootCategoryIds[] = $event->getEntityPk();
+            }
         } else {
             return;
         }
@@ -219,9 +255,20 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         $paths = $this->_getWriteAdapter()->fetchCol($select);
         $allCategoryIds = array();
         foreach ($paths as $path) {
+            if ($checkRootCategories) {
+                foreach ($rootCategories as $rootCategoryId => $rootCategoryPath) {
+                    if (strpos($path, sprintf('%d/', $rootCategoryPath)) === 0 || $path == $rootCategoryPath) {
+                        $affectedRootCategoryIds[$rootCategoryId] = $rootCategoryId;
+                    }
+                }
+            }
             $allCategoryIds = array_merge($allCategoryIds, explode('/', $path));
         }
         $allCategoryIds = array_unique($allCategoryIds);
+
+        if ($checkRootCategories && count($affectedRootCategoryIds) > 1) {
+            $processRootCategories = true;
+        }
 
         /**
          * retrieve anchor category id
@@ -252,13 +299,115 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             $this->_getWriteAdapter()->quoteInto('category_id IN(?)', $deleteCategoryIds)
         );
 
-        $currCategoryAnchorIds = array_intersect($anchorIds, $categoryIds);
-        $anchorIds = array_diff($anchorIds, $categoryIds);
-        $this->_refreshAnchorRelations($anchorIds);
-        $currCategoryAnchorIds
-            ? $this->_refreshAnchorRelations($currCategoryAnchorIds)
-            : $this->_refreshDirectRelations($categoryIds);
+        $directIds = array_diff($categoryIds, $anchorIds);
+        if ($anchorIds) {
+            $this->_refreshAnchorRelations($anchorIds);
+        }
+        if ($directIds) {
+            $this->_refreshDirectRelations($directIds);
+        }
+
+        /**
+         * Need to re-index affected root category ids when its are not anchor
+         */
+        if ($processRootCategories) {
+            $reindexRootCategoryIds = array_diff($affectedRootCategoryIds, $anchorIds);
+            if ($reindexRootCategoryIds) {
+                $this->_refreshNotAnchorRootCategories($reindexRootCategoryIds);
+            }
+        }
+
     }
+
+    /**
+     * Reindex not anchor root categories
+     *
+     * @param array $categoryIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product
+     */
+    protected function _refreshNotAnchorRootCategories(array $categoryIds = null)
+    {
+        if (empty($categoryIds)) {
+            return $this;
+        }
+
+        // remove anchor relations
+        $where = array(
+            'category_id IN(?)' => $categoryIds,
+            'is_parent=?'       => 0
+        );
+        $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+
+        $stores = $this->_getStoresInfo();
+        /**
+         * Build index for each store
+         */
+        foreach ($stores as $storeData) {
+            $storeId    = $storeData['store_id'];
+            $websiteId  = $storeData['website_id'];
+            $rootPath   = $storeData['root_path'];
+            $rootId     = $storeData['root_id'];
+            if (!in_array($rootId, $categoryIds)) {
+                continue;
+            }
+
+            $select = $this->_getWriteAdapter()->select()
+                ->distinct(true)
+                ->from(array('cc' => $this->getTable('catalog/category')), null)
+                ->join(
+                    array('i' => $this->getMainTable()),
+                    'i.category_id = cc.entity_id and i.store_id = 1',
+                    array())
+                ->joinLeft(
+                    array('ie' => $this->getMainTable()),
+                    'ie.category_id = ' . (int)$rootId . ' AND ie.product_id=i.product_id AND ie.store_id = ' . (int)$storeId,
+                    array())
+                ->where('cc.path LIKE ?', $rootPath . '/%')
+                ->where('ie.category_id IS NULL')
+                ->columns(array(
+                    'category_id'   => new Zend_Db_Expr($rootId),
+                    'product_id'    => 'i.product_id',
+                    'position'      => new Zend_Db_Expr('0'),
+                    'is_parent'     => new Zend_Db_Expr('0'),
+                    'store_id'      => new Zend_Db_Expr($storeId),
+                    'visibility'    => 'i.visibility'
+                ));
+            $query = $select->insertFromSelect($this->getMainTable());
+            $this->_getWriteAdapter()->query($query);
+
+            $visibilityInfo = $this->_getVisibilityAttributeInfo();
+            $select = $this->_getReadAdapter()->select()
+                ->from(array('pw' => $this->_productWebsiteTable), array())
+                ->joinLeft(
+                    array('i' => $this->getMainTable()),
+                    'i.product_id = pw.product_id AND i.category_id = ' . (int)$rootId . ' AND i.store_id = ' . (int) $storeId,
+                    array())
+                ->joinLeft(
+                    array('dv' => $visibilityInfo['table']),
+                    "dv.entity_id = pw.product_id AND dv.attribute_id = {$visibilityInfo['id']} AND dv.store_id = 0",
+                    array())
+                ->joinLeft(
+                    array('sv' => $visibilityInfo['table']),
+                    "sv.entity_id = pw.product_id AND sv.attribute_id = {$visibilityInfo['id']} AND sv.store_id = " . (int)$storeId,
+                    array())
+                ->where('i.product_id IS NULL')
+                ->where('pw.website_id=?', $websiteId)
+                ->columns(array(
+                    'category_id'   => new Zend_Db_Expr($rootId),
+                    'product_id'    => 'pw.product_id',
+                    'position'      => new Zend_Db_Expr('0'),
+                    'is_parent'     => new Zend_Db_Expr('1'),
+                    'store_id'      => new Zend_Db_Expr($storeId),
+                    'visibility'    => 'IF(sv.value_id, sv.value, dv.value)'
+                ));
+
+            $query = $select->insertFromSelect($this->getMainTable());
+            $this->_getWriteAdapter()->query($query);
+        }
+
+        return $this;
+    }
+
 
     /**
      * Rebuild index for direct associations categories and products
@@ -518,7 +667,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             ->columns(array(
                 'category_id'   => 'g.root_category_id',
                 'product_id'    => 'pw.product_id',
-                'position'      => new Zend_Db_Expr('0'),
+                'position'      => $position,
                 'is_parent'     => new Zend_Db_Expr('1'),
                 'store_id'      => 's.store_id',
                 'visibility'    => $adapter->getCheckSql('sv.value_id IS NOT NULL', 'sv.value', 'dv.value'),
@@ -744,28 +893,6 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         return $this;
     }
 
-    /**
-     * Get array with store|website|root_categry path information
-     *
-     * @return array
-     */
-    protected function _getStoresInfo()
-    {
-        $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from(array('s' => $this->getTable('core/store')), array('store_id', 'website_id'))
-            ->join(array('sg' => $this->getTable('core/store_group')), 'sg.group_id=s.group_id', array())
-            ->join(
-                array('c' => $this->getTable('catalog/category')),
-                'c.entity_id=sg.root_category_id',
-                array(
-                    'root_path' => 'path',
-                    'root_id' => 'entity_id'
-                )
-            );
-        $stores = $adapter->fetchAll($select);
-        return $stores;
-    }
 
     /**
      * Create temporary table with enabled products visibility info
@@ -838,7 +965,35 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     }
 
     /**
-     * Create temporary table with list of anchor categories
+     * Get array with store|website|root_categry path information
+     *
+     * @return array
+     */
+    protected function _getStoresInfo()
+    {
+        if (is_null($this->_storesInfo)) {
+            $adapter = $this->_getReadAdapter();
+            $select = $adapter->select()
+                ->from(array('s' => $this->getTable('core/store')), array('store_id', 'website_id'))
+                ->join(
+                    array('sg' => $this->getTable('core/store_group')),
+                    'sg.group_id = s.group_id',
+                    array())
+                ->join(
+                    array('c' => $this->getTable('catalog/category')),
+                    'c.entity_id = sg.root_category_id',
+                    array(
+                        'root_path' => 'path',
+                        'root_id'   => 'entity_id'
+                    )
+                );
+            $this->_storesInfo = $adapter->fetchAll($select);
+        }
+
+        return $this->_storesInfo;
+    }
+
+
      *
      * @param int $storeId
      * @param unknown_type $rootPath
