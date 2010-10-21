@@ -24,7 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Authorize.net DirectPost payment method model.
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorizenet
 {
     protected $_code  = 'directpayment';
@@ -34,15 +38,18 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
     /**
      * Availability options
      */
+    protected $_canAuthorize            = true;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = false;
+    protected $_canRefundInvoicePartial = false;
+    protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
-    protected $_canSaveCc = false;
+    protected $_canSaveCc               = false;
     protected $_isInitializeNeeded      = true;
-    
-    // no need to debug
-    protected $_debugReplacePrivateDataKeys = array();
-    
+        
     protected $_response;
     
     /**
@@ -104,9 +111,9 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
     
     /**
      *  Return Order Place Redirect URL.
-     *  Need to prevent emails sending for new orders to store's directors.
+     *  Need to prevent emails sending for incomplete orders to store's directors.
      *
-     *  @return      string 1
+     *  @return string 1
      */
     public function getOrderPlaceRedirectUrl()
     {
@@ -149,8 +156,10 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
     {
         $request = $this->getRequestModel();
         $request->setConstantData($this)
-            ->setDataFromOrder($order)
+            ->setDataFromOrder($order, $this)
             ->signRequestData();
+        $this->_debug(array('request' => $request->getData()));
+            
         return $request;
     }
     
@@ -187,11 +196,21 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         return true;
     }
     
+    /**
+     * Operate with order using data from $_POST which came from authorize.net by Relay URL.
+     *
+     * @param array $responseData data from Authorize.net from $_POST
+     * @throws Mage_Core_Exception in case of validation error or order creation error
+     */
     public function process(array $responseData)
     {
+        $debugData = array(
+            'response' => $responseData
+        );
+        $this->_debug($debugData);
+        
         $this->setResponseData($responseData);
         
-        Mage::log($responseData);
         //check MD5 error or others response errors
         //throws exception on false.
         $this->validateResponse();
@@ -227,6 +246,12 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         }
     }
     
+    /**
+     * Check response code came from authorize.net.
+     *
+     * @return true in case of Approved response
+     * @throws Mage_Core_Exception in case of Declined or Error response from Authorize.net
+     */
     public function checkResponseCode()
     {
         switch ($this->getResponse()->getXResponseCode()) {
@@ -240,6 +265,12 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         }
     }
     
+    /**
+     * Operate with order using information from Authorize.net.
+     * Authorize order or authorize and capture it.
+     *
+     * @param Mage_Sales_Model_Order $order
+     */
     protected function _authOrder(Mage_Sales_Model_Order $order)
     {
         $this->checkResponseCode();
@@ -269,6 +300,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         $order->setState(Mage_Sales_Model_Order::STATE_NEW, true, $message, true)
             ->save();
 
+        //capture order using AIM if needed
         if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
             $payment->setTransactionId(null)
                 ->capture(null);

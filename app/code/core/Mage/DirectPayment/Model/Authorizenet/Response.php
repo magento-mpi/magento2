@@ -24,7 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Authorize.net response model for DirectPost model.
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_DirectPayment_Model_Authorizenet_Response extends Varien_Object
 {
     /**

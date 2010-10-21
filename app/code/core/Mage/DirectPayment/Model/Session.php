@@ -24,7 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Authorize.net DirectPost session model.
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_DirectPayment_Model_Session extends Mage_Core_Model_Session_Abstract
 {
     /**
@@ -35,32 +39,48 @@ class Mage_DirectPayment_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->init('directpayment');
     }
 
-    public function addCheckoutOrderIncrementId($orderId)
+    /**
+     * Add order IncrementId to session
+     *
+     * @param string $orderIncrementId
+     */
+    public function addCheckoutOrderIncrementId($orderIncrementId)
     {
-        $orderIds = $this->getDirectPaymentOrderIncrementIds();
-        if (!$orderIds) {
-            $orderIds = array();
+        $orderIncIds = $this->getDirectPaymentOrderIncrementIds();
+        if (!$orderIncIds) {
+            $orderIncIds = array();
         }
-        $orderIds[$orderId] = 1;
-        $this->setDirectPaymentOrderIncrementIds($orderIds);
+        $orderIncIds[$orderIncrementId] = 1;
+        $this->setDirectPaymentOrderIncrementIds($orderIncIds);
     }
     
-    public function removeCheckoutOrderIncrementId($orderId)
+    /**
+     * Remove order IncrementId from session
+     *
+     * @param string $orderIncrementId
+     */
+    public function removeCheckoutOrderIncrementId($orderIncrementId)
     {
-        $orderIds = $this->getDirectPaymentOrderIncrementIds();
-        if (!$orderIds) {
-            $orderIds = array();
+        $orderIncIds = $this->getDirectPaymentOrderIncrementIds();
+        if (!$orderIncIds) {
+            $orderIncIds = array();
         }
-        elseif (!empty($orderIds[$orderId])){
-            unset($orderIds[$orderId]);
+        elseif (!empty($orderIncIds[$orderIncrementId])){
+            unset($orderIncIds[$orderIncrementId]);
         }
-        $this->setDirectPaymentOrderIncrementIds($orderIds);
+        $this->setDirectPaymentOrderIncrementIds($orderIncIds);
     }
     
-    public function isCheckoutOrderIncrementIdExist($orderId)
+    /**
+     * Return if order incrementId is in session.
+     *
+     * @param string $orderIncrementId
+     * @return bool
+     */
+    public function isCheckoutOrderIncrementIdExist($orderIncrementId)
     {
-        $orderIds = $this->getDirectPaymentOrderIncrementIds();
-        if (is_array($orderIds) && !empty($orderIds[$orderId])) {
+        $orderIncIds = $this->getDirectPaymentOrderIncrementIds();
+        if (is_array($orderIncIds) && !empty($orderIncIds[$orderIncrementId])) {
             return true;
         }
         return false;

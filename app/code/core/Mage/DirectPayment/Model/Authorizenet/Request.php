@@ -24,7 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Authorize.net request model for DirectPost model.
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
 {
     protected $_transKey = null;
@@ -80,7 +84,7 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
     public function setConstantData(Mage_DirectPayment_Model_Authorizenet $paymentMethod)
     {
         $this->setXVersion('3.1')
-            ->setXDelimData('FALSE')            
+            ->setXDelimData('FALSE')
             ->setXRelayResponse('TRUE');
 
         $this->setXTestRequest($paymentMethod->getConfigData('test') ? 'TRUE' : 'FALSE');
@@ -98,15 +102,53 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
      * Set order data to request
      *
      * @param Mage_Sales_Model_Order $order
+     * @param Mage_DirectPayment_Model_Authorizenet $paymentMethod
      * @return Mage_DirectPayment_Model_Authorizenet_Request
      */
-    public function setDataFromOrder(Mage_Sales_Model_Order $order)
+    public function setDataFromOrder(Mage_Sales_Model_Order $order, Mage_DirectPayment_Model_Authorizenet $paymentMethod)
     {
+        $payment = $order->getPayment();
         $this->setXFpSequence($order->getId());
         $this->setXInvoiceNum($order->getIncrementId());
-        $amount = $order->getBaseGrandTotal();
+        $amount = $payment->getBaseAmountAuthorized();
         $this->setXAmount($amount);
-        //$this->setXCurrencyCode($order->getBaseCurrencyCode());
+        
+        $billing = $order->getBillingAddress();
+        if (!empty($billing)) {
+            $this->setXFirstName($billing->getFirstname())
+                ->setXLastName($billing->getLastname())
+                ->setXCompany($billing->getCompany())
+                ->setXAddress($billing->getStreet(1))
+                ->setXCity($billing->getCity())
+                ->setXState($billing->getRegion())
+                ->setXZip($billing->getPostcode())
+                ->setXCountry($billing->getCountry())
+                ->setXPhone($billing->getTelephone())
+                ->setXFax($billing->getFax())
+                ->setXCustId($billing->getCustomerId())
+                ->setXCustomerIp($order->getRemoteIp())
+                ->setXCustomerTaxId($billing->getTaxId())
+                ->setXEmail($order->getCustomerEmail())
+                ->setXEmailCustomer($paymentMethod->getConfigData('email_customer'))
+                ->setXMerchantEmail($paymentMethod->getConfigData('merchant_email'));
+        }
+
+        $shipping = $order->getShippingAddress();
+        if (!empty($shipping)) {
+            $this->setXShipToFirstName($shipping->getFirstname())
+                ->setXShipToLastName($shipping->getLastname())
+                ->setXShipToCompany($shipping->getCompany())
+                ->setXShipToAddress($shipping->getStreet(1))
+                ->setXShipToCity($shipping->getCity())
+                ->setXShipToState($shipping->getRegion())
+                ->setXShipToZip($shipping->getPostcode())
+                ->setXShipToCountry($shipping->getCountry());
+        }
+
+        $this->setXPoNum($payment->getPoNumber())
+            ->setXTax($order->getBaseTaxAmount())
+            ->setXFreight($order->getBaseShippingAmount());
+            
         return $this;
     }
     
@@ -124,6 +166,4 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
         $this->setXFpHash($hash);
         return $this;
     }
-    
-    
 }
