@@ -274,7 +274,7 @@
             <active>false</active>
         </Enterprise_GiftCardAccount>
         <Enterprise_GiftRegistry>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_GiftRegistry>
         <Enterprise_Invitation>
             <active>false</active>

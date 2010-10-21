@@ -32,6 +32,7 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Adminhtml/>
+                <Mage_Sales />
             </depends>
         </Enterprise_GiftRegistry>
     </modules>

@@ -94,22 +94,25 @@ $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry/label'))
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
+        'nullable'  => false,
         'primary'   => true,
         'default'   => '0',
         ), 'Type Id')
     ->addColumn('attribute_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'primary'   => true,
+        'nullable'  => false,
         ), 'Attribute Code')
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
+        'nullable'  => false,
         'primary'   => true,
         'default'   => '0',
         ), 'Store Id')
     ->addColumn('option_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'primary'   => true,
+        'nullable'  => false,
         ), 'Option Code')
     ->addColumn('label', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
         ), 'Label')
     ->addIndex($installer->getIdxName('enterprise_giftregistry/label', array('type_id')),
         array('type_id'))
@@ -132,6 +135,7 @@ $table = $installer->getConnection()
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
+        'nullable'  => false,
         'primary'   => true,
         ), 'Entity Id')
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -201,6 +205,7 @@ $table = $installer->getConnection()
     ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
+        'nullable'  => false,
         'primary'   => true,
         ), 'Item Id')
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -248,6 +253,7 @@ $table = $installer->getConnection()
     ->addColumn('person_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
+        'nullable'  => false,
         'primary'   => true,
         ), 'Person Id')
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -285,7 +291,9 @@ $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry/data'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
+        'nullable'  => false,
         'primary'   => true,
+        'default'   => '0',
         ), 'Entity Id')
     ->addColumn('event_date', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
         ), 'Event Date')
