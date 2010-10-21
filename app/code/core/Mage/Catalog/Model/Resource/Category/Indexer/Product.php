@@ -376,13 +376,15 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             $this->_getWriteAdapter()->query($query);
 
             $visibilityInfo = $this->_getVisibilityAttributeInfo();
+            $statusInfo     = $this->_getStatusAttributeInfo();
+
             $select = $this->_getReadAdapter()->select()
                 ->from(array('pw' => $this->_productWebsiteTable), array())
                 ->joinLeft(
                     array('i' => $this->getMainTable()),
                     'i.product_id = pw.product_id AND i.category_id = ' . (int)$rootId . ' AND i.store_id = ' . (int) $storeId,
                     array())
-                ->joinLeft(
+                ->join(
                     array('dv' => $visibilityInfo['table']),
                     "dv.entity_id = pw.product_id AND dv.attribute_id = {$visibilityInfo['id']} AND dv.store_id = 0",
                     array())
@@ -390,15 +392,24 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                     array('sv' => $visibilityInfo['table']),
                     "sv.entity_id = pw.product_id AND sv.attribute_id = {$visibilityInfo['id']} AND sv.store_id = " . (int)$storeId,
                     array())
+                ->join(
+                    array('ds' => $statusInfo['table']),
+                    "ds.entity_id = pw.product_id AND ds.attribute_id = {$statusInfo['id']} AND ds.store_id = 0",
+                    array())
+                ->joinLeft(
+                    array('ss' => $statusInfo['table']),
+                    "ss.entity_id = pw.product_id AND ss.attribute_id = {$statusInfo['id']} AND ss.store_id = " . (int)$storeId,
+                    array())
                 ->where('i.product_id IS NULL')
                 ->where('pw.website_id=?', $websiteId)
+                ->where('IF(ss.value_id IS NOT NULL, ss.value, ds.value) = ?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
                 ->columns(array(
                     'category_id'   => new Zend_Db_Expr($rootId),
                     'product_id'    => 'pw.product_id',
                     'position'      => new Zend_Db_Expr('0'),
                     'is_parent'     => new Zend_Db_Expr('1'),
                     'store_id'      => new Zend_Db_Expr($storeId),
-                    'visibility'    => 'IF(sv.value_id, sv.value, dv.value)'
+                    'visibility'    => 'IF(sv.value_id IS NOT NULL, sv.value, dv.value)'
                 ));
 
             $query = $select->insertFromSelect($this->getMainTable());
@@ -662,7 +673,16 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                 array('sv' => $visibilityInfo['table']),
                 "sv.entity_id = pw.product_id AND sv.attribute_id = {$visibilityInfo['id']} AND sv.store_id = s.store_id",
                 array())
+            ->join(
+                array('ds' => $statusInfo['table']),
+                "ds.entity_id = pw.product_id AND ds.attribute_id = {$statusInfo['id']} AND ds.store_id = 0",
+                array())
+            ->joinLeft(
+                array('ss' => $statusInfo['table']),
+                "ss.entity_id = pw.product_id AND ss.attribute_id = {$statusInfo['id']} AND ss.store_id = s.store_id",
+                array())
             ->where('i.product_id IS NULL')
+            ->where('IF(ss.value_id IS NOT NULL, ss.value, ds.value)=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
             ->where('pw.product_id IN(?)', $productIds)
             ->columns(array(
                 'category_id'   => 'g.root_category_id',
