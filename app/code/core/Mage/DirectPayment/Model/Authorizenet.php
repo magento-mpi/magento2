@@ -132,7 +132,11 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
                 $order = $payment->getOrder();
                 $payment->authorize(true, $order->getBaseTotalDue()); // base amount will be set inside
                 $payment->setAmountAuthorized($order->getTotalDue());
-                $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, 'pending_payment', '', true);
+                $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, 'pending_payment', '', false);
+                
+                $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
+                $stateObject->setStatus('pending_payment');
+                $stateObject->setIsNotified(false);
                 break;
             default:
                 break;
