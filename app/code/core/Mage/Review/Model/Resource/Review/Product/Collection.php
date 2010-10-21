@@ -332,11 +332,19 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                 break;
             case 'type':
                 if ($condition == 1) {
-                    $conditionSql = $this->_getConditionSql('rdt.customer_id', array('eq' => 0));
+                    $conditionParts = array(
+                        $this->_getConditionSql('rdt.customer_id', array('is' => 'NULL')),
+                        $this->_getConditionSql('rdt.store_id', array('eq' => Mage_Core_Model_App::ADMIN_STORE_ID))
+                    );
+                    $conditionSql = implode(' AND ' $conditionParts);
                 } elseif ($condition == 2) {
                     $conditionSql = $this->_getConditionSql('rdt.customer_id', array('gt' => 0));
                 } else {
-                    $conditionSql = $this->_getConditionSql('rdt.customer_id', array('null' => null));
+                    $conditionParts = array(
+                        $this->_getConditionSql('rdt.customer_id', array('is' => 'NULL')),
+                        $this->_getConditionSql('rdt.store_id', array('neq' => Mage_Core_Model_App::ADMIN_STORE_ID))
+                    );
+                    $conditionSql = implode(' AND ' $conditionParts);
                 }
                 $this->getSelect()->where($conditionSql);
                 return $this;
