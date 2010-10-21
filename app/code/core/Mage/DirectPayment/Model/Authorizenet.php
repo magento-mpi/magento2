@@ -291,7 +291,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
             $response->getXTransId()
         );
         
-        $order->setState(Mage_Sales_Model_Order::STATE_NEW, true, $message, true)
+        $order->setState(Mage_Sales_Model_Order::STATE_NEW, true, $message, false)
             ->save();
             
         //match amounts. should be equals for authorization.
