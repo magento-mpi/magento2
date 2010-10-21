@@ -1743,7 +1743,6 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 #checkout-step-review .data-table thead th { vertical-align:bottom; font-size:11px; }
 #checkout-step-review .data-table .product-name { font-size:12px; }
 #checkout-step-review .data-table tfoot tr.last strong { font-size:14px; }
-#checkout-step-review .data-table .btn-remove { display:-moz-inline-stack; display:inline-block; vertical-align:middle; }
 
 #checkout-step-review .buttons-set { padding:15px 20px; margin:0; }
 
@@ -1775,8 +1774,10 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .multiple-checkout .sp-methods { font-size:12px; }
 .multiple-checkout .checkout-multishipping-payment-customerbalance { font-size:12px; margin-bottom:7px; }
 
-/* Step 4 */
-.checkout-multishipping-overview .data-table .btn-remove { display:-moz-inline-stack; display:inline-block; vertical-align:middle; }
+/* Review Details */
+#checkout-step-review .data-table .btn-remove,
+.checkout-multishipping-overview .data-table .btn-remove,
+#details-table .btn-remove { display:-moz-inline-stack; display:inline-block; vertical-align:middle; }
 
 /********** < Common Checkout Styles */
 /* Shipping and Payment methods */

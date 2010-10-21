@@ -1487,7 +1487,8 @@ tr.summary-details-excluded { font-style:italic; }
 /* Step 3 */
 .checkout-multishipping-billing .multiple-checkout { position:relative; }
 
-/* Step 4 */
+/* Review Details */
+#details-table .btn-remove,
 .checkout-multishipping-overview .data-table .btn-remove { float:none !important; display:-moz-inline-stack; display:inline-block; height:0; padding:15px 0 0; text-indent:0; vertical-align:text-top; }
 /* ======================================================================================= */
 
