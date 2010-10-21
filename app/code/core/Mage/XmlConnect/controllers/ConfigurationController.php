@@ -48,11 +48,15 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
      */
     protected function _initApp()
     {
+
         $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
+        $screenSizeCookieName = Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_NAME;
         $code = $this->getRequest()->getParam($cookieName);
+        $screenSize = (string) $this->getRequest()->getParam($screenSizeCookieName);
         $app = Mage::getModel('xmlconnect/application');
         if ($app) {
             $app->loadByCode($code);
+            $app->setScreenSize($screenSize);
             if (!$app->getId()) {
                 Mage::throwException(Mage::helper('xmlconnect')->__('App with specified code does not exist.'));
             }
@@ -70,17 +74,30 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
     public function indexAction()
     {
         try {
+
             $app = $this->_initApp();
 
-            $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
-            if (!isset($_COOKIE[$cookieName]) ||
-                (isset($_COOKIE[$cookieName]) && $_COOKIE[$cookieName] != $this->getRequest()->getParam('app_code'))
-                ) {
-                /**
-                 * @todo add management of cookie expire to application admin panel
-                 */
-                $cookieExpireOffset = 3600 * 24 * 30;
-                Mage::getModel('core/cookie')->set($cookieName, $app->getCode(), $cookieExpireOffset, '/', null, null, true);
+            $cookieToSetArray = array (
+                array(
+                    'cookieName' => Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME,
+                    'paramName' => 'app_code',
+                    'value' => $app->getCode()),
+                array(
+                    'cookieName' => Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_NAME,
+                    'paramName' => Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_NAME,
+                    'value' => $app->getScreenSize())
+            );
+            foreach ($cookieToSetArray as $item) {
+                if (!isset($_COOKIE[$item['cookieName']]) ||
+                    (isset($_COOKIE[$item['cookieName']]) &&
+                            ($_COOKIE[$item['cookieName']] != $this->getRequest()->getParam($item['paramName'])))
+                    ) {
+                    /**
+                     * @todo add management of cookie expire to application admin panel
+                     */
+                    $cookieExpireOffset = 3600 * 24 * 30;
+                    Mage::getModel('core/cookie')->set($item['cookieName'], $item['value'], $cookieExpireOffset, '/', null, null, true);
+                }
             }
 
             if($this->getRequest()->getParam('updated_at')) {

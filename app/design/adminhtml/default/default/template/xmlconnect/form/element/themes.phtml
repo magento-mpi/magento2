@@ -37,7 +37,7 @@ $_themesHelper  = Mage::helper('xmlconnect/theme');
 /**
  * @var Mage_XmlConnect_Helper_Data
  */
-$_dataHelper    = Mage::helper('xmlconnect');
+$_imageHelper    = Mage::helper('xmlconnect/image');
 ?>
 
 <script type="text/javascript">
@@ -291,11 +291,11 @@ function saveThemeChanges() {
     <input type="hidden" name="current_theme" id="theme_selector_id_value_flat" value="<?php echo $themeId; ?>"/>
     <ul class="dropdown theme_selector" id="theme_selector_id">
         <li class="ddtitle theme_selector "><a href="#"><?php echo $themeLabel ? $themeLabel : Mage::helper('xmlconnect')->__('Custom Colors');?><span>
-            <img src="<?php echo $_dataHelper->getSkinImagesUrl('swatch_'.$themeId.'.gif'); ?>"/></span></a></li>
+            <img src="<?php echo $_imageHelper->getSkinImagesUrl('swatch_'.$themeId.'.gif'); ?>"/></span></a></li>
         <li style="display:none;" class="ddlist">
             <ul>
             <?php foreach ($this->getThemes() as $theme): ?>
-                <li><a href="#" rel="<?php echo $theme->getName(); ?>"><?php echo $theme->getLabel(); ?> <span><img src="<?php echo $_dataHelper->getSkinImagesUrl('swatch_'.$theme->getName().'.gif'); ?>"/></span></a></li>
+                <li><a href="#" rel="<?php echo $theme->getName(); ?>"><?php echo $theme->getLabel(); ?> <span><img src="<?php echo $_imageHelper->getSkinImagesUrl('swatch_'.$theme->getName().'.gif'); ?>"/></span></a></li>
             <?php endforeach; ?>
             </ul>
         </li>

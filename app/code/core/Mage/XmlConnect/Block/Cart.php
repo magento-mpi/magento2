@@ -65,7 +65,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             $itemXml->addChild('name', $xmlObject->xmlentities(strip_tags($renderer->getProductName())));
             $itemXml->addChild('code', 'cart[' . $item->getId() . '][qty]');
             $itemXml->addChild('qty', $renderer->getQty());
-            $icon = $renderer->getProductThumbnail()->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM);
+            $icon = $renderer->getProductThumbnail()->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small'));
 
             $iconXml = $itemXml->addChild('icon', $icon);
 

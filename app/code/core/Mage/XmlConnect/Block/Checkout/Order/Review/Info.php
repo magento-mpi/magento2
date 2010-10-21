@@ -58,7 +58,7 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
             $itemXml->addChild('item_id', $item->getId());
             $itemXml->addChild('name', $itemsXmlObj->xmlentities(strip_tags($renderer->getProductName())));
             $itemXml->addChild('qty', $renderer->getQty());
-            $icon = $renderer->getProductThumbnail()->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM);
+            $icon = $renderer->getProductThumbnail()->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small'));
 
             $iconXml = $itemXml->addChild('icon', $icon);
 

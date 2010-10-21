@@ -36,16 +36,6 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
 {
 
     /**
-     * Product view small image size
-     */
-    const PRODUCT_IMAGE_SMALL_RESIZE_PARAM  = 70;
-
-    /**
-     * Product view big image size
-     */
-    const PRODUCT_IMAGE_BIG_RESIZE_PARAM    = 130;
-
-    /**
      * Retrieve product attributes as xml object
      *
      * @param Mage_Catalog_Model_Product $product
@@ -63,8 +53,17 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $item->addChild('short_description', $item->xmlentities(strip_tags($product->getShortDescription())));
             $item->addChild('description', Mage::helper('xmlconnect')->htmlize($item->xmlentities($product->getDescription())));
 
-            $icon = clone Mage::helper('catalog/image')->init($product, 'image')
-                ->resize($itemNodeName == 'item' ? self::PRODUCT_IMAGE_SMALL_RESIZE_PARAM : self::PRODUCT_IMAGE_BIG_RESIZE_PARAM);
+            if ($itemNodeName == 'item') {
+                $imageToResize = Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small');
+                $propertyToResizeName = 'small_image';
+            } else {
+                $imageToResize = Mage::helper('xmlconnect/image')->getImageSizeForContent('product_big');
+                $propertyToResizeName = 'image';
+            }
+
+            
+            $icon = clone Mage::helper('catalog/image')->init($product, $propertyToResizeName)
+                ->resize($imageToResize);
 
             $iconXml = $item->addChild('icon', $icon);
 

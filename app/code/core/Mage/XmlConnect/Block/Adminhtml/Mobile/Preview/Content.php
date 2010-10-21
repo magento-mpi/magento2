@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
             foreach ($tabs->getEnabledTabs() as $tab) {
                 $conf['tabBar'][$tab->action]['label'] = $tab->label;
                 $conf['tabBar'][$tab->action]['image'] =
-                    Mage::helper('xmlconnect')->getSkinImagesUrl('mobile_preview/' . $tab->image);
+                    Mage::helper('xmlconnect/image')->getSkinImagesUrl('mobile_preview/' . $tab->image);
             }
         }
         $this->setData('conf', $conf);
@@ -55,7 +55,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     */
     public function getPreviewImagesUrl($name = '')
     {
-        return  Mage::helper('xmlconnect')->getSkinImagesUrl('mobile_preview/' . $name);
+        return  Mage::helper('xmlconnect/image')->getSkinImagesUrl('mobile_preview/' . $name);
+    }
+
+    public function getInterfaceImagesPaths($path)
+    {
+        $path = preg_replace('/^conf\/.*$/', 'conf/native/', $path);
+        return Mage::helper('xmlconnect/image')->getInterfaceImagesPaths($path);
     }
 
    /**

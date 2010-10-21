@@ -78,7 +78,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 $itemXmlObj->addChild('has_options', (int)$item->getHasOptions());
 
                 $icon = $this->helper('catalog/image')->init($item, 'small_image')
-                    ->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM);
+                    ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small'));
 
                 $iconXml = $itemXmlObj->addChild('icon', $icon);
 

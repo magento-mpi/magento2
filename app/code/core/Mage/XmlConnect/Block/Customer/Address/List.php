@@ -119,7 +119,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
 
         foreach ($data as $key => $value) {
             if (!empty($value)) {
-                $item->addChild($key, $value);
+                $item->addChild($key, $item->xmlentities($value));
             }
         }
     }

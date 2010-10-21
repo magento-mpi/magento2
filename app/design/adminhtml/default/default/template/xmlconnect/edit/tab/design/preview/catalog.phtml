@@ -46,7 +46,7 @@
         </div>
                     </td>
                     <td class="logo-small"><div>
-                        <img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getPreviewImagesUrl('smallIcon.png'); ?>"/>
+                        <img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getPreviewImagesUrl($this->getInterfaceImagesPaths('conf/navigationBar/icon')); ?>"/>
                 <span class="sh-title">
                             <span class="sh-title1" style="font:bold <?php echo $this->getData('conf/fonts/Title1/size'); ?>px <?php echo $this->getData('conf/fonts/Title1/name'); ?>;">
                                 <span class="sh-title2" style="color: <?php echo $this->getData('conf/fonts/Title1/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__("T-Shirts"); ?></span>

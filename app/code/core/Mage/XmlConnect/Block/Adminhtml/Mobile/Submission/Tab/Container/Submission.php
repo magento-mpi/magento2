@@ -191,7 +191,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         $fieldset = $form->addFieldset('submit_icons', array('legend' => Mage::helper('xmlconnect')->__('Icons')));
         $this->addImage($fieldset, 'conf/submit/icon', Mage::helper('xmlconnect')->__('Large iTunes Icon'),
             Mage::helper('xmlconnect')->__('Large icon that appears in the iTunes App Store. You do not need to apply a gradient or soft edges (this is done automatically by Apple). Required size: 512px x 512px.'), '', true);
-        $this->addImage($fieldset, 'conf/submit/loader_image', 'Loader Splash Screen',
+        $this->addImage($fieldset, 'conf/submit/loader_image', Mage::helper('xmlconnect')->__('Loader Splash Screen'),
             Mage::helper('xmlconnect')->__('Image that appears on first screen while your app is loading. Required size: 320px x 460px.'), '', true);
 
         $this->addImage($fieldset, 'conf/submit/logo', Mage::helper('xmlconnect')->__('Custom App Icon'),

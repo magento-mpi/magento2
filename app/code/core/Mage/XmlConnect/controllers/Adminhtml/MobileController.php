@@ -640,7 +640,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if (!empty($_FILES)) {
             foreach ($_FILES as $field => $file) {
                 if (!empty($file['name']) && is_scalar($file['name'])) {
-                    $uploadedFileName = $this->_handleUpload($field, $data);
+                    $uploadedFileName = Mage::helper('xmlconnect/image')->handleUpload($field, $data);
                     if (!empty($uploadedFileName)) {
                         $this->_uploadedFiles[$field] = $uploadedFileName;
                     }
@@ -657,118 +657,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         return $data;
     }
 
-    /**
-     * Process uploaded file
-     * setup filenames to the configuration
-     *
-     * @param string $field
-     */
-    protected function _handleUpload($field, &$target)
-    {
-        $uploadedFilename = '';
-        $upload_dir = Mage::getBaseDir('media') . DS . 'xmlconnect';
-        $this->_forcedConvertPng($field);
 
-        try {
-            $uploader = new Varien_File_Uploader($field);
-            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
-            $uploader->setAllowRenameFiles(true);
-            $uploader->save($upload_dir);
-            $uploadedFilename = $uploader->getUploadedFileName();
-            $this->_handleResize($field, $upload_dir . DS . $uploadedFilename);
-        } catch (Exception $e ) {
-            /**
-             * Hard coded exception catch
-             */
-            if ($e->getMessage() == 'Disallowed file type.') {
-                $filename = $_FILES[$field]['name'];
-                Mage::throwException(Mage::helper('xmlconnect')->__('Error while uploading file "%s". Disallowed file type. Only "jpg", "jpeg", "gif", "png" are allowed.', $filename));
-            }
-        }
-        return $uploadedFilename;
-    }
 
-    /**
-     * Convert uploaded file to PNG
-     *
-     * @param string $field
-     */
-    protected function _forcedConvertPng($field)
-    {
-        $file =& $_FILES[$field];
 
-        $file['name'] = preg_replace('/\.(gif|jp[e]g)$/i', '.png', $file['name']);
 
-        list($x, $x, $fileType) = getimagesize($file['tmp_name']);
-        if ($fileType != IMAGETYPE_PNG ) {
-            switch( $fileType ) {
-                case IMAGETYPE_GIF:
-                    $img = imagecreatefromgif($file['tmp_name']);
-                    break;
-                case IMAGETYPE_JPEG:
-                    $img = imagecreatefromjpeg($file['tmp_name']);
-                    break;
-                default:
-                    return;
-            }
-            imagepng($img, $file['tmp_name']);
-            imagedestroy($img);
-        }
-    }
-
-    /**
-     * Resize uploaded file
-     *
-     * @param array $nameParts
-     * @param string $file
-     * @return void
-     */
-    protected function _handleResize($fieldPath, $file)
-    {
-        $nameParts = explode('/', $fieldPath);
-        array_shift($nameParts);
-        $app = Mage::registry('current_app');
-        $conf = Mage::getStoreConfig('imageLimits/'.$app->getType());
-        while (count($nameParts)) {
-            $next = array_shift($nameParts);
-            if (isset($conf[$next])) {
-                $conf = $conf[$next];
-            }
-            /**
-             * No config data - nothing to resize
-             */
-            else {
-                return;
-            }
-        }
-
-        $image = new Varien_Image($file);
-        $width = $image->getOriginalWidth();
-        $height = $image->getOriginalHeight();
-
-        if (isset($conf['widthMax']) && ($conf['widthMax'] < $width)) {
-            $width = $conf['widthMax'];
-        }
-        elseif (isset($conf['width'])) {
-            $width = $conf['width'];
-        }
-
-        if (isset($conf['heightMax']) && ($conf['heightMax'] < $height)) {
-            $height = $conf['heightMax'];
-        }
-        elseif (isset($conf['height'])) {
-            $height = $conf['height'];
-        }
-
-        if (($width != $image->getOriginalWidth()) ||
-            ($height != $image->getOriginalHeight()) ) {
-            $image->keepTransparency(true);
-            $image->keepFrame(true);
-            $image->keepAspectRatio(false);
-            $image->resize($width, $height);
-            $image->save(null, basename($file));
-        }
-    }
 
     /**
      * Prepare post data

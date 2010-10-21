@@ -36,12 +36,6 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
 {
 
     /**
-     * Product gallery image sizes
-     */
-    const PRODUCT_GALLERY_BIG_IMAGE_SIZE_PARAM   = 280;
-    const PRODUCT_GALLERY_SMALL_IMAGE_SIZE_PARAM = 40;
-
-    /**
      * Generate images gallery xml
      *
      * @return string
@@ -64,7 +58,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
              * Big image
              */
             $bigImage = $helper->init($product, 'thumbnail', $item->getFile())
-                ->resize(self::PRODUCT_GALLERY_BIG_IMAGE_SIZE_PARAM);
+                ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_gallery_big'));
 
             $fileNode = $imageNode->addChild('file');
             $fileNode->addAttribute('type', 'big');
@@ -81,7 +75,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
              * Small image
              */
             $smallImage = $helper->init($product, 'thumbnail', $item->getFile())
-                ->resize(self::PRODUCT_GALLERY_SMALL_IMAGE_SIZE_PARAM);
+                ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_gallery_small'));
 
             $fileNode = $imageNode->addChild('file');
             $fileNode->addAttribute('type', 'small');

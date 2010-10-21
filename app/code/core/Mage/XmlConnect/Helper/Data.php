@@ -26,7 +26,6 @@
 
 class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
     /**
      * Create filter object by key
      *
@@ -186,17 +185,6 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve xmlconnect images skin url
-     *
-     * @param string $name
-     * @return string
-     */
-    public function getSkinImagesUrl($name = null)
-    {
-        return Mage::getDesign()->getSkinUrl('images/xmlconnect/' . $name);
-    }
-
-    /**
      * Merges $changes array to $target array recursive, overwriting existing key,  and adding new one
      * @static
      * @param  $target
@@ -247,4 +235,5 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 &lt;body&gt;$body&lt;/body&gt;&lt;/html&gt;
 EOT;
     }
+
 }

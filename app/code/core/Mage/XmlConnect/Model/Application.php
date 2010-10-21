@@ -63,6 +63,22 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const APP_CODE_COOKIE_NAME = 'app_code';
 
     /**
+     * Device screen size name
+     */
+    const APP_SCREEN_SIZE_NAME = 'screen_size';
+
+
+    /**
+     * Device screen size name
+     */
+    const APP_SCREEN_SIZE_DEFAULT = '320x480';
+
+    /**
+     * Device screen size source name
+     */
+    const APP_SCREEN_SOURCE_DEFAULT = 'default';
+
+    /**
      * Application status "submitted" value
      *
      * @var int
@@ -258,8 +274,19 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 }
             }
         }
+        $helperImage = Mage::helper('xmlconnect/image');
+        $screenSize = $this->getScreenSize();
+        $paths = $helperImage->getInterfaceImagesPathsConf();
+        foreach ($paths as $confPath => $dataPath) {
+            $imageNodeValue =& $helperImage->findPath($result, $dataPath);
+            if ($imageNodeValue) {
+                /**
+                 * Creating file ending (some_inner/some_dir/filename.png) For url
+                 */
+                $imageNodeValue = $helperImage->getFileCustomDirSuffixAsUrl($confPath, $imageNodeValue);
+            }
+        }
         $result = $this->_absPath($result);
-
         /**
          * General configuration
          */
@@ -267,17 +294,19 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['browsingMode'] = $this->getBrowsingMode();
         $result['general']['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
         $result['general']['secureBaseUrl'] = Mage::getStoreConfig('web/secure/base_url', $this->getStoreId());
-        $maxRecepients = 0;
+        $maxRecipients = 0;
         $allowGuest = 0;
         if (Mage::getStoreConfig('sendfriend/email/enabled')) {
-            $maxRecepients = Mage::getStoreConfig('sendfriend/email/max_recipients');
+            $maxRecipients = Mage::getStoreConfig('sendfriend/email/max_recipients');
             $allowGuest = Mage::getStoreConfig('sendfriend/email/allow_guest');
         }
-        $result['general']['emailToFriendMaxRecepients'] = $maxRecepients;
+        $result['general']['emailToFriendMaxRecepients'] = $maxRecipients;
         $result['general']['emailAllowGuest'] = $allowGuest;
         $result['general']['primaryStoreLang'] = Mage::app()
             ->getStore($this->getStoreId())->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         $result['general']['magentoVersion'] = Mage::getVersion();
+        $result['general']['copyright'] = Mage::getStoreConfig('design/footer/copyright', $this->getStoreId());
+
         $result['general']['isAllowedGuestCheckout'] = Mage::getSingleton('checkout/session')
             ->getQuote()->isAllowedGuestCheckout();
 
@@ -296,6 +325,20 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $result;
     }
 
+    public function getScreenSize()
+    {
+        if (!isset($this->_data['screen_size'])) {
+            $this->_data['screen_size'] = self::APP_SCREEN_SIZE_DEFAULT;
+        }
+        return $this->_data['screen_size'];
+    }
+
+    public function setScreenSize($screenSize)
+    {
+        $this->_data['screen_size'] = Mage::helper('xmlconnect/image')->filterScreenSize((string) $screenSize);
+        return $this;
+    }
+
     /**
      * Return Enabled Tabs array from actual config
      *
@@ -310,7 +353,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Change URLs to absolue
+     * Change URLs to absolute
      *
      * @param array $subtree
      * @return array
@@ -620,7 +663,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (isset($this->_data['conf']['submit_restore']) && is_array($this->_data['conf']['submit_restore'])) {
                 $submitRestore = $this->_data['conf']['submit_restore'];
             }
-            $dir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS;
+            $dir = Mage::helper('xmlconnect')->getOriginalSizeBaseDir() . DS;
             foreach ($this->_imageIds as $id) {
                 if (isset($submit[$id])) {
                     $params[$id] = '@' . $dir . $submit[$id];

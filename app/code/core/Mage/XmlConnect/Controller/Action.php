@@ -41,19 +41,23 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
     public function preDispatch()
     {
         parent::preDispatch();
+        
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
 
         /**
          * Load application by specified code and make sure that application exists
          */
         $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
-        $appCode = isset($_COOKIE[$cookieName]) ? (string)$_COOKIE[$cookieName] : '';
+        $appCode = isset($_COOKIE[$cookieName]) ? (string) $_COOKIE[$cookieName] : '';
+        $screenSizeCookieName = Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_NAME;
+        $screenSize = isset($_COOKIE[$screenSizeCookieName]) ? (string) $_COOKIE[$screenSizeCookieName] : '';
         if (!$appCode) {
             $this->_message(Mage::helper('xmlconnect')->__('Specified invalid app code.'), self::MESSAGE_STATUS_ERROR);
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
         $appModel = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
+        $appModel->setScreenSize($screenSize);
         if ($appModel && $appModel->getId()) {
             Mage::app()->setCurrentStore(Mage::app()->getStore($appModel->getStoreId())->getCode());
             Mage::register('current_app', $appModel);

@@ -36,7 +36,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Image extends Varien_D
         $url = false;
         if ($this->getValue()) {
             if (strpos($this->getValue(), '://') === FALSE ) {
-                $url = Mage::getBaseUrl('media') . 'xmlconnect/' . $this->getValue();
+                $url = Mage::getBaseUrl('media') . 'xmlconnect/' . Mage::helper('xmlconnect/image')->getFileDefaultSizeSuffixAsUrl($this->getValue());
             } else {
                 $url = $this->getValue();
             }
