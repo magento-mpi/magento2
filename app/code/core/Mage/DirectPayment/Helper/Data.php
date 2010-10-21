@@ -87,7 +87,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
             case 'sales_order_create':
             case 'sales_order_edit':
-                $route = 'admin/sales_order/view';
+                $route = 'adminhtml/sales_order/view';
                 $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
                 break;
