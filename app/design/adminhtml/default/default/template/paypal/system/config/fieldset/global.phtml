@@ -344,7 +344,12 @@ PaypalConfig.prototype = {
     {
         var wpppeEnabled = this.getMethodSwitcher('wpppe').checked;
         if (wpppeEnabled) {
-            this.enableMethod('ecpe',true);
+            // Do not enable ecpe based on wpppe state on page load
+            if (!this.fastMode) {
+                this.enableMethod('ecpe',true);
+            } else {
+                this.markMethodAsReadonly('ecpe', true);
+            }
             this.disableMethod('ec',true);
             return;
         } else {
