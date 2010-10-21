@@ -82,7 +82,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      *
      * @var array
      */
-    protected $_staticAttributes            = array();
+    protected $_staticAttributes = array();
 
     /**
      * Default Attributes that are static
@@ -648,6 +648,10 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
                     break;
             }
 
+            if (!$this->_isCallableAttributeInstance($instance, $method, $args)) {
+                continue;
+            }
+
             try {
                 $results[$attrCode] = call_user_func_array(array($instance, $method), $args);
             } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
@@ -660,6 +664,40 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         }
 
         return $results;
+    }
+
+    /**
+     * Check whether attribute instance (attribute, backend, frontend or source) has method and applicable
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract|Mage_Eav_Model_Entity_Attribute_Backend_Abstract|Mage_Eav_Model_Entity_Attribute_Frontend_Abstract|Mage_Eav_Model_Entity_Attribute_Source_Abstract $instance
+     * @param string $method
+     * @param array $args array of arguments
+     * @return boolean
+     */
+    protected function _isCallableAttributeInstance($instance, $method, $args)
+    {
+        if (!is_object($instance) || !method_exists($instance, $method)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check whether attribute instance (attribute, backend, frontend or source) has method and applicable
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract|Mage_Eav_Model_Entity_Attribute_Backend_Abstract|Mage_Eav_Model_Entity_Attribute_Frontend_Abstract|Mage_Eav_Model_Entity_Attribute_Source_Abstract $instance
+     * @param string $method
+     * @param array $args array of arguments
+     * @return boolean
+     */
+    protected function _isCallableAttributeInstance($instance, $method, $args)
+    {
+        if (!is_object($instance) || !method_exists($instance, $method)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
