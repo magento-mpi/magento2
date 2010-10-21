@@ -71,9 +71,7 @@ class Mage_DirectPayment_Model_Observer
                 if (empty($result['error'])){
                     //if is success, then set order to session and add new fields
                     $session =  Mage::getSingleton('directpayment/session');
-                    $session->addCheckoutOrderIncrementId($order->getIncrementId());
-                    $session->setControllerActionName($controller->getRequest()->getControllerName());
-                    Mage::log($session->getData());
+                    $session->addCheckoutOrderIncrementId($order->getIncrementId());                    
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $result['directpayment'] = array('fields' => $requestToPaygate->getData());
                     $controller->getResponse()->clearHeader('Location');

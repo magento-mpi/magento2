@@ -209,19 +209,21 @@ directPayment.prototype = {
     	}
     },
     
-    showOnepageError: function(msg)
+    showError: function(msg)
     {
-    	this.paymentRequestSent = false;
-    	$(this.iframeId).hide();
-    	$(this.iframeId).next('ul').show();    	
+    	switch (this.controller) {
+    		case 'onepage':
+    			this.paymentRequestSent = false;
+    	    	$(this.iframeId).hide();
+    	    	$(this.iframeId).next('ul').show();  
+    			break;
+    		case 'sales_order_edit':
+	    	case 'sales_order_create':
+	    		$(this.iframeId).hide();
+	    		break;
+    	}    	  	
     	alert(msg);
-    },
-    
-    showAdminError: function(msg)
-    {    	
-    	$(this.iframeId).hide();    	
-    	alert(msg);
-    },
+    },    
     
     saveOnepageOrder: function()
     {    	
