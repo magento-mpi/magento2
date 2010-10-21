@@ -338,6 +338,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
                 ->setParentTransactionId($response->getXTransId())
                 ->void();
         }
-        $order->registerCancellation($message);
+        $order->registerCancellation($message)
+            ->save();
     }
 }
