@@ -54,10 +54,16 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         $data = $this->getRequest()->getPost();
         /* @var $paymentMethod Mage_DirectPayment_Model_Authorizenet */
         $paymentMethod = Mage::getModel('directpayment/authorizenet');
+        
         $result = array();
+        if (!empty($data['controller_action_name'])){
+            $result['controller_action_name'] = $data['controller_action_name'];
+        }
+        
         try {
             $paymentMethod->process($data);
             $result['success'] = 1;
+            $result['x_invoice_num'] = $data['x_invoice_num'];
         }
         catch (Mage_Core_Exception $e){
             Mage::logException($e);
@@ -70,15 +76,15 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
             $result['error_msg'] = $this->__('There was an error processing your order. Please contact us or try again later.');
         }
 
-        $jScript = 'window.location="'.Mage::getUrl('directpayment/paygate/redirect', $result).'";';        
-        $iframeHtml = Mage::helper('directpayment')->wrapHtml($jScript);     
+        $jScript = 'window.location="'.Mage::getUrl('directpayment/paygate/redirect', $result).'";';
+        $iframeHtml = Mage::helper('directpayment')->wrapHtml($jScript);
         $this->getResponse()->setBody($iframeHtml);
     }
     
     public function redirectAction()
     {
         $params = $this->getRequest()->getParams();
-        $iframeHtml = Mage::helper('directpayment')->getIframeHtml($params);        
+        $iframeHtml = Mage::helper('directpayment')->getIframeHtml($params);
         $this->getResponse()->setBody($iframeHtml);
     }
     
