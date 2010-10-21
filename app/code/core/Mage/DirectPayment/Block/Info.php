@@ -25,8 +25,11 @@
  */
 
 /**
- * Direct payment iformation block
+ * DirectPayment information block
  *
+ * @category   Mage
+ * @package    Mage_DirectPayment
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_DirectPayment_Block_Info extends Mage_Payment_Block_Info
 {    
@@ -80,17 +83,5 @@ class Mage_DirectPayment_Block_Info extends Mage_Payment_Block_Info
         }
         
         return $this->_formBlock;
-    }        
-    
-    /**
-     * Get controller name
-     * 
-     * @return string
-     */
-    protected function _getRequestController()
-    {
-        return Mage::app()->getFrontController()
-                            ->getRequest()
-                            ->getControllerName();
-    }
+    }    
 }

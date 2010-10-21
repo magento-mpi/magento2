@@ -24,7 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * DirtectPayment Paygate Controller
+ *
+ * @category   Mage
+ * @package    Mage_DirtectPayment
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Action
 {
     /**
@@ -120,11 +126,12 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
      */
     public function placeAction()
     {
-        $payment = $this->getRequest()->getPost('payment');
+        $payment = $this->getRequest()->getParam('payment');
+        $controller = $this->getRequest()->getParam('controller');
         if (isset($payment['method'])) {
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$payment['method'].'/create_order_before');
             if ($saveOrderFlag) {
-                $params = Mage::helper('directpayment')->getSaveOrderUrlParams();
+                $params = Mage::helper('directpayment')->getSaveOrderUrlParams($controller);
                 $this->_forward(
                             $params['action'],
                             $params['controller'],

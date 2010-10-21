@@ -24,13 +24,19 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * DirectPayment form block
+ *
+ * @category   Mage
+ * @package    Mage_DirectPayment
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_DirectPayment_Block_Form extends Mage_Payment_Block_Form_Cc
 {
     /**
      * Internal constructor
      * Set info template for payment step
-     *
-     * @return void
+     *     
      */
     protected function _construct()
     {

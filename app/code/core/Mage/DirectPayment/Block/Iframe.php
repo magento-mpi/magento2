@@ -24,6 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * DirectPayment iframe block
+ *
+ * @category   Mage
+ * @package    Mage_DirectPayment
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_DirectPayment_Block_Iframe extends Mage_Core_Block_Template
 {
     /**
@@ -35,8 +42,7 @@ class Mage_DirectPayment_Block_Iframe extends Mage_Core_Block_Template
     /**
      * Internal constructor
      * Set template for iframe
-     *
-     * @return void
+     *    
      */
     protected function _construct()
     {

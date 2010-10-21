@@ -28,7 +28,7 @@ directPayment.prototype = {
     {		
         this.iframeId = iframeId;
         this.controller = controller;
-        this.orderSaveUrl = orderSaveUrl;        
+        this.orderSaveUrl = orderSaveUrl;  
         this.cgiUrl = cgiUrl;        
         this.code = 'directpayment';
         this.inputs = {
@@ -122,6 +122,7 @@ directPayment.prototype = {
 				    	button.observe('click', function(obj){		    		
 				    		return function(){
 				    			if (editForm.validator.validate()) {
+				    				var nativeAction = $(this).up('form').readAttribute('action');
 					    			var paymentMethodEl = $(this).up('form').getInputs('radio','payment[method]').find(function(radio){return radio.checked;});				    			
 					    			if (paymentMethodEl && paymentMethodEl.value == obj.code) {					    			
 					    				if (obj.validate()) {					    				
@@ -131,11 +132,14 @@ directPayment.prototype = {
 						    				obj.disableInputs();					    				
 						    				obj.paymentRequestSent = true;
 						    				obj.orderRequestSent = true;
+						    				$(this).up('form').writeAttribute('action', obj.orderSaveUrl);
 						    				$(this).up('form').writeAttribute('target',$(obj.iframeId).readAttribute('name'));
+						    				$(this).up('form').appendChild(obj.createHiddenElement('controller', obj.controller));
 						    				$(this).up('form').submit();
 					    				}				    								    			
 						    		}
 					    			else {
+					    				$(this).up('form').writeAttribute('action', nativeAction);
 					    				$(this).up('form').writeAttribute('target','_top');
 					    				order.submit();
 					    			}
@@ -216,7 +220,8 @@ directPayment.prototype = {
         var params = Form.serialize(payment.form);
         if (review.agreementsForm) {
             params += '&'+Form.serialize(review.agreementsForm);
-        }        
+        }
+        params += '&controller=' + this.controller;
     	new Ajax.Request(
     		this.orderSaveUrl,
             {
@@ -316,18 +321,8 @@ directPayment.prototype = {
         tmpForm.target = $(this.iframeId).readAttribute('name');
         tmpForm.setAttribute('target', $(this.iframeId).readAttribute('name'));
 
-        for (var param in preparedData){
-        	var field;
-            if (isIE){
-                field = document.createElement('<input type="hidden" name="' + param + '" value="' + preparedData[param] + '" />');
-                tmpForm.appendChild(field);
-            } else {
-                field = document.createElement('input');
-                tmpForm.appendChild(field);
-                field.type = 'hidden';
-                field.name = param;
-                field.value = preparedData[param];
-            }
+        for (var param in preparedData){        	
+        	tmpForm.appendChild(this.createHiddenElement(param, preparedData[param]));
         }        
         
         this.paymentRequestSent = true;
@@ -335,6 +330,21 @@ directPayment.prototype = {
         tmpForm.remove();
         
         return this.paymentRequestSent;
-    }
+    },
+    
+    createHiddenElement: function(name, value)
+    {
+    	var field;
+    	if (isIE) {
+    		field = document.createElement('<input type="hidden" name="' + name + '" value="' + value + '" />');
+    	}
+    	else {
+    		field = document.createElement('input');
+    		field.type = 'hidden';
+            field.name = name;
+            field.value = value;
+    	}
     	
+    	return field;
+    }    	
 };

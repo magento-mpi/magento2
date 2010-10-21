@@ -22,10 +22,10 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+
 /**
  * Disable cart server validation in admin
  */
-
 AdminOrder.prototype.prepareParams = function(params){
     if (!params) {
         params = {};

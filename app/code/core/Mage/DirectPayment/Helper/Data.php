@@ -36,36 +36,47 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve save order url params
      *
+     * @param string $controller
      * @return array
      */
-    public function getSaveOrderUrlParams()
-    {        
-        if (Mage::app()->getStore()->isAdmin()) {
-            $route = array(
-                'action' => 'save',
-                'controller' => 'sales_order_create',
-                'module' => 'adminhtml'
-            );
-        }
-        else {
-            $route = array(
-                'action' => 'saveOrder',
-                'controller' => 'onepage',
-                'module' => 'checkout'
-            );
-        }
+    public function getSaveOrderUrlParams($controller)
+    {
+        $route = array();
+        switch ($controller) {
+            case 'onepage':
+                $route['action'] = 'saveOrder';
+                $route['controller'] = 'onepage';
+                $route['module'] = 'checkout';
+                break;
+            case 'sales_order_create':
+            case 'sales_order_edit':
+                $route['action'] = 'save';
+                $route['controller'] = 'sales_order_create';
+                $route['module'] = 'admin';
+                break;
+        }        
         
         return $route;
     }
     
     /**
-     * Retrieve place order url
+     * Retrieve place order url on front
      *
      * @return  string
      */
-    public function getPlaceOrderUrl()
+    public function getPlaceOrderFrontUrl()
     {
         return $this->_getUrl('directpayment/paygate/place');
+    }
+    
+    /**
+     * Retrieve place order url in admin
+     *
+     * @return  string
+     */
+    public function getPlaceOrderAdminUrl()
+    {
+        return $this->_getUrl('*/directpayment_paygate/place');
     }
     
     /**

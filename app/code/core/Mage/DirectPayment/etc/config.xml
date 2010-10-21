@@ -27,37 +27,37 @@
 -->
 <config>
     <modules>
-    	<Mage_DirectPayment>
-        	<version>0.0.1</version>
-      	</Mage_DirectPayment>
+        <Mage_DirectPayment>
+            <version>0.0.1</version>
+          </Mage_DirectPayment>
     </modules>
     <global>
-    	<blocks>
+        <blocks>
             <directpayment><class>Mage_DirectPayment_Block</class></directpayment>
         </blocks>
-		<models>
-		    <directpayment>
-		        <class>Mage_DirectPayment_Model</class>
-		        <resourceModel>directpayment_mysql4</resourceModel>
-		   </directpayment>
-		   <directpayment_mysql4>
-		       <class>Mage_DirectPayment_Model_Mysql4</class>
-		   </directpayment_mysql4>
-		</models>
-		<helpers>
-		    <directpayment>
-			    <class>Mage_DirectPayment_Helper</class>
-		    </directpayment>
-		</helpers>
-		<resources>
-		    <directpayment_setup>
-		        <setup>
-		            <module>Mage_DirectPayment</module>
-		        </setup>
-		    </directpayment_setup>
-		</resources>
-		<events>
-    		<checkout_submit_all_after>
+        <models>
+            <directpayment>
+                <class>Mage_DirectPayment_Model</class>
+                <resourceModel>directpayment_mysql4</resourceModel>
+           </directpayment>
+           <directpayment_mysql4>
+               <class>Mage_DirectPayment_Model_Mysql4</class>
+           </directpayment_mysql4>
+        </models>
+        <helpers>
+            <directpayment>
+                <class>Mage_DirectPayment_Helper</class>
+            </directpayment>
+        </helpers>
+        <resources>
+            <directpayment_setup>
+                <setup>
+                    <module>Mage_DirectPayment</module>
+                </setup>
+            </directpayment_setup>
+        </resources>
+        <events>
+            <checkout_submit_all_after>
                 <observers>
                     <directpayment_save_order_after_submit>
                         <class>directpayment/observer</class>
@@ -66,7 +66,7 @@
                 </observers>
             </checkout_submit_all_after> 
             <controller_action_postdispatch_checkout_onepage_saveOrder>
-            	<observers>
+                <observers>
                     <directpayment_save_order_onepage>
                         <class>directpayment/observer</class>
                         <method>addAdditionalFieldsToResponse</method>
@@ -74,7 +74,7 @@
                 </observers>
             </controller_action_postdispatch_checkout_onepage_saveOrder>
             <controller_action_postdispatch_adminhtml_sales_order_create_save>
-            	<observers>
+                <observers>
                     <directpayment_save_order_admin>
                         <class>directpayment/observer</class>
                         <method>addAdditionalFieldsToResponse</method>
@@ -82,14 +82,14 @@
                 </observers>
             </controller_action_postdispatch_adminhtml_sales_order_create_save>
             <controller_action_postdispatch_adminhtml_sales_order_edit_save>
-            	<observers>
+                <observers>
                     <directpayment_save_order_admin>
                         <class>directpayment/observer</class>
                         <method>addAdditionalFieldsToResponse</method>
                     </directpayment_save_order_admin>                    
                 </observers>
             </controller_action_postdispatch_adminhtml_sales_order_edit_save>          
-    	</events>
+        </events>
     </global>
 
     <adminhtml>
@@ -109,7 +109,7 @@
                 </directpayment>
             </updates>
         </layout>
-    </adminhtml>
+    </adminhtml>        
 
     <frontend>
         <translate>
@@ -138,6 +138,18 @@
             </updates>
         </layout>
     </frontend>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mage_DirectPayment before="Mage_Adminhtml">Mage_DirectPayment_Adminhtml</Mage_DirectPayment>
+                    </modules>
+                </args>
+            </adminhtml>            
+        </routers>
+    </admin>
 
     <default>
         <payment>

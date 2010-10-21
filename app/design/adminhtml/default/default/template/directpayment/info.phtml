@@ -29,7 +29,7 @@ $_form = $this->getForm() ? $this->getForm() : $this;
 $_code = $_form->getMethodCode();
 $_method = $_form->getMethod();
 $_controller = $this->helper('directpayment')->getControllerName();
-$_orderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
+$_orderUrl = $this->helper('directpayment')->getPlaceOrderAdminUrl();
 ?>
 <!-- IFRAME for request to Authorize.net -->
 <iframe id="directpayment-iframe" allowtransparency="true" background-color="transparent" frameborder="0"  name="iframeDirectPayment" style="display:none;width:100%" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>

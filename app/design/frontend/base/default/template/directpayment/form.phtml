@@ -29,7 +29,7 @@ $_form = $this->getForm() ? $this->getForm() : $this;
 $_code = $_form->getMethodCode();
 $_method = $_form->getMethod();
 $_controller = $this->helper('directpayment')->getControllerName();
-$_orderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
+$_orderUrl = $this->helper('directpayment')->getPlaceOrderFrontUrl();
 ?>
 <div style="padding:1em;" class="step a-item">
 <!-- IFRAME for request to Authorize.net -->
