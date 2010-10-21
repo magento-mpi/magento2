@@ -30,6 +30,7 @@
 	<adminhtml_sales_order_create_index>		
 		<reference name="head">			
             <action method="addJs"><file>mage/directpayment.js</file></action>
+            <action method="addJs"><file>mage/adminhtml/directpayment.js</file></action>
         </reference>
     </adminhtml_sales_order_create_index>
 </layout>
