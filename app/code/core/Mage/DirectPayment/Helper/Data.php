@@ -71,10 +71,11 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     
 	/**
      * Retrieve place order url
-     *    
+     * 
+     * @param int $incrementId   
      * @return  string
      */
-    public function getSuccessOrderUrl()
+    public function getSuccessOrderUrl($incrementId)
     {
         $params = array();
         switch ($this->getControllerName()) {
@@ -87,7 +88,8 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = '*/sales_order/view';
-                if ($order = Mage::registry('directpayment_order')) {
+                if ($incrementId) {
+                    $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
                     $params['order_id'] = $order->getId();
                 }
                 break;
@@ -149,8 +151,8 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 		    window.top.review.resetLoadWaiting();
                 		}
                 		window.top.directPaymentModel.showError("'.$params['x_response_reason_text'].'");';
-                if ($order = Mage::registry('directpayment_order')) {
-                    $jS .= 'window.top.directPaymentModel.successUrl='.$this->getSuccessOrderUrl();
+                if (isset($params['x_invoice_num'])) {
+                    $jS .= 'window.top.directPaymentModel.successUrl='.$this->getSuccessOrderUrl($params['x_invoice_num']);
                 }                          
             }
             

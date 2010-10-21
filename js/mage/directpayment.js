@@ -219,6 +219,7 @@ directPayment.prototype = {
     			break;
     		case 'sales_order_edit':
 	    	case 'sales_order_create':
+	    		$(this.iframeId).style.height = '0px';
 	    		$(this.iframeId).hide();
 	    		break;
     	}    	  	
