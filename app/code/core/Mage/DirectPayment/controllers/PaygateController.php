@@ -47,7 +47,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     
     /**
      * Get iframe block instance
-     * 
+     *
      * @return Mage_DirectPayment_Block_Iframe
      */
     protected function _getIframeBlock()
@@ -69,16 +69,18 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         if (!empty($data['controller_action_name'])){
             $result['controller_action_name'] = $data['controller_action_name'];
         }
+        if (!empty($data['x_invoice_num'])){
+            $result['x_invoice_num'] = $data['x_invoice_num'];
+        }
         
         try {
             $paymentMethod->process($data);
             $result['success'] = 1;
-            $result['x_invoice_num'] = $data['x_invoice_num'];
         }
         catch (Mage_Core_Exception $e){
             Mage::logException($e);
-            $result['error_msg'] = $e->getMessage();
             $result['success'] = 0;
+            $result['error_msg'] = $e->getMessage();
         }
         catch (Exception $e){
             Mage::logException($e);
@@ -93,7 +95,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     
     /**
      * Retrieve params and put javascript into iframe
-     * 
+     *
      */
     public function redirectAction()
     {
@@ -155,7 +157,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                         $quote->setIsActive(1)
                             ->setReservedOrderId(NULL)
                             ->save();
-                        $this->_getCheckout()->replaceQuote($quote);                            
+                        $this->_getCheckout()->replaceQuote($quote);
                     }
                 }
             }
