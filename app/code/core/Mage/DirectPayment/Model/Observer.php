@@ -59,6 +59,7 @@ class Mage_DirectPayment_Model_Observer
     {
         /* @var $controller Mage_Checkout_OnepageController */
         $controller = $observer->getEvent()->getData('controller_action');
+        Mage::register('directpayment_controller', $controller->getRequest()->getControllerName(), true);
         /* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('directpayment_order');
         
