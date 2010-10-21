@@ -171,7 +171,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
             ->where('status IN(?)', $statuses);
 
         if ($archiveAge) { // Check archive age
-            $archivePeriodExpr = $adapter->getDateSubSql($adapter->quote($this->formatDate(time())),
+            $archivePeriodExpr = $adapter->getDateSubSql($adapter->quote($this->formatDate(true)),
                 (int) $archiveAge,
                 Varien_Db_Adapter_Interface::INTERVAL_DAY
             );
@@ -288,7 +288,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
         $updatedAtIndex = array_search('updated_at', $insertFields);
         if ($updatedAtIndex !== false) {
             unset($insertFields[$updatedAtIndex]);
-            $insertFields['updated_at'] = new Zend_Db_Expr("'".$this->formatDate(time())."'");
+            $insertFields['updated_at'] = new Zend_Db_Expr("'".$this->formatDate(true)."'");
         }
 
         $select = $adapter->select()
@@ -363,7 +363,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
             return array();
         }
 
-        /* @var $resource Mage_Sales_Model_Resource_Abstract */
+        /** @var $resource Mage_Sales_Model_Resource_Abstract */
         $resource = Mage::getResourceSingleton($resourceClass);
 
         $select = $this->_getReadAdapter()->select()
