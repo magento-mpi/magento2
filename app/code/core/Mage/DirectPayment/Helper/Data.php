@@ -145,7 +145,8 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                $jS .= 'window.top.location="'.$this->getSuccessOrderUrl().'"';                
             }            
             else {
-                $session =  Mage::getSingleton('directpayment/session');                
+                $session =  Mage::getSingleton('directpayment/session');
+                Mage::log($session->getControllerActionName());                
                 if ($controller = $session->getControllerActionName()) {
                     switch ($controller) {
                         case 'onepage':
