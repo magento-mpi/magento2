@@ -140,10 +140,11 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     public function getIframeHtml($params)
     {
         if (isset($params['x_response_code'])) {
+            Mage::log(Mage::registry('directpayment_controller'));
             $jS = '';
             if ($params['x_response_code'] == 1) {
                $jS .= 'window.top.location="'.$this->getSuccessOrderUrl().'"';                
-            }
+            }            
             else {
                 if ($controller = Mage::registry('directpayment_controller')) {
                 switch ($controller) {
