@@ -200,7 +200,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         $responseText = $this->_wrapGatewayError($authResponse->getXResponseReasonText());
         if ($orderIncrementId){
             /* @var $order Mage_Sales_Model_Order */
-            $order = Mage::getModel('sales/order');
+            $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
             if ($order->getId()){
                 //operate with order
                 //check amount
