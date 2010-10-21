@@ -67,7 +67,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'))
         	->setIsTransactionPending(true)
         	->setTransactionPendingStatus('pending_payment')
-        	->setTransactionId(null)
+        	->setTransactionId('pending')
         	->setIsTransactionClosed(false);
     }
     
@@ -132,10 +132,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
                 $order = $payment->getOrder();
                 $payment->authorize(true, $order->getBaseTotalDue()); // base amount will be set inside
                 $payment->setAmountAuthorized($order->getTotalDue());
-                
-                $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
-                $stateObject->setStatus('pending_payment');
-                $stateObject->setIsNotified(true);
+                $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, 'pending_payment', '', true);
                 break;
             default:
                 break;
