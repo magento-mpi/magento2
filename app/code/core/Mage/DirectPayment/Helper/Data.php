@@ -72,13 +72,13 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
 	/**
      * Retrieve place order url
      * 
-     * @param int $incrementId   
+     * @param array params  
      * @return  string
      */
-    public function getSuccessOrderUrl($incrementId)
+    public function getSuccessOrderUrl($params)
     {
-        $params = array();
-        switch ($this->getControllerName()) {
+        $param = array();
+        switch ($params['controller_action_name']) {
             case 'onepage':
                 $route = 'checkout/onepage/success';
                 break;
@@ -88,9 +88,9 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = '*/sales_order/view';
-                if ($incrementId) {
-                    $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
-                    $params['order_id'] = $order->getId();
+                if (isset($params['x_invoice_num'])) {
+                    $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
+                    $param['order_id'] = $order->getId();
                 }
                 break;
             default:
@@ -98,7 +98,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
         }
         
-        return $this->_getUrl($route, $params);
+        return $this->_getUrl($route, $param);
     }
     
     /**
@@ -145,7 +145,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
             $jS = '';
             if ($params['x_response_code'] == 1 &&
                 isset($params['x_invoice_num'])) {
-               $jS .= 'window.top.location="'.$this->getSuccessOrderUrl($params['x_invoice_num']).'"';                
+               $jS .= 'window.top.location="'.$this->getSuccessOrderUrl($params).'"';                
             }            
             else {
                 $jS .= 'if (window.top.review) {
