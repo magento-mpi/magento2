@@ -72,7 +72,6 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Core_Model_Resource
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         parent::_afterSave($object);
-//        $this->_saveCustomerSegmentRelations($object);
         $this->_prepareRuleProducts($object);
 
         if (!$object->isObjectNew() && $object->getOrigData('apply_to') != $object->getData('apply_to')) {
@@ -168,10 +167,10 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Core_Model_Resource
         }
 
         if (!empty($delete)) {
-            $where = join(' AND ', array(
-                $adapter->quoteInto('rule_id=?', $ruleId),
-                $adapter->quoteInto('segment_id IN(?)', $delete)
-            ));
+            $where = array(
+                'rule_id=?' => $ruleId,
+                'segment_id IN(?)' => $delete
+            );
             $adapter->delete($this->_getCustomerSegmentRelationsTable(), $where);
         }
 

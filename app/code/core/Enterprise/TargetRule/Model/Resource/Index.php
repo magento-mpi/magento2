@@ -212,7 +212,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
         $select->limit($limit);
 
         $bind   = $this->_prepareRuleActionSelectBind($object, $actionBind);
-        $result = $select->getAdapter()->fetchCol($select, $bind);
+        $result = $this->_getReadAdapter()->fetchCol($select, $bind);
 
         return $result;
     }
@@ -222,7 +222,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
      *
      * @param Enterprise_TargetRule_Model_Index $object
      * @param array $actionBind
-     * @return unknown
+     * @return array
      */
     protected function _prepareRuleActionSelectBind($object, $actionBind)
     {
@@ -232,7 +232,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
         }
 
         foreach ($actionBind as $bindData) {
-            if (! is_array($bindData) || ! array_key_exists('bind', $bindData) || ! array_key_exists('field', $bindData)) {
+            if (!is_array($bindData) || !array_key_exists('bind', $bindData) || !array_key_exists('field', $bindData)) {
                 continue;
             }
             $k = $bindData['bind'];
@@ -370,11 +370,13 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
                 break;
 
             case '()':
-                $condition = $this->getReadConnection()->prepareSqlCondition($bindName, array('finset' => new Zend_Db_Expr($field)));
+                $condition = $this->getReadConnection()
+                    ->prepareSqlCondition($bindName, array('finset' => new Zend_Db_Expr($field)));
                 break;
 
             case '!()':
-                $condition = $this->getReadConnection()->prepareSqlCondition($bindName, array('finset' => new Zend_Db_Expr($field)));
+                $condition = $this->getReadConnection()
+                    ->prepareSqlCondition($bindName, array('finset' => new Zend_Db_Expr($field)));
                 $condition = sprintf('NOT (%s)', $condition);
                 break;
 
@@ -476,6 +478,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
      *
      * @param int|array|Varien_Db_Select $productIds
      * @param int $typeId
+     * @return Enterprise_TargetRule_Model_Resource_Index
      */
     public function removeIndexByProductIds($productIds, $typeId = null)
     {
@@ -495,6 +498,8 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
         }
 
         $adapter->delete($this->getMainTable(), $where);
+
+        return $this;
     }
 
     /**

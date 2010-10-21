@@ -352,8 +352,10 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
                 ->from(array('attr_d' => $table), 'COUNT(*)')
                 ->joinLeft(
                     array('attr_s' => $table),
-                    'attr_s.entity_id = attr_d.entity_id AND attr_s.attribute_id = attr_d.attribute_id'
-                        . ' AND attr_s.store_id=' . $object->getStoreId(),
+                    $resource->getReadConnection()->quoteInto(
+                        'attr_s.entity_id = attr_d.entity_id AND attr_s.attribute_id = attr_d.attribute_id'
+                        . ' AND attr_s.store_id=?', $object->getStoreId()
+                    ),
                     array())
                 ->where('attr_d.entity_id = e.entity_id')
                 ->where('attr_d.attribute_id=?', $attribute->getId())
