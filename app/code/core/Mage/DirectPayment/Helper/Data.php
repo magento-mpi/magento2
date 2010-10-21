@@ -87,11 +87,9 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
             case 'sales_order_create':
             case 'sales_order_edit':
-                $route = '*/sales_order/view';
-                if (isset($params['x_invoice_num'])) {
-                    $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
-                    $param['order_id'] = $order->getId();
-                }
+                $route = 'admin/sales_order/view';
+                $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
+                $param['order_id'] = $order->getId();
                 break;
             default:
                 $route = 'checkout/onepage/success';
@@ -144,7 +142,8 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
         if (isset($params['x_response_code'])) {            
             $jS = '';
             if ($params['x_response_code'] == 1 &&
-                isset($params['x_invoice_num'])) {
+                isset($params['x_invoice_num']) && 
+                isset($params['controller_action_name'])) {
                $jS .= 'window.top.location="'.$this->getSuccessOrderUrl($params).'"';                
             }            
             else {
