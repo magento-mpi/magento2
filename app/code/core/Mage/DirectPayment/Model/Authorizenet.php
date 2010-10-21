@@ -225,17 +225,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
             if ($order->getId()){
                 //operate with order
                 //check amount
-                try {
-                    $this->_authOrder($order);
-                }
-                catch (Exception $e){
-                    if ($authResponse->getXTransId() && $authResponse->getXType() == 'AUTH_ONLY'){
-                        $order->getPayment()->void();
-                        $order->registerCancellation()
-                            ->save();
-                    }
-                    throw $e;
-                }
+                $this->_authOrder($order);
             }
             else {
                 Mage::throwException(($responseText) ? $responseText : Mage::helper('directpayment')->__('Payment error. Order was not found.'));
@@ -273,16 +263,20 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
      */
     protected function _authOrder(Mage_Sales_Model_Order $order)
     {
-        $this->checkResponseCode();
+        try {
+            $this->checkResponseCode();
+        }
+        catch (Exception $e){
+            //decline the order (in case of wrong response code) but don't return money to customer.
+            $message = $e->getMessage();
+            $this->_decline($order, $message, false);
+            throw $e;
+        }
         
         $response = $this->getResponse();
         
+        //create transaction. need for void if amount will not match.
         $payment = $order->getPayment();
-        //match amounts. should be equals for authorization.
-        if (sprintf('%.2F', $payment->getBaseAmountAuthorized()) != sprintf('%.2F', $response->getXAmount())){
-            Mage::throwException(Mage::helper('directpayment')->__('Payment error. Paid amount doesn\'t match the order amount.'));
-        }
-        
         $payment->setTransactionId($response->getXTransId())
             ->setIsTransactionClosed(0)
             ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
@@ -299,6 +293,14 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         
         $order->setState(Mage_Sales_Model_Order::STATE_NEW, true, $message, true)
             ->save();
+            
+        //match amounts. should be equals for authorization.
+        //decline the order if amount does not match.
+        if (sprintf('%.2F', $payment->getBaseAmountAuthorized()) != sprintf('%.2F', $response->getXAmount())){
+            $message = Mage::helper('directpayment')->__('Payment error. Paid amount doesn\'t match the order amount.');
+            $this->_decline($order, $message, true);
+            Mage::throwException($message);
+        }
 
         //capture order using AIM if needed
         if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
@@ -318,5 +320,24 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         }
         // do not cancel order if we couldn't send email
         catch (Exception $e) {}
+    }
+    
+    /**
+     * Register order cancellation. Return money to customer if needed.
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @param string $message
+     * @param bool $voidPayment
+     */
+    protected function _decline(Mage_Sales_Model_Order $order, $message = '', $voidPayment = true)
+    {
+        $response = $this->getResponse();
+        if ($voidPayment && $response->getXTransId() && $response->getXType() == 'AUTH_ONLY'){
+            $order->getPayment()
+                ->setTransactionId(null)
+                ->setParentTransactionId($response->getXTransId())
+                ->void();
+        }
+        $order->registerCancellation($message);
     }
 }
