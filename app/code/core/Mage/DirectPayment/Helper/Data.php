@@ -147,8 +147,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
             else {
                 switch ($this->getControllerName()) {
                     case 'onepage':
-                        $jS .= 'window.top.review.resetLoadWaiting();
-                        		window.top.directPaymentModel.showOnepageError("'.$params['x_response_reason_text'].'");';
+                        $jS .= 'window.top.review.resetLoadWaiting();window.top.directPaymentModel.showOnepageError("'.$params['x_response_reason_text'].'");';
                         break;
                     case 'multishipping':                        
                         break;
