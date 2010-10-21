@@ -460,7 +460,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 FROM ALL_TAB_COLUMNS TC
                 LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C
                     ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P'))
-                  ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME
+                  ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME AND CC.OWNER = TC.OWNER
                 WHERE UPPER(TC.TABLE_NAME) = UPPER(:TBNAME)";
             $bind[':TBNAME'] = $tableName;
             if ($schemaName) {
@@ -541,6 +541,22 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 'IDENTITY'         => $identity
             );
         }
+        /*
+         * Set Identity to fields with autoincrement
+         */
+        $bind = array(
+            ':TBNAME'   => $tableName,
+            ':TRIGNAME' => $this->_getTriggerName($tableName, strtolower($result[0][$column_name]))
+        );
+        $sql = 'SELECT COUNT(1)
+            FROM USER_TRIGGERS
+            WHERE UPPER(TABLE_NAME) = UPPER(:TBNAME)
+            AND TRIGGER_NAME = :TRIGNAME';
+
+        if ($this->fetchOne($sql, $bind) != false) {
+            $desc[$this->foldCase($result[0][$column_name])]['IDENTITY'] = true;
+        }
+
         return $desc;
     }
 
@@ -596,7 +612,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
     /**
      * Create Varien_Db_Ddl_Table object by data from describe table
-     * 
+     *
      * @param $tableName
      * @param $newTableName
      * @return Varien_Db_Ddl_Table
@@ -644,7 +660,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if ($indexData['KEY_NAME'] == 'PRIMARY') {
                 continue;
             }
-            
+
             $fields = $indexData['COLUMNS_LIST'];
             $options = array();
             $indexType = '';
@@ -681,7 +697,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                $onUpdate = Varien_Db_Ddl_Table::ACTION_NO_ACTION;
             }
             $table->addForeignKey(
-                $fkName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'], 
+                $fkName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'],
                 $keyData['REF_COLUMN_NAME'], $onDelete, $onUpdate
             );
         }
@@ -709,7 +725,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
     /**
      * Retrieve column data type by data from describe table
-     * 
+     *
      * @param array $column
      * @return string
      */
@@ -1432,7 +1448,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 );
             }
 
-            $this->saveDdlCache($cacheKey, self::DDL_INDEX, $ddl);
+            $this->saveDdlCache($cacheKey, self::DDL_FOREIGN_KEY, $ddl);
         }
 
         return $ddl;
@@ -1672,7 +1688,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
 
     /**
-     * Inserts a table row with specified data. compatible with Oracle 8 
+     * Inserts a table row with specified data. compatible with Oracle 8
      *
      * @param mixed $table The table to insert data into.
      * @param array $data Column-value pairs or array of column-value pairs.
@@ -1781,7 +1797,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if (empty($joinConditions)) {
             throw new Exception('Invalid primary or unique columns in merge data');
         }
-        
+
         $insertCols = array_map(array($this, 'quoteIdentifier'), $cols);
         $insertVals = array();
         foreach ($insertCols as $col) {
@@ -1812,7 +1828,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return $this->query($query, $bind);
     }
 
-    
     /**
      * Inserts a table multiply rows with specified data.
      *
@@ -3849,7 +3864,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return $query;
 
     }
-    
+
     /**
      * Get insert to table from select
      *

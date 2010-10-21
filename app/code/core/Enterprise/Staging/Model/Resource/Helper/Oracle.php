@@ -64,11 +64,31 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
         $ddlOptions = array();
         $ddlSize = $ddlType = null;
         switch ($field['DATA_TYPE']) {
-            /*
-            * Fill types here
-            *
-            */
-
+            case 'SMALLINT':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_SMALLINT;
+                break;
+            case 'INTEGER':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_INTEGER;
+                break;
+            case 'NUMBER':
+                if ($field['SCALE'] == 0) {
+                    $ddlType = Varien_Db_Ddl_Table::TYPE_BIGINT;
+                    break;
+                }
+                $ddlType = Varien_Db_Ddl_Table::TYPE_DECIMAL;
+                $ddlSize = $field['PRECISION'] . ',' . $field['SCALE'];
+                break;
+            case 'FLOAT':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_FLOAT;
+                break;
+            case 'CLOB':
+            case 'VARCHAR2':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $ddlSize = $field['LENGTH'];
+                break;
+            case 'TIMESTAMP(6)':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+                break;
             default:
                 break;
         }
@@ -86,7 +106,7 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
             $ddlOptions['primary'] = true;
         }
         if ($field['DEFAULT']) {
-            $ddlOptions['default'] = $field['DEFAULT'];
+            $ddlOptions['default'] = trim($field['DEFAULT'], "' ");
         }
 
         return array($columnName, $ddlType, $ddlSize, $ddlOptions);
