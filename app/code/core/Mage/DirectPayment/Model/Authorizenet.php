@@ -303,6 +303,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         //capture order using AIM if needed
         if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
             $payment->setTransactionId(null)
+                ->setParentTransactionId($response->getXTransId())
                 ->capture(null);
             $order->save();
         }
