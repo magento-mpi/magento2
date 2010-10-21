@@ -38,9 +38,12 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
     protected $_canSaveCc = false;
+    protected $_isInitializeNeeded      = true;
     
     // no need to debug
     protected $_debugReplacePrivateDataKeys = array();
+    
+    protected $_response;
     
     /**
      * (non-PHPdoc)
@@ -61,7 +64,11 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
      */
     public function authorize(Varien_Object $payment, $amount)
     {
-        
+        $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'))
+        	->setIsTransactionPending(true)
+        	->setTransactionPendingStatus('pending_payment')
+        	->setTransactionId(null)
+        	->setIsTransactionClosed(false);
     }
     
     /**
@@ -85,6 +92,20 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         return Mage::getModel('directpayment/authorizenet_request');
     }
     
+	/**
+     * Return response.
+     *
+     * @return Mage_DirectPayment_Model_Authorizenet_Response
+     */
+    public function getResponse()
+    {
+        if (!$this->_response){
+            $this->_response = Mage::getModel('directpayment/authorizenet_response');
+        }
+        return $this->_response;
+        
+    }
+    
     /**
      *  Return Order Place Redirect URL.
      *  Need to prevent emails sending for new orders to store's directors.
@@ -104,9 +125,21 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
      */
     public function initialize($paymentAction, $stateObject)
     {
-        $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
-        $stateObject->setStatus('pending_payment');
-        $stateObject->setIsNotified(true);
+        switch ($paymentAction){
+            case self::ACTION_AUTHORIZE:
+            case self::ACTION_AUTHORIZE_CAPTURE:
+                $payment = $this->getInfoInstance();
+                $order = $payment->getOrder();
+                $payment->authorize(true, $order->getBaseTotalDue()); // base amount will be set inside
+                $payment->setAmountAuthorized($order->getTotalDue());
+                
+                $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
+                $stateObject->setStatus('pending_payment');
+                $stateObject->setIsNotified(true);
+                break;
+            default:
+                break;
+        }
     }
     
     /**
@@ -122,5 +155,110 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
             ->setDataFromOrder($order)
             ->signRequestData();
         return $request;
+    }
+    
+    /**
+     * Fill response with data.
+     *
+     * @param array $postData
+     * @return Mage_DirectPayment_Model_Authorizenet
+     */
+    public function setResponseData(array $postData)
+    {
+        $this->getResponse()->setData($postData);
+        return $this;
+    }
+    
+    /**
+     * Validate response data. Needed in controllers.
+     *
+     * @return bool true in case of validation success.
+     * @throws Mage_Core_Exception in case of validation error
+     */
+    public function validateResponse()
+    {
+        //md5 check
+        if (!$this->getResponse()->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))){
+            Mage::throwException(Mage::helper('directpayment')->__('Response hash validation failed. Transaction declined.'));
+        }
+        
+        return true;
+    }
+    
+    public function process(array $responseData)
+    {
+        $this->setResponseData($responseData);
+        //check MD5 error or others response errors
+        //throws exception on false.
+        $this->validateResponse();
+       
+        $authResponse = $this->getResponse();
+        //operate with order
+        $orderIncrementId = $authResponse->getXInvoiceNum();
+        $responseText = $this->_wrapGatewayError($authResponse->getXResponseReasonText());
+        if ($orderIncrementId){
+            /* @var $order Mage_Sales_Model_Order */
+            $order = Mage::getModel('sales/order');
+            if ($order->getId()){
+                //operate with order
+                //check amount
+                try {
+                    $this->_authOrder($order);
+                }
+                catch (Exception $e){
+                    if ($authResponse->getXTransId() && $authResponse->getXType() == 'AUTH_ONLY'){
+                        $order->getPayment()->void();
+                        $order->registerCancellation()
+                            ->save();
+                    }
+                    throw $e;
+                }
+            }
+            else {
+                Mage::throwException(($responseText) ? $responseText : Mage::helper('directpayment')->__('Payment error. Order was not found.'));
+            }
+        }
+        else {
+            Mage::throwException(($responseText) ? $responseText : Mage::helper('directpayment')->__('Payment error. Order was not found.'));
+        }
+    }
+    
+    protected function _authOrder(Mage_Sales_Model_Order $order)
+    {
+        $response = $this->getResponse();
+        $payment = $order->getPayment();
+        //match amounts. should be equals for authorization.
+        if (sprintf('%.2F', $payment->getBaseAmountAuthorized()) != sprintf('%.2F', $response->getXAmount())){
+            Mage::throwException(Mage::helper('directpayment')->__('Payment error. Paid amount doesn\'t match the order amount.'));
+        }
+        
+        $paymentTransaction = $payment->getAuthorizationTransaction();
+        $paymentTransaction->setTxnId($response->getXTransId());
+        $paymentTransaction->save();
+        // Set transaction apporval message
+		$message = Mage::helper('directpayment')->__(
+			'Amount of %s approved by payment gateway. Transaction ID: "%s".',
+			$order->getBaseCurrency()->formatTxt($payment->getBaseAmountAuthorized()),
+			$response->getXTransId()
+		);
+				
+		$order->setState(Mage_Sales_Model_Order::STATE_NEW, true, $message, true)
+			->save();
+
+		if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
+			$payment->capture(null);
+			$order->save();
+		}
+
+		try {
+			$order->sendNewOrderEmail();
+			
+			Mage::getModel('sales/quote')
+				->load($order->getQuoteId())
+				->setIsActive(false)
+				->save();
+		}
+		// do not cancel order if we couldn't send email
+		catch (Exception $e) {}
     }
 }

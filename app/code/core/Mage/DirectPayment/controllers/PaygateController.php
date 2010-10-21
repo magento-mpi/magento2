@@ -44,40 +44,47 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     {
         return Mage::getSingleton('directpayment/session');
     }
-    
-    
+        
     /**
      * Response action.
      * Action for Authorize.net SIM Relay Request.
      */
     public function responseAction()
     {
-        $params = $this->getRequest()->getParams();
-        if (isset($params['x_response_code'])) {
-            if ($params['x_response_code'] != 1 && 
-                isset($params['x_invoice_num'])) {
-                $this->_cancelOrder($params['x_invoice_num']);
-            }
+        $data = $this->getRequest()->getPost();
+        /* @var $paymentMethod Mage_DirectPayment_Model_Authorizenet */
+        $paymentMethod = Mage::getModel('directpayment/authorizenet');
+        $result = array();
+        try {
+            $paymentMethod->process($data);
+            $result['success'] = 1;
         }
-        $jScript = 'window.location="'.Mage::getUrl('directpayment/paygate/redirect', array_filter($params)).'"';        
+        catch (Mage_Core_Exception $e){
+            Mage::logException($e);
+            $result['error_msg'] = $e->getMessage();
+            $result['success'] = 0;
+        }
+        catch (Exception $e){
+            Mage::logException($e);
+            $result['success'] = 0;
+            $result['error_msg'] = $this->__('There was an error processing your order. Please contact us or try again later.');
+        }
+
+        $jScript = 'window.location="'.Mage::getUrl('directpayment/paygate/redirect', $result).'";';        
         $iframeHtml = Mage::helper('directpayment')->wrapHtml($jScript);     
         $this->getResponse()->setBody($iframeHtml);
     }
     
-    /**
-     * Redirect action on local iframe
-     * 
-     */
     public function redirectAction()
     {
-        $params = $this->getRequest()->getParams(); 
+        $params = $this->getRequest()->getParams();
         $iframeHtml = Mage::helper('directpayment')->getIframeHtml($params);        
         $this->getResponse()->setBody($iframeHtml);
     }
     
     /**
      * Check order responce status and place or cancel order
-     * 
+     *
      */
     public function placeAction()
     {
@@ -91,8 +98,8 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                 $result['redirect'] = 1;
                 $result['redirectUrl'] = Mage::getUrl('checkout/onepage/success');
             }
-            else {               
-               $result['error_messages'] = 'Payment Error'; 
+            else {
+               $result['error_messages'] = 'Payment Error';
             }
         }
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
@@ -100,7 +107,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     
     /**
      * Cancel wrong order and return quote to customer.
-     * 
+     *
      * @param int $orderId
      * @return bool
      */
@@ -128,7 +135,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                     }
                 }
             $this->_getDirectPaymentSession()->removeCheckoutOrderIncrementId($orderIncrementId);
-        }        
+        }
         return false;
     }
 }

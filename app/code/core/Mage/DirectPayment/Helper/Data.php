@@ -139,24 +139,22 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getIframeHtml($params)
     {
-        if (isset($params['x_response_code'])) {            
-            $jS = '';
-            if ($params['x_response_code'] == 1 &&
-                isset($params['x_invoice_num']) && 
-                isset($params['controller_action_name'])) {
-               $jS .= 'window.top.location="'.$this->getSuccessOrderUrl($params).'"';                
-            }            
-            else {
-                $jS .= 'if (window.top.review) {
+        $jS = '';
+        if (!empty($params['success'] 
+            && isset($params['x_invoice_num'])) 
+            && isset($params['controller_action_name'])) {
+                $jS .= 'window.top.location="'.$this->getSuccessOrderUrl($params).'";';
+        }
+        else {
+             $jS .= 'if (window.top.review) {
                 		    window.top.review.resetLoadWaiting();
                 		}                		
-                		window.top.directPaymentModel.showError("'.$params['x_response_reason_text'].'");';
+                		window.top.directPaymentModel.showError("'.$params['error_msg'].'");';
                 if (isset($params['x_invoice_num'])) {
-                    $jS .= 'window.top.directPaymentModel.successUrl='.$this->getSuccessOrderUrl($params['x_invoice_num']);
+                    $jS .= 'window.top.directPaymentModel.successUrl="'.$this->getSuccessOrderUrl($params).'";';
                 }                          
-            }
+        }
             
-            return $this->wrapHtml($jS);
-        }        
+		return $this->wrapHtml($jS);
     }
 }
