@@ -170,10 +170,10 @@ directPayment.prototype = {
     
     loadIframe: function() 
     {    	
-    	if (this.paymentRequestSent) {    		
-    		$(this.iframeId).show();    		
+    	if (this.paymentRequestSent) {    		    		
     		switch (this.controller) {
 	    		case 'onepage':
+	    			$(this.iframeId).show();
 	    			review.resetLoadWaiting();
 	    			break;
 	    		case 'sales_order_edit':
@@ -185,8 +185,7 @@ directPayment.prototype = {
 			    		this.orderRequestSent = false;
 		    		}
 		    		else {
-		    			this.paymentRequestSent = false;
-		    			alert(this.hasError);
+		    			this.paymentRequestSent = false;		    			
 		    			if (!this.hasError) {
 		    				$(this.iframeId).show();
 		    			}

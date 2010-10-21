@@ -150,8 +150,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
             else {
                 $jS .= 'if (window.top.review) {
                 		    window.top.review.resetLoadWaiting();
-                		}
-                		window.top.directPaymentModel.hasError = true;
+                		}                		
                 		window.top.directPaymentModel.showError("'.$params['x_response_reason_text'].'");';
                 if (isset($params['x_invoice_num'])) {
                     $jS .= 'window.top.directPaymentModel.successUrl='.$this->getSuccessOrderUrl($params['x_invoice_num']);
