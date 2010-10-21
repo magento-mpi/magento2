@@ -163,7 +163,7 @@ define('REPLACEMENT_PHP', "<?php\n{notice}\n\\2");
  * Known issue: can break javascript files with non-Magento license
  * Known issue: may erase a CSS-file. Please check all css-files before commit
  */
-define('REGEX_SKIN', '/^\s*(\/\*\*.+NOTICE OF LICENSE.+?\*\/\s?)?(.+)$/us');
+define('REGEX_SKIN', '/^\s*(\/\*\*.+?NOTICE OF LICENSE.+?\*\/\s?)?(.+)$/us');
 define('REPLACEMENT_SKIN', "{notice}\n\\2");
 
 /**
