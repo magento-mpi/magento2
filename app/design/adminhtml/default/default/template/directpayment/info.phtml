@@ -127,11 +127,17 @@ $_checkOrderUrl = $this->helper('directpayment')->getPlaceOrderUrl();
 </ul>
 <script type="text/javascript">
 //<![CDATA[
+<?php if (!$this->isAjaxRequest()): ?>
+document.observe('dom:loaded', function(){
+<?php endif; ?>
 directPaymentModel = new directPayment(
 		'directpayment-iframe',
 		'<?php echo $_controller ?>',
 		'<?php echo $_orderUrl ?>',
 		'<?php echo $_method->getCgiUrl() ?>',
 		'<?php echo $_checkOrderUrl ?>');
+<?php if (!$this->isAjaxRequest()): ?>
+});
+<?php endif; ?>
 //]]>
 </script>

@@ -48,4 +48,16 @@ class Mage_DirectPayment_Block_Form extends Mage_Payment_Block_Form_Cc
     {
         return $this;
     }
+    
+    /**
+     * Get type of request
+     * 
+     * @return bool
+     */
+    public function isAjaxRequest()
+    {
+        return $this->getAction()
+                    ->getRequest()
+                    ->getParam('isAjax');
+    }
 }

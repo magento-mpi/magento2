@@ -133,25 +133,27 @@ directPayment.prototype = {
 			    	for(var i = 0; i < this.buttons.length; i++){
 			    		var button = this.buttons[i];			    		
 				    	button.writeAttribute('onclick','');
-				    	button.observe('click', function(obj){			    		
+				    	button.observe('click', function(obj){		    		
 				    		return function(){
-				    			var paymentMethod = $(this).up('form').getInputs('radio','payment[method]').find(function(radio){return radio.checked;}).value;				    			
-				    			if (paymentMethod == obj.code) {					    			
-				    				if (obj.validate()) {
-				    					//TODO: custom logic
-					    				toggleSelectsUnderBlock($('loading-mask'), false);
-					    				$('loading-mask').show();
-					    	            setLoaderPosition();
-					    				obj.disableInputs();					    				
-					    				obj.paymentRequestSent = true;
-					    				obj.orderRequestSent = true;
-					    				$(this).up('form').writeAttribute('target',$(obj.iframeId).readAttribute('name'));
-					    				$(this).up('form').submit();
-				    				}				    								    			
-					    		}
-				    			else {
-				    				$(this).up('form').writeAttribute('target','_top');
-				    				order.submit();
+				    			if (editForm.validator.validate()) {
+					    			var paymentMethodEl = $(this).up('form').getInputs('radio','payment[method]').find(function(radio){return radio.checked;});				    			
+					    			if (paymentMethodEl && paymentMethodEl.value == obj.code) {					    			
+					    				if (obj.validate()) {
+					    					//TODO: custom logic
+						    				toggleSelectsUnderBlock($('loading-mask'), false);
+						    				$('loading-mask').show();
+						    	            setLoaderPosition();
+						    				obj.disableInputs();					    				
+						    				obj.paymentRequestSent = true;
+						    				obj.orderRequestSent = true;
+						    				$(this).up('form').writeAttribute('target',$(obj.iframeId).readAttribute('name'));
+						    				$(this).up('form').submit();
+					    				}				    								    			
+						    		}
+					    			else {
+					    				$(this).up('form').writeAttribute('target','_top');
+					    				order.submit();
+					    			}
 				    			}
 			    			}				    	
 				    	}(this));
