@@ -104,8 +104,7 @@ directPayment.prototype = {
 		    		button.observe('click', function(obj){
 		    			return function(){
 			    			if ($(obj.iframeId)) {			    				
-			    				if (obj.validate()) {
-				    				//TODO: custom logic
+			    				if (obj.validate()) {				    				
 				    				obj.saveOnepageOrder();			    				
 			    				}			    							    				
 			    			}
@@ -114,19 +113,7 @@ directPayment.prototype = {
 			    			}
 		    			}
 		    		}(this));	    		
-		    		break;
-		    	case 'multishipping':
-		    		$('review-button').up('form').writeAttribute('onsubmit','return false;');
-		    		$('review-button').up('form').observe('submit', function(obj){
-		    	        return function(){
-			    			if (obj.validate()) {
-			    				showLoader();
-			    				//TODO: custom logic
-			    				$('review-button').up('form').submit();
-			    			}			    			
-		    			}
-		    		}(this));
-		    		break;
+		    		break;		    	
 		    	case 'sales_order_create':
 		    	case 'sales_order_edit':		    				    		
 			    	this.buttons = document.getElementsByClassName('scalable save');
@@ -138,8 +125,7 @@ directPayment.prototype = {
 				    			if (editForm.validator.validate()) {
 					    			var paymentMethodEl = $(this).up('form').getInputs('radio','payment[method]').find(function(radio){return radio.checked;});				    			
 					    			if (paymentMethodEl && paymentMethodEl.value == obj.code) {					    			
-					    				if (obj.validate()) {
-					    					//TODO: custom logic
+					    				if (obj.validate()) {					    				
 						    				toggleSelectsUnderBlock($('loading-mask'), false);
 						    				$('loading-mask').show();
 						    	            setLoaderPosition();

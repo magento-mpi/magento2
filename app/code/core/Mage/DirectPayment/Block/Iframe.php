@@ -24,39 +24,45 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_DirectPayment_Block_Form extends Mage_Payment_Block_Form_Cc
+class Mage_DirectPayment_Block_Iframe extends Mage_Core_Block_Template
 {
     /**
+     * Request params
+     * @var array
+     */
+    protected $_params = array();
+    
+    /**
      * Internal constructor
-     * Set info template for payment step
+     * Set template for iframe
      *
      * @return void
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('directpayment/info.phtml');
+        $this->setTemplate('directpayment/iframe.phtml');
     }
     
     /**
-     * Get form instance
+     * Set output params
      * 
-     * @return Mage_DirectPayment_Block_Form
+     * @param array $params
+     * @return Mage_DirectPayment_Block_Iframe
      */
-    public function getForm()
+    public function setParams($params)
     {
+        $this->_params = $params;
         return $this;
     }
     
     /**
-     * Get type of request
+     * Get params
      * 
-     * @return bool
+     * @return array
      */
-    public function isAjaxRequest()
+    public function getParams()
     {
-        return $this->getAction()
-                    ->getRequest()
-                    ->getParam('isAjax');
+        return $this->_params;
     }
 }

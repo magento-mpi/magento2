@@ -30,9 +30,13 @@
  */
 class Mage_DirectPayment_Block_Info extends Mage_Payment_Block_Info
 {    
-    const MULTISHIPPING_CONTROLLER_CODE = 'multishipping';
     const PAYMENT_METHOD_CODE = 'directpayment';
     
+    /**
+     * Form block instance
+     * 
+     * @var Mage_DirectPayment_Block_Form
+     */
     protected $_formBlock;        
     
     /**
@@ -43,14 +47,9 @@ class Mage_DirectPayment_Block_Info extends Mage_Payment_Block_Info
     {
         if ($this->getForm()->getMethodCode() != self::PAYMENT_METHOD_CODE) {
             return;
-        }
-        $html = parent::_toHtml();       
-        if ($this->_getRequestController() == self::MULTISHIPPING_CONTROLLER_CODE) {
-            $this->getForm()->setTemplate('directpayment/form.phtml');            
-            $html .= $this->getForm()->_toHtml();
-        }        
+        }            
         
-        return $html;
+        return parent::_toHtml();
     }
     
     

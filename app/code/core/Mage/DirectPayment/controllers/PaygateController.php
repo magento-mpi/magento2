@@ -44,6 +44,16 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     {
         return Mage::getSingleton('directpayment/session');
     }
+    
+    /**
+     * Get iframe block instance
+     * 
+     * @return Mage_DirectPayment_Block_Iframe
+     */
+    protected function _getIframeBlock()
+    {
+        return $this->getLayout()->createBlock('directpayment/iframe');
+    }
         
     /**
      * Response action.
@@ -75,17 +85,27 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
             $result['success'] = 0;
             $result['error_msg'] = $this->__('There was an error processing your order. Please contact us or try again later.');
         }
-
-        $jScript = 'window.location="'.Mage::getUrl('directpayment/paygate/redirect', $result).'";';
-        $iframeHtml = Mage::helper('directpayment')->wrapHtml($jScript);
-        $this->getResponse()->setBody($iframeHtml);
+        
+        $params['redirect'] = Mage::getUrl('directpayment/paygate/redirect', $result);
+        $block = $this->_getIframeBlock()->setParams($params);
+        $this->getResponse()->setBody($block->toHtml());
     }
     
+    /**
+     * Retrieve params and put javascript into iframe
+     * 
+     */
     public function redirectAction()
     {
-        $params = $this->getRequest()->getParams();
-        $iframeHtml = Mage::helper('directpayment')->getIframeHtml($params);
-        $this->getResponse()->setBody($iframeHtml);
+        $redirectParams = $this->getRequest()->getParams();
+        $params = array();
+        if (!empty($redirectParams['success'])
+            && isset($redirectParams['x_invoice_num'])
+            && isset($redirectParams['controller_action_name'])) {
+            $params['redirect'] = Mage::helper('directpayment')->getSuccessOrderUrl($redirectParams);
+        }
+        $block = $this->_getIframeBlock()->setParams(array_merge($params, $redirectParams));
+        $this->getResponse()->setBody($block->toHtml());
     }
     
     /**
@@ -123,24 +143,24 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         $result = array();
         if ($orderIncrementId && $this->_getDirectPaymentSession()->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-            if ($order->getId()){
-                    //check if order exists and assigned to
-                    $quoteId = $order->getQuoteId();
-                    $order->cancel()
-                        ->save();
-                    if ($quoteId){
-                        $quote = Mage::getModel('sales/quote')
-                            ->load($quoteId);
-                        if ($quote->getId()){
-                            $quote->setIsActive(1)
-                                ->setReservedOrderId(NULL)
-                                ->save();
-                            $this->_getCheckout()->replaceQuote($quote);
-                            return true;
-                        }
+            if ($order->getId()) {
+                //check if order exists and assigned to
+                $quoteId = $order->getQuoteId();
+                $order->cancel()
+                    ->save();
+                if ($quoteId) {
+                    $quote = Mage::getModel('sales/quote')
+                        ->load($quoteId);
+                    if ($quote->getId()){
+                        $quote->setIsActive(1)
+                            ->setReservedOrderId(NULL)
+                            ->save();
+                        $this->_getCheckout()->replaceQuote($quote);                            
                     }
                 }
+            }
             $this->_getDirectPaymentSession()->removeCheckoutOrderIncrementId($orderIncrementId);
+            return true;
         }
         return false;
     }

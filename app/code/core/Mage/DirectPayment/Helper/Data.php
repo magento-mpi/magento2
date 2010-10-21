@@ -41,22 +41,19 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     public function getSaveOrderUrl()
     {
         switch ($this->getControllerName()) {
-            case 'onepage':
+            case 'onepage' :
                 $route = 'checkout/onepage/saveOrder';
+                break;            
+            case 'sales_order_create' :
+            case 'sales_order_edit' :
+                $route = '*/' . $this->getControllerName() . '/save';
                 break;
-            case 'multishipping':
-                $route = 'directpayment/multishipping';
-                break;
-            case 'sales_order_create':
-            case 'sales_order_edit':
-                $route = '*/'.$this->getControllerName().'/save';
-                break;
-            default:
+            default :
                 $route = 'checkout/onepage/saveOrder';
                 break;
         }
         
-        return $this->_getUrl($route);
+        return $this->_getUrl ( $route );
     }
     
     /**
@@ -69,7 +66,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_getUrl('directpayment/paygate/place');
     }
     
-	/**
+    /**
      * Retrieve place order url
      *
      * @param array params
@@ -77,21 +74,18 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getSuccessOrderUrl($params)
     {
-        $param = array();
-        switch ($params['controller_action_name']) {
-            case 'onepage':
+        $param = array ();
+        switch ($params ['controller_action_name']) {
+            case 'onepage' :
                 $route = 'checkout/onepage/success';
-                break;
-            case 'multishipping':
-                $route = 'checkout/multishipping/success';
-                break;
-            case 'sales_order_create':
-            case 'sales_order_edit':
+                break;            
+            case 'sales_order_create' :
+            case 'sales_order_edit' :
                 $route = 'adminhtml/sales_order/view';
                 $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
                 break;
-            default:
+            default :
                 $route = 'checkout/onepage/success';
                 break;
         }
@@ -109,52 +103,5 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::app()->getFrontController()
                             ->getRequest()
                             ->getControllerName();
-    }
-    
-    /**
-     * Wrap js code for iframe
-     *
-     * @param mixed $jsCode
-     * @return string
-     */
-    public function wrapHtml($jsCode)
-    {
-        return '<html>
-            		<head>
-            			<script type="text/javascript">
-            			//<![CDATA[
-            			'.$jsCode.'
-            			//]]>
-            			</script>
-            		</head>
-            		<body></body>
-        	    </html>';
-    }
-    
-    /**
-     * Get iframe html
-     *
-     * @param array $params
-     * @return string
-     */
-    public function getIframeHtml($params)
-    {
-        $jS = '';
-        if (!empty($params['success'])
-            && isset($params['x_invoice_num'])
-            && isset($params['controller_action_name'])) {
-                $jS .= 'window.top.location="'.$this->getSuccessOrderUrl($params).'";';
-        }
-        else {
-             $jS .= 'if (window.top.review) {
-                		    window.top.review.resetLoadWaiting();
-                		}
-                		window.top.directPaymentModel.showError("'.$params['error_msg'].'");';
-                if (isset($params['x_invoice_num'])) {
-                    $jS .= 'window.top.directPaymentModel.successUrl="'.$this->getSuccessOrderUrl($params).'";';
-                }
-        }
-            
-		return $this->wrapHtml($jS);
-    }
+    }        
 }
