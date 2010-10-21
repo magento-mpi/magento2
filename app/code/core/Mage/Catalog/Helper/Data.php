@@ -268,4 +268,9 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         $model = (string)Mage::getConfig()->getNode(self::XML_PATH_CONTENT_TEMPLATE_FILTER);
         return Mage::getModel($model);
     }
+
+    public function getOldFieldMap()
+    {
+        return (array)Mage::getConfig()->getNode('global/catalog_product/short_fields_map/');
+    }
 }
