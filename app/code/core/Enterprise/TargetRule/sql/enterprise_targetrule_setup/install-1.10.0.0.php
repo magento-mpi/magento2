@@ -39,6 +39,7 @@ $installer->addAttribute('catalog_product', 'related_tgtr_position_limit', array
     'type'         => 'int',
     'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
+    'backend'      => 'enterprise_targetrule/catalog_product_attribute_backend_rule',
 ));
 
 $installer->addAttribute('catalog_product', 'related_tgtr_position_behavior', array(
@@ -50,6 +51,7 @@ $installer->addAttribute('catalog_product', 'related_tgtr_position_behavior', ar
     'type'         => 'int',
     'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
+    'backend'      => 'enterprise_targetrule/catalog_product_attribute_backend_rule',
 ));
 
 $installer->addAttribute('catalog_product', 'upsell_tgtr_position_limit', array(
@@ -61,6 +63,7 @@ $installer->addAttribute('catalog_product', 'upsell_tgtr_position_limit', array(
     'type'         => 'int',
     'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
+    'backend'      =>'enterprise_targetrule/catalog_product_attribute_backend_rule',
 ));
 
 $installer->addAttribute('catalog_product', 'upsell_tgtr_position_behavior', array(
@@ -72,13 +75,8 @@ $installer->addAttribute('catalog_product', 'upsell_tgtr_position_behavior', arr
     'type'         => 'int',
     'global'       => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
+    'backend'      =>'enterprise_targetrule/catalog_product_attribute_backend_rule',
 ));
-
-$installer->updateAttribute('catalog_product',  'related_tgtr_position_limit', 'backend_model', 'enterprise_targetrule/catalog_product_attribute_backend_rule');
-$installer->updateAttribute('catalog_product',  'related_tgtr_position_behavior' , 'backend_model', 'enterprise_targetrule/catalog_product_attribute_backend_rule');
-$installer->updateAttribute('catalog_product',  'upsell_tgtr_position_limit' , 'backend_model', 'enterprise_targetrule/catalog_product_attribute_backend_rule');
-$installer->updateAttribute('catalog_product',  'upsell_tgtr_position_behavior'  , 'backend_model', 'enterprise_targetrule/catalog_product_attribute_backend_rule');
-
 
 /**
  * Create table 'enterprise_targetrule/rule'
