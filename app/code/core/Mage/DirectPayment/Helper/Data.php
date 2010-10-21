@@ -35,7 +35,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
      * Retrieve save order url
-     *    
+     *
      * @return  string
      */
     public function getSaveOrderUrl()
@@ -61,7 +61,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     
     /**
      * Retrieve place order url
-     *    
+     *
      * @return  string
      */
     public function getPlaceOrderUrl()
@@ -71,8 +71,8 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     
 	/**
      * Retrieve place order url
-     * 
-     * @param array params  
+     *
+     * @param array params
      * @return  string
      */
     public function getSuccessOrderUrl($params)
@@ -83,7 +83,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 $route = 'checkout/onepage/success';
                 break;
             case 'multishipping':
-                $route = 'checkout/multishipping/success';                
+                $route = 'checkout/multishipping/success';
                 break;
             case 'sales_order_create':
             case 'sales_order_edit':
@@ -101,7 +101,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     
     /**
      * Get controller name
-     * 
+     *
      * @return string
      */
     public function getControllerName()
@@ -113,7 +113,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     
     /**
      * Wrap js code for iframe
-     * 
+     *
      * @param mixed $jsCode
      * @return string
      */
@@ -133,26 +133,26 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     
     /**
      * Get iframe html
-     * 
+     *
      * @param array $params
      * @return string
      */
     public function getIframeHtml($params)
     {
         $jS = '';
-        if (!empty($params['success'] 
-            && isset($params['x_invoice_num'])) 
+        if (!empty($params['success'])
+            && isset($params['x_invoice_num'])
             && isset($params['controller_action_name'])) {
                 $jS .= 'window.top.location="'.$this->getSuccessOrderUrl($params).'";';
         }
         else {
              $jS .= 'if (window.top.review) {
                 		    window.top.review.resetLoadWaiting();
-                		}                		
+                		}
                 		window.top.directPaymentModel.showError("'.$params['error_msg'].'");';
                 if (isset($params['x_invoice_num'])) {
                     $jS .= 'window.top.directPaymentModel.successUrl="'.$this->getSuccessOrderUrl($params).'";';
-                }                          
+                }
         }
             
 		return $this->wrapHtml($jS);
