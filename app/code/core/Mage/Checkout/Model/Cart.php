@@ -245,7 +245,13 @@ class Mage_Checkout_Model_Cart extends Varien_Object
              * String we can get if prepare process has error
              */
             if (is_string($result)) {
-                $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
+                $redirectUrl = ($product->hasOptionsValidationFail())
+                    ? $product->getUrlModel()->getUrl(
+                        $product,
+                        array('_query' => array('startcustomization' => 1))
+                    )
+                    : $product->getProductUrl();
+                $this->getCheckoutSession()->setRedirectUrl($redirectUrl);
                 if ($this->getCheckoutSession()->getUseNotice() === null) {
                     $this->getCheckoutSession()->setUseNotice(true);
                 }

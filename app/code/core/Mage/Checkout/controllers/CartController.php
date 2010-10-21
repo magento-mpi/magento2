@@ -81,8 +81,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setRedirect($returnUrl);
         } elseif (!Mage::getStoreConfig('checkout/cart/redirect_to_cart')
             && !$this->getRequest()->getParam('in_cart')
-            && $backUrl = $this->_getRefererUrl()) {
-
+            && $backUrl = $this->_getRefererUrl()
+        ) {
             $this->getResponse()->setRedirect($backUrl);
         } else {
             if (($this->getRequest()->getActionName() == 'add') && !$this->getRequest()->getParam('in_cart')) {

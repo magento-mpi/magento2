@@ -189,4 +189,14 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         return $this->getProduct()->getTypeInstance(true)->hasRequiredOptions($this->getProduct());
     }
+
+    /**
+     * Define if page with product custom options should display at start
+     *
+     * @return bool
+     */
+    public function startBundleCustomization()
+    {
+        return (bool)Mage::app()->getRequest()->getParam('startcustomization');
+    }
 }

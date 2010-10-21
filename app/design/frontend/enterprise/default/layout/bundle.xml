@@ -225,6 +225,10 @@ Additional block for bundle product type
         </reference>
     </PRODUCT_TYPE_bundle>
 
+    <review_product_list>
+        <remove name="customize.button"/>
+    </review_product_list>
+
     <sales_order_view>
         <reference name="order_items">
             <action method="addItemRender"><type>bundle</type><block>bundle/sales_order_items_renderer</block><template>bundle/sales/order/items/renderer.phtml</template></action>

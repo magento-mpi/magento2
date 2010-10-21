@@ -499,6 +499,14 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             return $result;
         }
 
+        if (!is_array($buyRequest->getBundleOption())) {
+            if ($product) {
+                $product->setOptionsValidationFail(true);
+            }
+
+            Mage::throwException(Mage::helper('bundle')->__('Invalid options set'));
+        }
+
         $selections = array();
 
         $product = $this->getProduct($product);
@@ -666,6 +674,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
             return $result;
         }
+
         return $this->getSpecifyOptionMessage();
     }
 
