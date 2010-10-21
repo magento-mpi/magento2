@@ -188,6 +188,8 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
     public function process(array $responseData)
     {
         $this->setResponseData($responseData);
+        
+        Mage::log($responseData);
         //check MD5 error or others response errors
         //throws exception on false.
         $this->validateResponse();
