@@ -134,7 +134,7 @@ directPaymentModel = new directPayment(
 		'<?php echo $_controller ?>',
 		'<?php echo $_orderUrl ?>',
 		'<?php echo $_method->getCgiUrl() ?>',
-		$('edit_form').readAttribute('action'));
+		'<?php echo $this->getUrl('*/*/save') ?>');
 <?php if (!$this->isAjaxRequest()): ?>
 });
 <?php endif; ?>
