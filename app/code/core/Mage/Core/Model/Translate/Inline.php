@@ -359,7 +359,12 @@ class Mage_Core_Model_Translate_Inline
         $tagMatch = array();
         while (preg_match($tagRegExp, $this->_content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
             $tagClosure = '</'.$tagMatch[1][0].'>';
-            $tagLength = stripos($this->_content, $tagClosure, $tagMatch[0][1])-$tagMatch[0][1]+strlen($tagClosure);
+            $tagClosurePos = stripos($this->_content, $tagClosure, $tagMatch[0][1]);
+            if ($tagClosurePos === false) {
+                $tagClosure = '<\/'.$tagMatch[1][0].'>';
+                $tagClosurePos = stripos($this->_content, $tagClosure, $tagMatch[0][1]);
+            }
+            $tagLength = $tagClosurePos-$tagMatch[0][1]+strlen($tagClosure);
 
             $next       = 0;
             $tagHtml    = substr($this->_content, $tagMatch[0][1], $tagLength);
