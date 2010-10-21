@@ -271,6 +271,6 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getOldFieldMap()
     {
-        return (array)Mage::getConfig()->getNode('global/catalog_product/short_fields_map/');
+        return (array)Mage::getConfig()->getNode('global/catalog_product/old_fields_map/');
     }
 }
