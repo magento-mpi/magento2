@@ -64,11 +64,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
      */
     public function authorize(Varien_Object $payment, $amount)
     {
-        $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'))
-        	->setIsTransactionPending(true)
-        	->setTransactionPendingStatus('pending_payment')
-        	->setTransactionId('pending')
-        	->setIsTransactionClosed(false);
+        $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
     }
     
     /**
@@ -178,9 +174,14 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
      */
     public function validateResponse()
     {
+        $response = $this->getResponse();
         //md5 check
-        if (!$this->getResponse()->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))){
+        if (!$response->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))){
             Mage::throwException(Mage::helper('directpayment')->__('Response hash validation failed. Transaction declined.'));
+        }
+        
+        if (!$response->getXTransId()){
+            Mage::throwException(Mage::helper('paygate')->__('Payment authorization error.'));
         }
         
         return true;
@@ -226,25 +227,43 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         }
     }
     
+    public function checkResponseCode()
+    {
+        switch ($this->getResponse()->getXResponseCode()) {
+            case self::RESPONSE_CODE_APPROVED:
+                return true;
+            case self::RESPONSE_CODE_DECLINED:
+            case self::RESPONSE_CODE_ERROR:
+                Mage::throwException($this->_wrapGatewayError($this->getResponse()->getXResponseReasonText()));
+            default:
+                Mage::throwException(Mage::helper('paygate')->__('Payment authorization error.'));
+        }
+    }
+    
     protected function _authOrder(Mage_Sales_Model_Order $order)
     {
+        $this->checkResponseCode();
+        
         $response = $this->getResponse();
+        
         $payment = $order->getPayment();
         //match amounts. should be equals for authorization.
         if (sprintf('%.2F', $payment->getBaseAmountAuthorized()) != sprintf('%.2F', $response->getXAmount())){
             Mage::throwException(Mage::helper('directpayment')->__('Payment error. Paid amount doesn\'t match the order amount.'));
         }
         
-        $paymentTransaction = $payment->getAuthorizationTransaction();
-        $paymentTransaction->setTxnId($response->getXTransId());
-        $paymentTransaction->save();
+        $payment->setTransactionId($response->getXTransId())
+            ->setIsTransactionClosed(true);
+        
+        $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+        
         // Set transaction apporval message
 		$message = Mage::helper('directpayment')->__(
 			'Amount of %s approved by payment gateway. Transaction ID: "%s".',
 			$order->getBaseCurrency()->formatTxt($payment->getBaseAmountAuthorized()),
 			$response->getXTransId()
 		);
-				
+		
 		$order->setState(Mage_Sales_Model_Order::STATE_NEW, true, $message, true)
 			->save();
 
