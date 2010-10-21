@@ -186,6 +186,7 @@ directPayment.prototype = {
 		    		}
 		    		else {
 		    			this.paymentRequestSent = false;
+		    			alert(this.hasError);
 		    			if (!this.hasError) {
 		    				$(this.iframeId).show();
 		    			}
@@ -270,7 +271,7 @@ directPayment.prototype = {
             	paymentData[key] = response.directpayment.fields[key];
             }            
             var preparedData = this.preparePaymentRequest(paymentData);            
-        	return this.sendPaymentRequest(preparedData);
+        	this.sendPaymentRequest(preparedData);
         }
         else{
             var msg = response.error_messages;
@@ -299,7 +300,7 @@ directPayment.prototype = {
             	paymentData[key] = response.directpayment.fields[key];
             }            
             var preparedData = this.preparePaymentRequest(paymentData);            
-        	return this.sendPaymentRequest(preparedData);
+        	this.sendPaymentRequest(preparedData);
         }        
 	},
     
