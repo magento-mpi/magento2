@@ -469,29 +469,28 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getImages()
     {
         $images = array();
-
         $params = $this->getLastParams();
+
         foreach ($this->_imageIds as $id) {
             $path = $this->getData('conf/submit/'.$id);
+            $basename = null;
             if (!empty($path)) {
                 /**
                  * Fetching data from session restored array
                  */
-                $images['conf/submit/'.$id] = Mage::getBaseUrl('media').'xmlconnect/'.basename($params[$id]);
+                 $basename = basename($path);
             } else if (isset($params[$id])) {
                /**
                 * Fetching data from submission history table record
                 *
                 * converting :  "@\var\somedir\media\xmlconnect\form_icon_6.png" to "\var\somedir\media\xmlconnect\forn_icon_6.png"
                 */
-                $path = substr($params[$id], 1);
+//                $path = substr($params[$id], 1);
+                $basename = basename($params[$id]);
             }
-            if (!empty($path)) {
-                /**
-                 * Converting "\var\somedir\media\xmlconnect\forn_icon_6.png"
-                 * to "http://locahost.com/media/xmlconnect/forn_icon_6.png"
-                 */
-                $images['conf/submit/'.$id] = Mage::getBaseUrl('media').'xmlconnect/'.basename($path);
+            if (!empty($basename)) {
+                $images['conf/submit/'.$id] = Mage::getBaseUrl('media').'xmlconnect/'
+                    . Mage::helper('xmlconnect/image')->getFileDefaultSizeSuffixAsUrl($basename);
             }
         }
         return $images;
@@ -663,10 +662,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (isset($this->_data['conf']['submit_restore']) && is_array($this->_data['conf']['submit_restore'])) {
                 $submitRestore = $this->_data['conf']['submit_restore'];
             }
-            $dir = Mage::helper('xmlconnect')->getOriginalSizeBaseDir() . DS;
+
             foreach ($this->_imageIds as $id) {
                 if (isset($submit[$id])) {
-                    $params[$id] = '@' . $dir . $submit[$id];
+                    $params[$id] = '@' . $submit[$id];
                 } else if (isset($submitRestore[$id])) {
                     $params[$id] = $submitRestore[$id];
                 }

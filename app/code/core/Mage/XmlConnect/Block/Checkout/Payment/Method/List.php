@@ -65,12 +65,15 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<payment_methods></payment_methods>');
 
         $methodBlocks         = $this->getChild();
-        $ccSaveMethodRenderer = null;
-        $usedMethods          = $sordetAvailableMethodCodes = $usedCodes = array();
+        $methodArray = array (
+            'payment_ccsave' => 'Mage_Payment_Model_Method_Cc',
+            'payment_checkmo' => 'Mage_Payment_Model_Method_Checkmo',
+            'payment_purchaseorder' => 'Mage_Payment_Model_Method_Purchaseorder');
+        $usedMethods          = $sortedAvailableMethodCodes = $usedCodes = array();
         $allAvailableMethods  = Mage::helper('payment')->getStoreMethods(Mage::app()->getStore(), $this->getQuote());
 
         foreach ($allAvailableMethods as $method){
-            $sordetAvailableMethodCodes[] = $method->getCode();
+            $sortedAvailableMethodCodes[] = $method->getCode();
         }
 
         /**
@@ -88,35 +91,37 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
             $this->_assignMethod($method);
             $usedCodes[] = $method->getCode();
             $usedMethods[$method->getCode()] = array('renderer' => $block, 'method' => $method);
-
-            if ($block instanceOf Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave) {
-                $ccSaveMethodRenderer = $block;
-            }
         }
 
         /**
-         * Collect all Credit Card method compatible methods
+         * Collect all "Credit Card" / "CheckMo" / "Purchaseorder" method compatible methods
          */
-        if (!is_null($ccSaveMethodRenderer)) {
-            foreach ($sordetAvailableMethodCodes as $methodCode) {
-                if (in_array($methodCode, $usedCodes)) {
-                    continue;
-                }
-                try {
-                    $method = Mage::helper('payment')->getMethodInstance($methodCode);
-                    if (!is_subclass_of($method, 'Mage_Payment_Model_Method_Cc')) {
+        foreach ($methodArray as $methodName => $methodModelClassName) {
+            $methodRenderer = $this->getChild($methodName);
+            if (!is_null($methodRenderer)) {
+                foreach ($sortedAvailableMethodCodes as $methodCode) {
+                    /**
+                     * Skip used methods
+                     */
+                    if (in_array($methodCode, $usedCodes)) {
                         continue;
                     }
-                    if(!$this->_canUseMethod($method)){
-                        continue;
-                    }
+                    try {
+                        $method = Mage::helper('payment')->getMethodInstance($methodCode);
+                        if (!is_subclass_of($method, $methodModelClassName)) {
+                            continue;
+                        }
+                        if(!$this->_canUseMethod($method)){
+                            continue;
+                        }
 
-                    $this->_assignMethod($method);
-                    $usedCodes[] = $method->getCode();
-                    $usedMethods[$method->getCode()] = array('renderer' => $ccSaveMethodRenderer, 'method' => $method);
-                }
-                catch (Exception $e) {
-                    Mage::logException($e);
+                        $this->_assignMethod($method);
+                        $usedCodes[] = $method->getCode();
+                        $usedMethods[$method->getCode()] = array('renderer' => $methodRenderer, 'method' => $method);
+                    }
+                    catch (Exception $e) {
+                        Mage::logException($e);
+                    }
                 }
             }
         }
@@ -124,7 +129,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         /**
          * Generate methods XML according to sort order
          */
-        foreach ($sordetAvailableMethodCodes as $code){
+        foreach ($sortedAvailableMethodCodes as $code){
             if (!in_array($code, $usedCodes)){
                 continue;
             }

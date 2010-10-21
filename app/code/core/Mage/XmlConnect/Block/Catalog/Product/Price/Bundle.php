@@ -55,6 +55,17 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
         /* @var $_weeeHelper Mage_Weee_Helper_Data */
         /* @var $_taxHelper Mage_Tax_Helper_Data */
 
+        $_tierPrices = $this->_getTierPrices($product);
+
+        if (count($_tierPrices) > 0) {
+            $tierPricesTextArray = array();
+            foreach($_tierPrices as $_price) {
+                $tierPricesTextArray[] = Mage::helper('catalog')->__('Buy %1$s with %2$s discount each', $_price['price_qty'], ' '.($_price['price']*1).'%');
+            }
+            $item->addChild('price_tier', implode("\n", $tierPricesTextArray));
+        }
+
+
         list($_minimalPrice, $_maximalPrice) = $product->getPriceModel()->getPrices($product);
         $_id = $product->getId();
 
@@ -274,5 +285,38 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                 }
              }
         }
+    }
+
+    /**
+     * Get tier prices (formatted)
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    protected function _getTierPrices($product)
+    {
+        if (is_null($product)) {
+            return array();
+        }
+        $prices  = $product->getFormatedTierPrice();
+
+        $res = array();
+        if (is_array($prices)) {
+            foreach ($prices as $price) {
+                $price['price_qty'] = $price['price_qty']*1;
+                $price['savePercent'] = ceil(100 - $price['price'] );
+                $price['formated_price'] = Mage::app()->getStore()->formatPrice(
+                    Mage::app()->getStore()->convertPrice(
+                        Mage::helper('tax')->getPrice($product, $price['website_price']))
+                    , false);
+                $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(
+                    Mage::app()->getStore()->convertPrice(
+                        Mage::helper('tax')->getPrice($product, $price['website_price'], true))
+                    , false);
+                $res[] = $price;
+            }
+        }
+
+        return $res;
     }
 }

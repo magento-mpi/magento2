@@ -58,9 +58,28 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
         return  Mage::helper('xmlconnect/image')->getSkinImagesUrl('mobile_preview/' . $name);
     }
 
+
+   /**
+    * Retrieve url for images in the skin folder
+    *
+    * @param string $name  - path to file name relative to the skin dir
+    * @return string
+    */
+    public function getDesignPreviewImageUrl($name)
+    {
+        return Mage::helper('xmlconnect/image')->getSkinImagesUrl('design_default/' . $name);
+    }
+
+    /**
+     * Expose function getInterfaceImagesPaths from xmlconnect/images
+     * Converts Data path(conf/submision/zzzz) to config path (conf/native/submission/zzzzz)
+     *
+     * @param   string $path
+     * @return
+     */
     public function getInterfaceImagesPaths($path)
     {
-        $path = preg_replace('/^conf\/.*$/', 'conf/native/', $path);
+        $path = preg_replace('/^conf\/(.*)$/', 'conf/native/${1}', $path);
         return Mage::helper('xmlconnect/image')->getInterfaceImagesPaths($path);
     }
 
