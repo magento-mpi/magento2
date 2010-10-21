@@ -73,7 +73,7 @@ class Mage_DirectPayment_Model_Observer
                     $session =  Mage::getSingleton('directpayment/session');
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
                     $session->setControllerActionName($controller->getRequest()->getControllerName());
-                    
+                    Mage::log($session->getData());
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $result['directpayment'] = array('fields' => $requestToPaygate->getData());
                     $controller->getResponse()->clearHeader('Location');

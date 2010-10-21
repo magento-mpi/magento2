@@ -139,30 +139,29 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getIframeHtml($params)
     {
-        if (isset($params['x_response_code'])) {
-            Mage::log(Mage::registry('directpayment_controller'));
+        if (isset($params['x_response_code'])) {            
             $jS = '';
             if ($params['x_response_code'] == 1) {
                $jS .= 'window.top.location="'.$this->getSuccessOrderUrl().'"';                
             }            
             else {
-                $session =  Mage::getSingleton('directpayment/session');
-                Mage::log($session->getData());
+                $session =  Mage::getSingleton('directpayment/session');                
                 if ($controller = $session->getControllerActionName()) {
-                switch ($controller) {
-                    case 'onepage':
-                        $jS .= 'window.top.review.resetLoadWaiting();window.top.directPaymentModel.showOnepageError("'.$params['x_response_reason_text'].'");';
-                        break;                    
-                    case 'sales_order_create':
-                    case 'sales_order_edit':
-                        $jS .= 'window.top.directPaymentModel.showAdminError("'.$params['x_response_reason_text'].'");';
-                        if ($order = Mage::registry('directpayment_order')) {
-                            $jS .= 'window.top.directPaymentModel.successUrl='.$this->getSuccessOrderUrl();
-                        }
-                        break;
-                    default:                        
-                        break;
-                }
+                    switch ($controller) {
+                        case 'onepage':
+                            $jS .= 'window.top.review.resetLoadWaiting();window.top.directPaymentModel.showOnepageError("'.$params['x_response_reason_text'].'");';
+                            break;                    
+                        case 'sales_order_create':
+                        case 'sales_order_edit':
+                            $jS .= 'window.top.directPaymentModel.showAdminError("'.$params['x_response_reason_text'].'");';
+                            if ($order = Mage::registry('directpayment_order')) {
+                                $jS .= 'window.top.directPaymentModel.successUrl='.$this->getSuccessOrderUrl();
+                            }
+                            break;
+                        default:                        
+                            break;
+                    }
+                    $session->unsetData('controller_action_name');
                 }                
             }
             
