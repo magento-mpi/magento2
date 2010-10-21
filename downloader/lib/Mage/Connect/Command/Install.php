@@ -134,7 +134,7 @@ extends Mage_Connect_Command
                 $pVer = $package->getVersion();
 
 
-                if(!$cache->isChannel($pChan)) {
+                if (!($cache->isChannelName($pChan) || $cache->isChannelAlias($pChan))) {
                     throw new Exception("The '{$pChan}' channel is not installed. Please use the MAGE shell script to install the '{$pChan}' channel.");
                 }
 
