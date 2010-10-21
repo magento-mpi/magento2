@@ -37,6 +37,7 @@ class Enterprise_Cms_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
     /**
      * Fix xpath for hierarchy node table
      *
+     * @deprecated since 1.10.0.0
      * @return Enterprise_Cms_Model_Resource_Setup
      */
     public function fixXpathForHierarchyNode()
@@ -61,6 +62,7 @@ class Enterprise_Cms_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
     /**
      * Update Hierarchy nodes Xpath Callback method
      *
+     * @deprecated since 1.10.0.0
      * @param array $nodes
      * @param string $xpath
      * @param int $parentNodeId
@@ -74,9 +76,7 @@ class Enterprise_Cms_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
         foreach ($nodes[$parentNodeId] as $nodeId) {
             $nodeXpath = $xpath ? $xpath . '/' . $nodeId : $nodeId;
 
-            $bind  = array(
-                'xpath' => $nodeXpath
-            );
+            $bind  = array('xpath' => $nodeXpath);
             $where = $this->getConnection()->quoteInto('node_id = ?', $nodeId);
 
             $this->getConnection()->update($this->getTable('enterprise_cms/hierarchy_node'), $bind, $where);

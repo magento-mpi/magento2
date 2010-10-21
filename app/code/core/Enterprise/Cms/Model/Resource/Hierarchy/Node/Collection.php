@@ -74,11 +74,18 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
     public function addStoreFilter($store, $withAdmin = true)
     {
         if ($store instanceof Mage_Core_Model_Store) {
-            $store = array($store->getId());
+            $store = $store->getId();
         }
+
+        if ($withAdmin) {
+            $storeIds = array(Mage_Core_Model_App::ADMIN_STORE_ID, $store);
+        } else {
+            $storeIds = array($store);
+        }
+
         $this->addCmsPageInStoresColumn();
         $this->getFlag('page_in_stores_select')
-            ->where('store.store_id IN (?)', ($withAdmin ? array(0, $store) : $store));
+            ->where('store.store_id IN (?)', $storeIds);
         $this->getSelect()
             ->having('main_table.page_id IS NULL OR page_in_stores IS NOT NULL');
         return $this;
@@ -129,7 +136,6 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
      */
     public function setOrderByLevel()
     {
-        Mage::getResourceHelper('core')->prepareColumnsList($this->getSelect());
         $this->getSelect()->order(array('level', 'sort_order'));
         return $this;
     }
@@ -217,11 +223,8 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
             if (count($nodeIds) == 0) {
                 $nodeIds = 0;
             }
-            $whereExpr = new Zend_Db_Expr(
-                $this->getConnection()->quoteInto('clone.node_id IS NOT NULL OR main_table.node_id IN (?)', $nodeIds)
-            );
 
-            $this->getSelect()->where($whereExpr);
+            $this->getSelect()->where('clone.node_id IS NOT NULL OR main_table.node_id IN (?)', $nodeIds);
             $this->setFlag('page_exists_or_node_id_filter_applied', true);
         }
 
@@ -255,7 +258,6 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
     public function applyRootNodeFilter()
     {
         $this->addFieldToFilter('parent_node_id', array('null' => true));
-
         return $this;
     }
 }

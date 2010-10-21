@@ -55,11 +55,12 @@ class Enterprise_Cms_Model_Resource_Page_Version_Collection
     public function addAccessLevelFilter($level)
     {
         if (is_array($level)) {
-            $this->addFieldToFilter('access_level', array('in' => $level));
+            $condition = array('in' => $level);
         } else {
-            $this->addFieldToFilter('access_level', $level);
+            $condition = $level;
         }
 
+        $this->addFieldToFilter('access_level', $condition);
         return $this;
     }
 
@@ -97,7 +98,7 @@ class Enterprise_Cms_Model_Resource_Page_Version_Collection
         if (!$this->getFlag('revisions_joined')) {
             $this->getSelect()->joinLeft(
                 array('rev_table' => $this->getTable('enterprise_cms/page_revision')),
-                'rev_table.version_id=main_table.version_id', '*');
+                'rev_table.version_id = main_table.version_id', '*');
 
             $this->setFlag('revisions_joined');
         }
@@ -110,10 +111,9 @@ class Enterprise_Cms_Model_Resource_Page_Version_Collection
      * @param string $dir
      * @return Enterprise_Cms_Model_Resource_Page_Version_Collection
      */
-    public function addNumberSort($dir = 'desc')
+    public function addNumberSort($dir = Varien_Db_Select::SQL_DESC)
     {
         $this->setOrder('version_number', $dir);
-
         return $this;
     }
 }

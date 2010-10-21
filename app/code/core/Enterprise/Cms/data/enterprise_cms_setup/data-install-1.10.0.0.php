@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/* @var $installer Enterprise_Cms_Model_Resource_Setup */
+/** @var $installer Enterprise_Cms_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -42,67 +42,60 @@ $attributes = array(
     'custom_theme_from',
     'custom_theme_to'
 );
+$adapter = $installer->getConnection();
+$select  = $adapter->select();
 
-$select = $installer->getConnection()->select();
+$select->from(array('p' => $installer->getTable('cms/page')))
+    ->joinLeft(array('v' => $installer->getTable('enterprise_cms/page_version')), 'v.page_id = p.page_id', array())
+    ->where('v.page_id IS NULL');
 
-$select->from(array('p' =>  $installer->getTable('cms/page'), array('*')))
-    ->joinLeft(array('v' =>  $installer->getTable('enterprise_cms/page_version')), 'v.page_id = p.page_id', array())
-    ->where('v.page_id is NULL');
+$resource = $adapter->query($select);
 
-$resource = $installer->getConnection()->query($select);
+while ($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
+    $adapter->insert($installer->getTable('enterprise_cms/increment'), array(
+        'increment_type'    => 0,
+        'increment_node'    => $page['page_id'],
+        'increment_level'   => 0,
+        'last_id'           => 1
+    ));
 
-try {
-    $installer->getConnection()->beginTransaction();
-    while($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
-        $installer->getConnection()->insert($installer->getTable('enterprise_cms/increment'), array(
-            'increment_type'    => 0,
-            'increment_node'    => $page['page_id'],
-            'increment_level'   => 0,
-            'last_id' => 1
-        ));
+    $adapter->insert($installer->getTable('enterprise_cms/page_version'), array(
+        'version_number'  => 1,
+        'page_id'         => $page['page_id'],
+        'access_level'    => Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC,
+        'user_id'         => new Zend_Db_Expr('NULL'),
+        'revisions_count' => 1,
+        'label'           => $page['title'],
+        'created_at'      => Mage::getSingleton('core/date')->gmtDate()
+    ));
 
-        $installer->getConnection()->insert($installer->getTable('enterprise_cms/page_version'), array(
-            'version_number'  => 1,
-            'page_id'         => $page['page_id'],
-            'access_level'    => Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC,
-            'user_id'         => NULL,
-            'revisions_count' => 1,
-            'label'           => $page['title'],
-            'created_at'      => Mage::getSingleton('core/date')->gmtDate()
-        ));
+    $versionId = $adapter->lastInsertId($installer->getTable('enterprise_cms/page_version'), 'version_id');
 
-        $versionId = $installer->getConnection()->lastInsertId($installer->getTable('enterprise_cms/page_version'), 'version_id');
+    $adapter->insert($installer->getTable('enterprise_cms/increment'), array(
+        'increment_type'    => 0,
+        'increment_node'    => $versionId,
+        'increment_level'   => 1,
+        'last_id'           => 1
+    ));
 
-        $installer->getConnection()->insert($installer->getTable('enterprise_cms/increment'), array(
-            'increment_type'    => 0,
-            'increment_node'    => $versionId,
-            'increment_level'   => 1,
-            'last_id' => 1
-        ));
+    /**
+     * Prepare revision data
+     */
+    $_data = array();
 
-        /*
-         * prepare revision data
-         */
-        $_data = array();
-
-        foreach ($attributes as $attr) {
-            $_data[$attr] = $page[$attr];
-        }
-
-        $_data['created_at']      = Mage::getSingleton('core/date')->gmtDate();
-        $_data['user_id']         = NULL;
-        $_data['revision_number'] = 1;
-        $_data['version_id']      = $versionId;
-        $_data['page_id']         = $page['page_id'];
-
-        $installer->getConnection()->insert($installer->getTable('enterprise_cms/page_revision'), $_data);
+    foreach ($attributes as $attr) {
+        $_data[$attr] = $page[$attr];
     }
-    $installer->getConnection()->commit();
-} catch (Exception $e) {
-    $installer->getConnection()->rollback();
-    throw $e;
+
+    $_data['created_at']      = Mage::getSingleton('core/date')->gmtDate();
+    $_data['user_id']         = new Zend_Db_Expr('NULL');
+    $_data['revision_number'] = 1;
+    $_data['version_id']      = $versionId;
+    $_data['page_id']         = $page['page_id'];
+
+    $adapter->insert($installer->getTable('enterprise_cms/page_revision'), $_data);
 }
 
-$installer->getConnection()->query($select);
+$adapter->query($select);
 
 $installer->endSetup();

@@ -31,9 +31,10 @@
             <active>true</active>
             <codePool>core</codePool>
             <depends>
-                <Mage_Adminhtml/>
-                <Mage_Cms/>
-                <Mage_Widget/>
+                <Mage_Admin />
+                <Mage_Adminhtml />
+                <Mage_Cms />
+                <Mage_Widget />
             </depends>
         </Enterprise_Cms>
     </modules>

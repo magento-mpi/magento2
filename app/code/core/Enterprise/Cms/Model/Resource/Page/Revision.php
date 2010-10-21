@@ -63,16 +63,15 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
     protected $_versionTableAlias;
 
     /**
-     * Constructor
-     *
+     * Resource initialization. Define the table names and its aliases.
      */
     protected function _construct()
     {
         $this->_init('enterprise_cms/page_revision', 'revision_id');
-        $this->_pageTable = $this->getTable('cms/page');
-        $this->_versionTable = $this->getTable('enterprise_cms/page_version');
 
-        $this->_pageTableAlias = 'page_table';
+        $this->_pageTable         = $this->getTable('cms/page');
+        $this->_versionTable      = $this->getTable('enterprise_cms/page_version');
+        $this->_pageTableAlias    = 'page_table';
         $this->_versionTableAlias = 'version_table';
     }
 
@@ -91,7 +90,6 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
              * If they are empty we need to convert them into DB
              * type NULL so in DB they will be empty and not some default value.
              */
-            $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
             foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
                 $date = $object->getData($dataKey);
                 if (!$date) {
@@ -140,7 +138,7 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->_pageTable, 'published_revision_id')
-            ->where('page_id = ?', $object->getPageId());
+            ->where('page_id = ?', (int)$object->getPageId());
 
         $result = $this->_getReadAdapter()->fetchOne($select);
 
@@ -155,22 +153,20 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
      */
     protected function _aggregateVersionData($versionId)
     {
-        $versionTable = $this->getTable('enterprise_cms/page_version');
-
-        $selectCount = $this->_getReadAdapter()
-            ->select()
-            ->from($this->getMainTable(), array('version_id', 'revisions_count'=>'COUNT(1)'))
+        $adapter = $this->_getReadAdapter();
+        $selectCount = $adapter->select()
+            ->from($this->getMainTable(), array('version_id', 'revisions_count' => 'COUNT(1)'))
             ->where('version_id = ?', (int)$versionId)
             ->group('version_id');
 
-        $sql = new Zend_Db_Expr(sprintf('(%s)',$selectCount->assemble()));
+        $sql = new Zend_Db_Expr(sprintf('(%s)', $selectCount));
         $select = clone $selectCount;
         $select->reset()
             ->join(array('r'=> $sql), 'p.version_id = r.version_id', array('revisions_count'))
             ->where('r.version_id = ?', (int)$versionId);
 
-        $query = $this->_getReadAdapter()->updateFromSelect($select, array('p' => $versionTable));
-        $this->_getReadAdapter()->query($query);
+        $query = $adapter->updateFromSelect($select, array('p' => $this->_versionTable));
+        $adapter->query($query);
 
         return $this;
     }
@@ -184,8 +180,8 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
      */
     public function publish(Enterprise_Cms_Model_Page_Revision $object, $targetId)
     {
-        $data = $this->_prepareDataForTable($object, $this->_pageTable);
-        $condition = $this->_getWriteAdapter()->quoteInto('page_id = ?', $targetId);
+        $data      = $this->_prepareDataForTable($object, $this->_pageTable);
+        $condition = array('page_id = ?' => $targetId);
         $this->_getWriteAdapter()->update($this->_pageTable, $data, $condition);
 
         return $this;
@@ -203,24 +199,24 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
      */
     public function loadWithRestrictions($object, $accessLevel, $userId, $value, $field)
     {
-        if (is_null($field)) {
+        if ($field === null) {
             $field = $this->getIdFieldName();
         }
 
         $read = $this->_getReadAdapter();
-        if ($read && $value) {
+        if ($value) {
             // getting main load select
             $select = $this->_getLoadSelect($field, $value, $object);
 
             // prepare join conditions for version table
             $joinConditions = array($this->_getPermissionCondition($accessLevel, $userId));
-            $joinConditions[] = $this->_versionTableAlias . '.version_id = '
-                . $this->getMainTable() . '.version_id';
+            $joinConditions[] = sprintf('%s.version_id = %s.version_id',
+                $this->_versionTableAlias, $this->getMainTable());
             // joining version table
             $this->_joinVersionData($select, 'joinInner', implode(' AND ', $joinConditions));
 
             // prepare join conditions for page table
-            $joinConditions = $this->getMainTable() . '.page_id = ' . $this->_pageTableAlias . '.page_id';
+            $joinConditions = sprintf('%s.page_id = %s.page_id', $this->getMainTable(), $this->_pageTableAlias);
             // joining page table
             $this->_joinPageData($select, 'joinInner', $joinConditions);
 
@@ -256,11 +252,12 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
     public function loadByVersionPageWithRestrictions($object, $versionId, $pageId, $accessLevel, $userId)
     {
         $read = $this->_getReadAdapter();
-        if ($read && $versionId && $pageId) {
+        if ($versionId && $pageId) {
             // getting main load select
             $select = $this->_getLoadSelect($this->getIdFieldName(), false, $object);
             // reseting all columns and where as we don't have need them
-            $select->reset(Zend_Db_Select::COLUMNS)->reset(Zend_Db_Select::WHERE);
+            $select->reset(Zend_Db_Select::COLUMNS)
+                   ->reset(Zend_Db_Select::WHERE);
 
             // adding where conditions with restriction filter
             $whereConditions = array($this->_getPermissionCondition($accessLevel, $userId));
@@ -306,14 +303,14 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
         $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.user_id = ? ', $userId);
 
         if (is_array($accessLevel) && !empty($accessLevel)) {
-            $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level in (?)', $accessLevel);
-        } else if ($accessLevel) {
+            $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level IN (?)', $accessLevel);
+        } elseif ($accessLevel) {
             $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level = ?', $accessLevel);
         } else {
             $permissionCondition[] = $this->_versionTableAlias . '.access_level = ""';
         }
 
-        return '(' . implode(' OR ', $permissionCondition) . ')';
+        return sprintf('(%s)', implode(' OR ', $permissionCondition));
     }
 
     /**
@@ -352,14 +349,12 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
     /**
      * Applying order by create datetime and limitation to one record.
      *
-     * @param Zend_Db_Select $select
-     * @return Zend_Db_Select
+     * @param Varien_Db_Select $select
+     * @return Varien_Db_Select
      */
     protected function _addSingleLimitation($select)
     {
-        $select->order($this->getMainTable() . '.created_at DESC')
-            ->limit(1);
-
+        $select->order($this->getMainTable() . '.created_at ' . Varien_Db_Select::SQL_DESC)->limit(1);
         return $select;
     }
 }

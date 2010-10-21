@@ -78,7 +78,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                 ->joinCmsPage()
                 ->setOrderByLevel()
                 ->joinPageExistsNodeInfo($this->getPage());
-
+ 
             if (is_array($data)) {
                 foreach ($data as $v) {
                     if (isset($v['page_exists'])) {

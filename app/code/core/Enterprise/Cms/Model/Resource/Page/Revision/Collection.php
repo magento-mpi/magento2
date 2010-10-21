@@ -72,8 +72,11 @@ class Enterprise_Cms_Model_Resource_Page_Revision_Collection
                 $columns[] = $cols;
             }
 
-            $this->getSelect()->joinInner(array('ver_table' => $this->getTable('enterprise_cms/page_version')),
-                'ver_table.version_id = main_table.version_id', $columns);
+            $this->getSelect()->joinInner(
+                array('ver_table' => $this->getTable('enterprise_cms/page_version')),
+                'ver_table.version_id = main_table.version_id',
+                $columns
+            );
 
             $this->setFlag('versions_joined');
         }
@@ -108,10 +111,9 @@ class Enterprise_Cms_Model_Resource_Page_Revision_Collection
      * @param string $dir
      * @return Enterprise_Cms_Model_Resource_Page_Revision_Collection
      */
-    public function addNumberSort($dir = 'desc')
+    public function addNumberSort($dir = Varien_Db_Select::SQL_DESC)
     {
         $this->setOrder('revision_number', $dir);
-
         return $this;
     }
 }

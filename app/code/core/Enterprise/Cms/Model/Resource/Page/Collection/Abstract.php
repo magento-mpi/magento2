@@ -81,7 +81,7 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
      * @param mixed $accessLevel
      * @return Enterprise_Cms_Model_Resource_Page_Collection_Abstract
      */
-    public function addVisibilityFilter($userId, $accessLevel = 'public')
+    public function addVisibilityFilter($userId, $accessLevel = Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
     {
         $_condition = array();
 
@@ -134,6 +134,7 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
                 array('ut' => $this->getTable('admin/user')),
                 'ut.user_id = main_table.user_id',
                 array('username' => $userField));
+
             $this->setFlag('user_name_column_joined', true);
         }
 
@@ -153,7 +154,7 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
             foreach ($this->_toOptionHash('user_id', 'username') as $userId => $username) {
                 if ($userId) {
                     if ($idAsKey) {
-                        $this->_usersHash[$userId] = $username;
+                        $this->_usersHash[$userId]   = $username;
                     } else {
                         $this->_usersHash[$username] = $username;
                     }
@@ -175,10 +176,10 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
      */
     public function addUserIdFilter($userId = null)
     {
-        if (is_null($userId)) {
+        if ($userId === null) {
             $condition = array('null' => true);
         } else {
-            $condition = $userId;
+            $condition = (int)$userId;
         }
 
         $this->addFieldTofilter('user_id', $condition);

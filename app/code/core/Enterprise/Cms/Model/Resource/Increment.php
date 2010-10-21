@@ -35,8 +35,7 @@
 class Enterprise_Cms_Model_Resource_Increment extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Constructor
-     *
+     * Resource initialization
      */
     protected function _construct()
     {
@@ -58,7 +57,11 @@ class Enterprise_Cms_Model_Resource_Increment extends Mage_Core_Model_Resource_D
 
         $select = $read->select()->from($this->getMainTable())
             ->forUpdate(true)
-            ->where('increment_type = :increment_type AND increment_node = :increment_node AND increment_level = :increment_level');
+            ->where(implode(' AND ', array(
+                'increment_type  = :increment_type',
+                'increment_node  = :increment_node',
+                'increment_level = :increment_level'
+             )));
 
         $bind = array(':increment_type'  => $type,
                       ':increment_node'  => $node,
@@ -87,11 +90,10 @@ class Enterprise_Cms_Model_Resource_Increment extends Mage_Core_Model_Resource_D
      */
     public function cleanIncrementRecord($type, $node, $level)
     {
-        $write = $this->_getWriteAdapter();
-        $write->delete($this->getMainTable(),
-            array('increment_type=?'  => $type,
-                  'increment_node=?'  => $node,
-                  'increment_level=?' => $level));
+        $this->_getWriteAdapter()->delete($this->getMainTable(),
+            array('increment_type = ?'  => $type,
+                  'increment_node = ?'  => $node,
+                  'increment_level = ?' => $level));
 
         return $this;
     }

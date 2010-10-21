@@ -106,8 +106,9 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                     'page_identifier'   => 'identifier',
                     'page_is_active'    => 'is_active'
                 ))
-            ->joinLeft(array('metadata_table' => $this->_metadataTable),
-                $this->getMainTable() . '.' . $this->getIdFieldName() . ' = metadata_table.node_id',
+            ->joinLeft(
+                array('metadata_table' => $this->_metadataTable),
+                sprintf('%s.%s = metadata_table.node_id', $this->getMainTable(), $this->getIdFieldName()),
                 array(
                     'meta_first_last',
                     'meta_next_previous',
@@ -140,10 +141,11 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
     protected function _applyParamFilters($select)
     {
         if ($this->_appendActivePagesOnly) {
-            $select->where('page_table.is_active=1 OR ' . $this->getMainTable() . '.page_id IS NULL');
+            $condition = sprintf('page_table.is_active=1 OR %s.page_id IS NULL', $this->getMainTable());
+            $select->where($condition);
         }
         if ($this->_appendIncludedPagesOnly) {
-            $select->where('metadata_table.menu_excluded=0');
+            $select->where('metadata_table.menu_excluded = ?', 0);
         }
         return $this;
     }
@@ -182,7 +184,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
     public function loadByRequestUrl($object, $url)
     {
         $read = $this->_getReadAdapter();
-        if ($read && !is_null($url)) {
+        if ($url !== null) {
             $select = $this->_getLoadSelect('request_url', $url, $object);
             $data = $read->fetchRow($select);
 
@@ -205,9 +207,9 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
     public function loadFirstChildByParent($object, $parentNodeId)
     {
         $read = $this->_getReadAdapter();
-        if ($read && !is_null($parentNodeId)) {
+        if ($parentNodeId !== null) {
             $select = $this->_getLoadSelect('parent_node_id', $parentNodeId, $object)
-                ->order(array($this->getMainTable().'.sort_order'))
+                ->order(array($this->getMainTable() . '.sort_order'))
                 ->limit(1);
             $data = $read->fetchRow($select);
 
@@ -228,7 +230,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
      */
     public function removeTreeChilds($object)
     {
-        $where = $this->_getWriteAdapter()->quoteInto('parent_node_id=?', $object->getId());
+        $where = array('parent_node_id = ?' => (int)$object->getId());
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         return $this;
     }
@@ -244,7 +246,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
         $treeXpaths = array();
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'xpath')
-            ->where('page_id=?', $pageId);
+            ->where('page_id = ?', $pageId);
 
         $rowset = $this->_getReadAdapter()->fetchAll($select);
         $treeXpaths = array();
@@ -265,19 +267,20 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
         $select = $this->_getReadAdapter()->select()
             ->from(
                 array('node_table' => $this->getMainTable()),
-                array($this->getIdFieldName(), 'parent_node_id', 'page_id', 'identifier', 'request_url'))
+                array($this->getIdFieldName(), 'parent_node_id', 'page_id', 'identifier', 'request_url', 'level', 'sort_order'))
             ->joinLeft(
                 array('page_table' => $this->getTable('cms/page')),
                 'node_table.page_id=page_table.page_id',
-                array(
-                    'page_identifier' => 'identifier',
-                ))
+                array('page_identifier' => 'identifier'))
             ->where('xpath LIKE ? OR xpath = ?', $xpath. '/%')
             ->group('node_table.node_id')
-            ->order(array('level', 'node_table.sort_order'));
+            ->order(array('level', 'sort_order'));
+
+        $helper = Mage::getResourceHelper('core');
+        $query  = $helper->getQueryUsingAnalyticFunction($select);
 
         $nodes      = array();
-        $rowSet     = $select->query()->fetchAll();
+        $rowSet     = $this->_getReadAdapter()->fetchAll($query);
         foreach ($rowSet as $row) {
             $nodes[intval($row['parent_node_id'])][$row[$this->getIdFieldName()]] = $row;
         }
@@ -348,8 +351,8 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                 'main_table.page_id = cps.page_id',
                 array())
             ->where('main_table.identifier = ?', $identifier)
-            ->where('main_table.is_active=1 AND cps.store_id in (0, ?) ', $storeId)
-            ->order('store_id DESC')
+            ->where('main_table.is_active = 1 AND cps.store_id IN (0, ?) ', $storeId)
+            ->order('store_id ' . Varien_Db_Select::SQL_DESC)
             ->limit(1);
 
         $page = $adapter->fetchRow($select);
@@ -438,7 +441,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                         $found = true;
                         $select->where($this->getMainTable().'.node_id IN (?)', $xpath)
                             ->where('metadata_table.' . $fieldName . '=1')
-                            ->order(array($this->getMainTable().'.level DESC'))
+                            ->order(array($this->getMainTable() . '.level ' . Varien_Db_Select::SQL_DESC))
                             ->limit(1);
                     }
                     break;
@@ -446,7 +449,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                 case Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST:
                     $found = true;
                     $addParentNodeCondition = true;
-                    $select->order($this->getMainTable() . '.sort_order ASC');
+                    $select->order($this->getMainTable() . '.sort_order ' . Varien_Db_Select::SQL_ASC);
                     $select->limit(1);
                     break;
 
@@ -455,7 +458,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                         $found = true;
                         $addParentNodeCondition = true;
                         $select->where($this->getMainTable() . '.sort_order<?', $node->getSortOrder());
-                        $select->order($this->getMainTable() . '.sort_order DESC');
+                        $select->order($this->getMainTable() . '.sort_order ' . Varien_Db_Select::SQL_DESC);
                         $select->limit(1);
                     }
                     break;
@@ -464,7 +467,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
                     $found = true;
                     $addParentNodeCondition = true;
                     $select->where($this->getMainTable() . '.sort_order>?', $node->getSortOrder());
-                    $select->order($this->getMainTable() . '.sort_order ASC');
+                    $select->order($this->getMainTable() . '.sort_order ' . Varien_Db_Select::SQL_ASC);
                     $select->limit(1);
                     break;
             }
@@ -671,7 +674,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
         $select = $this->_getLoadSelectWithoutWhere()
             ->where($this->getMainTable().'.node_id IN (?)', $parentIds)
             ->where('metadata_table.'.$fieldName.' IN (?)', $values)
-            ->order(array($this->getMainTable().'.level DESC'))
+            ->order(array($this->getMainTable().'.level ' . Varien_Db_Select::SQL_DESC))
             ->limit(1);
         $params = $this->_getReadAdapter()->fetchRow($select);
 

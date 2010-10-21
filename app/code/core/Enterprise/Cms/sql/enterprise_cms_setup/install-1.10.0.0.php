@@ -320,7 +320,7 @@ $table = $installer->getConnection()
     ->setComment('Enterprise Cms Hierarchy Lock');
 $installer->getConnection()->createTable($table);
 
-// add fields for enterprise_cms
+// Add fields for Mage_Cms table
 $installer->getConnection()
     ->addColumn($installer->getTable('cms/page'), 'published_revision_id', array(
         'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
