@@ -618,9 +618,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             if (in_array($field, $this->_inventoryFields)) {
                 continue;
             }
-            if (in_array($field, $this->_imageFields)) {
-                continue;
-            }
             if (is_null($value)) {
                 continue;
             }
@@ -685,21 +682,21 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
         $product->setStockData($stockData);
 
-        $imageData = array();
-        foreach ($this->_imageFields as $field) {
-            if (!empty($importData[$field]) && $importData[$field] != 'no_selection') {
-                if (!isset($imageData[$importData[$field]])) {
-                    $imageData[$importData[$field]] = array();
-                }
-                $imageData[$importData[$field]][] = $field;
+        $mediaGalleryBackendModel = $this->getAttribute('media_gallery')->getBackend();
+        foreach ($product->getMediaAttributes() as $mediaAttributeCode => $mediaAttribute) {
+            if (!isset($importData[$mediaAttributeCode])) {
+                continue;
             }
-        }
+            $file = $importData[$mediaAttributeCode];
 
-        foreach ($imageData as $file => $fields) {
-            try {
-                $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . trim($file), $fields);
+            if (!$mediaGalleryBackendModel->getImage($product, $file)) {
+                $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . trim($file), $mediaAttribute);
             }
-            catch (Exception $e) {}
+
+            if (isset($importData[$mediaAttributeCode . '_label'])) {
+                $fileLabel = $importData[$mediaAttributeCode . '_label'];
+                $mediaGalleryBackendModel->updateImage($product, $file, array('label' => $fileLabel));
+            }
         }
 
         $product->setIsMassupdate(true);
