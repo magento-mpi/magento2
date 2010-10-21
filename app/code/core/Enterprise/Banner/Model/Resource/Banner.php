@@ -90,9 +90,9 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     protected function _construct()
     {
         $this->_init('enterprise_banner/banner', 'banner_id');
-        $this->_salesRuleTable = $this->getTable('enterprise_banner/salesrule');
-        $this->_catalogRuleTable = $this->getTable('enterprise_banner/catalogrule');
-        $this->_contentsTable = $this->getTable('enterprise_banner/content');
+        $this->_salesRuleTable       = $this->getTable('enterprise_banner/salesrule');
+        $this->_catalogRuleTable     = $this->getTable('enterprise_banner/catalogrule');
+        $this->_contentsTable        = $this->getTable('enterprise_banner/content');
         $this->_customerSegmentTable = $this->getTable('enterprise_banner/customersegment');
     }
 
@@ -270,7 +270,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
             if (!$this->_isSalesRuleRelatedToBanner) {
                 $select->join(
                     array('rules' => $this->getTable('salesrule/rule')),
-                    $this->_salesRuleTable . '.rule_id = `rules`.rule_id',
+                    $this->_salesRuleTable . '.rule_id = rules.rule_id',
                     array('rule_id')
                 );
                 $this->_isSalesRuleRelatedToBanner = true;
@@ -294,7 +294,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
             if (!$this->_isCatalogRuleRelatedToBanner) {
                 $select->join(
                     array('rules' => $this->getTable('catalogrule/rule')),
-                    $this->_catalogRuleTable . '.rule_id = `rules`.rule_id',
+                    $this->_catalogRuleTable . '.rule_id = rules.rule_id',
                     array('rule_id')
                 );
                 $this->_isCatalogRuleRelatedToBanner = true;
