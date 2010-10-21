@@ -34,6 +34,36 @@
 class Mage_DirectPayment_Adminhtml_Directpayment_PaygateController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Get session model
+     * 
+     * @return Mage_DirectPayment_Model_Session
+     */
+    protected function _getDirectPaymentSession()
+    {
+        return Mage::getSingleton('directpayment/session');
+    }
+    
+    /**
+     * Retrieve session object
+     *
+     * @return Mage_Adminhtml_Model_Session_Quote
+     */
+    protected function _getOrderSession()
+    {
+        return Mage::getSingleton('adminhtml/session_quote');
+    }
+    
+    /**
+     * Retrieve order create model
+     *
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    protected function _getOrderCreateModel()
+    {
+        return Mage::getSingleton('adminhtml/sales_order_create');
+    }
+    
+    /**
      * Place order before payment
      *
      */
@@ -56,5 +86,53 @@ class Mage_DirectPayment_Adminhtml_Directpayment_PaygateController extends Mage_
                 //TODO: place order, not save
             }
         }
-    }    
+    }
+
+	/**
+     * Retrieve params and put javascript into iframe
+     *
+     */
+    public function redirectAction()
+    {
+        $redirectParams = $this->getRequest()->getParams();Mage::log($redirectParams);
+        $params = array();
+        if (!empty($redirectParams['success'])
+            && isset($redirectParams['x_invoice_num'])
+            && isset($redirectParams['controller_action_name'])) {
+            $params['redirect_parent'] = Mage::helper('directpayment')->getSuccessOrderUrl($redirectParams);
+        }
+        if (!empty($redirectParams['error_msg'])
+            && isset($redirectParams['x_invoice_num'])) {
+            $this->_returnCustomerQuote($redirectParams['x_invoice_num']);
+        }
+        $block = $this->getLayout()
+                        ->createBlock('directpayment/iframe')
+                        ->setParams(array_merge($params, $redirectParams));
+        $this->getResponse()->setBody($block->toHtml());
+    }
+    
+	/**
+     * Return customer quote
+     * 
+     * @param int $orderIncrementId
+     * @return bool
+     */
+    protected function _returnCustomerQuote($orderIncrementId)
+    {
+        if ($orderIncrementId && 
+            $this->_getDirectPaymentSession()
+                    ->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
+            $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+            if ($order->getId()) {                
+                $quoteId = $order->getQuoteId();                
+                $order->setReordered(true);
+                $this->_getOrderSession()->setUseOldShippingMethod(true);
+                $this->_getOrderCreateModel()->initFromOrder($order);
+            }
+            $this->_getDirectPaymentSession()->removeCheckoutOrderIncrementId($orderIncrementId);
+            return true;
+        }
+        
+        return false;
+    }
 }

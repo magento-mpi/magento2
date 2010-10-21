@@ -60,6 +60,30 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
     
     /**
+     * Retrieve redirect ifrmae url
+     *     
+     * @param array params
+     * @return string
+     */
+    public function getRedirectIframeUrl($params)
+    {
+        switch ($params['controller_action_name']) {
+            case 'onepage':
+                $route = 'directpayment/paygate/redirect';
+                break;
+            case 'sales_order_create':
+            case 'sales_order_edit':
+                $route = 'adminhtml/directpayment_paygate/redirect';
+                break;
+            default:
+                $route = 'directpayment/paygate/redirect';
+                break;
+        }
+        
+        return $this->_getUrl($route, $params);
+    }
+    
+    /**
      * Retrieve place order url on front
      *
      * @return  string

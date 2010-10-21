@@ -177,21 +177,7 @@ directPayment.prototype = {
 		    			}
 		    			this.enableInputs();
 		    			toggleSelectsUnderBlock($('loading-mask'), true);
-		    			$('loading-mask').hide();
-		    			for(var i = 0; i < this.buttons.length; i++) {
-		    				var button = this.buttons[i];			    		
-		    		    	button.writeAttribute('onclick','');
-		    		    	button.observe('click', function(obj){			    		
-		    		    		return function(){
-		    		    			if (!obj.successUrl) {
-		    		    				window.location = obj.orderSaveUrl.replace('save','');
-		    		    			}
-		    		    			else {
-		    		    				window.location = obj.successUrl;
-		    		    			}
-		    		    		}
-		    		    	}(this));
-		    			}
+		    			$('loading-mask').hide();		    			
 		    		}
 		    		break;
     		}

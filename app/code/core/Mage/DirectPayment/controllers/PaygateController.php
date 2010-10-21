@@ -71,10 +71,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         /* @var $paymentMethod Mage_DirectPayment_Model_Authorizenet */
         $paymentMethod = Mage::getModel('directpayment/authorizenet');
         
-        $result = array();
-        if (!empty($data['controller_action_name'])){
-            $result['controller_action_name'] = $data['controller_action_name'];
-        }
+        $result = array();        
         if (!empty($data['x_invoice_num'])){
             $result['x_invoice_num'] = $data['x_invoice_num'];
         }
@@ -94,7 +91,10 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
             $result['error_msg'] = $this->__('There was an error processing your order. Please contact us or try again later.');
         }
         
-        $params['redirect'] = Mage::getUrl('directpayment/paygate/redirect', $result);
+        if (!empty($data['controller_action_name'])){
+            $result['controller_action_name'] = $data['controller_action_name'];
+            $params['redirect'] = Mage::helper('directpayment')->getRedirectIframeUrl($result);
+        }        
         $block = $this->_getIframeBlock()->setParams($params);
         $this->getResponse()->setBody($block->toHtml());
     }
