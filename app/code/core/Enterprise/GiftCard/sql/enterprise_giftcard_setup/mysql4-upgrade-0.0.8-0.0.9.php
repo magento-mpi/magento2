@@ -29,6 +29,13 @@ $installer = $this;
 
 $installer->startSetup();
 
-$installer->run("UPDATE `{$installer->getTable('catalog/product')}` SET `has_options` = '1', `required_options` = '1' WHERE type_id = 'giftcard'");
+$installer->getConnection()
+    ->update($installer->getTable('catalog/product'),
+        array(
+            'has_options' => 1,
+            'required_options' => 1
+        ),
+        $installer->getConnection()->quoteInto('type_id=?', Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD)
+    );
 
 $installer->endSetup();
