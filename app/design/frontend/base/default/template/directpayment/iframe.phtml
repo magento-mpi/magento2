@@ -35,6 +35,9 @@ $_helper = $this->helper('directpayment');
 <?php if (isset($_params['redirect'])): ?>
 window.location="<?php echo $_params['redirect'] ?>";
 <?php endif; ?>
+<?php if (isset($_params['redirect_parent'])): ?>
+window.top.location="<?php echo $_params['redirect_parent'] ?>";
+<?php endif; ?>
 <?php if (isset($_params['error_msg'])): ?>
 if (window.top.review) {
     window.top.review.resetLoadWaiting();

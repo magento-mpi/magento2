@@ -102,7 +102,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         if (!empty($redirectParams['success'])
             && isset($redirectParams['x_invoice_num'])
             && isset($redirectParams['controller_action_name'])) {
-            $params['redirect'] = Mage::helper('directpayment')->getSuccessOrderUrl($redirectParams);
+            $params['redirect_parent'] = Mage::helper('directpayment')->getSuccessOrderUrl($redirectParams);
         }
         $block = $this->_getIframeBlock()->setParams(array_merge($params, $redirectParams));
         $this->getResponse()->setBody($block->toHtml());
