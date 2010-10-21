@@ -748,8 +748,8 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         if ($internalPrefix) {
             $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')
                 ->getTablePrefix($this->getStaging(), $internalPrefix);
-            $table = $tablePrefix . str_replace(Mage::getConfig()->getTablePrefix(), '', $table);
-            return $this->_mapTableName($table);
+            $table = $tablePrefix . substr($table, strlen(Mage::getConfig()->getTablePrefix()));
+            return $this->_getWriteAdapter()->getTableName($table);
         }
         return $table;
     }
