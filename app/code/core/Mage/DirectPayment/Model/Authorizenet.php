@@ -253,8 +253,9 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         }
         
         $payment->setTransactionId($response->getXTransId())
-            ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId())
-            ->setIsTransactionClosed(0);
+            ->setIsTransactionClosed(0)
+            ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
+            
         
         $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
         
