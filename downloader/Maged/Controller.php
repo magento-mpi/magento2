@@ -270,6 +270,7 @@ final class Maged_Controller
 
         $chan = $this->config()->__get('root_channel');
         $this->model('connect', true)->saveConfigPost($_POST);
+        $this->channelConfig()->setSettingsSession($_POST, $this->session());
         $this->model('connect', true)->installAll(!empty($_GET['force']), $chan);
         $p = null;
     }
