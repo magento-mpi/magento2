@@ -45,14 +45,13 @@ class Maged_Model_Config_Enterprise extends Maged_Model_Config_Abstract implemen
 
     /**
      * Get Auth data from config
-     * @param Mage_Connect_Config $config
+     * @param mixed $session Session object
      * @return array auth data
      */
-    private function _getAuth($config)
+    private function _getAuth($session)
     {
-        $auth = $config->__get('auth');
-        $auth = explode('@', $auth);
-        return $auth;
+        $auth = $session->get('auth');
+        return array_values($auth);
     }
 
     /**
@@ -71,18 +70,16 @@ class Maged_Model_Config_Enterprise extends Maged_Model_Config_Abstract implemen
         $view->set('channel_protocol_fields', $view->template($root_channel . '/auth.phtml'));
     }
 
-
     /**
      * Set data for Settings View
-     * @param Mage_Connect_Config $config
+     * @param mixed $session Session object
      * @param Maged_View $view
      * @return null
      */
-    public function setSettingsView($config, $view)
+    public function setSettingsView($session, $view)
     {
-        $auth = $this->_getAuth($config);
+        $auth = $this->_getAuth($session);
         if ($auth) {
-            $auth = explode('@', $config->__get('auth'));
             $view->set('auth_username', isset($auth[0]) ? $auth[0] : '');
             $view->set('auth_password', isset($auth[1]) ? $auth[1] : '');
         }
@@ -91,17 +88,16 @@ class Maged_Model_Config_Enterprise extends Maged_Model_Config_Abstract implemen
 
     /**
      * Set session data for Settings
-     * @param Mage_Connect_Config $config Config object
+     * @param array $post post data
      * @param mixed $session Session object
      * @return null
      */
-    public function setSettingsSession($config, $session)
+    public function setSettingsSession($post, $session)
     {
-        $auth = $this->_getAuth($config);
-        if (isset($auth[0]) && isset($auth[1]) && !empty($auth[0])) {
-            $session->set('auth', array(
-                'username' => $auth[0],
-                'password' => $auth[1],
+        if (isset($post['auth_username']) && isset($post['auth_password'])) {
+             $session->set('auth', array(
+                 'username' => $post['auth_username'],
+                 'password' => $post['auth_password']
             ));
         } else {
             $session->set('auth', array());
@@ -138,17 +134,17 @@ class Maged_Model_Config_Enterprise extends Maged_Model_Config_Abstract implemen
             $config->auth = $post['auth'];
         }
     }
-    
+
     /**
      * Set additional command options
      *
-     * @param Mage_Connect_Config $config Config object
+     * @param mixed $session Session object
      * @param array $options
      * @return null
      */
-    public function setCommandOptions($config, &$options)
+    public function setCommandOptions($session, &$options)
     {
-        $auth = $this->_getAuth($config);
+        $auth = $this->_getAuth($session);
         $options['auth'] = array(
                 'username' => $auth[0],
                 'password' => $auth[1],

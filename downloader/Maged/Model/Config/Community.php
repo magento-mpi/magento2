@@ -67,11 +67,11 @@ class Maged_Model_Config_Community extends Maged_Model_Config_Abstract implement
 
     /**
      * Set session data for Settings
-     * @param Mage_Connect_Config $config Config object
+     * @param array $post post data
      * @param mixed $session Session object
      * @return null
      */
-    public function setSettingsSession($config, $session)
+    public function setSettingsSession($post, $session)
     {
     }
 
@@ -97,15 +97,15 @@ class Maged_Model_Config_Community extends Maged_Model_Config_Abstract implement
     public function setPostData($config, &$post)
     {
     }
-    
+
     /**
      * Set additional command options
      *
-     * @param Mage_Connect_Config $config Config object
+     * @param mixed $session Session object
      * @param array $options
      * @return null
      */
-    public function setCommandOptions($config, &$options)
+    public function setCommandOptions($session, &$options)
     {
     }
 }

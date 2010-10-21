@@ -47,20 +47,20 @@ interface Maged_Model_Config_Interface
     /**
      * Set data for Settings View
      *
-     * @param Mage_Connect_Config $config
-     * @param Maged_View $view 
+     * @param mixed $session Session object
+     * @param Maged_View $view
      * @return null
      */
-    public function setSettingsView($config, $view);
+    public function setSettingsView($session, $view);
 
     /**
      * Set session data for Settings
-     * 
-     * @param Mage_Connect_Config $config Config object
+     *
+     * @param array $post post data
      * @param mixed $session Session object
      * @return null
      */
-    public function setSettingsSession($config, $session);
+    public function setSettingsSession($post, $session);
 
     /**
      * Set config data from POST
@@ -73,7 +73,7 @@ interface Maged_Model_Config_Interface
 
     /**
      * Get root channel URI
-     * 
+     *
      * @return string Root channel URI
      */
     public function getRootChannelUri();
@@ -81,10 +81,10 @@ interface Maged_Model_Config_Interface
     /**
      * Set additional command options
      *
-     * @param Mage_Connect_Config $config Config object
+     * @param mixed $session Session object
      * @param array $options
      * @return null
      */
-    public function setCommandOptions($config, &$options);
+    public function setCommandOptions($session, &$options);
 }
 ?>

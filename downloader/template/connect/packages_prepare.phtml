@@ -65,9 +65,9 @@ Extension dependencies
 </form>
 <?php
 endif;
-if(!$cnt || $errors):
+if (!$cnt || !empty($errors['error'])):
     $_errors = array('error'=>array('Extension key is not valid.'));
-    If(!empty($errors) && is_array($errors)) $_errors = $errors;
+    if(!empty($errors) && is_array($errors)) $_errors = $errors;
     $this->set('messages', $_errors)
 ?>
 <div id="packages_failure">

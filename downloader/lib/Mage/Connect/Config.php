@@ -114,15 +114,7 @@ implements Iterator
                 'prompt' => '',
                 'doc' => "",
                 'possible' => 'ftp://name:password@host.com:port/path/to/folder/',
-        ),
-            'auth' => array(
-                'type' => 'string',
-                'value' => '',
-                'prompt' => 'Athentication information to channel server',
-                'doc' => 'Athentication information to channel server',
-                'possible' => '',
-        ),
-            );
+        ));
         $this->properties = $this->defaultProperties;
     }
 

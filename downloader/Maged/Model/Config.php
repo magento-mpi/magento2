@@ -72,7 +72,6 @@ class Maged_Model_Config extends Maged_Model_Config_Abstract
             'root_channel_uri',
             'root_channel',
             'ftp',
-            'auth',
         );
         foreach ($configParams as $paramName){
             if (isset($p[$paramName])) {

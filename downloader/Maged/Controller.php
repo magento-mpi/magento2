@@ -143,7 +143,7 @@ final class Maged_Controller
 
     /**
      * Get ftp string from post data
-     * 
+     *
      * @param array $post post data
      * @return string FTP Url
      */
@@ -221,7 +221,7 @@ final class Maged_Controller
                 $this->view()->set('chmod_file_mode', decoct($config->__get('global_file_mode')));
                 $this->view()->set('protocol', $config->__get('protocol'));
                 $this->channelConfig()->setInstallView($config,$this->view());
-                
+
                 echo $this->view()->template('install/download.phtml');
             }
         } else {
@@ -270,7 +270,6 @@ final class Maged_Controller
 
         $chan = $this->config()->__get('root_channel');
         $this->model('connect', true)->saveConfigPost($_POST);
-        $this->channelConfig()->setSettingsSession($this->config(), $this->session());
         $this->model('connect', true)->installAll(!empty($_GET['force']), $chan);
         $p = null;
     }
@@ -304,7 +303,7 @@ final class Maged_Controller
 
     /**
      * Prepare package to install, get dependency info.
-     * 
+     *
      */
     public function connectPreparePackagePostAction()
     {
@@ -312,18 +311,15 @@ final class Maged_Controller
             echo "INVALID POST DATA";
             return;
         }
-        
-        $this->channelConfig()->setSettingsSession($this->config(),$this->session());
-        
         $prepareResult = $this->model('connect', true)->prepareToInstall($_POST['install_package_id']);
 
         $packages = isset($prepareResult['data'])? $prepareResult['data']:array();
         $errors = isset($prepareResult['errors'])? $prepareResult['errors']:array();
-        
+
         $this->view()->set('packages', $packages);
         $this->view()->set('errors', $errors);
         $this->view()->set('package_id', $_POST['install_package_id']);
-        
+
         echo $this->view()->template('connect/packages_prepare.phtml');
     }
 
@@ -337,8 +333,6 @@ final class Maged_Controller
             echo "INVALID POST DATA";
             return;
         }
-        $this->channelConfig()->setSettingsSession($this->config(),$this->session());
-
         $this->model('connect', true)->installPackage($_POST['install_package_id']);
     }
 
@@ -390,7 +384,7 @@ final class Maged_Controller
         $this->view()->set('mkdir_mode', decoct($config->__get('global_dir_mode')));
         $this->view()->set('chmod_file_mode', decoct($config->__get('global_file_mode')));
 
-        $this->channelConfig()->setSettingsView($config,$this->view());
+        $this->channelConfig()->setSettingsView($this->session(), $this->view());
 
         $fs_disabled=!$this->isWritable();
         $ftpParams=$config->__get('remote_config')?@parse_url($config->__get('remote_config')):'';
@@ -404,7 +398,6 @@ final class Maged_Controller
             $this->view()->set('ftp_password', $ftpParams['pass']);
             $this->view()->set('ftp_path', $ftpParams['path']);
         }
-
         echo $this->view()->template('settings.phtml');
     }
 
@@ -433,7 +426,8 @@ final class Maged_Controller
                 }
                 $this->channelConfig()->setPostData($this->config(), $_POST);
                 $this->model('connect', true)->saveConfigPost($_POST);
-                $this->channelConfig()->setSettingsSession($this->config(), $this->session());
+                $this->channelConfig()->setSettingsSession($_POST, $this->session());
+
             } catch (Exception $e) {
                 $this->session()->addMessage('error', "Unable to save settings: ".$e->getMessage());
             }
