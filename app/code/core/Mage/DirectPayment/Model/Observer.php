@@ -58,8 +58,7 @@ class Mage_DirectPayment_Model_Observer
     public function addAdditionalFieldsToResponse(Varien_Event_Observer $observer)
     {
         /* @var $controller Mage_Checkout_OnepageController */
-        $controller = $observer->getEvent()->getData('controller_action');
-        Mage::register('directpayment_controller', $controller->getRequest()->getControllerName(), true);
+        $controller = $observer->getEvent()->getData('controller_action');        
         /* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('directpayment_order');
         
@@ -73,6 +72,7 @@ class Mage_DirectPayment_Model_Observer
                     //if is success, then set order to session and add new fields
                     $session =  Mage::getSingleton('directpayment/session');
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
+                    $session->setControllerActionName($controller->getRequest()->getControllerName());
                     
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $result['directpayment'] = array('fields' => $requestToPaygate->getData());
