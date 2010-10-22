@@ -154,7 +154,6 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                 $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
                 $requestToPaygate = $payment->getMethodInstance()->generateRequestFromQuote($quote);
                 $requestToPaygate->setControllerActionName($controller);
-                $requestToPaygate->setOrderSendConfirmation(0);
                 $result = array(
                     'success'    => 1,
                     'directpost' => array('fields' => $requestToPaygate->getData())

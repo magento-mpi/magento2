@@ -83,7 +83,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                             $this->getRequest()->getParams()
                 );
             }
-            else {                
+            else {
                 $quote = $this->_getOrderCreateModel()->getQuote();
                 $quote->getPayment()->importData($paymentParam);
                 $payment = $quote->getPayment();
@@ -92,12 +92,12 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 }
                 $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
                 $requestToPaygate = $payment->getMethodInstance()->generateRequestFromQuote($quote);
-                $requestToPaygate->setControllerActionName($controller);            
-                $requestToPaygate->setOrderSendConfirmation(0);
+                $requestToPaygate->setControllerActionName($controller);
+                $requestToPaygate->setOrderSendConfirmation(Mage::registry('directpost_order_notify'));
                 $adminUrl = Mage::getSingleton('adminhtml/url');
                 if ($adminUrl->useSecretKey()){
                     $requestToPaygate->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
-                }                
+                }
                 $result = array(
                     'success'    => 1,
                     'directpost' => array('fields' => $requestToPaygate->getData())
@@ -107,9 +107,9 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         }
         else {
             $result = array(
-                'error_messages' => $this->__('Please, choose payment method')                
+                'error_messages' => $this->__('Please, choose payment method')
             );
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));   
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
         }
     }
 
