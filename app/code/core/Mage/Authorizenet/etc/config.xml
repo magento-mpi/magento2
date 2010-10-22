@@ -89,6 +89,22 @@
                     </directpost_save_order_admin>                    
                 </observers>
             </controller_action_postdispatch_adminhtml_sales_order_edit_save>          
+        <controller_action_predispatch_adminhtml_sales_order_edit_save>
+            	<observers>
+                    <directpayment_pre_save_order_admin>
+                        <class>directpayment/observer</class>
+                        <method>saveNotifyFlag</method>
+                    </directpayment_pre_save_order_admin>                    
+                </observers>
+            </controller_action_predispatch_adminhtml_sales_order_edit_save>  
+            <controller_action_predispatch_adminhtml_sales_order_create_save>
+            	<observers>
+                    <directpayment_pre_save_order_admin>
+                        <class>directpayment/observer</class>
+                        <method>saveNotifyFlag</method>
+                    </directpayment_pre_save_order_admin>                    
+                </observers>
+            </controller_action_predispatch_adminhtml_sales_order_create_save>    
         </events>
     </global>
 

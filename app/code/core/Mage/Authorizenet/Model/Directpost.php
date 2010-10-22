@@ -313,7 +313,9 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         }
 
         try {
-            $order->sendNewOrderEmail();
+            if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()){
+                $order->sendNewOrderEmail();
+            }
             
             Mage::getModel('sales/quote')
                 ->load($order->getQuoteId())

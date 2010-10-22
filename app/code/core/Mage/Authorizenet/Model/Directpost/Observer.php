@@ -26,7 +26,7 @@
 
 
 /**
- * Authorizenet observer
+ * Authorizenet directpayment observer
  *
  * @category    Mage
  * @package     Mage_Authorizenet
@@ -50,6 +50,29 @@ class Mage_Authorizenet_Model_Directpost_Observer
     }
     
     /**
+     * Save need to notify order flag for admin order creation.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_DirectPayment_Model_Observer
+     */
+    public function saveNotifyFlag(Varien_Event_Observer $observer)
+    {
+        /* @var $controller Mage_Core_Controller_Varien_Action */
+        $controller = $observer->getEvent()->getData('controller_action');
+        $orderData = $controller->getRequest()->getPost('order');
+        if ($orderData){
+            $orderFlag = (!empty($orderData['send_confirmation'])) ? 1 : 0;
+            $orderData['send_confirmation'] = 0;
+            $controller->getRequest()->setPost('order', $orderData);
+            Mage::register('directpost_order_notify', $orderFlag, true);
+        }
+        else {
+            Mage::register('directpost_order_notify', 0, true);
+        }
+        return $this;
+    }
+    
+    /**
      * Save order into registry to use it in the overloaded controller.
      *
      * @param Varien_Event_Observer $observer
@@ -57,7 +80,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
      */
     public function addAdditionalFieldsToResponse(Varien_Event_Observer $observer)
     {
-        /* @var $controller Mage_Checkout_OnepageController */
+        /* @var $controller Mage_Core_Controller_Varien_Action */
         $controller = $observer->getEvent()->getData('controller_action');
         /* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('directpost_order');
@@ -66,38 +89,86 @@ class Mage_Authorizenet_Model_Directpost_Observer
             $payment = $order->getPayment();
             if ($payment && $payment->getMethod() == 'authorizenet_directpost'){
                 //return json with data.
-                $result = Mage::helper('core')->jsonDecode($controller->getResponse()->getBody('default'), Zend_Json::TYPE_ARRAY);
-                
-                if (empty($result['error'])){
-                    //if is success, then set order to session and add new fields
-                    $session =  Mage::getSingleton('authorizenet/directpost_session');
-                    $session->addCheckoutOrderIncrementId($order->getIncrementId());
-                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
-                    $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
-                    $this->_setSecretKey($requestToPaygate);
-                    $result['directpost'] = array('fields' => $requestToPaygate->getData());
-                    $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+                if (Mage::app()->getStore()->isAdmin()){
+                    $this->_operateAdminController($controller, $order);
                 }
+                else {
+                    $this->_operateFrontendController($controller, $order);
+                }
+             
             }
         }
-        
         return $this;
     }
     
     /**
-     * Set key parameter for request for Admin area if needed
+     * Set data for response of admin saveOrder action.
+     *
+     * @param Mage_Core_Controller_Varien_Action $controller
+     * @param Mage_Sales_Model_Order $order
+     */
+    protected function _operateAdminController(Mage_Core_Controller_Varien_Action $controller, Mage_Sales_Model_Order $order)
+    {
+        $session = Mage::getSingleton('adminhtml/session_quote');
+        $result = array('success' => 1);
+        $controller->getResponse()->clearHeader('Location');
+        if ($session->getMessages()->getErrors()){
+            $result['success'] = 0;
+            $result['error'] = 1;
+            $result['redirect'] = Mage::getSingleton('adminhtml/url')->getUrl('*/*/');
+        }
+        else {
+            $payment = $order->getPayment();
+            $session =  Mage::getSingleton('authorizenet/directpost_session');
+            $session->addCheckoutOrderIncrementId($order->getIncrementId());
+            
+            $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
+            $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
+            
+            $requestToPaygate->setOrderSendConfirmation(Mage::registry('directpost_order_notify'));
+            
+            $this->_setSecretKey($requestToPaygate);
+            
+            $result['directpost'] = array('fields' => $requestToPaygate->getData());
+        }
+        $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+    }
+    
+    /**
+     * Set data for resopnse of frontend saveOrder action
+     *
+     * @param Mage_Core_Controller_Varien_Action $controller
+     * @param Mage_Sales_Model_Order $order
+     */
+    protected function _operateFrontendController(Mage_Core_Controller_Varien_Action $controller, Mage_Sales_Model_Order $order)
+    {
+        $result = Mage::helper('core')->jsonDecode($controller->getResponse()->getBody('default'), Zend_Json::TYPE_ARRAY);
+                
+        if (empty($result['error'])){
+            $payment = $order->getPayment();
+            //if is success, then set order to session and add new fields
+            $session =  Mage::getSingleton('authorizenet/directpost_session');
+            $session->addCheckoutOrderIncrementId($order->getIncrementId());
+            $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
+            $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
+            $result['directpost'] = array('fields' => $requestToPaygate->getData());
+            $controller->getResponse()->clearHeader('Location');
+            $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        }
+    }
+    
+    /**
+     * Set key parameter for request for Admin area if needed.
+     * Only for Admin area
      *
      * @param Mage_Authorizenet_Model_Directpost_Request $request
      */
     protected function _setSecretKey(Mage_Authorizenet_Model_Directpost_Request $request)
     {
         /* @var $adminUrl Mage_Adminhtml_Model_Url */
-        if (Mage::app()->getStore()->isAdmin()){
-            $adminUrl = Mage::getSingleton('adminhtml/url');
-            if ($adminUrl->useSecretKey()){
-                $request->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
-            }
+        $adminUrl = Mage::getSingleton('adminhtml/url');
+        if ($adminUrl->useSecretKey()){
+            $request->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
         }
     }
 }
