@@ -452,6 +452,8 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             //set additional result if needed
             $result['last_order_id'] = $order->getId();
             $result['last_real_order_id'] = $order->getIncrementId();
+            $result['last_success_quote_id'] = $quote->getId();
+            $result['last_quote_id'] = $quote->getId();
 
             // as well a billing agreement can be created
             $agreement = $payment->getBillingAgreement();
