@@ -71,7 +71,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         /* @var $paymentMethod Mage_DirectPayment_Model_Authorizenet */
         $paymentMethod = Mage::getModel('directpayment/authorizenet');
         
-        $result = array();        
+        $result = array();
         if (!empty($data['x_invoice_num'])){
             $result['x_invoice_num'] = $data['x_invoice_num'];
         }
@@ -92,9 +92,12 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         }
         
         if (!empty($data['controller_action_name'])){
+            if (!empty($data['key'])){
+                $result['key'] = $data['key'];
+            }
             $result['controller_action_name'] = $data['controller_action_name'];
             $params['redirect'] = Mage::helper('directpayment')->getRedirectIframeUrl($result);
-        }        
+        }
         $block = $this->_getIframeBlock()->setParams($params);
         $this->getResponse()->setBody($block->toHtml());
     }
@@ -147,18 +150,18 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     
     /**
      * Return customer quote
-     * 
+     *
      * @param int $orderIncrementId
      * @return bool
      */
     protected function _returnCustomerQuote($orderIncrementId)
     {
-        if ($orderIncrementId && 
+        if ($orderIncrementId &&
             $this->_getDirectPaymentSession()
                     ->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-            if ($order->getId()) {                
-                $quoteId = $order->getQuoteId();                
+            if ($order->getId()) {
+                $quoteId = $order->getQuoteId();
                 if ($quoteId) {
                     $quote = Mage::getModel('sales/quote')
                         ->load($quoteId);
@@ -175,5 +178,5 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         }
         
         return false;
-    }        
+    }
 }

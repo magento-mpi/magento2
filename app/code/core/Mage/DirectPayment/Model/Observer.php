@@ -58,7 +58,7 @@ class Mage_DirectPayment_Model_Observer
     public function addAdditionalFieldsToResponse(Varien_Event_Observer $observer)
     {
         /* @var $controller Mage_Checkout_OnepageController */
-        $controller = $observer->getEvent()->getData('controller_action');        
+        $controller = $observer->getEvent()->getData('controller_action');
         /* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('directpayment_order');
         
@@ -71,9 +71,10 @@ class Mage_DirectPayment_Model_Observer
                 if (empty($result['error'])){
                     //if is success, then set order to session and add new fields
                     $session =  Mage::getSingleton('directpayment/session');
-                    $session->addCheckoutOrderIncrementId($order->getIncrementId());                    
+                    $session->addCheckoutOrderIncrementId($order->getIncrementId());
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
+                    $this->_setSecretKey($requestToPaygate);
                     $result['directpayment'] = array('fields' => $requestToPaygate->getData());
                     $controller->getResponse()->clearHeader('Location');
                     $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
@@ -82,5 +83,21 @@ class Mage_DirectPayment_Model_Observer
         }
         
         return $this;
+    }
+    
+    /**
+     * Set key parameter for request for Admin area if needed
+     *
+     * @param Mage_DirectPayment_Model_Authorizenet_Request $request
+     */
+    protected function _setSecretKey(Mage_DirectPayment_Model_Authorizenet_Request $request)
+    {
+        /* @var $adminUrl Mage_Adminhtml_Model_Url */
+        if (Mage::app()->getStore()->isAdmin()){
+            $adminUrl = Mage::getSingleton('adminhtml/url');
+            if ($adminUrl->useSecretKey()){
+                $request->setKey($adminUrl->getSecretKey('directpayment_paygate', 'redirect'));
+            }
+        }
     }
 }

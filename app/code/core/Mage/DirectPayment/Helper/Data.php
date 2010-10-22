@@ -91,7 +91,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/directpayment_paygate/redirect';
-                return $this->getAdminUrl($route, $params);
+                break;
                 
             default:
                 $route = 'directpayment/paygate/redirect';
