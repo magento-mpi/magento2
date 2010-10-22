@@ -157,6 +157,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                     'success'    => 1,
                     'directpost' => array('fields' => $requestToPaygate->getData())
                 );
+                $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
             }
         }
         else {
@@ -164,8 +165,8 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             	'error_messages' => $this->__('Please, choose payment method'),
                 'goto_section'   => 'payment'                
             );
-        }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));   
+        }                     
     }
 
     /**

@@ -73,7 +73,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         $controller = $this->getRequest()->getParam('controller');
         Mage::register('authorizenet_method', Mage::getModel('authorizenet/directpost')->getCode(), true);
         if (isset($paymentParam['method'])) {
-            $saveOrderFlag = Mage::getStoreConfig('payment/'.$payment['method'].'/create_order_before');
+            $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
             if ($saveOrderFlag) {
                 $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
                 $this->_forward(
@@ -84,9 +84,8 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 );
             }
             else {
-                $this->_getOrderCreateModel()->setPaymentData($paymentParam);
-                $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentParam);
-                $quote = $this->_getOrderCreateModel()->getQuote();
+                $this->_getCheckout()->getQuote()->getPayment()->importData($paymentParam);
+                $quote = $this->_getCheckout()->getQuote();
                 $payment = $quote->getPayment();
                 if (!$quote->getReservedOrderId()) {
                     $quote->reserveOrderId()->save();
@@ -99,14 +98,15 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                     'success'    => 1,
                     'directpost' => array('fields' => $requestToPaygate->getData())
                 );
+                $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
             }
         }
         else {
             $result = array(
             	'error_messages' => $this->__('Please, choose payment method')                
             );
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));   
         }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
     /**
