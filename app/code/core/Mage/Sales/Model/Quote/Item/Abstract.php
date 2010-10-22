@@ -374,7 +374,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     }
 
     /**
-     * Specify item price (base calculation price will be refreshed too)
+     * Specify item price (base calculation price and converted price will be refreshed too)
      *
      * @param   float $value
      * @return  Mage_Sales_Model_Quote_Item_Abstract
@@ -382,6 +382,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     public function setPrice($value)
     {
         $this->setBaseCalculationPrice(null);
+        $this->setConvertedPrice(null);
         return $this->setData('price', $value);
     }
 
