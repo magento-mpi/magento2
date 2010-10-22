@@ -40,7 +40,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
     {
         return Mage::getSingleton('checkout/session');
     }
-    
+
     /**
      * Get session model
 
@@ -50,7 +50,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
     {
         return Mage::getSingleton('authorizenet/directpost_session');
     }
-    
+
     /**
      * Get iframe block instance
      *
@@ -60,7 +60,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
     {
         return $this->getLayout()->createBlock('directpost/iframe');
     }
-        
+
     /**
      * Response action.
      * Action for Authorize.net SIM Relay Request.
@@ -70,12 +70,12 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         $data = $this->getRequest()->getPost();
         /* @var $paymentMethod Mage_Authorizenet_Model_DirectPost */
         $paymentMethod = Mage::getModel('authorizenet/directpost');
-        
+
         $result = array();
         if (!empty($data['x_invoice_num'])){
             $result['x_invoice_num'] = $data['x_invoice_num'];
         }
-        
+
         try {
             $paymentMethod->process($data);
             $result['success'] = 1;
@@ -90,7 +90,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $result['success'] = 0;
             $result['error_msg'] = $this->__('There was an error processing your order. Please contact us or try again later.');
         }
-        
+
         if (!empty($data['controller_action_name'])){
             if (!empty($data['key'])){
                 $result['key'] = $data['key'];
@@ -101,7 +101,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         $block = $this->_getIframeBlock()->setParams($params);
         $this->getResponse()->setBody($block->toHtml());
     }
-    
+
     /**
      * Retrieve params and put javascript into iframe
      *
@@ -122,7 +122,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         $block = $this->_getIframeBlock()->setParams(array_merge($params, $redirectParams));
         $this->getResponse()->setBody($block->toHtml());
     }
-    
+
     /**
      * Place order before payment
      *
@@ -147,21 +147,21 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             }
         }
     }
-    
+
     /**
      * Return customer quote
-     * 
+     *
      * @param int $orderIncrementId
      * @return bool
      */
     protected function _returnCustomerQuote($orderIncrementId)
     {
-        if ($orderIncrementId && 
+        if ($orderIncrementId &&
             $this->_getDirectPostSession()
                     ->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-            if ($order->getId()) {                
-                $quoteId = $order->getQuoteId();                
+            if ($order->getId()) {
+                $quoteId = $order->getQuoteId();
                 if ($quoteId) {
                     $quote = Mage::getModel('sales/quote')
                         ->load($quoteId);
@@ -176,7 +176,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($orderIncrementId);
             return true;
         }
-        
+
         return false;
-    }        
+    }
 }

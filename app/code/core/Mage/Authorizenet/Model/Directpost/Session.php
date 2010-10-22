@@ -55,7 +55,7 @@ class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session
         $orderIncIds[$orderIncrementId] = 1;
         $this->setDirectPostOrderIncrementIds($orderIncIds);
     }
-    
+
     /**
      * Remove order IncrementId from session
      *
@@ -72,7 +72,7 @@ class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session
         }
         $this->setDirectPostOrderIncrementIds($orderIncIds);
     }
-    
+
     /**
      * Return if order incrementId is in session.
      *

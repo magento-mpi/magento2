@@ -49,7 +49,7 @@ class Mage_Authorizenet_Model_Directpost_Response extends Varien_Object
         }
         return strtoupper(md5($merchantMd5 . $merchantApiLogin . $transactionId . $amount));
     }
-    
+
     /**
      * Return if is valid order id.
      *

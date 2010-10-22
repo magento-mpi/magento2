@@ -35,14 +35,14 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
 {
     /**
      * Get session model
-     * 
+     *
      * @return Mage_DirectPost_Model_Session
      */
     protected function _getDirectPostSession()
     {
         return Mage::getSingleton('authorizenet/directpost_session');
     }
-    
+
     /**
      * Retrieve session object
      *
@@ -52,7 +52,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
     {
         return Mage::getSingleton('adminhtml/session_quote');
     }
-    
+
     /**
      * Retrieve order create model
      *
@@ -62,7 +62,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
     {
         return Mage::getSingleton('adminhtml/sales_order_create');
     }
-    
+
     /**
      * Place order before payment
      *
@@ -71,6 +71,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
     {
         $payment = $this->getRequest()->getParam('payment');
         $controller = $this->getRequest()->getParam('controller');
+        Mage::register('authorizenet_method', Mage::getModel('authorizenet/directpost')->getCode(), true);
         if (isset($payment['method'])) {
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$payment['method'].'/create_order_before');
             if ($saveOrderFlag) {
@@ -110,21 +111,21 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                         ->setParams(array_merge($params, $redirectParams));
         $this->getResponse()->setBody($block->toHtml());
     }
-    
+
     /**
      * Return quote
-     * 
+     *
      * @param int $orderIncrementId
      * @return bool
      */
     protected function _returnQuote($orderIncrementId)
     {
-        if ($orderIncrementId && 
+        if ($orderIncrementId &&
             $this->_getDirectPostSession()
                     ->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-            if ($order->getId()) {                
-                $quoteId = $order->getQuoteId();                
+            if ($order->getId()) {
+                $quoteId = $order->getQuoteId();
                 $order->setReordered(true);
                 $this->_getOrderSession()->setUseOldShippingMethod(true);
                 $this->_getOrderCreateModel()->initFromOrder($order);
@@ -132,7 +133,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($orderIncrementId);
             return true;
         }
-        
+
         return false;
     }
 }

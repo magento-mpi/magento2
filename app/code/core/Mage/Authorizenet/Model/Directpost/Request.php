@@ -34,7 +34,7 @@
 class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
 {
     protected $_transKey = null;
-    
+
     /**
      * Return merchant transaction key.
      * Needed to generate sign.
@@ -45,7 +45,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
     {
         return $this->_transKey;
     }
-    
+
     /**
      * Set merchant transaction key.
      * Needed to generate sign.
@@ -58,7 +58,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
         $this->_transKey = $transKey;
         return $this;
     }
-    
+
     /**
      * Generates the fingerprint for request.
      *
@@ -76,7 +76,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
         }
         return bin2hex(mhash(MHASH_MD5, $merchantApiLoginId . "^" . $fpSequence . "^" . $fpTimestamp . "^" . $amount . "^", $merchantTransactionKey));
     }
-    
+
     /**
      * Set paygate data to request.
      *
@@ -95,11 +95,11 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
             ->setXType('AUTH_ONLY')
             ->setXMethod(Mage_Paygate_Model_Authorizenet::REQUEST_METHOD_CC)
             ->setXRelayUrl(Mage::getBaseUrl().'authorizenet/directpost_payment/response');
-            
+
         $this->setTransactionKey($paymentMethod->getConfigData('trans_key'));
         return $this;
     }
-    
+
     /**
      * Set order data to request
      *
@@ -114,7 +114,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
         $this->setXInvoiceNum($order->getIncrementId());
         $amount = $payment->getBaseAmountAuthorized();
         $this->setXAmount($amount);
-        
+
         $billing = $order->getBillingAddress();
         if (!empty($billing)) {
             $this->setXFirstName($billing->getFirstname())
@@ -150,10 +150,10 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
         $this->setXPoNum($payment->getPoNumber())
             ->setXTax(sprintf('%.2F', $order->getBaseTaxAmount()))
             ->setXFreight(sprintf('%.2F', $order->getBaseShippingAmount()));
-            
+
         return $this;
     }
-    
+
     /**
      * Set sign hash into the request object.
      * All needed fields should be placed in the object fist.
