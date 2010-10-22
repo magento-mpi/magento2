@@ -36,8 +36,6 @@
 class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
-     *
      * @var Enterprise_Pci_Model_Encryption
      */
     protected $_encryptor;
@@ -133,8 +131,8 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
             $table = $this->getTable('core/config_data');
             $values = $this->_getReadAdapter()->fetchPairs($this->_getReadAdapter()->select()
                 ->from($table, array('config_id', 'value'))
-                ->where('`path` IN (?)', $paths)
-                ->where('`value` <> ?', ''));
+                ->where('path IN (?)', $paths)
+                ->where('value NOT LIKE ?', ''));
             foreach ($values as $configId => $value) {
                 $this->_getWriteAdapter()->update($table,
                     array('value' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),

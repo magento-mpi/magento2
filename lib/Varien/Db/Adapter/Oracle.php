@@ -977,6 +977,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         if (is_array($definition)) {
+            $definition['table_name'] = $tableName;
+            $definition['column_name'] = $columnName;
             $definition = $this->_getColumnDefinition($definition);
         }
 
@@ -2848,11 +2850,22 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $cDefault = new Zend_Db_Expr('NULL');
         }
 
+        // Fix ORA-01451: column to be modified to NULL cannot be modified to NULL
+        if (isset($options['TABLE_NAME'])) {
+            $currentDdl = $this->describeTable($options['TABLE_NAME']);
+            if ($cNullable != $currentDdl[$options['COLUMN_NAME']]['NULLABLE']){
+                $cNullable = $cNullable ? ' NULL' : ' NOT NULL';
+            } else {
+                $cNullable = '';
+            }
+        } else {
+            $cNullable = $cNullable ? ' NULL' : ' NOT NULL';
+        }
 
         $colDef =  sprintf('%s%s%s',
             $cType,
             $cDefault !== false ? $this->quoteInto(' default ?', $cDefault) : '',
-            $cNullable ? ' NULL' : ' NOT NULL'
+            $cNullable
         );
 
         return $colDef;
@@ -3859,8 +3872,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $table, $fields)
                 );
         }
-        echo $query;
-        die();
+
         return $query;
 
     }

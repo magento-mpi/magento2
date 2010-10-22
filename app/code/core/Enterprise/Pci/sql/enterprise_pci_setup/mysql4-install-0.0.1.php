@@ -43,7 +43,7 @@ $installer->getConnection()->addColumn($tableAdmins, 'lock_expires', 'datetime N
 $installer->run("
 CREATE TABLE IF NOT EXISTS `{$tableOldPasswds}` (
   `password_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` mediumint(9) unsigned NOT NULL DEFAULT 0,
+  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
   `password_hash` varchar(100) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `expires` int(11) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`password_id`)

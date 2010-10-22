@@ -109,11 +109,12 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
         $table  = $this->getTable('enterprise_pci/admin_passwords');
 
         // purge expired passwords, except that should retain
-        $retainPasswordIds = $this->_getWriteAdapter()->fetchCol($this->_getWriteAdapter()->select()
+        $retainPasswordIds = $this->_getWriteAdapter()->fetchCol(
+            $this->_getWriteAdapter()->select()
             ->from($table, 'password_id')
             ->where('user_id = ?', $userId)
-            ->order(new Zend_Db_Expr("expires > {$now} DESC"))
-            ->order('password_id DESC')
+            ->order('expires '.Varien_Db_Select::SQL_DESC)
+            ->order('password_id '.Varien_Db_Select::SQL_DESC)
             ->limit($retainLimit)
         );
         $where = array("user_id = {$userId}", "expires <= {$now}");
@@ -143,7 +144,7 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
             'user_id'       => $user->getId(),
             'password_hash' => $passwordHash,
             'expires'       => $now + $lifetime,
-            'last_updated'         => $now,
+            'last_updated'  => $now,
         ));
     }
 
@@ -159,7 +160,7 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
         return $this->_getReadAdapter()->fetchRow($this->_getReadAdapter()->select()
             ->from($this->getTable('enterprise_pci/admin_passwords'))
             ->where('user_id =? ', $userId)
-            ->order('password_id DESC')
+            ->order('password_id '.Varien_Db_Select::SQL_DESC)
             ->limit(1)
         );
     }
