@@ -88,19 +88,26 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
     {
         $adapter = $this->_getWriteAdapter();
         $prefix  = $this->_engine->getFieldsPrefix();
+
+        $firstIf = $adapter->getCheckSql('is_parent = 1', 'category_id', '');
+        $secondIf = $adapter->getCheckSql('is_parent = 0', 'category_id', '');
+        $concatenated = $adapter->getConcatSql(array('category_id', 'position'), '_');
+
+        $helper = Mage::getResourceHelper('core');
+        $select = $adapter->select();
+        $helper->addGroupConcatColumn($select, 'parents', $firstIf, ' ');
+        $helper->addGroupConcatColumn($select, 'anchors', $secondIf, ' ');
+        $helper->addGroupConcatColumn($select, 'positions', $concatenated, ' ');
+
         $columns = array(
             'product_id'    => 'product_id',
-            'parents'       => new Zend_Db_Expr("GROUP_CONCAT(IF(is_parent = 1, category_id, '') SEPARATOR ' ')"),
-            'anchors'       => new Zend_Db_Expr("GROUP_CONCAT(IF(is_parent = 0, category_id, '') SEPARATOR ' ')"),
-            'positions'     => new Zend_Db_Expr("GROUP_CONCAT(CONCAT(category_id, '_', position) SEPARATOR ' ')"),
         );
 
         if ($visibility) {
             $columns[] = 'visibility';
         }
 
-        $select = $adapter->select()
-            ->from(array($this->getTable('catalog/category_product_index')), $columns)
+        $select->from(array($this->getTable('catalog/category_product_index')), $columns)
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
