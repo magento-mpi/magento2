@@ -338,8 +338,7 @@ directPost.prototype = {
         }        
         
         this.paymentRequestSent = true;
-        tmpForm.submit();
-        tmpForm.remove();
+        tmpForm.submit();        
         
         return this.paymentRequestSent;
     },
