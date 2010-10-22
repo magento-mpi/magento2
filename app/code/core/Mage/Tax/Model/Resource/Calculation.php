@@ -42,6 +42,13 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
     protected $_ratesCache              = array();
 
     /**
+     * Primery key auto increment flag
+     *
+     * @var bool
+     */
+    protected $_isPkAutoIncrement    = false;
+
+    /**
      * Resource initialization
      *
      */
