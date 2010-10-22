@@ -374,7 +374,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
                 $attributeCode = $attributeInstance->getAttributeCode();
             }
 
-        } elseif (is_string($attribute)) {
+        } else if (is_string($attribute)) {
             $attributeCode = $attribute;
 
             if (isset($this->_attributesByCode[$attributeCode])) {
@@ -391,7 +391,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
                     ->setEntityType($this->getEntityType())
                     ->setEntityTypeId($this->getEntityType()->getId());
             }
-        } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+        } else if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
 
             $attributeInstance = $attribute;
             $attributeCode = $attributeInstance->getAttributeCode();
@@ -664,23 +664,6 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         }
 
         return $results;
-    }
-
-    /**
-     * Check whether attribute instance (attribute, backend, frontend or source) has method and applicable
-     *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract|Mage_Eav_Model_Entity_Attribute_Backend_Abstract|Mage_Eav_Model_Entity_Attribute_Frontend_Abstract|Mage_Eav_Model_Entity_Attribute_Source_Abstract $instance
-     * @param string $method
-     * @param array $args array of arguments
-     * @return boolean
-     */
-    protected function _isCallableAttributeInstance($instance, $method, $args)
-    {
-        if (!is_object($instance) || !method_exists($instance, $method)) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
