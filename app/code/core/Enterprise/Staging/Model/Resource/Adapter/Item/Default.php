@@ -191,10 +191,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
         $fields = $srcTableDesc['fields'];
         foreach ($fields as $id => $field) {
-            if ((strpos($entityName, 'product_website') === false)) {
-                if ($field['IDENTITY']) {
-                    unset($fields[$id]);
-                }
+            if ($field['IDENTITY']) {
+                unset($fields[$id]);
             }
         }
         $fields = array_keys($fields);
@@ -482,16 +480,15 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
             $srcTableDesc = $this->getTableProperties($srcTable);
             $fields = $srcTableDesc['fields'];
             foreach ($fields as $id => $field) {
-                if ((strpos($srcTable, 'product_website') === false)) {
-                    if ($field['IDENTITY']) {
-                        unset($fields[$id]);
-                    }
+                if ($field['IDENTITY']) {
+                    unset($fields[$id]);
                 }
             }
             $fields = array_keys($fields);
             $srcSelectSql  = $this->_getSimpleSelect($srcTable, $fields);
             $sql = $readAdapter->insertFromSelect($srcSelectSql, $targetTable, $fields);
             $writeAdapter->query($sql);
+             
             $writeAdapter->enableTableKeys($targetTable);
         } catch (Exception $e) {
             $writeAdapter->enableTableKeys($targetTable);
@@ -515,10 +512,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
         $fields = $srcTableDesc['fields'];
         foreach ($fields as $id => $field) {
-            if ((strpos($entityName, 'product_website') === false)) {
-                if ($field['IDENTITY']) {
-                    unset($fields[$id]);
-                }
+            if ($field['IDENTITY']) {
+                unset($fields[$id]);
             }
         }
         $fields = array_keys($fields);
@@ -568,7 +563,6 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $writeAdapter = $this->_getWriteAdapter();
         $srcTable     = $this->getTable($entityName);
         $targetTable  = $this->_getStagingTableName($srcTable);
-        $updateField  = end($fields);//!!! was in duplicate key update
 
         foreach ($mappedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
             if (empty($stagingWebsiteId) || empty($masterWebsiteIds)) {
@@ -600,11 +594,13 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
                 $srcSelectSql = $this->_getSimpleSelect($srcTable, $selectFields, $_websiteFieldNameSql);
 
+
                 $sql = $readAdapter->insertFromSelect(
                     $srcSelectSql,
                     $targetTable,
-                    $fields);
-
+                    $fields,
+                    Mage::getResourceHelper('enterprise_staging')->getInsertFromSelectMode($targetTable, $fields)
+                );
                 $writeAdapter->query($sql);
             }
         }
@@ -668,7 +664,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         if (!empty($storesMap)) {
             $srcTable    = $this->getTable($entityName);
             $targetTable = $this->_getStagingTableName($srcTable);
-            $updateField = end($fields);
+
             foreach ($storesMap as $stagingStoreId => $masterStoreIds) {
                 $stagingStoreId = intval($stagingStoreId);
 
@@ -681,9 +677,9 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $selectFields = $fields;
                     foreach ($fields as $id => $field) {
                         if ($field == 'store_id') {
-                            $selectFields[$id] = $masterStoreId;
+                            $selectFields[$id] = new Zend_DB_Expr($masterStoreId);
                         } elseif ($field == 'scope_id') {
-                            $selectFields[$id] = $masterStoreId;
+                            $selectFields[$id] = new Zend_DB_Expr($masterStoreId);
                             $_storeFieldNameSql = $readAdapter->quoteIdentifier('scope')
                             . $readAdapter->quoteInto(' = ?', 'stores')
                             . ' AND '.$readAdapter->quoteIdentifier($field)
@@ -695,8 +691,9 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $sql = $readAdapter->insertFromSelect(
                         $srcSelectSql,
                         $targetTable,
-                        $fields);
-
+                        $fields,
+                        Mage::getResourceHelper('enterprise_staging')->getInsertFromSelectMode($targetTable, $fields)
+                    );
                     $writeAdapter->query($sql);
 
                     $this->_afterStoreMerge($entityName, $fields, $masterStoreId, $stagingStoreId);
@@ -807,7 +804,6 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                         }
                         $_websiteFieldNameSql = implode(" OR " , $whereFields);
                     }
-                    //!!!
                     // FIXME need to investigate next code ASAP !
                     $tableDestDesc = $this->getTableProperties($targetTable);
                     if (!$tableDestDesc) {

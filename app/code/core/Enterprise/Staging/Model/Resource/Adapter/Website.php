@@ -155,7 +155,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
      *
      * @param Enterprise_Staging_Model_Staging $staging
      * @param Mage_Core_Model_Website $stagingWebsite
-     * @param unknown_type $entryPoint
+     * @param Enterprise_Staging_Model_Entry $entryPoint
      * @return Enterprise_Staging_Model_Resource_Adapter_Website
      */
     protected function _saveSystemConfig($staging, Mage_Core_Model_Website $stagingWebsite, $entryPoint = null)

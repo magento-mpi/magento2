@@ -121,6 +121,7 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
                 ->setName($name)
                 ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETED)
                 ->setCreatedAt(Mage::registry($log->getAction() . "_event_start_time"))
+                ->setUpdatedAt(now())
                 ->setStagingTablePrefix($tablePrefix)
                 ->setMap($staging->getMapperInstance()->serialize())
                 ->setMageVersion(Mage::getVersion())

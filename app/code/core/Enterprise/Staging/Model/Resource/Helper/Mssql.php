@@ -122,4 +122,39 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
     {
 
     }
+
+    /**
+     * Retrieve mode for insertFromSelect adapter method
+     *
+     * @param  string $table
+     * @param  array $fields
+     * @return int
+     */
+    public function getInsertFromSelectMode($table, $fields)
+    {
+        $mode = false;
+        $indexes    = $this->_getReadAdapter()->getIndexList($table);
+
+        // Obtain unique indexes fields
+        foreach ($indexes as $indexData) {
+            if (strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+                && strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY
+            ) {
+                continue;
+            }
+
+            $useUnqCond = true;
+            foreach($indexData['COLUMNS_LIST'] as $column) {
+                if (!in_array($column, $fields)) {
+                    $useUnqCond = false;
+                }
+            }
+            if ($useUnqCond) {
+                $mode = Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE;
+                break;
+            }
+        }
+        return $mode;
+    }
+
 }
