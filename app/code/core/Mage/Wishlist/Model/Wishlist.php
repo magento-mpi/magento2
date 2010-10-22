@@ -162,7 +162,9 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             $collection = Mage::getResourceModel('wishlist/product_collection')
                 ->setStoreId($this->getStore()->getId())
                 ->addWishlistFilter($this)
-                ->addWishListSortOrder();
+                ->addWishListSortOrder()
+                /* Price data is added to consider item stock status using price index */
+                ->addPriceData();
             $this->setData('product_collection', $collection);
         }
         return $collection;

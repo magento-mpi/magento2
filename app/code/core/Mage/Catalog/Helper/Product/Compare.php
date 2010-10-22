@@ -195,6 +195,9 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
             Mage::getSingleton('catalog/product_visibility')
                 ->addVisibleInSiteFilterToCollection($this->_itemCollection);
 
+            /* Price data is added to consider item stock status using price index */
+            $this->_itemCollection->addPriceData();
+
             $this->_itemCollection->addAttributeToSelect('name')
                 ->addUrlRewrite()
                 ->load();

@@ -1376,13 +1376,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     {
         $collection = Mage::getModel('sales/order_item')->getCollection()
             ->setOrderFilter($this)
-            ->setRandomOrder()
-            ->setPageSize($limit);
+            ->setRandomOrder();
 
         if ($nonChildrenOnly) {
             $collection->filterByParent();
         }
-
         $products = array();
         foreach ($collection as $item) {
             $products[] = $item->getProductId();
@@ -1392,9 +1390,13 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             ->getCollection()
             ->addIdFilter($products)
             ->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds())
+            /* Price data is added to consider item stock status using price index */
+            ->addPriceData()
+            ->setPageSize($limit)
             ->load();
-        foreach ($collection as $item) {
-            $item->setProduct($productsCollection->getItemById($item->getProductId()));
+
+        foreach ($productsCollection as $item) {
+            $collection->getItemById($item->getProductId())->setProduct($item);
         }
 
         return $collection;
