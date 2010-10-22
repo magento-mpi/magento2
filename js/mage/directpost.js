@@ -44,11 +44,11 @@ directPost.prototype = {
         this.isResponse = false;
         this.orderIncrementId = false;
         this.successUrl = false;
-        this.hasError = false;
-        this.buttons = [];
+        this.hasError = false;        
         
         this.onSaveOnepageOrderSuccess = this.saveOnepageOrderSuccess.bindAsEventListener(this);        
         this.onLoadIframe = this.loadIframe.bindAsEventListener(this);
+        this.onSubmitAdminOrder = this.submitAdminOrder.bindAsEventListener(this);
         
         this.disableAutocomplete();
         this.preparePayment();        
@@ -113,7 +113,7 @@ directPost.prototype = {
 		    		button.writeAttribute('onclick','');
 		    		button.observe('click', function(obj){
 		    			return function(){
-			    			if ($(obj.iframeId)) {			    				
+		    				if ($(obj.iframeId)) {			    				
 			    				if (obj.validate()) {				    				
 				    				obj.saveOnepageOrder();			    				
 			    				}			    							    				
@@ -126,43 +126,15 @@ directPost.prototype = {
 		    		break;		    	
 		    	case 'sales_order_create':
 		    	case 'sales_order_edit':		    		
-			    	this.buttons = document.getElementsByClassName('scalable save');			    	
-			    	for(var i = 0; i < this.buttons.length; i++){
-			    		var button = this.buttons[i];			    		
-				    	button.writeAttribute('onclick','');
-				    	button.observe('click', function(obj){		    		
-				    		return function(){
-				    			if (editForm.validator.validate()) {				    				
-					    			var paymentMethodEl = $(this).up('form').getInputs('radio','payment[method]').find(function(radio){return radio.checked;});					    			
-					    			if (paymentMethodEl && paymentMethodEl.value == obj.code) {					    			
-					    				if (obj.validate()) {					    				
-						    				toggleSelectsUnderBlock($('loading-mask'), false);
-						    				$('loading-mask').show();
-						    	            setLoaderPosition();
-						    				obj.disableInputs();					    				
-						    				obj.paymentRequestSent = true;
-						    				obj.orderRequestSent = true;
-						    				$(this).up('form').writeAttribute('action', obj.orderSaveUrl);
-						    				$(this).up('form').writeAttribute('target',$(obj.iframeId).readAttribute('name'));
-						    				$(this).up('form').appendChild(obj.createHiddenElement('controller', obj.controller));
-						    				disableElements('save');
-						    				$(this).up('form').submit();
-					    				}				    								    			
-						    		}
-					    			else {
-					    				$(this).up('form').writeAttribute('action', obj.nativeAction);
-					    				$(this).up('form').writeAttribute('target','_top');
-					    				disableElements('save');
-					    				$(this).up('form').submit();
-					    			}
-				    			}
-			    			}				    	
-				    	}(this));
+			    	var buttons = document.getElementsByClassName('scalable save');			    	
+			    	for(var i = 0; i < buttons.length; i++){			    			    		
+			    		buttons[i].writeAttribute('onclick','');
+			    		buttons[i].observe('click', this.onSubmitAdminOrder);				    		
 			    	}
 	    		break;
 	    	}
 	    	
-	    	$(this.iframeId).observe('load', this.onLoadIframe.bind(this));
+	    	$(this.iframeId).observe('load', this.onLoadIframe);
     	}
     },
     
@@ -276,6 +248,32 @@ directPost.prototype = {
                 checkout.reloadProgressBlock();
             }
         }
+	},
+	
+	submitAdminOrder: function()
+	{
+		if (editForm.validate()) {				    				
+			var paymentMethodEl = $(editForm.formId).getInputs('radio','payment[method]').find(function(radio){return radio.checked;});					    			
+			if (paymentMethodEl.value == this.code) {					    			
+				toggleSelectsUnderBlock($('loading-mask'), false);
+				$('loading-mask').show();
+	            setLoaderPosition();
+	            this.disableInputs();					    				
+	            this.paymentRequestSent = true;
+	            this.orderRequestSent = true;
+	            $(editForm.formId).writeAttribute('action', this.orderSaveUrl);
+	            $(editForm.formId).writeAttribute('target',$(this.iframeId).readAttribute('name'));
+	            $(editForm.formId).appendChild(this.createHiddenElement('controller', this.controller));
+				disableElements('save');
+				$(editForm.formId).submit();			    								    			
+    		}
+			else {
+				$(editForm.formId).writeAttribute('action', this.nativeAction);
+				$(editForm.formId).writeAttribute('target','_top');
+				disableElements('save');
+				$(editForm.formId).submit();
+			}
+		}
 	},
 	
 	saveAdminOrderSuccess: function(data) 
