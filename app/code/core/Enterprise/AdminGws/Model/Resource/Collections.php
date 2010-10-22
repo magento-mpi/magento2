@@ -36,7 +36,6 @@ class Enterprise_AdminGws_Model_Resource_Collections extends Mage_Core_Model_Res
 {
     /**
      * Class construction & resource initialization
-     *
      */
     protected function _construct()
     {

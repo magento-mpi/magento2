@@ -238,7 +238,7 @@
             <active>true</active>
         </Mage_XmlConnect>
         <Enterprise_AdminGws>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_AdminGws>
         <Enterprise_Banner>
             <active>false</active>
@@ -301,7 +301,7 @@
             <active>false</active>
         </Enterprise_Reward>
         <Enterprise_SalesArchive>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_SalesArchive>
         <Enterprise_SalesPool>
             <active>false</active>
