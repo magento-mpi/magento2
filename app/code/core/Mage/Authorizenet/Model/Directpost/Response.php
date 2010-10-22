@@ -61,4 +61,14 @@ class Mage_Authorizenet_Model_Directpost_Response extends Varien_Object
     {
         return self::generateHash($merchantMd5, $merchantApiLogin, $this->getXAmount(), $this->getXTransId()) == $this->getData('x_MD5_Hash');
     }
+
+    /**
+     * Return if this is approved response from Authorize.net auth request.
+     *
+     * @return bool
+     */
+    public function isApproved()
+    {
+        return $this->getXResponseCode() == Mage_Authorizenet_Model_Directpost::RESPONSE_CODE_APPROVED;
+    }
 }
