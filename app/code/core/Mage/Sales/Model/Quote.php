@@ -785,7 +785,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function addProduct(Mage_Catalog_Model_Product $product, $request=null)
     {
-
         if ($request === null) {
             $request = 1;
         }
@@ -802,7 +801,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         /**
          * Error message
          */
-
         if (is_string($cartCandidates)) {
             return $cartCandidates;
         }
@@ -813,9 +811,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if (!is_array($cartCandidates)) {
             $cartCandidates = array($cartCandidates);
         }
-
-
-
 
         $parentItem = null;
         $errors = array();
