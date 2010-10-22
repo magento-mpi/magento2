@@ -1014,7 +1014,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     }
 
 
-     *
+    /**
      * @param int $storeId
      * @param unknown_type $rootPath
      * @return string temporary table name
