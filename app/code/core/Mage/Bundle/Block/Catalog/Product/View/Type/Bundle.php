@@ -85,13 +85,19 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
 
             foreach ($_option->getSelections() as $_selection) {
                 $_qty = !($_selection->getSelectionQty()*1)?'1':$_selection->getSelectionQty()*1;
+                // recalculate currency
+                $tierPrices = $_selection->getTierPrice();
+                foreach ($tierPrices as &$tierPriceInfo) {
+                    $tierPriceInfo['price'] = Mage::helper('core')->currency($tierPriceInfo['price'], false, false);
+                }
+                unset($tierPriceInfo); // break the reference with the last element
                 $selection = array (
                     'qty' => $_qty,
                     'customQty' => $_selection->getSelectionCanChangeQty(),
                     'price' => Mage::helper('core')->currency($_selection->getFinalPrice(), false, false),
                     'priceValue' => Mage::helper('core')->currency($_selection->getSelectionPriceValue(), false, false),
                     'priceType' => $_selection->getSelectionPriceType(),
-                    'tierPrice' => $_selection->getTierPrice(),
+                    'tierPrice' => $tierPrices,
                     'name' => $_selection->getName(),
                     'plusDisposition' => 0,
                     'minusDisposition' => 0,
