@@ -446,6 +446,32 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         try {
             $service->submitAll();
             $this->_setCreateOrderBefore($createOrderBefore);
+            $order = $service->getOrder();
+            $payment = $order->getPayment();
+
+            //set additional result if needed
+            $result['last_order_id'] = $order->getId();
+            $result['last_real_order_id'] = $order->getIncrementId();
+
+            // as well a billing agreement can be created
+            $agreement = $payment->getBillingAgreement();
+            if ($agreement) {
+                $result['last_billing_agreement_id'] = $agreement->getId();
+            }
+
+            // add recurring profiles information to the session
+            $profiles = $service->getRecurringPaymentProfiles();
+            if ($profiles) {
+                $ids = array();
+                foreach ($profiles as $profile) {
+                    $ids[] = $profile->getId();
+                }
+                $result['last_recurring_profile_ids'] = $ids;
+                // TODO: send recurring profile emails
+            }
+
+            $quotePayment = $quote->getPayment();
+            $quotePayment->setAdditionalInformation('session_data', $result);
             $quote->save();
         }
         catch (Exception $e){
@@ -454,8 +480,6 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             throw $e;
         }
 
-        $order = $service->getOrder();
-        $payment = $order->getPayment();
         //capture order using AIM if needed
         if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
             try {

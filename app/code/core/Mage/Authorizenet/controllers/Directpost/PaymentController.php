@@ -112,7 +112,9 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         $params = array();
         if (!empty($redirectParams['success'])
             && isset($redirectParams['x_invoice_num'])
-            && isset($redirectParams['controller_action_name'])) {
+            && isset($redirectParams['controller_action_name'])
+        ){
+            $this->_addAdditionalInformationToSession($redirectParams['x_invoice_num']);
             $params['redirect_parent'] = Mage::helper('authorizenet')->getSuccessOrderUrl($redirectParams);
         }
         if (!empty($redirectParams['error_msg'])
@@ -151,8 +153,8 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                 }
                 $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
                 $requestToPaygate = $payment->getMethodInstance()->generateRequestFromQuote($quote);
-                $requestToPaygate->setControllerActionName($controller);            
-                $requestToPaygate->setOrderSendConfirmation(0);                
+                $requestToPaygate->setControllerActionName($controller);
+                $requestToPaygate->setOrderSendConfirmation(0);
                 $result = array(
                     'success'    => 1,
                     'directpost' => array('fields' => $requestToPaygate->getData())
@@ -163,10 +165,10 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         else {
             $result = array(
                 'error_messages' => $this->__('Please, choose payment method'),
-                'goto_section'   => 'payment'                
+                'goto_section'   => 'payment'
             );
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));   
-        }                     
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        }
     }
 
     /**
@@ -199,5 +201,33 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         }
 
         return false;
+    }
+
+    /**
+     * Set additional information to session about order creation for 'order creation after payment' case.
+     *
+     * @param string $orderIncrementId
+     */
+    protected function _addAdditionalInformationToSession($orderIncrementId)
+    {
+        if ($orderIncrementId &&
+            $this->_getDirectPostSession()
+                    ->isCheckoutOrderIncrementIdExist($orderIncrementId)
+        ){
+            /* @var $quote Mage_Sales_Model_Quote */
+            $quote = Mage::getModel('sales/quote')
+                ->load($orderIncrementId, 'reserved_order_id');
+            if ($quote->getId()){
+                $payment = $quote->getPayment();
+                if ($payment && $payment->getId()){
+                    $sessionData = $payment->getAdditionalInformation('session_data');
+                    if ($sessionData){
+                        foreach ($sessionData as $key => $val){
+                            $this->_getCheckout()->setData($key, $val);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
