@@ -219,7 +219,9 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                 ->load($orderIncrementId, 'reserved_order_id');
             if ($quote->getId()){
                 $payment = $quote->getPayment();
-                if ($payment && $payment->getId()){
+                if ($payment && $payment->getId() &&
+                    $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()
+                ){
                     $sessionData = $payment->getAdditionalInformation('session_data');
                     if ($sessionData){
                         foreach ($sessionData as $key => $val){
