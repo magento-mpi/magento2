@@ -49,7 +49,7 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
             'failures_num'  => 0,
             'first_failure' => null,
             'lock_expires'  => null,
-        ), "{$this->getIdFieldName()} IN (" . $this->_getWriteAdapter()->quote($userIds) . ')');
+        ), $this->getIdFieldName() . ' IN (' . $this->_getWriteAdapter()->quote($userIds) . ')');
     }
 
     /**
@@ -104,7 +104,6 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
      */
     public function getOldPasswords($user, $retainLimit = 4)
     {
-        $now    = time();
         $userId = (int)$user->getId();
         $table  = $this->getTable('enterprise_pci/admin_passwords');
 
@@ -113,13 +112,13 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
             $this->_getWriteAdapter()->select()
             ->from($table, 'password_id')
             ->where('user_id = ?', $userId)
-            ->order('expires '.Varien_Db_Select::SQL_DESC)
-            ->order('password_id '.Varien_Db_Select::SQL_DESC)
+            ->order('expires ' . Varien_Db_Select::SQL_DESC)
+            ->order('password_id ' . Varien_Db_Select::SQL_DESC)
             ->limit($retainLimit)
         );
-        $where = array("user_id = {$userId}", "expires <= {$now}");
+        $where = array('user_id = ?' => $userId, 'expires <= ?' => time());
         if ($retainPasswordIds) {
-            $where[] = $this->_getWriteAdapter()->quoteInto('password_id NOT IN (?)', $retainPasswordIds);
+            $where['password_id NOT IN (?)'] = $retainPasswordIds;
         }
         $this->_getWriteAdapter()->delete($table, $where);
 
@@ -159,8 +158,8 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
     {
         return $this->_getReadAdapter()->fetchRow($this->_getReadAdapter()->select()
             ->from($this->getTable('enterprise_pci/admin_passwords'))
-            ->where('user_id =? ', $userId)
-            ->order('password_id '.Varien_Db_Select::SQL_DESC)
+            ->where('user_id = ? ', $userId)
+            ->order('password_id ' . Varien_Db_Select::SQL_DESC)
             ->limit(1)
         );
     }

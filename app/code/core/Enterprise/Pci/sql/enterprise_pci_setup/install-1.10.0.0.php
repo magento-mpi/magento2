@@ -67,7 +67,6 @@ $installer->getConnection()->createTable($table);
 
 $tableAdmins     = $installer->getTable('admin/user');
 $tableApiUsers   = $installer->getTable('api/user');
-$tableOldPasswds = $installer->getTable('enterprise_pci/admin_passwords');
 
 $installer->getConnection()->changeColumn($tableAdmins, 'password', 'password', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,

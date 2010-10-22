@@ -53,7 +53,6 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
      * Re-encrypt all encrypted data in the database
      *
      * @throws Exception
-     *
      * @param bool $safe Specifies whether wrapping re-encryption into the database transaction or not
      */
     public function reEncryptDatabaseValues($safe = true)
@@ -83,7 +82,6 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
      * Change encryption key
      *
      * @throws Exception
-     *
      * @param string $key
      * @return string
      */
@@ -100,7 +98,9 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
         }
         $this->_encryptor = clone Mage::helper('core')->getEncryptor();
         $this->_encryptor->setNewKey($key);
-        $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents);
+        $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', 
+            '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents
+        );
 
         // update database and local.xml
         $this->beginTransaction();
@@ -132,11 +132,13 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
             $values = $this->_getReadAdapter()->fetchPairs($this->_getReadAdapter()->select()
                 ->from($table, array('config_id', 'value'))
                 ->where('path IN (?)', $paths)
-                ->where('value NOT LIKE ?', ''));
+                ->where('value NOT LIKE ?', '')
+            );
             foreach ($values as $configId => $value) {
                 $this->_getWriteAdapter()->update($table,
                     array('value' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
-                    "config_id = {$configId}");
+                    array('config_id = ?' => (int)$configId)
+                );
             }
         }
     }
@@ -156,7 +158,8 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
         foreach ($attributeValues as $valueId => $value) {
             $this->_getWriteAdapter()->update($table,
                 array('cc_number_enc' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
-                "entity_id = {$valueId}");
+                array('entity_id = ?' => (int)$valueId)
+            );
         }
     }
 }
