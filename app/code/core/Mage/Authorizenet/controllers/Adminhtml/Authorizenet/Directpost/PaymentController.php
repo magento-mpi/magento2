@@ -125,10 +125,13 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             && isset($redirectParams['x_invoice_num'])
             && isset($redirectParams['controller_action_name'])) {
             $params['redirect_parent'] = Mage::helper('authorizenet')->getSuccessOrderUrl($redirectParams);
+            $this->_getSession()->clear();
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The order has been created.'));
         }
         if (!empty($redirectParams['error_msg'])
             && isset($redirectParams['x_invoice_num'])) {
             $this->_returnQuote($redirectParams['x_invoice_num']);
+            $this->_getSession()->addError($redirectParams['error_msg']);
         }
         $block = $this->getLayout()
                         ->createBlock('directpost/iframe')
