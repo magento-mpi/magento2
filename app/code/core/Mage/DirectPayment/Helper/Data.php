@@ -34,6 +34,18 @@
 class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
+     * Return URL for admin area
+     *
+     * @param string $route
+     * @param array $params
+     * @return string
+     */
+    public function getAdminUrl($route, $params)
+    {
+        return Mage::getModel('adminhtml/url')->getUrl($route, $params);
+    }
+    
+    /**
      * Retrieve save order url params
      *
      * @param string $controller
@@ -56,16 +68,16 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 $route['module'] = 'admin';
                 break;
                 
-            default:                
+            default:
                 break;
-        }        
+        }
         
         return $route;
     }
     
     /**
      * Retrieve redirect ifrmae url
-     *     
+     *
      * @param array params
      * @return string
      */
@@ -79,7 +91,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/directpayment_paygate/redirect';
-                break;
+                return $this->getAdminUrl($route, $params);
                 
             default:
                 $route = 'directpayment/paygate/redirect';
@@ -128,7 +140,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 $route = 'adminhtml/sales_order/view';
                 $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
-                break;
+                return $this->getAdminUrl($route, $param);
                 
             default :
                 $route = 'checkout/onepage/success';
