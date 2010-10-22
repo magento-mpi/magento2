@@ -48,11 +48,15 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
                 $route['controller'] = 'onepage';
                 $route['module'] = 'checkout';
                 break;
+                
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route['action'] = 'save';
                 $route['controller'] = 'sales_order_create';
                 $route['module'] = 'admin';
+                break;
+                
+            default:                
                 break;
         }        
         
@@ -71,10 +75,12 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
             case 'onepage':
                 $route = 'directpayment/paygate/redirect';
                 break;
+                
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/directpayment_paygate/redirect';
                 break;
+                
             default:
                 $route = 'directpayment/paygate/redirect';
                 break;
@@ -116,12 +122,14 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
             case 'onepage':
                 $route = 'checkout/onepage/success';
                 break;
+                
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/sales_order/view';
                 $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
                 break;
+                
             default :
                 $route = 'checkout/onepage/success';
                 break;
