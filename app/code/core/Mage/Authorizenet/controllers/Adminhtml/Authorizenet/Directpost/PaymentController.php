@@ -93,7 +93,11 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
                 $requestToPaygate = $payment->getMethodInstance()->generateRequestFromQuote($quote);
                 $requestToPaygate->setControllerActionName($controller);            
-                $requestToPaygate->setOrderSendConfirmation(0);                
+                $requestToPaygate->setOrderSendConfirmation(0);
+                $adminUrl = Mage::getSingleton('adminhtml/url');
+                if ($adminUrl->useSecretKey()){
+                    $requestToPaygate->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
+                }                
                 $result = array(
                     'success'    => 1,
                     'directpost' => array('fields' => $requestToPaygate->getData())
