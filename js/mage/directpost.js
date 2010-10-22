@@ -49,8 +49,7 @@ directPost.prototype = {
         this.onSaveOnepageOrderSuccess = this.saveOnepageOrderSuccess.bindAsEventListener(this);        
         this.onLoadIframe = this.loadIframe.bindAsEventListener(this);
         this.onSubmitAdminOrder = this.submitAdminOrder.bindAsEventListener(this);
-        
-        this.disableAutocomplete();
+                	
         this.preparePayment();        
     },
     
@@ -68,61 +67,33 @@ directPost.prototype = {
     	return this.isValid;
     },
     
-    disableInputs: function()
+    changeInputOptions: function(param, value)
     {
     	this.inputs.each(function(elemIndex) {
-			if ($(this.code+'_'+elemIndex)) {			
-				$(this.code+'_'+elemIndex).writeAttribute('disabled','disabled');
+			if ($(this.code+'_'+elemIndex)) {		
+				$(this.code+'_'+elemIndex).writeAttribute(param, value);
 			}
 		}, this);
-    },
-    
-    enableInputs: function()
-    {
-    	this.inputs.each(function(elemIndex) {
-			if ($(this.code+'_'+elemIndex)) {				
-				$(this.code+'_'+elemIndex).writeAttribute('disabled',false);
-			}
-		}, this);
-    },
-    
-    disableAutocomplete: function()
-    {
-    	this.inputs.each(function(elemIndex) {
-			if ($(this.code+'_'+elemIndex)) {				
-				$(this.code+'_'+elemIndex).writeAttribute('autocomplete','off');
-			}
-		}, this);
-    },
-    
-    disableServerValidation: function()
-    {
-    	for (var elemIndex in this.inputs) {
-			if ($(this.code+'_'+elemIndex)) {				
-				$(this.code+'_'+elemIndex).stopObserving();
-			}
-		}
-    },
+    },    
     
     preparePayment: function ()
-    {	
+    {
+    	this.changeInputOptions('autocomplete', 'off');
     	if ($(this.iframeId)) {
 	    	switch (this.controller) {
 		    	case 'onepage':
 		    		var button = $('review-buttons-container').down('button');
 		    		button.writeAttribute('onclick','');
-		    		button.observe('click', function(obj){
-		    			return function(){
-		    				if ($(obj.iframeId)) {			    				
-			    				if (obj.validate()) {				    				
-				    				obj.saveOnepageOrder();			    				
-			    				}			    							    				
-			    			}
-			    			else {
-			    				review.save();
-			    			}
+		    		button.observe('click', function(){
+		    			if ($(this.iframeId)) {			    				
+		    				if (this.validate()) {				    				
+			    				this.saveOnepageOrder();			    				
+		    				}			    							    				
 		    			}
-		    		}(this));	    		
+		    			else {
+		    				review.save();
+		    			}
+		    		}.bind(this));	    		
 		    		break;		    	
 		    	case 'sales_order_create':
 		    	case 'sales_order_edit':		    		
@@ -159,7 +130,7 @@ directPost.prototype = {
 		    			if (!this.hasError) {
 		    				$(this.iframeId).show();
 		    			}
-		    			this.enableInputs();
+		    			this.changeInputOptions('disabled', false);
 		    			toggleSelectsUnderBlock($('loading-mask'), true);
 		    			$('loading-mask').hide();
 		    			enableElements('save');
@@ -258,7 +229,7 @@ directPost.prototype = {
 				toggleSelectsUnderBlock($('loading-mask'), false);
 				$('loading-mask').show();
 	            setLoaderPosition();
-	            this.disableInputs();					    				
+	            this.changeInputOptions('disabled', 'disabled');					    				
 	            this.paymentRequestSent = true;
 	            this.orderRequestSent = true;
 	            $(editForm.formId).writeAttribute('action', this.orderSaveUrl);

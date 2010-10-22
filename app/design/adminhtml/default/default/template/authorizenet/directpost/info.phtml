@@ -81,6 +81,60 @@ $_orderUrl = $this->helper('authorizenet')->getPlaceOrderAdminUrl();
 </ul>
 <script type="text/javascript">
 //<![CDATA[
+/**
+ * Disable cart server validation in admin
+ */
+AdminOrder.prototype.prepareParams = function(params) {
+	if (!params) {
+		params = {};
+	}
+	if (!params.customer_id) {
+		params.customer_id = this.customerId;
+	}
+	if (!params.store_id) {
+		params.store_id = this.storeId;
+	}
+	if (!params.currency_id) {
+		params.currency_id = this.currencyId;
+	}
+	if (!params.form_key) {
+		params.form_key = FORM_KEY;
+	}
+
+	if (this.paymentMethod != '<?php echo $_code ?>') {
+		var data = this.serializeData('order-billing_method');
+		if (data) {
+			data.each(function(value) {
+				params[value[0]] = value[1];
+			});
+		}
+	} else {
+		params['payment[method]'] = '<?php echo $_code ?>';
+	}
+	return params;
+};
+AdminOrder.prototype.getPaymentData = function(currentMethod) {
+	if (typeof (currentMethod) == 'undefined') {
+		if (this.paymentMethod) {
+			currentMethod = this.paymentMethod;
+		} else {
+			return false;
+		}
+	}
+	if (currentMethod == '<?php echo $_code ?>') {
+		return false;
+	}
+	var data = {};
+	var fields = $('payment_form_' + currentMethod).select('input', 'select');
+	for ( var i = 0; i < fields.length; i++) {
+		data[fields[i].name] = fields[i].getValue();
+	}
+	if ((typeof data['payment[cc_type]']) != 'undefined'
+			&& (!data['payment[cc_type]'] || !data['payment[cc_number]'])) {
+		return false;
+	}
+	return data;
+};
 <?php if (!$this->isAjaxRequest()): ?>
 document.observe('dom:loaded', function(){
 <?php endif; ?>
@@ -93,6 +147,6 @@ directPostModel = new directPost(
         '<?php echo $this->getUrl('*/*/save') ?>');
 <?php if (!$this->isAjaxRequest()): ?>
 });
-<?php endif; ?>
+<?php endif; ?>        
 //]]>
 </script>
