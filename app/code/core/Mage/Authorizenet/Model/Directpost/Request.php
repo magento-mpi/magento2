@@ -114,13 +114,13 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
         if ($entity instanceof Mage_Sales_Model_Quote) {
             $this->setXFpSequence($entity->getId());
             $this->setXInvoiceNum($entity->getReservedOrderId());
-            $this->setXAmount($entity->getBaseGrandTotal());            
+            $this->setXAmount($entity->getBaseGrandTotal());
         }
         elseif ($entity instanceof Mage_Sales_Model_Order) {
             $this->setXFpSequence($entity->getQuoteId());
             $this->setXInvoiceNum($entity->getIncrementId());
             $this->setXAmount($payment->getBaseAmountAuthorized());
-        }        
+        }
 
         $billing = $entity->getBillingAddress();
         if (!empty($billing)) {
@@ -136,7 +136,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
                 ->setXFax($billing->getFax())
                 ->setXCustId($billing->getCustomerId())
                 ->setXCustomerIp($entity->getRemoteIp())
-                ->setXCustomerTaxId($billing->getTaxId())
+                ->setXCustomerTaxId(strval($billing->getTaxId()))
                 ->setXEmail($entity->getCustomerEmail())
                 ->setXEmailCustomer($paymentMethod->getConfigData('email_customer'))
                 ->setXMerchantEmail($paymentMethod->getConfigData('merchant_email'));
@@ -153,8 +153,8 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
                 ->setXShipToZip($shipping->getPostcode())
                 ->setXShipToCountry($shipping->getCountry());
         }
-        
-        $address = $entity->getIsVirtual() ? 
+
+        $address = $entity->getIsVirtual() ?
                     $entity->getBillingAddress() : $entity->getShippingAddress();
 
         $this->setXPoNum($payment->getPoNumber())
