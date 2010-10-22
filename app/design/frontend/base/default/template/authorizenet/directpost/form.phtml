@@ -104,7 +104,9 @@ $_orderUrl = $this->helper('authorizenet')->getPlaceOrderFrontUrl();
 </div>
 <script type="text/javascript">
 //<![CDATA[
-$('directpost-cvv-what-is-this').observe('click', toggleCvvToolTip);
+if ($('directpost-cvv-what-is-this')) {
+	$('directpost-cvv-what-is-this').observe('click', toggleCvvToolTip);
+}
 new Validation('co-directpost-form');
 function toggleCvvToolTip(event){
     if($('directpost-tool-tip')){
