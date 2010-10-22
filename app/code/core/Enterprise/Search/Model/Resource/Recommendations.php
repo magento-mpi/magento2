@@ -54,13 +54,21 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
     {
         $adapter = $this->_getWriteAdapter();
         if (count($relatedQueries) > 0) {
-            $inCond = $adapter->quoteInto('NOT IN(?)', $relatedQueries);
-            $whereCond = "(query_id={$adapter->quote($queryId)} AND relation_id {$inCond})
-                       OR (relation_id={$adapter->quote($queryId)} AND query_id {$inCond})";
+            $whereOr = array();
+            $whereOr[] = implode(' AND ', array(
+                $adapter->quoteInto('query_id=?', $queryId),
+                $adapter->quoteInto('relation_id NOT IN(?)', $relatedQueries)
+            ));
+            $whereOr[] = implode(' AND ', array(
+                $adapter->quoteInto('relation_id = ?', $queryId),
+                $adapter->quoteInto('query_id NOT IN(?)', $relatedQueries)
+            ));
+            $whereCond = '(' . implode(') OR (', $whereOr) . ')';
         } else {
-            $whereCond = "(query_id={$adapter->quote($queryId)}) OR (relation_id={$adapter->quote($queryId)})";
+            $whereOr[] = $adapter->quoteInto('query_id = ?', $queryId);
+            $whereOr[] = $adapter->quoteInto('relation_id = ?', $queryId);
+            $whereCond = '(' . implode(') OR (', $whereOr) . ')';
         }
-
         $adapter->delete($this->getMainTable(), $whereCond);
 
         $existsRelatedQueries = $this->getRelatedQueries($queryId);
@@ -91,12 +99,12 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
             $queryIdCond = $adapter->quoteInto('main_table.query_id=?', $queryId);
         }
         $collection->getSelect()
-            ->join(array("sr" => $collection->getTable("enterprise_search/recommendations")),
-                 "(sr.query_id=main_table.query_id OR sr.relation_id=main_table.query_id)
-                   AND {$queryIdCond}")
+            ->join(array('sr' => $collection->getTable("enterprise_search/recommendations")),
+                '(sr.query_id=main_table.query_id OR sr.relation_id=main_table.query_id) AND ' . $queryIdCond
+            )
             ->reset(Zend_Db_Select::COLUMNS)
             ->columns(array(
-                 "rel_id" => new Zend_Db_Expr("IF(main_table.query_id=sr.query_id, sr.relation_id, sr.query_id)")
+                 'rel_id' => $adapter->getCheckSql('main_table.query_id=sr.query_id', 'sr.relation_id', 'sr.query_id')
             ));
         if (!empty($limit)) {
             $collection->getSelect()->limit($limit);
@@ -105,11 +113,7 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
             $collection->getSelect()->order($order);
         }
 
-        $res = $adapter->fetchAll($collection->getSelect());
-
-        foreach ($res as $id) {
-            $queryIds[] = (int)$id["rel_id"];
-        }
+        $queryIds = $adapter->fetchCol($collection->getSelect());
         return $queryIds;
     }
 
@@ -126,20 +130,18 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         if (isset($params['store_id'])) {
             $model->setStoreId($params['store_id']);
         }
-
         $relatedQueriesIds = $this->loadByQuery($query, $searchRecommendationsCount);
-
         $relatedQueries = array();
-
         if (count($relatedQueriesIds)) {
             $adapter = $this->_getReadAdapter();
             $mainTable = $model
                 ->getResourceCollection()->getMainTable();
             $select = $adapter->select()
                 ->from(array('main_table' => $mainTable),
-                    array('query_text', 'num_results'))
+                    array('query_text', 'num_results')
+                )
                 ->where('query_id IN(?)', $relatedQueriesIds)
-                ->where('num_results>0');
+                ->where('num_results > 0');
             $relatedQueries = $adapter->fetchAll($select);
         }
 
@@ -163,8 +165,8 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         }
 
         $queryWords = array($query);
-        if (strpos($query, " ") !== false) {
-            $queryWords = array_unique(array_merge($queryWords, explode(" ", $query)));
+        if (strpos($query, ' ') !== false) {
+            $queryWords = array_unique(array_merge($queryWords, explode(' ', $query)));
             foreach ($queryWords as $key => $word) {
                 $queryWords[$key] = trim($word);
                 if (strlen($word) < 3) {
@@ -175,9 +177,9 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
 
         $likeCondition = array();
         foreach ($queryWords as $word) {
-            $likeCondition[] = $adapter->quoteInto("query_text LIKE ?", $word . '%');
+            $likeCondition[] = $adapter->quoteInto('query_text LIKE ?', $word . '%');
         }
-        $likeCondition = implode(" OR ", $likeCondition);
+        $likeCondition = implode(' OR ', $likeCondition);
 
         $select = $adapter->select()
             ->from($model->getResource()->getMainTable(), array(
