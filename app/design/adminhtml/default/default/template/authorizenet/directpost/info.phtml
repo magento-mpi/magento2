@@ -50,7 +50,7 @@ $_orderUrl = $this->helper('authorizenet')->getPlaceOrderAdminUrl();
     <li>
         <div class="input-box">
             <label for="<?php echo $_code ?>_cc_number"><?php echo Mage::helper('payment')->__('Credit Card Number') ?> <span class="required">*</span></label><br/>
-            <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" title="<?php echo Mage::helper('payment')->__('Credit Card Number') ?>" class="input-text validate-cc-number" value="<?php echo $this->getInfoData('cc_number')?>" autocomplete="off" />
+            <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" title="<?php echo Mage::helper('payment')->__('Credit Card Number') ?>" class="input-text validate-cc-number" value="<?php echo $this->getInfoData('cc_number')?>" />
         </div>
     </li>
     <li>
@@ -74,53 +74,8 @@ $_orderUrl = $this->helper('authorizenet')->getPlaceOrderAdminUrl();
     <li>
         <div class="input-box">
             <label for="<?php echo $_code ?>_cc_cid"><?php echo Mage::helper('payment')->__('Card Verification Number') ?> <span class="required">*</span></label><br/>
-            <input type="text" title="<?php echo Mage::helper('payment')->__('Card Verification Number') ?>" class="required-entry input-text validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" style="width:3em;" value="<?php echo $this->getInfoData('cc_cid')?>" autocomplete="off" />
+            <input type="text" title="<?php echo Mage::helper('payment')->__('Card Verification Number') ?>" class="required-entry input-text validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" style="width:3em;" value="<?php echo $this->getInfoData('cc_cid')?>" />
         </div>
-    </li>
-    <?php endif; ?>
-
-    <?php if ($_form->hasSsCardType()): ?>
-    <li id="<?php echo $_code ?>_cc_type_ss_div">
-        <ul class="inner-form">
-            <li class="form-alt"><label for="<?php echo $_code ?>_cc_issue" class="required"><em>*</em><?php echo $this->__('Switch/Solo/Maestro Only') ?></label></li>
-            <li>
-                <label for="<?php echo $_code ?>_cc_issue"><?php echo $this->__('Issue Number') ?>:</label>
-                <span class="input-box">
-                    <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text validate-cc-ukss cvv" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" value="" autocomplete="off" />
-                </span>
-            </li>
-
-            <li>
-                <label for="<?php echo $_code ?>_start_month"><?php echo $this->__('Start Date') ?>:</label>
-                <div class="input-box">
-                        <select id="<?php echo $_code ?>_start_month" name="payment[cc_ss_start_month]" class="validate-cc-ukss month">
-                        <?php foreach ($_form->getCcMonths() as $k=>$v): ?>
-                            <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_form->getInfoData('cc_ss_start_month')): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
-                        <?php endforeach ?>
-                        </select>
-                        <select id="<?php echo $_code ?>_start_year" name="payment[cc_ss_start_year]" class="validate-cc-ukss year">
-                        <?php foreach ($_form->getSsStartYears() as $k=>$v): ?>
-                            <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_form->getInfoData('cc_ss_start_year')): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
-                        <?php endforeach ?>
-                        </select>
-                </div>
-            </li>
-            <li class="adv-container">&nbsp;</li>
-        </ul>
-        <script type="text/javascript">
-        //<![CDATA[
-        var SSChecked<?php echo $_code ?> = function() {
-            var elm = $('<?php echo $_code ?>_cc_type');
-            if (['SS','SM','SO'].indexOf(elm.value) != -1) {
-                $('<?php echo $_code ?>_cc_type_ss_div').show();
-            } else {
-                $('<?php echo $_code ?>_cc_type_ss_div').hide();
-            }
-        };
-        Event.observe($('<?php echo $_code ?>_cc_type'), 'change', SSChecked<?php echo $_code ?>);
-        SSChecked<?php echo $_code ?>();
-        //]]>
-        </script>
     </li>
     <?php endif; ?>
 </ul>
@@ -130,6 +85,7 @@ $_orderUrl = $this->helper('authorizenet')->getPlaceOrderAdminUrl();
 document.observe('dom:loaded', function(){
 <?php endif; ?>
 directPostModel = new directPost(
+		'<?php echo $_code ?>',
         'directpost-iframe',
         '<?php echo $_controller ?>',
         '<?php echo $_orderUrl ?>',

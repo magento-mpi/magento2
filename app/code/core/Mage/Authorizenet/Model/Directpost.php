@@ -489,7 +489,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             ->save();
     }
 
-	/**
+    /**
      * Return money to customer by quote.
      *
      * @param Mage_Sales_Model_Quote $quote

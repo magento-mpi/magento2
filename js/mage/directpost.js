@@ -24,21 +24,21 @@
  */
 var directPost = Class.create();
 directPost.prototype = {
-	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl, nativeAction)
+	initialize: function (methodCode, iframeId, controller, orderSaveUrl, cgiUrl, nativeAction)
     {		
         this.iframeId = iframeId;
         this.controller = controller;
         this.orderSaveUrl = orderSaveUrl;
         this.nativeAction = nativeAction;
         this.cgiUrl = cgiUrl;        
-        this.code = 'authorizenet_directpost';
-        this.inputs = {
-            'authorizenet_directpost_cc_type'       : 'cc_type',
-            'authorizenet_directpost_cc_number'     : 'cc_number',
-            'authorizenet_directpost_expiration'    : 'cc_exp_month',
-            'authorizenet_directpost_expiration_yr' : 'cc_exp_year',
-            'authorizenet_directpost_cc_cid'        : 'cc_cid'
-        };
+        this.code = methodCode;
+        this.inputs = [
+            'cc_type',
+            'cc_number',
+            'expiration',
+            'expiration_yr',
+            'cc_cid'
+        ];
         this.isValid = true;
         this.paymentRequestSent = false;
         this.isResponse = false;
@@ -50,46 +50,56 @@ directPost.prototype = {
         this.onSaveOnepageOrderSuccess = this.saveOnepageOrderSuccess.bindAsEventListener(this);        
         this.onLoadIframe = this.loadIframe.bindAsEventListener(this);
         
+        this.disableAutocomplete();
         this.preparePayment();        
     },
     
     validate: function ()
     {
     	this.isValid = true;
-		for (var elemIndex in this.inputs) {
-			if ($(elemIndex)) {				
-				if (!Validation.validate($(elemIndex))) {
+    	this.inputs.each(function(elemIndex) {
+			if ($(this.code+'_'+elemIndex)) {				
+				if (!Validation.validate($(this.code+'_'+elemIndex))) {
 					this.isValid = false;
 				}
 			}
-		}
+		}, this);
     	
     	return this.isValid;
     },
     
     disableInputs: function()
     {
-    	for (var elemIndex in this.inputs) {
-			if ($(elemIndex)) {				
-				$(elemIndex).writeAttribute('disabled','disabled');
+    	this.inputs.each(function(elemIndex) {
+			if ($(this.code+'_'+elemIndex)) {			
+				$(this.code+'_'+elemIndex).writeAttribute('disabled','disabled');
 			}
-		}
+		}, this);
     },
     
     enableInputs: function()
     {
-    	for (var elemIndex in this.inputs) {
-			if ($(elemIndex)) {				
-				$(elemIndex).writeAttribute('disabled',false);
+    	this.inputs.each(function(elemIndex) {
+			if ($(this.code+'_'+elemIndex)) {				
+				$(this.code+'_'+elemIndex).writeAttribute('disabled',false);
 			}
-		}
+		}, this);
+    },
+    
+    disableAutocomplete: function()
+    {
+    	this.inputs.each(function(elemIndex) {
+			if ($(this.code+'_'+elemIndex)) {				
+				$(this.code+'_'+elemIndex).writeAttribute('autocomplete','off');
+			}
+		}, this);
     },
     
     disableServerValidation: function()
     {
     	for (var elemIndex in this.inputs) {
-			if ($(elemIndex)) {				
-				$(elemIndex).stopObserving();
+			if ($(this.code+'_'+elemIndex)) {				
+				$(this.code+'_'+elemIndex).stopObserving();
 			}
 		}
     },
