@@ -117,8 +117,30 @@ class Enterprise_Staging_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
     }
 
     /**
+     * Modify table properties before Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function beforeBackupItemDataInsert($tableDesc)
+    {
+        $this->_getWriteAdapter()->disableTableKeys($tableDesc['table_name']);
+    }
+
+    /**
+     * Modify table properties after Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function afterBackupItemDataInsert($tableDesc)
+    {
+        $this->_getWriteAdapter()->enableTableKeys($tableDesc['table_name']);
+    }
+
+    /**
      * Add custom option to Table Ddl
-     * 
+     *
      * @param Varien_Db_Ddl_Table $ddlTable
      * @param string $sourceTableName
      * @return void
@@ -129,4 +151,15 @@ class Enterprise_Staging_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
         $ddlTable->setOption('type', $tableData['Engine']);
     }
 
+    /**
+     * Retrieve mode for insertFromSelect adapter method
+     *
+     * @param  string $table
+     * @param  array $fields
+     * @return int
+     */
+    public function getInsertFromSelectMode($table, $fields)
+    {
+        return Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE;
+    }
 }

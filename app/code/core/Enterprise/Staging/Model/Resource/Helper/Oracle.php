@@ -114,6 +114,29 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
 
         return array($columnName, $ddlType, $ddlSize, $ddlOptions);
     }
+
+    /**
+     * Modify table properties before Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function beforeBackupItemDataInsert($tableDesc)
+    {
+        $this->_getWriteAdapter()->disableTableKeys($tableDesc['table_name']);
+    }
+
+    /**
+     * Modify table properties after Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function afterBackupItemDataInsert($tableDesc)
+    {
+        $this->_getWriteAdapter()->enableTableKeys($tableDesc['table_name']);
+    }
+
     /**
      * Add custom option to Table Ddl
      *
@@ -124,6 +147,40 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
     public function setCustomTableOptions($ddlTable, $sourceTableName)
     {
 
+    }
+
+    /**
+     * Retrieve mode for insertFromSelect adapter method
+     *
+     * @param  string $table
+     * @param  array $fields
+     * @return int
+     */
+    public function getInsertFromSelectMode($table, $fields)
+    {
+        $mode = false;
+        $indexes    = $this->_getReadAdapter()->getIndexList($table);
+
+        // Obtain unique indexes fields
+        foreach ($indexes as $indexData) {
+            if (strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+                && strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY
+            ) {
+                continue;
+            }
+
+            $useUnqCond = true;
+            foreach($indexData['COLUMNS_LIST'] as $column) {
+                if (!in_array($column, $fields)) {
+                    $useUnqCond = false;
+                }
+            }
+            if ($useUnqCond) {
+                $mode = Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE;
+                break;
+            }
+        }
+        return $mode;
     }
 
 }

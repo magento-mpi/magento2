@@ -473,25 +473,19 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
     {
         $readAdapter  = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
+        $resourceHelper = Mage::getResourceHelper('enterprise_staging');
 
-        $writeAdapter->disableTableKeys($targetTable);
+        $targetTableDesc = $this->getTableProperties($targetTable);
+        $resourceHelper->beforeBackupItemDataInsert($targetTableDesc);
         try {
-            // Get all non-auto-increment fields
-            $srcTableDesc = $this->getTableProperties($srcTable);
-            $fields = $srcTableDesc['fields'];
-            foreach ($fields as $id => $field) {
-                if ($field['IDENTITY']) {
-                    unset($fields[$id]);
-                }
-            }
-            $fields = array_keys($fields);
+            $fields = array_keys($targetTableDesc['fields']);
             $srcSelectSql  = $this->_getSimpleSelect($srcTable, $fields);
             $sql = $readAdapter->insertFromSelect($srcSelectSql, $targetTable, $fields);
             $writeAdapter->query($sql);
-             
-            $writeAdapter->enableTableKeys($targetTable);
+
+            $resourceHelper->afterBackupItemDataInsert($targetTableDesc);
         } catch (Exception $e) {
-            $writeAdapter->enableTableKeys($targetTable);
+            $resourceHelper->afterBackupItemDataInsert($targetTableDesc);
             throw $e;
         }
         return $this;
