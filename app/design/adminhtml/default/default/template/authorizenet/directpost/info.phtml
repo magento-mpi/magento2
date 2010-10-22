@@ -28,14 +28,13 @@
 $_form = $this->getForm() ? $this->getForm() : $this;
 $_code = $_form->getMethodCode();
 $_method = $_form->getMethod();
-$_controller = $this->helper('directpayment')->getControllerName();
-$_orderUrl = $this->helper('directpayment')->getPlaceOrderFrontUrl();
+$_controller = $this->helper('authorizenet')->getControllerName();
+$_orderUrl = $this->helper('authorizenet')->getPlaceOrderAdminUrl();
 ?>
-<div style="padding:1em;" class="step a-item">
 <!-- IFRAME for request to Authorize.net -->
-<iframe id="directpayment-iframe" allowtransparency="true" background-color="transparent" frameborder="0" name="iframeDirectPayment" style="display:none; width: 100%;" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
+<iframe id="directpost-iframe" allowtransparency="true" background-color="transparent" frameborder="0"  name="iframeDirectPost" style="display:none;width:100%" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
 
-<ul id="payment_form_<?php echo $_code ?>">
+<ul id="payment_form_<?php echo $_code ?>" style="display:none;">
     <li>
         <div class="input-box">
             <label for="<?php echo $_code ?>_cc_type"><?php echo Mage::helper('payment')->__('Credit Card Type') ?> <span class="required">*</span></label><br/>
@@ -127,13 +126,17 @@ $_orderUrl = $this->helper('directpayment')->getPlaceOrderFrontUrl();
 </ul>
 <script type="text/javascript">
 //<![CDATA[
-<?php echo @file_get_contents($this->getJsUrl().'mage/directpayment.js') ?>
-directPaymentModel = new directPayment(
-		'directpayment-iframe',
+<?php if (!$this->isAjaxRequest()): ?>
+document.observe('dom:loaded', function(){
+<?php endif; ?>
+directPostModel = new directPost(
+		'directpost-iframe',
 		'<?php echo $_controller ?>',
 		'<?php echo $_orderUrl ?>',
 		'<?php echo $_method->getCgiUrl() ?>',
-		'<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>');
+		'<?php echo $this->getUrl('*/*/save') ?>');
+<?php if (!$this->isAjaxRequest()): ?>
+});
+<?php endif; ?>
 //]]>
 </script>
-</div>

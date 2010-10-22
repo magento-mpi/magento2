@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,9 +27,11 @@
 /**
  * Authorize.net request model for DirectPost model.
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Authorizenet
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
+class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
 {
     protected $_transKey = null;
     
@@ -49,7 +51,7 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
      * Needed to generate sign.
      *
      * @param string $transKey
-     * @return Mage_DirectPayment_Model_Authorizenet_Request
+     * @return Mage_Authorizenet_Model_Directpost_Request
      */
     public function setTransactionKey($transKey)
     {
@@ -78,10 +80,10 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
     /**
      * Set paygate data to request.
      *
-     * @param Mage_DirectPayment_Model_Authorizenet $paymentMethod
-     * @return Mage_DirectPayment_Model_Authorizenet_Request
+     * @param Mage_Authorizenet_Model_Directpost $paymentMethod
+     * @return Mage_Authorizenet_Model_Directpost_Request
      */
-    public function setConstantData(Mage_DirectPayment_Model_Authorizenet $paymentMethod)
+    public function setConstantData(Mage_Authorizenet_Model_Directpost $paymentMethod)
     {
         $this->setXVersion('3.1')
             ->setXDelimData('FALSE')
@@ -92,7 +94,7 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
         $this->setXLogin($paymentMethod->getConfigData('login'))
             ->setXType('AUTH_ONLY')
             ->setXMethod(Mage_Paygate_Model_Authorizenet::REQUEST_METHOD_CC)
-            ->setXRelayUrl(Mage::getBaseUrl().'directpayment/paygate/response');
+            ->setXRelayUrl(Mage::getBaseUrl().'authorizenet/directpost_payment/response');
             
         $this->setTransactionKey($paymentMethod->getConfigData('trans_key'));
         return $this;
@@ -102,10 +104,10 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
      * Set order data to request
      *
      * @param Mage_Sales_Model_Order $order
-     * @param Mage_DirectPayment_Model_Authorizenet $paymentMethod
-     * @return Mage_DirectPayment_Model_Authorizenet_Request
+     * @param Mage_Authorizenet_Model_Directpost $paymentMethod
+     * @return Mage_Authorizenet_Model_Directpost_Request
      */
-    public function setDataFromOrder(Mage_Sales_Model_Order $order, Mage_DirectPayment_Model_Authorizenet $paymentMethod)
+    public function setDataFromOrder(Mage_Sales_Model_Order $order, Mage_Authorizenet_Model_Directpost $paymentMethod)
     {
         $payment = $order->getPayment();
         $this->setXFpSequence($order->getId());
@@ -156,7 +158,7 @@ class Mage_DirectPayment_Model_Authorizenet_Request extends Varien_Object
      * Set sign hash into the request object.
      * All needed fields should be placed in the object fist.
      *
-     * @return Mage_DirectPayment_Model_Authorizenet_Request
+     * @return Mage_Authorizenet_Model_Directpost_Request
      */
     public function signRequestData()
     {

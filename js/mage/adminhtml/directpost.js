@@ -43,7 +43,7 @@ AdminOrder.prototype.prepareParams = function(params){
         params.form_key = FORM_KEY;
     }
     
-    if (this.paymentMethod != 'directpayment') {
+    if (this.paymentMethod != 'authorizenet_directpost') {
 	    var data = this.serializeData('order-billing_method');
 	    if (data) {
 	        data.each(function(value) {
@@ -52,7 +52,7 @@ AdminOrder.prototype.prepareParams = function(params){
 	    }
     }
     else {
-    	params['payment[method]'] = 'directpayment';
+    	params['payment[method]'] = 'authorizenet_directpost';
     }
     return params;
 };
@@ -64,7 +64,7 @@ AdminOrder.prototype.getPaymentData = function(currentMethod){
             return false;
         }
     }
-    if (currentMethod == 'directpayment') {
+    if (currentMethod == 'authorizenet_directpost') {
     	return false;
     }
     var data = {};

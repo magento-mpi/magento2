@@ -19,50 +19,46 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * DirectPayment form block
+ * Authorize.net response model for DirectPost model.
  *
  * @category   Mage
- * @package    Mage_DirectPayment
+ * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DirectPayment_Block_Form extends Mage_Payment_Block_Form_Cc
+class Mage_Authorizenet_Model_Directpost_Response extends Varien_Object
 {
     /**
-     * Internal constructor
-     * Set info template for payment step
-     *     
+     * Generates an Md5 hash to compare against AuthNet's.
+     *
+     * @param string $merchantMd5
+     * @param string $merchantApiLogin
+     * @param string $amount
+     * @param string $transactionId
+     * @return string
      */
-    protected function _construct()
+    public static function generateHash($merchantMd5, $merchantApiLogin, $amount, $transactionId)
     {
-        parent::_construct();
-        $this->setTemplate('directpayment/info.phtml');
+        if (!$amount) {
+            $amount = '0.00';
+        }
+        return strtoupper(md5($merchantMd5 . $merchantApiLogin . $transactionId . $amount));
     }
     
     /**
-     * Get form instance
-     * 
-     * @return Mage_DirectPayment_Block_Form
-     */
-    public function getForm()
-    {
-        return $this;
-    }
-    
-    /**
-     * Get type of request
-     * 
+     * Return if is valid order id.
+     *
+     * @param string $merchantMd5
+     * @param string $merchantApiLogin
      * @return bool
      */
-    public function isAjaxRequest()
+    public function isValidHash($merchantMd5, $merchantApiLogin)
     {
-        return $this->getAction()
-                    ->getRequest()
-                    ->getParam('isAjax');
+        return self::generateHash($merchantMd5, $merchantApiLogin, $this->getXAmount(), $this->getXTransId()) == $this->getData('x_MD5_Hash');
     }
 }

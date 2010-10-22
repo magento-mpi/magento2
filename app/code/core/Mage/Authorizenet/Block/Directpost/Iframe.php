@@ -19,19 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * DirectPayment iframe block
+ * DirectPost iframe block
  *
  * @category   Mage
- * @package    Mage_DirectPayment
+ * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DirectPayment_Block_Iframe extends Mage_Core_Block_Template
+class Mage_Authorizenet_Block_Directpost_Iframe extends Mage_Core_Block_Template
 {
     /**
      * Request params
@@ -47,14 +47,14 @@ class Mage_DirectPayment_Block_Iframe extends Mage_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('directpayment/iframe.phtml');
+        $this->setTemplate('authorizenet/directpost/iframe.phtml');
     }
     
     /**
      * Set output params
      * 
      * @param array $params
-     * @return Mage_DirectPayment_Block_Iframe
+     * @return Mage_Authorizenet_Block_Directpost_Iframe
      */
     public function setParams($params)
     {

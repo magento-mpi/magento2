@@ -22,8 +22,8 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-var directPayment = Class.create();
-directPayment.prototype = {
+var directPost = Class.create();
+directPost.prototype = {
 	initialize: function (iframeId, controller, orderSaveUrl, cgiUrl, nativeAction)
     {		
         this.iframeId = iframeId;
@@ -31,13 +31,13 @@ directPayment.prototype = {
         this.orderSaveUrl = orderSaveUrl;
         this.nativeAction = nativeAction;
         this.cgiUrl = cgiUrl;        
-        this.code = 'directpayment';
+        this.code = 'authorizenet_directpost';
         this.inputs = {
-            'directpayment_cc_type'       : 'cc_type',
-            'directpayment_cc_number'     : 'cc_number',
-            'directpayment_expiration'    : 'cc_exp_month',
-            'directpayment_expiration_yr' : 'cc_exp_year',
-            'directpayment_cc_cid'        : 'cc_cid'
+            'authorizenet_directpost_cc_type'       : 'cc_type',
+            'authorizenet_directpost_cc_number'     : 'cc_number',
+            'authorizenet_directpost_expiration'    : 'cc_exp_month',
+            'authorizenet_directpost_expiration_yr' : 'cc_exp_year',
+            'authorizenet_directpost_cc_cid'        : 'cc_cid'
         };
         this.isValid = true;
         this.paymentRequestSent = false;
@@ -239,11 +239,11 @@ directPayment.prototype = {
             response = {};
         }
         
-        if (response.success && response.directpayment) {
-        	this.orderIncrementId = response.directpayment.fields.x_invoice_num;
+        if (response.success && response.directpost) {
+        	this.orderIncrementId = response.directpost.fields.x_invoice_num;
         	var paymentData = {};
-            for(var key in response.directpayment.fields) {
-            	paymentData[key] = response.directpayment.fields[key];
+            for(var key in response.directpost.fields) {
+            	paymentData[key] = response.directpost.fields[key];
             }            
             var preparedData = this.preparePaymentRequest(paymentData);            
         	this.sendPaymentRequest(preparedData);
@@ -278,11 +278,14 @@ directPayment.prototype = {
             response = {};
         }
         
-        if (response.directpayment) {
-        	this.orderIncrementId = response.directpayment.fields.x_invoice_num;
+        if (response.redirect) {
+        	window.location = response.redirect;
+        }
+        else if (response.directpost) {
+        	this.orderIncrementId = response.directpost.fields.x_invoice_num;
         	var paymentData = {};
-            for(var key in response.directpayment.fields) {
-            	paymentData[key] = response.directpayment.fields[key];
+            for(var key in response.directpost.fields) {
+            	paymentData[key] = response.directpost.fields[key];
             }            
             var preparedData = this.preparePaymentRequest(paymentData);            
         	this.sendPaymentRequest(preparedData);

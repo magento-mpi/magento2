@@ -19,19 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * DirtectPayment Paygate Controller
+ * DirtectPost Payment Controller
  *
  * @category   Mage
- * @package    Mage_DirtectPayment
+ * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Action
+class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controller_Front_Action
 {
     /**
      * @return Mage_Checkout_Model_Session
@@ -44,21 +44,21 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     /**
      * Get session model
 
-     * @return Mage_DirectPayment_Model_Session
+     * @return Mage_DirectPost_Model_Session
      */
-    protected function _getDirectPaymentSession()
+    protected function _getDirectPostSession()
     {
-        return Mage::getSingleton('directpayment/session');
+        return Mage::getSingleton('authorizenet/directpost_session');
     }
     
     /**
      * Get iframe block instance
      *
-     * @return Mage_DirectPayment_Block_Iframe
+     * @return Mage_DirectPost_Block_Iframe
      */
     protected function _getIframeBlock()
     {
-        return $this->getLayout()->createBlock('directpayment/iframe');
+        return $this->getLayout()->createBlock('directpost/iframe');
     }
         
     /**
@@ -68,8 +68,8 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     public function responseAction()
     {
         $data = $this->getRequest()->getPost();
-        /* @var $paymentMethod Mage_DirectPayment_Model_Authorizenet */
-        $paymentMethod = Mage::getModel('directpayment/authorizenet');
+        /* @var $paymentMethod Mage_Authorizenet_Model_DirectPost */
+        $paymentMethod = Mage::getModel('authorizenet/directpost');
         
         $result = array();
         if (!empty($data['x_invoice_num'])){
@@ -96,7 +96,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                 $result['key'] = $data['key'];
             }
             $result['controller_action_name'] = $data['controller_action_name'];
-            $params['redirect'] = Mage::helper('directpayment')->getRedirectIframeUrl($result);
+            $params['redirect'] = Mage::helper('authorizenet')->getRedirectIframeUrl($result);
         }
         $block = $this->_getIframeBlock()->setParams($params);
         $this->getResponse()->setBody($block->toHtml());
@@ -113,7 +113,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         if (!empty($redirectParams['success'])
             && isset($redirectParams['x_invoice_num'])
             && isset($redirectParams['controller_action_name'])) {
-            $params['redirect_parent'] = Mage::helper('directpayment')->getSuccessOrderUrl($redirectParams);
+            $params['redirect_parent'] = Mage::helper('authorizenet')->getSuccessOrderUrl($redirectParams);
         }
         if (!empty($redirectParams['error_msg'])
             && isset($redirectParams['x_invoice_num'])) {
@@ -134,7 +134,7 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
         if (isset($payment['method'])) {
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$payment['method'].'/create_order_before');
             if ($saveOrderFlag) {
-                $params = Mage::helper('directpayment')->getSaveOrderUrlParams($controller);
+                $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
                 $this->_forward(
                             $params['action'],
                             $params['controller'],
@@ -150,18 +150,18 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
     
     /**
      * Return customer quote
-     *
+     * 
      * @param int $orderIncrementId
      * @return bool
      */
     protected function _returnCustomerQuote($orderIncrementId)
     {
-        if ($orderIncrementId &&
-            $this->_getDirectPaymentSession()
+        if ($orderIncrementId && 
+            $this->_getDirectPostSession()
                     ->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
             $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-            if ($order->getId()) {
-                $quoteId = $order->getQuoteId();
+            if ($order->getId()) {                
+                $quoteId = $order->getQuoteId();                
                 if ($quoteId) {
                     $quote = Mage::getModel('sales/quote')
                         ->load($quoteId);
@@ -173,10 +173,10 @@ class Mage_DirectPayment_PaygateController extends Mage_Core_Controller_Front_Ac
                     }
                 }
             }
-            $this->_getDirectPaymentSession()->removeCheckoutOrderIncrementId($orderIncrementId);
+            $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($orderIncrementId);
             return true;
         }
         
         return false;
-    }
+    }        
 }

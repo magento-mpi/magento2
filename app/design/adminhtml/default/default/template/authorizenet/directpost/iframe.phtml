@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -19,21 +18,37 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_DirectPayment
+ * @category    design
+ * @package     default_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
--->
-<config>
-    <modules>
-        <Mage_DirectPayment>
-            <active>false</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Paygate/>
-                <Mage_Sales/>
-            </depends>
-        </Mage_DirectPayment>
-    </modules>
-</config>
+?>
+<?php 
+$_params = $this->getParams();
+$_helper = $this->helper('authorizenet');
+?>
+<html>
+<head>
+<script type="text/javascript">
+//<![CDATA[
+<?php if (isset($_params['redirect'])): ?>
+window.location="<?php echo $_params['redirect'] ?>";
+<?php endif; ?>
+<?php if (isset($_params['redirect_parent'])): ?>
+window.top.location="<?php echo $_params['redirect_parent'] ?>";
+<?php endif; ?>
+<?php if (isset($_params['error_msg'])): ?>
+if (window.top.review) {
+    window.top.review.resetLoadWaiting();
+}
+window.top.directPostModel.showError("<?php echo $_params['error_msg'] ?>");
+<?php if (isset($_params['x_invoice_num'])): ?>
+window.top.directPostModel.successUrl="<?php echo $_helper->getSuccessOrderUrl($_params) ?>";
+<?php endif; ?>
+<?php endif; ?>
+//]]>
+</script>
+</head>
+<body></body>
+</html>

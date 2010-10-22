@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,13 +27,15 @@
 /**
  * Authorize.net DirectPost payment method model.
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Authorizenet
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorizenet
+class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 {
-    protected $_code  = 'directpayment';
-    protected $_formBlockType = 'directpayment/form';
-    protected $_infoBlockType = 'directpayment/info';
+    protected $_code  = 'authorizenet_directpost';
+    protected $_formBlockType = 'directpost/form';
+    protected $_infoBlockType = 'directpost/info';
     
     /**
      * Availability options
@@ -88,22 +90,22 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
     /**
      * Return request model for form data building
      *
-     * @return Mage_DirectPayment_Model_Authorizenet_Request
+     * @return Mage_Authorizenet_Model_Directpost_Request
      */
     public function getRequestModel()
     {
-        return Mage::getModel('directpayment/authorizenet_request');
+        return Mage::getModel('authorizenet/directpost_request');
     }
     
     /**
      * Return response.
      *
-     * @return Mage_DirectPayment_Model_Authorizenet_Response
+     * @return Mage_Authorizenet_Model_Directpost_Response
      */
     public function getResponse()
     {
         if (!$this->_response){
-            $this->_response = Mage::getModel('directpayment/authorizenet_response');
+            $this->_response = Mage::getModel('authorizenet/directpost_response');
         }
         return $this->_response;
         
@@ -150,7 +152,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
      * Generate request object and fill its fields from Quote object
      *
      * @param Mage_Sales_Model_Order $order
-     * @return Mage_DirectPayment_Model_Authorizenet_Request
+     * @return Mage_Authorizenet_Model_Directpost_Request
      */
     public function generateRequestFromOrder(Mage_Sales_Model_Order $order)
     {
@@ -167,7 +169,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
      * Fill response with data.
      *
      * @param array $postData
-     * @return Mage_DirectPayment_Model_Authorizenet
+     * @return Mage_Authorizenet_Model_Directpost
      */
     public function setResponseData(array $postData)
     {
@@ -186,11 +188,11 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         $response = $this->getResponse();
         //md5 check
         if (!$response->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))){
-            Mage::throwException(Mage::helper('directpayment')->__('Response hash validation failed. Transaction declined.'));
+            Mage::throwException(Mage::helper('directpost')->__('Response hash validation failed. Transaction declined.'));
         }
         
         if (!$response->getXTransId()){
-            Mage::throwException(Mage::helper('paygate')->__('Payment authorization error.'));
+            Mage::throwException(Mage::helper('directpost')->__('Payment authorization error.'));
         }
         
         return true;
@@ -228,11 +230,11 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
                 $this->_authOrder($order);
             }
             else {
-                Mage::throwException(($responseText) ? $responseText : Mage::helper('directpayment')->__('Payment error. Order was not found.'));
+                Mage::throwException(($responseText) ? $responseText : Mage::helper('authorizenet')->__('Payment error. Order was not found.'));
             }
         }
         else {
-            Mage::throwException(($responseText) ? $responseText : Mage::helper('directpayment')->__('Payment error. Order was not found.'));
+            Mage::throwException(($responseText) ? $responseText : Mage::helper('authorizenet')->__('Payment error. Order was not found.'));
         }
     }
     
@@ -251,7 +253,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($this->getResponse()->getXResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('paygate')->__('Payment authorization error.'));
+                Mage::throwException(Mage::helper('authorizenet')->__('Payment authorization error.'));
         }
     }
     
@@ -285,7 +287,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
         
         // Set transaction apporval message
-        $message = Mage::helper('directpayment')->__(
+        $message = Mage::helper('authorizenet')->__(
             'Amount of %s approved by payment gateway. Transaction ID: "%s".',
             $order->getBaseCurrency()->formatTxt($payment->getBaseAmountAuthorized()),
             $response->getXTransId()
@@ -297,7 +299,7 @@ class Mage_DirectPayment_Model_Authorizenet extends Mage_Paygate_Model_Authorize
         //match amounts. should be equals for authorization.
         //decline the order if amount does not match.
         if (sprintf('%.2F', $payment->getBaseAmountAuthorized()) != sprintf('%.2F', $response->getXAmount())){
-            $message = Mage::helper('directpayment')->__('Payment error. Paid amount doesn\'t match the order amount.');
+            $message = Mage::helper('authorizenet')->__('Payment error. Paid amount doesn\'t match the order amount.');
             $this->_decline($order, $message, true);
             Mage::throwException($message);
         }

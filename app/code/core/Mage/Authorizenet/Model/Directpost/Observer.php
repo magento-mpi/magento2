@@ -19,32 +19,32 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
 /**
- * DirectPayment observer
+ * Authorizenet observer
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DirectPayment_Model_Observer
+class Mage_Authorizenet_Model_Directpost_Observer
 {
     /**
      * Save order into registry to use it in the overloaded controller.
      *
      * @param Varien_Event_Observer $observer
-     * @return Mage_DirectPayment_Model_Observer
+     * @return Mage_Authorizenet_Model_Directpost_Observer
      */
     public function saveOrderAfterSubmit(Varien_Event_Observer $observer)
     {
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getData('order');
-        Mage::register('directpayment_order', $order, true);
+        Mage::register('directpost_order', $order, true);
         
         return $this;
     }
@@ -53,29 +53,29 @@ class Mage_DirectPayment_Model_Observer
      * Save order into registry to use it in the overloaded controller.
      *
      * @param Varien_Event_Observer $observer
-     * @return Mage_DirectPayment_Model_Observer
+     * @return Mage_Authorizenet_Model_Directpost_Observer
      */
     public function addAdditionalFieldsToResponse(Varien_Event_Observer $observer)
     {
         /* @var $controller Mage_Checkout_OnepageController */
         $controller = $observer->getEvent()->getData('controller_action');
         /* @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('directpayment_order');
+        $order = Mage::registry('directpost_order');
         
         if ($order && $order->getId()){
             $payment = $order->getPayment();
-            if ($payment && $payment->getMethod() == 'directpayment'){
+            if ($payment && $payment->getMethod() == 'authorizenet_directpost'){
                 //return json with data.
                 $result = Mage::helper('core')->jsonDecode($controller->getResponse()->getBody('default'), Zend_Json::TYPE_ARRAY);
                 
                 if (empty($result['error'])){
                     //if is success, then set order to session and add new fields
-                    $session =  Mage::getSingleton('directpayment/session');
+                    $session =  Mage::getSingleton('authorizenet/directpost_session');
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
                     $this->_setSecretKey($requestToPaygate);
-                    $result['directpayment'] = array('fields' => $requestToPaygate->getData());
+                    $result['directpost'] = array('fields' => $requestToPaygate->getData());
                     $controller->getResponse()->clearHeader('Location');
                     $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
                 }
@@ -88,15 +88,15 @@ class Mage_DirectPayment_Model_Observer
     /**
      * Set key parameter for request for Admin area if needed
      *
-     * @param Mage_DirectPayment_Model_Authorizenet_Request $request
+     * @param Mage_Authorizenet_Model_Directpost_Request $request
      */
-    protected function _setSecretKey(Mage_DirectPayment_Model_Authorizenet_Request $request)
+    protected function _setSecretKey(Mage_Authorizenet_Model_Directpost_Request $request)
     {
         /* @var $adminUrl Mage_Adminhtml_Model_Url */
         if (Mage::app()->getStore()->isAdmin()){
             $adminUrl = Mage::getSingleton('adminhtml/url');
             if ($adminUrl->useSecretKey()){
-                $request->setKey($adminUrl->getSecretKey('directpayment_paygate', 'redirect'));
+                $request->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
             }
         }
     }

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,16 +27,18 @@
 /**
  * Authorize.net DirectPost session model.
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Authorizenet
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DirectPayment_Model_Session extends Mage_Core_Model_Session_Abstract
+class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session_Abstract
 {
     /**
      * Class constructor. Initialize session namespace
      */
     public function __construct()
     {
-        $this->init('directpayment');
+        $this->init('authorizenet_directpost');
     }
 
     /**
@@ -46,12 +48,12 @@ class Mage_DirectPayment_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function addCheckoutOrderIncrementId($orderIncrementId)
     {
-        $orderIncIds = $this->getDirectPaymentOrderIncrementIds();
+        $orderIncIds = $this->getDirectPostOrderIncrementIds();
         if (!$orderIncIds) {
             $orderIncIds = array();
         }
         $orderIncIds[$orderIncrementId] = 1;
-        $this->setDirectPaymentOrderIncrementIds($orderIncIds);
+        $this->setDirectPostOrderIncrementIds($orderIncIds);
     }
     
     /**
@@ -61,14 +63,14 @@ class Mage_DirectPayment_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function removeCheckoutOrderIncrementId($orderIncrementId)
     {
-        $orderIncIds = $this->getDirectPaymentOrderIncrementIds();
+        $orderIncIds = $this->getDirectPostOrderIncrementIds();
         if (!$orderIncIds) {
             $orderIncIds = array();
         }
         elseif (!empty($orderIncIds[$orderIncrementId])){
             unset($orderIncIds[$orderIncrementId]);
         }
-        $this->setDirectPaymentOrderIncrementIds($orderIncIds);
+        $this->setDirectPostOrderIncrementIds($orderIncIds);
     }
     
     /**
@@ -79,7 +81,7 @@ class Mage_DirectPayment_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function isCheckoutOrderIncrementIdExist($orderIncrementId)
     {
-        $orderIncIds = $this->getDirectPaymentOrderIncrementIds();
+        $orderIncIds = $this->getDirectPostOrderIncrementIds();
         if (is_array($orderIncIds) && !empty($orderIncIds[$orderIncrementId])) {
             return true;
         }

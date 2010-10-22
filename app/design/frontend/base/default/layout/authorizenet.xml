@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Magento
  *
@@ -19,36 +20,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     default_default
+ * @package     base_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-?>
-<?php 
-$_params = $this->getParams();
-$_helper = $this->helper('directpayment');
-?>
-<html>
-<head>
-<script type="text/javascript">
-//<![CDATA[
-<?php if (isset($_params['redirect'])): ?>
-window.location="<?php echo $_params['redirect'] ?>";
-<?php endif; ?>
-<?php if (isset($_params['redirect_parent'])): ?>
-window.top.location="<?php echo $_params['redirect_parent'] ?>";
-<?php endif; ?>
-<?php if (isset($_params['error_msg'])): ?>
-if (window.top.review) {
-    window.top.review.resetLoadWaiting();
-}
-window.top.directPaymentModel.showError("<?php echo $_params['error_msg'] ?>");
-<?php if (isset($_params['x_invoice_num'])): ?>
-window.top.directPaymentModel.successUrl="<?php echo $_helper->getSuccessOrderUrl($_params) ?>";
-<?php endif; ?>
-<?php endif; ?>
-//]]>
-</script>
-</head>
-<body></body>
-</html>
+
+-->
+<layout version="0.1.0">
+	<checkout_onepage_review>		
+		<reference name="checkout.onepage.review.info.items.before">			
+            <block type="authorizenet/directpost_info" name="payment.info.directpost" template="authorizenet/directpost/form.phtml">
+            	<action method="setMethodInfo"></action>            	
+            </block>
+        </reference>
+    </checkout_onepage_review>
+</layout>

@@ -19,19 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Direct Payment Data Helper
+ * Authorizenet Data Helper
  *
  * @category   Mage
- * @package    Mage_DirectPayment
+ * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
      * Return URL for admin area
@@ -85,16 +85,16 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($params['controller_action_name']) {
             case 'onepage':
-                $route = 'directpayment/paygate/redirect';
+                $route = 'authorizenet/directpost_payment/redirect';
                 break;
                 
             case 'sales_order_create':
             case 'sales_order_edit':
-                $route = 'adminhtml/directpayment_paygate/redirect';
+                $route = 'adminhtml/authorizenet_directpayment_payment/redirect';
                 break;
                 
             default:
-                $route = 'directpayment/paygate/redirect';
+                $route = 'authorizenet/directpost_payment/redirect';
                 break;
         }
         
@@ -108,7 +108,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPlaceOrderFrontUrl()
     {
-        return $this->_getUrl('directpayment/paygate/place');
+        return $this->_getUrl('authorizenet/directpost_payment/place');
     }
     
     /**
@@ -118,7 +118,7 @@ class Mage_DirectPayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPlaceOrderAdminUrl()
     {
-        return $this->_getUrl('*/directpayment_paygate/place');
+        return $this->_getUrl('*/authorizenet_directpost_payment/place');
     }
     
     /**

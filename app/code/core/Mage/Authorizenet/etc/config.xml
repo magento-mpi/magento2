@@ -20,73 +20,73 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
 <config>
     <modules>
-        <Mage_DirectPayment>
+        <Mage_Authorizenet>
             <version>0.0.1</version>
-          </Mage_DirectPayment>
+        </Mage_Authorizenet>
     </modules>
     <global>
         <blocks>
-            <directpayment><class>Mage_DirectPayment_Block</class></directpayment>
+            <directpost><class>Mage_Authorizenet_Block_Directpost</class></directpost>
         </blocks>
         <models>
-            <directpayment>
-                <class>Mage_DirectPayment_Model</class>
-                <resourceModel>directpayment_mysql4</resourceModel>
-           </directpayment>
-           <directpayment_mysql4>
-               <class>Mage_DirectPayment_Model_Mysql4</class>
-           </directpayment_mysql4>
+            <authorizenet>
+                <class>Mage_Authorizenet_Model</class>
+                <resourceModel>directpost_mysql4</resourceModel>
+           </authorizenet>
+           <authorizenet_mysql4>
+               <class>Mage_Authorizenet_Model_Mysql4</class>
+           </authorizenet_mysql4>
         </models>
         <helpers>
-            <directpayment>
-                <class>Mage_DirectPayment_Helper</class>
-            </directpayment>
+            <authorizenet>
+                <class>Mage_Authorizenet_Helper</class>
+            </authorizenet>
         </helpers>
         <resources>
-            <directpayment_setup>
+            <authorizenet_setup>
                 <setup>
-                    <module>Mage_DirectPayment</module>
+                    <module>Mage_Authorizenet</module>
                 </setup>
-            </directpayment_setup>
+            </authorizenet_setup>
         </resources>
         <events>
             <checkout_submit_all_after>
                 <observers>
-                    <directpayment_save_order_after_submit>
-                        <class>directpayment/observer</class>
+                    <directpost_save_order_after_submit>
+                        <class>authorizenet/directpost_observer</class>
                         <method>saveOrderAfterSubmit</method>
-                    </directpayment_save_order_after_submit>                    
+                    </directpost_save_order_after_submit>                    
                 </observers>
             </checkout_submit_all_after> 
             <controller_action_postdispatch_checkout_onepage_saveOrder>
                 <observers>
-                    <directpayment_save_order_onepage>
-                        <class>directpayment/observer</class>
+                    <directpost_save_order_onepage>
+                        <class>authorizenet/directpost_observer</class>
                         <method>addAdditionalFieldsToResponse</method>
-                    </directpayment_save_order_onepage>                    
+                    </directpost_save_order_onepage>                    
                 </observers>
             </controller_action_postdispatch_checkout_onepage_saveOrder>
             <controller_action_postdispatch_adminhtml_sales_order_create_save>
                 <observers>
-                    <directpayment_save_order_admin>
-                        <class>directpayment/observer</class>
+                    <directpost_save_order_admin>
+                        <class>authorizenet/directpost_observer</class>
                         <method>addAdditionalFieldsToResponse</method>
-                    </directpayment_save_order_admin>                    
+                    </directpost_save_order_admin>                    
                 </observers>
             </controller_action_postdispatch_adminhtml_sales_order_create_save>
             <controller_action_postdispatch_adminhtml_sales_order_edit_save>
                 <observers>
-                    <directpayment_save_order_admin>
-                        <class>directpayment/observer</class>
+                    <directpost_save_order_admin>
+                        <class>authorizenet/directpost_observer</class>
                         <method>addAdditionalFieldsToResponse</method>
-                    </directpayment_save_order_admin>                    
+                    </directpost_save_order_admin>                    
                 </observers>
             </controller_action_postdispatch_adminhtml_sales_order_edit_save>          
         </events>
@@ -95,18 +95,18 @@
     <adminhtml>
         <translate>
             <modules>
-                <Mage_DirectPayment>
+                <Mage_Authorizenet>
                     <files>
-                        <default>Mage_DirectPayment.csv</default>
+                        <default>Mage_Authorizenet.csv</default>
                     </files>
-                </Mage_DirectPayment>
+                </Mage_Authorizenet>
             </modules>
         </translate>
         <layout>
             <updates>
-                <directpayment>
-                    <file>directpayment.xml</file>
-                </directpayment>
+                <authorizenet>
+                    <file>authorizenet.xml</file>
+                </authorizenet>
             </updates>
         </layout>
     </adminhtml>        
@@ -114,27 +114,27 @@
     <frontend>
         <translate>
             <modules>
-                <Mage_DirectPayment>
+                <Mage_Authorizenet>
                     <files>
-                        <default>Mage_DirectPayment.csv</default>
+                        <default>Mage_Authorizenet.csv</default>
                     </files>
-                </Mage_DirectPayment>
+                </Mage_Authorizenet>
             </modules>
         </translate>
          <routers>
-            <directpayment>
+            <authorizenet>
                 <use>standard</use>
                 <args>
-                    <module>Mage_DirectPayment</module>
-                    <frontName>directpayment</frontName>
+                    <module>Mage_Authorizenet</module>
+                    <frontName>authorizenet</frontName>
                 </args>
-            </directpayment>
+            </authorizenet>
         </routers>
         <layout>
             <updates>
-                <directpayment>
-                    <file>directpayment.xml</file>
-                </directpayment>
+                <authorizenet>
+                    <file>authorizenet.xml</file>
+                </authorizenet>
             </updates>
         </layout>
     </frontend>
@@ -144,7 +144,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_DirectPayment before="Mage_Adminhtml">Mage_DirectPayment_Adminhtml</Mage_DirectPayment>
+                        <Mage_Authorizenet before="Mage_Adminhtml">Mage_Authorizenet_Adminhtml</Mage_Authorizenet>
                     </modules>
                 </args>
             </adminhtml>            
@@ -153,7 +153,7 @@
 
     <default>
         <payment>
-            <directpayment>
+            <authorizenet_directpost>
                 <active>0</active>
                 <cctypes>AE,VI,MC,DI</cctypes>
                 <cgi_url>https://secure.authorize.net/gateway/transact.dll</cgi_url>
@@ -161,17 +161,17 @@
                 <email_customer>0</email_customer>
                 <login backend_model="adminhtml/system_config_backend_encrypted"/>
                 <merchant_email></merchant_email>
-                <model>directpayment/authorizenet</model>
+                <model>authorizenet/directpost</model>
                 <order_status>1</order_status>
                 <payment_action>authorize</payment_action>
                 <test>1</test>
-                <title>Credit Card Direct Payment (Authorize.net)</title>
+                <title>Credit Card Direct Post (Authorize.net)</title>
                 <trans_key backend_model="adminhtml/system_config_backend_encrypted"/>
                 <trans_md5 backend_model="adminhtml/system_config_backend_encrypted"/>
                 <allowspecific>0</allowspecific>
                 <currency>USD</currency>
                 <create_order_before>1</create_order_before>
-            </directpayment>
+            </authorizenet_directpost>
         </payment>
     </default>
 </config>

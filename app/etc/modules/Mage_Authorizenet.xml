@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Magento
  *
@@ -18,16 +19,22 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     base_default
+ * @category    Mage
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-?>
-<fieldset class="form-list">
-    <ul id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none">
-        <li>
-            <?php echo $this->__('You will be required to enter your payment details before you place an order.') ?>
-        </li>
-    </ul>
-</fieldset>
+-->
+<config>
+    <modules>
+        <Mage_Authorizenet>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Paygate/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+            </depends>
+        </Mage_Authorizenet>
+    </modules>
+</config>

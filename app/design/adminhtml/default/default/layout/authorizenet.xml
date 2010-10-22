@@ -27,11 +27,10 @@
 
 -->
 <layout version="0.1.0">
-	<checkout_onepage_review>		
-		<reference name="checkout.onepage.review.info.items.before">			
-            <block type="directpayment/info" name="payment.info.directpayment" template="directpayment/form.phtml">
-            	<action method="setMethodInfo"></action>            	
-            </block>
+	<adminhtml_sales_order_create_index>		
+		<reference name="head">			
+            <action method="addJs"><file>mage/directpost.js</file></action>
+            <action method="addJs"><file>mage/adminhtml/directpost.js</file></action>
         </reference>
-    </checkout_onepage_review>
+    </adminhtml_sales_order_create_index>
 </layout>

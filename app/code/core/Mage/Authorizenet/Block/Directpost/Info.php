@@ -19,26 +19,26 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_DirectPayment
+ * @package     Mage_Authorizenet
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * DirectPayment information block
+ * DirectPost information block
  *
  * @category   Mage
- * @package    Mage_DirectPayment
+ * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DirectPayment_Block_Info extends Mage_Payment_Block_Info
+class Mage_Authorizenet_Block_Directpost_Info extends Mage_Payment_Block_Info
 {    
-    const PAYMENT_METHOD_CODE = 'directpayment';
+    const PAYMENT_METHOD_CODE = 'authorizenet_directpost';
     
     /**
      * Form block instance
      * 
-     * @var Mage_DirectPayment_Block_Form
+     * @var Mage_Authorizenet_Block_Directpost_Form
      */
     protected $_formBlock;        
     
@@ -59,7 +59,7 @@ class Mage_DirectPayment_Block_Info extends Mage_Payment_Block_Info
     /**
      * Set payment info
      * 
-     * @return Mage_DirectPayment_Block_Info
+     * @return Mage_Authorizenet_Block_Directpost_Info
      */
     public function setMethodInfo()
     {        
@@ -72,7 +72,7 @@ class Mage_DirectPayment_Block_Info extends Mage_Payment_Block_Info
     /**
      * Get form instance
      * 
-     * @return Mage_DirectPayment_Block_Form
+     * @return Mage_Authorizenet_Block_Directpost_Form
      */
     public function getForm()
     {
