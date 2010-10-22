@@ -124,15 +124,15 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
     }
 
     /**
-     * Place order before payment
+     * Send request to authorize.net
      *
      */
     public function placeAction()
     {
-        $payment = $this->getRequest()->getParam('payment');
+        $paymentParam = $this->getRequest()->getParam('payment');
         $controller = $this->getRequest()->getParam('controller');
-        if (isset($payment['method'])) {
-            $saveOrderFlag = Mage::getStoreConfig('payment/'.$payment['method'].'/create_order_before');
+        if (isset($paymentParam['method'])) {
+            $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
             if ($saveOrderFlag) {
                 $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
                 $this->_forward(
@@ -143,9 +143,29 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                 );
             }
             else {
-                //TODO: place order, not save
+                $this->_getCheckout()->getQuote()->getPayment()->importData($paymentParam);
+                $quote = $this->_getCheckout()->getQuote();
+                $payment = $quote->getPayment();
+                if (!$quote->getReservedOrderId()) {
+                    $quote->reserveOrderId()->save();
+                }
+                $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
+                $requestToPaygate = $payment->getMethodInstance()->generateRequestFromQuote($quote);
+                $requestToPaygate->setControllerActionName($controller);            
+                $requestToPaygate->setOrderSendConfirmation(0);                
+                $result = array(
+                    'success'    => 1,
+                    'directpost' => array('fields' => $requestToPaygate->getData())
+                );
             }
         }
+        else {
+            $result = array(
+            	'error_messages' => $this->__('Please, choose payment method'),
+                'goto_section'   => 'payment'                
+            );
+        }
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
     /**

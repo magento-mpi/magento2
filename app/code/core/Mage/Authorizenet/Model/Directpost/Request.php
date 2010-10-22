@@ -94,28 +94,35 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
         $this->setXLogin($paymentMethod->getConfigData('login'))
             ->setXType('AUTH_ONLY')
             ->setXMethod(Mage_Paygate_Model_Authorizenet::REQUEST_METHOD_CC)
-            ->setXRelayUrl(Mage::getBaseUrl().'authorizenet/directpost_payment/response');
+            ->setXRelayUrl(Mage::getBaseUrl().'authorizenet/directpost_payment/response')
+            ->setCreateOrderBefore($paymentMethod->getConfigData('create_order_before'));
 
         $this->setTransactionKey($paymentMethod->getConfigData('trans_key'));
         return $this;
     }
 
     /**
-     * Set order data to request
+     * Set enity data to request
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Varien_Object $entity
      * @param Mage_Authorizenet_Model_Directpost $paymentMethod
      * @return Mage_Authorizenet_Model_Directpost_Request
      */
-    public function setDataFromOrder(Mage_Sales_Model_Order $order, Mage_Authorizenet_Model_Directpost $paymentMethod)
+    public function setDataFromEntity($entity, Mage_Authorizenet_Model_Directpost $paymentMethod)
     {
-        $payment = $order->getPayment();
-        $this->setXFpSequence($order->getId());
-        $this->setXInvoiceNum($order->getIncrementId());
-        $amount = $payment->getBaseAmountAuthorized();
-        $this->setXAmount($amount);
+        $payment = $entity->getPayment();
+        if ($entity instanceof Mage_Sales_Model_Quote) {
+            $this->setXFpSequence($entity->getId());
+            $this->setXInvoiceNum($entity->getReservedOrderId());
+            $this->setXAmount($entity->getBaseGrandTotal());            
+        }
+        elseif ($entity instanceof Mage_Sales_Model_Order) {
+            $this->setXFpSequence($entity->getQuoteId());
+            $this->setXInvoiceNum($entity->getIncrementId());
+            $this->setXAmount($payment->getBaseAmountAuthorized());
+        }        
 
-        $billing = $order->getBillingAddress();
+        $billing = $entity->getBillingAddress();
         if (!empty($billing)) {
             $this->setXFirstName($billing->getFirstname())
                 ->setXLastName($billing->getLastname())
@@ -128,14 +135,14 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
                 ->setXPhone($billing->getTelephone())
                 ->setXFax($billing->getFax())
                 ->setXCustId($billing->getCustomerId())
-                ->setXCustomerIp($order->getRemoteIp())
+                ->setXCustomerIp($entity->getRemoteIp())
                 ->setXCustomerTaxId($billing->getTaxId())
-                ->setXEmail($order->getCustomerEmail())
+                ->setXEmail($entity->getCustomerEmail())
                 ->setXEmailCustomer($paymentMethod->getConfigData('email_customer'))
                 ->setXMerchantEmail($paymentMethod->getConfigData('merchant_email'));
         }
 
-        $shipping = $order->getShippingAddress();
+        $shipping = $entity->getShippingAddress();
         if (!empty($shipping)) {
             $this->setXShipToFirstName($shipping->getFirstname())
                 ->setXShipToLastName($shipping->getLastname())
@@ -146,10 +153,13 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
                 ->setXShipToZip($shipping->getPostcode())
                 ->setXShipToCountry($shipping->getCountry());
         }
+        
+        $address = $entity->getIsVirtual() ? 
+                    $entity->getBillingAddress() : $entity->getShippingAddress();
 
         $this->setXPoNum($payment->getPoNumber())
-            ->setXTax(sprintf('%.2F', $order->getBaseTaxAmount()))
-            ->setXFreight(sprintf('%.2F', $order->getBaseShippingAmount()));
+            ->setXTax(sprintf('%.2F', $address->getBaseTaxAmount()))
+            ->setXFreight(sprintf('%.2F', $address->getBaseShippingAmount()));
 
         return $this;
     }

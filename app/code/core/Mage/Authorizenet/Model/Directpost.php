@@ -149,7 +149,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     }
 
     /**
-     * Generate request object and fill its fields from Quote object
+     * Generate request object and fill its fields from Order object
      *
      * @param Mage_Sales_Model_Order $order
      * @return Mage_Authorizenet_Model_Directpost_Request
@@ -158,7 +158,24 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     {
         $request = $this->getRequestModel();
         $request->setConstantData($this)
-            ->setDataFromOrder($order, $this)
+            ->setDataFromEntity($order, $this)
+            ->signRequestData();
+        $this->_debug(array('request' => $request->getData()));
+            
+        return $request;
+    }
+    
+	/**
+     * Generate request object and fill its fields from Quote object
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return Mage_Authorizenet_Model_Directpost_Request
+     */
+    public function generateRequestFromQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $request = $this->getRequestModel();
+        $request->setConstantData($this)
+            ->setDataFromEntity($quote, $this)
             ->signRequestData();
         $this->_debug(array('request' => $request->getData()));
 

@@ -277,11 +277,8 @@ directPost.prototype = {
         catch (e) {
             response = {};
         }
-        
-        if (response.redirect) {
-        	window.location = response.redirect;
-        }
-        else if (response.directpost) {
+                
+        if (response.directpost) {
         	this.orderIncrementId = response.directpost.fields.x_invoice_num;
         	var paymentData = {};
             for(var key in response.directpost.fields) {
@@ -289,7 +286,21 @@ directPost.prototype = {
             }            
             var preparedData = this.preparePaymentRequest(paymentData);            
         	this.sendPaymentRequest(preparedData);
-        }        
+        }
+        else {
+        	if (response.redirect) {
+            	window.location = response.redirect;
+            }
+        	if (response.error_messages) {
+	        	var msg = response.error_messages;
+	            if (typeof(msg)=='object') {
+	                msg = msg.join("\n");
+	            }
+	            if (msg) {
+	            	alert(msg);
+	            }
+        	}
+        }
 	},
     
     preparePaymentRequest: function(data)
