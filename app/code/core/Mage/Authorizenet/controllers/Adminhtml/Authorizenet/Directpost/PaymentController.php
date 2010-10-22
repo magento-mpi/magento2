@@ -99,7 +99,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         if (!empty($redirectParams['success'])
             && isset($redirectParams['x_invoice_num'])
             && isset($redirectParams['controller_action_name'])) {
-            $params['redirect_parent'] = Mage::helper('directpost')->getSuccessOrderUrl($redirectParams);
+            $params['redirect_parent'] = Mage::helper('authorizenet')->getSuccessOrderUrl($redirectParams);
         }
         if (!empty($redirectParams['error_msg'])
             && isset($redirectParams['x_invoice_num'])) {
