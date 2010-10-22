@@ -90,6 +90,10 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             Mage::throwException(Mage::helper('cms')->__('A page URL key for specified store already exists.'));
         }
 
+        if (!$this->isValidPageIdentifier($object)) {
+            Mage::throwException(Mage::helper('cms')->__('The page URL key contains capital letters or disallowed symbols.'));
+        }
+
         if ($this->isNumericPageIdentifier($object)) {
             Mage::throwException(Mage::helper('cms')->__('The page URL key cannot consist only of numbers.'));
         }
@@ -269,6 +273,19 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
     {
         return preg_match('/^[0-9]+$/', $object->getData('identifier'));
     }
+
+    /**
+     *  Check whether page identifier is valid
+     *
+     *  @param    Mage_Core_Model_Abstract $object
+     *  @return   bool
+     */
+    protected function isValidPageIdentifier(Mage_Core_Model_Abstract $object)
+    {
+        return preg_match('/^[a-z0-9][a-z0-9_\/-]+(\.[a-z0-9_-]+)?$/', $object->getData('identifier'));
+    }
+
+
 
     /**
      * Check if page identifier exist for specific store
