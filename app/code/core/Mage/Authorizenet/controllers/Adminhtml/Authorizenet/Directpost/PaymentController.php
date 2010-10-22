@@ -107,7 +107,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         }
         else {
             $result = array(
-            	'error_messages' => $this->__('Please, choose payment method')                
+                'error_messages' => $this->__('Please, choose payment method')                
             );
             $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));   
         }

@@ -162,7 +162,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         }
         else {
             $result = array(
-            	'error_messages' => $this->__('Please, choose payment method'),
+                'error_messages' => $this->__('Please, choose payment method'),
                 'goto_section'   => 'payment'                
             );
             $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));   

@@ -129,7 +129,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
      */
     public function addAdditionalFieldsToResponseFrontend(Varien_Event_Observer $observer)
     {
-    	/* @var $order Mage_Sales_Model_Order */
+        /* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('directpost_order');
 
         if ($order && $order->getId()){

@@ -90,7 +90,7 @@
                 </observers>
             </controller_action_postdispatch_adminhtml_sales_order_edit_save>          
             <controller_action_predispatch_adminhtml_sales_order_edit_save>
-            	<observers>
+                <observers>
                     <directpayment_pre_save_order_admin>
                         <class>authorizenet/directpost_observer</class>
                         <method>saveNotifyFlag</method>
@@ -98,7 +98,7 @@
                 </observers>
             </controller_action_predispatch_adminhtml_sales_order_edit_save>  
             <controller_action_predispatch_adminhtml_sales_order_create_save>
-            	<observers>
+                <observers>
                     <directpayment_pre_save_order_admin>
                         <class>authorizenet/directpost_observer</class>
                         <method>saveNotifyFlag</method>

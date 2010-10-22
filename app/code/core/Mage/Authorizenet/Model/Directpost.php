@@ -165,7 +165,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         return $request;
     }
     
-	/**
+    /**
      * Generate request object and fill its fields from Quote object
      *
      * @param Mage_Sales_Model_Quote $quote
