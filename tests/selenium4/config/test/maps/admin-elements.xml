@@ -2,14 +2,12 @@
 <elements>
     <progress_bar>//div[@id='loading-mask' and contains(@style,'display: none')]</progress_bar>
     <no_records>No records found.</no_records>
-    <filtered_element>//td[contains(text(),'%s')]</filtered_element>    
-    <opened_tab>//form/div[@style='']//table[@class='form-list']/tbody</opened_tab>
-    <error_for_field>/tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style,'display: none;'))]</error_for_field>
-    <error_for_field_many>/tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style,'display: none;'))][%s]</error_for_field_many>
-    <error_for_table>//td[contains(div/@class,'validation-advice')]</error_for_table>
-    <error_for_table_many>//td[contains(div/@class,'validation-advice')][%s]</error_for_table_many>
-    <field_name>//label</field_name>
-    <error_name>//div[contains(@class,'validation-advice')]</error_name>
+    <filtered_element>//td[contains(text(),'%s')]</filtered_element>
+    <opened_tab>//form/div[@style='']</opened_tab>
     <tab_error>/li[contains(a/@class,'error')]/a/span</tab_error>
     <tab_error_many>/li[contains(a/@class,'error')][%s]/a/span</tab_error_many>
+    <error_for_field>/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]</error_for_field>
+    <error_for_field_many>/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][%s]</error_for_field_many>
+    <field_name_with_error>/ancestor::tr/td[normalize-space(@class)='label']/descendant-or-self::*[string-length(text())>1]</field_name_with_error>
+    <option_for_field>//descendant::option[contains(text(),'%s')]</option_for_field>
 </elements>
