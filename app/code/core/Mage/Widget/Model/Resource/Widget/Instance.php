@@ -142,12 +142,15 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
         foreach ($pageGroupData['layout_handle_updates'] as $handle) {
             $xml = $widgetInstance->generateLayoutUpdateXml($pageGroupData['block_reference'],
                 $pageGroupData['template']);
-
-            $writeAdapter->insert($layoutUpdateTable,
-                array(
+            $insert = array(
                     'handle'     => $handle,
-                    'xml'        => $xml,
-                    'sort_order' => $widgetInstance->getSortOrder()));
+                    'xml'        => $xml
+            );
+            if (strlen($widgetInstance->getSortOrder())) {
+                $insert['sort_order'] = $widgetInstance->getSortOrder();
+            };
+
+            $writeAdapter->insert($layoutUpdateTable, $insert);
             $layoutUpdateId = $writeAdapter->lastInsertId($layoutUpdateTable);
             $pageLayoutUpdateIds[] = $layoutUpdateId;
 
