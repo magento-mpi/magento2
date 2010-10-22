@@ -192,8 +192,7 @@ directPost.prototype = {
     	switch (this.controller) {
     		case 'onepage':
     			this.paymentRequestSent = false;
-    	    	$(this.iframeId).hide();
-    	    	$(this.iframeId).next('ul').show();  
+    	    	$(this.iframeId).hide();    	    	  
     			break;
     		case 'sales_order_edit':
 	    	case 'sales_order_create':
