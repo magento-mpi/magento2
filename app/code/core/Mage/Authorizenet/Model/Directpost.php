@@ -421,6 +421,15 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 
         $response = $this->getResponse();
 
+        try {
+            $quote->collectTotals()->save();
+        }
+        catch (Exception $e){
+            $this->_declineQuote($quote);
+            throw $e;
+        }
+
+
         //match amounts. should be equals for authorization.
         //decline the quote if amount does not match.
         if (sprintf('%.2F', $quote->getBaseGrandTotal()) != sprintf('%.2F', $response->getXAmount())){
@@ -478,15 +487,21 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     protected function _declineOrder(Mage_Sales_Model_Order $order, $message = '', $voidPayment = true)
     {
-        $response = $this->getResponse();
-        if ($voidPayment && $response->getXTransId() && strtoupper($response->getXType()) == 'AUTH_ONLY'){
-            $order->getPayment()
-                ->setTransactionId(null)
-                ->setParentTransactionId($response->getXTransId())
-                ->void();
+        try {
+            $response = $this->getResponse();
+            if ($voidPayment && $response->getXTransId() && strtoupper($response->getXType()) == 'AUTH_ONLY'){
+                $order->getPayment()
+                    ->setTransactionId(null)
+                    ->setParentTransactionId($response->getXTransId())
+                    ->void();
+            }
+            $order->registerCancellation($message)
+                ->save();
         }
-        $order->registerCancellation($message)
-            ->save();
+        catch (Exception $e){
+            //quiet decline
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -496,27 +511,33 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     protected function _declineQuote(Mage_Sales_Model_Quote $quote)
     {
-        $response = $this->getResponse();
-        if ($response->getXTransId() && strtoupper($response->getXType()) == 'AUTH_ONLY'){
-            $payment = new Varien_Object();
-            $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
-            $payment->setXTransId($response->getXTransId());
-            $pseudoOrder = new Varien_Object();
-            $pseudoOrder->setStoreId($quote->getStoreId());
-            $payment->setOrder($pseudoOrder);
+        try {
+            $response = $this->getResponse();
+            if ($response->getXTransId() && strtoupper($response->getXType()) == 'AUTH_ONLY'){
+                $payment = new Varien_Object();
+                $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
+                $payment->setXTransId($response->getXTransId());
+                $pseudoOrder = new Varien_Object();
+                $pseudoOrder->setStoreId($quote->getStoreId());
+                $payment->setOrder($pseudoOrder);
 
-            $request = $this->_buildRequest($payment);
-            $result = $this->_postRequest($request);
+                $request = $this->_buildRequest($payment);
+                $result = $this->_postRequest($request);
 
-            switch ($result->getResponseCode()) {
-                case self::RESPONSE_CODE_APPROVED:
-                    return;
-                case self::RESPONSE_CODE_DECLINED:
-                case self::RESPONSE_CODE_ERROR:
-                    Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
-                default:
-                    Mage::throwException(Mage::helper('paygate')->__('Payment voiding error.'));
+                switch ($result->getResponseCode()) {
+                    case self::RESPONSE_CODE_APPROVED:
+                        return;
+                    case self::RESPONSE_CODE_DECLINED:
+                    case self::RESPONSE_CODE_ERROR:
+                        Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
+                    default:
+                        Mage::throwException(Mage::helper('paygate')->__('Payment voiding error.'));
+                }
             }
+        }
+        catch (Exception $e){
+            //quiet decline
+            Mage::logException($e);
         }
     }
 }
