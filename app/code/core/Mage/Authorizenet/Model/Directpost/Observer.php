@@ -101,6 +101,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
                     $payment = $order->getPayment();
                     if ($payment && $payment->getMethod() == 'authorizenet_directpost'){
                         //return json with data.
+                        $session = Mage::getSingleton('authorizenet/directpost_session');
                         $session->addCheckoutOrderIncrementId($order->getIncrementId());
 
                         $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
