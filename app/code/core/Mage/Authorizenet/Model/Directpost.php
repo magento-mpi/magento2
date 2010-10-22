@@ -498,11 +498,10 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         }
 
         try {
-            Mage::log($response->hasOrderSendConfirmation());
+            Mage::log("Can send: ".Mage::helper('sales')->canSendNewOrderEmail($this->getStore()->getId()));
+            Mage::log($response->getData());
             if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()){
                 $order->sendNewOrderEmail();
-                Mage::log("Can send: ".Mage::helper('sales')->canSendNewOrderEmail($this->getStore()->getId()));
-                Mage::log($response->getData());
             }
         }
         // do not cancel order if we couldn't send email
