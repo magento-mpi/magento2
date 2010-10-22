@@ -122,42 +122,43 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
             $this->setXAmount($payment->getBaseAmountAuthorized());
         }
 
+        //need to use strval() because NULL values IE6-8 decodes as "null" in JSON in JavaScript, but we need "" for null values.
         $billing = $entity->getBillingAddress();
         if (!empty($billing)) {
-            $this->setXFirstName($billing->getFirstname())
-                ->setXLastName($billing->getLastname())
-                ->setXCompany($billing->getCompany())
-                ->setXAddress($billing->getStreet(1))
-                ->setXCity($billing->getCity())
-                ->setXState($billing->getRegion())
-                ->setXZip($billing->getPostcode())
-                ->setXCountry($billing->getCountry())
-                ->setXPhone($billing->getTelephone())
-                ->setXFax($billing->getFax())
-                ->setXCustId($billing->getCustomerId())
-                ->setXCustomerIp($entity->getRemoteIp())
+            $this->setXFirstName(strval($billing->getFirstname()))
+                ->setXLastName(strval($billing->getLastname()))
+                ->setXCompany(strval($billing->getCompany()))
+                ->setXAddress(strval($billing->getStreet(1)))
+                ->setXCity(strval($billing->getCity()))
+                ->setXState(strval($billing->getRegion()))
+                ->setXZip(strval($billing->getPostcode()))
+                ->setXCountry(strval($billing->getCountry()))
+                ->setXPhone(strval($billing->getTelephone()))
+                ->setXFax(strval($billing->getFax()))
+                ->setXCustId(strval($billing->getCustomerId()))
+                ->setXCustomerIp(strval($entity->getRemoteIp()))
                 ->setXCustomerTaxId(strval($billing->getTaxId()))
-                ->setXEmail($entity->getCustomerEmail())
-                ->setXEmailCustomer($paymentMethod->getConfigData('email_customer'))
-                ->setXMerchantEmail($paymentMethod->getConfigData('merchant_email'));
+                ->setXEmail(strval($entity->getCustomerEmail()))
+                ->setXEmailCustomer(strval($paymentMethod->getConfigData('email_customer')))
+                ->setXMerchantEmail(strval($paymentMethod->getConfigData('merchant_email')));
         }
 
         $shipping = $entity->getShippingAddress();
         if (!empty($shipping)) {
-            $this->setXShipToFirstName($shipping->getFirstname())
-                ->setXShipToLastName($shipping->getLastname())
-                ->setXShipToCompany($shipping->getCompany())
-                ->setXShipToAddress($shipping->getStreet(1))
-                ->setXShipToCity($shipping->getCity())
-                ->setXShipToState($shipping->getRegion())
-                ->setXShipToZip($shipping->getPostcode())
-                ->setXShipToCountry($shipping->getCountry());
+            $this->setXShipToFirstName(strval($shipping->getFirstname()))
+                ->setXShipToLastName(strval($shipping->getLastname()))
+                ->setXShipToCompany(strval($shipping->getCompany()))
+                ->setXShipToAddress(strval($shipping->getStreet(1)))
+                ->setXShipToCity(strval($shipping->getCity()))
+                ->setXShipToState(strval($shipping->getRegion()))
+                ->setXShipToZip(strval($shipping->getPostcode()))
+                ->setXShipToCountry(strval($shipping->getCountry()));
         }
 
         $address = $entity->getIsVirtual() ?
                     $entity->getBillingAddress() : $entity->getShippingAddress();
 
-        $this->setXPoNum($payment->getPoNumber())
+        $this->setXPoNum(strval($payment->getPoNumber()))
             ->setXTax(sprintf('%.2F', $address->getBaseTaxAmount()))
             ->setXFreight(sprintf('%.2F', $address->getBaseShippingAmount()));
 

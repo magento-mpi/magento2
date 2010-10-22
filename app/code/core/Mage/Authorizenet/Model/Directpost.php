@@ -198,10 +198,10 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             ->setDataFromEntity($order, $this)
             ->signRequestData();
         $this->_debug(array('request' => $request->getData()));
-            
+
         return $request;
     }
-    
+
     /**
      * Generate request object and fill its fields from Quote object
      *
@@ -271,12 +271,12 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         //throws exception on false.
         $this->validateResponse();
 
-        $authResponse = $this->getResponse();
+        $response = $this->getResponse();
         //operate with order
-        $orderIncrementId = $authResponse->getXInvoiceNum();
-        $responseText = $this->_wrapGatewayError($authResponse->getXResponseReasonText());
+        $orderIncrementId = $response->getXInvoiceNum();
+        $responseText = $this->_wrapGatewayError($response->getXResponseReasonText());
         if ($orderIncrementId){
-            if ($authResponse->getCreateOrder()){
+            if ($response->getCreateOrderBefore()){
                 /* @var $order Mage_Sales_Model_Order */
                 $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
                 if ($order->getId()){
@@ -285,7 +285,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 }
                 else {
                     Mage::throwException(
-                        ($responseText && !$authResponse->isApproved()) ?
+                        ($responseText && !$response->isApproved()) ?
                         $responseText :
                         Mage::helper('authorizenet')->__('Payment error. Order was not found.')
                     );
@@ -299,7 +299,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 }
                 else {
                     Mage::throwException(
-                        ($responseText && !$authResponse->isApproved()) ?
+                        ($responseText && !$response->isApproved()) ?
                         $responseText :
                         Mage::helper('authorizenet')->__('Payment error. Quote was not found.')
                     );
@@ -308,7 +308,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         }
         else {
             Mage::throwException(
-                ($responseText && !$authResponse->isApproved()) ?
+                ($responseText && !$response->isApproved()) ?
                 $responseText :
                 Mage::helper('authorizenet')->__('Payment error. Order was not found.')
             );
