@@ -126,7 +126,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
      * @param Varien_Event_Observer $observer
      * @return Mage_Authorizenet_Model_Directpost_Observer
      */
-    protected function addAdditionalFieldsToResponseFrontend(Varien_Event_Observer $observer)
+    public function addAdditionalFieldsToResponseFrontend(Varien_Event_Observer $observer)
     {
     	/* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('directpost_order');
