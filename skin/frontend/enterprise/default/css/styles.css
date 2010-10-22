@@ -599,7 +599,7 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 #nav li a span { cursor:pointer; }
 
 /* 1st Level (Top Level) */
-#nav li.level-top { float:left; height:28px; position:relative; z-index:1; }
+#nav li.level-top { float:left; height:28px; position:relative; }
 #nav a.level-top { float:left; height:28px; background:url(../images/bkg_nav-item-border.gif) 100% 0 no-repeat; font-weight:bold; font-size:13px; line-height:28px; padding:0 0 0 17px; border-top:1px solid #c0c0c0; text-decoration:none !important; color:#333; }
 #nav a.level-top span { float:left; background:url(../images/bkg_nav-item-border.gif) 100% 0 no-repeat; padding:0 19px 0 0; white-space:nowrap; }
 
