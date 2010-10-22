@@ -83,9 +83,9 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                             $this->getRequest()->getParams()
                 );
             }
-            else {
-                $this->_getCheckout()->getQuote()->getPayment()->importData($paymentParam);
-                $quote = $this->_getCheckout()->getQuote();
+            else {                
+                $quote = $this->_getOrderCreateModel()->getQuote();
+                $quote->getPayment()->importData($paymentParam);
                 $payment = $quote->getPayment();
                 if (!$quote->getReservedOrderId()) {
                     $quote->reserveOrderId()->save();
