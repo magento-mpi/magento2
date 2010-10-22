@@ -1395,8 +1395,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             ->setPageSize($limit)
             ->load();
 
-        foreach ($productsCollection as $item) {
-            $collection->getItemById($item->getProductId())->setProduct($item);
+        foreach ($collection as $item) {
+            $product = $productsCollection->getItemById($item->getProductId());
+            if ($product) {
+                $item->setProduct($product);
+            }
         }
 
         return $collection;
