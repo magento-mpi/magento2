@@ -31,6 +31,8 @@
  */
 class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_DEFAULT_COUNTRY  = 'general/country/default';
+
     /**
      * @var Mage_Core_Model_Encryption
      */
@@ -696,5 +698,16 @@ XML;
             Mage::logException($e);
         }
         return false;
+    }
+
+    /**
+     * Return default country code
+     *
+     * @param Mage_Core_Model_Store|string|int $store
+     * @return string
+     */
+    public function getDefaultCountry($store = null)
+    {
+        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_COUNTRY, $store);
     }
 }

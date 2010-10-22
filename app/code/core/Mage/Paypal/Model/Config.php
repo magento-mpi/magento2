@@ -415,7 +415,7 @@ class Mage_Paypal_Model_Config
     {
         $countryCode = Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
         if (!$countryCode) {
-            $countryCode = Mage::getStoreConfig('general/country/default', $this->_storeId);
+            $countryCode = Mage::helper('core')->getDefaultCountry($this->_storeId);
         }
         return $countryCode;
     }
