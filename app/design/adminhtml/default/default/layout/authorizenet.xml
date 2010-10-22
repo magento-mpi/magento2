@@ -27,8 +27,8 @@
 
 -->
 <layout version="0.1.0">
-	<adminhtml_sales_order_create_index>		
-		<reference name="head">			
+    <adminhtml_sales_order_create_index>        
+        <reference name="head">            
             <action method="addJs"><file>mage/directpost.js</file></action>
             <action method="addJs"><file>mage/adminhtml/directpost.js</file></action>
         </reference>

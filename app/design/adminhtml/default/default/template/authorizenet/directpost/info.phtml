@@ -130,11 +130,11 @@ $_orderUrl = $this->helper('authorizenet')->getPlaceOrderAdminUrl();
 document.observe('dom:loaded', function(){
 <?php endif; ?>
 directPostModel = new directPost(
-		'directpost-iframe',
-		'<?php echo $_controller ?>',
-		'<?php echo $_orderUrl ?>',
-		'<?php echo $_method->getCgiUrl() ?>',
-		'<?php echo $this->getUrl('*/*/save') ?>');
+        'directpost-iframe',
+        '<?php echo $_controller ?>',
+        '<?php echo $_orderUrl ?>',
+        '<?php echo $_method->getCgiUrl() ?>',
+        '<?php echo $this->getUrl('*/*/save') ?>');
 <?php if (!$this->isAjaxRequest()): ?>
 });
 <?php endif; ?>
