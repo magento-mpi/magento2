@@ -150,22 +150,27 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
     }
 
     /**
-     * Retrieve mode for insertFromSelect adapter method
+     * Retrieve insert from select
      *
-     * @param  string $table
-     * @param  array $fields
-     * @return int
+     * @param Varien_Db_Select $select
+     * @param string $targetTable
+     * @param array $fields
+     * @return string
      */
-    public function getInsertFromSelectMode($table, $fields)
+    public function getInsertFromSelect($select, $targetTable, $fields)
     {
         $mode = false;
-        $indexes    = $this->_getReadAdapter()->getIndexList($table);
+        $compatible = false;
+        $indexes    = $this->_getReadAdapter()->getIndexList($targetTable);
 
         // Obtain unique indexes fields
         foreach ($indexes as $indexData) {
             if (strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
                 && strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY
             ) {
+                if (strtolower($indexData['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT) {
+                    $compatible = true;
+                }
                 continue;
             }
 
@@ -177,10 +182,23 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
             }
             if ($useUnqCond) {
                 $mode = Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE;
-                break;
             }
         }
-        return $mode;
+        if ($compatible) {
+            $sql = $this->_getWriteAdapter()->insertFromSelectCompatible(
+                $select,
+                $targetTable,
+                $fields,
+                $mode);
+        } else {
+            $sql = $this->_getWriteAdapter()->insertFromSelect(
+                $select,
+                $targetTable,
+                $fields,
+                $mode);
+        }
+        return $sql;
     }
+
 
 }

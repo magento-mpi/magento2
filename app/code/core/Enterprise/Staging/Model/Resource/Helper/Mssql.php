@@ -160,16 +160,17 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
     }
 
     /**
-     * Retrieve mode for insertFromSelect adapter method
+     * Retrieve insert from select
      *
-     * @param  string $table
-     * @param  array $fields
-     * @return int
+     * @param Varien_Db_Select $select
+     * @param string $targetTable
+     * @param array $fields
+     * @return string
      */
-    public function getInsertFromSelectMode($table, $fields)
+    public function getInsertFromSelect($select, $targetTable, $fields)
     {
         $mode = false;
-        $indexes    = $this->_getReadAdapter()->getIndexList($table);
+        $indexes    = $this->_getReadAdapter()->getIndexList($targetTable);
 
         // Obtain unique indexes fields
         foreach ($indexes as $indexData) {
@@ -190,7 +191,13 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
                 break;
             }
         }
-        return $mode;
+
+        return $this->_getWriteAdapter()->insertFromSelect(
+            $select,
+            $targetTable,
+            $fields,
+            $mode
+        );
     }
 
 }
