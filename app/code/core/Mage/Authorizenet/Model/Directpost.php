@@ -106,7 +106,8 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             if ($response->getXTransId() && $response->isApproved()){
                 $payment->setTransactionId($response->getXTransId())
                     ->setParentTransactionId(null)
-                    ->setIsTransactionClosed(0);
+                    ->setIsTransactionClosed(0)
+                    ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
             }
         }
     }
