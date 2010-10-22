@@ -446,6 +446,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         try {
             $service->submitAll();
             $this->_setCreateOrderBefore($createOrderBefore);
+            $quote->save();
         }
         catch (Exception $e){
             $this->_setCreateOrderBefore($createOrderBefore);
