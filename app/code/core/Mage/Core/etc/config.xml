@@ -304,6 +304,7 @@
                 <base_media_url>{{secure_base_url}}media/</base_media_url>
                 <use_in_frontend>0</use_in_frontend>
                 <use_in_adminhtml>0</use_in_adminhtml>
+                <offloader_header>SSL_OFFLOADED</offloader_header>
             </secure>
             <cookie>
                 <cookie_lifetime>3600</cookie_lifetime>

@@ -538,7 +538,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     public function isCurrentlySecure()
     {
-        if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+        $standardRule = !empty($_SERVER['HTTPS']) && 'off' != $_SERVER['HTTPS'];
+        $offloaderHeader = trim(Mage::getStoreConfig('web/secure/offloader_header'));
+
+        if ((!empty($offloaderHeader) && !empty($_SERVER[$offloaderHeader])) || $standardRule) {
             return true;
         }
 

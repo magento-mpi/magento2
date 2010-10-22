@@ -1164,6 +1164,14 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </use_in_adminhtml>
+                        <offloader_header translate="label">
+                            <label>Offloader header</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>75</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </offloader_header>
                     </fields>
                 </secure>
                 <default translate="label">
