@@ -238,33 +238,36 @@
                                         <!-- related pages-->
                 <product>
                     <elements>
+                        <tab_container>//*[@id='product_info_tabs']</tab_container>
                         <mark_filtered_product>//td[contains(text(),'%s')]/ancestor::tr//input[@type='checkbox']</mark_filtered_product>
+                        <tier_price_table>//tbody[@id='tier_price_container']</tier_price_table>
                         <grouped_items_search_table>//div[@id='super_product_grid']</grouped_items_search_table>
                         <configurable_items_search_table>//div[@id='super_product_links']</configurable_items_search_table>
-                        <tab_container>//*[@id='product_info_tabs']</tab_container>
                         <bundle_items_container>//*[@id='product_bundle_container']//div[contains(@class,'option-box')]</bundle_items_container>
                         <bundle_items_search_table>//*[@id='bundle_option_search_%s']</bundle_items_search_table>
                         <download_sample_container>//*[@id='sample_items_body']/tr</download_sample_container>
                         <download_link_container>//*[@id='link_items_body']/tr</download_link_container>
-                        <tier_price_table>//tbody[@id='tier_price_container']</tier_price_table>
                     </elements>
                     <inputs>
-                        <name>name</name>
-                        <description>description</description>
-                        <short_description>short_description</short_description>
-                        <sku>sku</sku>
-                        <weight>weight</weight>
-                        <price>price</price>
-                        <website>//*[text()='%s']</website>
-                        <website_many>//div[contains(div/big/strong/label,'%s')][%s]//input</website_many>
-                        <category>//ul/li[@class='x-tree-node']/div/a[contains(span,'%s')]</category>
-                        <category_many>//div[contains(@class,'x-tree-root-node')]/li[contains(ul/li/div/a/span,'%s')][%s]/ul/li/div/a/span</category_many>
-                        <news_from_date>news_from_date</news_from_date>
-                        <news_to_date>news_to_date</news_to_date>
-                        <url_key>url_key</url_key>
-                        <special_price>special_price</special_price>
-                        <special_from_date>special_from_date</special_from_date>
-                        <special_to_date>special_to_date</special_to_date>
+                        <attribute_for_configurable_product>//input[@title='%s']</attribute_for_configurable_product>
+                        <filter_sku>//*[@id='filter_sku']</filter_sku>
+                        <!-- General Tab-->
+                        <name>//*[@id='name']</name>
+                        <description>//*[@id='description']</description>
+                        <short_description>//*[@id='short_description']</short_description>
+                        <sku>//*[@id='sku']</sku>
+                        <weight>//*[@id='weight']</weight>
+                        <news_from_date>//*[@id='news_from_date']</news_from_date>
+                        <news_to_date>//*[@id='news_to_date']</news_to_date>
+                        <url_key>//*[@id='url_key']</url_key>
+                        <!-- Prices Tab-->
+                        <price>//*[@id='price']</price>
+                        <special_price>//*[@id='special_price']</special_price>
+                        <special_from_date>//*[@id='special_from_date']</special_from_date>
+                        <special_to_date>//*[@id='special_to_date']</special_to_date>
+                        <tier_price_price>//*[@id='tier_price_row_%s_price']</tier_price_price>
+                        <tier_price_qty>//*[@id='tier_price_row_%s_qty']</tier_price_qty>
+                        <!-- Inventory Tab-->
                         <ucheck_use_default>/following-sibling::*[%s][@checked='checked' and contains(class,checkbox)]</ucheck_use_default>
                         <inventory_qty>//*[@id='inventory_qty']</inventory_qty>
                         <inventory_min_qty>//*[@id='inventory_min_qty']</inventory_min_qty>
@@ -272,15 +275,16 @@
                         <max_sale_qty>//*[@id='inventory_max_sale_qty']</max_sale_qty>
                         <notify_stock_qty>//*[@id='inventory_notify_stock_qty']</notify_stock_qty>
                         <qty_increments>//*[@id='inventory_qty_increments']</qty_increments>
-                        <attribute_for_configurable_product>//input[@title='%s']</attribute_for_configurable_product>
+                        <giftcard_amounts>product[giftcard_amounts][%s][price]</giftcard_amounts>
                         <open_amount_max>open_amount_max</open_amount_max>
                         <open_amount_min>open_amount_min</open_amount_min>
-                        <giftcard_amounts>product[giftcard_amounts][%s][price]</giftcard_amounts>
-                        <giftcard_use_default_is_redeemable>giftcard_use_config_is_redeemable</giftcard_use_default_is_redeemable>
-                        <giftcard_use_default_lifetime>giftcard_use_config_lifetime</giftcard_use_default_lifetime>
-                        <giftcard_use_default_allow_message>giftcard_use_config_allow_message</giftcard_use_default_allow_message>
-                        <giftcard_use_default_email_template>giftcard_use_config_email_template</giftcard_use_default_email_template>
-                        <giftcard_lifetime>//*[@id='giftcard_lifetime']</giftcard_lifetime>
+                        <!-- Websites Tab-->
+                        <website>//*[text()='%s']</website>
+                        <website_many>//div[contains(div/big/strong/label,'%s')][%s]//input</website_many>
+                        <!-- Categories Tab-->
+                        <category>//ul/li[@class='x-tree-node']/div/a[contains(span,'%s')]</category>
+                        <category_many>//div[contains(@class,'x-tree-root-node')]/li[contains(ul/li/div/a/span,'%s')][%s]/ul/li/div/a/span</category_many>
+                        <!-- Downloadable Information Tab-->
                         <downloadable_links_title>downloadable_links_title</downloadable_links_title>
                         <downloadable_link_title>downloadable[link][%s][title]</downloadable_link_title>
                         <downloadable_link_price>downloadable[link][%s][price]</downloadable_link_price>
@@ -295,37 +299,47 @@
                         <downloadable_sample_url_type>downloadable_sample_%s_url_type</downloadable_sample_url_type>
                         <downloadable_sample_url>downloadable[sample][%s][sample_url]</downloadable_sample_url>
                         <downloadable_sample_sort_order>downloadable[sample][%s][sort_order]</downloadable_sample_sort_order>
+                        <!-- Gift Card Information Tab-->
+                        <giftcard_use_default_is_redeemable>giftcard_use_config_is_redeemable</giftcard_use_default_is_redeemable>
+                        <giftcard_use_default_lifetime>giftcard_use_config_lifetime</giftcard_use_default_lifetime>
+                        <giftcard_use_default_allow_message>giftcard_use_config_allow_message</giftcard_use_default_allow_message>
+                        <giftcard_use_default_email_template>giftcard_use_config_email_template</giftcard_use_default_email_template>
+                        <giftcard_lifetime>//*[@id='giftcard_lifetime']</giftcard_lifetime>
+                        <!-- Bundle Items Tab-->
                         <bundle_options_title>//*[@id='id_bundle_options_%s_title']</bundle_options_title>
                         <bundle_options_position>bundle_options[%s][position]</bundle_options_position>
-                        <filter_sku>//*[@id='filter_sku']</filter_sku>
-                        <tier_price_price>//*[@id='tier_price_row_%s_price']</tier_price_price>
-                        <tier_price_qty>//*[@id='tier_price_row_%s_qty']</tier_price_qty>
                     </inputs>
                     <selectors>
-                        <attribute_set>attribute_set_id</attribute_set>
-                        <type>product_type</type>
-                        <status>status</status>
-                        <tax_class>tax_class_id</tax_class>
-                        <visibility>visibility</visibility>
-                        <allow_gift_message>gift_message_available</allow_gift_message>
-                        <sku_type>sku_type</sku_type>
-                        <weight_type>weight_type</weight_type>
-                        <price_type>price_type</price_type>
-                        <enable_googlecheckout>enable_googlecheckout</enable_googlecheckout>
-                        <price_view>price_view</price_view>
+                        <attribute_set>//*[@id='attribute_set_id']</attribute_set>
+                        <type>//*[@id='product_type']</type>
+                        <!-- General Tab-->
+                        <sku_type>//*[@id='sku_type']</sku_type>
+                        <weight_type>//*[@id='weight_type']</weight_type>
+                        <status>//*[@id='status']</status>
+                        <visibility>//*[@id='visibility']</visibility>
+                        <allow_gift_message>//*[@id='gift_message_available']</allow_gift_message>
+                        <!-- Prices Tab-->
+                        <price_type>//*[@id='price_type']</price_type>
+                        <allow_open_amount>//*[@id='allow_open_amount']</allow_open_amount>
+                        <tax_class>//*[@id='tax_class_id']</tax_class>
+                        <enable_googlecheckout>//*[@id='enable_googlecheckout']</enable_googlecheckout>
+                        <price_view>//*[@id='price_view']</price_view>
+                        <!-- Inventory Tab-->
                         <manage_stock>//*[@id='inventory_manage_stock']</manage_stock>
                         <is_qty_decimal>//*[@id='inventory_is_qty_decimal']</is_qty_decimal>
                         <backorders>//*[@id='inventory_backorders']</backorders>
                         <enable_qty_increments>//*[@id='inventory_enable_qty_increments']</enable_qty_increments>
                         <stock_availability>//*[@id='inventory_stock_availability']</stock_availability>
-                        <allow_open_amount>allow_open_amount</allow_open_amount>
-                        <giftcard_type>giftcard_type</giftcard_type>
+                        <!-- Gift Card Information Tab-->
+                        <giftcard_type>//*[@id='giftcard_type']</giftcard_type>
                         <giftcard_is_redeemable>//*[@id='giftcard_is_redeemable']</giftcard_is_redeemable>
                         <giftcard_allow_message>//*[@id='giftcard_allow_message']</giftcard_allow_message>
                         <giftcard_email_template>//*[@id='giftcard_email_template']</giftcard_email_template>
-                        <downloadable_link_purchase_type>downloadable_link_purchase_type</downloadable_link_purchase_type>
-                        <downloadable_link_shareable>downloadable_link _%s_shareable</downloadable_link_shareable>
-                        <bundle_shipment_type>shipment_type</bundle_shipment_type>
+                        <!-- Downloadable Information Tab-->
+                        <downloadable_link_purchase_type>//*[@id='downloadable_link_purchase_type']</downloadable_link_purchase_type>
+                        <downloadable_link_shareable>//*[@id='downloadable_link _%s_shareable']</downloadable_link_shareable>
+                        <!-- Bundle Items Tab-->
+                        <bundle_shipment_type>//*[@id='shipment_type']</bundle_shipment_type>
                         <bundle_options_type>//*[@id='bundle_option_%s_type']</bundle_options_type>
                         <bundle_options_required>//*[@id='bundle_option_%s_required']</bundle_options_required>
                     </selectors>
@@ -335,6 +349,7 @@
                         <inventory>//a[@title='Inventory']</inventory>
                         <websites>//a[@title='Websites']</websites>
                         <categories>//a[@title='Categories']</categories>
+                        <custom_options>//a[@title='Custom Options']</custom_options>
                         <gift_card_information>//a[@title='Gift Card Information']</gift_card_information>
                         <downloadable_information>//a[@title='Downloadable Information']</downloadable_information>
                         <bundle_items>//a[@title='Bundle Items']</bundle_items>
@@ -344,16 +359,22 @@
                         <save>//button[span="Save"]</save>
                         <duplicate>//button[span="Duplicate"]</duplicate>
                         <delete>//button[span="Delete"]</delete>
+                        <search>//button[contains(span,'Search')]</search>
+                        <create_new_attribute>//button[contains(span,'Create New Attribute')]</create_new_attribute>
+                        <!-- Prices Tab-->
                         <add_amount>//button[span="Add Amount"]</add_amount>
+                        <add_tier_price>//button[contains(span,'Add Tier')]</add_tier_price>
+                        <!-- Custom Options Tab-->
+                        <add_new_option>//*[@id='add_new_defined_option']</add_new_option>
+                        <add_new_row>//*[@id='add_select_row_button_%s']</add_new_row>
+                        <!-- Downloadable Information Tab-->
                         <add_link_item>add_link_item</add_link_item>
                         <add_sample_item>add_sample_item</add_sample_item>
+                        <!-- Bundle Items Tab-->
                         <add_new_bundle_option>add_new_option</add_new_bundle_option>
                         <bundle_option_add_product>bundle_option_%s_add_button</bundle_option_add_product>
                         <bundle_option_add_product_confirm>add_button_%s</bundle_option_add_product_confirm>
                         <bundle_items_search>//*[@id='bundle_option_search_%s']//button[contains(span,'Search')]</bundle_items_search>
-                        <search>//button[contains(span,'Search')]</search>
-                        <create_new_attribute>//button[contains(span,'Create New Attribute')]</create_new_attribute>
-                        <add_tier_price>//button[contains(span,'Add Tier')]</add_tier_price>
                     </buttons>
                     <messages>
                         <productsaved>//div[@id="messages"]//li[@class="success-msg"]</productsaved>
