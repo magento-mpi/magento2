@@ -1884,8 +1884,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     sor.name                            AS ref_table_name,
                     scr.name                            AS ref_column,
                     CASE
-                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%DELETE t FROM ' + OBJECT_NAME(sfk.parent_object_id)  + ' t%' THEN 'CASCADE'
-                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%UPDATE t FROM ' + OBJECT_NAME(sfk.parent_object_id)  + ' t%' THEN 'SET_NULL'
+                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%ACTION ADDED BY ' + OBJECT_NAME(sfk.parent_object_id) THEN 'CASCADE'
+                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%ACTION UPDATE ADDED BY ' + OBJECT_NAME(sfk.parent_object_id) THEN 'SET_NULL'
                         ELSE 'NO_ACTION'
                     END                                 AS on_delete
                     sfk.update_referential_action_desc  AS on_update
@@ -3556,18 +3556,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             );
         } else {
             $deleteAction = ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE) ?
-                "        DELETE t FROM {$tableName} t                           \n"
+                "/*ACTION DELETE ADDED BY {$tableName}*/\n"
+                . "        DELETE t FROM {$tableName} t                           \n"
                 . "        INNER JOIN @deletedRows d ON                               \n"
                 . "         t.{$columnName} = d.{$refColumnName};         \n"
-                . " " :
-                "        UPDATE t \n"
+                . "/* /ACTION DELETE ADDED BY {$tableName}*/" :
+                "/*ACTION UPDATE ADDED BY {$tableName}*/\n"
+                . "        UPDATE t \n"
                 . "        SET t.{$columnName} = NULL                           \n"
                 . "      FROM {$tableName} t                                    \n"
                 . "        INNER JOIN @deletedRows d ON                                 \n"
-                . "         t.{$columnName} = d.{$refColumnName};         \n";
+                . "         t.{$columnName} = d.{$refColumnName};         \n"
+                . "/* /ACTION UPDATE ADDED BY {$tableName}*/"
+                ;
             $sqlTrigger = str_replace(
                 "/*place code here*/",
-                 "/*ACTION ADDED BY {$tableName}*/ \n". $deleteAction . "/*place code here*/",
+                $deleteAction . "\n /*place code here*/",
                 $sqlTrigger
             );
         }
