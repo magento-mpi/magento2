@@ -630,12 +630,12 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 $masterCond  = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$masterWebsiteId));
                 $concatVal   = $readAdapter->getConcatSql(array(
                     'website_ids',
-                    $readAdapter->quote(','.$masterWebsiteId)));
+                    $readAdapter->quote(','.$stagingWebsiteId)));
 
                 $writeAdapter->update(
                     $targetTable,
                     array('website_ids' => $concatVal),
-                    array($stagingCond, ' NOT '. $masterCond)
+                    array($masterCond, ' NOT '. $stagingCond)
                 );
             }
         }
