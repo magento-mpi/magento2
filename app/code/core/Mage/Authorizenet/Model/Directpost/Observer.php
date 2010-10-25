@@ -104,7 +104,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
                         $session = Mage::getSingleton('authorizenet/directpost_session');
                         $session->addCheckoutOrderIncrementId($order->getIncrementId());
 
-                        $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
+                        $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($order);
                         $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
 
                         $requestToPaygate->setOrderSendConfirmation(Mage::registry('directpost_order_notify'));
@@ -144,7 +144,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
                     //if is success, then set order to session and add new fields
                     $session =  Mage::getSingleton('authorizenet/directpost_session');
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
-                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
+                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($order);
                     $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
                     $result['directpost'] = array('fields' => $requestToPaygate->getData());
                     $controller->getResponse()->clearHeader('Location');
@@ -170,7 +170,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
             $request->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
         }
     }
-    
+
     /**
      * Add directpost payment form to revire step
      *
@@ -180,7 +180,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
     public function addPaymentFormToReview(Varien_Event_Observer $observer)
     {
         $controller = $observer->getEvent()->getData('controller_action');
-        $payment = $controller->getOnepage()->getQuote()->getPayment();        
+        $payment = $controller->getOnepage()->getQuote()->getPayment();
         if ($payment && $payment->getMethod() == Mage::getSingleton('authorizenet/directpost')->getCode()) {
             $result = Mage::helper('core')->jsonDecode($controller->getResponse()->getBody('default'));
             if (empty($result['error'])){
@@ -192,7 +192,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
                 $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
             }
         }
-        
+
         return $this;
     }
 }

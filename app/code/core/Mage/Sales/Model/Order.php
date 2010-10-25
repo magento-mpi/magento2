@@ -383,6 +383,13 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     protected $_actionFlag = array();
 
     /**
+     * Flag: if after order placing we can send new email to the customer.
+     *
+     * @var bool
+     */
+    protected $_canSendNewEmailFlag = true;
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -441,6 +448,28 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function setActionFlag($action, $flag)
     {
         $this->_actionFlag[$action] = (boolean) $flag;
+        return $this;
+    }
+
+    /**
+     * Return flag for order if it can sends new email to customer.
+     *
+     * @return bool
+     */
+    public function getCanSendNewEmailFlag()
+    {
+        return $this->_canSendNewEmailFlag;
+    }
+
+    /**
+     * Set flag for order if it can sends new email to customer.
+     *
+     * @param bool $flag
+     * @return Mage_Sales_Model_Order
+     */
+    public function setCanSendNewEmailFlag($flag)
+    {
+        $this->_canSendNewEmailFlag = (boolean) $flag;
         return $this;
     }
 

@@ -54,11 +54,9 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     protected $_canSaveCc               = false;
     protected $_isInitializeNeeded      = true;
 
-    protected static $_response;
-
     /**
      * Do not validate payment form using server methods
-     *     
+     *
      * @return  bool
      */
     public function validate()
@@ -125,11 +123,25 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     }
 
     /**
+     * Return URL on which Authorize.net server will return payment result data in hidden request.
+     *
+     * @param int $storeId
+     * @return string
+     */
+    public function getRelayUrl($storeId = null)
+    {
+        return Mage::app()->getStore($storeId)
+            ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).
+            'authorizenet/directpost_payment/response';
+    }
+
+
+    /**
      * Return request model for form data building
      *
      * @return Mage_Authorizenet_Model_Directpost_Request
      */
-    public function getRequestModel()
+    protected function _getRequestModel()
     {
         return Mage::getModel('authorizenet/directpost_request');
     }
@@ -141,22 +153,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     public function getResponse()
     {
-        if (!self::$_response){
-            self::$_response = Mage::getModel('authorizenet/directpost_response');
-        }
-        return self::$_response;
-
-    }
-
-    /**
-     *  Return Order Place Redirect URL.
-     *  Need to prevent emails sending for incomplete orders.
-     *
-     *  @return string 1
-     */
-    public function getOrderPlaceRedirectUrl()
-    {
-        return 1;
+        return Mage::getSingleton('authorizenet/directpost_response');
     }
 
     /**
@@ -172,6 +169,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             case self::ACTION_AUTHORIZE_CAPTURE:
                 $payment = $this->getInfoInstance();
                 $order = $payment->getOrder();
+                $order->setCanSendNewEmailFlag(false);
                 $payment->authorize(true, $order->getBaseTotalDue()); // base amount will be set inside
                 $payment->setAmountAuthorized($order->getTotalDue());
                 if ($this->_getCreateOrderBefore()){
@@ -195,7 +193,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     public function generateRequestFromOrder(Mage_Sales_Model_Order $order)
     {
-        $request = $this->getRequestModel();
+        $request = $this->_getRequestModel();
         $request->setConstantData($this)
             ->setDataFromEntity($order, $this)
             ->signRequestData();
@@ -205,17 +203,18 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     }
 
     /**
-     * Generate request object and fill its fields from Quote object
+     * Generate request object and fill its fields from Quote or Order object
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param Mage_Core_Model_Abstract $entity Quote or order object.
      * @return Mage_Authorizenet_Model_Directpost_Request
      */
-    public function generateRequestFromQuote(Mage_Sales_Model_Quote $quote)
+    public function generateRequestFromEntity(Mage_Core_Model_Abstract $entity)
     {
-        $request = $this->getRequestModel();
+        $request = $this->_getRequestModel();
         $request->setConstantData($this)
-            ->setDataFromEntity($quote, $this)
+            ->setDataFromEntity($entity, $this)
             ->signRequestData();
+
         $this->_debug(array('request' => $request->getData()));
 
         return $request;
@@ -244,11 +243,15 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $response = $this->getResponse();
         //md5 check
         if (!$response->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))){
-            Mage::throwException(Mage::helper('authorizenet')->__('Response hash validation failed. Transaction declined.'));
+            Mage::throwException(
+                Mage::helper('authorizenet')->__('Response hash validation failed. Transaction declined.')
+            );
         }
 
         if (!$response->getXTransId()){
-            Mage::throwException(Mage::helper('authorizenet')->__('Payment authorization error.'));
+            Mage::throwException(
+                $this->_wrapGatewayError($response->getXResponseReasonText())
+            );
         }
 
         return true;
@@ -277,6 +280,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         //operate with order
         $orderIncrementId = $response->getXInvoiceNum();
         $responseText = $this->_wrapGatewayError($response->getXResponseReasonText());
+        $isError = false;
         if ($orderIncrementId){
             if ($response->getCreateOrderBefore()){
                 /* @var $order Mage_Sales_Model_Order */
@@ -286,11 +290,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                     $this->_authOrder($order);
                 }
                 else {
-                    Mage::throwException(
-                        ($responseText && !$response->isApproved()) ?
-                        $responseText :
-                        Mage::helper('authorizenet')->__('Payment error. Order was not found.')
-                    );
+                    $isError = true;
                 }
             }
             else {
@@ -300,15 +300,15 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                     $this->_authQuote($quote);
                 }
                 else {
-                    Mage::throwException(
-                        ($responseText && !$response->isApproved()) ?
-                        $responseText :
-                        Mage::helper('authorizenet')->__('Payment error. Quote was not found.')
-                    );
+                    $isError = true;
                 }
             }
         }
         else {
+            $isError = true;
+        }
+
+        if ($isError){
             Mage::throwException(
                 ($responseText && !$response->isApproved()) ?
                 $responseText :
@@ -334,6 +334,17 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             default:
                 Mage::throwException(Mage::helper('authorizenet')->__('Payment authorization error.'));
         }
+    }
+
+    /**
+     * Compare amount with amount from the response from Authorize.net.
+     *
+     * @param float $amount
+     * @return bool
+     */
+    protected function _matchAmount($amount)
+    {
+         return sprintf('%.2F', $amount) == sprintf('%.2F', $this->getResponse()->getXAmount());
     }
 
     /**
@@ -377,26 +388,14 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 
         //match amounts. should be equals for authorization.
         //decline the order if amount does not match.
-        if (sprintf('%.2F', $payment->getBaseAmountAuthorized()) != sprintf('%.2F', $response->getXAmount())){
+        if (!$this->_matchAmount($payment->getBaseAmountAuthorized())) {
             $message = Mage::helper('authorizenet')->__('Payment error. Paid amount doesn\'t match the order amount.');
             $this->_declineOrder($order, $message, true);
             Mage::throwException($message);
         }
 
-
         //capture order using AIM if needed
-        if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
-            try {
-                $payment->setTransactionId(null)
-                    ->setParentTransactionId($response->getXTransId())
-                    ->capture(null);
-                $order->save();
-            }
-            catch (Exception $e){
-                Mage::logException($e);
-                //if we couldn't capture order, just leave it as NEW order.
-            }
-        }
+        $this->_captureOrder($order);
 
         try {
             if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()){
@@ -434,7 +433,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 
         //match amounts. should be equals for authorization.
         //decline the quote if amount does not match.
-        if (sprintf('%.2F', $quote->getBaseGrandTotal()) != sprintf('%.2F', $response->getXAmount())){
+        if (!$this->_matchAmount($quote->getBaseGrandTotal())) {
             $message = Mage::helper('authorizenet')->__('Payment error. Paid amount doesn\'t match the order amount.');
             $this->_declineQuote($quote);
             Mage::throwException($message);
@@ -485,18 +484,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         }
 
         //capture order using AIM if needed
-        if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
-            try {
-                $payment->setTransactionId(null)
-                    ->setParentTransactionId($response->getXTransId())
-                    ->capture(null);
-                $order->save();
-            }
-            catch (Exception $e){
-                Mage::logException($e);
-                //if we couldn't capture order, just leave it as NEW order.
-            }
-        }
+        $this->_captureOrder($order);
 
         try {
             if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()){
@@ -530,6 +518,28 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         catch (Exception $e){
             //quiet decline
             Mage::logException($e);
+        }
+    }
+
+    /**
+     * Capture order's payment using AIM.
+     *
+     * @param Mage_Sales_Model_Order $order
+     */
+    protected function _captureOrder(Mage_Sales_Model_Order $order)
+    {
+        $payment = $order->getPayment();
+        if ($payment->getAdditionalInformation('payment_type') == self::ACTION_AUTHORIZE_CAPTURE) {
+            try {
+                $payment->setTransactionId(null)
+                    ->setParentTransactionId($this->getResponse()->getXTransId())
+                    ->capture(null);
+                $order->save();
+            }
+            catch (Exception $e){
+                Mage::logException($e);
+                //if we couldn't capture order, just leave it as NEW order.
+            }
         }
     }
 

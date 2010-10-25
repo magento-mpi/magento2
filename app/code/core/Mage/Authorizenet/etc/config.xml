@@ -38,24 +38,13 @@
         <models>
             <authorizenet>
                 <class>Mage_Authorizenet_Model</class>
-                <resourceModel>directpost_mysql4</resourceModel>
            </authorizenet>
-           <authorizenet_mysql4>
-               <class>Mage_Authorizenet_Model_Mysql4</class>
-           </authorizenet_mysql4>
         </models>
         <helpers>
             <authorizenet>
                 <class>Mage_Authorizenet_Helper</class>
             </authorizenet>
-        </helpers>
-        <resources>
-            <authorizenet_setup>
-                <setup>
-                    <module>Mage_Authorizenet</module>
-                </setup>
-            </authorizenet_setup>
-        </resources>
+        </helpers>        
         <events>
             <checkout_submit_all_after>
                 <observers>

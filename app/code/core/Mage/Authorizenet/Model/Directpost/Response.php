@@ -42,7 +42,7 @@ class Mage_Authorizenet_Model_Directpost_Response extends Varien_Object
      * @param string $transactionId
      * @return string
      */
-    public static function generateHash($merchantMd5, $merchantApiLogin, $amount, $transactionId)
+    public function generateHash($merchantMd5, $merchantApiLogin, $amount, $transactionId)
     {
         if (!$amount) {
             $amount = '0.00';
@@ -59,7 +59,8 @@ class Mage_Authorizenet_Model_Directpost_Response extends Varien_Object
      */
     public function isValidHash($merchantMd5, $merchantApiLogin)
     {
-        return self::generateHash($merchantMd5, $merchantApiLogin, $this->getXAmount(), $this->getXTransId()) == $this->getData('x_MD5_Hash');
+        return $this->generateHash($merchantMd5, $merchantApiLogin, $this->getXAmount(), $this->getXTransId())
+            == $this->getData('x_MD5_Hash');
     }
 
     /**

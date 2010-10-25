@@ -76,7 +76,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
             if ($saveOrderFlag) {
                 $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
-                $this->_getDirectPostSession()->setQuoteId($this->_getOrderSession()->getQuote()->getId());                
+                $this->_getDirectPostSession()->setQuoteId($this->_getOrderSession()->getQuote()->getId());
                 $this->_forward(
                     $params['action'],
                     $params['controller'],
@@ -92,7 +92,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                     $quote->reserveOrderId()->save();
                 }
                 $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
-                $requestToPaygate = $payment->getMethodInstance()->generateRequestFromQuote($quote);
+                $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($quote);
                 $requestToPaygate->setControllerActionName($controller);
                 $requestToPaygate->setOrderSendConfirmation(Mage::registry('directpost_order_notify'));
                 $adminUrl = Mage::getSingleton('adminhtml/url');
@@ -139,7 +139,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             ->setParams(array_merge($params, $redirectParams));
         $this->getResponse()->setBody($block->toHtml());
     }
-    
+
 	/**
      * Return order quote by ajax
      *
@@ -157,7 +157,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
 
     /**
      * Return quote
-     *     
+     *
      * @return bool
      */
     protected function _returnQuote()

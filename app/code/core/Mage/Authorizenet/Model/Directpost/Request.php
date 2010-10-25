@@ -41,7 +41,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
      *
      * @return string
      */
-    public function getTransactionKey()
+    protected function _getTransactionKey()
     {
         return $this->_transKey;
     }
@@ -53,7 +53,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
      * @param string $transKey
      * @return Mage_Authorizenet_Model_Directpost_Request
      */
-    public function setTransactionKey($transKey)
+    protected function _setTransactionKey($transKey)
     {
         $this->_transKey = $transKey;
         return $this;
@@ -69,12 +69,23 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
      * @param string $fpTimestamp
      * @return string The fingerprint.
      */
-    public static function generateRequestSign($merchantApiLoginId, $merchantTransactionKey, $amount, $fpSequence, $fpTimestamp)
+    public function generateRequestSign($merchantApiLoginId, $merchantTransactionKey, $amount, $fpSequence, $fpTimestamp)
     {
         if (phpversion() >= '5.1.2'){
-            return hash_hmac("md5", $merchantApiLoginId . "^" . $fpSequence . "^" . $fpTimestamp . "^" . $amount . "^", $merchantTransactionKey);
+            return hash_hmac("md5",
+                $merchantApiLoginId . "^" .
+                $fpSequence . "^" .
+                $fpTimestamp . "^" .
+                $amount . "^", $merchantTransactionKey
+            );
         }
-        return bin2hex(mhash(MHASH_MD5, $merchantApiLoginId . "^" . $fpSequence . "^" . $fpTimestamp . "^" . $amount . "^", $merchantTransactionKey));
+
+        return bin2hex(mhash(MHASH_MD5,
+            $merchantApiLoginId . "^" .
+            $fpSequence . "^" .
+            $fpTimestamp . "^" .
+            $amount . "^", $merchantTransactionKey
+        ));
     }
 
     /**
@@ -94,10 +105,10 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
         $this->setXLogin($paymentMethod->getConfigData('login'))
             ->setXType('AUTH_ONLY')
             ->setXMethod(Mage_Paygate_Model_Authorizenet::REQUEST_METHOD_CC)
-            ->setXRelayUrl(Mage::getBaseUrl().'authorizenet/directpost_payment/response')
+            ->setXRelayUrl($paymentMethod->getRelayUrl())
             ->setCreateOrderBefore($paymentMethod->getConfigData('create_order_before'));
 
-        $this->setTransactionKey($paymentMethod->getConfigData('trans_key'));
+        $this->_setTransactionKey($paymentMethod->getConfigData('trans_key'));
         return $this;
     }
 
@@ -174,7 +185,13 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
     public function signRequestData()
     {
         $fpTimestamp = time();
-        $hash = self::generateRequestSign($this->getXLogin(), $this->getTransactionKey(), $this->getXAmount(), $this->getXFpSequence(), $fpTimestamp);
+        $hash = $this->generateRequestSign(
+            $this->getXLogin(),
+            $this->_getTransactionKey(),
+            $this->getXAmount(),
+            $this->getXFpSequence(),
+            $fpTimestamp
+        );
         $this->setXFpTimestamp($fpTimestamp);
         $this->setXFpHash($hash);
         return $this;

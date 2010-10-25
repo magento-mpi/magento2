@@ -137,7 +137,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
             if ($saveOrderFlag) {
                 $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
-                $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());                
+                $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());
                 $this->_forward(
                     $params['action'],
                     $params['controller'],
@@ -153,7 +153,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                     $quote->reserveOrderId()->save();
                 }
                 $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
-                $requestToPaygate = $payment->getMethodInstance()->generateRequestFromQuote($quote);
+                $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($quote);
                 $requestToPaygate->setControllerActionName($controller);
                 $result = array(
                     'success'    => 1,
@@ -170,7 +170,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
         }
     }
-    
+
     /**
      * Return customer quote by ajax
      *
@@ -188,7 +188,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
 
     /**
      * Return customer quote
-     *    
+     *
      * @return bool
      */
     protected function _returnCustomerQuote()
@@ -197,7 +197,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         $order = Mage::getModel('sales/order')->load($quoteId, 'quote_id');
         if ($order->getId() &&
             $this->_getDirectPostSession()
-                ->isCheckoutOrderIncrementIdExist($order->getIncrementId())) {            
+                ->isCheckoutOrderIncrementIdExist($order->getIncrementId())) {
             $quote = Mage::getModel('sales/quote')
                 ->load($quoteId);
             if ($quote->getId()){
