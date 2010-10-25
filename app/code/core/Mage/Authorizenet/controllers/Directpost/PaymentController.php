@@ -115,11 +115,11 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             && isset($redirectParams['controller_action_name'])
         ){
             $this->_addAdditionalInformationToSession($redirectParams['x_invoice_num']);
+            $this->_getDirectPostSession()->unsetData('quote_id');
             $params['redirect_parent'] = Mage::helper('authorizenet')->getSuccessOrderUrl($redirectParams);
         }
-        if (!empty($redirectParams['error_msg'])
-            && isset($redirectParams['x_invoice_num'])) {
-            $this->_returnCustomerQuote($redirectParams['x_invoice_num']);
+        if (!empty($redirectParams['error_msg'])) {
+            $this->_returnCustomerQuote();
         }
         $block = $this->_getIframeBlock()->setParams(array_merge($params, $redirectParams));
         $this->getResponse()->setBody($block->toHtml());
@@ -137,11 +137,12 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
             if ($saveOrderFlag) {
                 $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
+                $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());                
                 $this->_forward(
-                            $params['action'],
-                            $params['controller'],
-                            $params['module'],
-                            $this->getRequest()->getParams()
+                    $params['action'],
+                    $params['controller'],
+                    $params['module'],
+                    $this->getRequest()->getParams()
                 );
             }
             else {
@@ -169,33 +170,44 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
         }
     }
+    
+    /**
+     * Return customer quote by ajax
+     *
+     */
+    public function returnQuoteAction()
+    {
+        if ($this->_returnCustomerQuote()) {
+            $result = array('success' => 1);
+        }
+        else {
+            $result = array('error_message' => $this->__('Can not return quote'));
+        }
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+    }
 
     /**
      * Return customer quote
-     *
-     * @param int $orderIncrementId
+     *    
      * @return bool
      */
-    protected function _returnCustomerQuote($orderIncrementId)
+    protected function _returnCustomerQuote()
     {
-        if ($orderIncrementId &&
+        $quoteId = $this->_getDirectPostSession()->getQuoteId();
+        $order = Mage::getModel('sales/order')->load($quoteId, 'quote_id');
+        if ($order->getId() &&
             $this->_getDirectPostSession()
-                    ->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-            if ($order->getId()) {
-                $quoteId = $order->getQuoteId();
-                if ($quoteId) {
-                    $quote = Mage::getModel('sales/quote')
-                        ->load($quoteId);
-                    if ($quote->getId()){
-                        $quote->setIsActive(1)
-                            ->setReservedOrderId(NULL)
-                            ->save();
-                        $this->_getCheckout()->replaceQuote($quote);
-                    }
-                }
+                ->isCheckoutOrderIncrementIdExist($order->getIncrementId())) {            
+            $quote = Mage::getModel('sales/quote')
+                ->load($quoteId);
+            if ($quote->getId()){
+                $quote->setIsActive(1)
+                    ->setReservedOrderId(NULL)
+                    ->save();
+                $this->_getCheckout()->replaceQuote($quote);
             }
-            $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($orderIncrementId);
+            $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($order->getIncrementId());
+            $this->_getDirectPostSession()->unsetData('quote_id');
             return true;
         }
 

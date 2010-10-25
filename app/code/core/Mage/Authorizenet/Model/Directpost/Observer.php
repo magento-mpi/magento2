@@ -185,9 +185,9 @@ class Mage_Authorizenet_Model_Directpost_Observer
             $result = Mage::helper('core')->jsonDecode($controller->getResponse()->getBody('default'));
             if (empty($result['error'])){
                 $block = $controller->getLayout()
-                            ->createBlock($payment->getMethodInstance()->getFormBlockType())
-                            ->setMethod($payment->getMethodInstance())
-                            ->setTemplate('authorizenet/directpost/form.phtml');
+                    ->createBlock($payment->getMethodInstance()->getFormBlockType())
+                    ->setMethod($payment->getMethodInstance())
+                    ->setTemplate('authorizenet/directpost/form.phtml');
                 $result['update_section']['html'] .= $block->toHtml();
                 $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
             }

@@ -24,7 +24,7 @@
  */
 var directPost = Class.create();
 directPost.prototype = {
-	initialize: function (methodCode, iframeId, controller, orderSaveUrl, cgiUrl, nativeAction)
+	initialize: function (methodCode, iframeId, controller, orderSaveUrl, cgiUrl, nativeAction, createOrderBefore)
     {		
         this.iframeId = iframeId;
         this.controller = controller;
@@ -32,6 +32,7 @@ directPost.prototype = {
         this.nativeAction = nativeAction;
         this.cgiUrl = cgiUrl;        
         this.code = methodCode;
+        this.createOrderBefore = createOrderBefore;
         this.inputs = [
             'cc_type',
             'cc_number',
@@ -115,7 +116,10 @@ directPost.prototype = {
     		switch (this.controller) {
 	    		case 'onepage':
 	    			this.paymentRequestSent = false;
-	    			if (!this.hasError) {
+	    			if (!this.hasError && this.createOrderBefore) {
+	    				this.returnQuote();
+	    			}
+	    			else {
 	    				$(this.iframeId).show();
 	    				review.resetLoadWaiting();
 	    			}
@@ -130,13 +134,15 @@ directPost.prototype = {
 		    		}
 		    		else {
 		    			this.paymentRequestSent = false;		    			
-		    			if (!this.hasError) {
-		    				$(this.iframeId).show();
+		    			if (!this.hasError && this.createOrderBefore) {
+		    				this.returnQuote();
 		    			}
-		    			this.changeInputOptions('disabled', false);
-		    			toggleSelectsUnderBlock($('loading-mask'), true);
-		    			$('loading-mask').hide();
-		    			enableElements('save');
+		    			else {
+			    			this.changeInputOptions('disabled', false);
+			    			toggleSelectsUnderBlock($('loading-mask'), true);
+			    			$('loading-mask').hide();
+			    			enableElements('save');
+		    			}
 		    		}
 		    		break;
     		}
@@ -145,18 +151,43 @@ directPost.prototype = {
     
     showError: function(msg)
     {
-    	switch (this.controller) {
-    		case 'onepage':
-    			this.hasError = true;
-    	    	$(this.iframeId).hide();    	    	  
-    			break;
-    		case 'sales_order_edit':
-	    	case 'sales_order_create':
-	    		this.hasError = true;
-	    		break;
-    	}    	  	
+    	this.hasError = true;
+    	if (this.controller == 'onepage') {
+    		$(this.iframeId).hide();
+    	}    		  	
     	alert(msg);
-    },    
+    },
+    
+    returnQuote: function()
+    {
+    	var url = this.orderSaveUrl.replace('place', 'returnQuote');
+    	new Ajax.Request(url, {            
+            onSuccess: function(transport) {
+	    		try{
+	                response = eval('(' + transport.responseText + ')');
+	            }
+	            catch (e) {
+	                response = {};
+	            }
+	            if (response.error_message) {	            		            
+	            	alert(response.error_message);
+	            }
+	            $(this.iframeId).show();
+            	switch (this.controller) {
+            		case 'onepage':	            			
+	    				review.resetLoadWaiting();
+            			break;
+            		case 'sales_order_edit':
+    		    	case 'sales_order_create':
+    		    		this.changeInputOptions('disabled', false);
+		    			toggleSelectsUnderBlock($('loading-mask'), true);
+		    			$('loading-mask').hide();
+		    			enableElements('save');
+    		    		break;
+            	}
+            }.bind(this)
+        });
+    },            
     
     saveOnepageOrder: function()
     {    	
@@ -239,7 +270,7 @@ directPost.prototype = {
 	            $(editForm.formId).writeAttribute('target', $(this.iframeId).readAttribute('name'));
 	            $(editForm.formId).appendChild(this.createHiddenElement('controller', this.controller));
 				disableElements('save');
-				if (order) {
+				if (order && !this.createOrderBefore) {
 					Ajax.activeRequestCount++;
 					this.recollectQuote();
 				}

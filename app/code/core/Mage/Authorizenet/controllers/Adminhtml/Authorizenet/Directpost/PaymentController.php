@@ -76,11 +76,12 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
             if ($saveOrderFlag) {
                 $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
+                $this->_getDirectPostSession()->setQuoteId($this->_getOrderSession()->getQuote()->getId());                
                 $this->_forward(
-                            $params['action'],
-                            $params['controller'],
-                            $params['module'],
-                            $this->getRequest()->getParams()
+                    $params['action'],
+                    $params['controller'],
+                    $params['module'],
+                    $this->getRequest()->getParams()
                 );
             }
             else {
@@ -125,39 +126,52 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             && isset($redirectParams['x_invoice_num'])
             && isset($redirectParams['controller_action_name'])) {
             $params['redirect_parent'] = Mage::helper('authorizenet')->getSuccessOrderUrl($redirectParams);
+            $this->_getDirectPostSession()->unsetData('quote_id');
             $this->_getSession()->clear();
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The order has been created.'));
         }
-        if (!empty($redirectParams['error_msg'])
-            && isset($redirectParams['x_invoice_num'])) {
-            $this->_returnQuote($redirectParams['x_invoice_num']);
+        if (!empty($redirectParams['error_msg'])) {
+            $this->_returnQuote();
             $this->_getSession()->addError($redirectParams['error_msg']);
         }
         $block = $this->getLayout()
-                        ->createBlock('directpost/iframe')
-                        ->setParams(array_merge($params, $redirectParams));
+            ->createBlock('directpost/iframe')
+            ->setParams(array_merge($params, $redirectParams));
         $this->getResponse()->setBody($block->toHtml());
+    }
+    
+	/**
+     * Return order quote by ajax
+     *
+     */
+    public function returnQuoteAction()
+    {
+        if ($this->_returnQuote()) {
+            $result = array('success' => 1);
+        }
+        else {
+            $result = array('error_message' => $this->__('Can not return quote'));
+        }
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
     /**
      * Return quote
-     *
-     * @param int $orderIncrementId
+     *     
      * @return bool
      */
-    protected function _returnQuote($orderIncrementId)
+    protected function _returnQuote()
     {
-        if ($orderIncrementId &&
+        $quoteId = $this->_getDirectPostSession()->getQuoteId();
+        $order = Mage::getModel('sales/order')->load($quoteId, 'quote_id');
+        if ($order->getId() &&
             $this->_getDirectPostSession()
-                    ->isCheckoutOrderIncrementIdExist($orderIncrementId)) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-            if ($order->getId()) {
-                $quoteId = $order->getQuoteId();
-                $order->setReordered(true);
-                $this->_getOrderSession()->setUseOldShippingMethod(true);
-                $this->_getOrderCreateModel()->initFromOrder($order);
-            }
-            $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($orderIncrementId);
+                ->isCheckoutOrderIncrementIdExist($order->getIncrementId())) {
+            $order->setReordered(true);
+            $this->_getOrderSession()->setUseOldShippingMethod(true);
+            $this->_getOrderCreateModel()->initFromOrder($order);
+            $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($order->getIncrementId());
+            $this->_getDirectPostSession()->unsetData('quote_id');
             return true;
         }
 

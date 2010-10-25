@@ -108,7 +108,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </test>
-                        <cgi_url>
+                        <cgi_url translate="label">
                             <label>Gateway URL</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>9</sort_order>
@@ -211,7 +211,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
-                        <create_order_before translate="label">
+                        <create_order_before translate="label,comment">
                             <label>Create order before payment</label>
                             <comment>If you are going to set "No", please make sure that Authorize.net is able to report transactions to this merchant</comment>
                             <frontend_type>select</frontend_type>

@@ -144,7 +144,8 @@ directPostModel = new directPost(
         '<?php echo $_controller ?>',
         '<?php echo $_orderUrl ?>',
         '<?php echo $_method->getCgiUrl() ?>',
-        '<?php echo $this->getUrl('*/*/save') ?>');
+        '<?php echo $this->getUrl('*/*/save') ?>',
+        '<?php echo $this->getIsCreateOrderBefore() ?>');
 <?php if (!$this->isAjaxRequest()): ?>
 });
 <?php endif; ?>        

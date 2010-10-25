@@ -55,4 +55,14 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
                     ->getRequest()
                     ->getParam('isAjax');
     }
+    
+    /**
+     * Create order before/after payment
+     * 
+     * @return bool
+     */
+    public function getIsCreateOrderBefore()
+    {
+        return Mage::getStoreConfig('payment/'.$this->getMethod()->getCode().'/create_order_before');
+    }
 }
