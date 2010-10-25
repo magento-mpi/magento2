@@ -749,17 +749,12 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
 
         $resourceHelper->beforeIdentityItemDataInsert($targetTableDesc);
-        Mage::log($targetTableDesc, null, 'staging.log');//!!!
 
-            Mage::log( $backupTable, null, 'staging.log');//!!!
         if ($this->tableExists($backupTable)) {
-            Mage::log('tableExists = ' . $backupTable, null, 'staging.log');//!!!
             if ($this->allowToProceedInWebsiteScope($fields)) {
-                Mage::log('allowToProceedInWebsiteScope', null, 'staging.log');//!!!
                 $this->_rollbackTableDataInWebsiteScope($backupTable, $entityName, null, $fields);
             }
             if ($this->allowToProceedInStoreScope($fields)) {
-                Mage::log('allowToProceedInStoreScope', null, 'staging.log');//!!!
                 $this->_rollbackTableDataInStoreScope($backupTable, $entityName, null, $fields);
             }
         }
@@ -781,7 +776,6 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     protected function _rollbackTableDataInWebsiteScope($srcTable, $targetTable, $connection, $fields)
     {
-        Mage::log('_rollbackTableDataInWebsiteScope', null, 'staging.log');
         $staging        = $this->getStaging();
         $mergedWebsites = $staging->getMapperInstance()->getWebsites();
 
