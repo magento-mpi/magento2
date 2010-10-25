@@ -120,7 +120,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         }
         if (!empty($redirectParams['error_msg'])) {
             $cancelOrder = empty($redirectParams['x_invoice_num']);
-            $this->_returnCustomerQuote($cancelOrder);
+            $this->_returnCustomerQuote($cancelOrder, $redirectParams['error_msg']);
         }
         $block = $this->_getIframeBlock()->setParams(array_merge($params, $redirectParams));
         $this->getResponse()->setBody($block->toHtml());
@@ -191,9 +191,10 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
      * Return customer quote
      * 
      * @param bool $cancelOrder
+     * @param string $errorMsg
      * @return bool
      */
-    protected function _returnCustomerQuote($cancelOrder = false)
+    protected function _returnCustomerQuote($cancelOrder = false, $errorMsg)
     {
         $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();        
         if ($incrementId &&
@@ -212,7 +213,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                 $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($incrementId);
                 $this->_getDirectPostSession()->unsetData('quote_id');
                 if ($cancelOrder) {
-                    $order->cancel()->save();
+                    $order->registerCancellation($errorMsg)->save();
                 }
                 return true;
             }
