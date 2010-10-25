@@ -187,8 +187,9 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
         $subSelect = $adapter->select();
 
         $subSelect->from(false, array(
-            'items_qty'   => 'q.items_qty - qi.qty AS items_qty',
-            'items_count' => $this->_getReadAdapter()->quoteInto('q.items_count - ?', 1)
+            'items_qty'   => new Zend_Db_Expr(
+                $adapter->quoteIdentifier('q.items_qty') . ' - ' . $adapter->quoteIdentifier('qi.qty')),
+            'items_count' => new Zend_Db_Expr($adapter->quoteIdentifier('q.items_count') . ' - 1')
         ))
         ->join(
             array('qi' => $this->getTable('sales/quote_item')),
