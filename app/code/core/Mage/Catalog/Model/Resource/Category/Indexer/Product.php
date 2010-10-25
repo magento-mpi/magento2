@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Resource model for category product indexer
  *
  * @category    Mage
  * @package     Mage_Catalog
@@ -35,37 +35,37 @@
 class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Model_Resource_Abstract
 {
     /**
-     * Enter description here ...
+     * Category table
      *
-     * @var unknown
+     * @var string
      */
     protected $_categoryTable;
 
     /**
-     * Enter description here ...
+     * Category product table
      *
-     * @var unknown
+     * @var string
      */
     protected $_categoryProductTable;
 
     /**
-     * Enter description here ...
+     * Product website table
      *
-     * @var unknown
+     * @var string
      */
     protected $_productWebsiteTable;
 
     /**
-     * Enter description here ...
+     * Store table
      *
-     * @var unknown
+     * @var string
      */
     protected $_storeTable;
 
     /**
-     * Enter description here ...
+     * Group table
      *
-     * @var unknown
+     * @var string
      */
     protected $_groupTable;
 
@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     protected $_storesInfo;
 
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
@@ -919,8 +919,8 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     /**
      * Create temporary table with enabled products visibility info
      *
-     * @param unknown_type $websiteId
-     * @param unknown_type $storeId
+     * @param int $websiteId
+     * @param int $storeId
      * @return string temporary table name
      */
     protected function _prepareEnabledProductsVisibility($websiteId, $storeId)
@@ -1018,7 +1018,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
 
     /**
      * @param int $storeId
-     * @param unknown_type $rootPath
+     * @param string $rootPath
      * @return string temporary table name
      */
     protected function _prepareAnchorCategories($storeId, $rootPath)
@@ -1084,7 +1084,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     /**
      * Retrieve temporary decimal index table name
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return string
      */
     public function getIdxTable($table = null)
