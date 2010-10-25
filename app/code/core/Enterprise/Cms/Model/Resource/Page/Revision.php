@@ -165,7 +165,7 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
             ->join(array('r'=> $sql), 'p.version_id = r.version_id', array('revisions_count'))
             ->where('r.version_id = ?', (int)$versionId);
 
-        $query = $adapter->updateFromSelect($select, array('p' => $this->_versionTable));
+        $query = $this->_getWriteAdapter()->updateFromSelect($select, array('p' => $this->_versionTable));
         $adapter->query($query);
 
         return $this;
