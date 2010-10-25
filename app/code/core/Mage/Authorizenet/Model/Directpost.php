@@ -71,7 +71,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     protected function _getCreateOrderBefore()
     {
-        if (!isset(self::$_createOrderBefore)){
+        if (!isset(self::$_createOrderBefore)) {
             self::$_createOrderBefore = $this->getConfigData('create_order_before');
         }
         return self::$_createOrderBefore;
@@ -100,9 +100,9 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     public function authorize(Varien_Object $payment, $amount)
     {
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
-        if (!$this->_getCreateOrderBefore()){
+        if (!$this->_getCreateOrderBefore()) {
             $response = $this->getResponse();
-            if ($response->getXTransId() && $response->isApproved()){
+            if ($response->getXTransId() && $response->isApproved()) {
                 $payment->setTransactionId($response->getXTransId())
                     ->setParentTransactionId(null)
                     ->setIsTransactionClosed(0)
@@ -164,7 +164,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     public function initialize($paymentAction, $stateObject)
     {
-        switch ($paymentAction){
+        switch ($paymentAction) {
             case self::ACTION_AUTHORIZE:
             case self::ACTION_AUTHORIZE_CAPTURE:
                 $payment = $this->getInfoInstance();
@@ -172,7 +172,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 $order->setCanSendNewEmailFlag(false);
                 $payment->authorize(true, $order->getBaseTotalDue()); // base amount will be set inside
                 $payment->setAmountAuthorized($order->getTotalDue());
-                if ($this->_getCreateOrderBefore()){
+                if ($this->_getCreateOrderBefore()) {
                     $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, 'pending_payment', '', false);
 
                     $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
@@ -242,13 +242,13 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     {
         $response = $this->getResponse();
         //md5 check
-        if (!$response->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))){
+        if (!$response->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))) {
             Mage::throwException(
                 Mage::helper('authorizenet')->__('Response hash validation failed. Transaction declined.')
             );
         }
 
-        if (!$response->getXTransId()){
+        if (!$response->getXTransId()) {
             Mage::throwException(
                 $this->_wrapGatewayError($response->getXResponseReasonText())
             );
@@ -281,11 +281,11 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $orderIncrementId = $response->getXInvoiceNum();
         $responseText = $this->_wrapGatewayError($response->getXResponseReasonText());
         $isError = false;
-        if ($orderIncrementId){
-            if ($response->getCreateOrderBefore()){
+        if ($orderIncrementId) {
+            if ($response->getCreateOrderBefore()) {
                 /* @var $order Mage_Sales_Model_Order */
                 $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-                if ($order->getId()){
+                if ($order->getId() &&  $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     //operate with order
                     $this->_authOrder($order);
                 }
@@ -295,7 +295,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             }
             else {
                 $quote = Mage::getModel('sales/quote')->load($orderIncrementId, 'reserved_order_id');
-                if ($quote->getId()){
+                if ($quote->getId()) {
                     //operate with quote
                     $this->_authQuote($quote);
                 }
@@ -308,7 +308,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             $isError = true;
         }
 
-        if ($isError){
+        if ($isError) {
             Mage::throwException(
                 ($responseText && !$response->isApproved()) ?
                 $responseText :
@@ -358,7 +358,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         try {
             $this->checkResponseCode();
         }
-        catch (Exception $e){
+        catch (Exception $e) {
             //decline the order (in case of wrong response code) but don't return money to customer.
             $message = $e->getMessage();
             $this->_declineOrder($order, $message, false);
@@ -398,7 +398,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $this->_captureOrder($order);
 
         try {
-            if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()){
+            if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()) {
                 $order->sendNewOrderEmail();
             }
 
@@ -425,7 +425,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         try {
             $quote->collectTotals()->save();
         }
-        catch (Exception $e){
+        catch (Exception $e) {
             $this->_declineQuote($quote);
             throw $e;
         }
@@ -477,7 +477,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             $quotePayment->setAdditionalInformation('session_data', $result);
             $quote->save();
         }
-        catch (Exception $e){
+        catch (Exception $e) {
             $this->_setCreateOrderBefore($createOrderBefore);
             $this->_declineQuote($quote);
             throw $e;
@@ -487,7 +487,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $this->_captureOrder($order);
 
         try {
-            if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()){
+            if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()) {
                 $order->sendNewOrderEmail();
             }
         }
@@ -506,7 +506,10 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     {
         try {
             $response = $this->getResponse();
-            if ($voidPayment && $response->getXTransId() && strtoupper($response->getXType()) == 'AUTH_ONLY'){
+            if ($voidPayment &&
+                $response->getXTransId() &&
+                strtoupper($response->getXType()) == self::REQUEST_TYPE_AUTH_ONLY
+            ) {
                 $order->getPayment()
                     ->setTransactionId(null)
                     ->setParentTransactionId($response->getXTransId())
@@ -515,7 +518,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             $order->registerCancellation($message)
                 ->save();
         }
-        catch (Exception $e){
+        catch (Exception $e) {
             //quiet decline
             Mage::logException($e);
         }
@@ -536,7 +539,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                     ->capture(null);
                 $order->save();
             }
-            catch (Exception $e){
+            catch (Exception $e) {
                 Mage::logException($e);
                 //if we couldn't capture order, just leave it as NEW order.
             }
@@ -552,7 +555,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     {
         try {
             $response = $this->getResponse();
-            if ($response->getXTransId() && strtoupper($response->getXType()) == 'AUTH_ONLY'){
+            if ($response->getXTransId() && strtoupper($response->getXType()) == self::REQUEST_TYPE_AUTH_ONLY) {
                 $payment = new Varien_Object();
                 $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
                 $payment->setXTransId($response->getXTransId());
@@ -574,7 +577,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 }
             }
         }
-        catch (Exception $e){
+        catch (Exception $e) {
             //quiet decline
             Mage::logException($e);
         }
