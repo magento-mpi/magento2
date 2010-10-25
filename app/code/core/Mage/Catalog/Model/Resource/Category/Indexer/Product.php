@@ -402,7 +402,9 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                     array())
                 ->where('i.product_id IS NULL')
                 ->where('pw.website_id=?', $websiteId)
-                ->where('IF(ss.value_id IS NOT NULL, ss.value, ds.value) = ?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+                ->where(
+                    $this->_getWriteAdapter()->getCheckSql('ss.value_id IS NOT NULL', 'ss.value', 'ds.value') . ' = ?',
+                    Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
                 ->columns(array(
                     'category_id'   => new Zend_Db_Expr($rootId),
                     'product_id'    => 'pw.product_id',
@@ -682,7 +684,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                 "ss.entity_id = pw.product_id AND ss.attribute_id = {$statusInfo['id']} AND ss.store_id = s.store_id",
                 array())
             ->where('i.product_id IS NULL')
-            ->where('IF(ss.value_id IS NOT NULL, ss.value, ds.value)=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->where($adapter->getCheckSql('ss.value_id IS NOT NULL', 'ss.value', 'ds.value') . '=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
             ->where('pw.product_id IN(?)', $productIds)
             ->columns(array(
                 'category_id'   => 'g.root_category_id',
