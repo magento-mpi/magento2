@@ -331,7 +331,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
             $writeAdapter->update(
                 $targetTable,
                 array('website_ids' => $concatVal),
-                array($stagingCond, ' NOT '. $masterCond)
+                array($masterCond, ' NOT '. $stagingCond)
             );
         } else {
             $selectFields = $fields;
