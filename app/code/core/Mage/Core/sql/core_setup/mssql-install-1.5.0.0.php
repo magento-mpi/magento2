@@ -196,6 +196,174 @@ BEGIN
 END;
 ");
 
+$installer->getConnection()->query("
+create procedure [dbo].[get_table_fk] (@objectName varchar(128)) as
+begin
+declare @objectId int;
+declare @drop varchar(MAX) = '';
+declare @columns varchar(MAX) = ''
+declare @primaryKeyName varchar(MAX) = ''
+declare @primaryKeyColumns varchar(MAX) = ''
+declare @indexes varchar(MAX) = ''
+declare @fkeys varchar(MAX) = ''
+declare @table varchar(128)
+declare @ddl varchar(MAX)
+
+set @objectId = object_id(@objectName)
+if (@objectId is null)
+	raiserror 99999 'Invalid table name';
+
+select @fkeys = @fkeys +
+	'ALTER TABLE ' + object_name(@objectId) + ' ADD CONSTRAINT ' + object_name(fkc.constraint_object_id) + ' FOREIGN KEY (' +
+ stuff((
+	select ', ' + '['+ c1.name +']'
+	from sys.all_columns c1
+	where c1.object_id = fkc.parent_object_id
+		and c1.column_id = fkc.parent_column_id
+   for xml path(''), type
+  ).value('.','varchar(8000)'), 1,2,'' ) + ')' + ' REFERENCES [' + object_name(fkc.referenced_object_id) + '] (' +
+ stuff((
+	select ', ' + '['+ c1.name +']'
+	from sys.all_columns c1
+	where c1.object_id = fkc.referenced_object_id
+		and c1.column_id = fkc.referenced_column_id
+   for xml path(''), type
+  ).value('.','varchar(8000)'), 1,2,'' ) + ');' + char(13)
+from sys.foreign_key_columns fkc
+where fkc.parent_object_id = @objectId
+
+select @fkeys as ddl_script
+
+end
+GO");
+
+$installer->getConnection()->query("
+    CREATE  procedure [dbo].[get_table_dll] (@objectName varchar(128), @withfk int, @withdrop int) as
+    begin
+declare @objectId int;
+declare @drop varchar(MAX) = '';
+declare @columns varchar(MAX) = ''
+declare @primaryKeyName varchar(MAX) = ''
+declare @primaryKeyColumns varchar(MAX) = ''
+declare @indexes varchar(MAX) = ''
+declare @fkeys varchar(MAX) = ''
+declare @table varchar(128)
+declare @ddl varchar(MAX)
+
+set @objectId = object_id(@objectName)
+if (@objectId is null)
+	raiserror 99999 'Invalid table name';
+
+if (@withdrop = 1)
+	select @drop = 'IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = ' + cast(@objectId as varchar) + ' AND type in (N''U''))' + char(13) +
+	'DROP TABLE [' + @objectName + ']'
+
+select @table = '[' + object_name(@objectId) + ']'
+select
+	@columns = @columns  + char(32) + '[' + c.name + '] ' +
+		case
+			when type_name(c.system_type_id) like '%char' then type_name(c.system_type_id) + '(' + cast(c.max_length as varchar(5)) + ')'
+			else type_name(c.system_type_id)
+		end +
+		case
+			when c.is_nullable = 0 then ' NOT NULL'
+			else ''
+		end	+
+		case
+			when c.is_identity = 1 then ' IDENTITY(1, 1)'
+			else ''
+		end
+		  + ISNULL(' DEFAULT ' + dc.definition, '')
+		 + ', ' + char(13),
+	@primaryKeyName =
+		case
+			when ic.column_id is not null  then ic.name
+			else @primaryKeyName
+		end,
+ @primaryKeyColumns = stuff((
+	select ', ' + '['+ c1.name +']'
+	from sys.all_columns c1
+	inner join sys.index_columns ic1 on ic1.object_id = c1.object_id
+		and ic1.column_id = c1.column_id
+	inner join sys.indexes ix1 on ix1.object_id = ic1.object_id
+		and ix1.object_id = c1.object_id
+		and ix1.index_id = ic1.index_id
+	where c1.object_id = c.object_id
+		and ix1.is_primary_key = 1
+   for xml path(''), type
+  ).value('.','varchar(8000)'), 1,2,'' )
+from sys.all_columns c
+left join (
+	select sic.column_id, sic.object_id, si.name
+	from sys.index_columns sic
+	inner join sys.indexes si on si.object_id = sic.object_id
+		and si.index_id = sic.index_id
+		and si.is_primary_key = 1
+	) ic on ic.object_id = c.object_id
+	and ic.column_id = c.column_id
+left join sys.default_constraints dc on dc.parent_object_id = c.object_id
+	and dc.parent_column_id = c.column_id
+where c.object_id = @objectId
+order by c.column_id
+
+
+select
+	@indexes = @indexes +
+	case
+		when ix.is_unique = 1 then 'CREATE UNIQUE INDEX '
+		else 'CREATE INDEX '
+	end +
+	isnull('['+max(ix.name)+']','') + ' ON ' + object_name(@objectId) + '(' +
+ stuff((
+	select ', ' + '['+ c1.name +']'
+	from sys.all_columns c1
+	inner join sys.index_columns ic1 on ic1.object_id = c1.object_id
+		and ic1.column_id = c1.column_id
+	inner join sys.indexes ix1 on ix1.object_id = ic1.object_id
+		and ix1.object_id = c1.object_id
+		and ix1.index_id = ic1.index_id
+	where ix1.object_id = ix.object_id
+		and ix1.index_id = ix.index_id
+   for xml path(''), type
+  ).value('.','varchar(8000)'), 1,2,'' ) + '); ' + char(13)
+from sys.all_columns c
+left join sys.index_columns ic on ic.object_id = c.object_id
+	and ic.column_id = c.column_id
+left join sys.indexes ix on ix.object_id = ic.object_id
+	and ix.object_id = c.object_id
+	and ix.index_id = ic.index_id
+where c.object_id = @objectId
+and ix.is_primary_key = 0
+group by ix.object_id, ix.index_id, ix.is_unique
+
+
+if (@withfk = 1)
+select @fkeys = @fkeys +
+	'ALTER TABLE ' + object_name(@objectId) + ' ADD CONSTRAINT ' + object_name(fkc.constraint_object_id) + ' FOREIGN KEY (' +
+ stuff((
+	select ', ' + '['+ c1.name +']'
+	from sys.all_columns c1
+	where c1.object_id = fkc.parent_object_id
+		and c1.column_id = fkc.parent_column_id
+   for xml path(''), type
+  ).value('.','varchar(8000)'), 1,2,'' ) + ')' + ' REFERENCES [' + object_name(fkc.referenced_object_id) + '] (' +
+ stuff((
+	select ', ' + '['+ c1.name +']'
+	from sys.all_columns c1
+	where c1.object_id = fkc.referenced_object_id
+		and c1.column_id = fkc.referenced_column_id
+   for xml path(''), type
+  ).value('.','varchar(8000)'), 1,2,'' ) + ');' + char(13)
+from sys.foreign_key_columns fkc
+where fkc.parent_object_id = @objectId
+
+select @ddl = @drop + char(13) + char(13) + 'CREATE TABLE ' + @table + ' ('+ char(13) + (substring(@columns, 1, len(@columns) - 3)) +
+	isnull(', ' + char(13) + char(32) + 'CONSTRAINT [' + @primaryKeyName + '] PRIMARY KEY (' + @primaryKeyColumns + ')', '')
++char(13)+');' + char(13) + char(13) + @indexes + char(13) + @fkeys
+
+select @ddl as ddl_script
+end");
+
 $installFile = dirname(__FILE__) . DS . 'install-1.5.0.0.php';
 if (file_exists($installFile)) {
     include $installFile;
