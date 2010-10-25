@@ -116,6 +116,6 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
      * @return int The number of affected rows.
      */
     public function insertOnDuplicate($table, array $data, array $fields = array()) {
-        return $this->_getReadAdapter()->insertOnDuplicate($table, $data, $fields);
+        return $this->_getWriteAdapter()->insertOnDuplicate($table, $data, $fields);
     }
 }
