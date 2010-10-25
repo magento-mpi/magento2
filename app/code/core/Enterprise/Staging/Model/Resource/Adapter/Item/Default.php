@@ -743,7 +743,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $fields     = array_keys($fields);
 
         $backupPrefix = $this->getStaging()->getMapperInstance()->getBackupTablePrefix();
-        $backupTable  = $backupPrefix . $this->getTable($entityName);
+        $backupTable  = $this->_getWriteAdapter()->getTableName($backupPrefix . $this->getTable($entityName));
 
         if ($this->tableExists($backupTable)) {
             if ($this->allowToProceedInWebsiteScope($fields)) {
@@ -880,28 +880,26 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $masterStoreId = intval($masterStoreId);
 
                     $this->_beforeStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
-                    
+
                     $resourceHelper->beforeIdentityItemDataInsert($targetDesc);
-                    $select = $this->_getSimpleSelect($srcTable, $fields);
 
                     foreach ($fields as $field) {
-                        if ($field == 'store_id') {
-                            // 1 - delete all store-related rows
-                            $deleteFilter = array('store_id = ?' => $masterStoreId);
-                            // 2 - insert all store-related rows from backup
-                            $select->where('store_id = ?', $masterStoreId);
-
-                        } elseif ($field == 'scope_id') {
-                            // 1 - delete all store-related rows
-                            $deleteFilter = array('scope = ?' => 'stores', 'scope_id = ?' => $masterStoreId);
-                            // 2 - insert all store-related rows from backup
-                            $select
-                                ->where('scope_id = ?', $masterStoreId)
-                                ->where('scope = ?', 'stores');
+                        if (in_array('store_id', $fields)) {
+                            $whereCond = array('store_id = ?' => $masterStoreId);
+                        } elseif (in_array('scope_id', $fields)) {
+                            $whereCond = array(
+                                $connection->quoteIdentifier('scope') .'= ?' => 'stores',
+                                'scope_id = ?' => $masterStoreId
+                            );
                         }
                     }
-
-                    $connection->delete($targetTable, $deleteFilter);
+                    // 1 -- delete all rows
+                    $connection->delete($targetTable, $whereCond);
+                    // 2 -- insert Rows from backup
+                    $select = $this->_getSimpleSelect($srcTable, $fields);
+                    foreach ($whereCond as $cond => $value) {
+                        $select->where($cond, $value);
+                    }
                     $query = $resourceHelper->getInsertFromSelect($select, $targetTable, $fields);
                     $connection->query($query);
                     $resourceHelper->afterIdentityItemDataInsert($targetDesc);
