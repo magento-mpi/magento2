@@ -330,4 +330,4 @@ $installer->addAttribute(
 /**
  * Prepare database after module installation
  */
-$installer->startSetup();
+$installer->endSetup();
