@@ -116,13 +116,15 @@ directPost.prototype = {
     		switch (this.controller) {
 	    		case 'onepage':
 	    			this.paymentRequestSent = false;
-	    			if (!this.hasError && this.createOrderBefore) {
-	    				this.returnQuote();
-	    			}
-	    			else {
-	    				$(this.iframeId).show();
-	    				review.resetLoadWaiting();
-	    			}
+	    			if (!this.hasError) {
+	    				if (this.createOrderBefore) {
+	    					this.returnQuote();
+	    				}
+	    				else {
+	    					$(this.iframeId).show();
+	    					review.resetLoadWaiting();
+	    				}
+	    			}	    			
 	    			break;
 	    		case 'sales_order_edit':
 		    	case 'sales_order_create':
@@ -154,6 +156,7 @@ directPost.prototype = {
     	this.hasError = true;
     	if (this.controller == 'onepage') {
     		$(this.iframeId).hide();
+    		review.resetLoadWaiting();
     	}    		  	
     	alert(msg);
     },

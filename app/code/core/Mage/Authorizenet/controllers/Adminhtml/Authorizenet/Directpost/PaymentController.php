@@ -131,7 +131,8 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The order has been created.'));
         }
         if (!empty($redirectParams['error_msg'])) {
-            $this->_returnQuote();
+            $cancelOrder = empty($redirectParams['x_invoice_num']);
+            $this->_returnQuote($cancelOrder);
             $this->_getSession()->addError($redirectParams['error_msg']);
         }
         $block = $this->getLayout()
@@ -150,29 +151,35 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             $result = array('success' => 1);
         }
         else {
-            $result = array('error_message' => $this->__('Can not return quote'));
+            $result = array('error_message' => $this->__('Payment transaction error.'));
         }
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
     /**
      * Return quote
-     *
+     * 
+     * @param bool $cancelOrder
      * @return bool
      */
-    protected function _returnQuote()
-    {
-        $quoteId = $this->_getDirectPostSession()->getQuoteId();
-        $order = Mage::getModel('sales/order')->load($quoteId, 'quote_id');
-        if ($order->getId() &&
+    protected function _returnQuote($cancelOrder = false)
+    {        
+        $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();        
+        if ($incrementId &&
             $this->_getDirectPostSession()
-                ->isCheckoutOrderIncrementIdExist($order->getIncrementId())) {
-            $order->setReordered(true);
-            $this->_getOrderSession()->setUseOldShippingMethod(true);
-            $this->_getOrderCreateModel()->initFromOrder($order);
-            $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($order->getIncrementId());
-            $this->_getDirectPostSession()->unsetData('quote_id');
+                ->isCheckoutOrderIncrementIdExist($incrementId)) {
+            $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
+            if ($order->getId()) { 
+                $order->setReordered(true);
+                $this->_getOrderSession()->setUseOldShippingMethod(true);
+                $this->_getOrderCreateModel()->initFromOrder($order);
+                $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($order->getIncrementId());
+                $this->_getDirectPostSession()->unsetData('quote_id');
+                if ($cancelOrder) {
+                    $order->cancel()->save();
+                }
             return true;
+            }
         }
 
         return false;

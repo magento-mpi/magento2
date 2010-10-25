@@ -103,6 +103,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
                         //return json with data.
                         $session = Mage::getSingleton('authorizenet/directpost_session');
                         $session->addCheckoutOrderIncrementId($order->getIncrementId());
+                        $session->setLastOrderIncrementId($order->getIncrementId());
 
                         $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($order);
                         $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
@@ -144,6 +145,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
                     //if is success, then set order to session and add new fields
                     $session =  Mage::getSingleton('authorizenet/directpost_session');
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
+                    $session->setLastOrderIncrementId($order->getIncrementId());
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($order);
                     $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
                     $result['directpost'] = array('fields' => $requestToPaygate->getData());
