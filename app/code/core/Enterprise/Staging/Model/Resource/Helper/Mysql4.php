@@ -168,4 +168,16 @@ class Enterprise_Staging_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
                 Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
 
     }
+
+    /**
+     * Retrieve tables with specified prefix
+     *
+     * @param string $prefix
+     * @return array
+     */
+    public function getTableNamesByPrefix($prefix)
+    {
+        $sql    = "SHOW TABLES LIKE '" . str_replace('_', '\_', $prefix) . "%'";
+        return $this->_getReadAdapter()->fetchCol($sql);
+    }
 }

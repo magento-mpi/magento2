@@ -85,19 +85,14 @@ class Enterprise_Staging_Model_Resource_Staging_Action extends Mage_Core_Model_R
     {
         if ($object->getIsDeleteTables() === true) {
             $stagingTablePrefix = $object->getStagingTablePrefix();
+            $tables = Mage::getResourceHelper('enterprise_staging')->getTableNamesByPrefix($stagingTablePrefix);
             $connection = $this->_getWriteAdapter();
-            $sql = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
-            $result = $connection->fetchAll($sql);
 
-            $connection->query("SET foreign_key_checks = 0;");
-            foreach ($result AS $row) {
-                $table = array_values($row);
-                if (!empty($table[0])) {
-                    $dropTableSql = "DROP TABLE {$table[0]}";
-                    $connection->query($dropTableSql);
-                }
+            foreach ($tables AS $table) {
+                $connection->disableTableKeys($table);
+                $connection->dropTable($table);
             }
-            $connection->query("SET foreign_key_checks = 1;");
+
         }
         return $this;
     }
@@ -110,15 +105,6 @@ class Enterprise_Staging_Model_Resource_Staging_Action extends Mage_Core_Model_R
      */
     public function getBackupTables($stagingTablePrefix)
     {
-        $sql    = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
-        $result = $this->_getReadAdapter()->fetchAll($sql);
-        $resultArray = array();
-        if ($result) {
-            foreach ($result as $row) {
-                $table = array_values($row);
-                $resultArray[] = $table[0];
-            }
-        }
-        return $resultArray;
+        return Mage::getResourceHelper('enterprise_staging')->getTableNamesByPrefix($stagingTablePrefix);
     }
 }

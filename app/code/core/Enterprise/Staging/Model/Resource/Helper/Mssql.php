@@ -200,4 +200,16 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
         );
     }
 
+    /**
+     * Retrieve tables with specified prefix
+     *
+     * @param string $prefix
+     * @return array
+     */
+    public function getTableNamesByPrefix($prefix)
+    {
+        $sql    = "SELECT name FROM sys.Tables where name like '" . str_replace('_', '[_]', $prefix) . "%'";
+        return $this->_getReadAdapter()->fetchCol($sql);
+    }
+
 }
