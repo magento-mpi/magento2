@@ -42,17 +42,7 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
     {
         parent::_construct();
         $this->setTemplate('authorizenet/directpost/info.phtml');
-    }
-    
-    /**
-     * Get form instance
-     * 
-     * @return Mage_Authorizenet_Block_Directpost_Form
-     */
-    public function getForm()
-    {
-        return $this;
-    }
+    }    
     
     /**
      * Get type of request

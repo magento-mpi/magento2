@@ -27,11 +27,9 @@
 
 -->
 <layout version="0.1.0">
-    <checkout_onepage_review>        
-        <reference name="checkout.onepage.review.info.items.before">            
-            <block type="authorizenet/directpost_info" name="payment.info.directpost" template="authorizenet/directpost/form.phtml">
-                <action method="setMethodInfo"></action>                
-            </block>
+    <checkout_onepage_index>        
+        <reference name="head">            
+            <action method="addJs"><file>mage/directpost.js</file></action>            
         </reference>
-    </checkout_onepage_review>
+    </checkout_onepage_index>
 </layout>

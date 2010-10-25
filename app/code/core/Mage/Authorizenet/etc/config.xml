@@ -96,7 +96,15 @@
                         <method>saveNotifyFlag</method>
                     </directpayment_pre_save_order_admin>                    
                 </observers>
-            </controller_action_predispatch_adminhtml_authorizenet_directpost_payment_place>      
+            </controller_action_predispatch_adminhtml_authorizenet_directpost_payment_place>
+            <controller_action_postdispatch_checkout_onepage_savePayment>
+                <observers>
+                    <directpost_save_order_onepage>
+                        <class>authorizenet/directpost_observer</class>
+                        <method>addPaymentFormToReview</method>
+                    </directpost_save_order_onepage>                    
+                </observers>
+            </controller_action_postdispatch_checkout_onepage_savePayment>      
         </events>
     </global>
 

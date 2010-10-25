@@ -114,8 +114,11 @@ directPost.prototype = {
     	if (this.paymentRequestSent) {    		    		
     		switch (this.controller) {
 	    		case 'onepage':
-	    			$(this.iframeId).show();
-	    			review.resetLoadWaiting();
+	    			this.paymentRequestSent = false;
+	    			if (!this.hasError) {
+	    				$(this.iframeId).show();
+	    				review.resetLoadWaiting();
+	    			}
 	    			break;
 	    		case 'sales_order_edit':
 		    	case 'sales_order_create':
@@ -144,7 +147,7 @@ directPost.prototype = {
     {
     	switch (this.controller) {
     		case 'onepage':
-    			this.paymentRequestSent = false;
+    			this.hasError = true;
     	    	$(this.iframeId).hide();    	    	  
     			break;
     		case 'sales_order_edit':
@@ -225,7 +228,7 @@ directPost.prototype = {
 	{
 		if (editForm.validate()) {				    				
 			var paymentMethodEl = $(editForm.formId).getInputs('radio','payment[method]').find(function(radio){return radio.checked;});					    			
-			if (paymentMethodEl.value == this.code) {					    			
+			if (paymentMethodEl.value == this.code) {
 				toggleSelectsUnderBlock($('loading-mask'), false);
 				$('loading-mask').show();
 	            setLoaderPosition();
@@ -233,10 +236,16 @@ directPost.prototype = {
 	            this.paymentRequestSent = true;
 	            this.orderRequestSent = true;
 	            $(editForm.formId).writeAttribute('action', this.orderSaveUrl);
-	            $(editForm.formId).writeAttribute('target',$(this.iframeId).readAttribute('name'));
+	            $(editForm.formId).writeAttribute('target', $(this.iframeId).readAttribute('name'));
 	            $(editForm.formId).appendChild(this.createHiddenElement('controller', this.controller));
 				disableElements('save');
-				$(editForm.formId).submit();			    								    			
+				if (order) {
+					Ajax.activeRequestCount++;
+					this.recollectQuote();
+				}
+				else {
+					$(editForm.formId).submit();
+				}
     		}
 			else {
 				$(editForm.formId).writeAttribute('action', this.nativeAction);
@@ -245,6 +254,34 @@ directPost.prototype = {
 				$(editForm.formId).submit();
 			}
 		}
+	},
+	
+	recollectQuote: function()
+	{
+		var area = ['sidebar', 'items', 'shipping_method', 'billing_method','totals', 'giftmessage'];
+		area = order.prepareArea(area);
+        var url = order.loadBaseUrl + 'block/' + area;
+		var info = $('order-items_grid').select('input', 'select', 'textarea');
+        var data = {};
+        for(var i=0; i<info.length; i++){
+            if(!info[i].disabled && (info[i].type != 'checkbox' || info[i].checked)) {
+                data[info[i].name] = info[i].getValue();
+            }
+        }
+        data.reset_shipping = true;
+        data.update_items = true;
+        if ($('coupons:code') && $F('coupons:code')) {
+        	data['order[coupon][code]'] = $F('coupons:code');
+        }
+        data.json = true;
+        new Ajax.Request(url, {
+            parameters:data,
+            loaderArea: 'html-body',
+            onSuccess: function(transport) {
+        		$(editForm.formId).submit();
+            }.bind(this)
+        });
+        
 	},
 	
 	saveAdminOrderSuccess: function(data) 

@@ -33,55 +33,5 @@
  */
 class Mage_Authorizenet_Block_Directpost_Info extends Mage_Payment_Block_Info
 {    
-    const PAYMENT_METHOD_CODE = 'authorizenet_directpost';
-    
-    /**
-     * Form block instance
-     * 
-     * @var Mage_Authorizenet_Block_Directpost_Form
-     */
-    protected $_formBlock;        
-    
-    /**
-     * (non-PHPdoc)
-     * @see app/code/core/Mage/Core/Block/Mage_Core_Block_Template#_toHtml()
-     */
-    protected function _toHtml()
-    {
-        if ($this->getForm()->getMethodCode() != self::PAYMENT_METHOD_CODE) {
-            return;
-        }            
-        
-        return parent::_toHtml();
-    }
-    
-    
-    /**
-     * Set payment info
-     * 
-     * @return Mage_Authorizenet_Block_Directpost_Info
-     */
-    public function setMethodInfo()
-    {        
-        $payment = Mage::getSingleton('checkout/session')->getQuote()->getPayment();        
-        $this->setInfo($payment);
-        
-        return $this;
-    }
-    
-    /**
-     * Get form instance
-     * 
-     * @return Mage_Authorizenet_Block_Directpost_Form
-     */
-    public function getForm()
-    {
-        if (!$this->_formBlock) {
-            $this->_formBlock = Mage::getSingleton('core/layout')
-                                ->createBlock($this->getMethod()->getFormBlockType());
-            $this->_formBlock->setMethod($this->getMethod());
-        }
-        
-        return $this->_formBlock;
-    }    
+       
 }
