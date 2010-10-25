@@ -850,8 +850,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $this->_createForeignKeysActions($table);
 
-        if ($table->getOption('comment')) {
-            $this->_addTableComment($table->getName(), $table->getOption('comment'));
+        if ($table->getComment()) {
+            $this->_addTableComment($table->getName(), $table->getComment());
         }
 
         foreach ($columns as $columnEntry) {
@@ -1214,7 +1214,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
         $schemaName = null)
     {
-        if (empty($definition['COMMENT']) && !$this->_checkComentExists($tableName, self::EXTPROP_COMMENT_COLUMN)) {
+        $isColumnExists = $this->_checkCommentExists(
+            array('table' => $tableName, 'column' => $oldColumnName),
+            self::EXTPROP_COMMENT_COLUMN
+        );
+        if (empty($definition['COMMENT']) && !$isColumnExists) {
             throw new Zend_Db_Exception("Impossible to create a column without comment");
         }
 
@@ -3323,34 +3327,25 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $commentType
      * @return boolean
      */
-    protected function _checkComentExists($object, $commentType)
+    protected function _checkCommentExists($object, $commentType)
     {
+        $existsDependedObject = false;
         if (!is_array($object)) {
             $level1ObjectType = 'table';
             $level1ObjectName = $object;
 
         } else {
             reset($object);
-
             $level1ObjectType = key($object);
             $level1ObjectName = current($object);
 
             next($object);
-
             $level2ObjectType = key($object);
             $level2ObjectName = current($object);
 
-            /*
-            $level1ObjectType = key($object[0]);
-            $level1ObjectName = $object[0];
-            $level2ObjectType = key($object[1]);
-            $level2ObjectName = $object[1];
-            */
-        }
-        $existsDependedObject = false;
-
-        if (!empty($level2ObjectName) && !empty($level2ObjectType)) {
-            $existsDependedObject = true;
+            if (!empty($level2ObjectName) && !empty($level2ObjectType)) {
+                $existsDependedObject = true;
+            }
         }
 
         $sqlExistsComment = "SELECT COUNT(1) AS qty   \n"
@@ -3379,6 +3374,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addExtendProperty($object, $comment, $commentType)
     {
+        $existsDependedObject = false;
         if (!is_array($object)) {
             $level1ObjectType = 'table';
             $level1ObjectName = $object;
@@ -3386,31 +3382,23 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             // sp_%extendedproperty has only 3 levels: fist schema|user second object third depended object (like column)
 
             reset($object);
-
             $level1ObjectType = key($object);
             $level1ObjectName = current($object);
 
             next($object);
-
             $level2ObjectType = key($object);
             $level2ObjectName = current($object);
 
-            /*
-            $level1ObjectType = key($object[0]);
-            $level1ObjectName = $object[0];
-            $level2ObjectType = key($object[1]);
-            $level2ObjectName = $object[1];
-            */
-        }
-        $existsDependedObject = false;
-        if (!empty($level2ObjectName) && !empty($level2ObjectType)) {
-            $existsDependedObject = true;
+            if (!empty($level2ObjectName) && !empty($level2ObjectType)) {
+                $existsDependedObject = true;
+            }
         }
 
-        if(!$this->_checkComentExists($object,$commentType)) {
+        if(!$this->_checkCommentExists($object, $commentType)) {
             $this->query("EXEC sp_addextendedproperty N'{$commentType}', N'{$comment}', ".
                 "N'user', N'dbo', N'{$level1ObjectType}', N'{$level1ObjectName}', ".
                 ($existsDependedObject ? "N'{$level2ObjectType}', N'{$level2ObjectName}'" : "NULL , NULL"));
+
         } else {
             $this->query("EXEC sp_updateextendedproperty N'{$commentType}', N'{$comment}', ".
                 "N'user', N'dbo', N'{$level1ObjectType}', N'{$level1ObjectName}', ".
@@ -3427,7 +3415,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addTableComment($tableName, $comment)
     {
-        //$this->_addExtendProperty($tableName, $comment, self::EXTPROP_COMMENT_TABLE);
+        $this->_addExtendProperty($tableName, $comment, self::EXTPROP_COMMENT_TABLE);
         return $this;
     }
 
@@ -3440,8 +3428,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addColumnComment($tableName, $columnName, $comment)
     {
-        $this->_addExtendProperty(array('table' => $tableName, 'column' => $columnName),
-            $comment, self::EXTPROP_COMMENT_COLUMN);
+        $object = array('table' => $tableName, 'column' => $columnName);
+        $this->_addExtendProperty($object, $comment, self::EXTPROP_COMMENT_COLUMN);
         return $this;
     }
 

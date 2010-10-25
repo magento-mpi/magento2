@@ -1064,6 +1064,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function addIndex($tableName, $indexName, $fields,
         $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX, $schemaName = null)
     {
+        $this->resetDdlCache($tableName, $schemaName);
         $keyList = $this->getIndexList($tableName, $schemaName);
 
         if (isset($keyList[strtoupper($indexName)])) {
@@ -3147,6 +3148,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 ->where('tc.column_name = ?', $this->quoteIdentifier($columnName))
                 ->columns(array('qty' => new Zend_Db_Expr('COUNT(1)')));
         }
+
         return ($this->raw_fetchRow($query, 'qty') != 0);
     }
 
@@ -3261,8 +3263,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         $tableName = $this->_getTableName($table->getName(), $table->getSchema());
 
-        if ($table->getOption('comment')) {
-            $this->_addTableComment($tableName, $table->getOption('comment'));
+        if ($table->getComment()) {
+            $this->_addTableComment($tableName, $table->getComment());
         }
 
         foreach ($columns as $columnData) {
