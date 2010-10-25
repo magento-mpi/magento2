@@ -46,10 +46,14 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
         'int'
     );
 
+    /**
+     * Empty construct
+     */
     protected function _construct()
     {
 
     }
+
     /**
      * Add filter by indexable attribute
      *
@@ -59,7 +63,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
      *
      * @return bool
      */
-    public function addIndexableAttributeFilter($collection, $attribute, $value)
+    public function addIndexableAttributeModifiedFilter($collection, $attribute, $value)
     {
         $param = $this->_getSearchParam($collection, $attribute, $value);
 
@@ -177,7 +181,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
      */
     public function prepareCondition($attribute, $value, $collection)
     {
-        return $this->addIndexableAttributeFilter($collection, $attribute, $value);
+        return $this->addIndexableAttributeModifiedFilter($collection, $attribute, $value);
     }
 
     /**

@@ -466,12 +466,15 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
      * @param string $fieldsDelimiter
      * @return Varien_Db_Select
      */
-    public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '')
+    public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = '')
     {
         if (is_array($fields)) {
             $fieldExpr = $this->_getReadAdapter()->getConcatSql($fields, $fieldsDelimiter);
         } else {
             $fieldExpr = $fields;
+        }
+        if ($additionalWhere) {
+            $fieldExpr = $this->_getReadAdapter()->getCheckSql($additionalWhere, $fieldExpr, 'NULL');
         }
         $groupConcatExpr = sprintf("group_concat(typ_group_concat_expr(%s, '%s'))", $fieldExpr, $groupConcatDelimiter);
 

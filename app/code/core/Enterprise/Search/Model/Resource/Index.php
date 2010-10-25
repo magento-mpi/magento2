@@ -89,28 +89,25 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
         $adapter = $this->_getWriteAdapter();
         $prefix  = $this->_engine->getFieldsPrefix();
 
-        $firstIf = $adapter->getCheckSql('is_parent = 1', 'category_id', '');
-        $secondIf = $adapter->getCheckSql('is_parent = 0', 'category_id', '');
-        $concatenated = $adapter->getConcatSql(array('category_id', 'position'), '_');
-
-        $helper = Mage::getResourceHelper('core');
-        $select = $adapter->select();
-        $helper->addGroupConcatColumn($select, 'parents', $firstIf, ' ');
-        $helper->addGroupConcatColumn($select, 'anchors', $secondIf, ' ');
-        $helper->addGroupConcatColumn($select, 'positions', $concatenated, ' ');
-
         $columns = array(
-            'product_id'    => 'product_id',
+            'product_id' => 'product_id',
         );
 
         if ($visibility) {
             $columns[] = 'visibility';
         }
 
-        $select->from(array($this->getTable('catalog/category_product_index')), $columns)
+        $select = $adapter->select()
+            ->from(array($this->getTable('catalog/category_product_index')), $columns)
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
+
+        $helper = Mage::getResourceHelper('core');
+        $helper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
+        $helper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
+        $helper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');
+        $select  = $helper->getQueryUsingAnalyticFunction($select);
 
         $result = array();
         foreach ($adapter->fetchAll($select) as $row) {

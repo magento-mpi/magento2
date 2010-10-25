@@ -459,7 +459,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
      * @param string $fieldsDelimiter
      * @return Varien_Db_Select
      */
-    public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '')
+    public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = '')
     {
         $groupConcatSelect = clone $select;
         $groupConcatSelect->reset(Zend_Db_Select::COLUMNS);
@@ -521,6 +521,10 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
 
         if (!empty($where)) {
             $groupConcatSelect->where(implode(' AND ', $where));
+        }
+
+        if (!empty($additionalWhere)) {
+            $groupConcatSelect->where($additionalWhere);
         }
 
         $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf("stuff((%s for xml path(''),type).value('.','varchar(max)'), 1, 1, '')", $groupConcatSelect))));

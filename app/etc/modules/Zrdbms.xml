@@ -307,7 +307,7 @@
             <active>false</active>
         </Enterprise_SalesPool>
         <Enterprise_Search>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Search>
         <Enterprise_Staging>
             <active>false</active>

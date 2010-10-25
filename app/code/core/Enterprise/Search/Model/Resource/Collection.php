@@ -139,7 +139,7 @@ class Enterprise_Search_Model_Resource_Collection
     }
 
     /**
-     * Allow to set faceted search conditions to retrive result by single query
+     * Allow to set faceted search conditions to retrieve result by single query
      *
      * @param string $field
      * @param string | array $condition

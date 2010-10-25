@@ -79,8 +79,6 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
         $collection = Mage::getResourceModel('catalog/product_attribute_collection')
             ->setItemObjectClass('catalog/resource_eav_attribute');
 
-        $collection->getSelect()->distinct(true);
-
         if (Mage::helper('enterprise_search')->getTaxInfluence()) {
             $collection->removePriceFilter();
         }
