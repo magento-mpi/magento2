@@ -73,27 +73,27 @@ directPost.prototype = {
         this.changeInputOptions('autocomplete', 'off');
         if ($(this.iframeId)) {
             switch (this.controller) {
-            case 'onepage':
-                var button = $('review-buttons-container').down('button');
-                button.writeAttribute('onclick', '');
-                button.observe('click', function() {
-                    if ($(this.iframeId)) {
-                        if (this.validate()) {
-                            this.saveOnepageOrder();
+                case 'onepage':
+                    var button = $('review-buttons-container').down('button');
+                    button.writeAttribute('onclick', '');
+                    button.observe('click', function() {
+                        if ($(this.iframeId)) {
+                            if (this.validate()) {
+                                this.saveOnepageOrder();
+                            }
+                        } else {
+                            review.save();
                         }
-                    } else {
-                        review.save();
+                    }.bind(this));
+                    break;
+                case 'sales_order_create':
+                case 'sales_order_edit':
+                    var buttons = document.getElementsByClassName('scalable save');
+                    for ( var i = 0; i < buttons.length; i++) {
+                        buttons[i].writeAttribute('onclick', '');
+                        buttons[i].observe('click', this.onSubmitAdminOrder);
                     }
-                }.bind(this));
-                break;
-            case 'sales_order_create':
-            case 'sales_order_edit':
-                var buttons = document.getElementsByClassName('scalable save');
-                for ( var i = 0; i < buttons.length; i++) {
-                    buttons[i].writeAttribute('onclick', '');
-                    buttons[i].observe('click', this.onSubmitAdminOrder);
-                }
-                break;
+                    break;
             }
 
             $(this.iframeId).observe('load', this.onLoadIframe);
@@ -103,36 +103,36 @@ directPost.prototype = {
     loadIframe : function() {
         if (this.paymentRequestSent) {
             switch (this.controller) {
-            case 'onepage':
-                this.paymentRequestSent = false;
-                if (!this.hasError) {
-                    if (this.createOrderBefore) {
-                        this.returnQuote();
-                    } else {
-                        $(this.iframeId).show();
-                        review.resetLoadWaiting();
-                    }
-                }
-                break;
-            case 'sales_order_edit':
-            case 'sales_order_create':
-                if (this.orderRequestSent) {
-                    $(this.iframeId).hide();
-                    var data = $(this.iframeId).contentWindow.document.body.innerHTML;
-                    this.saveAdminOrderSuccess(data);
-                    this.orderRequestSent = false;
-                } else {
+                case 'onepage':
                     this.paymentRequestSent = false;
-                    if (!this.hasError && this.createOrderBefore) {
-                        this.returnQuote();
-                    } else {
-                        this.changeInputOptions('disabled', false);
-                        toggleSelectsUnderBlock($('loading-mask'), true);
-                        $('loading-mask').hide();
-                        enableElements('save');
+                    if (!this.hasError) {
+                        if (this.createOrderBefore) {
+                            this.returnQuote();
+                        } else {
+                            $(this.iframeId).show();
+                            review.resetLoadWaiting();
+                        }
                     }
-                }
-                break;
+                    break;
+                case 'sales_order_edit':
+                case 'sales_order_create':
+                    if (this.orderRequestSent) {
+                        $(this.iframeId).hide();
+                        var data = $(this.iframeId).contentWindow.document.body.innerHTML;
+                        this.saveAdminOrderSuccess(data);
+                        this.orderRequestSent = false;
+                    } else {
+                        this.paymentRequestSent = false;
+                        if (!this.hasError && this.createOrderBefore) {
+                            this.returnQuote();
+                        } else {
+                            this.changeInputOptions('disabled', false);
+                            toggleSelectsUnderBlock($('loading-mask'), true);
+                            $('loading-mask').hide();
+                            enableElements('save');
+                        }
+                    }
+                    break;
             }
         }
     },
@@ -160,16 +160,16 @@ directPost.prototype = {
                 }
                 $(this.iframeId).show();
                 switch (this.controller) {
-                case 'onepage':
-                    review.resetLoadWaiting();
-                    break;
-                case 'sales_order_edit':
-                case 'sales_order_create':
-                    this.changeInputOptions('disabled', false);
-                    toggleSelectsUnderBlock($('loading-mask'), true);
-                    $('loading-mask').hide();
-                    enableElements('save');
-                    break;
+                    case 'onepage':
+                        review.resetLoadWaiting();
+                        break;
+                    case 'sales_order_edit':
+                    case 'sales_order_create':
+                        this.changeInputOptions('disabled', false);
+                        toggleSelectsUnderBlock($('loading-mask'), true);
+                        $('loading-mask').hide();
+                        enableElements('save');
+                        break;
                 }
             }.bind(this)
         });
@@ -359,8 +359,6 @@ directPost.prototype = {
 
         this.paymentRequestSent = true;
         tmpForm.submit();
-
-        return this.paymentRequestSent;
     },
 
     createHiddenElement : function(name, value) {
