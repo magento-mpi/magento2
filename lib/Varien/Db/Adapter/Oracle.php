@@ -3855,20 +3855,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         $iodSelect = $this->select()
-            ->from(array('t3' => new Zend_Db_Expr($select->assemble())));
+            ->from(array('t3' => new Zend_Db_Expr('('.$select->assemble().')')), $fields);
 
         ;
-
+        $whereCondSql = implode(' AND ', $whereCond);
         $query = $this->_getInsertFromSelectSql(
-            $iodSelect->where(new Zend_Db_Expr('EXISTS (SELECT 1 FROM {$table} t2 WHERE {$whereCond})')),
+            $iodSelect->where(new Zend_Db_Expr("NOT EXISTS (SELECT 1 FROM {$table} t2 WHERE {$whereCondSql})")),
             $table, $fields);
 
 
         if ($mode == self::INSERT_ON_DUPLICATE && $updateCols) {
-            $query = sprintf("BEGIN\n%s;\n%s;\nEND:",
+            $query = sprintf("BEGIN\n%s;\n%s;\nEND;",
                 $query,
-                $this->_getUpdateFromSelectSql(
-                    $iodSelect->where(new Zend_Db_Expr('EXISTS (SELECT 1 FROM {$table} t2 WHERE {$whereCond})')),
+                $this->updateFromSelect(
+                    $iodSelect->where(new Zend_Db_Expr("EXISTS (SELECT 1 FROM {$table} t2 WHERE {$whereCondSql})")),
                     $table, $fields)
                 );
         }
