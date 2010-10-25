@@ -331,12 +331,14 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             return $this;
         }
 
+        $adapter = $this->_getWriteAdapter();
+
         // remove anchor relations
         $where = array(
             'category_id IN(?)' => $categoryIds,
             'is_parent=?'       => 0
         );
-        $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+        $adapter->delete($this->getMainTable(), $where);
 
         $stores = $this->_getStoresInfo();
         /**
@@ -351,7 +353,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                 continue;
             }
 
-            $select = $this->_getWriteAdapter()->select()
+            $select = $adapter->select()
                 ->distinct(true)
                 ->from(array('cc' => $this->getTable('catalog/category')), null)
                 ->join(
@@ -373,7 +375,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                     'visibility'    => 'i.visibility'
                 ));
             $query = $select->insertFromSelect($this->getMainTable());
-            $this->_getWriteAdapter()->query($query);
+            $adapter->query($query);
 
             $visibilityInfo = $this->_getVisibilityAttributeInfo();
             $statusInfo     = $this->_getStatusAttributeInfo();
@@ -411,7 +413,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                     'position'      => new Zend_Db_Expr('0'),
                     'is_parent'     => new Zend_Db_Expr('1'),
                     'store_id'      => new Zend_Db_Expr($storeId),
-                    'visibility'    => 'IF(sv.value_id IS NOT NULL, sv.value, dv.value)'
+                    'visibility'    => $adapter->getCheckSql('sv.value_id IS NOT NULL', 'sv.value', 'dv.value')
                 ));
 
             $query = $select->insertFromSelect($this->getMainTable());

@@ -2114,7 +2114,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
         $query = sprintf('ALTER TABLE %s', $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)));
         if (isset($keyList[strtoupper($indexName)])) {
-            if (strtolower($keyList[strtoupper($indexName)]) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
+            if (strtolower($keyList[strtoupper($indexName)]['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
                 $query .= ' DROP PRIMARY KEY,';
             } else {
                 $query .= sprintf(' DROP INDEX %s,', $this->quoteIdentifier($indexName));
