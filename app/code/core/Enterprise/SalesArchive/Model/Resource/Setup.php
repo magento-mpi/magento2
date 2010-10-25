@@ -217,8 +217,9 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
             if (!isset($targetIndex[$indexKey]) ||
                 $this->_checkIndexDifference($sourceIndex[$indexKey], $targetIndex[$indexKey])) 
             {
+                $newIndexName = $this->getConnection()->getIndexName($targetTable, $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']);
                 $this->getConnection()->addIndex(
-                    $targetTable, $indexData['KEY_NAME'], $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']
+                    $targetTable, $newIndexName, $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']
                 );
             }
         }

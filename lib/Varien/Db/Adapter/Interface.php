@@ -164,6 +164,27 @@ interface Varien_Db_Adapter_Interface
     public function describeTable($tableName, $schemaName = null);
 
     /**
+     * Create Varien_Db_Ddl_Table object by data from describe table
+     * 
+     * @param $tableName
+     * @param $newTableName
+     * @return Varien_Db_Ddl_Table
+     */
+    public function createTableByDdl($tableName, $newTableName);
+
+    /**
+     * Modify the column definition by data from describe table
+     *
+     * @param string $tableName
+     * @param string $columnName
+     * @param array|string $definition
+     * @param boolean $flushData
+     * @param string $schemaName
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    public function modifyColumnByDdl($tableName, $columnName, $definition, $flushData = false, $schemaName = null);
+
+    /**
      * Rename table
      *
      * @param string $oldTableName
