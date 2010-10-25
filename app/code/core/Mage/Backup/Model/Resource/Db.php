@@ -96,8 +96,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDropSql($tableName)
     {
-        $quotedTableName = $this->_read->quoteIdentifier($tableName);
-        return 'DROP TABLE IF EXISTS ' . $quotedTableName . ';';
+        return $query = Mage::getResourceHelper('backup')->getTableDropSql($tableName);
     }
 
     /**
@@ -109,38 +108,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableCreateSql($tableName, $withForeignKeys = false)
     {
-        $quotedTableName = $this->_read->quoteIdentifier($tableName);
-        $sql = 'SHOW CREATE TABLE ' . $quotedTableName;
-        $row = $this->_read->fetchRow($sql);
-
-        if (!$row || !isset($row['Table']) || !isset($row['Create Table'])) {
-            return false;
-        }
-
-        $regExp  = '/,\s+CONSTRAINT `([^`]*)` FOREIGN KEY \(`([^`]*)`\) '
-            . 'REFERENCES `([^`]*)` \(`([^`]*)`\)'
-            . '( ON DELETE (RESTRICT|CASCADE|SET NULL|NO ACTION))?'
-            . '( ON UPDATE (RESTRICT|CASCADE|SET NULL|NO ACTION))?/';
-        $matches = array();
-        preg_match_all($regExp, $row['Create Table'], $matches, PREG_SET_ORDER);
-
-        foreach ($matches as $match) {
-            $this->_foreignKeys[$tableName][] = sprintf('ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s)%s%s',
-                $this->_read->quoteIdentifier($match[1]),
-                $this->_read->quoteIdentifier($match[2]),
-                $this->_read->quoteIdentifier($match[3]),
-                $this->_read->quoteIdentifier($match[4]),
-                isset($match[5]) ? $match[5] : '',
-                isset($match[7]) ? $match[7] : ''
-            );
-        }
-
-        if ($withForeignKeys) {
-            return $row['Create Table'] . ';';
-        }
-        else {
-            return preg_replace($regExp, '', $row['Create Table']) . ';';
-        }
+        return $query = Mage::getResourceHelper('backup')->getTableCreateSql($tableName, $withForeignKeys = false);
     }
 
     /**
@@ -151,20 +119,16 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableForeignKeysSql($tableName = null)
     {
-        if (is_null($tableName)) {
-            $sql = '';
-            foreach ($this->_foreignKeys as $table => $foreignKeys) {
-                $sql .= sprintf("ALTER TABLE %s\n  %s;\n",
-                    $this->_read->quoteIdentifier($table),
-                    join(",\n  ", $foreignKeys)
-                );
+        $fkScript = '';
+        if (!$tableName) {
+            $tables = $this->getTables();
+            foreach($tables as $table) {
+                $fkScript = $fkScript . Mage::getResourceHelper('backup')->getTableForeignKeysSql($table);
             }
-            return $sql;
+        } else {
+            $fkScript = $this->getTableForeignKeysSql($tableName);
         }
-        if (isset($this->_foreignKeys[$tableName]) && ($foreignKeys = $this->_foreignKeys[$tableName])) {
-
-        }
-        return false;
+        return $fkScript;
     }
 
     /**
@@ -175,8 +139,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableStatus($tableName)
     {
-        $sql = $this->_read->quoteInto('SHOW TABLE STATUS LIKE ?', $tableName);
-        $row = $this->_read->fetchRow($sql);
+        $row = $this->_read->showTableStatus($tableName);
 
         if ($row) {
             $statusObject = new Varien_Object();
@@ -185,7 +148,8 @@ class Mage_Backup_Model_Resource_Db
                 $statusObject->setData(strtolower($field), $value);
             }
 
-            $cntRow = $this->_read->fetchRow( $this->_read->select()->from($tableName, 'COUNT(*) as rows'));
+            $cntRow = $this->_read->fetchRow(
+                    $this->_read->select()->from($tableName, 'COUNT(1) as rows'));
             $statusObject->setRows($cntRow['rows']);
 
             return $statusObject;
@@ -197,27 +161,15 @@ class Mage_Backup_Model_Resource_Db
     /**
      * Quote Table Row
      *
+     * @deprecated 
+     *
      * @param string $tableName
      * @param array $row
      * @return string
      */
     protected function _quoteRow($tableName, array $row)
     {
-        $describe = $this->_read->describeTable($tableName);
-        $rowData = array();
-        foreach ($row as $k => $v) {
-            if (is_null($v)) {
-                $value = 'NULL';
-            }
-            elseif (in_array(strtolower($describe[$k]['DATA_TYPE']), array('bigint','mediumint','smallint','tinyint'))) {
-                $value = $v;
-            }
-            else {
-                $value = $this->_read->quoteInto('?', $v);
-            }
-            $rowData[] = $value;
-        }
-        return '('.join(',', $rowData).')';
+        return $row;    
     }
 
     /**
@@ -228,31 +180,10 @@ class Mage_Backup_Model_Resource_Db
      * @param int $offset
      * @return string
      */
-    public function getTableDataSql($tableName, $count, $offset = 0)
+    public function getTableDataSql($tableName, $count = null, $offset = null)
     {
-        $sql = null;
-        $quotedTableName = $this->_read->quoteIdentifier($tableName);
-        $select = $this->_read->select()
-            ->from($tableName)
-            ->limit($count, $offset);
-        $query  = $this->_read->query($select);
+        return Mage::getResourceHelper('backup')->getInsertSql($tableName);
 
-        while ($row = $query->fetch()) {
-            if (is_null($sql)) {
-                $sql = 'INSERT INTO ' . $quotedTableName . ' VALUES ';
-            }
-            else {
-                $sql .= ',';
-            }
-
-            $sql .= $this->_quoteRow($tableName, $row);
-        }
-
-        if (!is_null($sql)) {
-            $sql .= ';' . "\n";
-        }
-
-        return $sql;
     }
 
     /**
@@ -264,19 +195,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableCreateScript($tableName, $addDropIfExists = false)
     {
-        $script = '';
-        if ($this->_read) {
-            $quotedTableName = $this->_read->quoteIdentifier($tableName);
-
-            if ($addDropIfExists) {
-                $script .= 'DROP TABLE IF EXISTS ' . $quotedTableName .";\n";
-            }
-            $sql = 'SHOW CREATE TABLE ' . $quotedTableName;
-            $data = $this->_read->fetchRow($sql);
-            $script.= isset($data['Create Table']) ? $data['Create Table'].";\n" : '';
-        }
-
-        return $script;
+        return Mage::getResourceHelper('backup')->getTableCreateScript($tableName, $addDropIfExists);;
     }
 
     /**
@@ -300,40 +219,10 @@ class Mage_Backup_Model_Resource_Db
      * @param unknown_type $step
      * @return unknown
      */
-    public function getTableDataDump($tableName, $step = 100)
+    public function getTableDataDump($tableName, $step = false)
     {
-        $sql = '';
-        if ($this->_read) {
-            $quotedTableName = $this->_read->quoteIdentifier($tableName);
-            $colunms = $this->_read->fetchRow('SELECT * FROM '.$quotedTableName.' LIMIT 1');
-            if ($colunms) {
-                $arrSql = array();
+        return $this->getTableDataSql($tableName);
 
-                $colunms = array_keys($colunms);
-                $quote = $this->_read->getQuoteIdentifierSymbol();
-                $sql = 'INSERT INTO ' . $quotedTableName . ' (' .$quote . implode($quote.', '.$quote,$colunms).$quote.')';
-                $sql.= ' VALUES ';
-
-                $startRow = 0;
-                $select = $this->_read->select();
-                $select->from($tableName)
-                    ->limit($step, $startRow);
-                while ($data = $this->_read->fetchAll($select)) {
-                    $dataSql = array();
-                    foreach ($data as $row) {
-                        $dataSql[] = $this->_read->quoteInto('(?)', $row);
-                    }
-                    $arrSql[] = $sql.implode(', ', $dataSql).';';
-                    $startRow += $step;
-                    $select->limit($step, $startRow);
-                }
-
-                $sql = implode("\n", $arrSql)."\n";
-            }
-
-        }
-
-        return $sql;
     }
 
     /**
@@ -343,27 +232,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getHeader()
     {
-        $dbConfig = $this->_read->getConfig();
-
-        $versionRow = $this->_read->fetchRow('SHOW VARIABLES LIKE \'version\'');
-        $hostName   = !empty($dbConfig['unix_socket']) ? $dbConfig['unix_socket']
-            : (!empty($dbConfig['host']) ? $dbConfig['host'] : 'localhost');
-
-        $header = "-- Magento DB backup\n"
-            . "--\n"
-            . "-- Host: {$hostName}    Database: {$dbConfig['dbname']}\n"
-            . "-- ------------------------------------------------------\n"
-            . "-- Server version: {$versionRow['Value']}\n\n"
-            . "/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\n"
-            . "/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\n"
-            . "/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\n"
-            . "/*!40101 SET NAMES utf8 */;\n"
-            . "/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;\n"
-            . "/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\n"
-            . "/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;\n"
-            . "/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;\n";
-
-        return $header;
+        return Mage::getResourceHelper('backup')->getHeader();
     }
 
     /**
@@ -373,16 +242,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getFooter()
     {
-        $footer = "\n/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;\n"
-            . "/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */; \n"
-            . "/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;\n"
-            . "/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\n"
-            . "/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n"
-            . "/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n"
-            . "/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;\n"
-            . "\n-- Dump completed on " . Mage::getSingleton('core/date')->gmtDate() . " GMT";
-
-        return $footer;
+        return Mage::getResourceHelper('backup')->getFooter();        
     }
 
     /**
@@ -393,12 +253,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDataBeforeSql($tableName)
     {
-        $quotedTableName = $this->_read->quoteIdentifier($tableName);
-        return "\n--\n"
-            . "-- Dumping data for table {$quotedTableName}\n"
-            . "--\n\n"
-            . "LOCK TABLES {$quotedTableName} WRITE;\n"
-            . "/*!40000 ALTER TABLE {$quotedTableName} DISABLE KEYS */;\n";
+        return Mage::getResourceHelper('backup')->getTableDataBeforeSql($tableName);
     }
 
     /**
@@ -409,9 +264,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDataAfterSql($tableName)
     {
-        $quotedTableName = $this->_read->quoteIdentifier($tableName);
-        return "/*!40000 ALTER TABLE {$quotedTableName} ENABLE KEYS */;\n"
-            . "UNLOCK TABLES;\n";
+        return Mage::getResourceHelper('backup')->getTableDataAfterSql($tableName);
     }
 
     /**
@@ -420,6 +273,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function beginTransaction()
     {
+        return Mage::getResourceHelper('backup')->turnOnSerializableMode();
         $this->_read->beginTransaction();
     }
 
@@ -430,6 +284,7 @@ class Mage_Backup_Model_Resource_Db
     public function commitTransaction()
     {
         $this->_read->commit();
+        return Mage::getResourceHelper('backup')->turnOnReadCommittedMode();
     }
 
     /**
