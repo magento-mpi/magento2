@@ -96,7 +96,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableDropSql($tableName)
     {
-        return $query = Mage::getResourceHelper('backup')->getTableDropSql($tableName);
+        return Mage::getResourceHelper('backup')->getTableDropSql($tableName);
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function getTableCreateSql($tableName, $withForeignKeys = false)
     {
-        return $query = Mage::getResourceHelper('backup')->getTableCreateSql($tableName, $withForeignKeys = false);
+        return Mage::getResourceHelper('backup')->getTableCreateSql($tableName, $withForeignKeys = false);
     }
 
     /**
@@ -213,22 +213,21 @@ class Mage_Backup_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
+     * Return table data dump
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $step
-     * @return unknown
+     * @param string $tableName
+     * @param bool $step
+     * @return string
      */
     public function getTableDataDump($tableName, $step = false)
     {
         return $this->getTableDataSql($tableName);
-
     }
 
     /**
      * Returns SQL header data
      *
-     * @return unknown
+     * @return string
      */
     public function getHeader()
     {
@@ -238,7 +237,7 @@ class Mage_Backup_Model_Resource_Db
     /**
      * Returns SQL footer data
      *
-     * @return unknown
+     * @return string
      */
     public function getFooter()
     {
@@ -268,31 +267,37 @@ class Mage_Backup_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
+     * Start transaction mode
      *
+     * @return Mage_Backup_Model_Resource_Db
      */
     public function beginTransaction()
     {
-        return Mage::getResourceHelper('backup')->turnOnSerializableMode();
+        Mage::getResourceHelper('backup')->turnOnSerializableMode();
         $this->_read->beginTransaction();
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Commit transaction
      *
+     * @return Mage_Backup_Model_Resource_Db
      */
     public function commitTransaction()
     {
         $this->_read->commit();
-        return Mage::getResourceHelper('backup')->turnOnReadCommittedMode();
+        Mage::getResourceHelper('backup')->turnOnReadCommittedMode();
+        return $this;
     }
 
     /**
-     * Enter description here ...
+     * Rollback transaction
      *
+     * @return Mage_Backup_Model_Resource_Db
      */
     public function rollBackTransaction()
     {
         $this->_read->rollBack();
+        return $this;
     }
 }

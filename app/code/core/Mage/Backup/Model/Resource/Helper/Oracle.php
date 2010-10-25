@@ -38,8 +38,6 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
 
     /**
      * Transform params for DBMS_METADATA
-     *
-     *
      */
     protected function _transformDdlParams()
     {
@@ -53,6 +51,7 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
                 ."dbms_metadata.set_transform_param(dbms_metadata.session_transform, 'SEGMENT_ATTRIBUTES', false);\n"
                 ."END;");
     }
+
     /**
      * Retrieve SQL fragment for drop table
      *
@@ -79,14 +78,6 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
         );
         return $dropTableSql;
     }
-    
-    /**
-     * tables Foreign key data array
-     * [tbl_name] = array(create foreign key strings)
-     *
-     * @var array
-     */
-    protected $_foreignKeys    = array();
 
     /**
      * Retrieve foreign keys for table
@@ -96,45 +87,53 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
      */
     public function getTableForeignKeysSql($tableName)
     {
-        $selFkCount = $this->_getReadAdapter()->select();
+        $adapter    = $this->_getReadAdapter();
+        $selFkCount = $adapter->select();
         $selFkCount->from('user_constraints', array('COUNT(1)'))
             ->where('table_name = ?', $tableName)
             ->where("constraint_type = 'R'");
+
         $fkScript = '';
-        $fkCount = $this->_getReadAdapter()->fetchOne($selFkCount);
+        $fkCount  = $adapter->fetchOne($selFkCount);
         if ($fkCount > 0){
-            $selFkDdl = $this->_getReadAdapter()->select();
+            $selFkDdl = $adapter->select();
             $selFkDdl->from('dual',  array(
                     new Zend_Db_Expr("DBMS_METADATA.GET_DEPENDENT_DDL('REF_CONSTRAINT', :table_name, USER)")));
 
-            $fkScript = $this->_getReadAdapter()->fetchOne($selFkDdl,array('table_name' => $tableName));
+            $fkScript = $adapter->fetchOne($selFkDdl,array('table_name' => $tableName));
         }
+
         return $fkScript; 
     }
 
+    /**
+     * Retrieve table ddl script
+     * 
+     * @param string $tableName
+     * @return string
+     */
     protected function _getTableDdl($tableName) {
         $select = $this->_getReadAdapter()->select();
         $select->from('dual', array(new Zend_Db_Expr("DBMS_METADATA.get_ddl('TABLE', :table_name, USER)")));
         return $this->_getReadAdapter()->fetchOne($select, array('table_name' => $tableName));
     }
 
-     /**
-     * get DDL script for create table
+    /**
+     * Get DDL script for create table
      *
      * @param string $tableName
      * @param boolean $addDropIfExists
-     * @return unknown
+     * @return string
      */
-    public function getTableCreateScript($tableName, $addDropIfExists=false)
+    public function getTableCreateScript($tableName, $addDropIfExists = false)
     {
         $script = '';
         if($addDropIfExists) {
-            $script = $this->getTableDropSql($tableName) . $this->_getTableDdl($tableName);
-
-        } else {
-            $script = $this->_getTableDdl($tableName);
+            $script = $this->getTableDropSql($tableName);
         }
-     return $script;
+        $script .= $this->_getTableDdl($tableName);
+
+        return $script;
     }
 
     /**
@@ -146,8 +145,7 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
      */
     public function getTableCreateSql($tableName, $withForeignKeys = false)
     {
-        if ($withForeignKeys)
-        {
+        if ($withForeignKeys) {
             $this->_getReadAdapter()->query(
                 "BEGIN\n"
                 ."dbms_metadata.set_transform_param(dbms_metadata.session_transform, 'REF_CONSTRAINTS', true);\n"
@@ -164,12 +162,13 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
     protected function _getSequencesDefinition()
     {
         $script = '';
-        $query = $this->_getReadAdapter()->query("
+        $query   = $this->_getReadAdapter()->query("
             select dbms_metadata.get_ddl('SEQUENCE', s.sequence_name)
             from user_sequences s ");
         while ($row = $query->fetchColumn()) {
-            $script = $script . $row;
+            $script .= $row;
         }
+
         return $script;
     }
 
@@ -185,8 +184,9 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
             select dbms_metadata.get_ddl('SEQUENCE', s.sequence_name)
             from user_sequences s ");
         while ($row = $query->fetchColumn()) {
-            $script = $script . $row;
+            $script .= $row;
         }
+
         return $script;
     }
 
@@ -204,13 +204,14 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
                 'up' => 'user_procedures',
                 array(new Zend_Db_Expr('DBMS_METADATA.GET_DDL(uo.object_type, uo.object_name)')))
             )
-            ->join(array('uo' => 'user_procedures'), 'up.object_name = uo.object_name', array())
+            ->join(array('uo' => 'user_objects'), 'up.object_name = uo.object_name', array())
             ->where('uo.object_type NOT IN (?)', array('PACKAGE BODY','TYPE BODY'));
         $query = $this->_getReadAdapter()->query($select);
 
         while ($row = $query->fetchColumn()) {
-            $script = $script . $row;
+            $script .= $row;
         }
+
         return $script;
     }    
 
@@ -218,7 +219,7 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
     /**
      * Returns SQL header data, move from original resource model
      *
-     * @return unknown
+     * @return string
      */
     public function getHeader()
     {
@@ -226,20 +227,19 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
         $this->_getReadAdapter()->query('PURGE RECYCLEBIN');
         $header = "ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS'\n"
             . "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'\n";
-        $header =  $header . $this->_getSequencesDefinition();
+        $header .= $this->_getSequencesDefinition();
+
         return $header;
     }
 
     /**
      * Returns SQL footer data, move from original resource model
      *
-     * @return unknown
+     * @return string
      */
     public function getFooter()
     {
-        $footer = '';
-        $footer = $this->_getProgObjectsDefinition();
-        return $footer;
+        return $this->_getProgObjectsDefinition();
     }
 
     /**
@@ -263,13 +263,20 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
     {
         return '';
     }
+
+    /**
+     * Return insert query
+     * 
+     * @param  $tableName
+     * @return string
+     */
     public function getInsertSql($tableName)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()->from($tableName);
-        $query = $adapter->query($select);
-        $insert = '';
-        $columns = $this->_getReadAdapter()->describeTable($tableName);
+        $select  = $adapter->select()->from($tableName);
+        $query   = $adapter->query($select);
+        $insert  = '';
+        $columns = $adapter->describeTable($tableName);
         while ($row = $query->fetch(Zend_Db::FETCH_ASSOC)) {
             $insRowData = array();
             foreach ($row as $key => $value) {
@@ -285,31 +292,28 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
                     }
                 }
             }
-            $insert = $insert . sprintf("INSERT INTO %s (%s) VALUES (%s);\n",
+            $insert .= sprintf("INSERT INTO %s (%s) VALUES (%s);\n",
                 $tableName,
-                implode(',',array_keys($columns))
-                ,implode(',',$insRowData));
+                implode(',', array_keys($columns)),
+                implode(',', $insRowData));
         }
+
         return $insert;
     }
 
-    /*
+    /**
      * Turn on serializable mode
-     *
      */
     public function turnOnSerializableMode()
     {
         $this->_getReadAdapter()->query(" ALTER SESSION SET ISOLATION_LEVEL = SERIALIZABLE");
     }
 
-    /*
+    /**
      * Turn on read committed mode
-     *
      */
     public function turnOnReadCommittedMode()
     {
         $this->_getReadAdapter()->query("ALTER SESSION SET ISOLATION_LEVEL = READ COMMITTED");
     }
-
-
 }

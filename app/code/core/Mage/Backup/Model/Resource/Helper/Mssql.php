@@ -28,11 +28,11 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
 
     protected $_dateTypeMap  = array(
         'NUMBER'    => array(
-            'tinyint','smallint','int','smalldatetime','real','money','float','bit','decimal','numeric','smallmoney'),
+            'tinyint', 'smallint', 'int', 'smalldatetime', 'real', 'money', 'float', 'bit', 'decimal', 'numeric', 'smallmoney'),
         'STRING'    => array(
-            'text','ntext','varchar','char','nvarchar','nchar','sysname','sql_variant'),
+            'text', 'ntext', 'varchar', 'char', 'nvarchar', 'nchar', 'sysname', 'sql_variant'),
         'DATETIME'  => array(
-            'date','time','datetime2','datetimeoffset','timestamp','datetime')
+            'date', 'time', 'datetime2', 'datetimeoffset', 'timestamp', 'datetime')
     );
 
     /**
@@ -45,21 +45,15 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
     {
         $quotedTableName = $this->_getReadAdapter()->quoteIdentifier($tableName);
         $dropTableSql = sprintf(
-            "IF  EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'%s') AND type in (N'U'))\n" 
+            "IF EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'%s') AND type in (N'U'))\n"
             . "DROP TABLE %s\n"
             . "GO\n",
             $quotedTableName,
             $quotedTableName
         );
+
         return $dropTableSql;
     }
-    /**
-     * tables Foreign key data array
-     * [tbl_name] = array(create foreign key strings)
-     *
-     * @var array
-     */
-    protected $_foreignKeys    = array();
 
     /**
      * Retrieve foreign keys for table(s)
@@ -73,6 +67,7 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
             'exec dbo.get_table_fk @objectName = ?',array($tableName));
 
     }
+
      /**
      *  get Table create script
      *
@@ -86,6 +81,7 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
             'exec dbo.get_table_dll @objectName = ?, @withfk = ?, @withdrop = ?',
             array($tableName, 1, (int)$addDropIfExists ));
     }
+
     /**
      * Retrieve SQL fragment for create table
      *
@@ -95,10 +91,9 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
      */
     public function getTableCreateSql($tableName, $withForeignKeys = false)
     {
-
-     return $this->_getReadAdapter()->fetchOne(
+        return $this->_getReadAdapter()->fetchOne(
             'exec dbo.get_table_dll @objectName = ?, @withfk = ?, @withdrop = ?',
-            array($tableName, (int)$withForeignKeys, 0 ));
+            array($tableName, (int)$withForeignKeys, 0));
     }
 
     /**
@@ -141,9 +136,7 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
      */
     public function getFooter()
     {
-        $footer = '';
-        $footer = $this->_getProgObjectsDefinition();
-        return $footer;
+        return $this->_getProgObjectsDefinition();
     }
 
     /**
@@ -167,13 +160,14 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
     {
         return '';
     }
+
     public function getInsertSql($tableName)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()->from($tableName);
-        $query = $adapter->query($select);
-        $insert = '';
+        $select  = $adapter->select()->from($tableName);
+        $query   = $adapter->query($select);
         $columns = $this->_getReadAdapter()->describeTable($tableName);
+        $insert  = '';
         $isIdentity = false;
         foreach ($columns as $column) {
             if ($column['IDENTITY']) {
@@ -189,25 +183,28 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
                     if (in_array($columns[$key]['DATA_TYPE'], $this->_dateTypeMap['STRING'])) {
                         $insRowData[$key] = sprintf("'%s'", str_replace("'","''",$value) );
                     } elseif (!(array_search($columns[$key]['DATA_TYPE'], $this->_dateTypeMap['DATETIME']) === false) ) {
-                        $insRowData[$key] = sprintf("CAST('%s' AS %s)",$value, $columns[$key]['DATA_TYPE']);
+                        $insRowData[$key] = sprintf("CAST('%s' AS %s)", $value, $columns[$key]['DATA_TYPE']);
                     } else {
                         $insRowData[$key] = $value;
                     }
                 }
             }
-            $insert = $insert . sprintf("INSERT INTO %s (%s) VALUES (%s)\n",
+            $insert .= sprintf("INSERT INTO %s (%s) VALUES (%s)\n",
                 $tableName,
-                implode(',',array_keys($columns))
-                ,implode(',',$insRowData));            
+                implode(',', array_keys($columns)),
+                implode(',', $insRowData));            
         }
-        $insert = $isIdentity ? sprintf("SET IDENTITY_INSERT %s ON\n%s\nSET IDENTITY_INSERT %s OFF",
-            $tableName, $insert, $tableName) : $insert;
+
+        if ($isIdentity) {
+            $insert = sprintf("SET IDENTITY_INSERT %s ON\n%s\nSET IDENTITY_INSERT %s OFF",
+                $tableName, $insert, $tableName);
+        }
+
         return $insert;
     }
 
     /*
      * Turn on serializable mode
-     *
      */
     public function turnOnSerializableMode()
     {
@@ -216,7 +213,6 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
 
     /*
      * Turn on read committed mode
-     *
      */
     public function turnOnReadCommittedMode()
     {

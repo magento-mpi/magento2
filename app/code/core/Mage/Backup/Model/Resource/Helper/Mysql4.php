@@ -43,17 +43,18 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
     public function getTableDropSql($tableName)
     {
         $quotedTableName = $this->_getReadAdapter()->quoteIdentifier($tableName);
-        return 'DROP TABLE IF EXISTS ' . $quotedTableName . ';';
-    }    
+        return sprintf('DROP TABLE IF EXISTS %s;', $quotedTableName);
+    }
+
     /**
      * Retrieve foreign keys for table(s)
      *
      * @param string|null $tableName
-     * @return string
+     * @return string|false
      */
     public function getTableForeignKeysSql($tableName = null)
     {
-        if (is_null($tableName)) {
+        if ($tableName === null) {
             $sql = '';
             foreach ($this->_foreignKeys as $table => $foreignKeys) {
                 $sql .= sprintf("ALTER TABLE %s\n  %s;\n",
@@ -63,9 +64,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
             }
             return $sql;
         }
-        if (isset($this->_foreignKeys[$tableName]) && ($foreignKeys = $this->_foreignKeys[$tableName])) {
 
-        }
         return false;
     }
      /**
@@ -73,21 +72,20 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
      *
      * @param string $tableName
      * @param boolean $addDropIfExists
-     * @return unknown
+     * @return string
      */
-    public function getTableCreateScript($tableName, $addDropIfExists=false)
+    public function getTableCreateScript($tableName, $addDropIfExists = false)
     {
         $script = '';
-        if ($this->_getReadAdapter()) {
-            $quotedTableName = $this->_getReadAdapter()->quoteIdentifier($tableName);
+        $quotedTableName = $this->_getReadAdapter()->quoteIdentifier($tableName);
 
-            if ($addDropIfExists) {
-                $script .= 'DROP TABLE IF EXISTS ' . $quotedTableName .";\n";
-            }
-            $sql = 'SHOW CREATE TABLE ' . $quotedTableName;
-            $data = $this->_getReadAdapter()->fetchRow($sql);
-            $script.= isset($data['Create Table']) ? $data['Create Table'].";\n" : '';
+        if ($addDropIfExists) {
+            $script .= 'DROP TABLE IF EXISTS ' . $quotedTableName .";\n";
         }
+        //TODO fix me
+        $sql     = 'SHOW CREATE TABLE ' . $quotedTableName;
+        $data    = $this->_getReadAdapter()->fetchRow($sql);
+        $script .= isset($data['Create Table']) ? $data['Create Table'].";\n" : '';
 
         return $script;
     }  
@@ -100,9 +98,10 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
      */
     public function getTableCreateSql($tableName, $withForeignKeys = false)
     {
-        $quotedTableName = $this->_getReadAdapter()->quoteIdentifier($tableName);
-        $sql = 'SHOW CREATE TABLE ' . $quotedTableName;
-        $row = $this->_getReadAdapter()->fetchRow($sql);
+        $adapter         = $this->_getReadAdapter();
+        $quotedTableName = $adapter->quoteIdentifier($tableName);
+        $query           = 'SHOW CREATE TABLE ' . $quotedTableName;
+        $row             = $adapter->fetchRow($query);
 
         if (!$row || !isset($row['Table']) || !isset($row['Create Table'])) {
             return false;
@@ -115,28 +114,31 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
         $matches = array();
         preg_match_all($regExp, $row['Create Table'], $matches, PREG_SET_ORDER);
 
-        foreach ($matches as $match) {
-            $this->_foreignKeys[$tableName][] = sprintf('ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s)%s%s',
-                $this->_getReadAdapter()->quoteIdentifier($match[1]),
-                $this->_getReadAdapter()->quoteIdentifier($match[2]),
-                $this->_getReadAdapter()->quoteIdentifier($match[3]),
-                $this->_getReadAdapter()->quoteIdentifier($match[4]),
-                isset($match[5]) ? $match[5] : '',
-                isset($match[7]) ? $match[7] : ''
-            );
+        if (is_array($matches)) {
+            foreach ($matches as $match) {
+                $this->_foreignKeys[$tableName][] = sprintf('ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s)%s%s',
+                    $adapter->quoteIdentifier($match[1]),
+                    $adapter->quoteIdentifier($match[2]),
+                    $adapter->quoteIdentifier($match[3]),
+                    $adapter->quoteIdentifier($match[4]),
+                    isset($match[5]) ? $match[5] : '',
+                    isset($match[7]) ? $match[7] : ''
+                );
+            }
         }
 
         if ($withForeignKeys) {
-            return $row['Create Table'] . ';';
+            $sql = $row['Create Table'];
+        } else {
+            $sql = preg_replace($regExp, '', $row['Create Table']);
         }
-        else {
-            return preg_replace($regExp, '', $row['Create Table']) . ';';
-        }
+
+        return $sql . ';';
     }
     /**
      * Returns SQL header data, move from original resource model
      *
-     * @return unknown
+     * @return string
      */
     public function getHeader()
     {
@@ -166,7 +168,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
     /**
      * Returns SQL footer data, move from original resource model
      *
-     * @return unknown
+     * @return string
      */
     public function getFooter()
     {
@@ -219,33 +221,33 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
      * @param int $offset
      * @return string
      */
-    public function getTableDataSql($tableName, $count, $offset = 0)
+    public function getInsertSql($tableName)
     {
         $sql = null;
-        $quotedTableName = $this->_read->quoteIdentifier($tableName);
-        $select = $this->_read->select()
+        $adapter = $this->_getWriteAdapter();
+        $quotedTableName = $adapter->quoteIdentifier($tableName);
+        $select = $adapter->select()
             ->from($tableName)
             ->limit($count, $offset);
-        $query  = $this->_read->query($select);
+        $query  = $adapter->query($select);
 
         while ($row = $query->fetch()) {
-            if (is_null($sql)) {
-                $sql = 'INSERT INTO ' . $quotedTableName . ' VALUES ';
-            }
-            else {
+            if ($sql === null) {
+                $sql = sprintf('INSERT INTO %s VALUES ', $quotedTableName);
+            } else {
                 $sql .= ',';
             }
 
             $sql .= $this->_quoteRow($tableName, $row);
         }
 
-        if (!is_null($sql)) {
+        if ($sql !== null) {
             $sql .= ';' . "\n";
         }
 
         return $sql;
     }
-    
+
     /**
      * Quote Table Row
      *
@@ -255,34 +257,34 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
      */
     protected function _quoteRow($tableName, array $row)
     {
-        $describe = $this->_read->describeTable($tableName);
-        $rowData = array();
+        $adapter   = $this->_getReadAdapter();
+        $describe  = $adapter->describeTable($tableName);
+        $dataTypes = array('bigint', 'mediumint', 'smallint', 'tinyint');
+        $rowData   = array();
         foreach ($row as $k => $v) {
-            if (is_null($v)) {
+            if ($v === null) {
                 $value = 'NULL';
-            }
-            elseif (in_array(strtolower($describe[$k]['DATA_TYPE']), array('bigint','mediumint','smallint','tinyint'))) {
+            } elseif (in_array(strtolower($describe[$k]['DATA_TYPE']), $dataTypes)) {
                 $value = $v;
-            }
-            else {
-                $value = $this->_read->quoteInto('?', $v);
+            } else {
+                $value = $adapter->quoteInto('?', $v);
             }
             $rowData[] = $value;
         }
-        return '('.join(',', $rowData).')';
+
+        return sprintf('(%s)', implode(',', $rowData));
     }
-    /*
+
+    /**
      * Turn on serializable mode
-     *
      */
     public function turnOnSerializableMode()
     {
         $this->_getReadAdapter()->query("SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE");
     }
 
-    /*
+    /**
      * Turn on read committed mode
-     *
      */
     public function turnOnReadCommittedMode()
     {

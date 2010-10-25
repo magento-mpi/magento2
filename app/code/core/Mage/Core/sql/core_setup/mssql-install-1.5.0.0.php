@@ -234,8 +234,7 @@ where fkc.parent_object_id = @objectId
 
 select @fkeys as ddl_script
 
-end
-GO");
+end");
 
 $installer->getConnection()->query("
     CREATE  procedure [dbo].[get_table_dll] (@objectName varchar(128), @withfk int, @withdrop int) as
