@@ -476,16 +476,16 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         $resourceHelper = Mage::getResourceHelper('enterprise_staging');
 
         $targetTableDesc = $this->getTableProperties($targetTable);
-        $resourceHelper->beforeBackupItemDataInsert($targetTableDesc);
+        $resourceHelper->beforeIdentityItemDataInsert($targetTableDesc);
         try {
             $fields = array_keys($targetTableDesc['fields']);
             $srcSelectSql  = $this->_getSimpleSelect($srcTable, $fields);
             $sql = $readAdapter->insertFromSelect($srcSelectSql, $targetTable, $fields);
             $writeAdapter->query($sql);
 
-            $resourceHelper->afterBackupItemDataInsert($targetTableDesc);
+            $resourceHelper->afterIdentityItemDataInsert($targetTableDesc);
         } catch (Exception $e) {
-            $resourceHelper->afterBackupItemDataInsert($targetTableDesc);
+            $resourceHelper->afterIdentityItemDataInsert($targetTableDesc);
             throw $e;
         }
         return $this;
@@ -849,7 +849,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      *
      * @param string $srcTable
      * @param string $targetTable
-     * @param object $connection
+     * @param Varien_Db_Adapter_Interface $connection
      * @param mixed $fields
      * @return Enterprise_Staging_Model_Resource_Adapter_Item_Default
      */
@@ -857,13 +857,16 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
     {
         $staging        = $this->getStaging();
         $mergedStores   = $staging->getMapperInstance()->getStores();
+        $connection     = $this->_getWriteAdapter();
+        $resourceHelper = Mage::getResourceHelper('enterprise_staging');
+
 
         if (!empty($mergedStores)) {
             $origSrcTable = $srcTable;
             $srcTable    = $this->getTable($srcTable);
             $origTargetTable = $targetTable;
             $targetTable = $this->getTable($targetTable);
-            $updateField = end($fields);
+            $targetDesc = $this->getTableProperties($origTargetTable);
             foreach ($mergedStores as $stagingStoreId => $masterStoreIds) {
                 if (empty($stagingStoreId) || empty($masterStoreIds)) {
                     continue;
@@ -878,52 +881,31 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
                     $this->_beforeStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
 
-                    $_storeFieldNameSql = "`{$srcTable}`.`store_id`";
-                    $_fields = $fields;
-
-                    foreach ($_fields as $id => $field) {
+                    foreach ($fields as $field) {
                         if ($field == 'store_id') {
-                            $_fields[$id] = $masterStoreId;
+                            $resourceHelper->beforeIdentityItemDataInsert($targetDesc);
+                            // 1 - delete all store-related rows
+                            $connection->delete($targetTable, array('store_id' => $masterStoreId));
+                            // 2 - insert all store-related rows from backup
+                            $select = $this->_getSimpleSelect($srcTable, $fields);
+                            $select->where('store_id = ?', $masterStoreId);
+                            $query = $resourceHelper->getInsertFromSelect($select, $targetTable, $fields);
+                            $connection->query($query);
+                            $resourceHelper->afterIdentityItemDataInsert($targetDesc);
                         } elseif ($field == 'scope_id') {
-                            $_storeFieldNameSql = "`{$srcTable}`.`scope` = 'stores' AND `{$srcTable}`.`{$field}`";
+                            $resourceHelper->beforeIdentityItemDataInsert($targetDesc);
+                            // 1 - delete all store-related rows
+                            $connection->delete($targetTable, array('scope = ?' => 'stores', 'scope_id = ?' => $masterStoreId));
+                            // 2 - insert all store-related rows from backup
+                            $select = $this->_getSimpleSelect($srcTable, $fields);
+                            $select
+                                ->where('scope_id = ?', $masterStoreId)
+                                ->where('scope = ?', 'stores');
+                            $query = $resourceHelper->getInsertFromSelect($select, $targetTable, $fields);
+                            $connection->query($query);
+                            $resourceHelper->afterIdentityItemDataInsert($targetDesc);
                         }
                     }
-                    // FIXME need to investigate next code ASAP !
-                    $tableDestDesc = $this->getTableProperties($targetTable);
-                    if (!$tableDestDesc) {
-                        continue;
-                    }
-                    //1 - need remove all resords from stores tables, which added via marging
-                    if (!empty($tableDestDesc['keys'])) {
-                        if (!empty($tableDestDesc['keys']['PRIMARY']) && !empty($tableDestDesc['keys']['PRIMARY']['fields'])) {
-                            $primaryFields = $tableDestDesc['keys']['PRIMARY']['fields'];
-                        } else {
-                            $primaryFields = array();
-                        }
-
-                        $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'store', $srcTable, $targetTable, $stagingStoreId, $masterStoreId, $tableDestDesc['keys']);
-                        if (!empty($destDeleteSql)) {
-                            $connection->query($destDeleteSql);
-                        }
-
-                        $additionalWhereCondition = "{$_storeFieldNameSql} = {$masterStoreId}";
-                        if ( in_array('store_id' , $primaryFields) || in_array('scope_id' ,$primaryFields)) {
-                            $additionalWhereCondition = "";
-                        }
-
-                        $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'store', $srcTable, $targetTable, $masterStoreId, $stagingStoreId, $tableDestDesc['keys'], $additionalWhereCondition);
-                        //if ($destDeleteSql) {
-                            //$connection->query($destDeleteSql);
-                        //}
-                    }
-
-                    //2 - refresh data by backup
-                    $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$updateField}`=VALUES(`{$updateField}`)";
-
-                    $srcSelectSql = $this->_getSimpleSelect($srcTable, $_fields, "{$_storeFieldNameSql} = {$masterStoreId}");
-                    $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-                    $connection->query($destInsertSql);
 
                     $this->_afterStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
                 }

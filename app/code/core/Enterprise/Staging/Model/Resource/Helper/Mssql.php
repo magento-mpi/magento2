@@ -117,7 +117,7 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
      * @param array $tableDesc
      * @return void
      */
-    public function beforeBackupItemDataInsert($tableDesc)
+    public function beforeIdentityItemDataInsert($tableDesc)
     {
         $field = reset($tableDesc['fields']);
         if ($field['IDENTITY']) {
@@ -135,7 +135,7 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
      * @param array $tableDesc
      * @return void
      */
-    public function afterBackupItemDataInsert($tableDesc)
+    public function afterIdentityItemDataInsert($tableDesc)
     {
         $field = reset($tableDesc['fields']);
         if ($field['IDENTITY']) {
