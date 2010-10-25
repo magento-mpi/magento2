@@ -57,8 +57,9 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     protected static $_response;
 
     /**
-     * (non-PHPdoc)
-     * @see app/code/core/Mage/Payment/Model/Method/Mage_Payment_Model_Method_Cc#validate()
+     * Do not validate payment form using server methods
+     *     
+     * @return  bool
      */
     public function validate()
     {
