@@ -778,7 +778,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (!empty($foreignKeys)) {
             foreach ($foreignKeys as $fkData) {
                 if (in_array($fkData['ON_DELETE'], $fkActions)) {
-                    
+
                     $this->_addForeignKeyDeleteAction($table->getName(), $fkData['COLUMN_NAME'],
                         $fkData['REF_TABLE_NAME'], $fkData['REF_COLUMN_NAME'], $fkData['ON_DELETE']);
                 }
@@ -998,7 +998,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
     /**
      * Create Varien_Db_Ddl_Table object by data from describe table
-     * 
+     *
      * @param $tableName
      * @param $newTableName
      * @return Varien_Db_Ddl_Table
@@ -1046,7 +1046,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             if ($indexData['KEY_NAME'] == 'PRIMARY') {
                 continue;
             }
-            
+
             $fields = $indexData['COLUMNS_LIST'];
             $options = array();
             $indexType = '';
@@ -1083,7 +1083,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                $onUpdate = Varien_Db_Ddl_Table::ACTION_NO_ACTION;
             }
             $table->addForeignKey(
-                $fkName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'], 
+                $fkName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'],
                 $keyData['REF_COLUMN_NAME'], $onDelete, $onUpdate
             );
         }
@@ -1111,7 +1111,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
     /**
      * Retrieve column data type by data from describe table
-     * 
+     *
      * @param array $column
      * @return string
      */
@@ -1826,7 +1826,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             if ($fkName == $foreignKey['FK_NAME']) {
                 $query  = sprintf("IF  EXISTS (SELECT * FROM sys.triggers "
                     . "WHERE object_id = OBJECT_ID(N'%s'))\n"
-                    . " DROP TRIGGER [%s]", 
+                    . " DROP TRIGGER [%s]",
                     $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL),
                     $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL)
                     );
@@ -1883,7 +1883,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     scp.name                            AS column_name,
                     sor.name                            AS ref_table_name,
                     scr.name                            AS ref_column,
-                    sfk.delete_referential_action_desc  AS on_delete,
+                    CASE
+                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%DELETE t FROM ' + OBJECT_NAME(sfk.parent_object_id)  + ' t%' THEN 'CASCADE'
+                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%UPDATE t FROM ' + OBJECT_NAME(sfk.parent_object_id)  + ' t%' THEN 'SET_NULL'
+                        ELSE 'NO_ACTION'
+                    END                                 AS on_delete
                     sfk.update_referential_action_desc  AS on_update
                 FROM sys.foreign_keys sfk
                 INNER JOIN sys.foreign_key_columns sfkc ON sfk.object_id = sfkc.constraint_object_id
@@ -1897,6 +1901,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 INNER JOIN sys.columns scr ON scr.object_id = sor.id
                     AND scr.object_id  = sfkc.referenced_object_id
                     AND scr.column_id = sfkc.referenced_column_id
+                LEFT JOIN SYS.TRIGGERS tr ON tr.parent_id = sfk.referenced_object_id
+                    AND tr.is_instead_of_trigger = 1
                 WHERE sop.name = '%s'";
             $sql = sprintf($query, $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)));
             foreach ($this->fetchAll($sql) as $row) {
@@ -4209,7 +4215,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _getInsteadTriggerBody($tableName)
     {
-        $pkColumns = $this->_getPrimaryKeyColumns($tableName); 
+        $pkColumns = $this->_getPrimaryKeyColumns($tableName);
         $query = sprintf(" SELECT CAST(OBJECT_DEFINITION (object_id) AS VARCHAR(MAX)) \n"
                 . " FROM sys.triggers t                \n"
                 . " WHERE t.is_instead_of_trigger = 1 \n"
@@ -4223,7 +4229,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $this->_getColumnDataType($tableName, $column)
             );
 
-            
+
         }
         $triggerBody = str_replace(
             "CREATE TRIGGER",
