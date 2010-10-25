@@ -40,39 +40,31 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Config
      *
      * @param mixed $table
      * @param string $fields
-     * @param string $where
+     * @param array | string $where
      * @return string
      */
     protected function _getSimpleSelect($table, $fields, $where = null)
     {
         $_where = array();
         if (!is_null($where)) {
-            $_where[] = $where;
+            if (is_array($where)) {
+                $_where = $where;
+            } else {
+                $_where[] = $where;
+            }
         }
-
-        $adapter = $this->_getReadAdapter();
 
         if ($this->getEvent()->getCode() !== 'rollback') {
             $itemXmlConfig = $this->getConfig();
             if ($itemXmlConfig->ignore_nodes) {
                 foreach ($itemXmlConfig->ignore_nodes->children() as $node) {
                     $path = (string) $node->path;
-                    $_where[] = $adapter->quoteIdentifier('path') .' NOT LIKE ' . $adapter->quote('%' . $path . '%');
+                    $_where['path NOT LIKE ?'] = '%' . $path . '%';
                 }
             }
         }
-        /*
-        if (is_array($fields)) {
-            $fields = $this->_prepareFields($fields);
-        }
-        */
 
-        $select = $adapter->select();
-        $select->from($table, $fields);
-        if (!empty($_where)) {
-            $_where = implode(' AND ', $_where);
-            $select->where($_where);
-        }
+        $select = parent::_getSimpleSelect($table, $fields, $_where);
 
         return $select;
     }

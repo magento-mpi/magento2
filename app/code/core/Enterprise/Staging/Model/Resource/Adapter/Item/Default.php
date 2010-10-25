@@ -628,7 +628,9 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
                 $stagingCond = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$stagingWebsiteId));
                 $masterCond  = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$masterWebsiteId));
-                $concatVal   = $readAdapter->getConcatSql(array('website_ids', $readAdapter->quote(','.$masterWebsiteId)));
+                $concatVal   = $readAdapter->getConcatSql(array(
+                    'website_ids',
+                    $readAdapter->quote(','.$masterWebsiteId)));
 
                 $writeAdapter->update(
                     $targetTable,
@@ -733,26 +735,37 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     protected function _rollbackItem($entityName)
     {
-        $srcTableDesc = $this->getTableProperties($entityName);
-        if (!$srcTableDesc) {
+        $targetTableDesc = $this->getTableProperties($entityName);
+        if (!$targetTableDesc) {
             return $this;
         }
 
-        $connection = $this->_getWriteAdapter();
-        $fields     = $srcTableDesc['fields'];
+        $resourceHelper = Mage::getResourceHelper('enterprise_staging');
+        $fields     = $targetTableDesc['fields'];
         $fields     = array_keys($fields);
 
         $backupPrefix = $this->getStaging()->getMapperInstance()->getBackupTablePrefix();
         $backupTable  = $this->_getWriteAdapter()->getTableName($backupPrefix . $this->getTable($entityName));
 
+
+        $resourceHelper->beforeIdentityItemDataInsert($targetTableDesc);
+        Mage::log($targetTableDesc, null, 'staging.log');//!!!
+
+            Mage::log( $backupTable, null, 'staging.log');//!!!
         if ($this->tableExists($backupTable)) {
+            Mage::log('tableExists = ' . $backupTable, null, 'staging.log');//!!!
             if ($this->allowToProceedInWebsiteScope($fields)) {
-                $this->_rollbackTableDataInWebsiteScope($backupTable, $entityName, $connection, $fields);
+                Mage::log('allowToProceedInWebsiteScope', null, 'staging.log');//!!!
+                $this->_rollbackTableDataInWebsiteScope($backupTable, $entityName, null, $fields);
             }
             if ($this->allowToProceedInStoreScope($fields)) {
-                $this->_rollbackTableDataInStoreScope($backupTable, $entityName, $connection, $fields);
+                Mage::log('allowToProceedInStoreScope', null, 'staging.log');//!!!
+                $this->_rollbackTableDataInStoreScope($backupTable, $entityName, null, $fields);
             }
         }
+
+        $resourceHelper->afterIdentityItemDataInsert($targetTableDesc);
+
         $this->_processedTables[$entityName] = $backupTable;
         return $this;
     }
@@ -768,75 +781,43 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     protected function _rollbackTableDataInWebsiteScope($srcTable, $targetTable, $connection, $fields)
     {
+        Mage::log('_rollbackTableDataInWebsiteScope', null, 'staging.log');
         $staging        = $this->getStaging();
         $mergedWebsites = $staging->getMapperInstance()->getWebsites();
 
         if (!empty($mergedWebsites)) {
             $srcTable     = $this->getTable($srcTable);
             $targetTable  = $this->getTable($targetTable);
-            $updateField  = end($fields);
-            $readAdapter  = $this->getReadAdapter();
-            $writeAdapter = $this->getWriteAdapter();
+            
+            $readAdapter  = $this->_getReadAdapter();
+            $writeAdapter = $this->_getWriteAdapter();
             foreach ($mergedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
                 if (!empty($masterWebsiteIds)) {
-                    $_websiteFieldNameSql = 'website_id';
+                    $_websiteCondition = 'website_id';
                     if (in_array('website_id', $fields)) {
-                        $_websiteFieldNameSql = $readAdapter->quoteInto('website_id in (?)', $masterWebsiteIds);
+                        $_websiteCondition = array('website_id IN (?)' => $masterWebsiteIds);
                     } elseif (in_array('scope_id', $fields)) {
-                        $_websiteFieldNameSql = $readAdapter->quoteIdentifier($srcTable.'.scope')
-                            . $readAdapter->quoteInto(' = ?', 'websites')
-                            . ' AND ' . $readAdapter->quoteIdentifier($srcTable.'.scope_id')
-                            . $readAdapter->quoteInto(' IN (?)', $masterWebsiteIds);
+                        $_websiteCondition = array(
+                            'scope = ?' => 'websites',
+                            'scope_id IN (?)' => $masterWebsiteIds);
                     } elseif (in_array('website_ids', $fields)) {
                         $whereFields = array();
                         foreach ($masterWebsiteIds AS $webId) {
                             $whereFields[] = $readAdapter->prepareSqlCondition(
-                                $srcTable .'.website_ids',
+                                'website_ids',
                                 array('finset'=>$webId));
                         }
-                        $_websiteFieldNameSql = implode(" OR " , $whereFields);
-                    }
-                    // FIXME need to investigate next code ASAP !
-                    $tableDestDesc = $this->getTableProperties($targetTable);
-                    if (!$tableDestDesc) {
-                        continue;
-                    }
-                    //1 - need remove all resords from web_site tables, which added via marging
-                    if (!empty($tableDestDesc['keys'])) {
-                        if (!empty($tableDestDesc['keys']['PRIMARY'])
-                            && !empty($tableDestDesc['keys']['PRIMARY']['fields'])
-                        ) {
-                            $primaryFields = $tableDestDesc['keys']['PRIMARY']['fields'];
-                        } else {
-                            $primaryFields = array();
-                        }
-                        $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'website',$srcTable, $targetTable,
-                            $stagingWebsiteId, $masterWebsiteIds, $tableDestDesc['keys']);
-                        if (!empty($destDeleteSql)) {
-                            $writeAdapter->query($destDeleteSql);
-                        }
-
-                        $additionalWhereCondition = $_websiteFieldNameSql;
-                        if (in_array('website_id', $primaryFields) || in_array('scope_id', $primaryFields)
-                            || in_array('website_ids', $primaryFields)
-                        ) {
-                            $additionalWhereCondition = "";
-                        }
-                        $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'website', $srcTable, $targetTable,
-                            $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys'], $additionalWhereCondition);
-                        //if ($destDeleteSql) {
-                            //$writeAdapter->query($destDeleteSql);
-                        //}
+                        $_websiteCondition = array(implode(" OR " , $whereFields)); //!!!
                     }
 
-
-                    //2 - copy old data from bk_ tables
-                    $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$updateField}`=VALUES(`{$updateField}`)";
-
-                    $srcSelectSql = $this->_getSimpleSelect($srcTable, $fields, $_websiteFieldNameSql);
-                    $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-                    $writeAdapter->query($destInsertSql);
+                    $writeAdapter->delete($targetTable, $_websiteCondition);
+                    $srcSelectSql = $this->_getSimpleSelect($srcTable, $fields, $_websiteCondition);
+                    $sql = Mage::getResourceHelper('enterprise_staging')->getInsertFromSelect(
+                        $srcSelectSql,
+                        $targetTable,
+                        $fields
+                    );
+                    $writeAdapter->query($sql);
                 }
             }
         }
@@ -883,26 +864,21 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
 
                     $resourceHelper->beforeIdentityItemDataInsert($targetDesc);
 
-                    foreach ($fields as $field) {
-                        if (in_array('store_id', $fields)) {
-                            $whereCond = array('store_id = ?' => $masterStoreId);
-                        } elseif (in_array('scope_id', $fields)) {
-                            $whereCond = array(
-                                $connection->quoteIdentifier('scope') .'= ?' => 'stores',
-                                'scope_id = ?' => $masterStoreId
-                            );
-                        }
+                    if (in_array('store_id', $fields)) {
+                        $whereCond = array('store_id = ?' => $masterStoreId);
+                    } elseif (in_array('scope_id', $fields)) {
+                        $whereCond = array(
+                            $connection->quoteIdentifier('scope') .'= ?' => 'stores',
+                            'scope_id = ?' => $masterStoreId
+                        );
                     }
                     // 1 -- delete all rows
                     $connection->delete($targetTable, $whereCond);
                     // 2 -- insert Rows from backup
-                    $select = $this->_getSimpleSelect($srcTable, $fields);
-                    foreach ($whereCond as $cond => $value) {
-                        $select->where($cond, $value);
-                    }
+                    $select = $this->_getSimpleSelect($srcTable, $fields, $whereCond);
+
                     $query = $resourceHelper->getInsertFromSelect($select, $targetTable, $fields);
                     $connection->query($query);
-                    $resourceHelper->afterIdentityItemDataInsert($targetDesc);
 
                     $this->_afterStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
                 }

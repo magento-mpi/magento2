@@ -621,14 +621,24 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      *
      * @param mixed $entityName
      * @param mixed $fields
-     * @param string $where
+     * @param string | array $where
      * @return string
      */
     protected function _getSimpleSelect($entityName, $fields, $where = null)
     {
         $select = $this->_getWriteAdapter()->select()->from($this->getTable($entityName), $fields);
         if (isset($where)) {
-            $select->where($where);
+            if (is_array($where)) {
+                foreach ($where as $cond => $value) {
+                    if (is_int($cond)) {
+                        $select->where($value);
+                    } else {
+                        $select->where($cond, $value);
+                    }
+                }
+            } else {
+                $select->where($where);
+            }
         }
 
         return $select;
@@ -704,7 +714,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                 $sql = "DELETE T1.* FROM `{$targetTable}` as T1, `{$srcTable}` as T2 WHERE " . implode(" AND ", $_websiteFieldNameSql);
 
                 $select->join(
-                    arraY('SRCT' => $srcTable),
+                    array('SRCT' => $srcTable),
                     implode(" AND ", $_websiteFieldNameSql),
                     array()
                 );
