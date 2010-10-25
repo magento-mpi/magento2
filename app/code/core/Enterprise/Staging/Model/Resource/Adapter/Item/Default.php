@@ -880,32 +880,31 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $masterStoreId = intval($masterStoreId);
 
                     $this->_beforeStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
+                    
+                    $resourceHelper->beforeIdentityItemDataInsert($targetDesc);
+                    $select = $this->_getSimpleSelect($srcTable, $fields);
 
                     foreach ($fields as $field) {
                         if ($field == 'store_id') {
-                            $resourceHelper->beforeIdentityItemDataInsert($targetDesc);
                             // 1 - delete all store-related rows
-                            $connection->delete($targetTable, array('store_id' => $masterStoreId));
+                            $deleteFilter = array('store_id = ?' => $masterStoreId);
                             // 2 - insert all store-related rows from backup
-                            $select = $this->_getSimpleSelect($srcTable, $fields);
                             $select->where('store_id = ?', $masterStoreId);
-                            $query = $resourceHelper->getInsertFromSelect($select, $targetTable, $fields);
-                            $connection->query($query);
-                            $resourceHelper->afterIdentityItemDataInsert($targetDesc);
+
                         } elseif ($field == 'scope_id') {
-                            $resourceHelper->beforeIdentityItemDataInsert($targetDesc);
                             // 1 - delete all store-related rows
-                            $connection->delete($targetTable, array('scope = ?' => 'stores', 'scope_id = ?' => $masterStoreId));
+                            $deleteFilter = array('scope = ?' => 'stores', 'scope_id = ?' => $masterStoreId);
                             // 2 - insert all store-related rows from backup
-                            $select = $this->_getSimpleSelect($srcTable, $fields);
                             $select
                                 ->where('scope_id = ?', $masterStoreId)
                                 ->where('scope = ?', 'stores');
-                            $query = $resourceHelper->getInsertFromSelect($select, $targetTable, $fields);
-                            $connection->query($query);
-                            $resourceHelper->afterIdentityItemDataInsert($targetDesc);
                         }
                     }
+
+                    $connection->delete($targetTable, $deleteFilter);
+                    $query = $resourceHelper->getInsertFromSelect($select, $targetTable, $fields);
+                    $connection->query($query);
+                    $resourceHelper->afterIdentityItemDataInsert($targetDesc);
 
                     $this->_afterStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
                 }
