@@ -214,7 +214,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                 if ($cancelOrder) {
                     $order->cancel()->save();
                 }
-            return true;
+                return true;
             }
         }
 

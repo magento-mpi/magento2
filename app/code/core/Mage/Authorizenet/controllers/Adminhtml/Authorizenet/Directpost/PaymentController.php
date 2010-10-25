@@ -178,7 +178,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 if ($cancelOrder) {
                     $order->cancel()->save();
                 }
-            return true;
+                return true;
             }
         }
 
