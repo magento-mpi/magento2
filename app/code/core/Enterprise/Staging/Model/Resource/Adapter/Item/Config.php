@@ -59,7 +59,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Config
             if ($itemXmlConfig->ignore_nodes) {
                 foreach ($itemXmlConfig->ignore_nodes->children() as $node) {
                     $path = (string) $node->path;
-                    $_where['path NOT LIKE ?'] = '%' . $path . '%';
+                    $_where[] = $this->_getReadAdapter()->quoteInto('path NOT LIKE ?', '%' . $path . '%');
                 }
             }
         }
