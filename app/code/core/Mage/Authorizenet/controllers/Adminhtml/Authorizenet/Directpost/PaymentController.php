@@ -72,6 +72,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
     {
         $paymentParam = $this->getRequest()->getParam('payment');
         $controller = $this->getRequest()->getParam('controller');
+        $this->getRequest()->setPost('collect_shipping_rates', 1);
         $this->_processData();
 
         //get confirmation by email flag
