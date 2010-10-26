@@ -87,6 +87,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
 
         if (isset($paymentParam['method'])) {
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
+            //if need to save order before payment
             if ($saveOrderFlag) {
                 $result = array();
                 $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
@@ -150,6 +151,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
             }
             else {
+                //otherwise we need to save order after payment
                 $quote = $this->_getOrderCreateModel()->getQuote();
                 $quote->getPayment()->importData($paymentParam);
                 $payment = $quote->getPayment();
@@ -265,7 +267,6 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
      *
      * @param bool $cancelOrder
      * @param string $errorMsg
-     * @return bool
      */
     protected function _returnQuote($cancelOrder = false, $errorMsg = '')
     {

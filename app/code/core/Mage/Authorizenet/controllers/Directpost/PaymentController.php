@@ -178,30 +178,24 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
      */
     public function returnQuoteAction()
     {
-        if ($this->_returnCustomerQuote()) {
-            $result = array('success' => 1);
-        }
-        else {
-            $result = array('error_message' => $this->__('Payment transaction error.'));
-        }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->_returnCustomerQuote();
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array('success' => 1)));
     }
 
     /**
      * Return customer quote
-     * 
+     *
      * @param bool $cancelOrder
      * @param string $errorMsg
-     * @return bool
      */
     protected function _returnCustomerQuote($cancelOrder = false, $errorMsg = '')
     {
-        $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();        
+        $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();
         if ($incrementId &&
             $this->_getDirectPostSession()
                 ->isCheckoutOrderIncrementIdExist($incrementId)) {
             $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
-            if ($order->getId()) { 
+            if ($order->getId()) {
                 $quote = Mage::getModel('sales/quote')
                     ->load($order->getQuoteId());
                 if ($quote->getId()){
@@ -215,11 +209,8 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
                 if ($cancelOrder) {
                     $order->registerCancellation($errorMsg)->save();
                 }
-                return true;
             }
         }
-
-        return false;
     }
 
     /**
