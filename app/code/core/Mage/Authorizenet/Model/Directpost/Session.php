@@ -46,13 +46,13 @@ class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session
      *
      * @param string $orderIncrementId
      */
-    public function addCheckoutOrderIncrementId($orderIncrementId)
+    public function addCheckoutOrderIncrementId($orderIncrementId, $additionalData = array())
     {
         $orderIncIds = $this->getDirectPostOrderIncrementIds();
         if (!$orderIncIds) {
             $orderIncIds = array();
         }
-        $orderIncIds[$orderIncrementId] = 1;
+        $orderIncIds[$orderIncrementId] = $additionalData;
         $this->setDirectPostOrderIncrementIds($orderIncIds);
     }
 
@@ -64,10 +64,12 @@ class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session
     public function removeCheckoutOrderIncrementId($orderIncrementId)
     {
         $orderIncIds = $this->getDirectPostOrderIncrementIds();
-        if (!$orderIncIds) {
-            $orderIncIds = array();
+
+        if (!is_array($orderIncIds)) {
+            return;
         }
-        elseif (!empty($orderIncIds[$orderIncrementId])){
+
+        if (isset($orderIncIds[$orderIncrementId])){
             unset($orderIncIds[$orderIncrementId]);
         }
         $this->setDirectPostOrderIncrementIds($orderIncIds);
@@ -82,9 +84,24 @@ class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session
     public function isCheckoutOrderIncrementIdExist($orderIncrementId)
     {
         $orderIncIds = $this->getDirectPostOrderIncrementIds();
-        if (is_array($orderIncIds) && !empty($orderIncIds[$orderIncrementId])) {
+        if (is_array($orderIncIds) && isset($orderIncIds[$orderIncrementId])) {
             return true;
         }
         return false;
+    }
+
+	/**
+     * Get order's additional data. Needed for Admin area.
+     *
+     * @param string $orderIncrementId
+     * @return array|int|string|null
+     */
+    public function getCheckoutOrderData($orderIncrementId)
+    {
+        $orderIncIds = $this->getDirectPostOrderIncrementIds();
+        if (isset($orderIncIds[$orderIncrementId])) {
+            return $orderIncIds[$orderIncrementId];
+        }
+        return null;
     }
 }

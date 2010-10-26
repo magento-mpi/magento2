@@ -37,7 +37,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
     /**
      * Get session model
      *
-     * @return Mage_DirectPost_Model_Session
+     * @return Mage_Authorizenet_Model_Directpost_Session
      */
     protected function _getDirectPostSession()
     {
@@ -168,15 +168,33 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 $quote = $this->_getOrderCreateModel()->getQuote();
                 $quote->getPayment()->importData($paymentParam);
                 $payment = $quote->getPayment();
+
                 if (!$quote->getReservedOrderId()) {
-                    $quote->reserveOrderId()->save();
+                    $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
+                    if ($oldOrder->getId()) {
+                        $originalId = $oldOrder->getOriginalIncrementId() ? $oldOrder->getOriginalIncrementId() : $oldOrder->getIncrementId();
+                        $orderData = array(
+                            'original_increment_id'     => $originalId,
+                            'relation_parent_id'        => $oldOrder->getId(),
+                            'relation_parent_real_id'   => $oldOrder->getIncrementId(),
+                            'edit_increment'            => $oldOrder->getEditIncrement()+1
+                        );
+                        $incrementId = $originalId.'-'.($oldOrder->getEditIncrement()+1);
+                        $this->_getDirectPostSession()->addCheckoutOrderIncrementId($incrementId, $orderData);
+                        $quote->setReservedOrderId($incrementId);
+                    }
+                    else {
+                        $quote->reserveOrderId();
+                        $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
+                    }
+                    $quote->save();
                 }
-                $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
+
                 $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($quote);
                 $requestToPaygate->setControllerActionName($controller);
                 $requestToPaygate->setOrderSendConfirmation($sendConfirmationFlag);
                 $adminUrl = Mage::getSingleton('adminhtml/url');
-                if ($adminUrl->useSecretKey()){
+                if ($adminUrl->useSecretKey()) {
                     $requestToPaygate->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
                 }
                 $result = array(
@@ -211,8 +229,15 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             //cancel old order
             $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
             if ($oldOrder->getId()) {
+                /* @var $order Mage_Sales_Model_Order */
                 $order = Mage::getModel('sales/order')->loadByIncrementId($redirectParams['x_invoice_num']);
                 if ($order->getId()){
+                    //set data for new order from session if needed
+                    if ($orderData = $this->_getDirectPostSession()->getCheckoutOrderData($order->getIncrementId())) {
+                        $order->addData($orderData)
+                            ->save();
+                    }
+                    //set data for old order
                     $oldOrder->setRelationChildId($order->getId());
                     $oldOrder->setRelationChildRealId($order->getIncrementId());
                     $oldOrder->cancel()
@@ -221,7 +246,9 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                     $this->_getOrderCreateModel()->getSession()->unsOrderId();
                 }
             }
+            //clear sessions
             $this->_getSession()->clear();
+            $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($redirectParams['x_invoice_num']);
             Mage::getSingleton('adminhtml/session')->clear();
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The order has been created.'));
         }
@@ -264,7 +291,8 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();
         if ($incrementId &&
             $this->_getDirectPostSession()
-                ->isCheckoutOrderIncrementIdExist($incrementId)) {
+                ->isCheckoutOrderIncrementIdExist($incrementId)
+        ) {
             /* @var $order Mage_Sales_Model_Order */
             $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
