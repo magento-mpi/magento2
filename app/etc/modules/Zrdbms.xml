@@ -43,7 +43,7 @@
             <active>true</active>
         </Mage_Api>
         <Mage_Backup>
-            <active>false</active>
+            <active>true</active>
         </Mage_Backup>
         <Mage_Bundle>
             <active>true</active>
