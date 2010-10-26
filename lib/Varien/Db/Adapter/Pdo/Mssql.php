@@ -1884,10 +1884,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     sor.name                            AS ref_table_name,
                     scr.name                            AS ref_column,
                     CASE
-                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%ACTION ADDED BY ' + OBJECT_NAME(sfk.parent_object_id) THEN 'CASCADE'
-                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%ACTION UPDATE ADDED BY ' + OBJECT_NAME(sfk.parent_object_id) THEN 'SET_NULL'
+                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%%ACTION ADDED BY ' + OBJECT_NAME(sfk.parent_object_id) THEN 'CASCADE'
+                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%%ACTION UPDATE ADDED BY ' + OBJECT_NAME(sfk.parent_object_id) THEN 'SET_NULL'
                         ELSE 'NO_ACTION'
-                    END                                 AS on_delete
+                    END                                 AS on_delete,
                     sfk.update_referential_action_desc  AS on_update
                 FROM sys.foreign_keys sfk
                 INNER JOIN sys.foreign_key_columns sfkc ON sfk.object_id = sfkc.constraint_object_id
