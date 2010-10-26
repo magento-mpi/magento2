@@ -40,6 +40,13 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
     {
         parent::preDispatch();
         $this->_preDispatchValidateCustomer();
+
+        $checkoutSessionQuote = Mage::getSingleton('checkout/session')->getQuote();
+        if ($checkoutSessionQuote->getIsMultiShipping()) {
+            $checkoutSessionQuote->setIsMultiShipping(false);
+            $checkoutSessionQuote->removeAllAddresses();
+        }
+
         return $this;
     }
 
