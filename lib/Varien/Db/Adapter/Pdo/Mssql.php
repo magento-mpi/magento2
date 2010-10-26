@@ -1879,6 +1879,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _dropDependTriggersAction($refTableName)
     {
+
         $concatData = array(
             $this->getCheckSql(
                 'start_teg_pos != 0',
@@ -1889,6 +1890,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 "SUBSTRING(trigger_script, finish_teg_pos + LEN('/* /ACTION ADDED BY '+ :tablename1 + '*/'), DATALENGTH(trigger_script))",
                 'NULL')
         );
+
         $subSelect = $this->select();
         $subSelect->from(array('t' => 'sys.triggers'),
             array (
@@ -1899,11 +1901,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             ->where(
                     "OBJECT_DEFINITION(t.object_id) like '%'+ :tablename4 +'%' AND t.parent_id != OBJECT_ID(:tablename5)"
                 );
+
         $select = $this->select();
         $select->from(array('r' => new Zend_Db_Expr(sprintf('(%s)', $subSelect->assemble()))),
             array(
-                'trigger_script' => $this->getConcatSql($concatData)
+                'trigger_script' => sprintf('CAST (%s AS VARCHAR(MAX))', $this->getConcatSql($concatData))
             ));
+
         $query = $this->query($select,
             array(
                 'tablename1' => $refTableName,
@@ -1911,8 +1915,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 'tablename3' => $refTableName,
                 'tablename4' => $refTableName,
                 'tablename5' => $refTableName)
-            );
-        
+            );    
         while ($row = $query->fetchColumn() ) {
             $this->raw_query(str_replace('CREATE TRIGGER', 'ALTER TRIGGER', $row));
         }
