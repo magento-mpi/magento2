@@ -253,7 +253,7 @@ directPost.prototype = {
                         $(this.iframeId).readAttribute('name'));
                 $(editForm.formId).appendChild(this.createHiddenElement('controller', this.controller));
                 disableElements('save');
-                if (order && !this.createOrderBefore) {
+                if (order && this.createOrderBefore == 0) {
                     Ajax.activeRequestCount++;
                     this.recollectQuote();
                 } else {
