@@ -1059,7 +1059,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             if (!empty($selects)) {
                 try {
                     $select = implode(' UNION ALL ', $selects);
-                    $values = $this->_fetchAll($select);
+                    $values = $this->getConnection()->fetchAll($select);
                 } catch (Exception $e) {
                     Mage::printException($e, $select);
                     $this->printLogQuery(true, true, $select);

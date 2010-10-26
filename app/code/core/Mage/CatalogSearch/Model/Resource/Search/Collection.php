@@ -130,7 +130,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
                 }
 
                 if ($attribute->getBackendType() == 'static') {
-                    $param = Varien_Db_Helper::shortName($attribute->getAttributeCode().'_search_query');
+                    $param = Varien_Db_Helper::shortName($attribute->getAttributeCode());
                     $selects[] = $this->getConnection()->select()
                         ->from($table, 'entity_id')
                         ->where($attribute->getAttributeCode().' LIKE :'.$param);
@@ -143,7 +143,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
 
         $ifValueId = $this->getConnection()->getCheckSql('t2.value_id>0', 't2.value', 't1.value');
         foreach ($tables as $table => $attributeIds) {
-            $param = Varien_Db_Helper::shortName($table.'_search_query');
+            $param = Varien_Db_Helper::shortName($table);
             $selects[] = $this->getConnection()->select()
                 ->from(array('t1' => $table), 'entity_id')
                 ->joinLeft(
