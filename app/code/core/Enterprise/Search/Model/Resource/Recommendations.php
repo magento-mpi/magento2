@@ -31,9 +31,13 @@
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_Resource_Db_Abstract
 {
+    /**
+     * @var Mage_Catalogsearch_Model_Query
+     */
     protected $_searchQueryModel;
+
     /**
      * Init main table
      *
@@ -53,8 +57,8 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
     public function saveRelatedQueries($queryId, $relatedQueries = array())
     {
         $adapter = $this->_getWriteAdapter();
+        $whereOr = array();
         if (count($relatedQueries) > 0) {
-            $whereOr = array();
             $whereOr[] = implode(' AND ', array(
                 $adapter->quoteInto('query_id=?', $queryId),
                 $adapter->quoteInto('relation_id NOT IN(?)', $relatedQueries)
@@ -63,12 +67,12 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
                 $adapter->quoteInto('relation_id = ?', $queryId),
                 $adapter->quoteInto('query_id NOT IN(?)', $relatedQueries)
             ));
-            $whereCond = '(' . implode(') OR (', $whereOr) . ')';
         } else {
             $whereOr[] = $adapter->quoteInto('query_id = ?', $queryId);
             $whereOr[] = $adapter->quoteInto('relation_id = ?', $queryId);
-            $whereCond = '(' . implode(') OR (', $whereOr) . ')';
+
         }
+        $whereCond = '(' . implode(') OR (', $whereOr) . ')';
         $adapter->delete($this->getMainTable(), $whereCond);
 
         $existsRelatedQueries = $this->getRelatedQueries($queryId);
@@ -93,13 +97,12 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         $queryIds = array();
         $collection = $this->_getSearchQueryModel()->getResourceCollection();
         $adapter = $this->_getReadAdapter();
-        if (is_array($queryId)) {
-            $queryIdCond = $adapter->quoteInto('main_table.query_id IN (?)', $queryId);
-        } else {
-            $queryIdCond = $adapter->quoteInto('main_table.query_id=?', $queryId);
-        }
+
+        $queryIdCond = $adapter->quoteInto('main_table.query_id IN (?)', $queryId);
+
         $collection->getSelect()
-            ->join(array('sr' => $collection->getTable("enterprise_search/recommendations")),
+            ->join(
+                array('sr' => $collection->getTable("enterprise_search/recommendations")),
                 '(sr.query_id=main_table.query_id OR sr.relation_id=main_table.query_id) AND ' . $queryIdCond
             )
             ->reset(Zend_Db_Select::COLUMNS)
@@ -121,6 +124,9 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
      * Retrieve related search queries by single query
      *
      * @param string $query
+     * @param array $params
+     * @param int $searchRecommendationsCount
+     * @return array
      */
     public function getRecommendationsByQuery($query, $params, $searchRecommendationsCount)
     {
@@ -137,7 +143,8 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
             $mainTable = $model
                 ->getResourceCollection()->getMainTable();
             $select = $adapter->select()
-                ->from(array('main_table' => $mainTable),
+                ->from(
+                    array('main_table' => $mainTable),
                     array('query_text', 'num_results')
                 )
                 ->where('query_id IN(?)', $relatedQueriesIds)
@@ -152,13 +159,14 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
      * Retrieve search terms which are started with $queryWords
      *
      * @param array $queryWords
+     * @param int $searchRecommendationsCount
      * @return array
      */
     protected function loadByQuery($query, $searchRecommendationsCount)
     {
-        $adapter = $this->_getReadAdapter();
-        $model = $this->_getSearchQueryModel();
-        $queryId = $model->getId();
+        $adapter        = $this->_getReadAdapter();
+        $model          = $this->_getSearchQueryModel();
+        $queryId        = $model->getId();
         $relatedQueries = $this->getRelatedQueries($queryId, $searchRecommendationsCount, 'num_results DESC');
         if ($searchRecommendationsCount - count($relatedQueries) < 1) {
             return $relatedQueries;

@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Mysql4_Fulltext
+class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Resource_Fulltext
 {
     /**
      * Define product count processed at one iteration
@@ -163,7 +163,7 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
     /**
      * Prepare advanced index for products
      *
-     * @see Mage_CatalogSearch_Model_Mysql4_Fulltext->_getSearchableProducts()
+     * @see Mage_CatalogSearch_Model_Resource_Fulltext->_getSearchableProducts()
      *
      * @param array $index
      * @param int $storeId

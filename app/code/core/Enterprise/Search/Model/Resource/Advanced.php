@@ -85,9 +85,10 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
      */
     protected function _getSearchParam($collection, $attribute, $value)
     {
-        if (empty($value) ||
-            (isset($value['from']) && empty($value['from']) &&
-                isset($value['to']) && empty($value['to']))) {
+        if (empty($value) 
+            || (isset($value['from']) && empty($value['from'])
+            && isset($value['to']) && empty($value['to']))
+        ) {
             return false;
         }
 
@@ -101,14 +102,11 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
-        }
-        elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
+        } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
             $field = 'attr_select_'. $field;
-        }
-        elseif ($backendType == 'decimal') {
+        } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
-        }
-        elseif ($backendType == 'datetime') {
+        } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
             if (is_array($value)) {
                 foreach ($value as &$val) {
@@ -120,18 +118,16 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
                         $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
                     }
                 }
-            }
-            else {
+            } else {
                 if (!is_empty_date($value)) {
                     $date = new Zend_Date(
                         $value,
                         Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
                     );
-                    $value = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                    $value = array($date->toString(Zend_Date::ISO_8601) . 'Z');
                 }
             }
-        }
-        elseif (in_array($backendType, $this->_textFieldTypes)) {
+        } elseif (in_array($backendType, $this->_textFieldTypes)) {
             $field .= $languageSuffix;
         }
 
@@ -145,7 +141,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
             }
         }
 
-        if (empty($value)){
+        if (empty($value)) {
             return array();
         } else {
             return array($field => $value);

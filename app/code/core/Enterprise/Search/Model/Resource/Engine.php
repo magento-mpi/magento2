@@ -23,6 +23,14 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+
+/**
+ * Search engine resource model
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Search
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_Search_Model_Resource_Engine
 {
     /**
@@ -105,6 +113,14 @@ class Enterprise_Search_Model_Resource_Engine
         return $this->_adapter->getIdsByQuery($query, $params);
     }
 
+    /**
+     * Retrieve found document statuses
+     * 
+     * @param string $query
+     * @param array $params
+     * @param string $entityType
+     * @return array
+     */
     public function getStats($query, $params = array(), $entityType = 'product')
     {
         return $this->_adapter->getStats($query, $params);
@@ -200,11 +216,11 @@ class Enterprise_Search_Model_Resource_Engine
     {
         if (is_null($storeId) && is_null($entityId)) {
             $this->_adapter->deleteDocs(array(), 'all');
-        } else if (is_null($storeId) && !is_null($entityId)) {
+        } elseif (is_null($storeId) && !is_null($entityId)) {
             $this->_adapter->deleteDocs($entityId);
-        } else if (!is_null($storeId) && is_null($entityId)) {
+        } elseif (!is_null($storeId) && is_null($entityId)) {
             $this->_adapter->deleteDocs(array(), array('store_id:' . $storeId));
-        } else if (!is_null($storeId) && !is_null($entityId)) {
+        } elseif (!is_null($storeId) && !is_null($entityId)) {
             $idsQuery = array();
             if (!is_array($entityId)) {
                 $entityId = array($entityId);
@@ -270,8 +286,9 @@ class Enterprise_Search_Model_Resource_Engine
 
         foreach ($productData as $field => $value) {
             if (in_array($field, $this->_advancedStaticIndexFields)
-                || $this->_isDynamicField($field)) {
-                if (!empty($value)){
+                || $this->_isDynamicField($field)
+            ) {
+                if (!empty($value)) {
                     $advancedIndex[$field] = $value;
                 }
             }
@@ -302,7 +319,7 @@ class Enterprise_Search_Model_Resource_Engine
     /**
      * Prepare advanced index for products
      *
-     * @see Mage_CatalogSearch_Model_Mysql4_Fulltext->_getSearchableProducts()
+     * @see Mage_CatalogSearch_Model_Resource_Fulltext->_getSearchableProducts()
      *
      * @param array $index
      * @param int $storeId
@@ -354,8 +371,7 @@ class Enterprise_Search_Model_Resource_Engine
             default:
                 if (extension_loaded('solr')) {
                     $model = 'enterprise_search/adapter_phpExtension';
-                }
-                else {
+                } else {
                     $model = 'enterprise_search/adapter_httpStream';
                 }
                 break;
