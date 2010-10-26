@@ -84,29 +84,43 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             $orderData = array();
         }
 
-        //get old order id if exists
-        $oldOrderId = $this->_getOrderCreateModel()->getSession()->getOrderId();
-
-        Mage::register('authorizenet_method', Mage::getModel('authorizenet/directpost')->getCode(), true);
         if (isset($paymentParam['method'])) {
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
             if ($saveOrderFlag) {
                 $result = array();
                 $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
-                $this->_getDirectPostSession()->setQuoteId($this->_getOrderSession()->getQuote()->getId());
                 //create order partially
                 $this->_getOrderCreateModel()->setPaymentData($paymentParam);
                 $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentParam);
 
-                $this->_getOrderCreateModel()->getSession()->unsOrderId();
                 $orderData['send_confirmation'] = 0;
                 $this->getRequest()->setPost('order', $orderData);
 
                 try {
+                    //do not cancel old order.
+                    $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
+                    $oldOrder->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CANCEL, false);
+
                     $order = $this->_getOrderCreateModel()
                         ->setIsValidate(true)
                         ->importPostData($this->getRequest()->getPost('order'))
                         ->createOrder();
+
+                    if ($oldOrder->getId()){
+                        //update all edit incrementIds.
+                        $oldOrder->setEditIncrement($oldOrder->getEditIncrement()+1);
+                        $oldOrder->save();
+                        $collection = $oldOrder->getCollection();
+                        $quotedIncrId = $collection->getConnection()->quote($order->getOriginalIncrementId());
+                        $collection->getSelect()->where(
+                            "original_increment_id = {$quotedIncrId} OR increment_id = {$quotedIncrId}"
+                        );
+
+                        foreach ($collection as $ord){
+                            $ord->setEditIncrement($oldOrder->getEditIncrement());
+                            $ord->save();
+                        }
+                    }
 
                     $payment = $order->getPayment();
                     if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()){
@@ -124,11 +138,10 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                         if ($adminUrl->useSecretKey()){
                             $requestToPaygate->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
                         }
+                        $result['directpost'] = array('fields' => $requestToPaygate->getData());
                     }
 
-                    $this->_getSession()->clear();
                     $result['success'] = 1;
-                    $result['directpost'] = array('fields' => $requestToPaygate->getData());
                     $isError = false;
                 }
                 catch (Mage_Core_Exception $e){
@@ -140,12 +153,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 }
                 catch (Exception $e){
                     $this->_getSession()->addException($e, $this->__('Order saving error: %s', $e->getMessage()));
-                    $result['success'] = 0;
                     $isError = true;
-                }
-
-                if ($oldOrderId) {
-                    $this->_getOrderCreateModel()->getSession()->setOrderId($oldOrderId);
                 }
 
                 if ($isError) {
@@ -196,15 +204,15 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         $params = array();
         if (!empty($redirectParams['success'])
             && isset($redirectParams['x_invoice_num'])
-            && isset($redirectParams['controller_action_name'])) {
+            && isset($redirectParams['controller_action_name'])
+        ) {
             $params['redirect_parent'] = Mage::helper('authorizenet')->getSuccessOrderUrl($redirectParams);
             $this->_getDirectPostSession()->unsetData('quote_id');
             //cancel old order
-            if ($this->_getOrderCreateModel()->getSession()->getOrder()->getId()) {
+            $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
+            if ($oldOrder->getId()) {
                 $order = Mage::getModel('sales/order')->loadByIncrementId($redirectParams['x_invoice_num']);
                 if ($order->getId()){
-                    $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
-
                     $oldOrder->setRelationChildId($order->getId());
                     $oldOrder->setRelationChildRealId($order->getIncrementId());
                     $oldOrder->cancel()
@@ -213,6 +221,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                     $this->_getOrderCreateModel()->getSession()->unsOrderId();
                 }
             }
+            $this->_getSession()->clear();
             Mage::getSingleton('adminhtml/session')->clear();
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The order has been created.'));
         }
@@ -257,14 +266,11 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         if ($incrementId &&
             $this->_getDirectPostSession()
                 ->isCheckoutOrderIncrementIdExist($incrementId)) {
+            /* @var $order Mage_Sales_Model_Order */
             $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
-                $order->setReordered(true);
-                $this->_getOrderSession()->setUseOldShippingMethod(true);
-                $this->_getOrderCreateModel()->initFromOrder($order);
                 $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($order->getIncrementId());
-                $this->_getDirectPostSession()->unsetData('quote_id');
-                if ($cancelOrder) {
+                if ($cancelOrder && $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     $order->registerCancellation($errorMsg)->save();
                 }
                 return true;
