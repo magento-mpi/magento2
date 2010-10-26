@@ -229,7 +229,6 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         if (!empty($redirectParams['error_msg'])) {
             $cancelOrder = empty($redirectParams['x_invoice_num']);
             $this->_returnQuote($cancelOrder, $redirectParams['error_msg']);
-            Mage::getSingleton('adminhtml/session')->addError($redirectParams['error_msg']);
         }
 
         $block = $this->getLayout()
