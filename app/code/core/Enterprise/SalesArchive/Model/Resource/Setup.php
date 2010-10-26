@@ -212,18 +212,21 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
     {
         $sourceIndex = $this->getConnection()->getIndexList($sourceTable);
         $targetIndex = $this->getConnection()->getIndexList($targetTable);
-
         foreach ($sourceIndex as $indexKey => $indexData) {
-            if (!isset($targetIndex[$indexKey]) ||
-                $this->_checkIndexDifference($sourceIndex[$indexKey], $targetIndex[$indexKey])) 
-            {
+            $indexExists = false;
+            foreach ($targetIndex as $targetIndexKey => $targetIndexData) {
+                if (!$this->_checkIndexDifference($indexData, $targetIndexData)) {
+                    $indexExists = true;
+                    break;
+                }
+            }
+            if (!$indexExists) {
                 $newIndexName = $this->getConnection()->getIndexName($targetTable, $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']);
                 $this->getConnection()->addIndex(
                     $targetTable, $newIndexName, $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']
                 );
             }
         }
-
         return $this;
     }
 
@@ -250,7 +253,7 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
      */
     protected function _checkIndexDifference($sourceIndex, $targetIndex)
     {
-        return ($sourceIndex['INDEX_TYPE'] != $targetIndex['INDEX_TYPE'] ||
+        return (strtoupper($sourceIndex['INDEX_TYPE']) != strtoupper($targetIndex['INDEX_TYPE']) ||
                 count(array_diff($sourceIndex['COLUMNS_LIST'], $targetIndex['COLUMNS_LIST'])) > 0);
     }
 
