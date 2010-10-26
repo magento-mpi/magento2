@@ -433,7 +433,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
     {
         $srcTable     = $this->getTable($entityName);
         $backupPrefix = $this->getBackupTablePrefix($this->getEvent()->getId());
-        $targetTable  = $this->getStagingTableName($srcTable, $backupPrefix);
+        $targetTable  = $this->_getWriteAdapter()->getTableName($backupPrefix . $srcTable);
 
         if ($srcTable != $targetTable) {
             if ($this->tableExists($srcTable)) {
@@ -454,8 +454,9 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     public function getBackupTablePrefix($addOnPrefix = '')
     {
-        $backupPrefix = Mage::getSingleton('enterprise_staging/staging_config')
-            ->getStagingBackupTablePrefix();
+        $config = Mage::getSingleton('enterprise_staging/staging_config');
+
+        $backupPrefix = $config->getTablePrefix($this->getStaging()) . $config->getStagingBackupTablePrefix();
         if (!empty($addOnPrefix)) {
             $backupPrefix .= $addOnPrefix;
         }
@@ -782,7 +783,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         if (!empty($mergedWebsites)) {
             $srcTable     = $this->getTable($srcTable);
             $targetTable  = $this->getTable($targetTable);
-            
+
             $readAdapter  = $this->_getReadAdapter();
             $writeAdapter = $this->_getWriteAdapter();
             foreach ($mergedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
