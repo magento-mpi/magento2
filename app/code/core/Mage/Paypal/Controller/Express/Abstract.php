@@ -62,15 +62,11 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_initCheckout();
 
             $customer = Mage::getSingleton('customer/session')->getCustomer();
-
-            $shippingAddress = clone $this->_getQuote()->getShippingAddress();
             if ($customer && $customer->getId()) {
-                $this->_checkout->setCustomer($customer);
+                $this->_checkout->setCustomerWithAddressChange($customer, null, $this->_getQuote()->getShippingAddress());
             }
-            $this->_getQuote()->setShippingAddress($shippingAddress);
 
             // billing agreement
-            $customerId = Mage::getSingleton('customer/session')->getCustomerId();
             $isBARequested = (bool)$this->getRequest()
                 ->getParam(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
             if ($customer && $customer->getId()) {
@@ -78,8 +74,10 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             }
 
             // giropay
-            $this->_checkout->prepareGiropayUrls(Mage::getUrl('checkout/onepage/success'),
-                Mage::getUrl('paypal/express/cancel'), Mage::getUrl('checkout/onepage/success')
+            $this->_checkout->prepareGiropayUrls(
+                Mage::getUrl('checkout/onepage/success'),
+                Mage::getUrl('paypal/express/cancel'),
+                Mage::getUrl('checkout/onepage/success')
             );
 
             $token = $this->_checkout->start(Mage::getUrl('*/*/return'), Mage::getUrl('*/*/cancel'));
@@ -88,14 +86,13 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
                 $this->getResponse()->setRedirect($url);
                 return;
             }
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_getCheckoutSession()->addError($this->__('Unable to start Express Checkout.'));
             Mage::logException($e);
         }
+
         $this->_redirect('checkout/cart');
     }
 

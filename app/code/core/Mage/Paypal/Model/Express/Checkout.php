@@ -234,6 +234,21 @@ class Mage_Paypal_Model_Express_Checkout
     }
 
     /**
+     * Setter for customer with billing and shipping address changing ability
+     *
+     * @param  Mage_Customer_Model_Customer   $customer
+     * @param  Mage_Sales_Model_Quote_Address $billingAddress
+     * @param  Mage_Sales_Model_Quote_Address $shippingAddress
+     * @return Mage_Paypal_Model_Express_Checkout
+     */
+    public function setCustomerWithAddressChange($customer, $billingAddress = null, $shippingAddress = null)
+    {
+        $this->_quote->assignCustomerWithAddressChange($customer, $billingAddress, $shippingAddress);
+        $this->_customerId = $customer->getId();
+        return $this;
+    }
+
+    /**
      * Reserve order ID for specified quote and start checkout on PayPal
      * @return string
      */

@@ -360,23 +360,43 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function assignCustomer(Mage_Customer_Model_Customer $customer)
     {
+        return $this->assignCustomerWithAddressChange($customer);
+    }
+
+    /**
+     * Assign customer model to quote with billing and shipping address change
+     *
+     * @param  Mage_Customer_Model_Customer    $customer
+     * @param  Mage_Sales_Model_Quote_Address  $billingAddress
+     * @param  Mage_Sales_Model_Quote_Address  $shippingAddress
+     * @return Mage_Sales_Model_Quote
+     */
+    public function assignCustomerWithAddressChange(
+        Mage_Customer_Model_Customer    $customer,
+        Mage_Sales_Model_Quote_Address  $billingAddress  = null,
+        Mage_Sales_Model_Quote_Address  $shippingAddress = null
+    )
+    {
         if ($customer->getId()) {
             $this->setCustomer($customer);
 
-            $defaultBillingAddress = $customer->getDefaultBillingAddress();
-            if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
-                $billingAddress = Mage::getModel('sales/quote_address')
-                    ->importCustomerAddress($defaultBillingAddress);
-                $this->setBillingAddress($billingAddress);
+            if (is_null($billingAddress)) {
+                $defaultBillingAddress = $customer->getDefaultBillingAddress();
+                if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
+                    $billingAddress = Mage::getModel('sales/quote_address')
+                        ->importCustomerAddress($defaultBillingAddress);
+                }
             }
+            $this->setBillingAddress($billingAddress);
 
-            $defaultShippingAddress= $customer->getDefaultShippingAddress();
-            if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
-                $shippingAddress = Mage::getModel('sales/quote_address')
-                ->importCustomerAddress($defaultShippingAddress);
-            }
-            else {
-                $shippingAddress = Mage::getModel('sales/quote_address');
+            if (is_null($shippingAddress)) {
+                $defaultShippingAddress= $customer->getDefaultShippingAddress();
+                if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
+                    $shippingAddress = Mage::getModel('sales/quote_address')
+                    ->importCustomerAddress($defaultShippingAddress);
+                } else {
+                    $shippingAddress = Mage::getModel('sales/quote_address');
+                }
             }
             $this->setShippingAddress($shippingAddress);
         }
