@@ -45,8 +45,8 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
-    protected $_canRefund               = false;
-    protected $_canRefundInvoicePartial = false;
+    protected $_canRefund               = true;
+    protected $_canRefundInvoicePartial = true;
     protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
@@ -103,10 +103,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         if (!$this->_getCreateOrderBefore()) {
             $response = $this->getResponse();
             if ($response->getXTransId() && $response->isApproved()) {
-                $payment->setTransactionId($response->getXTransId())
-                    ->setParentTransactionId(null)
-                    ->setIsTransactionClosed(0)
-                    ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
+                $this->_fillPaymentByResponse($payment);
             }
         }
     }
@@ -247,13 +244,6 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 Mage::helper('authorizenet')->__('Response hash validation failed. Transaction declined.')
             );
         }
-
-        if (!$response->getXTransId()) {
-            Mage::throwException(
-                $this->_wrapGatewayError($response->getXResponseReasonText())
-            );
-        }
-
         return true;
     }
 
@@ -318,6 +308,25 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     }
 
     /**
+     * Fill payment with credit card data from response from Authorize.net.
+     *
+     * @param Varien_Object $payment
+     */
+    protected function _fillPaymentByResponse(Varien_Object $payment)
+    {
+        $response = $this->getResponse();
+        $payment->setTransactionId($response->getXTransId())
+            ->setParentTransactionId(null)
+            ->setIsTransactionClosed(0)
+            ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
+        if ($response->getXMethod() == self::REQUEST_METHOD_CC){
+            $payment->setCcType($response->getXCardType())
+                ->setCcAvsStatus($response->getXAvsCode())
+                ->setCcLast4(substr($response->getXAccountNumber(), -4));
+        }
+    }
+
+    /**
      * Check response code came from authorize.net.
      *
      * @return true in case of Approved response
@@ -334,6 +343,22 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             default:
                 Mage::throwException(Mage::helper('authorizenet')->__('Payment authorization error.'));
         }
+    }
+
+    /**
+     * Check transaction id came from Authorize.net
+     *
+     * @return true in case of right transaction id
+     * @throws Mage_Core_Exception in case of bad transaction id.
+     */
+    public function checkTransId()
+    {
+        if (!$this->getResponse()->getXTransId()) {
+            Mage::throwException(
+                Mage::helper('authorizenet')->__('Payment authorization error. Transacion id is empty.')
+            );
+        }
+        return true;
     }
 
     /**
@@ -357,6 +382,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     {
         try {
             $this->checkResponseCode();
+            $this->checkTransId();
         }
         catch (Exception $e) {
             //decline the order (in case of wrong response code) but don't return money to customer.
@@ -369,10 +395,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 
         //create transaction. need for void if amount will not match.
         $payment = $order->getPayment();
-        $payment->setTransactionId($response->getXTransId())
-            ->setIsTransactionClosed(0)
-            ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
-
+        $this->_fillPaymentByResponse($payment);
 
         $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
 
@@ -419,6 +442,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     protected function _authQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->checkResponseCode();
+        $this->checkTransId();
 
         $response = $this->getResponse();
 
