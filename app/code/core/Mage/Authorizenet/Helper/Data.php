@@ -44,7 +44,7 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getModel('adminhtml/url')->getUrl($route, $params);
     }
-    
+
     /**
      * Retrieve save order url params
      *
@@ -60,21 +60,21 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
                 $route['controller'] = 'onepage';
                 $route['module'] = 'checkout';
                 break;
-                
+
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route['action'] = 'save';
                 $route['controller'] = 'sales_order_create';
                 $route['module'] = 'admin';
                 break;
-                
+
             default:
                 break;
         }
-        
+
         return $route;
     }
-    
+
     /**
      * Retrieve redirect ifrmae url
      *
@@ -87,20 +87,20 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
             case 'onepage':
                 $route = 'authorizenet/directpost_payment/redirect';
                 break;
-                
+
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/authorizenet_directpost_payment/redirect';
                 break;
-                
+
             default:
                 $route = 'authorizenet/directpost_payment/redirect';
                 break;
         }
-        
+
         return $this->_getUrl($route, $params);
     }
-    
+
     /**
      * Retrieve place order url on front
      *
@@ -110,7 +110,7 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('authorizenet/directpost_payment/place');
     }
-    
+
     /**
      * Retrieve place order url in admin
      *
@@ -120,7 +120,7 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('*/authorizenet_directpost_payment/place');
     }
-    
+
     /**
      * Retrieve place order url
      *
@@ -134,22 +134,22 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
             case 'onepage':
                 $route = 'checkout/onepage/success';
                 break;
-                
+
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/sales_order/view';
                 $order = Mage::getModel('sales/order')->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
                 return $this->getAdminUrl($route, $param);
-                
+
             default :
                 $route = 'checkout/onepage/success';
                 break;
         }
-        
+
         return $this->_getUrl($route, $param);
     }
-    
+
     /**
      * Get controller name
      *
@@ -158,5 +158,27 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
     public function getControllerName()
     {
         return Mage::app()->getFrontController()->getRequest()->getControllerName();
+    }
+
+    /**
+     * Update all child and parent order's edit increment numbers.
+     * Needed for Admin area.
+     *
+     * @param Mage_Sales_Model_Order $order
+     */
+    public function updateOrderEditIncrements(Mage_Sales_Model_Order $order)
+    {
+     	if ($order->getId() && $order->getOriginalIncrementId()) {
+            $collection = $order->getCollection();
+            $quotedIncrId = $collection->getConnection()->quote($order->getOriginalIncrementId());
+            $collection->getSelect()->where(
+                "original_increment_id = {$quotedIncrId} OR increment_id = {$quotedIncrId}"
+            );
+
+            foreach ($collection as $ord){
+                $ord->setEditIncrement($order->getEditIncrement());
+                $ord->save();
+            }
+        }
     }
 }

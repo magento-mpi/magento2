@@ -44,25 +44,7 @@
             <authorizenet>
                 <class>Mage_Authorizenet_Helper</class>
             </authorizenet>
-        </helpers>        
-        <events>
-            <checkout_submit_all_after>
-                <observers>
-                    <directpost_save_order_after_submit>
-                        <class>authorizenet/directpost_observer</class>
-                        <method>saveOrderAfterSubmit</method>
-                    </directpost_save_order_after_submit>                    
-                </observers>
-            </checkout_submit_all_after> 
-            <controller_action_postdispatch_checkout_onepage_saveOrder>
-                <observers>
-                    <directpost_save_order_onepage>
-                        <class>authorizenet/directpost_observer</class>
-                        <method>addAdditionalFieldsToResponseFrontend</method>
-                    </directpost_save_order_onepage>                    
-                </observers>
-            </controller_action_postdispatch_checkout_onepage_saveOrder>                  
-        </events>
+        </helpers>
     </global>
 
     <adminhtml>
@@ -82,6 +64,16 @@
                 </authorizenet>
             </updates>
         </layout>
+        <events>
+            <checkout_submit_all_after>
+                <observers>
+                    <directpost_update_all_edit_increments>
+                        <class>authorizenet/directpost_observer</class>
+                        <method>updateAllEditIncrements</method>
+                    </directpost_update_all_edit_increments>                    
+                </observers>
+            </checkout_submit_all_after>
+        </events>
     </adminhtml>        
 
     <frontend>
@@ -110,6 +102,24 @@
                 </authorizenet>
             </updates>
         </layout>
+        <events>
+        	<checkout_submit_all_after>
+                <observers>
+                    <directpost_save_order_after_submit>
+                        <class>authorizenet/directpost_observer</class>
+                        <method>saveOrderAfterSubmit</method>
+                    </directpost_save_order_after_submit>                    
+                </observers>
+            </checkout_submit_all_after>
+            <controller_action_postdispatch_checkout_onepage_saveOrder>
+                <observers>
+                    <directpost_save_order_onepage>
+                        <class>authorizenet/directpost_observer</class>
+                        <method>addAdditionalFieldsToResponseFrontend</method>
+                    </directpost_save_order_onepage>                    
+                </observers>
+            </controller_action_postdispatch_checkout_onepage_saveOrder> 
+        </events>
     </frontend>
     
     <admin>

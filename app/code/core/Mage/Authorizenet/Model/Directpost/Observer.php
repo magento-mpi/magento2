@@ -86,17 +86,18 @@ class Mage_Authorizenet_Model_Directpost_Observer
     }
 
     /**
-     * Set key parameter for request for Admin area if needed.
-     * Only for Admin area
+     * Update all edit increments for all orders if module is enabled.
+     * Needed for correct work of edit orders in Admin area.
      *
-     * @param Mage_Authorizenet_Model_Directpost_Request $request
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Authorizenet_Model_Directpost_Observer
      */
-    protected function _setSecretKey(Mage_Authorizenet_Model_Directpost_Request $request)
+    public function updateAllEditIncrements(Varien_Event_Observer $observer)
     {
-        /* @var $adminUrl Mage_Adminhtml_Model_Url */
-        $adminUrl = Mage::getSingleton('adminhtml/url');
-        if ($adminUrl->useSecretKey()){
-            $request->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
-        }
+         /* @var $order Mage_Sales_Model_Order */
+        $order = $observer->getEvent()->getData('order');
+        Mage::helper('authorizenet')->updateOrderEditIncrements($order);
+
+        return $this;
     }
 }

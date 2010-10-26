@@ -107,22 +107,6 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                         ->importPostData($this->getRequest()->getPost('order'))
                         ->createOrder();
 
-                    if ($oldOrder->getId()){
-                        //update all edit incrementIds.
-                        $oldOrder->setEditIncrement($oldOrder->getEditIncrement()+1);
-                        $oldOrder->save();
-                        $collection = $oldOrder->getCollection();
-                        $quotedIncrId = $collection->getConnection()->quote($order->getOriginalIncrementId());
-                        $collection->getSelect()->where(
-                            "original_increment_id = {$quotedIncrId} OR increment_id = {$quotedIncrId}"
-                        );
-
-                        foreach ($collection as $ord){
-                            $ord->setEditIncrement($oldOrder->getEditIncrement());
-                            $ord->save();
-                        }
-                    }
-
                     $payment = $order->getPayment();
                     if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()){
                         //return json with data.
@@ -235,8 +219,8 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 if ($order->getId()){
                     //set data for new order from session if needed
                     if ($orderData = $this->_getDirectPostSession()->getCheckoutOrderData($order->getIncrementId())) {
-                        $order->addData($orderData)
-                            ->save();
+                        $order->addData($orderData);
+                        Mage::helper('authorizenet')->updateOrderEditIncrements($order);
                     }
                     //set data for old order
                     $oldOrder->setRelationChildId($order->getId());
@@ -244,6 +228,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                     $oldOrder->cancel()
                         ->save();
                     $order->save();
+
                     $this->_getOrderCreateModel()->getSession()->unsOrderId();
                 }
             }
