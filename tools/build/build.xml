@@ -148,7 +148,7 @@
         </exec>
     </target>
 
-    <target name="clean-pe" description="Clean checkout from specific stuff for PE."/>
+    <target name="clean-pe" depends="clean-unreleased" description="Clean checkout from specific stuff for PE."/>
 
     <target name="phpcpd" description="CPD report.">
         <exec dir="${dir.src}" executable="phpcpd" failonerror="false">
