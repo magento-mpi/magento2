@@ -57,6 +57,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
     const EXTPROP_COMMENT_TABLE    = 'TABLE_COMMENT';
     const EXTPROP_COMMENT_COLUMN    = 'COLUMN_COMMENT';
+    const EXTPROP_COMMENT_FK_UPDATE    = 'FOREIGN_KEY_UPDATE_ACTION';
+    const EXTPROP_COMMENT_FK_DELETE    = 'FOREIGN_KEY_DELETE_ACTION';    
     const LENGTH_TABLE_NAME         = 128;
     const LENGTH_INDEX_NAME         = 128;
     const LENGTH_FOREIGN_NAME       = 128;
@@ -778,15 +780,21 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (!empty($foreignKeys)) {
             foreach ($foreignKeys as $fkData) {
                 if (in_array($fkData['ON_DELETE'], $fkActions)) {
-
                     $this->_addForeignKeyDeleteAction($table->getName(), $fkData['COLUMN_NAME'],
                         $fkData['REF_TABLE_NAME'], $fkData['REF_COLUMN_NAME'], $fkData['ON_DELETE']);
+                            $this->_addExtendProperty(
+                                array('table' => $table->getName(), 'constraint' => $fkData['FK_NAME']),
+                                 $fkData['ON_DELETE'],
+                                self::EXTPROP_COMMENT_FK_DELETE);
                 }
 
-                if (in_array($fkData['ON_UPDATE'], $fkActions)) {
-                    $this->_addForeignKeyUpdateAction($table->getName(), $fkData['COLUMN_NAME'],
-                        $fkData['REF_TABLE_NAME'], $fkData['REF_COLUMN_NAME'], $fkData['ON_UPDATE']);
-                }
+
+//                if (in_array($fkData['ON_UPDATE'], $fkActions)) {
+//                    $this->_addForeignKeyUpdateAction($table->getName(), $fkData['COLUMN_NAME'],
+//                        $fkData['REF_TABLE_NAME'], $fkData['REF_COLUMN_NAME'], $fkData['ON_UPDATE']);
+//                        $this->_addExtendProperty(
+//            array('foreign key' => $tableName, 'column' => $columnName), $onUpdate, self::EXTPROP_COMMENT_FK_UPDATE);
+//                }
             }
         }
     }
@@ -812,7 +820,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     $column = $this->quoteIdentifier($columnData['NAME']);
                     $columns[] = $column;
                 }
-                $definition[] = sprintf(' CONSTRAINT "%s" UNIQUE (%s)',                    $this->quoteIdentifier($constraintData['INDEX_NAME']),                    join(', ', $columns));            }
+                $definition[] = sprintf(' CONSTRAINT "%s" UNIQUE (%s)',
+                    $this->quoteIdentifier($constraintData['INDEX_NAME']),
+                    join(', ', $columns));
+            }
         }
 
         return $definition;
@@ -1794,15 +1805,27 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $this->quoteIdentifier($refColumnName)
         );
 
-        if (!is_null($onDelete)) {
-            $query .= ' ON DELETE ' . strtoupper($onDelete);
+        $fkActions = array (Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
+
+        if (in_array($onDelete, $fkActions)) {
+            $this->_addForeignKeyDeleteAction($tableName, $columnName, $refTableName, $refColumnName, $onDelete);
         }
-        if (!is_null($onUpdate)) {
-            $query .= ' ON UPDATE ' . strtoupper($onUpdate);
-        }
+//                if (in_array($fkData['ON_UPDATE'], $fkActions)) {
+//                    $this->_addForeignKeyUpdateAction($table->getName(), $fkData['COLUMN_NAME'],
+//                        $fkData['REF_TABLE_NAME'], $fkData['REF_COLUMN_NAME'], $fkData['ON_UPDATE']);
+//                }
+
 
         $this->resetDdlCache($tableName, $schemaName);
-        return $this->raw_query($query);
+        $result = $this->raw_query($query);
+
+        $this->_addExtendProperty(
+            array('table' => $tableName, 'CONSTRAINT' => $fkName), $onDelete, self::EXTPROP_COMMENT_FK_DELETE);
+        $this->_addExtendProperty(
+            array('table' => $tableName, 'CONSTRAINT' => $fkName), $onUpdate, self::EXTPROP_COMMENT_FK_UPDATE);
+
+        return $result;
+
     }
 
     /**
@@ -1835,6 +1858,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         if (isset($foreignKeys[strtoupper($fkName)])) {
+            $this->_dropDependTriggersAction($foreignKeys[strtoupper($fkName)]['REF_TABLE_NAME']);
             $sql = sprintf('ALTER TABLE %s DROP CONSTRAINT %s',
                 $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
                 $this->quoteIdentifier($foreignKeys[strtoupper($fkName)]['FK_NAME']));
@@ -1845,6 +1869,53 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         return $this;
+    }
+
+    /**
+     * Drop the Depend triggers part
+     *
+     * @param string $refTableName
+     * @return Varien_Db_Adapter_Pdo_Mssql
+     */
+    protected function _dropDependTriggersAction($refTableName)
+    {
+        $concatData = array(
+            $this->getCheckSql(
+                'start_teg_pos != 0',
+                'SUBSTRING(trigger_script, 0, start_teg_pos)',
+                'NULL'),
+            $this->getCheckSql(
+                'finish_teg_pos != 0',
+                "SUBSTRING(trigger_script, finish_teg_pos + LEN('/* /ACTION ADDED BY '+ :tablename1 + '*/'), DATALENGTH(trigger_script))",
+                'NULL')
+        );
+        $subSelect = $this->select();
+        $subSelect->from(array('t' => 'sys.triggers'),
+            array (
+                'trigger_script'=> new Zend_Db_Expr('OBJECT_DEFINITION(t.object_id)'),
+                'start_teg_pos'=> new Zend_Db_Expr("CHARINDEX('/*ACTION ADDED BY '+ :tablename2 + '*/', OBJECT_DEFINITION(t.object_id))"),
+                'finish_teg_pos'=> new Zend_Db_Expr("CHARINDEX('/* /ACTION ADDED BY '+ :tablename3 + '*/', OBJECT_DEFINITION(t.object_id))")
+                ))
+            ->where(
+                    "OBJECT_DEFINITION(t.object_id) like '%'+ :tablename4 +'%' AND t.parent_id != OBJECT_ID(:tablename5)"
+                );
+        $select = $this->select();
+        $select->from(array('r' => new Zend_Db_Expr(sprintf('(%s)', $subSelect->assemble()))),
+            array(
+                'trigger_script' => $this->getConcatSql($concatData)
+            ));
+        $query = $this->query($select,
+            array(
+                'tablename1' => $refTableName,
+                'tablename2' => $refTableName,
+                'tablename3' => $refTableName,
+                'tablename4' => $refTableName,
+                'tablename5' => $refTableName)
+            );
+        
+        while ($row = $query->fetchColumn() ) {
+            $this->raw_query(str_replace('CREATE TRIGGER', 'ALTER TRIGGER', $row));
+        }
     }
 
     /**
@@ -1873,6 +1944,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function getForeignKeys($tableName, $schemaName = null)
     {
         $cacheKey = $this->_getTableName($tableName, $schemaName);
+
+        $extProp = "SELECT value"
+            . " FROM fn_listextendedproperty"
+            . " (N'%s', N'user', N'dbo', N'table', sop.name, N'CONSTRAINT', sfk.name )"; 
         $ddl = $this->loadDdlCache($cacheKey, self::DDL_FOREIGN_KEY);
         if ($ddl === false) {
             $ddl = array();
@@ -1883,12 +1958,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     scp.name                            AS column_name,
                     sor.name                            AS ref_table_name,
                     scr.name                            AS ref_column,
-                    CASE
-                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%%ACTION ADDED BY ' + OBJECT_NAME(sfk.parent_object_id) THEN 'CASCADE'
-                        WHEN OBJECT_DEFINITION(tr.OBJECT_ID) LIKE '%%ACTION UPDATE ADDED BY ' + OBJECT_NAME(sfk.parent_object_id) THEN 'SET_NULL'
-                        ELSE 'NO_ACTION'
-                    END                                 AS on_delete,
-                    sfk.update_referential_action_desc  AS on_update
+                    CAST((%s) AS VARCHAR) AS on_delete,
+                    CAST((%s) AS VARCHAR) AS on_update
                 FROM sys.foreign_keys sfk
                 INNER JOIN sys.foreign_key_columns sfkc ON sfk.object_id = sfkc.constraint_object_id
                 INNER JOIN sys.sysobjects sop ON sop.id = sfk.parent_object_id
@@ -1901,10 +1972,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 INNER JOIN sys.columns scr ON scr.object_id = sor.id
                     AND scr.object_id  = sfkc.referenced_object_id
                     AND scr.column_id = sfkc.referenced_column_id
-                LEFT JOIN SYS.TRIGGERS tr ON tr.parent_id = sfk.referenced_object_id
-                    AND tr.is_instead_of_trigger = 1
                 WHERE sop.name = '%s'";
-            $sql = sprintf($query, $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)));
+            $sql = sprintf($query,
+                sprintf($extProp, self::EXTPROP_COMMENT_FK_DELETE),
+                sprintf($extProp, self::EXTPROP_COMMENT_FK_UPDATE),
+                $this->quoteIdentifier($this->_getTableName($tableName, $schemaName))
+            );
+            
             foreach ($this->fetchAll($sql) as $row) {
                 $foreignKeyName             = 'fk_name';
                 $columnName                 = 'column_name';
@@ -3556,18 +3630,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             );
         } else {
             $deleteAction = ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE) ?
-                "/*ACTION DELETE ADDED BY {$tableName}*/\n"
+                "/*ACTION ADDED BY {$tableName}*/\n"
                 . "        DELETE t FROM {$tableName} t                           \n"
                 . "        INNER JOIN @deletedRows d ON                               \n"
                 . "         t.{$columnName} = d.{$refColumnName};         \n"
-                . "/* /ACTION DELETE ADDED BY {$tableName}*/" :
-                "/*ACTION UPDATE ADDED BY {$tableName}*/\n"
+                . "/* /ACTION ADDED BY {$tableName}*/" :
+                "/*ACTION ADDED BY {$tableName}*/\n"
                 . "        UPDATE t \n"
                 . "        SET t.{$columnName} = NULL                           \n"
                 . "      FROM {$tableName} t                                    \n"
                 . "        INNER JOIN @deletedRows d ON                                 \n"
                 . "         t.{$columnName} = d.{$refColumnName};         \n"
-                . "/* /ACTION UPDATE ADDED BY {$tableName}*/"
+                . "/* /ACTION ADDED BY {$tableName}*/"
                 ;
             $sqlTrigger = str_replace(
                 "/*place code here*/",
