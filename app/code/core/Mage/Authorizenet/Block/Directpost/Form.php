@@ -42,7 +42,37 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
     {
         parent::_construct();
         $this->setTemplate('authorizenet/directpost/info.phtml');
-    }    
+    }
+    
+    /**
+     * Render block HTML
+     * If method is not directpost - nothing to return
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if ($this->getMethod()->getCode() != Mage::getSingleton('authorizenet/directpost')->getCode()) {
+            return;
+        }        
+        
+        return parent::_toHtml();
+    }
+
+    /**
+     * Set method info
+     * 
+     * @return Mage_Authorizenet_Block_Directpost_Form
+     */
+    public function setMethodInfo()
+    {
+        $payment = Mage::getSingleton('checkout/type_onepage')
+            ->getQuote()
+            ->getPayment();
+        $this->setMethod($payment->getMethodInstance());
+        
+        return $this;
+    }
     
     /**
      * Get type of request

@@ -99,29 +99,4 @@ class Mage_Authorizenet_Model_Directpost_Observer
             $request->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
         }
     }
-
-    /**
-     * Add directpost payment form to revire step
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Authorizenet_Model_Directpost_Observer
-     */
-    public function addPaymentFormToReview(Varien_Event_Observer $observer)
-    {
-        $controller = $observer->getEvent()->getData('controller_action');
-        $payment = $controller->getOnepage()->getQuote()->getPayment();
-        if ($payment && $payment->getMethod() == Mage::getSingleton('authorizenet/directpost')->getCode()) {
-            $result = Mage::helper('core')->jsonDecode($controller->getResponse()->getBody('default'));
-            if (empty($result['error'])){
-                $block = $controller->getLayout()
-                    ->createBlock($payment->getMethodInstance()->getFormBlockType())
-                    ->setMethod($payment->getMethodInstance())
-                    ->setTemplate('authorizenet/directpost/form.phtml');
-                $result['update_section']['html'] .= $block->toHtml();
-                $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-            }
-        }
-
-        return $this;
-    }
 }

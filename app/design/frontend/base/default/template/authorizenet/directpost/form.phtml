@@ -31,7 +31,7 @@ $_method = $_form->getMethod();
 $_controller = $this->helper('authorizenet')->getControllerName();
 $_orderUrl = $this->helper('authorizenet')->getPlaceOrderFrontUrl();
 ?>
-<div style="min-height:0" class="step a-item">
+<div class="buttons-set">
 <!-- IFRAME for request to Authorize.net -->
 <iframe id="directpost-iframe" allowtransparency="true" background-color="transparent" frameborder="0"  name="iframeDirectPost" style="display:none;width:100%" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
 

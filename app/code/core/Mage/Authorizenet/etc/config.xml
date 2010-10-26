@@ -61,15 +61,7 @@
                         <method>addAdditionalFieldsToResponseFrontend</method>
                     </directpost_save_order_onepage>                    
                 </observers>
-            </controller_action_postdispatch_checkout_onepage_saveOrder>            
-            <controller_action_postdispatch_checkout_onepage_savePayment>
-                <observers>
-                    <directpost_save_order_onepage>
-                        <class>authorizenet/directpost_observer</class>
-                        <method>addPaymentFormToReview</method>
-                    </directpost_save_order_onepage>                    
-                </observers>
-            </controller_action_postdispatch_checkout_onepage_savePayment>      
+            </controller_action_postdispatch_checkout_onepage_saveOrder>                  
         </events>
     </global>
 

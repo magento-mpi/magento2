@@ -405,6 +405,9 @@ One page checkout order review block
             <block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before" translate="label">
                 <label>Items Before</label>
             </block>
+            <block type="core/text_list" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
+                <label>Items After</label>
+            </block>
         </block>
     </checkout_onepage_review>
 
