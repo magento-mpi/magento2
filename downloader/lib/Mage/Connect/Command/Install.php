@@ -273,16 +273,9 @@ extends Mage_Connect_Command
                         continue;
                     }
 
-                    /**
-                     * Remove old version package before install new
-                     */
-                    if ($cache->hasPackage($pChan, $pName)) {
-                        if ($ftp) {
-                            $packager->processUninstallPackageFtp($pChan, $pName, $cache, $ftpObj);
-                        } else {
-                            $packager->processUninstallPackage($pChan, $pName, $cache, $config);
-                        }
-                        $cache->deletePackage($pChan, $pName);
+                    if('incompartible' == $pInstallState) {
+                        $this->ui()->output("Package incompartible with installed Magento: {$pChan}/{$pName} {$pVer}, skipping");
+                        continue;
                     }
 
                     $conflicts = $cache->hasConflicts($pChan, $pName, $pVer);
@@ -294,11 +287,6 @@ extends Mage_Connect_Command
                         } else {
                             throw new Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
                         }
-                    }
-
-                    if('incompartible' == $pInstallState) {
-                        $this->ui()->output("Package incompartible with installed Magento: {$pChan}/{$pName} {$pVer}, skipping");
-                        continue;
                     }
 
                     /**
@@ -341,6 +329,19 @@ extends Mage_Connect_Command
                         $rest->downloadPackageFileOfRelease($pName, $pVer, $file);
                         $this->ui()->output(sprintf("...done: %s bytes", number_format(filesize($file))));
                     }
+
+                    /**
+                     * Remove old version package before install new
+                     */
+                    if ($cache->hasPackage($pChan, $pName)) {
+                        if ($ftp) {
+                            $packager->processUninstallPackageFtp($pChan, $pName, $cache, $ftpObj);
+                        } else {
+                            $packager->processUninstallPackage($pChan, $pName, $cache, $config);
+                        }
+                        $cache->deletePackage($pChan, $pName);
+                    }
+
                     $package = new Mage_Connect_Package($file);
                     if ($clearInstallMode && $pInstallState != 'upgrade' && !$installAll) {
                         $this->validator()->validateContents($package->getContents(), $config);

@@ -807,7 +807,7 @@ class Mage_Connect_Packager
 
         $level--;
         if($level == 0) {
-            $out = $this->processDepsHash($_depsHash);
+            $out = $this->processDepsHash($_depsHash, false);
             $deps = $_deps;
             $failed = $_failed;
             $_depsHash = array();
@@ -846,7 +846,7 @@ class Mage_Connect_Packager
             foreach($depsHash as $key=>$data) {
                 $packages = $data['packages'];
                 foreach($packages as $pdata) {
-                    $pName = $pdata['channel'] . "/" . $pdata['name'];
+                    $pName = $pdata['name'];
                     if(isset($nodes[$key], $nodes[$pName])) {
                         $nodes[$key]->connectTo($nodes[$pName]);
                     }
