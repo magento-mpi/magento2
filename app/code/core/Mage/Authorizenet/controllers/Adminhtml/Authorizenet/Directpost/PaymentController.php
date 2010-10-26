@@ -256,13 +256,8 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
      */
     public function returnQuoteAction()
     {
-        if ($this->_returnQuote()) {
-            $result = array('success' => 1);
-        }
-        else {
-            $result = array('error_message' => $this->__('Payment transaction error.'));
-        }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->_returnQuote();
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array('success' => 1)));
     }
 
     /**
@@ -286,10 +281,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 if ($cancelOrder && $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     $order->registerCancellation($errorMsg)->save();
                 }
-                return true;
             }
         }
-
-        return false;
     }
 }
