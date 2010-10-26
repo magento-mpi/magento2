@@ -630,12 +630,12 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 $masterCond  = $readAdapter->prepareSqlCondition('website_ids', array('finset'=>$masterWebsiteId));
                 $concatVal   = $readAdapter->getConcatSql(array(
                     'website_ids',
-                    $readAdapter->quote(','.$stagingWebsiteId)));
+                    $readAdapter->quote(','.$masterWebsiteId)));
 
                 $writeAdapter->update(
                     $targetTable,
                     array('website_ids' => $concatVal),
-                    array($masterCond, ' NOT '. $stagingCond)
+                    array($stagingCond, ' NOT '. $masterCond)
                 );
             }
         }
@@ -787,7 +787,6 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
             $writeAdapter = $this->_getWriteAdapter();
             foreach ($mergedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
                 if (!empty($masterWebsiteIds)) {
-                    $_websiteCondition = 'website_id';
                     if (in_array('website_id', $fields)) {
                         $_websiteCondition = array('website_id IN (?)' => $masterWebsiteIds);
                     } elseif (in_array('scope_id', $fields)) {
@@ -801,7 +800,10 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                                 'website_ids',
                                 array('finset'=>$webId));
                         }
-                        $_websiteCondition = array(implode(" OR " , $whereFields)); //!!!
+                        $whereFields[] = $readAdapter->prepareSqlCondition(
+                                'website_ids',
+                                array('finset'=>$stagingWebsiteId));
+                        $_websiteCondition = array(implode(" OR " , $whereFields));
                     }
 
                     $writeAdapter->delete($targetTable, $_websiteCondition);
