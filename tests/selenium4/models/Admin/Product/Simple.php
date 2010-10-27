@@ -68,7 +68,7 @@ class Model_Admin_Product_Simple extends Model_Admin {
         // Inventory Tab
         $this->click($this->getUiElement("tabs/inventory"));
         $this->type($this->getUiElement("inputs/inventory_qty"), $productData["quantity"]);
-        $this->select($this->getUiElement("selectors/inventory_stock_availability"), "label=In Stock");
+        $this->select($this->getUiElement("selectors/stock_availability"), "label=In Stock");
         // Websites Tab
         $this->click($this->getUiElement("tabs/websites"));
         $this->click($this->getUiElement("inputs/website", $productData["webSiteName"]));

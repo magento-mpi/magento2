@@ -48,9 +48,15 @@ class Frontend_Checkout_Guest_Simple extends TestCaseAbstract
         );
 
         //Test Flow
-        $this->modelProduct->doOpen($paramArray);
-        $this->modelProduct->placeToCart($paramArray);
-        $this->modelShoppingCart->proceedCheckout();
-        $this->modelCheckout->doCheckout($paramArray);
+        if ($this->modelProduct->doOpen($paramArray)) {
+            if ($this->modelProduct->placeToCart($paramArray)) {
+                $this->modelShoppingCart->proceedCheckout();
+                $this->modelCheckout->doCheckout($paramArray);
+            } else {
+                $this->setVerificationErrors('Product was not placed to cart');
+            }
+        } else {
+            $this->setVerificationErrors('Product could not be opened');
+        }
     }
 }
