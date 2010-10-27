@@ -1225,7 +1225,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
         $schemaName = null)
     {
-        $this->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName)
+        $this->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName);
         $this->modifyColumn($tableName, $newColumnName, $definition, $flushData, $schemaName);
         if (!empty($definition['COMMENT'])) {
             $this->_addColumnComment($tableName, $newColumnName, $definition['COMMENT']);
