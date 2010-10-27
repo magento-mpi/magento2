@@ -118,7 +118,9 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
     {
         $oldStores = $this->lookupStoreIds($object->getId());
         $newStores = (array)$object->getStores();
-
+        if (empty($newStores)) {
+            $newStores = (array)$object->getStoreId();
+        }
         $table  = $this->getTable('cms/page_store');
         $insert = array_diff($newStores, $oldStores);
         $delete = array_diff($oldStores, $newStores);
