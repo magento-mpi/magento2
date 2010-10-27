@@ -70,7 +70,7 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_H
         }
 
         $cols = array_keys($columns);
-        $cols[] = $adapter->quoteColumnAs('SUM(t.qty_ordered)', 'total_qty_ordered');
+        $cols['total_qty_ordered'] = new Zend_Db_Expr('SUM(t.qty_ordered)');
         $periodSubSelect->from(array('t' => $mainTable), $cols)
             ->group(array('t.store_id', $periodCol, 't.product_id'))
             ->order(array('t.store_id', $periodCol, 'total_qty_ordered DESC'));
