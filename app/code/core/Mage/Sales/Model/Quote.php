@@ -380,17 +380,19 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if ($customer->getId()) {
             $this->setCustomer($customer);
 
-            if (is_null($billingAddress)) {
+            if (!is_null($billingAddress)) {
+                $this->setBillingAddress($billingAddress);
+            } else {
                 $defaultBillingAddress = $customer->getDefaultBillingAddress();
                 if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
                     $billingAddress = Mage::getModel('sales/quote_address')
                         ->importCustomerAddress($defaultBillingAddress);
+                    $this->setBillingAddress($billingAddress);
                 }
             }
-            $this->setBillingAddress($billingAddress);
 
             if (is_null($shippingAddress)) {
-                $defaultShippingAddress= $customer->getDefaultShippingAddress();
+                $defaultShippingAddress = $customer->getDefaultShippingAddress();
                 if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
                     $shippingAddress = Mage::getModel('sales/quote_address')
                     ->importCustomerAddress($defaultShippingAddress);
