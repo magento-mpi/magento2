@@ -256,6 +256,49 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     }
 
     /**
+     * Action to reconfigure cart item
+     */
+    public function configureAction()
+    {
+        // Extract item and product to configure
+        $id = (int) $this->getRequest()->getParam('id');
+        $quoteItem = null;
+        $cart = $this->_getCart();
+        if ($id) {
+            $quoteItem = $cart->getQuote()->getItemById($id);
+        }
+
+        if (!$quoteItem) {
+            $this->_getSession()->addError($this->__('Cannot configure item in shopping cart.'));
+            $this->_goBack();
+        }
+
+        // Process item options and show preconfigured product
+        $product = $quoteItem->getProduct();
+        $buyRequest = $quoteItem->getBuyRequest();
+
+        Mage::helper('catalog')->prepareOptions($product, $buyRequest);
+
+        Mage::register('product', $product);
+        Mage::register('current_product', $product);
+
+        $this->loadLayout()
+            ->renderLayout();
+    }
+
+    /**
+     * Action to accept new configuration for a cart item
+     */
+    public function updateItemAction()
+    {
+        // FIXME ACPAOC
+        // Update options here
+        // END OF FIXME
+        $this->_redirect('*/*');
+    }
+
+
+    /**
      * Update shoping cart data action
      */
     public function updatePostAction()

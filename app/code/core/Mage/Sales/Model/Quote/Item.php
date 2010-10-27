@@ -764,4 +764,22 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         }
         return $this;
     }
+
+    /**
+     * Returns formatted buy request - object, holding request received from
+     * product view page with keys and options for configured product
+     *
+     * @return Varien_Object
+     */
+    public function getBuyRequest()
+    {
+        $option = $this->getOptionByCode('info_buyRequest');
+        $buyRequest = new Varien_Object(unserialize($option->getValue()));
+
+        // Owerwrite standard buy request qty, because item qty could have changed since adding to quote
+        $buyRequest->setOriginalQty($buyRequest);
+        $buyRequest->setQty($this->getQty());
+
+        return $buyRequest;
+    }
 }

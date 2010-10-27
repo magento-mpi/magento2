@@ -208,6 +208,19 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     }
 
     /**
+     * Get item configure url
+     *
+     * @return string
+     */
+    public function getConfigureUrl()
+    {
+        return $this->getUrl(
+            'checkout/cart/configure',
+            array('id' => $this->getItem()->getId())
+        );
+    }
+
+    /**
      * Get item delete url
      *
      * @return string

@@ -273,4 +273,21 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return (array)Mage::getConfig()->getNode('global/catalog_product/old_fields_map/');
     }
+
+    /**
+     * Prepares product options by buyRequest: retrieves values and assignes them as default.
+     * Also parses and adds product management related values - e.g. qty
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param Varien_Object $infoBuyRequest
+     *
+     * @return Mage_Catalog_Helper_Data
+     */
+    public function prepareOptions($product, $buyRequest)
+    {
+        $optionValues = $product->processBuyRequest($buyRequest);
+        $optionValues->setQty($buyRequest->getQty());
+        $product->setPreconfiguredValues($optionValues);
+        return $this;
+    }
 }

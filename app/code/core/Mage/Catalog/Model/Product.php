@@ -1734,7 +1734,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Check for empty SKU on each product 
+     * Check for empty SKU on each product
      *
      * @param  array $productIds
      * @return boolean|null
@@ -1751,5 +1751,31 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             return true;
         }
         return null;
+    }
+
+    /**
+     * Parses buyRequest into options values used by product
+     *
+     * @param Varien_Object $infoBuyRequest
+     * @return Varien_Object
+     */
+    public function processBuyRequest($buyRequest)
+    {
+        $optionValues = new Varien_Object();
+        return $optionValues;
+    }
+
+    /**
+     * Gets preconfigured values from product
+     *
+     * @return Varien_Object
+     */
+    public function getPreconfiguredValues()
+    {
+        $preconfiguredValues = $this->getData('preconfigured_values');
+        if (!$preconfiguredValues) {
+            $preconfiguredValues = new Varient_Object();
+        }
+        return $preconfiguredValues;
     }
 }
