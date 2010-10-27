@@ -101,34 +101,34 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
                 'coupon_uses'             => 'COUNT(entity_id)',
 
                 'subtotal_amount'         =>
-                    $adapter->getIfnullSql('SUM((base_subtotal - ' .
-                        $adapter->getIfnullSql('base_subtotal_canceled', 0).') * base_to_global_rate)', 0),
+                    $adapter->getIfNullSql('SUM((base_subtotal - ' .
+                        $adapter->getIfNullSql('base_subtotal_canceled', 0).') * base_to_global_rate)', 0),
 
                 'discount_amount'         =>
-                    $adapter->getIfnullSql('SUM((ABS(base_discount_amount) - ' .
-                        $adapter->getIfnullSql('base_discount_canceled', 0).') * base_to_global_rate)', 0),
+                    $adapter->getIfNullSql('SUM((ABS(base_discount_amount) - ' .
+                        $adapter->getIfNullSql('base_discount_canceled', 0).') * base_to_global_rate)', 0),
 
                 'total_amount'            =>
-                    $adapter->getIfnullSql('SUM((base_subtotal - ' .
-                        $adapter->getIfnullSql('base_subtotal_canceled', 0) . ' + '.
-                        $adapter->getIfnullSql('ABS(base_discount_amount) - ' .
-                        $adapter->getIfnullSql('base_discount_canceled', 0), 0). ')
+                    $adapter->getIfNullSql('SUM((base_subtotal - ' .
+                        $adapter->getIfNullSql('base_subtotal_canceled', 0) . ' + '.
+                        $adapter->getIfNullSql('ABS(base_discount_amount) - ' .
+                        $adapter->getIfNullSql('base_discount_canceled', 0), 0). ')
                         * base_to_global_rate)', 0),
 
                 'subtotal_amount_actual'  =>
-                    $adapter->getIfnullSql('SUM((base_subtotal_invoiced - ' .
-                        $adapter->getIfnullSql('base_subtotal_refunded', 0). ') * base_to_global_rate)', 0),
+                    $adapter->getIfNullSql('SUM((base_subtotal_invoiced - ' .
+                        $adapter->getIfNullSql('base_subtotal_refunded', 0). ') * base_to_global_rate)', 0),
 
                 'discount_amount_actual'  =>
-                    $adapter->getIfnullSql('SUM((base_discount_invoiced - ' .
-                        $adapter->getIfnullSql('base_discount_refunded', 0) . ')
+                    $adapter->getIfNullSql('SUM((base_discount_invoiced - ' .
+                        $adapter->getIfNullSql('base_discount_refunded', 0) . ')
                         * base_to_global_rate)' , 0),
 
                 'total_amount_actual'     =>
-                    $adapter->getIfnullSql('SUM((base_subtotal_invoiced - ' .
-                        $adapter->getIfnullSql('base_subtotal_refunded', 0) . ' - ' .
-                        $adapter->getIfnullSql('base_discount_invoiced - ' .
-                        $adapter->getIfnullSql('base_discount_refunded', 0), 0) .
+                    $adapter->getIfNullSql('SUM((base_subtotal_invoiced - ' .
+                        $adapter->getIfNullSql('base_subtotal_refunded', 0) . ' - ' .
+                        $adapter->getIfNullSql('base_discount_invoiced - ' .
+                        $adapter->getIfNullSql('base_discount_refunded', 0), 0) .
                         ') * base_to_global_rate)', 0),
             );
 

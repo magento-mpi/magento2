@@ -82,17 +82,17 @@ $installer->getConnection()->addColumn($tableAdmins, 'failures_num', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
     'nullable'  => true,
     'default'   => 0,
-    'comment'   => 'Failures Num',
+    'comment'   => 'Failure number'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'first_failure', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_DATE,
-    'comment'   => 'First Failure',
+    'comment'   => 'First failure'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'lock_expires', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_DATE,
-    'comment'   => 'Lock Expires',
+    'comment'   => 'Expiration lock dates'
 ));
 
 $installer->endSetup();

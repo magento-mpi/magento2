@@ -2512,7 +2512,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string $value OPTIONAL. Applies when $expresion is NULL
      * @return Zend_Db_Expr
      */
-    public function getIfnullSql($expresion, $value = 0)
+    public function getIfNullSql($expresion, $value = 0)
     {
         if ($expresion instanceof Zend_Db_Expr || $expresion instanceof Zend_Db_Select) {
             return new Zend_Db_Expr(sprintf("IFNULL((%s), %s)", $expresion, $value));

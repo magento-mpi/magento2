@@ -165,7 +165,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
 
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
-                $conditions[] = "(" . $select->getAdapter()->getIfnullSql("(" . $sql . ")", 0) . " {$operator} 1)";
+                $conditions[] = "(" . $select->getAdapter()->getIfNullSql("(" . $sql . ")", 0) . " {$operator} 1)";
             }
         }
 

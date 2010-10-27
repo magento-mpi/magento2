@@ -725,7 +725,7 @@ interface Varien_Db_Adapter_Interface
      * @return Zend_Db_Expr
      */
 
-    public function getIfnullSql($expresion, $value = 0);
+    public function getIfNullSql($expresion, $value = 0);
 
     /**
      * Generate fragment of SQL, that combine together (concatenate) the results from data array

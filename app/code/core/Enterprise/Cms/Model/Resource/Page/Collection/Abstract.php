@@ -113,7 +113,7 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
      */
     public function addUserColumn()
     {
-        $userField = $this->getConnection()->getIfnullSql('main_table.user_id', '-1');
+        $userField = $this->getConnection()->getIfNullSql('main_table.user_id', '-1');
         $this->getSelect()->columns(array('user' => $userField));
 
         $this->_map['fields']['user'] = $userField;
@@ -129,7 +129,7 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
     public function addUserNameColumn()
     {
         if (!$this->getFlag('user_name_column_joined')) {
-            $userField = $this->getConnection()->getIfnullSql('ut.username', '-1');
+            $userField = $this->getConnection()->getIfNullSql('ut.username', '-1');
             $this->getSelect()->joinLeft(
                 array('ut' => $this->getTable('admin/user')),
                 'ut.user_id = main_table.user_id',

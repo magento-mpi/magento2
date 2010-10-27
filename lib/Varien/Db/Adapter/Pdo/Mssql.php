@@ -55,10 +55,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     const TRIGGER_CASCADE_UPD       = 'on_update';
     const TRIGGER_CASCADE_DEL       = 'on_delete';
 
-    const EXTPROP_COMMENT_TABLE    = 'TABLE_COMMENT';
+    const EXTPROP_COMMENT_TABLE     = 'TABLE_COMMENT';
     const EXTPROP_COMMENT_COLUMN    = 'COLUMN_COMMENT';
-    const EXTPROP_COMMENT_FK_UPDATE    = 'FOREIGN_KEY_UPDATE_ACTION';
-    const EXTPROP_COMMENT_FK_DELETE    = 'FOREIGN_KEY_DELETE_ACTION';    
+    const EXTPROP_COMMENT_FK_UPDATE = 'FOREIGN_KEY_UPDATE_ACTION';
+    const EXTPROP_COMMENT_FK_DELETE = 'FOREIGN_KEY_DELETE_ACTION';    
     const LENGTH_TABLE_NAME         = 128;
     const LENGTH_INDEX_NAME         = 128;
     const LENGTH_FOREIGN_NAME       = 128;
@@ -208,13 +208,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         'WHERE', 'WHILE', 'WITH', 'WITHOUT', 'WORK', 'WRITE', 'WRITETEXT', 'YEAR', 'ZONE');
 
     /**
-     * MySQL column - Table DDL type pairs
+     * Mssql column - Table DDL type pairs
      *
      * @var array
      */
     protected $_ddlColumnTypes      = array(
-        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'boolean',
-        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'int',
+        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'bit',
+        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'smallint',
         Varien_Db_Ddl_Table::TYPE_INTEGER       => 'int',
         Varien_Db_Ddl_Table::TYPE_BIGINT        => 'bigint',
         Varien_Db_Ddl_Table::TYPE_FLOAT         => 'float',
@@ -342,18 +342,21 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             parent::beginTransaction();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'BEGIN');
         }
-        $this->_transactionLevel ++;
+        ++$this->_transactionLevel;
+
         return $this;
     }
 
     /**
      * Begin a transaction.
+     *
+     * @return boolean
      */
     protected function _beginTransaction()
     {
         if ($this->_pdoType == 'sqlsrv') {
             $this->_connection->beginTransaction();
-            return;
+            return true;
         }
         return parent::_beginTransaction();
     }
@@ -370,18 +373,21 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             parent::commit();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'COMMIT');
         }
-        $this->_transactionLevel --;
+        --$this->_transactionLevel;
+
         return $this;
     }
 
     /**
-     * Commit a transaction.
+     * Commit a transaction
+     *
+     * @return boolean
      */
     protected function _commit()
     {
         if ($this->_pdoType == 'sqlsrv') {
             $this->_connection->commit();
-            return;
+            return true;
         }
         return parent::_commit();
     }
@@ -408,18 +414,21 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             }
             $this->_debugStat(self::DEBUG_TRANSACTION, 'ROLLBACK');
         }
-        $this->_transactionLevel --;
+        --$this->_transactionLevel;
+
         return $this;
     }
 
     /**
      * Roll-back a transaction.
+     *
+     * @return boolean
      */
     protected function _rollBack()
     {
         if ($this->_pdoType == 'sqlsrv') {
             $this->_connection->rollBack();
-            return;
+            return true;
         }
         return parent::_rollBack();
     }
@@ -444,10 +453,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function newTable($tableName = null, $schemaName = null)
     {
         $table = new Varien_Db_Ddl_Table();
-        if (!is_null($tableName)) {
+        if ($tableName !== null) {
             $table->setName($tableName);
         }
-        if (!is_null($schemaName)) {
+        if ($schemaName !== null) {
             $table->setSchema($schemaName);
         }
         return $table;
@@ -464,10 +473,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     protected function _getColumnDefinition($options, $ddlType = null)
     {
         // convert keys to upper case
-        foreach ($options as $k => $v) {
-            unset($options[$k]);
-            $options[strtoupper($k)] = $v;
-        }
+        $options = array_change_key_case($options, CASE_UPPER);
 
         $cType      = null;
         $cNullable  = true;
@@ -475,15 +481,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $cIdentity  = false;
 
         // detect and validate column type
-        if (is_null($ddlType) && isset($options['TYPE'])) {
-            $ddlType = $options['TYPE'];
-        } else if (is_null($ddlType) && isset($options['COLUMN_TYPE'])) {
-            $ddlType = $options['COLUMN_TYPE'];
+        if ($ddlType === null) {
+            $ddlType = $this->_getDdlType($options);
         }
+
         if (empty($ddlType) || !isset($this->_ddlColumnTypes[$ddlType])) {
             throw new Varien_Exception('Invalid column definition data');
         }
-
 
         // column size
         $cType = $this->_ddlColumnTypes[$ddlType];
@@ -517,7 +521,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 }
                 if ($options['LENGTH'] <= 8000) {
                     $ddlType = 'varchar';
-                    $cType = sprintf('%s(%d)', $ddlType, $options['LENGTH']);
+                    $cType   = sprintf('%s(%d)', $ddlType, $options['LENGTH']);
                 } else {
                     $cType = $ddlType = 'text';
                 }
@@ -559,18 +563,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _getDefaultValue($options)
     {
-        // convert keys to upper case
-        foreach ($options as $k => $v) {
-            unset($options[$k]);
-            $options[strtoupper($k)] = $v;
-        }
         // detect and validate column type
-        $ddlType = null;
-        if (is_null($ddlType) && isset($options['TYPE'])) {
-            $ddlType = $options['TYPE'];
-        } else if (is_null($ddlType) && isset($options['COLUMN_TYPE'])) {
-            $ddlType = $options['COLUMN_TYPE'];
-        }
+        $ddlType = $this->_getDdlType($options);
 
         if (empty($ddlType) || !isset($this->_ddlColumnTypes[$ddlType])) {
             throw new Varien_Exception('Invalid column definition data');
@@ -597,9 +591,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             } else {
                 $cDefault = false;
             }
-        } elseif (is_null($cDefault) && $cNullable) {
+        } elseif (($cDefault === null) && $cNullable) {
             $cDefault = new Zend_Db_Expr('NULL');
         }
+
         return $cDefault;
     }
 
@@ -635,7 +630,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (!empty($primary)) {
             asort($primary, SORT_NUMERIC);
             $primary = array_map(array($this, 'quoteIdentifier'), array_keys($primary));
-            $definition[] = sprintf('  PRIMARY KEY (%s)', join(', ', $primary));
+            $definition[] = sprintf('  PRIMARY KEY (%s)', implode(', ', $primary));
         }
 
         return $definition;
@@ -653,35 +648,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $relations  = $table->getForeignKeys();
         if (!empty($relations)) {
             foreach ($relations as $fkData) {
-
                 $definition[] = sprintf('  CONSTRAINT [%s] FOREIGN KEY (%s) REFERENCES %s (%s) ',
-                    $this->quoteIdentifier($fkData['FK_NAME'])
-                    ,$this->quoteIdentifier($fkData['COLUMN_NAME'])
-                    ,$this->quoteIdentifier($fkData['REF_TABLE_NAME'])
-                    ,$this->quoteIdentifier($fkData['REF_COLUMN_NAME'])
+                    $this->quoteIdentifier($fkData['FK_NAME']),
+                    $this->quoteIdentifier($fkData['COLUMN_NAME']),
+                    $this->quoteIdentifier($fkData['REF_TABLE_NAME']),
+                    $this->quoteIdentifier($fkData['REF_COLUMN_NAME'])
                 );
-            }
-        }
-
-        return $definition;
-    }
-
-    /**
-     * Retrieve table options definition array for create table
-     *
-     * @param Varien_Db_Ddl_Table $table
-     * @return array
-     */
-    protected function _getOptionsDefination(Varien_Db_Ddl_Table $table)
-    {
-        $definition = array();
-        $tableProps = array(
-            'comment'           => '/*COMMENT=\'%s\'*/',
-        );
-        foreach ($tableProps as $key => $mask) {
-            $v = $table->getOption($key);
-            if (!is_null($v)) {
-                $definition[] = sprintf($mask, $v);
             }
         }
 
@@ -697,9 +669,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function disableTableConstraints($tableName, $schemaName)
     {
-        $this->raw_query(sprintf('ALTER TABLE %s NOCHECK CONSTRAINT ALL',
-            $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)))
-        );
+        $tableName = $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
+        $this->raw_query(sprintf('ALTER TABLE %s NOCHECK CONSTRAINT ALL', $tableName));
         return $this;
     }
 
@@ -712,9 +683,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function enableTableConstraints($tableName, $schemaName)
     {
-        $this->raw_query(sprintf('ALTER TABLE %s CHECK CONSTRAINT ALL',
-            $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)))
-        );
+        $tableName = $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
+        $this->raw_query(sprintf('ALTER TABLE %s CHECK CONSTRAINT ALL', $tableName));
         return $this;
     }
 
@@ -736,7 +706,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function enableAllDbConstraints()
     {
-        $this->raw_query("sp_MSforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'");
+        $this->raw_query("sp_MSforeachtable 'ALTER TABLE ? CHECK CONSTRAINT ALL'");
         return $this;
     }
 
@@ -744,7 +714,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * Retrieve table indexes definition array for create table
      *
      * @param Varien_Db_Ddl_Table $table
-     * @return array
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     protected function _createIndexes(Varien_Db_Ddl_Table $table)
     {
@@ -765,38 +735,42 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     $indexData['TYPE']);
            }
         }
+
+        return $this;
     }
 
     /**
      * Create FOREIGN KEY CASCADE actions
      *
      * @param Varien_Db_Ddl_Table $table
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     protected function _createForeignKeysActions(Varien_Db_Ddl_Table $table)
     {
         $foreignKeys = $table->getForeignKeys();
-        $fkActions = array (Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
+        $fkActions   = array(Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
 
         if (!empty($foreignKeys)) {
             foreach ($foreignKeys as $fkData) {
                 if (in_array($fkData['ON_DELETE'], $fkActions)) {
-                    $this->_addForeignKeyDeleteAction($table->getName(), $fkData['COLUMN_NAME'],
-                        $fkData['REF_TABLE_NAME'], $fkData['REF_COLUMN_NAME'], $fkData['ON_DELETE']);
-                            $this->_addExtendProperty(
-                                array('table' => $table->getName(), 'constraint' => $fkData['FK_NAME']),
-                                 $fkData['ON_DELETE'],
-                                self::EXTPROP_COMMENT_FK_DELETE);
+                    $this->_addForeignKeyDeleteAction(
+                        $table->getName(),
+                        $fkData['COLUMN_NAME'],
+                        $fkData['REF_TABLE_NAME'],
+                        $fkData['REF_COLUMN_NAME'],
+                        $fkData['ON_DELETE']
+                    );
+
+                    $this->_addExtendProperty(
+                        array('table' => $table->getName(), 'constraint' => $fkData['FK_NAME']),
+                        $fkData['ON_DELETE'],
+                        self::EXTPROP_COMMENT_FK_DELETE
+                    );
                 }
-
-
-//                if (in_array($fkData['ON_UPDATE'], $fkActions)) {
-//                    $this->_addForeignKeyUpdateAction($table->getName(), $fkData['COLUMN_NAME'],
-//                        $fkData['REF_TABLE_NAME'], $fkData['REF_COLUMN_NAME'], $fkData['ON_UPDATE']);
-//                        $this->_addExtendProperty(
-//            array('foreign key' => $tableName, 'column' => $columnName), $onUpdate, self::EXTPROP_COMMENT_FK_UPDATE);
-//                }
             }
         }
+
+        return $this;
     }
 
     /**
@@ -807,22 +781,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _getUniqueConstraintsDefinition(Varien_Db_Ddl_Table $table)
     {
-        $definition = array();
-
-        $constraints    = $table->getIndexes();
+        $definition  = array();
+        $constraints = $table->getIndexes();
 
         if (!empty($constraints)) {
             foreach ($constraints as $constraintData) {
                 if (strtolower($constraintData['TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                     continue;
-                }                $columns = array();
+                }
+                $columns = array();
                 foreach ($constraintData['COLUMNS'] as $columnData) {
                     $column = $this->quoteIdentifier($columnData['NAME']);
                     $columns[] = $column;
                 }
                 $definition[] = sprintf(' CONSTRAINT "%s" UNIQUE (%s)',
                     $this->quoteIdentifier($constraintData['INDEX_NAME']),
-                    join(', ', $columns));
+                    implode(', ', $columns));
             }
         }
 
@@ -863,13 +837,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         if ($table->getComment()) {
             $this->_addTableComment($table->getName(), $table->getComment());
+        } else {
+            throw new Zend_Db_Exception("Cannot create table without comment");
         }
 
         foreach ($columns as $columnEntry) {
-            if (!empty($columnEntry['COMMENT'])) {
-                $this->_addColumnComment($table->getName(), $columnEntry['COLUMN_NAME'], $columnEntry['COMMENT']);
-            }
+            $this->_addColumnComment($table->getName(), $columnEntry['COLUMN_NAME'], $columnEntry['COMMENT']);
         }
+
         return $result;
     }
 
@@ -913,8 +888,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             throw new Varien_Exception(sprintf('Table "%s" is not exists', $tableName));
         }
 
-        $query = sprintf(
-            'TRUNCATE TABLE %s',
+        $query = sprintf('TRUNCATE TABLE %s',
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)));
         $this->query($query);
 
@@ -957,13 +931,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         return $this->raw_fetchRow($query);
     }
 
-    /**
-     * Returns result of describeTable Zend_Db_Adapter_PDO_Mssql.
-     *
-     * @param string $tableName
-     * @param string $schemaName OPTIONAL
-     * @return array
-     */
+
 
 
 
@@ -1031,13 +999,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             if ($columnData['NULLABLE'] === false
                 && !($type == Varien_Db_Ddl_Table::TYPE_TEXT
                 && strlen($columnData['DEFAULT']) == 0)
-                ) {
+            ) {
                 $options['nullable'] = false;
             }
             if ($columnData['PRIMARY'] === true) {
                 $options['primary'] = true;
             }
-            if (!is_null($columnData['DEFAULT'])
+            if (($columnData['DEFAULT'] !== null)
                 && $type != Varien_Db_Ddl_Table::TYPE_TEXT
                 ) {
                 $options['default'] = $this->quote($columnData['DEFAULT']);
@@ -1058,11 +1026,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 continue;
             }
 
-            $fields = $indexData['COLUMNS_LIST'];
-            $options = array();
+            $fields    = $indexData['COLUMNS_LIST'];
+            $options   = array();
             $indexType = '';
             if ($indexData['INDEX_TYPE'] == 'UNIQUE') {
-                $options = array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE);
+                $options   = array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE);
                 $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE;
             }
             $table->addIndex($this->getIndexName($newTableName, $fields, $indexType), $fields, $options);
@@ -1098,6 +1066,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $keyData['REF_COLUMN_NAME'], $onDelete, $onUpdate
             );
         }
+
         return $table;
     }
 
@@ -1109,11 +1078,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param array|string $definition
      * @param boolean $flushData
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     public function modifyColumnByDdl($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
+        $definition = array_change_key_case($definition, CASE_UPPER);
         $definition['COLUMN_TYPE'] = $this->_getColumnTypeByDdl($definition);
+        //TODO need to be deleted. modifyColumn() uses _getDefaultValue() 
         if (array_key_exists('DEFAULT', $definition) && is_null($definition['DEFAULT'])) {
             unset($definition['DEFAULT']);
         }
@@ -1143,6 +1114,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 return Varien_Db_Ddl_Table::TYPE_FLOAT;
             case 'bigint':
                 return Varien_Db_Ddl_Table::TYPE_BIGINT;
+            case 'smallint':
+                return Varien_Db_Ddl_Table::TYPE_SMALLINT;
         }
     }
 
@@ -1163,8 +1136,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             throw new Zend_Db_Exception(sprintf('Table "%s" already exists', $newTableName));
         }
 
-        $oldTable = $this->_getTableName($oldTableName, $schemaName);
-        $newTable = $this->_getTableName($newTableName, $schemaName);
+        $oldTable = $this->quoteIdentifier($this->_getTableName($oldTableName, $schemaName));
+        $newTable = $this->quoteIdentifier($this->_getTableName($newTableName, $schemaName));
 
         $query = sprintf('EXEC SP_RENAME %s , %s', $oldTable, $newTable);
         $this->raw_query($query);
@@ -1225,8 +1198,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
         $schemaName = null)
     {
-        $this->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName);
-        $this->modifyColumn($tableName, $newColumnName, $definition, $flushData, $schemaName);
+        $this->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName)
+             ->modifyColumn($tableName, $newColumnName, $definition, $flushData, $schemaName);
+
+        $definition = array_change_key_case($definition, CASE_UPPER);
         if (!empty($definition['COMMENT'])) {
             $this->_addColumnComment($tableName, $newColumnName, $definition['COMMENT']);
         }
@@ -1242,6 +1217,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $newColumnName
      * @param string $schemaName
      * @return Varien_Db_Adapter_Pdo_Mssql
+     * @throws Zend_Db_Exception
      */
     protected function _renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName = null)
     {
@@ -1250,11 +1226,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
-            throw new Varien_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName, $tableName));
+            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName, $tableName));
         }
 
         if ($this->tableColumnExists($tableName, $newColumnName, $schemaName)) {
-            throw new Varien_Exception(sprintf('Column "%s" already exists on table "%s"', $newColumnName, $tableName));
+            throw new Zend_Db_Exception(sprintf('Column "%s" already exists on table "%s"', $newColumnName, $tableName));
         }
 
         $sql = sprintf("EXEC SP_RENAME '%s.%s', '%s'",
@@ -1276,7 +1252,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $columnName
      * @return bool|string
      */
-    protected function _getDeafaultConstraint($tableName, $columnName)
+    protected function _getDefaultConstraint($tableName, $columnName)
     {
         $defaultConstraintQuery = "SELECT d.name AS constraint_name
             FROM sys.default_constraints d
@@ -1285,9 +1261,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             WHERE c.object_id =  object_id('%s')
             AND c.name = '%s'";
 
-         $query = sprintf($defaultConstraintQuery,
-            $tableName,
-            $columnName);
+        $query = sprintf($defaultConstraintQuery, $tableName, $columnName);
         return $this->raw_fetchRow($query);
 
     }
@@ -1298,11 +1272,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $tableName
      * @param string $columnName
      * @param string $defaultValue
-     * @resturn Zend_Db_Statement_Interface
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     protected function _addColumnDefaultValue($tableName, $columnName, $defaultValue)
     {
-        $constraint = $this->_getDeafaultConstraint($tableName, $columnName);
+        $constraint = $this->_getDefaultConstraint($tableName, $columnName);
         if ($constraint) {
             $query = sprintf("ALTER TABLE %s DROP CONSTRAINT %s",
                 $tableName, $this->quoteIdentifier($constraint['constraint_name'])
@@ -1313,6 +1287,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $query = sprintf("ALTER TABLE %s ADD CONSTRAINT %s DEFAULT ('%s') FOR %s",
             $tableName, $constraintName, $defaultValue, $columnName);
         $this->raw_query($query);
+
+        return $this;
     }
 
     /**
@@ -1331,11 +1307,15 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             throw new Exception(sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName));
         }
 
+
         $defaultValue = false;
         if (is_array($definition)) {
+            // convert keys to upper case
+            $definition = array_change_key_case($definition, CASE_UPPER);
+
             $definition['TARGET_QUERY'] = 'alter';
             $defaultValue = $this->_getDefaultValue($definition);
-            $definition = $this->_getColumnDefinition($definition);
+            $definition   = $this->_getColumnDefinition($definition);
         }
 
         $sql = sprintf('ALTER TABLE %s ALTER COLUMN %s %s',
@@ -1367,7 +1347,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             return true;
         }
 
-        $alterDrop = array();
+        $alterDrop   = array();
         $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
         foreach ($foreignKeys as $fkProp) {
             if ($fkProp['COLUMN_NAME'] == $columnName) {
@@ -1379,11 +1359,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $sql = sprintf('ALTER TABLE %s %s',
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
-            join(', ', $alterDrop));
+            implode(', ', $alterDrop));
+
+        $result = $this->raw_query($sql);
 
         $this->resetDdlCache($tableName, $schemaName);
 
-        return $this->raw_query($sql);
+        return $result;
     }
 
     /**
@@ -1410,8 +1392,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * Return Ddl script for drop fulltext index
      *
      * @param string $tableName
-     * @param string $chemaName
-     * @return boolean
+     * @param string $schemaName
+     * @return string
      */
     protected function _getDdlScriptDropFullText($tableName, $schemaName = null)
     {
@@ -1427,6 +1409,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $fields        the quoted fields list
      * @param string schemaName
      * @return boolean
+     * @throws Zend_Db_Exception
      */
     protected function _getDdlScriptCreateFullText($tableName, $fields, $schemaName = null)
     {
@@ -1438,11 +1421,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         if (!$primaryKey) {
-            throw new Varien_Db_Exception('Cannot create full text index for table without primary key');
+            throw new Zend_Db_Exception('Cannot create full text index for table without primary key');
         }
 
         return sprintf('CREATE FULLTEXT INDEX ON %s (%s) KEY INDEX %s',
-            $this->_getTableName($tableName, $schemaName),            $fields,
+            $this->_getTableName($tableName, $schemaName), $fields,
             $this->quoteIdentifier($primaryKey),
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName))
         );
@@ -1455,7 +1438,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $indexName
      * @param string $fields    the quoted fields list
      * @param string schemaName
-     * @return boolean
+     * @return string
      */
     protected function _getDdlScriptDropPrimaryKey($tableName, $indexName, $schemaName = null)
     {
@@ -1471,7 +1454,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $indexName
      * @param string $fields        the quoted fields list
      * @param string schemaName
-     * @return boolean
+     * @return string
      */
     protected function _getDdlScriptCreatePrimaryKey($tableName, $indexName, $fields, $schemaName = null)
     {
@@ -1487,7 +1470,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $tableName
      * @param string $indexName
      * @param string schemaName
-     * @return boolean
+     * @return string
      */
     protected function _getDdlScriptDropIndex($tableName, $indexName, $schemaName = null)
     {
@@ -1505,7 +1488,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $fields    the quoted fields list
      * @param boolean $isUniqueIndex
      * @param string schemaName
-     * @return boolean
+     * @return string
      */
     protected function _getDdlScriptCreateIndex($tableName, $indexName, $fields, $isUniqueIndex, $schemaName = null)
     {
@@ -1550,7 +1533,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $this->resetDdlCache($tableName, $schemaName);
 
-        return true;
+        return $this;
     }
 
     /**
@@ -1562,33 +1545,34 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $indexType     the index type
      * @param string $schemaName
      * @return Varien_Db_Adapter_Pdo_Mssql
+     * @throws Zend_Db_Exception
      */
     public function addIndex($tableName, $indexName, $fields,
         $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX, $schemaName = null)
     {
+        $columns = array();
         foreach ($this->describeTable($tableName, $schemaName) as $column) {
             $columns[$column['COLUMN_NAME']] = $column['COLUMN_NAME'];
         }
 
-        $keyList = $this->getIndexList($tableName, $schemaName);
-
         if (!is_array($fields)) {
             $fields = array($fields);
         }
-        $fieldSql = array();
 
+        $fieldSql = array();
         foreach ($fields as $field) {
             if (!isset($columns[$field])) {
                 $msg = sprintf('There is no field "%s" that you are trying to create an index on "%s"',
                     $field,
                     $tableName
                 );
-                throw new Exception($msg);
+                throw new Zend_Db_Exception($msg);
             }
             $fieldSql[] = $this->quoteIdentifier($field);
         }
-        $fieldSql = join(',', $fieldSql);
+        $fieldSql = implode(',', $fieldSql);
 
+        $keyList = $this->getIndexList($tableName, $schemaName);
         // Drop index if exists
         if (isset($keyList[strtoupper($indexName)])) {
             $this->dropIndex($tableName, $indexName, $schemaName);
@@ -1597,7 +1581,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         // Create index
         $this->_createIndex($tableName, $indexName, $indexType, $fieldSql, $schemaName);
 
-        return true;
+        return $this;
     }
 
     /**
@@ -1632,7 +1616,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $this->resetDdlCache($tableName, $schemaName);
 
-        return true;
+        return $this;
     }
 
     /**
@@ -1660,7 +1644,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function getIndexList($tableName, $schemaName = null)
     {
         $cacheKey = $this->_getTableName($tableName, $schemaName);
-        $ddl = $this->loadDdlCache($cacheKey, self::DDL_INDEX);
+        $ddl      = $this->loadDdlCache($cacheKey, self::DDL_INDEX);
 
         if ($ddl === false) {
             $ddl = array();
@@ -1739,7 +1723,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $onDelete
      * @return Varien_Db_Adapter_Pdo_Mysql
      */
-    public function purgeOrphanRecords($tableName, $columnName, $refTableName, $refColumnName, $onDelete = 'cascade')
+    public function purgeOrphanRecords($tableName, $columnName, $refTableName, $refColumnName, $onDelete = Varien_Db_Adapter_Interface::FK_ACTION_CASCADE)
     {
         // quote table and column
         $tableName      = $this->quoteIdentifier($tableName);
@@ -1747,9 +1731,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $columnName     = $this->quoteIdentifier($columnName);
         $refColumnName  = $this->quoteIdentifier($refColumnName);
 
-        if (strtoupper($onDelete) == 'CASCADE' || strtoupper($onDelete) == 'RESTRICT') {
+        $sql = '';
+        if (strtoupper($onDelete) == Varien_Db_Adapter_Interface::FK_ACTION_CASCADE ||
+            strtoupper($onDelete) == Varien_Db_Adapter_Interface::FK_ACTION_RESTRICT)
+        {
             $sql = " UPDATE {$tableName} t1 SET t1.code = NULL ";
-        } else if (strtoupper($onDelete) == 'SET NULL') {
+        } elseif (strtoupper($onDelete) == 'SET NULL') {
             $sql = " DELETE FROM {$tableName} t1";
         }
 
@@ -1798,16 +1785,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $this->quoteIdentifier($refColumnName)
         );
 
-        $fkActions = array (Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
+        $fkActions = array(Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
 
         if (in_array($onDelete, $fkActions)) {
             $this->_addForeignKeyDeleteAction($tableName, $columnName, $refTableName, $refColumnName, $onDelete);
         }
-//                if (in_array($fkData['ON_UPDATE'], $fkActions)) {
-//                    $this->_addForeignKeyUpdateAction($table->getName(), $fkData['COLUMN_NAME'],
-//                        $fkData['REF_TABLE_NAME'], $fkData['REF_COLUMN_NAME'], $fkData['ON_UPDATE']);
-//                }
-
 
         $this->resetDdlCache($tableName, $schemaName);
         $result = $this->raw_query($query);
@@ -1833,10 +1815,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
 
-        if (!isset($foreignKeys[strtoupper($fkName)])) {
+        $upperFkName = strtoupper($fkName);
+        if (!isset($foreignKeys[$upperFkName])) {
             return $this;
         }
-        $fkActions = array (Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
 
         foreach ($foreignKeys as $foreignKey) {
             if ($fkName == $foreignKey['FK_NAME']) {
@@ -1845,16 +1827,16 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     . " DROP TRIGGER [%s]",
                     $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL),
                     $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL)
-                    );
-                    $this->query($query);
+                );
+                $this->query($query);
             }
         }
 
-        if (isset($foreignKeys[strtoupper($fkName)])) {
-            $this->_dropDependTriggersAction($foreignKeys[strtoupper($fkName)]['REF_TABLE_NAME']);
+        if (isset($foreignKeys[$upperFkName])) {
+            $this->_dropDependTriggersAction($foreignKeys[$upperFkName]['REF_TABLE_NAME']);
             $sql = sprintf('ALTER TABLE %s DROP CONSTRAINT %s',
                 $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
-                $this->quoteIdentifier($foreignKeys[strtoupper($fkName)]['FK_NAME']));
+                $this->quoteIdentifier($foreignKeys[$upperFkName]['FK_NAME']));
 
             $this->resetDdlCache($tableName, $schemaName);
 
@@ -1892,8 +1874,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 'finish_teg_pos'=> new Zend_Db_Expr("CHARINDEX('/* /ACTION ADDED BY '+ :tablename3 + '*/', OBJECT_DEFINITION(t.object_id))")
                 ))
             ->where(
-                    "OBJECT_DEFINITION(t.object_id) like '%'+ :tablename4 +'%' AND t.parent_id != OBJECT_ID(:tablename5)"
-                );
+                "OBJECT_DEFINITION(t.object_id) like '%'+ :tablename4 +'%' AND t.parent_id != OBJECT_ID(:tablename5)"
+            );
 
         $select = $this->select();
         $select->from(array('r' => new Zend_Db_Expr(sprintf('(%s)', $subSelect->assemble()))),
@@ -1901,14 +1883,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 'trigger_script' => sprintf('CAST (%s AS VARCHAR(MAX))', $this->getConcatSql($concatData))
             ));
 
-        $query = $this->query($select,
-            array(
-                'tablename1' => $refTableName,
-                'tablename2' => $refTableName,
-                'tablename3' => $refTableName,
-                'tablename4' => $refTableName,
-                'tablename5' => $refTableName)
-            );    
+        $query = $this->query($select, array(
+            'tablename1' => $refTableName,
+            'tablename2' => $refTableName,
+            'tablename3' => $refTableName,
+            'tablename4' => $refTableName,
+            'tablename5' => $refTableName
+        ));    
         while ($row = $query->fetchColumn() ) {
             $this->raw_query(str_replace('CREATE TRIGGER', 'ALTER TRIGGER', $row));
         }
@@ -2044,8 +2025,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $primaryKeyColumns = array();
 
         foreach ($this->getIndexList($tableName, $schemaName) as $index ) {
-
-            if ( strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY ) {
+            if (strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY ) {
                 foreach($index['COLUMNS_LIST'] as $value) {
                     $primaryKeyColumns[$value] = $value;
                 }
@@ -2066,7 +2046,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $uniqueIndexColumns = array();
 
         foreach ($this->getIndexList($tableName, $schemaName) as $index ) {
-            if ( strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE ) {
+            if (strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE ) {
                 foreach($index['COLUMNS_LIST'] as $value) {
                     $uniqueIndexColumns[$value] = $value;
                 }
@@ -2082,6 +2062,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param array $data
      * @param array $fields
      * @return int the affected rows
+     * @throws Zend_Db_Exception
      */
     protected function _merge($table, array $data, array $fields = array())
     {
@@ -2102,16 +2083,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             if (!in_array($column, $cols)) {
                 $usePkCond = false;
             } else {
-                $groupCond[] = sprintf("%s = '%s'", $column, $data[$column]);
+                $groupCond[] = sprintf("%s = %s", $this->quoteIdentifier($column), $this->quote($data[$column]));
             }
 
-            if (false !== ($k = array_search($column, $fields))) {
+            $k = array_search($column, $fields);
+            if ($k !== false) {
                 unset($fields[$k]);
             }
         }
 
         if (!empty($groupCond) && $usePkCond) {
-            $whereConditions[] = sprintf('(%s)', join(') AND (', $groupCond));
+            $whereConditions[] = sprintf('(%s)', implode(') AND (', $groupCond));
         }
 
         // Obtain unique indexes fields
@@ -2125,21 +2107,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $groupCond[] = sprintf("%s = %s", $this->quoteIdentifier($column), $this->quote($data[$column]));
             }
 
-            if (false !== ($k = array_search($column, $fields))) {
+            $k = array_search($column, $fields);
+            if ($k !== false) {
                 unset($fields[$k]);
             }
         }
 
         if (!empty($groupCond) && $useUnqCond) {
-            $whereConditions[] = sprintf('(%s)', join(' AND ', $groupCond));
+            $whereConditions[] = sprintf('(%s)', implode(' AND ', $groupCond));
         }
 
         // check and prepare where condition
         if (empty($whereConditions)) {
-            throw new Exception('Invalid primary or unique columns in merge data');
+            throw new Zend_Db_Exception('Invalid primary or unique columns in merge data');
         }
 
-        $where = sprintf('(%s)', join(') OR (', $whereConditions));
+        $where = sprintf('(%s)', implode(') OR (', $whereConditions));
         $query = sprintf('SELECT COUNT(1) FROM %s WHERE %s', $table, $where);
         $count = $this->fetchOne($query);
 
@@ -2208,11 +2191,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param mixed $table The table to insert data into.
      * @param array $data Column-value pairs or array of Column-value pairs.
      * @return int The number of affected rows.
+     * @throws Zend_Db_Exception
      */
     public function insertMultiple($table, array $data)
     {
         $row = reset($data);
-        // support insert syntaxes
+        // support insert syntax
         if (!is_array($row)) {
             return $this->insert($table, $data);
         }
@@ -2223,7 +2207,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         foreach ($data as $row) {
             $line = array();
             if (array_diff($cols, array_keys($row))) {
-                throw new Varien_Exception('Invalid data for insert');
+                throw new Zend_Db_Exception('Invalid data for insert');
             }
             foreach ($cols as $field) {
                 $line[] = $row[$field];
@@ -2242,6 +2226,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param   array $columns  the data array column map
      * @param   array $data
      * @return  int
+     * @throws Zend_Db_Exception
      */
     public function insertArray($table, array $columns, array $data)
     {
@@ -2258,7 +2243,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 break;
             }
             if ($columnsCount != count($row)) {
-                throw new Varien_Exception('Invalid data for insert');
+                throw new Zend_Db_Exception('Invalid data for insert');
             }
             $line = array();
             if ($columnsCount == 1) {
@@ -2279,7 +2264,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                         $bind[] = $value;
                     }
                 }
-                $vals[] = sprintf('SELECT %s', join(',', $line));
+                $vals[] = sprintf('SELECT %s', implode(',', $line));
             }
         }
 
@@ -2402,8 +2387,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $bind = $this->_bindParams;
             }
             $result = parent::query($sql, $bind);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_debugStat(self::DEBUG_QUERY, $sql, $bind);
             $this->_debugException($e);
         }
@@ -2511,7 +2495,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $pos = strpos($sql, '?', $offset);
             if ($pos !== false) {
                 $positions[] = $pos;
-                $offset = $pos + 1;
+                $offset = ++$pos;
             } else {
                 break;
             }
@@ -2633,33 +2617,33 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $stmts = array();
         $s = '';
 
-        foreach ($parts as $i=>$part) {
+        foreach ($parts as $i => $part) {
             // strings
-            if (($part==="'" || $part==='"') && ($i===0 || $parts[$i-1]!=='\\')) {
+            if (($part === "'" || $part === '"') && ($i === 0 || $parts[$i-1] !== '\\')) {
                 if ($q===false) {
                     $q = $part;
-                } else if ($q===$part) {
+                } elseif ($q===$part) {
                     $q = false;
                 }
             }
 
             // single line comments
-            if (($part==='//' || $part==='--') && ($i===0 || $parts[$i-1]==="\n")) {
+            if (($part === '//' || $part === '--') && ($i === 0 || $parts[$i-1] === "\n")) {
                 $c = $part;
-            } else if ($part==="\n" && ($c==='//' || $c==='--')) {
+            } elseif ($part === "\n" && ($c === '//' || $c === '--')) {
                 $c = false;
             }
 
             // multi line comments
-            if ($part==='/*' && $c===false) {
+            if ($part === '/*' && $c === false) {
                 $c = '/*';
-            } else if ($part==='*/' && $c==='/*') {
+            } else if ($part === '*/' && $c === '/*') {
                 $c = false;
             }
 
             // statements
-            if ($part===';' && $q===false && $c===false) {
-                if (trim($s)!=='') {
+            if ($part === ';' && $q === false && $c === false) {
+                if (trim($s) !== '') {
                     $stmts[] = trim($s);
                     $s = '';
                 }
@@ -2669,7 +2653,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $s .= $part;
             }
         }
-        if (trim($s)!=='') {
+        if (trim($s) !== '') {
             $stmts[] = trim($s);
         }
 
@@ -2687,7 +2671,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $date = Varien_Date::formatDate($date, $includeTime);
 
-        if (is_null($date)) {
+        if ($date === null) {
             return new Zend_Db_Expr('NULL');
         }
         return new Zend_Db_Expr($this->quoteInto('CAST(? as datetime)', $date));
@@ -2763,12 +2747,16 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function raw_fetchRow($sql, $field = null)
     {
-        if (!$result = $this->raw_query($sql)) {
+        $result = $this->raw_query($sql);
+        if (!$result) {
             return false;
         }
-        if (!$row = $result->fetch(PDO::FETCH_ASSOC)) {
+
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
             return false;
         }
+
         if (empty($field)) {
             return $row;
         } else {
@@ -2811,7 +2799,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (!$this->_isDdlCacheAllowed) {
             return $this;
         }
-        if (is_null($tableName)) {
+        if ($tableName === null) {
             $this->_ddlCache = array();
             if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
                 $this->_cacheAdapter->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(self::DDL_CACHE_TAG));
@@ -2930,87 +2918,68 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function prepareSqlCondition($fieldName, $condition)
     {
-        $query = '';
+        $conditionKeyMap = array(
+            'eq'            => "{{fieldName}} = ?",
+            'neq'           => "{{fieldName}} != ?",
+            'like'          => "{{fieldName}} LIKE ?",
+            'nlike'         => "{{fieldName}} NOT LIKE ?",
+            'in'            => "{{fieldName}} IN(?)",
+            'nin'           => "{{fieldName}} NOT IN(?)",
+            'is'            => "{{fieldName}} IS ?",
+            'notnull'       => "{{fieldName}} IS NOT NULL",
+            'null'          => "{{fieldName}} IS NULL",
+            'gt'            => "{{fieldName}} > ?",
+            'lt'            => "{{fieldName}} < ?",
+            'gteq'          => "{{fieldName}} >= ?",
+            'lteq'          => "{{fieldName}} <= ?",
+            'finset'        => "dbo.find_in_set(?, {{fieldName}}) = 1",
+            'regexp'        => "dbo.regexp({{fieldName}}, ?, 1) = 1",
+            'from'          => "{{fieldName}} >= ?",
+            'to'            => "{{fieldName}} <= ?"
+        );
 
-        if (is_array($condition) && isset($condition['field_expr'])) {
-            $fieldName = str_replace('#?', $this->quoteIdentifier($fieldName), $condition['field_expr']);
-        }
+        $query = '';
         if (is_array($condition)) {
+            if (isset($condition['field_expr'])) {
+                $fieldName = str_replace('#?', $this->quoteIdentifier($fieldName), $condition['field_expr']);
+                unset($condition['field_expr']);
+            }
+            $key = key($condition);
+
             if (isset($condition['from']) || isset($condition['to'])) {
                 if (isset($condition['from'])) {
-                    if (empty($condition['date'])) {
-                        if (empty($condition['datetime'])) {
-                            $from = $condition['from'];
-                        } else {
-                            $from = $this->formatDate($condition['from']);
-                        }
-                    } else {
-                        $from = $this->formatDate($condition['from']);
-                    }
-                    $query .= $this->quoteInto("{$fieldName} >= ?", $from);
+                    $from   = $this->_prepareSqlDateCondition($condition, 'from');
+                    $query = $this->_prepareQuotedSqlCondition($conditionKeyMap['from'], $from, $fieldName);
                 }
+
                 if (isset($condition['to'])) {
                     $query .= empty($query) ? '' : ' AND ';
-
-                    if (empty($condition['date'])) {
-                        if (empty($condition['datetime'])) {
-                            $to = $condition['to'];
-                        } else {
-                            $to = $this->formatDate($condition['to']);
-                        }
-                    } else {
-                        $to = $this->formatDate($condition['to']);
-                    }
-
-                    $query .= $this->quoteInto("{$fieldName} <= ?", $to);
+                    $to     = $this->_prepareSqlDateCondition($condition, 'to');
+                    $query = $this->_prepareQuotedSqlCondition($query . $conditionKeyMap['to'], $to, $fieldName);
                 }
-            } else if (isset($condition['eq'])) {
-                $query = $this->quoteInto("{$fieldName} = ?", $condition['eq']);
-            } else if (isset($condition['neq'])) {
-                $query = $this->quoteInto("{$fieldName} != ?", $condition['neq']);
-            } else if (isset($condition['like'])) {
-                $query = $this->quoteInto("{$fieldName} LIKE ?", $condition['like']);
-            } else if (isset($condition['nlike'])) {
-                $query = $this->quoteInto("{$fieldName} NOT LIKE ?", $condition['nlike']);
-            } else if (isset($condition['in'])) {
-                $query = $this->quoteInto("{$fieldName} IN(?)", $condition['in']);
-            } else if (isset($condition['nin'])) {
-                $query = $this->quoteInto("{$fieldName} NOT IN(?)", $condition['nin']);
-            } else if (isset($condition['is'])) {
-                $query = $this->quoteInto("{$fieldName} IS ?", $condition['is']);
-            } else if (isset($condition['notnull'])) {
-                $query = "$fieldName IS NOT NULL";
-            } else if (isset($condition['null'])) {
-                $query = "$fieldName IS NULL";
-            } else if (isset($condition['gt'])) {
-                $query = $this->quoteInto("{$fieldName} > ?", $condition['gt']);
-            } else if (isset($condition['lt'])) {
-                $query = $this->quoteInto("{$fieldName} < ?", $condition['lt']);
-            } else if (isset($condition['gteq'])) {
-                $query = $this->quoteInto("{$fieldName} >= ?", $condition['gteq']);
-            } else if (isset($condition['lteq'])) {
-                $query = $this->quoteInto("{$fieldName} <= ?", $condition['lteq']);
-            } else if (isset($condition['finset'])) {
-                $query = $this->quoteInto("dbo.find_in_set(?, {$fieldName}) = 1", $condition['finset']);
-            } else if (isset($condition['regexp'])) {
-                $query = $this->quoteInto("dbo.regexp({$fieldName}, ?, 1) = 1", $condition['regexp']);
-            } else if (isset($condition['regexp_replace'])) {
-                $query = $this->quoteInto("dbo.regexp_replace({$fieldName}, ?, ?, 1)", $condition['pattern'], $condition['replacement']);
+            } elseif (in_array($key, array_keys($conditionKeyMap))) {
+                $query = $this->_prepareQuotedSqlCondition($conditionKeyMap[$key], $condition[$key], $fieldName);
             } else {
                 $queries = array();
                 foreach ($condition as $orCondition) {
                     $queries[] = sprintf('(%s)', $this->prepareSqlCondition($fieldName, $orCondition));
                 }
 
-                $query = sprintf('(%s)', join(' OR ', $queries));
+                $query = sprintf('(%s)', implode(' OR ', $queries));
             }
         } else {
-            $query = $this->quoteInto("{$fieldName} = ?", (string)$condition);
+            $query = $this->_prepareQuotedSqlCondition($conditionKeyMap['eq'], (string)$condition, $fieldName);
         }
 
         return $query;
     }
 
+    protected function _prepareQuotedSqlCondition($text, $value, $fieldName)
+    {
+        $sql = $this->quoteInto($text, $value);
+        $sql = str_replace('{{fieldName}}', $fieldName, $sql);
+        return $sql;
+    }
     /**
      * Prepare value for save in column
      * Return converted to column data type value
@@ -3082,6 +3051,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $condition     expression
      * @param string $true          true value
      * @param string $false         false value
+     * @return Zend_Db_Expr
      */
     public function getCheckSql($condition, $true, $false)
     {
@@ -3095,13 +3065,15 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $value OPTIONAL. Applies when $expresion is NULL
      * @return Zend_Db_Expr
      */
-    public function getIfnullSql($expresion, $value = 0)
+    public function getIfNullSql($expression, $value = 0)
     {
-        if ($expresion instanceof Zend_Db_Expr || $expresion instanceof Zend_Db_Select) {
-            return new Zend_Db_Expr(sprintf("ISNULL((%s), %s)", $expresion, $value));
+        if (is_object($expression)) {
+            $expression = sprintf("ISNULL((%s), %s)", $expression, $value);
         } else {
-            return new Zend_Db_Expr(sprintf("ISNULL(%s, %s)", $expresion, $value));
+            $expression = sprintf("ISNULL(%s, %s)", $expression, $value);
         }
+
+        return new Zend_Db_Expr($expression);
     }
 
     /**
@@ -3110,7 +3082,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $valueName Name of value to check
      * @param array $casesResults Cases and results
-     * @param string $defaultValue value to use if value doesnt conforme to any cases
+     * @param string $defaultValue value to use if value doesn't confirmed to any cases
+     * @return Zend_Db_Expr
      */
     public function getCaseSql($valueName, $casesResults, $defaultValue)
     {
@@ -3118,7 +3091,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         foreach ($casesResults as $case => $result) {
             $expression .= " WHEN {$case} THEN {$result}";
         }
-        if (!is_null($defaultValue)) {
+        if ($defaultValue !== null) {
             $expression .= ' ELSE ' . $defaultValue;
         }
         $expression .= ' END';
@@ -3135,7 +3108,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function getConcatSql(array $data, $separator = null)
     {
         $glue = empty($separator) ? ' + ' : " + '{$separator}' + ";
-        return new Zend_Db_Expr(join($glue, $data));
+        return new Zend_Db_Expr(implode($glue, $data));
     }
 
     /**
@@ -3161,7 +3134,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function getLeastSql(array $data)
     {
         $format = '(SELECT MIN(v) FROM (SELECT %s AS v) least)';
-        return new Zend_Db_Expr(sprintf($format, join(' AS v UNION ALL SELECT ', $data)));
+        return new Zend_Db_Expr(sprintf($format, implode(' AS v UNION ALL SELECT ', $data)));
     }
 
     /**
@@ -3175,7 +3148,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function getGreatestSql(array $data)
     {
         $format = '(SELECT MAX(v) FROM (SELECT %s AS v) greatest)';
-        return new Zend_Db_Expr(sprintf($format, join(' AS v UNION ALL SELECT ', $data)));
+        return new Zend_Db_Expr(sprintf($format, implode(' AS v UNION ALL SELECT ', $data)));
     }
 
     /**
@@ -3184,11 +3157,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param int $interval
      * @param string $unit
      * @return string
+     * @throws Zend_Db_Exception
      */
     protected function _getIntervalUnitSql($interval, $unit)
     {
         if (!isset($this->_intervalUnits[$unit])) {
-            throw new Varien_Db_Exception(sprintf('Undefined interval unit "%s" specified', $unit));
+            throw new Zend_Db_Exception(sprintf('Undefined interval unit "%s" specified', $unit));
         }
 
         return sprintf('%s, %d', $this->_intervalUnits[$unit], $interval);
@@ -3206,7 +3180,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function getDateAddSql($date, $interval, $unit)
     {
-        return new Zend_Db_Expr(sprintf('DATEADD(%s, %s)', $this->_getIntervalUnitSql($interval, $unit), $this->quoteIdentifier($date)));
+        $expression = sprintf('DATEADD(%s, %s)',
+            $this->_getIntervalUnitSql($interval, $unit),
+            $this->quoteIdentifier($date)
+        );
+        return new Zend_Db_Expr($expression);
     }
 
     /**
@@ -3282,6 +3260,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param Zend_Db_Expr|string $date   quoted field name or SQL statement
      * @param string $unit
      * @return Zend_Db_Expr
+     * @throws Zend_Db_Exception
      */
     public function getDateExtractSql($date, $unit)
     {
@@ -3295,7 +3274,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         );
 
         if (!isset($formatMap[$unit])) {
-            throw new Varien_Db_Exception(sprintf('Undefined interval unit "%s" specified', $unit));
+            throw new Zend_Db_Exception(sprintf('Undefined interval unit "%s" specified', $unit));
         }
 
         return $this->getDateFormatSql($date, $formatMap[$unit]);
@@ -3349,7 +3328,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Start debug timer
      *
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
     protected function _debugTimer()
     {
@@ -3480,22 +3459,16 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             }
         }
 
-        $sqlExistsComment = "SELECT COUNT(1) AS qty   \n"
-            . "FROM fn_listextendedproperty (         \n"
-            . "    N'{$commentType}',                 \n"
-            . "    N'user',                           \n"
-            . "    N'dbo',                            \n"
-            . "    N'{$level1ObjectType}',            \n"
-            . "    N'{$level1ObjectName}',            \n"
-            . ($existsDependedObject ?
-                "    N'{$level2ObjectType}',          \n" :
-                "    NULL,                            \n")
-            . ($existsDependedObject ?
-                "    N'{$level2ObjectName}'           \n" :
-                "    NULL                             \n")
-            . ")                                      \n";
+        $sql = "SELECT COUNT(1) AS qty FROM fn_listextendedproperty (N'%s', N'user', N'dbo', N'%s', N'%s', %s, %s)";
+        $sqlExistsComment = sprintf($sql,
+            $commentType,
+            $level1ObjectType,
+            $level1ObjectName,
+            $existsDependedObject ? " N'{$level2ObjectType}'" : 'NULL',
+            $existsDependedObject ? " N'{$level2ObjectName}'" : 'NULL'
+        );
 
-            return ($this->raw_fetchRow($sqlExistsComment, 'qty') != 0);
+        return ($this->raw_fetchRow($sqlExistsComment, 'qty') != 0);
     }
     /**
      * Add or update extended property to a database object.
@@ -3527,15 +3500,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         if(!$this->_checkCommentExists($object, $commentType)) {
-            $this->query("EXEC sp_addextendedproperty N'{$commentType}', N'{$comment}', ".
-                "N'user', N'dbo', N'{$level1ObjectType}', N'{$level1ObjectName}', ".
-                ($existsDependedObject ? "N'{$level2ObjectType}', N'{$level2ObjectName}'" : "NULL , NULL"));
-
+            $function = 'sp_addextendedproperty';
         } else {
-            $this->query("EXEC sp_updateextendedproperty N'{$commentType}', N'{$comment}', ".
-                "N'user', N'dbo', N'{$level1ObjectType}', N'{$level1ObjectName}', ".
-                ($existsDependedObject ? "N'{$level2ObjectType}', N'{$level2ObjectName}'" : "NULL , NULL"));
+            $function = 'sp_updateextendedproperty';
         }
+
+        $sql = "EXEC %s N'%s', N'%s', N'user', N'dbo', N'%s', N'%s', %s, %s";
+        $query = sprintf($sql,
+            $function,
+            $commentType,
+            $comment,
+            $level1ObjectType,
+            $level1ObjectName,
+            $existsDependedObject ? " N'{$level2ObjectType}'" : 'NULL',
+            $existsDependedObject ? " N'{$level2ObjectName}'" : 'NULL'
+        );
+        $this->query($query);
     }
 
     /**
@@ -3594,61 +3574,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Create trigger for cascade update
-     *
-     * @param string $tableName
-     * @param string $columnName
-     * @param string $refTableName
-     * @param string $refColumnName
-     * @return Varien_Db_Adapter_Pdo_Mssql
-     */
-    protected function _addForeignKeyUpdateAction($tableName, $columnName, $refTableName, $refColumnName, $fkAction)
-    {
-//        $refColumnDataType  = $this->_getColumnDataType($refTableName, $refColumnName);
-//        $triggerName        = $this->_getTriggerName($tableName, $columnName);
-//
-//       if ($refColumnDataType == false) {
-//                throw new Exception('Unknown column data type!');
-//       }
-//
-//        $sqlTrigger = "                                                     \n"
-//            . "CREATE TRIGGER [{$triggerName}]                              \n"
-//            . "    ON  {$refTableName}                                      \n"
-//            . "    AFTER UPDATE                                             \n"
-//            . "AS                                                           \n"
-//            . "DECLARE                                                      \n"
-//            . (
-//                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
-//                "    @new_{$refColumnName} {$refColumnDataType},            \n" : ""
-//              )
-//
-//            . "    @old_{$refColumnName} {$refColumnDataType}               \n"
-//            . "BEGIN                                                        \n"
-//            . "    SET NOCOUNT ON;                                          \n"
-//            . (
-//                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
-//                "    SELECT @new_{$refColumnName} = {$refColumnName}        \n"
-//              . "    FROM inserted                                          \n" : ""
-//              )
-//
-//            . "    SELECT @old_{$refColumnName}  = {$refColumnName}         \n"
-//            . "    FROM deleted                                             \n"
-//            . "    UPDATE {$tableName}                                      \n"
-//            . (
-//                    $fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ?
-//                "    SET {$columnName} = @new_{$refColumnName}              \n":
-//                "    SET {$columnName} = NULL                               \n"
-//               )
-//            . "    WHERE {$columnName} = @old_{$refColumnName};             \n"
-//            . "END                                                          \n";
-//        $this->getConnection()->exec("SET ANSI_NULLS ON");
-//        $this->getConnection()->exec("SET QUOTED_IDENTIFIER ON");
-//        $this->getConnection()->exec($sqlTrigger);
-
-        return $this;
-    }
-
-    /**
      * Create trigger for cascade delete
      *
      * @param string $tableName
@@ -3656,24 +3581,25 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $refTableName
      * @param string $refColumnName
      * @return Varien_Db_Adapter_Pdo_Mssql
+     * @throws Zend_Db_Exception
      */
     protected function _addForeignKeyDeleteAction($tableName, $columnName, $refTableName, $refColumnName, $fkAction)
     {
         $sqlTrigger = $this->_getInsteadTriggerBody($refTableName);
         $ids = '';
-        if ( $tableName == $refTableName ) {
-            $ids = "\n;WITH depended_ids ({$refColumnName}) AS ( \n"
-		        . "SELECT m.{$refColumnName} \n"
-                . "FROM {$tableName} AS m\n"
-		        . "INNER JOIN deleted d ON m.{$refColumnName} = d.{$refColumnName}\n"
-                . "UNION ALL\n"
-                . "SELECT m.{$refColumnName}\n"
-                . "FROM {$tableName} AS m\n"
+        if ($tableName == $refTableName) {
+            $ids = "\n;WITH depended_ids ({$refColumnName}) AS (                    \n"
+		        . "SELECT m.{$refColumnName}                                        \n"
+                . "FROM {$tableName} AS m                                           \n"
+		        . "INNER JOIN deleted d ON m.{$refColumnName} = d.{$refColumnName}  \n"
+                . "UNION ALL                                                        \n"
+                . "SELECT m.{$refColumnName}                                        \n"
+                . "FROM {$tableName} AS m                                           \n"
                 . "INNER JOIN depended_ids AS di ON di.{$refColumnName} = m.{$columnName}\n)"
-                . "INSERT INTO @deletedRows\n"
-                . "SELECT $refColumnName FROM depended_ids\n";
+                . "INSERT INTO @deletedRows                                         \n"
+                . "SELECT $refColumnName FROM depended_ids                          \n";
             if (strpos($sqlTrigger, "/*place ids here*/") === false) {
-                throw new Varien_Db_Exception("Hierarchical query already exist! cannot add one more!");
+                throw new Zend_Db_Exception("Hierarchical query already exist! Cannot add anymore!");
             }
             $sqlTrigger = str_replace(
                 "/*place ids here*/",
@@ -3681,20 +3607,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $sqlTrigger
             );
         } else {
-            $deleteAction = ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE) ?
-                "/*ACTION ADDED BY {$tableName}*/\n"
-                . "        DELETE t FROM {$tableName} t                           \n"
-                . "        INNER JOIN @deletedRows d ON                               \n"
-                . "         t.{$columnName} = d.{$refColumnName};         \n"
-                . "/* /ACTION ADDED BY {$tableName}*/" :
-                "/*ACTION ADDED BY {$tableName}*/\n"
-                . "        UPDATE t \n"
-                . "        SET t.{$columnName} = NULL                           \n"
-                . "      FROM {$tableName} t                                    \n"
-                . "        INNER JOIN @deletedRows d ON                                 \n"
-                . "         t.{$columnName} = d.{$refColumnName};         \n"
-                . "/* /ACTION ADDED BY {$tableName}*/"
-                ;
+            if ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE) {
+                $deleteAction = "/*ACTION ADDED BY {$tableName}*/                   \n"
+                                . "        DELETE t FROM {$tableName} t             \n"
+                                . "        INNER JOIN @deletedRows d ON             \n"
+                                . "         t.{$columnName} = d.{$refColumnName};   \n"
+                                . "/* /ACTION ADDED BY {$tableName}*/";
+            } else {
+                $deleteAction = "/*ACTION ADDED BY {$tableName}*/                   \n"
+                                . "        UPDATE t \n"
+                                . "        SET t.{$columnName} = NULL               \n"
+                                . "      FROM {$tableName} t                        \n"
+                                . "        INNER JOIN @deletedRows d ON             \n"
+                                . "         t.{$columnName} = d.{$refColumnName};   \n"
+                                . "/* /ACTION ADDED BY {$tableName}*/";
+            }
+
             $sqlTrigger = str_replace(
                 "/*place code here*/",
                 $deleteAction . "\n /*place code here*/",
@@ -3718,11 +3646,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
      protected function _minusSuperfluous($hash, $prefix, $maxCharacters)
      {
-         $diff = strlen($hash) + strlen($prefix) -  $maxCharacters;
+         $diff = strlen($hash) + strlen($prefix) - $maxCharacters;
          $superfluous = $diff / 2;
          $odd = $diff % 2;
-         $hash = substr($hash, $superfluous, -($superfluous+$odd));
-         return $prefix.$hash;
+         $hash = substr($hash, $superfluous, - ($superfluous+$odd));
+         return $prefix . $hash;
      }
 
     /**
@@ -3742,7 +3670,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 if (strlen($prefix.$hash) > self::LENGTH_TABLE_NAME) {
                     $tableName = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
                 } else {
-                    $tableName = $prefix.$hash;
+                    $tableName = $prefix . $hash;
                 }
             } else {
                 $tableName = $shortName;
@@ -3763,21 +3691,21 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function getIndexName($tableName, $fields, $indexType = '')
     {
         if (is_array($fields)) {
-            $fields = join('__', $fields);
+            $fields = implode('__', $fields);
         }
 
         switch (strtolower($indexType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
-                $prefix = 'unq_';
+                $prefix      = 'unq_';
                 $shortPrefix = 'u_';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
-                $prefix = 'fti_';
+                $prefix      = 'fti_';
                 $shortPrefix = 'f_';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
             default:
-                $prefix = 'idx_';
+                $prefix      = 'idx_';
                 $shortPrefix = 'i_';
         }
 
@@ -3794,7 +3722,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $hash = $short;
             }
         } else {
-            $hash = $prefix.$hash;
+            $hash = $prefix . $hash;
         }
 
         return strtoupper($hash);
@@ -3827,7 +3755,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $hash = $short;
             }
         } else {
-            $hash = $prefix.$hash;
+            $hash = $prefix . $hash;
         }
 
         return strtoupper($hash);
@@ -3860,11 +3788,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $query = $sql;
         } else {
             $query = sprintf('
-                SELECT z2.*
-                FROM (
-                    SELECT z1.*, ROW_NUMBER() OVER ( ORDER BY  RAND()) AS varien_db_rownum
-                    FROM (%s) z1) z2
-                WHERE z2.varien_db_rownum >= %d', $sql,  $offset + 1);
+                SELECT m2.* FROM (
+                    SELECT m1.*, ROW_NUMBER() OVER ( ORDER BY  RAND()) AS analytic_clmn
+                    FROM (%s) m1) m2 
+                WHERE m2.analytic_clmn >= %d', $sql,  $offset + 1);
         }
 
         return $query;
@@ -3921,150 +3848,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Get insert from Select object query
-     *
-     * @param Varien_Db_Select $select
-     * @param string $table     insert into table
-     * @param array $fields
-     * @param int $mode
-     * @return string
-     */
-//    public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
-//    {
-//        if (!$mode) {
-//            return $this->_getInsertFromSelectSql($select, $table, $fields);
-//        }
-//
-//        $indexes    = $this->getIndexList($table);
-//        $columns    = $this->describeTable($table);
-//        if (!$fields) {
-//            $fields = array_keys($columns);
-//        }
-//
-//        // remap column aliases
-//        $select    = clone $select;
-//        $fields    = array_values($fields);
-//        $i         = 0;
-//        $colsPart  = $select->getPart(Zend_Db_Select::COLUMNS);
-//        if (count($colsPart) != count($fields)) {
-//            throw new Varien_Db_Exception('Wrong columns count in SELECT for INSERT,');
-//        }
-//        foreach ($colsPart as &$colData) {
-//            $colData[2] = $fields[$i];
-//            $i ++;
-//        }
-//        $select->setPart(Zend_Db_Select::COLUMNS, $colsPart);
-//
-//        $insertCols = $fields;
-//        $updateCols = $fields;
-//        $whereCond  = array();
-//
-//        // Obtain primary key fields
-//        $pkColumns = $this->_getPrimaryKeyColumns($table);
-//        $groupCond = array();
-//        $usePkCond = true;
-//        foreach ($pkColumns as $pkColumn) {
-//            if (!in_array($pkColumn, $insertCols)) {
-//                $usePkCond = false;
-//            } else {
-//                $groupCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($pkColumn));
-//            }
-//
-//            if (false !== ($k = array_search($pkColumn, $updateCols))) {
-//                unset($updateCols[$k]);
-//            }
-//        }
-//
-//        if (!empty($groupCond) && $usePkCond) {
-//            $whereCond[] = sprintf('(%s)', join(') AND (', $groupCond));
-//        }
-//
-//        // Obtain unique indexes fields
-//        foreach ($indexes as $indexData) {
-//            if ($indexData['INDEX_TYPE'] != self::INDEX_TYPE_UNIQUE) {
-//                continue;
-//            }
-//
-//            $groupCond  = array();
-//            $useUnqCond = true;
-//            foreach($indexData['COLUMNS_LIST'] as $column) {
-//                if (!in_array($column, $insertCols)) {
-//                    $useUnqCond = false;
-//                }
-//                if (false !== ($k = array_search($column, $updateCols))) {
-//                    unset($updateCols[$k]);
-//                }
-//                $groupCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($column));
-//            }
-//            if (!empty($groupCond) && $useUnqCond) {
-//                $whereCond[] = sprintf('(%s)', join(' AND ', $groupCond));
-//            }
-//        }
-//
-//        // validate where condition
-//        if (empty($whereCond)) {
-//            //throw new Varien_Db_Exception('Invalid primary or unique columns in merge data');
-//            var_dump(func_get_args(), $select->assemble());
-//            mageDebugBacktrace();
-//            exit;
-//        }
-//
-//        // prepare insert columns condition
-//        $insertCond = array_map(array($this, 'quoteIdentifier'), $insertCols);
-//
-//        $query = sprintf('INSERT INTO %1$s (%2$s) SELECT * FROM (%3$s) t2'
-//            . ' WHERE NOT EXISTS (SELECT 1 FROM %1$s t3 WHERE (%4$s))',
-//            $this->quoteIdentifier($table),
-//            join(', ', $insertCond),
-//            $select->assemble(),
-//            join(') OR (', $whereCond)
-//        );
-//
-//        if ($mode == self::INSERT_ON_DUPLICATE && $updateCols) {
-//            $updateCond = array();
-//            foreach ($updateCols as $updateCol) {
-//                $updateCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($updateCol));
-//            }
-//            $query = sprintf('%s UPDATE t3 SET %s FROM (%s) t2 INNER JOIN %s t3 ON (%s)',
-//                $query,
-//                join(', ', $updateCond),
-//                $select->assemble(),
-//                $this->quoteIdentifier($table),
-//                join(') OR (', $whereCond)
-//            );
-//        }
-//         // add only for PDO MSSQL (on Windows)
-//        // $query = "EXEC({'$query')";
-//        return $query;
-//    }
-
-    /**
      * Get insert to table from select
      *
      * @param Varien_Db_Select $select
      * @param string $table
      * @param array $fields
      * @return string
+     * @throws Zend_Db_Exception 
      */
-
-
-
-//
-//
-//    protected function _getInsertFromSelectSql(Varien_Db_Select $select, $table, array $fields = array())
-//    {
-//        $query = sprintf('INSERT INTO %s ', $this->quoteIdentifier($table));
-//        if ($fields) {
-//            $columns = array_map(array($this, 'quoteIdentifier'), $fields);
-//            $query .= sprintf('(%s)', join(', ', $columns));
-//        }
-//
-//        $query .= $select->assemble();
-//
-//        return $query;
-//    }
-
-
     public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
     {
         if (!$mode) {
@@ -4081,15 +3872,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         // remap column aliases
         $select    = clone $select;
         $fields    = array_values($fields);
-        $i         = 0;
         $colsPart  = $select->getPart(Zend_Db_Select::COLUMNS);
-
         if (count($colsPart) != count($fields)) {
-            throw new Varien_Db_Exception('Wrong columns count in SELECT for INSERT');
+            throw new Zend_Db_Exception('Wrong columns count in SELECT for INSERT');
         }
+
+        $i = 0;
         foreach ($colsPart as &$colData) {
-            $colData[2] = $fields[$i];
-            $i ++;
+            $colData[2] = $fields[$i++];
         }
         $select->setPart(Zend_Db_Select::COLUMNS, $colsPart);
 
@@ -4107,14 +3897,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             } else {
                 $groupCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($pkColumn));
             }
-
-            if (false !== ($k = array_search($pkColumn, $updateCols))) {
+            $k = array_search($pkColumn, $updateCols);
+            if ($k !== false) {
                 unset($updateCols[$k]);
             }
         }
 
         if (!empty($groupCond) && $usePkCond) {
-            $whereCond[] = sprintf('(%s)', join(') AND (', $groupCond));
+            $whereCond[] = sprintf('(%s)', implode(') AND (', $groupCond));
         }
 
         // Obtain unique indexes fields
@@ -4129,25 +3919,26 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 if (!in_array($column, $insertCols)) {
                     $useUnqCond = false;
                 }
-                if (false !== ($k = array_search($column, $updateCols))) {
+                $k = array_search($column, $updateCols);
+                if ($k !== false) {
                     unset($updateCols[$k]);
                 }
                 $groupCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($column));
             }
             if (!empty($groupCond) && $useUnqCond) {
-                $whereCond[] = sprintf('(%s)', join(' AND ', $groupCond));
+                $whereCond[] = sprintf('(%s)', implode(' AND ', $groupCond));
             }
         }
 
         // validate where condition
         if (empty($whereCond)) {
-            throw new Varien_Db_Exception('Invalid primary or unique columns in merge data');
+            throw new Zend_Db_Exception('Invalid primary or unique columns in merge data');
         }
 
         $query = sprintf("MERGE INTO %s t3\nUSING (%s) t2\nON ( %s )",
             $this->quoteIdentifier($table),
             $select->assemble(),
-            join(' OR ', $whereCond)
+            implode(' OR ', $whereCond)
         );
 
         // UPDATE Section
@@ -4156,9 +3947,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             foreach ($updateCols as $column) {
                 $updateCond[] = sprintf('t3.%1$s = t2.%1$s', $this->quoteIdentifier($column));
             }
-            $query = sprintf("%s\nWHEN MATCHED THEN UPDATE SET %s",
-                $query,
-                join(', ', $updateCond));
+            $query = sprintf("%s\nWHEN MATCHED THEN UPDATE SET %s", $query, implode(', ', $updateCond));
         }
 
         // INSERT SECTION
@@ -4171,8 +3960,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
         $query = sprintf("%s\nWHEN NOT MATCHED THEN INSERT (%s) VALUES (%s);",
             $query,
-            join(', ', $insertCond),
-            join(', ', $insertVals)
+            implode(', ', $insertCond),
+            implode(', ', $insertVals)
         );
 
         return $query;
@@ -4191,7 +3980,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $query = sprintf('INSERT INTO %s ', $this->quoteIdentifier($table));
         if ($fields) {
             $columns = array_map(array($this, 'quoteIdentifier'), $fields);
-            $query .= sprintf('(%s)', join(', ', $columns));
+            $query .= sprintf('(%s)', implode(', ', $columns));
         }
 
         $query .= $select->assemble();
@@ -4206,6 +3995,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param Varien_Db_Select $select
      * @param string|array $table
      * @return string
+     * @throws Zend_Db_Exception
      */
     public function updateFromSelect(Varien_Db_Select $select, $table)
     {
@@ -4227,11 +4017,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             if (!$column instanceof Zend_Db_Expr && !empty($correlationName)) {
                 $column = $this->quoteIdentifier(array($correlationName, $column));
             }
-            $updateSet[] = $this->quoteIdentifier(array($tableAlias, $alias)) . " = {$column}";
+            $updateSet[] = sprintf('%s = %s', $this->quoteIdentifier(array($tableAlias, $alias)), $column);
         }
 
         if (!$updateSet) {
-            throw new Varien_Db_Exception('Undefined columns for UPDATE');
+            throw new Zend_Db_Exception('Undefined columns for UPDATE');
         }
 
         $joinSelect = clone $select;
@@ -4243,9 +4033,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $query = sprintf('UPDATE %s SET %s %s',
             $this->quoteIdentifier($tableAlias),
-            join(', ', $updateSet),
+            implode(', ', $updateSet),
             $joinSelect->assemble()
         );
+
         return $query;
     }
 
@@ -4255,6 +4046,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param Varien_Db_Select $select
      * @param string $table the table name or alias used in select
      * @return string|int
+     * @throws Zend_Db_Exception
      */
     public function deleteFromSelect(Varien_Db_Select $select, $table)
     {
@@ -4270,7 +4062,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         if (!$tableAlias) {
-            throw new Exception('Invalid table name or table alias in select');
+            throw new Zend_Db_Exception('Invalid table name or table alias in select');
         }
 
         $joinSelect = clone $select
@@ -4286,7 +4078,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     *
+     * Return tables checksum
      */
     public function getTablesChecksum($tableNames, $schemaName = null)
     {
@@ -4330,13 +4122,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         return $this;
     }
 
-    protected function _isDbObjectExists($objectName)
-    {
-        $query = sprintf(
-            "SELECT COUNT(1) AS [EXISTS] FROM dbo.sysobjects WHERE id = OBJECT_ID(N'%s')",
-            $objectName);
-        return ($this->fetchOne($query) == 0) ? false : true;
-    }
     /**
      * Get instead trigger sql template
      *
@@ -4349,7 +4134,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $query = sprintf(" SELECT CAST(OBJECT_DEFINITION (object_id) AS VARCHAR(MAX)) \n"
                 . " FROM sys.triggers t                \n"
                 . " WHERE t.is_instead_of_trigger = 1 \n"
-                . " AND t.parent_id = OBJECT_ID('{$tableName}')",
+                . " AND t.parent_id = OBJECT_ID('%s')",
             $tableName
         );
         $deletedRows = array();
@@ -4361,38 +4146,31 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
 
         }
-        $triggerBody = str_replace(
-            "CREATE TRIGGER",
-            "ALTER TRIGGER",
-            $this->fetchOne($query)
-        );
+        $triggerBody = str_replace("CREATE TRIGGER", "ALTER TRIGGER", $this->fetchOne($query));
 
-        if ($triggerBody == ""){
+        if (!empty($triggerBody)){
             $triggerName = $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL);
-
-            $triggerBody = "CREATE TRIGGER [{$triggerName}]                 \n"
-                . "    ON  {$tableName}                                     \n"
-                . "    INSTEAD OF DELETE                                    \n"
-                . "AS                                                       \n";
-            $triggerBody = $triggerBody
-                . "BEGIN                                                    \n"
-                . "    SET NOCOUNT ON;                                      \n"
-                . "    DECLARE @deletedRows TABLE (" . implode(",\n", $deletedRows) . " )\n"
-                . "    INSERT INTO @deletedRows SELECT " . implode(", ", $pkColumns) . " FROM deleted       \n"
-                . "    /*place ids here*/                                  \n"
-
-                . "    BEGIN TRANSACTION                                    \n"
-                . "    BEGIN TRY                                            \n";
-            $triggerBody = $triggerBody . "  /*place code here*/            \n"
-                . "        DELETE t FROM {$tableName} t INNER JOIN @deletedRows d ON\n";
-
             $pKeysCond = array();
             foreach ($pkColumns as $column) {
                 $pKeysCond[] = sprintf('t.%s = d.%s', $column, $column);
             }
-            $triggerBody = $triggerBody . join(' AND ', $pKeysCond);
-            $triggerBody = $triggerBody .
-                "          COMMIT                                           \n"
+
+            $fields = implode(", ", $pkColumns);
+            $triggerBody = "CREATE TRIGGER [{$triggerName}]                 \n"
+                . "    ON  {$tableName}                                     \n"
+                . "    INSTEAD OF DELETE                                    \n"
+                . "AS                                                       \n"
+                . "BEGIN                                                    \n"
+                . "    SET NOCOUNT ON;                                      \n"
+                . "    DECLARE @deletedRows TABLE (" . implode(",\n", $deletedRows) . " )\n"
+                . "    INSERT INTO @deletedRows SELECT {$fields} FROM deleted       \n"
+                . "    /*place ids here*/                                  \n"
+                . "    BEGIN TRANSACTION                                    \n"
+                . "    BEGIN TRY                                            \n"
+                . "  /*place code here*/                                   \n"
+                . "        DELETE t FROM {$tableName} t INNER JOIN @deletedRows d ON\n"
+                . implode(' AND ', $pKeysCond)
+                . "        COMMIT                                           \n"
                 . "    END TRY                                              \n"
                 . "    BEGIN CATCH                                          \n"
                 . "        DECLARE @ErrorMessage NVARCHAR(4000);            \n"
@@ -4407,6 +4185,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 . "END                                                      \n"
                 . "                                                         \n";
         }
+        
         return $triggerBody;
     }
 
@@ -4436,13 +4215,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _forUpdateFromCallback($match)
     {
-        $alias = '';
+        $alias     = '';
         $afterAlias = '';
-
         if (!empty($match[2])) {
-            $skip = array('INNER','LEFT','RIGHT','OUTER','CROSS','JOIN','WHERE','ORDER','GROUP');
+            $skip = array('INNER', 'LEFT', 'RIGHT', 'OUTER', 'CROSS', 'JOIN', 'WHERE', 'ORDER', 'GROUP');
             if (!in_array(strtoupper(trim($match[2])), $skip)) {
-                $alias = $match[2];
+                $alias      = $match[2];
             } else {
                 $afterAlias = $match[2];
             }
@@ -4460,5 +4238,45 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $on = !empty($match[7]) ? $match[7] : '';
         return sprintf('%s WITH(UPDLOCK)%s', $match[1], $on);
+    }
+
+    /**
+     * Return ddl type
+     *
+     * @param array $options
+     * @return string
+     */
+    protected function _getDdlType($options)
+    {
+        $ddlType = null;
+        if (isset($options['TYPE'])) {
+            $ddlType = $options['TYPE'];
+        } elseif (isset($options['COLUMN_TYPE'])) {
+            $ddlType = $options['COLUMN_TYPE'];
+        }
+
+        return $ddlType;
+    }
+
+    /**
+     * Prepare sql date condition
+     *
+     * @param array $condition
+     * @param string $key
+     * @return string
+     */
+    protected function _prepareSqlDateCondition($condition, $key)
+    {
+        if (empty($condition['date'])) {
+            if (empty($condition['datetime'])) {
+                $result = $condition[$key];
+            } else {
+                $result = $this->formatDate($condition[$key]);
+            }
+        } else {
+            $result = $this->formatDate($condition[$key]);
+        }
+
+        return $result;
     }
 }

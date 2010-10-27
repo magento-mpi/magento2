@@ -137,7 +137,7 @@ abstract class Enterprise_Reminder_Model_Condition_Combine_Abstract extends Mage
          */
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
-                $criteriaSql = "(". $select->getAdapter()->getIfnullSql("(" . $sql . ")", 0) . " {$operator} 1)";
+                $criteriaSql = "(". $select->getAdapter()->getIfNullSql("(" . $sql . ")", 0) . " {$operator} 1)";
                 $select->$whereFunction($criteriaSql);
                 $gotConditions = true;
             }

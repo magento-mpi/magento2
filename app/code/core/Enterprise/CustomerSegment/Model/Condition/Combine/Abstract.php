@@ -145,7 +145,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
                 if($sql instanceof Varien_Db_Select) {
-                    $isnull = $adapter->getIfnullSql($sql);
+                    $isnull = $adapter->getIfNullSql($sql);
                 } else {
                     $isnull = $adapter->getCheckSql($sql, 1, 0);
                 }

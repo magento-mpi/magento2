@@ -123,7 +123,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
         $this->_limitByStoreWebsite($select, $website, 'main.store_id');
         if (!$value) {
             $select = $this->getResource()->getReadConnection()
-                    ->getIfnullSql($select, 1);
+                    ->getIfNullSql($select, 1);
         }
         return $select;
     }

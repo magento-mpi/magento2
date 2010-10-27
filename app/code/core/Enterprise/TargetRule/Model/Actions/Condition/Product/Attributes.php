@@ -343,7 +343,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
                 $select->where($resource->getOperatorCondition('table.value', $operator, $value));
             }
 
-            $select = $resource->getReadConnection()->getIfnullSql($select);
+            $select = $resource->getReadConnection()->getIfNullSql($select);
             $where = sprintf('(%s) > 0', $select);
         } else { //scope store and website
             $valueExpr = $resource->getReadConnection()->getCheckSql('attr_s.value_id > 0', 'attr_s.value', 'attr_d.value');
