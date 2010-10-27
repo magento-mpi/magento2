@@ -97,14 +97,10 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Profile Id')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Name')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
         ), 'Created At')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
         ), 'Updated At')
     ->addColumn('actions_xml', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Actions Xml')
@@ -113,8 +109,6 @@ $table = $installer->getConnection()
     ->addColumn('direction', Varien_Db_Ddl_Table::TYPE_TEXT, 6, array(
         ), 'Direction')
     ->addColumn('entity_type', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Entity Type')
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,

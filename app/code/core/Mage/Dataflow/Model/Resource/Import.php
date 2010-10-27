@@ -51,10 +51,11 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
      */
     public function select($sessionId)
     {
-        return $this->_getReadAdapter()->select()
+        $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
             ->where('session_id=?', $sessionId)
             ->where('status=?', 0);
+        return $select;
     }
 
     /**
@@ -77,7 +78,8 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
             'max_id'     => (int)$max,
         );
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getTable('dataflow/import'))
+        $select = $read->select()
+            ->from($this->getTable('dataflow/import'))
             ->where('import_id >= :min_id')
             ->where('import_id >= :max_id')
             ->where('status= :status')
@@ -98,8 +100,9 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
             'session_id' => $sessionId
         );
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getTable('dataflow/import'),
-        array('max'=>'max(import_id)', 'min'=>'min(import_id)', 'cnt'=>'count(*)'))
+        $select = $read->select()
+            ->from($this->getTable('dataflow/import'),
+                array('max'=>'max(import_id)', 'min'=>'min(import_id)', 'cnt'=>'count(*)'))
             ->where('status = :status')
             ->where('session_id = :$session_id');
         return $read->fetchRow($select, $bind);
@@ -118,7 +121,8 @@ class Mage_Dataflow_Model_Resource_Import extends Mage_Core_Model_Resource_Db_Ab
             'import_id' => $importId
         );
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getTable('dataflow/import'))
+        $select = $read->select()
+            ->from($this->getTable('dataflow/import'))
             ->where('status = :status')
             ->where('import_id = :import_id');
         return $read->fetchRow($select, $bind);

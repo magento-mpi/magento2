@@ -51,7 +51,8 @@ class Mage_Dataflow_Model_Resource_Profile_Collection extends Mage_Core_Model_Re
      */
     public function addStoreFilter($storeIds)
     {
-        $this->getSelect()->where('main_table.store_id IN (?)', array(0, $storeIds));
+        $this->getSelect()
+            ->where('main_table.store_id IN (?)', array(0, $storeIds));
         return $this;
     }
 }
