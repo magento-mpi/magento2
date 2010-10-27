@@ -1225,18 +1225,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
         $schemaName = null)
     {
-        $isColumnExists = $this->_checkCommentExists(
-            array('table' => $tableName, 'column' => $oldColumnName),
-            self::EXTPROP_COMMENT_COLUMN
-        );
-        if (empty($definition['COMMENT']) && !$isColumnExists) {
-            throw new Zend_Db_Exception("Impossible to create a column without comment");
+        $this->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName)
+        $this->modifyColumn($tableName, $newColumnName, $definition, $flushData, $schemaName);
+        if (!empty($definition['COMMENT'])) {
+            $this->_addColumnComment($tableName, $newColumnName, $definition['COMMENT']);
         }
-
-        $this
-            ->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName)
-            ->modifyColumn($tableName, $newColumnName, $definition, $flushData, $schemaName)
-            ->_addColumnComment($tableName, $newColumnName, $definition['COMMENT']);
 
         return $this;
     }

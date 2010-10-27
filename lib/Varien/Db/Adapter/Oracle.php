@@ -1010,9 +1010,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition, $flushData = false,
         $schemaName = null)
     {
-        if (empty($definition['COMMENT']) && !$this->_checkCommentExists($tableName, $oldColumnName)) {
-            throw new Zend_Db_Exception("Impossible to create a column without comment");
-        }
         $this->_renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName);
         $this->modifyColumn($tableName, $newColumnName, $definition, $flushData, $schemaName);
         if (!empty($definition['COMMENT'])) {
@@ -3193,13 +3190,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if (empty($columnName)) {
             $query = $this->select()
                 ->from(array('tc' => 'user_tab_comments'), array())
-                ->where('tc.table_name = ?', $this->quoteIdentifier($tableName))
+                ->where('tc.table_name = ?', strtoupper($this->quoteIdentifier($tableName)))
                 ->columns(array('qty' => new Zend_Db_Expr('COUNT(1)')));
         } else {
             $query = $this->select()
                 ->from(array('tc' => 'user_col_comments'), array())
-                ->where('tc.table_name = ?', $this->quoteIdentifier($tableName))
-                ->where('tc.column_name = ?', $this->quoteIdentifier($columnName))
+                ->where('tc.table_name = ?', strtoupper($this->quoteIdentifier($tableName)))
+                ->where('tc.column_name = ?', strtoupper($this->quoteIdentifier($columnName)))
                 ->columns(array('qty' => new Zend_Db_Expr('COUNT(1)')));
         }
 
