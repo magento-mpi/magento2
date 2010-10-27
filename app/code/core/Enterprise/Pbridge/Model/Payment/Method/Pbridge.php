@@ -342,6 +342,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
                 ->setData('transaction_id', $captureTxnId)
                 ->setData('amount', $amount)
                 ->setData('currency_code', $order->getBaseCurrencyCode())
+                ->setData('cc_number', $payment->getCcLast4())
             ;
 
             $canRefundMore = $order->canCreditmemo(); // TODO: fix this to be able to create multiple refunds
