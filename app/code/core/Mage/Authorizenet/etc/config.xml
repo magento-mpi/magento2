@@ -70,11 +70,11 @@
                     <directpost_update_all_edit_increments>
                         <class>authorizenet/directpost_observer</class>
                         <method>updateAllEditIncrements</method>
-                    </directpost_update_all_edit_increments>                    
+                    </directpost_update_all_edit_increments>
                 </observers>
             </checkout_submit_all_after>
         </events>
-    </adminhtml>        
+    </adminhtml>
 
     <frontend>
         <translate>
@@ -103,12 +103,12 @@
             </updates>
         </layout>
         <events>
-        	<checkout_submit_all_after>
+            <checkout_submit_all_after>
                 <observers>
                     <directpost_save_order_after_submit>
                         <class>authorizenet/directpost_observer</class>
                         <method>saveOrderAfterSubmit</method>
-                    </directpost_save_order_after_submit>                    
+                    </directpost_save_order_after_submit>
                 </observers>
             </checkout_submit_all_after>
             <controller_action_postdispatch_checkout_onepage_saveOrder>
@@ -116,12 +116,12 @@
                     <directpost_save_order_onepage>
                         <class>authorizenet/directpost_observer</class>
                         <method>addAdditionalFieldsToResponseFrontend</method>
-                    </directpost_save_order_onepage>                    
+                    </directpost_save_order_onepage>
                 </observers>
-            </controller_action_postdispatch_checkout_onepage_saveOrder> 
+            </controller_action_postdispatch_checkout_onepage_saveOrder>
         </events>
     </frontend>
-    
+
     <admin>
         <routers>
             <adminhtml>
@@ -130,7 +130,7 @@
                         <Mage_Authorizenet before="Mage_Adminhtml">Mage_Authorizenet_Adminhtml</Mage_Authorizenet>
                     </modules>
                 </args>
-            </adminhtml>            
+            </adminhtml>
         </routers>
     </admin>
 

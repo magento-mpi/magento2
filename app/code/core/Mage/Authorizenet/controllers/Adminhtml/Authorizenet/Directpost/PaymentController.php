@@ -159,7 +159,8 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 if (!$quote->getReservedOrderId()) {
                     $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
                     if ($oldOrder->getId()) {
-                        $originalId = $oldOrder->getOriginalIncrementId() ? $oldOrder->getOriginalIncrementId() : $oldOrder->getIncrementId();
+                        $originalId = $oldOrder->getOriginalIncrementId() ?
+                            $oldOrder->getOriginalIncrementId() : $oldOrder->getIncrementId();
                         $orderData = array(
                             'original_increment_id'     => $originalId,
                             'relation_parent_id'        => $oldOrder->getId(),

@@ -90,7 +90,7 @@ class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session
         return false;
     }
 
-	/**
+    /**
      * Get order's additional data. Needed for Admin area.
      *
      * @param string $orderIncrementId

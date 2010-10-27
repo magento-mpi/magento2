@@ -33,7 +33,7 @@ $_orderUrl = $this->helper('authorizenet')->getPlaceOrderFrontUrl();
 ?>
 <div class="buttons-set">
 <!-- IFRAME for request to Authorize.net -->
-<iframe id="directpost-iframe" allowtransparency="true" background-color="transparent" frameborder="0"  name="iframeDirectPost" style="display:none;width:100%" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
+<iframe id="directpost-iframe" allowtransparency="true" frameborder="0"  name="iframeDirectPost" style="display:none;width:100%;background-color:transparent" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>
 
 <form id="co-directpost-form" action="#" method="post">
 <fieldset>
@@ -105,13 +105,13 @@ $_orderUrl = $this->helper('authorizenet')->getPlaceOrderFrontUrl();
 <script type="text/javascript">
 //<![CDATA[
 if ($('directpost-cvv-what-is-this')) {
-	$('directpost-cvv-what-is-this').observe('click', toggleCvvToolTip);
+    $('directpost-cvv-what-is-this').observe('click', toggleCvvToolTip);
 }
 new Validation('co-directpost-form');
 function toggleCvvToolTip(event){
     if($('directpost-tool-tip')){
         $('directpost-tool-tip').setStyle({
-            top: (Event.pointerY(event)-560)+'px'           
+            top: (Event.pointerY(event)-560)+'px'
         })
         $('directpost-tool-tip').toggle();
     }
@@ -121,12 +121,12 @@ if($('directpost-tool-tip-close')){
     Event.observe($('directpost-tool-tip-close'), 'click', toggleCvvToolTip);
 }
 directPostModel = new directPost(
-				'<?php echo $_code ?>',
-                'directpost-iframe',
-                '<?php echo $_controller ?>',
-                '<?php echo $_orderUrl ?>',
-                '<?php echo $_method->getCgiUrl() ?>',
-                '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
-                '<?php echo $this->getIsCreateOrderBefore() ?>');
+    '<?php echo $_code ?>',
+    'directpost-iframe',
+    '<?php echo $_controller ?>',
+    '<?php echo $_orderUrl ?>',
+    '<?php echo $_method->getCgiUrl() ?>',
+    '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
+    '<?php echo $this->getIsCreateOrderBefore() ?>');
 //]]>
 </script>

@@ -45,7 +45,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </active>                        
+                        </active>
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
@@ -71,7 +71,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </login>                        
+                        </login>
                         <trans_key translate="label">
                             <label>Transaction Key</label>
                             <frontend_type>obscure</frontend_type>
@@ -142,7 +142,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </email_customer>                        
+                        </email_customer>
                         <merchant_email translate="label">
                             <label>Merchant's Email</label>
                             <frontend_type>text</frontend_type>
@@ -150,7 +150,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </merchant_email>                                                                                                                       
+                        </merchant_email>
                         <cctypes translate="label">
                             <label>Credit Card Types</label>
                             <frontend_type>multiselect</frontend_type>
@@ -202,7 +202,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </max_order_total>                       
+                        </max_order_total>
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
@@ -211,7 +211,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
-                        <create_order_before translate="label,comment">
+                        <create_order_before translate="label comment">
                             <label>Create order before payment</label>
                             <comment>If you are going to set "No", please make sure that Authorize.net is able to report transactions to this merchant</comment>
                             <frontend_type>select</frontend_type>

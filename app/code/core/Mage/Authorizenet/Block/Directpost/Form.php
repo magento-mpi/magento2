@@ -36,14 +36,14 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
     /**
      * Internal constructor
      * Set info template for payment step
-     *     
+     *
      */
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('authorizenet/directpost/info.phtml');
     }
-    
+
     /**
      * Render block HTML
      * If method is not directpost - nothing to return
@@ -54,14 +54,14 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
     {
         if ($this->getMethod()->getCode() != Mage::getSingleton('authorizenet/directpost')->getCode()) {
             return;
-        }        
-        
+        }
+
         return parent::_toHtml();
     }
 
     /**
      * Set method info
-     * 
+     *
      * @return Mage_Authorizenet_Block_Directpost_Form
      */
     public function setMethodInfo()
@@ -70,13 +70,13 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
             ->getQuote()
             ->getPayment();
         $this->setMethod($payment->getMethodInstance());
-        
+
         return $this;
     }
-    
+
     /**
      * Get type of request
-     * 
+     *
      * @return bool
      */
     public function isAjaxRequest()
@@ -85,10 +85,10 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
                     ->getRequest()
                     ->getParam('isAjax');
     }
-    
+
     /**
      * Create order before/after payment
-     * 
+     *
      * @return bool
      */
     public function getIsCreateOrderBefore()
