@@ -168,14 +168,14 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
                 $previous = $field;
             }
             $this->_syncTableIndex(
-                $this->getTable($sourceTable),
-                $this->getTable($targetTable)
+                $sourceTable,
+                $targetTable
             );
 
             if (isset($this->_tableContraintMap[$sourceTable])) {
                 $this->_syncTableConstraint(
-                    $this->getTable($sourceTable),
-                    $this->getTable($targetTable),
+                    $sourceTable,
+                    $targetTable,
                     $this->_tableContraintMap[$sourceTable][0],
                     $this->_tableContraintMap[$sourceTable][1]
                 );
