@@ -432,7 +432,9 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
                 if ($this->_getWriteAdapter()->fetchOne($select) !== false) {
                     $data = $this->_prepareDataForSave($object);
                     unset($data[$this->getIdFieldName()]);
-                    $this->_getWriteAdapter()->update($this->getMainTable(), $data, $condition);
+                    if (!empty($data)) {
+                        $this->_getWriteAdapter()->update($this->getMainTable(), $data, $condition);
+                    }
                 } else {
                     $this->_getWriteAdapter()->insert($this->getMainTable(), $this->_prepareDataForSave($object));
                 }
