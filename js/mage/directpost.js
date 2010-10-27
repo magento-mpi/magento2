@@ -34,15 +34,18 @@ directPost.prototype = {
         this.code = methodCode;
         this.createOrderBefore = createOrderBefore;
         this.inputs = ['cc_type', 'cc_number', 'expiration', 'expiration_yr', 'cc_cid'];
+        this.headers = [];
         this.isValid = true;
         this.paymentRequestSent = false;
         this.isResponse = false;
         this.orderIncrementId = false;
         this.successUrl = false;
         this.hasError = false;
+        this.tmpForm = false;
 
         this.onSaveOnepageOrderSuccess = this.saveOnepageOrderSuccess.bindAsEventListener(this);
         this.onLoadIframe = this.loadIframe.bindAsEventListener(this);
+        this.onLoadOrderIframe = this.loadOrderIframe.bindAsEventListener(this);
         this.onSubmitAdminOrder = this.submitAdminOrder.bindAsEventListener(this);
 
         this.preparePayment();
@@ -74,8 +77,10 @@ directPost.prototype = {
         if ($(this.iframeId)) {
             switch (this.controller) {
                 case 'onepage':
+                    this.headers = $$('#' + checkout.accordion.container.readAttribute('id') + ' .section');
                     var button = $('review-buttons-container').down('button');
                     button.writeAttribute('onclick', '');
+                    button.stopObserving('click');
                     button.observe('click', function() {
                         if ($(this.iframeId)) {
                             if (this.validate()) {
@@ -93,6 +98,7 @@ directPost.prototype = {
                         buttons[i].writeAttribute('onclick', '');
                         buttons[i].observe('click', this.onSubmitAdminOrder);
                     }
+                    $('order-' + this.iframeId).observe('load', this.onLoadOrderIframe);
                     break;
             }
 
@@ -110,18 +116,13 @@ directPost.prototype = {
                             this.returnQuote();
                         } else {
                             $(this.iframeId).show();
-                            review.resetLoadWaiting();
+                            this.resetLoadWaiting();
                         }
                     }
                     break;
                 case 'sales_order_edit':
                 case 'sales_order_create':
-                    if (this.orderRequestSent) {
-                        $(this.iframeId).hide();
-                        var data = $(this.iframeId).contentWindow.document.body.innerHTML;
-                        this.saveAdminOrderSuccess(data);
-                        this.orderRequestSent = false;
-                    } else {
+                    if (!this.orderRequestSent) {                        
                         this.paymentRequestSent = false;
                         if (!this.hasError && this.createOrderBefore) {
                             this.returnQuote();
@@ -136,12 +137,21 @@ directPost.prototype = {
             }
         }
     },
+    
+    loadOrderIframe : function() {
+        if (this.orderRequestSent) {
+            $(this.iframeId).hide();
+            var data = $('order-' + this.iframeId).contentWindow.document.body.innerHTML;
+            this.saveAdminOrderSuccess(data);
+            this.orderRequestSent = false;
+        }
+    },
 
     showError : function(msg) {
         this.hasError = true;
         if (this.controller == 'onepage') {
             $(this.iframeId).hide();
-            review.resetLoadWaiting();
+            this.resetLoadWaiting();
         }
         alert(msg);
     },
@@ -161,7 +171,7 @@ directPost.prototype = {
                 $(this.iframeId).show();
                 switch (this.controller) {
                     case 'onepage':
-                        review.resetLoadWaiting();
+                        this.resetLoadWaiting();
                         break;
                     case 'sales_order_edit':
                     case 'sales_order_create':
@@ -174,10 +184,27 @@ directPost.prototype = {
             }.bind(this)
         });
     },
+    
+    setLoadWaiting : function() {                
+        this.headers.each(function(header) {
+            header.removeClassName('allow');
+        });
+        checkout.setLoadWaiting('review');
+    },
+    
+    resetLoadWaiting : function() {                
+        this.headers.each(function(header) {
+            header.addClassName('allow');
+        });
+        checkout.setLoadWaiting(false);
+    },
 
     saveOnepageOrder : function() {
         this.hasError = false;
-        checkout.setLoadWaiting('review');
+        this.setLoadWaiting();
+        if (this.tmpForm) {
+            document.body.removeChild(this.tmpForm);
+        }
         var params = Form.serialize(payment.form);
         if (review.agreementsForm) {
             params += '&' + Form.serialize(review.agreementsForm);
@@ -188,7 +215,7 @@ directPost.prototype = {
             parameters : params,
             onComplete : this.onSaveOnepageOrderSuccess,
             onFailure : function(transport) {
-                review.resetLoadWaiting();
+                this.resetLoadWaiting();
                 if (transport.status == 403) {
                     checkout.ajaxFailure();
                 }
@@ -241,6 +268,9 @@ directPost.prototype = {
                 return radio.checked;
             });
             this.hasError = false;
+            if (this.tmpForm) {
+                document.body.removeChild(this.tmpForm);
+            }
             if (paymentMethodEl.value == this.code) {
                 toggleSelectsUnderBlock($('loading-mask'), false);
                 $('loading-mask').show();
@@ -250,15 +280,9 @@ directPost.prototype = {
                 this.orderRequestSent = true;
                 $(editForm.formId).writeAttribute('action', this.orderSaveUrl);
                 $(editForm.formId).writeAttribute('target',
-                        $(this.iframeId).readAttribute('name'));
+                        $('order-' + this.iframeId).readAttribute('name'));
                 $(editForm.formId).appendChild(this.createHiddenElement('controller', this.controller));
-                disableElements('save');
-                /*if (order && this.createOrderBefore == 0) {
-                    Ajax.activeRequestCount++;
-                    this.recollectQuote();
-                } else {
-                    $(editForm.formId).submit();
-                }*/
+                disableElements('save');                
                 $(editForm.formId).submit();
             } else {
                 $(editForm.formId).writeAttribute('action', this.nativeAction);
@@ -347,21 +371,22 @@ directPost.prototype = {
     },
 
     sendPaymentRequest : function(preparedData) {
-        tmpForm = document.createElement('form');
-        tmpForm.style.display = 'none';
-        tmpForm.enctype = 'application/x-www-form-urlencoded';
-        tmpForm.method = 'POST';
-        document.body.appendChild(tmpForm);
-        tmpForm.action = this.cgiUrl;
-        tmpForm.target = $(this.iframeId).readAttribute('name');
-        tmpForm.setAttribute('target', $(this.iframeId).readAttribute('name'));
+        this.recreateIframe();
+        this.tmpForm = document.createElement('form');
+        this.tmpForm.style.display = 'none';
+        this.tmpForm.enctype = 'application/x-www-form-urlencoded';
+        this.tmpForm.method = 'POST';
+        document.body.appendChild(this.tmpForm);
+        this.tmpForm.action = this.cgiUrl;
+        this.tmpForm.target = $(this.iframeId).readAttribute('name');
+        this.tmpForm.setAttribute('target', $(this.iframeId).readAttribute('name'));
 
         for ( var param in preparedData) {
-            tmpForm.appendChild(this.createHiddenElement(param, preparedData[param]));
+            this.tmpForm.appendChild(this.createHiddenElement(param, preparedData[param]));
         }
 
-        this.paymentRequestSent = true;
-        tmpForm.submit();
+        this.paymentRequestSent = true;        
+        this.tmpForm.submit();
     },
 
     createHiddenElement : function(name, value) {
@@ -376,5 +401,18 @@ directPost.prototype = {
         }
 
         return field;
+    },
+    
+    recreateIframe : function() {
+        if ($(this.iframeId)) {
+            var nextElement = $(this.iframeId).next();
+            var src = $(this.iframeId).readAttribute('src');
+            var name = $(this.iframeId).readAttribute('name');
+            $(this.iframeId).stopObserving();
+            $(this.iframeId).remove();
+            var iframe = '<iframe id="'+this.iframeId+'" allowtransparency="true" frameborder="0"  name="'+name+'" style="display:none;width:100%;background-color:transparent" src="'+src+'" />';            
+            Element.insert(nextElement, {'before':iframe});
+            $(this.iframeId).observe('load', this.onLoadIframe);
+        }
     }
 };

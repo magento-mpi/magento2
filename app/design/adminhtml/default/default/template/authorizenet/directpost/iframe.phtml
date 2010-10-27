@@ -39,9 +39,6 @@ window.location="<?php echo $_params['redirect'] ?>";
 window.top.location="<?php echo $_params['redirect_parent'] ?>";
 <?php endif; ?>
 <?php if (isset($_params['error_msg'])): ?>
-if (window.top.review) {
-    window.top.review.resetLoadWaiting();
-}
 window.top.directPostModel.showError("<?php echo $_params['error_msg'] ?>");
 <?php if (isset($_params['x_invoice_num'])): ?>
 window.top.directPostModel.successUrl="<?php echo $_helper->getSuccessOrderUrl($_params) ?>";
