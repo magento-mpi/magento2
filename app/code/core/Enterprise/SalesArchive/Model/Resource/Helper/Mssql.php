@@ -41,7 +41,7 @@ class Enterprise_SalesArchive_Model_Resource_Helper_Mssql extends Mage_Core_Mode
      * @param string $column
      * @param boolean $after
      * @param boolean $first
-     * @return Enterprise_SalesArchive_Model_Resource_Helper_Mysql4
+     * @return Enterprise_SalesArchive_Model_Resource_Helper_Mssql
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {

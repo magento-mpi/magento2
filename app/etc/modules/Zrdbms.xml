@@ -241,82 +241,82 @@
             <active>true</active>
         </Enterprise_AdminGws>
         <Enterprise_Banner>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Banner>
         <Enterprise_CatalogEvent>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_CatalogEvent>
         <Enterprise_CatalogPermissions>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_CatalogPermissions>
         <Enterprise_Checkout>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Checkout>
         <Enterprise_Cms>
             <active>true</active>
         </Enterprise_Cms>
         <Enterprise_Customer>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Customer>
         <Enterprise_CustomerBalance>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_CustomerBalance>
         <Enterprise_CustomerSegment>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_CustomerSegment>
         <Enterprise_Enterprise>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Enterprise>
         <Enterprise_GiftCard>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_GiftCard>
         <Enterprise_GiftCardAccount>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_GiftCardAccount>
         <Enterprise_GiftRegistry>
             <active>true</active>
         </Enterprise_GiftRegistry>
         <Enterprise_Invitation>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Invitation>
         <Enterprise_License>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_License>
         <Enterprise_Logging>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Logging>
         <Enterprise_PageCache>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_PageCache>
         <Enterprise_Pbridge>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Pbridge>
         <Enterprise_Pci>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Pci>
         <Enterprise_Reminder>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Reminder>
         <Enterprise_Reward>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Reward>
         <Enterprise_SalesArchive>
             <active>true</active>
         </Enterprise_SalesArchive>
         <Enterprise_SalesPool>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_SalesPool>
         <Enterprise_Search>
             <active>true</active>
         </Enterprise_Search>
         <Enterprise_Staging>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_Staging>
         <Enterprise_TargetRule>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_TargetRule>
         <Enterprise_WebsiteRestriction>
-            <active>false</active>
+            <active>true</active>
         </Enterprise_WebsiteRestriction>
     </modules>
 </config>
