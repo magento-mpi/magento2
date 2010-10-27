@@ -251,3 +251,23 @@ $table = $installer->getConnection()
     ->setComment('Enterprise Staging Log');
 $installer->getConnection()->createTable($table);
 
+$installer->getConnection()->addColumn($installer->getTable('core/website'), 'is_staging', array(
+    'type'      => Varien_Db_Ddl_Table::TYPE_BOOLEAN,
+));
+$installer->getConnection()->addColumn($installer->getTable('core/website'), 'master_login', array(
+    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+    'length'      => 40,
+    'nullable'  => false,
+));
+$installer->getConnection()->addColumn($installer->getTable('core/website'), 'master_password', array(
+    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+    'length'      => 100,
+    'nullable'  => false
+));
+$installer->getConnection()->addColumn($installer->getTable('core/website'), 'visibility', array(
+    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+    'length'      => 40
+));
+
+$installer->endSetup();
+
