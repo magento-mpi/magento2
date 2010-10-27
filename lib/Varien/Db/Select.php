@@ -326,6 +326,28 @@ class Varien_Db_Select extends Zend_Db_Select
     }
 
     /**
+     * Sets a limit count and offset to the query.
+     *
+     * @param int $count OPTIONAL The number of rows to return.
+     * @param int $offset OPTIONAL Start returning after this many rows.
+     * @return Zend_Db_Select This Zend_Db_Select object.
+     */
+    public function limit($count = null, $offset = null)
+    {
+        if ($count === null) {
+            $this->reset(self::LIMIT_COUNT);
+        } else {
+            $this->_parts[self::LIMIT_COUNT]  = (int) $count;
+        }
+        if ($offset === null) {
+            $this->reset(self::LIMIT_OFFSET);
+        } else {
+            $this->_parts[self::LIMIT_OFFSET] = (int) $offset;
+        }
+        return $this;
+    }
+
+    /**
      * Cross Table Update From Current select
      *
      * @param string|array $table
