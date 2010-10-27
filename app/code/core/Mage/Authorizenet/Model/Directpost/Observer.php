@@ -60,14 +60,14 @@ class Mage_Authorizenet_Model_Directpost_Observer
         /* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('directpost_order');
 
-        if ($order && $order->getId()){
+        if ($order && $order->getId()) {
             $payment = $order->getPayment();
-            if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()){
+            if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()) {
                 /* @var $controller Mage_Core_Controller_Varien_Action */
                 $controller = $observer->getEvent()->getData('controller_action');
                 $result = Mage::helper('core')->jsonDecode($controller->getResponse()->getBody('default'), Zend_Json::TYPE_ARRAY);
 
-                if (empty($result['error'])){
+                if (empty($result['error'])) {
                     $payment = $order->getPayment();
                     //if is success, then set order to session and add new fields
                     $session =  Mage::getSingleton('authorizenet/directpost_session');

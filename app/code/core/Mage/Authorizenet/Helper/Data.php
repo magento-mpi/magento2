@@ -168,16 +168,16 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function updateOrderEditIncrements(Mage_Sales_Model_Order $order)
     {
-     	if ($order->getId() && $order->getOriginalIncrementId()) {
+        if ($order->getId() && $order->getOriginalIncrementId()) {
             $collection = $order->getCollection();
             $quotedIncrId = $collection->getConnection()->quote($order->getOriginalIncrementId());
             $collection->getSelect()->where(
                 "original_increment_id = {$quotedIncrId} OR increment_id = {$quotedIncrId}"
             );
 
-            foreach ($collection as $ord){
-                $ord->setEditIncrement($order->getEditIncrement());
-                $ord->save();
+            foreach ($collection as $orderToUpdate) {
+                $orderToUpdate->setEditIncrement($order->getEditIncrement());
+                $orderToUpdate->save();
             }
         }
     }

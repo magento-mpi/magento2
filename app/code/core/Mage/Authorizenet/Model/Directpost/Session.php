@@ -69,7 +69,7 @@ class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session
             return;
         }
 
-        if (isset($orderIncIds[$orderIncrementId])){
+        if (isset($orderIncIds[$orderIncrementId])) {
             unset($orderIncIds[$orderIncrementId]);
         }
         $this->setDirectPostOrderIncrementIds($orderIncIds);

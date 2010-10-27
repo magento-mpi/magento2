@@ -78,10 +78,9 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         //get confirmation by email flag
         $orderData = $this->getRequest()->getPost('order');
         $sendConfirmationFlag = 0;
-        if ($orderData){
+        if ($orderData) {
             $sendConfirmationFlag = (!empty($orderData['send_confirmation'])) ? 1 : 0;
-        }
-        else {
+        } else {
             $orderData = array();
         }
 
@@ -109,7 +108,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                         ->createOrder();
 
                     $payment = $order->getPayment();
-                    if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()){
+                    if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()) {
                         //return json with data.
                         $session = $this->_getDirectPostSession();
                         $session->addCheckoutOrderIncrementId($order->getIncrementId());
@@ -121,7 +120,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                         $requestToPaygate->setOrderSendConfirmation($sendConfirmationFlag);
 
                         $adminUrl = Mage::getSingleton('adminhtml/url');
-                        if ($adminUrl->useSecretKey()){
+                        if ($adminUrl->useSecretKey()) {
                             $requestToPaygate->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
                         }
                         $result['directpost'] = array('fields' => $requestToPaygate->getData());
@@ -130,14 +129,14 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                     $result['success'] = 1;
                     $isError = false;
                 }
-                catch (Mage_Core_Exception $e){
+                catch (Mage_Core_Exception $e) {
                     $message = $e->getMessage();
                     if( !empty($message) ) {
                         $this->_getSession()->addError($message);
                     }
                     $isError = true;
                 }
-                catch (Exception $e){
+                catch (Exception $e) {
                     $this->_getSession()->addException($e, $this->__('Order saving error: %s', $e->getMessage()));
                     $isError = true;
                 }
@@ -219,7 +218,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
             if ($oldOrder->getId()) {
                 /* @var $order Mage_Sales_Model_Order */
                 $order = Mage::getModel('sales/order')->loadByIncrementId($redirectParams['x_invoice_num']);
-                if ($order->getId()){
+                if ($order->getId()) {
                     //set data for new order from session if needed
                     if ($orderData = $this->_getDirectPostSession()->getCheckoutOrderData($order->getIncrementId())) {
                         $order->addData($orderData);

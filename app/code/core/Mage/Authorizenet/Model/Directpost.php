@@ -278,23 +278,19 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 if ($order->getId() &&  $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     //operate with order
                     $this->_authOrder($order);
-                }
-                else {
+                } else {
                     $isError = true;
                 }
-            }
-            else {
+            } else {
                 $quote = Mage::getModel('sales/quote')->load($orderIncrementId, 'reserved_order_id');
                 if ($quote->getId()) {
                     //operate with quote
                     $this->_authQuote($quote);
-                }
-                else {
+                } else {
                     $isError = true;
                 }
             }
-        }
-        else {
+        } else {
             $isError = true;
         }
 
@@ -319,7 +315,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             ->setParentTransactionId(null)
             ->setIsTransactionClosed(0)
             ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
-        if ($response->getXMethod() == self::REQUEST_METHOD_CC){
+        if ($response->getXMethod() == self::REQUEST_METHOD_CC) {
             $payment->setCcType($response->getXCardType())
                 ->setCcAvsStatus($response->getXAvsCode())
                 ->setCcLast4(substr($response->getXAccountNumber(), -4));
@@ -383,8 +379,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         try {
             $this->checkResponseCode();
             $this->checkTransId();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             //decline the order (in case of wrong response code) but don't return money to customer.
             $message = $e->getMessage();
             $this->_declineOrder($order, $message, false);
@@ -429,9 +424,8 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 ->load($order->getQuoteId())
                 ->setIsActive(false)
                 ->save();
-        }
-        // do not cancel order if we couldn't send email
-        catch (Exception $e) {}
+        } catch (Exception $e) {} // do not cancel order if we couldn't send email
+
     }
 
     /**
@@ -514,9 +508,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()) {
                 $order->sendNewOrderEmail();
             }
-        }
-        // do not cancel order if we couldn't send email
-        catch (Exception $e) {}
+        } catch (Exception $e) {} // do not cancel order if we couldn't send email
     }
 
     /**
@@ -541,8 +533,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             }
             $order->registerCancellation($message)
                 ->save();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             //quiet decline
             Mage::logException($e);
         }
@@ -562,8 +553,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                     ->setParentTransactionId($this->getResponse()->getXTransId())
                     ->capture(null);
                 $order->save();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::logException($e);
                 //if we couldn't capture order, just leave it as NEW order.
             }
@@ -600,8 +590,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                         Mage::throwException(Mage::helper('paygate')->__('Payment voiding error.'));
                 }
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             //quiet decline
             Mage::logException($e);
         }

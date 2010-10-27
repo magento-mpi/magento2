@@ -71,7 +71,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
      */
     public function generateRequestSign($merchantApiLoginId, $merchantTransactionKey, $amount, $fpSequence, $fpTimestamp)
     {
-        if (phpversion() >= '5.1.2'){
+        if (phpversion() >= '5.1.2') {
             return hash_hmac("md5",
                 $merchantApiLoginId . "^" .
                 $fpSequence . "^" .
@@ -126,8 +126,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
             $this->setXFpSequence($entity->getId());
             $this->setXInvoiceNum($entity->getReservedOrderId());
             $this->setXAmount($entity->getBaseGrandTotal());
-        }
-        elseif ($entity instanceof Mage_Sales_Model_Order) {
+        } elseif ($entity instanceof Mage_Sales_Model_Order) {
             $this->setXFpSequence($entity->getQuoteId());
             $this->setXInvoiceNum($entity->getIncrementId());
             $this->setXAmount($payment->getBaseAmountAuthorized());
