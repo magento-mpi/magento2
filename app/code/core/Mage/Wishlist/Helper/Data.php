@@ -163,9 +163,9 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getRemoveUrl($item)
     {
-        return $this->_getUrl('wishlist/index/remove', array(
-            'item' => $item->getWishlistItemId()
-        ));
+        return $this->_getUrl('wishlist/index/remove',
+            array('item' => $item->getWishlistItemId())
+        );
     }
 
     /**
@@ -213,16 +213,19 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAddToCartUrl($item)
     {
         $urlParamName = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
-        $continueUrl  = Mage::helper('core')->urlEncode(Mage::getUrl('*/*/*', array(
-            '_current'      => true,
-            '_use_rewrite'  => true,
-            '_store_to_url' => true,
-        )));
+        $continueUrl  = Mage::helper('core')->urlEncode(
+            Mage::getUrl('*/*/*', array(
+                '_current'      => true,
+                '_use_rewrite'  => true,
+                '_store_to_url' => true,
+            ))
+        );
 
         return $this->_getUrlStore($item)->getUrl('wishlist/index/cart', array(
-            'item'          => $item->getWishlistItemId(),
-            $urlParamName   => $continueUrl
-        ));
+                'item'          => $item->getWishlistItemId(),
+                $urlParamName   => $continueUrl
+            )
+        );
     }
 
     /**
@@ -325,10 +328,8 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (!$this->_isCustomerLogIn()) {
             $count = 0;
-        }
-        else {
-            $count = $this->getProductCollection()
-                ->getSize();
+        } else {
+            $count = $this->getProductCollection()->getSize();
         }
         Mage::getSingleton('customer/session')->setWishlistItemCount($count);
         Mage::dispatchEvent('wishlist_items_renewed');

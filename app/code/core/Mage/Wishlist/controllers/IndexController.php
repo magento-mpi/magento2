@@ -178,7 +178,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             foreach ($post['description'] as $itemId => $description) {
                 $item = Mage::getModel('wishlist/item')->load($itemId);
                 $description = (string) $description;
-                if(!strlen($description) || $item->getWishlistId()!=$wishlist->getId()) {
+                if(!strlen($description) || $item->getWishlistId() != $wishlist->getId()) {
                     continue;
                 }
                 try {
@@ -220,7 +220,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         $id = (int) $this->getRequest()->getParam('item');
         $item = Mage::getModel('wishlist/item')->load($id);
 
-        if($item->getWishlistId()==$wishlist->getId()) {
+        if($item->getWishlistId() == $wishlist->getId()) {
             try {
                 $item->delete();
                 $wishlist->save();
@@ -317,9 +317,9 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             return $this->_redirect('*/*/');
         }
 
-        $emails = explode(',', $this->getRequest()->getPost('emails'));
-        $message= nl2br(htmlspecialchars((string) $this->getRequest()->getPost('message')));
-        $error  = false;
+        $emails  = explode(',', $this->getRequest()->getPost('emails'));
+        $message = nl2br(htmlspecialchars((string) $this->getRequest()->getPost('message')));
+        $error   = false;
         if (empty($emails)) {
             $error = $this->__('Email address can\'t be empty.');
         }
@@ -372,7 +372,8 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
                         'addAllLink'    => Mage::getUrl('*/shared/allcart', array('code' => $wishlist->getSharingCode())),
                         'viewOnSiteLink'=> Mage::getUrl('*/shared/index', array('code' => $wishlist->getSharingCode())),
                         'message'       => $message
-                    ));
+                    )
+                );
             }
 
             $wishlist->setShared(1);

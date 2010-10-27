@@ -63,7 +63,8 @@ class Mage_Wishlist_Model_Resource_Item extends Mage_Core_Model_Resource_Db_Abst
                 . $storeWhere);
         $bind = array(
             'wishlist_id' => $wishlistId,
-            'product_id'  => $productId);
+            'product_id'  => $productId
+        );
         $data = $adapter->fetchRow($select, $bind);
         if ($data) {
             $object->setData($data);
