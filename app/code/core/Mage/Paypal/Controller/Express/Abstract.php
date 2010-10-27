@@ -119,19 +119,19 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     {
         try {
             $this->_initToken(false);
+            // TODO verify if this logic of order cancelation is deprecated
             // if there is an order - cancel it
-            if ($orderId = $this->_getCheckoutSession()->getLastOrderId()) {
-                $order = Mage::getModel('sales/order')->load($orderId);
-                if ($order->getId()) {
-                    $order->cancel()->save();
-                    $this->_getCheckoutSession()
-                        ->unsLastQuoteId()
-                        ->unsLastSuccessQuoteId()
-                        ->unsLastOrderId()
-                        ->unsLastRealOrderId()
-                        ->addSuccess($this->__('Express Checkout and Order have been canceled.'))
-                    ;
-                }
+            $orderId = $this->_getCheckoutSession()->getLastOrderId();
+            $order = ($orderId) ? Mage::getModel('sales/order')->load($orderId) : false;
+            if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
+                $order->cancel()->save();
+                $this->_getCheckoutSession()
+                    ->unsLastQuoteId()
+                    ->unsLastSuccessQuoteId()
+                    ->unsLastOrderId()
+                    ->unsLastRealOrderId()
+                    ->addSuccess($this->__('Express Checkout and Order have been canceled.'))
+                ;
             } else {
                 $this->_getCheckoutSession()->addSuccess($this->__('Express Checkout has been canceled.'));
             }
@@ -141,6 +141,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_getCheckoutSession()->addError($this->__('Unable to cancel Express Checkout.'));
             Mage::logException($e);
         }
+
         $this->_redirect('checkout/cart');
     }
 
