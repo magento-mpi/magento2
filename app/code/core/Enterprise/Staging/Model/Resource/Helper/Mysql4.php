@@ -87,6 +87,12 @@ class Enterprise_Staging_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
                 $ddlType = Varien_Db_Ddl_Table::TYPE_TEXT;
                 $ddlSize = $field['LENGTH'];
                 break;
+            case 'varbinary':
+            case 'blob':
+            case 'longblob':
+            case 'mediumblob':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_BLOB;
+                break;
             case 'datetime':
             case 'timestamp':
                 $ddlType = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
