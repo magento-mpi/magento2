@@ -304,13 +304,13 @@
             <active>true</active>
         </Enterprise_SalesArchive>
         <Enterprise_SalesPool>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_SalesPool>
         <Enterprise_Search>
             <active>true</active>
         </Enterprise_Search>
         <Enterprise_Staging>
-            <active>true</active>
+            <active>false</active>
         </Enterprise_Staging>
         <Enterprise_TargetRule>
             <active>true</active>
