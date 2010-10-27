@@ -657,7 +657,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         $indexes = $this->getIndexList($tableName);
         foreach ($indexes as $indexData) {
-            if ($indexData['KEY_NAME'] == 'PRIMARY') {
+            if ($indexData['INDEX_TYPE'] == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
                 continue;
             }
 
@@ -1198,7 +1198,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 ->columns(array(
                     'schema_name'   => 'ui.table_owner',
                     'table_name'    => 'ui.table_name',
-                    'key_name'      => new Zend_Db_Expr("DECODE(uc.constraint_type, 'P', 'PRIMARY', ui.index_name)"),
+                    'key_name'      => 'ui.index_name',
                     'column_name'   => 'uic.column_name',
                     'index_type'    => $indexTypeExpr,
                     'index_method'  => 'ui.index_type',
@@ -1952,7 +1952,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         return $result;
     }
-    
+
 
     /**
      * Split multi statement query

@@ -371,34 +371,34 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
             if ($this->getFlatHelper()->isAddChildData()) {
                 $this->_indexes['PRIMARY'] = array(
-                    'type'   => 'primary',
+                    'type'   => Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY,
                     'fields' => array('entity_id', 'child_id')
                 );
                 $this->_indexes['IDX_CHILD'] = array(
-                    'type'   => 'index',
+                    'type'   => Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX,
                     'fields' => array('child_id')
                 );
                 $this->_indexes['IDX_IS_CHILD'] = array(
-                    'type'   => 'index',
+                    'type'   => Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX,
                     'fields' => array('entity_id', 'is_child')
                 );
             } else {
                 $this->_indexes['PRIMARY'] = array(
-                    'type'   => 'primary',
+                    'type'   => Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY,
                     'fields' => array('entity_id')
                 );
             }
             $this->_indexes['IDX_TYPE_ID'] = array(
-                'type'   => 'index',
+                'type'   => Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX,
                 'fields' => array('type_id')
             );
             $this->_indexes['IDX_ATTRIBUTE_SET'] = array(
-                'type'   => 'index',
+                'type'   => Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX,
                 'fields' => array('attribute_set_id')
             );
 
             foreach ($this->getAttributes() as $attribute) {
-                /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+                /** @var $attribute Mage_Eav_Model_Entity_Attribute */
                 $indexes = $attribute
                     ->setFlatAddFilterableAttributes($this->getFlatHelper()->isAddFilterableAttributes())
                     ->setFlatAddChildData($this->getFlatHelper()->isAddChildData())
@@ -434,7 +434,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
     /**
      * Retrieve column definition fragment
-     * @deprecated
+     * @deprecated since 1.5.0.0
      *
      * Example: `field_name` smallint(5) unsigned NOT NULL default '0'
      *
@@ -466,7 +466,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
     /**
      * Retrieve index definition fragment
-     * @deprecated
+     * @deprecated since 1.5.0.0
      *
      * Example: INDEX `IDX_NAME` (`field_id`)
      *
@@ -541,6 +541,15 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
         $adapter        = $this->_getWriteAdapter();
         $tableName      = $this->getFlatTableName($storeId);
+        /*
+         * Apply new names For indexes;
+         */
+        $indexNames = array();
+        $indexProps = array_values($indexes);
+        foreach ($indexProps as $propId => $indexProp) {
+            $indexNames[$propId] = $adapter->getIndexName($tableName, $indexProp['fields'], $indexProp['type']);
+        }
+        $indexes = array_combine($indexNames, $indexProps);
 
         $foreignEntityKey = $this->getFkName($tableName, 'entity_id', 'catalog/product', 'entity_id');
         $foreignChildKey  = $this->getFkName($tableName, 'child_id', 'catalog/product', 'entity_id');
@@ -553,15 +562,15 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                     'nullable' => isset($fieldProp['nullable']) ? (bool)$fieldProp['nullable'] : false,
                     'unsigned' => isset($fieldProp['unsigned']) ? (bool)$fieldProp['unsigned'] : false,
                     'default'  => $fieldProp['default'],
-                    'primary'  => isset($fieldProp['primary']) ? (bool)$fieldProp['primary'] : false,
+                    'primary'  => false,
                 ), $fieldProp['comment']);
             }
 
             foreach ($indexes as $indexName => $indexProp) {
-                if ($indexName == 'PRIMARY') {
-                    continue;
-                }
-                $table->addIndex($indexName, $indexProp['fields'], array('type' => $indexProp['type']));
+                $table->addIndex(
+                    $indexName,
+                    $indexProp['fields'], array('type' => $indexProp['type'])
+                );
             }
 
             $table->addForeignKey($foreignEntityKey,
@@ -605,8 +614,18 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             }
             if ($isAddChildData && !isset($describe['is_child'])) {
                 $adapter->truncate($tableName);
-                $dropIndexes['PRIMARY'] = $indexList['PRIMARY'];
-                $addIndexes['PRIMARY']  = $indexes['PRIMARY'];
+                foreach ($indexList as $indexName => $indexProp) {
+                    if ($indexProp['type'] == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
+                        $dropIndexes[$indexName] = $indexList[$indexName];
+                        break;
+                    }
+                }
+                foreach ($indexes as $indexName => $indexProp) {
+                    if ($indexProp['type'] == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
+                        $addIndexes[$indexName]  = $indexes[$indexName];
+                        break;
+                    }
+                }
 
                 $addConstraints[$foreignChildKey] = array(
                     'table_index'   => 'child_id',
@@ -630,8 +649,10 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                     $addIndexes[$indexName] = $indexes[$indexName];
                 }
             }
-
-            $adapter->dropForeignKey($tableName, $foreignEntityKey);
+            var_dump(array_diff(array_keys($adapter->getForeignKeys($tableName)), array_keys($addConstraints)));
+            foreach (array_diff(array_keys($adapter->getForeignKeys($tableName)), array_keys($addConstraints)) as $constraintName) {
+                $adapter->dropForeignKey($tableName, $constraintName);
+            }
             // drop indexes
             foreach (array_keys($dropIndexes) as $indexName) {
                 $adapter->dropIndex($tableName, $indexName);
@@ -642,7 +663,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 $adapter->dropColumn($tableName, $columnName);
             }
 
-            // modify colunm
+            // modify column
             foreach ($modifyColumns as $columnName => $columnProp) {
                 if (!isset($columnProp['comment'])) {
                     $columnProp['COMMENT'] = ucwords(str_replace('_', ' ', $columnName));
