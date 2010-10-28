@@ -416,7 +416,7 @@ Validation.addAllThese([
     ['validate-number', 'Please enter a valid number in this field.', function(v) {
                 return Validation.get('IsEmpty').test(v) || (!isNaN(parseNumber(v)) && !/^\s+$/.test(parseNumber(v)));
             }],
-    ['validate-digits', 'Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.', function(v) {
+    ['validate-digits', 'Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  !/[^\d]/.test(v);
             }],
     ['validate-digits-range', 'The value is not within the specified range.', function(v, elm) {

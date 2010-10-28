@@ -126,8 +126,8 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
                 'Please select an option.' => $this->__('Please select an option.'),
                 'This is a required field.' => $this->__('This is a required field.'),
                 'Please enter a valid number in this field.' => $this->__('Please enter a valid number in this field.'),
-                'Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.' =>
-                    $this->__('Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.'),
+                'Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.' =>
+                    $this->__('Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.'),
                 'Please use letters only (a-z) in this field.' => $this->__('Please use letters only (a-z) in this field.'),
                 'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' =>
                     $this->__('Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'),
