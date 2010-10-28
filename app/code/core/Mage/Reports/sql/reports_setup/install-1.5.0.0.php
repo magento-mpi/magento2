@@ -186,9 +186,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Added At')
     ->addIndex($installer->getIdxName('reports/viewed_product_index', array('visitor_id', 'product_id'), true),
-        array('visitor_id', 'product_id'), array('type' => 'unique'))
+        array('visitor_id', 'product_id'))
     ->addIndex($installer->getIdxName('reports/viewed_product_index', array('customer_id', 'product_id'), true),
-        array('customer_id', 'product_id'), array('type' => 'unique'))
+        array('customer_id', 'product_id'))
+    ->addIndex(
+        $installer->getIdxName('reports/viewed_product_index', array('customer_id', 'product_id', 'visitor_id'), true),
+            array('customer_id', 'product_id', 'visitor_id'),
+            array('type' => 'unique'))
     ->addIndex($installer->getIdxName('reports/viewed_product_index', array('store_id')),
         array('store_id'))
     ->addIndex($installer->getIdxName('reports/viewed_product_index', array('added_at')),
