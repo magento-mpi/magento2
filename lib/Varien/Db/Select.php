@@ -89,23 +89,6 @@ class Varien_Db_Select extends Zend_Db_Select
     /**
      * Add variable to bind list
      *
-     * @param array $bind
-     * @return Zend_Db_Select
-     */
-    public function bind($bind)
-    {
-        if (!empty($this->_bind)) {
-            if (is_array($bind)) {
-                $this->_bind = array_merge($this->_bind, $bind);
-            }
-        }
-
-        return parent::bind($bind);
-    }
-
-    /**
-     * Add variable to bind list
-     *
      * @param string $name
      * @param mixed $value
      * @return Varien_Db_Select
@@ -183,8 +166,7 @@ class Varien_Db_Select extends Zend_Db_Select
                             || $this->_findTableInCond($tableProp['tableName'], $column)) {
                             $useJoin = true;
                         }
-                    }
-                    else {
+                    } else {
                         if ($correlationName == $tableId) {
                             $useJoin = true;
                         }
@@ -215,8 +197,7 @@ class Varien_Db_Select extends Zend_Db_Select
 
                 if (!$useJoin) {
                     unset($this->_parts[self::FROM][$tableId]);
-                }
-                else {
+                } else {
                     $this->_parts[self::FROM][$tableId]['useInCond'] = $joinUseInCond;
                     $this->_parts[self::FROM][$tableId]['joinInTables'] = $joinInTables;
                 }
@@ -245,6 +226,7 @@ class Varien_Db_Select extends Zend_Db_Select
                 foreach ($tableProp['joinInTables'] as $table) {
                     if (isset($this->_parts[self::FROM][$table])) {
                         $used = true;
+                        break;
                     }
                 }
 

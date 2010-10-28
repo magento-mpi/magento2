@@ -4139,23 +4139,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         );
         $deletedRows = array();
         foreach ($pkColumns as $column) {
-            $deletedRows[] = sprintf("%s %s",
-                $column,
-                $this->_getColumnDataType($tableName, $column)
-            );
-
-
+            $deletedRows[] = sprintf('%s %s', $column, $this->_getColumnDataType($tableName, $column));
         }
-        $triggerBody = str_replace("CREATE TRIGGER", "ALTER TRIGGER", $this->fetchOne($query));
+        $triggerBody = str_replace('CREATE TRIGGER', 'ALTER TRIGGER', $this->fetchOne($query));
 
-        if (!empty($triggerBody)){
+        if (empty($triggerBody)){
             $triggerName = $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL);
             $pKeysCond = array();
             foreach ($pkColumns as $column) {
                 $pKeysCond[] = sprintf('t.%s = d.%s', $column, $column);
             }
 
-            $fields = implode(", ", $pkColumns);
+            $fields = implode(', ', $pkColumns);
             $triggerBody = "CREATE TRIGGER [{$triggerName}]                 \n"
                 . "    ON  {$tableName}                                     \n"
                 . "    INSTEAD OF DELETE                                    \n"

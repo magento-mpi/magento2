@@ -214,26 +214,22 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
     }
     
     /**
-     * Retrive table partical data SQL insert
+     * Return table part data SQL insert
      *
      * @param string $tableName
-     * @param int $count
-     * @param int $offset
      * @return string
      */
     public function getInsertSql($tableName)
     {
         $sql = null;
         $adapter = $this->_getWriteAdapter();
-        $quotedTableName = $adapter->quoteIdentifier($tableName);
         $select = $adapter->select()
-            ->from($tableName)
-            ->limit($count, $offset);
+            ->from($tableName);
         $query  = $adapter->query($select);
 
         while ($row = $query->fetch()) {
             if ($sql === null) {
-                $sql = sprintf('INSERT INTO %s VALUES ', $quotedTableName);
+                $sql = sprintf('INSERT INTO %s VALUES ', $adapter->quoteIdentifier($tableName));
             } else {
                 $sql .= ',';
             }
