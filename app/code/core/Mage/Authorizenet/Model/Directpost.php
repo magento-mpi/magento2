@@ -180,7 +180,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     {
         $request = $this->_getRequestModel();
         $request->setConstantData($this)
-            ->setDataFromEntity($order, $this)
+            ->setDataFromOrder($order, $this)
             ->signRequestData();
 
         $this->_debug(array('request' => $request->getData()));
