@@ -114,7 +114,6 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             && isset($redirectParams['x_invoice_num'])
             && isset($redirectParams['controller_action_name'])
         ) {
-            $this->_addAdditionalInformationToSession($redirectParams['x_invoice_num']);
             $this->_getDirectPostSession()->unsetData('quote_id');
             $params['redirect_parent'] = Mage::helper('authorizenet')->getSuccessOrderUrl($redirectParams);
         }
