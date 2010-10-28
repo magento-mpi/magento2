@@ -112,7 +112,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
                     $session->setLastOrderIncrementId($order->getIncrementId());
 
-                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($order);
+                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $requestToPaygate->setControllerActionName($controller);
 
                     $requestToPaygate->setOrderSendConfirmation($sendConfirmationFlag);
