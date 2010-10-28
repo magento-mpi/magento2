@@ -172,7 +172,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
             $this->_getSession()->addError($e->getMessage());
         }
 
-        $this->_redirect('*/*/index', array('store'=>$storeId));
+        $this->_redirect('*/*/index', array('store' => $storeId));
     }
 
     public function massPublishAction()
@@ -242,7 +242,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
             $this->_getSession()->addError($e->getMessage());
         }
 
-        $this->_redirect('*/*/index', array('store'=>$storeId));
+        $this->_redirect('*/*/index', array('store' => $storeId));
     }
 
     /**

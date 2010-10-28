@@ -57,7 +57,8 @@ class Mage_GoogleBase_Model_Observer
         } catch (Exception $e) {
             if (Mage::app()->getStore()->isAdmin()) {
                 Mage::getSingleton('adminhtml/session')->addNotice(
-                    Mage::helper('googlebase')->__("Cannot update Google Base Item for Store '%s'", Mage::app()->getStore($item->getStoreId())->getName())
+                    Mage::helper('googlebase')->__("Cannot update Google Base Item for Store '%s'",
+                        Mage::app()->getStore($item->getStoreId())->getName())
                 );
             } else {
                 throw $e;
@@ -87,7 +88,8 @@ class Mage_GoogleBase_Model_Observer
         } catch (Exception $e) {
             if (Mage::app()->getStore()->isAdmin()) {
                 Mage::getSingleton('adminhtml/session')->addNotice(
-                    Mage::helper('googlebase')->__("Cannot update Google Base Item for Store '%s'", Mage::app()->getStore($item->getStoreId())->getName())
+                    Mage::helper('googlebase')->__("Cannot update Google Base Item for Store '%s'",
+                        Mage::app()->getStore($item->getStoreId())->getName())
                 );
             } else {
                 throw $e;

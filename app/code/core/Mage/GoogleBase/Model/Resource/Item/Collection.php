@@ -118,10 +118,10 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
     {
         $adapter = $this->getConnection();
         $entityType = Mage::getSingleton('eav/config')->getEntityType(Mage_Catalog_Model_Product::ENTITY);
-        $attribute = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'name');
+        $attribute = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(), 'name');
 
-        $joinConditionDefault = $adapter->quoteInto('p_d.attribute_id=?',$attribute->getAttributeId()) .
-            $adapter->quoteInto(' AND p_d.store_id=?',0) . ' AND main_table.product_id=p_d.entity_id';
+        $joinConditionDefault = $adapter->quoteInto('p_d.attribute_id=?', $attribute->getAttributeId()) .
+            $adapter->quoteInto(' AND p_d.store_id=?', 0) . ' AND main_table.product_id=p_d.entity_id';
 
         $joinCondition = $adapter->quoteInto('p.attribute_id=?', $attribute->getAttributeId()) .
             ' AND p.store_id=main_table.store_id AND main_table.product_id=p.entity_id';
@@ -130,24 +130,29 @@ class Mage_GoogleBase_Model_Resource_Item_Collection extends Mage_Core_Model_Res
             ->joinLeft(
                 array('p_d' => $attribute->getBackend()->getTable()),
                 $joinConditionDefault,
-                array());
+                array()
+            );
 
         $codeExpr = $adapter->getCheckSql('p.value IS NOT NULL', 'p.value', 'p_d.value');
         $this->getSelect()
             ->joinLeft(
                 array('p' => $attribute->getBackend()->getTable()),
                 $joinCondition,
-                array('name' => $codeExpr));
+                array('name' => $codeExpr)
+            );
 
         $codeExpr = $adapter->getCheckSql(
             'types.gbase_itemtype IS NOT NULL',
             'types.gbase_itemtype',
-            $adapter->quote(Mage_GoogleBase_Model_Service_Item::DEFAULT_ITEM_TYPE));
+            $adapter->quote(Mage_GoogleBase_Model_Service_Item::DEFAULT_ITEM_TYPE)
+        );
+
         $this->getSelect()
             ->joinLeft(
                 array('types' => $this->getTable('googlebase/types')),
                 'main_table.type_id=types.type_id',
-                array('gbase_itemtype' => $codeExpr));
+                array('gbase_itemtype' => $codeExpr)
+            );
 
         return $this;
     }

@@ -136,23 +136,23 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'    => $this->__('Delete'),
-             'url'      => $this->getUrl('*/*/massDelete', array('_current'=>true)),
+             'url'      => $this->getUrl('*/*/massDelete', array('_current' => true)),
              'confirm'  => $this->__('Are you sure?')
         ));
 
         $this->getMassactionBlock()->addItem('publish', array(
              'label'    => $this->__('Publish'),
-             'url'      => $this->getUrl('*/*/massPublish', array('_current'=>true))
+             'url'      => $this->getUrl('*/*/massPublish', array('_current' => true))
         ));
 
         $this->getMassactionBlock()->addItem('unpublish', array(
              'label'    => $this->__('Hide'),
-             'url'      => $this->getUrl('*/*/massHide', array('_current'=>true))
+             'url'      => $this->getUrl('*/*/massHide', array('_current' => true))
         ));
 
         $this->getMassactionBlock()->addItem('refresh', array(
              'label'    => $this->__('Synchronize'),
-             'url'      => $this->getUrl('*/*/refresh', array('_current'=>true)),
+             'url'      => $this->getUrl('*/*/refresh', array('_current' => true)),
              'confirm'  => $this->__('This action will update items statistics and remove the items which are not available in Google Base. Continue?')
         ));
         return $this;
@@ -182,7 +182,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current' => true));
     }
 
     protected function _getStore()
