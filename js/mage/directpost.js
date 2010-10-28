@@ -25,14 +25,13 @@
 var directPost = Class.create();
 directPost.prototype = {
     initialize : function(methodCode, iframeId, controller, orderSaveUrl,
-            cgiUrl, nativeAction, createOrderBefore) {
+            cgiUrl, nativeAction) {
         this.iframeId = iframeId;
         this.controller = controller;
         this.orderSaveUrl = orderSaveUrl;
         this.nativeAction = nativeAction;
         this.cgiUrl = cgiUrl;
-        this.code = methodCode;
-        this.createOrderBefore = createOrderBefore;
+        this.code = methodCode;        
         this.inputs = ['cc_type', 'cc_number', 'expiration', 'expiration_yr', 'cc_cid'];
         this.headers = [];
         this.isValid = true;
@@ -112,19 +111,14 @@ directPost.prototype = {
                 case 'onepage':
                     this.paymentRequestSent = false;
                     if (!this.hasError) {
-                        if (this.createOrderBefore) {
-                            this.returnQuote();
-                        } else {
-                            $(this.iframeId).show();
-                            this.resetLoadWaiting();
-                        }
+                        this.returnQuote();
                     }
                     break;
                 case 'sales_order_edit':
                 case 'sales_order_create':
                     if (!this.orderRequestSent) {                        
                         this.paymentRequestSent = false;
-                        if (!this.hasError && this.createOrderBefore) {
+                        if (!this.hasError) {
                             this.returnQuote();
                         } else {
                             this.changeInputOptions('disabled', false);

@@ -135,32 +135,14 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
         $paymentParam = $this->getRequest()->getParam('payment');
         $controller = $this->getRequest()->getParam('controller');
         if (isset($paymentParam['method'])) {
-            $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
-            if ($saveOrderFlag) {
-                $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
-                $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());
-                $this->_forward(
-                    $params['action'],
-                    $params['controller'],
-                    $params['module'],
-                    $this->getRequest()->getParams()
-                );
-            } else {
-                $this->_getCheckout()->getQuote()->getPayment()->importData($paymentParam);
-                $quote = $this->_getCheckout()->getQuote();
-                $payment = $quote->getPayment();
-                if (!$quote->getReservedOrderId()) {
-                    $quote->reserveOrderId()->save();
-                }
-                $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
-                $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($quote);
-                $requestToPaygate->setControllerActionName($controller);
-                $result = array(
-                    'success'    => 1,
-                    'directpost' => array('fields' => $requestToPaygate->getData())
-                );
-                $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-            }
+            $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
+            $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());
+            $this->_forward(
+                $params['action'],
+                $params['controller'],
+                $params['module'],
+                $this->getRequest()->getParams()
+            );
         } else {
             $result = array(
                 'error_messages' => $this->__('Please, choose payment method'),

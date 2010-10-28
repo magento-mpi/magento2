@@ -86,110 +86,66 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
 
         if (isset($paymentParam['method'])) {
             $saveOrderFlag = Mage::getStoreConfig('payment/'.$paymentParam['method'].'/create_order_before');
-            //if need to save order before payment
-            if ($saveOrderFlag) {
-                $result = array();
-                $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
-                //create order partially
-                $this->_getOrderCreateModel()->setPaymentData($paymentParam);
-                $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentParam);
+            $result = array();
+            $params = Mage::helper('authorizenet')->getSaveOrderUrlParams($controller);
+            //create order partially
+            $this->_getOrderCreateModel()->setPaymentData($paymentParam);
+            $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentParam);
 
-                $orderData['send_confirmation'] = 0;
-                $this->getRequest()->setPost('order', $orderData);
+            $orderData['send_confirmation'] = 0;
+            $this->getRequest()->setPost('order', $orderData);
 
-                try {
-                    //do not cancel old order.
-                    $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
-                    $oldOrder->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CANCEL, false);
+            try {
+                //do not cancel old order.
+                $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
+                $oldOrder->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CANCEL, false);
 
-                    $order = $this->_getOrderCreateModel()
-                        ->setIsValidate(true)
-                        ->importPostData($this->getRequest()->getPost('order'))
-                        ->createOrder();
+                $order = $this->_getOrderCreateModel()
+                    ->setIsValidate(true)
+                    ->importPostData($this->getRequest()->getPost('order'))
+                    ->createOrder();
 
-                    $payment = $order->getPayment();
-                    if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()) {
-                        //return json with data.
-                        $session = $this->_getDirectPostSession();
-                        $session->addCheckoutOrderIncrementId($order->getIncrementId());
-                        $session->setLastOrderIncrementId($order->getIncrementId());
+                $payment = $order->getPayment();
+                if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()) {
+                    //return json with data.
+                    $session = $this->_getDirectPostSession();
+                    $session->addCheckoutOrderIncrementId($order->getIncrementId());
+                    $session->setLastOrderIncrementId($order->getIncrementId());
 
-                        $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($order);
-                        $requestToPaygate->setControllerActionName($controller);
+                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($order);
+                    $requestToPaygate->setControllerActionName($controller);
 
-                        $requestToPaygate->setOrderSendConfirmation($sendConfirmationFlag);
+                    $requestToPaygate->setOrderSendConfirmation($sendConfirmationFlag);
 
-                        $adminUrl = Mage::getSingleton('adminhtml/url');
-                        if ($adminUrl->useSecretKey()) {
-                            $requestToPaygate->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
-                        }
-                        $result['directpost'] = array('fields' => $requestToPaygate->getData());
+                    $adminUrl = Mage::getSingleton('adminhtml/url');
+                    if ($adminUrl->useSecretKey()) {
+                        $requestToPaygate->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
                     }
-
-                    $result['success'] = 1;
-                    $isError = false;
-                }
-                catch (Mage_Core_Exception $e) {
-                    $message = $e->getMessage();
-                    if( !empty($message) ) {
-                        $this->_getSession()->addError($message);
-                    }
-                    $isError = true;
-                }
-                catch (Exception $e) {
-                    $this->_getSession()->addException($e, $this->__('Order saving error: %s', $e->getMessage()));
-                    $isError = true;
+                    $result['directpost'] = array('fields' => $requestToPaygate->getData());
                 }
 
-                if ($isError) {
-                    $result['success'] = 0;
-                    $result['error'] = 1;
-                    $result['redirect'] = Mage::getSingleton('adminhtml/url')->getUrl('*/*/');
-                }
-
-                $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+                $result['success'] = 1;
+                $isError = false;
             }
-            else {
-                //otherwise we need to save order after payment
-                $quote = $this->_getOrderCreateModel()->getQuote();
-                $quote->getPayment()->importData($paymentParam);
-                $payment = $quote->getPayment();
-
-                if (!$quote->getReservedOrderId()) {
-                    $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
-                    if ($oldOrder->getId()) {
-                        $originalId = $oldOrder->getOriginalIncrementId() ?
-                            $oldOrder->getOriginalIncrementId() : $oldOrder->getIncrementId();
-                        $orderData = array(
-                            'original_increment_id'     => $originalId,
-                            'relation_parent_id'        => $oldOrder->getId(),
-                            'relation_parent_real_id'   => $oldOrder->getIncrementId(),
-                            'edit_increment'            => $oldOrder->getEditIncrement()+1
-                        );
-                        $incrementId = $originalId.'-'.($oldOrder->getEditIncrement()+1);
-                        $this->_getDirectPostSession()->addCheckoutOrderIncrementId($incrementId, $orderData);
-                        $quote->setReservedOrderId($incrementId);
-                    }
-                    else {
-                        $quote->reserveOrderId();
-                        $this->_getDirectPostSession()->addCheckoutOrderIncrementId($quote->getReservedOrderId());
-                    }
-                    $quote->save();
+            catch (Mage_Core_Exception $e) {
+                $message = $e->getMessage();
+                if( !empty($message) ) {
+                    $this->_getSession()->addError($message);
                 }
-
-                $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($quote);
-                $requestToPaygate->setControllerActionName($controller);
-                $requestToPaygate->setOrderSendConfirmation($sendConfirmationFlag);
-                $adminUrl = Mage::getSingleton('adminhtml/url');
-                if ($adminUrl->useSecretKey()) {
-                    $requestToPaygate->setKey($adminUrl->getSecretKey('authorizenet_directpost_payment', 'redirect'));
-                }
-                $result = array(
-                    'success'    => 1,
-                    'directpost' => array('fields' => $requestToPaygate->getData())
-                );
-                $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+                $isError = true;
             }
+            catch (Exception $e) {
+                $this->_getSession()->addException($e, $this->__('Order saving error: %s', $e->getMessage()));
+                $isError = true;
+            }
+
+            if ($isError) {
+                $result['success'] = 0;
+                $result['error'] = 1;
+                $result['redirect'] = Mage::getSingleton('adminhtml/url')->getUrl('*/*/');
+            }
+
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
         }
         else {
             $result = array(
