@@ -81,20 +81,19 @@ class Mage_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Mage_Core_Mode
      */
     public function deleteProductData($product, $attribute)
     {
-        $condition = array();
+        $where = array(
+            'entity_id = ?'    => (int)$product->getId(),
+            'attribute_id = ?' => (int)$attribute->getId()
+        );
+
         $adapter   = $this->_getWriteAdapter();
         if (!$attribute->isScopeGlobal()) {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $condition[] = $adapter->quoteInto('website_id IN(?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
+                $where['website_id IN(?)'] =  array(0, Mage::app()->getStore($storeId)->getWebsiteId());
             }
         }
-
-        $condition[] = $adapter->quoteInto('entity_id = ?', (int)$product->getId());
-        $condition[] = $adapter->quoteInto('attribute_id = ?', (int)$attribute->getId());
-
-        $adapter->delete($this->getMainTable(), implode(' AND ', $condition));
-
+        $adapter->delete($this->getMainTable(), $where);
         return $this;
     }
 
