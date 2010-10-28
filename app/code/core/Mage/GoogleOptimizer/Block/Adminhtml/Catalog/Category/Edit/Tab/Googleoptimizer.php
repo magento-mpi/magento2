@@ -57,7 +57,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
+            array('legend' => Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
 
         if ($this->getCategory()->getStoreId() == '0') {
@@ -124,7 +124,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             );
         }
 
-        $fieldset->addField('export_controls', 'text', array('name'  => 'export_controls',));
+        $fieldset->addField('export_controls', 'text', array('name' => 'export_controls'));
 
         $fieldset->addField('control_script', 'textarea',
             array(

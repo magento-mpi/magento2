@@ -89,8 +89,8 @@ class Mage_GoogleOptimizer_Model_Resource_Code extends Mage_Core_Model_Resource_
                 array('entity_id', 'entity_type'))
             ->joinLeft(
                 array('t_store' => $this->getMainTable()),
-                't_store.entity_id = t_def.entity_id AND t_store.entity_type = t_def.entity_type AND ' .
-                    $adapter->quoteInto('t_store.store_id = ?', $storeId),
+                't_store.entity_id = t_def.entity_id AND t_store.entity_type = t_def.entity_type AND '
+                    . $adapter->quoteInto('t_store.store_id = ?', $storeId),
                 array(
                     'code_id'           => $codeIdExpr,
                     'store_id'          => $storeIdExpr,
@@ -125,12 +125,12 @@ class Mage_GoogleOptimizer_Model_Resource_Code extends Mage_Core_Model_Resource_
 
         $entityIds = $object->getEntityIds();
         if (!empty($entityIds)) {
-            $where = $adapter->quoteInto($this->getMainTable().'.entity_id IN (?)', $entityIds);
+            $where[$this->getMainTable() . '.entity_id IN (?)'] = $entityIds;
         } else {
-            $where = $adapter->quoteInto($this->getMainTable().'.entity_id=?', $object->getEntity()->getId());
+            $where[$this->getMainTable() . '.entity_id=?'] = $object->getEntity()->getId();
         }
-        $where.= ' AND ' . $adapter->quoteInto($this->getMainTable().'.entity_type=?', $object->getEntityType()) .
-            ' AND ' . $adapter->quoteInto($this->getMainTable().'.store_id=?', $store_id);
+        $where[$this->getMainTable() . '.entity_type=?'] = $object->getEntityType();
+        $where[$this->getMainTable() . '.store_id=?'] = $store_id;
         $adapter->delete($this->getMainTable(), $where);
 
         $this->_afterDelete($object);
