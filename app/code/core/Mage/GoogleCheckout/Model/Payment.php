@@ -175,7 +175,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
         if (null === $storeId) {
             $storeId = $this->getStore();
         }
-        $path = 'google/checkout/'.$field;
+        $path = 'google/checkout/' . $field;
         return Mage::getStoreConfig($path, $storeId);
     }
 }

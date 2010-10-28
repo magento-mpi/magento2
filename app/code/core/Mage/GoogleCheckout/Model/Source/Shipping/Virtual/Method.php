@@ -31,7 +31,7 @@ class Mage_GoogleCheckout_Model_Source_Shipping_Virtual_Method
     {
         $hlp = Mage::helper('googlecheckout');
         return array(
-            array('value'=>'email', 'label'=>$hlp->__('Email delivery')),
+            array('value' => 'email', 'label' => $hlp->__('Email delivery')),
             // array('value'=>'key_url', 'label'=>$hlp->__('Key/URL delivery')),
             // array('value'=>'description_based', 'label'=>$hlp->__('Description-based delivery')),
         );

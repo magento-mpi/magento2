@@ -31,8 +31,8 @@ class Mage_GoogleCheckout_Model_Source_Shipping_Category
     {
         $hlp = Mage::helper('googlecheckout');
         return array(
-            array('value'=>'COMMERCIAL', 'label'=>$hlp->__('Commercial')),
-            array('value'=>'RESIDENTIAL', 'label'=>$hlp->__('Residential')),
+            array('value' => 'COMMERCIAL',  'label' => $hlp->__('Commercial')),
+            array('value' => 'RESIDENTIAL', 'label' => $hlp->__('Residential')),
         );
     }
 }

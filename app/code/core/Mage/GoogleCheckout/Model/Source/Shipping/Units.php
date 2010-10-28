@@ -31,7 +31,7 @@ class Mage_GoogleCheckout_Model_Source_Shipping_Units
     {
         $hlp = Mage::helper('googlecheckout');
         return array(
-            array('value'=>'IN', 'label'=>$hlp->__('Inches')),
+            array('value' => 'IN', 'label' => $hlp->__('Inches')),
         );
     }
 }

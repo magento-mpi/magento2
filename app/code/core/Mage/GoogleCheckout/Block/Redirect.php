@@ -34,9 +34,9 @@
 class Mage_GoogleCheckout_Block_Redirect extends Mage_Page_Block_Redirect
 {
     /**
-     *  Description goes here...
+     *  Get target URL
      *
-     *  @return	  string
+     *  @return string
      */
     public function getTargetURL ()
     {

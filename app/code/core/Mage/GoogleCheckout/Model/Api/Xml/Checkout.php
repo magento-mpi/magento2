@@ -32,7 +32,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Mod
     protected function _getApiUrl()
     {
         $url = $this->_getBaseApiUrl();
-        $url .= 'merchantCheckout/Merchant/'.$this->getMerchantId();
+        $url .= 'merchantCheckout/Merchant/' . $this->getMerchantId();
         return $url;
     }
 
@@ -355,14 +355,14 @@ EOT;
             return '';
         }
 
-        for ($xml='', $i=1; $i<=3; $i++) {
-            $allowSpecific = Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/sallowspecific_'.$i, $this->getQuote()->getStoreId());
-            $specificCountries = Mage::getStoreConfig('google/checkout_shipping_flatrate/specificcountry_'.$i, $this->getQuote()->getStoreId());
+        for ($xml = '', $i = 1; $i <= 3; $i++) {
+            $allowSpecific = Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/sallowspecific_' . $i, $this->getQuote()->getStoreId());
+            $specificCountries = Mage::getStoreConfig('google/checkout_shipping_flatrate/specificcountry_' . $i, $this->getQuote()->getStoreId());
             $allowedAreasXml = $this->_getAllowedCountries($allowSpecific, $specificCountries);
 
-            $title = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_'.$i, $this->getQuote()->getStoreId());
-            $price = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_'.$i, $this->getQuote()->getStoreId());
-            $price = number_format($price, 2, '.','');
+            $title = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_' . $i, $this->getQuote()->getStoreId());
+            $price = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $this->getQuote()->getStoreId());
+            $price = number_format($price, 2, '.', '');
             $price = (float) Mage::helper('tax')->getShippingPrice($price, false, false);
 
             if (empty($title) || $price <= 0) {
@@ -421,7 +421,7 @@ EOT;
         $methods = unserialize($methods);
 
         $xml = '';
-        foreach ($methods['method'] as $i=>$method) {
+        foreach ($methods['method'] as $i => $method) {
             if (!$i || !$method) {
                 continue;
             }
@@ -432,8 +432,8 @@ EOT;
                     $allowedMethods = $carrier->getAllowedMethods();
 
                     if (isset($allowedMethods[$methodCode])) {
-                        $method = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getQuote()->getStoreId());
-                        $method .= ' - '.$allowedMethods[$methodCode];
+                        $method = Mage::getStoreConfig('carriers/' . $carrierCode . '/title', $this->getQuote()->getStoreId());
+                        $method .= ' - ' . $allowedMethods[$methodCode];
                     }
 
                     $defaultPrice = (float) $methods['price'][$i];
@@ -480,7 +480,7 @@ EOT;
     {
         $xml = '';
         if (is_array($rules)) {
-            foreach ($rules as $group=>$taxRates) {
+            foreach ($rules as $group => $taxRates) {
                 if ($type != 'default') {
                     $nameAttribute = "name=\"{$group}\"";
                     $standaloneAttribute = "standalone=\"true\"";
@@ -506,7 +506,7 @@ EOT;
 
 EOT;
                         if ($rate['country']==='US') {
-                            if (!empty($rate['postcode']) && $rate['postcode']!=='*') {
+                            if (!empty($rate['postcode']) && $rate['postcode'] !== '*') {
                                 $xml .= <<<EOT
                                             <us-zip-area>
                                                 <zip-pattern>{$rate['postcode']}</zip-pattern>
@@ -534,7 +534,7 @@ EOT;
                                             <postal-area>
                                                 <country-code>{$rate['country']}</country-code>
 EOT;
-                                if (!empty($rate['postcode']) && $rate['postcode']!=='*') {
+                                if (!empty($rate['postcode']) && $rate['postcode'] !== '*') {
                                     $xml .= <<<EOT
                                                 <postal-code-pattern>{$rate['postcode']}</postal-code-pattern>
 
@@ -656,7 +656,8 @@ EOT;
 
                 return Mage::getSingleton('tax/calculation')->getRate($request);
             }
-            $customerRules = Mage::getSingleton('tax/calculation')->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $shippingTaxClass);
+            $customerRules = Mage::getSingleton('tax/calculation')
+                ->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $shippingTaxClass);
             $rules = array();
             foreach ($customerRules as $rule) {
                 $rules[$rule['product_class']][] = $rule;
@@ -672,7 +673,10 @@ EOT;
         $customerTaxClass = $this->_getCustomerTaxClass();
         if (Mage::helper('tax')->getTaxBasedOn() == 'origin') {
             $request = Mage::getSingleton('tax/calculation')->getRateRequest();
-            return Mage::getSingleton('tax/calculation')->getRatesForAllProductTaxClasses($request->setCustomerClassId($customerTaxClass));
+            return Mage::getSingleton('tax/calculation')
+                ->getRatesForAllProductTaxClasses(
+                    $request->setCustomerClassId($customerTaxClass)
+                );
         } else {
             $customerRules = Mage::getSingleton('tax/calculation')->getRatesByCustomerTaxClass($customerTaxClass);
             $rules = array();

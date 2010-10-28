@@ -37,15 +37,15 @@ class Mage_GoogleCheckout_Model_Source_Checkout_Image
 
         $styles = array(
             'trans' => Mage::helper('googlecheckout')->__('Transparent'),
-            'white'   => Mage::helper('googlecheckout')->__('White Background'),
+            'white' => Mage::helper('googlecheckout')->__('White Background'),
         );
 
         $options = array();
-        foreach ($sizes as $size=>$sizeLabel) {
-            foreach ($styles as $style=>$styleLabel) {
+        foreach ($sizes as $size => $sizeLabel) {
+            foreach ($styles as $style => $styleLabel) {
                 $options[] = array(
-                    'value' => $size.'/'.$style,
-                    'label' => $sizeLabel.' ('.$styleLabel.')'
+                    'value' => $size . '/' . $style,
+                    'label' => $sizeLabel . ' (' . $styleLabel . ')'
                 );
             }
         }

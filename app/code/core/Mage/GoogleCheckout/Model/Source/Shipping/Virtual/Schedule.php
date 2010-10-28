@@ -31,8 +31,8 @@ class Mage_GoogleCheckout_Model_Source_Shipping_Virtual_Schedule
     {
         $hlp = Mage::helper('googlecheckout');
         return array(
-            array('value'=>'OPTIMISTIC', 'label'=>$hlp->__('Optimistic')),
-            array('value'=>'PESSIMISTIC', 'label'=>$hlp->__('Pessimistic')),
+            array('value' => 'OPTIMISTIC',  'label' => $hlp->__('Optimistic')),
+            array('value' => 'PESSIMISTIC', 'label' => $hlp->__('Pessimistic')),
         );
     }
 }
