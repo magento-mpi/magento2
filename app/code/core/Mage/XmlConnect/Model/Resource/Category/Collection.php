@@ -39,7 +39,7 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     /**
      * _beforeLoad
      *
-     * @return unknown
+     * @return Mage_XmlConnect_Model_Resource_Category_Collection
      */
     protected function _beforeLoad()
     {
@@ -52,7 +52,7 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     /**
      * 
      *
-     * @param unknown_type $level
+     * @param int $level
      * @return Mage_XmlConnect_Model_Resource_Category_Collection
      */
     public function addLevelExactFilter($level)
@@ -64,8 +64,8 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     /**
      * Set Limit
      *
-     * @param unknown_type $offset
-     * @param unknown_type $count
+     * @param int $offset
+     * @param int $count
      * @return Mage_XmlConnect_Model_Resource_Category_Collection
      */
     public function setLimit($offset, $count)
@@ -77,15 +77,14 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     /**
      * Add parentId to filter
      *
-     * @param unknown_type $parentId
+     * @param int $parentId
      * @return Mage_XmlConnect_Model_Resource_Category_Collection
      */
     public function addParentIdFilter($parentId)
     {
         if (!is_null($parentId)) {
             $this->getSelect()->where('e.parent_id = ?', (int)$parentId);
-        }
-        else {
+        } else {
             $this->addLevelExactFilter(self::PARENT_CATEGORIES_LEVEL);
         }
         return $this;

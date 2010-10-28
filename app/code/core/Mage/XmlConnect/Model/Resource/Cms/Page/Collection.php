@@ -51,8 +51,7 @@ class Mage_XmlConnect_Model_Resource_Cms_Page_Collection extends Mage_Cms_Model_
             $data['label'] = $item->getData('title');
             if (in_array($identifier, $existingIdentifiers)) {
                 $data['value'] .= '|' . $item->getData('page_id');
-            }
-            else {
+            } else {
                 $existingIdentifiers[] = $identifier;
             }
 
