@@ -52,11 +52,11 @@ class Mage_GoogleCheckout_Model_Resource_Notification extends Mage_Core_Model_Re
      */
     public function getNotificationData($serialNumber)
     {
-        $select = $this->_getWriteAdapter()->select()
+        $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), array('*'))
             ->where('serial_number = ?', $serialNumber);
 
-        return $this->_getWriteAdapter()->fetchRow($select);
+        return $this->_getReadAdapter()->fetchRow($select);
     }
 
     /**
