@@ -208,15 +208,9 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
      */
     public function getTableNamesByPrefix($prefix)
     {
-        // TODO: Get Tables with bad names here
-
-        throw new Exception('Enterprise_Staging_Model_Resource_Helper_Oracle::getTableNamesByPrefix() isn\'t finished yet');
-        /*
-
-        $sql    = "SELECT name FROM sys.Tables where name like '" . str_replace('_', '[_]', $prefix) . "%'";
+        $sql    = " SELECT TABLE_NAME FROM all_tab_comments WHERE owner = sys_context('USERENV','CURRENT_SCHEMA') AND "
+                . " comments LIKE '% (Prefix:" . $prefix . ")%'";
         return $this->_getReadAdapter()->fetchCol($sql);
-         
-        */
     }
 
 

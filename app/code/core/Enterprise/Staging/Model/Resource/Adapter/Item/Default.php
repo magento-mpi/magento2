@@ -166,7 +166,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
     protected function _checkBackendTables($entityName)
     {
         $stagingTablePrefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix();
-        $targetTable        = $stagingTablePrefix . $this->getTable($entityName);
+        $targetTable        = $this->_getWriteAdapter()->getTableName($stagingTablePrefix . $this->getTable($entityName));
 
         if (!$this->tableExists($targetTable)) {
             $this->createTable($targetTable, $entityName);

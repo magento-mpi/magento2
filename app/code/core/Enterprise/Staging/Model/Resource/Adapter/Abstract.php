@@ -344,8 +344,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
 
         $diff = array_diff_key($sourceDesc['fields'], $targetDesc['fields']);
         if ($diff) {
-            $message = Mage::helper('enterprise_staging')->__('Staging Table "%s" and Master Tables "%s" has different fields',
-                $targetTableName, $sourceTableName);
+            $message = Mage::helper('enterprise_staging')->__('Staging Table "%s" and Master Tables "%s" has different fields', $targetTableName, $sourceTableName);
             throw new Enterprise_Staging_Exception($message);
         }
 
@@ -383,6 +382,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                 $srcTableDesc['table_name'] = $tableName;
                 $srcTableDesc['src_table_name'] = $srcTableName;
                 $newTable = $this->_getCreateDdl($srcTableDesc);
+                $newTable->setComment($newTable->getComment() . ' (Prefix:' . $prefix . ')');
                 $this->_getWriteAdapter()->createTable($newTable);
             }
         }
@@ -394,7 +394,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      *
      * @param mixed $tableDescription
      * @param bool $isFlat
-     * @return string
+     * @return Varien_Db_Ddl_Table
      */
     protected function _getCreateDdl($tableDescription, $isFlat = false)
     {
