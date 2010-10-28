@@ -62,6 +62,21 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         return true;
     }
 
+	/**
+     * Prepare info instance for save.
+     * Need to encrypt last 4 cc numbers.
+     *
+     * @return Mage_Authorizenet_Model_Directpost
+     */
+    public function prepareSave()
+    {
+        parent::prepareSave();
+        $info = $this->getInfoInstance();
+        $info->setCcLast4($info->encrypt($info->getCcLast4()));
+
+        return $this;
+    }
+
     /**
      * Send authorize request to gateway
      *
@@ -73,6 +88,21 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     public function authorize(Varien_Object $payment, $amount)
     {
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
+    }
+
+ 	/**
+     * Refund the amount with transaction id.
+     * Need to decode Last 4 digits.
+     *
+     * @param Varien_Object $payment
+     * @param decimal $amount
+     * @return Mage_Authorizenet_Model_Directpost
+     * @throws Mage_Core_Exception
+     */
+    public function refund(Varien_Object $payment, $amount)
+    {
+        $payment->setCcLast4($payment->decrypt($payment->getCcLast4()));
+        return parent::refund($payment, $amount);
     }
 
     /**
