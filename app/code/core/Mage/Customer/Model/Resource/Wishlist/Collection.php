@@ -26,7 +26,7 @@
 
 
 /**
- * Customers collection
+ * Customers wishlist collection
  *
  * @category    Mage
  * @package     Mage_Customer

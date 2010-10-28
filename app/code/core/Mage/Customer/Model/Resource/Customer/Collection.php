@@ -50,7 +50,8 @@ class Mage_Customer_Model_Resource_Customer_Collection extends Mage_Eav_Model_En
     public function groupByEmail()
     {
         $this->getSelect()
-            ->from(array('email' => $this->getEntity()->getEntityTable()),
+            ->from(
+                array('email' => $this->getEntity()->getEntityTable()),
                 array('email_count' => new Zend_Db_Expr('COUNT(email.entity_id)'))
             )
             ->where('email.entity_id = e.entity_id')
@@ -77,12 +78,17 @@ class Mage_Customer_Model_Resource_Customer_Collection extends Mage_Eav_Model_En
         $adapter = $this->getConnection();
         $concatenate = array();
         if (isset($fields['prefix'])) {
-            $concatenate[] = $adapter->getCheckSql('{{prefix}} IS NOT NULL AND {{prefix}} != \'\'', "LTRIM(RTRIM({{prefix}}))", "''");
+            $concatenate[] = $adapter->getCheckSql(
+                '{{prefix}} IS NOT NULL AND {{prefix}} != \'\'',
+                'LTRIM(RTRIM({{prefix}}))',
+                '\'\'');
         }
         $concatenate[] = 'LTRIM(RTRIM({{firstname}}))';
         if (isset($fields['middlename'])) {
-            $concatenate[] = $adapter
-                ->getCheckSql('{{middlename}} IS NOT NULL AND {{middlename}} != \'\'', "LTRIM(RTRIM({{middlename}}))", "''");
+            $concatenate[] = $adapter->getCheckSql(
+                '{{middlename}} IS NOT NULL AND {{middlename}} != \'\'',
+                'LTRIM(RTRIM({{middlename}}))',
+                '\'\'');
         }
         $concatenate[] = 'LTRIM(RTRIM({{lastname}}))';
         if (isset($fields['suffix'])) {
@@ -113,8 +119,8 @@ class Mage_Customer_Model_Resource_Customer_Collection extends Mage_Eav_Model_En
     /**
      * Reset left join
      *
-     * @param unknown_type $limit
-     * @param unknown_type $offset
+     * @param int $limit
+     * @param int $offset
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     protected function _getAllIdsSelect($limit = null, $offset = null)

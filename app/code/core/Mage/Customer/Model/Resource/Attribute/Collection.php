@@ -148,7 +148,7 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
                     $expression = sprintf($expression, $columnName, $columnName, $columnName);
                     $this->addFilterToMap($columnName, $expression);
                     $scopeColumns[$alias] = $columnName;
-                } else if (isset($extraColumns[$columnName])) {
+                } elseif (isset($extraColumns[$columnName])) {
                     $alias = sprintf('scope_%s', $columnName);
                     $expression = $connection->getCheckSql('additional_table.%s IS NULL',
                         'scope_table.%s', 'additional_table.%s');

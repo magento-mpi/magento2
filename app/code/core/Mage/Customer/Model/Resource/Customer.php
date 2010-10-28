@@ -75,10 +75,11 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
         if (!$customer->getEmail()) {
             throw Mage::exception('Mage_Customer', Mage::helper('customer')->__('Customer email is required'));
         }
-        $bind = array('email' => $customer->getEmail());
 
+        $adapter = $this->_getWriteAdapter();
+        $bind    = array('email' => $customer->getEmail());
 
-        $select = $this->_getWriteAdapter()->select()
+        $select = $adapter->select()
             ->from($this->getEntityTable(), array($this->getEntityIdField()))
             ->where('email = :email');
         if ($customer->getSharingConfig()->isWebsiteScope()) {
@@ -90,7 +91,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
             $select->where('entity_id != :entity_id');
         }
 
-        $result = $this->_getWriteAdapter()->fetchOne($select, $bind);
+        $result = $adapter->fetchOne($select, $bind);
         if ($result) {
             throw Mage::exception(
                 'Mage_Customer', Mage::helper('customer')->__('This customer email already exists'),
@@ -149,11 +150,13 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
                     ->setIsCustomerSaveTransaction(true)
                     ->save();
                 if (($address->getIsPrimaryBilling() || $address->getIsDefaultBilling())
-                    && $address->getId() != $defaultBillingId) {
+                    && $address->getId() != $defaultBillingId
+                ) {
                     $customer->setData('default_billing', $address->getId());
                 }
                 if (($address->getIsPrimaryShipping() || $address->getIsDefaultShipping())
-                    && $address->getId() != $defaultShippingId) {
+                    && $address->getId() != $defaultShippingId
+                ) {
                     $customer->setData('default_shipping', $address->getId());
                 }
             }
@@ -197,8 +200,9 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly = false)
     {
-        $bind   = array('customer_email' => $email);
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $bind    = array('customer_email' => $email);
+        $select  = $adapter->select()
             ->from($this->getEntityTable(), array($this->getEntityIdField()))
             ->where('email = :customer_email');
 
@@ -212,7 +216,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
             $select->where('website_id = :website_id');
         }
 
-        $customerId = $this->_getReadAdapter()->fetchOne($select, $bind);
+        $customerId = $adapter->fetchOne($select, $bind);
         if ($customerId) {
             $this->load($customer, $customerId);
         } else {
@@ -264,13 +268,14 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     public function checkCustomerId($customerId)
     {
-        $bind   = array('entity_id' => (int)$customerId);
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $bind    = array('entity_id' => (int)$customerId);
+        $select  = $adapter->select()
             ->from($this->getTable('customer/entity'), 'entity_id')
             ->where('entity_id = :entity_id')
             ->limit(1);
 
-        $result = $this->_getReadAdapter()->fetchOne($select, $bind);
+        $result = $adapter->fetchOne($select, $bind);
         if ($result) {
             return true;
         }
@@ -285,12 +290,13 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     public function getWebsiteId($customerId)
     {
-        $bind = array('entity_id' => (int)$customerId);
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $bind    = array('entity_id' => (int)$customerId);
+        $select  = $adapter->select()
             ->from($this->getTable('customer/entity'), 'website_id')
             ->where('entity_id = :entity_id');
 
-        return $this->_getReadAdapter()->fetchOne($select, $bind);
+        return $adapter->fetchOne($select, $bind);
     }
 
     /**

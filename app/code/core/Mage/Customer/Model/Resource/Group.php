@@ -49,10 +49,12 @@ class Mage_Customer_Model_Resource_Group extends Mage_Core_Model_Resource_Db_Abs
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array(
-            'field' => 'customer_group_code',
-            'title' => Mage::helper('customer')->__('Customer Group')
-        ));
+        $this->_uniqueFields = array(
+            array(
+                'field' => 'customer_group_code',
+                'title' => Mage::helper('customer')->__('Customer Group')
+            ));
+
         return $this;
     }
 
@@ -83,7 +85,8 @@ class Mage_Customer_Model_Resource_Group extends Mage_Core_Model_Resource_Db_Abs
             ->addAttributeToFilter('group_id', $group->getId())
             ->load();
         foreach ($customerCollection as $customer) {
-            $defaultGroupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $customer->getStoreId());
+            $defaultGroupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID,
+                $customer->getStoreId());
             $customer->setGroupId($defaultGroupId);
             $customer->save();
         }

@@ -82,7 +82,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         foreach ($attributes as $attributeCode => $attribute) {
             $attributeId = $attributeIds[$customer][$attributeCode];
             $attribute['system'] = isset($attribute['system']) ? $attribute['system'] : false;
-            if (false === ($attribute['system'] == true && $attribute['visible'] == false)) {
+            if ($attribute['system'] != true || $attribute['visible'] != false) {
                 $usedInForms = array(
                     'customer_account_create',
                     'customer_account_edit',
@@ -140,7 +140,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'customer'                       => array(
                 'entity_model'                   => 'customer/customer',
                 'attribute_model'                => 'customer/attribute',
-                'table'                   => 'customer/entity',
+                'table'                          => 'customer/entity',
                 'increment_model'                => 'eav/entity_increment_numeric',
                 'additional_attribute_table'     => 'customer/eav_attribute',
                 'entity_attribute_collection'    => 'customer/attribute_collection',
@@ -329,7 +329,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'customer_address'               => array(
                 'entity_model'                   => 'customer/address',
                 'attribute_model'                => 'customer/attribute',
-                'table'                   => 'customer/address_entity',
+                'table'                          => 'customer/address_entity',
                 'additional_attribute_table'     => 'customer/eav_attribute',
                 'entity_attribute_collection'    => 'customer/address_attribute_collection',
                 'attributes'                     => array(

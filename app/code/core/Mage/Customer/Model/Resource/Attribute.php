@@ -70,7 +70,9 @@ class Mage_Customer_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Ent
             foreach (array_keys($describe) as $columnName) {
                 $columns['scope_' . $columnName] = $columnName;
             }
-            $conditionSql = $adapter->quoteInto($this->getMainTable() . '.attribute_id = scope_table.attribute_id AND scope_table.website_id =?', $websiteId);
+            $conditionSql = $adapter->quoteInto(
+                $this->getMainTable() . '.attribute_id = scope_table.attribute_id AND scope_table.website_id =?',
+                $websiteId);
             $select->joinLeft(
                 array('scope_table' => $scopeTable),
                 $conditionSql,
@@ -110,11 +112,9 @@ class Mage_Customer_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Ent
 
         // update sort order
         if (!$object->isObjectNew() && $object->dataHasChangedFor('sort_order')) {
-            $data = array(
-                'sort_order' => $object->getSortOrder()
-            );
+            $data  = array('sort_order' => $object->getSortOrder());
             $where = array('attribute_id=?' => (int)$object->getId());
-            $this->_getWriteAdapter()->update($this->getTable('eav/entity_attribute'), $data, $where);
+            $adapter->update($this->getTable('eav/entity_attribute'), $data, $where);
         }
 
         // save scope attributes
@@ -152,16 +152,17 @@ class Mage_Customer_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Ent
      */
     public function getScopeValues(Mage_Customer_Model_Attribute $object)
     {
-        $bind = array(
+        $adapter = $this->_getReadAdapter();
+        $bind    = array(
             'attribute_id' => (int)$object->getId(),
             'website_id'   => (int)$object->getWebsite()->getId()
         );
-        $select = $this->_getReadAdapter()->select()
+        $select = $adapter->select()
             ->from($this->getTable('customer/eav_attribute_website'))
             ->where('attribute_id = :attribute_id')
             ->where('website_id = :website_id')
             ->limit(1);
-        $result = $this->_getReadAdapter()->fetchRow($select, $bind);
+        $result = $adapter->fetchRow($select, $bind);
 
         if (!$result) {
             $result = array();
@@ -178,11 +179,12 @@ class Mage_Customer_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Ent
      */
     public function getUsedInForms(Mage_Core_Model_Abstract $object)
     {
-        $bind   = array('attribute_id' => (int)$object->getId());
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $bind    = array('attribute_id' => (int)$object->getId());
+        $select  = $adapter->select()
             ->from($this->getTable('customer/form_attribute'), 'form_code')
             ->where('attribute_id = :attribute_id');
 
-        return $this->_getReadAdapter()->fetchCol($select, $bind);
+        return $adapter->fetchCol($select, $bind);
     }
 }

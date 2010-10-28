@@ -185,7 +185,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
                     $expression = $connection->getCheckSql('sa.%s IS NULL', 'ea.%s', 'sa.%s');                    
                     $saColumns[$code] = new Zend_Db_Expr(sprintf($expression,
                         $columnName, $columnName, $columnName));
-                } else if (isset($caColumns[$columnName])) {
+                } elseif (isset($caColumns[$columnName])) {
                     $code = sprintf('scope_%s', $columnName);
                     $expression = $connection->getCheckSql('sa.%s IS NULL', 'ca.%s', 'sa.%s');
                     $saColumns[$code] = new Zend_Db_Expr(sprintf($expression,
@@ -195,7 +195,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
         }
 
         $store = $this->getStore();
-        $joinWebsiteExpression = $this->getConnection()
+        $joinWebsiteExpression = $connection
             ->quoteInto('sa.attribute_id = main_table.attribute_id AND sa.website_id = ?', (int)$store->getWebsiteId());
         $select->joinLeft(
             array('sa' => $this->getTable('customer/eav_attribute_website')),
@@ -208,7 +208,7 @@ class Mage_Customer_Model_Resource_Form_Attribute_Collection extends Mage_Core_M
             $select->columns(array('store_label' => 'ea.frontend_label'));
         } else {
             $storeLabelExpr = $connection->getCheckSql('al.value IS NULL', 'ea.frontend_label', 'al.value');
-            $joinExpression = $this->getConnection()
+            $joinExpression = $connection
                 ->quoteInto('al.attribute_id = main_table.attribute_id AND al.store_id = ?', (int)$store->getId());
             $select->joinLeft(
                 array('al' => $this->getTable('eav/attribute_label')),
