@@ -194,34 +194,4 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             }
         }
     }
-
-    /**
-     * Set additional information to session about order creation for 'order creation after payment' case.
-     *
-     * @param string $orderIncrementId
-     */
-    protected function _addAdditionalInformationToSession($orderIncrementId)
-    {
-        if ($orderIncrementId &&
-            $this->_getDirectPostSession()
-                    ->isCheckoutOrderIncrementIdExist($orderIncrementId)
-        ) {
-            /* @var $quote Mage_Sales_Model_Quote */
-            $quote = Mage::getModel('sales/quote')
-                ->load($orderIncrementId, 'reserved_order_id');
-            if ($quote->getId()) {
-                $payment = $quote->getPayment();
-                if ($payment && $payment->getId() &&
-                    $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()
-                ) {
-                    $sessionData = $payment->getAdditionalInformation('session_data');
-                    if ($sessionData) {
-                        foreach ($sessionData as $key => $val) {
-                            $this->_getCheckout()->setData($key, $val);
-                        }
-                    }
-                }
-            }
-        }
-    }
 }

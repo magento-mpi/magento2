@@ -73,7 +73,7 @@ class Mage_Authorizenet_Model_Directpost_Observer
                     $session =  Mage::getSingleton('authorizenet/directpost_session');
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
                     $session->setLastOrderIncrementId($order->getIncrementId());
-                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromEntity($order);
+                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
                     $result['directpost'] = array('fields' => $requestToPaygate->getData());
                     $controller->getResponse()->clearHeader('Location');

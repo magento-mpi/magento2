@@ -112,33 +112,24 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
     }
 
     /**
-     * Set enity data to request
+     * Set entity data to request
      *
-     * @param Varien_Object $entity
+     * @param Mage_Sales_Model_Order $order
      * @param Mage_Authorizenet_Model_Directpost $paymentMethod
      * @return Mage_Authorizenet_Model_Directpost_Request
      */
-    public function setDataFromEntity($entity, Mage_Authorizenet_Model_Directpost $paymentMethod)
+    public function setDataFromOrder(Mage_Sales_Model_Order $order, Mage_Authorizenet_Model_Directpost $paymentMethod)
     {
-        $payment = $entity->getPayment();
-        if ($entity instanceof Mage_Sales_Model_Quote) {
-            $this->setXFpSequence($entity->getId());
-            $this->setXInvoiceNum($entity->getReservedOrderId());
-            $this->setXAmount($entity->getBaseGrandTotal());
-            $address = $entity->getIsVirtual() ?
-                    $entity->getBillingAddress() : $entity->getShippingAddress();
-            $this->setXTax(sprintf('%.2F', $address->getBaseTaxAmount()))
-                ->setXFreight(sprintf('%.2F', $address->getBaseShippingAmount()));
-        } elseif ($entity instanceof Mage_Sales_Model_Order) {
-            $this->setXFpSequence($entity->getQuoteId());
-            $this->setXInvoiceNum($entity->getIncrementId());
-            $this->setXAmount($payment->getBaseAmountAuthorized());
-            $this->setXTax(sprintf('%.2F', $entity->getBaseTaxAmount()))
-                ->setXFreight(sprintf('%.2F', $entity->getBaseShippingAmount()));
-        }
+        $payment = $order->getPayment();
+
+        $this->setXFpSequence($order->getQuoteId());
+        $this->setXInvoiceNum($order->getIncrementId());
+        $this->setXAmount($payment->getBaseAmountAuthorized());
+        $this->setXTax(sprintf('%.2F', $order->getBaseTaxAmount()))
+            ->setXFreight(sprintf('%.2F', $order->getBaseShippingAmount()));
 
         //need to use strval() because NULL values IE6-8 decodes as "null" in JSON in JavaScript, but we need "" for null values.
-        $billing = $entity->getBillingAddress();
+        $billing = $order->getBillingAddress();
         if (!empty($billing)) {
             $this->setXFirstName(strval($billing->getFirstname()))
                 ->setXLastName(strval($billing->getLastname()))
@@ -151,14 +142,14 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
                 ->setXPhone(strval($billing->getTelephone()))
                 ->setXFax(strval($billing->getFax()))
                 ->setXCustId(strval($billing->getCustomerId()))
-                ->setXCustomerIp(strval($entity->getRemoteIp()))
+                ->setXCustomerIp(strval($order->getRemoteIp()))
                 ->setXCustomerTaxId(strval($billing->getTaxId()))
-                ->setXEmail(strval($entity->getCustomerEmail()))
+                ->setXEmail(strval($order->getCustomerEmail()))
                 ->setXEmailCustomer(strval($paymentMethod->getConfigData('email_customer')))
                 ->setXMerchantEmail(strval($paymentMethod->getConfigData('merchant_email')));
         }
 
-        $shipping = $entity->getShippingAddress();
+        $shipping = $order->getShippingAddress();
         if (!empty($shipping)) {
             $this->setXShipToFirstName(strval($shipping->getFirstname()))
                 ->setXShipToLastName(strval($shipping->getLastname()))

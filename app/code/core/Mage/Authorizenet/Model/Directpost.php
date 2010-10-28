@@ -176,11 +176,11 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * @param Mage_Core_Model_Abstract $entity Quote or order object.
      * @return Mage_Authorizenet_Model_Directpost_Request
      */
-    public function generateRequestFromEntity(Mage_Core_Model_Abstract $entity)
+    public function generateRequestFromOrder(Mage_Sales_Model_Order $order)
     {
         $request = $this->_getRequestModel();
         $request->setConstantData($this)
-            ->setDataFromEntity($entity, $this)
+            ->setDataFromEntity($order, $this)
             ->signRequestData();
 
         $this->_debug(array('request' => $request->getData()));
@@ -276,9 +276,9 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             ->setParentTransactionId(null)
             ->setIsTransactionClosed(0)
             ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
+
         if ($response->getXMethod() == self::REQUEST_METHOD_CC) {
-            $payment
-                ->setCcAvsStatus($response->getXAvsCode())
+            $payment->setCcAvsStatus($response->getXAvsCode())
                 ->setCcLast4($payment->encrypt(substr($response->getXAccountNumber(), -4)));
         }
     }
