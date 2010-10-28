@@ -2957,7 +2957,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     $to     = $this->_prepareSqlDateCondition($condition, 'to');
                     $query = $this->_prepareQuotedSqlCondition($query . $conditionKeyMap['to'], $to, $fieldName);
                 }
-            } elseif (in_array($key, array_keys($conditionKeyMap))) {
+            } elseif (array_key_exists($key, $conditionKeyMap)) {
                 $query = $this->_prepareQuotedSqlCondition($conditionKeyMap[$key], $condition[$key], $fieldName);
             } else {
                 $queries = array();
