@@ -37,8 +37,6 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     protected $_formBlockType = 'directpost/form';
     protected $_infoBlockType = 'payment/info';
 
-    protected static $_createOrderBefore;
-
     /**
      * Availability options
      */
@@ -65,31 +63,6 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     }
 
     /**
-     * Return the value of setting 'create_order_before'
-     *
-     * @return int
-     */
-    protected function _getCreateOrderBefore()
-    {
-        if (!isset(self::$_createOrderBefore)) {
-            self::$_createOrderBefore = $this->getConfigData('create_order_before');
-        }
-        return self::$_createOrderBefore;
-    }
-
-    /**
-     * Set the value of setting 'create_order_before' to static variable (need to operate with quote)
-     *
-     * @param int $createOrderBefore
-     * @return Mage_Authorizenet_Model_Directpost
-     */
-    protected function _setCreateOrderBefore($createOrderBefore)
-    {
-        self::$_createOrderBefore = $createOrderBefore;
-        return $this;
-    }
-
-    /**
      * Send authorize request to gateway
      *
      * @param  Varien_Object $payment
@@ -100,12 +73,6 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     public function authorize(Varien_Object $payment, $amount)
     {
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
-        if (!$this->_getCreateOrderBefore()) {
-            $response = $this->getResponse();
-            if ($response->getXTransId() && $response->isApproved()) {
-                $this->_fillPaymentByResponse($payment);
-            }
-        }
     }
 
     /**
@@ -131,7 +98,6 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).
             'authorizenet/directpost_payment/response';
     }
-
 
     /**
      * Return request model for form data building
@@ -169,34 +135,16 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 $order->setCanSendNewEmailFlag(false);
                 $payment->authorize(true, $order->getBaseTotalDue()); // base amount will be set inside
                 $payment->setAmountAuthorized($order->getTotalDue());
-                if ($this->_getCreateOrderBefore()) {
-                    $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, 'pending_payment', '', false);
 
-                    $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
-                    $stateObject->setStatus('pending_payment');
-                    $stateObject->setIsNotified(false);
-                }
+                $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, 'pending_payment', '', false);
+
+                $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
+                $stateObject->setStatus('pending_payment');
+                $stateObject->setIsNotified(false);
                 break;
             default:
                 break;
         }
-    }
-
-    /**
-     * Generate request object and fill its fields from Order object
-     *
-     * @param Mage_Sales_Model_Order $order
-     * @return Mage_Authorizenet_Model_Directpost_Request
-     */
-    public function generateRequestFromOrder(Mage_Sales_Model_Order $order)
-    {
-        $request = $this->_getRequestModel();
-        $request->setConstantData($this)
-            ->setDataFromEntity($order, $this)
-            ->signRequestData();
-        $this->_debug(array('request' => $request->getData()));
-
-        return $request;
     }
 
     /**
@@ -272,23 +220,13 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $responseText = $this->_wrapGatewayError($response->getXResponseReasonText());
         $isError = false;
         if ($orderIncrementId) {
-            if ($response->getCreateOrderBefore()) {
-                /* @var $order Mage_Sales_Model_Order */
-                $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
-                if ($order->getId() &&  $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
-                    //operate with order
-                    $this->_authOrder($order);
-                } else {
-                    $isError = true;
-                }
+            /* @var $order Mage_Sales_Model_Order */
+            $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+            if ($order->getId() &&  $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+                //operate with order
+                $this->_authOrder($order);
             } else {
-                $quote = Mage::getModel('sales/quote')->load($orderIncrementId, 'reserved_order_id');
-                if ($quote->getId()) {
-                    //operate with quote
-                    $this->_authQuote($quote);
-                } else {
-                    $isError = true;
-                }
+                $isError = true;
             }
         } else {
             $isError = true;
@@ -425,90 +363,6 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 ->setIsActive(false)
                 ->save();
         } catch (Exception $e) {} // do not cancel order if we couldn't send email
-
-    }
-
-    /**
-     * Operate with quote to create new order.
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     */
-    protected function _authQuote(Mage_Sales_Model_Quote $quote)
-    {
-        $this->checkResponseCode();
-        $this->checkTransId();
-
-        $response = $this->getResponse();
-
-        try {
-            $quote->collectTotals()->save();
-        }
-        catch (Exception $e) {
-            $this->_declineQuote($quote);
-            throw $e;
-        }
-
-
-        //match amounts. should be equals for authorization.
-        //decline the quote if amount does not match.
-        if (!$this->_matchAmount($quote->getBaseGrandTotal())) {
-            $message = Mage::helper('authorizenet')->__('Payment error. Paid amount doesn\'t match the order amount.');
-            $this->_declineQuote($quote);
-            Mage::throwException($message);
-        }
-
-        //auth order
-        /* @var $service Mage_Sales_Model_Service_Quote */
-        $service = Mage::getModel('sales/service_quote', $quote);
-        $createOrderBefore = $this->_getCreateOrderBefore();
-        $this->_setCreateOrderBefore($response->getCreateOrderBefore());
-        try {
-            $service->submitAll();
-            $this->_setCreateOrderBefore($createOrderBefore);
-            $order = $service->getOrder();
-            $payment = $order->getPayment();
-
-            //set additional result if needed
-            $result['last_order_id'] = $order->getId();
-            $result['last_real_order_id'] = $order->getIncrementId();
-            $result['last_success_quote_id'] = $quote->getId();
-            $result['last_quote_id'] = $quote->getId();
-
-            // as well a billing agreement can be created
-            $agreement = $payment->getBillingAgreement();
-            if ($agreement) {
-                $result['last_billing_agreement_id'] = $agreement->getId();
-            }
-
-            // add recurring profiles information to the session
-            $profiles = $service->getRecurringPaymentProfiles();
-            if ($profiles) {
-                $ids = array();
-                foreach ($profiles as $profile) {
-                    $ids[] = $profile->getId();
-                }
-                $result['last_recurring_profile_ids'] = $ids;
-                // TODO: send recurring profile emails
-            }
-
-            $quotePayment = $quote->getPayment();
-            $quotePayment->setAdditionalInformation('session_data', $result);
-            $quote->save();
-        }
-        catch (Exception $e) {
-            $this->_setCreateOrderBefore($createOrderBefore);
-            $this->_declineQuote($quote);
-            throw $e;
-        }
-
-        //capture order using AIM if needed
-        $this->_captureOrder($order);
-
-        try {
-            if (!$response->hasOrderSendConfirmation() || $response->getOrderSendConfirmation()) {
-                $order->sendNewOrderEmail();
-            }
-        } catch (Exception $e) {} // do not cancel order if we couldn't send email
     }
 
     /**
@@ -557,42 +411,6 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 Mage::logException($e);
                 //if we couldn't capture order, just leave it as NEW order.
             }
-        }
-    }
-
-    /**
-     * Return money to customer by quote.
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     */
-    protected function _declineQuote(Mage_Sales_Model_Quote $quote)
-    {
-        try {
-            $response = $this->getResponse();
-            if ($response->getXTransId() && strtoupper($response->getXType()) == self::REQUEST_TYPE_AUTH_ONLY) {
-                $payment = new Varien_Object();
-                $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
-                $payment->setXTransId($response->getXTransId());
-                $pseudoOrder = new Varien_Object();
-                $pseudoOrder->setStoreId($quote->getStoreId());
-                $payment->setOrder($pseudoOrder);
-
-                $request = $this->_buildRequest($payment);
-                $result = $this->_postRequest($request);
-
-                switch ($result->getResponseCode()) {
-                    case self::RESPONSE_CODE_APPROVED:
-                        return;
-                    case self::RESPONSE_CODE_DECLINED:
-                    case self::RESPONSE_CODE_ERROR:
-                        Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
-                    default:
-                        Mage::throwException(Mage::helper('paygate')->__('Payment voiding error.'));
-                }
-            }
-        } catch (Exception $e) {
-            //quiet decline
-            Mage::logException($e);
         }
     }
 }

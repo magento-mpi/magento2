@@ -105,8 +105,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
         $this->setXLogin($paymentMethod->getConfigData('login'))
             ->setXType('AUTH_ONLY')
             ->setXMethod(Mage_Paygate_Model_Authorizenet::REQUEST_METHOD_CC)
-            ->setXRelayUrl($paymentMethod->getRelayUrl())
-            ->setCreateOrderBefore($paymentMethod->getConfigData('create_order_before'));
+            ->setXRelayUrl($paymentMethod->getRelayUrl());
 
         $this->_setTransactionKey($paymentMethod->getConfigData('trans_key'));
         return $this;

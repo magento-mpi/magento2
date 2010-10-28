@@ -46,13 +46,13 @@ class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session
      *
      * @param string $orderIncrementId
      */
-    public function addCheckoutOrderIncrementId($orderIncrementId, $additionalData = array())
+    public function addCheckoutOrderIncrementId($orderIncrementId)
     {
         $orderIncIds = $this->getDirectPostOrderIncrementIds();
         if (!$orderIncIds) {
             $orderIncIds = array();
         }
-        $orderIncIds[$orderIncrementId] = $additionalData;
+        $orderIncIds[$orderIncrementId] = 1;
         $this->setDirectPostOrderIncrementIds($orderIncIds);
     }
 
@@ -88,20 +88,5 @@ class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session
             return true;
         }
         return false;
-    }
-
-    /**
-     * Get order's additional data. Needed for Admin area.
-     *
-     * @param string $orderIncrementId
-     * @return array|int|string|null
-     */
-    public function getCheckoutOrderData($orderIncrementId)
-    {
-        $orderIncIds = $this->getDirectPostOrderIncrementIds();
-        if (isset($orderIncIds[$orderIncrementId])) {
-            return $orderIncIds[$orderIncrementId];
-        }
-        return null;
     }
 }
