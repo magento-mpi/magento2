@@ -140,8 +140,10 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
         $layoutUpdateLinkTable = $this->getTable('core/layout_link');
 
         foreach ($pageGroupData['layout_handle_updates'] as $handle) {
-            $xml = $widgetInstance->generateLayoutUpdateXml($pageGroupData['block_reference'],
-                $pageGroupData['template']);
+            $xml = $widgetInstance->generateLayoutUpdateXml(
+                $pageGroupData['block_reference'],
+                $pageGroupData['template']
+            );
             $insert = array(
                     'handle'     => $handle,
                     'xml'        => $xml
