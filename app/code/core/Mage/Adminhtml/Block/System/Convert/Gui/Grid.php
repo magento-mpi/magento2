@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('dataflow/profile_collection')
-            ->addFieldToFilter('entity_type', array('neq'=>'NULL'));
+            ->addFieldToFilter('entity_type', array('notnull'=>''));
 
         $this->setCollection($collection);
 
