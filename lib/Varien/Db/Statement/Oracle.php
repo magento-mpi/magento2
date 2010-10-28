@@ -44,6 +44,7 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
             'LONG'        => 'string',
             'TIMESTAMP'   => 'string',
             'CLOB'        => 'string',
+            'BLOB'        => 'string',
             'DATE'        => 'string',
             'VARCHAR2'    => 'string',
         );

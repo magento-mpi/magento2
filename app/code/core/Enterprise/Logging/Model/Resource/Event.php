@@ -61,8 +61,8 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
      */
     public function rotate($lifetime)
     {
-        $this->beginTransaction();
-        try {
+//        $this->beginTransaction();
+//        try {
             $readAdapter  = $this->_getReadAdapter();
             $writeAdapter = $this->_getWriteAdapter();
             $table = $this->getTable('enterprise_logging/event');
@@ -97,11 +97,11 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
                 fclose($csv);
 
                 $writeAdapter->delete($this->getMainTable(), array('log_id <= ?' => $latestLogEntry));
-                $this->commit();
+//                $this->commit();
             }
-        } catch (Exception $e) {
-            $this->rollBack();
-        }
+//        } catch (Exception $e) {
+//            $this->rollBack();
+//        }
     }
 
     /**

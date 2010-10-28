@@ -765,6 +765,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return $this->showTableStatus($tableName, $schemaName) !== false;
     }
 
+
+    /**
+     * Returns a list of the tables in the database.
+     *
+     * @return array
+     */
+    public function listTables()
+    {
+        $select = $this->select()
+            ->from('user_tables', array('table_name'));
+
+        return $this->fetchCol($select);
+    }
+
     /**
      * Returns short table status array
      *
@@ -774,16 +788,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function showTableStatus($tableName, $schemaName = null)
     {
-        $table = 'user_tables';
-        if (!is_null($schemaName)) {
-            $table = 'all_tables';
+        if ($schemaName === null) {
+            $schemaName = new Zend_Db_Expr("sys_context('USERENV','CURRENT_SCHEMA')");
         }
+
         $select = $this->select()
-            ->from($table)
-            ->where('table_name = upper(?)', $tableName);
-        if (!is_null($schemaName)) {
-            $select->where('owner = upper(?)', $schemaName);
-        }
+            ->from('all_tables')
+            ->where('table_name = upper(?)', $tableName)
+            ->where('owner = upper(?)', $schemaName);
 
         return $this->fetchRow($select);
     }
@@ -4191,141 +4203,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $select->order($spec);
 
         return $this;
-    }
-
-    /**
-     * Return sql expresion analog MySql Unix_TimeStamp function
-     *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function getUnixTimeStamp($field = null)
-    {
-        if (!$field){
-            $field = 'SYSDATE';
-        }
-        return new Zend_Db_Expr(
-            sprintf("(%s - TO_DATE('01-JAN-1970','DD-MON-YYYY')) * (86400)", $field)
-        );
-    }
-
-    /*
-     * Get columns list from parser
-     *
-     * @param string $table
-     * @return array
-     */
-    protected function _getTableAllFields($table)
-    {
-        $stmt = oci_parse(
-                $this->getConnection(),
-                sprintf("SELECT * FROM %s WHERE ROWNUM = 0", $table)
-          );
-        oci_execute($stmt);
-        $ncols = oci_num_fields($stmt);
-
-        $columns = array();
-
-        for ($i = 1; $i <= $ncols; $i++) {
-            $columns[] = oci_field_name($stmt, $i);
-        }
-
-        return $columns;
-    }
-    /*
-     * Preapare columns list
-     *
-     * @param Varien_Db_Select $select
-     * @return Varien_Db_Select
-     */
-    public function preapareColumnsList(Varien_Db_Select $select)
-    {
-        if (!count($select->getPart(Zend_Db_Select::COLUMNS)) || !count($select->getPart(Zend_Db_Select::FROM))) {
-            return null;
-        }
-        $tables = $select->getPart(Zend_Db_Select::FROM);
-        $preaparedColumns = array();
-        $columns = $select->getPart(Zend_Db_Select::COLUMNS);
-        foreach ($select->getPart(Zend_Db_Select::COLUMNS) as $columnEntry) {
-            list($correlationName, $column, $alias) = $columnEntry;
-            if($column instanceof Zend_Db_Expr) {
-                if (!is_null($alias)) {
-                    $preaparedColumns[strtoupper($alias)] = array(null, $column, $alias);
-                } else {
-                    throw new Zend_Db_Exception("Cann't preapare expresion without alias");
-                }
-            } else {
-                if ($column == Zend_Db_Select::SQL_WILDCARD) {
-                    foreach($this->_getTableAllFields($tables[$correlationName]['tableName']) as $col) {
-                        $preaparedColumns[strtoupper($col)] = array($correlationName, $col, null);
-                    }
-                } else {
-                    $preaparedColumns[strtoupper(!is_null($alias) ? $alias : $column)] = array(
-                        $correlationName, $column, $alias);
-                }
-            }
-        }
-        $select->reset(Zend_Db_Select::COLUMNS);
-        $select->setPart(Zend_Db_Select::COLUMNS, array_values($preaparedColumns));
-        return $select;
-    }
-
-    /*
-     * Render Sql using Windows(Analytic) functions
-     *
-     * @param Varien_Db_Select $select
-     * @return select
-     */
-    public function getWindSql(Varien_Db_Select $select)
-    {
-        $select = $this->preapareColumnsList($select);
-        $orderCondition = null;
-        $groupByCondition = null;
-        if ($select->getPart(Zend_Db_Select::ORDER)) {
-            $order = array();
-            foreach ($select->getPart(Zend_Db_Select::ORDER) as $term) {
-                if (is_array($term)) {
-                    if (!is_numeric($term[0])) {
-                        $order[] = $this->quoteIdentifier($term[0], true) . ' ' . $term[1];
-                    } else {
-                        throw new Zend_Db_Exception("Cann't use field number as order field");
-                    }
-                } else {
-                    if (!is_numeric($term)) {
-                        $order[] = $this->quoteIdentifier($term, true);
-                    } else {
-                        throw new Zend_Db_Exception("Cann't use field number as order field");
-                    }
-                }
-            $orderCondition = implode(', ', $order);
-
-            }
-        }
-        if ($select->getPart(Zend_Db_Select::GROUP)) {
-            $group = array();
-            foreach ($select->getPart(Zend_Db_Select::GROUP) as $term) {
-                $group[] = $this->quoteIdentifier($term, true);
-            }
-            $groupByCondition = implode(', ', $group);
-        }
-
-        if ($groupByCondition) {
-            $select->reset('GROUP');
-            $select->columns(array("varien_group_rank" =>
-                Zend_Db_Expr(sprintf("RANK() OVER (%s ORDER BY rownum)", $groupByCondition)))
-            );
-        }
-
-        if ($orderCondition) {
-            $select->reset('ORDER');
-            $select->columns(array("varien_order_condition" =>
-                Zend_Db_Expr(sprintf("RANK() OVER (ORDER BY %s)", $orderCondition)))
-            );
-        }
-        return sprintf("SELECT varien_wind_table.* FROM (%s) varien_wind_table %s",
-            $select->assemble(),
-            !empty($groupByCondition) ? "" : "WHERE varien_wind_table.varien_group_rank = 1"
-        );
     }
 
     /**
