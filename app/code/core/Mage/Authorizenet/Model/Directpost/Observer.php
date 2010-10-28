@@ -65,17 +65,22 @@ class Mage_Authorizenet_Model_Directpost_Observer
             if ($payment && $payment->getMethod() == Mage::getModel('authorizenet/directpost')->getCode()) {
                 /* @var $controller Mage_Core_Controller_Varien_Action */
                 $controller = $observer->getEvent()->getData('controller_action');
-                $result = Mage::helper('core')->jsonDecode($controller->getResponse()->getBody('default'), Zend_Json::TYPE_ARRAY);
+                $result = Mage::helper('core')->jsonDecode(
+                    $controller->getResponse()->getBody('default'),
+                    Zend_Json::TYPE_ARRAY
+                );
 
                 if (empty($result['error'])) {
                     $payment = $order->getPayment();
-                    //if is success, then set order to session and add new fields
-                    $session =  Mage::getSingleton('authorizenet/directpost_session');
+                    //if success, then set order to session and add new fields
+                    $session = Mage::getSingleton('authorizenet/directpost_session');
                     $session->addCheckoutOrderIncrementId($order->getIncrementId());
                     $session->setLastOrderIncrementId($order->getIncrementId());
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
+
                     $result['directpost'] = array('fields' => $requestToPaygate->getData());
+
                     $controller->getResponse()->clearHeader('Location');
                     $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
                 }

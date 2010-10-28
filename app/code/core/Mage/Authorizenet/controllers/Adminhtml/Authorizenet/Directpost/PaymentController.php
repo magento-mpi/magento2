@@ -175,18 +175,9 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
                 /* @var $order Mage_Sales_Model_Order */
                 $order = Mage::getModel('sales/order')->loadByIncrementId($redirectParams['x_invoice_num']);
                 if ($order->getId()) {
-                    //set data for new order from session if needed
-                    if ($orderData = $this->_getDirectPostSession()->getCheckoutOrderData($order->getIncrementId())) {
-                        $order->addData($orderData);
-                        Mage::helper('authorizenet')->updateOrderEditIncrements($order);
-                    }
-                    //set data for old order
-                    $oldOrder->setRelationChildId($order->getId());
-                    $oldOrder->setRelationChildRealId($order->getIncrementId());
                     $oldOrder->cancel()
                         ->save();
                     $order->save();
-
                     $this->_getOrderCreateModel()->getSession()->unsOrderId();
                 }
             }

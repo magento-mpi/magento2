@@ -53,7 +53,7 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
     protected function _toHtml()
     {
         if ($this->getMethod()->getCode() != Mage::getSingleton('authorizenet/directpost')->getCode()) {
-            return;
+            return null;
         }
 
         return parent::_toHtml();
@@ -82,7 +82,7 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
     public function isAjaxRequest()
     {
         return $this->getAction()
-                    ->getRequest()
-                    ->getParam('isAjax');
+            ->getRequest()
+            ->getParam('isAjax');
     }
 }
