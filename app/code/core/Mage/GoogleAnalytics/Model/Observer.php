@@ -95,7 +95,7 @@ class Mage_GoogleAnalytics_Model_Observer
         $beforeHtml = $block->getBeforeHtml();
         $protocol = Mage::app()->getStore()->isCurrentlySecure() ? 'https' : 'http';
         $block->setBeforeHtml($beforeHtml . '<script src="' . $protocol
-            .'://checkout.google.com/files/digital/ga_post.js" type="text/javascript"></script>'
+            . '://checkout.google.com/files/digital/ga_post.js" type="text/javascript"></script>'
         );
         $this->_isGoogleCheckoutLinkAdded = true;
     }
