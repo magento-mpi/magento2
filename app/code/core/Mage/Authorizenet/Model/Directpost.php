@@ -75,7 +75,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
     }
 
- 	/**
+     /**
      * Refund the amount with transaction id.
      * Need to decode Last 4 digits for request.
      *

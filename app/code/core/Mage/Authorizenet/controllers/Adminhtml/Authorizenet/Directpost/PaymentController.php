@@ -208,7 +208,7 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController exte
         $this->getResponse()->setBody($block->toHtml());
     }
 
-	/**
+    /**
      * Return order quote by ajax
      *
      */
