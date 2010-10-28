@@ -62,21 +62,6 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         return true;
     }
 
-	/**
-     * Prepare info instance for save.
-     * Need to encrypt last 4 cc numbers.
-     *
-     * @return Mage_Authorizenet_Model_Directpost
-     */
-    public function prepareSave()
-    {
-        parent::prepareSave();
-        $info = $this->getInfoInstance();
-        $info->setCcLast4($info->encrypt($info->getCcLast4()));
-
-        return $this;
-    }
-
     /**
      * Send authorize request to gateway
      *
@@ -92,7 +77,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 
  	/**
      * Refund the amount with transaction id.
-     * Need to decode Last 4 digits.
+     * Need to decode Last 4 digits for request.
      *
      * @param Varien_Object $payment
      * @param decimal $amount
@@ -101,8 +86,16 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      */
     public function refund(Varien_Object $payment, $amount)
     {
-        $payment->setCcLast4($payment->decrypt($payment->getCcLast4()));
-        return parent::refund($payment, $amount);
+        $last4 = $payment->getCcLast4();
+        $payment->setCcLast4($payment->decrypt($last4));
+        try {
+            parent::refund($payment, $amount);
+        } catch (Exception $e) {
+            $payment->setCcLast4($last4);
+            throw $e;
+        }
+        $payment->setCcLast4($last4);
+        return $this;
     }
 
     /**
@@ -284,9 +277,9 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             ->setIsTransactionClosed(0)
             ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
         if ($response->getXMethod() == self::REQUEST_METHOD_CC) {
-            $payment->setCcType($response->getXCardType())
+            $payment
                 ->setCcAvsStatus($response->getXAvsCode())
-                ->setCcLast4(substr($response->getXAccountNumber(), -4));
+                ->setCcLast4($payment->encrypt(substr($response->getXAccountNumber(), -4)));
         }
     }
 
