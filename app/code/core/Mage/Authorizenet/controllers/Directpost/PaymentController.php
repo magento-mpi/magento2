@@ -44,7 +44,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
     /**
      * Get session model
 
-     * @return Mage_DirectPost_Model_Session
+     * @return Mage_Authorizenet_Model_Directpost_Session
      */
     protected function _getDirectPostSession()
     {
@@ -54,7 +54,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
     /**
      * Get iframe block instance
      *
-     * @return Mage_DirectPost_Block_Iframe
+     * @return Mage_Authorizenet_Block_Directpost_Iframe
      */
     protected function _getIframeBlock()
     {
@@ -175,6 +175,7 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $this->_getDirectPostSession()
                 ->isCheckoutOrderIncrementIdExist($incrementId)
         ) {
+            /* @var $order Mage_Sales_Model_Order */
             $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
                 $quote = Mage::getModel('sales/quote')
