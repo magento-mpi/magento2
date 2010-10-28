@@ -229,9 +229,6 @@ class Mage_Catalog_Model_Mysql4_Convert
             ->join(array('aov'=>$this->getTable('eav/attribute_option_value')), 'aov.option_id=ao.option_id', array('value_id', 'value'))
             ->where('aov.store_id=0');
 
-        echo $select->__toString();
-        die();
-
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->addAttributeToSelect('*')
             ->load();
