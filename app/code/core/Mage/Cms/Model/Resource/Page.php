@@ -346,7 +346,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             ->where('page_id = :page_id');
 
         $binds = array(
-            'page_id' => (int) $id
+            ':page_id' => (int) $id
         );
 
         return $adapter->fetchOne($select, $binds);
@@ -367,7 +367,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             ->where('page_id = :page_id');
 
         $binds = array(
-            'page_id' => (int) $id
+            ':page_id' => (int) $id
         );
 
         return $adapter->fetchOne($select, $binds);
@@ -388,7 +388,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             ->where('page_id = :page_id');
 
         $binds = array(
-            'page_id' => (int) $id
+            ':page_id' => (int) $id
         );
 
         return $adapter->fetchCol($select, $binds);

@@ -164,7 +164,7 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
             }
 
             $this->addFilter('store', array('in' => $store), 'public');
-        }    
+        }
         return $this;
     }
 
@@ -179,6 +179,11 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
                 'main_table.page_id = store_table.page_id',
                 array()
             )->group('main_table.page_id');
+
+            /*
+             * Allow analytic functions usage because of one field grouping
+             */
+            $this->_useAnalyticFunction = true;
         }
         return parent::_renderFiltersBefore();
     }
