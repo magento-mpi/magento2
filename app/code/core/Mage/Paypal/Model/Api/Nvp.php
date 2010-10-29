@@ -510,7 +510,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function getApiEndpoint()
     {
-        return sprintf('https://api-3t%s.paypal.com/nvp', $this->_config->sandboxFlag ? '.sandbox' : '');
+        $url = $this->getUseCertAuthentication() ? 'https://api%s.paypal.com/nvp' : 'https://api-3t%s.paypal.com/nvp';
+        return sprintf($url, $this->_config->sandboxFlag ? '.sandbox' : '');
     }
 
     /**
@@ -868,8 +869,12 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $request = $this->_addMethodToRequest($methodName, $request);
         $eachCallRequest = $this->_prepareEachCallRequest($methodName);
+        if ($this->getUseCertAuthentication()) {
+            if ($key = array_search('SIGNATURE', $eachCallRequest)) {
+                unset($eachCallRequest[$key]);
+            }
+        }
         $request = $this->_exportToRequest($eachCallRequest, $request);
-
         $debugData = array('url' => $this->getApiEndpoint(), $methodName => $request);
 
         try {
@@ -877,6 +882,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $config = array('timeout' => 30);
             if ($this->getUseProxy()) {
                 $config['proxy'] = $this->getProxyHost(). ':' . $this->getProxyPort();
+            }
+            if ($this->getUseCertAuthentication()) {
+                $websiteId = Mage::app()->getStore()->getWebsiteId();
+                $config['ssl_cert'] = Mage::getModel('paypal/cert')->loadByWebsite($websiteId, false)->getCertPath();
             }
             $http->setConfig($config);
             $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $this->_buildQuery($request));

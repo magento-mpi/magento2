@@ -579,4 +579,14 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     {
         return $this->_config->debug;
     }
+
+    /**
+     * Check whether API certificate authentication should be used
+     *
+     * @return bool
+     */
+    public function getUseCertAuthentication()
+    {
+        return (bool)$this->_config->apiAuthentication;
+    }
 }

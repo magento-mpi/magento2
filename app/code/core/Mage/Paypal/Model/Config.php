@@ -1146,6 +1146,7 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName)
         {
+            case 'api_authentication':
             case 'api_username':
             case 'api_password':
             case 'api_signature':
@@ -1253,6 +1254,19 @@ class Mage_Paypal_Model_Config
             default:
                 return null;
         }
+    }
+
+    /**
+     * Payment API authentication methods source getter
+     *
+     * @return array
+     */
+    public function getApiAuthenticationMethods()
+    {
+        return array(
+            '0' => Mage::helper('paypal')->__('API Signature'),
+            '1' => Mage::helper('paypal')->__('API Certificate')
+        );
     }
 }
 
