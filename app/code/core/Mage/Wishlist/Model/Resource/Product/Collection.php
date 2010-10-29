@@ -127,6 +127,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
      */
     public function addStoreData()
     {
+        $adapter = $this->getConnection();
         if (!$this->getDaysInWishlist()) {
             return $this;
         }
@@ -135,10 +136,16 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
 
         $dayTable = 't_wi';
 
+        $resourceHelper = Mage::getResourceHelper('wishlist');
+        $startDate      = $adapter->quote(substr(Mage::getSingleton('core/date')->date(), 0, -2) . '00');
+        $endDate        = $adapter->getDateAddSql($dayTable.'.added_at', 
+            (int) Mage::getSingleton('core/date')->getGmtOffset(),
+            'SECOND');
+
         $this->joinField('store_name', 'core/store', 'name', 'store_id=item_store_id');
         $this->joinField('days_in_wishlist',
             'wishlist/item',
-            "(TO_DAYS('" . (substr(Mage::getSingleton('core/date')->date(), 0, -2) . '00') . "') - TO_DAYS(DATE_ADD(".$dayTable.".added_at, INTERVAL " .(int) Mage::getSingleton('core/date')->getGmtOffset() . " SECOND)))",
+            $resourceHelper->getDateDiff($startDate, $endDate),
             'wishlist_item_id=wishlist_item_id'
         );
 
