@@ -274,7 +274,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Initialize product(s) for add to cart process
      *
      * @param   Varien_Object $buyRequest
-     * @param Mage_Catalog_Model_Product $product
+     * @param   Mage_Catalog_Model_Product $product
      * @return  array|string
      */
     public function prepareForCart(Varien_Object $buyRequest, $product = null)
@@ -743,5 +743,43 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             return array();
         }
         return array(array($product));
+    }
+
+    /**
+     * Prepare selected options for product
+     *
+     * @param  Mage_Catalog_Model_Product $product
+     * @param  Varien_Object $buyRequest
+     * @return array
+     */
+    public function processBuyRequest($product, $buyRequest)
+    {
+        return array();
+    }
+
+    /**
+     * Check product's options configuration
+     *
+     * @param  Mage_Catalog_Model_Product $product
+     * @param  Varien_Object $buyRequest
+     * @return array
+     */
+    public function checkProductConfiguration($product, $buyRequest)
+    {
+        $errors = array();
+
+        try {
+            $result = $this->prepareForCart($buyRequest, $product);
+
+            if (is_string($result)) {
+               $errors[] = $result;
+            }
+        } catch (Mage_Core_Exception $e) {
+            $errors[] = $e->getMessages();
+        } catch (Exception $e) {
+            $errors[] = $e->getMessages();
+        }
+
+        return $errors;
     }
 }

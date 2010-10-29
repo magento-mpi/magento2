@@ -84,7 +84,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected static $_url;
     protected static $_urlRewrite;
 
-    protected $_errors    = array();
+    protected $_errors = array();
 
     protected $_optionInstance;
 
@@ -228,8 +228,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      *
      * Type instance implement type depended logic
      *
-     * @param bool $singleton
-     * @return  Mage_Catalog_Model_Product_Type_Abstract
+     * @param  bool $singleton
+     * @return Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getTypeInstance($singleton = false)
     {
@@ -259,8 +259,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if ($singleton === true) {
             $this->_typeInstanceSingleton = $instance;
-        }
-        else {
+        } else {
             $this->_typeInstance = $instance;
         }
         return $this;
@@ -328,8 +327,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if (is_string($ids)) {
             $ids = explode(',', $ids);
-        }
-        elseif (!is_array($ids)) {
+        } elseif (!is_array($ids)) {
             Mage::throwException(Mage::helper('catalog')->__('Invalid category IDs.'));
         }
         foreach ($ids as $i => $v) {
@@ -427,8 +425,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                     $attributes[] = $attribute;
                 }
             }
-        }
-        else {
+        } else {
             $attributes = $productAttributes;
         }
 
@@ -482,12 +479,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->setHasOptions(true);
             if ($hasRequiredOptions || (bool)$this->getTypeHasRequiredOptions()) {
                 $this->setRequiredOptions(true);
-            }
-            elseif ($this->canAffectOptions()) {
+            } elseif ($this->canAffectOptions()) {
                 $this->setRequiredOptions(false);
             }
-        }
-        elseif ($this->canAffectOptions()) {
+        } elseif ($this->canAffectOptions()) {
             $this->setHasOptions(false);
             $this->setRequiredOptions(false);
         }
@@ -1754,19 +1749,34 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Parses buyRequest into options values used by product
+     * Parse buyRequest into options values used by product
      *
-     * @param Varien_Object $infoBuyRequest
+     * @param  Varien_Object $buyRequest
      * @return Varien_Object
      */
-    public function processBuyRequest($buyRequest)
+    public function processBuyRequest(Varien_Object $buyRequest)
     {
-        $optionValues = new Varien_Object();
-        return $optionValues;
+        $options = new Varien_Object();
+
+        /* add product custom options data */
+        $customOptions = $buyRequest->getOptions();
+        if (is_array($customOptions)) {
+            $options->setOptions(array_diff($buyRequest->getOptions(), array('')));
+        }
+
+        /* add product type selected options data */
+        $type = $this->getTypeInstance(true);
+        $typeSpecificOptions = $type->processBuyRequest($this, $buyRequest);
+        $options->addData($typeSpecificOptions);
+
+        /* check correctness of product's options */
+        $options->setErrors($type->checkProductConfiguration($this, $buyRequest));
+
+        return $options;
     }
 
     /**
-     * Gets preconfigured values from product
+     * Get preconfigured values from product
      *
      * @return Varien_Object
      */
@@ -1776,6 +1786,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (!$preconfiguredValues) {
             $preconfiguredValues = new Varient_Object();
         }
+
         return $preconfiguredValues;
     }
 }

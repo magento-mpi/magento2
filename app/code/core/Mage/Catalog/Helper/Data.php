@@ -275,12 +275,11 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Prepares product options by buyRequest: retrieves values and assignes them as default.
-     * Also parses and adds product management related values - e.g. qty
+     * Prepare product options by buyRequest: retrieve values and assign them as default.
+     * Also parse and add product management related values - e.g. qty
      *
-     * @param Mage_Catalog_Model_Product $product
-     * @param Varien_Object $infoBuyRequest
-     *
+     * @param  Mage_Catalog_Model_Product $product
+     * @param  Varien_Object $buyRequest
      * @return Mage_Catalog_Helper_Data
      */
     public function prepareOptions($product, $buyRequest)
@@ -288,6 +287,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         $optionValues = $product->processBuyRequest($buyRequest);
         $optionValues->setQty($buyRequest->getQty());
         $product->setPreconfiguredValues($optionValues);
+
         return $this;
     }
 }

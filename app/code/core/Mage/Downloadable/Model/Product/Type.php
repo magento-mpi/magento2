@@ -424,4 +424,18 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     {
         return $this->hasLinks($product) && parent::isSalable($product);
     }
+
+    /**
+     * Prepare selected options for downloadable product
+     *
+     * @param  Mage_Catalog_Model_Product $product
+     * @param  Varien_Object $buyRequest
+     * @return array
+     */
+    public function processBuyRequest($product, $buyRequest)
+    {
+        $options = array('links' => array_filter($buyRequest->getLinks(), 'intval'));
+
+        return $options;
+    }
 }
