@@ -745,7 +745,11 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             case 'TIMESTAMP':
                 return Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
             case 'NUMBER':
-                return Varien_Db_Ddl_Table::TYPE_BIGINT;
+                if(array_key_exists('SCALE', $column) && $column['SCALE'] > 0) {
+                    return Varien_Db_Ddl_Table::TYPE_NUMERIC;
+                } else {
+                    return Varien_Db_Ddl_Table::TYPE_BIGINT;
+                }
             case 'DATE':
                 return Varien_Db_Ddl_Table::TYPE_DATE;
             case 'FLOAT':
@@ -2870,7 +2874,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     }
                 }
                 $cType .= sprintf('(%d,%d)', $precision, $scale);
-
                 break;
             case Varien_Db_Ddl_Table::TYPE_TEXT:
             case Varien_Db_Ddl_Table::TYPE_BLOB:
