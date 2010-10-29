@@ -321,4 +321,18 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
         $product = $this->getProduct($product);
         return array($this->getAssociatedProducts($product));
     }
+
+    /**
+     * Prepare selected qty for grouped product's options
+     *
+     * @param  Mage_Catalog_Model_Product $product
+     * @param  Varien_Object $buyRequest
+     * @return array
+     */
+    public function processBuyRequest($product, $buyRequest)
+    {
+        $options = array('super_group' => array_filter($buyRequest->getSuperAttribute(), 'intval'));
+
+        return $options;
+    }
 }
