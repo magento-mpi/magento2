@@ -86,6 +86,28 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     }
 
     /**
+     * Retrieves url for form submitting:
+     * some objects can use setSubmitRouteData() to set route and params for form submitting,
+     * otherwise default url will be used
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $additional
+     * @return string
+     */
+    public function getSubmitUrl($product, $additional = array())
+    {
+        $submitRouteData = $this->getData('submit_route_data');
+        if ($submitRouteData) {
+            $route = $submitRouteData['route'];
+            $params = isset($submitRouteData['params']) ? $submitRouteData['params'] : array();
+            $submitUrl = $this->getUrl($route, array_merge($params, $additional));
+        } else {
+            $submitUrl = $this->getAddToCartUrl($product, $additional);
+        }
+        return $submitUrl;
+    }
+
+    /**
      * Enter description here...
      *
      * @param Mage_Catalog_Model_Product $product

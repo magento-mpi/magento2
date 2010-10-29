@@ -28,6 +28,7 @@
  * Shopping cart controller
  */
 class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
+    implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**
      * Action list where need check enabled cookie
@@ -256,6 +257,18 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     }
 
     /**
+     * Loads layout messages from message storage
+     * Needed to implement interface for showing product view page (configure action)
+     *
+     * @param string $messagesStorage
+     * @return Mage_Catalog_ProductController
+     */
+    public function initLayoutMessages($messagesStorage)
+    {
+        return $this->_initLayoutMessages($messagesStorage);
+    }
+
+    /**
      * Action to reconfigure cart item
      */
     public function configureAction()
@@ -269,28 +282,28 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         }
 
         if (!$quoteItem) {
-            $this->_getSession()->addError($this->__('Cannot configure item in shopping cart.'));
+            $this->_getSession()->addError($this->__('Quote item is not found.'));
             $this->_goBack();
             return;
         }
 
-        // Process item options and show preconfigured product
-        $product = $quoteItem->getProduct();
-        $buyRequest = $quoteItem->getBuyRequest();
+        try {
+            $params = new Varien_Object();
+            $params->setCategoryId(false);
+            $params->setBuyRequest($quoteItem->getBuyRequest());
 
-        Mage::helper('catalog')->prepareOptions($product, $buyRequest);
-
-        Mage::register('product', $product);
-        Mage::register('current_product', $product);
-
-        $this->loadLayout()
-            ->renderLayout();
+            Mage::helper('catalog/product_view')->prepareAndRender($quoteItem->getProduct()->getId(), $this, $params);
+        } catch (Exception $e) {
+            $this->_getSession()->addError($this->__('Cannot configure product.'));
+            $this->_goBack();
+            return;
+        }
     }
 
     /**
      * Action to accept new configuration for a cart item
      */
-    public function updateItemAction()
+    public function updateItemOptionsAction()
     {
         // FIXME ACPAOC
         // Update options here

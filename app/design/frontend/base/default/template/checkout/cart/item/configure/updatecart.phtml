@@ -45,12 +45,6 @@ if ($configQty > $qty) {
         <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $qty ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
         <?php endif; ?>
         <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+        <?php echo $this->getChildHtml('', true, true) ?>
     </div>
 <?php endif; ?>
-<script type="text/javascript">
-//<![CDATA[
-    addForm = $('product_addtocart_form');
-    addForm.action = '<?php echo $this->getUpdateCartUrl() ?>';
-//]]>
-</script>
-
