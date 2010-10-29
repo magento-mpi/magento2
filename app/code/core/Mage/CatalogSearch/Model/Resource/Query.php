@@ -44,22 +44,6 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Retrieve select object for load object data
-     *
-     * @param string $field
-     * @param mixed $value
-     * @param unknown_type $object
-     * @return Zend_Db_Select
-     */
-    protected function _getLoadSelect($field, $value, $object)
-    {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where($this->getMainTable().'.'.$field.'=?', $value);
-        return $select;
-    }
-
-    /**
      * Custom load model by search query string
      *
      * @param Mage_Core_Model_Abstract $object
@@ -104,11 +88,11 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Enter description here ...
+     * Loading string as a value or regular numeric
      *
      * @param Mage_Core_Model_Abstract $object
-     * @param unknown_type $value
-     * @param unknown_type $field
+     * @param int|string $value
+     * @param null|string $field
      * @return Mage_CatalogSearch_Model_Resource_Query
      */
     public function load(Mage_Core_Model_Abstract $object, $value, $field = null)

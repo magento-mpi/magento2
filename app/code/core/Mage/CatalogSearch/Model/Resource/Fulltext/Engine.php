@@ -120,7 +120,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
             $where[] = $this->_getWriteAdapter()->quoteInto('product_id IN (?)', $entityId);
         }
 
-        $this->_getWriteAdapter()->delete($this->getMainTable(), join(' AND ', $where));
+        $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
 
         return $this;
     }

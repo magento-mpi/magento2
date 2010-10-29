@@ -84,7 +84,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Mage_Core_Model
     public function setQueryFilter($query)
     {
         $ifSynonymFor = $this->getConnection()
-            ->getCheckSql('synonym_for IS NOT NULL', 'synonym_for', 'query_text');
+            ->getIfNullSql('synonym_for', 'query_text');
         $this->getSelect()->reset(Zend_Db_Select::FROM)->distinct(true)
             ->from(
                 array('main_table' => $this->getTable('catalogsearch/search_query')),
@@ -108,7 +108,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Mage_Core_Model
     public function setPopularQueryFilter($storeIds = null)
     {
         $ifSynonymFor = new Zend_Db_Expr($this->getConnection()
-            ->getCheckSql('synonym_for IS NOT NULL', 'synonym_for', 'query_text'));
+            ->getIfNullSql('synonym_for', 'query_text'));
         $this->getSelect()
             ->reset(Zend_Db_Select::FROM)
             ->reset(Zend_Db_Select::COLUMNS)

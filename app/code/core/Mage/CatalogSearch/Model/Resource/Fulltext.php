@@ -363,7 +363,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                     $where .= ($where ? ' OR ' : '') . $likeCond;
             }
             if ($likeCond!='' && $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE) {
-                $select->columns(array('relevance'  => new Zend_Db_Expr(0))); 
+                $select->columns(array('relevance'  => new Zend_Db_Expr(0)));
                 $where = $likeCond;
             }
             if ($where != '') {
@@ -395,7 +395,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     /**
      * Retrieve Searchable attributes
      *
-     * @param unknown_type $backendType
+     * @param string $backendType
      * @return array
      */
     protected function _getSearchableAttributes($backendType = null)
@@ -471,7 +471,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $expr = Mage::getResourceHelper('catalogsearch')->castField(
                 $this->_getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s'));
         } else {
-            $expr = Mage::getResourceHelper('catalogsearch')->castField($field); 
+            $expr = Mage::getResourceHelper('catalogsearch')->castField($field);
         }
         return $expr;
     }
@@ -582,7 +582,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
      *
      * @param array $indexData
      * @param array $productData
-     * @param unknown_type $storeId
+     * @param int $storeId
      * @return string
      */
     protected function _prepareProductIndex($indexData, $productData, $storeId)
@@ -656,7 +656,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
      *
      * @param int $attributeId
      * @param mixed $value
-     * @param unknown_type $storeId
+     * @param int $storeId
      * @return mixed
      */
     protected function _getAttributeValue($attributeId, $value, $storeId)

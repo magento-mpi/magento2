@@ -82,7 +82,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
     /**
      * Check attribute is Text and is Searchable
      *
-     * @param unknown_type $attribute
+     * @param Mage_Catalog_Model_Entity_Attribute $attribute
      * @return boolean
      */
     protected function _isAttributeTextAndSearchable($attribute)
@@ -97,7 +97,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
     /**
      * Check attributes has options and searchable
      *
-     * @param unknown_type $attribute
+     * @param Mage_Catalog_Model_Entity_Attribute $attribute
      * @return boolean
      */
     protected function _hasAttributeOptionsAndSearchable($attribute)
@@ -113,7 +113,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
      * Retrieve SQL for search entities
      *
      * @param unknown_type $query
-     * @return unknown
+     * @return string
      */
     protected function _getSearchEntityIdsSql($query)
     {
@@ -123,8 +123,9 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
          * Collect tables and attribute ids of attributes with string values
          */
         foreach ($this->_getAttributesCollection() as $attribute) {
+            /** @var Mage_Catalog_Model_Entity_Attribute $attribute */
             if ($this->_isAttributeTextAndSearchable($attribute)) {
-                $table = $attribute->getBackend()->getTable();
+                $table = $attribute->getBackendTable();
                 if (!isset($tables[$table]) && $attribute->getBackendType() != 'static') {
                     $tables[$table] = array();
                 }
@@ -198,7 +199,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         /**
          * Select option Ids
          */
-        $ifStoreId = $this->getConnection()->getCheckSql('s.store_id IS NULL', 'd.store_id', 's.store_id');
+        $ifStoreId = $this->getConnection()->getIfNullSql('s.store_id', 'd.store_id');
         $ifValue   = $this->getConnection()->getCheckSql('s.value_id > 0', 's.value', 'd.value');
         $select = $this->getConnection()->select()
             ->from(array('d'=>$optionValueTable),
