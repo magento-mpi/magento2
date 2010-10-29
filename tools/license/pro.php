@@ -26,6 +26,16 @@
 
 require dirname(__FILE__) . '/config.php';
 
+// php-code files
+updateLicense('app/code/core/Enterprise', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_PRO, 'codePoolCallback', true, true, true);
+
+// xml-code files
+updateLicense('app/code/core/Enterprise', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_PRO, 'codePoolCallback', true, true, true);
+
+// modules xml-declarations
+updateLicense('app/etc/modules', 'Enterprise_*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_PRO, 'xmlModulesCallback', true, true, true);
+
+
 // design phtml-files
 updateLicense(array(
         'app/design/frontend/pro/default/template',
