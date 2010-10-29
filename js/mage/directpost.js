@@ -129,6 +129,9 @@ directPost.prototype = {
                     }
                     break;
             }
+            if (this.tmpForm) {
+                document.body.removeChild(this.tmpForm);
+            }
         }
     },
     
@@ -195,10 +198,7 @@ directPost.prototype = {
 
     saveOnepageOrder : function() {
         this.hasError = false;
-        this.setLoadWaiting();
-        if (this.tmpForm) {
-            document.body.removeChild(this.tmpForm);
-        }
+        this.setLoadWaiting();        
         var params = Form.serialize(payment.form);
         if (review.agreementsForm) {
             params += '&' + Form.serialize(review.agreementsForm);
@@ -261,10 +261,7 @@ directPost.prototype = {
             var paymentMethodEl = $(editForm.formId).getInputs('radio','payment[method]').find(function(radio) {
                 return radio.checked;
             });
-            this.hasError = false;
-            if (this.tmpForm) {
-                document.body.removeChild(this.tmpForm);
-            }
+            this.hasError = false;            
             if (paymentMethodEl.value == this.code) {
                 toggleSelectsUnderBlock($('loading-mask'), false);
                 $('loading-mask').show();
