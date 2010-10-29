@@ -40,7 +40,6 @@
  * @method Varien_Db_Select orWhere($cond, $value = null, $type = null)
  * @method Varien_Db_Select group($spec)
  * @method Varien_Db_Select order($spec)
- * @method Varien_Db_Select limit($count = null, $offset = null)
  * @method Varien_Db_Select limitPage($page, $rowCount)
  * @method Varien_Db_Select forUpdate($flag = true)
  * @method Varien_Db_Select distinct($flag = true)
@@ -59,7 +58,6 @@ class Varien_Db_Select extends Zend_Db_Select
 
     const SQL_STRAIGHT_JOIN = 'STRAIGHT_JOIN';
 
-
     /**
      * Class constructor
      * Add straight join support
@@ -68,35 +66,11 @@ class Varien_Db_Select extends Zend_Db_Select
      */
     public function __construct(Zend_Db_Adapter_Abstract $adapter)
     {
-        self::$_partsInit = array(
-            self::STRAIGHT_JOIN => false,
-            self::DISTINCT      => false,
-            self::COLUMNS       => array(),
-            self::UNION         => array(),
-            self::FROM          => array(),
-            self::WHERE         => array(),
-            self::GROUP         => array(),
-            self::HAVING        => array(),
-            self::ORDER         => array(),
-            self::LIMIT_COUNT   => null,
-            self::LIMIT_OFFSET  => null,
-            self::FOR_UPDATE    => false
-        );
+        if (!isset(self::$_partsInit[self::STRAIGHT_JOIN])) {
+            self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
+        }
 
         parent::__construct($adapter);
-    }
-
-    /**
-     * Add variable to bind list
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return Varien_Db_Select
-     */
-    public function addBindParam($name, $value)
-    {
-        $this->_bind[$name] = $value;
-        return $this;
     }
 
     /**
@@ -384,12 +358,13 @@ class Varien_Db_Select extends Zend_Db_Select
      * @param string $part
      * @param mixed $value
      * @return Varien_Db_Select
+     * @throws Zend_Db_Select_Exception
      */
     public function setPart($part, $value)
     {
         $part = strtolower($part);
         if (!array_key_exists($part, $this->_parts)) {
-            throw new Zend_Db_Select_Exception("Invalid Select part '$part'");
+            throw new Zend_Db_Select_Exception("Invalid Select part '{$part}'");
         }
         $this->_parts[$part] = $value;
         return $this;
@@ -410,7 +385,6 @@ class Varien_Db_Select extends Zend_Db_Select
     /**
      * Render STRAIGHT_JOIN clause
      *
-     * @todo get Straight join support from adapter
      * @param string   $sql SQL query
      * @return string
      */
@@ -473,5 +447,4 @@ class Varien_Db_Select extends Zend_Db_Select
 
         return $sql;
     }
-
 }
