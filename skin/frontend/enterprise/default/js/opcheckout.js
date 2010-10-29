@@ -859,7 +859,9 @@ Review.prototype = {
                 if (typeof(msg)=='object') {
                     msg = msg.join("\n");
                 }
-                alert(msg);
+                if (msg) {
+                    alert(msg);
+                }
             }
 
             if (response.update_section) {
