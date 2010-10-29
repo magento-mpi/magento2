@@ -587,6 +587,8 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         $joinCondsQuoted[] = $adapter->quoteInto('rp.website_id = ?', $websiteId);
         $joinCondsQuoted[] = $adapter->quoteInto('rp.customer_group_id = ?', $customerGroupId);
         $joinCondsQuoted[] = $adapter->quoteInto('rp.product_id = ?', $productId);
+        $fromDate = $adapter->getIfNullSql('main_table.from_date', $dateQuoted);
+        $toDate = $adapter->getIfNullSql('main_table.to_date', $dateQuoted);
         $select = $adapter->select()
             ->distinct()
             ->from(array('main_table' => $this->getTable('catalogrule/rule')), 'main_table.*')
@@ -594,7 +596,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
                 array('rp' => $this->getTable('catalogrule/rule_product')),
                 implode(' AND ', $joinCondsQuoted),
                 array())
-            ->where(new Zend_Db_Expr("{$dateQuoted} BETWEEN IFNULL(main_table.from_date, {$dateQuoted}) AND IFNULL(main_table.to_date, {$dateQuoted})"))
+            ->where(new Zend_Db_Expr("{$dateQuoted} BETWEEN {$fromDate} AND {$toDate}"))
             ->where('main_table.is_active = ?', 1)
             ->order('main_table.sort_order');
         return $adapter->fetchAll($select);
@@ -656,7 +658,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
 
         $fromTime   = strtotime($rule->getFromDate());
         $toTime     = strtotime($rule->getToDate());
-        $toTime     = $toTime ? $toTime+self::SECONDS_IN_DAY-1 : 0;
+        $toTime     = $toTime ? $toTime+self::SECONDS_IN_DAY - 1 : 0;
 
         $sortOrder      = (int)$rule->getSortOrder();
         $actionOperator = $rule->getSimpleAction();
