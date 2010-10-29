@@ -277,7 +277,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     public function getGridTable()
     {
         if ($this->_grid) {
-            return $this->getMainTable() . '_grid';
+            return $this->getTable($this->_mainTable . '_grid');
         }
         return false;
     }
