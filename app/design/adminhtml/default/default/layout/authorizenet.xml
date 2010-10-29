@@ -20,16 +20,16 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     base_default
+ * @package     default_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
 -->
 <layout version="0.1.0">
-    <adminhtml_sales_order_create_index>        
-        <reference name="head">            
-            <action method="addJs"><file>mage/directpost.js</file></action>            
+    <adminhtml_sales_order_create_index>
+        <reference name="head">
+            <action method="addJs"><file>mage/directpost.js</file></action>
         </reference>
     </adminhtml_sales_order_create_index>
 </layout>
