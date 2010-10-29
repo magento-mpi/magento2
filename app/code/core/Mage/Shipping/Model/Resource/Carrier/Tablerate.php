@@ -29,7 +29,7 @@
  *
  * @category   Mage
  * @package    Mage_Shipping
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Resource_Db_Abstract
 {
@@ -176,7 +176,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
      *
      * @param Varien_Object $object
      * @throws Mage_Core_Exception
-     * @return Mage_Shipping_Model_Mysql4_Carrier_Tablerate
+     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate
      */
     public function uploadAndImport(Varien_Object $object)
     {
@@ -192,8 +192,8 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         $this->_importErrors        = array();
         $this->_importedRows        = 0;
 
-        $io = new Varien_Io_File();
-        $info = pathinfo($csvFile);
+        $io     = new Varien_Io_File();
+        $info   = pathinfo($csvFile);
         $io->open(array('path' => $info['dirname']));
         $io->streamOpen($info['basename'], 'r');
 
@@ -272,7 +272,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
     /**
      * Load directory countries
      *
-     * @return Mage_Shipping_Model_Mysql4_Carrier_Tablerate
+     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate
      */
     protected function _loadDirectoryCountries()
     {
@@ -283,7 +283,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         $this->_importIso2Countries = array();
         $this->_importIso3Countries = array();
 
-        /** @var $collection Mage_Directory_Model_Mysql4_Country_Collection */
+        /** @var $collection Mage_Directory_Model_Resource_Country_Collection */
         $collection = Mage::getResourceModel('directory/country_collection');
         foreach ($collection->getData() as $row) {
             $this->_importIso2Countries[$row['iso2_code']] = $row['country_id'];
@@ -296,7 +296,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
     /**
      * Load directory regions
      *
-     * @return Mage_Shipping_Model_Mysql4_Carrier_Tablerate
+     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate
      */
     protected function _loadDirectoryRegions()
     {
@@ -306,7 +306,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
 
         $this->_importRegions = array();
 
-        /** @var $collection Mage_Directory_Model_Mysql4_Region_Collection */
+        /** @var $collection Mage_Directory_Model_Resource_Region_Collection */
         $collection = Mage::getResourceModel('directory/region_collection');
         foreach ($collection->getData() as $row) {
             $this->_importRegions[$row['country_id']][$row['code']] = (int)$row['region_id'];
@@ -318,6 +318,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
     /**
      * Return import condition full name by condition name code
      *
+     * @param string $conditionName
      * @return string
      */
     protected function _getConditionFullName($conditionName)
@@ -349,9 +350,9 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         // validate country
         if (isset($this->_importIso2Countries[$row[0]])) {
             $countryId = $this->_importIso2Countries[$row[0]];
-        } else if (isset($this->_importIso3Countries[$row[0]])) {
+        } elseif (isset($this->_importIso3Countries[$row[0]])) {
             $countryId = $this->_importIso3Countries[$row[0]];
-        } else if ($row[0] == '*' || $row[0] == '') {
+        } elseif ($row[0] == '*' || $row[0] == '') {
             $countryId = '0';
         } else {
             $this->_importErrors[] = Mage::helper('shipping')->__('Invalid Country "%s" in the Row #%s.',
@@ -362,7 +363,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         // validate region
         if ($countryId != '0' && isset($this->_importRegions[$countryId][$row[1]])) {
             $regionId = $this->_importRegions[$countryId][$row[1]];
-        } else if ($row[1] == '*' || $row[1] == '') {
+        } elseif ($row[1] == '*' || $row[1] == '') {
             $regionId = 0;
         } else {
             $this->_importErrors[] = Mage::helper('shipping')->__('Invalid Region/State "%s" in the Row #%s.',
@@ -417,7 +418,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
      * Save import data batch
      *
      * @param array $data
-     * @return Mage_Shipping_Model_Mysql4_Carrier_Tablerate
+     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate
      */
     protected function _saveImportData(array $data)
     {
