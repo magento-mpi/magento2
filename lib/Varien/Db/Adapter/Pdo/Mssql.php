@@ -1075,7 +1075,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableName
      * @param string $columnName
-     * @param array|string $definition
+     * @param array $definition
      * @param boolean $flushData
      * @param string $schemaName
      * @return Varien_Db_Adapter_Pdo_Mssql
@@ -2405,7 +2405,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _prepareQuery($sql, $bind = array())
     {
-        if ($sql instanceof Zend_Db_Expr) {
+        if ($sql instanceof Zend_Db_Select) {
             $sql = $sql->assemble();
         }
         $this->_bindParams = array();
