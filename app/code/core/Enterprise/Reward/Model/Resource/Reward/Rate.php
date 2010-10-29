@@ -47,9 +47,9 @@ class Enterprise_Reward_Model_Resource_Reward_Rate extends Mage_Core_Model_Resou
      * Fetch rate customer group and website
      *
      * @param Enterprise_Reward_Model_Reward_Rate $rate
-     * @param unknown_type $customerGroupId
-     * @param integer $websiteId
-     * @param unknown_type $direction
+     * @param int $customerGroupId
+     * @param int $websiteId
+     * @param int $direction
      * @return Enterprise_Reward_Model_Resource_Reward_Rate
      */
     public function fetch(Enterprise_Reward_Model_Reward_Rate $rate, $customerGroupId, $websiteId, $direction)
@@ -57,13 +57,14 @@ class Enterprise_Reward_Model_Resource_Reward_Rate extends Mage_Core_Model_Resou
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
             ->where('website_id IN (?, 0)', (int)$websiteId)
-            ->where('customer_group_id IN (?, 0)', $customerGroupId)
+            ->where('customer_group_id IN (?, 0)', (int)$customerGroupId)
             ->where('direction = ?', $direction)
             ->order('customer_group_id DESC')
             ->order('website_id DESC')
             ->limit(1);
 
-        if ($row = $this->_getReadAdapter()->fetchRow($select)) {
+        $row = $this->_getReadAdapter()->fetchRow($select);
+        if ($row) {
             $rate->addData($row);
         }
 
@@ -81,14 +82,16 @@ class Enterprise_Reward_Model_Resource_Reward_Rate extends Mage_Core_Model_Resou
      */
     public function getRateData($websiteId, $customerGroupId, $direction)
     {
-        $select = $this->_getWriteAdapter()->select()
+        $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-            ->where('website_id = ?', $websiteId)
-            ->where('customer_group_id = ?', $customerGroupId)
+            ->where('website_id = ?', (int)$websiteId)
+            ->where('customer_group_id = ?', (int)$customerGroupId)
             ->where('direction = ?', $direction);
-        if ($data = $this->_getWriteAdapter()->fetchRow($select)) {
+        $data = $this->_getReadAdapter()->fetchRow($select);
+        if ($data) {
             return $data;
         }
+
         return array();
     }
 }
