@@ -144,7 +144,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
          */
         foreach ($this->_getOptions() as $name => $option) {
             if (isset($option['required']) && $option['required'] && !isset($args[$name])) {
-                $error = 'ERROR: ' . 'You should provide the value for --' . $name .' parameter';
+                $error = 'ERROR: ' . 'You should provide the value for --' . $name . ' parameter';
                 if (!empty($option['comment'])) {
                     $error .= ': ' . $option['comment'];
                 }
@@ -287,7 +287,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
          * Database and web config
          */
         $this->_getDataModel()->setConfigData(array(
-            'db_model'             => $this->_args['db_model'],
+            'db_model'            => $this->_args['db_model'],
             'db_host'             => $this->_args['db_host'],
             'db_name'             => $this->_args['db_name'],
             'db_user'             => $this->_args['db_user'],
@@ -312,7 +312,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             'lastname'          => $this->_args['admin_lastname'],
             'email'             => $this->_args['admin_email'],
             'username'          => $this->_args['admin_username'],
-            'new_password'          => $this->_args['admin_password'],
+            'new_password'      => $this->_args['admin_password'],
         ));
 
         return $this;
@@ -355,7 +355,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             /**
              * Install configuration
              */
-            $installer->installConfig($this->_getDataModel()->getConfigData()); // TODO fix wizard and simplify this everythere
+            $installer->installConfig($this->_getDataModel()->getConfigData()); // TODO fix wizard and simplify this everywhere
 
             if ($this->hasErrors()) {
                 return false;

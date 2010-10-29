@@ -68,7 +68,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             }
             if (!empty($absenteeExtensions)) {
                 Mage::throwException(Mage::helper('install')->__('PHP Extensions "%s" must be loaded.',
-                    implode(',',$absenteeExtensions))
+                    implode(',', $absenteeExtensions))
                 );
             }
 
@@ -114,12 +114,12 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             Mage::throwException(Mage::helper('install')->__('Database Name cannot be empty.'));
         }
         //make all table prefix to lower letter
-        if ($data['db_prefix'] !='') {
+        if ($data['db_prefix'] != '') {
            $data['db_prefix'] = strtolower($data['db_prefix']);
         }
         //check table prefix
-        if ($data['db_prefix']!='') {
-            if (!preg_match('/^[a-z]+[a-z0-9_]*$/',$data['db_prefix'])) {
+        if ($data['db_prefix'] != '') {
+            if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $data['db_prefix'])) {
                 Mage::throwException(
                     Mage::helper('install')->__('The table prefix should contain only letters (a-z), '
                         . 'numbers (0-9) or underscores (_), the first character should be a letter.'));

@@ -34,7 +34,7 @@
 abstract class Mage_Install_Model_Installer_Db_Abstract
 {
     /**
-     *  adapter instance
+     *  Adapter instance
      *
      * @var Varien_Db_Adapter_Interface
      */

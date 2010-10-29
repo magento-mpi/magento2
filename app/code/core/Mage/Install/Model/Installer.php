@@ -248,7 +248,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     {
         $user = Mage::getModel('admin/user')
             ->load('admin', 'username');
-        if ($user && $user->getPassword()=='4297f44b13955235245b2497399d7a93') {
+        if ($user && $user->getPassword() == '4297f44b13955235245b2497399d7a93') {
             $user->delete();
         }
 
