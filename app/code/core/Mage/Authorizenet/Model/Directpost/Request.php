@@ -69,14 +69,15 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
      * @param string $fpTimestamp
      * @return string The fingerprint.
      */
-    public function generateRequestSign($merchantApiLoginId, $merchantTransactionKey, $amount, $fpSequence, $fpTimestamp)
+    public function generateRequestSign($merchantApiLoginId, $merchantTransactionKey, $amount, $currencyCode, $fpSequence, $fpTimestamp)
     {
         if (phpversion() >= '5.1.2') {
             return hash_hmac("md5",
                 $merchantApiLoginId . "^" .
                 $fpSequence . "^" .
                 $fpTimestamp . "^" .
-                $amount . "^", $merchantTransactionKey
+                $amount . "^" .
+                $currencyCode, $merchantTransactionKey
             );
         }
 
@@ -84,7 +85,8 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
             $merchantApiLoginId . "^" .
             $fpSequence . "^" .
             $fpTimestamp . "^" .
-            $amount . "^", $merchantTransactionKey
+            $amount . "^" .
+            $currencyCode, $merchantTransactionKey
         ));
     }
 
@@ -125,6 +127,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
         $this->setXFpSequence($order->getQuoteId());
         $this->setXInvoiceNum($order->getIncrementId());
         $this->setXAmount($payment->getBaseAmountAuthorized());
+        $this->setXCurrencyCode($order->getBaseCurrencyCode());
         $this->setXTax(sprintf('%.2F', $order->getBaseTaxAmount()))
             ->setXFreight(sprintf('%.2F', $order->getBaseShippingAmount()));
 
@@ -179,6 +182,7 @@ class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
             $this->getXLogin(),
             $this->_getTransactionKey(),
             $this->getXAmount(),
+            $this->getXCurrencyCode(),
             $this->getXFpSequence(),
             $fpTimestamp
         );
