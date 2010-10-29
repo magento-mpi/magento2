@@ -55,6 +55,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     const RESPONSE_CODE_ERROR    = 3;
     const RESPONSE_CODE_HELD     = 4;
 
+    const RESPONSE_REASON_CODE_PARTIAL_APPROVE = 295;
+
     protected $_code  = 'authorizenet';
 
     /**
@@ -148,6 +150,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     ->setIsTransactionClosed(0)
                     ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
                 return $this;
+            case self::RESPONSE_CODE_HELD:
+                $this->_processPartialAuthorization($result, $payment);
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
@@ -191,6 +195,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     ->setIsTransactionClosed(0)
                     ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
                 return $this;
+            case self::RESPONSE_CODE_HELD:
+                $this->_processPartialAuthorization($result, $payment);
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
@@ -380,6 +386,13 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                         ->setXExpDate(sprintf('%02d-%04d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
                         ->setXCardCode($payment->getCcCid());
                 }
+                if ($this->getConfigData('partialauth')) {
+                    $request->setXAllowPartialAuth('true');
+                    $splitTenderId = $this->_getQuote()->getPayment()->getAdditionalInformation('split_tender_id');
+                    if ($splitTenderId) {
+                        $request->setSplitTenderId($splitTenderId);
+                    }
+                }
                 break;
 
             case self::REQUEST_METHOD_ECHECK:
@@ -415,8 +428,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         try {
             $response = $client->request();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $result->setResponseCode(-1)
                 ->setResponseReasonCode($e->getCode())
                 ->setResponseReasonText($e->getMessage());
@@ -446,7 +458,13 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 ->setCustomerId($r[12])
                 ->setMd5Hash($r[37])
                 ->setCardCodeResponseCode($r[38])
-                ->setCAVVResponseCode( (isset($r[39])) ? $r[39] : null);
+                ->setCAVVResponseCode( (isset($r[39])) ? $r[39] : null)
+                ->setSplitTenderId($r[52])
+                ->setAccNumber($r[50])
+                ->setCardType($r[51])
+                ->setRequestedAmount($r[53])
+                ->setBalanceOnCard($r[54])
+                ;
         }
         else {
              Mage::throwException(
@@ -481,5 +499,44 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     {
         $transaction = $payment->getTransaction($payment->getParentTransactionId());
         return $transaction->getAdditionalInformation($this->_realTransactionIdKay);
+    }
+
+    /**
+     * Return current quote instance
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    protected function _getQuote()
+    {
+        return Mage::getSingleton('checkout/session')->getQuote();
+    }
+
+    /**
+     * Set split_tender_id to quote payment if neeeded
+     *
+     * @param Varien_Object $response
+     * @param Mage_Sales_Model_Order_Payment $payment
+     */
+    protected function _processPartialAuthorization(Varien_Object $response, Mage_Sales_Model_Order_Payment $payment)
+    {
+        if ($response->getResponseReasonCode() == self::RESPONSE_REASON_CODE_PARTIAL_APPROVE
+            && $response->getSplitTenderId()) {
+
+            $quote = $this->_getQuote();
+            $quotePayment = $quote->getPayment();
+            $quotePayment->setAdditionalInformation('split_tender_id', $response->getSplitTenderId());
+
+            $cardInfo = array(
+                    'cc_number'         => $response->getAccNumber(),
+                    'cc_type'           => $response->getCardType(),
+                    'requested_amount'  => $response->getRequestedAmount(),
+                    'balance_on_card'   => $response->getBalanceOnCard(),
+                    'auth_id'           => $response->getTransactionId(),
+                    'authorized_amount' => $response->getAmount()
+                );
+
+            $cards = Mage::getModel('paygate/authorizenet_cards')->setPayment($quotePayment);
+            $cards->addCard($cardInfo);
+        }
     }
 }
