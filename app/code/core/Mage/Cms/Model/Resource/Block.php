@@ -174,8 +174,8 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
             $select->join(
                 array('cbs' => $this->getTable('cms/block_store')),
                 $this->getMainTable().'.block_id = cbs.block_id',
-                array('store_id'))
-            ->where('is_active = ?', 1)
+                array('store_id')
+            )->where('is_active = ?', 1)
             ->where('cbs.store_id in (?) ', $stores)
             ->order('store_id DESC')
             ->limit(1);
@@ -203,8 +203,8 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
             ->join(
                 array('cbs' => $this->getTable('cms/block_store')),
                 'cb.block_id = cbs.block_id',
-                array())
-            ->where('cb.identifier = ?', $object->getData('identifier'))
+                array()
+            )->where('cb.identifier = ?', $object->getData('identifier'))
             ->where('cbs.store_id IN (?)', $stores);
 
         if ($object->getId()) {
