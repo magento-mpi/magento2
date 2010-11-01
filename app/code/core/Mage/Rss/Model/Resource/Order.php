@@ -37,12 +37,16 @@ class Mage_Rss_Model_Resource_Order
     /**
      * Enter description here ...
      *
+     * @deprecated after 1.4.1.0
+     *
      * @var array
      */
     protected $_entityTypeIdsToTypes       = array();
 
     /**
      * Enter description here ...
+     *
+     * @deprecated after 1.4.1.0
      *
      * @var array
      */
@@ -172,12 +176,13 @@ class Mage_Rss_Model_Resource_Order
         $commentSelects[] = '(' . $select . ')';
 
         $commentSelect = $read->select()
-            ->union($commentSelects)
-            ->order('created_at desc');
+            ->union($commentSelects, Zend_Db_Select::SQL_UNION_ALL);
 
         $select = $read->select()
-            ->from(array('order' => $res->getTableName('sales/order')), array('increment_id'))
-            ->join(array('t' => $commentSelect), 't.entity_id = order.entity_id');
+            ->from(array('orders' => $res->getTableName('sales/order')), array('increment_id'))
+            ->join(array('t' => $commentSelect),
+                $read->quoteIdentifier('t.entity_id = orders.entity_id'))
+            ->order('orders.created_at desc');
 
         return $read->fetchAll($select);
     }
