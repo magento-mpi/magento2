@@ -141,7 +141,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
         $this->setDaysInWishlist(false);
 
         $resourceHelper = Mage::getResourceHelper('core');
-        $startDate      = $adapter->formatDate(substr(Mage::getSingleton('core/date')->date(), 0, -2) . '00');
+        $startDate      = $adapter->formatDate(Mage::getSingleton('core/date')->date());
 
         $this->joinField('store_name', 'core/store', 'name', 'store_id=item_store_id');
         $this->joinField('days_in_wishlist',
