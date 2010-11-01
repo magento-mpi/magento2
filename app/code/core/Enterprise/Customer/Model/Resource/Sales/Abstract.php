@@ -108,7 +108,9 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
                 return $this;
         }
 
-        $this->_getWriteAdapter()->addColumn($this->getMainTable(), $this->_getColumnName($attribute), $definition);
+        $columnName = $this->_getColumnName($attribute);
+        $definition['comment'] = ucwords(str_replace('_', ' ', $columnName));
+        $this->_getWriteAdapter()->addColumn($this->getMainTable(), $columnName, $definition);
 
         return $this;
     }

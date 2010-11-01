@@ -102,7 +102,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('*/*/validate', array('_current'=>true));
+        return $this->getUrl('*/*/validate', array('_current' => true));
     }
 
     /**
@@ -112,6 +112,6 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('_current'=>true, 'back'=>null));
+        return $this->getUrl('*/*/save', array('_current' => true, 'back' => null));
     }
 }
