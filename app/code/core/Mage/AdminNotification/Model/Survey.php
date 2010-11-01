@@ -63,7 +63,7 @@ class Mage_AdminNotification_Model_Survey
      */
     public static function getSurveyUrl()
     {
-        $host = Mage::app()->getRequest()->isSecure()?'https://':'http://';
+        $host = Mage::app()->getRequest()->isSecure() ? 'https://' : 'http://';
         return $host . self::SURVEY_URL;
     }
 
