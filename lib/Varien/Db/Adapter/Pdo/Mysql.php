@@ -2297,7 +2297,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             'lt'            => "{{fieldName}} < ?",
             'gteq'          => "{{fieldName}} >= ?",
             'lteq'          => "{{fieldName}} <= ?",
-            'finset'        => "FIND_IN_SET(?, {{fieldName}}",
+            'finset'        => "FIND_IN_SET(?, {{fieldName}})",
             'regexp'        => "{{fieldName}} REGEXP ?",
             'from'          => "{{fieldName}} >= ?",
             'to'            => "{{fieldName}} <= ?"
