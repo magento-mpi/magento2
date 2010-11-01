@@ -178,6 +178,30 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->getAddUrlWithParams($item);
     }
+    
+    /**
+     * Retrieve url for updating product in wishlist
+     *
+     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $product
+     * @return  string|boolean
+     */
+    public function getUpdateUrl($item)
+    {
+        $itemId = null;
+        if ($item instanceof Mage_Catalog_Model_Product) {
+            $itemId = $item->getWishlistItemId();
+        }
+        if ($item instanceof Mage_Wishlist_Model_Item) {
+            $itemId = $item->getId();
+        }
+
+        if ($itemId) {
+            $params['id'] = $itemId;
+            return $this->_getUrlStore($item)->getUrl('wishlist/index/updateItemOptions', $params);
+        }
+
+        return false;
+    }
 
     /**
      * Retrieve url for adding product to wishlist with params

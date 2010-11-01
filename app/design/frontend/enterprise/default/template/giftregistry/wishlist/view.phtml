@@ -33,7 +33,7 @@
         <h1><?php echo $this->__('My Wishlist') ?></h1>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    
+
     <?php if ($this->hasWishlistItems()): ?>
     <form id="wishlist-view-form" action="<?php echo $this->getUrl('*/*/update') ?>" method="post">
         <fieldset>
@@ -95,6 +95,7 @@
                         <?php else: ?>
                             <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                         <?php endif; ?>
+                            <p><a href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo $this->__('Edit') ?></a></p>
                         </td>
                         <td>
                             <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo $this->__('Remove Item') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove btn-remove2"><?php echo $this->__('Remove item')?></a>
@@ -123,7 +124,7 @@
             <input type="hidden" name="entity" value="" />
         </div>
     </form>
-    
+
     <script type="text/javascript">
     //<![CDATA[
     function addProductToGiftregistry(productId) {
@@ -137,11 +138,11 @@
         }
         entity.removeClassName('required-entry');
     }
-    
+
     function confirmRemoveWishlistItem() {
         return confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>');
     }
-    
+
     function focusComment(obj) {
         if( obj.value == '<?php echo $this->helper('wishlist')->defaultCommentString() ?>' ) {
             obj.value = '';
@@ -149,7 +150,7 @@
             obj.value = '<?php echo $this->helper('wishlist')->defaultCommentString() ?>';
         }
     }
-    
+
     function updateAction(addAction) {
         viewForm = $('wishlist-view-form');
         viewForm.action = addAction;

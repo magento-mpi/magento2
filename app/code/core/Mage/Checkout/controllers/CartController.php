@@ -261,7 +261,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      * Needed to implement interface for showing product view page (configure action)
      *
      * @param string $messagesStorage
-     * @return Mage_Catalog_ProductController
+     * @return Mage_Checkout_CartController
      */
     public function initLayoutMessages($messagesStorage)
     {

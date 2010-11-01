@@ -171,6 +171,26 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
         return $this->_getHelper()->getAddUrl($product);
     }
 
+     /**
+     * Returns item configure url in wishlist
+     *
+     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $product
+     *
+     * @return string
+     */
+    public function getItemConfigureUrl($product)
+    {
+        if ($product instanceof Mage_Catalog_Model_Product) {
+            $id = $product->getWishlistItemId();
+        } else {
+            $id = $product->getId();
+        }
+        $params = array('id' => $id);
+
+        return $this->getUrl('wishlist/index/configure/', $params);
+    }
+
+
     /**
      * Retrieve Escaped Description for Wishlist Item
      *

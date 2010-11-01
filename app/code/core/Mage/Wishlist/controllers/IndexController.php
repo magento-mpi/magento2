@@ -33,6 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
+    implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**
      * Action list where need check enabled cookie
@@ -160,6 +161,59 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             $session->addError($this->__('An error occurred while adding item to wishlist.'));
         }
         $this->_redirect('*');
+    }
+
+    /**
+     * Loads layout messages from message storage
+     * Needed to implement interface for showing product view page (configure action)
+     *
+     * @param string $messagesStorage
+     * @return Mage_Wishlist_IndexController
+     */
+    public function initLayoutMessages($messagesStorage)
+    {
+        return $this->_initLayoutMessages($messagesStorage);
+    }
+
+    /**
+     * Action to reconfigure wishlist item
+     */
+    public function configureAction()
+    {
+        $id = (int) $this->getRequest()->getParam('id');
+        $wishlist = $this->_getWishlist();
+        $item = Mage::getModel('wishlist/item')->load($id);
+
+        try {
+            if ($item->getWishlistId() != $wishlist->getId()) {
+                throw new Exception($this->__('Cannot load wishlist item'));
+            }
+
+            Mage::register('wishlist_item', $item);
+
+            $params = new Varien_Object();
+            $params->setCategoryId(false);
+            // FIXME ACPAOC:
+            // Set buyRequest here
+            // END OF FIXME
+
+            Mage::helper('catalog/product_view')->prepareAndRender($item->getProductId(), $this, $params);
+        } catch (Exception $e) {
+            Mage::getSingleton('customer/session')->addError($this->__('Cannot configure product'));
+            $this->_redirect('*');
+            return;
+        }
+    }
+
+    /**
+     * Action to accept new configuration for a wishlist item
+     */
+    public function updateItemOptionsAction()
+    {
+        // FIXME ACPAOC
+        // Update options here
+        // END OF FIXME
+        $this->_redirect('*/*');
     }
 
     /**
