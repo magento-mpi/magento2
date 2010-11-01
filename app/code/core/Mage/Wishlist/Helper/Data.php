@@ -329,7 +329,10 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         if (!$this->_isCustomerLogIn()) {
             $count = 0;
         } else {
-            $count = $this->getProductCollection()->getSize();
+            $count = $this->getProductCollection()
+                /* Price data is added to consider item stock status using price index */
+                ->addPriceData()
+                ->getSize();
         }
         Mage::getSingleton('customer/session')->setWishlistItemCount($count);
         Mage::dispatchEvent('wishlist_items_renewed');
