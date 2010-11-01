@@ -40,8 +40,8 @@ class Mage_Catalog_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Resource_H
      * @var array
      */
     protected $_ddlColumnTypes      = array(
-        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'boolean',
-        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'int',
+        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'bit',
+        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'smallint',
         Varien_Db_Ddl_Table::TYPE_INTEGER       => 'int',
         Varien_Db_Ddl_Table::TYPE_BIGINT        => 'bigint',
         Varien_Db_Ddl_Table::TYPE_FLOAT         => 'float',
