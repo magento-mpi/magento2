@@ -660,22 +660,29 @@ Payment.prototype = {
 
     switchMethod: function(method){
         if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
-            var form = $('payment_form_'+this.currentMethod);
-            form.style.display = 'none';
-            var elements = form.select('input', 'select', 'textarea');
-            for (var i=0; i<elements.length; i++) elements[i].disabled = true;
+            this.changeVisible(this.currentMethod, true);
         }
         if ($('payment_form_'+method)){
-            var form = $('payment_form_'+method);
-            form.style.display = '';
-            var elements = form.select('input', 'select', 'textarea');
-            for (var i=0; i<elements.length; i++) elements[i].disabled = false;
-            form.fire('payment-method:switched', {method_code : method});
+            this.changeVisible(method, false);
+            $('payment_form_'+method).fire('payment-method:switched', {method_code : method});
         } else {
             //Event fix for payment methods without form like "Check / Money order"
             document.body.fire('payment-method:switched', {method_code : method});
         }
         this.currentMethod = method;
+    },
+
+    changeVisible: function(method, mode) {
+        var block = 'payment_form_' + method;
+        [block + '_before', block, block + '_after'].each(function(el) {
+            element = $(el);
+            if (element) {
+                element.style.display = (mode) ? 'none' : '';
+                element.select('input', 'select', 'textarea').each(function(field) {
+                    field.disabled = mode;
+                });
+            }
+        });
     },
 
     addBeforeValidateFunction : function(code, func) {

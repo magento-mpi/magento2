@@ -255,10 +255,16 @@ AdminOrder.prototype = {
 
     setPaymentMethod : function(method){
         if (this.paymentMethod && $('payment_form_'+this.paymentMethod)) {
-            var form = $('payment_form_'+this.paymentMethod);
-            form.hide();
-            var elements = form.select('input', 'select');
-            for (var i=0; i<elements.length; i++) elements[i].disabled = true;
+            var form = 'payment_form_'+this.paymentMethod;
+            [form + '_before', form, form + '_after'].each(function(el) {
+                var block = $(el);
+                if (block) {
+                    block.hide();
+                    block.select('input', 'select').each(function(field) {
+                        field.disabled = true;
+                    });
+                }
+            });
         }
 
         if(!this.paymentMethod || method){
@@ -269,18 +275,22 @@ AdminOrder.prototype = {
 
         if ($('payment_form_'+method)){
             this.paymentMethod = method;
-            var form = $('payment_form_'+method);
-            form.show();
-            var elements = form.select('input', 'select');
-            for (var i=0; i<elements.length; i++) {
-                elements[i].disabled = false;
-                if(!elements[i].bindChange){
-                    elements[i].bindChange = true;
-                    elements[i].paymentContainer = 'payment_form_'+method; //@deprecated after 1.4.0.0-rc1
-                    elements[i].method = method;
-                    elements[i].observe('change', this.changePaymentData.bind(this))
+            var form = 'payment_form_'+method;
+            [form + '_before', form, form + '_after'].each(function(el) {
+                var block = $(el);
+                if (block) {
+                   block.show();
+                   block.select('input', 'select').each(function(field) {
+                       field.disabled = false;
+                       if (!el.include('_before') && !el.include('_after') && !field.bindChange) {
+                           field.bindChange = true;
+                           field.paymentContainer = form; //@deprecated after 1.4.0.0-rc1
+                           field.method = method;
+                           field.observe('change', this.changePaymentData.bind(this))
+                        }
+                    },this);
                 }
-            }
+            },this);
         }
     },
 
