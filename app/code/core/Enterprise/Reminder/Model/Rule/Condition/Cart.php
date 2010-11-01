@@ -133,7 +133,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = Mage::getModel('core/date')->gmtDate();
-        $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')->getDaysDifferenceSql('quote.updated_at', $currentTime);
+        $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')
+            ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');

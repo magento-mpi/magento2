@@ -141,7 +141,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
         $currentTime = Mage::getModel('core/date')->gmtDate();
-        $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')->getDaysDifferenceSql('list.updated_at', $currentTime);
+        $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')
+            ->getDateDiff('list.updated_at', $select->getAdapter()->formatDate($currentTime));
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         Mage::getResourceHelper('enterprise_reminder')->setRuleLimit($select, 1);

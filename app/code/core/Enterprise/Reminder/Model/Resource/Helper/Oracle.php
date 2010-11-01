@@ -34,20 +34,6 @@
  */
 class Enterprise_Reminder_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Oracle
 {
-    /**
-     * Returns expression of days difference between field and date/field
-     * @param string $field
-     * @param string $date
-     * @param bool $dateIsField
-     * @return Zend_Db_Expr
-     */
-    public function getDaysDifferenceSql($field, $date, $dateIsField = false)
-    {
-        $toDateMask = "TO_DATE(%s,'yyyy-mm-dd HH24:MI:SS')";
-        $dateSql = ($dateIsField) ? $date : sprintf($toDateMask, $this->_getReadAdapter()->quote($date));
-        $query = sprintf('(trunc(%s) - trunc(%s))', $dateSql, $field);
-        return new Zend_Db_Expr($query);
-    }
 
     /**
      * Sets limit for rules specific select

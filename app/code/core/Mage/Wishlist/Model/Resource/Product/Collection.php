@@ -42,6 +42,12 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
     protected $_addDaysInWishlist  = false;
 
     /**
+     * Wishlist item table alias
+     * @var string
+     */
+    protected $_wishlistItemTableAlias         = 't_wi';
+
+    /**
      * Get add days in whishlist filter of product collection flag
      *
      * @return boolean
@@ -72,7 +78,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
     public function addWishlistFilter(Mage_Wishlist_Model_Wishlist $wishlist)
     {
         $this->joinTable(
-            array('t_wi' => 'wishlist/item'),
+            array($this->_wishlistItemTableAlias => 'wishlist/item'),
             'product_id=entity_id',
             array(
                 'product_id'                => 'product_id',
@@ -88,7 +94,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
             )
         );
 
-        $this->_productLimitationFilters['store_table']  = 't_wi';
+        $this->_productLimitationFilters['store_table']  = $this->_wishlistItemTableAlias;
 
         $this->setFlag('url_data_object', true);
         $this->setFlag('do_not_use_category_id', true);
@@ -134,18 +140,13 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
 
         $this->setDaysInWishlist(false);
 
-        $dayTable = 't_wi';
-
-        $resourceHelper = Mage::getResourceHelper('wishlist');
-        $startDate      = $adapter->quote(substr(Mage::getSingleton('core/date')->date(), 0, -2) . '00');
-        $endDate        = $adapter->getDateAddSql($dayTable.'.added_at', 
-            (int) Mage::getSingleton('core/date')->getGmtOffset(),
-            'SECOND');
+        $resourceHelper = Mage::getResourceHelper('core');
+        $startDate      = $adapter->formatDate(substr(Mage::getSingleton('core/date')->date(), 0, -2) . '00');
 
         $this->joinField('store_name', 'core/store', 'name', 'store_id=item_store_id');
         $this->joinField('days_in_wishlist',
             'wishlist/item',
-            $resourceHelper->getDateDiff($startDate, $endDate),
+            $resourceHelper->getDateDiff($startDate, $this->_wishlistItemTableAlias.'.added_at'),
             'wishlist_item_id=wishlist_item_id'
         );
 

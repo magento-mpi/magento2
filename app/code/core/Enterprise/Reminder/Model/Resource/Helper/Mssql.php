@@ -35,20 +35,6 @@
 class Enterprise_Reminder_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Mssql
 {
     /**
-     * Returns expression of days difference between field and date/field
-     * @param string $field
-     * @param string $date
-     * @param bool $dateIsField
-     * @return Zend_Db_Expr
-     */
-    public function getDaysDifferenceSql($field, $date, $dateIsField = false)
-    {
-        $dateSql = ($dateIsField) ? $date : $this->_getReadAdapter()->quote($date);
-        $query = sprintf('DATEDIFF(day,%s,%s)', $field, $dateSql);
-        return new Zend_Db_Expr($query);
-    }
-
-    /**
      * Sets limit for rules specific select
      *
      * @param Varien_Db_Select $select

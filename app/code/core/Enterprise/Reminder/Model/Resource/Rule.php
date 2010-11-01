@@ -417,9 +417,10 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
      */
     public function getCustomersForNotification($limit = null, $ruleId = null)
     {
+        $adapter     = $this->_getReadAdapter();
         $couponTable = $this->getTable('enterprise_reminder/coupon');
-        $ruleTable = $this->getTable('enterprise_reminder/rule');
-        $logTable = $this->getTable('enterprise_reminder/log');
+        $ruleTable   = $this->getTable('enterprise_reminder/rule');
+        $logTable    = $this->getTable('enterprise_reminder/log');
 
         $currentDate = $this->formatDate(time());
 
@@ -452,19 +453,19 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
         ));
 
         $_helper = Mage::getResourceHelper('enterprise_reminder');
-        $findInSetSql = $this->getReadConnection()->prepareSqlCondition(
+        $findInSetSql = $adapter->prepareSqlCondition(
             'schedule',
-            array('finset' => $_helper->getDaysDifferenceSql('log_sent_at_min', $currentDate))
+            array('finset' => $_helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate)))
         );
         $select->having('log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND '
-            . $_helper->getDaysDifferenceSql('log_sent_at_max', $currentDate) . ' = 0)');
+            . $_helper->getDateDiff('log_sent_at_max', $adapter->formatDate($currentDate)) . ' = 0)');
 
         if ($limit) {
             $select->limit($limit);
         }
 
         $sql = $_helper->getQueryUsingAnalyticFunction($select);
-        return $this->_getReadAdapter()->fetchAll($sql);
+        return $adapter->fetchAll($sql);
     }
 
     /**
