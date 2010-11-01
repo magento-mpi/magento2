@@ -60,6 +60,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     protected $_code  = 'authorizenet';
 
     /**
+     * Form block type
+     */
+    protected $_formBlockType = 'paygate/authorizenet_form_cc';
+
+    /**
      * Availability options
      */
     protected $_isGateway               = true;
