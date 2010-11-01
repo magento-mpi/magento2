@@ -73,13 +73,14 @@ class Enterprise_Cms_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
         if (!isset($nodes[$parentNodeId])) {
             return $this;
         }
+        $adapter = $this->getConnection();
         foreach ($nodes[$parentNodeId] as $nodeId) {
             $nodeXpath = $xpath ? $xpath . '/' . $nodeId : $nodeId;
 
             $bind  = array('xpath' => $nodeXpath);
-            $where = $this->getConnection()->quoteInto('node_id = ?', $nodeId);
+            $where = $adapter->quoteInto('node_id = ?', $nodeId);
 
-            $this->getConnection()->update($this->getTable('enterprise_cms/hierarchy_node'), $bind, $where);
+            $adapter->update($this->getTable('enterprise_cms/hierarchy_node'), $bind, $where);
             if (isset($nodes[$nodeId])) {
                 $this->_updateXpathCallback($nodes, $nodeXpath, $nodeId);
             }

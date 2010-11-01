@@ -162,12 +162,12 @@ class Enterprise_Cms_Model_Resource_Page_Revision extends Mage_Core_Model_Resour
         $sql = new Zend_Db_Expr(sprintf('(%s)', $selectCount));
         $select = clone $selectCount;
         $select->reset()
-            ->join(array('r'=> $sql), 'p.version_id = r.version_id', array('revisions_count'))
+            ->join(array('r' => $sql), 'p.version_id = r.version_id', array('revisions_count'))
             ->where('r.version_id = ?', (int)$versionId);
 
-        $adapter = $this->_getReadAdapter();
+        $adapter = $this->_getWriteAdapter();
         $query = $adapter->updateFromSelect($select, array('p' => $this->_versionTable));
-        $this->_getWriteAdapter()->query($query);
+        $adapter->query($query);
 
         return $this;
     }

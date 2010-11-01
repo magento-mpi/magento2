@@ -192,11 +192,11 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
             $onClause = 'main_table.node_id = clone.parent_node_id AND clone.page_id = ?';
             $ifPageExistExpr = $connection->getCheckSql('clone.node_id IS NULL', '0', '1');
             $ifCurrentPageExpr = $connection->quoteInto(
-                $this->getConnection()->getCheckSql('main_table.page_id = ?', '1', '0'),
+                $connection->getCheckSql('main_table.page_id = ?', '1', '0'),
                 $page);
             $this->getSelect()->joinLeft(
                     array('clone' => $this->getResource()->getMainTable()),
-                    $this->getConnection()->quoteInto($onClause, $page),
+                    $connection->quoteInto($onClause, $page),
                     array('page_exists' => $ifPageExistExpr, 'current_page' => $ifCurrentPageExpr)
                 );
 
