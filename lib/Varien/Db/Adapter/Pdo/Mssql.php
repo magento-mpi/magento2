@@ -1152,9 +1152,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $tableName
      * @param string $columnName
-     * @param array|string $definition  string specific or universal array DB Server definition
+     * @param array $definition universal array DB Server definition
      * @param string $schemaName
      * @return Varien_Db_Adapter_Pdo_Mssql
+     * @throws Zend_Db_Exception
      */
     public function addColumn($tableName, $columnName, $definition, $schemaName = null)
     {
@@ -1165,7 +1166,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (is_array($definition)) {
             $definition = $this->_getColumnDefinition($definition);
         }
-
+        
         if (empty($definition['COMMENT'])) {
             throw new Zend_Db_Exception("Impossible to create a column without comment");
         }
@@ -1177,6 +1178,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         );
 
         $result = $this->raw_query($sql);
+        $this->_addColumnComment($tableName, $columnName, $definition['COMMENT']);
         $this->resetDdlCache($tableName, $schemaName);
 
         return $result;
@@ -2974,12 +2976,21 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         return $query;
     }
 
+    /**
+     * Prepare Sql condition
+     *
+     * @param  $text Condition value
+     * @param  mixed $value
+     * @param  string $fieldName
+     * @return string
+     */
     protected function _prepareQuotedSqlCondition($text, $value, $fieldName)
     {
         $sql = $this->quoteInto($text, $value);
         $sql = str_replace('{{fieldName}}', $fieldName, $sql);
         return $sql;
     }
+
     /**
      * Prepare value for save in column
      * Return converted to column data type value
@@ -3059,15 +3070,15 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Returns valid IFNULL expresion
+     * Returns valid IFNULL expression
      *
      * @param string $column
-     * @param string $value OPTIONAL. Applies when $expresion is NULL
+     * @param string $value OPTIONAL. Applies when $expression is NULL
      * @return Zend_Db_Expr
      */
     public function getIfNullSql($expression, $value = 0)
     {
-        if (is_object($expression)) {
+        if ($expression instanceof Zend_Db_Expr || $expression instanceof Zend_Db_Select) {
             $expression = sprintf("ISNULL((%s), %s)", $expression, $value);
         } else {
             $expression = sprintf("ISNULL(%s, %s)", $expression, $value);
@@ -4274,4 +4285,5 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         return $result;
     }
+
 }
