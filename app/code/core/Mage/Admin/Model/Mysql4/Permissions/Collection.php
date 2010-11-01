@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Permissions Collection
  *
  * @category    Mage
  * @package     Mage_Admin

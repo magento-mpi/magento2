@@ -221,7 +221,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function getName($separator=' ')
+    public function getName($separator = ' ')
     {
         return $this->getFirstname() . $separator . $this->getLastname();
     }
@@ -256,7 +256,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
 
         try {
             $this->loadByUsername($username);
-            $sensitive = ($config) ? $username==$this->getUsername() : true;
+            $sensitive = ($config) ? $username == $this->getUsername() : true;
 
             if ($sensitive && $this->getId() && Mage::helper('core')->validateHash($password, $this->getPassword())) {
                 if ($this->getIsActive() != '1') {
@@ -333,18 +333,18 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      * @param integer $level
      * @return string
      */
-    public function findFirstAvailableMenu($parent=null, $path='', $level=0)
+    public function findFirstAvailableMenu($parent = null, $path = '', $level = 0)
     {
         if ($parent == null) {
             $parent = Mage::getSingleton('admin/config')->getAdminhtmlConfig()->getNode('menu');
         }
-        foreach ($parent->children() as $childName=>$child) {
+        foreach ($parent->children() as $childName => $child) {
             $aclResource = 'admin/' . $path . $childName;
             if (Mage::getSingleton('admin/session')->isAllowed($aclResource)) {
                 if (!$child->children) {
                     return (string)$child->action;
                 } else if ($child->children) {
-                    $action = $this->findFirstAvailableMenu($child->children, $path . $childName . '/', $level+1);
+                    $action = $this->findFirstAvailableMenu($child->children, $path . $childName . '/', $level + 1);
                     return $action ? $action : (string)$child->action;
                 }
             }

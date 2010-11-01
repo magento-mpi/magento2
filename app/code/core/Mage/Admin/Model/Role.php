@@ -25,7 +25,7 @@
  */
 
 /**
- * Enter description here ...
+ * Admin Role Model
  *
  * @method Mage_Admin_Model_Resource_Role _getResource()
  * @method Mage_Admin_Model_Resource_Role getResource()

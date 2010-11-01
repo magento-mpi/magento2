@@ -25,7 +25,7 @@
  */
 
 /**
- * Enter description here ...
+ * Admin Roles Model
  *
  * @method Mage_Admin_Model_Resource_Roles _getResource()
  * @method Mage_Admin_Model_Resource_Roles getResource()
@@ -89,7 +89,8 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
         return $this->getResource()->getRoleUsers($this);
     }
 
-    protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null, $rawNodes = false, $module = 'adminhtml')
+    protected function _buildResourcesArray(Varien_Simplexml_Element $resource = null,
+        $parentName = null, $level = 0, $represent2Darray = null, $rawNodes = false, $module = 'adminhtml')
     {
         static $result;
         if (is_null($resource)) {
@@ -98,8 +99,8 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
             $level = -1;
         } else {
             $resourceName = $parentName;
-            if ($resource->getName()!='title' && $resource->getName()!='sort_order' && $resource->getName() != 'children') {
-                $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
+            if ($resource->getName() != 'title' && $resource->getName() != 'sort_order' && $resource->getName() != 'children') {
+                $resourceName = (is_null($parentName) ? '' : $parentName . '/') . $resource->getName();
 
                 //assigning module for its' children nodes
                 if ($resource->getAttribute('module')) {
@@ -129,7 +130,7 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
             }
         }
         foreach ($children as $child) {
-            $this->_buildResourcesArray($child, $resourceName, $level+1, $represent2Darray, $rawNodes, $module);
+            $this->_buildResourcesArray($child, $resourceName, $level + 1, $represent2Darray, $rawNodes, $module);
         }
         if ($rawNodes) {
             return $resource;

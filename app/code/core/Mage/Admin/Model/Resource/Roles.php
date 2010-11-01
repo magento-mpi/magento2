@@ -139,7 +139,7 @@ class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function getRoleUsers(Mage_Admin_Model_Roles $role)
     {
-        $read 	= $this->_getReadAdapter();
+        $read = $this->_getReadAdapter();
 
         $binds = array(
             'role_id'   => $role->getId(),

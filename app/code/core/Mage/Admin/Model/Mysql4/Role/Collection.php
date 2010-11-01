@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Role Collection
  *
  * @category    Mage
  * @package     Mage_Admin

@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Mysql4 Rules Collection
  *
  * @category    Mage
  * @package     Mage_Admin

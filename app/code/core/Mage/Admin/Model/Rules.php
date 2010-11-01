@@ -25,7 +25,7 @@
  */
 
 /**
- * Enter description here ...
+ * Admin Rules Model
  *
  * @method Mage_Admin_Model_Resource_Rules _getResource()
  * @method Mage_Admin_Model_Resource_Rules getResource()

@@ -75,7 +75,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
 
         $data = array(
             'logdate' => now(),
-            'lognum'  => $user->getLognum()+1
+            'lognum'  => $user->getLognum() + 1
         );
 
         $condition = array(
@@ -348,12 +348,12 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
         }
 
         $data = new Varien_Object(array(
-            'parent_id' => $user->getRoleId(),
-            'tree_level'=> ($role->getTreeLevel() + 1),
-            'sort_order'=> 0,
-            'role_type' => 'U',
-            'user_id'   => $user->getUserId(),
-            'role_name' => $user->getFirstname()
+            'parent_id'  => $user->getRoleId(),
+            'tree_level' => ($role->getTreeLevel() + 1),
+            'sort_order' => 0,
+            'role_type'  => 'U',
+            'user_id'    => $user->getUserId(),
+            'role_name'  => $user->getFirstname()
         ));
 
         $insertData = $this->_prepareDataForTable($data, $this->getTable('admin/role'));
@@ -400,7 +400,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
         if ( $user->getUserId() > 0 ) {
             $roleTable = $this->getTable('admin/role');
 
-            $dbh    = $this->_getReadAdapter();
+            $dbh = $this->_getReadAdapter();
 
             $binds = array(
                 'parent_id' => $user->getRoleId(),
@@ -454,8 +454,8 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
         if ($object->getId()) {
             $this->_getWriteAdapter()->update(
                 $this->getMainTable(),
-                array('extra'=>$data),
-                array('user_id = ?'=> (int) $object->getId())
+                array('extra' => $data),
+                array('user_id = ?' => (int) $object->getId())
             );
         }
 

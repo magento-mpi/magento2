@@ -62,8 +62,9 @@ class Mage_Admin_Model_Resource_Rules_Collection extends Mage_Core_Model_Resourc
      */
     public function addSortByLength()
     {
-        $this->addExpressionFieldToSelect('length', 'LENGTH({{resource_id}})', 'resource_id');
-        $this->getSelect()->order('length desc');
+        $length = $this->getConnection()->getLengthSql('{{resource_id}}');
+        $this->addExpressionFieldToSelect('length', $length, 'resource_id');
+        $this->getSelect()->order('length ' . Zend_Db_Select::SQL_DESC);
 
         return $this;
     }

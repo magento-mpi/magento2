@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Mysql4 Roles resource model
  *
  * @category    Mage
  * @package     Mage_Admin

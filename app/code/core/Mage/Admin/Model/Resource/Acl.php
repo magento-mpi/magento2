@@ -34,7 +34,7 @@
  */
 class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 {
-    const ACL_ALL_RULES= 'all';
+    const ACL_ALL_RULES = 'all';
 
     /**
      * Initialize resource
@@ -60,15 +60,17 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
         $ruleTable   = $this->getTable('admin/rule');
         $assertTable = $this->getTable('admin/assert');
 
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+
+        $select = $adapter->select()
             ->from($roleTable)
             ->order('tree_level');
 
-        $rolesArr = $this->_getReadAdapter()->fetchAll($select);
+        $rolesArr = $adapter->fetchAll($select);
 
         $this->loadRoles($acl, $rolesArr);
 
-        $select = $this->_getReadAdapter()->select()
+        $select = $adapter->select()
             ->from(array('r' => $ruleTable))
             ->joinLeft(
                 array('a' => $assertTable),
@@ -76,7 +78,7 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
                 array('assert_type', 'assert_data')
             );
 
-        $rulesArr = $this->_getReadAdapter()->fetchAll($select);
+        $rulesArr = $adapter->fetchAll($select);
 
         $this->loadRules($acl, $rulesArr);
 
@@ -93,15 +95,15 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
     public function loadRoles(Mage_Admin_Model_Acl $acl, array $rolesArr)
     {
         foreach ($rolesArr as $role) {
-            $parent = $role['parent_id']>0 ? Mage_Admin_Model_Acl::ROLE_TYPE_GROUP.$role['parent_id'] : null;
+            $parent = ($role['parent_id'] > 0) ? Mage_Admin_Model_Acl::ROLE_TYPE_GROUP . $role['parent_id'] : null;
             switch ($role['role_type']) {
                 case Mage_Admin_Model_Acl::ROLE_TYPE_GROUP:
-                    $roleId = $role['role_type'].$role['role_id'];
+                    $roleId = $role['role_type'] . $role['role_id'];
                     $acl->addRole(Mage::getModel('admin/acl_role_group', $roleId), $parent);
                     break;
 
                 case Mage_Admin_Model_Acl::ROLE_TYPE_USER:
-                    $roleId = $role['role_type'].$role['user_id'];
+                    $roleId = $role['role_type'] . $role['user_id'];
                     if (!$acl->hasRole($roleId)) {
                         $acl->addRole(Mage::getModel('admin/acl_role_user', $roleId), $parent);
                     } else {
@@ -124,12 +126,12 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
     public function loadRules(Mage_Admin_Model_Acl $acl, array $rulesArr)
     {
         foreach ($rulesArr as $rule) {
-            $role = $rule['role_type'].$rule['role_id'];
+            $role = $rule['role_type'] . $rule['role_id'];
             $resource = $rule['resource_id'];
             $privileges = !empty($rule['privileges']) ? explode(',', $rule['privileges']) : null;
 
             $assert = null;
-            if (0!=$rule['assert_id']) {
+            if (0 != $rule['assert_id']) {
                 $assertClass = Mage::getSingleton('admin/config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }

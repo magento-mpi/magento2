@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Admin Mysql4 User Collection
  *
  * @category    Mage
  * @package     Mage_Admin
