@@ -60,7 +60,7 @@ class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resou
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         $rows = $object->getRows();
-        if (is_array($rows)){
+        if (is_array($rows)) {
             $adapter  = $this->_getWriteAdapter();
             $reportId = (int)$object->getId();
             try {
@@ -94,10 +94,10 @@ class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resou
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('account_id = ?', (int)$accountId)
+            ->where('account_id = :account_id')
             ->where('report_date = :report_date');
 
-        $data = $adapter->fetchRow($select, array(':report_date' => $reportDate));
+        $data = $adapter->fetchRow($select, array(':account_id' => (int)$accountId, ':report_date' => $reportDate));
         if ($data) {
             $report->addData($data);
         }

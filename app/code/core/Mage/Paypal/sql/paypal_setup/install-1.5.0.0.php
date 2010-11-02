@@ -44,19 +44,15 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Report Id')
     ->addColumn('report_date', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
         ), 'Report Date')
     ->addColumn('account_id', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        'nullable'  => false,
         ), 'Account Id')
     ->addColumn('filename', Varien_Db_Ddl_Table::TYPE_TEXT, 24, array(
-        'nullable'  => false,
         ), 'Filename')
     ->addColumn('last_modified', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
         ), 'Last Modified')
-    ->addIndex($installer->getIdxName('paypal/settlement_report', array('report_date', 'account_id'), true),
-        array('report_date', 'account_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('paypal/settlement_report', array('report_date', 'account_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('report_date', 'account_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Paypal Settlement Report Table');
 $installer->getConnection()->createTable($table);
 
@@ -76,18 +72,14 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Report Id')
     ->addColumn('transaction_id', Varien_Db_Ddl_Table::TYPE_TEXT, 19, array(
-        'nullable'  => false,
         ), 'Transaction Id')
     ->addColumn('invoice_id', Varien_Db_Ddl_Table::TYPE_TEXT, 127, array(
         ), 'Invoice Id')
     ->addColumn('paypal_reference_id', Varien_Db_Ddl_Table::TYPE_TEXT, 19, array(
-        'nullable'  => false,
         ), 'Paypal Reference Id')
     ->addColumn('paypal_reference_id_type', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
-        'nullable'  => false,
         ), 'Paypal Reference Id Type')
     ->addColumn('transaction_event_code', Varien_Db_Ddl_Table::TYPE_TEXT, 5, array(
-        'nullable'  => false,
         ), 'Transaction Event Code')
     ->addColumn('transaction_initiation_date', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Transaction Initiation Date')
@@ -102,23 +94,19 @@ $table = $installer->getConnection()
         'default'   => '0.000000',
         ), 'Gross Transaction Amount')
     ->addColumn('gross_transaction_currency', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
-        'nullable'  => false,
         'default'   => '',
         ), 'Gross Transaction Currency')
     ->addColumn('fee_debit_or_credit', Varien_Db_Ddl_Table::TYPE_TEXT, 2, array(
-        'nullable'  => false,
         ), 'Fee Debit Or Credit')
     ->addColumn('fee_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '20,6', array(
         'nullable'  => false,
         'default'   => '0.000000',
         ), 'Fee Amount')
     ->addColumn('fee_currency', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
-        'nullable'  => false,
         ), 'Fee Currency')
     ->addColumn('custom_field', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Custom Field')
     ->addColumn('consumer_id', Varien_Db_Ddl_Table::TYPE_TEXT, 127, array(
-        'nullable'  => false,
         ), 'Consumer Id')
     ->addIndex($installer->getIdxName('paypal/settlement_report_row', array('report_id')),
         array('report_id'))
