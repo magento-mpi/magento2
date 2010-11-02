@@ -1784,7 +1784,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $preconfiguredValues = $this->getData('preconfigured_values');
         if (!$preconfiguredValues) {
-            $preconfiguredValues = new Varient_Object();
+            $preconfiguredValues = new Varien_Object();
         }
 
         return $preconfiguredValues;

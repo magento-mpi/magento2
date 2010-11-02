@@ -39,6 +39,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
     public function getValuesHtml()
     {
         $_option = $this->getOption();
+        $configValue = $this->getProduct()->getPreconfiguredValues()->getData('options/' . $_option->getId());
 
         if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN
             || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
@@ -71,6 +72,10 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             }
             $select->setExtraParams('onchange="opConfig.reloadPrice()"'.$extraParams);
 
+            if ($configValue) {
+                $select->setValue($configValue);
+            }
+
             return $select->getHtml();
         }
 
@@ -97,12 +102,21 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             $count = 1;
             foreach ($_option->getValues() as $_value) {
                 $count++;
+
                 $priceStr = $this->_formatPrice(array(
                     'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
                     'pricing_value' => $_value->getPrice(true)
                 ));
+
+                $htmlValue = $_value->getOptionTypeId();
+                if ($arraySign) {
+                    $checked = (is_array($configValue) && in_array($htmlValue, $configValue)) ? 'checked' : '';
+                } else {
+                    $checked = $configValue == $htmlValue ? 'checked' : '';
+                }
+
                 $selectHtml .= '<li>' .
-                               '<input type="'.$type.'" class="'.$class.' '.$require.' product-custom-option" onclick="opConfig.reloadPrice()" name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="'.$_value->getOptionTypeId().'" />' .
+                               '<input type="'.$type.'" class="'.$class.' '.$require.' product-custom-option" onclick="opConfig.reloadPrice()" name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="' . $htmlValue . '" ' . $checked . ' />' .
                                '<span class="label"><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().' '.$priceStr.'</label></span>';
                 if ($_option->getIsRequire()) {
                     $selectHtml .= '<script type="text/javascript">' .

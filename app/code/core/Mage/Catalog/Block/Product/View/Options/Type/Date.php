@@ -81,8 +81,12 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
      */
     public function getCalendarDateHtml()
     {
-        // $require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
+        $option = $this->getOption();
+        $value = $this->getProduct()->getPreconfiguredValues()->getData('options/' . $option->getId() . '/date');
+
+        //$require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
         $require = '';
+
         $calendar = $this->getLayout()
             ->createBlock('core/html_date')
             ->setId('options_'.$this->getOption()->getId().'_date')
@@ -90,7 +94,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
             ->setClass('product-custom-option datetime-picker input-text' . $require)
             ->setImage($this->getSkinUrl('images/calendar.gif'))
             ->setExtraParams('onchange="opConfig.reloadPrice()"')
-            ->setFormat(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+            ->setFormat(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT))
+            ->setValue($value);
 
         return $calendar->getHtml();
     }
@@ -178,16 +183,23 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
      */
     protected function _getHtmlSelect($name, $value = null)
     {
+        $option = $this->getOption();
+
         // $require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
         $require = '';
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setId('options_' . $this->getOption()->getId() . '_' . $name)
             ->setClass('product-custom-option datetime-picker' . $require)
             ->setExtraParams('style="width:auto;" onchange="opConfig.reloadPrice()"')
-            ->setName('options[' . $this->getOption()->getId() . '][' . $name . ']');
+            ->setName('options[' . $option->getId() . '][' . $name . ']');
+
+        if (is_null($value)) {
+            $value = $this->getProduct()->getPreconfiguredValues()->getData('options/' . $option->getId() . '/' . $name);
+        }
         if (!is_null($value)) {
             $select->setValue($value);
         }
+
         return $select;
     }
 
