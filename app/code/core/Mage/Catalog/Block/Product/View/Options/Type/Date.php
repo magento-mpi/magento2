@@ -87,6 +87,9 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
         //$require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
         $require = '';
 
+        $yearStart = Mage::getSingleton('catalog/product_option_type_date')->getYearStart();
+        $yearEnd = Mage::getSingleton('catalog/product_option_type_date')->getYearEnd();
+
         $calendar = $this->getLayout()
             ->createBlock('core/html_date')
             ->setId('options_'.$this->getOption()->getId().'_date')
@@ -95,7 +98,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
             ->setImage($this->getSkinUrl('images/calendar.gif'))
             ->setExtraParams('onchange="opConfig.reloadPrice()"')
             ->setFormat(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT))
-            ->setValue($value);
+            ->setValue($value)
+            ->setYearsRange('[' . $yearStart . ', ' . $yearEnd . ']');
 
         return $calendar->getHtml();
     }
@@ -107,23 +111,23 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
      */
     public function getDropDownsDateHtml()
     {
-        $_fieldsSeparator = '&nbsp;';
-        $_fieldsOrder = Mage::getSingleton('catalog/product_option_type_date')->getConfigData('date_fields_order');
-        $_fieldsOrder = str_replace(',', $_fieldsSeparator, $_fieldsOrder);
+        $fieldsSeparator = '&nbsp;';
+        $fieldsOrder = Mage::getSingleton('catalog/product_option_type_date')->getConfigData('date_fields_order');
+        $fieldsOrder = str_replace(',', $fieldsSeparator, $fieldsOrder);
 
         $monthsHtml = $this->_getSelectFromToHtml('month', 1, 12);
         $daysHtml = $this->_getSelectFromToHtml('day', 1, 31);
 
-        $_yearStart = Mage::getSingleton('catalog/product_option_type_date')->getYearStart();
-        $_yearEnd = Mage::getSingleton('catalog/product_option_type_date')->getYearEnd();
-        $yearsHtml = $this->_getSelectFromToHtml('year', $_yearStart, $_yearEnd);
+        $yearStart = Mage::getSingleton('catalog/product_option_type_date')->getYearStart();
+        $yearEnd = Mage::getSingleton('catalog/product_option_type_date')->getYearEnd();
+        $yearsHtml = $this->_getSelectFromToHtml('year', $yearStart, $yearEnd);
 
-        $_translations = array(
+        $translations = array(
             'd' => $daysHtml,
             'm' => $monthsHtml,
             'y' => $yearsHtml
         );
-        return strtr($_fieldsOrder, $_translations);
+        return strtr($fieldsOrder, $translations);
     }
 
     /**
