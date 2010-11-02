@@ -30,6 +30,7 @@
     $showCount = count($cards) > 1;
 ?>
 
+<div>
 <?php foreach ($cards as $key => $card): ?>
     <?php if ($showCount): ?>
         <b><?php echo sprintf($this->__('Credit Card %s'), $key + 1); ?></b>
@@ -48,3 +49,4 @@
     </table>
     </div>
 <?php endforeach; ?>
+</div>

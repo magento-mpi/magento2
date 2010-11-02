@@ -24,37 +24,34 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
+class Mage_Paygate_Block_Authorizenet_Info_Cc extends Mage_Payment_Block_Info
 {
-    /**
-     * Set block template
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('paygate/form/cc.phtml');
-    }
-
-    /**
-     * Retreive payment method form html
-     *
-     * @return string
-     */
-    public function getMethodFormBlock()
-    {
-        return $this->getLayout()->createBlock('payment/form_cc')
-            ->setMethod($this->getMethod());
-    }
-
     /**
      * Cards info block
      *
      * @return string
      */
-    public function getCardsBlock()
+    public function getCardsInfoBlock()
     {
-        return $this->getLayout()->createBlock('paygate/authorizenet_cards')
+        return $this->_createBlock('paygate/authorizenet_cards')
             ->setMethod($this->getMethod());
+    }
+
+    /**
+     * Create block
+     *
+     * @param string $blockType
+     * @return mixed
+     */
+    protected function _createBlock($blockType)
+    {
+        if ($this->getLayout()) {
+            return $this->getLayout()->createBlock($blockType);
+        }
+        else {
+            $className = Mage::getConfig()->getBlockClassName($blockType);
+            return new $className;
+        }
     }
 
     /**
@@ -64,8 +61,7 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     protected function _toHtml()
     {
-        $this->setChild('cc_form_before', $this->getCardsBlock());
-        $this->setChild('method_form_block', $this->getMethodFormBlock());
+        $this->setChild('cards_info_block', $this->getCardsInfoBlock());
         return parent::_toHtml();
     }
 }
