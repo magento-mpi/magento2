@@ -255,18 +255,22 @@ $installer->getConnection()->addColumn($installer->getTable('core/website'), 'is
     'type'      => Varien_Db_Ddl_Table::TYPE_BOOLEAN,
     'nullable'  => false,
     'default'   => 0,
+    'comment'   => 'Is Staging Flag'
 ));
 $installer->getConnection()->addColumn($installer->getTable('core/website'), 'master_login', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 40,
+    'comment'   => 'Master Login'
 ));
 $installer->getConnection()->addColumn($installer->getTable('core/website'), 'master_password', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 100,
+    'comment'   => 'Master Password'
 ));
 $installer->getConnection()->addColumn($installer->getTable('core/website'), 'visibility', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
-    'length'    => 40
+    'length'    => 40,
+    'comment'   => 'Visibility'
 ));
 
 $installer->endSetup();

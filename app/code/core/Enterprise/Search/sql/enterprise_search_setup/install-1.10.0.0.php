@@ -35,6 +35,7 @@ $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '1',
+        'comment'   => 'Search Weight',
     ));
 $installer->getConnection()->addIndex($installer->getTable('catalogsearch/search_query'),
     $installer->getIdxName('catalogsearch/search_query', array('num_results')),
@@ -45,7 +46,6 @@ $installer->getConnection()->addIndex($installer->getTable('catalogsearch/search
 $installer->getConnection()->addIndex($installer->getTable('catalogsearch/search_query'),
     $installer->getIdxName('catalogsearch/search_query', array('query_text', 'store_id', 'num_results')),
     array('query_text', 'store_id', 'num_results'));
-
 
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_search/recommendations'))
@@ -64,7 +64,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Query Id')
+        ), 'Relation Id')
     ->addForeignKey($installer->getFkName('enterprise_search/recommendations', 'query_id', 'catalogsearch/search_query', 'query_id'),
         'query_id', $installer->getTable('catalogsearch/search_query'), 'query_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

@@ -154,8 +154,9 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
      */
     protected function _getAttributeColumnDefinition($code, $data)
     {
-        $data['type'] = isset($data['type']) ? $data['type'] : Varien_Db_Ddl_Table::TYPE_TEXT;
+        $data['type']     = isset($data['type']) ? $data['type'] : Varien_Db_Ddl_Table::TYPE_TEXT;
         $data['nullable'] = isset($data['required']) ? !$data['required'] : true;
+        $data['comment']  = isset($data['comment']) ? $data['comment'] : ucwords(str_replace('_', ' ', $code)); 
         return $data;
     }
 

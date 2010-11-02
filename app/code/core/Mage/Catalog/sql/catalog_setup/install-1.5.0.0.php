@@ -2734,11 +2734,13 @@ $installer->getConnection()->addColumn($installer->getTable('core/url_rewrite'),
     'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
     'unsigned'  => true,
     'nullable'  => true,
+    'comment'   => 'Category Id'
 ));
 $installer->getConnection()->addColumn($installer->getTable('core/url_rewrite'), 'product_id', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
     'unsigned'  => true,
     'nullable'  => true,
+    'comment'   => 'Product Id'
 ));
 $installer->getConnection()->addForeignKey(
     $installer->getFkName('core/url_rewrite', 'category_id', 'catalog/category', 'entity_id'),

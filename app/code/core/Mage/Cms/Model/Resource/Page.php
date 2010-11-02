@@ -177,7 +177,9 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
     {
         if ($object->getId()) {
             $stores = $this->lookupStoreIds($object->getId());
+
             $object->setData('store_id', $stores);
+
         }
 
         return parent::_afterLoad($object);
@@ -200,11 +202,11 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             $select->join(
                 array('cms_page_store' => $this->getTable('cms/page_store')),
                 $this->getMainTable() . '.page_id = cms_page_store.page_id',
-                array()
-            )->where('is_active = ?', 1)
-            ->where('cms_page_store.store_id IN (?)', $storeIds)
-            ->order('cms_page_store.store_id DESC')
-            ->limit(1);
+                array())
+                ->where('is_active = ?', 1)
+                ->where('cms_page_store.store_id IN (?)', $storeIds)
+                ->order('cms_page_store.store_id DESC')
+                ->limit(1);
         }
 
         return $select;
@@ -225,8 +227,8 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             ->join(
                 array('cps' => $this->getTable('cms/page_store')),
                 'cp.page_id = cps.page_id',
-                array()
-            )->where('cp.identifier = ?', $identifier)
+                array())
+            ->where('cp.identifier = ?', $identifier)
             ->where('cps.store_id IN (?)', $store);
 
         if (!is_null($isActive)) {
@@ -346,7 +348,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             ->where('page_id = :page_id');
 
         $binds = array(
-            ':page_id' => (int) $id
+            'page_id' => (int) $id
         );
 
         return $adapter->fetchOne($select, $binds);
@@ -367,7 +369,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             ->where('page_id = :page_id');
 
         $binds = array(
-            ':page_id' => (int) $id
+            'page_id' => (int) $id
         );
 
         return $adapter->fetchOne($select, $binds);
@@ -379,19 +381,15 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      * @param int $id
      * @return array
      */
-    public function lookupStoreIds($id)
+    public function lookupStoreIds($pageId)
     {
         $adapter = $this->_getReadAdapter();
 
         $select  = $adapter->select()
             ->from($this->getTable('cms/page_store'), 'store_id')
-            ->where('page_id = :page_id');
+            ->where('page_id = ?',(int)$pageId);
 
-        $binds = array(
-            ':page_id' => (int) $id
-        );
-
-        return $adapter->fetchCol($select, $binds);
+        return $adapter->fetchCol($select);
     }
 
     /**

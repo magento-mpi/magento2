@@ -320,13 +320,14 @@ $table = $installer->getConnection()
     ->setComment('Enterprise Cms Hierarchy Lock');
 $installer->getConnection()->createTable($table);
 
-// Add fields for Mage_Cms table
+// Add fields for cms/page table
 $installer->getConnection()
     ->addColumn($installer->getTable('cms/page'), 'published_revision_id', array(
         'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
+        'comment'   => 'Published Revision Id'
     ));
 $installer->getConnection()
     ->addColumn($installer->getTable('cms/page'), 'website_root', array(
@@ -334,6 +335,7 @@ $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '1',
+        'comment'   => 'Website Root'
     ));
 $installer->getConnection()
     ->addColumn($installer->getTable('cms/page'), 'under_version_control', array(
@@ -341,6 +343,7 @@ $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
+        'comment'   => 'Under Version Control Flag'
     ));
 
 $installer->endSetup();
