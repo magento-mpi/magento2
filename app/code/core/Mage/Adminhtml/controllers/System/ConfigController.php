@@ -243,6 +243,10 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             }
             return true;
         }
+        catch (Zend_Acl_Exception $e) {
+            $this->_forward('noroute');
+            return false;
+        }
         catch (Exception $e) {
             $this->_forward('denied');
             return false;
