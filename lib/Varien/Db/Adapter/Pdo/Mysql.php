@@ -356,10 +356,33 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $this->_debugTimer();
         try {
             $sql = (string)$sql;
+
+            $this->_bindParams = $bind;
+
+            // don't supported mixed bind
+            // normalize bind
+            $isNamedBind = false;
+            if ($this->_bindParams) {
+                foreach ($this->_bindParams as $k => $v) {
+                    if (!is_int($k)) {
+                        $isNamedBind = true;
+                        if (strpos($k, ':') !== 0) {
+                            $this->_bindParams[":{$k}"] = $v;
+                            unset($this->_bindParams[$k]);
+                        }
+                    }
+                }
+            }
+
             if (strpos($sql, ':') !== false || strpos($sql, '?') !== false) {
-                $this->_bindParams = $bind;
+                $before = count($this->_bindParams);
                 $sql = preg_replace_callback('#(([\'"])((\\2)|((.*?[^\\\\])\\2)))#', array($this, 'proccessBindCallback'), $sql);
                 Varien_Exception::processPcreError();
+                if (!$isNamedBind && count($this->_bindParams) != $before) {
+                    // normalize mixed bind
+                    $sql = $this->_convertMixedBind($sql);
+                    $isNamedBind = false;
+                }
                 $bind = $this->_bindParams;
             }
 
@@ -390,6 +413,58 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             return ' ' . $bindName;
         }
         return $matches[0];
+    }
+
+    /**
+     * Convert mixed positional and named bind to named bind and returns valid select
+     * This method works with the _bindParams property
+     *
+     * @param string $sql
+     * @return string
+     */
+    protected function _convertMixedBind($sql)
+    {
+        $positions  = array();
+        $offset     = 0;
+        // get positions
+        while (true) {
+            $pos = strpos($sql, '?', $offset);
+            if ($pos !== false) {
+                $positions[] = $pos;
+                $offset = ++$pos;
+            } else {
+                break;
+            }
+        }
+
+        $bind   = array();
+        $map    = array();
+        foreach ($this->_bindParams as $k => $v) {
+            // positional
+            if (is_int($k)) {
+                if (!isset($positions[$k])) {
+                    continue;
+                }
+                $bind[$positions[$k]] = $v;
+            } else {
+                $offset = 0;
+                while (true) {
+                    $pos = strpos($sql, $k, $offset);
+                    if ($pos === false) {
+                        break;
+                    } else {
+                        $offset = $pos + strlen($k);
+                        $bind[$pos] = $v;
+                    }
+                }
+                $map[$k] = '?';
+            }
+        }
+
+        ksort($bind);
+        $this->_bindParams = array_values($bind);
+
+        return strtr($sql, $map);
     }
 
     /**
@@ -2223,7 +2298,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             return new Zend_Db_Expr('NULL');
         }
 
-        return $date;
+        return new Zend_Db_Expr($this->quote($date));
     }
 
     /**
