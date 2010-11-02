@@ -29,7 +29,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Url
+class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
 {
     // List of exceptions throwable during prepareAndRender() method
     public $ERR_NO_PRODUCT_LOADED = 1;

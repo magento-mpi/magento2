@@ -25,8 +25,11 @@
  */
 ?>
 <?php /* @var $this Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard */?>
-<?php $_product = $this->getProduct() ?>
-<?php $_id = $_product->getId(); ?>
+<?php
+    $_product = $this->getProduct();
+    $_id = $_product->getId();
+    $preconfigured = $_product->getPreconfiguredValues();
+?>
 <div class="giftcard-form">
 <?php if ($_product->isAvailable()): ?>
     <p class="availability in-stock"><?php echo $this->helper('catalog')->__('Availability:') ?> <span><?php echo $this->helper('catalog')->__('In stock') ?></span></p>
@@ -59,7 +62,7 @@
                     <?php endif; ?>
                     <?php if ($this->isOpenAmountAvailable($_product)): ?>
                     <div id="giftcard_amount_box" class="input-box">
-                        <span class="v-fix"><input type="text" id="giftcard_amount_input" name="custom_giftcard_amount" class="validate-number required-entry input-text giftcard-amount-entry giftcard-min-amount giftcard-max-amount" /></span>
+                        <span class="v-fix"><input type="text" id="giftcard_amount_input" name="custom_giftcard_amount" class="validate-number required-entry input-text giftcard-amount-entry giftcard-min-amount giftcard-max-amount" value="<?php echo $this->escapeHtml($preconfigured->getData('custom_giftcard_amount')) ?>" /></span>
 
                         <?php if ($_product->getOpenAmountMin() || $_product->getOpenAmountMax()): ?>
                             <?php $_min = Mage::helper('core')->currency($_product->getOpenAmountMin(), true, false); ?>
@@ -109,20 +112,23 @@
                         <?php endif; ?>
                     </div>
                     <?php endif; ?>
-                    <?php if ($this->isAmountAvailable($_product)): ?>
+                    <?php
+                        if ($this->isAmountAvailable($_product)) {
+                            $configValue = $preconfigured->getData('giftcard_amount');
+                    ?>
                     <div class="input-box">
                         <select name="giftcard_amount" id="giftcard_amount" class="required-entry giftcard-amount-entry">
                             <option value=""><?php echo Mage::helper('enterprise_giftcard')->__('Choose an Amount...') ?></option>
                             <?php foreach ($this->getAmounts($_product) as $value): ?>
-                                <option value="<?php echo $value; ?>"><?php echo Mage::helper('core')->currency($value, true, false); ?></option>
+                                <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>><?php echo Mage::helper('core')->currency($value, true, false); ?></option>
                             <?php endforeach; ?>
 
                             <?php if ($this->isOpenAmountAvailable($_product)): ?>
-                                <option value="custom"><?php echo Mage::helper('enterprise_giftcard')->__('Other Amount...') ?></option>
+                                <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo Mage::helper('enterprise_giftcard')->__('Other Amount...') ?></option>
                             <?php endif; ?>
                         </select>
                     </div>
-                    <?php endif; ?>
+                    <?php } ?>
 
                 </li>
             </ul>
@@ -157,6 +163,8 @@
                 $('amount_label_input').hide();
             }
         }
+
+        switchGiftCardInputs();
         //]]>
         </script>
     <?php endif; ?>
@@ -166,30 +174,42 @@
                 <div class="field">
                     <label for="giftcard_sender_name" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Name'); ?></label>
                     <div class="input-box">
-                        <input type="text" id="giftcard_sender_name" name="giftcard_sender_name" class="required-entry input-text" value="<?php echo $this->getCustomerName(); ?>" />
+                        <?php
+                            $senderName = $preconfigured->getData('giftcard_sender_name');
+                            if (!strlen($senderName)) {
+                                $senderName = $this->getCustomerName();
+                            }
+                        ?>
+                        <input type="text" id="giftcard_sender_name" name="giftcard_sender_name" class="required-entry input-text" value="<?php echo $this->escapeHtml($senderName) ?>" />
                     </div>
                 </div>
-                <?php if ($this->isEmailAvailable($_product)): ?>
+                <?php
+                    if ($this->isEmailAvailable($_product)) {
+                        $senderEmail = $preconfigured->getData('giftcard_sender_email');
+                        if (!strlen($senderEmail)) {
+                            $senderEmail = $this->getCustomerEmail();
+                        }
+                ?>
                 <div class="field">
                     <label for="giftcard_sender_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Email'); ?></label>
                     <div class="input-box">
-                        <input type="text" id="giftcard_sender_email" name="giftcard_sender_email" class="validate-email required-entry input-text" value="<?php echo $this->getCustomerEmail(); ?>"/>
+                        <input type="text" id="giftcard_sender_email" name="giftcard_sender_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($senderEmail) ?>"/>
                     </div>
                 </div>
-                <?php endif; ?>
+                <?php } ?>
             </li>
             <li class="fields">
                 <div class="field">
                     <label for="giftcard_recipient_name" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Recipient Name'); ?></label>
                     <div class="input-box">
-                        <input type="text" id="giftcard_recipient_name" name="giftcard_recipient_name" class="required-entry input-text" />
+                        <input type="text" id="giftcard_recipient_name" name="giftcard_recipient_name" class="required-entry input-text" value="<?php echo $this->escapeHtml($preconfigured->getData('giftcard_recipient_name')) ?>" />
                     </div>
                 </div>
                 <?php if ($this->isEmailAvailable($_product)): ?>
                 <div class="field">
                     <label for="giftcard_recipient_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Recipient Email'); ?></label>
                     <div class="input-box">
-                        <input type="text" id="giftcard_recipient_email" name="giftcard_recipient_email" class="validate-email required-entry input-text" />
+                        <input type="text" id="giftcard_recipient_email" name="giftcard_recipient_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($preconfigured->getData('giftcard_recipient_email')) ?>" />
                     </div>
                 </div>
                 <?php endif; ?>
@@ -198,7 +218,7 @@
             <li>
                 <label for="giftcard_message"><?php echo Mage::helper('enterprise_giftcard')->__('Message'); ?></label>
                 <div class="input-box">
-                    <textarea name="giftcard_message" id="giftcard_message" class="input-text giftcard-message-max-length" cols="5" rows="3"></textarea>
+                    <textarea name="giftcard_message" id="giftcard_message" class="input-text giftcard-message-max-length" cols="5" rows="3"><?php echo $this->escapeHtml($preconfigured->getData('giftcard_message')) ?></textarea>
                     <?php if ($this->getMessageMaxLength()): ?>
                         <script type="text/javascript">
                             Validation.add('giftcard-message-max-length', '<?php echo $this->__('Maximum length of the message is %d characters.', $this->getMessageMaxLength()); ?>', function(v) {

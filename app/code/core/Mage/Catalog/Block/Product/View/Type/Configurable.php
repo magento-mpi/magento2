@@ -77,7 +77,9 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
     {
         $attributes = array();
         $options = array();
+        $defaultValues = array();
         $store = Mage::app()->getStore();
+        $preconfigured = $this->getProduct()->getPreconfiguredValues();
         foreach ($this->getAllowProducts() as $product) {
             $productId  = $product->getId();
 
@@ -145,6 +147,12 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             if($this->_validateAttributeInfo($info)) {
                $attributes[$attributeId] = $info;
             }
+
+            // Add attribute default value (if set)
+            $configValue = $preconfigured->getData('super_attribute/' . $attributeId);
+            if ($configValue !== null) {
+                $defaultValues[$attributeId] = $configValue;
+            }
         }
 
         $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
@@ -173,6 +181,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             'productId'         => $this->getProduct()->getId(),
             'chooseText'        => Mage::helper('catalog')->__('Choose an Option...'),
             'taxConfig'         => $taxConfig,
+            'defaultValues'     => $defaultValues
         );
 
         return Mage::helper('core')->jsonEncode($config);
