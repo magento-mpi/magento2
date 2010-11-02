@@ -1151,11 +1151,12 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             default:
                 $condition = 'DROP INDEX "%2$s"';
                 break;
-         }
+        }
 
-         $sql = sprintf($condition,
-             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
-             $keyName);
+        $keyName = $indexList[$keyName]['KEY_NAME'];
+        $sql = sprintf($condition,
+            $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
+            $keyName);
 
         $this->raw_query($sql);
         $this->resetDdlCache($tableName, $schemaName);
@@ -1228,6 +1229,16 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             foreach ($rowset as $row) {
                 $upperKeyName = strtoupper($row['key_name']);
                 $columnName   = strtolower($row['column_name']);
+
+                $indexType = $row['index_type'];
+                switch (strtolower($indexType)) {
+                    case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
+                          $upperKeyName = strtoupper(Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY);
+                          break;
+                    default:
+                        $upperKeyName = strtoupper($row['key_name']);
+                        break;
+                }
                 if (isset($ddl[$upperKeyName])) {
                     $ddl[$upperKeyName]['fields'][] = $columnName; // for compatible
                     $ddl[$upperKeyName]['COLUMNS_LIST'][] = $columnName;

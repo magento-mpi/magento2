@@ -58,7 +58,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     const EXTPROP_COMMENT_TABLE     = 'TABLE_COMMENT';
     const EXTPROP_COMMENT_COLUMN    = 'COLUMN_COMMENT';
     const EXTPROP_COMMENT_FK_UPDATE = 'FOREIGN_KEY_UPDATE_ACTION';
-    const EXTPROP_COMMENT_FK_DELETE = 'FOREIGN_KEY_DELETE_ACTION';    
+    const EXTPROP_COMMENT_FK_DELETE = 'FOREIGN_KEY_DELETE_ACTION';
     const LENGTH_TABLE_NAME         = 128;
     const LENGTH_INDEX_NAME         = 128;
     const LENGTH_FOREIGN_NAME       = 128;
@@ -1084,7 +1084,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $definition = array_change_key_case($definition, CASE_UPPER);
         $definition['COLUMN_TYPE'] = $this->_getColumnTypeByDdl($definition);
-        //TODO need to be deleted. modifyColumn() uses _getDefaultValue() 
+        //TODO need to be deleted. modifyColumn() uses _getDefaultValue()
         if (array_key_exists('DEFAULT', $definition) && is_null($definition['DEFAULT'])) {
             unset($definition['DEFAULT']);
         }
@@ -1166,7 +1166,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (is_array($definition)) {
             $definition = $this->_getColumnDefinition($definition);
         }
-        
+
         if (empty($definition['COMMENT'])) {
             throw new Zend_Db_Exception("Impossible to create a column without comment");
         }
@@ -1601,8 +1601,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (!isset($indexList[$keyName])) {
             return $this;
         }
-
-        switch (strtolower($keyName)) {
+        
+        $keyType = $indexList[$keyName]['INDEX_TYPE'];
+        $keyName = $indexList[$keyName]['KEY_NAME'];
+        switch (strtolower($keyType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
                 $query = $this->_getDdlScriptDropPrimaryKey($tableName, $keyName, $schemaName);
                 break;
@@ -1891,7 +1893,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             'tablename3' => $refTableName,
             'tablename4' => $refTableName,
             'tablename5' => $refTableName
-        ));    
+        ));
         while ($row = $query->fetchColumn() ) {
             $this->raw_query(str_replace('CREATE TRIGGER', 'ALTER TRIGGER', $row));
         }
@@ -1926,7 +1928,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $extProp = "SELECT value"
             . " FROM fn_listextendedproperty"
-            . " (N'%s', N'user', N'dbo', N'table', sop.name, N'CONSTRAINT', sfk.name )"; 
+            . " (N'%s', N'user', N'dbo', N'table', sop.name, N'CONSTRAINT', sfk.name )";
         $ddl = $this->loadDdlCache($cacheKey, self::DDL_FOREIGN_KEY);
         if ($ddl === false) {
             $ddl = array();
@@ -1957,7 +1959,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 sprintf($extProp, self::EXTPROP_COMMENT_FK_UPDATE),
                 $this->quoteIdentifier($this->_getTableName($tableName, $schemaName))
             );
-            
+
             foreach ($this->fetchAll($sql) as $row) {
                 $foreignKeyName             = 'fk_name';
                 $columnName                 = 'column_name';
@@ -2602,7 +2604,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         return $result;
     }
-    
+
 
     /**
      * Split multi statement query
@@ -3801,7 +3803,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $query = sprintf('
                 SELECT m2.* FROM (
                     SELECT m1.*, ROW_NUMBER() OVER ( ORDER BY  RAND()) AS analytic_clmn
-                    FROM (%s) m1) m2 
+                    FROM (%s) m1) m2
                 WHERE m2.analytic_clmn >= %d', $sql,  $offset + 1);
         }
 
@@ -3865,7 +3867,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $table
      * @param array $fields
      * @return string
-     * @throws Zend_Db_Exception 
+     * @throws Zend_Db_Exception
      */
     public function insertFromSelect(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
     {
@@ -4191,7 +4193,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 . "END                                                      \n"
                 . "                                                         \n";
         }
-        
+
         return $triggerBody;
     }
 

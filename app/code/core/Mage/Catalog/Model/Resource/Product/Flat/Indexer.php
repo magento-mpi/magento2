@@ -567,10 +567,10 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             }
 
             foreach ($indexes as $indexName => $indexProp) {
-                $table->addIndex(
-                    $indexName,
-                    $indexProp['fields'], array('type' => $indexProp['type'])
-                );
+                if ($indexName == 'PRIMARY') {
+                    continue;
+                }
+                $table->addIndex($indexName, $indexProp['fields'], array('type' => $indexProp['type']));
             }
 
             $table->addForeignKey($foreignEntityKey,
@@ -614,18 +614,8 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             }
             if ($isAddChildData && !isset($describe['is_child'])) {
                 $adapter->truncate($tableName);
-                foreach ($indexList as $indexName => $indexProp) {
-                    if ($indexProp['type'] == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
-                        $dropIndexes[$indexName] = $indexList[$indexName];
-                        break;
-                    }
-                }
-                foreach ($indexes as $indexName => $indexProp) {
-                    if ($indexProp['type'] == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
-                        $addIndexes[$indexName]  = $indexes[$indexName];
-                        break;
-                    }
-                }
+                $dropIndexes['PRIMARY'] = $indexList['PRIMARY'];
+                $addIndexes['PRIMARY']  = $indexes['PRIMARY'];
 
                 $addConstraints[$foreignChildKey] = array(
                     'table_index'   => 'child_id',
@@ -649,8 +639,8 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                     $addIndexes[$indexName] = $indexes[$indexName];
                 }
             }
-            var_dump(array_diff(array_keys($adapter->getForeignKeys($tableName)), array_keys($addConstraints)));
-            foreach (array_diff(array_keys($adapter->getForeignKeys($tableName)), array_keys($addConstraints)) as $constraintName) {
+
+            foreach (array_keys($adapter->getForeignKeys($tableName)) as $constraintName) {
                 $adapter->dropForeignKey($tableName, $constraintName);
             }
             // drop indexes

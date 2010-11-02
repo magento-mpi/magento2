@@ -304,7 +304,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $retry = false;
             $tries = 0;
             try {
-                $result = $this->getConnection()->query($sql);
+                $result = $this->query($sql);
             } catch (PDOException $e) {
                 if ($e->getMessage()=='SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query') {
                     $retry = true;
@@ -1314,7 +1314,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
     /**
      * Create Varien_Db_Ddl_Table object by data from describe table
-     * 
+     *
      * @param $tableName
      * @param $newTableName
      * @return Varien_Db_Ddl_Table
@@ -1362,7 +1362,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             if ($indexData['KEY_NAME'] == 'PRIMARY') {
                 continue;
             }
-            
+
             $fields = $indexData['COLUMNS_LIST'];
             $options = array();
             $indexType = '';
@@ -1382,7 +1382,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $onUpdate = $this->_getDdlAction($keyData['ON_UPDATE']);
 
             $table->addForeignKey(
-                $fkName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'], 
+                $fkName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'],
                 $keyData['REF_COLUMN_NAME'], $onDelete, $onUpdate
             );
         }
@@ -1411,7 +1411,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
     /**
      * Retrieve column data type by data from describe table
-     * 
+     *
      * @param array $column
      * @return string
      */
@@ -3059,7 +3059,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
     /**
      * Return DDL action
-     * 
+     *
      * @param string $action
      * @return string
      */
