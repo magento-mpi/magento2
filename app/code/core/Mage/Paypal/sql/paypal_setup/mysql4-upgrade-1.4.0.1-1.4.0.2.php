@@ -28,7 +28,7 @@
 $installer = $this;
 
 $installer->run("
-CREATE TABLE `{$installer->getTable('paypal_cert')}` (
+CREATE TABLE `{$installer->getTable('paypal/cert')}` (
     `cert_id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
     `website_id` SMALLINT(5) UNSIGNED NOT NULL DEFAULT '0',
     `content` MEDIUMBLOB NOT NULL,
@@ -40,8 +40,8 @@ CREATE TABLE `{$installer->getTable('paypal_cert')}` (
 
 $installer->getConnection()->addConstraint(
     'FK_PAYPAL_CERT_WEBSITE',
-    $this->getTable('paypal_cert'),
+    $this->getTable('paypal/cert'),
     'website_id',
-    $this->getTable('core_website'),
+    $this->getTable('core/website'),
     'website_id'
 );
