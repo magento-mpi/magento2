@@ -99,8 +99,10 @@ class Mage_Paygate_Model_Authorizenet_Cards// extends Mage_Core_Model_Abstract
     public function getProcessedAmount()
     {
         $amount = 0;
-        foreach ($this->getCards() as $card) {
-            $amount += $card['processed_amount'];
+        if ($this->getCards()) {
+            foreach ($this->getCards() as $card) {
+                $amount += $card['processed_amount'];
+            }
         }
         return $amount;
     }
