@@ -347,9 +347,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Check custom defined options for product
      *
-     * @param Varien_Object $buyRequest
-     * @param Mage_Catalog_Model_Product $product
-     * @return  array || string
+     * @param  Varien_Object $buyRequest
+     * @param  Mage_Catalog_Model_Product $product
+     * @return array|string
      */
     protected function _prepareOptionsForCart(Varien_Object $buyRequest, $product = null)
     {
@@ -377,7 +377,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Check if product can be bought
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param  Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Abstract
      * @throws Mage_Core_Exception
      */
@@ -769,16 +769,11 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $errors = array();
 
         try {
-            /*
-             * FIXME ACPAOC
-             * prepareForCart is not acceptable here because it's leaving product modified custom options
-             * you can test bugs if you'll try to edit Configruable product
+            /**
+             * cloning product because prepareForCart() method will modify it
              */
-            //$result = $this->prepareForCart($buyRequest, $product);
-            $result = null;
-            /*
-             * End of FIXME
-             */
+            $productForCheck = clone $product;
+            $result = $this->prepareForCart($buyRequest, $productForCheck);
 
             if (is_string($result)) {
                $errors[] = $result;

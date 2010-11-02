@@ -195,7 +195,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setMessage($e->getMessage());
             $this->getQuote()->setHasError(true);
             $this->getQuote()->addMessage(
-                Mage::helper('sales')->__('Some of the products below do not have all the required options. Please remove them and add again with all the required options.')
+                Mage::helper('sales')->__('Some of the products below do not have all the required options. Please edit them and configure all the required options.')
             );
         } catch (Exception $e) {
             $this->setHasError(true);

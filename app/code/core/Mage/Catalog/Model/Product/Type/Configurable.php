@@ -710,7 +710,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         if ($simpleOption = $this->getProduct($product)->getCustomOption('simple_product')) {
             $simple_sku = $simpleOption->getProduct($product)->getSku();
             $sku = parent::getOptionSku($product, $simple_sku);
-        } else{
+        } else {
             $sku = parent::getSku($product);
         }
 
