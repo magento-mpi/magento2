@@ -65,6 +65,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     protected $_formBlockType = 'paygate/authorizenet_form_cc';
 
     /**
+     * Info block type
+     */
+    protected $_infoBlockType = 'paygate/authorizenet_info_cc';
+
+    /**
      * Availability options
      */
     protected $_isGateway               = true;
@@ -150,7 +155,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_ONLY);
 
-        $processedAmount = $this->getCards($payment)->getProcessedAmount();
+        $processedAmount = $this->getCardsInstance($payment)->getProcessedAmount();
         $payment->setAmount($amount - $processedAmount);
 
         $request= $this->_buildRequest($payment);
@@ -570,10 +575,21 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 'auth_id'           => $response->getTransactionId(),
                 'processed_amount'  => $response->getAmount()
             );
-        $this->getCards($payment)->addCard($cardInfo);
+        $this->getCardsInstance($payment)->addCard($cardInfo);
     }
 
-    public function getCards($payment) {
-        return Mage::getModel('paygate/authorizenet_cards')->setPayment($payment);
+    /**
+     * Get cards model instance
+     *
+     * @param mixed $payment
+     * @return Mage_Paygate_Model_Authorizenet_Cards
+     */
+    public function getCardsInstance($payment = null)
+    {
+        if (is_null($payment)) {
+            $payment = $this->getInfoInstance();
+        }
+        return Mage::getModel('paygate/authorizenet_cards')
+            ->setPayment($payment);
     }
 }

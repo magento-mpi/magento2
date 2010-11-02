@@ -19,17 +19,32 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     base_default
+ * @package     default_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
 
-<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_before" style="display:none;">
-    <?php echo $this->getChildHtml('cc_form_before') ?>
-    <?php echo $this->getCardsBlock(); ?>
-</ul>
-<?php echo $this->getMethodFormBlock(); ?>
-<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_after" style="display:none;">
-    <?php echo $this->getChildHtml('cc_form_after') ?>
-</ul>
+<?php
+    $cards = $this->getCards();
+    $showCount = count($cards) > 1;
+?>
+
+<?php foreach ($cards as $key => $card): ?>
+    <?php if ($showCount): ?>
+        <b><?php echo sprintf($this->__('Credit Card %s'), $key + 1); ?></b>
+    <?php endif;?>
+
+    <div <?php if ($showCount):?> style="padding:5px 0px 10px 20px"<?php endif;?>>
+    <table>
+        <tbody>
+        <?php foreach ($card as $info):?>
+        <tr>
+            <td><?php echo $info['label']; ?>:</td>
+            <td><?php echo $info['value']; ?></td>
+        </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    </div>
+<?php endforeach; ?>

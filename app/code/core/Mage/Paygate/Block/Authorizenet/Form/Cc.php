@@ -46,4 +46,16 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
             ->setMethod($this->getMethod())
             ->toHtml();
     }
+
+    /**
+     * Cards info block
+     *
+     * @return string
+     */
+    public function getCardsBlock()
+    {
+        return $this->getLayout()->createBlock('paygate/authorizenet_cards')
+            ->setMethod($this->getMethod())
+            ->toHtml();
+    }
 }
