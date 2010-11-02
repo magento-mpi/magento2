@@ -71,7 +71,7 @@ class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $condition = $this->_getWriteAdapter()->quoteInto('agreement_id = ?', $object->getId());
+        $condition = array('agreement_id = ?' => $object->getId());
         $this->_getWriteAdapter()->delete($this->getTable('checkout/agreement_store'), $condition);
 
         foreach ((array)$object->getData('stores') as $store) {
@@ -93,15 +93,11 @@ class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('checkout/agreement_store'))
-            ->where('agreement_id = ?', $object->getId());
+            ->from($this->getTable('checkout/agreement_store'), array('store_id'))
+            ->where('agreement_id = :agreement_id');
 
-        if ($data = $this->_getReadAdapter()->fetchAll($select)) {
-            $storesArray = array();
-            foreach ($data as $row) {
-                $storesArray[] = $row['store_id'];
-            }
-            $object->setData('store_id', $storesArray);
+        if ($stores = $this->_getReadAdapter()->fetchCol($select, array(':agreement_id' => $object->getId()))) {
+            $object->setData('store_id', $stores);
         }
 
         return parent::_afterLoad($object);
@@ -119,12 +115,14 @@ class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db
     {
         $select = parent::_getLoadSelect($field, $value, $object);
         if ($object->getStoreId()) {
-            $select->join(array('cps' => $this->getTable('checkout/agreement_store')), 
-                $this->getMainTable() . '.agreement_id = cps.agreement_id')
-                    ->where('is_active=1')
-                    ->where('cps.store_id IN (0, ?)', $object->getStoreId())
-                    ->order('store_id DESC')
-                    ->limit(1);
+            $select->join(
+                array('cps' => $this->getTable('checkout/agreement_store')),
+                $this->getMainTable() . '.agreement_id = cps.agreement_id'
+            )
+            ->where('is_active=1')
+            ->where('cps.store_id IN (0, ?)', $object->getStoreId())
+            ->order('store_id DESC')
+            ->limit(1);
         }
         return $select;
     }

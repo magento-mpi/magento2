@@ -40,15 +40,12 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Agreement Id')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
         ), 'Name')
     ->addColumn('content', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
         ), 'Content')
     ->addColumn('content_height', Varien_Db_Ddl_Table::TYPE_TEXT, 25, array(
         ), 'Content Height')
     ->addColumn('checkbox_text', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
         ), 'Checkbox Text')
     ->addColumn('is_active', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,

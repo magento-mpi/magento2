@@ -61,7 +61,7 @@ class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_
         // check and prepare data
         if ($store instanceof Mage_Core_Model_Store) {
             $store = array($store->getId());
-        } else if(is_numeric($store)){
+        } elseif (is_numeric($store)) {
             $store = array($store);
         }
 
@@ -70,7 +70,6 @@ class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_
             return $this;
         }
 
-        $read = $this->getConnection();
         $storeFilter = array($store);
         if ($this->_isStoreFilterWithAdmin) {
             $storeFilter[] = 0;
