@@ -70,7 +70,7 @@ class Mage_Downloadable_Model_Resource_Link_Collection extends Mage_Core_Model_R
     public function addTitleToResult($storeId = 0)
     {
         $ifNullDefaultTitle = $this->getConnection()
-            ->getCheckSql('st.title IS NULL', 'd.title', 'st.title');
+            ->getIfNullSql('st.title', 'd.title');
         $this->getSelect()
             ->joinLeft(array('d' => $this->getTable('downloadable/link_title')),
                 'd.link_id=main_table.link_id AND d.store_id = 0',
@@ -93,7 +93,7 @@ class Mage_Downloadable_Model_Resource_Link_Collection extends Mage_Core_Model_R
     public function addPriceToResult($websiteId)
     {
         $ifNullDefaultPrice = $this->getConnection()
-            ->getCheckSql('stp.price IS NULL', 'dp.price', 'stp.price');
+            ->getIfNullSql('stp.price', 'dp.price');
         $this->getSelect()
             ->joinLeft(array('dp' => $this->getTable('downloadable/link_price')),
                 'dp.link_id=main_table.link_id AND dp.website_id = 0',

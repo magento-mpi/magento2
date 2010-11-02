@@ -62,7 +62,7 @@ class Mage_Downloadable_Model_Resource_Sample_Collection extends Mage_Core_Model
     }
 
     /**
-     * Enter description here...
+     * Add title column to select
      *
      * @param integer $storeId
      * @return Mage_Downloadable_Model_Resource_Sample_Collection
@@ -70,7 +70,7 @@ class Mage_Downloadable_Model_Resource_Sample_Collection extends Mage_Core_Model
     public function addTitleToResult($storeId = 0)
     {
         $ifNullDefaultTitle = $this->getConnection()
-            ->getCheckSql('st.title IS NULL', 'd.title', 'st.title');
+            ->getIfNullSql('st.title', 'd.title');
         $this->getSelect()
             ->joinLeft(array('d' => $this->getTable('downloadable/sample_title')),
                 'd.sample_id=main_table.sample_id AND d.store_id = 0',

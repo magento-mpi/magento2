@@ -106,7 +106,7 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
 
         $dlType = $this->_getAttribute('links_purchased_separately');
 
-        $ifPrice = $write->getCheckSql('dlpw.price_id IS NOT NULL', 'dlpw.price', 'dlpd.price');
+        $ifPrice = $write->getIfNullSql('dlpw.price_id', 'dlpd.price');
 
         $select = $write->select()
             ->from(
@@ -158,8 +158,7 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
 
         if ($this->useIdxTable()) {
             $write->truncateTable($table);
-        }
-        else {
+        } else {
             $write->delete($table);
         }
 

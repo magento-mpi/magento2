@@ -51,22 +51,20 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
      */
     public function saveItemTitle($sampleObject)
     {
-        $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
         $sampleTitleTable = $this->getTable('downloadable/sample_title');
-        $select = $readAdapter->select()
-            ->from($this->getTable('downloadable/sample_title'))
-            ->where('sample_id=:sample_id AND store_id=:store_id');
         $bind = array(
-            'sample_id'   => $sampleObject->getId(),
-            'store_id'  => (int)$sampleObject->getStoreId()
+            ':sample_id' => $sampleObject->getId(),
+            ':store_id'  => (int)$sampleObject->getStoreId()
         );
-        $select = $readAdapter->select()
+        $select = $writeAdapter->select()
             ->from($sampleTitleTable)
             ->where('sample_id=:sample_id AND store_id=:store_id');
-        if ($readAdapter->fetchOne($select, $bind)) {
-            $where = $readAdapter->quoteInto('sample_id = ?', $sampleObject->getId()) .
-                ' AND ' . $readAdapter->quoteInto('store_id = ?', (int)$sampleObject->getStoreId());
+        if ($writeAdapter->fetchOne($select, $bind)) {
+            $where = array(
+                'sample_id = ?' => $sampleObject->getId(),
+                'store_id = ?'  => (int)$sampleObject->getStoreId()
+            );
             if ($sampleObject->getUseDefaultTitle()) {
                 $writeAdapter->delete(
                     $sampleTitleTable, $where);
@@ -97,14 +95,13 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
      */
     public function deleteItems($items)
     {
-        $readAdapter  = $this->_getReadAdapter();
+
         $writeAdapter = $this->_getWriteAdapter();
         $where = '';
         if ($items instanceof Mage_Downloadable_Model_Sample) {
-            $where = $readAdapter->quoteInto('sample_id = ?', $items->getId());
-        }
-        else {
-            $where = $readAdapter->quoteInto('sample_id in (?)', $items);
+            $where = array('sample_id = ?'    => $items->getId());
+        } else {
+            $where = array('sample_id in (?)' => $items);
         }
         if ($where) {
             $writeAdapter->delete(
@@ -125,7 +122,7 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
     public function getSearchableData($productId, $storeId)
     {
         $adapter = $this->_getReadAdapter();
-        $ifNullDefaultTitle = $adapter->getCheckSql('st.title IS NULL', 'd.title', 'st.title');
+        $ifNullDefaultTitle = $adapter->getIfNullSql('st.title', 'd.title');
         $select = $adapter->select()
             ->from(array('m' => $this->getMainTable()), null)
             ->join(
@@ -134,12 +131,14 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
                 array())
             ->joinLeft(
                 array('st' => $this->getTable('downloadable/sample_title')),
-                'st.sample_id=m.sample_id AND st.store_id=' . (int)$storeId,
+                'st.sample_id=m.sample_id AND st.store_id=:store_id',
                 array('title' => $ifNullDefaultTitle))
-            ->where('m.product_id=?', $productId);
-        if (!$searchData = $adapter->fetchCol($select)) {
-            $searchData = array();
-        }
-        return $searchData;
+            ->where('m.product_id=:product_id', $productId);
+        $bind = array(
+            ':store_id'   => (int)$storeId,
+            ':product_id' => $productId
+        );
+
+        return $adapter->fetchCol($select, $bind);
     }
 }
