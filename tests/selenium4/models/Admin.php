@@ -193,37 +193,50 @@ class Model_Admin extends TestModelAbstract
     /**
      * Search element(s) and perform action on them.
      *
-     * @param $tableContainer, $searchBy, $searchElements, $elementAction, $tableNumber
+     * @param $tableContainer, $searchElements, $action, $tableNumber
      *
-     * If $tableContainer is raised through Xpath expression such as //*[@id="table_%s"] than %s=$tableNumber
+     * If $tableContainer is raised through Xpath expression such as //*[@id="table_%s"] then %s=$tableNumber
      * When calling a function it is necessary to set NULL if the $tableNumber is not needed.
      * It is necessary to set UiNamespace before using a function.
      *
      * $searchElements - ARRAY which contains search elements.
-     * $tableContainer path - "UiNamespace"/elements/"$tableContainer"
-     * $searchBy path - "UiNamespace"/inputs/"$searchBy"
-     * $ElementAction path - "UiNamespace"/elements/"$ElementAction"
+     * $action can have only 2 values: "mark"(mark the found element) and "open"(Open the found element)
      *
-     */
-    public function searchElement($params, $tableContainer, $searchBy, $searchElements, $elementAction, $tableNumber)
+     * Пример задания $searchElements: ar = array('searchBy1'=>'value1','searchBy2'=>'value2','searchBy2'=>'value2');
+     * где 'searchBy1', 'searchBy2', .. путь к XPath поля, для которого задается значение 'value1'. Пока работает только
+     * с полями ввода.
+     *
+     * Принцип задания 'searchBy1' => XPath: UiNamespace/inputs/'searchBy1'
+     * Принцип задания $tableContainer => XPath: UiNamespace/elements/$tableContainer
+     *
+    */
+    public function searchAndDoAction($tableContainer, $searchElements, $action, $tableNumber)
     {
-        $Data = $params ? $params : $this->Data;
-        if (isset($Data[$searchElements])) {
-            for ($i = 0; $i <= count($Data[$searchElements]) - 1; $i++) {
-                $this->type($this->getUiElement("inputs/" . $searchBy), $Data[$searchElements][$i]);
-                $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) . $this->getUiElement("buttons/search"));
-                $this->pleaseWait();
-                if ($this->isTextPresent($this->getUiElement('/admin/elements/no_records'), 2)) {
-                    $this->printInfo("Product with sku=" . $Data[$searchElements][$i] . " could not found");
-                } else {
-                    if ($this->isElementPresent($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
-                                    $this->getUiElement('/admin/elements/filtered_element', $Data[$searchElements][$i]))) {
-                        $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
-                                $this->getUiElement('elements/' . $elementAction, $Data[$searchElements][$i]));
-                    }
-                }
+        $result = TRUE;
+        if (is_array($searchElements) and count($searchElements) > 0) {
+            foreach ($searchElements as $key => $value) {
+                $this->type($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
+                        $this->getUiElement("inputs/" . $key), $value);
             }
+            $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
+                    $this->getUiElement("/admin/buttons/search"));
+            $this->pleaseWait();
+            if ($this->isTextPresent($this->getUiElement('/admin/elements/no_records'))) {
+                $this->printInfo($this->getUiElement('/admin/elements/no_records'));
+                $result = FALSE;
+            } elseif ($action == "mark") {
+                $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
+                        $this->getUiElement('/admin/elements/mark_filtered_element', $searchElements));
+            } elseif ($action == "open") {
+                $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
+                        $this->getUiElement('/admin/elements/filtered_element', $searchElements));
+                !$this->isElementPresent($this->getUiElement("elements/" . $tableContainer, $tableNumber), 20);
+            }
+        } else {
+            $this->printInfo('Implementation of a function "searchAndDoAction" is skipped because data for the search is not specified ');
+            $result = FALSE;
         }
+        return $result;
     }
 
     /* Click button $saveButton and verify for errors
@@ -231,13 +244,12 @@ class Model_Admin extends TestModelAbstract
      * @param $saveButton
      * It is necessary to set UiNamespace before using a function.
      * $saveButton path - "UiNamespace"/elements/"$saveButton"
-     */
-
-    function saveAndVerifyForErrors($saveButton)
+    */
+    function saveAndVerifyForErrors()
     {
-        $this->click($this->getUiElement("buttons/" . $saveButton));
+        $this->click($this->getUiElement("/admin/buttons/submit"));
         // check for error message
-        if ($this->waitForElement($this->getUiElement('/admin/messages/error'), 5)) {
+        if ($this->waitForElement($this->getUiElement('/admin/messages/error'), 25)) {
             $etext = $this->getText($this->getUiElement('/admin/messages/error'));
             $this->setVerificationErrors($etext);
         } else {
@@ -256,25 +268,64 @@ class Model_Admin extends TestModelAbstract
     /* Verify on opened page Tabs for errors
      *
      */
-
     public function verifyTabsForErrors()
     {
-        if ($this->isElementPresent($this->getUiElement("elements/tab_container") . $this->getUiElement("/admin/elements/tab_error"))) {
-            $qtyTab = $this->getXpathCount($this->getUiElement("elements/tab_container") . $this->getUiElement("/admin/elements/tab_error"));
+        $result = false;
+        if ($this->isElementPresent($this->getUiElement("/admin/elements/tabs_container") .
+                        $this->getUiElement("/admin/elements/tab_error"))) {
+            $qtyTab = $this->getXpathCount($this->getUiElement("/admin/elements/tabs_container") .
+                            $this->getUiElement("/admin/elements/tab_error"));
             $qtyErrors = $this->getXpathCount($this->getUiElement("/admin/elements/error_for_field"));
             $this->printInfo("Found '" . $qtyErrors . "' errors");
             for ($y = 1; $y <= $qtyTab; $y++) {
                 $tabName = array();
-                $tabName[$y] = $this->getText($this->getUiElement("elements/tab_container") .
+                $tabName[$y] = $this->getText($this->getUiElement("/admin/elements/tabs_container") .
                                 $this->getUiElement("/admin/elements/tab_error_many", $y));
-                $this->click($this->getUiElement("elements/tab_container") .
+                $this->click($this->getUiElement("/admin/elements/tabs_container") .
                         $this->getUiElement("/admin/elements/tab_error_many", $y));
                 $this->printInfo("'" . $tabName[$y] . "' tab contains invalid data:");
                 $this->getErrorsInTab();
             }
-            return true;
-        } else {
-            return false;
+            $result = true;
+        }
+        if ($this->isElementPresent($this->getUiElement("/admin/elements/opened_tab") .
+                        $this->getUiElement("/admin/elements/error_for_field"))) {
+            $this->verifyPageForErrors();
+            $result = true;
+        }
+        return $result;
+    }
+
+    /* Verify page for errors
+     *
+    */
+    public function verifyPageForErrors()
+    {
+        $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
+
+        $qtyContainer = $this->getXpathCount($this->getUiElement('elements/containers'));
+        $this->printInfo("TABOV!!!" . $qtyContainer);
+        for ($i = 1; $i <= $qtyContainer; $i++) {
+            $qtyErrorsInContainer = $this->getXpathCount($this->getUiElement('elements/containers') . "[$i]" .
+                            $this->getUiElement('/admin/elements/error_for_field'));
+            $this->printInfo($i . "-ERROROV!!!" . $qtyErrorsInContainer);
+            if ($qtyErrorsInContainer > 0) {
+                for ($y = 1; $y <= $qtyErrorsInContainer; $y++) {
+                    if ($this->isElementPresent($this->getUiElement('elements/containers') . "[$i]" .
+                                    $this->getUiElement('/admin/elements/error_for_field') . "[$y]" .
+                                    $this->getUiElement("/admin/elements/field_name_with_error"))) {
+                        $fieldName = $this->getText($this->getUiElement('elements/containers') . "[$i]" .
+                                        $this->getUiElement('/admin/elements/error_for_field') . "[$y]" .
+                                        $this->getUiElement("/admin/elements/field_name_with_error"));
+                    } else {
+                        $fieldName = $this->getAttribute($this->getUiElement('elements/containers') . "[$i]" .
+                                        $this->getUiElement('/admin/elements/error_for_field') . "[$y]" . "@id");
+                    }
+                    $errorName = $this->getText($this->getUiElement('elements/containers') . "[$i]" .
+                                    $this->getUiElement('/admin/elements/error_for_field') . "[$y]");
+                    $this->printInfo("Field '" . $fieldName . "' contains error - '" . $errorName . "'");
+                }
+            }
         }
     }
 
@@ -282,7 +333,6 @@ class Model_Admin extends TestModelAbstract
      * and Attribute->Properties tab)
      *
      */
-
     public function getErrorsInTab()
     {
         $qtyFields = $this->getXpathCount($this->getUiElement("/admin/elements/opened_tab") .
