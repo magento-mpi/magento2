@@ -148,10 +148,7 @@ class Enterprise_PageCache_Model_Processor
         if (isset($_GET['no_cache'])) {
             return false;
         }
-        $sidCookieName = $this->getMetadata('sid_cookie_name');
-        if ($sidCookieName && !isset($_COOKIE[$sidCookieName])) {
-            return false;
-        }
+
         return true;
     }
 
