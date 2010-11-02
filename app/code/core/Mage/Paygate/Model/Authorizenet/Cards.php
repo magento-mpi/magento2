@@ -92,6 +92,20 @@ class Mage_Paygate_Model_Authorizenet_Cards// extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Return count of saved cards
+     *
+     * @return int
+     */
+    public function getProcessedAmount()
+    {
+        $amount = 0;
+        foreach ($this->getCards() as $card) {
+            $amount += $card['processed_amount'];
+        }
+        return $amount;
+    }
+
+    /**
      * Check for payment instace present
      *
      * @throws Exception

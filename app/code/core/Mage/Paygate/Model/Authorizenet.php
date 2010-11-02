@@ -100,6 +100,12 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     protected $_realTransactionIdKay = 'x_transaction_id';
 
     /**
+     * Key for storing split tender id in additional information of transaction model
+     * @var string
+     */
+    protected $_splitTenderIdKey = 'split_tender_id';
+
+    /**
      * Check method for processing with base currency
      *
      * @param string $currencyCode
@@ -143,7 +149,9 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         }
 
         $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_ONLY);
-        $payment->setAmount($amount);
+
+        $processedAmount = $this->getCards($payment)->getProcessedAmount();
+        $payment->setAmount($amount - $processedAmount);
 
         $request= $this->_buildRequest($payment);
         $result = $this->_postRequest($request);
@@ -154,9 +162,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     ->setTransactionId($result->getTransactionId())
                     ->setIsTransactionClosed(0)
                     ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
+                $this->_registerCard($result, $payment);
                 return $this;
             case self::RESPONSE_CODE_HELD:
                 $this->_processPartialAuthorization($result, $payment);
+                return $this;
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
@@ -330,17 +340,32 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         }
 
         switch ($payment->getAnetTransType()) {
+            case self::REQUEST_TYPE_AUTH_CAPTURE:
+                $request->setXAllowPartialAuth($this->getConfigData('allow_partial_authorization') ? 'True' : 'False');
+                if ($payment->getAdditionalInformation($this->_splitTenderIdKey)) {
+                    $request->setXSplitTenderId($payment->getAdditionalInformation($this->_splitTenderIdKey));
+                }
+                break;
+            case self::REQUEST_TYPE_AUTH_ONLY:
+                $request->setXAllowPartialAuth($this->getConfigData('allow_partial_authorization') ? 'True' : 'False');
+                if ($payment->getAdditionalInformation($this->_splitTenderIdKey)) {
+                    $request->setXSplitTenderId($payment->getAdditionalInformation($this->_splitTenderIdKey));
+                }
+                break;
             case self::REQUEST_TYPE_CREDIT:
                 /**
                  * need to send last 4 digit credit card number to authorize.net
                  * otherwise it will give an error
                  */
                 $request->setXCardNum($payment->getCcLast4());
+                $request->setXTransId($payment->getXTransId());
+                break;
             case self::REQUEST_TYPE_VOID:
+                $request->setXTransId($payment->getXTransId());
+                break;
             case self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE:
                 $request->setXTransId($payment->getXTransId());
                 break;
-
             case self::REQUEST_TYPE_CAPTURE_ONLY:
                 $request->setXAuthCode($payment->getCcAuthCode());
                 break;
@@ -522,26 +547,33 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param Varien_Object $response
      * @param Mage_Sales_Model_Order_Payment $payment
      */
-    protected function _processPartialAuthorization(Varien_Object $response, Mage_Sales_Model_Order_Payment $payment)
+    protected function _processPartialAuthorization(Varien_Object $response, Mage_Sales_Model_Order_Payment $orderPayment)
     {
-        if ($response->getResponseReasonCode() == self::RESPONSE_REASON_CODE_PARTIAL_APPROVE
-            && $response->getSplitTenderId()) {
-
-            $quote = $this->_getQuote();
-            $quotePayment = $quote->getPayment();
-            $quotePayment->setAdditionalInformation('split_tender_id', $response->getSplitTenderId());
-
-            $cardInfo = array(
-                    'cc_number'         => $response->getAccNumber(),
-                    'cc_type'           => $response->getCardType(),
-                    'requested_amount'  => $response->getRequestedAmount(),
-                    'balance_on_card'   => $response->getBalanceOnCard(),
-                    'auth_id'           => $response->getTransactionId(),
-                    'authorized_amount' => $response->getAmount()
-                );
-
-            $cards = Mage::getModel('paygate/authorizenet_cards')->setPayment($quotePayment);
-            $cards->addCard($cardInfo);
+        if ($response->getSplitTenderId()) {
+            $orderPayment->setAdditionalInformation($this->_splitTenderIdKey, $response->getSplitTenderId());
+            $this->_registerCard($response, $orderPayment);
+            if ($response->getResponseReasonCode() == self::RESPONSE_REASON_CODE_PARTIAL_APPROVE) {
+                $quotePayment = $this->_getQuote()->getPayment();
+                $quotePayment->setAdditionalInformation($orderPayment->getAdditionalInformation());
+                throw new Mage_Payment_Model_Info_Exception();
+            }
         }
+    }
+
+    protected function _registerCard(Varien_Object $response, Mage_Sales_Model_Order_Payment $payment)
+    {
+        $cardInfo = array(
+                'cc_number'         => $response->getAccNumber(),
+                'cc_type'           => $response->getCardType(),
+                'requested_amount'  => $response->getRequestedAmount(),
+                'balance_on_card'   => $response->getBalanceOnCard(),
+                'auth_id'           => $response->getTransactionId(),
+                'processed_amount'  => $response->getAmount()
+            );
+        $this->getCards($payment)->addCard($cardInfo);
+    }
+
+    public function getCards($payment) {
+        return Mage::getModel('paygate/authorizenet_cards')->setPayment($payment);
     }
 }
