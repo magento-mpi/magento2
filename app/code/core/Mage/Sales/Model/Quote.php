@@ -909,7 +909,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     /**
      * Retrieve quote item by product id
      *
-     * @param   int $productId
+     * @param   Mage_Catalog_Model_Product $product
      * @return  Mage_Sales_Model_Quote_Item || false
      */
     public function getItemByProduct($product)
