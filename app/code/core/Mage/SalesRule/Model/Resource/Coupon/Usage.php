@@ -52,18 +52,19 @@ class Mage_SalesRule_Model_Resource_Coupon_Usage extends Mage_Core_Model_Resourc
      */
     public function updateCustomerCouponTimesUsed($customerId, $couponId)
     {
-        $select = $this->_getReadAdapter()->select();
+        $read = $this->_getReadAdapter();
+        $select = $read->select();
         $select->from($this->getMainTable(), array('times_used'))
-                ->where('coupon_id = ?', $couponId)
-                ->where('customer_id = ?', $customerId);
+                ->where('coupon_id = :coupon_id')
+                ->where('customer_id = :customet_id');
 
-        $times_used = $this->_getReadAdapter()->fetchOne($select);
+        $timesUsed = $read->fetchOne($select, array(':coupon_id' => $couponId, ':customet_id' => $customerId));
 
-        if ($times_used > 0) {
+        if ($timesUsed > 0) {
             $this->_getWriteAdapter()->update(
                 $this->getMainTable(),
                 array(
-                    'times_used' => $times_used + 1
+                    'times_used' => $timesUsed + 1
                 ),
                 array(
                     'coupon_id = ?' => $couponId,
@@ -97,9 +98,9 @@ class Mage_SalesRule_Model_Resource_Coupon_Usage extends Mage_Core_Model_Resourc
         if ($read && $couponId && $customerId) {
             $select = $read->select()
                 ->from($this->getMainTable())
-                ->where($this->getMainTable() . '.customer_id=?', $customerId)
-                ->where($this->getMainTable() . '.coupon_id=?', $couponId);
-            $data = $read->fetchRow($select);
+                ->where('customer_id =:customet_id')
+                ->where('coupon_id = :coupon_id');
+            $data = $read->fetchRow($select, array(':coupon_id' => $couponId, ':customet_id' => $customerId));
             if ($data) {
                 $object->setData($data);
             }

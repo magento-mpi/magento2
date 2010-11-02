@@ -86,10 +86,10 @@ class Mage_SalesRule_Model_Resource_Coupon extends Mage_Core_Model_Resource_Db_A
         }
 
         $select = $read->select()->from($this->getMainTable())
-            ->where('rule_id=?', $ruleId)
-            ->where('is_primary=?', 1);
+            ->where('rule_id = :rule_id')
+            ->where('is_primary = :is_primary');
 
-        $data = $read->fetchRow($select);
+        $data = $read->fetchRow($select, array(':rule_id' => $ruleId, ':is_primary' => 1));
 
         if (!$data) {
             return false;

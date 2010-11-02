@@ -59,8 +59,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
 
         if (!$object->getToDate()) {
             $object->setToDate(new Zend_Db_Expr('NULL'));
-        }
-        else {
+        } else {
             if ($object->getToDate() instanceof Zend_Date) {
                 $object->setToDate($object->getToDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
             }
@@ -84,9 +83,9 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()->from($this->getTable('rule_customer'), array('cnt'=>'count(*)'))
-            ->where('rule_id=?', $rule->getRuleId())
-            ->where('customer_id=?', $customerId);
-        return $read->fetchOne($select);
+            ->where('rule_id = :rule_id')
+            ->where('customer_id = :customer_id');
+        return $read->fetchOne($select, array(':rule_id' => $rule->getRuleId(), ':customer_id' => $customerId));
     }
 
     /**
@@ -99,7 +98,6 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     public function saveStoreLabels($ruleId, $labels)
     {
         $delete = array();
-        $save = array();
         $table = $this->getTable('salesrule/label');
         $adapter = $this->_getWriteAdapter();
 
@@ -113,9 +111,10 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
         }
 
         if (!empty($delete)) {
-            $adapter->delete($table,
-                $adapter->quoteInto('rule_id=? AND ', $ruleId) . $adapter->quoteInto('store_id IN (?)', $delete)
-            );
+            $adapter->delete($table, array(
+                'rule_id=?'       => $ruleId,
+                'store_id IN (?)' => $delete
+            ));
         }
         return $this;
     }
@@ -130,8 +129,8 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('salesrule/label'), array('store_id', 'label'))
-            ->where('rule_id=?', $ruleId);
-        return $this->_getReadAdapter()->fetchPairs($select);
+            ->where('rule_id = :rule_id');
+        return $this->_getReadAdapter()->fetchPairs($select, array(':rule_id' => $ruleId));
     }
 
     /**
@@ -145,10 +144,10 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('salesrule/label'), 'label')
-            ->where('rule_id=?', $ruleId)
-            ->where('store_id IN(?)', array($storeId, 0))
+            ->where('rule_id = :rule_id')
+            ->where('store_id IN(0, :store_id)')
             ->order('store_id DESC');
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $this->_getReadAdapter()->fetchOne($select, array(':rule_id' => $ruleId, ':store_id' => $storeId));
     }
 
     /**
@@ -164,11 +163,10 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
         $select = $read->select()
             ->from(array('a' => $this->getTable('salesrule/product_attribute')),
                 new Zend_Db_Expr('DISTINCT ea.attribute_code'))
-            ->joinInner(array('ea' => $this->getTable('eav/attribute')), 'ea.attribute_id = a.attribute_id', '')
-            ;
+            ->joinInner(array('ea' => $this->getTable('eav/attribute')), 'ea.attribute_id = a.attribute_id', array());
         return $read->fetchAll($select);
     }
-    
+
     /**
      * Save product attributes currently used in conditions and actions of rule
      *
@@ -179,8 +177,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     public function setActualProductAttributes($rule, $attributes)
     {
         $write = $this->_getWriteAdapter();
-        $write->delete($this->getTable('salesrule/product_attribute'),
-            $write->quoteInto('rule_id=?', $rule->getId()));
+        $write->delete($this->getTable('salesrule/product_attribute'), array('rule_id=?' => $rule->getId()));
 
         //Getting attribute IDs for attribute codes
         $attributeIds = array();
