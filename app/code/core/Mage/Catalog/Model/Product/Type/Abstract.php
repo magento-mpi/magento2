@@ -769,7 +769,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $errors = array();
 
         try {
-            $result = $this->prepareForCart($buyRequest, $product);
+            /*
+             * FIXME ACPAOC
+             * prepareForCart is not acceptable here because it's leaving product modified custom options
+             * you can test bugs if you'll try to edit Configruable product
+             */
+            //$result = $this->prepareForCart($buyRequest, $product);
+            $result = null;
+            /*
+             * End of FIXME
+             */
 
             if (is_string($result)) {
                $errors[] = $result;
