@@ -34,6 +34,61 @@
  */
 class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bundle_Block_Catalog_Product_Price
 {
+    /**
+     * Store preconfigured options
+     *
+     * @var int|array|string
+     */
+    protected $_selectedOptions = null;
+
+    /**
+     * Collect selected options
+     *
+     * @return void
+     */
+    protected function _getSelectedOptions()
+    {
+        if (is_null($this->_selectedOptions)) {
+            $option = $this->getOption();
+
+            $preconfiguredValues = $this->getProduct()->getPreconfiguredValues();
+            if ($preconfiguredValues instanceof Varien_Object) {
+                $configValue = $preconfiguredValues->getData('bundle_option/' . $option->getId());
+                if ($configValue) {
+                    $this->_selectedOptions = $configValue;
+                } elseif (!$option->getRequired()) {
+                    $this->_selectedOptions = 'None';
+                } else {
+                    $this->_selectedOptions = array();
+                }
+            } else {
+                $this->_selectedOptions = array();
+            }
+        }
+
+        return $this->_selectedOptions;
+    }
+
+    /**
+     * Define if selection is selected
+     *
+     * @param  Mage_Catalog_Model_Product $selection
+     * @return bool
+     */
+    protected function _isSelected($selection)
+    {
+        $selectedOptions = $this->_getSelectedOptions();
+        if (is_numeric($selectedOptions)) {
+            return ($selection->getSelectionId() == $this->_getSelectedOptions());
+        } elseif (is_array($selectedOptions) && !empty($selectedOptions)) {
+            return in_array($selection->getSelectionId(), $this->_getSelectedOptions());
+        } elseif ($selectedOptions == 'None') {
+            return false;
+        } else {
+            return ($selection->getIsDefault() && $selection->isSaleable());
+        }
+    }
+
     public function getProduct()
     {
         if (!$this->hasData('product')) {

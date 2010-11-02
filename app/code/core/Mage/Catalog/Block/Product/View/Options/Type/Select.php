@@ -35,7 +35,11 @@
 class Mage_Catalog_Block_Product_View_Options_Type_Select
     extends Mage_Catalog_Block_Product_View_Options_Abstract
 {
-
+    /**
+     * Return html for control element
+     *
+     * @return string
+     */
     public function getValuesHtml()
     {
         $_option = $this->getOption();
@@ -127,6 +131,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 $selectHtml .= '</li>';
             }
             $selectHtml .= '</ul>';
+
             return $selectHtml;
         }
     }
