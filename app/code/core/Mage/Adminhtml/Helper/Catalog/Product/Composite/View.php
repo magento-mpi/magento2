@@ -26,7 +26,7 @@
 
 /**
  * Adminhtml catalog product composite view helper
- * 
+ *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -76,6 +76,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite_View extends Mage_Core_Hel
         if (!$product) {
             new Mage_Core_Exception($this->__('Product is not loaded'));
         }
+        Mage::register('current_product', $product);
 
         $buyRequest = $params->getBuyRequest();
         if ($buyRequest) {
