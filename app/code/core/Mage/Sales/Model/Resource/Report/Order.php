@@ -76,29 +76,18 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
             $periodExpr                  = $adapter->getDateAddSql('o.created_at', $this->_getStoreTimezoneUtcOffset(),
                 Varien_Db_Adapter_Interface::INTERVAL_HOUR);
             
-            $ifnullBaseTotalCanceled     = $adapter->getCheckSql('o.base_total_canceled IS NULL', 0,
-                'o.base_total_canceled');
-            $ifnullBaseTotalRefunded     = $adapter->getCheckSql('o.base_total_refunded IS NULL', 0,
-                'o.base_total_refunded');
-            $ifnullBaseTaxInvoiced       = $adapter->getCheckSql('o.base_tax_invoiced IS NULL', 0,
-                'o.base_tax_invoiced');
-            $ifnullBaseShippingInvoiced  = $adapter->getCheckSql('o.base_shipping_invoiced IS NULL', 0,
-                'o.base_shipping_invoiced');
-            $ifnullBaseTotalInvoicedCost = $adapter->getCheckSql('o.base_total_invoiced_cost IS NULL', 0,
-                'o.base_total_invoiced_cost');
+            $ifnullBaseTotalCanceled     = $adapter->getIfNullSql('o.base_total_canceled', 0);
+            $ifnullBaseTotalRefunded     = $adapter->getIfNullSql('o.base_total_refunded', 0);
+            $ifnullBaseTaxInvoiced       = $adapter->getIfNullSql('o.base_tax_invoiced', 0);
+            $ifnullBaseShippingInvoiced  = $adapter->getIfNullSql('o.base_shipping_invoiced', 0);
+            $ifnullBaseTotalInvoicedCost = $adapter->getIfNullSql('o.base_total_invoiced_cost', 0);
 
-            $ifnullBaseTaxCanceled       = $adapter->getCheckSql('o.base_tax_canceled IS NULL', 0,
-                'o.base_tax_canceled');
-            $ifnullBaseTaxRefunded       = $adapter->getCheckSql('o.base_tax_refunded IS NULL', 0,
-                'o.base_tax_refunded');
-            $ifnullBaseShippingCanceled  = $adapter->getCheckSql('o.base_shipping_canceled IS NULL', 0,
-                'o.base_shipping_canceled');
-            $ifnullBaseShippingRefunded  = $adapter->getCheckSql('o.base_shipping_refunded IS NULL', 0,
-                'o.base_shipping_refunded');
-            $ifnullBaseDiscountCanceled  = $adapter->getCheckSql('o.base_discount_canceled IS NULL', 0,
-                'o.base_discount_canceled');
-            $ifnullBaseDiscountRefunded  = $adapter->getCheckSql('o.base_discount_refunded IS NULL', 0,
-                'o.base_discount_refunded');
+            $ifnullBaseTaxCanceled       = $adapter->getIfNullSql('o.base_tax_canceled', 0);
+            $ifnullBaseTaxRefunded       = $adapter->getIfNullSql('o.base_tax_refunded', 0);
+            $ifnullBaseShippingCanceled  = $adapter->getIfNullSql('o.base_shipping_canceled', 0);
+            $ifnullBaseShippingRefunded  = $adapter->getIfNullSql('o.base_shipping_refunded', 0);
+            $ifnullBaseDiscountCanceled  = $adapter->getIfNullSql('o.base_discount_canceled', 0);
+            $ifnullBaseDiscountRefunded  = $adapter->getIfNullSql('o.base_discount_refunded', 0);
 
             $columns = array(
                 // convert dates from UTC to current admin timezone
@@ -136,7 +125,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
             $select          = $adapter->select();
             $selectOrderItem = $adapter->select();
 
-            $qtyCanceledExpr = $adapter->getCheckSql('qty_canceled IS NULL', 0, 'qty_canceled');
+            $qtyCanceledExpr = $adapter->getIfNullSql('qty_canceled', 0);
             $cols            = array(
                 'order_id'           => 'order_id',
                 'total_qty_ordered'  => "SUM(qty_ordered - {$qtyCanceledExpr})",

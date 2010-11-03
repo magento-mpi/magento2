@@ -83,12 +83,10 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
 
             $helper                        = Mage::getResourceHelper('core');
 
-            $ifnullProductNameValue        = $adapter->getCheckSql('product_name.value IS NULL',
-                'product_default_name.value', 'product_name.value');
-            $ifnullProductPriceValue       = $adapter->getCheckSql('product_price.value IS NULL',
-                'product_default_price.value', 'product_price.value');
-            $ifnullSourcetableToGlobalRate = $adapter->getCheckSql('source_table.base_to_global_rate IS NULL', 0,
-                'source_table.base_to_global_rate');
+            $ifnullProductNameValue        = $adapter->getIfNullSql('product_name.value', 'product_default_name.value');
+            $ifnullProductPriceValue       = $adapter->getIfNullSql('product_price.value',
+                'product_default_price.value');
+            $ifnullSourcetableToGlobalRate = $adapter->getIfNullSql('source_table.base_to_global_rate', 0);
 
             $select = $adapter->select();
 

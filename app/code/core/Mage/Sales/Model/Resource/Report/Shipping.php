@@ -88,8 +88,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
             // convert dates from UTC to current admin timezone
             $periodExpr                 = $adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(),
                 Varien_Db_Adapter_Interface::INTERVAL_HOUR);
-            $ifnullBaseShippingCanceled = $adapter->getCheckSql('base_shipping_canceled IS NULL', 0, 'base_shipping_canceled');
-            $ifnullBaseShippingRefunded = $adapter->getCheckSql('base_shipping_refunded IS NULL', 0, 'base_shipping_refunded');
+            $ifnullBaseShippingCanceled = $adapter->getIfNullSql('base_shipping_canceled', 0);
+            $ifnullBaseShippingRefunded = $adapter->getIfNullSql('base_shipping_refunded', 0);
             $columns = array(
                 'period'                => $periodExpr,
                 'store_id'              => 'store_id',
@@ -193,10 +193,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
             // convert dates from UTC to current admin timezone
             $periodExpr                 = $adapter->getDateAddSql('source_table.created_at',
                 $this->_getStoreTimezoneUtcOffset(), 'HOURS');
-            $ifnullBaseShippingCanceled = $adapter->getCheckSql('order_table.base_shipping_canceled IS NULL', 0,
-                'order_table.base_shipping_canceled');
-            $ifnullBaseShippingRefunded = $adapter->getCheckSql('order_table.base_shipping_refunded IS NULL', 0,
-                'order_table.base_shipping_refunded');
+            $ifnullBaseShippingCanceled = $adapter->getIfNullSql('order_table.base_shipping_canceled', 0);
+            $ifnullBaseShippingRefunded = $adapter->getIfNullSql('order_table.base_shipping_refunded', 0);
             $columns = array(
                 'period'                => $periodExpr,
                 'store_id'              => 'order_table.store_id',

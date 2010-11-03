@@ -79,13 +79,9 @@ class Mage_Sales_Model_Resource_Order_Invoice extends Mage_Sales_Model_Resource_
     protected function _initVirtualGridColumns()
     {
         parent::_initVirtualGridColumns();
-        $adapter = $this->_getReadAdapter();
-        $checkedFirstname = $adapter->getCheckSql(
-            '{{table}}.firstname IS NULL', $adapter->quote(''), '{{table}}.firstname'
-        );
-        $checkedLastname = $adapter->getCheckSql(
-            '{{table}}.lastname IS NULL', $adapter->quote(''), '{{table}}.lastname'
-        );
+        $adapter          = $this->_getReadAdapter();
+        $checkedFirstname = $adapter->getIfNullSql('{{table}}.firstname', $adapter->quote(''));
+        $checkedLastname  = $adapter->getIfNullSql('{{table}}.lastname', $adapter->quote(''));
         
         $this->addVirtualGridColumn(
             'billing_name',
