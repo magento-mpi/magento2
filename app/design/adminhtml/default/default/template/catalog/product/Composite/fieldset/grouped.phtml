@@ -24,7 +24,11 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
  ?>
-<script type="text/javascript">
-    order.sidebarHide();
-    productConfigure.addListType('product_to_add', '<?php echo $this->getUrl('*/catalog_product_composite/configure') ?>');
-</script>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Grouped Product') ?></h4>
+    </div>
+    <div id="catalog_product_composite_configure_fields_grouped">
+        Grouped Product Fields
+    </div>
+</div>

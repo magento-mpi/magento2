@@ -270,4 +270,25 @@ Layout handle for configurable products
         </reference>
     </adminhtml_catalog_category_edit>
 
+    <adminhtml_catalog_product_composite_configure>
+        <block type="core/text_list" name="product.composite.fieldset" output="toHtml">
+            <block name="product.composite.custom_options" type="adminhtml/catalog_product_composite_fieldset_customoptions" template="catalog/product/composite/fieldset/custom_options.phtml" />
+        </block>
+    </adminhtml_catalog_product_composite_configure>
+<!--
+Additional block in composite_fieldset block dependant on product type
+-->
+    <PRODUCT_TYPE_simple>
+        <block name="product.composite.fieldset.simple" type="adminhtml/catalog_product_composite_fieldset_simple" template="catalog/product/composite/fieldset/simple.phtml" output="toHtml" />
+    </PRODUCT_TYPE_simple>
+    <PRODUCT_TYPE_configurable>
+        <block name="product.composite.fieldset.configurable" type="adminhtml/catalog_product_composite_fieldset_configurable" template="catalog/product/composite/fieldset/configurable.phtml" output="toHtml" />
+    </PRODUCT_TYPE_configurable>
+    <PRODUCT_TYPE_grouped>
+        <block name="product.composite.fieldset.grouped" type="adminhtml/catalog_product_composite_fieldset_grouped" template="catalog/product/composite/fieldset/grouped.phtml" output="toHtml" />
+    </PRODUCT_TYPE_grouped>
+    <PRODUCT_TYPE_virtual>
+        <block name="product.composite.fieldset.virtual" type="adminhtml/catalog_product_composite_fieldset_virtual" template="catalog/product/composite/fieldset/virtual.phtml" output="toHtml" />
+    </PRODUCT_TYPE_virtual>
+
 </layout>
