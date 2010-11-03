@@ -194,7 +194,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      * @return Mage_Sales_Model_Quote_Item
      * @throws Mage_Core_Exception
      */
-    public function addProduct($product, $qty=1)
+    public function addProduct($product, $qty = 1)
     {
         $qty = (float)$qty;
         if (!($product instanceof Mage_Catalog_Model_Product)) {
@@ -219,7 +219,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
         $qty = $qty > 0 ? $qty : 1;
         if ($item = $this->createQuote()->getItemByProduct($product)) {
-            $item->setQty($item->getQty()+$qty);
+            $item->setQty($item->getQty() + $qty);
         }
         else {
             $product->setSkipCheckRequiredOption(true);
