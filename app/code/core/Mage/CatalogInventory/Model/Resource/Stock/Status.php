@@ -54,7 +54,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
      * @param int|null $websiteId
      * @return Mage_CatalogInventory_Model_Resource_Stock_Status
      */
-    public function saveProductStatus(Mage_CatalogInventory_Model_Stock_Status $object, $productId, $status, $qty = 0, 
+    public function saveProductStatus(Mage_CatalogInventory_Model_Stock_Status $object, $productId, $status, $qty = 0,
         $stockId = 1, $websiteId = null)
     {
         $websites = array_keys($object->getWebsites($websiteId));
@@ -62,10 +62,15 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
         foreach ($websites as $websiteId) {
             $select = $adapter->select()
                 ->from($this->getMainTable())
-                ->where('product_id=?', $productId)
-                ->where('website_id=?', $websiteId)
-                ->where('stock_id=?', $stockId);
-            if ($row = $adapter->fetchRow($select)) {
+                ->where('product_id = :product_id')
+                ->where('website_id = :website_id')
+                ->where('stock_id = :stock_id');
+            $bind = array(
+                ':product_id' => $productId,
+                ':website_id' => $websiteId,
+                ':stock_id'   => $stockId
+            );
+            if ($row = $adapter->fetchRow($select, $bind)) {
                 $bind = array(
                     'qty'           => $qty,
                     'stock_status'  => $status
@@ -188,9 +193,9 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
                 array('entity_id', 'type_id')
             )
             ->order('entity_id ASC')
-            ->where('entity_id > ?', $lastEntityId)
+            ->where('entity_id > :entity_id')
             ->limit($limit);
-        return $this->_getReadAdapter()->fetchPairs($select);
+        return $this->_getReadAdapter()->fetchPairs($select, array(':entity_id' => $lastEntityId));
     }
 
     /**
@@ -246,10 +251,10 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
                 . ' AND stock_status_index.website_id = ?', $websiteId
             );
 
-        $joinCondition .= $this->_getReadAdapter()
-            ->quoteInto(' AND stock_status_index.stock_id = ?',
+        $joinCondition .= $this->_getReadAdapter()->quoteInto(
+            ' AND stock_status_index.stock_id = ?',
             Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID
-            );
+        );
 
         $collection->getSelect()
             ->join(

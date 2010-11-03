@@ -53,8 +53,8 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
     public function loadByProductId(Mage_CatalogInventory_Model_Stock_Item $item, $productId)
     {
         $select = $this->_getLoadSelect('product_id', $productId, $item)
-            ->where('stock_id = ?', $item->getStockId());
-        $data = $this->_getReadAdapter()->fetchRow($select);
+            ->where('stock_id = :stock_id');
+        $data = $this->_getReadAdapter()->fetchRow($select, array(':stock_id' => $item->getStockId()));
         if ($data) {
             $item->setData($data);
         }
@@ -73,8 +73,8 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object)
-            ->join(array('p' => $this->getTable('catalog/product')), 
-                'product_id=p.entity_id', 
+            ->join(array('p' => $this->getTable('catalog/product')),
+                'product_id=p.entity_id',
                 array('type_id')
             );
         return $select;
@@ -100,7 +100,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
                 'is_saleable' => new Zend_Db_Expr($stockExpr),
                 'inventory_in_stock' => 'is_in_stock'
             ),
-            null, 
+            null,
             'left'
         );
         return $this;

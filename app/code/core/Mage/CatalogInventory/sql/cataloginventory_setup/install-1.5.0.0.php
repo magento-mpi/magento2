@@ -41,8 +41,6 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Stock Id')
     ->addColumn('stock_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        'default'   => '',
         ), 'Stock Name')
     ->setComment('Cataloginventory Stock');
 $installer->getConnection()->createTable($table);

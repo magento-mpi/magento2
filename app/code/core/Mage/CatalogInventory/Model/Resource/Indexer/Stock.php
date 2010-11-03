@@ -320,8 +320,8 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
                 'l.parent_id=e.entity_id',
                 array('e.type_id')
             )
-            ->where('l.child_id=?', $childId);
-        return $write->fetchPairs($select);
+            ->where('l.child_id = :child_id');
+        return $write->fetchPairs($select, array(':child_id' => $childId));
     }
 
     /**
