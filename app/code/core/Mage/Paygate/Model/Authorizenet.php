@@ -57,7 +57,9 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
     const RESPONSE_REASON_CODE_PARTIAL_APPROVE = 295;
 
-    protected $_code  = 'authorizenet';
+    const METHOD_CODE = 'authorizenet';
+
+    protected $_code  = self::METHOD_CODE;
 
     /**
      * Form block type
@@ -315,6 +317,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             default:
                 Mage::throwException(Mage::helper('paygate')->__('Payment voiding error.'));
         }
+        return $this;
     }
 
     /**
@@ -360,6 +363,55 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     }
 
     /**
+     * Cancel partial authorizations and flush current split_tender_id record
+     *
+     * @param Mage_Payment_Model_Info $payment
+     */
+    public function cancelAuthorizations(Mage_Payment_Model_Info $payment) {
+        if (!$payment->getAdditionalInformation($this->_splitTenderIdKey)) {
+            Mage::throwException(Mage::helper('paygate')->__('Invalid transaction ID.'));
+        }
+
+        $request = $this->_getRequest();
+        $request->setXSplitTenderId($payment->getAdditionalInformation($this->_splitTenderIdKey));
+
+        $request
+            ->setXType(self::REQUEST_TYPE_VOID)
+            ->setXMethod(self::REQUEST_METHOD_CC);
+
+        $result = $this->_postRequest($request);
+
+        switch ($result->getResponseCode()) {
+            case self::RESPONSE_CODE_APPROVED:
+                $payment->setAdditionalInformation($this->_splitTenderIdKey, null);
+                $this->getCardsInstance($payment)->flushCards();
+                return;
+            default:
+                Mage::throwException(Mage::helper('paygate')->__('Payment refunding error.'));
+        }
+
+    }
+
+    /**
+     * Return authorize payment request
+     *
+     * @return Mage_Paygate_Model_Authorizenet_Request
+     */
+    protected function _getRequest()
+    {
+        $request = Mage::getModel('paygate/authorizenet_request')
+            ->setXVersion(3.1)
+            ->setXDelimData('True')
+            ->setXDelimChar(self::RESPONSE_DELIM_CHAR)
+            ->setXRelayResponse('False')
+            ->setXTestRequest($this->getConfigData('test') ? 'TRUE' : 'FALSE')
+            ->setXLogin($this->getConfigData('login'))
+            ->setXTranKey($this->getConfigData('trans_key'));
+
+        return $request;
+    }
+
+    /**
      * Prepare request to gateway
      *
      * @link http://www.authorize.net/support/AIM_guide.pdf
@@ -376,22 +428,13 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $payment->setAnetTransMethod(self::REQUEST_METHOD_CC);
         }
 
-        $request = Mage::getModel('paygate/authorizenet_request')
-            ->setXVersion(3.1)
-            ->setXDelimData('True')
-            ->setXDelimChar(self::RESPONSE_DELIM_CHAR)
-            ->setXRelayResponse('False');
+        $request = $this->_getRequest()
+            ->setXType($payment->getAnetTransType())
+            ->setXMethod($payment->getAnetTransMethod());
 
         if ($order && $order->getIncrementId()) {
             $request->setXInvoiceNum($order->getIncrementId());
         }
-
-        $request->setXTestRequest($this->getConfigData('test') ? 'TRUE' : 'FALSE');
-
-        $request->setXLogin($this->getConfigData('login'))
-            ->setXTranKey($this->getConfigData('trans_key'))
-            ->setXType($payment->getAnetTransType())
-            ->setXMethod($payment->getAnetTransMethod());
 
         if($payment->getAmount()){
             $request->setXAmount($payment->getAmount(),2);
@@ -655,7 +698,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     $exceptionMessage = $this->_wrapGatewayError(Mage::helper('paygate')->__('Payment partial authorization error.'));
             }
         } catch (Exception $e) {
-            $exceptionMessage = $e->getMessage(); 
+            $exceptionMessage = $e->getMessage();
         }
 
         if (!$isPartialAuthorizationProcessCompleted) {

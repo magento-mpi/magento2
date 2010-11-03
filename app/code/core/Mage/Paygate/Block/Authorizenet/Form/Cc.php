@@ -58,6 +58,16 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
     }
 
     /**
+     * Return url to cancel controller
+     *
+     * @return string
+     */
+    public function getCancelUrl()
+    {
+        return $this->getUrl('paygate/authorizenet_payment/cancel');
+    }
+
+    /**
      * Render block HTML
      *
      * @return string
@@ -78,7 +88,17 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
     {
         $message = $this->getMethod()->getPartialAuthorizationConfirmationMessage();
         $this->getMethod()->unsetPartialAuthorizationConfirmationMessage();
-        return $message; 
+        return $message;
+    }
+
+    /**
+     * Return cancel confirmation message
+     *
+     * @return string
+     */
+    public function getCancelConfirmationMessage()
+    {
+        return $this->__('Are you sure you want to cancel your payment? Click Yes to cancel your payment and release the amount on hold. Click No to enter another credit card and continue with your payment.');
     }
 
     /**

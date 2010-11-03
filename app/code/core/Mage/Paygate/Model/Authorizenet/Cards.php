@@ -51,7 +51,11 @@ class Mage_Paygate_Model_Authorizenet_Cards// extends Mage_Core_Model_Abstract
     public function setPayment(Mage_Payment_Model_Info $payment)
     {
         $this->_payment = $payment;
-        $this->_cards = $this->_payment->getAdditionalInformation(self::CARDS_NAMESPACE);
+        $paymentCardsInformation = $this->_payment->getAdditionalInformation(self::CARDS_NAMESPACE);
+        if ($paymentCardsInformation) {
+            $this->_cards = $paymentCardsInformation;
+        }
+
         return $this;
     }
 
@@ -105,6 +109,17 @@ class Mage_Paygate_Model_Authorizenet_Cards// extends Mage_Core_Model_Abstract
             }
         }
         return $amount;
+    }
+
+    /**
+     * Remove all cards from payment instance
+     *
+     * @return Mage_Paygate_Model_Authorizenet_Cart
+     */
+    public function flushCards()
+    {
+        $this->_payment->setAdditionalInformation(self::CARDS_NAMESPACE, null);
+        return $this;
     }
 
     /**
