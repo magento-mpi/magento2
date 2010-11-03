@@ -296,6 +296,11 @@ Product.Config.prototype = {
             }
         }
 
+        this.configureForValues();
+        document.observe("dom:loaded", this.configureForValues.bind(this));
+    },
+    
+    configureForValues: function () {
         if (this.values) {
             this.settings.each(function(element){
                 var attributeId = element.attributeId;
