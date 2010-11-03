@@ -44,9 +44,9 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Subtotal
     public function fetchTotals(Mage_Sales_Model_Quote_Address $address)
     {
         $address->addTotal(array(
-            'code'=>'subtotal',
-            'title'=>Mage::helper('sales')->__('Subtotal'),
-            'value'=>$address->getSubtotal()
+            'code'  => 'subtotal',
+            'title' => Mage::helper('sales')->__('Subtotal'),
+            'value' => $address->getSubtotal()
         ));
 
         return $this;

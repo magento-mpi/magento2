@@ -62,13 +62,14 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
     {
         $txnId = $transaction->getTxnId();
         if ($txnId && Mage_Sales_Model_Order_Payment_Transaction::TYPE_PAYMENT === $transaction->getTxnType()
-            && $id = $transaction->getId()) {
+            && $id = $transaction->getId()
+        ) {
             $adapter = $this->_getWriteAdapter();
 
             // verify such transaction exists, determine payment and order id
             $verificationRow = $adapter->fetchRow(
                 $adapter->select()->from($this->getMainTable(), array('payment_id', 'order_id'))
-                ->where("{$this->getIdFieldName()} = ?", (int)$id)
+                    ->where("{$this->getIdFieldName()} = ?", (int)$id)
             );
             if (!$verificationRow) {
                 return;
@@ -79,8 +80,8 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
             $where = array(
                 $adapter->quoteIdentifier($this->getIdFieldName()) . '!=?' => $id,
                 new Zend_Db_Expr('parent_id IS NULL'),
-                'payment_id = ?' => (int)$paymentId,
-                'order_id = ?' => (int)$orderId,
+                'payment_id = ?'    => (int)$paymentId,
+                'order_id = ?'      => (int)$orderId,
                 'parent_txn_id = ?' => $txnId
             );
             $adapter->update($this->getMainTable(), 
@@ -91,7 +92,7 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
     }
 
     /**
-     * Load the tansaction object by specified txn_id
+     * Load the transaction object by specified txn_id
      *
      * @param Mage_Sales_Model_Order_Payment_Transaction $transaction
      * @param int $orderId
@@ -116,11 +117,12 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
      */
     public function getOrderWebsiteId($orderId)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select  = $adapter->select()
             ->from(array('so' => $this->getTable('sales/order')), 'cs.website_id')
             ->joinInner(array('cs' => $this->getTable('core/store')), 'cs.store_id = so.store_id')
             ->where('so.entity_id = ?', $orderId);
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $adapter->fetchOne($select);
     }
 
     /**
@@ -135,9 +137,9 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
     protected function _beforeSave(Mage_Core_Model_Abstract $transaction)
     {
         $parentTxnId = $transaction->getData('parent_txn_id');
-        $txnId = $transaction->getData('txn_id');
-        $orderId = $transaction->getData('order_id');
-        $paymentId = $transaction->getData('payment_id');
+        $txnId       = $transaction->getData('txn_id');
+        $orderId     = $transaction->getData('order_id');
+        $paymentId   = $transaction->getData('payment_id');
         $idFieldName = $this->getIdFieldName();
 
         if ($parentTxnId) {

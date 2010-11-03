@@ -82,7 +82,7 @@ abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Mage_Core_M
     }
 
     /**
-     * Specify collection select filter by attribute value
+     * Specify collection select order by attribute value
      * Backward compatibility with EAV collection
      *
      * @param string $attribute

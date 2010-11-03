@@ -108,7 +108,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
     public function setOrderStateFilter($state, $exclude = false)
     {
         $this->_orderStateCondition = ($exclude) ? 'NOT IN' : 'IN';
-        $this->_orderStateValue = (!is_array($state)) ? array($state) : $state;
+        $this->_orderStateValue     = (!is_array($state)) ? array($state) : $state;
         return $this;
     }
     
@@ -121,14 +121,15 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
     protected function _beforeLoad()
     {
         $this->getSelect()
-            ->from(array('sales' => Mage::getResourceSingleton('sales/order')->getMainTable()),
+            ->from(
+                array('sales' => Mage::getResourceSingleton('sales/order')->getMainTable()),
                 array(
                     'store_id',
-                    'lifetime'      => 'sum(sales.base_grand_total)',
-                    'base_lifetime' => 'sum(sales.base_grand_total * sales.base_to_global_rate)',
-                    'avgsale'       => 'avg(sales.base_grand_total)',
-                    'base_avgsale'  => 'avg(sales.base_grand_total * sales.base_to_global_rate)',
-                    'num_orders'    => 'count(sales.base_grand_total)'
+                    'lifetime'      => new Zend_Db_Expr('SUM(sales.base_grand_total)'),
+                    'base_lifetime' => new Zend_Db_Expr('SUM(sales.base_grand_total * sales.base_to_global_rate)'),
+                    'avgsale'       => new Zend_Db_Expr('AVG(sales.base_grand_total)'),
+                    'base_avgsale'  => new Zend_Db_Expr('AVG(sales.base_grand_total * sales.base_to_global_rate)'),
+                    'num_orders'    => new Zend_Db_Expr('COUNT(sales.base_grand_total)')
                 )
             )
             ->group('sales.store_id');
@@ -183,8 +184,8 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
         $this->_items = array();
         foreach ($data as $v) {
             $storeObject = new Varien_Object($v);
-            $storeId = $v['store_id'];
-            $storeName = isset($stores[$storeId]) ? $stores[$storeId] : null;
+            $storeId     = $v['store_id'];
+            $storeName   = isset($stores[$storeId]) ? $stores[$storeId] : null;
             $storeObject->setStoreName($storeName)
                 ->setWebsiteId(Mage::app()->getStore($storeId)->getWebsiteId())
                 ->setAvgNormalized($v['avgsale'] * $v['num_orders']);

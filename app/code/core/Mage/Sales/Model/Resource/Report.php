@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Sales report resource model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -35,7 +35,7 @@
 class Mage_Sales_Model_Resource_Report extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
     protected function _construct()

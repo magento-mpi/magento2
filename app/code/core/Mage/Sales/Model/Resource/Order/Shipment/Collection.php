@@ -44,7 +44,7 @@ class Mage_Sales_Model_Resource_Order_Shipment_Collection extends Mage_Sales_Mod
     /**
      * Event object
      *
-     * @var unknown
+     * @var string
      */
     protected $_eventObject    = 'order_shipment_collection';
 
@@ -67,9 +67,12 @@ class Mage_Sales_Model_Resource_Order_Shipment_Collection extends Mage_Sales_Mod
     /**
      * Used to emulate after load functionality for each item without loading them
      *
+     * @return Mage_Sales_Model_Resource_Order_Shipment_Collection
      */
     protected function _afterLoad()
     {
         $this->walk('afterLoad');
+
+        return $this;
     }
 }

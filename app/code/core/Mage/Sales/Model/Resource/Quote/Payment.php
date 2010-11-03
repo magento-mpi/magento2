@@ -26,7 +26,7 @@
 
 
 /**
- * Quote payment mysql4 resource model
+ * Quote payment resource model
  *
  * @category    Mage
  * @package     Mage_Sales

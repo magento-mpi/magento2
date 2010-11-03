@@ -26,7 +26,7 @@
 
 
 /**
- * Item option mysql4 resource model
+ * Item option resource model
  *
  * @category    Mage
  * @package     Mage_Sales

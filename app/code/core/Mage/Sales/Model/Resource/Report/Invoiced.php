@@ -54,7 +54,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
     {
         // convert input dates to UTC to be comparable with DATETIME fields in DB
         $from = $this->_dateToUtc($from);
-        $to = $this->_dateToUtc($to);
+        $to   = $this->_dateToUtc($to);
 
         $this->_checkDates($from, $to);
         $this->_aggregateByOrderCreatedAt($from, $to);
@@ -73,10 +73,12 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByInvoiceCreatedAt($from, $to)
     {
-        $table = $this->getTable('sales/invoiced_aggregated');
+        $table       = $this->getTable('sales/invoiced_aggregated');
         $sourceTable = $this->getTable('sales/invoice');
-        $orderTable = $this->getTable('sales/order');
-        $adapter = $this->_getWriteAdapter();
+        $orderTable  = $this->getTable('sales/order');
+        $helper      = Mage::getResourceHelper('core');
+        $adapter     = $this->_getWriteAdapter();
+
         $adapter->beginTransaction();
 
         try {
@@ -91,7 +93,8 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('source_table.created_at', $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
+            $periodExpr = $adapter->getDateAddSql('source_table.created_at',
+                    $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR);
             $columns = array(
                 // convert dates from UTC to current admin timezone
                 'period'                => $periodExpr,
@@ -101,7 +104,8 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'orders_invoiced'       => 'COUNT(order_table.entity_id)',
                 'invoiced'              => 'SUM(order_table.base_total_invoiced * order_table.base_to_global_rate)',
                 'invoiced_captured'     => 'SUM(order_table.base_total_paid * order_table.base_to_global_rate)',
-                'invoiced_not_captured' => 'SUM((order_table.base_total_invoiced - order_table.base_total_paid) * order_table.base_to_global_rate)'
+                'invoiced_not_captured' => 'SUM((order_table.base_total_invoiced - order_table.base_total_paid)'
+                    . ' * order_table.base_to_global_rate)'
             );
 
             $select = $adapter->select();
@@ -132,9 +136,6 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
             ));
 
             $select->having('orders_count > 0');
-
-            $helper        = Mage::getResourceHelper('core');
-            $helper      = Mage::getResourceHelper('core');
             $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
             $select->reset();
@@ -163,16 +164,14 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'order_status'
             ));
 
-            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
-            $helper      = Mage::getResourceHelper('core');
             $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
+            $adapter->commit();
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;
         }
 
-        $adapter->commit();
         return $this;
     }
 
@@ -185,9 +184,10 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
     {
-        $table = $this->getTable('sales/invoiced_aggregated_order');
+        $table       = $this->getTable('sales/invoiced_aggregated_order');
         $sourceTable = $this->getTable('sales/order');
-        $adapter = $this->_getWriteAdapter();
+        $adapter     = $this->_getWriteAdapter();
+        
         $adapter->beginTransaction();
 
         try {
@@ -199,7 +199,8 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
+            $periodExpr          = $adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(),
+                Varien_Db_Adapter_Interface::INTERVAL_HOUR);
             $ifBaseTotalInvoiced = $adapter->getCheckSql('base_total_invoiced > 0', 1, 0);
 
             $columns = array(
@@ -245,8 +246,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'invoiced_not_captured' => 'SUM(invoiced_not_captured)'
             );
 
-            $select
-                ->from($table, $columns)
+            $select->from($table, $columns)
                 ->where('store_id <> ?', 0);
 
             if ($subSelect !== null) {
@@ -261,12 +261,13 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
             $helper      = Mage::getResourceHelper('core');
             $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
+            $adapter->commit();
+            
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;
         }
 
-        $adapter->commit();
         return $this;
     }
 }

@@ -131,7 +131,8 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
             ->getSelect()
             ->joinLeft(
                 array($billingAliasName => $joinTable),
-                "(main_table.entity_id = $billingAliasName.parent_id AND $billingAliasName.address_type = 'billing')",
+                "(main_table.entity_id = {$billingAliasName}.parent_id"
+                    . " AND {$billingAliasName}.address_type = 'billing')",
                 array(
                     $billingAliasName . '.firstname',
                     $billingAliasName . '.lastname',
@@ -141,7 +142,8 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
             )
             ->joinLeft(
                 array($shippingAliasName => $joinTable),
-                "(main_table.entity_id = $shippingAliasName.parent_id AND $shippingAliasName.address_type = 'shipping')",
+                "(main_table.entity_id = {$shippingAliasName}.parent_id"
+                    . " AND {$shippingAliasName}.address_type = 'shipping')",
                 array(
                     $shippingAliasName . '.firstname',
                     $shippingAliasName . '.lastname',
@@ -211,11 +213,12 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
     public function addBillingAgreementsFilter($agreements)
     {
         $agreements = (is_array($agreements)) ? $agreements : array($agreements);
-        $this->getSelect()->joinInner(
-            array('sbao' => $this->getTable('sales/billing_agreement_order')),
-            'main_table.entity_id = sbao.order_id',
-            array()
-        )->where('sbao.agreement_id IN(?)', $agreements);
+        $this->getSelect()
+            ->joinInner(
+                array('sbao' => $this->getTable('sales/billing_agreement_order')),
+                'main_table.entity_id = sbao.order_id',
+                array())
+            ->where('sbao.agreement_id IN(?)', $agreements);
         return $this;
     }
 
@@ -228,11 +231,12 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
     public function addRecurringProfilesFilter($ids)
     {
         $ids = (is_array($ids)) ? $ids : array($ids);
-        $this->getSelect()->joinInner(
-            array('srpo' => $this->getTable('sales/recurring_profile_order')),
-            'main_table.entity_id = srpo.order_id',
-            array()
-        )->where('srpo.profile_id IN(?)', $ids);
+        $this->getSelect()
+            ->joinInner(
+                array('srpo' => $this->getTable('sales/recurring_profile_order')),
+                'main_table.entity_id = srpo.order_id',
+                array())
+            ->where('srpo.profile_id IN(?)', $ids);
         return $this;
     }
 }

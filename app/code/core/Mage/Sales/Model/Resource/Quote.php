@@ -26,7 +26,7 @@
 
 
 /**
- * Quote mysql4 resource model
+ * Quote resource model
  *
  * @category    Mage
  * @package     Mage_Sales
@@ -53,7 +53,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-        $select = parent::_getLoadSelect($field, $value, $object);
+        $select   = parent::_getLoadSelect($field, $value, $object);
         $storeIds = $object->getSharedStoreIds();
         if ($storeIds) {
             $select->where('store_id IN (?)', $storeIds);
@@ -76,13 +76,13 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      */
     public function loadByCustomerId($quote, $customerId)
     {
-        $read = $this->_getReadAdapter();
-        $select = $this->_getLoadSelect('customer_id', $customerId, $quote)
+        $adapter = $this->_getReadAdapter();
+        $select  = $this->_getLoadSelect('customer_id', $customerId, $quote)
             ->where('is_active = ?', 1)
             ->order('updated_at ' . Varien_Db_Select::SQL_DESC)
             ->limit(1);
 
-        $data = $read->fetchRow($select);
+        $data    = $adapter->fetchRow($select);
 
         if ($data) {
             $quote->setData($data);
@@ -102,11 +102,11 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      */
     public function loadActive($quote, $quoteId)
     {
-        $read = $this->_getReadAdapter();
-        $select = $this->_getLoadSelect('entity_id', $quoteId, $quote)
+        $adapter = $this->_getReadAdapter();
+        $select  = $this->_getLoadSelect('entity_id', $quoteId, $quote)
             ->where('is_active = ?', 1);
 
-        $data = $read->fetchRow($select);
+        $data    = $adapter->fetchRow($select);
         if ($data) {
             $quote->setData($data);
         }
@@ -120,26 +120,28 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      * Get reserved order id
      *
      * @param Mage_Sales_Model_Quote $quote
-     * @return unknown
+     * @return string
      */
     public function getReservedOrderId($quote)
     {
         $storeId = (int)$quote->getStoreId();
-        return Mage::getSingleton('eav/config')->getEntityType(Mage_Sales_Model_Order::ENTITY)->fetchNewIncrementId($storeId);
+        return Mage::getSingleton('eav/config')->getEntityType(Mage_Sales_Model_Order::ENTITY)
+            ->fetchNewIncrementId($storeId);
     }
 
     /**
      * Check is order increment id use in sales/order table
      *
-     * @param unknown_type $orderIncrementId
-     * @return unknown
+     * @param int $orderIncrementId
+     * @return boolean
      */
     public function isOrderIncrementIdUsed($orderIncrementId)
     {
-        $select = $this->_getReadAdapter()->select();
+        $adapter   = $this->_getReadAdapter();
+        $select    = $adapter->select();
         $select->from($this->getTable('sales/order'), 'entity_id')
             ->where('increment_id = ?', (int)$orderIncrementId);
-        $entity_id = $this->_getReadAdapter()->fetchOne($select);
+        $entity_id = $adapter->fetchOne($select);
         if ($entity_id > 0) {
             return true;
         }
@@ -154,11 +156,12 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      */
     public function markQuotesRecollectOnCatalogRules()
     {
-        $selectProductId = $this->_getReadAdapter()->select()
+        $readAdapter     = $this->_getReadAdapter();
+        $selectProductId = $readAdapter->select()
             ->from($this->getTable('catalogrule/rule_product_price'), 'product_id')
             ->distinct();
 
-        $selectQuoteId = $this->_getReadAdapter()->select()
+        $selectQuoteId = $readAdapter->select()
             ->from($this->getTable('sales/quote_item'), 'quote_id')
             ->where('product_id IN(?)', $selectProductId)
             ->distinct();
@@ -172,7 +175,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
     }
 
     /**
-     * Substract product from all quotes quantities
+     * Subtract product from all quotes quantities
      *
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Sales_Model_Resource_Quote

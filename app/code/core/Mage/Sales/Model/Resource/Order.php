@@ -86,10 +86,10 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
     protected function _initVirtualGridColumns()
     {
         parent::_initVirtualGridColumns();
-        $adapter = $this->getReadConnection();
-        $ifnullFirst = new Zend_Db_Expr($adapter->getCheckSql('{{table}}.firstname IS NULL', "''", '{{table}}.firstname'));
-        $ifnullLast = new Zend_Db_Expr($adapter->getCheckSql('{{table}}.lastname IS NULL', "''", '{{table}}.lastname'));
-        $concatAddress = new Zend_Db_Expr($adapter->getConcatSql(array($ifnullFirst, "' '", $ifnullLast)));
+        $adapter       = $this->getReadConnection();
+        $ifnullFirst   = $adapter->getCheckSql('{{table}}.firstname IS NULL', "''", '{{table}}.firstname');
+        $ifnullLast    = $adapter->getCheckSql('{{table}}.lastname IS NULL', "''", '{{table}}.lastname');
+        $concatAddress = $adapter->getConcatSql(array($ifnullFirst, "' '", $ifnullLast));
         $this->addVirtualGridColumn(
                 'billing_name',
                 'sales/order_address',
@@ -116,19 +116,24 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
      */
     public function aggregateProductsByTypes($orderId, $productTypeIds = array(), $isProductTypeIn = false)
     {
-        $select = $this->getReadConnection()->select()
-            ->from(array('o' => $this->getTable('sales/order_item')), new Zend_Db_Expr('o.product_type, COUNT(*)'))
-            ->joinInner(array('p' => $this->getTable('catalog/product')), 'o.product_id=p.entity_id', array())
+        $adapter = $this->getReadConnection();
+        $select  = $adapter->select()
+            ->from(
+                array('o' => $this->getTable('sales/order_item')),
+                array('o.product_type', new Zend_Db_Expr('COUNT(*)')))
+            ->joinInner(
+                array('p' => $this->getTable('catalog/product')),
+                'o.product_id=p.entity_id',
+                array())
             ->where('o.order_id=?', $orderId)
             ->group('o.product_type')
         ;
         if ($productTypeIds) {
-            $select->where($this->getReadConnection()->quoteInto(
+            $select->where(
                 sprintf('(o.product_type %s (?))', ($isProductTypeIn ? 'IN' : 'NOT IN')),
-                $productTypeIds
-            ));
+                $productTypeIds);
         }
-        return $this->getReadConnection()->fetchPairs($select);
+        return $adapter->fetchPairs($select);
     }
 
     /**
@@ -139,9 +144,10 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
      */
     public function getIncrementId($orderId)
     {
-        $select = $this->getReadConnection()->select()
+        $adapter = $this->getReadConnection();
+        $select  = $adapter->select()
             ->from($this->getMainTable(), array("increment_id"))
             ->where('entity_id = ?', $orderId);
-        return $this->getReadConnection()->fetchOne($select);
+        return $adapter->fetchOne($select);
     }
 }

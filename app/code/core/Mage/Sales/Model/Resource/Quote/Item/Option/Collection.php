@@ -97,9 +97,9 @@ class Mage_Sales_Model_Resource_Quote_Item_Option_Collection extends Mage_Core_M
             $this->_totalRecords = 0;
             $this->_setIsLoaded(true);
             //$this->addFieldToFilter('item_id', '');
-        } else if (is_array($item)) {
+        } elseif (is_array($item)) {
             $this->addFieldToFilter('item_id', array('in' => $item));
-        } else if ($item instanceof Mage_Sales_Model_Quote_Item) {
+        } elseif ($item instanceof Mage_Sales_Model_Quote_Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {
             $this->addFieldToFilter('item_id', $item);
@@ -149,7 +149,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Option_Collection extends Mage_Core_M
     /**
      * Get all option for item
      *
-     * @param unknown_type $product
+     * @param int | Mage_Catalog_Model_Product $product
      * @return array
      */
     public function getOptionsByProduct($product)

@@ -182,7 +182,7 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
     protected function _applyStoresFilterToSelect(Zend_Db_Select $select)
     {
         $nullCheck = false;
-        $storeIds = $this->_storesIds;
+        $storeIds  = $this->_storesIds;
 
         if (!is_array($storeIds)) {
             $storeIds = array($storeIds);

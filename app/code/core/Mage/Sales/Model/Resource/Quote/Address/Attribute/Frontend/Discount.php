@@ -50,9 +50,9 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Discount
                 $title .= sprintf(' (%s)', $address->getQuote()->getCouponCode());
             }
             $address->addTotal(array(
-                'code'=>'discount', 
-                'title'=>$title, 
-                'value'=>-$amount
+                'code'  => 'discount',
+                'title' => $title,
+                'value' => -$amount
             ));
         }
         return $this;

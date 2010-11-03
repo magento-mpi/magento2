@@ -44,8 +44,8 @@ abstract class Mage_Sales_Model_Resource_Order_Comment_Collection_Abstract
     public function setParentFilter($parent)
     {
         if ($parent instanceof Mage_Core_Model_Abstract) {
-    		$parent = $parent->getId();
-    	}
+            $parent = $parent->getId();
+        }
         return $this->addFieldToFilter('parent_id', $parent);
     }
 

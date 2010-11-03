@@ -54,7 +54,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
     {
         // convert input dates to UTC to be comparable with DATETIME fields in DB
         $from = $this->_dateToUtc($from);
-        $to = $this->_dateToUtc($to);
+        $to   = $this->_dateToUtc($to);
 
         $this->_checkDates($from, $to);
         $this->_aggregateByOrderCreatedAt($from, $to);
@@ -72,9 +72,9 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
     {
-        $table = $this->getTable('sales/shipping_aggregated_order');
+        $table       = $this->getTable('sales/shipping_aggregated_order');
         $sourceTable = $this->getTable('sales/order');
-        $adapter = $this->_getWriteAdapter();
+        $adapter     = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 
         try {
@@ -86,7 +86,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(),  Varien_Db_Adapter_Interface::INTERVAL_HOUR));
+            $periodExpr                 = $adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(),
+                Varien_Db_Adapter_Interface::INTERVAL_HOUR);
             $ifnullBaseShippingCanceled = $adapter->getCheckSql('base_shipping_canceled IS NULL', 0, 'base_shipping_canceled');
             $ifnullBaseShippingRefunded = $adapter->getCheckSql('base_shipping_refunded IS NULL', 0, 'base_shipping_refunded');
             $columns = array(
@@ -94,9 +95,11 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'store_id'              => 'store_id',
                 'order_status'          => 'status',
                 'shipping_description'  => 'shipping_description',
-                'orders_count'          => 'COUNT(entity_id)',
-                'total_shipping'        => new Zend_Db_Expr("SUM((base_shipping_amount - {$ifnullBaseShippingCanceled}) * base_to_global_rate)"),
-                'total_shipping_actual' => new Zend_Db_Expr("SUM((base_shipping_invoiced - {$ifnullBaseShippingRefunded}) * base_to_global_rate)"),
+                'orders_count'          => new Zend_Db_Expr('COUNT(entity_id)'),
+                'total_shipping'        => new Zend_Db_Expr(
+                    "SUM((base_shipping_amount - {$ifnullBaseShippingCanceled}) * base_to_global_rate)"),
+                'total_shipping_actual' => new Zend_Db_Expr(
+                    "SUM((base_shipping_invoiced - {$ifnullBaseShippingRefunded}) * base_to_global_rate)"),
             );
 
             $select = $adapter->select();
@@ -121,7 +124,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
             $select->having('orders_count > 0');
 
             $helper        = Mage::getResourceHelper('core');
-            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
+            $insertQuery   = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
 
             $select->reset();
@@ -150,7 +153,6 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'shipping_description'
             ));
 
-            $selectQuery   = $helper->getQueryUsingAnalyticFunction($select);
             $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
         } catch (Exception $e) {
@@ -171,10 +173,10 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByShippingCreatedAt($from, $to)
     {
-        $table = $this->getTable('sales/shipping_aggregated');
+        $table       = $this->getTable('sales/shipping_aggregated');
         $sourceTable = $this->getTable('sales/invoice');
-        $orderTable = $this->getTable('sales/order');
-        $adapter = $this->_getWriteAdapter();
+        $orderTable  = $this->getTable('sales/order');
+        $adapter     = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 
         try {
@@ -189,18 +191,22 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = new Zend_Db_Expr($adapter->getDateAddSql('source_table.created_at', $this->_getStoreTimezoneUtcOffset(), 'HOURS'));
-            $countExpr = new Zend_Db_Expr('COUNT(order_table.entity_id)');
-            $ifnullBaseShippingCanceled = $adapter->getCheckSql('order_table.base_shipping_canceled IS NULL', 0, 'order_table.base_shipping_canceled');
-            $ifnullBaseShippingRefunded = $adapter->getCheckSql('order_table.base_shipping_refunded IS NULL', 0, 'order_table.base_shipping_refunded');
+            $periodExpr                 = $adapter->getDateAddSql('source_table.created_at',
+                $this->_getStoreTimezoneUtcOffset(), 'HOURS');
+            $ifnullBaseShippingCanceled = $adapter->getCheckSql('order_table.base_shipping_canceled IS NULL', 0,
+                'order_table.base_shipping_canceled');
+            $ifnullBaseShippingRefunded = $adapter->getCheckSql('order_table.base_shipping_refunded IS NULL', 0,
+                'order_table.base_shipping_refunded');
             $columns = array(
                 'period'                => $periodExpr,
                 'store_id'              => 'order_table.store_id',
                 'order_status'          => 'order_table.status',
                 'shipping_description'  => 'order_table.shipping_description',
-                'orders_count'          => $countExpr,
-                'total_shipping'        => new Zend_Db_Expr("SUM((order_table.base_shipping_amount - {$ifnullBaseShippingCanceled}) * order_table.base_to_global_rate)"),
-                'total_shipping_actual' => new Zend_Db_Expr("SUM((order_table.base_shipping_invoiced - {$ifnullBaseShippingRefunded}) * order_table.base_to_global_rate)"),
+                'orders_count'          => new Zend_Db_Expr('COUNT(order_table.entity_id)'),
+                'total_shipping'        => new Zend_Db_Expr('SUM((order_table.base_shipping_amount - '
+                    . "{$ifnullBaseShippingCanceled}) * order_table.base_to_global_rate)"),
+                'total_shipping_actual' => new Zend_Db_Expr('SUM((order_table.base_shipping_invoiced - '
+                    . "{$ifnullBaseShippingRefunded}) * order_table.base_to_global_rate)"),
             );
 
             $select = $adapter->select();
@@ -233,7 +239,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
             ));
 
             $helper        = Mage::getResourceHelper('core');
-            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
+            $insertQuery   = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
 
             $select->reset();

@@ -26,7 +26,7 @@
 
 
 /**
- * Quote address shipping rate mysql4 resource model
+ * Quote address shipping rate resource model
  *
  * @category    Mage
  * @package     Mage_Sales

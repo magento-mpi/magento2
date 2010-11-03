@@ -93,13 +93,11 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction_Collection
 
     /**
      * Initialize collection items factory class
-     *
-     * @return unknown
      */
     protected function _construct()
     {
         $this->_init('sales/order_payment_transaction');
-        return parent::_construct();
+        parent::_construct();
     }
 
     /**

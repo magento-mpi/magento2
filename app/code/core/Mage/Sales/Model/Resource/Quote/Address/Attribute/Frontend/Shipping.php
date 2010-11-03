@@ -50,7 +50,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Shipping
                 $title .= sprintf(' (%s)', $address->getShippingDescription());  
             }
             $address->addTotal(array(
-                'code' => 'shipping',
+                'code'  => 'shipping',
                 'title' => $title,
                 'value' => $address->getShippingAmount()
             ));

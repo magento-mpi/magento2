@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -43,12 +43,13 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_H
      * @param string $aggregationTable
      * @return Mage_Sales_Model_Resource_Helper_Abstract
      */
-    public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases, $mainTable, $aggregationTable)
-    {
-        $adapter = $this->_getWriteAdapter();
+    public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
+        $mainTable, $aggregationTable
+    ) {
+        $adapter         = $this->_getWriteAdapter();
         $periodSubSelect = $adapter->select();
         $ratingSubSelect = $adapter->select();
-        $ratingSelect = $adapter->select();
+        $ratingSelect    = $adapter->select();
 
         $periodCol = 't.period';
         if ($aggregation == $aggregationAliases['monthly']) {
@@ -77,7 +78,8 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_H
 
         $cols = $columns;
         $cols['qty_ordered'] = 't.total_qty_ordered';
-        $cols['rating_pos']  = new Zend_Db_Expr("(@pos := IF(t.`store_id` <> @prevStoreId OR {$periodCol} <> @prevPeriod, 1, @pos+1))");
+        $cols['rating_pos']  = new Zend_Db_Expr(
+            "(@pos := IF(t.`store_id` <> @prevStoreId OR {$periodCol} <> @prevPeriod, 1, @pos+1))");
         $cols['prevStoreId'] = new Zend_Db_Expr('(@prevStoreId := t.`store_id`)');
         $cols['prevPeriod']  = new Zend_Db_Expr("(@prevPeriod := {$periodCol})");
         $ratingSubSelect->from($periodSubSelect, $cols);
@@ -89,9 +91,9 @@ class Mage_Sales_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_H
         $ratingSelect->from($ratingSubSelect, $cols);
 
         $sql = $ratingSelect->insertFromSelect($aggregationTable, array_keys($cols));
-        $this->_getWriteAdapter()->query("SET @pos = 0, @prevStoreId = -1, @prevPeriod = '0000-00-00'");
+        $adapter->query("SET @pos = 0, @prevStoreId = -1, @prevPeriod = '0000-00-00'");
 
-        $this->_getWriteAdapter()->query($sql);
+        $adapter->query($sql);
 
         return $this;
     }

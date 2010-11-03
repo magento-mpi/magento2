@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -45,15 +45,15 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases, $mainTable, $aggregationTable)
     {
-        $adapter = $this->_getWriteAdapter();
+        $adapter         = $this->_getWriteAdapter();
         $periodSubSelect = $adapter->select();
         $ratingSubSelect = $adapter->select();
-        $ratingSelect = $adapter->select();
+        $ratingSelect    = $adapter->select();
 
         $periodCol = 't.period';
         if ($aggregation == $aggregationAliases['monthly']) {
             $periodCol = $adapter->getDateFormatSql('t.period', '%Y-%m-01');
-        } else if ($aggregation == $aggregationAliases['yearly']) {
+        } elseif ($aggregation == $aggregationAliases['yearly']) {
             $periodCol = $adapter->getDateFormatSql('t.period', '%Y-01-01');
         }
 
@@ -96,7 +96,7 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
         $ratingSelect->from($ratingSubSelect, $cols);
         $sql = $ratingSelect->insertFromSelect($aggregationTable, array_keys($cols));
 
-        $this->_getWriteAdapter()->query($sql);
+        $adapter->query($sql);
 
         return $this;
     }

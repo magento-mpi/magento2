@@ -26,7 +26,7 @@
 
 
 /**
- * Sales mysql4 abstract resource model
+ * Sales abstract resource model
  *
  * @category    Mage
  * @package     Mage_Sales

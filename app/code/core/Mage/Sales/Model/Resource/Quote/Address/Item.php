@@ -26,7 +26,7 @@
 
 
 /**
- * Quote address item mysql4 resource model
+ * Quote address item resource model
  *
  * @category    Mage
  * @package     Mage_Sales

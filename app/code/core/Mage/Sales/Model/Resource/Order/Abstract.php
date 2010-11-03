@@ -172,10 +172,9 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
                 return $this;
             }
             $columnsToSelect = array();
-            $adapter = $this->_getWriteAdapter();
             $table = $this->getGridTable();
             $select = $this->getUpdateGridRecordsSelect($ids, $columnsToSelect);
-            $adapter->query($select->insertFromSelect($table, $columnsToSelect, true));
+            $this->_getWriteAdapter()->query($select->insertFromSelect($table, $columnsToSelect, true));
         }
 
         return $this;
@@ -222,16 +221,17 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
      */
     public function joinVirtualGridColumnsToSelect($mainTableAlias, Zend_Db_Select $select, &$columnsToSelect)
     {
+        $adapter = $this->_getWriteAdapter();
         foreach ($this->getVirtualGridColumns() as $alias => $expression) {
             list($table, $joinCondition, $column) = $expression;
             $tableAlias = 'table_' . $alias;
 
             $joinConditionExpr = array();
             foreach ($joinCondition as $fkField=>$pkField) {
-                $pkField = $this->_getWriteAdapter()->quoteIdentifier(
+                $pkField = $adapter->quoteIdentifier(
                     $tableAlias . '.' . $pkField
                 );
-                $fkField = $this->_getWriteAdapter()->quoteIdentifier(
+                $fkField = $adapter->quoteIdentifier(
                     $mainTableAlias . '.' . $fkField
                 );
                 $joinConditionExpr[] = $fkField . '=' . $pkField;
@@ -349,7 +349,8 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
                 $updateArray = $this->_prepareDataForTable($data, $this->getMainTable());
                 $this->_postSaveFieldsUpdate($object, $updateArray);
                 if (!$object->getForceUpdateGridRecords() &&
-                    count(array_intersect($this->getGridColumns(), $attribute)) > 0) {
+                    count(array_intersect($this->getGridColumns(), $attribute)) > 0
+                ) {
                     $this->updateGridRecords($object->getId());
                 }
                 $this->_afterSaveAttribute($object, $attribute);
