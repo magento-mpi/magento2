@@ -31,7 +31,7 @@ directPost.prototype = {
         this.orderSaveUrl = orderSaveUrl;
         this.nativeAction = nativeAction;
         this.cgiUrl = cgiUrl;
-        this.code = methodCode;        
+        this.code = methodCode;
         this.inputs = ['cc_type', 'cc_number', 'expiration', 'expiration_yr', 'cc_cid'];
         this.headers = [];
         this.isValid = true;
@@ -116,7 +116,7 @@ directPost.prototype = {
                     break;
                 case 'sales_order_edit':
                 case 'sales_order_create':
-                    if (!this.orderRequestSent) {                        
+                    if (!this.orderRequestSent) {
                         this.paymentRequestSent = false;
                         if (!this.hasError) {
                             this.returnQuote();
@@ -134,7 +134,7 @@ directPost.prototype = {
             }
         }
     },
-    
+
     loadOrderIframe : function() {
         if (this.orderRequestSent) {
             $(this.iframeId).hide();
@@ -181,15 +181,15 @@ directPost.prototype = {
             }.bind(this)
         });
     },
-    
-    setLoadWaiting : function() {                
+
+    setLoadWaiting : function() {
         this.headers.each(function(header) {
             header.removeClassName('allow');
         });
         checkout.setLoadWaiting('review');
     },
-    
-    resetLoadWaiting : function() {                
+
+    resetLoadWaiting : function() {
         this.headers.each(function(header) {
             header.addClassName('allow');
         });
@@ -198,7 +198,7 @@ directPost.prototype = {
 
     saveOnepageOrder : function() {
         this.hasError = false;
-        this.setLoadWaiting();        
+        this.setLoadWaiting();
         var params = Form.serialize(payment.form);
         if (review.agreementsForm) {
             params += '&' + Form.serialize(review.agreementsForm);
@@ -261,7 +261,7 @@ directPost.prototype = {
             var paymentMethodEl = $(editForm.formId).getInputs('radio','payment[method]').find(function(radio) {
                 return radio.checked;
             });
-            this.hasError = false;            
+            this.hasError = false;
             if (paymentMethodEl.value == this.code) {
                 toggleSelectsUnderBlock($('loading-mask'), false);
                 $('loading-mask').show();
@@ -273,7 +273,7 @@ directPost.prototype = {
                 $(editForm.formId).writeAttribute('target',
                         $('order-' + this.iframeId).readAttribute('name'));
                 $(editForm.formId).appendChild(this.createHiddenElement('controller', this.controller));
-                disableElements('save');                
+                disableElements('save');
                 $(editForm.formId).submit();
             } else {
                 $(editForm.formId).writeAttribute('action', this.nativeAction);
@@ -376,7 +376,7 @@ directPost.prototype = {
             this.tmpForm.appendChild(this.createHiddenElement(param, preparedData[param]));
         }
 
-        this.paymentRequestSent = true;        
+        this.paymentRequestSent = true;
         this.tmpForm.submit();
     },
 
@@ -393,7 +393,7 @@ directPost.prototype = {
 
         return field;
     },
-    
+
     recreateIframe : function() {
         if ($(this.iframeId)) {
             var nextElement = $(this.iframeId).next();
@@ -403,7 +403,7 @@ directPost.prototype = {
             $(this.iframeId).remove();
             var iframe = '<iframe id="' + this.iframeId + 
                 '" allowtransparency="true" frameborder="0"  name="' + name + 
-                '" style="display:none;width:100%;background-color:transparent" src="' + src + '" />';            
+                '" style="display:none;width:100%;background-color:transparent" src="' + src + '" />';
             Element.insert(nextElement, {'before':iframe});
             $(this.iframeId).observe('load', this.onLoadIframe);
         }
