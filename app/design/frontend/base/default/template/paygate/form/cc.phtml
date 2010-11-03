@@ -24,25 +24,20 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-
-<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_before" style="display:none;">
-    <?php echo $this->getChildHtml('cc_form_before') ?>
-
-<?php if ($this->getMethod()->isItPartialAuthorization()): ?>
-<script type="text/javascript">
-//<![CDATA[
-    <?php if ($this->getMethod()->isLastPartialAuthorizationSuccessful()): ?>
-    if (!confirm('<?php echo $this->__('The amount on your credit card is insufficient to complete your purchase. The available amount has been put on hold. To complete your purchase click OK and specify additional credit card number. To cancel the purchase and release the amount on hold, click Cancel.')?>')) {
-    }
-    <?php else:?>
-    if (!confirm('<?php echo $this->__('Your credit card has been declined. Click Continue to specify another credit card to complete your purchase. Click Cancel to release the amount on hold and select another payment method.')?>')) {
-    }
-    <?php endif;?>
-</script>
+<?php if ($this->isItPartialAuthorization()): ?>
+    <ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_before" style="display:none;">
+        <?php echo $this->getChildHtml('cards') ?>
+    </ul>
 <?php endif;?>
-
-</ul>
 <?php echo $this->getChildHtml('method_form_block') ?>
-<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_after" style="display:none;">
-    <?php echo $this->getChildHtml('cc_form_after') ?>
-</ul>
+<?php if ($this->isItPartialAuthorization()): ?>
+    <ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_after" style="display:none;">
+    </ul>
+    <?php if ($_message=$this->getPartialAuthorizationConfirmationMessage()): ?>
+        <script type="text/javascript">
+        //<![CDATA[
+            if (!confirm('<?php echo $_message ?>')) {
+            }
+        </script>
+    <?php endif;?>
+<?php endif;?>

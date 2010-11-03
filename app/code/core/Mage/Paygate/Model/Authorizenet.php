@@ -111,10 +111,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     protected $_splitTenderIdKey = 'split_tender_id';
 
     /**
-     * Key for storing information about result of last partial authorization process in additional information of payment model
+     * Key for storing partial authorization confirmation message in session
      * @var string
      */
-    protected $_isLastPartialAuthorizationSuccessfulKey = 'last_partial_authorization_successful';
+    protected $_sessionPartialAuthorizationConfirmationMessageKey = 'paygate_authorizenet_confirmation_message';
 
     /**
      * Check method for processing with base currency
@@ -143,6 +143,39 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $this->setData('_accepted_currency', $acceptedCurrencyCodes);
         }
         return $this->_getData('_accepted_currency');
+    }
+
+    /**
+     * Set partial authorization confirmation message into session
+     *
+     * @param string $message
+     * @return Mage_Paygate_Model_Authorizenet
+     */
+    public function setPartialAuthorizationConfirmationMessage($message)
+    {
+        $this->_getSession()->setData($this->_sessionPartialAuthorizationConfirmationMessageKey, $message);
+        return $this;
+    }
+
+    /**
+     * Return partial authorization confirmation message from session
+     *
+     * @return string
+     */
+    public function getPartialAuthorizationConfirmationMessage()
+    {
+        return $this->_getSession()->getData($this->_sessionPartialAuthorizationConfirmationMessageKey);
+    }
+
+    /**
+     * Unset partial authorization confirmation message in session
+     *
+     * @return Mage_Paygate_Model_Authorizenet
+     */
+    public function unsetPartialAuthorizationConfirmationMessage()
+    {
+        $this->_getSession()->setData($this->_sessionPartialAuthorizationConfirmationMessageKey, false);
+        return $this;
     }
 
     /**
@@ -564,7 +597,21 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      */
     protected function _getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return $this->_getSession()->getQuote();
+    }
+
+    /**
+     * Retrieve session object
+     *
+     * @return Mage_Core_Model_Session_Abstract
+     */
+    protected function _getSession()
+    {
+        if (Mage::app()->getStore()->isAdmin()) {
+            return Mage::getSingleton('adminhtml/session_quote');
+        } else {
+            return Mage::getSingleton('checkout/session');
+        }
     }
 
     /**
@@ -582,6 +629,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         $exceptionMessage = null;
         $isPartialAuthorizationProcessCompleted = false;
+        $isLastPartialAuthorizationSuccessful = false;
 
         try {
             $orderPayment->setAdditionalInformation($this->_splitTenderIdKey, $response->getSplitTenderId());
@@ -591,12 +639,12 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                         return false;
                     }
                     $this->_registerCard($response, $orderPayment);
-                    $orderPayment->setAdditionalInformation($this->_isLastPartialAuthorizationSuccessfulKey, true);
+                    $isLastPartialAuthorizationSuccessful = true;
                     break;
                 case self::RESPONSE_CODE_APPROVED:
                     /* temp */ $orderPayment->setTransactionId($response->getTransactionId())->setIsTransactionClosed(0)->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getTransactionId());
                     $this->_registerCard($response, $orderPayment);
-                    $orderPayment->setAdditionalInformation($this->_isLastPartialAuthorizationSuccessfulKey, true);
+                    $isLastPartialAuthorizationSuccessful = true;
                     $isPartialAuthorizationProcessCompleted = true;
                     break;
                 case self::RESPONSE_CODE_DECLINED:
@@ -611,6 +659,12 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         }
 
         if (!$isPartialAuthorizationProcessCompleted) {
+            if ($isLastPartialAuthorizationSuccessful) {
+                $this->setPartialAuthorizationConfirmationMessage(Mage::helper('paygate')->__('The amount on your credit card is insufficient to complete your purchase. The available amount has been put on hold. To complete your purchase click OK and specify additional credit card number. To cancel the purchase and release the amount on hold, click Cancel.'));
+            } else {
+                $this->setPartialAuthorizationConfirmationMessage(Mage::helper('paygate')->__('Your credit card has been declined. Click Continue to specify another credit card to complete your purchase. Click Cancel to release the amount on hold and select another payment method.'));
+            }
+
             $quotePayment = $this->_getQuote()->getPayment();
             $quotePayment->setAdditionalInformation($orderPayment->getAdditionalInformation());
             throw new Mage_Payment_Model_Info_Exception($exceptionMessage);
@@ -653,13 +707,5 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $payment = $this->getInfoInstance();
         }
         return $payment->getAdditionalInformation($this->_splitTenderIdKey);
-    }
-
-    public function isLastPartialAuthorizationSuccessful ($payment = null)
-    {
-        if (is_null($payment)) {
-            $payment = $this->getInfoInstance();
-        }
-        return $payment->getAdditionalInformation($this->_isLastPartialAuthorizationSuccessfulKey);
     }
 }

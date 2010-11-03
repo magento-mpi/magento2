@@ -64,8 +64,30 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     protected function _toHtml()
     {
-        $this->setChild('cc_form_before', $this->getCardsBlock());
+        $this->setChild('cards', $this->getCardsBlock());
         $this->setChild('method_form_block', $this->getMethodFormBlock());
         return parent::_toHtml();
+    }
+
+    /**
+     * Return partial authorization confirmation message and unset it in payment model
+     *
+     * @return string
+     */
+    public function getPartialAuthorizationConfirmationMessage()
+    {
+        $message = $this->getMethod()->getPartialAuthorizationConfirmationMessage();
+        $this->getMethod()->unsetPartialAuthorizationConfirmationMessage();
+        return $message; 
+    }
+
+    /**
+     * Return flag - is partial authorization process started
+     *
+     * @return string
+     */
+    public function isItPartialAuthorization()
+    {
+        return $this->getMethod()->isItPartialAuthorization();
     }
 }

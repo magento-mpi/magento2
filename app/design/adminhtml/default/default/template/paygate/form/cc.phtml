@@ -26,9 +26,9 @@
 ?>
 
 <ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_before" style="display:none;">
-    <?php echo $this->getChildHtml('cc_form_before') ?>
+    <?php echo $this->getChildHtml('cards') ?>
 </ul>
-<?php echo $this->getMethodFormBlock(); ?>
+<?php echo $this->getChildHtml('method_form_block') ?>
 <ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_after" style="display:none;">
     <?php echo $this->getChildHtml('cc_form_after') ?>
 </ul>
