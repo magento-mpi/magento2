@@ -132,6 +132,8 @@ class Maged_Model_Config_Enterprise extends Maged_Model_Config_Abstract implemen
         }
         if(!is_null($config)){
             $config->auth = $post['auth'];
+            $config->root_channel_uri = $this->getRootChannelUri();
+            $config->root_channel = $this->get('root_channel');
         }
     }
 

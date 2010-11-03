@@ -295,7 +295,9 @@ class Maged_Connect
      */
     public function runHtmlConsole($runParams)
     {
-        @apache_setenv('no-gzip', '1');
+        if (function_exists('apache_setenv')) {
+            apache_setenv('no-gzip', '1');
+        }
         @ini_set('zlib.output_compression', 0);
         @ini_set('implicit_flush', 1);
         for ($i = 0; $i < ob_get_level(); $i++) { ob_end_flush(); }

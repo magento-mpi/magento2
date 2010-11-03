@@ -428,6 +428,7 @@ final class Maged_Controller
                 $this->channelConfig()->setPostData($this->config(), $_POST);
                 $this->model('connect', true)->saveConfigPost($_POST);
                 $this->channelConfig()->setSettingsSession($_POST, $this->session());
+                $this->model('connect', true)->connect()->run('sync');
 
             } catch (Exception $e) {
                 $this->session()->addMessage('error', "Unable to save settings: ".$e->getMessage());

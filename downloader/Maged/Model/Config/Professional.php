@@ -131,6 +131,8 @@ class Maged_Model_Config_Professional extends Maged_Model_Config_Abstract implem
         }
         if(!is_null($config)){
             $config->auth = $post['auth'];
+            $config->root_channel_uri = $this->getRootChannelUri();
+            $config->root_channel = $this->get('root_channel');
         }
     }
 

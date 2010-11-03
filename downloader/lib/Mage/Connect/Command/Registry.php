@@ -214,6 +214,9 @@ extends Mage_Connect_Command
                         $name = $package->getName();
                         $channel = $package->getChannel();
                         $version = $package->getVersion();
+                        if (!$cache->isChannel($channel) && $channel == $config->root_channel) {
+                            $cache->addChannel($channel, $config->root_channel_uri);
+                        }
                         if (!$cache->hasPackage($channel, $name, $version, $version)) {
                             $cache->addPackage($package);
                             $this->ui()->output("Successfully added: {$channel}/{$name}-{$version}");
