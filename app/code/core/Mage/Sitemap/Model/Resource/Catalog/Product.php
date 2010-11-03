@@ -100,8 +100,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
 
         if ($attribute['backend_type'] == 'static') {
             $this->_select->where('e.' . $attributeCode . $conditionRule, $value);
-        }
-        else {
+        } else {
             $this->_select->join(
                 array('t1_'.$attributeCode => $attribute['table']),
                 'e.entity_id=t1_'.$attributeCode.'.entity_id AND t1_'.$attributeCode.'.store_id=0',
@@ -111,8 +110,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
 
             if ($attribute['is_global']) {
                 $this->_select->where('t1_'.$attributeCode.'.value'.$conditionRule, $value);
-            }
-            else {
+            } else {
                 $ifCase = $this->_select->getAdapter()->getCheckSql('t2_'.$attributeCode.'.value_id > 0', 't2_'.$attributeCode.'.value', 't1_'.$attributeCode.'.value');
                 $this->_select->joinLeft(
                     array('t2_'.$attributeCode => $attribute['table']),
