@@ -116,7 +116,8 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
         $adapter = $this->_getWriteAdapter();
         $action = Mage::app()->getFrontController()->getAction();
 
-        if ($action instanceof Mage_Core_Controller_Front_Action || $action instanceof Mage_Adminhtml_Controller_Action) {
+        if ($action instanceof Mage_Core_Controller_Front_Action
+                || $action instanceof Mage_Adminhtml_Controller_Action) {
             $optionData = $this->loadDataById($option->getId());
             $data = array(
                 'option_id'     => $option->getId(),
@@ -180,10 +181,10 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
 
         $select = $readAdapter->select()
             ->from($this->_aggregateTable, array('store_id', 'primary_id'))
-            ->where('rating_id = ?', $ratingId)
-            ->where('entity_pk_value = ?', $entityPkValue);
-
-        $oldData = $readAdapter->fetchPairs($select);
+            ->where('rating_id = :rating_id')
+            ->where('entity_pk_value = :pk_value');
+        $bind = array(':rating_id' => $ratingId, ':pk_value' => $entityPkValue);
+        $oldData = $readAdapter->fetchPairs($select, $bind);
 
         $appVoteCountCond    = $readAdapter->getCheckSql('review.status_id=1', 'vote.vote_id', 'NULL');
         $appVoteValueSumCond = $readAdapter->getCheckSql('review.status_id=1', 'vote.value', '0');
@@ -203,13 +204,15 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
             ->join(array('rstore'   =>$this->_ratingStoreTable),
                 'vote.rating_id=rstore.rating_id AND rstore.store_id=store.store_id',
                 array())
-            ->where('vote.rating_id = ?', $ratingId)
-            ->where('vote.entity_pk_value = ?', $entityPkValue)
-            ->group('vote.rating_id')
-            ->group('vote.entity_pk_value')
-            ->group('store.store_id');
+            ->where('vote.rating_id = :rating_id')
+            ->where('vote.entity_pk_value = :pk_value')
+            ->group(array(
+                'vote.rating_id',
+                'vote.entity_pk_value',
+                'store.store_id'
+            ));
 
-        $perStoreInfo = $readAdapter->fetchAll($select);
+        $perStoreInfo = $readAdapter->fetchAll($select, $bind);
 
         $usedStores = array();
         foreach ($perStoreInfo as $row) {
@@ -224,7 +227,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
             );
 
             if (isset($oldData[$row['store_id']])) {
-                $condition = $writeAdapter->quoteInto("primary_id = ?", $oldData[$row['store_id']]);
+                $condition = array('primary_id = ?' => $oldData[$row['store_id']]);
                 $writeAdapter->update($this->_aggregateTable, $saveData, $condition);
             } else {
                 $writeAdapter->insert($this->_aggregateTable, $saveData);
@@ -236,7 +239,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
         $toDelete = array_diff(array_keys($oldData), $usedStores);
 
         foreach ($toDelete as $storeId) {
-            $condition = $writeAdapter->quoteInto('primary_id = ?', $oldData[$storeId]);
+            $condition = array('primary_id = ?' => $oldData[$storeId]);
             $writeAdapter->delete($this->_aggregateTable, $condition);
         }
     }
@@ -254,9 +257,9 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
             $adapter = $this->_getReadAdapter();
             $select = $adapter->select();
             $select->from($this->_ratingOptionTable)
-                ->where('option_id = ?', $optionId);
+                ->where('option_id = :option_id');
 
-            $data = $adapter->fetchRow($select);
+            $data = $adapter->fetchRow($select, array(':option_id' => $optionId));
 
             $this->_optionData = $data;
             $this->_optionId = $optionId;

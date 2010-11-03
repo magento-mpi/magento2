@@ -172,25 +172,26 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
                     'sum'         => $sumCond,
                     'count'       => $countCond
                 ))
-            ->join(array('review_store'        => $this->getTable('review/review_store')),
-                $adapter->quoteInto(
-                    'rating_option_vote.review_id=review_store.review_id AND review_store.store_id = ?',
-                    (int) $storeId),
+            ->join(
+                array('review_store' => $this->getTable('review/review_store')),
+                'rating_option_vote.review_id=review_store.review_id AND review_store.store_id = :store_id',
                 array())
-            ->join(array('rst'                 => $this->getTable('rating/rating_store')),
-                $adapter->quoteInto(
-                    'rst.rating_id = rating_option_vote.rating_id AND rst.store_id = ?',
-                    (int) $storeId),
+            ->join(
+                array('rst' => $this->getTable('rating/rating_store')),
+                'rst.rating_id = rating_option_vote.rating_id AND rst.store_id = :rst_store_id',
                 array())
             ->join(array('review'              => $this->getTable('review/review')),
                 'review_store.review_id=review.review_id AND review.status_id=1',
                 array())
             ->where($inCond)
-            ->where('rating_option_vote.entity_pk_value=?', $entityPkValue)
-            ->group('rating_option_vote.rating_id')
-        ;
-
-        $data = $this->getConnection()->fetchAll($select);
+            ->where('rating_option_vote.entity_pk_value=:pk_value')
+            ->group('rating_option_vote.rating_id');
+        $bind = array(
+            ':store_id' => (int)$storeId,
+            ':rst_store_id' => (int)$storeId,
+            ':pk_value'     => $entityPkValue
+        );
+        $data = $this->getConnection()->fetchAll($select, $bind);
 
         foreach ($data as $item) {
             $rating = $this->getItemById($item['rating_id']);
@@ -210,7 +211,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
     public function addRatingPerStoreName($storeId)
     {
         $adapter = $this->getConnection();
-        $ratingCodeCond = $adapter->getCheckSql('title.value IS NULL', 'main_table.rating_code', 'title.value');
+        $ratingCodeCond = $adapter->getIfNullSql('title.value', 'main_table.rating_code');
         $this->getSelect()
             ->joinLeft(array('title' => $this->getTable('rating_title')),
                 $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?', (int) $storeId),
