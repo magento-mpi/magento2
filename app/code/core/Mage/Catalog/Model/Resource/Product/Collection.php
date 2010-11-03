@@ -1501,6 +1501,9 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 array('store_visibility' => 'visibility')
             );
         }
+        // Avoid column duplication problems
+        Mage::getResourceHelper('core')->prepareColumnsList($this->getSelect());
+
         $whereCond = join(' OR ', array(
             $this->getConnection()->quoteInto('cat_index.visibility IN(?)', $filters['visibility']),
             $this->getConnection()->quoteInto('store_cat_index.visibility IN(?)', $filters['visibility'])
