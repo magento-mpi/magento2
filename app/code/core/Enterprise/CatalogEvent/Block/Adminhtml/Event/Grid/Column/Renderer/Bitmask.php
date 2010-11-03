@@ -39,7 +39,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid_Column_Renderer_Bitmask
     {
         $value = (int) $row->getData($this->getColumn()->getIndex());
         $result = array();
-        foreach ($this->getColumn()->getOptions() as $option=>$label) {
+        foreach ($this->getColumn()->getOptions() as $option => $label) {
             if (($value & $option) == $option) {
                 $result[] = $label;
             }

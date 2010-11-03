@@ -81,7 +81,9 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
             return $this;
         }
         if ($field == 'status') {
-            $this->getSelect()->where($this->_getConditionSql($this->_getStatusColumnExpr(), $condition));
+            $this->getSelect()->where(
+                $this->_getConditionSql($this->_getStatusColumnExpr(), $condition)
+            );
             return $this;
         }
         parent::addFieldToFilter($field, $condition);
@@ -160,22 +162,15 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
     public function addSortByStatus()
     {
         $adapter = $this->getConnection();
+        $columnExpr = $adapter->quoteInto($this->_getStatusColumnExpr() . ' = ?',
+            Enterprise_CatalogEvent_Model_Event::STATUS_OPEN);
+
         $this->getSelect()
             ->order(array(
-                $adapter->getCheckSql(
-                    $adapter->quoteInto(
-                        $this->_getStatusColumnExpr() . ' = ?', 
-                        Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
-                    ), 0, 1
-                ) . ' ASC',
-                $adapter->getCheckSql(
-                    $adapter->quoteInto(
-                        $this->_getStatusColumnExpr() . ' = ?', 
-                        Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
-                    ), 'main_table.date_end', 'main_table.date_start'
-                ) . ' ASC',
-                'main_table.sort_order ASC'
-        ));
+                $adapter->getCheckSql($columnExpr, 0, 1) . ' ASC',
+                $adapter->getCheckSql($columnExpr, 'main_table.date_end', 'main_table.date_start') . ' ASC',
+                'main_table.sort_order ASC')
+            );
 
         return $this;
     }

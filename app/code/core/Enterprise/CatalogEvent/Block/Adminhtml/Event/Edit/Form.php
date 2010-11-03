@@ -66,11 +66,11 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
     {
         $form = new Varien_Data_Form(
             array(
-                'id'     => 'edit_form',
-                'action' => $this->getActionUrl(),
-                'method' => 'post',
+                'id'      => 'edit_form',
+                'action'  => $this->getActionUrl(),
+                'method'  => 'post',
                 'field_name_suffix' => 'catalogevent',
-                'enctype'=> 'multipart/form-data'
+                'enctype' => 'multipart/form-data'
             )
         );
 

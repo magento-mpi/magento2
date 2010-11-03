@@ -374,7 +374,7 @@ class Enterprise_CatalogEvent_Model_Observer
 
              if (!empty($eventIds)) {
                  $collection = $this->_getEventCollection();
-                 $collection->addFieldToFilter('event_id', array('in'=>$eventIds));
+                 $collection->addFieldToFilter('event_id', array('in' => $eventIds));
                  foreach ($collection as $event) {
                      foreach ($quote->getItemsCollection()->getItemsByColumnValue(
                                   'event_id', $event->getId()

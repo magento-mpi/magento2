@@ -66,10 +66,10 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
     {
 
         $this->addColumn('event_id', array(
-            'header'=> Mage::helper('enterprise_catalogevent')->__('ID'),
-            'width' => '80px',
-            'type'  => 'text',
-            'index' => 'event_id'
+            'header' => Mage::helper('enterprise_catalogevent')->__('ID'),
+            'width'  => '80px',
+            'type'   => 'text',
+            'index'  => 'event_id'
         ));
 
         $this->addColumn('category_id', array(

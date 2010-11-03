@@ -138,7 +138,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
     }
 
     /**
-     * Method for building relates beetwean child and parent node
+     * Method for building relates between child and parent node
      *
      * @return Enterprise_CatalogEvent_Model_Resource_Event
      */
@@ -149,8 +149,8 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
                 $category = explode('/', $row['path']);
                 $amount = count($category);
                 if ($amount > 2) {
-                    $key = $category[$amount-1];
-                    $val = $category[$amount-2];
+                    $key = $category[$amount - 1];
+                    $val = $category[$amount - 2];
                     if (empty($this->_childToParentList[$key])) {
                         $this->_childToParentList[$key] = $val;
                     }
@@ -202,8 +202,8 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
             'store_id = ?' => $object->getStoreId()
         );
 
-        $this->_getWriteAdapter()
-            ->delete($this->getTable('event_image'), $where);
+        $write = $this->_getWriteAdapter();
+        $write->delete($this->getTable('event_image'), $where);
 
         if ($object->getImage() !== null) {
             $data = array(
@@ -212,10 +212,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
                     'image'    => $object->getImage()
             );
 
-            $this->_getWriteAdapter()->insert(
-                $this->getTable('event_image'), 
-                $data
-            );
+            $write->insert($this->getTable('event_image'), $data);
         }
         return parent::_afterSave($object);
     }
