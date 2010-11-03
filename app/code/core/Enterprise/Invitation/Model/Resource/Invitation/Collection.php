@@ -62,7 +62,8 @@ class Enterprise_Invitation_Model_Resource_Invitation_Collection extends Mage_Co
      */
     protected function _initSelect()
     {
-        $this->getSelect()->from(array('main_table' => $this->getResource()->getMainTable()),
+        $this->getSelect()->from(
+            array('main_table' => $this->getResource()->getMainTable()),
             array('*', 'invitation_email' => 'email', 'invitee_group_id' => 'group_id')
         );
         return $this;
@@ -115,7 +116,8 @@ class Enterprise_Invitation_Model_Resource_Invitation_Collection extends Mage_Co
      */
     public function addInviteeInformation()
     {
-        $this->getSelect()->joinLeft(array('c' => $this->getTable('customer/entity')),
+        $this->getSelect()->joinLeft(
+            array('c' => $this->getTable('customer/entity')),
             'main_table.referral_id = c.entity_id', array('invitee_email' => 'c.email')
         );
         return $this;

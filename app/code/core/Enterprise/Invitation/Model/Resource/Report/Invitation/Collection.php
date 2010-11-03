@@ -55,7 +55,7 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Collection
         $canceledRate = $this->getConnection()->getCheckSql(
             'COUNT(main_table.invitation_id) = 0',
             '0',
-            'SUM(' . $canceledField .') / COUNT(main_table.invitation_id) * 100'
+            'SUM(' . $canceledField . ') / COUNT(main_table.invitation_id) * 100'
         );
 
         $acceptedRate = $this->getConnection()->getCheckSql(
@@ -64,13 +64,13 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Collection
             'COUNT(DISTINCT main_table.referral_id) / COUNT(main_table.invitation_id) * 100'
         );
 
-        $this->addFieldToFilter('invitation_date', array('from' => $from, 'to' => $to, 'time'=>true))
+        $this->addFieldToFilter('invitation_date', array('from' => $from, 'to' => $to, 'time' => true))
             ->getSelect()
             ->reset(Zend_Db_Select::COLUMNS)
             ->columns(array(
                 'sent' => new Zend_Db_Expr('COUNT(main_table.invitation_id)'),
                 'accepted' => new Zend_Db_Expr('COUNT(DISTINCT main_table.referral_id)'),
-                'canceled' => new Zend_Db_Expr('SUM(' . $canceledField .') '),
+                'canceled' => new Zend_Db_Expr('SUM(' . $canceledField . ') '),
                 'canceled_rate' => $canceledRate,
                 'accepted_rate' => $acceptedRate
             ));

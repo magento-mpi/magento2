@@ -46,7 +46,7 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
     {
         $this->_reset();
         $this->getSelect()
-            ->join(array('invitation'=>$this->getTable('enterprise_invitation/invitation')),
+            ->join(array('invitation' => $this->getTable('enterprise_invitation/invitation')),
                 'invitation.customer_id = e.entity_id',
                 array(
                     'sent' => new Zend_Db_Expr('COUNT(invitation.invitation_id)'),
@@ -54,11 +54,11 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
                 )
             )->group('e.entity_id');
 
-        $this->_joinFields['invitation_store_id'] = array('table'=>'invitation', 'field' => 'store_id');
-        $this->_joinFields['invitation_date'] = array('table'=>'invitation', 'field' => 'invitation_date');
+        $this->_joinFields['invitation_store_id'] = array('table' =>'invitation', 'field' => 'store_id');
+        $this->_joinFields['invitation_date'] = array('table' => 'invitation', 'field' => 'invitation_date');
 
         // Filter by date range
-        $this->addFieldToFilter('invitation_date', array('from' => $from, 'to' => $to, 'time'=>true));
+        $this->addFieldToFilter('invitation_date', array('from' => $from, 'to' => $to, 'time' => true));
 
         // Add customer name
         $this->addNameToSelect();
