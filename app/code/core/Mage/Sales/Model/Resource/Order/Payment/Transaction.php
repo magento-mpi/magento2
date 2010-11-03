@@ -103,7 +103,7 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
         $txnId)
     {
         $select = $this->_getLoadByUniqueKeySelect($orderId, $paymentId, $txnId);
-        $data = $this->_getWriteAdapter()->fetchRow($select);
+        $data   = $this->_getWriteAdapter()->fetchRow($select);
         $transaction->setData($data);
         $this->unserializeFields($transaction);
         $this->_afterLoad($transaction);
@@ -118,11 +118,12 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
     public function getOrderWebsiteId($orderId)
     {
         $adapter = $this->_getReadAdapter();
+        $bind    = array(':entity_id' => $orderId);
         $select  = $adapter->select()
             ->from(array('so' => $this->getTable('sales/order')), 'cs.website_id')
             ->joinInner(array('cs' => $this->getTable('core/store')), 'cs.store_id = so.store_id')
-            ->where('so.entity_id = ?', $orderId);
-        return $adapter->fetchOne($select);
+            ->where('so.entity_id = :entity_id');
+        return $adapter->fetchOne($select, $bind);
     }
 
     /**

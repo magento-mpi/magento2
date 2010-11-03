@@ -102,12 +102,12 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 $select->getPart(Zend_Db_Select::GROUP));
 
             $columns = array(
-                'period'                         => $periodExpr,
-                'store_id'                       => 'source_table.store_id',
-                'product_id'                     => 'order_item.product_id',
-                'product_name'                   => "MIN({$ifnullProductNameValue})",
-                'product_price'                  => "{$minProductPriceValue} * {$minSourcetableToGlobalRate}",
-                'qty_ordered'                    => 'SUM(order_item.qty_ordered)',
+                'period'                 => $periodExpr,
+                'store_id'               => 'source_table.store_id',
+                'product_id'             => 'order_item.product_id',
+                'product_name'           => new Zend_Db_expr("MIN({$ifnullProductNameValue})"),
+                'product_price'          => new Zend_Db_expr("{$minProductPriceValue} * {$minSourcetableToGlobalRate}"),
+                'qty_ordered'            => new Zend_Db_expr('SUM(order_item.qty_ordered)'),
             );
 
             $select->from(array('source_table' => $this->getTable('sales/order')), $columns)
@@ -209,9 +209,9 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 'period'                         => 'period',
                 'store_id'                       => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'product_id'                     => 'product_id',
-                'product_name'                   => 'MIN(product_name)',
-                'product_price'                  => 'MIN(product_price)',
-                'qty_ordered'                    => 'SUM(qty_ordered)',
+                'product_name'                   => new Zend_Db_expr('MIN(product_name)'),
+                'product_price'                  => new Zend_Db_expr('MIN(product_price)'),
+                'qty_ordered'                    => new Zend_Db_expr('SUM(qty_ordered)'),
             );
 
             $select->reset();

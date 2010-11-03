@@ -63,12 +63,14 @@ class Mage_Sales_Model_Resource_Recurring_Profile extends Mage_Sales_Model_Resou
     public function getChildOrderIds($object)
     {
         $adapter = $this->_getReadAdapter();
+        $bind    = array(':profile_id' => $object->getId());
         $select  = $adapter->select()
             ->from(
                 array('main_table' => $this->getTable('sales/recurring_profile_order')),
                 array('order_id'))
-            ->where('profile_id=?', $object->getId());
-        return $adapter->fetchCol($select);
+            ->where('profile_id=:profile_id');
+
+        return $adapter->fetchCol($select, $bind);
     }
 
     /**

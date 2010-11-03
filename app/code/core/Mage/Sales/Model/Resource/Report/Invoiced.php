@@ -100,12 +100,15 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'period'                => $periodExpr,
                 'store_id'              => 'order_table.store_id',
                 'order_status'          => 'order_table.status',
-                'orders_count'          => 'COUNT(order_table.entity_id)',
-                'orders_invoiced'       => 'COUNT(order_table.entity_id)',
-                'invoiced'              => 'SUM(order_table.base_total_invoiced * order_table.base_to_global_rate)',
-                'invoiced_captured'     => 'SUM(order_table.base_total_paid * order_table.base_to_global_rate)',
-                'invoiced_not_captured' => 'SUM((order_table.base_total_invoiced - order_table.base_total_paid)'
-                    . ' * order_table.base_to_global_rate)'
+                'orders_count'          => new Zend_Db_expr('COUNT(order_table.entity_id)'),
+                'orders_invoiced'       => new Zend_Db_expr('COUNT(order_table.entity_id)'),
+                'invoiced'              => new Zend_Db_expr('SUM(order_table.base_total_invoiced'
+                    . ' * order_table.base_to_global_rate)'),
+                'invoiced_captured'     => new Zend_Db_expr('SUM(order_table.base_total_paid'
+                    . ' * order_table.base_to_global_rate)'),
+                'invoiced_not_captured' => new Zend_Db_expr(
+                    'SUM((order_table.base_total_invoiced - order_table.base_total_paid)'
+                    . ' * order_table.base_to_global_rate)')
             );
 
             $select = $adapter->select();
@@ -144,11 +147,11 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'period'                => 'period',
                 'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
-                'orders_count'          => 'SUM(orders_count)',
-                'orders_invoiced'       => 'SUM(orders_invoiced)',
-                'invoiced'              => 'SUM(invoiced)',
-                'invoiced_captured'     => 'SUM(invoiced_captured)',
-                'invoiced_not_captured' => 'SUM(invoiced_not_captured)'
+                'orders_count'          => new Zend_Db_expr('SUM(orders_count)'),
+                'orders_invoiced'       => new Zend_Db_expr('SUM(orders_invoiced)'),
+                'invoiced'              => new Zend_Db_expr('SUM(invoiced)'),
+                'invoiced_captured'     => new Zend_Db_expr('SUM(invoiced_captured)'),
+                'invoiced_not_captured' => new Zend_Db_expr('SUM(invoiced_not_captured)')
             );
 
             $select
@@ -207,11 +210,12 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'period'                => $periodExpr,
                 'store_id'              => 'store_id',
                 'order_status'          => 'status',
-                'orders_count'          => 'COUNT(base_total_invoiced)',
-                'orders_invoiced'       => "SUM({$ifBaseTotalInvoiced})",
-                'invoiced'              => 'SUM(base_total_invoiced * base_to_global_rate)',
-                'invoiced_captured'     => 'SUM(base_total_paid * base_to_global_rate)',
-                'invoiced_not_captured' => 'SUM((base_total_invoiced - base_total_paid) * base_to_global_rate)'
+                'orders_count'          => new Zend_Db_expr('COUNT(base_total_invoiced)'),
+                'orders_invoiced'       => new Zend_Db_expr("SUM({$ifBaseTotalInvoiced})"),
+                'invoiced'              => new Zend_Db_expr('SUM(base_total_invoiced * base_to_global_rate)'),
+                'invoiced_captured'     => new Zend_Db_expr('SUM(base_total_paid * base_to_global_rate)'),
+                'invoiced_not_captured' => new Zend_Db_expr('SUM((base_total_invoiced - base_total_paid)'
+                    . ' * base_to_global_rate)')
             );
 
             $select = $adapter->select();
@@ -239,11 +243,11 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
                 'period'                => 'period',
                 'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
-                'orders_count'          => 'SUM(orders_count)',
-                'orders_invoiced'       => 'SUM(orders_invoiced)',
-                'invoiced'              => 'SUM(invoiced)',
-                'invoiced_captured'     => 'SUM(invoiced_captured)',
-                'invoiced_not_captured' => 'SUM(invoiced_not_captured)'
+                'orders_count'          => new Zend_Db_expr('SUM(orders_count)'),
+                'orders_invoiced'       => new Zend_Db_expr('SUM(orders_invoiced)'),
+                'invoiced'              => new Zend_Db_expr('SUM(invoiced)'),
+                'invoiced_captured'     => new Zend_Db_expr('SUM(invoiced_captured)'),
+                'invoiced_not_captured' => new Zend_Db_expr('SUM(invoiced_not_captured)')
             );
 
             $select->from($table, $columns)

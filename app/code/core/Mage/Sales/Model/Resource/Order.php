@@ -145,9 +145,10 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
     public function getIncrementId($orderId)
     {
         $adapter = $this->getReadConnection();
+        $bind    = array(':entity_id' => $orderId);
         $select  = $adapter->select()
             ->from($this->getMainTable(), array("increment_id"))
-            ->where('entity_id = ?', $orderId);
-        return $adapter->fetchOne($select);
+            ->where('entity_id = :entity_id');
+        return $adapter->fetchOne($select, $bind);
     }
 }

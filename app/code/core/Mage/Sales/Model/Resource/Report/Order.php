@@ -128,8 +128,8 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
             $qtyCanceledExpr = $adapter->getIfNullSql('qty_canceled', 0);
             $cols            = array(
                 'order_id'           => 'order_id',
-                'total_qty_ordered'  => "SUM(qty_ordered - {$qtyCanceledExpr})",
-                'total_qty_invoiced' => 'SUM(qty_invoiced)',
+                'total_qty_ordered'  => new Zend_Db_expr("SUM(qty_ordered - {$qtyCanceledExpr})"),
+                'total_qty_invoiced' => new Zend_Db_expr('SUM(qty_invoiced)'),
             );
             $selectOrderItem->from($this->getTable('sales/order_item'), $cols)
                 ->group('order_id');
@@ -154,7 +154,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
 
             // setup all columns to select SUM() except period, store_id and order_status
             foreach ($columns as $k => $v) {
-                $columns[$k] = 'SUM(' . $k . ')';
+                $columns[$k] = new Zend_Db_expr('SUM(' . $k . ')');
             }
             $columns['period']         = 'period';
             $columns['store_id']       = new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID);

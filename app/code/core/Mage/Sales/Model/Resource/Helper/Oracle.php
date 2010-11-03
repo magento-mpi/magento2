@@ -61,9 +61,9 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
             'period'            => 't.period',
             'store_id'          => 't.store_id',
             'product_id'        => 't.product_id',
-            'product_name'      => 'MAX(t.product_name)',
-            'product_price'     => 'MAX(t.product_price)',
-            'total_qty_ordered' => 'SUM(t.qty_ordered)'
+            'product_name'      => new Zend_Db_expr('MAX(t.product_name)'),
+            'product_price'     => new Zend_Db_expr('MAX(t.product_price)'),
+            'total_qty_ordered' => new Zend_Db_expr('SUM(t.qty_ordered)')
         );
 
         $periodSubSelect->from(array('t' => $mainTable), $cols)
