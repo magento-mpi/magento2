@@ -44,7 +44,7 @@ class Mage_Reports_Model_Resource_Product_Index_Viewed extends Mage_Reports_Mode
     }
 
     /**
-     * 
+     *
      * Get unique columns
      * @return array
      */
@@ -52,4 +52,47 @@ class Mage_Reports_Model_Resource_Product_Index_Viewed extends Mage_Reports_Mode
     {
         return array(array('visitor_id', 'product_id'), array('customer_id', 'product_id'));
     }
+
+
+    public function save(Mage_Core_Model_Abstract  $object)
+    {
+        if ($object->isDeleted()) {
+            return $this->delete($object);
+        }
+
+        $this->_serializeFields($object);
+        $this->_beforeSave($object);
+        $this->_checkUnique($object);
+
+
+        $data = $this->_prepareDataForSave($object);
+        unset($data[$this->getIdFieldName()]);
+
+        $checkSelect = $this->_getWriteAdapter()->select();
+        $checkSelect->from(array('main_table' => $this->getMainTable()))
+            ->where('main_table.product_id = ?' , $object->getProductId());
+        $updateData = $data;
+        unset($updateData['product_id']);
+
+        if (!$object->getCustomerId()) {
+            $checkSelect->where('main_table.visitor_id = ?', $object->getVisitorId());
+        } else {
+            $checkSelect->where('main_table.customer_id=? OR main_table.customer_id IS NULL', $object->getCustomerId());
+        }
+
+        $checkSelect->where( 'main_table.' .  $this->getIdFieldName() . ' = ' . $this->getIdFieldName());
+
+        $updateCondition = ' EXISTS(' . $checkSelect . ') ';
+        $affectedRows = $this->_getWriteAdapter()->update($this->getMainTable(), $updateData, $updateCondition);
+        if (!$affectedRows) {
+            $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
+        }
+
+        $this->unserializeFields($object);
+        $this->_afterSave($object);
+
+        return $this;
+    }
+
+
 }
