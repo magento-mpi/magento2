@@ -25,5 +25,18 @@
  */
 ?>
 
-<p><?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?></p><br>
-<?php echo $this->getCardsInfoBlock(); ?>
+<?php
+    $cards = $this->getCards();
+    $showCount = count($cards) > 1;
+?>
+
+<?php foreach ($cards as $key => $card): ?>
+    <?php if ($showCount): ?>
+       <?php echo sprintf($this->__('Credit Card %s'), $key + 1); ?>
+       {{pdf_row_separator}}
+    <?php endif;?>
+
+    <?php foreach ($card as $info):?>
+        <?php echo $info['label']; ?>: <?php echo $info['value']; ?> {{pdf_row_separator}}
+     <?php endforeach; ?>
+<?php endforeach; ?>

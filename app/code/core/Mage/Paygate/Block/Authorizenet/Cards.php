@@ -36,6 +36,17 @@ class Mage_Paygate_Block_Authorizenet_Cards extends Mage_Payment_Block_Form
     }
 
     /**
+     * Render as PDF
+     *
+     * @return string
+     */
+    public function toPdf()
+    {
+        $this->setTemplate('paygate/info/pdf.phtml');
+        return $this->toHtml();
+    }
+
+    /**
      * Retrieve credit card type name
      *
      * @param string $ccType
