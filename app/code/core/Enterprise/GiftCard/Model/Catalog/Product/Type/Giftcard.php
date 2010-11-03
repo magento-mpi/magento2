@@ -274,4 +274,22 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
         $this->getProduct($product)->setTypeHasRequiredOptions(true);
         return $this;
     }
+
+    /**
+     * Prepare selected options for giftcard
+     *
+     * @param  Mage_Catalog_Model_Product $product
+     * @param  Varien_Object $buyRequest
+     * @return array
+     */
+    public function processBuyRequest($product, $buyRequest)
+    {
+        $options = array(
+            'giftcard_sender_name'      => $buyRequest->getGiftcardSenderName(),
+            'giftcard_recipient_name'   => $buyRequest->getGiftcardRecipientName(),
+            'giftcard_message'          => $buyRequest->getGiftcardMessage()
+        );
+
+        return $options;
+    }
 }
