@@ -85,7 +85,7 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_CatalogIndex_Model_Resource
         if ($result['items'] != '') {
             $this->_getWriteAdapter()->delete(
                 $this->getTable('sales/quote_item'),
-                array('parent_item_id IN(?)'=>$result['items'])
+                array('parent_item_id IN(?)' => $result['items'])
             );
         }
     }

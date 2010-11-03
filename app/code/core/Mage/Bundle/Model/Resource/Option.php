@@ -58,14 +58,15 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
             'store_id = ? OR store_id = 0' => $object->getStoreId()
         );
 
-        $this->_getWriteAdapter()->delete($this->getTable('bundle/option_value'), $condition);
+        $write = $this->_getWriteAdapter();
+        $write->delete($this->getTable('bundle/option_value'), $condition);
 
         $data = new Varien_Object();
         $data->setOptionId($object->getId())
             ->setStoreId($object->getStoreId())
             ->setTitle($object->getTitle());
 
-        $this->_getWriteAdapter()->insert($this->getTable('bundle/option_value'), $data->getData());
+        $write->insert($this->getTable('bundle/option_value'), $data->getData());
 
         /**
          * also saving default value if this store view scope
@@ -74,7 +75,7 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
         if ($object->getStoreId()) {
             $data->setStoreId(0);
             $data->setTitle($object->getDefaultTitle());
-            $this->_getWriteAdapter()->insert($this->getTable('bundle/option_value'), $data->getData());
+            $write->insert($this->getTable('bundle/option_value'), $data->getData());
         }
 
         return $this;
@@ -117,20 +118,20 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
             'store_id'   => $storeId,
             'product_id' => $productId
         );
-        $select = $this->_getReadAdapter()->select()
+        $select = $adapter->select()
             ->from(array('opt' => $this->getMainTable()), array())
             ->join(
                 array('option_title_default' => $this->getTable('bundle/option_value')),
-                'option_title_default.option_id=opt.option_id AND option_title_default.store_id=0',
+                'option_title_default.option_id = opt.option_id AND option_title_default.store_id = 0',
                 array()
             )
             ->joinLeft(
                 array('option_title_store' => $this->getTable('bundle/option_value')),
-                'option_title_store.option_id=opt.option_id AND option_title_store.store_id=:store_id',
+                'option_title_store.option_id = opt.option_id AND option_title_store.store_id = :store_id',
                 array('title' => $title)
             )
             ->where('opt.parent_id=:product_id');
-        if (!$searchData = $this->_getReadAdapter()->fetchCol($select, $bind)) {
+        if (!$searchData = $adapter->fetchCol($select, $bind)) {
             $searchData = array();
         }
         return $searchData;

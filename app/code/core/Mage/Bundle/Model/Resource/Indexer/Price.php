@@ -175,7 +175,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         } else {
             $taxClassId = new Zend_Db_Expr('0');
         }
-        $select->columns(array('tax_class_id' => $write->getCheckSql($taxClassId.' IS NOT NULL', $taxClassId, 0)));
+        $select->columns(array('tax_class_id' => $write->getCheckSql($taxClassId . ' IS NOT NULL', $taxClassId, 0)));
 
         $priceTypeCond = $write->quoteInto('=?', $priceType);
         $this->_addAttributeToSelect($select, 'price_type', 'e.entity_id', 'cs.store_id', $priceTypeCond);
@@ -437,7 +437,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
             ->where('i.price_type=?', $priceType)
             ->columns(array(
                 'group_type'    => $write->getCheckSql(
-                    $write->quoteInto('bo.type = ? OR ', 'select') . $write->quoteInto('bo.type = ?', 'radio'),
+                    "bo.type = 'select' OR bo.type = 'radio'",
                     '0',
                     '1'
                 ),

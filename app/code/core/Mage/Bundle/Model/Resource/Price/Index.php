@@ -138,8 +138,8 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         $priceTypeAlias = 't_' . $priceType->getAttributeCode();
         $joinConds = array(
             $priceTypeAlias . '.attribute_id=:attribute_id',
-            $priceTypeAlias.'.store_id=0',
-            $priceTypeAlias.'.entity_id=e.entity_id'
+            $priceTypeAlias . '.store_id=0',
+            $priceTypeAlias . '.entity_id=e.entity_id'
         );
 
         $select->joinLeft(
@@ -268,8 +268,9 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      */
     public function getSelections($productId)
     {
-        $options    = array();
-        $select = $this->_getReadAdapter()->select()
+        $options = array();
+        $read = $this->_getReadAdapter();
+        $select = $read->select()
             ->from(
                 array('option_table' => $this->getTable('bundle/option')),
                 array('option_id', 'required', 'type')
@@ -286,7 +287,8 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
                 array()
             )
             ->where('option_table.parent_id=:product_id');
-        $query = $this->_getReadAdapter()->query($select, array('product_id' => $productId));
+
+        $query = $read->query($select, array('product_id' => $productId));
         while ($row = $query->fetch()) {
             if (!isset($options[$row['option_id']])) {
                 $options[$row['option_id']] = array(
@@ -318,8 +320,9 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      */
     public function getProductsSalableStatus($products, Mage_Core_Model_Website $website)
     {
+        $read = $this->_getReadAdapter();
         $productsData = array();
-        $select = $this->_getReadAdapter()->select()
+        $select = $read->select()
             ->from(array('e' => $this->getTable('catalog/product')), 'entity_id')
             ->where('e.entity_id IN(?)', $products);
         // add belong to website
@@ -343,7 +346,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
             );
         } else {
 
-            $statusField = $this->_getReadAdapter()->getCheckSql(
+            $statusField = $read->getCheckSql(
                 't2_status.value_id > 0',
                 't2_status.value',
                 't1_status.value'
@@ -378,7 +381,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
             'bind'      => $bind
         ));
 
-        $query = $this->_getReadAdapter()->query($select, $bind);
+        $query = $read->query($select, $bind);
         while ($row = $query->fetch()) {
             $salable = isset($row['salable']) ? $row['salable'] : true;
             $website = $row['website_id'] > 0 ? true : false;
@@ -400,16 +403,17 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
     public function getProductsPriceFromIndex($productIds)
     {
         $price  = $this->_getAttribute('price');
-        $key = $this->_getReadAdapter()->getConcatSql(array('entity_id', 'customer_group_id', 'website_id'), '-');
+        $read = $this->_getReadAdapter();
+        $key = $read->getConcatSql(array('entity_id', 'customer_group_id', 'website_id'), '-');
 
-        $select = $this->_getReadAdapter()->select()
+        $select = $read->select()
             ->from(
                 array('price_index' => $this->getTable('catalogindex/price')),
                 array('index_key' => $key, 'value')
             )
             ->where('entity_id IN(?)', $productIds)
             ->where('attribute_id= :attribute_id');
-        $index = $this->_getReadAdapter()->fetchPairs($select, array('attribute_id' => $price->getAttributeId()));
+        $index = $read->fetchPairs($select, array('attribute_id' => $price->getAttributeId()));
         return $index;
     }
 
@@ -423,7 +427,8 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
     public function getProductsPriceData($products, Mage_Core_Model_Website $website)
     {
         $productsData = array();
-        $select = $this->_getReadAdapter()->select()
+        $read = $this->_getReadAdapter();
+        $select = $read->select()
             ->from(array('e' => $this->getTable('catalog/product')), 'entity_id')
             ->where('e.entity_id IN(?)', $products);
 
@@ -432,7 +437,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         $this->_addAttributeDataToSelect($select, 'special_from_date', $website);
         $this->_addAttributeDataToSelect($select, 'special_to_date', $website);
 
-        $query = $this->_getReadAdapter()->query($select);
+        $query = $read->query($select);
         while ($row = $query->fetch()) {
             $productsData[$row['entity_id']] = array(
                 'price'             => $row['price'],
@@ -462,9 +467,9 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
             $table = 't_' . $attribute->getAttributeCode();
             $select->joinLeft(
                 array($table => $attribute->getBackend()->getTable()),
-                'e.entity_id='.$table.'.entity_id'
-                . ' AND '.$table.'.attribute_id=' . $attribute->getAttributeId()
-                . ' AND '.$table.'.store_id=0',
+                "e.entity_id={$table}.entity_id"
+                . " AND {$table}.attribute_id={$attribute->getAttributeId()}"
+                . " AND {$table}.store_id=0",
                 array($attribute->getAttributeCode() => $table . '.value')
             );
         } else {
@@ -473,22 +478,22 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
             $tableStore  = 't2_' . $attribute->getAttributeCode();
 
             $attributeCond = $this->getReadConnection()->getCheckSql(
-                $tableStore.'.value_id > 0',
-                $tableStore.'.value',
-                $tableGlobal.'.value'
+                $tableStore . '.value_id > 0',
+                $tableStore . '.value',
+                $tableGlobal . '.value'
             );
             $select->joinLeft(
                 array($tableGlobal => $tableName),
-                'e.entity_id='.$tableGlobal.'.entity_id'
-                . ' AND '.$tableGlobal.'.attribute_id=' . $attribute->getAttributeId()
-                . ' AND '.$tableGlobal.'.store_id=0',
+                "e.entity_id = {$tableGlobal}.entity_id"
+                . " AND {$tableGlobal}.attribute_id = {$attribute->getAttributeId()}"
+                . " AND {$tableGlobal}.store_id = 0",
                 array($attribute->getAttributeCode() => $attributeCond)
             )
             ->joinLeft(
                 array($tableStore => $tableName),
-                $tableGlobal.'.entity_id = '.$tableStore.'.entity_id'
-                . ' AND '.$tableGlobal.'.attribute_id = '.$tableStore.'.attribute_id'
-                . ' AND '.$tableStore.'.store_id=' . $store->getId(),
+                "{$tableGlobal}.entity_id = {$tableStore}.entity_id"
+                . " AND {$tableGlobal}.attribute_id = {$tableStore}.attribute_id"
+                . " AND {$tableStore}.store_id = " . $store->getId(),
                 array()
             );
         }
@@ -539,7 +544,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
             ':store_id'   => $store->getId(),
 
         );
-        $select = $this->getReadConnection()->select()
+        $select = $adapter->select()
             ->from(
                 array('option_table' => $this->getTable('catalog/product_option')),
                 array('option_id', 'is_require', 'type')
@@ -549,8 +554,8 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         if ($price->isScopeGlobal()) {
             $select->join(
                 array('price_table' => $this->getTable('catalog/product_option_price')),
-                'option_table.option_id=price_table.option_id' .
-                ' AND price_table.store_id=0',
+                'option_table.option_id = price_table.option_id' .
+                ' AND price_table.store_id = 0',
                 array('value_id' => 'option_price_id', 'price', 'price_type')
             );
         } else {
@@ -582,13 +587,13 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
                     ))
                 ->joinLeft(
                     array('price_store_table' => $this->getTable('catalog/product_option_price')),
-                    'option_table.option_id=price_store_table.option_id' .
+                    'option_table.option_id = price_store_table.option_id' .
                     ' AND price_store_table.store_id=:store_id',
                     array()
                 );
         }
 
-        $query = $this->_getReadAdapter()->query($select, $bind);
+        $query = $adapter->query($select, $bind);
         while ($row = $query->fetch()) {
             if (!isset($options[$row['option_id']])) {
                 $options[$row['option_id']] = array(
@@ -604,7 +609,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
             );
         }
 
-        $select = $this->getReadConnection()->select()
+        $select = $adapter->select()
             ->from(
                 array('option_table' => $this->getTable('catalog/product_option')),
                 array('option_id', 'is_require', 'type')
@@ -643,7 +648,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
                 );
         }
 
-        $query = $this->_getReadAdapter()->query($select, $bind);
+        $query = $adapter->query($select, $bind);
         while ($row = $query->fetch()) {
             if (!isset($options[$row['option_id']])) {
                 $options[$row['option_id']] = array(
@@ -825,7 +830,8 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
     public function loadPriceIndex($productIds, $websiteId, $groupId)
     {
         $prices = array();
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from(
                 array('pi' => $this->getMainTable()),
                 array('entity_id', 'min_price', 'max_price')
@@ -837,7 +843,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
             'website_id' => $websiteId,
             'group_id'   => $groupId
         );
-        $query = $this->_getReadAdapter()->query($select, $bind);
+        $query = $adapter->query($select, $bind);
         while ($row = $query->fetch()) {
             $prices[$row['entity_id']] = array(
                 'min_price' => $row['min_price'],
