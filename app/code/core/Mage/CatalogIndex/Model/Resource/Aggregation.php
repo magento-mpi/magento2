@@ -126,7 +126,7 @@ class Mage_CatalogIndex_Model_Resource_Aggregation extends Mage_Core_Model_Resou
             'data'      => $data
         ), array('created_at', 'data'));
 
-        $id = $this->_getWriteAdapter()->lastInsertId();
+        $id = $this->_getWriteAdapter()->lastInsertId($this->getMainTable());
 
         $this->_saveTagRelations($id, $tags);
         return $this;

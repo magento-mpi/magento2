@@ -366,7 +366,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
         // insert options to duplicated product
         foreach ($optionsData as $oId => $data) {
             $write->insert($this->getMainTable(), $data);
-            $optionsCond[$oId] = $write->lastInsertId();
+            $optionsCond[$oId] = $write->lastInsertId($this->getMainTable());
         }
 
         // copy options prefs
@@ -378,25 +378,22 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
                 ->from($table, array(new Zend_Db_Expr($newOptionId), 'store_id', 'title'))
                 ->where('option_id = ?', $oldOptionId);
 
-            $insertSelect = $this->_getWriteAdapter()->insertFromSelect(
-                $select, $table,
-                array(
-                    'option_id',
-                    'store_id',
-                    'title'
-                ),
+            $insertSelect = $write->insertFromSelect(
+                $select,
+                $table,
+                array('option_id', 'store_id', 'title'),
                 Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE
             );
-            $this->_getWriteAdapter()->query($insertSelect);
+            $write->query($insertSelect);
 
             // price
             $table = $this->getTable('catalog/product_option_price');
 
-            $select = $this->_getReadAdapter()->select()
+            $select = $read->select()
                 ->from($table, array(new Zend_Db_Expr($newOptionId), 'store_id', 'price', 'price_type'))
                 ->where('option_id = ?', $oldOptionId);
 
-            $insertSelect = $this->_getWriteAdapter()->insertFromSelect(
+            $insertSelect = $write->insertFromSelect(
                 $select, $table,
                 array(
                     'option_id',
@@ -406,7 +403,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
                 ),
                 Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE
             );
-            $this->_getWriteAdapter()->query($insertSelect);
+            $write->query($insertSelect);
 
             $object->getValueInstance()->duplicate($oldOptionId, $newOptionId);
         }

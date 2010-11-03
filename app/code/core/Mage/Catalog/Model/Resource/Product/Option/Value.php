@@ -309,7 +309,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
             $data['option_id'] = $newOptionId;
 
             $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
-            $valueCond[$optionTypeId] = $this->_getWriteAdapter()->lastInsertId();
+            $valueCond[$optionTypeId] = $this->_getWriteAdapter()->lastInsertId($this->getMainTable());
         }
 
         unset($valueData);
@@ -318,31 +318,29 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
             // price
             $priceTable = $this->getTable('catalog/product_option_type_price');
             $columns= array(
-                new Zend_Db_Expr('NULL'),
                 new Zend_Db_Expr($newTypeId),
                 'store_id', 'price', 'price_type'
             );
 
             $select = $this->_getReadAdapter()->select()
-                ->from($priceTable)
+                ->from($priceTable, array())
                 ->where('option_type_id=?', $oldTypeId)
                 ->columns($columns);
-            $insertSelect = $this->_getWriteAdapter()->insertFromSelect($select, $priceTable);
+            $insertSelect = $this->_getWriteAdapter()->insertFromSelect($select, $priceTable, array('option_type_id', 'store_id', 'price', 'price_type'));
             $this->_getWriteAdapter()->query($insertSelect);
 
             // title
             $titleTable = $this->getTable('catalog/product_option_type_title');
             $columns= array(
-                new Zend_Db_Expr('NULL'),
                 new Zend_Db_Expr($newTypeId),
                 'store_id', 'title'
             );
             
             $select = $this->_getReadAdapter()->select()
-                ->from($titleTable)
+                ->from($titleTable, array())
                 ->where('option_type_id=?', $oldTypeId)
                 ->columns($columns);
-            $insertSelect = $this->_getWriteAdapter()->insertFromSelect($select, $titleTable);
+            $insertSelect = $this->_getWriteAdapter()->insertFromSelect($select, $titleTable, array('option_type_id', 'store_id', 'title'));
             $this->_getWriteAdapter()->query($insertSelect);
         }
 
