@@ -96,13 +96,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             ->addAttributeToSelect('price')
             ->addMinimalPrice()
             ->addStoreFilter()
+            ->addAttributeToSelect('gift_message_available')
             ->addOptionsToResult();
-
-        if($this->helper('giftmessage/message')->getIsMessagesAvailable(
-            'main', $this->getQuote(), $this->getStore()
-        )) {
-            $collection->addAttributeToSelect('gift_message_available');
-        }
 
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
         /**
@@ -154,22 +149,19 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             'sortable'  => false,
         ));
 
-        if($this->helper('giftmessage/message')->getIsMessagesAvailable(
-            'items', $this->getQuote(), $this->getStore()
-        )) {
-            $this->addColumn('giftmessage', array(
-                'filter'    => false,
-                'sortable'  => false,
-                'header'    => Mage::helper('sales')->__('Gift'),
-                'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_giftmessage',
-                'field_name'=> 'giftmessage',
-                'inline_css'=> 'checkbox input-text',
-                'align'     => 'center',
-                'index'     => 'entity_id',
-                'values'    => $this->_getGiftmessageSaveModel()->getAllowQuoteItemsProducts(),
-                'width'     => '1',
-            ));
-        }
+        $this->addColumn('giftmessage', array(
+            'filter'    => false,
+            'sortable'  => false,
+            'header'    => Mage::helper('sales')->__('Gift'),
+            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_giftmessage',
+            'field_name'=> 'giftmessage',
+            'inline_css'=> 'checkbox input-text',
+            'align'     => 'center',
+            'index'     => 'entity_id',
+            'values'    => $this->_getGiftmessageSaveModel()->getAllowQuoteItemsProducts(),
+            'width'     => '1',
+        ));
+
 
         $this->addColumn('qty', array(
             'filter'    => false,
