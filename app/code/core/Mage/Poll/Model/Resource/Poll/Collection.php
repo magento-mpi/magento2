@@ -54,8 +54,7 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
     {
         if ($field == 'stores') {
             return $this->addStoresFilter($condition);
-        }
-        else {
+        } else {
             return parent::addFieldToFilter($field, $condition);
         }
     }
@@ -88,6 +87,11 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
         )
         ->where('store_table.store_id in (?)', ($withAdmin ? array(0, $storeId) : $storeId))
         ->group('main_table.poll_id');
+
+        /*
+         * Allow analytic functions usage
+         */
+        $this->_useAnalyticFunction = true;
 
         return $this;
     }
@@ -137,8 +141,8 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
         $pollId = $this->getId();
         $select = $this->getConnection()->select()
             ->from($this->getTable('poll/poll_store'), array('stor_id'))
-            ->where('poll_id = ?', $pollId);
-        $stores = $this->getConnection()->fetchCol($select);
+            ->where('poll_id = :poll_id');
+        $stores = $this->getConnection()->fetchCol($select, array(':poll_id' => $pollId));
         $this->setSelectStores($stores);
 
         return $this;

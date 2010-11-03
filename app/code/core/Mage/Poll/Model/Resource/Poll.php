@@ -73,19 +73,20 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
         }
 
         $select->from(array('main_table'=>$this->getMainTable()), $this->getIdFieldName())
-            ->where('closed = ?', 0)
+            ->where('closed = :is_closed')
             ->orderRand()
             ->limit(1);
-
+        $bind = array(':is_closed' => 0);
         if (($storeId = $object->getStoreFilter())) {
             $select->join(
                 array('store' => $this->getTable('poll/poll_store')),
-                $read->quoteInto('main_table.poll_id=store.poll_id AND store.store_id = ?', $storeId),
+                'main_table.poll_id=store.poll_id AND store.store_id = :store_id',
                 array()
             );
+            $bind[':store_id'] = $storeId;
         }
 
-        return $read->fetchOne($select);
+        return $read->fetchOne($select, $bind);
     }
 
     /**
@@ -99,9 +100,10 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('poll_answer'), 'answer_id')
-            ->where('poll_id=?', $poll->getId())
-            ->where('answer_id=?', $answerId);
-        return $this->_getReadAdapter()->fetchOne($select);
+            ->where('poll_id = :poll_id')
+            ->where('answer_id = :answer_id');
+        $bind = array(':poll_id' => $poll->getId(), ':answer_id' => $answerId);
+        return $this->_getReadAdapter()->fetchOne($select, $bind);
     }
 
     /**
@@ -124,11 +126,13 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
         $select = $this->_getReadAdapter()->select()
             ->distinct()
             ->from($this->getTable('poll_vote'), 'poll_id')
-            ->where('ip_address=?', ip2long($ipAddress));
+            ->where('ip_address = :ip_address');
+        $bind = array(':ip_address' => ip2long($ipAddress));
         if (!empty($pollId)) {
-            $select->where('poll_id=?', $pollId);
+            $select->where('poll_id = :poll_id');
+            $bind[':poll_id'] = $pollId;
         }
-        $result = $this->_getReadAdapter()->fetchCol($select);
+        $result = $this->_getReadAdapter()->fetchCol($select, $bind);
         if (empty($result)) {
             $result = array();
         }
@@ -146,9 +150,9 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
         $read = $this->_getReadAdapter();
         $select = $read->select();
         $select->from($this->getTable('poll_answer'), new Zend_Db_Expr("SUM(votes_count)"))
-            ->where("poll_id = ?", $object->getPollId());
+            ->where('poll_id = :poll_id');
 
-        $count = $read->fetchOne($select);
+        $count = $read->fetchOne($select, array(':poll_id' => $object->getPollId()));
 
         $write = $this->_getWriteAdapter();
         $condition = $write->quoteInto("{$this->getIdFieldName()} = ?", $object->getPollId());
@@ -206,9 +210,11 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function lookupStoreIds($id)
     {
-        return $this->_getReadAdapter()->fetchCol($this->_getReadAdapter()->select()
-            ->from($this->getTable('poll/poll_store'), 'store_id')
-            ->where("{$this->getIdFieldName()} = ?", $id)
+        return $this->_getReadAdapter()->fetchCol(
+            $this->_getReadAdapter()->select()
+                ->from($this->getTable('poll/poll_store'), 'store_id')
+                ->where("{$this->getIdFieldName()} = :id_field"),
+            array(':id_field' => $id)
         );
     }
 }
