@@ -402,7 +402,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $message = Mage::helper('sales')->__('Capturing amount of %s is pending approval on gateway.', $this->_formatPrice($amountToCapture));
                 $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
                 if ($this->getIsFraudDetected()) {
-                    $status = 'fraud';
+                    $status = Mage_Sales_Model_Order::STATUS_FRAUD;
                 }
                 $invoice->setIsPaid(false);
             } else { // normal online capture: invoice is marked as "paid"
@@ -455,6 +455,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $order->addRelatedObject($invoice);
                 $this->setCreatedInvoice($invoice);
             } else {
+                $this->setIsFraudDetected(true);
                 $this->_updateTotals(array('base_amount_paid_online' => $amount));
             }
         }
@@ -464,11 +465,17 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $message = Mage::helper('sales')->__('Capturing amount of %s is pending approval on gateway.', $this->_formatPrice($amount));
             $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
             if ($this->getIsFraudDetected()) {
-                $status = 'fraud';
+                $message = Mage::helper('sales')->__('Order is suspended as its capture amount %s is suspected to be fraudulent.', $this->_formatPrice($amount));
+                $status = Mage_Sales_Model_Order::STATUS_FRAUD;
             }
         } else {
             $message = Mage::helper('sales')->__('Registered notification about captured amount of %s.', $this->_formatPrice($amount));
             $state = Mage_Sales_Model_Order::STATE_PROCESSING;
+            if ($this->getIsFraudDetected()) {
+                $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+                $message = Mage::helper('sales')->__('Order is suspended as its capture amount %s is suspected to be fraudulent.', $this->_formatPrice($amount));
+                $status = Mage_Sales_Model_Order::STATUS_FRAUD;
+            }
             // register capture for an existing invoice
             if ($invoice && Mage_Sales_Model_Order_Invoice::STATE_OPEN == $invoice->getState()) {
                 $invoice->pay();
@@ -937,7 +944,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $message = Mage::helper('sales')->__('Authorizing amount of %s is pending approval on gateway.', $this->_formatPrice($amount));
                 $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
                 if ($this->getIsFraudDetected()) {
-                    $status = 'fraud';
+                    $status = Mage_Sales_Model_Order::STATUS_FRAUD;
                 }
             } else {
                 $message = Mage::helper('sales')->__('Authorized amount of %s.', $this->_formatPrice($amount));

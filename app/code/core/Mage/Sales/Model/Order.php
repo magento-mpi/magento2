@@ -341,6 +341,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     const STATE_PAYMENT_REVIEW  = 'payment_review';
 
     /**
+     * Order statuses
+     */
+    const STATUS_FRAUD  = 'fraud';
+    
+    /**
      * Order flags
      */
     const ACTION_FLAG_CANCEL    = 'cancel';
