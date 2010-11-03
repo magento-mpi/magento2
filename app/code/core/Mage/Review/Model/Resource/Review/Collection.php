@@ -159,8 +159,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
             $this->addFilter('entity',
                 $this->getConnection()->quoteInto('main_table.entity_id=?', $entity),
                 'string');
-        }
-        elseif (is_string($entity)) {
+        } elseif (is_string($entity)) {
             $this->_select->join($this->_reviewEntityTable,
                 'main_table.entity_id='.$this->_reviewEntityTable.'.entity_id',
                 array('entity_code'));
@@ -189,8 +188,7 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
             $this->addFilter('status',
                 $this->getConnection()->quoteInto('main_table.status_id=?', $status),
                 'string');
-        }
-        elseif (is_string($status)) {
+        } elseif (is_string($status)) {
             $this->_select->join($this->_reviewStatusTable,
                 'main_table.status_id='.$this->_reviewStatusTable.'.status_id',
                 array('status_code'));
@@ -241,10 +239,17 @@ class Mage_Review_Model_Resource_Review_Collection extends Mage_Core_Model_Resou
      */
     public function addReviewsTotalCount()
     {
-        $this->_select->joinLeft(array('r' => $this->_reviewTable),
-                'main_table.entity_pk_value = r.entity_pk_value',
-                array('total_reviews' => new Zend_Db_Expr('COUNT(r.review_id)')))
-            ->group('main_table.review_id');
+        $this->_select->joinLeft(
+            array('r' => $this->_reviewTable),
+            'main_table.entity_pk_value = r.entity_pk_value',
+            array('total_reviews' => new Zend_Db_Expr('COUNT(r.review_id)'))
+        )
+        ->group('main_table.review_id');
+
+        /*
+         * Allow analytic functions usage
+         */
+        $this->_useAnalyticFunction = true;
 
         return $this;
     }

@@ -49,9 +49,7 @@ class Mage_Review_Model_Resource_Review_Status_Collection extends Mage_Core_Mode
     {
         $this->_init('review/review_status');
     }
-
-
-
+    
     /**
      * Convert items array to array for select options
      *

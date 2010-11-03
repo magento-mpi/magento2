@@ -325,7 +325,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                 $conditionSql = $this->_getConditionSql($attribute, $condition);
                 $this->getSelect()->where($conditionSql);
                 break;
-           case 'stores':
+            case 'stores':
                 $this->setStoreFilter($condition);
                 break;
             case 'type':
@@ -411,7 +411,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
 
         foreach ($this as $item) {
             if (isset($storesToReviews[$item->getReviewId()])) {
-                $item->setData('stores',$storesToReviews[$item->getReviewId()]);
+                $item->setData('stores', $storesToReviews[$item->getReviewId()]);
             } else {
                 $item->setData('stores', array());
             }
