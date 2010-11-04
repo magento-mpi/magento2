@@ -113,7 +113,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @var float
      */
-    protected $_logQueryTime        = 0.01;
+    protected $_logQueryTime        = 0.05;
 
     /**
      * Log all queries (ignored minimum query duration time)
@@ -232,7 +232,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             parent::beginTransaction();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'BEGIN');
         }
-        $this->_transactionLevel ++;
+        ++$this->_transactionLevel;
+
         return $this;
     }
 
@@ -248,7 +249,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             parent::commit();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'COMMIT');
         }
-        $this->_transactionLevel --;
+        --$this->_transactionLevel;
+
         return $this;
     }
 
@@ -264,7 +266,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             parent::rollBack();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'ROLLBACK');
         }
-        $this->_transactionLevel --;
+        --$this->_transactionLevel;
+
         return $this;
     }
 
@@ -286,6 +289,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->_debugException($e);
         }
         $this->_debugStat(self::DEBUG_QUERY, $sql, $bind, $result);
+
         return $result;
     }
 
@@ -299,11 +303,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function newTable($tableName = null, $schemaName = null)
     {
         $table = new Varien_Db_Ddl_Table();
-
-        if (!is_null($tableName)) {
+        if ($tableName !== null) {
             $table->setName($tableName);
         }
-        if (!is_null($schemaName)) {
+        if ($schemaName !== null) {
             $table->setSchema($schemaName);
         }
         return $table;
@@ -328,8 +331,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->dropForeignKey($tableName, $foreignKey['FK_NAME'], $schemaName);
         }
 
-        $query = sprintf('DROP TABLE %s',
-            $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)));
+        $query = 'DROP TABLE ' . $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
         $this->query($query);
 
         return true;
@@ -378,10 +380,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     protected function _quoteIdentifier($value, $auto = false)
     {
         if ($auto === false || $this->_autoQuoteIdentifiers === true) {
-            $q = $this->getQuoteIdentifierSymbol();
+            $q          = $this->getQuoteIdentifierSymbol();
             $upperValue = strtoupper($value);
             if (in_array($upperValue, $this->_reservedWords)) {
-                $q = '"';
+                $q     = '"';
                 $value = $upperValue;
             }
             return ($q . str_replace("$q", "$q$q", $value) . $q);
@@ -410,19 +412,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if ($offset < 0) {
             throw new Zend_Db_Adapter_Oracle_Exception("LIMIT argument offset={$offset} is not valid");
         }
-        if ($offset + $count == $offset + 1) {
-            $query = sprintf('
-                SELECT z1.*
-                FROM (%s) z1
-                WHERE ROWNUM <= %d', $sql, $offset + $count);
+        $offsetCountSum = $offset + $count;
+        if ($offsetCountSum == $offset + 1) {
+            $query = sprintf('SELECT m1.* FROM (%s) m1 WHERE ROWNUM <= %d',
+                $sql, $offsetCountSum);
         } else {
             $query = sprintf('
-                SELECT z2.*
-                FROM (
-                    SELECT z1.*, ROWNUM AS varien_db_rownum
-                    FROM (%s) z1
-                    WHERE ROWNUM <= %d) z2
-                WHERE z2.varien_db_rownum >= %d', $sql, $offset + $count, $offset + 1);
+                SELECT m2.* FROM (
+                    SELECT m1.*, ROWNUM AS analytic_clmn
+                    FROM (%s) m1
+                    WHERE ROWNUM <= %d) m2
+                WHERE m2.analytic_clmn >= %d', $sql, $offsetCountSum, $offset + 1);
         }
             return $query;
     }
@@ -469,7 +469,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             }
             $sql .= ' ORDER BY TC.COLUMN_ID';
         } else {
-            $subSql="SELECT AC.OWNER, AC.TABLE_NAME, ACC.COLUMN_NAME, AC.CONSTRAINT_TYPE, ACC.POSITION
+            $subSql = "SELECT AC.OWNER, AC.TABLE_NAME, ACC.COLUMN_NAME, AC.CONSTRAINT_TYPE, ACC.POSITION
                 from ALL_CONSTRAINTS AC, ALL_CONS_COLUMNS ACC
                   WHERE ACC.CONSTRAINT_NAME = AC.CONSTRAINT_NAME
                     AND ACC.TABLE_NAME = AC.TABLE_NAME
@@ -481,7 +481,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 $subSql .= ' AND UPPER(ACC.OWNER) = UPPER(:SCNAME)';
                 $bind[':SCNAME'] = $schemaName;
             }
-            $sql="SELECT TC.TABLE_NAME, TC.OWNER, TC.COLUMN_NAME, TC.DATA_TYPE,
+            $sql = "SELECT TC.TABLE_NAME, TC.OWNER, TC.COLUMN_NAME, TC.DATA_TYPE,
                     TC.DATA_DEFAULT, TC.NULLABLE, TC.COLUMN_ID, TC.DATA_LENGTH,
                     TC.DATA_SCALE, TC.DATA_PRECISION, CC.CONSTRAINT_TYPE, CC.POSITION
                 FROM ALL_TAB_COLUMNS TC, ($subSql) CC
@@ -591,9 +591,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function describeTable($tableName, $schemaName = null)
     {
         $cacheKey = $this->_getTableName($tableName, $schemaName);
-        $ddl = $this->loadDdlCache($cacheKey, self::DDL_DESCRIBE);
+        $ddl      = $this->loadDdlCache($cacheKey, self::DDL_DESCRIBE);
         if ($ddl === false) {
-            if (is_null($schemaName)) {
+            if ($schemaName === null) {
                 $schemaName = $this->_getSchemaName();
             }
             $ddl = $this->_describeTable($tableName, $schemaName);
@@ -640,7 +640,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if ($columnData['PRIMARY'] === true) {
                 $options['primary'] = true;
             }
-            if (!is_null($columnData['DEFAULT'])
+            if ($columnData['DEFAULT'] !== null
                 && $type != Varien_Db_Ddl_Table::TYPE_TEXT
                 ) {
                 $options['default'] = $this->quote($columnData['DEFAULT']);
@@ -676,26 +676,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $fkName = $this->getForeignKeyName(
                 $newTableName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'], $keyData['REF_COLUMN_NAME']
             );
-            $onDelete = '';
-            if ($keyData['ON_DELETE'] == 'CASCADE') {
-                $onDelete = Varien_Db_Ddl_Table::ACTION_CASCADE;
-            } else if ($keyData['ON_DELETE'] == 'SET NULL') {
-                $onDelete = Varien_Db_Ddl_Table::ACTION_SET_NULL;
-            } else if ($keyData['ON_DELETE'] == 'RESTRICT') {
-                $onDelete = Varien_Db_Ddl_Table::ACTION_RESTRICT;
-            } else {
-                $onDelete = Varien_Db_Ddl_Table::ACTION_NO_ACTION;
-            }
-            $onUpdate = '';
-            if ($keyData['ON_UPDATE'] == 'CASCADE') {
-               $onUpdate = Varien_Db_Ddl_Table::ACTION_CASCADE;
-            } else if ($keyData['ON_UPDATE'] == 'SET NULL') {
-               $onUpdate = Varien_Db_Ddl_Table::ACTION_SET_NULL;
-            } else if ($keyData['ON_UPDATE'] == 'RESTRICT') {
-               $onUpdate = Varien_Db_Ddl_Table::ACTION_RESTRICT;
-            } else {
-               $onUpdate = Varien_Db_Ddl_Table::ACTION_NO_ACTION;
-            }
+            $onDelete = $this->_getDdlAction($keyData['ON_DELETE']);
+            $onUpdate = $this->_getDdlAction($keyData['ON_UPDATE']);
+
             $table->addForeignKey(
                 $fkName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'],
                 $keyData['REF_COLUMN_NAME'], $onDelete, $onUpdate
@@ -703,6 +686,27 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
         return $table;
     }
+
+    /**
+     * Return DDL action
+     *
+     * @param string $action
+     * @return string
+     */
+    protected function _getDdlAction($action)
+    {
+        switch ($action) {
+            case Varien_Db_Adapter_Interface::FK_ACTION_CASCADE:
+                return Varien_Db_Ddl_Table::ACTION_CASCADE;
+            case Varien_Db_Adapter_Interface::FK_ACTION_SET_NULL:
+                return Varien_Db_Ddl_Table::ACTION_SET_NULL;
+            case Varien_Db_Adapter_Interface::FK_ACTION_RESTRICT:
+                return Varien_Db_Ddl_Table::ACTION_RESTRICT;
+            default:
+                return Varien_Db_Ddl_Table::ACTION_NO_ACTION;
+        }
+    }
+
 
     /**
      * Modify the column definition by data from describe table
@@ -716,6 +720,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function modifyColumnByDdl($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
+        $definition = array_change_key_case($definition, CASE_UPPER);
         $definition['COLUMN_TYPE'] = $this->_getColumnTypeByDdl($definition);
         if (array_key_exists('DEFAULT', $definition) && is_null($definition['DEFAULT'])) {
             unset($definition['DEFAULT']);
@@ -811,13 +816,15 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string|int $field
      * @return mixed
      */
-    public function raw_fetchRow($sql, $field=null)
+    public function raw_fetchRow($sql, $field = null)
     {
-        if (!$result = $this->raw_query($sql)) {
+        $result = $this->raw_query($sql);
+        if (!$result) {
             return false;
         }
 
-        if (!$row = $result->fetch(PDO::FETCH_ASSOC)) {
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
             return false;
         }
 
@@ -833,6 +840,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param string $sql
      * @return Zend_Db_Statement_Interface
+     * @throws PDOException
      */
     public function raw_query($sql)
     {
@@ -864,6 +872,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $newTableName
      * @param string $schemaName
      * @return boolean
+     * @throws Zend_Db_Exception
      */
     public function renameTable($oldTableName, $newTableName, $schemaName = null)
     {
@@ -891,6 +900,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param array|string $definition  string specific or universal array DB Server definition
      * @param string $schemaName
      * @return Varien_Db_Adapter_Oracle
+     * @throws Zend_Db_Exception
      */
     public function addColumn($tableName, $columnName, $definition, $schemaName = null)
     {
@@ -913,7 +923,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         );
 
         $result = $this->query($query);
-
         $this->resetDdlCache($tableName, $schemaName);
 
         return $result;
@@ -931,8 +940,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $describe = $this->describeTable($tableName, $schemaName);
 
+        $columnName = strtolower($columnName);
         foreach ($describe as $column) {
-            if (strtolower($column['COLUMN_NAME']) == strtolower($columnName)) {
+            if (strtolower($column['COLUMN_NAME']) == $columnName) {
                 return true;
             }
         }
@@ -948,6 +958,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $newColumnName
      * @param string $schemaName
      * @return Varien_Db_Adapter_Oracle
+     * @throws Zend_Db_Exception
      */
     protected function _renameColumn($tableName, $oldColumnName, $newColumnName, $schemaName = null)
     {
@@ -956,7 +967,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         if (!$this->tableColumnExists($tableName, $oldColumnName, $schemaName)) {
-            throw new Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName, $tableName));
+            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $oldColumnName, $tableName));
         }
         if ($this->tableColumnExists($tableName, $newColumnName, $schemaName)) {
             throw new Exception(sprintf('Column "%s" already exists on table "%s"', $newColumnName, $tableName));
@@ -966,9 +977,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
             $this->quoteIdentifier($oldColumnName),
             $this->quoteIdentifier($newColumnName)
-            );
+        );
         $this->query($query);
-
         $this->resetDdlCache($tableName, $schemaName);
 
         return $this;
@@ -983,17 +993,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param boolean $flushData
      * @param string $schemaName
      * @return Varien_Db_Adapter_Oracle
+     * @throws Zend_Db_Adapter_Oracle_Exception
      */
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $columnName, $schemaName)) {
-            throw new Zend_Db_Adapter_Oracle_Exception(
-                sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName)
-            );
+            $msg = sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName);
+            throw new Zend_Db_Adapter_Oracle_Exception($msg);
         }
 
         if (is_array($definition)) {
-            $definition['table_name'] = $tableName;
+            $definition['table_name']  = $tableName;
             $definition['column_name'] = $columnName;
             $definition = $this->_getColumnDefinition($definition);
         }
@@ -1004,7 +1014,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $definition);
 
         $this->raw_query($query);
-
         $this->resetDdlCache($tableName, $schemaName);
 
         return $this;
@@ -1049,8 +1058,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             return true;
         }
 
+        $columnName = strtolower($columnName);
         foreach ($this->getForeignKeys($tableName, $schemaName) as $fkData) {
-            if (strtolower($fkData['COLUMN_NAME']) == strtolower($columnName)) {
+            if (strtolower($fkData['COLUMN_NAME']) == $columnName) {
                 $this->dropForeignKey($tableName, $fkData['FK_NAME'], $schemaName);
             }
         }
@@ -1073,6 +1083,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $indexType     the index type
      * @param string $schemaName
      * @return Varien_Db_Adapter_Oracle
+     * @throws Zend_Db_Adapter_Oracle_Exception
      */
     public function addIndex($tableName, $indexName, $fields,
         $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX, $schemaName = null)
@@ -1119,7 +1130,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $fieldSql);
 
         $this->raw_query($query);
-
         $this->resetDdlCache($tableName, $schemaName);
 
         return $this;
@@ -1154,9 +1164,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         $keyName = $indexList[$keyName]['KEY_NAME'];
-        $sql = sprintf($condition,
-            $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
-            $keyName);
+        $table   = $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
+        $sql     = sprintf($condition, $table, $keyName);
 
         $this->raw_query($sql);
         $this->resetDdlCache($tableName, $schemaName);
@@ -1194,13 +1203,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if ($ddl === false) {
             $ddl = array();
 
-            $indexTypeExpr = new Zend_Db_Expr("CASE"
-                . " WHEN uc.constraint_type = 'P' THEN '".Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY."'"
-                . " WHEN nvl(uc.constraint_type,'U') != 'P' AND ui.uniqueness = 'UNIQUE' THEN '".Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE."'"
-                . " WHEN ui.ityp_owner = 'CTXSYS'"
-                . "   AND ui.ityp_name = 'CONTEXT' THEN '".Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT."'"
-                . " ELSE '".Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX."'"
-                . " END");
+            $casesResults  = array(
+                "uc.constraint_type = 'P'"                                        => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY . "'",
+                "nvl(uc.constraint_type,'U') != 'P' AND ui.uniqueness = 'UNIQUE'" => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE . "'",
+                "ui.ityp_owner = 'CTXSYS' AND ui.ityp_name = 'CONTEXT'"           => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT . "'",
+            );
+            $defaultValue  = "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX . "'";
+            $indexTypeExpr = $this->getCaseSql('', $casesResults, $defaultValue);
 
             $select = $this->select()
                 ->from(array('ui' => 'user_indexes'), '')
@@ -1221,7 +1230,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     'index_method'  => 'ui.index_type',
                 ))
                 ->where('ui.table_name = upper(?)', $tableName);
-            if (!is_null($schemaName)) {
+            if ($schemaName !== null) {
                 $select->where('ui.table_owner = upper(?)', $schemaName);
             }
 
@@ -1296,7 +1305,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->quoteIdentifier($refColumnName)
         );
 
-        if (!is_null($onDelete)) {
+        if ($onDelete !== null) {
             $query .= ' ON DELETE ' . strtoupper($onDelete);
         }
         /**
@@ -1330,16 +1339,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $columnName     = $this->quoteIdentifier($columnName);
         $refColumnName  = $this->quoteIdentifier($refColumnName);
 
-        if (strtoupper($onDelete) == 'CASCADE' || strtoupper($onDelete) == 'RESTRICT') {
+        if (strtoupper($onDelete) == Varien_Db_Ddl_Table::ACTION_CASCADE || strtoupper($onDelete) == Varien_Db_Ddl_Table::ACTION_RESTRICT) {
             $sql = " UPDATE {$tableName} t1 SET t1.code = NULL ";
-        } else if (strtoupper($onDelete) == 'SET NULL') {
+        } else if (strtoupper($onDelete) == Varien_Db_Ddl_Table::ACTION_SET_NULL) {
             $sql = " DELETE FROM {$tableName} t1";
         }
 
-        $sql .= " WHERE NOT EXISTS("
-            . " SELECT 1 "
-            . " FROM {$refTableName} t2 "
-            . " WHERE t2.{$refColumnName} = t1.{$columnName})";
+        $sql .= sprintf(" WHERE NOT EXISTS( SELECT 1 FROM %s t2 WHERE t2.%s = t1.%s)",
+            $refTableName, $refColumnName, $columnName);
 
         $this->raw_query($sql);
 
@@ -1370,12 +1377,12 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function dropForeignKey($tableName, $fkName, $schemaName = null)
     {
         $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
-        if (!isset($foreignKeys[strtoupper($fkName)])) {
+        $fkName      = strtoupper($fkName);
+        if (!isset($foreignKeys[$fkName])) {
             return $this;
         }
-        $fkActions = array (Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
+        $fkActions = array(Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
         // drop cascade packages and triggers
-        $columnName = "";
         foreach ($foreignKeys as $foreignKey) {
             if ($fkName == $foreignKey['FK_NAME']) {
                 $columnName = $foreignKey['COLUMN_NAME'];
@@ -1385,9 +1392,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         $this->quoteIdentifier($this->_getPackageName($tableName, $columnName))));
                     $this->raw_fetchRow(sprintf(" DROP TRIGGER %s",
                         $this->quoteIdentifier($this->_getTriggerName($tableName, $columnName, self::TRIGGER_BEFORE_UPDATE))));
-                    $this->raw_fetchRow(sprintf(" DROP TRIGGER %s",$this->quoteIdentifier(
+                    $this->raw_fetchRow(sprintf(" DROP TRIGGER %s", $this->quoteIdentifier(
                         $this->_getTriggerName($tableName, $columnName, self::TRIGGER_BEFORE_UPDATE_ER))));
-                    $this->raw_fetchRow(sprintf(" DROP TRIGGER %s",$this->quoteIdentifier(
+                    $this->raw_fetchRow(sprintf(" DROP TRIGGER %s", $this->quoteIdentifier(
                         $this->_getTriggerName($tableName, $columnName, self::TRIGGER_AFTER_UPDATE))));
                 }
             }
@@ -1395,7 +1402,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         $sql = sprintf('ALTER TABLE %s DROP CONSTRAINT %s',
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
-            $this->quoteIdentifier($foreignKeys[strtoupper($fkName)]['FK_NAME']));
+            $this->quoteIdentifier($foreignKeys[$fkName]['FK_NAME']));
 
         $this->raw_query($sql);
         $this->resetDdlCache($tableName, $schemaName);
@@ -1455,7 +1462,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 ))
                 ->where('c.constraint_type=?', 'R')
                 ->where('c.table_name  = upper(?)', $tableName);
-            if (!is_null($schemaName)) {
+            if ($schemaName !== null) {
                 $select->where('c.owner = upper(?)', $schemaName);
             }
 
@@ -1513,8 +1520,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     protected function _getPrimaryKeyColumns($tableName, $schemaName = null)
     {
-        $indexList  = $this->getIndexList($tableName, $schemaName);
-        $columns    = array();
+        $indexList = $this->getIndexList($tableName, $schemaName);
+        $columns   = array();
         foreach($indexList as $indexData) {
             if ($indexData['INDEX_TYPE'] == self::INDEX_TYPE_PRIMARY) {
                 foreach($indexData['COLUMNS_LIST'] as $column) {
@@ -1541,7 +1548,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $cols = array();
         $vals = array();
         foreach ($bind as $col => $val) {
-            $cols[] = $this->quoteIdentifier($col, true);
+            $cols[] = $col;
             if ($val instanceof Zend_Db_Expr) {
                 $vals[] = $val->__toString();
                 unset($bind[$col]);
@@ -1557,16 +1564,31 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $i++;
         }
 
-        // build the statement
-        $sql = "INSERT INTO "
-             . $this->quoteIdentifier($table, true)
-             . ' (' . implode(', ', $cols) . ') '
-             . 'VALUES (' . implode(', ', $vals) . ')';
-
+        $insertSql = $this->_getInsertSqlQuery($table, $cols, $vals);
         // execute the statement and return the number of affected rows
-        $stmt = $this->query($sql, $bind);
-        $result = $stmt->rowCount();
-        return $result;
+        $stmt   = $this->query($insertSql, $bind);
+
+        return $stmt->rowCount();
+    }
+
+    /**
+     * Return insert sql query
+     *
+     * @param string $tableName
+     * @param array $columns
+     * @param array $values
+     * @return string
+     */
+    protected function _getInsertSqlQuery($tableName, array $columns, array $values)
+    {
+        $tableName = $this->quoteIdentifier($tableName, true);
+        $columns   = array_map(array($this, 'quoteIdentifier'), $columns);
+        $columns   = implode(', ', $columns);
+        $values    = implode(', ', $values);
+
+        $insertSql = sprintf('INSERT INTO %s (%s) VALUES (%s)', $tableName, $columns, $values);
+
+        return $insertSql;
     }
 
     /**
@@ -1597,13 +1619,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 }
                 foreach ($row as $col => $val) {
                     if ($val instanceof Zend_Db_Expr) {
-                        $line[] = $val->__toString() . ' AS ' . $col;
+                        $line[] = $this->quoteColumnAs($val, $col);
                     } else {
                         $key    = ':vv' . $i++;
                         if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
                             $line[] = "to_clob({$key}) AS {$col}";
                         } else {
-                            $line[] = "{$key} AS {$col}";
+                            $line[] = $this->quoteColumnAs($key, $col);
                         }
                         $bind[$key] = $val;
                     }
@@ -1617,13 +1639,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $i    = 0;
             foreach ($data as $col => $val) {
                 if ($val instanceof Zend_Db_Expr) {
-                    $line[] = $val->__toString() . ' AS ' . $col;
+                    $line[] = $this->quoteColumnAs($val, $col);
                 } else {
                     $key    = ':vv' . $i++;
                     if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
                         $line[] = "to_clob({$key}) AS {$col}";
                     } else {
-                        $line[] = "{$key} AS {$col}";
+                        $line[] = $this->quoteColumnAs($key, $col);
                     }
                     $bind[$key] = $val;
                 }
@@ -1672,7 +1694,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 $groupCond[] = sprintf('t1.%s = t2.%s', $column, $column);
             }
             if (!empty($groupCond) && $useUnqCond) {
-                $joinConditions[] = sprintf('(%s)', join(' AND ', $groupCond));
+                $joinConditions[] = sprintf('(%s)', implode(' AND ', $groupCond));
             }
         }
 
@@ -1693,20 +1715,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         $query = sprintf('MERGE INTO %s t1 USING (%s) t2 ON ( %s )',
             $table,
-            join(' UNION ALL ', $values),
-            join(' OR ', $joinConditions));
+            implode(' UNION ALL ', $values),
+            implode(' OR ', $joinConditions));
 
         if ($updateArray) {
             $query = sprintf('%s WHEN MATCHED THEN UPDATE SET %s',
                 $query,
-                join(', ', $updateArray));
+                implode(', ', $updateArray));
         }
 
         $query = sprintf('%s WHEN NOT MATCHED THEN INSERT (%s) VALUES (%s)',
             $query,
-            join(', ', $insertCols),
-            join(', ', $insertVals)
-            );
+            implode(', ', $insertCols),
+            implode(', ', $insertVals)
+        );
 
         $this->query($query, $bind);
     }
@@ -1721,6 +1743,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param array $data Column-value pairs or array of column-value pairs.
      * @param arrat $fields update fields pairs or values
      * @return int The number of affected rows.
+     * @throws Zend_Db_Exception
      */
     public function insertOnDuplicateCompatible($table, array $data, array $fields = array())
     {
@@ -1738,17 +1761,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             foreach ($data as $row) {
                 $line = array();
                 if (array_diff($cols, array_keys($row))) {
-                    throw new Varien_Exception('Invalid data for insert');
+                    throw new Zend_Db_Exception('Invalid data for insert');
                 }
                 foreach ($row as $col => $val) {
                     if ($val instanceof Zend_Db_Expr) {
-                        $line[] = $val->__toString() . ' AS ' . $col;
+                        $line[] = $this->quoteColumnAs($val, $col);
                     } else {
                         $key    = ':vv' . $i++;
                         if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
                             $line[] = "to_clob({$key}) AS {$col}";
                         } else {
-                            $line[] = "{$key} AS {$col}";
+                            $line[] = $this->quoteColumnAs($key, $col);
                         }
                         $bind[$key] = $val;
                     }
@@ -1762,13 +1785,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $i    = 0;
             foreach ($data as $col => $val) {
                 if ($val instanceof Zend_Db_Expr) {
-                    $line[] = $val->__toString() . ' AS ' . $col;
+                    $line[] = $this->quoteColumnAs($val, $col);
                 } else {
                     $key    = ':vv' . $i++;
                     if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
                         $line[] = "to_clob({$key}) AS {$col}";
                     } else {
-                        $line[] = "{$key} AS {$col}";
+                        $line[] = $this->quoteColumnAs($key, $col);
                     }
                     $bind[$key] = $val;
                 }
@@ -1822,7 +1845,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         if (empty($joinConditions)) {
-            throw new Exception('Invalid primary or unique columns in merge data');
+            throw new Zend_Db_Exception('Invalid primary or unique columns in merge data');
         }
 
         $insertCols = array_map(array($this, 'quoteIdentifier'), $cols);
@@ -1861,6 +1884,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param mixed $table The table to insert data into.
      * @param array $data Column-value pairs or array of Column-value pairs.
      * @return int The number of affected rows.
+     * @throws Zend_Db_Exception
      */
     public function insertMultiple($table, array $data)
     {
@@ -1876,7 +1900,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         foreach ($data as $row) {
             $line = array();
             if (array_diff($cols, array_keys($row))) {
-                throw new Varien_Exception('Invalid data for insert');
+                throw new Zend_Db_Exception('Invalid data for insert');
             }
             foreach ($cols as $field) {
                 $line[] = $row[$field];
@@ -1895,6 +1919,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param   array $columns  the data array column map
      * @param   array $data
      * @return  int
+     * @throws Zend_Db_Exception
      */
     public function insertArray($table, array $columns, array $data)
     {
@@ -1905,13 +1930,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $columnsCount = count($columns);
         foreach ($data as $row) {
             if ($columnsCount != count($row)) {
-                throw new Varien_Exception('Invalid data for insert');
+                throw new Zend_Db_Exception('Invalid data for insert');
             }
             $line = array();
             if ($columnsCount == 1) {
                 if ($row instanceof Zend_Db_Expr) {
                     $line = $row->__toString();
-                } else if (is_null($row)) {
+                } elseif ($row === null) {
                     $line = 'NULL';
                 } else {
                     $key  = ':vv' . ($inc ++);
@@ -1964,6 +1989,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param string $sql
      * @return Varien_Db_Adapter_Pdo_Mssql
+     * @throws Exception
      */
     public function multiQuery($sql)
     {
@@ -1991,38 +2017,38 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $parts = preg_split('#(;|\'|"|\\\\|//|--|\n|/\*|\*/)#', $sql, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
-        $q = false;
-        $c = false;
+        $q     = false;
+        $c     = false;
         $stmts = array();
-        $s = '';
+        $s     = '';
 
-        foreach ($parts as $i=>$part) {
+        foreach ($parts as $i => $part) {
             // strings
-            if (($part==="'" || $part==='"') && ($i===0 || $parts[$i-1]!=='\\')) {
-                if ($q===false) {
+            if (($part === "'" || $part === '"') && ($i === 0 || $parts[$i-1] !== '\\')) {
+                if ($q === false) {
                     $q = $part;
-                } else if ($q===$part) {
+                } elseif ($q === $part) {
                     $q = false;
                 }
             }
 
             // single line comments
-            if (($part==='//' || $part==='--') && ($i===0 || $parts[$i-1]==="\n")) {
+            if (($part === '//' || $part === '--') && ($i === 0 || $parts[$i-1] === "\n")) {
                 $c = $part;
-            } else if ($part==="\n" && ($c==='//' || $c==='--')) {
+            } elseif ($part === "\n" && ($c === '//' || $c === '--')) {
                 $c = false;
             }
 
             // multi line comments
-            if ($part==='/*' && $c===false) {
+            if ($part === '/*' && $c === false) {
                 $c = '/*';
-            } else if ($part==='*/' && $c==='/*') {
+            } elseif ($part === '*/' && $c === '/*') {
                 $c = false;
             }
 
             // statements
-            if ($part===';' && $q===false && $c===false) {
-                if (trim($s)!=='') {
+            if ($part === ';' && $q === false && $c === false) {
+                if (trim($s) !== '') {
                     $stmts[] = trim($s);
                     $s = '';
                 }
@@ -2030,7 +2056,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 $s .= $part;
             }
         }
-        if (trim($s)!=='') {
+        if (trim($s) !== '') {
             $stmts[] = trim($s);
         }
 
@@ -2042,13 +2068,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param int|string|Zend_Date $date
      * @param boolean $includeTime
-     * @return string
+     * @return Zend_Db_Expr
      */
     public function formatDate($date, $includeTime = true)
     {
         $date = Varien_Date::formatDate($date, $includeTime);
 
-        if (is_null($date)) {
+        if ($date === null) {
             return new Zend_Db_Expr('NULL');
         }
         return new Zend_Db_Expr($this->quoteInto("TO_DATE(?,'YYYY-MM-DD HH24:MI:SS')", $date));
@@ -2133,7 +2159,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if (!$this->_isDdlCacheAllowed) {
             return $this;
         }
-        if (is_null($tableName)) {
+        if ($tableName === null) {
             $this->_ddlCache = array();
             if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
                 $this->_cacheAdapter->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(self::DDL_CACHE_TAG));
@@ -2240,85 +2266,97 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function prepareSqlCondition($fieldName, $condition)
     {
-        $query = '';
+        $conditionKeyMap = array(
+            'eq'            => "{{fieldName}} = ?",
+            'neq'           => "{{fieldName}} != ?",
+            'like'          => "{{fieldName}} LIKE ?",
+            'nlike'         => "{{fieldName}} NOT LIKE ?",
+            'in'            => "{{fieldName}} IN(?)",
+            'nin'           => "{{fieldName}} NOT IN(?)",
+            'is'            => "{{fieldName}} IS ?",
+            'notnull'       => "{{fieldName}} IS NOT NULL",
+            'null'          => "{{fieldName}} IS NULL",
+            'gt'            => "{{fieldName}} > ?",
+            'lt'            => "{{fieldName}} < ?",
+            'gteq'          => "{{fieldName}} >= ?",
+            'lteq'          => "{{fieldName}} <= ?",
+            'finset'        => "FIND_IN_SET(?, {{fieldName}}) = 1",
+            'regexp'        => "REGEXP_LIKE({{fieldName}}, ?)",
+            'from'          => "{{fieldName}} >= ?",
+            'to'            => "{{fieldName}} <= ?"
+        );
 
-        if (is_array($condition) && isset($condition['field_expr'])) {
-            $fieldName = str_replace('#?', $this->quoteIdentifier($fieldName), $condition['field_expr']);
-        }
+        $query = '';
         if (is_array($condition)) {
+            if (isset($condition['field_expr'])) {
+                $fieldName = str_replace('#?', $this->quoteIdentifier($fieldName), $condition['field_expr']);
+                unset($condition['field_expr']);
+            }
+            $key = key($condition);
+
             if (isset($condition['from']) || isset($condition['to'])) {
                 if (isset($condition['from'])) {
-                    if (empty($condition['date'])) {
-                        if (empty($condition['datetime'])) {
-                            $from = $condition['from'];
-                        } else {
-                            $from = $this->formatDate($condition['from']);
-                        }
-                    } else {
-                        $from = $this->formatDate($condition['from'], false);
-                    }
-                    $query .= $this->quoteInto("{$fieldName} >= ?", $from);
+                    $from   = $this->_prepareSqlDateCondition($condition, 'from');
+                    $query = $this->_prepareQuotedSqlCondition($conditionKeyMap['from'], $from, $fieldName);
                 }
+
                 if (isset($condition['to'])) {
                     $query .= empty($query) ? '' : ' AND ';
-
-                    if (empty($condition['date'])) {
-                        if (empty($condition['datetime'])) {
-                            $to = $condition['to'];
-                        } else {
-                            $to = $this->formatDate($condition['to']);
-                        }
-                    } else {
-                        $to = $this->formatDate($condition['to'], false);
-                    }
-
-                    $query .= $this->quoteInto("{$fieldName} <= ?", $to);
+                    $to     = $this->_prepareSqlDateCondition($condition, 'to');
+                    $query = $this->_prepareQuotedSqlCondition($query . $conditionKeyMap['to'], $to, $fieldName);
                 }
-            } else if (isset($condition['eq'])) {
-                $query = $this->quoteInto("{$fieldName} = ?", $condition['eq']);
-            } else if (isset($condition['neq'])) {
-                $query = $this->quoteInto("{$fieldName} != ?", $condition['neq']);
-            } else if (isset($condition['like'])) {
-                $query = $this->quoteInto("{$fieldName} LIKE ?", $condition['like']);
-            } else if (isset($condition['nlike'])) {
-                $query = $this->quoteInto("{$fieldName} NOT LIKE ?", $condition['nlike']);
-            } else if (isset($condition['in'])) {
-                $query = $this->quoteInto("{$fieldName} IN(?)", $condition['in']);
-            } else if (isset($condition['nin'])) {
-                $query = $this->quoteInto("{$fieldName} NOT IN(?)", $condition['nin']);
-            } else if (isset($condition['is'])) {
-                $query = $this->quoteInto("{$fieldName} IS ?", $condition['is']);
-            } else if (isset($condition['notnull'])) {
-                $query = "$fieldName IS NOT NULL";
-            } else if (isset($condition['null'])) {
-                $query = "$fieldName IS NULL";
-            } else if (isset($condition['gt'])) {
-                $query = $this->quoteInto("{$fieldName} > ?", $condition['gt']);
-            } else if (isset($condition['lt'])) {
-                $query = $this->quoteInto("{$fieldName} < ?", $condition['lt']);
-            } else if (isset($condition['gteq'])) {
-                $query = $this->quoteInto("{$fieldName} >= ?", $condition['gteq']);
-            } else if (isset($condition['lteq'])) {
-                $query = $this->quoteInto("{$fieldName} <= ?", $condition['lteq']);
-            } else if (isset($condition['finset'])) {
-                $query = $this->quoteInto("FIND_IN_SET(?, {$fieldName}) = 1", $condition['finset']);
-            } else if (isset($condition['regexp'])) {
-                $query = $this->quoteInto("REGEXP_LIKE({$fieldName}, ?)", $condition['regexp']);
-            } else if (isset($condition['regexp_replace'])) {
-                $query = $this->quoteInto("REGEXP_REPLACE({$fieldName}, ?, ?)", $condition['pattern'], $condition['replacement']);
+            } elseif (array_key_exists($key, $conditionKeyMap)) {
+                $query = $this->_prepareQuotedSqlCondition($conditionKeyMap[$key], $condition[$key], $fieldName);
             } else {
                 $queries = array();
                 foreach ($condition as $orCondition) {
                     $queries[] = sprintf('(%s)', $this->prepareSqlCondition($fieldName, $orCondition));
                 }
 
-                $query = sprintf('(%s)', join(' OR ', $queries));
+                $query = sprintf('(%s)', implode(' OR ', $queries));
             }
         } else {
-            $query = $this->quoteInto("{$fieldName} = ?", (string)$condition);
+            $query = $this->_prepareQuotedSqlCondition($conditionKeyMap['eq'], (string)$condition, $fieldName);
         }
 
         return $query;
+    }
+
+    /**
+     * Prepare Sql condition
+     *
+     * @param  $text Condition value
+     * @param  mixed $value
+     * @param  string $fieldName
+     * @return string
+     */
+    protected function _prepareQuotedSqlCondition($text, $value, $fieldName)
+    {
+        $sql = $this->quoteInto($text, $value);
+        $sql = str_replace('{{fieldName}}', $fieldName, $sql);
+        return $sql;
+    }
+
+    /**
+     * Prepare sql date condition
+     *
+     * @param array $condition
+     * @param string $key
+     * @return string
+     */
+    protected function _prepareSqlDateCondition($condition, $key)
+    {
+        if (empty($condition['date'])) {
+            if (empty($condition['datetime'])) {
+                $result = $condition[$key];
+            } else {
+                $result = $this->formatDate($condition[$key]);
+            }
+        } else {
+            $result = $this->formatDate($condition[$key], false);
+        }
+
+        return $result;
     }
 
     /**
@@ -2412,19 +2450,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
-     * Returns valid IFNULL expresion
+     * Returns valid IFNULL expression
      *
      * @param string $column
-     * @param string $value OPTIONAL. Applies when $expresion is NULL
+     * @param string $value OPTIONAL. Applies when $expression is NULL
      * @return Zend_Db_Expr
      */
-    public function getIfNullSql($expresion, $value = 0)
+    public function getIfNullSql($expression, $value = 0)
     {
-        if ($expresion instanceof Zend_Db_Expr || $expresion instanceof Zend_Db_Select) {
-            return new Zend_Db_Expr(sprintf("NVL((%s), %s)", $expresion, $value));
+        if ($expression instanceof Zend_Db_Expr || $expression instanceof Zend_Db_Select) {
+            $expression = sprintf("NVL((%s), %s)", $expression, $value);
         } else {
-            return new Zend_Db_Expr(sprintf("NVL(%s, %s)", $expresion, $value));
+            $expression = sprintf("NVL(%s, %s)", $expression, $value);
         }
+        return new Zend_Db_Expr($expression);
     }
 
     /**
@@ -2437,11 +2476,11 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getCaseSql($valueName, $casesResults, $defaultValue = null)
     {
-        $expression = "CASE {$valueName}";
+        $expression = 'CASE ' . $valueName;
         foreach ($casesResults as $case => $result) {
-            $expression .= " WHEN {$case} THEN {$result}";
+            $expression .= ' WHEN ' . $case . ' THEN ' . $result;
         }
-        if (!is_null($defaultValue)) {
+        if ($defaultValue !== null) {
             $expression .= ' ELSE ' . $defaultValue;
         }
         $expression .= ' END';
@@ -2840,10 +2879,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     protected function _getColumnDefinition($options, $ddlType = null)
     {
         // convert keys to upper case
-        foreach ($options as $k => $v) {
-            unset($options[$k]);
-            $options[strtoupper($k)] = $v;
-        }
+        $options = array_change_key_case($options, CASE_UPPER);
 
         $cType      = null;
         $cNullable  = true;
@@ -2990,12 +3026,12 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
-     * Create foreign key update acction
+     * Create foreign key update action
      *
      * @param Varien_Db_Ddl_Table $table
-     * @return b
+     * @return boolean
      */
-    protected function _createForeignKeysAcctions(Varien_Db_Ddl_Table $table)
+    protected function _createForeignKeysActions(Varien_Db_Ddl_Table $table)
     {
         $foreignKeys = $table->getForeignKeys();
         $fkActions = array (Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_SET_NULL);
@@ -3021,8 +3057,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $sequenceName = $this->_getSequenceName($tableName);
         $query = 'CREATE SEQUENCE "%s" MINVALUE 0 MAXVALUE 4294967296 INCREMENT BY 1 START WITH 0 CACHE 20 NOORDER NOCYCLE';
         $this->query(sprintf($query, $this->quoteIdentifier($sequenceName)));
-        $query = 'SELECT "%s".NEXTVAL FROM dual';
-        $this->query(sprintf($query, $this->quoteIdentifier($sequenceName)));
+        $query = sprintf('SELECT "%s".NEXTVAL FROM dual', $this->quoteIdentifier($sequenceName));
+        $this->query($query);
+
         return $this;
     }
 
@@ -3073,18 +3110,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             . "    END IF;                                                 \n"
             . "  END IF;                                                   \n"
             . "END;                                                        \n";
+
+        $quotedSequenceName = $this->quoteIdentifier($sequenceName);
         $query = sprintf($query,
             $this->quoteIdentifier($triggerName),
             $this->quoteIdentifier($tableName),
             $this->quoteIdentifier($columnName),
-            $this->quoteIdentifier($sequenceName),
+            $quotedSequenceName,
             $this->quoteIdentifier($columnName),
-            $this->quoteIdentifier($sequenceName),
+            $quotedSequenceName,
             $this->quoteIdentifier($columnName),
             $this->quoteIdentifier($columnName),
-            $this->quoteIdentifier($sequenceName),
-            $this->quoteIdentifier($sequenceName),
-            $this->quoteIdentifier($sequenceName)
+            $quotedSequenceName,
+            $quotedSequenceName,
+            $quotedSequenceName
         );
 
         $this->query($query);
@@ -3097,11 +3136,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             . "  RETURN identity;                                           \n"
             . "END;                                                         \n";
 
-        $query = sprintf($query,
-            $functionName,
-            $this->quoteIdentifier($sequenceName)
-        );
-
+        $query = sprintf($query, $functionName, $quotedSequenceName);
         $this->query($query);
 
         return $this;
@@ -3135,7 +3170,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->quoteIdentifier($columnName),
             $this->quoteIdentifier($columnName)
         );
-
         $this->query($query);
 
         return $this;
@@ -3237,9 +3271,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     protected function _getUniqueConstraintsDefinition(Varien_Db_Ddl_Table $table)
     {
-        $definition = array();
-
-        $constraints    = $table->getIndexes();
+        $definition  = array();
+        $constraints = $table->getIndexes();
 
         if (!empty($constraints)) {
             foreach ($constraints as $constraintData) {
@@ -3293,7 +3326,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
 
                 $definition[] = sprintf('  CONSTRAINT "%s" FOREIGN KEY (%s) REFERENCES %s (%s) %s',
-
                     //ON UPDATE %s',
                     $this->quoteIdentifier($fkData['FK_NAME'])
                     ,$this->quoteIdentifier($fkData['COLUMN_NAME'])
@@ -3336,7 +3368,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $result = $this->query($sql);
 
         $this->_createIndexes($table);
-        $this->_createForeignKeysAcctions($table);
+        $this->_createForeignKeysActions($table);
 
         $tableName = $this->_getTableName($table->getName(), $table->getSchema());
 
@@ -3431,10 +3463,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
      protected function _minusSuperfluous($hash, $prefix, $maxCharacters)
      {
-         $diff = strlen($hash) + strlen($prefix) -  $maxCharacters;
+         $diff        = strlen($hash) + strlen($prefix) -  $maxCharacters;
          $superfluous = $diff / 2;
-         $odd = $diff % 2;
-         $hash = substr($hash, $superfluous, -($superfluous+$odd));
+         $odd         = $diff % 2;
+         $hash        = substr($hash, $superfluous, -($superfluous+$odd));
          return $hash;
      }
 
@@ -3455,7 +3487,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 if (strlen($hash) + strlen($prefix) > self::LENGTH_TABLE_NAME) {
                     $hash = $this->_minusSuperfluous($hash, $prefix, self::LENGTH_TABLE_NAME);
                 }
-                $tableName = $prefix.$hash;
+                $tableName = $prefix . $hash;
             } else {
                 $tableName = $shortName;
             }
@@ -3506,7 +3538,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             }
         }
 
-        return strtoupper($prefix.$hash);
+        return strtoupper($prefix . $hash);
     }
 
     /**
@@ -3551,7 +3583,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         $updateValue = ($fkAction == Varien_Db_Ddl_Table::ACTION_CASCADE ? "s_new(i)" : "NULL");
         /*
-         * Create pacckage
+         * Create package
          */
         $pkgName                = $this->_getPackageName($tableName, $columnName);
         $beforeTabUpdTrgName    = $this->_getTriggerName($tableName, $columnName, self::TRIGGER_BEFORE_UPDATE);
@@ -3679,7 +3711,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     protected function _getSchemaName()
     {
-        if (is_null($this->_schemaName)) {
+        if ($this->_schemaName === null) {
             $this->_schemaName = $this->fetchOne("SELECT sys_context('USERENV', 'CURRENT_SCHEMA') FROM dual");
         }
 
@@ -3856,6 +3888,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param array $fields
      * @param int $mode
      * @return string
+     * @throws Zend_Db_Exception
      */
     public function insertFromSelectCompatible(Varien_Db_Select $select, $table, array $fields = array(), $mode = false)
     {
@@ -3875,7 +3908,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $i         = 0;
         $colsPart  = $select->getPart(Zend_Db_Select::COLUMNS);
         if (count($colsPart) != count($fields)) {
-            throw new Varien_Db_Exception('Wrong columns count in SELECT for INSERT');
+            throw new Zend_Db_Exception('Wrong columns count in SELECT for INSERT');
         }
         foreach ($colsPart as &$colData) {
             $colData[2] = $fields[$i];
@@ -4211,9 +4244,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function orderRand(Varien_Db_Select $select, $field = null)
     {
+        $spec       = new Zend_Db_Expr('mage_rand');
         $expression = new Zend_Db_Expr('dbms_random.value()');
         $select->columns(array('mage_rand' => $expression));
-        $spec = new Zend_Db_Expr('mage_rand');
         $select->order($spec);
 
         return $this;
@@ -4227,7 +4260,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function forUpdate($sql)
     {
-        return sprintf('%s FOR UPDATE', $sql);
+        return sprintf('%s %s', $sql, Varien_Db_Adapter_Oracle::SQL_FOR_UPDATE);
     }
 }
 

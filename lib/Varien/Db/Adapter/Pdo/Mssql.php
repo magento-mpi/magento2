@@ -1302,11 +1302,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param boolean $flushData
      * @param string $schemaName
      * @return Varien_Db_Adapter_Pdo_Mssql
+     * @throws Zend_Db_Exception
      */
     public function modifyColumn($tableName, $columnName, $definition, $flushData = false, $schemaName = null)
     {
         if (!$this->tableColumnExists($tableName, $columnName, $schemaName)) {
-            throw new Exception(sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName));
+            throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName));
         }
 
 
@@ -1326,7 +1327,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $definition);
 
         $this->raw_query($sql);
-
         if ($defaultValue) {
             $this->_addColumnDefaultValue($tableName, $columnName, $defaultValue);
         }
@@ -3802,7 +3802,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         } else {
             $query = sprintf('
                 SELECT m2.* FROM (
-                    SELECT m1.*, ROW_NUMBER() OVER ( ORDER BY  RAND()) AS analytic_clmn
+                    SELECT m1.*, ROW_NUMBER() OVER (ORDER BY RAND()) AS analytic_clmn
                     FROM (%s) m1) m2
                 WHERE m2.analytic_clmn >= %d', $sql,  $offset + 1);
         }
