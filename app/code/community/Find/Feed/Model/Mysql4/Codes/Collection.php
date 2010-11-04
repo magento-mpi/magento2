@@ -30,26 +30,7 @@
  * @category    Find
  * @package     Find_Feed
  */
-class Find_Feed_Model_Mysql4_Codes_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Find_Feed_Model_Mysql4_Codes_Collection extends Find_Feed_Model_Resource_Codes_Collection
 {
-    /**
-     * Local constructor
-     *
-     */
-    protected function _construct()
-    {
-        $this->_init('find_feed/codes');
-    }
-
-    /**
-     * Fetch attributes to import
-     *
-     * @return array
-     */
-    public function getImportAttributes() 
-    {
-        $this->addFieldToFilter('is_imported', array('eq' => '1'));
-        return $this->_toOptionHash('import_code', 'eav_code');
-    }
 
 }

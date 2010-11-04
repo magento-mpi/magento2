@@ -30,13 +30,6 @@
  * @category    Find
  * @package     Find_Feed
  */
-class Find_Feed_Model_Mysql4_Codes extends Mage_Core_Model_Mysql4_Abstract
+class Find_Feed_Model_Mysql4_Codes extends Find_Feed_Model_Resource_Codes
 {
-    /**
-     * Class local constructor
-     */
-    protected function _construct()
-    {
-        $this->_init('find_feed/feed_import_codes', 'code_id');
-    }
 }
