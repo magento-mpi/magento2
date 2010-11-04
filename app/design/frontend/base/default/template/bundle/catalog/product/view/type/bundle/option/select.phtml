@@ -29,15 +29,17 @@
 <?php /* @var $this Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Select */ ?>
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
+<?php $_default = $_option->getDefaultSelection() ?>
 <?php $_showSingle = (count($_selections) == 1 && $_option->getRequired()) ?>
 <dt><span class="qty-holder">
-        <?php if ($_default = $_option->getDefaultSelection()): ?>
+        <?php $selectedOptions = $this->_getSelectedOptions() ?>
+        <?php if ($_default && empty($selectedOptions)): ?>
             <?php $_defaultQty = $_default->getSelectionQty()*1 ?>
             <?php $_canChangeQty = $_default->getSelectionCanChangeQty() ?>
         <?php else: ?>
             <?php if (!$_showSingle): ?>
-                <?php $_defaultQty = '0' ?>
-                <?php $_canChangeQty = false ?>
+                <?php $_defaultQty = $this->_getSelectedQty() ?>
+                <?php $_canChangeQty = (bool)$_defaultQty ?>
             <?php else: ?>
                 <?php $_defaultQty = $_selections[0]->getSelectionQty()*1 ?>
                 <?php $_canChangeQty = $_selections[0]->getSelectionCanChangeQty() ?>
