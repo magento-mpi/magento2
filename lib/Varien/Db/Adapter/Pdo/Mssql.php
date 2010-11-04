@@ -4042,8 +4042,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $joinSelect->reset(Zend_Db_Select::COLUMNS);
         $joinSelect->from(array($tableAlias => $tableName), null);
 
-        echo $joinSelect;
-
         $query = sprintf('UPDATE %s SET %s %s',
             $this->quoteIdentifier($tableAlias),
             implode(', ', $updateSet),
