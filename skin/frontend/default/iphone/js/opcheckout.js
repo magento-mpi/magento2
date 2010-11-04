@@ -577,7 +577,6 @@ ShippingMethod.prototype = {
 
         if (response.update_section) {
             $('checkout-'+response.update_section.name+'-load').update(response.update_section.html);
-            response.update_section.html.evalScripts();
         }
 
         $$('.cvv-what-is-this').each(function(element){
@@ -859,7 +858,6 @@ Review.prototype = {
 
             if (response.update_section) {
                 $('checkout-'+response.update_section.name+'-load').update(response.update_section.html);
-                response.update_section.html.evalScripts();
             }
 
             if (response.goto_section) {
