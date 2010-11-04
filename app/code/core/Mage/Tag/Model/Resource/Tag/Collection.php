@@ -155,7 +155,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
             $this->getSelect()
             ->joinLeft(
                 array('relation' => $this->getTable('tag/relation')),
-                'main_table.tag_id=relation.tag_id',
+                'main_table.tag_id = relation.tag_id',
                 array()
             )
             ->joinLeft(
@@ -189,12 +189,13 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
     {
         if (!$this->getFlag('summary')) {
             $tableAlias = 'summary';
-            $joinCondition = $this->getConnection()->quoteInto(' AND '. $tableAlias .'.store_id IN(?)', $storeId);
+            $joinCondition = $this->getConnection()
+                    ->quoteInto(' AND ' . $tableAlias . '.store_id IN(?)', $storeId);
 
             $this->getSelect()
                 ->joinLeft(
                     array($tableAlias => $this->getTable('tag/summary')),
-                    'main_table.tag_id='. $tableAlias .'.tag_id' . $joinCondition,
+                    'main_table.tag_id = ' . $tableAlias . '.tag_id' . $joinCondition,
                     array('store_id','popularity', 'customers', 'products'
                 ));
 
@@ -229,7 +230,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
         $tagIds = $this->getColumnValues('tag_id');
 
         $tagsStores = array();
-        if (sizeof($tagIds)>0) {
+        if (sizeof($tagIds) > 0) {
             $select = $this->getConnection()->select()
                 ->from($this->getTable('tag/summary'), array('store_id', 'tag_id'))
                 ->where('tag_id IN(?)', $tagIds);
@@ -266,11 +267,13 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
     {
         if ($this->getFlag('relation') && 'popularity' == $field) {
             // TOFIX
-            $this->getSelect()->having($this->_getConditionSql('COUNT(relation.tag_relation_id)', $condition));
+            $this->getSelect()->having(
+                $this->_getConditionSql('COUNT(relation.tag_relation_id)', $condition)
+            );
         } elseif ($this->getFlag('summary') && in_array(
             $field, array('customers', 'products', 'uses', 'historical_uses', 'popularity')
         )) {
-            $this->getSelect()->where($this->_getConditionSql('summary.'.$field, $condition));
+            $this->getSelect()->where($this->_getConditionSql('summary.' . $field, $condition));
         } else {
            parent::addFieldToFilter($field, $condition);
         }
@@ -305,7 +308,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
         if (!$this->getFlag('store_filter')) {
 
             $this->getSelect()->joinLeft(
-                array('summary_store'=>$this->getTable('tag/summary')),
+                array('summary_store' => $this->getTable('tag/summary')),
                 'main_table.tag_id = summary_store.tag_id'
             );
 
@@ -412,7 +415,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
     {
         $this->setFlag('relation', true);
         $this->getSelect()->joinLeft(
-            array('relation'=>$this->getTable('tag/relation')),
+            array('relation' => $this->getTable('tag/relation')),
             'main_table.tag_id=relation.tag_id'
         );
         return $this;

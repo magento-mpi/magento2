@@ -329,9 +329,9 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
     public function setActiveFilter()
     {
         $active = Mage_Tag_Model_Tag_Relation::STATUS_ACTIVE;
-        $this->getSelect()->where('relation.active=?', $active);
+        $this->getSelect()->where('relation.active = ?', $active);
         if ($this->getFlag('prelation')) {
-            $this->getSelect()->where('prelation.active=?', $active);
+            $this->getSelect()->where('prelation.active = ?', $active);
         }
         return $this;
     }
@@ -379,8 +379,8 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
 
         $this->getSelect()
             ->join(array('relation' => $tagRelationTable), 'relation.product_id = e.entity_id', array(
-                'product_id'                => 'product_id',
-                'item_store_id'             => 'store_id',
+                'product_id'    => 'product_id',
+                'item_store_id' => 'store_id',
             ))
             ->join(array('t' => $tagTable),
                 't.tag_id = relation.tag_id',

@@ -62,7 +62,7 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
                 ->from($this->getMainTable())
                 ->join(
                     $this->getTable('tag/tag'),
-                    $this->getTable('tag/tag') .'.tag_id = '. $this->getMainTable() .'.tag_id'
+                    $this->getTable('tag/tag') . '.tag_id = ' . $this->getMainTable() . '.tag_id'
                 )
                 ->where($this->getMainTable() . '.tag_id = :tag_id')
                 ->where('customer_id = :customer_id');
@@ -169,13 +169,14 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
             'tag_id'   => $model->getTagId(),
             'store_id' => $model->getStoreId()
         );
+        $write = $this->_getWriteAdapter();
 
-        $select = $this->_getWriteAdapter()->select()
+        $select = $write->select()
             ->from($this->getMainTable(), 'product_id')
             ->where('tag_id = :tag_id')
             ->where('store_id = :store_id')
             ->where('customer_id IS NULL');
-        $oldRelationIds = $this->_getWriteAdapter()->fetchCol($select, $bind);
+        $oldRelationIds = $write->fetchCol($select, $bind);
 
         $insert = array_diff($addedIds, $oldRelationIds);
         $delete = array_diff($oldRelationIds, $addedIds);
@@ -191,11 +192,11 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
                     'created_at'    => $this->formatDate(time())
                 );
             }
-            $this->_getWriteAdapter()->insertMultiple($this->getMainTable(), $insertData);
+            $write->insertMultiple($this->getMainTable(), $insertData);
         }
 
         if (!empty($delete)) {
-            $this->_getWriteAdapter()->delete($this->getMainTable(), array(
+            $write->delete($this->getMainTable(), array(
                 'product_id IN (?)' => $delete,
                 'store_id = ?'      => $model->getStoreId(),
                 'customer_id IS NULL'
