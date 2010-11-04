@@ -884,8 +884,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 $config['proxy'] = $this->getProxyHost(). ':' . $this->getProxyPort();
             }
             if ($this->getUseCertAuthentication()) {
-                $websiteId = Mage::app()->getStore()->getWebsiteId();
-                $config['ssl_cert'] = Mage::getModel('paypal/cert')->loadByWebsite($websiteId, false)->getCertPath();
+                $config['ssl_cert'] = $this->getApiCertificate();
             }
             $http->setConfig($config);
             $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $this->_buildQuery($request));

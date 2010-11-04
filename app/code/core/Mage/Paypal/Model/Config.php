@@ -1268,5 +1268,16 @@ class Mage_Paypal_Model_Config
             '1' => Mage::helper('paypal')->__('API Certificate')
         );
     }
+
+    /**
+     * Api certificate getter
+     *
+     * @return string
+     */
+    public function getApiCertificate()
+    {
+        $websiteId = Mage::app()->getStore($this->_storeId)->getWebsiteId();
+        return Mage::getModel('paypal/cert')->loadByWebsite($websiteId, false)->getCertPath();
+    }
 }
 

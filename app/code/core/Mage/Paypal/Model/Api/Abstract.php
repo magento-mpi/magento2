@@ -123,6 +123,16 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Return Paypal Api certificate based on config data
+     *
+     * @return string
+     */
+    public function getApiCertificate()
+    {
+        return $this->_config->getApiCertificate();
+    }
+
+    /**
      * BN code getter
      *
      * @return string
