@@ -122,51 +122,52 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
      */
     public function save(Mage_Core_Model_Abstract  $object)
     {
+        if ($object->isDeleted()) {
+            return $this->delete($object);
+        }
+
+        $this->_serializeFields($object);
         $this->_beforeSave($object);
-        $bind = $this->_prepareDataForSave($object);
-        $adapter = $this->_getWriteAdapter();
+        $this->_checkUnique($object);
 
-        $id = false;
-        if (!is_null($object->getId()) && $this->_isPkAutoIncrement) {
-            unset($bind[$this->getIdFieldName()]);
-            $id = $object->getId();
+
+        $data = $this->_prepareDataForSave($object);
+        unset($data[$this->getIdFieldName()]);
+
+        $writeAdapter = $this->_getWriteAdapter();
+        $checkSelect  = $writeAdapter->select();
+        $checkSelect->from(array('main_t' => $this->getMainTable()))
+            ->where('main_t.product_id = ?' , $object->getProductId());
+
+        $updateData = $data;
+        unset($updateData['product_id']);
+
+
+        if (!$object->getCustomerId()) {
+            $checkSelect->where('main_t.visitor_id = ?', $object->getVisitorId());
         } else {
-            $uniqIndexes = $this->_getUniqColumns();
-            $orWhere = array();
-            foreach ($uniqIndexes as $columnSet) {
-                $isNullUnique = false;
-                $where = array();
-                foreach ($columnSet as $column) {
-                    if (is_null($bind[$column])) {
-                        $isNullUnique = true;
-                        break;
-                    }
-                    $where[] = $adapter->quoteInto($adapter->quoteIdentifier($column) . '=?',  $bind[$column]);
-                }
-                if (!$isNullUnique) {
-                    $orWhere[] = implode(' AND ', $where);
-                }
-            }
+            $writeAdapter->delete($this->getMainTable(), array(
+                'product_id = ?'=> $object->getProductId(),
+                'customer_id = ?'=> $object->getCustomerId()
+            ));
+            $checkSelect->where('main_t.customer_id IS NULL')
+                ->where('main_t.visitor_id = ?', $object->getVisitorId());
+        }
+        $checkSelect->where( 'main_t.' .  $this->getIdFieldName() . ' = ' . $this->getIdFieldName());
 
-            if (!empty($orWhere)) {
-                $where = '(' . implode(') OR (', $orWhere) .')';
-                $select = $adapter->select()
-                    ->from($this->getMainTable(), array($object->getIdFieldName()))
-                    ->where($where);
-                $id = $adapter->fetchOne($select);
-            }
+        $updateCondition = new Zend_Db_Expr(' EXISTS(' . $checkSelect . ') ');
+
+        $affectedRows = $writeAdapter->update($this->getMainTable(), $updateData, $updateCondition);
+        if (!$affectedRows) {
+            $writeAdapter->insert($this->getMainTable(), $data);
         }
 
-        if ($id !== false) {
-            $condition = $adapter->quoteInto($adapter->quoteIdentifier($object->getIdFieldName()) . '=?', $id);
-            $adapter->update($this->getMainTable(), $bind, $condition);
-        } else {
-            $adapter->insert($this->getMainTable(), $bind);
-            $object->setId($adapter->lastInsertId($this->getMainTable()));
-        }
+        $this->unserializeFields($object);
         $this->_afterSave($object);
+
         return $this;
     }
+
 
     /**
      * Clean index (visitor)
