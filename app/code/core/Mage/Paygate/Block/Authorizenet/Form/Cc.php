@@ -80,6 +80,18 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
     }
 
     /**
+     * Get notice message
+     *
+     * @return string
+     */
+    public function showNoticeMessage()
+    {
+        return $this->getLayout()->getMessagesBlock()
+            ->addNotice($this->__('Please enter another credit card number to complete your purchase.'))
+            ->getGroupedHtml();
+    }
+
+    /**
      * Return partial authorization confirmation message and unset it in payment model
      *
      * @return string
