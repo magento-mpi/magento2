@@ -136,10 +136,10 @@ $table = $installer->getConnection()
     ->addColumn('added_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Added At')
-    ->addIndex($installer->getIdxName('reports/compared_product_index', array('visitor_id', 'product_id'), true),
-        array('visitor_id', 'product_id'), array('type' => 'unique'))
-    ->addIndex($installer->getIdxName('reports/compared_product_index', array('customer_id', 'product_id'), true),
-        array('customer_id', 'product_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('reports/compared_product_index', array('visitor_id', 'product_id')),
+        array('visitor_id', 'product_id'))
+    ->addIndex($installer->getIdxName('reports/compared_product_index', array('customer_id', 'product_id')),
+        array('customer_id', 'product_id'))
     ->addIndex($installer->getIdxName('reports/compared_product_index', array('store_id')),
         array('store_id'))
     ->addIndex($installer->getIdxName('reports/compared_product_index', array('added_at')),
@@ -185,9 +185,9 @@ $table = $installer->getConnection()
     ->addColumn('added_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Added At')
-    ->addIndex($installer->getIdxName('reports/viewed_product_index', array('visitor_id', 'product_id'), true),
+    ->addIndex($installer->getIdxName('reports/viewed_product_index', array('visitor_id', 'product_id')),
         array('visitor_id', 'product_id'))
-    ->addIndex($installer->getIdxName('reports/viewed_product_index', array('customer_id', 'product_id'), true),
+    ->addIndex($installer->getIdxName('reports/viewed_product_index', array('customer_id', 'product_id')),
         array('customer_id', 'product_id'))
     ->addIndex($installer->getIdxName('reports/viewed_product_index', array('store_id')),
         array('store_id'))
