@@ -314,7 +314,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
 
             $this->getSelect()->where('summary_store.store_id IN (?)', $storeId);
 
-            $this->getSelect()->group('summary_store.tag_id');
+            $this->getSelect()->group('main_table.tag_id');
 
             if ($this->getFlag('relation') && $allFilter) {
                 $this->getSelect()->where('relation.store_id IN (?)', $storeId);
