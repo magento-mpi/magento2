@@ -272,7 +272,12 @@ Layout handle for configurable products
 
     <adminhtml_catalog_product_composite_configure>
         <block type="core/text_list" name="product.composite.fieldset" output="toHtml">
-            <block name="product.composite.fieldset.options" type="adminhtml/catalog_product_composite_fieldset_options" template="catalog/product/composite/fieldset/options.phtml" />
+            <block name="product.composite.fieldset.options" type="adminhtml/catalog_product_composite_fieldset_options" template="catalog/product/composite/fieldset/options.phtml">
+                <action method="addOptionRenderer"><type>text</type><block>catalog/product_view_options_type_text</block><template>catalog/product/composite/fieldset/options/type/text.phtml</template></action>
+                <action method="addOptionRenderer"><type>file</type><block>catalog/product_view_options_type_file</block><template>catalog/product/composite/fieldset/options/type/file.phtml</template></action>
+                <action method="addOptionRenderer"><type>select</type><block>catalog/product_view_options_type_select</block><template>catalog/product/composite/fieldset/options/type/select.phtml</template></action>
+                <action method="addOptionRenderer"><type>date</type><block>catalog/product_view_options_type_date</block><template>catalog/product/composite/fieldset/options/type/date.phtml</template></action>
+            </block>
         </block>
     </adminhtml_catalog_product_composite_configure>
 <!--
