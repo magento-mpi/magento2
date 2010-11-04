@@ -2633,20 +2633,12 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Orders Count')
     ->addColumn('orders_invoiced', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Orders Invoiced')
     ->addColumn('invoiced', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Invoiced')
     ->addColumn('invoiced_captured', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Invoiced Captured')
     ->addColumn('invoiced_not_captured', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Invoiced Not Captured')
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated', array('period', 'store_id', 'order_status'), true),
         array('period', 'store_id', 'order_status'), array('type' => 'unique'))
@@ -2684,20 +2676,12 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Orders Count')
     ->addColumn('orders_invoiced', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Orders Invoiced')
     ->addColumn('invoiced', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Invoiced')
     ->addColumn('invoiced_captured', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Invoiced Captured')
     ->addColumn('invoiced_not_captured', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Invoiced Not Captured')
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated_order', array('period', 'store_id', 'order_status'), true),
         array('period', 'store_id', 'order_status'), array('type' => 'unique'))
@@ -2890,16 +2874,10 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Orders Count')
     ->addColumn('refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Refunded')
     ->addColumn('online_refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Online Refunded')
     ->addColumn('offline_refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Offline Refunded')
     ->addIndex($installer->getIdxName('sales/refunded_aggregated', array('period', 'store_id', 'order_status'), true),
         array('period', 'store_id', 'order_status'), array('type' => 'unique'))
@@ -2935,16 +2913,10 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Orders Count')
     ->addColumn('refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Refunded')
     ->addColumn('online_refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Online Refunded')
     ->addColumn('offline_refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Offline Refunded')
     ->addIndex($installer->getIdxName('sales/refunded_aggregated_order', array('period', 'store_id', 'order_status'), true),
         array('period', 'store_id', 'order_status'), array('type' => 'unique'))
@@ -2982,12 +2954,8 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Orders Count')
     ->addColumn('total_shipping', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Total Shipping')
     ->addColumn('total_shipping_actual', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Total Shipping Actual')
     ->addIndex($installer->getIdxName('sales/shipping_aggregated', array('period', 'store_id', 'order_status', 'shipping_description'), true),
         array('period', 'store_id', 'order_status', 'shipping_description'), array('type' => 'unique'))
@@ -3025,12 +2993,8 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Orders Count')
     ->addColumn('total_shipping', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Total Shipping')
     ->addColumn('total_shipping_actual', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Total Shipping Actual')
     ->addIndex($installer->getIdxName('sales/shipping_aggregated_order', array('period', 'store_id', 'order_status', 'shipping_description'), true),
         array('period', 'store_id', 'order_status', 'shipping_description'), array('type' => 'unique'))

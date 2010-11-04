@@ -75,7 +75,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
             // convert dates from UTC to current admin timezone
             $periodExpr                  = $adapter->getDateAddSql('o.created_at', $this->_getStoreTimezoneUtcOffset(),
                 Varien_Db_Adapter_Interface::INTERVAL_HOUR);
-            
+
             $ifnullBaseTotalCanceled     = $adapter->getIfNullSql('o.base_total_canceled', 0);
             $ifnullBaseTotalRefunded     = $adapter->getIfNullSql('o.base_total_refunded', 0);
             $ifnullBaseTaxInvoiced       = $adapter->getIfNullSql('o.base_tax_invoiced', 0);
@@ -105,9 +105,9 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
                     . " - {$ifnullBaseTaxInvoiced} - {$ifnullBaseShippingInvoiced} - {$ifnullBaseTotalInvoicedCost})"
                     . ' * o.base_to_global_rate)',
                 'total_invoiced_amount'          => 'SUM(o.base_total_invoiced * o.base_to_global_rate)',
-                'total_canceled_amount'          => 'SUM(o.base_total_canceled * o.base_to_global_rate)',
+                'total_canceled_amount'          => "SUM({$ifnullBaseTotalCanceled} * o.base_to_global_rate)",
                 'total_paid_amount'              => 'SUM(o.base_total_paid * o.base_to_global_rate)',
-                'total_refunded_amount'          => 'SUM(o.base_total_refunded * o.base_to_global_rate)',
+                'total_refunded_amount'          => "SUM({$ifnullBaseTotalRefunded} * o.base_to_global_rate)",
                 'total_tax_amount'               => "SUM((o.base_tax_amount - {$ifnullBaseTaxCanceled})"
                     . ' * o.base_to_global_rate)',
                 'total_tax_amount_actual'        => "SUM((o.base_tax_invoiced - {$ifnullBaseTaxRefunded})"
@@ -151,6 +151,8 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
                 'o.store_id',
                 'o.status',
             ));
+            
+            $adapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
 
             // setup all columns to select SUM() except period, store_id and order_status
             foreach ($columns as $k => $v) {

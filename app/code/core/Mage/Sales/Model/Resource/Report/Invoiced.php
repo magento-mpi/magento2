@@ -190,7 +190,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
         $table       = $this->getTable('sales/invoiced_aggregated_order');
         $sourceTable = $this->getTable('sales/order');
         $adapter     = $this->_getWriteAdapter();
-        
+
         $adapter->beginTransaction();
 
         try {
@@ -266,7 +266,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
             $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
             $adapter->query($insertQuery);
             $adapter->commit();
-            
+
         } catch (Exception $e) {
             $adapter->rollBack();
             throw $e;
