@@ -77,6 +77,19 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
             ->where('link_type_id = :link_type_id');
 
         $links   = $adapter->fetchPairs($select, $bind);
+
+        $deleteIds = array();
+        foreach($links as $linkedProductId => $linkId) {
+            if (!isset($data[$linkedProductId])) {
+                $deleteIds[] = (int)$linkId;
+            }
+        }
+        if (!empty($deleteIds)) {
+            $adapter->delete($this->getMainTable(), array(
+                'link_id IN (?)' => $deleteIds,
+            ));
+        }
+
         foreach ($data as $linkedProductId => $linkInfo) {
             $linkId = null;
             if (isset($links[$linkedProductId])) {
