@@ -285,9 +285,11 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     public function processBuyRequest($product, $buyRequest)
     {
         $options = array(
-            'giftcard_sender_name'      => $buyRequest->getGiftcardSenderName(),
-            'giftcard_recipient_name'   => $buyRequest->getGiftcardRecipientName(),
-            'giftcard_message'          => $buyRequest->getGiftcardMessage()
+            'giftcard_amount'         => $buyRequest->getGiftcardAmount(),
+            'custom_giftcard_amount'  => $buyRequest->getCustomGiftcardAmount(),
+            'giftcard_sender_name'    => $buyRequest->getGiftcardSenderName(),
+            'giftcard_recipient_name' => $buyRequest->getGiftcardRecipientName(),
+            'giftcard_message'        => $buyRequest->getGiftcardMessage()
         );
 
         return $options;
