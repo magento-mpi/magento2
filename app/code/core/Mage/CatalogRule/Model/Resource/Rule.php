@@ -590,8 +590,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         $fromDate = $adapter->getIfNullSql('main_table.from_date', $dateQuoted);
         $toDate = $adapter->getIfNullSql('main_table.to_date', $dateQuoted);
         $select = $adapter->select()
-            ->distinct()
-            ->from(array('main_table' => $this->getTable('catalogrule/rule')), 'main_table.*')
+            ->from(array('main_table' => $this->getTable('catalogrule/rule')))
             ->joinInner(
                 array('rp' => $this->getTable('catalogrule/rule_product')),
                 implode(' AND ', $joinCondsQuoted),
