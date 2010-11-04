@@ -96,14 +96,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             ->addAttributeToSelect('price')
             ->addMinimalPrice()
             ->addStoreFilter()
-            ->addAttributeToSelect('gift_message_available')
-            ->addOptionsToResult();
+            ->addAttributeToSelect('gift_message_available');
+//            ->addOptionsToResult();
 
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-        /**
-         * need display all simple products
-         */
         //Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        //Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($collection);
 
         $this->setCollection($collection);
 
