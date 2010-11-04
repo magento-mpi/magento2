@@ -94,27 +94,46 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         // get store switcher or a hidden field with its id
         if (!Mage::app()->isSingleStoreMode()) {
             $stores  = Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm();
+            $entityStores = array();
+            $noStoreError = false;
 
             //showing websites that only associated to products
             if ($product && $product->getId()) {
-                $productStores = $product->getStoreIds() ? $product->getStoreIds() : array();
-                if  (!$productStores) {
+                $entityStores = $product->getStoreIds() ? $product->getStoreIds() : array();
+                if  (!$entityStores) {
                     $stores = array(); //reset the stores
-                    Mage::getSingleton('adminhtml/session')->addError($this->__('Chosen product does not associated with any website.'));
+                    $noStoreError = $this->__('Chosen product does not associated with any website, ') .
+                        $this->__('so url rewrite is not possible.');
                 }
-                if($stores){
-                    foreach ($stores as $i => $store) {
-                        if (isset($store['value']) && $store['value']) {
-                            $found = false;
-                            foreach ($store['value'] as $_v) {
-                                if (isset($_v['value']) && in_array($_v['value'],$productStores)) {
-                                   $found = true;
-                                   break;
-                                }
+                //if category is chosen, reset stores which are not related with this category
+                if ($category && $category->getId()) {
+                    $categoryStores = $category->getStoreIds() ? $category->getStoreIds() : array();
+                    $entityStores = array_intersect($entityStores, $categoryStores);
+                }
+            }
+            elseif ($category && $category->getId()) {
+                $entityStores = $category->getStoreIds() ? $category->getStoreIds() : array();
+                if  (!$entityStores) {
+                    $stores = array(); //reset the stores
+                    $noStoreError = $this->__('Chosen category does not associated with any website, ') .
+                        $this->__('so url rewrite is not possible.');
+                }
+            }
+
+            if ($stores) {
+                foreach ($stores as $i => $store) {
+                    if (isset($store['value']) && $store['value']) {
+                        $found = false;
+                        foreach ($store['value'] as $_k => $_v) {
+                            if (isset($_v['value']) && in_array($_v['value'], $entityStores)) {
+                               $found = true;
                             }
-                            if (!$found) {
-                                $stores[$i]['value'] = array();
+                            else {
+                                unset($stores[$i]['value'][$_k]);
                             }
+                        }
+                        if (!$found) {
+                            unset($stores[$i]);
                         }
                     }
                 }
@@ -129,6 +148,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
                 'disabled'  => true,
                 'value'     => $formValues['store_id'],
             ));
+            if ($noStoreError) {
+                $element->setAfterElementHtml($noStoreError);
+            }
             if (!$model->getIsSystem()) {
                 $element->unsetData('disabled');
             }
