@@ -199,7 +199,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      * Get group name of option by given option type
      *
      * @param string $type
-     * @return array
+     * @return string
      */
     public function getGroupByType($type = null)
     {

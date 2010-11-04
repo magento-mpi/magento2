@@ -23,12 +23,8 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
- ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Custom Options') ?></h4>
-    </div>
-    <div id="catalog_product_composite_configure_fields_simple">
-        Custom Options Fields
-    </div>
-</div>
+?>
+<?php $option = $this->getOption() ?>
+<dt>
+    <label><?php echo $this->escapeHtml($option->getTitle()) ?></label>
+</dt>
