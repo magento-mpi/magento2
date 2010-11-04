@@ -214,8 +214,6 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Order Status')
     ->addColumn('percent', Varien_Db_Ddl_Table::TYPE_FLOAT, null, array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Percent')
     ->addColumn('orders_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
@@ -223,8 +221,6 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Orders Count')
     ->addColumn('tax_base_amount_sum', Varien_Db_Ddl_Table::TYPE_FLOAT, null, array(
-        'nullable'  => false,
-        'default'   => '0.0000',
         ), 'Tax Base Amount Sum')
     ->addIndex($installer->getIdxName('tax/tax_order_aggregated_created', array('period', 'store_id', 'code', 'order_status'), true),
         array('period', 'store_id', 'code', 'order_status'), array('type' => 'unique'))

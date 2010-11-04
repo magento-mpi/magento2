@@ -1601,7 +1601,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (!isset($indexList[$keyName])) {
             return $this;
         }
-        
+
         $keyType = $indexList[$keyName]['INDEX_TYPE'];
         $keyName = $indexList[$keyName]['KEY_NAME'];
         switch (strtolower($keyType)) {
@@ -3244,7 +3244,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $expr = sprintf('CONVERT(VARCHAR(14), %s, 120)', $date);
                 break;
             case '%Y-%m-%d':
-                $expr = sprintf('CONVERT(VARCHAR(10), %s, 102)', $date);
+                $expr = sprintf('CONVERT(VARCHAR(10), %s, 120)', $date);
                 break;
             default:
                 $expr = sprintf("dbo.date_format(%s, '%s')", $date, $format);
