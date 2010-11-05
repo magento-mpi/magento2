@@ -1,0 +1,6 @@
+
+<buttons>
+    <search>//button[span='Search']</search>
+    <reset_search>//button[span='Reset Filter']</reset_search>
+    <submit>//button[normalize-space(@class)='scalable save submit-button' or normalize-space(@class)='scalable save' and not(contains(span,'Continue'))]</submit>
+</buttons>
