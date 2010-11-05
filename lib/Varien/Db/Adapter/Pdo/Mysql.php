@@ -2394,7 +2394,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 $fieldName = str_replace('#?', $this->quoteIdentifier($fieldName), $condition['field_expr']);
                 unset($condition['field_expr']);
             }
-            $key = key($condition);
+            $key = key(array_intersect_key($condition, $conditionKeyMap));
 
             if (isset($condition['from']) || isset($condition['to'])) {
                 if (isset($condition['from'])) {
