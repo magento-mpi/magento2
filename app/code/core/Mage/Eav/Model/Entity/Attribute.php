@@ -246,8 +246,10 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
             case 'select':
             case 'gallery':
             case 'media_image':
+                break;
             case 'multiselect':
-                return '';
+                $field = null;
+                break;
 
             case 'text':
             case 'price':
