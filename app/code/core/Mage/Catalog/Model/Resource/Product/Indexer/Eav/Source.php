@@ -108,7 +108,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
             return $this;
         }
 
-        $productValueExpression = $adapter->getCheckSql('pis.value_id > 0', 'pis.value', 'pid.value');
+        $productValueExpression = $adapter->getCheckSql('pis.value_id IS NOT NULL',
+                                                        'pis.value',
+                                                        'pid.value');
         $select = $adapter->select()
             ->from(
                 array('pid' => $this->getValueTable('catalog/product', 'int')),
