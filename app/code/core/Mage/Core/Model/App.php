@@ -252,6 +252,7 @@ class Mage_Core_Model_App
 
         Varien_Profiler::start('mage::app::init::config');
         $this->_config = Mage::getConfig();
+        $this->_config->setOptions($options);
         $this->_initBaseConfig();
         $this->_initCache();
         $this->_config->init($options);
