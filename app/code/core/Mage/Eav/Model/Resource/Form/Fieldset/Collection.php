@@ -118,7 +118,7 @@ class Mage_Eav_Model_Resource_Form_Fieldset_Collection extends Mage_Core_Model_R
             $select->columns('label', 'default_label');
         } else {
             $labelExpr = $select->getAdapter()
-                ->getCheckSql('store_label.label IS NULL', 'default_label.label', 'store_label.label');
+                ->getIfNullSql('store_label.label', 'default_label.label');
             $joinCondition = $this->getConnection()
                 ->quoteInto(
                     'main_table.fieldset_id = store_label.fieldset_id AND store_label.store_id = ?', 

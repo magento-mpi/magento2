@@ -56,8 +56,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Re
         $attributeCode  = $attribute->getAttributeCode();
         $optionTable1   = $attributeCode . '_option_value_t1';
         $optionTable2   = $attributeCode . '_option_value_t2';
-        $tableJoinCond1 = $adapter->quoteInto("{$optionTable1}.option_id={$valueExpr} AND {$optionTable1}.store_id=?",
-            0);
+        $tableJoinCond1 = "{$optionTable1}.option_id={$valueExpr} AND {$optionTable1}.store_id=0"
+        ;
         $tableJoinCond2 = $adapter->quoteInto("{$optionTable2}.option_id={$valueExpr} AND {$optionTable2}.store_id=?",
             $collection->getStoreId());
         $valueExpr      = $adapter->getCheckSql("{$optionTable2}.value_id IS NULL",
@@ -87,8 +87,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Re
      * @return Varien_Db_Select
      */
     public function getFlatUpdateSelect(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $store,
-        $hasValueField = true)
-    {
+        $hasValueField = true
+    ) {
         $adapter        = $this->_getReadAdapter();
         $attributeTable = $attribute->getBackend()->getTable();
         $attributeCode  = $attribute->getAttributeCode();
@@ -129,10 +129,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Re
         $select
             ->where('t1.entity_type_id = ?', $attribute->getEntityTypeId())
             ->where('t1.attribute_id = ?', $attribute->getId())
-            ->where('t1.store_id =?', 0);
+            ->where('t1.store_id = 0');
 
         if ($attribute->getFlatAddChildData()) {
-            $select->where('e.is_child =?', 0);
+            $select->where('e.is_child = 0');
         }
 
         return $select;

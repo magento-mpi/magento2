@@ -958,3 +958,4 @@ $table = $installer->getConnection()
     ->setComment('Eav Form Element');
 $installer->getConnection()->createTable($table);
 
+$installer->endSetup();

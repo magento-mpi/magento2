@@ -115,11 +115,12 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
      */
     public function getSetInfo(array $attributeIds, $setId = null)
     {
+        $adapter = $this->_getReadAdapter();
         $setInfo = array();
         $attributeToSetInfo = array();
 
         if (count($attributeIds) > 0) {
-            $select = $this->_getReadAdapter()->select()
+            $select = $adapter->select()
                 ->from(
                     array('entity' => $this->getTable('eav/entity_attribute')),
                     array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order'))
@@ -130,10 +131,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
                 ->where('entity.attribute_id IN (?)', $attributeIds);
             $bind = array();
             if (is_numeric($setId)) {
-                $bind['attribute_set_id'] = $setId;
+                $bind[':attribute_set_id'] = $setId;
                 $select->where('entity.attribute_set_id = :attribute_set_id');
             }
-            $result = $this->_getReadAdapter()->fetchAll($select, $bind);
+            $result = $adapter->fetchAll($select, $bind);
 
             foreach ($result as $row) {
                 $data = array(
@@ -162,14 +163,15 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
      */
     public function getDefaultGroupId($setId)
     {
-        $bind   = array(
+        $adapter = $this->_getReadAdapter();
+        $bind    = array(
             'attribute_set_id' => (int)$setId
         );
-        $select = $this->_getReadAdapter()->select()
+        $select = $adapter->select()
             ->from($this->getTable('eav/attribute_group'), 'attribute_group_id')
             ->where('attribute_set_id = :attribute_set_id')
-            ->where('default_id =?', 1)
+            ->where('default_id = 1')
             ->limit(1);
-        return $this->_getReadAdapter()->fetchOne($select, $bind);
+        return $adapter->fetchOne($select, $bind);
     }
 }

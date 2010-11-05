@@ -76,7 +76,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
             return array();
         }
         $adapter = $this->_getReadAdapter();
-        $bind    = array('type_id' => $objectId);
+        $bind    = array(':type_id' => $objectId);
         $select  = $adapter->select()
             ->from($this->getTable('eav/form_type_entity'), 'entity_type_id')
             ->where('type_id = :type_id');
@@ -101,7 +101,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
             $insert = array_diff($new, $old);
             $delete = array_diff($old, $new);
 
-            $write  = $this->_getWriteAdapter();
+            $adapter  = $this->_getWriteAdapter();
 
             if (!empty($insert)) {
                 $data = array();
@@ -115,7 +115,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
                     );
                 }
                 if ($data) {
-                    $write->insertMultiple($this->getTable('eav/form_type_entity'), $data);
+                    $adapter->insertMultiple($this->getTable('eav/form_type_entity'), $data);
                 }
             }
 
@@ -124,7 +124,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
                     'entity_type_id IN (?)' => $delete,
                     'type_id = ?'           => $object->getId()
                 );
-                $write->delete($this->getTable('eav/form_type_entity'), $where);
+                $adapter->delete($this->getTable('eav/form_type_entity'), $where);
             }
         }
 
@@ -145,7 +145,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
         if (!$attribute) {
             return array();
         }
-        $bind   = array('attribute_id' => $attribute);
+        $bind   = array(':attribute_id' => $attribute);
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('eav/form_element'))
             ->where('attribute_id = :attribute_id');

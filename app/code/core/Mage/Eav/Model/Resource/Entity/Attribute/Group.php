@@ -103,7 +103,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Group extends Mage_Core_Model_Res
     protected function _getMaxSortOrder($object)
     {
         $adapter = $this->_getReadAdapter();
-        $bind    = array('attribute_set_id' => $object->getAttributeSetId());
+        $bind    = array(':attribute_set_id' => $object->getAttributeSetId());
         $select  = $adapter->select()
             ->from($this->getMainTable(), new Zend_Db_Expr("MAX(sort_order)"))
             ->where('attribute_set_id = :attribute_set_id');
@@ -115,12 +115,12 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Group extends Mage_Core_Model_Res
      * Set any group default if old one was removed
      *
      * @param integer $attributeSetId
-     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Group
+     * @return Mage_Eav_Model_Resource_Entity_Attribute_Group
      */
     public function updateDefaultGroup($attributeSetId)
     {
         $adapter = $this->_getWriteAdapter();
-        $bind    = array('attribute_set_id' => $attributeSetId);
+        $bind    = array(':attribute_set_id' => $attributeSetId);
         $select  = $adapter->select()
             ->from($this->getMainTable(), $this->getIdFieldName())
             ->where('attribute_set_id = :attribute_set_id')

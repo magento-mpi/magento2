@@ -172,7 +172,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             if (!$setId) {
                 continue;
             }
-            $alias = sprintf('entity_attribute_%d', $setId);
+            $alias         = sprintf('entity_attribute_%d', $setId);
             $joinCondition = $this->getConnection()
                 ->quoteInto("{$alias}.attribute_id = main_table.attribute_id AND {$alias}.attribute_set_id =?", $setId);
             $this->join(
@@ -273,9 +273,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
      */
     public function addHasOptionsFilter()
     {
+        $adapter = $this->getConnection();
         $orWhere = implode(' OR ', array(
-            $this->getConnection()->quoteInto('(main_table.frontend_input = ? AND ao.option_id > 0)', 'select'),
-            $this->getConnection()->quoteInto('(main_table.frontend_input <> ?)', 'select'),
+            $adapter->quoteInto('(main_table.frontend_input = ? AND ao.option_id > 0)', 'select'),
+            $adapter->quoteInto('(main_table.frontend_input <> ?)', 'select'),
             '(main_table.is_user_defined = 0)'
         ));
 
@@ -329,8 +330,9 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
             }
             $attributeToSetInfo = array();
 
+            $adapter = $this->getConnection();
             if (count($attributeIds) > 0) {
-                $select = $this->getConnection()->select()
+                $select = $adapter->select()
                     ->from(
                         array('entity' => $this->getTable('eav/entity_attribute')),
                         array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order')
@@ -341,7 +343,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
                         array('group_sort_order' => 'sort_order')
                     )
                     ->where('attribute_id IN (?)', $attributeIds);
-                $result = $this->getConnection()->fetchAll($select);
+                $result = $adapter->fetchAll($select);
 
                 foreach ($result as $row) {
                     $data = array(
@@ -417,14 +419,13 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
      */
     public function addStoreLabel($storeId)
     {
-        $joinExpression = $this->getConnection()
+        $adapter        = $this->getConnection();
+        $joinExpression = $adapter
             ->quoteInto('al.attribute_id = main_table.attribute_id AND al.store_id = ?', (int) $storeId);
-        $labelExpr = $this->getSelect()->getAdapter()
-            ->getCheckSql('al.value IS NULL', 'main_table.frontend_label', 'al.value');
         $this->getSelect()->joinLeft(
             array('al' => $this->getTable('eav/attribute_label')),
             $joinExpression,
-            array('store_label' => $labelExpr)
+            array('store_label' => $adapter->getIfNullSql('al.value', 'main_table.frontend_label'))
         );
 
         return $this;

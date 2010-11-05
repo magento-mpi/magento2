@@ -74,11 +74,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Co
         if (is_null($storeId)) {
             $storeId = Mage::app()->getStore()->getId();
         }
-
-        $joinCondition = $this->getConnection()
-            ->quoteInto('tsv.option_id = main_table.option_id AND tsv.store_id = ?', $storeId);
-
         $adapter = $this->getConnection();
+
+        $joinCondition = $adapter->quoteInto('tsv.option_id = main_table.option_id AND tsv.store_id = ?', $storeId);
+
         if ($useDefaultValue) {
             $this->getSelect()
                 ->join(
@@ -133,7 +132,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Co
     /**
      * Set order by position or alphabetically by values in admin
      *
-     * @param string $dir derection
+     * @param string $dir direction
      * @param boolean $sortAlpha sort alphabetically by values in admin
      * @return Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection
      */

@@ -76,6 +76,7 @@ class Mage_Eav_Model_Resource_Form_Element_Collection extends Mage_Core_Model_Re
      * Add Attribute filter to collection
      *
      * @param Mage_Eav_Model_Entity_Attribute_Abstract|int $attribute
+     *
      * @return Mage_Eav_Model_Resource_Form_Element_Collection
      */
     public function addAttributeFilter($attribute)

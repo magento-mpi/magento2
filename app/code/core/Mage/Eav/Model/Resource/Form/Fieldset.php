@@ -55,19 +55,19 @@ class Mage_Eav_Model_Resource_Form_Fieldset extends Mage_Core_Model_Resource_Db_
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         if ($object->hasLabels()) {
-            $new = $object->getLabels();
-            $old = $this->getLabels($object);
+            $new        = $object->getLabels();
+            $old        = $this->getLabels($object);
 
-            $adapter  = $this->_getWriteAdapter();
+            $adapter    = $this->_getWriteAdapter();
 
-            $insert = array_diff(array_keys($new), array_keys($old));
-            $delete = array_diff(array_keys($old), array_keys($new));
-            $update = array();
+            $insert     = array_diff(array_keys($new), array_keys($old));
+            $delete     = array_diff(array_keys($old), array_keys($new));
+            $update     = array();
 
             foreach ($new as $storeId => $label) {
                 if (isset($old[$storeId]) && $old[$storeId] != $label) {
                     $update[$storeId] = $label;
-                } else if (isset($old[$storeId]) && empty($label)) {
+                } elseif (isset($old[$storeId]) && empty($label)) {
                     $delete[] = $storeId;
                 }
             }
@@ -126,7 +126,7 @@ class Mage_Eav_Model_Resource_Form_Fieldset extends Mage_Core_Model_Resource_Db_
             return array();
         }
         $adapter = $this->_getReadAdapter();
-        $bind    = array('fieldset_id' => $objectId);
+        $bind    = array(':fieldset_id' => $objectId);
         $select  = $adapter->select()
             ->from($this->getTable('eav/form_fieldset_label'), array('store_id', 'label'))
             ->where('fieldset_id = :fieldset_id');
@@ -146,8 +146,7 @@ class Mage_Eav_Model_Resource_Form_Fieldset extends Mage_Core_Model_Resource_Db_
     {
         $select = parent::_getLoadSelect($field, $value, $object);
 
-        $labelExpr = $select->getAdapter()
-            ->getCheckSql('store_label.label IS NULL', 'default_label.label', 'store_label.label');
+        $labelExpr = $select->getAdapter()->getIfNullSql('store_label.label', 'default_label.label');
 
         $select
             ->joinLeft(
