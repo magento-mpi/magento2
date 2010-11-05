@@ -100,16 +100,18 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     protected $_resetItemsDataChanged   = false;
 
     /**
-     * Event prefix key
+     * Name prefix of events that are dispatched by model
+     *
      * @var string
      */
-    protected $_eventPrefix = '';
+    protected $_eventPrefix = 'core_mysql4_collection_abstract';
 
     /**
-     * Event object key
+     * Name of event parameter
+     *
      * @var string
      */
-    protected $_eventObject = '';
+    protected $_eventObject = 'object';
 
     /**
      * Use analytic function flag
