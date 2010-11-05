@@ -3,99 +3,139 @@
     <sales>
         <orders>
             <manage_orders>
+                <elements>
+                    <order_grid>//*[@id='sales_order_grid']</order_grid>
+                    <order_status>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]/following-sibling::*[7]</order_status>
+                </elements>
+                <inputs>
+                    <search_order_id>//*[@id='filter_real_order_id']</search_order_id>
+                </inputs>
                 <buttons>
                     <create_order>//button[span='Create New Order']</create_order>
-                    <order_search>//button[span='Search']</order_search>
-                    <reset_search>//button[span='Reset Filter']</reset_search>
                 </buttons>
-                <input>
-                    <order_number>filter_real_order_id</order_number>
-                </input>
-                <page_elements>
-                    <order_status>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]/following-sibling::*[7]</order_status>
-                </page_elements>
-                <locators>
-                    <select_order>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]</select_order>
-                </locators>
-            </manage_orders>
-            <edit_order>
-                <buttons>
-                    <create_invoice>//button[span='Invoice']</create_invoice>
-                    <create_ship>//button[span='Ship']</create_ship>
-                    <reorder>//button[span='Reorder']</reorder>
-                    <create_memo>//button[span='Credit Memo']</create_memo>
-                </buttons>
-                <messages>
-                    <invoice_created>//li[@class='success-msg']//*[contains(text(),'The invoice has been created.')]</invoice_created>
-                    <ship_created>//li[@class='success-msg']//*[contains(text(),'The shipment has been created.')]</ship_created>
-                    <c_memo_created>//li[@class='success-msg']//*[contains(text(),'The credit memo has been created.')]</c_memo_created>
-                </messages>
-                <page_elements>
-                    <order_number>//div[@class='content-header']//h3</order_number>
-                </page_elements>
-            </edit_order>
-            <create_order>
-                <buttons>
-                    <add_product>//button[span='Add Products']</add_product>
-                    <product_search>//div[@id='sales_order_create_search_grid']//button[span='Search']</product_search>
-                    <add_product_confirm>//button[span='Add Selected Product(s) to Order']</add_product_confirm>
-                    <sumbit_order>//button[span='Submit Order']</sumbit_order>
-                </buttons>
-                <input>
-                    <search_by_product_sku>filter_sku</search_by_product_sku>
-                </input>
-                <messages>
-                    <order_created>//li[@class='success-msg']//*[contains(text(),'The order has been created.')]</order_created>
-                    <order_not_created>//li[@class='error-msg']</order_not_created>
-                    <verify_req_field>//div[@class='validation-advice']</verify_req_field>
-                    <verify_shipping>//div[@id='order-shipping_method']//div[@class='fieldset']/strong</verify_shipping>
-                </messages>
-                <page_elements>
-                    <order_page>//div[@id='order-data' and contains(@style,'')]</order_page>
-                    <product_search_grid>//*[@id='sales_order_create_search_grid_table']</product_search_grid>
-                </page_elements>
-                <locators>
-                    <select_product>//table[@id="sales_order_create_search_grid_table"]//td</select_product>
-                    <get_shipping>link=Get shipping methods and rates</get_shipping>
-                </locators>
-                                        <!-- related pages-->
-                <salect_user_for_order>
-                    <buttons>
-                        <user_search>//button[span='Search']</user_search>
-                    </buttons>
+                <!-- related pages-->
+                <create_order>
+                    <elements>
+                        <containers>//td/div[contains(@id,'order-') and not(contains(@style,'display: none;')) and not(contains(@class,'validation-advice'))]</containers>
+                        <select_customer_container>//div[@id='order-customer-selector' and not(contains(@style,'display: none;'))]</select_customer_container>
+                        <store_view_container>//div[@id='order-store-selector' and not(contains(@style,'display: none;'))]</store_view_container>
+                        <select_product_for_order_container>//div[@id='sales_order_create_search_grid']</select_product_for_order_container>
+                        <order_items_info>//*[@id='order-items_grid']//tfoot//td[string-length(@class)>2][%s]</order_items_info>
+                        <shipping_container>//*[@id='order-shipping-method-choose']</shipping_container>
+                        <one_shipping_container>//dt[contains(.,'%s')]/following-sibling::*[1]</one_shipping_container>
+                        <no_shipping>Sorry, no quotes are available for this order at this time.</no_shipping>
+                        <selected_shipping_info_container>//*[@id='order-shipping-method-info']</selected_shipping_info_container>
+                        <no_payment>No Payment Information Required</no_payment>
+                        <credit_card_payment>//*[@id='payment_form_%s' and not(contains(@style,'display: none;'))]</credit_card_payment>
+                        <sku_for_added_product>/ancestor::tr[string-length(@class)>1]//div[contains(.,'SKU')]</sku_for_added_product>
+                        <error_for_added_product>//*[@id='order-items_grid']/descendant::*[contains(@class,'error')]</error_for_added_product>
+                        <only_virtual_added>//div[contains(@id,'overlay') and not(contains(@style,'display: none;'))]</only_virtual_added>
+                        <order_number>//div[@class='content-header']//h3</order_number>
+                    </elements>
                     <inputs>
-                        <search_by_user_email>filter_email</search_by_user_email>
-                        <search_by_store_view_name>filter_store_name</search_by_store_view_name>
+                        <!-- "Select customer for order" page  -->
+                        <search_user_id>//*[@id='filter_entity_id']</search_user_id>
+                        <search_user_name>//*[@id='filter_name']</search_user_name>
+                        <search_user_email>//*[@id='filter_email']</search_user_email>
+                        <search_user_tel>//*[@id='filter_Telephone']</search_user_tel>
+                        <search_user_zip>//*[@id='filter_billing_postcode']</search_user_zip>
+                        <search_user_state>//*[@id='filter_billing_regione']</search_user_state>
+                        <search_registered_from_storeview>//*[@id='filter_store_name']</search_registered_from_storeview>
+                        <!-- "Select Store View for order" page  -->
+                        <storeview_name>//label[normalize-space(text())='%s']</storeview_name>
+                        <!-- "Please Select Products to Add" grid  -->
+                        <search_product_id>//*[@id='filter_entity_id']</search_product_id>
+                        <search_product_name>//*[@id='filter_name']</search_product_name>
+                        <search_product_sku>//*[@id='filter_sku']</search_product_sku>
+                        <search_product_price_from>//*[@id='filter_price_from']</search_product_price_from>
+                        <search_product_price_to>//*[@id='filter_price_to']</search_product_price_to>
+                        <!-- "Apply Coupon Code" grid  -->
+                        <coupon_code>//*[@id='coupons:code']</coupon_code>
+                        <!-- "Gift Cards" grid  -->
+                        <gift_card_code>//*[@id='giftcardaccount_add_input']</gift_card_code>
+                        <!-- "Account Information" grid  -->
+                        <user_email>//*[@id='email']</user_email>
+                        <!-- "Billing Address" grid  -->                        
+                        <billing_fname>//*[@id='order-billing_address_firstname']</billing_fname>
+                        <billing_lname>//*[@id='order-billing_address_lastname']</billing_lname>
+                        <billing_company>//*[@id='order-billing_address_company']</billing_company>
+                        <billing_street>//*[@id='order-billing_address_street0']</billing_street>
+                        <billing_city>//*[@id='order-billing_address_city']</billing_city>
+                        <billing_state>//*[@id='order-billing_address_region']</billing_state>
+                        <billing_zip>//*[@id='order-billing_address_postcode']</billing_zip>
+                        <billing_tel>//*[@id='order-billing_address_telephone']</billing_tel>
+                        <billing_fax>//*[@id='order-billing_address_fax']</billing_fax>
+                        <save_billing>//*[@id='order-billing_address_save_in_address_book']</save_billing>
+                        <!-- "Shipping Address" grid  -->
+                        <same_as_billing>//*[@id='order-shipping_same_as_billing']</same_as_billing>
+                        <shipping_fname>//*[@id='order-shipping_address_firstname']</shipping_fname>
+                        <shipping_lname>//*[@id='order-shipping_address_lastname']</shipping_lname>
+                        <shipping_company>//*[@id='order-shipping_address_company']</shipping_company>
+                        <shipping_street>//*[@id='order-shipping_address_street0']</shipping_street>
+                        <shipping_city>//*[@id='order-shipping_address_city']</shipping_city>
+                        <shipping_state>//*[@id='order-shipping_address_region']</shipping_state>
+                        <shipping_zip>//*[@id='order-shipping_address_postcode']</shipping_zip>
+                        <shipping_tel>//*[@id='order-shipping_address_telephone']</shipping_tel>
+                        <shipping_fax>//*[@id='order-shipping_address_fax']</shipping_fax>
+                        <save_shipping>//*[@id='order-shipping_address_save_in_address_book']</save_shipping>
+                        <not_active>
+                            <shipping_state>//*[@id='order-shipping_address_region' and @style='display: none;']</shipping_state>
+                            <billing_state>//*[@id='order-billing_address_region' and @style='display: none;']</billing_state>
+                        </not_active>
+                        <!-- "Payment Method" grid  -->                        
+                        <paypaluk_direct>//*[@id='p_method_paypaluk_direct']</paypaluk_direct>
+                        <verisign>//*[@id='p_method_verisign']</verisign>
+                        <paypal_direct>//*[@id='p_method_paypal_direct']</paypal_direct>
+                        <authorizenet>//*[@id='p_method_authorizenet']</authorizenet>
+                        <ccsave>//*[@id='p_method_ccsave']</ccsave>
+                        <money_order>//*[@id='p_method_checkmo']</money_order>
+                        <purchase_order>//*[@id='p_method_purchaseorder']</purchase_order>
+                        <billing_agreement>//*[@id='p_method_paypal_billing_agreement']</billing_agreement>
+                        <card_name>//*[@id='ccsave_cc_owner']</card_name>
+                        <card_number>//*[@id='%s_cc_number']</card_number>
+                        <verification_number>//*[@id='%s_cc_cid']</verification_number>                        
+                        <!-- "Shipping Method" grid  -->
+                        <get_shipping_methods>//*[@id='order-shipping-method-summary']/a</get_shipping_methods>
+                        <allowed_method>//li[contains(.,'%s')]/input</allowed_method>
                     </inputs>
-                    <locators>
-                        <select_user>//table[@id="sales_order_create_customer_grid_table"]//td[contains(text(),'%s')]</select_user>
-                    </locators>
-                </salect_user_for_order>
-                <select_sore_view_for_order>
-                    <page_elements>
-                        <loaded_store_view>//div[@id='order-store-selector' and contains(@style,'')]</loaded_store_view>
-                    </page_elements>
-                    <locators>
-                        <select_store_view>//label[text()='%s']</select_store_view>
-                    </locators>
-                </select_sore_view_for_order>
-                                        <!-- related pages-->
-            </create_order>
-            <create_invoice>
-                <buttons>
-                    <sumbit_invoice>//button[span='Submit Invoice']</sumbit_invoice>
-                </buttons>
-            </create_invoice>
-            <create_shippment>
-                <buttons>
-                    <sumbit_ship>//button[span='Submit Shipment']</sumbit_ship>
-                </buttons>
-            </create_shippment>
-            <create_credit_memo>
-                <buttons>
-                    <sumbit_memo>//button[span='Refund Offline']</sumbit_memo>
-                </buttons>
-            </create_credit_memo>
+                    <selectors>
+                        <!-- "Select customer for order" page  -->
+                        <user_country>//*[@id='filter_billing_country_id']</user_country>
+                        <!-- "Please Select Products to Add" grid  -->
+                        <marked_or_not>//*[@id='filter_in_products']</marked_or_not>
+                        <!-- "Account Information" grid  -->
+                        <user_group>//*[@id='group_id']</user_group>
+                        <!-- "Billing Address" grid  -->
+                        <billing_country>//*[@id='order-billing_address_country_id']</billing_country>
+                        <billing_state>//*[@id='order-billing_address_region_id']</billing_state>
+                        <select_billing_address>//*[@id='order-billing_address_customer_address_id']</select_billing_address>
+                        <!-- "Shipping Address" grid  -->
+                        <shipping_country>//*[@id='order-shipping_address_country_id']</shipping_country>
+                        <shipping_state>//*[@id='order-shipping_address_region_id']</shipping_state>
+                        <select_shipping_address>//*[@id='order-shipping_address_customer_address_id']</select_shipping_address>
+                        <!-- "Payment Method" grid  -->
+                        <card_type>//*[@id='%s_cc_type']</card_type>
+                        <month_expiration>//*[@id='%s_expiration']</month_expiration>
+                        <year_expiration>//*[@id='%s_expiration_yr']</year_expiration>
+                    </selectors>
+                    <buttons>
+                        <new_customer>//button[span="Create New Customer"]</new_customer>
+                        <add_product>//button[span='Add Products']</add_product>
+                        <add_product_confirm>//button[span='Add Selected Product(s) to Order']</add_product_confirm>
+                        <sumbit_order>//button[span='Submit Order']</sumbit_order>
+                        <add_coupon>//button[span='Apply']</add_coupon>
+                        <add_gift_card>//button[span='Add Gift Card']</add_gift_card>
+                    </buttons>
+                </create_order>
+                <view_order>
+                    <buttons>
+                        <create_invoice>//button[span='Invoice']</create_invoice>
+                        <create_shippment>//button[span='Ship']</create_shippment>
+                        <create_credit_memo>//button[span='Credit Memo']</create_credit_memo>
+                        <reorder>//button[span='Reorder']</reorder>.
+                    </buttons>
+                </view_order>
+            </manage_orders>
         </orders>
     </sales>
     <catalog>
@@ -138,25 +178,25 @@
             <manage_attributes>
                 <attribute>
                     <selectors>
-                        <attrribute_type>frontend_input</attrribute_type>
-                        <scope>is_global</scope>
-                        <unique_value>is_unique</unique_value>
-                        <values_required>is_required</values_required>
-                        <input_validation>frontend_class</input_validation>
+                        <attrribute_type>//*[@id='frontend_input']</attrribute_type>
+                        <scope>//*[@id='is_global']</scope>
+                        <unique_value>//*[@id='is_unique']</unique_value>
+                        <values_required>//*[@id='is_required']</values_required>
+                        <input_validation>//*[@id='frontend_class']</input_validation>
                         <apply_to>//select[@onchange='toggleApplyVisibility(this)']</apply_to>
-                        <use_to_create_configurable >is_configurable</use_to_create_configurable>
-                        <use_in_quick_search>is_searchable</use_in_quick_search>
-                        <use_in_advanced_search>is_visible_in_advanced_search</use_in_advanced_search>
-                        <comparable>is_comparable</comparable>
-                        <use_in_layered_navigation>is_filterable</use_in_layered_navigation>
-                        <use_in_search_results>is_filterable_in_search</use_in_search_results>
-                        <use_for_promo_rules>is_used_for_promo_rules</use_for_promo_rules>
-                        <wysiwyg_enable>is_wysiwyg_enabled</wysiwyg_enable>
-                        <html_allowed_on_front>is_html_allowed_on_front</html_allowed_on_front>
-                        <visible_on_front>is_visible_on_front</visible_on_front>
-                        <use_in_product_listing>used_in_product_listing</use_in_product_listing>
-                        <use_for_sort_by>used_for_sort_by</use_for_sort_by>
-                        <default_value_yesno>default_value_yesno</default_value_yesno>
+                        <use_to_create_configurable >//*[@id='is_configurable']</use_to_create_configurable>
+                        <use_in_quick_search>//*[@id='is_searchable']</use_in_quick_search>
+                        <use_in_advanced_search>//*[@id='is_visible_in_advanced_search']</use_in_advanced_search>
+                        <comparable>//*[@id='is_comparable']</comparable>
+                        <use_in_layered_navigation>//*[@id='is_filterable']</use_in_layered_navigation>
+                        <use_in_search_results>//*[@id='is_filterable_in_search']</use_in_search_results>
+                        <use_for_promo_rules>//*[@id='is_used_for_promo_rules']</use_for_promo_rules>
+                        <wysiwyg_enable>//*[@id='is_wysiwyg_enabled']</wysiwyg_enable>
+                        <html_allowed_on_front>//*[@id='is_html_allowed_on_front']</html_allowed_on_front>
+                        <visible_on_front>//*[@id='is_visible_on_front']</visible_on_front>
+                        <use_in_product_listing>//*[@id='used_in_product_listing']</use_in_product_listing>
+                        <use_for_sort_by>//*[@id='used_for_sort_by']</use_for_sort_by>
+                        <default_value_yesno>//*[@id='default_value_yesno']</default_value_yesno>
                     </selectors>
                     <inputs>
                         <attrribute_code>attribute_code</attrribute_code>
@@ -238,8 +278,8 @@
                                         <!-- related pages-->
                 <product>
                     <elements>
+                        <product_grid>//*[@id='productGrid']</product_grid>
                         <tab_container>//*[@id='product_info_tabs']</tab_container>
-                        <mark_filtered_product>//td[contains(text(),'%s')]/ancestor::tr//input[@type='checkbox']</mark_filtered_product>
                         <tier_price_table>//tbody[@id='tier_price_container']</tier_price_table>
                         <grouped_items_search_table>//div[@id='super_product_grid']</grouped_items_search_table>
                         <configurable_items_search_table>//div[@id='super_product_links']</configurable_items_search_table>
@@ -250,7 +290,7 @@
                     </elements>
                     <inputs>
                         <attribute_for_configurable_product>//input[@title='%s']</attribute_for_configurable_product>
-                        <filter_sku>//*[@id='filter_sku']</filter_sku>
+                        <product_filter_sku>//*[@id='product_filter_sku']</product_filter_sku>
                         <!-- General Tab-->
                         <name>//*[@id='name']</name>
                         <description>//*[@id='description']</description>
@@ -308,6 +348,9 @@
                         <!-- Bundle Items Tab-->
                         <bundle_options_title>//*[@id='id_bundle_options_%s_title']</bundle_options_title>
                         <bundle_options_position>bundle_options[%s][position]</bundle_options_position>
+                        <filter_sku>//*[@id='filter_sku']</filter_sku>
+                        <filter_name>//*[@id='filter_name']</filter_name>
+                        <filter_id>//*[@id='filter_entity_id']</filter_id>
                     </inputs>
                     <selectors>
                         <attribute_set>//*[@id='attribute_set_id']</attribute_set>
