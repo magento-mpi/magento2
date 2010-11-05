@@ -124,8 +124,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
         $select = $this->getResource()->createSelect();
 
         $ifnull = $this->getResource()->getReadConnection()
-                ->getIfNullSql('caev.value', '');
-        $select->from(array('caev'=>$attribute->getBackendTable()), "{$inversion}({$ifnull} <> '')");
+                ->getCheckSql("caev.value IS {$inversion} NULL", 0, 1);
+        $select->from(array('caev' => $attribute->getBackendTable()), "({$ifnull})");
         $select->where('caev.attribute_id = ?', $attribute->getId())
             ->where("caev.entity_id = customer_address.entity_id");
 
