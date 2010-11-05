@@ -135,6 +135,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
             "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = ''",
             "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = :postcode",
             "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = '*'",
+            "dest_country_id = '0' AND dest_region_id = 0 AND dest_zip = '*'",
         )) . ')';
         $select->where($orWhere);
 
