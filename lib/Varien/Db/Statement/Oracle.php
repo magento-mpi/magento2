@@ -144,9 +144,15 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
 
         if ($style != Zend_Db::FETCH_NUM) {
             for ($i = 1; $i <= $ncols; $i++) {
-                if (oci_field_type($this->_stmt, $i) == 'NUMBER'
-                        && oci_field_scale($this->_stmt, $i) == '-127'
-                        && oci_field_precision($this->_stmt, $i) == '126') {
+
+//                var_dump(
+//                    oci_field_name($this->_stmt, $i),
+//                    oci_field_type($this->_stmt, $i),
+//                    oci_field_scale($this->_stmt, $i),
+//                    oci_field_precision($this->_stmt, $i));
+
+
+                if (oci_field_type($this->_stmt, $i) === 'NUMBER' && oci_field_scale($this->_stmt, $i) !== 0) {
                     $columns_datatype[oci_field_name($this->_stmt, $i)] = 'FLOAT';
 
                 } else {
@@ -156,9 +162,14 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
 
         } else {
             for ($i = 1; $i <= $ncols; $i++) {
-                if (oci_field_type($this->_stmt, $i) == 'NUMBER'
-                        && oci_field_scale($this->_stmt, $i) == '-127'
-                        && oci_field_precision($this->_stmt, $i) == '126') {
+//
+//                var_dump(
+//                    oci_field_name($this->_stmt, $i),
+//                    oci_field_type($this->_stmt, $i),
+//                    oci_field_scale($this->_stmt, $i),
+//                    oci_field_precision($this->_stmt, $i));
+//
+                if (oci_field_type($this->_stmt, $i) === 'NUMBER' && oci_field_scale($this->_stmt, $i) !== 0) {
                     $columns_datatype[$i - 1] = 'FLOAT';
 
                 } else {
@@ -286,21 +297,17 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
 
         if ($style != Zend_Db::FETCH_NUM) {
             for ($i = 1; $i <= $ncols; $i++) {
-                if (oci_field_type($this->_stmt, $i) == 'NUMBER'
-                        && oci_field_scale($this->_stmt, $i) == '-127'
-                        && oci_field_precision($this->_stmt, $i) == '126') {
+
+                if (oci_field_type($this->_stmt, $i) === 'NUMBER' && oci_field_scale($this->_stmt, $i) !== 0) {
                     $columns_datatype[oci_field_name($this->_stmt, $i)] = 'FLOAT';
 
                 } else {
                     $columns_datatype[oci_field_name($this->_stmt, $i)] = $this->_datetypeMap[oci_field_type($this->_stmt, $i)];
                 }
             }
-               
         } else {
             for ($i = 1; $i <= $ncols; $i++) {
-                if (oci_field_type($this->_stmt, $i) == 'NUMBER'
-                        && oci_field_scale($this->_stmt, $i) == '-127'
-                        && oci_field_precision($this->_stmt, $i) == '126') {
+               if (oci_field_type($this->_stmt, $i) === 'NUMBER' && oci_field_scale($this->_stmt, $i) !== 0) {
                     $columns_datatype[$i - 1] = 'FLOAT';
 
                 } else {
