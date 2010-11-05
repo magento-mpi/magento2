@@ -85,6 +85,8 @@ class Mage_Compiler_ProcessController extends Mage_Adminhtml_Controller_Action
          */
         $this->_redirect('*/*/run');
         $this->_getCompiler()->clear();
+        $this->getResponse()->sendHeaders();
+        exit;
     }
 
     public function disableAction()
