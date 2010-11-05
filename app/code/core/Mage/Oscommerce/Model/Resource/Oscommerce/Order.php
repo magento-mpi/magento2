@@ -54,9 +54,9 @@ class Mage_Oscommerce_Model_Resource_Oscommerce_Order extends Mage_Core_Model_Re
         $result = array();
         if ($order && $order->getData() && $id = $order->getId()) {
             $select = $this->_getReadAdapter()->select();
-            $select->from($this->getTable('oscommerce_order_products'))
-                ->where("osc_magento_id = ?", (int)$id);
-            $result = $this->_getReadAdapter()->fetchAll($select);
+            $select->from($this->getTable('oscommerce/oscommerce_order_products'))
+                ->where('osc_magento_id = :order_id');
+            $result = $this->_getReadAdapter()->fetchAll($select, array(':order_id' => (int)$id));
         }
         return $result;
     }
@@ -72,10 +72,10 @@ class Mage_Oscommerce_Model_Resource_Oscommerce_Order extends Mage_Core_Model_Re
         $result = array();
         if ($order && $order->getData() && $id = $order->getId()) {
             $select = $this->_getReadAdapter()->select();
-            $select->from($this->getTable('oscommerce_order_total'))
-                ->where("osc_magento_id = ?", (int)$id)
+            $select->from($this->getTable('oscommerce/oscommerce_order_total'))
+                ->where('osc_magento_id = :order_id')
                 ->order('sort_order');
-            $result = $this->_getReadAdapter()->fetchAll($select);
+            $result = $this->_getReadAdapter()->fetchAll($select, array(':order_id' => (int)$id));
         }
         return $result;
     }
@@ -91,9 +91,9 @@ class Mage_Oscommerce_Model_Resource_Oscommerce_Order extends Mage_Core_Model_Re
         $result = array();
         if ($order && $order->getData() && $id = $order->getId()) {
             $select = $this->_getReadAdapter()->select();
-            $select->from($this->getTable('oscommerce_order_history'))
-                ->where("osc_magento_id = ?", (int)$id);
-            $result = $this->_getReadAdapter()->fetchAll($select);
+            $select->from($this->getTable('oscommerce/oscommerce_order_history'))
+                ->where('osc_magento_id = :order_id');
+            $result = $this->_getReadAdapter()->fetchAll($select, array(':order_id' => (int)$id));
         }
         return $result;
     }
