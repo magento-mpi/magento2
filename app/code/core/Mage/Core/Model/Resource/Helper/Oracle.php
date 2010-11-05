@@ -164,6 +164,18 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
     }
 
     /**
+     * Correct limitation of queries with UNION
+     * No need to do additional actions on Oracle
+     * 
+     * @param Varien_Db_Select $select
+     * @return Varien_Db_Select
+     */
+    public function limitUnion($select)
+    {
+        return $select;
+    }
+
+    /**
      * 
      * Returns Insert From Select On Duplicate query with analytic functions
      *

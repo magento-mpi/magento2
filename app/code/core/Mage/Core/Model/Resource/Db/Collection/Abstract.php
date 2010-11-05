@@ -507,10 +507,11 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     public function getData()
     {
         if ($this->_data === null) {
+            
+            
             $this->_renderFilters()
                  ->_renderOrders()
                  ->_renderLimit();
-
             /**
              * Prepare select for execute
              * @var string $query
@@ -529,8 +530,14 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      */
     protected function _prepareSelect(Varien_Db_Select $select)
     {
+        $helper = Mage::getResourceHelper('core');
+
+        $unionParts = $select->getPart(Zend_Db_Select::UNION);
+        if (!empty($unionParts)) {
+            $select = $helper->limitUnion($select);
+        }
+
         if ($this->_useAnalyticFunction) {
-            $helper = Mage::getResourceHelper('core');
             return $helper->getQueryUsingAnalyticFunction($select);
         }
 

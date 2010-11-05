@@ -165,6 +165,28 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
     }
 
     /**
+     * Correct limitation of queries with UNION
+     * 
+     * @param Varien_Db_Select $select
+     * @return Varien_Db_Select
+     */
+    public function limitUnion($select)
+    {
+        $limitCount = $select->getPart(Zend_Db_Select::LIMIT_COUNT);
+        $limitOffset = $select->getPart(Zend_Db_Select::LIMIT_OFFSET);
+        $order = $select->getPart(Zend_Db_Select::ORDER);
+
+        $select->reset(Zend_Db_Select::LIMIT_COUNT)
+            ->reset(Zend_Db_Select::LIMIT_OFFSET)
+            ->reset(Zend_Db_Select::ORDER);
+
+        return $this->_getReadAdapter()->select()
+            ->from(array('stest' => new Zend_Db_Expr('(' . $select->assemble() . ')')))
+            ->limit($limitCount, $limitOffset)
+            ->order($order);
+    }
+
+    /**
      * 
      * Returns Insert From Select On Duplicate query with analytic functions
      *

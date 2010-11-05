@@ -81,6 +81,17 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         return $select->insertFromSelect($table, $fields);
     }
 
+    /**
+     * Correct limitation of queries with UNION
+     * No need to do additional actions on MySQL
+     * 
+     * @param Varien_Db_Select $select
+     * @return Varien_Db_Select
+     */
+    public function limitUnion($select)
+    {
+        return $select;
+    }
 
     /**
      * Returns array of quoted orders with direction
