@@ -131,7 +131,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             ->where('id_path = :id_path');
         $bind = array(
             'store_id' => (int)$storeId,
-            'id_path'  => (int)$idPath
+            'id_path'  => $idPath
         );
         $row = $adapter->fetchRow($select, $bind);
 
@@ -348,20 +348,14 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
 
         $select = $adapter->select()
             ->from($attributeTable)
-            ->where('entity_type_id = :entity_type_id')
-            ->where('attribute_id = :attribute_id')
-            ->where('store_id = :store_id')
-            ->where('entity_id = :entity_id');
-        $bind = array(
-            'entity_type_id' => (int)$attributeData['entity_type_id'],
-            'attribute_id'   => (int)$attributeData['attribute_id'],
-            'store_id'       => (int)$attributeData['store_id'],
-            'entity_id'      => (int)$attributeData['entity_id']
-        );
+            ->where('entity_type_id = ?', (int)$attributeData['entity_type_id'])
+            ->where('attribute_id = ?', (int)$attributeData['attribute_id'])
+            ->where('store_id = ?', (int)$attributeData['store_id'])
+            ->where('entity_id = ?', (int)$attributeData['entity_id']);
 
-        $row = $adapter->fetchRow($select, $bind);
+        $row = $adapter->fetchRow($select);
+        $whereCond = array('value_id = ?' => $row['value_id']);
         if ($row) {
-            $whereCond = array('value_id = ?' => $row['value_id']);
             $adapter->update($attributeTable, $attributeData, $whereCond);
         } else {
             $adapter->insert($attributeTable, $attributeData);
@@ -371,18 +365,12 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             $attributeData['store_id'] = 0;
             $select = $adapter->select()
                 ->from($attributeTable)
-                ->where('entity_type_id = :entity_type_id')
-                ->where('attribute_id = :attribute_id')
-                ->where('store_id = :store_id')
-                ->where('entity_id = :entity_id');
-            $bind = array(
-                'entity_type_id' => (int)$attributeData['entity_type_id'],
-                'attribute_id'   => (int)$attributeData['attribute_id'],
-                'store_id'       => (int)$attributeData['store_id'],
-                'entity_id'      => (int)$attributeData['entity_id']
-            );
+                ->where('entity_type_id = ?', (int)$attributeData['entity_type_id'])
+                ->where('attribute_id = ?', (int)$attributeData['attribute_id'])
+                ->where('store_id = ?', (int)$attributeData['store_id'])
+                ->where('entity_id = ?', (int)$attributeData['entity_id']);
 
-            $row = $adapter->fetchRow($select, $bind);
+            $row = $adapter->fetchRow($select);
             if ($row) {
                 $whereCond = array('value_id = ?' => $row['value_id']);
                 $adapter->update($attributeTable, $attributeData, $whereCond);
@@ -458,7 +446,6 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
 
             $bind['attribute_id'] = $this->_categoryAttributes[$attributeCode]['attribute_id'];
             $bind['store_id']     = $storeId;
-
         }
 
         $rowSet = $adapter->fetchAll($select, $bind);
@@ -515,17 +502,12 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
 
         $select = $adapter->select()
             ->from($attributeTable)
-            ->where('entity_type_id = :entity_type_id')
-            ->where('attribute_id = :attribute_id')
-            ->where('store_id = :store_id')
-            ->where('entity_id = :entity_id');
-        $bind = array(
-            'entity_type_id' => (int)$attributeData['entity_type_id'],
-            'attribute_id'   => (int)$attributeData['attribute_id'],
-            'store_id'       => (int)$attributeData['store_id'],
-            'entity_id'      => (int)$attributeData['entity_id']
-        );
-        $row = $adapter->fetchRow($select, $bind);
+            ->where('entity_type_id = ?', (int)$attributeData['entity_type_id'])
+            ->where('attribute_id = ?', (int)$attributeData['attribute_id'])
+            ->where('store_id = ?', (int)$attributeData['store_id'])
+            ->where('entity_id = ?', (int)$attributeData['entity_id']);
+
+        $row = $adapter->fetchRow($select);
         if ($row) {
             $whereCond = array('value_id = ?' => $row['value_id']);
             $adapter->update($attributeTable, $attributeData, $whereCond);
@@ -537,18 +519,12 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
             $attributeData['store_id'] = 0;
             $select = $adapter->select()
                 ->from($attributeTable)
-                ->where('entity_type_id = :entity_type_id')
-                ->where('attribute_id = :attribute_id')
-                ->where('store_id = :store_id')
-                ->where('entity_id = :entity_id');
-            $bind = array(
-                'entity_type_id' => (int)$attributeData['entity_type_id'],
-                'attribute_id'   => (int)$attributeData['attribute_id'],
-                'store_id'       => (int)$attributeData['store_id'],
-                'entity_id'      => (int)$attributeData['entity_id']
-            );
+                ->where('entity_type_id = ?', (int)$attributeData['entity_type_id'])
+                ->where('attribute_id = ?', (int)$attributeData['attribute_id'])
+                ->where('store_id = ?', (int)$attributeData['store_id'])
+                ->where('entity_id = ?', (int)$attributeData['entity_id']);
 
-            $row = $adapter->fetchRow($select, $bind);
+            $row = $adapter->fetchRow($select);
             if ($row) {
                 $whereCond = array('value_id = ?' => $row['value_id']);
                 $adapter->update($attributeTable, $attributeData, $whereCond);

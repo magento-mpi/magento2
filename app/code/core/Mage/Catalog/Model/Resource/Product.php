@@ -54,13 +54,10 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     public function __construct()
     {
         parent::__construct();
-        /* @var $resource Mage_Core_Model_Resource */
-        $resource = Mage::getSingleton('core/resource');
-
         $this->setType(Mage_Catalog_Model_Product::ENTITY)
-            ->setConnection('catalog_read', 'catalog_write');
-        $this->_productWebsiteTable  = $resource->getTableName('catalog/product_website');
-        $this->_productCategoryTable = $resource->getTableName('catalog/category_product');
+             ->setConnection('catalog_read', 'catalog_write');
+        $this->_productWebsiteTable  = $this->getTable('catalog/product_website');
+        $this->_productCategoryTable = $this->getTable('catalog/category_product');
     }
 
     /**
@@ -76,8 +73,8 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     /**
      * Retrieve product website identifiers
      *
-     * @param  $product
-     * @return Mage_Catalog_Model_Resource_Product
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
      */
     public function getWebsiteIds($product)
     {
@@ -102,11 +99,9 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
 
         $select = $adapter->select()
             ->from($this->_productCategoryTable, 'category_id')
-            ->where('product_id = :product_id');
+            ->where('product_id = ?', (int)$product->getId());
 
-        $bind = array('product_id' => (int)$product->getId());
-
-        return $adapter->fetchCol($select, $bind);
+        return $adapter->fetchCol($select);
     }
 
     /**
@@ -123,7 +118,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             ->from($this->getEntityTable(), 'entity_id')
             ->where('sku = :sku');
 
-        $bind = array('sku' => (string) $sku);
+        $bind = array(':sku' => (string)$sku);
 
         return $adapter->fetchOne($select, $bind);
     }
@@ -165,9 +160,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     protected function _afterSave(Varien_Object $product)
     {
         $this->_saveWebsiteIds($product)
-            ->_saveCategories($product)
-            //->refreshIndex($product)
-            ;
+            ->_saveCategories($product);
 
         return parent::_afterSave($product);
     }
@@ -187,28 +180,20 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
 
         $adapter = $this->_getWriteAdapter();
 
-        $select = $adapter->select()
-            ->from($this->_productWebsiteTable, array('website_id'))
-            ->where('product_id = :product_id');
-
-        $binds = array(
-            'product_id' => (int)$product->getId(),
-        );
-
-        $oldWebsiteIds = $adapter->fetchCol($select, $binds);
+        $oldWebsiteIds = $this->getWebsiteIds($product);
 
         $insert = array_diff($websiteIds, $oldWebsiteIds);
         $delete = array_diff($oldWebsiteIds, $websiteIds);
 
         if (!empty($insert)) {
+            $data = array();
             foreach ($insert as $websiteId) {
-                $data = array(
+                $data[] = array(
                     'product_id' => (int)$product->getId(),
                     'website_id' => (int)$websiteId
                 );
-
-                $adapter->insert($this->_productWebsiteTable, $data);
             }
+            $adapter->insertMultiple($this->_productWebsiteTable, $data);
         }
 
         if (!empty($delete)) {
@@ -304,11 +289,13 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
         $categoryIds = $product->getCategoryIds();
 
         /**
-         * Clear previos index data related with product
+         * Clear previous index data related with product
          */
-        $condition = array('product_id = ?' => (int)$product->getId(),);
+        $condition = array('product_id = ?' => (int)$product->getId());
         $writeAdapter->delete($this->getTable('catalog/category_product_index'), $condition);
 
+        /** @var $categoryObject Mage_Catalog_Model_Resource_Category */
+        $categoryObject = Mage::getResourceSingleton('catalog/category');
         if (!empty($categoryIds)) {
             $categoriesSelect = $writeAdapter->select()
                 ->from($this->getTable('catalog/category'))
@@ -326,8 +313,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             $indexCategoryIds   = array_unique($indexCategoryIds);
             $indexProductIds    = array($product->getId());
 
-            Mage::getResourceSingleton('catalog/category')
-                ->refreshProductIndex($indexCategoryIds, $indexProductIds);
+           $categoryObject->refreshProductIndex($indexCategoryIds, $indexProductIds);
         } else {
             $websites = $product->getWebsiteIds();
 
@@ -339,8 +325,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
                     $storeIds = array_merge($storeIds, $website->getStoreIds());
                 }
 
-                Mage::getResourceSingleton('catalog/category')
-                    ->refreshProductIndex(array(), array($product->getId()), $storeIds);
+                $categoryObject->refreshProductIndex(array(), array($product->getId()), $storeIds);
             }
         }
 
@@ -358,7 +343,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      * if product parameter is null - idex will be refreshed for all products
      *
      * @param Mage_Core_Model_Store $store
-     * @param Mage_Core_Model_Product $product
+     * @param Mage_Catalog_Model_Product $product
      * @throws Mage_Core_Exception
      * @return Mage_Catalog_Model_Resource_Product
      */
@@ -513,11 +498,9 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('catalog/category_product_index'), array('category_id'))
-            ->where('product_id = :product_id');
+            ->where('product_id = ?', (int)$object->getEntityId());
 
-        $bind = array('product_id' => (int)$object->getEntityId());
-
-        return $this->_getReadAdapter()->fetchCol($select, $bind);
+        return $this->_getReadAdapter()->fetchCol($select);
     }
 
     /**
@@ -535,21 +518,16 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      *
      * @param Mage_Catalog_Model_Product $product
      * @param int $categoryId
-     * @return bool
+     * @return string
      */
     public function canBeShowInCategory($product, $categoryId)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('catalog/category_product_index'), 'product_id')
-            ->where('product_id = :product_id')
-            ->where('category_id = :category_id');
+            ->where('product_id = ?', (int)$categoryId)
+            ->where('category_id = ?', (int)$product->getId());
 
-        $bind = array(
-            'category_id' => $categoryId,
-            'product_id' => $product->getId(),
-        );
-
-        return $this->_getReadAdapter()->fetchOne($select, $bind);
+        return $this->_getReadAdapter()->fetchOne($select);
     }
 
     /**

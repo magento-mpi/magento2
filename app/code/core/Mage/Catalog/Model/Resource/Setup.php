@@ -743,7 +743,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                     'category_ids'       => array(
                         'type'                       => 'static',
                         'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-			'required'                   => false,
+                        'required'                   => false,
                         'sort_order'                 => 13,
                         'visible'                    => false,
                     ),
@@ -828,6 +828,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     /**
      * Converts old tree to new
      *
+     * @deprecated since 1.5.0.0
      * @return Mage_Catalog_Model_Resource_Setup
      */
     public function convertOldTreeToNew()
@@ -903,6 +904,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     /**
      * Creates level values for categories and saves them
      *
+     * @deprecated since 1.5.0.0
      * @return Mage_Catalog_Model_Resource_Setup
      */
     public function rebuildCategoryLevels()
