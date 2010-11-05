@@ -2,12 +2,15 @@
 <elements>
     <progress_bar>//div[@id='loading-mask' and contains(@style,'display: none')]</progress_bar>
     <no_records>No records found.</no_records>
-    <filtered_element>//td[contains(text(),'%s')]</filtered_element>
-    <opened_tab>//form/div[@style='']</opened_tab>
+    <mark_filtered_element>//td[normalize-space(text())='%s']/ancestor::tr/td/input[@type='checkbox']</mark_filtered_element>
+    <filtered_element>//td[normalize-space(text())='%s']</filtered_element>
+    <tabs_container>//*[contains(@class,'tabs')]</tabs_container>
+    <opened_tab>//form/div[@style='' or contains(@style,'display: block')]</opened_tab>
     <tab_error>/li[contains(a/@class,'error')]/a/span</tab_error>
     <tab_error_many>/li[contains(a/@class,'error')][%s]/a/span</tab_error_many>
     <error_for_field>/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]</error_for_field>
     <error_for_field_many>/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][%s]</error_for_field_many>
     <field_name_with_error>/ancestor::tr/td[normalize-space(@class)='label']/descendant-or-self::*[string-length(text())>1]</field_name_with_error>
     <option_for_field>//descendant::option[contains(text(),'%s')]</option_for_field>
+    <selected_option>//option[@selected='selected' and contains(text(),'%s')]</selected_option>
 </elements>
