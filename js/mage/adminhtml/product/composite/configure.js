@@ -25,51 +25,124 @@
 
 ProductConfigure = Class.create();
 ProductConfigure.prototype = {
-    cachedHtml: {},
-    listTypes : {},
 
+    cachedHtml:       {},
+    listTypes:        {},
+    confirmCallback:  {},
+    cancelCallback:   {},
+    current:          {},
+    confWindow:       {},
+    confFields:       {},
+
+    /**
+     * Initialize object
+     */
     initialize: function() {
-
+        this.cachedHtml.base = {};
+        this.cachedHtml.confirmed = {};
+        this.confWindow = $('catalog_product_composite_configure');
+        this.confFields = $('catalog_product_composite_configure_fields');
     },
 
+    /**
+     * Add product list types as scope and their urls for fetching configuration fields through ajax 
+     * expamle: addListType('product_to_add', 'http://magento...')
+     * expamle: addListType('wishlist', 'http://magento...')
+     *
+     * @param type types as scope
+     * @param url for fetching configuration fields through ajax
+     */
     addListType: function(type, url) {
         this.listTypes[type] = url;
     },
 
+    /**
+     * Show configuration fields of product, if it not found then get it through ajax
+     *
+     * @param listType type of list as scope
+     * @param itemId product id
+     */
     showItemConfiguration: function(listType, itemId) {
-        if (typeof this.cachedHtml[listType] == 'undefined') {
-            this.cachedHtml[listType] = {};
+        this.current.listType = listType;
+        this.current.itemId = itemId;
+        if (typeof this.cachedHtml.base[listType] == 'undefined') {
+            this.cachedHtml.base[listType] = {};
+            this.cachedHtml.confirmed[listType] = {};
         }
-        if (typeof this.cachedHtml[listType][itemId] == 'undefined') {
+        if (typeof this.cachedHtml.base[listType][itemId] == 'undefined') {
             this._requestItemConfiguration(listType, itemId);
         } else {
-            $('catalog_product_composite_configure_fields').update(this.cachedHtml[listType][itemId]);
-            $('catalog_product_composite_configure').style.display = 'block';
+            if (typeof this.cachedHtml.confirmed[listType][itemId] != 'undefined') {
+                this.confFields.update(this.cachedHtml.confirmed[listType][itemId]);
+            } else {
+                this.confFields.update(this.cachedHtml.base[listType][itemId]);
+            }
+            this.confWindow.style.display = 'block';
         }
     },
 
+    /**
+     * Get configuration fields of product through ajax put to cache and show them
+     *
+     * @param listType type of list as scope
+     * @param productId product id
+     */
     _requestItemConfiguration: function(listType, productId) {
         var url = this.listTypes[listType];
-        new Ajax.Request(url, {
-            parameters: {productId: productId},
-            onSuccess: function(transport) {
-                var responce = transport.responseText;
-                if (responce) {
-                    this.cachedHtml[listType][productId] = responce;
-                    this.showItemConfiguration(listType, productId);
-                }
-
-            }.bind(this)
-        });
+        if (url) {
+            new Ajax.Request(url, {
+                parameters: {productId: productId},
+                onSuccess: function(transport) {
+                    var response = transport.responseText;
+                    if (response) {
+                        this.cachedHtml.base[listType][productId] = response;
+                        this.showItemConfiguration(listType, productId);
+                    }
+                }.bind(this)
+            });
+        }
     },
 
+    /**
+     * Triggered on confirm button click
+     */
+    onConfirmBtn: function() {
+        this.cachedHtml.confirmed[this.current.listType][this.current.itemId] = this.cachedHtml.base[this.current.listType][this.current.itemId];
+        this.confWindow.style.display = 'none';
+        if (this.confirmCallback) {
+            this.confirmCallback();
+        }
+    },
+
+    /**
+     * Triggered on cancel button click
+     */
     onCancelBtn: function() {
-        $('catalog_product_composite_configure').style.display = 'none';
+        this.confWindow.style.display = 'none';
+        if (this.cancelCallback) {
+            this.cancelCallback();
+        }
     },
 
-    onOkBtn: function() {
-        
+    /**
+     * Attach callback function triggered on confirm button click
+     *
+     * @param confirmCallback
+     */
+    setConfirmCallback: function(confirmCallback) {
+        this.confirmCallback = confirmCallback;
+    },
+
+    /**
+     * Attach callback function triggered on cancel button click
+     *
+     * @param cancelCallback
+     */
+    setCencelCallback: function(cancelCallback) {
+        this.cancelCallback = cancelCallback;
     }
 };
 
-productConfigure = new ProductConfigure();
+document.observe("dom:loaded", function() {
+    productConfigure = new ProductConfigure();
+});

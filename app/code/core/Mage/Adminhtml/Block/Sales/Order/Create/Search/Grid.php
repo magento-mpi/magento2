@@ -97,14 +97,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             ->addMinimalPrice()
             ->addStoreFilter()
             ->addAttributeToSelect('gift_message_available');
-//            ->addOptionsToResult();
 
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-        //Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
-        //Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($collection);
 
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 
@@ -197,6 +193,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
     protected function _getGiftmessageSaveModel()
     {
         return Mage::getSingleton('adminhtml/giftmessage_save');
+    }
+
+    /*
+     * Add custom options to product collection
+     *
+     * return Mage_Adminhtml_Block_Widget_Grid
+     */
+    protected function _afterLoadCollection() {
+        $this->getCollection()->addOptionsToResult();
+        return parent::_afterLoadCollection();
     }
 
 }

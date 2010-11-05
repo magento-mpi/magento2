@@ -383,10 +383,23 @@ AdminOrder.prototype = {
         var trElement = Event.findElement(event, 'tr');
         var isInput = Event.element(event).tagName == 'INPUT';
         if (trElement) {
-            var checkbox = Element.select(trElement, 'input');
-            if (checkbox[0]) {
-                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
-                grid.setCheckboxChecked(checkbox[0], checked);
+            var checkbox = Element.select(trElement, 'input')[0];
+            var confLinkAttr = Element.select(trElement, 'a')[0].attributes;
+            if (checkbox) {
+                // processing non composite product
+                if (confLinkAttr.disabled) {
+                    var checked = isInput ? checkbox.checked : !checkbox.checked;
+                    grid.setCheckboxChecked(checkbox, checked);
+                // processing composite product
+                } else if (!isInput || (isInput && checkbox.checked)) {
+                    productConfigure.setConfirmCallback(function() {
+                        grid.setCheckboxChecked(checkbox, true);
+                    });
+                    productConfigure.setCencelCallback(function() {
+                        grid.setCheckboxChecked(checkbox, false);
+                    });
+                    productConfigure.showItemConfiguration(confLinkAttr.list_type.value, confLinkAttr.product_id.value);
+                }
             }
         }
     },

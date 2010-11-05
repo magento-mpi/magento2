@@ -41,10 +41,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product exten
      */
     public function render(Varien_Object $row)
     {
-        $rendered =  parent::render($row);
+        $rendered       =  parent::render($row);
         $isConfigurable = $row->isComposite() || $row->getOptions() ? true : false;
-        $style   = $isConfigurable ? '' : 'color: #CCC;';
-        $onClick = $isConfigurable ? sprintf('onClick="productConfigure.showItemConfiguration(\'product_to_add\', %s)"', $row->getId()) : '';
-        return $rendered . sprintf('<a href="javascript:void(0)" style="float: right; %s" %s>%s</a>', $style, $onClick, Mage::helper('sales')->__('Configure'));
+        $style          = $isConfigurable ? '' : 'color: #CCC;';
+        $prodAttributes = $isConfigurable ? sprintf('list_type = "product_to_add" product_id = %s', $row->getId()) : 'disabled="disabled"';
+        return $rendered . sprintf('<a href="javascript:void(0)" style="float: right; %s" %s>%s</a>',
+            $style, $prodAttributes, Mage::helper('sales')->__('Configure'));
     }
 }
