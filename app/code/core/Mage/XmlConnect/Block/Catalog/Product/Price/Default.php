@@ -502,7 +502,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
             if (!$_product->isGrouped()) {
                 if (($_product->getPrice() == $_product->getFinalPrice() && $_product->getPrice() > $_price['price'])
                         || ($_product->getPrice() != $_product->getFinalPrice() && $_product->getFinalPrice() > $_price['price'])) {
-                    $s .= $this->__('and') . ' ' . $this->__('save') . ' ' . $_price['savePercent'] . '%';
+                    $s .= ' ' . $this->__('and') . ' ' . $this->__('save') . ' ' . $_price['savePercent'] . '%';
                 }
             }
             $pricesArray[] = $s;

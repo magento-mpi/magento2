@@ -60,6 +60,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         $appModel->setScreenSize($screenSize);
         if ($appModel && $appModel->getId()) {
             Mage::app()->setCurrentStore(Mage::app()->getStore($appModel->getStoreId())->getCode());
+            Mage::getSingleton('core/locale')->emulate($appModel->getStoreId());
             Mage::register('current_app', $appModel);
         }
         else {

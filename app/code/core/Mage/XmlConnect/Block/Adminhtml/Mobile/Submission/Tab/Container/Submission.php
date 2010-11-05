@@ -185,7 +185,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'label'     => Mage::helper('xmlconnect')->__('Keywords'),
             'maxlength' => '100',
             'value'     => isset($formData['conf[submit_text][keywords]']) ? $formData['conf[submit_text][keywords]'] : null,
-            'note'      => Mage::helper('xmlconnect')->__('One or more keywords that describe your app. Keywords are matched to users\' searches in the App Store and help return accurate search results. Separate multiple keywords with commas. 100 chars is maximum.'),
+            'note'      => Mage::helper('xmlconnect')->__('One or more keywords that describe your app. Keywords are matched to users` searches in the App Store and help return accurate search results. Separate multiple keywords with commas. 100 chars is maximum.'),
         ));
 
         $fieldset = $form->addFieldset('submit_icons', array('legend' => Mage::helper('xmlconnect')->__('Icons')));

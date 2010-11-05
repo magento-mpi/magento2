@@ -56,6 +56,8 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
         $app = Mage::getModel('xmlconnect/application');
         if ($app) {
             $app->loadByCode($code);
+            Mage::app()->setCurrentStore(Mage::app()->getStore($app->getStoreId())->getCode());
+            Mage::getSingleton('core/locale')->emulate($app->getStoreId());
             $app->setScreenSize($screenSize);
             if (!$app->getId()) {
                 Mage::throwException(Mage::helper('xmlconnect')->__('App with specified code does not exist.'));

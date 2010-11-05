@@ -45,7 +45,6 @@ class Mage_XmlConnect_Model_Tabs
     public function __construct($data)
     {
         $this->_enabledTabs = Mage::helper('xmlconnect')->getDefaultApplicationDesignTabs();
-
         if (is_string($data)) {
             $data = json_decode($data);
             if (is_object($data)) {
@@ -53,6 +52,26 @@ class Mage_XmlConnect_Model_Tabs
                 $this->_disabledTabs = $data->disabledTabs;
             }
         }
+        $this->_translateLabel($this->_enabledTabs);
+        $this->_translateLabel($this->_disabledTabs);
+    }
+
+    /**
+     * Translate Label fields
+     * @param  $tabItems
+     * @return this
+     */
+    protected function _translateLabel(& $tabItems)
+    {
+        if (is_array($tabItems)) {
+            foreach ($tabItems as $id => $tab) {
+                if (isset($tab->label)) {
+                    $temp = $tabItems[$id];
+                    $temp->label = Mage::helper('xmlconnect')->getTabLabel($tab->action);
+                }
+            }
+        }
+        return $this;
     }
 
     /**

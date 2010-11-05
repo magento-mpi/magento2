@@ -51,7 +51,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
             if (++$showedTabs > $tabLimit) {
                 break;
             }
-            $items[] = array('label' => $tab->label, 'image' => $tab->image);
+            $items[] = array(
+                'label' => Mage::helper('xmlconnect')->getTabLabel($tab->action),
+                'image' => $tab->image);
         }
         return $items;
     }

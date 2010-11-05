@@ -57,7 +57,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
             /**
              * Big image
              */
-            $bigImage = $helper->init($product, 'thumbnail', $item->getFile())
+            $bigImage = $helper->init($product, 'image', $item->getFile())
                 ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_gallery_big'));
 
             $fileNode = $imageNode->addChild('file');

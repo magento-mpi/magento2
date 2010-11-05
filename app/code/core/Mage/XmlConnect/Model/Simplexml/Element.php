@@ -58,12 +58,30 @@ class Mage_XmlConnect_Model_Simplexml_Element extends Varien_Simplexml_Element
 
         $attributes = $source->attributes();
         foreach ($attributes as $key=>$value) {
-            $child->addAttribute($key, $this->xmlentities($value));
+            $child->addAttribute($key, $this->xmlAttribute($value));
         }
 
         foreach ($source->children() as $sourceChild) {
             $child->appendChild($sourceChild);
         }
         return $this;
+    }
+
+    /**
+     * Converts meaningful xml character (") to xml attribute specification
+     *
+     * @param  string
+     * @return string
+     */
+    public function xmlAttribute($value = null)
+    {
+        if (is_null($value)) {
+            $value = $this;
+        }
+        $value = (string)$value;
+
+        $value = str_replace(array('&', '"', '<', '>'), array('&amp;', '&quot;', '&lt;', '&gt;'), $value);
+
+        return $value;
     }
 }

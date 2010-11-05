@@ -60,14 +60,15 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Chec
                     }
                     else {
                         $price = Mage::helper('tax')->getShippingPrice($_rate->getPrice(), false, $this->getAddress());
-                        $formatedPrice = $store->convertPrice($price, true, false);
+                        $formattedPrice = $store->convertPrice($price, true, false);
                         $rateXmlObj->addAttribute('price', sprintf('%01.2F', $store->convertPrice($price, false, false)));
-                        $rateXmlObj->addAttribute('formated_price', $formatedPrice);
+                        $rateXmlObj->addAttribute('formated_price', $formattedPrice);
                     }
                 }
             }
+        } else {
+            Mage::throwException(Mage::helper('xmlconnect')->__('Sorry, no quotes are available for this order at this time.'));
         }
-
         return $methodsXmlObj->asNiceXml();
     }
 }

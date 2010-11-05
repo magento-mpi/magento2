@@ -68,6 +68,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
      */
     public function addPaymentFormToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $paymentItemXmlObj)
     {
+        $helper = Mage::helper('xmlconnect');
         $method = $this->getMethod();
         if (!$method) {
             return $paymentItemXmlObj;
@@ -77,47 +78,13 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
         $formXmlObj->addAttribute('method', 'post');
 
         $owner = $this->getInfoData('cc_owner');
-        $_ccType = $this->getInfoData('cc_type');
-        $ccTypes = '';
 
-        foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName){
-            if (!$_typeName) {
-                continue;
-            }
-            $ccTypes .= '
-            <item' . ($_typeCode == $_ccType ? ' selected="1"' : '') . '>
-                <label>' . $_typeName . '</label>
-                <value>' . $_typeCode . '</value>
-            </item>';
-        }
+        $ccTypes = $helper->getArrayAsXmlItemValues($this->getCcAvailableTypes(), $this->getInfoData('cc_type'));
 
-        $ccMonthes = '';
+        $_ccMonthArray = $this->getCcMonths();
+        $ccMonths = $helper->getArrayAsXmlItemValues($_ccMonthArray, $this->getInfoData('cc_exp_month'));
 
-        $_ccExpMonth = $this->getInfoData('cc_exp_month');
-        foreach ($this->getCcMonths() as $k => $v){
-            if (!$k) {
-                continue;
-            }
-            $ccMonthes .= '
-            <item' . ($k == $_ccExpMonth ? ' selected="1"' : '') . '>
-                <label>' . $v . '</label>
-                <value>' . ($k ? $k : '') . '</value>
-            </item>';
-        }
-
-        $ccYears = '';
-
-        $_ccExpYear = $this->getInfoData('cc_exp_year');
-        foreach ($this->getCcYears() as $k => $v){
-            if (!$k) {
-                continue;
-            }
-            $ccYears .= '
-            <item' . ($k == $_ccExpYear ? ' selected="1"' : '') . '>
-                <label>' . $v . '</label>
-                <value>' . ($k ? $k : '') . '</value>
-            </item>';
-        }
+        $ccYears = $helper->getArrayAsXmlItemValues($this->getCcYears(), $this->getInfoData('cc_exp_year'));
 
         $verification = '';
         if ($this->hasVerification()) {
@@ -129,6 +96,13 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
             </field>';
         }
 
+        $solo = '';
+        if ($this->hasSsCardType()) {
+            $ssCcMonths = $helper->getArrayAsXmlItemValues($_ccMonthArray, $this->getInfoData('cc_ss_start_month'));
+            $ssCcYears = $helper->getArrayAsXmlItemValues($this->getSsStartYears(), $this->getInfoData('cc_ss_start_year'));
+            $solo = $helper->getSoloXml($ssCcMonths, $ssCcYears);
+        }
+
         $xml = <<<EOT
     <fieldset>
         <field name="payment[cc_owner]" type="text" label="{$this->helper('xmlconnect')->__('Name on Card')}" value="$owner" required="true" />
@@ -136,6 +110,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
             <values>
                 $ccTypes
             </values>
+            $solo
         </field>
         <field name="payment[cc_number]" type="text" label="{$this->helper('xmlconnect')->__('Credit Card Number')}" required="true">
             <validators>
@@ -144,7 +119,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
         </field>
         <field name="payment[cc_exp_month]" type="select" label="{$this->helper('xmlconnect')->__('Expiration Date - Month')}" required="true">
             <values>
-                $ccMonthes
+                $ccMonths
             </values>
         </field>
         <field name="payment[cc_exp_year]" type="select" label="{$this->helper('xmlconnect')->__('Expiration Date - Year')}" required="true">

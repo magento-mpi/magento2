@@ -40,7 +40,6 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Core_Block_Templa
      */
     protected function _toHtml()
     {
-        $helper   = Mage::helper('xmlconnect');
         $address  = $this->getAddress();
         $xmlModel = new Mage_XmlConnect_Model_Simplexml_Element('<node></node>');
 
@@ -109,25 +108,25 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Core_Block_Templa
 
         $xml = <<<EOT
 <form name="address_form" method="post">
-    <fieldset legend="{$helper->__('Contact Information')}">
-        <field name="firstname" type="text" label="{$helper->__('First Name')}" required="true" value="$firstname" />
-        <field name="lastname" type="text" label="{$helper->__('Last Name')}" required="true" value="$lastname" />
-        <field name="company" type="text" label="{$helper->__('Company')}" value="$company" />
-        <field name="telephone" type="text" label="{$helper->__('Telephone')}" required="true" value="$telephone" />
-        <field name="fax" type="text" label="{$helper->__('Fax')}" value="$fax" />
+    <fieldset legend="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Contact Information'))}">
+        <field name="firstname" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('First Name'))}" required="true" value="$firstname" />
+        <field name="lastname" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Last Name'))}" required="true" value="$lastname" />
+        <field name="company" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Company'))}" value="$company" />
+        <field name="telephone" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Telephone'))}" required="true" value="$telephone" />
+        <field name="fax" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Fax'))}" value="$fax" />
     </fieldset>
     <fieldset legend="Address">
-        <field name="street[]" type="text" label="{$helper->__('Street Address')}" required="true" value="$street1" />
-        <field name="street[]" type="text" label="{$helper->__('Street Address 2')}" value="$street2" />
-        <field name="city" type="text" label="{$helper->__('City')}" required="true" value="$city" />
-        <field name="country_id" type="select" label="{$helper->__('Country')}" required="true">
+        <field name="street[]" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Street Address'))}" required="true" value="$street1" />
+        <field name="street[]" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Street Address 2'))}" value="$street2" />
+        <field name="city" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('City'))}" required="true" value="$city" />
+        <field name="country_id" type="select" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Country'))}" required="true">
             $countryOptionsXml
         </field>
-        <field name="region" type="text" label="{$helper->__('State/Province')}" value="$region" />
-        <field name="region_id" type="select" label="{$helper->__('State/Province')}" required="true" />
-        <field name="postcode" type="text" label="{$helper->__('Zip/Postal Code')}" required="true" value="$postcode" />
-        <field name="default_billing" type="checkbox"$billingChecked label="{$helper->__('Use as my default billing address')}"/>
-        <field name="default_shipping" type="checkbox"$shippingChecked label="{$helper->__('Use as my default shipping address')}"/>
+        <field name="region" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('State/Province'))}" value="$region" />
+        <field name="region_id" type="select" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('State/Province'))}" required="true" />
+        <field name="postcode" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Zip/Postal Code'))}" required="true" value="$postcode" />
+        <field name="default_billing" type="checkbox" $billingChecked label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Use as my default billing address'))}"/>
+        <field name="default_shipping" type="checkbox" $shippingChecked label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Use as my default shipping address'))}"/>
     </fieldset>
 </form>
 EOT;

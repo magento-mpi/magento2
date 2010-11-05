@@ -143,45 +143,69 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDefaultApplicationDesignTabs()
     {
-        $tabs = array(
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Home'),
-                'image' => 'tab_home.png',
-                'action' => 'Home',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Shop'),
-                'image' => 'tab_shop.png',
-                'action' => 'Shop',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Search'),
-                'image' => 'tab_search.png',
-                'action' => 'Search',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Cart'),
-                'image' => 'tab_cart.png',
-                'action' => 'Cart',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('More'),
-                'image' => 'tab_more.png',
-                'action' => 'More',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Account'),
-                'image' => 'tab_account.png',
-                'action' => 'Account',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('More Info'),
-                'image' => 'tab_page.png',
-                'action' => 'AboutUs',
-            ),
-        );
+        if (!isset($this->_tabs)) {
+            $this->_tabs = array(
+                array(
+                    'label' => Mage::helper('xmlconnect')->__('Home'),
+                    'image' => 'tab_home.png',
+                    'action' => 'Home',
+                ),
+                array(
+                    'label' => Mage::helper('xmlconnect')->__('Shop'),
+                    'image' => 'tab_shop.png',
+                    'action' => 'Shop',
+                ),
+                array(
+                    'label' => Mage::helper('xmlconnect')->__('Search'),
+                    'image' => 'tab_search.png',
+                    'action' => 'Search',
+                ),
+                array(
+                    'label' => Mage::helper('xmlconnect')->__('Cart'),
+                    'image' => 'tab_cart.png',
+                    'action' => 'Cart',
+                ),
+                array(
+                    'label' => Mage::helper('xmlconnect')->__('More'),
+                    'image' => 'tab_more.png',
+                    'action' => 'More',
+                ),
+                array(
+                    'label' => Mage::helper('xmlconnect')->__('Account'),
+                    'image' => 'tab_account.png',
+                    'action' => 'Account',
+                ),
+                array(
+                    'label' => Mage::helper('xmlconnect')->__('More Info'),
+                    'image' => 'tab_page.png',
+                    'action' => 'AboutUs',
+                ),
+            );
+        }
+        return $this->_tabs;
+    }
 
-        return $tabs;
+    protected function _getTabLabelActionArray()
+    {
+        if (!isset($this->_tabLabelActionArray)) {
+            $this->_tabLabelActionArray = array();
+            foreach ($this->getDefaultApplicationDesignTabs() as $tab) {
+                $this->_tabLabelActionArray[$tab['action']] = $tab['label'];
+            }
+        }
+        return $this->_tabLabelActionArray;
+    }
+
+    /**
+     * Return Translated tab label for given $action
+     * @param  string $action
+     * @return string|bool
+     */
+    public function getTabLabel($action)
+    {
+        $action = (string) $action;
+        $tabs = $this->_getTabLabelActionArray();
+        return (isset($tabs[$action])) ? $tabs[$action] : false;
     }
 
     /**
@@ -236,4 +260,64 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 EOT;
     }
 
+    /**
+     * Return select options for xml from array
+     *
+     * @param  array    $dataArray  - source array
+     * @param  string   $info       - selected item
+     * @return string
+     */
+    public function getArrayAsXmlItemValues($dataArray, $selected) {
+        $items = array();
+        foreach ($dataArray as $k => $v){
+            if (!$k) {
+                continue;
+            }
+            $items[] = '
+            <item' . ($k == $selected ? ' selected="1"' : '') . '>
+                <label>' . $v . '</label>
+                <value>' . ($k ? $k : '') . '</value>
+            </item>';
+        }
+        $result = implode('', $items);
+        return $result;
+    }
+
+    /**
+     * Return Solo Xml optional fieldset
+     * @param  $ssCcMonths
+     * @param  $ssCcYears
+     * @return string
+     */
+    public function getSoloXml($ssCcMonths, $ssCcYears) {
+                // issue number ==== validate-cc-ukss cvv
+        $solo = <<<EOT
+<fieldset_optional>
+    <depend_on name="payment[cc_type]">
+        <show_value>
+            <item>SS</item>
+            <item>SM</item>
+            <item>SO</item>
+        </show_value>
+    </depend_on>
+
+    <field name="payment[cc_ss_issue]" type="text" label="{$this->__('Issue Number')}">
+        <validators>
+            <validator relation="payment[cc_type]" type="credit_card_ukss" message="{$this->__('Please enter issue number or start date for switch/solo card type.')}"/>
+        </validators>
+    </field>;
+    <field name="payment[cc_ss_start_month]" type="select" label="{$this->__('Start Date - Month')}">
+        <values>
+            $ssCcMonths
+        </values>
+    </field>
+    <field name="payment[cc_ss_start_year]" type="select" label="{$this->__('Start Date - Year')}">
+        <values>
+            $ssCcYears
+        </values>
+    </field>
+</fieldset_optional>
+EOT;
+        return $solo;
+    }
 }

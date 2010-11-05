@@ -415,7 +415,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-
     /**
      * Load application by code
      *

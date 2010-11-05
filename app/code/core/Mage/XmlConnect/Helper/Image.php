@@ -83,16 +83,35 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         }
         $customSizeFileName =  $dir . DS . $fileName;
         $originalSizeFileName = $this->getOriginalSizeUploadDir(). DS . $fileName;
-        if (copy($originalSizeFileName, $customSizeFileName) &&
+        $error = false;
+        /**
+         * Compatibility with old versions of XmlConnect
+         */
+        if (!file_exists($originalSizeFileName)) {
+            $oldFileName = $this->getOldUploadDir() . DS . $fileName;
+            if (file_exists($oldFileName)) {
+                if (!(copy($oldFileName, $originalSizeFileName) &&
+                    (is_readable($customSizeFileName) || chmod($customSizeFileName, 0644)))) {
+                    Mage::throwException(Mage::helper('xmlconnect')->__('Error while processing file "%s".', $fileName));
+                }
+            } else {
+                Mage::throwException(Mage::helper('xmlconnect')->__('No such file "%s".', $fileName));
+            }
+        }
+
+        if ((!$error) && copy($originalSizeFileName, $customSizeFileName) &&
             (is_readable($customSizeFileName) || chmod($customSizeFileName, 0644))) {
             $this->_handleResize($fieldPath, $customSizeFileName);
         } else {
-            $fileName = $_FILES[$fieldPath]['name'];
-            die('Error while uploading file "%s".'. $fileName);
+            $fileName = '';
+            if (isset($_FILES[$fieldPath]) && is_array($_FILES[$fieldPath]) && isset($_FILES[$fieldPath]['name'])) {
+                $fileName = $_FILES[$fieldPath]['name'];
+            }
             Mage::throwException(Mage::helper('xmlconnect')->__('Error while uploading file "%s".', $fileName));
         }
         return $customSizeFileName;
     }
+
     /**
      * Resize uploaded file
      *
@@ -141,6 +160,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
             $image->keepTransparency(true);
             $image->keepFrame(true);
             $image->keepAspectRatio(true);
+            $image->backgroundColor(array(255, 255, 255));
 //            $image->keepAspectRatio(false);
             $image->resize($width, $height);
             $image->save(null, basename($file));
@@ -170,6 +190,8 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
                 default:
                     return;
             }
+            imagealphablending($img, false);
+            imagesavealpha  ($img  , true);
             imagepng($img, $file['tmp_name']);
             imagedestroy($img);
         }
@@ -456,6 +478,13 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     public function getOriginalSizeUploadDir()
     {
         $dir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'original';
+        $this->_verifyDirExist($dir);
+        return $dir;
+    }
+
+    public function getOldUploadDir()
+    {
+        $dir = Mage::getBaseDir('media') . DS . 'xmlconnect';
         $this->_verifyDirExist($dir);
         return $dir;
     }
