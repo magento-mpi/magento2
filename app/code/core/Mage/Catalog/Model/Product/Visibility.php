@@ -193,9 +193,9 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
     public function getFlatColums()
     {
         return array($this->getAttribute()->getAttributeCode() => array(
-            'type'      => 'tinyint',
+            'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
             'unsigned'  => true,
-            'is_null'   => true,
+            'nullable'   => true,
             'default'   => null,
             'extra'     => null
         ));

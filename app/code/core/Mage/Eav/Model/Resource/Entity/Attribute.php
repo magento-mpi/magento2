@@ -438,7 +438,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
 
 
         $valueExpr      = $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
-        /* @var $select Varien_Db_Select */
+        /** @var $select Varien_Db_Select */
 
         $select    = $adapter->select()
             ->joinLeft(
@@ -450,21 +450,14 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
                 't2.entity_id = t1.entity_id'
                     . ' AND t1.entity_type_id = t2.entity_type_id'
                     . ' AND t1.attribute_id = t2.attribute_id'
-                    . ' AND t2.store_id = :t2_store_id',
+                    . ' AND t2.store_id = ' . $storeId, 
                 array($attribute->getAttributeCode() => $valueExpr))
-            ->where('t1.entity_type_id = :t1_entity_type_id')
-            ->where('t1.attribute_id = :t1_attribute_id')
-            ->where("t1.store_id = ?", 0);
+            ->where('t1.entity_type_id = ?', $attribute->getEntityTypeId())
+            ->where('t1.attribute_id = ?', $attribute->getId())
+            ->where('t1.store_id = ?', 0);
         if ($attribute->getFlatAddChildData()) {
             $select->where("e.is_child = ?", 0);
         }
-
-        $select->bind(array(
-            ':t2_store_id'           => $storeId,
-            ':t1_entity_type_id'     => $attribute->getEntityTypeId(),
-            ':t1_attribute_id'       => $attribute->getId()
-
-        ));
 
         return $select;
     }

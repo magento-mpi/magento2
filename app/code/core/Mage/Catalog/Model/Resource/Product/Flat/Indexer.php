@@ -164,7 +164,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             }
 
             $bind = array(
-                'backend_type'      => 'static',
+                'backend_type'      => Mage_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC,
                 'entity_type_id'    => $this->getEntityTypeId()
             );
 
@@ -175,14 +175,17 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                     'additional_table.attribute_id = main_table.attribute_id'
                 )
                 ->where('main_table.entity_type_id = :entity_type_id')
-                ->where('main_table.backend_type = :backend_type')
-                ->where('main_table.attribute_code IN(?)', $this->_systemAttributes)
-                ->where('additional_table.used_in_product_listing = ?', 1)
-                ->where('additional_table.used_for_sort_by = ?', 1);
-
+                ->where('main_table.attribute_code IN(?)', $this->_systemAttributes);
+            $whereCondition = array(
+                'main_table.backend_type = :backend_type',
+                $adapter->quoteInto('additional_table.used_in_product_listing = ?', 1),
+                $adapter->quoteInto('additional_table.used_for_sort_by = ?', 1)
+            );
             if ($this->getFlatHelper()->isAddFilterableAttributes()) {
-                $select->where('additional_table.is_filterable > ?', 0);
+               $whereCondition[] = $adapter->quoteInto('additional_table.is_filterable > ?', 0);
             }
+
+            $select->where(implode(') OR (', $whereCondition));
 
             $attributesData = $adapter->fetchAll($select, $bind);
             Mage::getSingleton('eav/config')
@@ -204,7 +207,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     public function getEntityType()
     {
-        return 'catalog_product';
+        return 'catalog_product';//Mage_Catalog_Model_Product::ENTITY;
     }
 
     /**
@@ -230,7 +233,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
     {
         if ($this->_attributes === null) {
             $this->_attributes = array();
-            $attributeCodes    = $this->getAttributeCodes(false);
+            $attributeCodes    = $this->getAttributeCodes();
             $entity = Mage::getSingleton('eav/config')
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
@@ -242,6 +245,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 $this->_attributes[$attributeCode] = $attribute;
             }
         }
+ 
         return $this->_attributes;
     }
 
@@ -338,7 +342,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             );
 
             foreach ($this->getAttributes() as $attribute) {
-                /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+                /* @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
                 $columns = $attribute
                     ->setFlatAddFilterableAttributes($this->getFlatHelper()->isAddFilterableAttributes())
                     ->setFlatAddChildData($this->getFlatHelper()->isAddChildData())
@@ -558,12 +562,12 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             /** @var $table Varien_Db_Ddl_Table */
             $table = $adapter->newTable($tableName);
             foreach ($columns as $fieldName => $fieldProp) {
-                $table->addColumn($fieldName, $fieldProp['type'], $fieldProp['length'], array(
-                    'nullable' => isset($fieldProp['nullable']) ? (bool)$fieldProp['nullable'] : false,
+                $table->addColumn($fieldName, $fieldProp['type'], isset($fieldProp['length']) ? $fieldProp['length'] : null, array(
+                    'nullable' => true, //isset($fieldProp['nullable']) ? (bool)$fieldProp['nullable'] : false,
                     'unsigned' => isset($fieldProp['unsigned']) ? (bool)$fieldProp['unsigned'] : false,
-                    'default'  => $fieldProp['default'],
+                    'default'  => isset($fieldProp['default']) ? $fieldProp['default'] : false,
                     'primary'  => false,
-                ), $fieldProp['comment']);
+                ), isset($fieldProp['comment']) ? $fieldProp['comment'] : $fieldName);
             }
 
             foreach ($indexes as $indexName => $indexProp) {
@@ -613,7 +617,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 $adapter->dropForeignKey($tableName, $foreignChildKey);
             }
             if ($isAddChildData && !isset($describe['is_child'])) {
-                $adapter->truncate($tableName);
+                $adapter->truncateTable($tableName);
                 $dropIndexes['PRIMARY'] = $indexList['PRIMARY'];
                 $addIndexes['PRIMARY']  = $indexes['PRIMARY'];
 
@@ -662,7 +666,6 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 }
                 $adapter->changeColumn($tableName, $columnName, $columnName, $columnProp);
             }
-
             // add columns
             foreach ($addColumns as $columnName => $columnProp) {
                 if (!isset($columnProp['comment'])) {
@@ -848,6 +851,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             if ($productIds !== null) {
                 $select->where('main_table.entity_id IN(?)', $productIds);
             }
+
             $sql = $select->crossUpdateFromSelect(array('e' => $flatTableName));
             $adapter->query($sql);
         } else {
@@ -866,6 +870,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 if ($productIds !== null) {
                     $select->where('e.entity_id IN(?)', $productIds);
                 }
+
                 $sql = $select->crossUpdateFromSelect(array('e' => $flatTableName));
                 $adapter->query($sql);
             }

@@ -523,7 +523,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         if ($this->usesSource() && $this->getBackendType() != self::TYPE_STATIC) {
             return $this->getSource()->getFlatColums();
         }
-
+        $helper  = Mage::getResourceHelper('eav');
         $columns = array();
         switch ($this->getBackendType()) {
             case 'static':
@@ -537,54 +537,57 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
                 $size = ($prop['LENGTH'] ? $prop['LENGTH'] : null);
 
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => $type . $size,
+                    'type'      => $helper->getDdlTypeByColumnType($type),
+                    'length'    => $size,
                     'unsigned'  => $prop['UNSIGNED'] ? true: false,
-                    'is_null'   => $prop['NULLABLE'],
+                    'nullable'   => $prop['NULLABLE'],
                     'default'   => $prop['DEFAULT'],
                     'extra'     => null
                 );
                 break;
             case 'datetime':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => array(Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null),
+                    'type'      => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
                     'unsigned'  => false,
-                    'is_null'   => true,
+                    'nullable'  => true,
                     'default'   => null,
                     'extra'     => null
                 );
                 break;
             case 'decimal':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => array(Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4'),
+                    'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
+                    'length'    => '12,4',
                     'unsigned'  => false,
-                    'is_null'   => true,
+                    'nullable'  => true,
                     'default'   => null,
                     'extra'     => null
                 );
                 break;
             case 'int':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => array(Varien_Db_Ddl_Table::TYPE_INTEGER, null),
+                    'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
                     'unsigned'  => false,
-                    'is_null'   => true,
+                    'nullable'  => true,
                     'default'   => null,
                     'extra'     => null
                 );
                 break;
             case 'text':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => array(Varien_Db_Ddl_Table::TYPE_TEXT, null),
+                    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
                     'unsigned'  => false,
-                    'is_null'   => true,
+                    'nullable'  => true,
                     'default'   => null,
                     'extra'     => null
                 );
                 break;
             case 'varchar':
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => array(Varien_Db_Ddl_Table::TYPE_TEXT, '255'),
+                    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+                    'length'    => '255',
                     'unsigned'  => false,
-                    'is_null'   => true,
+                    'nullable'  => true,
                     'default'   => null,
                     'extra'     => null
                 );

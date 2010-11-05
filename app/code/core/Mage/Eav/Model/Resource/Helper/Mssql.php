@@ -35,6 +35,25 @@
 class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Mssql
 {
     /**
+     * Mssql column - Table DDL type pairs
+     *
+     * @var array
+     */
+    protected $_ddlColumnTypes      = array(
+        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'bit',
+        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'smallint',
+        Varien_Db_Ddl_Table::TYPE_INTEGER       => 'int',
+        Varien_Db_Ddl_Table::TYPE_BIGINT        => 'bigint',
+        Varien_Db_Ddl_Table::TYPE_FLOAT         => 'float',
+        Varien_Db_Ddl_Table::TYPE_DECIMAL       => 'decimal',
+        Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'decimal',
+        Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'datetime',
+        Varien_Db_Ddl_Table::TYPE_DATE          => 'datetime',
+        Varien_Db_Ddl_Table::TYPE_TEXT          => 'text',
+        Varien_Db_Ddl_Table::TYPE_BLOB          => 'text',
+    );
+    
+    /**
      * Returns columns for select
      *
      * @param string $tableAlias
@@ -50,6 +69,18 @@ class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Help
             'entity_id',
             'value' => $this->prepareEavAttributeValue($tableAlias . '.value', $eavType)
         );
+    }
+
+    /**
+     * Returns DDL type by column type in database
+     *
+     * @param string $columnType
+     * @return string
+     */
+    public function getDdlTypeByColumnType($columnType)
+    {
+        $columnType = ($columnType == 'varchar') ? 'text' : $columnType;
+        return array_search($columnType, $this->_ddlColumnTypes);
     }
 
     /**

@@ -77,9 +77,9 @@ class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Mod
     {
         $columns = array();
         $columns[$this->getAttribute()->getAttributeCode()] = array(
-            'type'      => 'int',
+            'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
             'unsigned'  => false,
-            'is_null'   => true,
+            'nullable'   => true,
             'default'   => null,
             'extra'     => null
         );

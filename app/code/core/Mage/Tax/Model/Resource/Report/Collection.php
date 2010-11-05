@@ -68,7 +68,7 @@ class Mage_Tax_Model_Resource_Report_Collection extends Mage_Sales_Model_Resourc
     protected function _getSelectedColumns()
     {
         if ('month' == $this->_period) {
-            $this->_periodFormat = $this->getConnection()->getDateFormatSql('period', '%Y-%m');;
+            $this->_periodFormat = $this->getConnection()->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
             $this->_periodFormat = $this->getConnection()->getDateFormatSql('period', '%Y');
         } else {

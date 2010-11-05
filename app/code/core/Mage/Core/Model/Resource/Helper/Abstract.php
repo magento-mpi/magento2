@@ -93,7 +93,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     }
 
     /**
-     * Returns connection to resource.
+     * Retrieve connection to the resource
      *
      * @param string $name
      * @return Varien_Db_Adapter_Interface

@@ -153,20 +153,21 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
         } else {
             $type = array(Varien_Db_Ddl_Table::TYPE_INTEGER, null);
         }
-
+        $helper = Mage::getResourceHelper('eav');
         $columns[$this->getAttribute()->getAttributeCode()] = array(
-            'type'      => $type,
+            'type'      => $helper->getDdlTypeByColumnType($type),
             'unsigned'  => false,
-            'is_null'   => true,
+            'nullable'   => true,
             'default'   => null,
             'extra'     => null
         );
 
         if (!$isMulti) {
             $columns[$this->getAttribute()->getAttributeCode() . '_value'] = array(
-                'type'      => array(Varien_Db_Ddl_Table::TYPE_TEXT, '255'),
+                'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+                'length'    => 255,
                 'unsigned'  => false,
-                'is_null'   => true,
+                'nullable'   => true,
                 'default'   => null,
                 'extra'     => null
             );

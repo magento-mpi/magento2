@@ -1536,34 +1536,37 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             return $this;
         }
 
+        $helper     = Mage::getResourceHelper('core');
         $connection = $this->getConnection();
-
-        $joinCond = $joinCond = join(' AND ', array(
+        $select     = $this->getSelect();
+        $joinCond   = join(' AND ', array(
             'price_index.entity_id = e.entity_id',
             $connection->quoteInto('price_index.website_id = ?', $filters['website_id']),
             $connection->quoteInto('price_index.customer_group_id = ?', $filters['customer_group_id'])
         ));
 
-        $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
+        $fromPart = $select->getPart(Zend_Db_Select::FROM);
         if (!isset($fromPart['price_index'])) {
-            $least = $this->getConnection()->getLeastSql(array('price_index.min_price', 'price_index.tier_price'));
-            $minimalExpr = $this->getConnection()->getCheckSql('price_index.tier_price IS NOT NULL',
-                $least, 'price_index.min_price');
-            $colls = array('price', 'tax_class_id', 'final_price', 'minimal_price'=>$minimalExpr , 'min_price', 'max_price', 'tier_price');
-            $this->getSelect()->join(
+            $least       = $connection->getLeastSql(array('price_index.min_price', 'price_index.tier_price'));
+            $minimalExpr = $connection->getCheckSql('price_index.tier_price IS NOT NULL', $least, 'price_index.min_price');
+            $colls       = array('price', 'tax_class_id', 'final_price',
+                'minimal_price' => $minimalExpr , 'min_price', 'max_price', 'tier_price');
+            $select->join(
                 array('price_index' => $this->getTable('catalog/product_index_price')),
                 $joinCond,
                 $colls
             );
-
             // Set additional field filters
             foreach ($this->_priceDataFieldFilters as $filterData) {
-                $this->getSelect()->where(call_user_func_array('sprintf', $filterData));
+                $select->where(call_user_func_array('sprintf', $filterData));
             }
         } else {
             $fromPart['price_index']['joinCondition'] = $joinCond;
-            $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
+            $select->setPart(Zend_Db_Select::FROM, $fromPart);
         }
+        //Clean duplicated fields
+        $helper->prepareColumnsList($select);
+
 
         return $this;
     }

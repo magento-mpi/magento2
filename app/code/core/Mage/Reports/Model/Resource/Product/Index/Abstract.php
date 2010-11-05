@@ -136,15 +136,15 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
 
         $writeAdapter = $this->_getWriteAdapter();
         $checkSelect  = $writeAdapter->select();
-        $checkSelect->from(array('main_t' => $this->getMainTable()))
-            ->where('main_t.product_id = ?' , $object->getProductId());
+        $checkSelect->from($this->getMainTable())
+            ->where('product_id = ?' , $object->getProductId());
 
         $updateData = $data;
         unset($updateData['product_id']);
 
 
         if (!$object->getCustomerId()) {
-            $checkSelect->where('main_t.visitor_id = ?', $object->getVisitorId());
+            $checkSelect->where('visitor_id = ?', $object->getVisitorId());
         } else {
             $writeAdapter->delete($this->getMainTable(), array(
                 'product_id = ?'=> $object->getProductId(),
@@ -153,12 +153,13 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
             $checkSelect->where('main_t.customer_id IS NULL')
                 ->where('main_t.visitor_id = ?', $object->getVisitorId());
         }
-        $checkSelect->where( 'main_t.' .  $this->getIdFieldName() . ' = ' . $this->getIdFieldName());
+        $checkSelect->where($this->getIdFieldName() . ' = ' . $this->getIdFieldName());
 
-        $updateCondition = new Zend_Db_Expr(' EXISTS(' . $checkSelect . ') ');
-
-        $affectedRows = $writeAdapter->update($this->getMainTable(), $updateData, $updateCondition);
-        if (!$affectedRows) {
+        $result = $this->_getReadAdapter()->fetchAll($checkSelect);
+        if ($result) {
+            $where = $checkSelect->getPart(Zend_Db_Select::WHERE);
+            $writeAdapter->update($this->getMainTable(), $updateData, implode(' ', $where));
+        } else {
             $writeAdapter->insert($this->getMainTable(), $data);
         }
 

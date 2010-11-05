@@ -76,7 +76,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
     {
         $columns = array();
         $columns[$this->getAttribute()->getAttributeCode()] = array(
-            'type'      => 'int',
+            'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
             'unsigned'  => false,
             'is_null'   => true,
             'default'   => null,

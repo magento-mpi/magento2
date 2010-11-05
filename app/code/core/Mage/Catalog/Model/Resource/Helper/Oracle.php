@@ -34,24 +34,6 @@
  */
 class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_Helper_Oracle
 {
-    /**
-     * Oracle column - Table DDL type pairs
-     *
-     * @var array
-     */
-    protected $_ddlColumnTypes      = array(
-        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'SMALLINT',
-        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'SMALLINT',
-        Varien_Db_Ddl_Table::TYPE_INTEGER       => 'INTEGER',
-        Varien_Db_Ddl_Table::TYPE_BIGINT        => 'NUMBER',
-        Varien_Db_Ddl_Table::TYPE_FLOAT         => 'FLOAT',
-        Varien_Db_Ddl_Table::TYPE_DECIMAL       => 'NUMBER',
-        Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'NUMBER',
-        Varien_Db_Ddl_Table::TYPE_DATE          => 'DATE',
-        Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'TIMESTAMP',
-        Varien_Db_Ddl_Table::TYPE_TEXT          => 'VARCHAR2',
-        Varien_Db_Ddl_Table::TYPE_BLOB          => 'CLOB',
-    );
 
     /**
      * Returns columns for select
@@ -70,21 +52,6 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
             'entity_id',
             'value' => $this->prepareEavAttributeValue($tableAlias . '.value', $eavType)
         );
-    }
-
-    /**
-     * Returns DDL type by column type in database
-     *
-     * @param string $columnType
-     * @return string
-     */
-    public function getDdlTypeByColumnType($columnType)
-    {
-        if($result = array_search($columnType, $this->_ddlColumnTypes)) {
-            return $result;
-        } else {
-            return Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
-        }
     }
 
     /**

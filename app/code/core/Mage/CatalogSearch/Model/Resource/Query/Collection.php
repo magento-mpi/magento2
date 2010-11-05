@@ -90,8 +90,8 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Mage_Core_Model
                 array('main_table' => $this->getTable('catalogsearch/search_query')),
                 array('query'      => $ifSynonymFor, 'num_results')
             )
-            ->where('num_results>0 AND display_in_terms=1 AND query_text LIKE ?', $query.'%')
-            ->order('popularity desc');
+            ->where('num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?', $query . '%')
+            ->order('popularity ' . Varien_Db_Select::SQL_DESC);
         if ($this->getStoreId()) {
             $this->getSelect()
                 ->where('store_id = ?', (int)$this->getStoreId());

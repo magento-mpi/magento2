@@ -63,16 +63,6 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get resource instance
-     *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
-     */
-    protected function _getResource()
-    {
-        return parent::_getResource();
-    }
-
-    /**
      * Rebuild Catalog Product Flat Data
      *
      * @param mixed $store

@@ -63,11 +63,12 @@ class Enterprise_GiftCard_Model_Source_Open extends Mage_Eav_Model_Entity_Attrib
     public function getFlatColums()
     {
         $attributeDefaultValue = $this->getAttribute()->getDefaultValue();
+        $helper = Mage::getResourceHelper('eav');
         return array(
             $this->getAttribute()->getAttributeCode() => array(
-                'type'      => $this->getAttribute()->getBackendType(),
+                'type'      => $helper->getDdlTypeByColumnType($this->getAttribute()->getBackendType()),
                 'unsigned'  => false,
-                'is_null'   => is_null($attributeDefaultValue) || empty($attributeDefaultValue),
+                'nullable'   => is_null($attributeDefaultValue) || empty($attributeDefaultValue),
                 'default'   => is_null($attributeDefaultValue) || empty($attributeDefaultValue)?null:$attributeDefaultValue,
                 'extra'     => null
         ));

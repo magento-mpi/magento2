@@ -34,24 +34,6 @@
  */
 class Mage_Catalog_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Resource_Helper_Mysql4
 {
-    /**
-     * Mysql column - Table DDL type pairs
-     *
-     * @var array
-     */
-    protected $_ddlColumnTypes      = array(
-        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'bool',
-        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'smallint',
-        Varien_Db_Ddl_Table::TYPE_INTEGER       => 'int',
-        Varien_Db_Ddl_Table::TYPE_BIGINT        => 'bigint',
-        Varien_Db_Ddl_Table::TYPE_FLOAT         => 'float',
-        Varien_Db_Ddl_Table::TYPE_DECIMAL       => 'decimal',
-        Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'decimal',
-        Varien_Db_Ddl_Table::TYPE_DATE          => 'date',
-        Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'timestamp',
-        Varien_Db_Ddl_Table::TYPE_TEXT          => 'text',
-        Varien_Db_Ddl_Table::TYPE_BLOB          => 'blob',
-    );
 
     /**
      * Returns columns for select
@@ -63,18 +45,6 @@ class Mage_Catalog_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Resource_
     public function attributeSelectFields($tableAlias, $eavType)
     {
         return '*';
-    }
-
-    /**
-     * Returns DDL type by column type in database
-     *
-     * @param string $columnType
-     * @return string
-     */
-    public function getDdlTypeByColumnType($columnType)
-    {
-        $columnType = ($columnType == 'varchar') ? 'text' : $columnType;
-        return array_search($columnType, $this->_ddlColumnTypes);
     }
 
     /**

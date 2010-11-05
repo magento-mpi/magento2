@@ -89,9 +89,10 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
     {
         $columns = array();
         $columns[$this->getAttribute()->getAttributeCode()] = array(
-            'type'      => array(Varien_Db_Ddl_Table::TYPE_SMALLINT, '1'),
+            'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+            'length'    => 1,
             'unsigned'  => false,
-            'is_null'   => true,
+            'nullable'   => true,
             'default'   => null,
             'extra'     => null
         );

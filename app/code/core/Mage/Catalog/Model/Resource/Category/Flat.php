@@ -240,7 +240,13 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             }
         }
         $select = $_conn->select()
-            ->from(array('main_table'=>$this->getMainStoreTable($storeId)), array('main_table.entity_id', 'main_table.name', 'main_table.path', 'main_table.is_active', 'main_table.is_anchor'))
+            ->from(
+                array('main_table' => $this->getMainStoreTable($storeId)),
+                array('entity_id',
+                    $_conn->quoteIdentifier('name'),
+                    $_conn->quoteIdentifier('path'), 
+                    'is_active',
+                    'is_anchor'))
             ->joinLeft(
                 array('url_rewrite'=>$this->getTable('core/url_rewrite')),
                 'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND ' .
@@ -254,13 +260,12 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
 //            ->order('main_table.path', 'ASC')
             ->order('main_table.position', 'ASC');
 
-
-
         if ($parentPath) {
             $select->where($_conn->quoteInto("main_table.path like ?", "$parentPath/%"));
         }
         if ($recursionLevel != 0) {
-            $select->where("main_table.level <= ?", $startLevel + $recursionLevel);
+            $levelField = $_conn->quoteIdentifier('level');
+            $select->where($levelField . ' <= ?', $startLevel + $recursionLevel);
         }
 
         $inactiveCategories = $this->getInactiveCategoryIds();
@@ -1176,14 +1181,16 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     public function getParentDesignCategory($category)
     {
-        $pathIds = array_reverse($category->getPathIds());
-        $select = $this->_getReadAdapter()->select()
+        $adapter    = $this->_getReadAdapter();
+        $levelField = $adapter->quoteIdentifier('level');
+        $pathIds    = array_reverse($category->getPathIds());
+        $select = $adapter->select()
             ->from(array('main_table' => $this->getMainStoreTable($category->getStoreId())), '*')
             ->where('entity_id IN (?)', $pathIds)
             ->where('custom_use_parent_settings = ?', 0)
-            ->where('level != ?', 0)
-            ->order('level DESC');
-        $result = $this->_getReadAdapter()->fetchRow($select);
+            ->where($levelField . ' != ?', 0)
+            ->order('level ' . Varien_Db_Select::SQL_DESC);
+        $result = $adapter->fetchRow($select);
         return Mage::getModel('catalog/category')->setData($result);
     }
 

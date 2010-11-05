@@ -67,7 +67,7 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
     {
         $columns = array(
             $this->getAttribute()->getAttributeCode() => array(
-                'type'      => 'tinyint',
+                'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
                 'unsigned'  => true,
                 'is_null'   => true,
                 'default'   => null,

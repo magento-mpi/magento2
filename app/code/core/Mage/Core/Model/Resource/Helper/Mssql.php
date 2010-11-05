@@ -476,7 +476,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
      *
      * @param Varien_Db_Select $select
      * @param string $fieldAlias Field alias which will be added with column group_concat expression
-     * @param string $fields
+     * @param string|array $fields
      * @param string $groupConcatDelimiter
      * @param string $fieldsDelimiter
      * @return Varien_Db_Select
