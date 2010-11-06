@@ -96,7 +96,7 @@ class Mage_Ogone_Model_Config extends Mage_Payment_Model_Config
      */
     public function getPayPageTemplate()
     {
-        return Mage::getUrl('ogone/api/paypage');
+        return Mage::getUrl('ogone/api/paypage', array('_nosid' => true));
     }
 
     /**
@@ -106,7 +106,7 @@ class Mage_Ogone_Model_Config extends Mage_Payment_Model_Config
      */
     public function getAcceptUrl()
     {
-        return Mage::getUrl('ogone/api/accept');
+        return Mage::getUrl('ogone/api/accept', array('_nosid' => true));
     }
 
     /**
@@ -116,7 +116,7 @@ class Mage_Ogone_Model_Config extends Mage_Payment_Model_Config
      */
     public function getDeclineUrl()
     {
-        return Mage::getUrl('ogone/api/decline');
+        return Mage::getUrl('ogone/api/decline', array('_nosid' => true));
     }
 
     /**
@@ -126,7 +126,7 @@ class Mage_Ogone_Model_Config extends Mage_Payment_Model_Config
      */
     public function getExceptionUrl()
     {
-        return Mage::getUrl('ogone/api/exception');
+        return Mage::getUrl('ogone/api/exception', array('_nosid' => true));
     }
 
     /**
@@ -136,7 +136,7 @@ class Mage_Ogone_Model_Config extends Mage_Payment_Model_Config
      */
     public function getCancelUrl()
     {
-        return Mage::getUrl('ogone/api/cancel');
+        return Mage::getUrl('ogone/api/cancel', array('_nosid' => true));
     }
 
     /**
@@ -146,6 +146,6 @@ class Mage_Ogone_Model_Config extends Mage_Payment_Model_Config
      */
     public function getHomeUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return Mage::getUrl('checkout/cart', array('_nosid' => true));
     }
 }

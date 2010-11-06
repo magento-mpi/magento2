@@ -77,13 +77,13 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     protected function _validateOgoneData()
     {
         $params = $this->getRequest()->getParams();
-
         $this->_getApi()->debugData(array('result' => $params));
 
-        $secureKey = $this->_getApi()->getConfig()->getShaInCode();
-        $secureSet = $this->_getSHAInSet($params, $secureKey);
+        $referenceHash = Mage::helper('ogone')->getHash($params, $this->_getApi()->getConfig()->getShaInCode(),
+            Mage_Ogone_Helper_Data::HASH_DIR_IN, (int)$this->_getApi()->getConfig()->getConfigData('shamode')
+        );
 
-        if (Mage::helper('ogone')->shaCryptValidation($secureSet, $params['SHASIGN'])!=true) {
+        if ($params['SHASIGN'] != $referenceHash) {
             $this->_getCheckout()->addError($this->__('The hash is not valid'));
             return false;
         }
@@ -110,7 +110,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                 $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, Mage_Ogone_Model_Api::PENDING_OGONE_STATUS, Mage::helper('ogone')->__('Start Ogone Processing'));
                 $order->save();
 
-                $this->_getApi()->debugData(array('request' => $this->_getApi()->getFormFields($order)));
+                $this->_getApi()->debugOrder($order);
             }
         }
 
@@ -124,7 +124,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Display our pay page, need to ogone payment with external pay page mode     *
+     * Display our pay page, need to ogone payment with external pay page mode
      */
     public function paypageAction()
     {
@@ -459,24 +459,12 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Return set of data which is ready for SHA crypt
-     *
-     * @param array $data
-     * @param string $key
-     *
+     * @deprecated after 1.4.2.0-beta1
+     * @see Mage_Ogone_Helper_Data::$_inShortMap
      * @return string
      */
     protected function _getSHAInSet($params, $key)
     {
-        return $this->getRequest()->getParam('orderID') .
-               $this->getRequest()->getParam('currency') .
-               $this->getRequest()->getParam('amount') .
-               $this->getRequest()->getParam('PM') .
-               $this->getRequest()->getParam('ACCEPTANCE') .
-               $this->getRequest()->getParam('STATUS') .
-               $this->getRequest()->getParam('CARDNO') .
-               $this->getRequest()->getParam('PAYID') .
-               $this->getRequest()->getParam('NCERROR') .
-               $this->getRequest()->getParam('BRAND') . $key;
+        return '';
     }
 }

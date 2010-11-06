@@ -176,12 +176,6 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
             $formFields['operation'] = $paymentAction;
         }
 
-        $secretCode = $this->getConfig()->getShaOutCode();
-        $secretSet  = $formFields['orderID'] . $formFields['amount'] . $formFields['currency'] .
-            $formFields['PSPID'] . $paymentAction . $secretCode;
-
-        $formFields['SHASign']  = Mage::helper('ogone')->shaCrypt($secretSet);
-
         $formFields['homeurl']          = $this->getConfig()->getHomeUrl();
         $formFields['catalogurl']       = $this->getConfig()->getHomeUrl();
         $formFields['accepturl']        = $this->getConfig()->getAcceptUrl();
@@ -204,7 +198,24 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
         $formFields['BUTTONTXTCOLOR']   = $this->getConfig()->getConfigData('buttontxtcolor');
         $formFields['FONTTYPE']         = $this->getConfig()->getConfigData('fonttype');
         $formFields['LOGO']             = $this->getConfig()->getConfigData('logo');
+
+        $formFields['SHASign'] = Mage::helper('ogone')->getHash($formFields, $this->getConfig()->getShaOutCode(),
+            Mage_Ogone_Helper_Data::HASH_DIR_OUT, (int)$this->getConfig()->getConfigData('shamode')
+        );
+
         return $formFields;
+    }
+
+    /**
+     * Debug specified order fields if needed
+     *
+     * @param Mage_Sales_Model_Order $order
+     */
+    public function debugOrder(Mage_Sales_Model_Order $order)
+    {
+        if ($this->getDebugFlag()) {
+            $this->debugData(array('request' => $this->getFormFields($order)));
+        }
     }
 
     /**

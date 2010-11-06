@@ -27,10 +27,10 @@
 
 <p><strong><?php echo Mage::helper('ogone')->__('Please, wait a moment. This page will transfer your data to Ogone payment gateway in a few seconds.'); ?></strong></p>
 <form name="ogone" id="ogone_review_form" action="<?php echo $this->getFormAction();?>" method="post" accept-charset="ISO-8859-1">
-    <?php if (is_array($this->getFormData())): ?>
+    <?php if ($formData = $this->getFormData()): ?>
     <fieldset>
-        <?php foreach ($this->getFormData() as $name => $value) { ?>
-            <input type="hidden" name="<?php echo($name); ?>" value="<?php echo($value); ?>" />
+        <?php foreach ($formData as $name => $value) { ?>
+            <input type="hidden" name="<?php echo $this->escapeHtml($name); ?>" value="<?php echo $this->escapeHtml($value); ?>" />
         <?php }?>
     </fieldset>
     <?php endif; ?>
