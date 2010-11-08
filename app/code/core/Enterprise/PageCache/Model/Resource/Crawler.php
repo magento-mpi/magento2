@@ -54,8 +54,8 @@ class Enterprise_PageCache_Model_Resource_Crawler extends Mage_Core_Model_Resour
         $table = $this->getTable('core/url_rewrite');
         $select = $this->_getReadAdapter()->select()
             ->from($table, array('store_id', 'request_path'))
-            ->where('store_id=?', $storeId)
+            ->where('store_id = :store_id')
             ->where('is_system=1');
-        return $this->_getReadAdapter()->query($select);
+        return $this->_getReadAdapter()->query($select, array(':store_id' => $storeId));
     }
 }
