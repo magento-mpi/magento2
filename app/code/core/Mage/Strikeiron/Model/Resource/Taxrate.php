@@ -35,7 +35,7 @@
 class Mage_Strikeiron_Model_Resource_Taxrate extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Init main table and primary Key
      *
      */
     protected function _construct()
@@ -58,7 +58,7 @@ class Mage_Strikeiron_Model_Resource_Taxrate extends Mage_Core_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
+     * Special check unique
      *
      * @param Mage_Core_Model_Abstract $object
      */
@@ -110,7 +110,7 @@ class Mage_Strikeiron_Model_Resource_Taxrate extends Mage_Core_Model_Resource_Db
     }
 
     /**
-     * Enter description here ...
+     * Delete all rates from database 
      *
      */
     public function deleteAllRates()

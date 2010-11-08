@@ -35,7 +35,7 @@
 class Mage_Strikeiron_Model_Resource_Taxrate_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Init resource model
      *
      */
     protected function _construct()
@@ -44,9 +44,9 @@ class Mage_Strikeiron_Model_Resource_Taxrate_Collection extends Mage_Core_Model_
     }
 
     /**
-     * Enter description here ...
+     * Add Tax Rate filter
      *
-     * @param unknown_type $rateId
+     * @param int $rateId
      * @return Mage_Strikeiron_Model_Resource_Taxrate_Collection
      */
     public function addRateFilter($rateId)
