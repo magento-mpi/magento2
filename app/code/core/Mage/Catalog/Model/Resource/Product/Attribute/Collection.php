@@ -54,8 +54,15 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
         $entityTypeId = (int)Mage::getModel('eav/entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);
+        $retColumns = array();
+        foreach ($columns as $labelColumn => $columnData) {
+            $retColumns[$labelColumn] = $labelColumn;
+            if ($columnData['DATA_TYPE'] == Varien_Db_Ddl_Table::TYPE_TEXT) {
+                $retColumns[$labelColumn] = Mage::getResourceHelper('core')->castField('main_table.'.$labelColumn);
+            }
+        }
         $this->getSelect()
-            ->from(array('main_table' => $this->getResource()->getMainTable()), array_keys($columns))
+            ->from(array('main_table' => $this->getResource()->getMainTable()), $retColumns)
             ->join(
                 array('additional_table' => $this->getTable('catalog/eav_attribute')),
                 'additional_table.attribute_id=main_table.attribute_id'

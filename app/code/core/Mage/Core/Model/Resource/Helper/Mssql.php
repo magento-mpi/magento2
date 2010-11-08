@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
      * @param string $type OPTIONAL Field type
      * @return Zend_Db_Expr
      */
-    public function castField($field, $type = 'VARCHAR(8000)')
+    public function castField($field, $type = 'VARCHAR(MAX)')
     {
         $expression = sprintf('CAST(%s AS %s)', $this->_getReadAdapter()->quoteIdentifier($field), $type);
         return new Zend_Db_Expr($expression);
