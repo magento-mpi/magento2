@@ -2897,12 +2897,16 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             throw new Varien_Exception('Invalid column defination data');
         }
 
+        if (array_key_exists('DEFAULT', $options)) {
+            $cDefault = $options['DEFAULT'];
+        }
         // column size
         $cType = $this->_ddlColumnTypes[$ddlType];
         switch ($ddlType) {
             case Varien_Db_Ddl_Table::TYPE_SMALLINT:
             case Varien_Db_Ddl_Table::TYPE_INTEGER:
             case Varien_Db_Ddl_Table::TYPE_BIGINT:
+                $cDefault = (int)$cDefault;
                 break;
             case Varien_Db_Ddl_Table::TYPE_DECIMAL:
             case Varien_Db_Ddl_Table::TYPE_NUMERIC:
@@ -2936,9 +2940,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 break;
         }
 
-        if (array_key_exists('DEFAULT', $options)) {
-            $cDefault = $options['DEFAULT'];
-        }
         if (array_key_exists('NULLABLE', $options)) {
             $cNullable = (bool)$options['NULLABLE'];
         }
@@ -2953,14 +2954,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 $cDefault = new Zend_Db_Expr('NULL');
             } elseif ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT) {
                 $cDefault = new Zend_Db_Expr('sysdate');
-            } else if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_UPDATE) {
+            } elseif ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_UPDATE) {
                 $cDefault = new Zend_Db_Expr('/*0 ON UPDATE CURRENT_TIMESTAMP*/');
-            } else if ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT_UPDATE) {
+            } elseif ($cDefault == Varien_Db_Ddl_Table::TIMESTAMP_INIT_UPDATE) {
                 $cDefault = new Zend_Db_Expr('sysdate /*CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP*/');
             } else {
                 $cDefault = false;
             }
-        } else if (is_null($cDefault) && $cNullable) {
+        } elseif (is_null($cDefault) && $cNullable) {
             $cDefault = new Zend_Db_Expr('NULL');
         }
 

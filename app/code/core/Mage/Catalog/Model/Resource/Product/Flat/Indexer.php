@@ -310,7 +310,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                     'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
                     'length'    => null,
                     'unsigned'  => true,
-                    'nullable'   => true,
+                    'nullable'  => true,
                     'default'   => null,
                     'primary'   => true,
                     'comment'   => 'Child Id'
@@ -320,7 +320,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                     'length'    => 1,
                     'unsigned'  => true,
                     'nullable'  => false,
-                    'default'   => 0,
+                    'default'   => '0',
                     'comment'   => 'Checks If Entity Is Child'
                 );
             }
@@ -328,8 +328,8 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
                 'length'    => 5,
                 'unsigned'  => true,
-                'nullable'   => false,
-                'default'   => 0,
+                'nullable'  => false,
+                'default'   => '0',
                 'comment'   => 'Attribute Set Id'
             );
             $this->_columns['type_id'] = array(
@@ -563,7 +563,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             $table = $adapter->newTable($tableName);
             foreach ($columns as $fieldName => $fieldProp) {
                 $table->addColumn($fieldName, $fieldProp['type'], isset($fieldProp['length']) ? $fieldProp['length'] : null, array(
-                    'nullable' => true, //isset($fieldProp['nullable']) ? (bool)$fieldProp['nullable'] : false,
+                    'nullable' => isset($fieldProp['nullable']) ? (bool)$fieldProp['nullable'] : false,
                     'unsigned' => isset($fieldProp['unsigned']) ? (bool)$fieldProp['unsigned'] : false,
                     'default'  => isset($fieldProp['default']) ? $fieldProp['default'] : false,
                     'primary'  => false,
@@ -659,19 +659,17 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
             // modify column
             foreach ($modifyColumns as $columnName => $columnProp) {
-                if (!isset($columnProp['comment'])) {
+                $columnProp = array_change_key_case($columnProp, CASE_UPPER);
+                if (!isset($columnProp['COMMENT'])) {
                     $columnProp['COMMENT'] = ucwords(str_replace('_', ' ', $columnName));
-                } else {
-                    $columnProp['COMMENT'] = $columnProp['comment'];
                 }
                 $adapter->changeColumn($tableName, $columnName, $columnName, $columnProp);
             }
             // add columns
             foreach ($addColumns as $columnName => $columnProp) {
-                if (!isset($columnProp['comment'])) {
+                $columnProp = array_change_key_case($columnProp, CASE_UPPER);
+                if (!isset($columnProp['COMMENT'])) {
                     $columnProp['COMMENT'] = ucwords(str_replace('_', ' ', $columnName));
-                } else {
-                    $columnProp['COMMENT'] = $columnProp['comment'];
                 }
                 $adapter->addColumn($tableName, $columnName, $columnProp);
             }

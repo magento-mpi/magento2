@@ -576,6 +576,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
         if (array_key_exists('NULLABLE', $options)) {
             $cNullable = (bool)$options['NULLABLE'];
+        } else {
+            $cNullable = false;
         }
 
         // prepare default value string
@@ -969,6 +971,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $ddl = $this->loadDdlCache($cacheKey, self::DDL_DESCRIBE);
         if ($ddl === false) {
             $ddl = parent::describeTable($tableName, $schemaName);
+            foreach ($ddl as &$columnProp) {
+                //Prepare default value
+                $matches = array();
+                preg_match('/^(\(*\'+(.*)\'+\)*)/', $columnProp['DEFAULT'], $matches);
+                if (!empty($matches) && isset($matches[2])) {
+                    $columnProp['DEFAULT'] = $matches[2];
+                }
+            }
             $this->saveDdlCache($cacheKey, self::DDL_DESCRIBE, $ddl);
         }
 
@@ -1285,9 +1295,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             );
             $this->raw_query($query);
         }
+
         $constraintName = strtoupper('PF__' . $tableName . '_' . $columnName);
-        $query = sprintf("ALTER TABLE %s ADD CONSTRAINT %s DEFAULT ('%s') FOR %s",
-            $tableName, $constraintName, $defaultValue, $columnName);
+        $query = sprintf("ALTER TABLE %s ADD CONSTRAINT %s DEFAULT %s FOR %s",
+            $tableName, $constraintName, $this->quote($defaultValue), $columnName);
         $this->raw_query($query);
 
         return $this;
@@ -3801,10 +3812,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $query = $sql;
         } else {
             $query = sprintf('
-                SELECT m2.* FROM (
-                    SELECT m1.*, ROW_NUMBER() OVER (ORDER BY RAND()) AS analytic_clmn
-                    FROM (%s) m1) m2
-                WHERE m2.analytic_clmn >= %d', $sql,  $offset + 1);
+                SELECT mage2.* FROM (
+                    SELECT mage1.*, ROW_NUMBER() OVER (ORDER BY RAND()) AS analytic_clmn
+                    FROM (%s) mage1) mage2
+                WHERE mage2.analytic_clmn >= %d', $sql,  $offset + 1);
         }
 
         return $query;
