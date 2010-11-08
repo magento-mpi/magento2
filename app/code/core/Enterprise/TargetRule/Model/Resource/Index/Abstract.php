@@ -90,11 +90,15 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Mage_
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'product_ids')
-            ->where('entity_id=?', $object->getProduct()->getEntityId())
-            ->where('store_id=?', $object->getStoreId())
-            ->where('customer_group_id=?', $object->getCustomerGroupId());
-
-        $value  = $this->_getReadAdapter()->fetchOne($select);
+            ->where('entity_id = :entity_id')
+            ->where('store_id = :store_id')
+            ->where('customer_group_id = :customer_group_id');
+        $bind = array(
+            ':entity_id'         => $object->getProduct()->getEntityId(),
+            ':store_id'          => $object->getStoreId(),
+            ':customer_group_id' => $object->getCustomerGroupId()
+        );
+        $value  = $this->_getReadAdapter()->fetchOne($select, $bind);
         if (!empty($value)) {
             $productIds = explode(',', $value);
         } else {

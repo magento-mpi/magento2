@@ -130,8 +130,8 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Core_Model_Resource
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->_getCustomerSegmentRelationsTable(), 'segment_id')
-            ->where('rule_id=?', $ruleId);
-        return $adapter->fetchCol($select);
+            ->where('rule_id = :rule_id');
+        return $adapter->fetchCol($select, array(':rule_id' => $ruleId));
     }
 
     /**

@@ -115,11 +115,17 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable(), 'flag')
-            ->where('type_id=?', $object->getType())
-            ->where('entity_id=?', $object->getProduct()->getEntityId())
-            ->where('store_id=?', $object->getStoreId())
-            ->where('customer_group_id=?', $object->getCustomerGroupId());
-        $flag    = $adapter->fetchOne($select);
+            ->where('type_id = :type_id')
+            ->where('entity_id = :entity_id')
+            ->where('store_id = :store_id')
+            ->where('customer_group_id = :customer_group_id');
+        $bind = array(
+            ':type_id'           => $object->getType(),
+            ':entity_id'         => $object->getProduct()->getEntityId(),
+            ':store_id'          => $object->getStoreId(),
+            ':customer_group_id' => $object->getCustomerGroupId()
+        );
+        $flag    = $adapter->fetchOne($select, $bind);
 
         if (empty($flag)) {
             $productIds = $this->_matchProductIds($object);
