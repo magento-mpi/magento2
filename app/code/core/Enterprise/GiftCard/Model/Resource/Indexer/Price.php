@@ -115,7 +115,7 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
         $select->columns(array('website_id'), 'cw')
             ->columns(array('tax_class_id'  => new Zend_Db_Expr('0')))
-            ->where('e.type_id=?', $this->getTypeId());
+            ->where('e.type_id = ?', $this->getTypeId());
 
         // add enable products limitation
         $statusCond = $write->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
@@ -127,22 +127,23 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
 
 
 
-        $attrAmounts     = $this->_getAttribute('giftcard_amounts');
+        $attrAmounts = $this->_getAttribute('giftcard_amounts');
         // join giftCard amounts table
         $select->joinLeft(
             array('gca' => $this->getTable('enterprise_giftcard/amount')),
-            'gca.entity_id = e.entity_id AND gca.attribute_id = ' . $attrAmounts->getAttributeId()
+            'gca.entity_id = e.entity_id AND gca.attribute_id = '
+            . $attrAmounts->getAttributeId()
             . ' AND (gca.website_id = cw.website_id OR gca.website_id = 0)',
             array()
         );
 
-        $amountsExpr    = 'MIN('. $write->getCheckSql('gca.value_id IS NULL', 'NULL', 'gca.value') . ')';
+        $amountsExpr    = 'MIN(' . $write->getCheckSql('gca.value_id IS NULL', 'NULL', 'gca.value') . ')';
 
         $openAmountExpr = 'MIN(' . $write->getCheckSql(
-            $allowOpenAmount . ' = 1',
-            $write->getCheckSql($openAmountMin . ' > 0', $openAmountMin, '0'),
-            'NULL'
-        ) . ')';
+                $allowOpenAmount . ' = 1',
+                $write->getCheckSql($openAmountMin . ' > 0', $openAmountMin, '0'),
+                'NULL'
+            ) . ')';
 
         $priceExpr = new Zend_Db_Expr(
             'ROUND(' . $write->getCheckSql(
@@ -152,7 +153,7 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
                     $amountsExpr . ' IS NULL',
                     $openAmountExpr,
                     $write->getCheckSql(
-                        $openAmountExpr . ' > ' .$amountsExpr,
+                        $openAmountExpr . ' > ' . $amountsExpr,
                         $amountsExpr,
                         $openAmountExpr
                     )

@@ -51,7 +51,8 @@ class Enterprise_GiftCard_Model_Resource_Catalogindex_Data_Giftcard
      */
     public function getAmounts($product, $store)
     {
-        $isGlobal = ($store->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE) == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
+        $isGlobal = ($store->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE)
+                == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
 
         if ($isGlobal) {
             $key = $product;
@@ -60,20 +61,21 @@ class Enterprise_GiftCard_Model_Resource_Catalogindex_Data_Giftcard
             $key = "{$product}|{$website}";
         }
 
+        $read = $this->_getReadAdapter();
         if (!isset($this->_cache[$key])) {
-            $select = $this->_getReadAdapter()->select()
+            $select = $read->select()
                 ->from($this->getTable('enterprise_giftcard/amount'), array('value', 'website_id'))
-                ->where('entity_id=?', $product);
+                ->where('entity_id = ?', $product);
             $bind = array(
                 'product_id' => $product
             );
             if ($isGlobal) {
-                $select->where('website_id=0');
+                $select->where('website_id = 0');
             } else {
                 $select->where('website_id IN (0, :website_id)');
                 $bind['website_id'] = $website;
             }
-            $fetched = $this->_getReadAdapter()->fetchAll($select, $bind);
+            $fetched = $read->fetchAll($select, $bind);
             $this->_cache[$key] = $this->_convertPrices($fetched, $store);
         }
         return $this->_cache[$key];
@@ -95,7 +97,7 @@ class Enterprise_GiftCard_Model_Resource_Catalogindex_Data_Giftcard
                 if ($amount['website_id'] == 0) {
                     $rate = $store->getBaseCurrency()->getRate(Mage::app()->getBaseCurrencyCode());
                     if ($rate) {
-                        $value = $value/$rate;
+                        $value = $value / $rate;
                     } else {
                         continue;
                     }

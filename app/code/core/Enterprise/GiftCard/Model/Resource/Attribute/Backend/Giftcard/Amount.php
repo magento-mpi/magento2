@@ -52,7 +52,8 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
      */
     public function loadProductData($product, $attribute)
     {
-        $select = $this->_getReadAdapter()->select()
+        $read = $this->_getReadAdapter();
+        $select = $read->select()
             ->from($this->getMainTable(), array(
                 'website_id',
                 'value'
@@ -71,7 +72,7 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
                 $bind['website_id'] = Mage::app()->getStore($storeId)->getWebsiteId();
             }
         }
-        return $this->_getReadAdapter()->fetchAll($select, $bind);
+        return $read->fetchAll($select, $bind);
     }
 
     /**

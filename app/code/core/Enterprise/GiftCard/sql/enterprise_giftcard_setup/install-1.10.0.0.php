@@ -103,7 +103,7 @@ $installer->addAttribute('catalog_product', 'giftcard_amounts', array(
         'unique'            => false,
         'apply_to'          => 'giftcard',
         'is_configurable'   => false,
-        'used_in_product_listing'=>true,
+        'used_in_product_listing' => true,
         'sort_order'        => -5,
     ));
 
@@ -128,7 +128,7 @@ $installer->addAttribute('catalog_product', 'allow_open_amount', array(
         'unique'            => false,
         'apply_to'          => 'giftcard',
         'is_configurable'   => false,
-        'used_in_product_listing'=>true,
+        'used_in_product_listing' => true,
         'sort_order'        => -4,
     ));
 $installer->addAttribute('catalog_product', 'open_amount_min', array(
@@ -152,7 +152,7 @@ $installer->addAttribute('catalog_product', 'open_amount_min', array(
         'unique'            => false,
         'apply_to'          => 'giftcard',
         'is_configurable'   => false,
-        'used_in_product_listing'=>true,
+        'used_in_product_listing' => true,
         'sort_order'        => -3,
     ));
 $installer->addAttribute('catalog_product', 'open_amount_max', array(
@@ -176,7 +176,7 @@ $installer->addAttribute('catalog_product', 'open_amount_max', array(
         'unique'            => false,
         'apply_to'          => 'giftcard',
         'is_configurable'   => false,
-        'used_in_product_listing'=>true,
+        'used_in_product_listing' => true,
         'sort_order'        => -2,
     ));
 
@@ -406,7 +406,7 @@ $fieldList = array(
 foreach ($fieldList as $field) {
     $applyTo = explode(',', $installer->getAttribute('catalog_product', $field, 'apply_to'));
     if (in_array('giftcard', $applyTo)) {
-        foreach ($applyTo as $k=>$v) {
+        foreach ($applyTo as $k => $v) {
             if ($v == 'giftcard') {
                 unset($applyTo[$k]);
                 break;
