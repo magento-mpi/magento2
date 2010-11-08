@@ -53,8 +53,7 @@ class Mage_Strikeiron_Model_Resource_Taxrate_Collection extends Mage_Core_Model_
     {
         if (is_int($rateId) && $rateId > 0) {
             return $this->_select->where('main_table.tax_rate_id=?', $rateId);
-        }
-        else {
+        } else {
             return $this;
         }
     }

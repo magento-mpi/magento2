@@ -87,10 +87,12 @@ class Mage_Strikeiron_Model_Resource_Taxrate extends Mage_Core_Model_Resource_Db
                         $select->where($field.'=?', $data->getData($field));
                         $rateValueArray[] = $this->_getWriteAdapter()->quoteInto($field.'=?', $data->getData($field));
                     }
-                }
-                else {
-                    $select->where( $unique['field'] . ' = ?', $data->getData($unique['field']) );
-                    $rateValueArray[] = $this->_getWriteAdapter()->quoteInto( $unique['field'] . ' = ?', $data->getData($unique['field']) );
+                } else {
+                    $select->where($unique['field'] . ' = ?', $data->getData($unique['field']));
+                    $rateValueArray[] = $this->_getWriteAdapter()->quoteInto(
+                        $unique['field'] . ' = ?',
+                        $data->getData($unique['field'])
+                    );
                 }
 
                 if ($object->getId()) {
