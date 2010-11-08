@@ -244,10 +244,13 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         }
 
         if ($this->_bannerTypesFilter) {
-            $select->joinInner(array('b' => $this->getTable('enterprise_banner/banner')), 'main.banner_id = b.banner_id');
+            $select->joinInner(
+                array('b' => $this->getTable('enterprise_banner/banner')),
+                'main.banner_id = b.banner_id'
+            );
             $filter = array();
             foreach ($this->_bannerTypesFilter as $type) {
-                $filter[] = $adapter->prepareSqlCondition('b.types',  array('finset' => $type));
+                $filter[] = $adapter->prepareSqlCondition('b.types', array('finset' => $type));
             }
             $select->where(implode(' OR ', $filter));
         }

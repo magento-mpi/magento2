@@ -124,7 +124,9 @@ class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Catal
             if (empty($matchedCustomerSegments)) {
                 $select->where('banner_segments.segment_id IS NULL');
             } else {
-                $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)', $matchedCustomerSegments);
+                $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)',
+                    $matchedCustomerSegments
+                );
             }
 
             $this->_isCustomerSegmentFilterAdded = true;
