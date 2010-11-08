@@ -109,7 +109,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
                         array_push($websiteIds, $website['website_id']);
                     }
                 }
-                if(count($websiteIds)) {
+                if (count($websiteIds)) {
                     $item->setWebsiteIds($websiteIds);
                 }
             }

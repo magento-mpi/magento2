@@ -61,15 +61,15 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->_websiteTable, 'website_id')
-            ->where('segment_id=?', $segmentId);
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('segment_id = :segment_id');
+        return $this->_getReadAdapter()->fetchCol($select, array(':segment_id' => $segmentId));
     }
 
     /**
      * Perform actions after object save
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Enterprise_CustomerSegment_Model_Resource_Segment
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
@@ -99,7 +99,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
      * Save all website ids associated to segment
      *
      *
-     * @param unknown_type $segment
+     * @param Enterprise_CustomerSegment_Model_Segment $segment
      * @return Enterprise_CustomerSegment_Model_Resource_Segment
      */
     protected function _saveWebsiteIds($segment)
@@ -142,7 +142,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
      *
      * @param string $string
      * @param string | array $param
-     * @return string unknown_type
+     * @return string
      */
     public function quoteInto($string, $param)
     {
@@ -196,18 +196,18 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
                     $conditions = array();
                     foreach ($value as $v) {
                         $conditions[] = $this->_getReadAdapter()->prepareSqlCondition(
-                               $field, array('finset' => $this->_getReadAdapter()->quote($v))
+                            $field, array('finset' => $this->_getReadAdapter()->quote($v))
                         );
                     }
                     $condition  = sprintf('(%s)=%d', join(' AND ', $conditions), $operator == '[]' ? 1 : 0);
                 } else {
                     if ($operator == '[]') {
                         $condition = $this->_getReadAdapter()->prepareSqlCondition(
-                               $field, array('finset' => $this->_getReadAdapter()->quote($value))
+                            $field, array('finset' => $this->_getReadAdapter()->quote($value))
                         );
                     } else {
                         $condition = 'NOT ('.$this->_getReadAdapter()->prepareSqlCondition(
-                               $field, array('finset' => $this->_getReadAdapter()->quote($value))
+                            $field, array('finset' => $this->_getReadAdapter()->quote($value))
                         ).')';
                     }
                 }
@@ -286,18 +286,22 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
      */
     public function getSegmentCustomersQty($segmentId)
     {
-        return (int)$this->_getReadAdapter()->fetchOne("SELECT COUNT(DISTINCT customer_id)
-            FROM {$this->getTable('enterprise_customersegment/customer')}
-            WHERE segment_id = " . (int)$segmentId);
+        $adapter = $this->_getReadAdapter();
+        return (int)$adapter->fetchOne(
+            $adapter->select()
+                ->from($this->getTable('enterprise_customersegment/customer'), array('COUNT(DISTINCT customer_id))'))
+                ->where('segment_id = :segment_id'),
+            array(':segment_id' => (int)$segmentId)
+        );
     }
 
     /**
      * save CustomerSegments from select
      *
-     * @deprecate after 1.6.0.0 - please use saveCustomersFromSelect
+     * @deprecated after 1.6.0.0 - please use saveCustomersFromSelect
      *
-     * @param unknown_type $segment
-     * @param unknown_type $select
+     * @param Enterprise_CustomerSegment_Model_Segment $segment
+     * @param Varien_Db_Select $select
      * @return Enterprise_CustomerSegment_Model_Resource_Segment
      */
     public function saveSegmentCustomersFromSelect($segment, $select)

@@ -99,9 +99,13 @@ class Enterprise_CustomerSegment_Model_Resource_Customer extends Mage_Core_Model
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'segment_id')
-            ->where('customer_id = ?', $customerId)
-            ->where('website_id = ?', $websiteId);
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('customer_id = :customer_id')
+            ->where('website_id = :website_id');
+        $bind = array(
+            ':customer_id' => $customerId,
+            ':website_id'  => $websiteId
+        );
+        return $this->_getReadAdapter()->fetchCol($select, $bind);
     }
 
     /**
@@ -142,8 +146,10 @@ class Enterprise_CustomerSegment_Model_Resource_Customer extends Mage_Core_Model
     {
         if (!empty($segmentIds)) {
             $adapter = $this->_getWriteAdapter();
-            $condition = $adapter->quoteInto('customer_id=? AND ', $customerId)
-                . $adapter->quoteInto('segment_id IN (?)', $segmentIds);
+            $condition = array(
+                'customer_id=?'     => $customerId,
+                'segment_id IN (?)' => $segmentIds
+            );
             $adapter->delete($this->getMainTable(), $condition);
         }
         return $this;
@@ -161,7 +167,7 @@ class Enterprise_CustomerSegment_Model_Resource_Customer extends Mage_Core_Model
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'segment_id')
-            ->where('customer_id = ?', $customerId);
-        return $this->_getReadAdapter()->fetchCol($select);
+            ->where('customer_id = :customer_id');
+        return $this->_getReadAdapter()->fetchCol($select, array(':customer_id' => $customerId));
     }
 }
