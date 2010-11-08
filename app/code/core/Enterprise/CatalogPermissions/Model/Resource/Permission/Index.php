@@ -265,7 +265,8 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                 array('product_id', 'store_id'));
 
         if ($isActive->isScopeGlobal()) {
-            $selectCategory->joinLeft(
+            $selectCategory
+                ->joinLeft(
                     array('category_is_active' => $isActive->getBackend()->getTable()),
                     'category_product_index.category_id = category_is_active.entity_id'
                     . ' AND category_is_active.store_id = 0'
@@ -279,7 +280,8 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                 'category_is_active_default.value');
 
             $table = $isActive->getBackend()->getTable();
-            $selectCategory->joinLeft(
+            $selectCategory
+                ->joinLeft(
                     array('category_is_active' => $table),
                     'category_product_index.category_id = category_is_active.entity_id'
                     . ' AND category_is_active.store_id = category_product_index.store_id'
@@ -316,7 +318,8 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             'NULL',
             'permission_index.grant_checkout_items');
 
-        $selectCategory->join(
+        $selectCategory
+            ->join(
                 array('store' => $this->getTable('core/store')),
                 'category_product_index.store_id = store.store_id',
                 array())
@@ -445,7 +448,8 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         $colChcktItms    = $this->_getConfigGrantDbExpr('grant_checkout_items', 'permission_index_product');
 
         // Config depend index select
-        $selectConfig->from(
+        $selectConfig
+            ->from(
                 array('category_product_index' => $this->getTable('catalog/category_product_index')),
                 array())
             ->join(
@@ -517,11 +521,11 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                     'is_config' => new Zend_Db_Expr('1')
                 ),
                 'permission_index_product'
-           )->group(array(
+            )->group(array(
                 'permission_index_product.store_id',
                 'permission_index_product.product_id',
                 'permission_index_product.customer_group_id'
-           ));
+            ));
 
         $condition = array('is_config = 1');
 
@@ -744,17 +748,19 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         $select  = $adapter->select()
             ->from($this->getMainTable(), 'category_id')
             ->where('customer_group_id = ?', $customerGroupId)
-            ->where('website_id = ?', $websiteId);
-
+            ->where('website_id = ?', $websiteId)
+            ->where('grant_catalog_category_view = :grant_catalog_category_view');
+        $bind = array(
+            ':customer_group_id' => $customerGroupId,
+            ':website_id'        => $websiteId,
+        );
         if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
-            $select->where(
-                'grant_catalog_category_view = ?', Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
+            $bind[':grant_catalog_category_view'] = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
         } else {
-            $select->where(
-                'grant_catalog_category_view = ?', Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
+            $bind[':grant_catalog_category_view'] = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
         }
 
-        $restrictedCatIds = $adapter->fetchCol($select);
+        $restrictedCatIds = $adapter->fetchCol($select, $bind);
 
         $select = $adapter->select()
             ->from($this->getTable('catalog/category'), 'entity_id');
@@ -789,7 +795,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                 'permission_index_product.category_id IS NULL'
                 . ' AND permission_index_product.product_id = ' . $data->getTable() .'.entity_id'
                 . ' AND ' . $adapter->quoteInto('permission_index_product.store_id = ?', $data->getStoreId())
-                . ' AND ' . $adapter->quoteInto('permission_index_product.customer_group_id = ?',$customerGroupId),
+                . ' AND ' . $adapter->quoteInto('permission_index_product.customer_group_id = ?', $customerGroupId),
                 array()
             );
         }
@@ -906,8 +912,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             $conditions[] = 'permission_index_product.category_id = cat_index.category_id';
             $conditions[] = 'permission_index_product.product_id = cat_index.product_id';
             $conditions[] = 'permission_index_product.store_id = cat_index.store_id';
-        }
-        else {
+        } else {
             $conditions[] = 'permission_index_product.category_id IS NULL';
             $conditions[] = 'permission_index_product.product_id = e.entity_id';
             $conditions[] = $adapter->quoteInto('permission_index_product.store_id = ?', $collection->getStoreId());
@@ -919,8 +924,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         if (isset($parts['permission_index_product'])) {
             $parts['permission_index_product']['joinCondition'] = $condition;
             $collection->getSelect()->setPart(Zend_Db_Select::FROM, $parts);
-        }
-        else {
+        } else {
             $collection->getSelect()
                 ->joinLeft(
                     array('permission_index_product' => $this->getTable('permission_index_product')),
@@ -936,14 +940,14 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             } else {
                 $collection->getSelect()
                     ->where('permission_index_product.grant_catalog_category_view != ?'
-                         . ' OR permission_index_product.grant_catalog_category_view IS NULL',
+                        . ' OR permission_index_product.grant_catalog_category_view IS NULL',
                         Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
             }
 
             /*
              * Checking if passed collection has link model attached
              */
-            if (method_exists($collection, 'getLinkModel')){
+            if (method_exists($collection, 'getLinkModel')) {
                 $linkTypeId = $collection->getLinkModel()->getLinkTypeId();
                 $linkTypeIds = array(
                     Mage_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
@@ -1002,17 +1006,22 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                     'grant_checkout_items'
                 )
             )
-            ->where('product_id = ?', $product->getId())
-            ->where('customer_group_id = ?', $customerGroupId)
-            ->where('store_id = ?', $product->getStoreId());
-
+            ->where('product_id = :product_id')
+            ->where('customer_group_id = :customer_group_id')
+            ->where('store_id = :store_id');
+        $bind = array(
+            ':product_id'        => $product->getId(),
+            ':customer_group_id' => $customerGroupId,
+            ':store_id'          => $product->getStoreId()
+        );
         if ($product->getCategory()) {
-            $select->where('category_id = ?', $product->getCategory()->getId());
+            $select->where('category_id = :category_id');
+            $bind[':category_id'] = $product->getCategory()->getId();
         } else {
             $select->where('category_id IS NULL');
         }
 
-        $permission = $adapter->fetchRow($select);
+        $permission = $adapter->fetchRow($select, $bind);
 
         if ($permission) {
             $product->addData($permission);
