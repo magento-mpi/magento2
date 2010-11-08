@@ -37,7 +37,7 @@ class Mage_Eav_Model_Resource_Entity_Type_Collection extends Mage_Core_Model_Res
     /**
      * Resource initialization
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('eav/entity_type');
     }

@@ -38,7 +38,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection extends Mage_Cor
      * Init resource model for collection
      *
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('eav/entity_attribute_group');
     }

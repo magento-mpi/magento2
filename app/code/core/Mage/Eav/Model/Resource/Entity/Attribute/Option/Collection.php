@@ -44,7 +44,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Co
     /**
      * Resource initialization
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('eav/entity_attribute_option');
         $this->_optionValueTable = Mage::getSingleton('core/resource')->getTableName('eav/attribute_option_value');
