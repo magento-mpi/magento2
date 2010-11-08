@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * GiftCardAccount Pool Resource Model Abstract
  *
  * @category    Enterprise
  * @package     Enterprise_GiftCardAccount

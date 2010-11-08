@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * GiftCardAccount History Resource Collection
  *
  * @category    Enterprise
  * @package     Enterprise_GiftCardAccount
@@ -36,7 +36,7 @@ class Enterprise_GiftCardAccount_Model_Resource_History_Collection
     extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource constructor
      *
      */
     protected function _construct()

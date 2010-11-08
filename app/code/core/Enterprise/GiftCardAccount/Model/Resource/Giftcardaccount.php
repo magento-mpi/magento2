@@ -51,11 +51,12 @@ class Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount extends Mage_Cor
      */
     public function getIdByCode($code)
     {
-        $select = $this->_getReadAdapter()->select();
+        $read = $this->_getReadAdapter();
+        $select = $read->select();
         $select->from($this->getMainTable(), $this->getIdFieldName());
         $select->where('code = :code');
 
-        if ($id = $this->_getReadAdapter()->fetchOne($select, array('code' => $code))) {
+        if ($id = $read->fetchOne($select, array('code' => $code))) {
             return $id;
         }
 
@@ -74,8 +75,8 @@ class Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount extends Mage_Cor
         if (empty($ids)) {
             return $this;
         }
-        $bind = array('state'=>$state);
-        $where = $this->_getReadAdapter()->quoteInto($this->getIdFieldName() . ' IN (?)', $ids);
+        $bind = array('state' => $state);
+        $where[$this->getIdFieldName() . ' IN (?)'] = $ids;
 
         $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
         return $this;

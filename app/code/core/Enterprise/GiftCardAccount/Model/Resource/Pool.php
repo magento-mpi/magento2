@@ -53,9 +53,7 @@ class Enterprise_GiftCardAccount_Model_Resource_Pool extends Enterprise_GiftCard
         $field = $this->getIdFieldName();
         $this->_getWriteAdapter()->insert(
             $this->getMainTable(),
-            array(
-                $field=>$code
-            )
+            array($field => $code)
         );
     }
 
@@ -67,11 +65,12 @@ class Enterprise_GiftCardAccount_Model_Resource_Pool extends Enterprise_GiftCard
      */
     public function exists($code)
     {
-        $select = $this->_getReadAdapter()->select();
+        $read = $this->_getReadAdapter();
+        $select = $read->select();
         $select->from($this->getMainTable(), $this->getIdFieldName());
         $select->where($this->getIdFieldName() . ' = :code');
 
-        if ($this->_getReadAdapter()->fetchOne($select, array('code' => $code)) === false) {
+        if ($read->fetchOne($select, array('code' => $code)) === false) {
             return false;
         }
         return true;
