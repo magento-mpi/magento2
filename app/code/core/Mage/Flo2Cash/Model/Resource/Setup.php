@@ -26,7 +26,7 @@
 
 
 /**
- * Flo2Cash Setup Mysql4 resourcre model
+ * Flo2Cash Setup resource model
  *
  * @category    Mage
  * @package     Mage_Flo2Cash

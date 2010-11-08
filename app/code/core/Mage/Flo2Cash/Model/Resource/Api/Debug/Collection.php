@@ -26,7 +26,7 @@
 
 
 /**
- * Flo2Cash Api Debug Mysql4 collection model
+ * Flo2Cash Api Debug collection model
  *
  * @category    Mage
  * @package     Mage_Flo2Cash
@@ -35,7 +35,7 @@
 class Mage_Flo2Cash_Model_Resource_Api_Debug_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialization of resource collection
      *
      */
     protected function _construct()
