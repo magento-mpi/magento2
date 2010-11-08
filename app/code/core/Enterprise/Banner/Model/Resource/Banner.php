@@ -175,7 +175,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Delete unckecked sale rules
+     * Delete unchecked sale rules
      *
      * @param int $bannerId
      * @param array $rules
@@ -221,7 +221,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      *
      * @param int $bannerId
      * @param int $storeId
-     * @param unknown_type $segmentIds
+     * @param array $segmentIds
      * @return string
      */
     public function getStoreContent($bannerId, $storeId, $segmentIds = array())
@@ -266,7 +266,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->_salesRuleTable, array())
-            ->where('banner_id=?', $bannerId);
+            ->where('banner_id = ?', $bannerId);
             if (!$this->_isSalesRuleRelatedToBanner) {
                 $select->join(
                     array('rules' => $this->getTable('salesrule/rule')),
@@ -282,7 +282,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     /**
      * Get catalog rule that associated to banner
      *
-     * @param unknown_type $bannerId
+     * @param int $bannerId
      * @return array
      */
     public function getRelatedCatalogRule($bannerId)
@@ -290,7 +290,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->_catalogRuleTable, array())
-            ->where('banner_id=?', $bannerId);
+            ->where('banner_id = ?', $bannerId);
             if (!$this->_isCatalogRuleRelatedToBanner) {
                 $select->join(
                     array('rules' => $this->getTable('catalogrule/rule')),
@@ -315,7 +315,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->_catalogRuleTable, array('banner_id'))
-            ->where('rule_id=?', $ruleId);
+            ->where('rule_id = ?', $ruleId);
         return $adapter->fetchCol($select);
     }
 
@@ -330,7 +330,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->_salesRuleTable, array('banner_id'))
-            ->where('rule_id=?', $ruleId);
+            ->where('rule_id = ?', $ruleId);
         return $adapter->fetchCol($select);
     }
 
@@ -414,7 +414,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      *
      * @param array $bannerIds
      * @param int $storeId
-     * @param unknown_type $segmentIds
+     * @param array $segmentIds
      * @return array
      */
     public function getBannersContent($bannerIds, $storeId, $segmentIds = array())
@@ -432,8 +432,8 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     /**
      * Get banners IDs that related to sales rule and satisfy conditions
      *
-     * @param unknown_type $matchedCustomerSegments
-     * @param unknown_type $aplliedRules
+     * @param array $matchedCustomerSegments
+     * @param array $aplliedRules
      * @return array
      */
     public function getSalesRuleRelatedBannerIds($matchedCustomerSegments, $aplliedRules)
@@ -504,11 +504,12 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        $select = $this->_getReadAdapter()->select()
+        $read = $this->_getReadAdapter();
+        $select = $read->select()
             ->from($this->_customerSegmentTable)
             ->where('banner_id = ?', $object->getId());
 
-        if ($data = $this->_getReadAdapter()->fetchAll($select)) {
+        if ($data = $read->fetchAll($select)) {
             $segmentsArray = array();
             foreach ($data as $row) {
                 $segmentsArray[] = $row['segment_id'];

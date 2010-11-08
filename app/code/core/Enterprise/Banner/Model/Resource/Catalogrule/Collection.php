@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Banner Catalogrule Resource Collection
  *
  * @category    Enterprise
  * @package     Enterprise_Banner
@@ -88,13 +88,15 @@ class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Catal
             $select->join(
                 array('rule_related_banners' => $this->getTable('enterprise_banner/catalogrule')),
                 'rule_related_banners.rule_id = rule_group_website.rule_id',
-                array('banner_id'));
+                array('banner_id')
+            );
 
             if ($enabledOnly) {
                 $select->join(
                     array('banners' => $this->getTable('enterprise_banner/banner')),
                     'banners.banner_id = rule_related_banners.banner_id AND banners.is_enabled = 1',
-                    array());
+                    array()
+                );
             }
             $select->group('rule_related_banners.banner_id');
 
@@ -116,7 +118,8 @@ class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Catal
             $select->joinLeft(
                 array('banner_segments' => $this->getTable('enterprise_banner/customersegment')),
                 'banners.banner_id = banner_segments.banner_id',
-                array());
+                array()
+            );
             
             if (empty($matchedCustomerSegments)) {
                 $select->where('banner_segments.segment_id IS NULL');

@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Banner Catalogrule Resource Model
  *
  * @category    Enterprise
  * @package     Enterprise_Banner

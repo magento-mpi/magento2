@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Banner Salesrule Resource Collection
  *
  * @category    Enterprise
  * @package     Enterprise_Banner
@@ -62,11 +62,11 @@ class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_SalesRu
     /**
      * Set related banners to sales rule
      *
-     * @param array $aplliedRules
+     * @param array $appliedRules
      * @param bool $enabledOnly if true then only enabled banners will be joined
      * @return Enterprise_Banner_Model_Resource_Salesrule_Collection
      */
-    public function addBannersFilter($aplliedRules, $enabledOnly = false)
+    public function addBannersFilter($appliedRules, $enabledOnly = false)
     {
         if (!$this->_isBannerFilterAdded) {
             $select = $this->getSelect();
@@ -74,10 +74,10 @@ class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_SalesRu
                 array('rule_related_banners' => $this->getTable('enterprise_banner/salesrule')),
                 array('banner_id')
             );
-            if (empty($aplliedRules)) {
+            if (empty($appliedRules)) {
                 $aplliedRules = array(0);
             }
-            $select->where('rule_related_banners.rule_id IN (?)', $aplliedRules);
+            $select->where('rule_related_banners.rule_id IN (?)', $appliedRules);
             if ($enabledOnly) {
                 $select->join(
                     array('banners' => $this->getTable('enterprise_banner/banner')),
@@ -105,7 +105,8 @@ class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_SalesRu
             $select->joinLeft(
                 array('banner_segments' => $this->getTable('enterprise_banner/customersegment')),
                 'banners.banner_id = banner_segments.banner_id',
-                array());
+                array()
+            );
             
             if (empty($matchedCustomerSegments)) {
                 $select->where('banner_segments.segment_id IS NULL');

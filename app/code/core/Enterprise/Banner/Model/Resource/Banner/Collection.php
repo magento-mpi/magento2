@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Banner Resource Collection
  *
  * @category    Enterprise
  * @package     Enterprise_Banner
@@ -80,7 +80,7 @@ class Enterprise_Banner_Model_Resource_Banner_Collection extends Mage_Core_Model
     {
         $bannerIds = $this->getColumnValues('banner_id');
         $bannersStores = array();
-        if (sizeof($bannerIds)>0) {
+        if (sizeof($bannerIds) > 0) {
             $adapter = $this->getConnection();
             $select = $adapter->select()
                 ->from($this->getTable('enterprise_banner/content'), array('store_id', 'banner_id'))
