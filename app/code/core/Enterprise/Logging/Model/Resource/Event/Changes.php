@@ -38,7 +38,7 @@ class Enterprise_Logging_Model_Resource_Event_Changes extends Mage_Core_Model_Re
      * Initialize resource
      *
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('enterprise_logging/event_changes', 'id');
     }

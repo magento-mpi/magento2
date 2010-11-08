@@ -78,7 +78,7 @@ class Enterprise_Logging_Model_Event_Changes extends Mage_Core_Model_Abstract
      * Get fields that should not be logged for all models
      *
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_globalSkipFields = array_map('trim', array_filter(explode(',',
             (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_GLOBAL_FIELDS))));

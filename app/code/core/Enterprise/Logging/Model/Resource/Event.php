@@ -137,7 +137,7 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
             ->from(array('admins' => $this->getTable('admin/user')), 'username')
             ->joinInner(
                 array('events' => $this->getTable('enterprise_logging/event')),
-                'admins.username = events.'.$adapter->quoteIdentifier('user'),
+                'admins.username = events.' . $adapter->quoteIdentifier('user'),
                 array());
         return $adapter->fetchCol($select);
     }
