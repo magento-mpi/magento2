@@ -62,7 +62,8 @@ class Enterprise_CustomerBalance_Model_Resource_Balance_History extends Mage_Cor
      */
     public function markAsSent($id)
     {
-        $this->_getWriteAdapter()->update($this->getMainTable(), array('is_customer_notified' => 1),
+        $this->_getWriteAdapter()->update($this->getMainTable(),
+            array('is_customer_notified' => 1),
             array('history_id = ?' => $id)
         );
     }

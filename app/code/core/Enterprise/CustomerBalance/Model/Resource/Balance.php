@@ -52,7 +52,8 @@ class Enterprise_CustomerBalance_Model_Resource_Balance extends Mage_Core_Model_
      */
     public function loadByCustomerAndWebsiteIds($object, $customerId, $websiteId)
     {
-        if ($data = $this->getReadConnection()->fetchRow($this->getReadConnection()->select()
+        $read = $this->getReadConnection();
+        if ($data = $read->fetchRow($read->select()
             ->from($this->getMainTable())
             ->where('customer_id = ?', $customerId)
             ->where('website_id = ?', $websiteId)
