@@ -35,7 +35,7 @@
 class Mage_Directory_Model_Resource_Country_Format extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main tables
+     * Resource initialization
      *
      */
     protected function _construct()

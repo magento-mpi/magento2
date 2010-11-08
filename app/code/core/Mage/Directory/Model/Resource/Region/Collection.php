@@ -70,7 +70,7 @@ class Mage_Directory_Model_Resource_Region_Collection extends Mage_Core_Model_Re
         parent::_initSelect();
         $locale = Mage::app()->getLocale()->getLocaleCode();
 
-        $this->addBindParam('region_locale', $locale);
+        $this->addBindParam(':region_locale', $locale);
         $this->getSelect()->joinLeft(
             array('rname' => $this->_regionNameTable),
             'main_table.region_id = rname.region_id AND rname.locale = :region_locale',
@@ -105,7 +105,7 @@ class Mage_Directory_Model_Resource_Region_Collection extends Mage_Core_Model_Re
      */
     public function addCountryCodeFilter($countryCode)
     {
-        $this->addBindParam('iso3_code', $countryCode);
+        $this->addBindParam(':iso3_code', $countryCode);
         $this->getSelect()
             ->joinLeft(
                 array('country' => $this->_countryTable),

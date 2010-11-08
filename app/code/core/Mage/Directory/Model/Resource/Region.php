@@ -57,6 +57,7 @@ class Mage_Directory_Model_Resource_Region extends Mage_Core_Model_Resource_Db_A
      * @param string $field
      * @param mixed $value
      * @param Mage_Core_Model_Abstract $object
+     * 
      * @return Varien_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -96,14 +97,15 @@ class Mage_Directory_Model_Resource_Region extends Mage_Core_Model_Resource_Db_A
      * @param int $countryId
      * @param string $value
      * @param string $field
+     * 
      * @return Mage_Directory_Model_Resource_Region
      */
     protected function _loadByCountry($object, $countryId, $value, $field)
     {
-        $adapter = $this->_getReadAdapter();
-        $locale  = Mage::app()->getLocale()->getLocaleCode();
-        $joinCondition = $adapter->quoteInto('rname.region_id = region.region_id AND rname.locale = ?', $locale);
-        $select = $adapter->select()
+        $adapter        = $this->_getReadAdapter();
+        $locale         = Mage::app()->getLocale()->getLocaleCode();
+        $joinCondition  = $adapter->quoteInto('rname.region_id = region.region_id AND rname.locale = ?', $locale);
+        $select         = $adapter->select()
             ->from(array('region' => $this->getMainTable()))
             ->joinLeft(
                 array('rname' => $this->_regionNameTable),
@@ -128,6 +130,7 @@ class Mage_Directory_Model_Resource_Region extends Mage_Core_Model_Resource_Db_A
      * @param Mage_Directory_Model_Region $region
      * @param string $regionCode
      * @param string $countryId
+     *
      * @return Mage_Directory_Model_Resource_Region
      */
     public function loadByCode(Mage_Directory_Model_Region $region, $regionCode, $countryId)
@@ -141,6 +144,7 @@ class Mage_Directory_Model_Resource_Region extends Mage_Core_Model_Resource_Db_A
      * @param Mage_Directory_Model_Region $region
      * @param string $regionName
      * @param string $countryId
+     * 
      * @return Mage_Directory_Model_Resource_Region
      */
     public function loadByName(Mage_Directory_Model_Region $region, $regionName, $countryId)

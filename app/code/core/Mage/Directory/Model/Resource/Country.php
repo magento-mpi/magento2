@@ -35,7 +35,7 @@
 class Mage_Directory_Model_Resource_Country extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Resource initialization
      *
      */
     protected function _construct()
@@ -48,6 +48,9 @@ class Mage_Directory_Model_Resource_Country extends Mage_Core_Model_Resource_Db_
      *
      * @param Mage_Directory_Model_Country $country
      * @param string $code
+     *
+     * @throws Mage_Core_Exception
+     * 
      * @return Mage_Directory_Model_Resource_Country
      */
     public function loadByCode(Mage_Directory_Model_Country $country, $code)

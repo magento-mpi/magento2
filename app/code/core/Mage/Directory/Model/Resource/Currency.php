@@ -82,8 +82,8 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
         if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
             $read = $this->_getReadAdapter();
             $bind = array(
-                'currency_from' => strtoupper($currencyFrom),
-                'currency_to'   => strtoupper($currencyTo)
+                ':currency_from' => strtoupper($currencyFrom),
+                ':currency_to'   => strtoupper($currencyTo)
             );
             $select = $read->select()
                 ->from($this->_currencyRateTable, 'rate')
@@ -120,8 +120,8 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
         if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
             $adapter = $this->_getReadAdapter();
             $bind    = array(
-                'currency_from' => strtoupper($currencyFrom),
-                'currency_to'   => strtoupper($currencyTo)
+                ':currency_from' => strtoupper($currencyFrom),
+                ':currency_to'   => strtoupper($currencyTo)
             );
             $select  = $adapter->select()
                 ->from($this->_currencyRateTable, 'rate')
@@ -178,12 +178,13 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
      *
      * @param Mage_Directory_Model_Currency $model
      * @param string $path
+     * 
      * @return array
      */
     public function getConfigCurrencies($model, $path)
     {
         $adapter = $this->_getReadAdapter();
-        $bind    = array('config_path' => $path);
+        $bind    = array(':config_path' => $path);
         $select  = $adapter->select()
                 ->from($this->getTable('core/config_data'))
                 ->where('path = :config_path');
@@ -202,6 +203,7 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
      *
      * @param string|array $currency
      * @param array $toCurrencies
+     * 
      * @return array
      */
     public function getCurrencyRates($currency, $toCurrencies = null)
@@ -229,7 +231,7 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array(
-            'currency_from' => $code
+            ':currency_from' => $code
         );
         $select  = $adapter->select()
             ->from($this->getTable('directory/currency_rate'), array('currency_to', 'rate'))
