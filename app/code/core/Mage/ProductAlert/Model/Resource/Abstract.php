@@ -44,12 +44,17 @@ abstract class Mage_ProductAlert_Model_Resource_Abstract extends Mage_Core_Model
     {
         $adapter = $this->_getReadAdapter();
         if ($object->getCustomerId() && $object->getProductId() && $object->getWebsiteId()) {
-            $sql = $adapter->select()
+            $select = $adapter->select()
                 ->from($this->getMainTable())
-                ->where('customer_id=?', $object->getCustomerId())
-                ->where('product_id=?', $object->getProductId())
-                ->where('website_id=?', $object->getWebsiteId());
-            return $adapter->fetchRow($sql);
+                ->where('customer_id = :customer_id')
+                ->where('product_id  = :product_id')
+                ->where('website_id  = :website_id');
+            $bind = array(
+                ':customer_id' => $object->getCustomerId(),
+                ':product_id'  => $object->getProductId(),
+                ':website_id'  => $object->getWebsiteId()
+            );
+            return $adapter->fetchRow($select, $bind);
         }
         return false;
     }
