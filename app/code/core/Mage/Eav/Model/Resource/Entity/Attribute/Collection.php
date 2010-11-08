@@ -126,6 +126,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
                 );
                 $this->addFieldToFilter('entity_attribute.attribute_set_id', array('in' => $setId));
                 $this->addAttributeGrouping();
+                $this->_useAnalyticFunction = true;
             }
         } elseif ($setId) {
             $this->join(
