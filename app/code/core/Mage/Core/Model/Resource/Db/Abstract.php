@@ -446,9 +446,8 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
             }
             $this->_getWriteAdapter()->insert($this->getMainTable(), $bind);
 
-            if ($this->_isPkAutoIncrement) {
-                $object->setId($this->_getWriteAdapter()->lastInsertId($this->getMainTable()));
-            }
+            $object->setId($this->_getWriteAdapter()->lastInsertId($this->getMainTable()));
+
             if ($this->_useIsObjectNew) {
                 $object->isObjectNew(false);
             }
