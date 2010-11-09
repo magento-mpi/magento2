@@ -579,7 +579,8 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
                     'unsigned'  => false,
                     'nullable'  => true,
                     'default'   => null,
-                    'extra'     => null
+                    'extra'     => null,
+                    'length'    => '64k'
                 );
                 break;
             case 'varchar':
