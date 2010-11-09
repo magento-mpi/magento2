@@ -447,6 +447,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function _describeTable($tableName, $schemaName = null)
     {
+        if (!$schemaName) {
+            $schemaName = $this->_getSchemaName();
+        }
         $version = $this->getServerVersion();
         if (($version === null) || version_compare($version, '9.0.0', '>=')) {
             $sql = "SELECT TC.TABLE_NAME, TC.OWNER, TC.COLUMN_NAME,
@@ -546,12 +549,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
          */
         $bind = array(
             ':TBNAME'   => $tableName,
-            ':TRIGNAME' => $this->_getTriggerName($tableName, strtolower($result[0][$column_name]))
+            ':TRIGNAME' => $this->_getTriggerName($tableName, strtolower($result[0][$column_name])),
+            ':SCNAME'   => $schemaName,
         );
         $sql = 'SELECT COUNT(1)
-            FROM USER_TRIGGERS
+            FROM ALL_TRIGGERS
             WHERE UPPER(TABLE_NAME) = UPPER(:TBNAME)
-            AND TRIGGER_NAME = :TRIGNAME';
+            AND TRIGGER_NAME = :TRIGNAME
+            AND OWNER = :SCNAME';
 
         if ($this->fetchOne($sql, $bind) != false) {
             $desc[$this->foldCase($result[0][$column_name])]['IDENTITY'] = true;
@@ -783,7 +788,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function listTables()
     {
         $select = $this->select()
-            ->from('user_tables', array('table_name'));
+            ->from('ALL_TABLES', array('table_name'));
 
         return $this->fetchCol($select);
     }
@@ -1198,6 +1203,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function getIndexList($tableName, $schemaName = null)
     {
         $cacheKey = $this->_getTableName($tableName, $schemaName);
+        if ($schemaName === null) {
+            $schemaName = $this->_getSchemaName();
+        }
 
         $ddl = $this->loadDdlCache($cacheKey, self::DDL_INDEX);
         if ($ddl === false) {
@@ -1212,13 +1220,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $indexTypeExpr = $this->getCaseSql('', $casesResults, $defaultValue);
 
             $select = $this->select()
-                ->from(array('ui' => 'user_indexes'), '')
+                ->from(array('ui' => 'all_indexes'), '')
                 ->joinLeft(
-                    array('uc' => 'user_constraints'),
+                    array('uc' => 'all_constraints'),
                     'ui.index_name = uc.constraint_name',
                     array())
                 ->join(
-                    array('uic' => 'user_ind_columns'),
+                    array('uic' => 'all_ind_columns'),
                     'ui.index_name = uic.index_name',
                     array())
                 ->columns(array(
@@ -1229,9 +1237,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     'index_type'    => $indexTypeExpr,
                     'index_method'  => 'ui.index_type',
                 ))
-                ->where('ui.table_name = upper(?)', $tableName);
-            if ($schemaName !== null) {
-                $select->where('ui.table_owner = upper(?)', $schemaName);
+                ->where('ui.table_name = upper(?)', $tableName)
+                ->where('ui.table_owner = upper(?)', $schemaName);
             }
 
             $rowset = $this->fetchAll($select);
@@ -1264,9 +1271,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     );
                 }
             }
-
             $this->saveDdlCache($cacheKey, self::DDL_INDEX, $ddl);
-        }
 
         return $ddl;
     }
@@ -1435,19 +1440,22 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getForeignKeys($tableName, $schemaName = null)
     {
+        if ($schemaName === null) {
+            $this->_getSchemaName();
+        }
         $cacheKey = $this->_getTableName($tableName, $schemaName);
         $ddl = $this->loadDdlCache($cacheKey, self::DDL_FOREIGN_KEY);
         if ($ddl === false) {
             $ddl = array();
 
             $select = $this->select()
-                ->from(array('c' => 'user_constraints'), '')
+                ->from(array('c' => 'all_constraints'), '')
                 ->join(
-                    array('cp' => 'user_cons_columns'),
+                    array('cp' => 'all_cons_columns'),
                     'c.constraint_name = cp.constraint_name AND c.owner = cp.owner',
                     array())
                 ->join(
-                    array('cr' => 'user_cons_columns'),
+                    array('cr' => 'all_cons_columns'),
                     'c.r_constraint_name = cr.constraint_name AND c.owner = cr.owner',
                     array())
                 ->columns(array(
@@ -1461,10 +1469,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     'on_delete'         => 'c.delete_rule'
                 ))
                 ->where('c.constraint_type=?', 'R')
-                ->where('c.table_name  = upper(?)', $tableName);
-            if ($schemaName !== null) {
-                $select->where('c.owner = upper(?)', $schemaName);
-            }
+                ->where('c.table_name  = upper(?)', $tableName)
+                ->where('c.owner = upper(?)', $schemaName);
 
             $rowset = $this->fetchAll($select);
             foreach ($rowset as $row) {
@@ -2906,7 +2912,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             case Varien_Db_Ddl_Table::TYPE_SMALLINT:
             case Varien_Db_Ddl_Table::TYPE_INTEGER:
             case Varien_Db_Ddl_Table::TYPE_BIGINT:
-                $cDefault = (int)$cDefault;
                 break;
             case Varien_Db_Ddl_Table::TYPE_DECIMAL:
             case Varien_Db_Ddl_Table::TYPE_NUMERIC:
@@ -3246,18 +3251,23 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string    $columnName
      * @return boolean
      */
-    protected function _checkCommentExists($tableName, $columnName = null)
+    protected function _checkCommentExists($tableName, $columnName = null, $schemaName = null)
     {
+        if (!$schemaName){
+            $schemaName = $this->_getSchemaName();
+        }
         if (empty($columnName)) {
             $query = $this->select()
-                ->from(array('tc' => 'user_tab_comments'), array())
+                ->from(array('tc' => 'all_tab_comments'), array())
                 ->where('tc.table_name = ?', strtoupper($this->quoteIdentifier($tableName)))
+                ->where('tc.owner = ?', $schemaName)
                 ->columns(array('qty' => new Zend_Db_Expr('COUNT(1)')));
         } else {
             $query = $this->select()
-                ->from(array('tc' => 'user_col_comments'), array())
+                ->from(array('tc' => 'all_col_comments'), array())
                 ->where('tc.table_name = ?', strtoupper($this->quoteIdentifier($tableName)))
                 ->where('tc.column_name = ?', strtoupper($this->quoteIdentifier($columnName)))
+                ->where('tc.owner = ?', $schemaName)
                 ->columns(array('qty' => new Zend_Db_Expr('COUNT(1)')));
         }
 
