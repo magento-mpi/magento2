@@ -580,7 +580,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
                     'nullable'  => true,
                     'default'   => null,
                     'extra'     => null,
-                    'length'    => '64k'
+                    'length'    => Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE
                 );
                 break;
             case 'varchar':
