@@ -70,56 +70,111 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
             } else {
                 $subSelect = null;
             }
-
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
-            // convert dates from UTC to current admin timezone
-            $periodExpr                  = $adapter->getDateAddSql('o.created_at', $this->_getStoreTimezoneUtcOffset(),
-                Varien_Db_Adapter_Interface::INTERVAL_HOUR);
 
-            $ifnullBaseTotalCanceled     = $adapter->getIfNullSql('o.base_total_canceled', 0);
-            $ifnullBaseTotalRefunded     = $adapter->getIfNullSql('o.base_total_refunded', 0);
-            $ifnullBaseTaxInvoiced       = $adapter->getIfNullSql('o.base_tax_invoiced', 0);
-            $ifnullBaseShippingInvoiced  = $adapter->getIfNullSql('o.base_shipping_invoiced', 0);
-            $ifnullBaseTotalInvoicedCost = $adapter->getIfNullSql('o.base_total_invoiced_cost', 0);
-
-            $ifnullBaseTaxCanceled       = $adapter->getIfNullSql('o.base_tax_canceled', 0);
-            $ifnullBaseTaxRefunded       = $adapter->getIfNullSql('o.base_tax_refunded', 0);
-            $ifnullBaseShippingCanceled  = $adapter->getIfNullSql('o.base_shipping_canceled', 0);
-            $ifnullBaseShippingRefunded  = $adapter->getIfNullSql('o.base_shipping_refunded', 0);
-            $ifnullBaseDiscountCanceled  = $adapter->getIfNullSql('o.base_discount_canceled', 0);
-            $ifnullBaseDiscountRefunded  = $adapter->getIfNullSql('o.base_discount_refunded', 0);
-
+            // Columns list 
             $columns = array(
                 // convert dates from UTC to current admin timezone
-                'period'                         => $periodExpr,
+                'period'                         => $adapter->getDateAddSql(
+                    'o.created_at',
+                    $this->_getStoreTimezoneUtcOffset(),
+                    Varien_Db_Adapter_Interface::INTERVAL_HOUR
+                ),
                 'store_id'                       => 'o.store_id',
                 'order_status'                   => 'o.status',
-                'orders_count'                   => 'COUNT(o.entity_id)',
-                'total_qty_ordered'              => 'SUM(oi.total_qty_ordered)',
-                'total_qty_invoiced'             => 'SUM(oi.total_qty_invoiced)',
-                'total_income_amount'            => "SUM((o.base_grand_total - {$ifnullBaseTotalCanceled})"
-                    . ' * o.base_to_global_rate)',
-                'total_revenue_amount'           => "SUM((o.base_total_paid - {$ifnullBaseTotalRefunded})"
-                    . ' * o.base_to_global_rate)',
-                'total_profit_amount'            => "SUM((o.base_total_paid - {$ifnullBaseTotalRefunded}"
-                    . " - {$ifnullBaseTaxInvoiced} - {$ifnullBaseShippingInvoiced} - {$ifnullBaseTotalInvoicedCost})"
-                    . ' * o.base_to_global_rate)',
-                'total_invoiced_amount'          => 'SUM(o.base_total_invoiced * o.base_to_global_rate)',
-                'total_canceled_amount'          => "SUM({$ifnullBaseTotalCanceled} * o.base_to_global_rate)",
-                'total_paid_amount'              => 'SUM(o.base_total_paid * o.base_to_global_rate)',
-                'total_refunded_amount'          => "SUM({$ifnullBaseTotalRefunded} * o.base_to_global_rate)",
-                'total_tax_amount'               => "SUM((o.base_tax_amount - {$ifnullBaseTaxCanceled})"
-                    . ' * o.base_to_global_rate)',
-                'total_tax_amount_actual'        => "SUM((o.base_tax_invoiced - {$ifnullBaseTaxRefunded})"
-                    . ' * o.base_to_global_rate)',
-                'total_shipping_amount'          => "SUM((o.base_shipping_amount - {$ifnullBaseShippingCanceled})"
-                    . ' * o.base_to_global_rate)',
-                'total_shipping_amount_actual'   => "SUM((o.base_shipping_invoiced - {$ifnullBaseShippingRefunded})"
-                    . ' * o.base_to_global_rate)',
-                'total_discount_amount'          => "SUM((ABS(o.base_discount_amount) - {$ifnullBaseDiscountCanceled})"
-                    . ' * o.base_to_global_rate)',
-                'total_discount_amount_actual'   => "SUM((o.base_discount_invoiced - {$ifnullBaseDiscountRefunded})"
-                    . ' * o.base_to_global_rate)',
+                'orders_count'                   => new Zend_Db_Expr('COUNT(o.entity_id)'),
+                'total_qty_ordered'              => new Zend_Db_Expr('SUM(oi.total_qty_ordered)'),
+                'total_qty_invoiced'             => new Zend_Db_Expr('SUM(oi.total_qty_invoiced)'),
+                'total_income_amount'            => new Zend_Db_Expr(
+                    sprintf('SUM((%s - %s) * %s)',
+                        $adapter->getIfNullSql('o.base_grand_total', 0),
+                        $adapter->getIfNullSql('o.base_total_canceled',0),
+                        $adapter->getIfNullSql('o.base_to_global_rate',0)
+                    )
+                ),
+                'total_revenue_amount'           => new Zend_Db_Expr(
+                    sprintf('SUM((%s - %s) * %s)',
+                        $adapter->getIfNullSql('o.base_total_paid', 0),
+                        $adapter->getIfNullSql('o.base_total_refunded', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_profit_amount'            => new Zend_Db_Expr(
+                    sprintf('SUM((%s - %s - %s - %s - %s) * %s)',
+                        $adapter->getIfNullSql('o.base_total_paid', 0),
+                        $adapter->getIfNullSql('o.base_total_refunded', 0),
+                        $adapter->getIfNullSql('o.base_tax_invoiced', 0),
+                        $adapter->getIfNullSql('o.base_shipping_invoiced', 0),
+                        $adapter->getIfNullSql('o.base_total_invoiced_cost', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_invoiced_amount'          => new Zend_Db_Expr(
+                    sprintf('SUM(%s * %s)',
+                        $adapter->getIfNullSql('o.base_total_invoiced', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_canceled_amount'          => new Zend_Db_Expr(
+                    sprintf('SUM(%s * %s)',
+                        $adapter->getIfNullSql('o.base_total_canceled', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_paid_amount'              => new Zend_Db_Expr(
+                    sprintf('SUM(%s * %s)',
+                        $adapter->getIfNullSql('o.base_total_paid', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_refunded_amount'          => new Zend_Db_Expr(
+                    sprintf('SUM(%s * %s)',
+                        $adapter->getIfNullSql('o.base_total_refunded', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_tax_amount'               => new Zend_Db_Expr(
+                    sprintf('SUM((%s - %s) * %s)',
+                        $adapter->getIfNullSql('o.base_tax_amount', 0),
+                        $adapter->getIfNullSql('o.base_tax_canceled', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_tax_amount_actual'        => new Zend_Db_Expr(
+                    sprintf('SUM((%s -%s) * %s)',
+                        $adapter->getIfNullSql('o.base_tax_invoiced', 0),
+                        $adapter->getIfNullSql('o.base_tax_refunded', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_shipping_amount'          => new Zend_Db_Expr(
+                    sprintf('SUM((%s - %s) * %s)',
+                        $adapter->getIfNullSql('o.base_shipping_amount', 0),
+                        $adapter->getIfNullSql('o.base_shipping_canceled', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_shipping_amount_actual'   => new Zend_Db_Expr(
+                    sprintf('SUM((%s - %s) * %s)',
+                        $adapter->getIfNullSql('o.base_shipping_invoiced', 0),
+                        $adapter->getIfNullSql('o.base_shipping_refunded', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_discount_amount'          => new Zend_Db_Expr(
+                    sprintf('SUM((ABS(%s) - %s) * %s)',
+                        $adapter->getIfNullSql('o.base_discount_amount', 0),
+                        $adapter->getIfNullSql('o.base_discount_canceled', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                ),
+                'total_discount_amount_actual'   => new Zend_Db_Expr(
+                    sprintf('SUM((%s - %s) * %s)',
+                        $adapter->getIfNullSql('o.base_discount_invoiced', 0),
+                        $adapter->getIfNullSql('o.base_discount_refunded', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
+                    )
+                )
             );
 
             $select          = $adapter->select();
@@ -147,7 +202,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
             }
 
             $select->group(array(
-                $periodExpr,
+                'o.created_at', //$periodExpr,
                 'o.store_id',
                 'o.status',
             ));
