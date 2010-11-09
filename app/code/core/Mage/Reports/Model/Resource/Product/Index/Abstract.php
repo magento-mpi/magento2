@@ -150,10 +150,16 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
                 'visitor_id = ?' => $object->getVisitorId()
             );
         }
-
-        $affectedRows = $writeAdapter->update($this->getMainTable(), $updateData, $updateCondition);
-        if (!$affectedRows) {
-            $writeAdapter->insert($this->getMainTable(), $data);
+        $writeAdapter->beginTransaction();
+        try {
+            $affectedRows = $writeAdapter->update($this->getMainTable(), $updateData, $updateCondition);
+            if (!$affectedRows) {
+                $writeAdapter->insert($this->getMainTable(), $data);
+            }
+            $writeAdapter->commit();
+        } catch (Exception $e) {
+            $writeAdapter->rollBack();
+            Mage::logException($e);
         }
 
         $this->unserializeFields($object);
