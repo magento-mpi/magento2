@@ -1239,7 +1239,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 ))
                 ->where('ui.table_name = upper(?)', $tableName)
                 ->where('ui.table_owner = upper(?)', $schemaName);
-            }
+
 
             $rowset = $this->fetchAll($select);
             foreach ($rowset as $row) {
@@ -1272,6 +1272,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 }
             }
             $this->saveDdlCache($cacheKey, self::DDL_INDEX, $ddl);
+        }
 
         return $ddl;
     }
