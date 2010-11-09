@@ -23,7 +23,7 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Mssql {
 
     protected $_dateTypeMap  = array(
@@ -105,7 +105,7 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
     {
         $script = '';
         $query = $this->_getReadAdapter()->query(
-            "SELECT OBJECT_DEFINITION(object_id) AS def FROM sys.objects WHERE type IN ('FN', 'P')");
+            "SELECT CAST(OBJECT_DEFINITION(object_id) AS VARCHAR(MAX)) AS def FROM sys.objects WHERE type IN ('FN', 'P','TR')");
 
         while ($row = $query->fetchColumn()) {
             $script = $script . "\nGO\n" . $row;
@@ -192,7 +192,7 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
             $insert .= sprintf("INSERT INTO %s (%s) VALUES (%s)\n",
                 $tableName,
                 implode(',', array_keys($columns)),
-                implode(',', $insRowData));            
+                implode(',', $insRowData));
         }
 
         if ($isIdentity) {
@@ -217,5 +217,5 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
     public function turnOnReadCommittedMode()
     {
         $this->_getReadAdapter()->query("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
-    }    
+    }
 }
