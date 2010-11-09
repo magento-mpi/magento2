@@ -130,32 +130,26 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
         $this->_beforeSave($object);
         $this->_checkUnique($object);
 
-
         $data = $this->_prepareDataForSave($object);
         unset($data[$this->getIdFieldName()]);
 
         $writeAdapter = $this->_getWriteAdapter();
-        $checkSelect  = $writeAdapter->select();
-        $checkSelect->from(array('main_t' => $this->getMainTable()))
-            ->where('main_t.product_id = ?' , $object->getProductId());
-
+        $updateCondition = array('product_id = ?' => $object->getProductId());
         $updateData = $data;
         unset($updateData['product_id']);
 
-
         if (!$object->getCustomerId()) {
-            $checkSelect->where('main_t.visitor_id = ?', $object->getVisitorId());
+            $updateCondition['visitor_id = ?'] = $object->getVisitorId();
         } else {
             $writeAdapter->delete($this->getMainTable(), array(
                 'product_id = ?'=> $object->getProductId(),
                 'customer_id = ?'=> $object->getCustomerId()
             ));
-            $checkSelect->where('main_t.customer_id IS NULL')
-                ->where('main_t.visitor_id = ?', $object->getVisitorId());
+            $updateCondition = $updateCondition + array(
+                'customer_id IS NULL',
+                'visitor_id = ?' => $object->getVisitorId()
+            );
         }
-        $checkSelect->where( 'main_t.' .  $this->getIdFieldName() . ' = ' . $this->getIdFieldName());
-
-        $updateCondition = new Zend_Db_Expr(' EXISTS(' . $checkSelect . ') ');
 
         $affectedRows = $writeAdapter->update($this->getMainTable(), $updateData, $updateCondition);
         if (!$affectedRows) {
