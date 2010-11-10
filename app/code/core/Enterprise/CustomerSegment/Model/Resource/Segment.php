@@ -289,7 +289,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
         $adapter = $this->_getReadAdapter();
         return (int)$adapter->fetchOne(
             $adapter->select()
-                ->from($this->getTable('enterprise_customersegment/customer'), array('COUNT(DISTINCT customer_id))'))
+                ->from($this->getTable('enterprise_customersegment/customer'), array('COUNT(DISTINCT customer_id)'))
                 ->where('segment_id = :segment_id'),
             array(':segment_id' => (int)$segmentId)
         );
