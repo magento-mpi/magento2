@@ -63,6 +63,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
 
     /**
      * Quote parameters into condition string
+     * @deprecated after 1.10.0.0 - please use quoteInto of current adapter
      *
      * @param string $string
      * @param string | array $param
@@ -82,8 +83,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     {
         if (!$object->getActiveFrom()) {
             $object->setActiveFrom(new Zend_Db_Expr('NULL'));
-        }
-        else {
+        } else {
             if ($object->getActiveFrom() instanceof Zend_Date) {
                 $object->setActiveFrom($object->getActiveFrom()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
             }
@@ -91,8 +91,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
 
         if (!$object->getActiveTo()) {
             $object->setActiveTo(new Zend_Db_Expr('NULL'));
-        }
-        else {
+        } else {
             if ($object->getActiveTo() instanceof Zend_Date) {
                 $object->setActiveTo($object->getActiveTo()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
             }
@@ -105,7 +104,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
      * return Mage_Core_Model_Mysql4_Abstract
      *
      * @param Mage_Core_Model_Abstract $rule
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterSave(Mage_Core_Model_Abstract $rule)
     {
@@ -122,18 +121,18 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
      * Save all website ids associated to rule
      *
      *
-     * @param unknown_type $rule
+     * @param Mage_Core_Model_Abstract $rule
      * @return Enterprise_Reminder_Model_Resource_Rule
      */
     protected function _saveWebsiteIds($rule)
     {
         $adapter = $this->_getWriteAdapter();
-        $adapter->delete($this->_websiteTable, array('rule_id=?' => $rule->getId()));
+        $adapter->delete($this->_websiteTable, array('rule_id = ?' => $rule->getId()));
         $insertData = array();
         foreach ($rule->getWebsiteIds() as $websiteId) {
             $insertData[] = array(
                 'website_id' => $websiteId,
-                'rule_id' => $rule->getId()
+                'rule_id'    => $rule->getId()
             );
         }
         $adapter->insertMultiple($this->_websiteTable, $insertData);
@@ -151,22 +150,22 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->_websiteTable, 'website_id')
-            ->where('rule_id=:rule_id');
-        return $this->_getReadAdapter()->fetchCol($select,  array('rule_id' => $ruleId));
+            ->where('rule_id = :rule_id');
+        return $this->_getReadAdapter()->fetchCol($select, array('rule_id' => $ruleId));
     }
 
     /**
      * Save store templates
      *
      *
-     * @param unknown_type $rule
+     * @param Mage_Core_Model_Abstract $rule
      * @return Enterprise_Reminder_Model_Resource_Rule
      */
     protected function _saveStoreData($rule)
     {
         $adapter = $this->_getWriteAdapter();
         $templateTable = $this->getTable('enterprise_reminder/template');
-        $adapter->delete($templateTable, array('rule_id=?'=>$rule->getId()));
+        $adapter->delete($templateTable, array('rule_id = ?' => $rule->getId()));
 
         $labels = $rule->getStoreLabels();
         $descriptions = $rule->getStoreDescriptions();
@@ -205,7 +204,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
         $templateTable = $this->getTable('enterprise_reminder/template');
         $select = $this->createSelect()
             ->from($templateTable, array('store_id', 'template_id', 'label', 'description'))
-            ->where('rule_id=:rule_id');
+            ->where('rule_id = :rule_id');
         return $this->_getReadAdapter()->fetchAll($select, array('rule_id' => $ruleId));
     }
 
@@ -221,27 +220,29 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     {
         $templateTable = $this->getTable('enterprise_reminder/template');
         $ruleTable = $this->getTable('enterprise_reminder/rule');
+        $adapter = $this->_getReadAdapter();
 
         $select = $this->createSelect()
             ->from(
                 array('t' => $templateTable),
                 array(
                     'template_id',
-                    'label' => $this->_getReadAdapter()
-                        ->getCheckSql('t.label IS NOT NULL', 't.label', 'r.default_label'),
-                    'description' => $this->_getReadAdapter()
-                        ->getCheckSql('t.description IS NOT NULL', 't.description', 'r.default_description')
+                    'label' =>
+                        $adapter->getCheckSql('t.label IS NOT NULL', 't.label', 'r.default_label'),
+                    'description' =>
+                        $adapter->getCheckSql('t.description IS NOT NULL', 't.description', 'r.default_description')
                 )
-            )->join(
+            )
+            ->join(
                 array('r' => $ruleTable),
-                'r.rule_id=t.rule_id',
+                'r.rule_id = t.rule_id',
                 array()
             );
 
-        $select->where('t.rule_id=:rule_id');
-        $select->where('t.store_id=:store_id');
+        $select->where('t.rule_id = :rule_id');
+        $select->where('t.store_id = :store_id');
 
-        return $this->_getReadAdapter()->fetchRow($select, array('rule_id' => $ruleId, 'store_id' => $storeId));
+        return $adapter->fetchRow($select, array('rule_id' => $ruleId, 'store_id' => $storeId));
     }
 
     /**
@@ -284,6 +285,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
     public function createConditionSql($field, $operator, $value)
     {
         $sqlOperator = $this->getSqlOperator($operator);
+        $adapter = $this->_getReadAdapter();
+
         $condition = '';
         switch ($operator) {
             case '{}':
@@ -291,17 +294,17 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
                 if (is_array($value)) {
                     if (!empty($value)) {
                         $sqlOperator = ($operator == '{}') ? 'IN' : 'NOT IN';
-                        $condition = $this->quoteInto($field . ' ' . $sqlOperator . ' (?)', $value);
+                        $condition = $adapter->quoteInto($field . ' ' . $sqlOperator . ' (?)', $value);
                     }
                 } else {
-                    $condition = $this->quoteInto($field. ' ' . $sqlOperator . ' ?', '%' . $value . '%');
+                    $condition = $adapter->quoteInto($field. ' ' . $sqlOperator . ' ?', '%' . $value . '%');
                 }
                 break;
             case 'between':
                 $condition = $field . ' ' . sprintf($sqlOperator, $value['start'], $value['end']);
                 break;
             default:
-                $condition = $this->quoteInto($field . ' ' . $sqlOperator . ' ?', $value);
+                $condition = $adapter->quoteInto($field . ' ' . $sqlOperator . ' ?', $value);
                 break;
         }
         return $condition;
@@ -330,7 +333,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
      * @param Enterprise_Reminder_Model_Rule $rule
      * @param Mage_SalesRule_Model_Rule $salesRule
      * @param int $websiteId
-     * @param unknown_type $threshold
+     * @param int $threshold
      * @return Enterprise_Reminder_Model_Resource_Rule
      */
     public function saveMatchedCustomers($rule, $salesRule, $websiteId, $threshold = null)
@@ -362,8 +365,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
                 if (empty($row['coupon_id']) && $salesRule) {
                     $coupon = $salesRule->acquireCoupon();
                     $couponId = ($coupon !== null) ? $coupon->getId() : null;
-                }
-                else {
+                } else {
                     $couponId = $row['coupon_id'];
                 }
 
@@ -431,13 +433,13 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
 
         $select->join(
             array('r' => $ruleTable),
-            'c.rule_id=r.rule_id',
+            'c.rule_id = r.rule_id',
             array('schedule' => 'schedule')
         );
 
         $select->joinLeft(
             array('l' => $logTable),
-            'c.rule_id=l.rule_id AND c.customer_id=l.customer_id',
+            'c.rule_id = l.rule_id AND c.customer_id = l.customer_id',
             array()
         );
 

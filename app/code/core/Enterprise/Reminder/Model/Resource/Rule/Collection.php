@@ -58,14 +58,14 @@ class Enterprise_Reminder_Model_Resource_Rule_Collection extends Mage_Core_Model
     /**
      * Limit rules collection by date columns
      *
-     * @param unknown_type $date
+     * @param string $date
      * @return Enterprise_Reminder_Model_Resource_Rule_Collection
      */
     public function addDateFilter($date)
     {
         $this->getSelect()
-            ->where($this->getConnection()->quoteInto('active_from IS NULL OR active_from <= ?', $date))
-            ->where($this->getConnection()->quoteInto('active_to IS NULL OR active_to >= ?', $date));
+            ->where('active_from IS NULL OR active_from <= ?', $date)
+            ->where('active_to IS NULL OR active_to >= ?', $date);
 
         return $this;
     }

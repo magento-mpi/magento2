@@ -40,7 +40,7 @@ class Enterprise_Reminder_Model_Resource_Customer_Collection extends Mage_Custom
      *
      * @var bool
      */
-    protected $_useAnalyticFunction         = true;
+    protected $_useAnalyticFunction = true;
 
     /**
      * Instantiate select to get matched customers
@@ -89,14 +89,14 @@ class Enterprise_Reminder_Model_Resource_Customer_Collection extends Mage_Custom
             array('code', 'usage_limit', 'usage_per_customer')
         );
 
-        $this->_joinFields['associated_at'] = array('table'=>'c', 'field' => 'associated_at');
-        $this->_joinFields['emails_failed'] = array('table'=>'c', 'field' => 'emails_failed');
-        $this->_joinFields['is_active'] = array('table'=>'c', 'field' => 'is_active');
-        $this->_joinFields['code'] = array('table'=>'sc', 'field' => 'code');
-        $this->_joinFields['usage_limit'] = array('table'=>'sc', 'field' => 'usage_limit');
-        $this->_joinFields['usage_per_customer'] = array('table'=>'sc', 'field' => 'usage_per_customer');
-        $this->_joinFields['emails_sent'] = array('table'=>'l', 'field' => 'emails_sent');
-        $this->_joinFields['last_sent'] = array('table'=>'l', 'field' => 'last_sent');
+        $this->_joinFields['associated_at'] = array('table' => 'c', 'field' => 'associated_at');
+        $this->_joinFields['emails_failed'] = array('table' => 'c', 'field' => 'emails_failed');
+        $this->_joinFields['is_active']     = array('table' => 'c', 'field' => 'is_active');
+        $this->_joinFields['code']          = array('table' => 'sc', 'field' => 'code');
+        $this->_joinFields['usage_limit']   = array('table' => 'sc', 'field' => 'usage_limit');
+        $this->_joinFields['usage_per_customer'] = array('table' => 'sc', 'field' => 'usage_per_customer');
+        $this->_joinFields['emails_sent']   = array('table' => 'l', 'field' => 'emails_sent');
+        $this->_joinFields['last_sent']     = array('table' => 'l', 'field' => 'last_sent');
 
         return $this;
     }
