@@ -133,34 +133,18 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
         $data = $this->_prepareDataForSave($object);
         unset($data[$this->getIdFieldName()]);
 
-        $writeAdapter = $this->_getWriteAdapter();
-        $updateCondition = array('product_id = ?' => $object->getProductId());
-        $updateData = $data;
-        unset($updateData['product_id']);
+        $matchFields = array('product_id', 'visitor_id', 'store_id');
 
-        if (!$object->getCustomerId()) {
-            $updateCondition['visitor_id = ?'] = $object->getVisitorId();
-        } else {
-            $writeAdapter->delete($this->getMainTable(), array(
-                'product_id = ?'=> $object->getProductId(),
-                'customer_id = ?'=> $object->getCustomerId()
-            ));
-            $updateCondition = $updateCondition + array(
-                'customer_id IS NULL',
-                'visitor_id = ?' => $object->getVisitorId()
-            );
+        if ($object->getCustomerId()) {
+            $matchFields[] = 'customer_id';
         }
-        $writeAdapter->beginTransaction();
-        try {
-            $affectedRows = $writeAdapter->update($this->getMainTable(), $updateData, $updateCondition);
-            if (!$affectedRows) {
-                $writeAdapter->insert($this->getMainTable(), $data);
-            }
-            $writeAdapter->commit();
-        } catch (Exception $e) {
-            $writeAdapter->rollBack();
-            Mage::logException($e);
-        }
+
+        Mage::getResourceHelper('reports')->mergeVisitorProductIndex(
+            $this->getMainTable(),
+            $data,
+            $matchFields
+        );
+
 
         $this->unserializeFields($object);
         $this->_afterSave($object);
