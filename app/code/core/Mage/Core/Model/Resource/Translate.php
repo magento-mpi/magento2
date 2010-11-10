@@ -66,14 +66,14 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
         }
 
         $select = $read->select()
-            ->from($this->getMainTable())
+            ->from($this->getMainTable(), array('string', 'translate'))
             ->where('store_id IN (0 , :store_id)')
             ->where('locale=:locale')
             ->order('store_id');
 
         $bind = array(
-            'locale'   => (string)$locale,
-            'store_id' => $storeId
+            ':locale'   => (string)$locale,
+            ':store_id' => $storeId
         );
 
         return $read->fetchPairs($select, $bind);
@@ -107,12 +107,11 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
         }
 
         $bind = array(
-            'tr_strings' => $strings,
-            'store_id'   => $storeId
+            ':store_id'   => $storeId
         );
         $select = $read->select()
-            ->from($this->getMainTable())
-            ->where('string IN (:tr_strings)')
+            ->from($this->getMainTable(), array('string', 'translate'))
+            ->where('string IN (?)',$strings )
             ->where('store_id = :store_id');
 
         return $read->fetchPairs($select, $bind);
