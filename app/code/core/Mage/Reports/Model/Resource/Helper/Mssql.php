@@ -45,38 +45,42 @@ class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_
     public function mergeVisitorProductIndex($mainTable, $data, $matchFields)
     {
         $selectPart = '';
-        $matchPart  = '1 = 1 ';
+        $matchPart  = '(t1.customer_id = t2.customer_id OR t1.visitor_id = t2.visitor_id) ';
         $insertPart = '';
         $updatePart = '';
         $columnsPart = implode(',', array_keys($data));
         foreach ($data as $column => $value) {
             if ($value instanceof Zend_Db_Expr) {
-                $selectPart .= sprintf('%s AS %s,', $value, $column);
+                $selectPart .= sprintf('%s AS %s, ', $value, $column);
                 unset($data[$column]);
             } else {
-                $selectPart .= sprintf(':%s AS %s,', $column, $column);
+                $selectPart .= sprintf(':%s AS %s, ', $column, $column);
             }
 
             $insertPart .= sprintf('t2.%s,', $column);
             if (!in_array($column, $matchFields)) {
-                $updatePart .= sprintf('t1.%s = t2.%s,', $column, $column);
+                $updatePart .= sprintf('t1.%s = t2.%s, ', $column, $column);
             } else {
                 $matchPart .= sprintf('AND t1.%s = t2.%s ', $column, $column);
             }
         }
-        $selectPart = rtrim($selectPart,',');
-        $updatePart = rtrim($updatePart,',');
-        $insertPart = rtrim($insertPart,',');
+        $selectPart = rtrim($selectPart,', ');
+        $updatePart = rtrim($updatePart,', ');
+        $insertPart = rtrim($insertPart,', ');
 
         $sql = 'MERGE INTO ' . $mainTable . ' AS t1 USING ' .
                 ' ( SELECT ' . $selectPart . ') AS t2 ON (' . $matchPart .
-                ' ) WHEN MATCHED THEN UPDATE SET ' . $updatePart .
+                ' ) WHEN MATCHED AND ' .
+                ' ((t1.visitor_id = t2.visitor_id AND t1.customer_id IS NULL) OR'.
+                ' (t1.visitor_id = t2.visitor_id AND t1.customer_id = t2.customer_id) OR'.
+                ' (t1.customer_id = t2.customer_id AND t1.visitor_id IS NULL)) THEN UPDATE SET ' . $updatePart .
+                ' WHEN MATCHED THEN DELETE  ' .
                 ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')' .
                 ' VALUES ( ' . $insertPart . ');';
 
         $stmt =$this->_getWriteAdapter()->query($sql, $data);
         $result = $stmt->rowCount();
-        
+
         return $result;
     }
 }

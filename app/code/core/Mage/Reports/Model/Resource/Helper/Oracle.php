@@ -45,7 +45,7 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
     public function mergeVisitorProductIndex($mainTable, $data, $matchFields)
     {
         $selectPart = '';
-        $matchPart  = '1 = 1 ';
+        $matchPart  = '(t1.customer_id = t2.customer_id OR t1.visitor_id = t2.visitor_id) ';
         $insertPart = '';
         $updatePart = '';
         $columnsPart = implode(',', array_keys($data));
@@ -70,12 +70,16 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
 
         $sql = 'MERGE INTO ' . $mainTable . ' t1 USING ' .
                 ' ( SELECT ' . $selectPart . ' FROM dual ) t2 ON (' . $matchPart .
-                ' ) WHEN MATCHED THEN  UPDATE SET ' . $updatePart .
-                ' DELETE WHERE EXISTS (' .
-                '    SELECT 1 ' .
+                ' ) WHEN MATCHED THEN UPDATE SET ' . $updatePart .
+                '   WHERE ((t1.visitor_id = t2.visitor_id AND t1.customer_id IS NULL) OR'.
+                ' (t1.visitor_id = t2.visitor_id AND t1.customer_id = t2.customer_id) OR'.
+                ' (t1.customer_id = t2.customer_id AND t1.visitor_id IS NULL))' .
+                ' DELETE WHERE t1.index_id IN(' .
+                '    SELECT t3.index_id ' .
                 '    FROM ' . $mainTable .' t3 ' .
-                '    WHERE t3.customer_id = t1.customer_id AND t3.product_id = t1.product_id' .
-                '       AND t1.visitor_id != t3.visitor_id AND t1.store_id != t3.store_id)' .
+                '    WHERE NOT ((t3.visitor_id = t2.visitor_id AND t3.customer_id IS NULL) OR'.
+                '       (t3.visitor_id = t2.visitor_id AND t3.customer_id = t2.customer_id) OR'.
+                '       (t3.customer_id = t2.customer_id AND t3.visitor_id IS NULL)) )' .
                 ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')' .
                 ' VALUES ( ' . $insertPart . ')';
 

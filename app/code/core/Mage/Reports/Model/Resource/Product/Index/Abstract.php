@@ -133,11 +133,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
         $data = $this->_prepareDataForSave($object);
         unset($data[$this->getIdFieldName()]);
 
-        $matchFields = array('product_id', 'visitor_id', 'store_id');
-
-        if ($object->getCustomerId()) {
-            $matchFields[] = 'customer_id';
-        }
+        $matchFields = array('product_id', 'store_id');
 
         Mage::getResourceHelper('reports')->mergeVisitorProductIndex(
             $this->getMainTable(),
