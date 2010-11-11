@@ -1288,14 +1288,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addColumnDefaultValue($tableName, $columnName, $defaultValue)
     {
-        $constraint = $this->_getDefaultConstraint($tableName, $columnName);
-        if ($constraint) {
-            $query = sprintf("ALTER TABLE %s DROP CONSTRAINT %s",
-                $tableName, $this->quoteIdentifier($constraint['constraint_name'])
-            );
-            $this->raw_query($query);
-        }
-
         $constraintName = strtoupper('PF__' . $tableName . '_' . $columnName);
         $query = sprintf("ALTER TABLE %s ADD CONSTRAINT %s DEFAULT %s FOR %s",
             $tableName, $constraintName, $this->quote($defaultValue), $columnName);
@@ -1321,6 +1313,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             throw new Zend_Db_Exception(sprintf('Column "%s" does not exists on table "%s"', $columnName, $tableName));
         }
 
+        $constraint = $this->_getDefaultConstraint($tableName, $columnName);
+        if ($constraint) {
+            $query = sprintf("ALTER TABLE %s DROP CONSTRAINT %s",
+                $tableName, $this->quoteIdentifier($constraint['constraint_name'])
+            );
+            $this->raw_query($query);
+        }
 
         $defaultValue = false;
         if (is_array($definition)) {
