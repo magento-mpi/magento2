@@ -648,7 +648,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if ($columnData['DEFAULT'] !== null
                 && $type != Varien_Db_Ddl_Table::TYPE_TEXT
                 ) {
-                $options['default'] = $this->quote($columnData['DEFAULT']);
+                $options['default'] = $this->quote(trim($columnData['DEFAULT'], "' "));
             }
             if (strlen($columnData['SCALE']) > 0) {
                 $options['scale'] = $columnData['SCALE'];
