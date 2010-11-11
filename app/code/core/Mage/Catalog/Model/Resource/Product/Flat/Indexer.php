@@ -342,7 +342,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             );
 
             foreach ($this->getAttributes() as $attribute) {
-                /* @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+                /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
                 $columns = $attribute
                     ->setFlatAddFilterableAttributes($this->getFlatHelper()->isAddFilterableAttributes())
                     ->setFlatAddChildData($this->getFlatHelper()->isAddChildData())

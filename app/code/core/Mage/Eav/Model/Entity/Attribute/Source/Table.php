@@ -149,13 +149,14 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
         $columns = array();
         $isMulti = $this->getAttribute()->getFrontend()->getInputType() == 'multiselect';
         if ($isMulti) {
-            $type = array(Varien_Db_Ddl_Table::TYPE_TEXT, '255');
+            $type = Varien_Db_Ddl_Table::TYPE_TEXT;
         } else {
-            $type = array(Varien_Db_Ddl_Table::TYPE_INTEGER, null);
+            $type = Varien_Db_Ddl_Table::TYPE_INTEGER;
         }
-        $helper = Mage::getResourceHelper('eav');
+
         $columns[$this->getAttribute()->getAttributeCode()] = array(
-            'type'      => $helper->getDdlTypeByColumnType($type),
+            'type'      => $type,
+            'length'    => $isMulti ? '255' : null,
             'unsigned'  => false,
             'nullable'   => true,
             'default'   => null,
