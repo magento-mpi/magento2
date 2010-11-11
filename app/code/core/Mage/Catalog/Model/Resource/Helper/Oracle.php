@@ -77,7 +77,10 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
         } elseif ($type == Varien_Db_Ddl_Table::TYPE_SMALLINT
                 && $describe['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_INTEGER])  {
             $type = $describe['DATA_TYPE'];
-        } else {
+        } elseIf ($type == Varien_Db_Ddl_Table::TYPE_TEXT
+                && $describe['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
+            $type = $describe['DATA_TYPE'];
+        }else {
             return false;
         }
         //match length
@@ -87,7 +90,7 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
             return false;
         }
         //match default value
-        if($column['default'] != false && trim($describe['DEFAULT']) != $this->_getReadAdapter()->quote($column['default'])) {
+        if($column['default'] != false && $describe['DEFAULT'] != $column['default']) {
             return false;
         }
 

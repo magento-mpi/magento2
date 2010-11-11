@@ -533,7 +533,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 'COLUMN_NAME'      => $this->foldCase($row[$column_name]),
                 'COLUMN_POSITION'  => $row[$column_id],
                 'DATA_TYPE'        => $row[$data_type],
-                'DEFAULT'          => $row[$data_default],
+                'DEFAULT'          => trim($row[$data_default], "' "),
                 'NULLABLE'         => (bool) ($row[$nullable] == 'Y'),
                 'LENGTH'           => $row[$data_length],
                 'SCALE'            => $row[$data_scale],
@@ -1093,6 +1093,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function addIndex($tableName, $indexName, $fields,
         $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX, $schemaName = null)
     {
+        if ($schemaName === null) {
+            $schemaName = $this->_getSchemaName();
+        }
         $this->resetDdlCache($tableName, $schemaName);
         $keyList = $this->getIndexList($tableName, $schemaName);
 
@@ -1150,8 +1153,11 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function dropIndex($tableName, $keyName, $schemaName = null)
     {
+
         $indexList  = $this->getIndexList($tableName, $schemaName);
-        $keyName    = strtoupper($keyName);
+        if ($schemaName === null) {
+            $schemaName = $this->_getSchemaName();
+        }
 
         if (!isset($indexList[$keyName])) {
             return $this;
@@ -1382,6 +1388,11 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function dropForeignKey($tableName, $fkName, $schemaName = null)
     {
+
+        if ($schemaName === null) {
+            $schemaName = $this->_getSchemaName();
+        }
+
         $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
         $fkName      = strtoupper($fkName);
         if (!isset($foreignKeys[$fkName])) {
@@ -1442,7 +1453,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function getForeignKeys($tableName, $schemaName = null)
     {
         if ($schemaName === null) {
-            $this->_getSchemaName();
+            $schemaName = $this->_getSchemaName();
         }
         $cacheKey = $this->_getTableName($tableName, $schemaName);
         $ddl = $this->loadDdlCache($cacheKey, self::DDL_FOREIGN_KEY);
