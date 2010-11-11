@@ -2873,7 +2873,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     {
         if (!$this->_debugIoAdapter) {
             $this->_debugIoAdapter = new Varien_Io_File();
-            $dir = $this->_debugIoAdapter->dirname($this->_debugFile);
+            $dir = Mage::getBaseDir() . DS . $this->_debugIoAdapter->dirname($this->_debugFile);
             $this->_debugIoAdapter->checkAndCreateFolder($dir);
             $this->_debugIoAdapter->open(array('path' => $dir));
             $this->_debugFile = basename($this->_debugFile);
