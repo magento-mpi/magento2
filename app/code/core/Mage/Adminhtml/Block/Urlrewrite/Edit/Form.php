@@ -91,6 +91,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'value'     => $model->getIsSystem()
         ));
 
+        $isFilterAllowed = false;
         // get store switcher or a hidden field with its id
         if (!Mage::app()->isSingleStoreMode()) {
             $stores  = Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm();
@@ -109,7 +110,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
                 if ($category && $category->getId()) {
                     $categoryStores = $category->getStoreIds() ? $category->getStoreIds() : array();
                     $entityStores = array_intersect($entityStores, $categoryStores);
+
                 }
+                $isFilterAllowed = true;
             }
             elseif ($category && $category->getId()) {
                 $entityStores = $category->getStoreIds() ? $category->getStoreIds() : array();
@@ -118,17 +121,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
                     $noStoreError = $this->__('Chosen category does not associated with any website, ') .
                         $this->__('so url rewrite is not possible.');
                 }
+                $isFilterAllowed = true;
             }
 
-            if ($stores) {
+            if ($stores && $isFilterAllowed) {
                 foreach ($stores as $i => $store) {
                     if (isset($store['value']) && $store['value']) {
                         $found = false;
                         foreach ($store['value'] as $_k => $_v) {
                             if (isset($_v['value']) && in_array($_v['value'], $entityStores)) {
                                $found = true;
-                            }
-                            else {
+                            } else {
                                 unset($stores[$i]['value'][$_k]);
                             }
                         }
