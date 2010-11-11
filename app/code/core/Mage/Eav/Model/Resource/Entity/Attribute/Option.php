@@ -114,7 +114,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Re
                 array($attributeCode => $valueExpr));
 
         if (($attribute->getFrontend()->getInputType() != 'multiselect') && $hasValueField) {
-            $valueExpr  = $adapter->getCheckSql('to2.value_id > 0', 'to1.value', 'to2.value');
+            $valueIdExpr  = $adapter->getCheckSql('to2.value_id > 0', 'to1.value', 'to2.value');
             $select->joinLeft(
                 array('to1' => $this->getTable('eav/attribute_option_value')),
                 "to1.option_id = {$valueExpr} AND to1.store_id = 0",
@@ -122,7 +122,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Re
             ->joinLeft(
                 array('to2' => $this->getTable('eav/attribute_option_value')),
                 $adapter->quoteInto("to2.option_id = {$valueExpr} AND to2.store_id = ?", $store),
-                array($attributeCode . '_value' => $valueExpr)
+                array($attributeCode . '_value' => $valueIdExpr)
             );
         }
 
