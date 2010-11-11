@@ -244,7 +244,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                 array('main_table' => $this->getMainStoreTable($storeId)),
                 array('entity_id',
                     $_conn->quoteIdentifier('name'),
-                    $_conn->quoteIdentifier('path'), 
+                    $_conn->quoteIdentifier('path'),
                     'is_active',
                     'is_anchor'))
             ->joinLeft(
@@ -507,7 +507,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             if (isset($data[$column])) {
                 $values[$column] = $data[$column];
             } else {
-                $values[$column] = '';
+                $values[$column] = null;
             }
         }
         return $values;
