@@ -146,7 +146,7 @@ $table = $installer->getConnection()
         ), 'Date of modification')
     ->addColumn('customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
-        'nullable'  => false,
+        'nullable'  => true,
         'default'   => '0',
         ), 'Customer ID')
     ->addColumn('product_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
@@ -166,7 +166,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('downloadable/link_purchased', 'customer_id'), 'customer_id')
     ->addForeignKey($installer->getFkName('downloadable/link_purchased', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer/entity'), 'entity_id',
-        Varien_Db_Ddl_Table::ACTION_SET_DEFAULT, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Downloadable Link Purchased Table');
 $installer->getConnection()->createTable($table);
 
