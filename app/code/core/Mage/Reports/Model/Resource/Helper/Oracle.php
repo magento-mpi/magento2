@@ -44,11 +44,18 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
      */
     public function mergeVisitorProductIndex($mainTable, $data, $matchFields)
     {
+        if (!empty($data['visitor_id'])) {
+            $matchFields[] = 'visitor_id';
+        } else {
+            $matchFields[] = 'customer_id';
+        }
         $selectPart = '';
-        $matchPart  = '(t1.customer_id = t2.customer_id OR t1.visitor_id = t2.visitor_id) ';
+        $matchPart  = '';
         $insertPart = '';
         $updatePart = '';
+        $deletePart = '';
         $columnsPart = implode(',', array_keys($data));
+
         foreach ($data as $column => $value) {
             if ($value instanceof Zend_Db_Expr) {
                 $selectPart .= sprintf('%s AS %s,', $value, $column);
@@ -58,34 +65,33 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
             }
 
             $insertPart .= sprintf('t2.%s, ', $column);
+
             if (!in_array($column, $matchFields)) {
                 $updatePart .= sprintf('t1.%s = t2.%s, ', $column, $column);
             } else {
                 $matchPart .= sprintf('AND t1.%s = t2.%s ', $column, $column);
             }
         }
+
+        if (!empty($data['visitor_id']) && !empty($data['customer_id'])) {
+            $deletePart = ' DELETE WHERE EXISTS ( SELECT 1 FROM ' . $mainTable . ' t3 WHERE '
+                . 't3.store_id = t1.store_id AND t3.customer_id = t1.customer_id AND t3.product_id = t1.product_id AND t3.visitor_id != t1.visitor_id )';
+        }
+
         $selectPart = rtrim($selectPart,', ');
         $updatePart = rtrim($updatePart,', ');
         $insertPart = rtrim($insertPart,', ');
 
-        $sql = 'MERGE INTO ' . $mainTable . ' t1 USING ' .
-                ' ( SELECT ' . $selectPart . ' FROM dual ) t2 ON (' . $matchPart .
-                ' ) WHEN MATCHED THEN UPDATE SET ' . $updatePart .
-                '   WHERE ((t1.visitor_id = t2.visitor_id AND t1.customer_id IS NULL) OR'.
-                ' (t1.visitor_id = t2.visitor_id AND t1.customer_id = t2.customer_id) OR'.
-                ' (t1.customer_id = t2.customer_id AND t1.visitor_id IS NULL))' .
-                ' DELETE WHERE t1.index_id IN(' .
-                '    SELECT t3.index_id ' .
-                '    FROM ' . $mainTable .' t3 ' .
-                '    WHERE NOT ((t3.visitor_id = t2.visitor_id AND t3.customer_id IS NULL) OR'.
-                '       (t3.visitor_id = t2.visitor_id AND t3.customer_id = t2.customer_id) OR'.
-                '       (t3.customer_id = t2.customer_id AND t3.visitor_id IS NULL)) )' .
-                ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')' .
-                ' VALUES ( ' . $insertPart . ')';
+        $sql = 'MERGE INTO ' . $mainTable . ' t1 USING ('
+            . ' SELECT ' . $selectPart . ' FROM dual ) t2 ON ( 1 = 1 ' . $matchPart . ' )'
+            . 'WHEN MATCHED THEN '
+            . ' UPDATE SET ' . $updatePart . $deletePart
+            . ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')'
+            . ' VALUES ( ' . $insertPart . ')';
 
         $stmt = $this->_getWriteAdapter()->query($sql, $data);
         $result = $stmt->rowCount();
-
+        
         return $result;
     }
 

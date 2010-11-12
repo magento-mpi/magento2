@@ -42,43 +42,59 @@ class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_
      * @param array $data
      * @return string
      */
+
     public function mergeVisitorProductIndex($mainTable, $data, $matchFields)
     {
+        if (!empty($data['visitor_id'])) {
+            $matchFields[] = 'visitor_id';
+        } else {
+            $matchFields[] = 'customer_id';
+        }
         $selectPart = '';
-        $matchPart  = '(t1.customer_id = t2.customer_id OR t1.visitor_id = t2.visitor_id) ';
+        $matchPart  = '';
         $insertPart = '';
         $updatePart = '';
+        $deletePart = '';
         $columnsPart = implode(',', array_keys($data));
+
         foreach ($data as $column => $value) {
             if ($value instanceof Zend_Db_Expr) {
-                $selectPart .= sprintf('%s AS %s, ', $value, $column);
+                $selectPart .= sprintf('%s AS %s,', $value, $column);
                 unset($data[$column]);
             } else {
-                $selectPart .= sprintf(':%s AS %s, ', $column, $column);
+                $selectPart .= sprintf(':%s AS %s,', $column, $column);
             }
 
-            $insertPart .= sprintf('t2.%s,', $column);
+            $insertPart .= sprintf('t2.%s, ', $column);
+
             if (!in_array($column, $matchFields)) {
                 $updatePart .= sprintf('t1.%s = t2.%s, ', $column, $column);
             } else {
                 $matchPart .= sprintf('AND t1.%s = t2.%s ', $column, $column);
             }
         }
+
+        if (!empty($data['visitor_id']) && !empty($data['customer_id'])) {
+            $deletePart = ' WHEN MATCHED AND EXISTS ( SELECT 1 FROM ' . $mainTable . ' t3 WHERE '
+                . ' t3.store_id = t1.store_id AND t3.customer_id = t1.customer_id AND t3.product_id = t1.product_id AND t3.visitor_id != t1.visitor_id )'
+                . 'THEN DELETE';
+        }
+
         $selectPart = rtrim($selectPart,', ');
         $updatePart = rtrim($updatePart,', ');
         $insertPart = rtrim($insertPart,', ');
 
-        $sql = 'MERGE INTO ' . $mainTable . ' AS t1 USING ' .
-                ' ( SELECT ' . $selectPart . ') AS t2 ON (' . $matchPart .
-                ' ) WHEN MATCHED AND ' .
-                ' ((t1.visitor_id = t2.visitor_id AND t1.customer_id IS NULL) OR'.
-                ' (t1.visitor_id = t2.visitor_id AND t1.customer_id = t2.customer_id) OR'.
-                ' (t1.customer_id = t2.customer_id AND t1.visitor_id IS NULL)) THEN UPDATE SET ' . $updatePart .
-                ' WHEN MATCHED THEN DELETE  ' .
-                ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')' .
-                ' VALUES ( ' . $insertPart . ');';
+        $sql = 'MERGE ' . $mainTable . ' t1 USING ('
+            . ' SELECT ' . $selectPart . ' ) t2 ON ( 1 = 1 ' . $matchPart . ' )'
+            . 'WHEN MATCHED AND 1 = 1 THEN '
+            . ' UPDATE SET ' . $updatePart . $deletePart
+            . ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')'
+            . ' VALUES ( ' . $insertPart . ');';
 
-        $stmt = $this->_getWriteAdapter()->query($sql, $data);
+
+
+        $stmt =$this->_getWriteAdapter()->query($sql, $data);
+
         $result = $stmt->rowCount();
 
         return $result;
