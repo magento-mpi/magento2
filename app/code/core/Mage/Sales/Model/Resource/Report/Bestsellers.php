@@ -82,12 +82,6 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
             );
 
             $helper                        = Mage::getResourceHelper('core');
-
-            $ifnullProductNameValue        = $adapter->getIfNullSql('product_name.value', 'product_default_name.value');
-            $ifnullProductPriceValue       = $adapter->getIfNullSql('product_price.value',
-                'product_default_price.value');
-            $ifnullSourcetableToGlobalRate = $adapter->getIfNullSql('source_table.base_to_global_rate', 0);
-
             $select = $adapter->select();
 
             $select->group(array(
@@ -96,27 +90,52 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 'order_item.product_id'
             ));
 
-            $minProductPriceValue          = $helper->prepareColumn("MIN({$ifnullProductPriceValue})",
-                $select->getPart(Zend_Db_Select::GROUP));
-            $minSourcetableToGlobalRate    = $helper->prepareColumn("MIN({$ifnullSourcetableToGlobalRate})",
-                $select->getPart(Zend_Db_Select::GROUP));
-
             $columns = array(
                 'period'                 => $periodExpr,
                 'store_id'               => 'source_table.store_id',
                 'product_id'             => 'order_item.product_id',
-                'product_name'           => new Zend_Db_expr("MIN({$ifnullProductNameValue})"),
-                'product_price'          => new Zend_Db_expr("{$minProductPriceValue} * {$minSourcetableToGlobalRate}"),
-                'qty_ordered'            => new Zend_Db_expr('SUM(order_item.qty_ordered)'),
+                'product_name'           => new Zend_Db_Expr(
+                    sprintf('MIN(%s)',
+                        $adapter->getIfNullSql(
+                            $adapter->getIfNullSql('product_name.value','0'),
+                            $adapter->getIfNullSql('product_default_name.value','0')
+                        )
+                    )
+                ),
+                'product_price'          => new Zend_Db_Expr(
+                        sprintf('%s * %s',
+                            $helper->prepareColumn(
+                                sprintf('MIN(%s)',
+                                    $adapter->getIfNullSql(
+                                        $adapter->getIfNullSql('product_price.value','0'),
+                                        $adapter->getIfNullSql('product_default_price.value','0')
+                                    )
+                                ),
+                                $select->getPart(Zend_Db_Select::GROUP)
+                            ),
+                            $helper->prepareColumn(
+                                sprintf('MIN(%s)',
+                                    $adapter->getIfNullSql('source_table.base_to_global_rate', '0')
+                                ),
+                                $select->getPart(Zend_Db_Select::GROUP)
+                        )
+                    )
+                ),
+                'qty_ordered'            => new Zend_Db_Expr('SUM(order_item.qty_ordered)')
             );
 
-            $select->from(array('source_table' => $this->getTable('sales/order')), $columns)
+            $select
+                ->from(
+                    array(
+                        'source_table' => $this->getTable('sales/order')),
+                    $columns)
                 ->joinInner(
-                    array('order_item' => $this->getTable('sales/order_item')),
+                    array(
+                        'order_item' => $this->getTable('sales/order_item')),
                     'order_item.order_id = source_table.entity_id',
                     array()
                 )
-                ->where('source_table.state <> ?', Mage_Sales_Model_Order::STATE_CANCELED);
+                ->where('source_table.state != ?', Mage_Sales_Model_Order::STATE_CANCELED);
 
 
             /** @var Mage_Catalog_Model_Resource_Product $product */
@@ -133,9 +152,11 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 $adapter->quoteInto('product.entity_type_id = ?', $product->getTypeId()),
                 $adapter->quoteInto('product.type_id NOT IN(?)', $productTypes)
             );
+
             $joinExpr = implode(' AND ', $joinExpr);
             $select->joinInner(
-                array('product' => $this->getTable('catalog/product')),
+                array(
+                    'product' => $this->getTable('catalog/product')),
                 $joinExpr,
                 array()
             );
@@ -157,16 +178,17 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
             );
             $joinExprProductDefaultName = implode(' AND ', $joinExprProductDefaultName);
             $select->joinLeft(
-                array('product_name' => $attr->getBackend()->getTable()),
+                array(
+                    'product_name' => $attr->getBackend()->getTable()),
                 $joinExprProductName,
                 array()
             )
             ->joinLeft(
-                array('product_default_name' => $attr->getBackend()->getTable()),
+                array(
+                    'product_default_name' => $attr->getBackend()->getTable()),
                 $joinExprProductDefaultName,
                 array()
             );
-
             $attr                    = $product->getAttribute('price');
             $joinExprProductPrice    = array(
                 'product_price.entity_id = product.entity_id',
