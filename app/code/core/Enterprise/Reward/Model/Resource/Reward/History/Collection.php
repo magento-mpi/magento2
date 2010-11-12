@@ -132,7 +132,9 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
      */
     public function addWebsiteFilter($websiteId)
     {
-        $this->getSelect()->where(is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?', $websiteId);
+        $this->getSelect()->where(
+            is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?', $websiteId
+        );
         return $this;
     }
 
@@ -163,30 +165,34 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
                 array('ce' => $customer->getAttribute('email')->getBackend()->getTable()),
                 'ce.entity_id=reward_table.customer_id',
                 array('customer_email' => 'email')
-             )
+            )
             ->joinInner(
                 array('cg' => $customer->getAttribute('group_id')->getBackend()->getTable()),
                 'cg.entity_id=reward_table.customer_id',
                 array('customer_group_id' => 'group_id')
-             )
+            )
             ->joinLeft(
                 array('clt' => $lastname->getBackend()->getTable()),
-                $connection->quoteInto('clt.entity_id=reward_table.customer_id AND clt.attribute_id = ?', $lastname->getAttributeId()),
+                $connection->quoteInto('clt.entity_id=reward_table.customer_id AND clt.attribute_id = ?',
+                    $lastname->getAttributeId()),
                 array('customer_lastname' => 'value')
-             )
-             ->joinLeft(
+            )
+            ->joinLeft(
                 array('cft' => $firstname->getBackend()->getTable()),
-                $connection->quoteInto('cft.entity_id=reward_table.customer_id AND cft.attribute_id = ?', $firstname->getAttributeId()),
+                $connection->quoteInto(
+                    'cft.entity_id=reward_table.customer_id AND cft.attribute_id = ?',
+                    $firstname->getAttributeId()
+                ),
                 array('customer_firstname' => 'value')
-             )
-             ->joinLeft(
+            )
+            ->joinLeft(
                 array('warning_notification' => $warningNotification->getBackend()->getTable()),
                 $connection->quoteInto(
                     'warning_notification.entity_id=reward_table.customer_id AND warning_notification.attribute_id = ?',
                     $warningNotification->getAttributeId()
                 ),
                 array('reward_warning_notification' => 'value')
-             );
+            );
 
         $this->setFlag('customer_added', true);
         return $this;
@@ -216,7 +222,7 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
                 $field = $config->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
                 $cases[$wId] = $field;
             }
-            
+
             if (count($cases) > 0) {
                 $sql = $adapter->getCaseSql('main_table.website_id', $cases);
                 $this->getSelect()->columns(array('expiration_date' => new Zend_Db_Expr($sql)));

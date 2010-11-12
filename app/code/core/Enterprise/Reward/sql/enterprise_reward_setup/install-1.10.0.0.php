@@ -55,8 +55,8 @@ $table = $installer->getConnection()
         ), 'Points Balance')
     ->addColumn('website_currency_code', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
         ), 'Website Currency Code')
-    ->addIndex($installer->getIdxName('enterprise_reward', array('customer_id', 'website_id'), true),
-        array('customer_id', 'website_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('enterprise_reward', array('customer_id', 'website_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('customer_id', 'website_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('enterprise_reward', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('enterprise_reward', 'customer_id', 'customer/entity', 'entity_id'),
@@ -194,8 +194,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Currency Amount')
-    ->addIndex($installer->getIdxName('enterprise_reward_rate', array('website_id', 'customer_group_id', 'direction'), true),
-        array('website_id', 'customer_group_id', 'direction'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('enterprise_reward_rate', array('website_id', 'customer_group_id', 'direction'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('website_id', 'customer_group_id', 'direction'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('enterprise_reward_rate', array('website_id')),
         array('website_id'))
     ->addIndex($installer->getIdxName('enterprise_reward_rate', array('customer_group_id')),
@@ -222,7 +222,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Points Delta')
     ->addIndex($installer->getIdxName('enterprise_reward/reward_salesrule', array('rule_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('rule_id'), 
+        array('rule_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('enterprise_reward/reward_salesrule', 'rule_id', 'salesrule/rule', 'rule_id'),
         'rule_id', $installer->getTable('salesrule/rule'), 'rule_id',
@@ -231,22 +231,22 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 
-$installer->addAttribute('quote', 'use_reward_points', 
+$installer->addAttribute('quote', 'use_reward_points',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
-$installer->addAttribute('quote', 'reward_points_balance', 
+$installer->addAttribute('quote', 'reward_points_balance',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
 $installer->addAttribute('quote', 'base_reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 $installer->addAttribute('quote', 'reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 
-$installer->addAttribute('quote_address', 'reward_points_balance', 
+$installer->addAttribute('quote_address', 'reward_points_balance',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
 $installer->addAttribute('quote_address', 'base_reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 $installer->addAttribute('quote_address', 'reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 
-$installer->addAttribute('order', 'reward_points_balance', 
+$installer->addAttribute('order', 'reward_points_balance',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
 $installer->addAttribute('order', 'base_reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
@@ -262,41 +262,41 @@ $installer->addAttribute('invoice', 'base_reward_currency_amount', array('type' 
 $installer->addAttribute('creditmemo', 'base_reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 $installer->addAttribute('creditmemo', 'reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 
-$installer->addAttribute('order', 'reward_points_balance_refunded', 
+$installer->addAttribute('order', 'reward_points_balance_refunded',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
 
-$installer->addAttribute('invoice', 'reward_points_balance', 
+$installer->addAttribute('invoice', 'reward_points_balance',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
 
 $installer->addAttribute('invoice', 'reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 
-$installer->addAttribute('creditmemo', 'reward_points_balance', 
+$installer->addAttribute('creditmemo', 'reward_points_balance',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
 
-$installer->addAttribute('order', 'reward_points_balance_refund', 
+$installer->addAttribute('order', 'reward_points_balance_refund',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
-$installer->addAttribute('creditmemo', 'reward_points_balance_refund', 
+$installer->addAttribute('creditmemo', 'reward_points_balance_refund',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
 
 $installer->addAttribute('quote', 'base_reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 $installer->addAttribute('quote', 'reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 
-$installer->addAttribute('order', 'reward_points_balance_refunded', 
+$installer->addAttribute('order', 'reward_points_balance_refunded',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
 
-$installer->addAttribute('order', 'reward_salesrule_points', 
+$installer->addAttribute('order', 'reward_salesrule_points',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );
 
 $installer->addAttribute('customer', 'reward_update_notification',
     array(
-        'type' => 'int', 
+        'type' => 'int',
         'visible' => 0,
         'visible_on_front' => 1,
         'is_user_defined' => 0,

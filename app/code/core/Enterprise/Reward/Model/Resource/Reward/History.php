@@ -148,14 +148,18 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
             $adapter->beginTransaction();
             $select = $adapter->select()
                 ->from(array('history' => $this->getMainTable()), array('history_id', 'points_delta', 'points_used'))
-                ->where('reward_id=?', $history->getRewardId())
-                ->where('website_id=?', $history->getWebsiteId())
+                ->where('reward_id = :reward_id')
+                ->where('website_id = :website_id')
                 ->where('is_expired=0')
                 ->where('points_delta - points_used > 0')
                 ->order('history_id')
                 ->forUpdate(true);
+            $bind = array(
+                ':reward_id'  => $history->getRewardId(),
+                ':website_id' => $history->getWebsiteId()
+            );
 
-            $stmt = $adapter->query($select);
+            $stmt = $adapter->query($select, $bind);
 
             $updateSqlValues = array();
             $data = array();
@@ -168,7 +172,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
                 $required -= $pointsUsed;
                 $newPointsUsed = $pointsUsed + $row['points_used'];
                 $data[] = array(
-                    'history_id' => $row['history_id'], 
+                    'history_id' => $row['history_id'],
                     'points_used' => $newPointsUsed
                 );
             }
@@ -176,7 +180,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
             if (count($data) > 0) {
                 $adapter->insertOnDuplicate($this->getMainTable(), $data, array('history_id', 'points_used'));
             }
-            
+
             $adapter->commit();
         } catch (Exception $e) {
             $adapter->rollback();
@@ -200,7 +204,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
         $update = array();
         if ($days) {
             $update['expired_at_dynamic'] = $adapter->getDateAddSql(
-                'created_at', $interval,  Varien_Db_Adapter_Interface::INTERVAL_DAY
+                'created_at', $days, Varien_Db_Adapter_Interface::INTERVAL_DAY
             );
         } else {
             $update['expired_at_dynamic'] = 'NULL';
@@ -209,7 +213,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
         $adapter->update($this->getMainTable(), $update, $where);
         return $this;
     }
-    
+
 
     /**
      * Make points expired for specified website
@@ -227,17 +231,20 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
 
         $select = $adapter->select()
             ->from($this->getMainTable())
-            ->where('website_id=?', $websiteId)
-            ->where("{$field} < ?", $now)
+            ->where('website_id = :website_id')
+            ->where("{$field} < :time_now")
             ->where("{$field} IS NOT NULL")
             ->where('is_expired=?', 0)
             ->where('points_delta-points_used > ?', 0)
             ->limit((int)$limit);
-
+        $bind = array(
+            ':website_id' => $websiteId,
+            ':time_now'   => $now
+        );
         $duplicates = array();
         $expiredAmounts = array();
         $expiredHistoryIds = array();
-        $stmt = $adapter->query($select);
+        $stmt = $adapter->query($select, $bind);
         while ($row = $stmt->fetch()) {
             $row['created_at'] = $now;
             $row['expired_at_static'] = null;
@@ -263,7 +270,11 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
                     continue;
                 }
                 $bind = array(
-                    'points_balance' => $adapter->getCheckSql("points_balance > {$expired}", "points_balance-{$expired}", 0)
+                    'points_balance' => $adapter->getCheckSql(
+                        "points_balance > {$expired}",
+                        "points_balance-{$expired}",
+                        0
+                    )
                 );
                 $where = array('reward_id=?' => $rewardId);
                 $adapter->update($this->getTable('enterprise_reward/reward'), $bind, $where);
@@ -274,8 +285,8 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
 
             // update is_expired field (using history ids instead where clause for better performance)
             $adapter->update(
-                $this->getMainTable(), 
-                array('is_expired' => '1'), 
+                $this->getMainTable(),
+                array('is_expired' => '1'),
                 array('history_id IN (?)' => $expiredHistoryIds)
             );
         }
@@ -291,8 +302,8 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
      */
     public function markAsNotified($ids)
     {
-        $this->_getWriteAdapter()->update($this->getMainTable(), 
-            array('notification_sent' => 1), 
+        $this->_getWriteAdapter()->update($this->getMainTable(),
+            array('notification_sent' => 1),
             array('history_id IN (?)' => $ids)
         );
         return $this;

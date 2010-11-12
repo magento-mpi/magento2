@@ -55,9 +55,13 @@ class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_D
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-            ->where('customer_id = ?', $customerId)
-            ->where('website_id = ?', $websiteId);
-        if ($data = $this->_getReadAdapter()->fetchRow($select)) {
+            ->where('customer_id = :customer_id')
+            ->where('website_id = :website_id');
+        $bind = array(
+            ':customer_id' => $customerId,
+            ':website_id'  => $websiteId
+        );
+        if ($data = $this->_getReadAdapter()->fetchRow($select, $bind)) {
             $reward->addData($data);
         }
         $this->_afterLoad($reward);
@@ -106,7 +110,7 @@ class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_D
     /**
      * Delete orphan (points of deleted website) points by given customer
      *
-     * @param unknown_type $customerId
+     * @param int $customerId
      * @return Enterprise_Reward_Model_Resource_Reward
      */
     public function deleteOrphanPointsByCustomer($customerId)
@@ -132,11 +136,11 @@ class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_D
     public function saveRewardSalesrule($ruleId, $pointsDelta)
     {
         $select = $this->_getWriteAdapter()->insertOnDuplicate(
-            $this->getTable('enterprise_reward/reward_salesrule'), 
+            $this->getTable('enterprise_reward/reward_salesrule'),
             array(
                 'rule_id' => $ruleId,
                 'points_delta' => $pointsDelta
-            ), 
+            ),
             array('points_delta')
         );
     }

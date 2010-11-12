@@ -56,14 +56,20 @@ class Enterprise_Reward_Model_Resource_Reward_Rate extends Mage_Core_Model_Resou
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-            ->where('website_id IN (?, 0)', (int)$websiteId)
-            ->where('customer_group_id IN (?, 0)', (int)$customerGroupId)
-            ->where('direction = ?', $direction)
+            ->where('website_id IN (:website_id, 0)')
+            ->where('customer_group_id IN (:customer_group_id, 0)')
+            ->where('direction = :direction')
             ->order('customer_group_id DESC')
             ->order('website_id DESC')
             ->limit(1);
 
-        $row = $this->_getReadAdapter()->fetchRow($select);
+        $bind = array(
+            ':website_id'        => (int)$websiteId,
+            ':customer_group_id' => (int)$customerGroupId,
+            ':direction'         => $direction
+        );
+
+        $row = $this->_getReadAdapter()->fetchRow($select, $bind);
         if ($row) {
             $rate->addData($row);
         }
@@ -84,10 +90,15 @@ class Enterprise_Reward_Model_Resource_Reward_Rate extends Mage_Core_Model_Resou
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-            ->where('website_id = ?', (int)$websiteId)
-            ->where('customer_group_id = ?', (int)$customerGroupId)
-            ->where('direction = ?', $direction);
-        $data = $this->_getReadAdapter()->fetchRow($select);
+            ->where('website_id = :website_id')
+            ->where('customer_group_id = :customer_group_id')
+            ->where('direction = :direction');
+        $bind = array(
+            ':website_id'        => (int)$websiteId,
+            ':customer_group_id' => (int)$customerGroupId,
+            ':direction'         => $direction
+        );
+        $data = $this->_getReadAdapter()->fetchRow($select, $bind);
         if ($data) {
             return $data;
         }
