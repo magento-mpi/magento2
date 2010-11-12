@@ -83,7 +83,7 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
                 ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')' .
                 ' VALUES ( ' . $insertPart . ')';
 
-        $stmt =$this->_getWriteAdapter()->query($sql, $data);
+        $stmt = $this->_getWriteAdapter()->query($sql, $data);
         $result = $stmt->rowCount();
 
         return $result;
