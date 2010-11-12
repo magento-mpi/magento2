@@ -1847,7 +1847,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         if (isset($foreignKeys[$upperFkName])) {
-            $this->_dropDependTriggersAction($foreignKeys[$upperFkName]['REF_TABLE_NAME']);
+            $this->_dropDependTriggersAction($foreignKeys[$upperFkName]['TABLE_NAME']);
             $sql = sprintf('ALTER TABLE %s DROP CONSTRAINT %s',
                 $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
                 $this->quoteIdentifier($foreignKeys[$upperFkName]['FK_NAME']));
