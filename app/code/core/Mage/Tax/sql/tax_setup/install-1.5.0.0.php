@@ -89,6 +89,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Tax Region Id')
     ->addColumn('tax_postcode', Varien_Db_Ddl_Table::TYPE_TEXT, 21, array(
+        'nullable'  => false,
         ), 'Tax Postcode')
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
