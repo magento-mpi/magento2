@@ -354,7 +354,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
             ->join(array('rating_store' => $this->getTable('rating/rating_store')),
                 'rating_store.rating_id = rating_vote.rating_id AND rating_store.store_id = review_store.store_id',
                 array())
-            ->where('rating_vote.review_id = :review_id?')
+            ->where('rating_vote.review_id = :review_id')
             ->group('rating_vote.review_id')
             ->group('review_store.store_id');
 
