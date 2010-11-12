@@ -104,13 +104,13 @@ class Mage_CatalogIndex_Model_Aggregation extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Delete cached aggreagation data
+     * Delete cached aggregation data
      *
      * @param   array $tags
      * @param   int|null|string $store
      * @return  Mage_CatalogIndex_Model_Aggregation
      */
-    public function clearCacheData($tags=array(), $store=null)
+    public function clearCacheData($tags = array(), $store = null)
     {
         $tags    = $this->_processTags($tags);
         if ($store !== null) {

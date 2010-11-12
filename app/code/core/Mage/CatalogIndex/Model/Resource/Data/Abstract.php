@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Resource model CatalogIndex Data Abstract
  *
  * @category    Mage
  * @package     Mage_CatalogIndex
@@ -71,7 +71,7 @@ class Mage_CatalogIndex_Model_Resource_Data_Abstract extends Mage_Core_Model_Res
     }
 
     /**
-     * Enter description here ...
+     * Init resource
      *
      */
     protected function _construct()
@@ -101,8 +101,8 @@ class Mage_CatalogIndex_Model_Resource_Data_Abstract extends Mage_Core_Model_Res
             $fields = array(
                 'entity_id',
                 'type_id',
-                'attribute_id'  => 'IF(c.value_id>0, c.attribute_id, d.attribute_id)',
-                'value'         => 'IF(c.value_id>0, c.value, d.value)'
+                'attribute_id'  => 'IF(c.value_id > 0, c.attribute_id, d.attribute_id)',
+                'value'         => 'IF(c.value_id > 0, c.value, d.value)'
             );
 
             $select = $this->_getReadAdapter()->select()

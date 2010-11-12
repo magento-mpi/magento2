@@ -34,24 +34,14 @@
  */
 class Mage_CatalogIndex_Model_Resource_Abstract extends Mage_Core_Model_Resource_Db_Abstract
 {
-    /**
-     * Enter description here ...
-     *
-     * @var unknown
-     */
     protected $_storeId    = 0;
 
-    /**
-     * Enter description here ...
-     *
-     * @var unknown
-     */
     protected $_websiteId  = null;
 
     /**
-     * Enter description here ...
+     * Initialize model
      *
-     * @return unknown
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _construct()
     {
@@ -59,9 +49,9 @@ class Mage_CatalogIndex_Model_Resource_Abstract extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * storeId setter
      *
-     * @param unknown_type $storeId
+     * @param int $storeId
      */
     public function setStoreId($storeId)
     {
@@ -69,9 +59,9 @@ class Mage_CatalogIndex_Model_Resource_Abstract extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * storeId getter
      *
-     * @return unknown
+     * @return int
      */
     public function getStoreId()
     {
@@ -79,9 +69,9 @@ class Mage_CatalogIndex_Model_Resource_Abstract extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * websiteId getter
      *
-     * @return unknown
+     * @return int
      */
     public function getWebsiteId()
     {

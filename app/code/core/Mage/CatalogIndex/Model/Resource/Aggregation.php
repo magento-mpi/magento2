@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Resource Model CatalogIndex Aggregation
  *
  * @category    Mage
  * @package     Mage_CatalogIndex
@@ -35,16 +35,16 @@
 class Mage_CatalogIndex_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Table name of catalogindex/aggregation_tag table
      *
-     * @var unknown
+     * @var string
      */
     protected $_tagTable;
 
     /**
-     * Enter description here ...
+     * Table name of catalogindex/aggregation_to_tag table
      *
-     * @var unknown
+     * @var string
      */
     protected $_toTagTable;
 
@@ -63,7 +63,7 @@ class Mage_CatalogIndex_Model_Resource_Aggregation extends Mage_Core_Model_Resou
      * Get aggregated cache data by data key and store
      *
      * @param string $key
-     * @param unknown_type $storeId
+     * @param int $storeId
      * @return array
      */
     public function getCacheData($key, $storeId)
@@ -133,10 +133,10 @@ class Mage_CatalogIndex_Model_Resource_Aggregation extends Mage_Core_Model_Resou
     }
 
     /**
-     * Enter description here ...
+     * Clear data in cache
      *
-     * @param unknown_type $tags
-     * @param unknown_type $storeId
+     * @param   array $tags
+     * @param   int|null|string $storeId
      * @return Mage_CatalogIndex_Model_Resource_Aggregation
      */
     public function clearCacheData($tags, $storeId)
@@ -238,10 +238,10 @@ class Mage_CatalogIndex_Model_Resource_Aggregation extends Mage_Core_Model_Resou
     }
 
     /**
-     * Enter description here ...
+     * ProductCategoryPaths getter
      *
-     * @param unknown_type $productIds
-     * @return unknown
+     * @param array $productIds
+     * @return array
      */
     public function getProductCategoryPaths($productIds)
     {
