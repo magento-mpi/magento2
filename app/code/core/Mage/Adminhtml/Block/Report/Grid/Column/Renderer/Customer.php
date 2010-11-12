@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Customer
         $id   = $row->getCustomerId();
 
         if (!$id) {
-            return '&nbsp;';
+            return Mage::helper('adminhtml')->__('Show Reviews');
         }
 
         return sprintf('<a href="%s">%s</a>',
