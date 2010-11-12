@@ -192,8 +192,8 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
         $adapter     = $this->_getReadAdapter();
         $childrenIds = array();
         $bind        = array(
-            'product_id'    => (int)$parentId,
-            'link_type_id'  => (int)$typeId
+            ':product_id'    => (int)$parentId,
+            ':link_type_id'  => (int)$typeId
         );
         $select = $adapter->select()
             ->from(array('l' => $this->getMainTable()), array('linked_product_id'))
@@ -217,7 +217,7 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Retrieve parent ids array by requered child
+     * Retrieve parent ids array by required child
      *
      * @param int|array $childId
      * @param int $typeId
@@ -227,15 +227,12 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
     {
         $parentIds  = array();
         $adapter    = $this->_getReadAdapter();
-        $bind       = array(
-            'link_type_id'     => (int)$typeId
-        );
         $select = $adapter->select()
             ->from($this->getMainTable(), array('product_id', 'linked_product_id'))
             ->where('linked_product_id IN(?)', $childId)
-            ->where('link_type_id = :link_type_id');
+            ->where('link_type_id = ?', $typeId);
 
-        $result = $adapter->fetchAll($select, $bind);
+        $result = $adapter->fetchAll($select);
         foreach ($result as $row) {
             $parentIds[] = $row['product_id'];
         }

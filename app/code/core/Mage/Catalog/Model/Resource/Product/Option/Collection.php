@@ -78,7 +78,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
                     'store_title'   => 'title',
                     'title'         => $titleExpr
                 ))
-            ->where('default_option_title.store_id = ?', 0);
+            ->where('default_option_title.store_id = ?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID);
 
         return $this;
     }
@@ -98,7 +98,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
 
         $this->getSelect()
             ->joinLeft(array('default_option_price' => $productOptionPriceTable),
-                'default_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto('default_option_price.store_id = ?', 0),
+                'default_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto('default_option_price.store_id = ?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID),
                 array(
                     'default_price' => 'price',
                     'default_price_type' => 'price_type'
@@ -131,6 +131,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Collection extends Mage_Core_Mo
             $optionIds[] = $option->getId();
         }
         if (!empty($optionIds)) {
+            /** @var $values Mage_Catalog_Model_Option_Value_Collection */
             $values = Mage::getModel('catalog/product_option_value')
                 ->getCollection()
                 ->addTitleToResult($storeId)

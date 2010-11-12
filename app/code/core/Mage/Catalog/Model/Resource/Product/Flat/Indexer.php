@@ -207,7 +207,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     public function getEntityType()
     {
-        return 'catalog_product';//Mage_Catalog_Model_Product::ENTITY;
+        return Mage_Catalog_Model_Product::ENTITY;
     }
 
     /**

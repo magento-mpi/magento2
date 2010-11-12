@@ -294,8 +294,8 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
             ->where('e.type_id = :type_id');
 
         $bind = array(
-            'attribute_set_id' => (int) $setId,
-            'type_id'          => (int) Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+            'attribute_set_id' => $setId,
+            'type_id'          => Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
         );
 
         return $adapter->fetchCol($select, $bind);

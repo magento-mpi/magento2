@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function setCustomerId($customerId)
     {
-        $this->_customerId = $customerId;
+        $this->_customerId = (int)$customerId;
         $this->_addJoinToSelect();
         return $this;
     }
@@ -86,7 +86,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function setVisitorId($visitorId)
     {
-        $this->_visitorId = $visitorId;
+        $this->_visitorId = (int)$visitorId;
         $this->_addJoinToSelect();
         return $this;
     }
@@ -167,17 +167,17 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
         );
         if ($this->getCustomerId()) {
             $compareConds[] = $this->getConnection()
-                ->quoteInto('compare.customer_id=?', $this->getCustomerId());
+                ->quoteInto('compare.customer_id = ?', $this->getCustomerId());
         } else {
             $compareConds[] = $this->getConnection()
-                ->quoteInto('compare.visitor_id=?', $this->getVisitorId());
+                ->quoteInto('compare.visitor_id = ?', $this->getVisitorId());
         }
 
         // prepare website filter
-        $websiteId    = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+        $websiteId    = (int)Mage::app()->getStore($this->getStoreId())->getWebsiteId();
         $websiteConds = array(
-            'website.product_id=entity.entity_id',
-            $this->getConnection()->quoteInto('website.website_id=?', $websiteId)
+            'website.product_id = entity.entity_id',
+            $this->getConnection()->quoteInto('website.website_id = ?', $websiteId)
         );
 
         // retrieve attribute sets

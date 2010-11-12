@@ -58,21 +58,16 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
         } else {
             $productId = $product;
         }
-        $bind = array(
-            'product_id'    => (int)$productId
-        );
         $select = $read->select()->from($this->getMainTable())
-            ->where('product_id = :product_id');
+            ->where('product_id = ?', (int)$productId);
 
         if ($object->getCustomerId()) {
-            $bind['customer_id'] = (int)$object->getCustomerId();
-            $select->where('customer_id = :customer_id');
+            $select->where('customer_id = ?', (int)$object->getCustomerId());
         } else {
-            $bind['visitor_id'] = (int)$object->getVisitorId();
-            $select->where('visitor_id = :visitor_id');
+            $select->where('visitor_id = ?', (int)$object->getVisitorId());
         }
 
-        $data = $read->fetchRow($select, $bind);
+        $data = $read->fetchRow($select);
 
         if (!$data) {
             return false;
@@ -237,11 +232,11 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item extends Mage_Core_Model_R
         $where = array();
         if ($customerId) {
             $customerId = (int)$customerId;
-            $where[] = $this->_getWriteAdapter()->quoteInto('customer_id=?', $customerId);
+            $where[] = $this->_getWriteAdapter()->quoteInto('customer_id = ?', $customerId);
         }
         if ($visitorId) {
             $visitorId = (int)$visitorId;
-            $where[] = $this->_getWriteAdapter()->quoteInto('visitor_id=?', $visitorId);
+            $where[] = $this->_getWriteAdapter()->quoteInto('visitor_id = ?', $visitorId);
         }
         if (!$where) {
             return $this;

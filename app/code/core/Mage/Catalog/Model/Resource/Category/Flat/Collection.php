@@ -56,7 +56,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
     protected $_storeId        = null;
 
     /**
-     * Enter description here ...
+     *  Collection initialization
      *
      */
     protected function _construct()
@@ -190,9 +190,9 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
     public function addSortedField($sorted)
     {
         if (is_string($sorted)) {
-            $this->addOrder($sorted, 'ASC');
+            $this->addOrder($sorted, self::SORT_ORDER_ASC);
         } else {
-            $this->addOrder('name', 'ASC');
+            $this->addOrder('name', self::SORT_ORDER_ASC);
         }
         return $this;
     }
@@ -211,7 +211,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Enter description here ...
+     * Add name field to result
      *
      * @return Mage_Catalog_Model_Resource_Category_Flat_Collection
      */
@@ -278,7 +278,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
      * @param string $dir
      * @return Mage_Catalog_Model_Resource_Category_Flat_Collection
      */
-    public function addAttributeToSort($attribute, $dir = 'asc')
+    public function addAttributeToSort($attribute, $dir = self::SORT_ORDER_ASC)
     {
         if (!is_string($attribute)) {
             return $this;
@@ -366,7 +366,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
      */
     public function addOrderField($field)
     {
-        $this->setOrder('main_table.' . $field, 'ASC');
+        $this->setOrder('main_table.' . $field, self::SORT_ORDER_ASC);
         return $this;
     }
 

@@ -153,7 +153,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
 
             $disabledIds = $this->_getDisabledIds($collection);
             if ($disabledIds) {
-                $collection->addFieldToFilter('entity_id', array('nin'=>$disabledIds));
+                $collection->addFieldToFilter('entity_id', array('nin' => $disabledIds));
             }
             $collection->addAttributeToFilter('is_active', 1);
             $collection->addAttributeToFilter('include_in_menu', 1);
@@ -200,19 +200,19 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
     }
 
     /**
-     * Retreive inactive categories ids
+     * Retrieve inactive categories ids
      *
      * @return Mage_Catalog_Model_Resource_Category_Tree
      */
     protected function _initInactiveCategoryIds()
     {
         $this->_inactiveCategoryIds = array();
-        Mage::dispatchEvent('catalog_category_tree_init_inactive_category_ids', array('tree'=>$this));
+        Mage::dispatchEvent('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
         return $this;
     }
 
     /**
-     * Retreive inactive categories ids
+     * Retrieve inactive categories ids
      *
      * @return array
      */
@@ -226,10 +226,10 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
     }
 
     /**
-     * Enter description here ...
+     * Return disable category ids
      *
-     * @param unknown_type $collection
-     * @return unknown
+     * @param Mage_Catalog_Model_Resource_Category_Collection $collection
+     * @return array
      */
     protected function _getDisabledIds($collection)
     {
@@ -295,12 +295,12 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         $filter = $collection->getAllIdsSql();
         $attributeId = $this->_getIsActiveAttributeId();
 
-        $conditionSql = $this->_conn->getCheckSql('c.value_id>0', 'c.value', 'd.value');
+        $conditionSql = $this->_conn->getCheckSql('c.value_id > 0', 'c.value', 'd.value');
         $table = Mage::getSingleton('core/resource')->getTableName(array('catalog/category', 'int'));
         $bind = array(
             'attribute_id' => $attributeId,
             'store_id'     => $storeId,
-            'zero_store_id'   => 0,
+            'zero_store_id'=> 0,
             'cond'         => 0,
 
         );
@@ -372,7 +372,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
     {
         $this->_joinUrlRewriteIntoCollection = true;
         $collection = Mage::getModel('catalog/category')->getCollection();
-        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        /** @var $collection Mage_Catalog_Model_Resource_Category_Collection */
 
         $attributes = Mage::getConfig()->getNode('frontend/category/collection/attributes');
         if ($attributes) {
@@ -454,7 +454,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
      *
      * @param array $ids
      * @param bool $addCollectionData
-     * @param unknown_type $updateAnchorProductCount
+     * @param bool $updateAnchorProductCount
      * @return Mage_Catalog_Model_Resource_Category_Tree
      */
     public function loadByIds($ids, $addCollectionData = true, $updateAnchorProductCount = true)
@@ -504,7 +504,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
             $select = $this->_createCollectionDataSelect();
         } else {
             $select = clone $this->_select;
-            $select->order($this->_orderField . ' ASC');
+            $select->order($this->_orderField . ' ' . Varien_Db_Select::SQL_ASC);
         }
         $select->where('(' . implode(') OR (', $where) . ')');
 
@@ -551,7 +551,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
             }
             $select
                 ->where('e.entity_id IN(?)', $pathIds)
-                ->order($this->_conn->getLengthSql('e.path') . ' ASC');
+                ->order($this->_conn->getLengthSql('e.path') . ' ' . Varien_Db_Select::SQL_ASC);
             $result = $this->_conn->fetchAll($select);
             $this->_updateAnchorProductCount($result);
         }

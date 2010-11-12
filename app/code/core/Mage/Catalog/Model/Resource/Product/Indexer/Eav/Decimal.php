@@ -80,8 +80,8 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
                 'pds.entity_id = pdd.entity_id AND pds.attribute_id = pdd.attribute_id'
                     . ' AND pds.store_id=cs.store_id',
                 array('value' => $productValueExpression))
-            ->where('pdd.store_id=?', 0)
-            ->where('cs.store_id!=?', 0)
+            ->where('pdd.store_id=?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
+            ->where('cs.store_id!=?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
             ->where('pdd.attribute_id IN(?)', $attrIds)
             ->where("{$productValueExpression} IS NOT NULL");
 
@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
     /**
      * Retrieve temporary decimal index table name
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return string
      */
     public function getIdxTable($table = null)

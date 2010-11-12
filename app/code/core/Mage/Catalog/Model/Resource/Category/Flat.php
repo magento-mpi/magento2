@@ -98,7 +98,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     protected $_storesRootCategories;
 
     /**
-     * Enter description here ...
+     * Resource initializations
      *
      */
     protected function _construct()
@@ -114,7 +114,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     public function setStoreId($storeId)
     {
-        $this->_storeId = $storeId;
+        $this->_storeId = (int)$storeId;
         return $this;
     }
 
@@ -126,7 +126,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
-            return Mage::app()->getStore()->getId();
+            return (int)Mage::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -147,7 +147,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      * @param integer $storeId
      * @return string
      */
-    public function getMainStoreTable($storeId = 0)
+    public function getMainStoreTable($storeId = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
     {
         if (is_string($storeId)) {
             $storeId = intval($storeId);
@@ -163,7 +163,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     }
 
     /**
-     * Return true if need use for each store different table of flat categoris data.
+     * Return true if need use for each store different table of flat categories data.
      *
      * @return boolean
      */
@@ -195,7 +195,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     protected function _initInactiveCategoryIds()
     {
         $this->_inactiveCategoryIds = array();
-        Mage::dispatchEvent('catalog_category_tree_init_inactive_category_ids', array('tree'=>$this));
+        Mage::dispatchEvent('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
         return $this;
     }
 
@@ -257,8 +257,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                 array('request_path' => 'url_rewrite.request_path'))
             ->where('main_table.is_active = ?', '1')
             ->where('main_table.include_in_menu = ?', '1')
-//            ->order('main_table.path', 'ASC')
-            ->order('main_table.position', 'ASC');
+            ->order('main_table.position');
 
         if ($parentPath) {
             $select->where($_conn->quoteInto("main_table.path like ?", "$parentPath/%"));
@@ -372,12 +371,11 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
         if ($asCollection) {
-            $parentPath = $this->_getReadAdapter()->fetchOne(
-                $this->_getReadAdapter()->select()
-                    ->from(array('mt' => $this->getMainStoreTable($this->getStoreId())), array('path'))
-                    ->where('mt.entity_id = :entity_id'),
-                array('entity_id' => $parent)
-            );
+            $select = $this->_getReadAdapter()->select()
+                ->from(array('mt' => $this->getMainStoreTable($this->getStoreId())), array('path'))
+                ->where('mt.entity_id = ?', $parent);
+            $parentPath = $this->_getReadAdapter()->fetchOne($select);
+
             $collection = Mage::getModel('catalog/category')->getCollection()
                 ->addNameToResult()
                 ->addUrlRewriteToResult()
@@ -404,15 +402,12 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     public function getNodeById($nodeId, $nodes = null)
     {
         if (is_null($nodes)) {
-            $nodes = $this->getNodes();
+            $nodes = $this->getNodes($nodeId);
         }
         if (isset($nodes[$nodeId])) {
             return $nodes[$nodeId];
         }
         foreach ($nodes as $node) {
-//            if ($node->getId() == $nodeId) {
-//                return $node;
-//            }
             if ($node->getChildrenNodes()) {
                 return $this->getNodeById($nodeId, $node->getChildrenNodes());
             }
@@ -595,7 +590,6 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             if (in_array($column['COLUMN_NAME'], $columnsToSkip)) {
                 continue;
             }
-            $_type = '';
             $_is_unsigned = '';
             $ddlType = $helper->getDdlTypeByColumnType($column['DATA_TYPE']);
             $column['DEFAULT'] = trim($column['DEFAULT'],"' ");
@@ -726,10 +720,10 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                 ->from($this->getTable('eav/entity_type'), array())
                 ->join(
                     $this->getTable('eav/attribute'),
-                    $this->getTable('eav/attribute').'.entity_type_id = '.$this->getTable('eav/entity_type').'.entity_type_id',
+                    $this->getTable('eav/attribute').'.entity_type_id = ' . $this->getTable('eav/entity_type') . '.entity_type_id',
                     $this->getTable('eav/attribute').'.*'
                 )
-                ->where($this->getTable('eav/entity_type').'.entity_type_code=?', Mage_Catalog_Model_Category::ENTITY);
+                ->where($this->getTable('eav/entity_type').'.entity_type_code = ?', Mage_Catalog_Model_Category::ENTITY);
             $this->_attributeCodes = array();
             foreach ($this->_getWriteAdapter()->fetchAll($select) as $attribute) {
                 $this->_attributeCodes[$attribute['attribute_id']] = $attribute;
@@ -786,13 +780,13 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             ->joinLeft(
                 array('store' => $this->getTable(array('catalog/category', $type))),
                 'store.entity_id = def.entity_id AND store.attribute_id = def.attribute_id AND store.store_id = ' . $store_id,
-                array('value' => $this->_getWriteAdapter()->getCheckSql('store.value_id>0',
+                array('value' => $this->_getWriteAdapter()->getCheckSql('store.value_id > 0',
                     $this->_getWriteAdapter()->quoteIdentifier('store.value'),
                     $this->_getWriteAdapter()->quoteIdentifier('def.value'))
                 )
             )
             ->where('def.entity_id IN (?)', $entityIds)
-            ->where('def.store_id = ?', 0);
+            ->where('def.store_id = ?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID);
         return $this->_getWriteAdapter()->fetchAll($select);
     }
 
@@ -820,7 +814,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             $stores = array($stores);
         }
         foreach ($stores as $store) {
-            $_tableExist = $this->_getWriteAdapter()->dropTable($this->getMainStoreTable($store));
+            $this->_getWriteAdapter()->dropTable($this->getMainStoreTable($store));
         }
         return $this;
     }
@@ -868,7 +862,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         } else if ($category instanceof Mage_Catalog_Model_Category) {
             $categoryId = $category->getId();
             foreach ($category->getStoreIds() as $storeId) {
-                if ($storeId == 0) {
+                if ($storeId == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
                     continue;
                 }
 
@@ -898,7 +892,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                         ->setStoreId($storeId);
                     $this->_synchronize($data);
                 } else {
-                    $where = $write->quoteInto('entity_id=?', $category);
+                    $where = $write->quoteInto('entity_id = ?', $category);
                     $write->delete($this->getMainStoreTable($storeId), $where);
                 }
             }
@@ -908,9 +902,9 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     }
 
     /**
-     * Enter description here ...
+     * Remove table of given stores
      *
-     * @param unknown_type $stores
+     * @param int|array $stores
      * @return Mage_Catalog_Model_Resource_Category_Flat
      */
     public function removeStores($stores)
@@ -1003,6 +997,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     public function moveold($categoryId, $prevParentId, $parentId)
     {
+        $catalogCategoryTable = $this->getTable('catalog/category');
         $_staticFields = array(
             'parent_id',
             'path',
@@ -1020,18 +1015,14 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                     $this->_getWriteAdapter()->quoteInto('entity_id = ?', $categoryId)
                 );
             }
-            $categoryPath = $this->_getWriteAdapter()->fetchOne(
-//                $this->_getWriteAdapter()->select()
-            "
-                SELECT
-                    path
-                FROM
-                    {$this->getTable('catalog/category')}
-                WHERE
-                    entity_id = '$categoryId'
-            ");
+            $select = $this->_getReadAdapter()->select()
+                ->from($catalogCategoryTable, 'path')
+                ->where('entity_id = ?', $categoryId);
+
+            $categoryPath = $this->_getWriteAdapter()->fetchOne($select);
+
             $select = $this->_getWriteAdapter()->select()
-                ->from($this->getTable('catalog/category'), 'entity_id')
+                ->from($catalogCategoryTable, 'entity_id')
                 ->where('path LIKE ?', "$categoryPath/%")
                 ->orWhere('path = ?', $categoryPath);
             $_categories = $this->_getWriteAdapter()->fetchAll($select);
@@ -1045,19 +1036,21 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             }
         } else {
             foreach ($parent->getStoreIds() as $store) {
-                $update = "UPDATE {$this->getMainStoreTable($store)}, {$this->getTable('catalog/category')} SET";
+                $mainStoreTable = $this->getMainStoreTable($store);
+
+                $update = "UPDATE {$mainStoreTable}, {$catalogCategoryTable} SET";
                 foreach ($_staticFields as $field) {
-                    $update .= " {$this->getMainStoreTable($store)}.".$field."={$this->getTable('catalog/category')}.".$field.",";
+                    $update .= " {$mainStoreTable}.".$field."={$catalogCategoryTable}.".$field.",";
                 }
                 $update = substr($update, 0, -1);
-                $update .= " WHERE {$this->getMainStoreTable($store)}.entity_id = {$this->getTable('catalog/category')}.entity_id AND " .
-                    "({$this->getTable('catalog/category')}.path like '{$parent->getPath()}/%' OR " .
-                    "{$this->getTable('catalog/category')}.path like '{$prevParent->getPath()}/%')";
+                $update .= " WHERE {$mainStoreTable}.entity_id = {$catalogCategoryTable}.entity_id AND " .
+                    "($catalogCategoryTable}.path like '{$parent->getPath()}/%' OR " .
+                    "{$catalogCategoryTable}.path like '{$prevParent->getPath()}/%')";
                 $this->_getWriteAdapter()->query($update);
             }
         }
-        $prevParent = null;
-        $parent = null;
+        $prevParent   = null;
+        $parent       = null;
         $_tmpCategory = null;
 //        $this->_move($categoryId, $prevParentPath, $parentPath);
         return $this;
@@ -1202,10 +1195,6 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     public function getChildrenCategories($category)
     {
-        //        $node = $this->getNodeById($category->getId());
-//        if ($node && $node->getChildrenNodes()) {
-//            return $node->getChildrenNodes();
-//        }
         $categories = $this->_loadNodes($category, 1, $category->getStoreId());
         return $categories;
     }
@@ -1308,7 +1297,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
             )
             ->where('main_table.entity_id IN (?)', $pathIds)
             ->where('main_table.is_active = ?', '1')
-            ->order('main_table.path DESC');
+            ->order('main_table.path ' . Varien_Db_Select::SQL_DESC);
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
@@ -1349,7 +1338,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
                     array('csg' => $this->getTable('core/store_group')),
                     'csg.group_id = cs.group_id',
                     array('root_category_id'))
-                ->where('cs.store_id <> ?', 0);
+                ->where('cs.store_id <> ?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID);
             $this->_storesRootCategories = $this->_getWriteAdapter()->fetchPairs($select);
         }
 

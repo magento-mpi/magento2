@@ -75,9 +75,9 @@
  */
 class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_Attribute
 {
-    const SCOPE_STORE   = 0;
-    const SCOPE_GLOBAL  = 1;
-    const SCOPE_WEBSITE = 2;
+    const SCOPE_STORE                           = 0;
+    const SCOPE_GLOBAL                          = 1;
+    const SCOPE_WEBSITE                         = 2;
 
     const MODULE_NAME                           = 'Mage_Catalog';
     const ENTITY                                = 'catalog_eav_attribute';
@@ -187,6 +187,7 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
         Mage::getSingleton('index/indexer')->indexEvents(
             self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
+        return $this;
     }
 
     /**

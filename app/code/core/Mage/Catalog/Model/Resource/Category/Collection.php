@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
         $this->_init('catalog/category');
 
         $this->_productWebsiteTable = $this->getTable('catalog/product_website');
-        $this->_productTable = $this->getTable('catalog/category_product');
+        $this->_productTable        = $this->getTable('catalog/category_product');
     }
 
     /**
@@ -173,7 +173,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     public function getProductStoreId()
     {
         if (is_null($this->_productStoreId)) {
-            $this->_productStoreId = 0;
+            $this->_productStoreId = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
         }
         return $this->_productStoreId;
     }
@@ -410,7 +410,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
      */
     public function addOrderField($field)
     {
-        $this->setOrder($field, 'ASC');
+        $this->setOrder($field, self::SORT_ORDER_ASC);
         return $this;
     }
 }

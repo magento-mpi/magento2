@@ -250,7 +250,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
                         if (!empty($option['value'])
                             && $option['value'] == $associatedProduct->getData(
                                                         $productAttribute->getAttributeCode())) {
-                            // If option aviable in associated product
+                            // If option available in associated product
                             if (!isset($values[$item->getId() . ':' . $option['value']])) {
                                 // If option not added, we will add it.
                                 $values[$item->getId() . ':' . $option['value']] = array(

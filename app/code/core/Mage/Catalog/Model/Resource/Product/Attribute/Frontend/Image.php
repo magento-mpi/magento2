@@ -41,11 +41,11 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image
      * Retreive image url
      *
      * @param Varien_Object $object
-     * @return string
+     * @return string|false
      */
     public function getUrl($object)
     {
-        $url = false;
+        $url   = false;
         $image = $object->getData($this->getAttribute()->getAttributeCode());
         if ($image) {
             $url = Mage::getBaseUrl('media') . self::IMAGE_PATH_SEGMENT . $image;

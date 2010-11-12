@@ -70,7 +70,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice extends Ma
 
         if (!is_null($websiteId)) {
             if ($websiteId == '0') {
-                $select->where('website_id=?', $websiteId);
+                $select->where('website_id = ?', $websiteId);
             } else {
                 $select->where('website_id IN(?)', array(0, $websiteId));
             }
@@ -92,15 +92,15 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice extends Ma
         $adapter = $this->_getWriteAdapter();
 
         $conds   = array(
-            $adapter->quoteInto('entity_id=?', $productId)
+            $adapter->quoteInto('entity_id = ?', $productId)
         );
 
         if (!is_null($websiteId)) {
-            $conds[] = $adapter->quoteInto('website_id=?', $websiteId);
+            $conds[] = $adapter->quoteInto('website_id = ?', $websiteId);
         }
 
         if (!is_null($priceId)) {
-            $conds[] = $adapter->quoteInto($this->getIdFieldName() . '=?', $priceId);
+            $conds[] = $adapter->quoteInto($this->getIdFieldName() . ' = ?', $priceId);
         }
 
         $where = implode(' AND ', $conds);
@@ -120,7 +120,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice extends Ma
         $data    = $this->_prepareDataForTable($priceObject, $this->getMainTable());
 
         if (!empty($data[$this->getIdFieldName()])) {
-            $where = $adapter->quoteInto($this->getIdFieldName() . '=?', $data[$this->getIdFieldName()]);
+            $where = $adapter->quoteInto($this->getIdFieldName() . ' = ?', $data[$this->getIdFieldName()]);
             unset($data[$this->getIdFieldName()]);
             $adapter->update($this->getMainTable(), $data, $where);
         } else {

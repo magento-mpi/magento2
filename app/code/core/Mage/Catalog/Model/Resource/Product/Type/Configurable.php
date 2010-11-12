@@ -116,7 +116,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
                 'e.entity_id = l.product_id AND e.required_options = 0',
                 array()
             )
-            ->where('parent_id=?', $parentId);
+            ->where('parent_id = ?', $parentId);
 
         $childrenIds = array(0 => array());
         foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {

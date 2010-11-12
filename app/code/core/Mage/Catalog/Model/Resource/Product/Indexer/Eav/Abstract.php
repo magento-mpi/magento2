@@ -60,6 +60,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
      *
      * @param int|array $processIds
      * @return Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
+     * @throws Exception
      */
     public function reindexEntities($processIds)
     {
@@ -177,7 +178,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
                 array())
             ->join(
                 array('i' => $idxTable),
-                'l.child_id=i.entity_id AND cs.store_id = i.store_id',
+                'l.child_id = i.entity_id AND cs.store_id = i.store_id',
                 array('attribute_id', 'store_id', 'value'));
         if (!is_null($parentIds)) {
             $select->where('l.parent_id IN(?)', $parentIds);
@@ -243,6 +244,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
      *
      * @param int $attributeId
      * @return Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
+     * @throws Exception
      */
     protected function _synchronizeAttributeIndexData($attributeId)
     {

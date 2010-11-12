@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav extends Mage_Catalog_Model
         }
 
         foreach ($this->getIndexers() as $indexer) {
-            /* @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
             $indexer->reindexEntities($productId);
         }
 
@@ -124,7 +124,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav extends Mage_Catalog_Model
         }
 
         foreach ($this->getIndexers() as $indexer) {
-            /* @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
             $indexer->reindexEntities($data['reindex_eav_parent_ids']);
         }
 
@@ -145,7 +145,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav extends Mage_Catalog_Model
         }
 
         foreach ($this->getIndexers() as $indexer) {
-            /* @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
             $indexer->reindexEntities($data['reindex_eav_product_ids']);
         }
 
@@ -181,7 +181,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav extends Mage_Catalog_Model
     {
         $this->useIdxTable(true);
         foreach ($this->getIndexers() as $indexer) {
-            /* @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
+            /** @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract */
             $indexer->reindexAll();
         }
 
@@ -191,7 +191,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav extends Mage_Catalog_Model
     /**
      * Retrieve temporary source index table name
      *
-     * @param unknown_type $table
+     * @param string $table
      * @return string
      */
     public function getIdxTable($table = null)

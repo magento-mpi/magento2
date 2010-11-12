@@ -71,9 +71,10 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
             ->from(array('l' => $this->getTable('catalog/product_relation')), array('parent_id'))
             ->join(
                 array('e' => $this->getTable('catalog/product')),
-                'l.parent_id=e.entity_id',
+                'l.parent_id = e.entity_id',
                 array('e.type_id'))
-            ->where('l.child_id=?', $childId);
+            ->where('l.child_id = ?', $childId);
+
         return $write->fetchPairs($select);
     }
 
@@ -114,6 +115,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
      *
      * @param array $processIds
      * @return Mage_Catalog_Model_Resource_Product_Indexer_Price
+     * @throws Exception
      */
     protected function _copyIndexDataToMainTable($processIds)
     {
@@ -318,6 +320,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
      *
      * @param string $productTypeId
      * @return Mage_Catalog_Model_Resource_Product_Indexer_Price_Interface
+     * @throws Mage_Core_Exception
      */
     protected function _getIndexer($productTypeId)
     {
@@ -370,7 +373,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
 
         $indexers = $this->getTypeIndexers();
         foreach ($indexers as $indexer) {
-            /* @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Price_Interface */
+            /** @var $indexer Mage_Catalog_Model_Resource_Product_Indexer_Price_Interface */
             $indexer->reindexAll();
         }
 
@@ -499,7 +502,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
 
         $data = array();
         foreach ($write->fetchAll($select) as $item) {
-            /* @var $website Mage_Core_Model_Website */
+            /** @var $website Mage_Core_Model_Website */
             $website = Mage::app()->getWebsite($item['website_id']);
 
             if ($website->getBaseCurrencyCode() != $baseCurrency) {
@@ -513,7 +516,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
                 $rate = 1;
             }
 
-            /* @var $store Mage_Core_Model_Store */
+            /** @var $store Mage_Core_Model_Store */
             $store = Mage::app()->getStore($item['store_id']);
             if ($store) {
                 $timestamp = Mage::app()->getLocale()->storeTimeStamp($store);

@@ -65,9 +65,9 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
             ->from(array('main_table' => $this->getResource()->getMainTable()), $retColumns)
             ->join(
                 array('additional_table' => $this->getTable('catalog/eav_attribute')),
-                'additional_table.attribute_id=main_table.attribute_id'
+                'additional_table.attribute_id = main_table.attribute_id'
                 )
-            ->where('main_table.entity_type_id=?', $entityTypeId);
+            ->where('main_table.entity_type_id = ?', $entityTypeId);
         return $this;
     }
 

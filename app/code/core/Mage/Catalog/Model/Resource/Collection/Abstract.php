@@ -188,7 +188,7 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
              * if value for store is null - we use default value
              */
             $defCondition = '('.implode(') AND (', $condition).')';
-            $defAlias     = $tableAlias.'_default';
+            $defAlias     = $tableAlias . '_default';
             $defAlias     = $this->getConnection()->getTableName($defAlias);
             $defFieldAlias= str_replace($tableAlias, $defAlias, $fieldAlias);
             $tableAlias   = $this->getConnection()->getTableName($tableAlias);

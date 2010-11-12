@@ -169,41 +169,12 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
         $roundPriceExpr = $write->getCheckSql("{$percenExpr} = 1", $roundExpr, $priceExpression);
         $priceColumn = $write->getCheckSql("{$priceExpression} IS NULL", '0', $roundPriceExpr);
         $priceColumn = new Zend_Db_Expr("SUM({$priceColumn})");
-        /*
-            SUM(
-                IF(
-                    (@price:=IF(apw.value_id, apw.pricing_value, apd.pricing_value))
-                 IS NULL,
-                 0,
-                 IF(
-                    IF(apw.value_id, apw.is_percent, apd.is_percent) = 1,
-                    ROUND(i.price * (@price / 100), 4),
-                    @price)
-                )
-             )"))
-       *///echo $priceColumn . "\n";
+
         $tierPrice = $priceExpression;
         $tierRoundPriceExp = $write->getCheckSql("{$percenExpr} = 1", $roundExpr, $tierPrice);
         $tierPriceExp = $write->getCheckSql("{$tierPrice} IS NULL", '0', $tierRoundPriceExp);
         $tierPriceColumn = $write->getCheckSql("MIN(i.tier_price) IS NOT NULL", "SUM({$tierPriceExp})", 'NULL');
-        /*
-            IF(
-                i.tier_price IS NOT NULL,
-                SUM(
-                    IF(
-                        (@tier_price:=
-                            IF(apw.value_id, apw.pricing_value, apd.pricing_value)
-                        ) IS NULL,
-                        0,
-                        IF(
-                            IF(apw.value_id, apw.is_percent, apd.is_percent) = 1,
-                            ROUND(i.price * (@tier_price / 100), 4),
-                            @tier_price)
-                     )
-                ),
-                NULL
-            )"))*/
-        //echo $tierPriceColumn . "\n";
+
         $select->columns(array(
             'price'      => $priceColumn,
             'tier_price' => $tierPriceColumn
@@ -240,8 +211,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
         if ($this->useIdxTable()) {
             $write->truncateTable($coaTable);
             $write->truncateTable($copTable);
-        }
-        else {
+        } else {
             $write->delete($coaTable);
             $write->delete($copTable);
         }

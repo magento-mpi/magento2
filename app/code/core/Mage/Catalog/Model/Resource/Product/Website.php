@@ -59,6 +59,7 @@ class Mage_Catalog_Model_Resource_Product_Website extends Mage_Core_Model_Resour
      * @param array $websiteIds
      * @param array $productIds
      * @return Mage_Catalog_Model_Resource_Product_Website
+     * @throws Exception
      */
     public function removeProducts($websiteIds, $productIds)
     {
@@ -68,19 +69,19 @@ class Mage_Catalog_Model_Resource_Product_Website extends Mage_Core_Model_Resour
             return $this;
         }
 
+        $adapter   = $this->_getWriteAdapter();
         $whereCond = array(
-            $this->_getWriteAdapter()->quoteInto('website_id IN(?)', $websiteIds),
-            $this->_getWriteAdapter()->quoteInto('product_id IN(?)', $productIds)
+            $adapter->quoteInto('website_id IN(?)', $websiteIds),
+           $adapter->quoteInto('product_id IN(?)', $productIds)
         );
         $whereCond = join(' AND ', $whereCond);
 
-        $this->_getWriteAdapter()->beginTransaction();
+        $adapter->beginTransaction();
         try {
-            $this->_getWriteAdapter()->delete($this->getMainTable(), $whereCond);
-            $this->_getWriteAdapter()->commit();
-        }
-        catch (Exception $e) {
-            $this->_getWriteAdapter()->rollBack();
+            $adapter->delete($this->getMainTable(), $whereCond);
+            $adapter->commit();
+        } catch (Exception $e) {
+            $adapter->rollBack();
             throw $e;
         }
 
@@ -93,6 +94,7 @@ class Mage_Catalog_Model_Resource_Product_Website extends Mage_Core_Model_Resour
      * @param array $websiteIds
      * @param array $productIds
      * @return Mage_Catalog_Model_Resource_Product_Website
+     * @throws Exception
      */
     public function addProducts($websiteIds, $productIds)
     {
@@ -127,8 +129,7 @@ class Mage_Catalog_Model_Resource_Product_Website extends Mage_Core_Model_Resour
             }
 
             $this->_getWriteAdapter()->commit();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_getWriteAdapter()->rollBack();
             throw $e;
         }

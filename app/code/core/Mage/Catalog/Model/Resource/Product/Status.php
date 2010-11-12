@@ -84,7 +84,7 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
      */
     public function refreshEnabledIndex($productId, $storeId)
     {
-        if ($storeId == 0) {
+        if ($storeId == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
             foreach (Mage::app()->getStores() as $store) {
                 $this->refreshEnabledIndex($productId, $store->getId());
             }
@@ -116,7 +116,7 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
         $data = new Varien_Object(array(
             'entity_type_id' => $statusEntityTypeId,
             'attribute_id'   => $statusAttributeId,
-            'store_id'       => $storId,
+            'store_id'       => $storeId,
             'entity_id'      => $productId,
             'value'          => $value
         ));
@@ -141,10 +141,7 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
             if ($row['value'] == $value) {
                 $refreshIndex = false;
             } else {
-                $condition = array(
-                    'value_id = ?' => $row['value_id']
-                );
-
+                $condition = array('value_id = ?' => $row['value_id']);
                 $adapter->update($statusTable, $data, $condition);
             }
         } else {
@@ -178,17 +175,12 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
             $productIds = array($productIds);
         }
 
-        if (is_null($storeId) || $storeId == 0) {
+        if ($storeId === null || $storeId == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
             $select = $adapter->select()
                 ->from($attributeTable, array('entity_id', 'value'))
                 ->where('entity_id IN (?)', $productIds)
-                ->where('attribute_id = :attribute_id')
-                ->where('store_id = :store_id');
-
-            $binds = array(
-                'attribute_id' => $attribute->getAttributeId(),
-                'store_id'     => 0
-            );
+                ->where('attribute_id = ?', $attribute->getAttributeId())
+                ->where('store_id = ?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID);
 
             $rows = $adapter->fetchPairs($select);
         } else {
@@ -200,18 +192,12 @@ class Mage_Catalog_Model_Resource_Product_Status extends Mage_Core_Model_Resourc
                     array('entity_id', array('value' => $valueCheckSql)))
                 ->joinLeft(
                     array('t2' => $attributeTable),
-                    't1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id = :store_id',
+                    't1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id = ' . (int)$storeId,
                     array()
                 )
-                ->where('t1.store_id = :admin_store_id')
-                ->where('t1.attribute_id = :attribute_id')
+                ->where('t1.store_id = ?', Mage_Core_Model_App::ADMIN_STORE_ID)
+                ->where('t1.attribute_id = ?', $attribute->getAttributeId())
                 ->where('t1.entity_id IN(?)', $productIds);
-
-            $binds = array(
-                'attribute_id'   => $attribute->getAttributeId(),
-                'admin_store_id' => 0,
-                'store_id'       => $storeId,
-            );
 
             $rows = $adapter->fetchPairs($select);
         }

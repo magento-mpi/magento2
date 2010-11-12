@@ -35,9 +35,9 @@
 class Mage_Catalog_Model_Resource_Category_Attribute_Source_Mode extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
-     * Enter description here ...
+     * Returns all mode options
      *
-     * @return unknown
+     * @return array
      */
     public function getAllOptions()
     {

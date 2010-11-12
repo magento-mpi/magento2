@@ -66,12 +66,12 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
                 array('value_id', 'value AS file')
             )
             ->joinLeft(
-                array('value'=>$this->getTable(self::GALLERY_VALUE_TABLE)),
+                array('value' => $this->getTable(self::GALLERY_VALUE_TABLE)),
                 $adapter->quoteInto('main.value_id = value.value_id AND value.store_id = ?', (int)$product->getStoreId()),
                 array('label','position','disabled')
             )
             ->joinLeft( // Joining default values
-                array('default_value'=>$this->getTable(self::GALLERY_VALUE_TABLE)),
+                array('default_value' => $this->getTable(self::GALLERY_VALUE_TABLE)),
                 'main.value_id = default_value.value_id AND default_value.store_id = 0',
                 array(
                     'label_default' => 'label',
@@ -81,7 +81,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
             )
             ->where('main.attribute_id = ?', $object->getAttribute()->getId())
             ->where('main.entity_id = ?', $product->getId())
-            ->order("{$positionCheckSql} ASC");
+            ->order($positionCheckSql . ' ' . Varien_Db_Select::SQL_ASC);
 
         $result = $adapter->fetchAll($select);
         $this->_removeDuplicates($result);
@@ -120,9 +120,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
     public function insertGallery($data)
     {
         $adapter = $this->_getWriteAdapter();
-
-        $data = $this->_prepareDataForTable(new Varien_Object($data), $this->getMainTable());
-
+        $data    = $this->_prepareDataForTable(new Varien_Object($data), $this->getMainTable());
         $adapter->insert($this->getMainTable(), $data);
 
         return $adapter->lastInsertId($this->getMainTable());
@@ -157,7 +155,6 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
     public function insertGalleryValueInStore($data)
     {
         $data = $this->_prepareDataForTable(new Varien_Object($data), $this->getTable(self::GALLERY_VALUE_TABLE));
-
         $this->_getWriteAdapter()->insert($this->getTable(self::GALLERY_VALUE_TABLE), $data);
 
         return $this;

@@ -83,11 +83,11 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     protected function _construct()
     {
         $this->_init('catalog/category_product_index', 'category_id');
-        $this->_categoryTable = $this->getTable('catalog/category');
+        $this->_categoryTable        = $this->getTable('catalog/category');
         $this->_categoryProductTable = $this->getTable('catalog/category_product');
-        $this->_productWebsiteTable = $this->getTable('catalog/product_website');
-        $this->_storeTable = $this->getTable('core/store');
-        $this->_groupTable = $this->getTable('core/store_group');
+        $this->_productWebsiteTable  = $this->getTable('catalog/product_website');
+        $this->_storeTable           = $this->getTable('core/store');
+        $this->_groupTable           = $this->getTable('core/store_group');
     }
 
     /**
@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     public function catalogProductSave(Mage_Index_Model_Event $event)
     {
         $productId = $event->getEntityPk();
-        $data = $event->getNewData();
+        $data      = $event->getNewData();
 
         /**
          * Check if category ids were updated
@@ -137,7 +137,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
          */
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('product_id=?' => $productId)
+            array('product_id = ?' => $productId)
         );
 
         $this->_refreshAnchorRelations($allCategoryIds, $productId);
@@ -276,7 +276,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         $anchorInfo = $this->_getAnchorAttributeInfo();
         $bind = array(
             'attribute_id' => $anchorInfo['id'],
-            'store_id'     => 0,
+            'store_id'     => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
             'e_value'      => 1
         );
         $select = $this->_getReadAdapter()->select()
@@ -966,7 +966,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
                         . $adapter->quoteInto('pss.store_id=?', $storeId),
                 array())
             ->where('pw.website_id=?',$websiteId)
-            ->where($adapter->getCheckSql('pss.value_id>0',
+            ->where($adapter->getCheckSql('pss.value_id > 0',
                 $adapter->quoteIdentifier('pss.value'),
                 $adapter->quoteIdentifier('psd.value')) . ' = ?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
 

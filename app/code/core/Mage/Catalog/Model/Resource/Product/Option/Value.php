@@ -54,7 +54,6 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         $this->_saveValuePrices($object);
-
         $this->_saveValueTitles($object);
 
         return parent::_afterSave($object);
@@ -77,7 +76,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
             $select = $this->_getReadAdapter()->select()
                 ->from($priceTable, 'option_type_id')
                 ->where('option_type_id = ?', (int)$object->getId())
-                ->where('store_id = ?', 0);
+                ->where('store_id = ?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID);
             $optionTypeId = $this->_getReadAdapter()->fetchOne($select);
 
             if ($optionTypeId) {
@@ -88,7 +87,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
                     );
                     $where = array(
                         'option_type_id = ?'    => $optionTypeId,
-                        'store_id = ?'          => 0
+                        'store_id = ?'          => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID
                     );
 
                     $this->_getWriteAdapter()->update($priceTable, $bind, $where);
@@ -96,7 +95,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
             } else {
                 $bind  = array(
                     'option_type_id'    => (int)$object->getId(),
-                    'store_id'          => 0,
+                    'store_id'          => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
                     'price'             => $price,
                     'price_type'        => $priceType
                 );
@@ -185,7 +184,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
                 if ($object->getStoreId() == '0') {
                     $where = array(
                         'option_type_id = ?'    => (int)$optionTypeId,
-                        'store_id = ?'          => 0
+                        'store_id = ?'          => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID
                     );
                     $bind  = array(
                         'title' => $object->getTitle()
@@ -195,7 +194,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
             } else {
                 $bind  = array(
                     'option_type_id'    => (int)$object->getId(),
-                    'store_id'          => 0,
+                    'store_id'          => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
                     'title'             => $object->getTitle()
                 );
                 $this->_getWriteAdapter()->insert($titleTable, $bind);
@@ -296,10 +295,12 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
      */
     public function duplicate(Mage_Catalog_Model_Product_Option_Value $object, $oldOptionId, $newOptionId)
     {
-        $select = $this->_getReadAdapter()->select()
+        $writeAdapter = $this->_getWriteAdapter();
+        $readAdapter  = $this->_getReadAdapter();
+        $select       = $readAdapter->select()
             ->from($this->getMainTable())
-            ->where('option_id=?', $oldOptionId);
-        $valueData = $this->_getReadAdapter()->fetchAll($select);
+            ->where('option_id = ?', $oldOptionId);
+        $valueData = $readAdapter->fetchAll($select);
 
         $valueCond = array();
 
@@ -308,8 +309,8 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
             unset($data[$this->getIdFieldName()]);
             $data['option_id'] = $newOptionId;
 
-            $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
-            $valueCond[$optionTypeId] = $this->_getWriteAdapter()->lastInsertId($this->getMainTable());
+            $writeAdapter->insert($this->getMainTable(), $data);
+            $valueCond[$optionTypeId] = $writeAdapter->lastInsertId($this->getMainTable());
         }
 
         unset($valueData);
@@ -322,12 +323,12 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
                 'store_id', 'price', 'price_type'
             );
 
-            $select = $this->_getReadAdapter()->select()
+            $select = $readAdapter->select()
                 ->from($priceTable, array())
-                ->where('option_type_id=?', $oldTypeId)
+                ->where('option_type_id = ?', $oldTypeId)
                 ->columns($columns);
-            $insertSelect = $this->_getWriteAdapter()->insertFromSelect($select, $priceTable, array('option_type_id', 'store_id', 'price', 'price_type'));
-            $this->_getWriteAdapter()->query($insertSelect);
+            $insertSelect = $writeAdapter->insertFromSelect($select, $priceTable, array('option_type_id', 'store_id', 'price', 'price_type'));
+            $writeAdapter->query($insertSelect);
 
             // title
             $titleTable = $this->getTable('catalog/product_option_type_title');
@@ -338,10 +339,10 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
             
             $select = $this->_getReadAdapter()->select()
                 ->from($titleTable, array())
-                ->where('option_type_id=?', $oldTypeId)
+                ->where('option_type_id = ?', $oldTypeId)
                 ->columns($columns);
-            $insertSelect = $this->_getWriteAdapter()->insertFromSelect($select, $titleTable, array('option_type_id', 'store_id', 'title'));
-            $this->_getWriteAdapter()->query($insertSelect);
+            $insertSelect = $writeAdapter->insertFromSelect($select, $titleTable, array('option_type_id', 'store_id', 'title'));
+            $writeAdapter->query($insertSelect);
         }
 
         return $object;

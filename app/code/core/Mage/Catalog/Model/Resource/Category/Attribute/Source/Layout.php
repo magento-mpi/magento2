@@ -36,9 +36,9 @@ class Mage_Catalog_Model_Resource_Category_Attribute_Source_Layout
     extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
-     * Enter description here ...
+     * Return cms layout update options
      *
-     * @return unknown
+     * @return array
      */
     public function getAllOptions()
     {
@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Resource_Category_Attribute_Source_Layout
                    'label'=>(string)$layoutConfig->label
                 );
             }
-            array_unshift($this->_options, array('value'=>'', 'label'=>Mage::helper('catalog')->__('No layout updates')));
+            array_unshift($this->_options, array('value'=>'', 'label' => Mage::helper('catalog')->__('No layout updates')));
         }
         return $this->_options;
     }
