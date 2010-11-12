@@ -785,10 +785,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @return array
      */
-    public function listTables()
+    public function listTables($schemaName = null)
     {
+        if ($schemaName === null) {
+            $schemaName = $this->_getSchemaName();
+        }
         $select = $this->select()
-            ->from('ALL_TABLES', array('table_name'));
+            ->from('ALL_TABLES', array('table_name'))
+            ->where('owner = upper(?)', $schemaName);;
 
         return $this->fetchCol($select);
     }
