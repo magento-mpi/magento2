@@ -226,7 +226,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
         ;
         $bind = array(
             'store_id' => $storeId,
-            'locale'   => $string,
+            'locale'   => $locale,
             'string'   => $string
         );
 
