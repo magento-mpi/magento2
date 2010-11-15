@@ -118,6 +118,11 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tax/tax_calculation'))
+    ->addColumn('tax_calculation_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'identity'  => true,
+        'nullable'  => false,
+        'primary'   => true,
+        ), 'Tax Calculation Id')
     ->addColumn('tax_calculation_rate_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Tax Calculation Rate Id')
