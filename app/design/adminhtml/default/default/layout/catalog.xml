@@ -29,7 +29,7 @@
 <layout>
     <adminhtml_catalog_product_index>
         <referense name="head">
-            <action method="setTitle" translate="title"><title>Catalo222g</title></action>
+            <action method="setTitle" translate="title"><title>Catalog</title></action>
         </referense>
         <reference name="menu">
             <action method="setActive"><menupath>catalog/products</menupath></action>
@@ -96,10 +96,6 @@
             <block type="adminhtml/catalog_product_edit_tab_related" name="catalog.product.edit.tab.related"/>
         </block>
     </adminhtml_catalog_product_relatedgrid>
-
-    <adminhtml_catalog_product_grid>
-        <block type="adminhtml/catalog_product_grid" name="catalog.product.grid" output="toHtml"/>
-    </adminhtml_catalog_product_grid>
 
     <adminhtml_catalog_product_categories>
         <block type="adminhtml/catalog_product_edit_tab_categories" name="catalog.product.edit.tab.categories" output="toHtml" />

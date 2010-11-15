@@ -33,7 +33,7 @@
  */
 class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller_Action
 {
-    /** 
+    /**
      * The greatest value which could be stored in CatalogInventory Qty field
      */
     const MAX_QTY_VALUE = 99999999.9999;
@@ -284,8 +284,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->loadLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_grid')->toHtml()
+        );
     }
 
     /**
