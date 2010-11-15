@@ -35,21 +35,21 @@
 class Mage_Tax_Model_Resource_Report_Updatedat_Collection extends Mage_Sales_Model_Resource_Report_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Period format
      *
      * @var unknown
      */
     protected $_periodFormat;
 
     /**
-     * Enter description here ...
+     * Flag if collection was initiated
      *
      * @var unknown
      */
     protected $_inited             = false;
 
     /**
-     * Enter description here ...
+     * Default selected columns
      *
      * @var unknown
      */
@@ -125,21 +125,26 @@ class Mage_Tax_Model_Resource_Report_Updatedat_Collection extends Mage_Sales_Mod
      */
     protected function _getSelectedColumns()
     {
+        $adapter = $this->getConnection();
         if ('month' == $this->_period) {
             $this->_periodFormat = 'DATE_FORMAT(e.updated_at, \'%Y-%m\')';
         } elseif ('year' == $this->_period) {
             $this->_periodFormat = 'EXTRACT(YEAR FROM e.updated_at)';
         } else {
-            $this->_periodFormat = 'DATE(e.updated_at)';
+            $this->_periodFormat = $adapter->getDatePartSql('e.updated_at');
         }
+
+        // To make this query valid in MSSQL and Oralce we have to add
+        // MIN() for store_id, status, percent.
+        // You should aggregate additional columns if override
 
         if (!$this->isTotals() && !$this->isSubTotals()) {
             $this->_selectedColumns = array(
                 'period'                => $this->_periodFormat,
-                'store_id'              => 'store_id',
+                'store_id'              => 'MIN(store_id)',
                 'code'                  => 'tax.code',
-                'order_status'          => 'e.status',
-                'percent'               => 'tax.percent',
+                'order_status'          => 'MIN(e.status)',
+                'percent'               => 'MIN(' . $this->getConnection()->quoteIdentifier('tax.percent') . ')',
                 'orders_count'          => 'COUNT(DISTINCT(e.entity_id))',
                 'tax_base_amount_sum'   => 'SUM(tax.base_real_amount * e.base_to_global_rate)'
             );
@@ -173,12 +178,17 @@ class Mage_Tax_Model_Resource_Report_Updatedat_Collection extends Mage_Sales_Mod
         $this->_applyStoresFilter();
         $this->_applyOrderStatusFilter();
 
-        if ($this->_from !== null) {
-            $select->where('DATE(e.updated_at) >= DATE(?)', $this->_from);
-        }
+        $adapter = $this->getConnection();
+        $dateUpdatedAt = $adapter->getDatePartSql('e.updated_at');
 
         if ($this->_to !== null) {
-            $select->where('DATE(e.updated_at) <= DATE(?)', $this->_to);
+            $dateTo = $adapter->formatDate($this->_to, false);
+            $select->where("{$dateUpdatedAt} <= {$dateTo}");
+        }
+
+        if ($this->_from !== null) {
+            $dateFrom = $adapter->formatDate($this->_from, false);
+            $select->where("{$dateUpdatedAt} >= {$dateFrom}");
         }
 
         if (!$this->isTotals() && !$this->isSubTotals()) {

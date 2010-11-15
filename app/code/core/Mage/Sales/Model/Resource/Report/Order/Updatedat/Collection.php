@@ -245,14 +245,15 @@ class Mage_Sales_Model_Resource_Report_Order_Updatedat_Collection
         $this->_applyStoresFilter();
         $this->_applyOrderStatusFilter();
 
-        $datePattern = $adapter->getDatePartSql('?');
         $dateUpdatedAt = $adapter->getDatePartSql('e.updated_at');
         if ($this->_to !== null) {
-            $select->where("{$dateUpdatedAt} <= {$datePattern}", $this->_to);
+            $dateTo = $adapter->formatDate($this->_to, false);
+            $select->where("{$dateUpdatedAt} <= {$dateTo}");
         }
 
         if ($this->_from !== null) {
-            $select->where("{$dateUpdatedAt} >= {$datePattern}", $this->_from);
+            $dateFrom = $adapter->formatDate($this->_from, false);
+            $select->where("{$dateUpdatedAt} >= {$dateFrom}");
         }
 
         if (!$this->isTotals()) {
