@@ -259,14 +259,20 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
      */
     protected function _getStatusColumnExpr()
     {
-        $adapter = $this->getConnection();
-        $timeNow = $this->getResource()->formatDate(now());
-        return $adapter->getCaseSql('', array(
-            $adapter->quoteInto('(date_start <= ? AND date_end >= ?)', $timeNow, $timeNow) => 
-                $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_OPEN),
-            $adapter->quoteInto('(date_start > ? AND date_end > ?)', $timeNow, $timeNow) => 
-                $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING)
-        ), $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED));
+        $adapter    = $this->getConnection();
+        $timeNow    = $this->getResource()->formatDate(true);
+        $dateStart1 = $adapter->quoteInto('date_start <= ?', $timeNow);
+        $dateEnd1   = $adapter->quoteInto('date_end >= ?', $timeNow);
+        $dateStart2 = $adapter->quoteInto('date_start > ?', $timeNow);
+        $dateEnd2   = $adapter->quoteInto('date_end > ?', $timeNow);
+
+        return $adapter->getCaseSql('',
+            array(
+                "({$dateStart1} AND {$dateEnd1})" => $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_OPEN),
+                "({$dateStart2} AND {$dateEnd2})" => $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING),
+            ),
+            $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED)
+        );
     }
 
     /**
