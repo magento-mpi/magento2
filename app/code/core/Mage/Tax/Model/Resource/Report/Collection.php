@@ -72,7 +72,7 @@ class Mage_Tax_Model_Resource_Report_Collection extends Mage_Sales_Model_Resourc
         } elseif ('year' == $this->_period) {
             $this->_periodFormat = $this->getConnection()->getDateFormatSql('period', '%Y');
         } else {
-            $this->_periodFormat = 'period';
+            $this->_periodFormat = $this->getConnection()->getDateFormatSql('period', '%Y-%m-%d');
         }
 
         if (!$this->isTotals() && !$this->isSubTotals()) {
