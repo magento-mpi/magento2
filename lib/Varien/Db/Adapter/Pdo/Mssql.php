@@ -220,7 +220,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         Varien_Db_Ddl_Table::TYPE_FLOAT         => 'float',
         Varien_Db_Ddl_Table::TYPE_DECIMAL       => 'decimal',
         Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'decimal',
-        Varien_Db_Ddl_Table::TYPE_DATE          => 'datetime',
+        Varien_Db_Ddl_Table::TYPE_DATE          => 'date',
         Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'datetime',
         Varien_Db_Ddl_Table::TYPE_TEXT          => 'text',
         Varien_Db_Ddl_Table::TYPE_BLOB          => 'text',
