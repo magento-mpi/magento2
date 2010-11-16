@@ -128,8 +128,8 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
      */
     public function setDateRange($from = null, $to = null)
     {
-        $this->_from = $from . ' 00:00:00';
-        $this->_to   = $to . ' 23:59:59';
+        $this->_from = $from;
+        $this->_to   = $to;
         return $this;
     }
 

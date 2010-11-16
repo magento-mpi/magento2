@@ -57,8 +57,8 @@ class Mage_Reports_Model_Resource_Coupons_Collection extends Mage_Sales_Model_En
      */
     public function setDateRange($from, $to)
     {
-        $this->_from = $from . ' 00:00:00';
-        $this->_to   = $to . ' 23:59:59';
+        $this->_from = $from;
+        $this->_to   = $to;
         $this->_reset();
         return $this;
     }
