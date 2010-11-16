@@ -108,26 +108,30 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
             return $this;
         }
 
-        $productValueExpression = $adapter->getCheckSql('pis.value_id IS NOT NULL',
-                                                        'pis.value',
-                                                        'pid.value');
+        $productValueExpression = $adapter->getIfNullSql('pis.value', 'pid.value');
         $select = $adapter->select()
             ->from(
-                array('pid' => $this->getValueTable('catalog/product', 'int')),
-                array('entity_id', 'attribute_id'))
-            ->join(
                 array('cs' => $this->getTable('core/store')),
-                '',
-                array('store_id'))
+                array())
+            ->joinLeft(
+                array('pid' => $this->getValueTable('catalog/product', 'int')),
+                $adapter->quoteInto('pid.store_id=?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID),
+                array('entity_id', 'attribute_id'))
             ->joinLeft(
                 array('pis' => $this->getValueTable('catalog/product', 'int')),
-                'pis.entity_id = pid.entity_id AND pis.attribute_id = pid.attribute_id'
+                'pis.entity_id = pid.entity_id '
                     . ' AND pis.store_id=cs.store_id',
-                array('value' => $productValueExpression))
-            ->where('pid.store_id=?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
+                array('cs.store_id', 'value' => $productValueExpression))
             ->where('cs.store_id!=?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
-            ->where('pid.attribute_id IN(?)', $attrIds)
-            ->where("{$productValueExpression} IS NOT NULL");
+            ->where('pid.value IS NULL OR pid.attribute_id IN(?)', $attrIds)
+            ->where('pis.value IS NULL OR pis.attribute_id IN(?)', $attrIds)
+            ->where(
+                $adapter->getCheckSql(
+                    'pis.value IS NOT NULL AND pid.value IS NOT NULL AND pis.attribute_id = pid.attribute_id',
+                    '1',
+                    $adapter->getCheckSql('pis.value IS NOT NULL OR pid.value IS NOT NULL' , '1', '0')
+                ) . '=1'
+            );
 
         $statusCond = $adapter->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'pid.entity_id', 'cs.store_id', $statusCond);
