@@ -89,7 +89,7 @@ class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
         return $this->getCustomerGroupCode();
     }
 
-    public function getTaxClassId($groupId=null)
+    public function getTaxClassId($groupId = null)
     {
         if (!is_null($groupId)) {
             if (empty(self::$_taxClassIds[$groupId])) {

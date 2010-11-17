@@ -652,6 +652,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Customer Group Id')
     ->addColumn('customer_group_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
+        'nullable'  => false,
         ), 'Customer Group Code')
     ->addColumn('tax_class_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
