@@ -183,7 +183,7 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
                 array()
             )
             ->where('main.tag_id = :tag_id')
-            ->where('main.active')
+            ->where('main.active = 1')
             ->group('main.store_id');
 
         $selectLocalResult = $readAdapter->fetchAll($selectLocal, array('tag_id' => $tagId));
@@ -250,7 +250,7 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
                 array()
             )
             ->where('main.tag_id = :tag_id')
-            ->where('main.active');
+            ->where('main.active = 1');
         $result = $readAdapter->fetchRow($selectGlobal, array('tag_id' => $tagId));
         if (!$result) {
             return array();
