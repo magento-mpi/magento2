@@ -179,7 +179,10 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
             ->join(
                 array('i' => $idxTable),
                 'l.child_id = i.entity_id AND cs.store_id = i.store_id',
-                array('attribute_id', 'store_id', 'value'));
+                array('attribute_id', 'store_id', 'value'))
+            ->group(array(
+                'l.parent_id', 'i.attribute_id', 'i.store_id', 'i.value'
+            ));
         if (!is_null($parentIds)) {
             $select->where('l.parent_id IN(?)', $parentIds);
         }
@@ -194,7 +197,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
             'store_field'   => new Zend_Db_Expr('cs.store_id')
         ));
 
-        $query = $select->insertIgnoreFromSelect($idxTable);
+        $query = $select->insertFromSelect($idxTable);
         $write->query($query);
 
         return $this;
