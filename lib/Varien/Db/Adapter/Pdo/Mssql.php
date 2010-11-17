@@ -3440,6 +3440,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _debugWriteToFile($str)
     {
+        $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
         if (!$this->_debugIoAdapter) {
             $this->_debugIoAdapter = new Varien_Io_File();
             $dir = Mage::getBaseDir() . DS . $this->_debugIoAdapter->dirname($this->_debugFile);
