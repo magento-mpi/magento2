@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency extends Mage_Adm
      */
     public function render(Varien_Object $row)
     {
-        if (($data = $row->getData($this->getColumn()->getIndex())) !== false) {
+        if ($data = (string)$row->getData($this->getColumn()->getIndex())) {
             $currency_code = $this->_getCurrencyCode($row);
 
             if (!$currency_code) {
