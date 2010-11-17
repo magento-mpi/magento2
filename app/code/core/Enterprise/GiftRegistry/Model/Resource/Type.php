@@ -70,7 +70,11 @@ class Enterprise_GiftRegistry_Model_Resource_Type extends Mage_Core_Model_Resour
     {
         $adapter = $this->_getReadAdapter();
 
-        $scopeCheckExpr = $adapter->getCheckSql('store_id = 0', "'default'", "'store'");
+        $scopeCheckExpr = $adapter->getCheckSql(
+            'store_id = 0',
+            $adapter->quote('default'),
+            $adapter->quote('store')
+        );
         $storeIds       = array(Mage_Core_Model_App::ADMIN_STORE_ID);
         if ($object->getStoreId()) {
             $storeIds[] = (int)$object->getStoreId();
@@ -167,10 +171,13 @@ class Enterprise_GiftRegistry_Model_Resource_Type extends Mage_Core_Model_Resour
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->_labelTable, array('attribute_code', 'option_code', 'label'))
-            ->where('type_id = ?', (int)$type->getId())
-            ->where('store_id = ?', (int)$type->getStoreId());
-
-        return $this->_getReadAdapter()->fetchAll($select);
+            ->where('type_id = :type_id')
+            ->where('store_id = :store_id');
+        $bind = array(
+            ':type_id'  => (int)$type->getId(),
+            ':store_id' => (int)$type->getStoreId()
+        );
+        return $this->_getReadAdapter()->fetchAll($select, $bind);
     }
 
     /**

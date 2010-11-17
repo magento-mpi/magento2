@@ -70,10 +70,13 @@ class Enterprise_GiftRegistry_Model_Resource_Item extends Mage_Core_Model_Resour
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('entity_id = ?', (int)$registryId)
-            ->where('product_id = ?', (int)$productId);
-
-        $data = $adapter->fetchRow($select);
+            ->where('entity_id = :entity_id')
+            ->where('product_id = :product_id');
+        $bind = array(
+            ':entity_id'  => (int)$registryId,
+            ':product_id' => (int)$productId
+        );
+        $data = $adapter->fetchRow($select, $bind);
         if ($data) {
             $object->setData($data);
         }

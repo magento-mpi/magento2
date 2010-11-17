@@ -79,13 +79,10 @@ class Enterprise_GiftRegistry_Model_Resource_Person extends Mage_Core_Model_Reso
         $adapter     = $this->_getWriteAdapter();
         $condition   = array();
         $conditionIn = array();
-        
+
         $condition[] = $adapter->quoteInto('entity_id = ?', (int)$entityId);
-        if (is_array($personLeft)) {
-            foreach ($personLeft as $personId) {
-                $conditionIn[] = $adapter->quoteInto('?', $personId);
-            }
-            $condition[] = $adapter->quoteInto('person_id NOT IN (?)', $conditionIn);
+        if (is_array($personLeft) && !empty($personLeft)) {
+            $condition[] = $adapter->quoteInto('person_id NOT IN (?)', $personLeft);
         }
         $adapter->delete($this->getMainTable(), $condition);
 
