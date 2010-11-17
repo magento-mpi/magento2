@@ -97,7 +97,7 @@ class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resou
             ->where('account_id = :account_id')
             ->where('report_date = :report_date');
 
-        $data = $adapter->fetchRow($select, array(':account_id' => (int)$accountId, ':report_date' => $reportDate));
+        $data = $adapter->fetchRow($select, array(':account_id' => $accountId, ':report_date' => $reportDate));
         if ($data) {
             $report->addData($data);
         }
