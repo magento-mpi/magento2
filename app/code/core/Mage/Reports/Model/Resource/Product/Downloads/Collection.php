@@ -76,7 +76,8 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
             ->where(implode(' OR ', array(
                 $adapter->quoteInto('d.number_of_downloads_bought > ?', 0),
                 $adapter->quoteInto('d.number_of_downloads_used > ?', 0),
-            )));
+            )))
+            ->group('d.link_id');
         /**
          * Allow to use analytic function
          */
