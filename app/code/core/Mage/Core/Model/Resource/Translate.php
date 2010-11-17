@@ -60,15 +60,15 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
             $storeId = Mage::app()->getStore()->getId();
         }
 
-        $read = $this->_getReadAdapter();
-        if (!$read) {
+        $adapter = $this->_getReadAdapter();
+        if (!$adapter) {
             return array();
         }
 
-        $select = $read->select()
+        $select = $adapter->select()
             ->from($this->getMainTable(), array('string', 'translate'))
             ->where('store_id IN (0 , :store_id)')
-            ->where('locale=:locale')
+            ->where('locale = :locale')
             ->order('store_id');
 
         $bind = array(
@@ -76,7 +76,7 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
             ':store_id' => $storeId
         );
 
-        return $read->fetchPairs($select, $bind);
+        return $adapter->fetchPairs($select, $bind);
 
     }
 
@@ -97,8 +97,8 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
             $storeId = Mage::app()->getStore()->getId();
         }
 
-        $read = $this->_getReadAdapter();
-        if (!$read) {
+        $adapter = $this->_getReadAdapter();
+        if (!$adapter) {
             return array();
         }
 
@@ -109,12 +109,12 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
         $bind = array(
             ':store_id'   => $storeId
         );
-        $select = $read->select()
+        $select = $adapter->select()
             ->from($this->getMainTable(), array('string', 'translate'))
-            ->where('string IN (?)',$strings )
+            ->where('string IN (?)', $strings)
             ->where('store_id = :store_id');
 
-        return $read->fetchPairs($select, $bind);
+        return $adapter->fetchPairs($select, $bind);
     }
 
     /**

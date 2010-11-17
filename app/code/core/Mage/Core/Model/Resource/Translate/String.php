@@ -77,7 +77,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        $select->where('store_id', 0);
+        $select->where('store_id = ?', Mage_Core_Model_App::ADMIN_STORE_ID);
         return $select;
     }
 
@@ -92,7 +92,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->getMainTable(), array('store_id', 'translate'))
-            ->where('string=:translate_string');
+            ->where('string = :translate_string');
         $translations = $adapter->fetchPairs($select, array('translate_string' => $object->getString()));
         $object->setStoreTranslations($translations);
         return parent::_afterLoad($object);
@@ -114,7 +114,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
 
         $bind = array(
             'string'   => $object->getString(),
-            'store_id' => 0
+            'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
         );
 
         $object->setId($adapter->fetchOne($select, $bind));
@@ -141,8 +141,8 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
             foreach ($translations as $storeId => $translate) {
                 if (is_null($translate) || $translate=='') {
                      $where = array(
-                        'store_id=?'    => $storeId,
-                        'string=?'      => $object->getString()
+                        'store_id = ?'    => $storeId,
+                        'string = ?'      => $object->getString()
                     );
                     $adapter->delete($this->getMainTable(), $where);
                 } else {
@@ -156,7 +156,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
                         $adapter->update(
                            $this->getMainTable(),
                            $data,
-                           array('key_id=?' => $stores[$storeId]));
+                           array('key_id = ?' => $stores[$storeId]));
                     } else {
                         $adapter->insert($this->getMainTable(), $data);
                     }
@@ -181,14 +181,14 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
         }
 
         $where = array(
-            'locale=?' => $locale,
-            'string=?' => $string
+            'locale = ?' => $locale,
+            'string = ?' => $string
         );
 
         if ($storeId === false) {
-            $where['store_id>?'] = 0;
-        } else if (!is_null($storeId)) {
-            $where['store_id>?'] = $storeId;
+            $where['store_id > ?'] = Mage_Core_Model_App::ADMIN_STORE_ID;
+        } elseif ($storeId !== null) {
+            $where['store_id > ?'] = $storeId;
         }
 
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);

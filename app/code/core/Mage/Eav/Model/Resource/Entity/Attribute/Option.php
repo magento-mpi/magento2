@@ -99,7 +99,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Re
         }
 
         $valueExpr  = $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
-        /* @var $select Varien_Db_Select */
+        /** @var $select Varien_Db_Select */
         $select     = $adapter->select()
             ->joinLeft(
                 array('t1' => $attributeTable),

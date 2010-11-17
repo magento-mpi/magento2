@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Define main table and primary key
      *
      */
     protected function _construct()
@@ -48,6 +48,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Core_Model_Resource_Db_Abstract
+     * @throws Mage_Core_Exception
      */
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
@@ -80,9 +81,9 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
                 Mage::helper('core')->__('Your design change for the specified store intersects with another one, please specify another date range.'));
         }
 
-        if (is_null($object->getDateFrom()))
+        if ($object->getDateFrom() === null)
             $object->setDateFrom(new Zend_Db_Expr('null'));
-        if (is_null($object->getDateTo()))
+        if ($object->getDateTo() === null)
             $object->setDateTo(new Zend_Db_Expr('null'));
 
         parent::_beforeSave($object);
@@ -109,7 +110,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
         $dateConditions = array('date_to IS NULL AND date_from IS NULL');
 
         if (!is_null($dateFrom)) {
-            $dateConditions[] = ':date_from BETWEEN date_from and date_to';
+            $dateConditions[] = ':date_from BETWEEN date_from AND date_to';
             $dateConditions[] = ':date_from >= date_from and date_to IS NULL';
             $dateConditions[] = ':date_from <= date_to and date_from IS NULL';
         } else {
@@ -135,7 +136,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
         if (!is_null($dateFrom) && !is_null($dateTo)) {
             $dateConditions[] = 'date_from BETWEEN :date_from AND :date_to';
             $dateConditions[] = 'date_to BETWEEN :date_from AND :date_to';
-        } else if (is_null($dateFrom) && is_null($dateTo)) {
+        } elseif (is_null($dateFrom) && is_null($dateTo)) {
             $dateConditions = array();
         }
 
@@ -157,16 +158,16 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
             $bind['date_from'] = $dateFrom;
         }
 
-        $result = $this->_getReadAdapter()->fetchOne($select, $bind);
+        $result = $adapter->fetchOne($select, $bind);
         return $result;
     }
 
     /**
-     * Load cache
+     * Load changes for specific store and date
      *
      * @param int $storeId
-     * @param String $date
-     * @return Array
+     * @param string $date
+     * @return array
      */
     public function loadChange($storeId, $date = null)
     {
@@ -175,7 +176,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
         }
 
         $select = $this->_getReadAdapter()->select()
-            ->from(array('main_table'=>$this->getTable('design_change')))
+            ->from(array('main_table' => $this->getTable('design_change')))
             ->where('store_id = :store_id')
             ->where('date_from <= :required_date or date_from IS NULL')
             ->where('date_to >= :required_date or date_to IS NULL');

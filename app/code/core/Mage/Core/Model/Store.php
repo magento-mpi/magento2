@@ -208,7 +208,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * Retrieve store configuration data
      *
      * @param   string $path
-     * @param   string $scope
      * @return  string|null
      */
     public function getConfig($path)
@@ -219,7 +218,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
         $config = Mage::getConfig();
 
-        $fullPath = 'stores/'.$this->getCode().'/'.$path;
+        $fullPath = 'stores/' . $this->getCode() . '/' . $path;
         $data = $config->getNode($fullPath);
         if (!$data && !Mage::isInstalled()) {
             $data = $config->getNode('default/' . $path);

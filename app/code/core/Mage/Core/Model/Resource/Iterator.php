@@ -63,8 +63,9 @@ class Mage_Core_Model_Resource_Iterator extends Varien_Object
      * @param Zend_Db_Statement_Interface|Zend_Db_Select|string $query
      * @param Zend_Db_Adapter_Abstract $conn
      * @return Zend_Db_Statement_Interface
+     * @throws Mage_Core_Exception
      */
-    protected function _getStatement($query, $conn=null)
+    protected function _getStatement($query, $conn = null)
     {
         if ($query instanceof Zend_Db_Statement_Interface) {
             return $query;
@@ -81,6 +82,6 @@ class Mage_Core_Model_Resource_Iterator extends Varien_Object
             return $conn->query($query);
         }
 
-        Mage::throwException($hlp->__('Invalid query'));
+        Mage::throwException(Mage::helper('core')->__('Invalid query'));
     }
 }

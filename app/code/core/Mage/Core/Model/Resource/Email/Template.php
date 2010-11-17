@@ -53,7 +53,7 @@ class Mage_Core_Model_Resource_Email_Template extends Mage_Core_Model_Resource_D
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-            ->where('template_code=:template_code', $templateCode);
+            ->where('template_code = :template_code');
         $result = $this->_getReadAdapter()->fetchRow($select, array('template_code' => $templateCode));
 
         if (!$result) {
@@ -80,7 +80,10 @@ class Mage_Core_Model_Resource_Email_Template extends Mage_Core_Model_Resource_D
                 'template_id'   => $template->getId(),
                 'template_code' => $template->getTemplateCode()
             );
-            return $this->_getReadAdapter()->fetchOne($select, $bind) > 0;
+            $result = $this->_getReadAdapter()->fetchOne($select, $bind);
+            if ($result) {
+                return true;
+            }
         }
         return false;
     }

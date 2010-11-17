@@ -69,6 +69,7 @@ class Mage_Core_Model_Resource_Cache extends Mage_Core_Model_Resource_Db_Abstrac
      *
      * @param array $options
      * @return Mage_Core_Model_Resource_Cache
+     * @throws Exception
      */
     public function saveAllOptions($options)
     {

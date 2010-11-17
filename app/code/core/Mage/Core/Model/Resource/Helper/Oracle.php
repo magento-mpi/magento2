@@ -34,7 +34,7 @@
 class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Abstract
 {
     /**
-     * Returns expresion for field unification
+     * Returns expression for field unification
      *
      * @param string $field
      * @return Zend_Db_Expr
@@ -122,16 +122,6 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         $clonedSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $clonedSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
 
-        /**
-         * Assemble sql query
-         */
-//        $query = sprintf('SELECT %s.* FROM (%s) %s %s',
-//            $wrapperTableName,
-//            $clonedSelect->assemble(),
-//            $wrapperTableName,
-//            implode(' AND ', $whereCondition)
-//        );
-
         $columns = array();
         foreach ($columnList as $columnEntry) {
             $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
@@ -155,7 +145,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         );
 
         if (!empty($orderCondition)) {
-            $query .= sprintf(' ORDER BY %s', $orderCondition);
+            $query .= ' ORDER BY ' . $orderCondition;
         }
 
         $query = $this->_assembleLimit($query, $limitCount, $limitOffset, $columnList);
@@ -328,7 +318,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
      * @param Varien_Db_Select $select
      * @param bool $autoReset
      * @return array
-     * @throws Exception
+     * @throws Zend_Db_Exception
      */
     protected function _prepareHaving(Varien_Db_Select $select, $autoReset = false)
     {
@@ -353,7 +343,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
                          */
                         $havings[] = str_replace($correlationName, $column, $having);
                     } else {
-                        throw new Exception(sprintf("Can't prepare expression without column alias: '%s'", $correlationName));
+                        throw new Zend_Db_Exception(sprintf("Can't prepare expression without column alias: '%s'", $correlationName));
                     }
                 }
             }
@@ -374,7 +364,6 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
      * @param int $limitOffset
      * @param array $columnList
      * @return string
-     * @throws Exception
      */
     protected function _assembleLimit($query, $limitCount, $limitOffset, $columnList)
     {
@@ -476,6 +465,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
      * @param string $fields
      * @param string $groupConcatDelimiter
      * @param string $fieldsDelimiter
+     * @param string $additionalWhere
      * @return Varien_Db_Select
      */
     public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = '')

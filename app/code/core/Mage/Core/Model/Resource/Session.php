@@ -79,8 +79,8 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     {
         $resource = Mage::getSingleton('core/resource');
         $this->_sessionTable = $resource->getTableName('core/session');
-        $this->_read = $resource->getConnection('core_read');
-        $this->_write = $resource->getConnection('core_write');
+        $this->_read         = $resource->getConnection('core_read');
+        $this->_write        = $resource->getConnection('core_write');
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
             }
 
             if ($this->_lifeTime < 60) {
-                $this->_lifeTime = 3600;
+                $this->_lifeTime = 3600; //one hour
             }
         }
         return $this->_lifeTime;
@@ -191,7 +191,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
                 ->where('session_expires > :session_expires');
         $bind = array(
             'session_id'      => $sessId,
-            'session_expires' => time()
+            'session_expires' => Varien_Date::toTimestamp(true)
         );
         
         $data = $this->_read->fetchOne($select, $bind);
@@ -217,7 +217,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
         $exists = $this->_read->fetchOne($select, $bindValues);
 
         $bind = array(
-            'session_expires' => time() + $this->getLifeTime(),
+            'session_expires' => Varien_Date::toTimestamp(true) + $this->getLifeTime(),
             'session_data' => $sessData
         );
         if ($exists) {
@@ -241,7 +241,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function destroy($sessId)
     {
-        $where = array('session_id=?' => $sessId);
+        $where = array('session_id = ?' => $sessId);
         $this->_write->delete($this->_sessionTable, $where);
         return true;
     }
@@ -257,7 +257,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
         if ($this->_automaticCleaningFactor > 0) {
             if ($this->_automaticCleaningFactor == 1 ||
                 rand(1, $this->_automaticCleaningFactor) == 1) {
-                $where = array('session_expires<?' => time());
+                $where = array('session_expires < ?' => Varien_Date::toTimestamp(true));
                 $this->_write->delete($this->_sessionTable, $where);
             }
         }

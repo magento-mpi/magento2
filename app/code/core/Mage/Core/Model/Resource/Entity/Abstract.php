@@ -27,12 +27,17 @@
 abstract class Mage_Core_Model_Resource_Entity_Abstract
 {
     protected $_name = null;
+    /**
+     * Configuration object
+     *
+     * @var Varien_Simplexml_Config
+     */
     protected $_config = array();
 
     /**
      * Set config
      *
-     * @param SimpleXML $config
+     * @param Varien_Simplexml_Config $config
      */
     public function __construct($config)
     {
@@ -42,8 +47,8 @@ abstract class Mage_Core_Model_Resource_Entity_Abstract
     /**
      * Get config by key
      *
-     * @param <type> $key
-     * @return String|boolean
+     * @param string $key
+     * @return string|boolean
      */
     public function getConfig($key = '')
     {

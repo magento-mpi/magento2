@@ -127,7 +127,6 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         return $orders;
     }
 
-
     /**
      * Truncate alias name from field.
      *
@@ -186,7 +185,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
      * @param Varien_Db_Select $select
      * @param bool $autoReset
      * @return array
-     * @throws Exception
+     * @throws Zend_Db_Exception
      */
     protected function _prepareHaving(Varien_Db_Select $select, $autoReset = false)
     {
@@ -211,7 +210,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
                          */
                         $havings[] = str_replace($correlationName, $column, $having);
                     } else {
-                        throw new Exception(sprintf("Can't prepare expression without column alias: '%s'", $correlationName));
+                        throw new Zend_Db_Exception(sprintf("Can't prepare expression without column alias: '%s'", $correlationName));
                     }
                 }
             }
@@ -231,7 +230,6 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
      * @param int $limitOffset
      * @param array $columnList
      * @return string
-     * @throws Exception
      */
     protected function _assembleLimit($query, $limitCount, $limitOffset, $columnList = array())
     {
@@ -318,6 +316,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
      * @param string $fields
      * @param string $groupConcatDelimiter
      * @param string $fieldsDelimiter
+     * @param string $additionalWhere
      * @return Varien_Db_Select
      */
     public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = '')

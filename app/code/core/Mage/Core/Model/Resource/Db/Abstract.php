@@ -212,7 +212,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
         } else {
             $this->_mainTable = $mainTable;
             if (is_null($idFieldName)) {
-                $idFieldName = $mainTable.'_id';
+                $idFieldName = $mainTable . '_id';
             }
             $this->_idFieldName = $idFieldName;
         }
@@ -471,14 +471,15 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     {
         $this->_beforeSave($object);
         $bind = $this->_prepareDataForSave($object);
+        $adapter = $this->_getWriteAdapter();
         // update
         if (!is_null($object->getId()) && $this->_isPkAutoIncrement) {
             unset($bind[$this->getIdFieldName()]);
-            $condition = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName().'=?', $object->getId());
-            $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $condition);
+            $condition = $adapter->quoteInto($this->getIdFieldName().'=?', $object->getId());
+            $adapter->update($this->getMainTable(), $bind, $condition);
         } else {
-            $this->_getWriteAdapter()->insertOnDuplicate($this->getMainTable(), $bind, $this->_fieldsForUpdate);
-            $object->setId($this->_getWriteAdapter()->lastInsertId($this->getMainTable()));
+            $adapter->insertOnDuplicate($this->getMainTable(), $bind, $this->_fieldsForUpdate);
+            $object->setId($adapter->lastInsertId($this->getMainTable()));
         }
 
         $this->_afterSave($object);
@@ -497,7 +498,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
         $this->_beforeDelete($object);
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            $this->_getWriteAdapter()->quoteInto($this->getIdFieldName().'=?', $object->getId())
+            $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $object->getId())
         );
         $this->_afterDelete($object);
         return $this;
@@ -756,10 +757,10 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      */
     public function getChecksum($table)
     {
-    	if (!$this->_getConnection('read')) {
+        if (!$this->_getReadAdapter()) {
             return false;
         }
-        $checksum = $this->_getConnection('read')->getTablesChecksum($table);
+        $checksum = $this->_getReadAdapter()->getTablesChecksum($table);
         if (count($checksum) == 1) {
         	return $checksum[$table];
         }

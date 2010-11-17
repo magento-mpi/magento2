@@ -82,7 +82,7 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
     {
         if ($object->getIsDefault()) {
             $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 0));
-            $where = array('website_id=?' => $object->getId());
+            $where = array('website_id = ?' => $object->getId());
             $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 1), $where);
         }
         return parent::_afterSave($object);
@@ -97,8 +97,8 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
     protected function _afterDelete(Mage_Core_Model_Abstract $model)
     {
         $where = array(
-            'scope=?'  => 'websites',
-            'scope_id=?' => $model->getWebsiteId()
+            'scope = ?'    => 'websites',
+            'scope_id = ?' => $model->getWebsiteId()
         );
 
         $this->_getWriteAdapter()->delete($this->getTable('core/config_data'), $where);

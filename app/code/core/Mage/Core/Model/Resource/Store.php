@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Define main table and primary key
      *
      */
     protected function _construct()
@@ -97,8 +97,8 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     protected function _afterDelete(Mage_Core_Model_Abstract $model)
     {
         $where = array(
-            'scope=?'    => 'stores',
-            'scope_id=?' => $model->getStoreId()
+            'scope = ?'    => 'stores',
+            'scope_id = ?' => $model->getStoreId()
         );
 
         $this->_getWriteAdapter()->delete(
@@ -117,19 +117,18 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
      */
     protected function _updateGroupDefaultStore($groupId, $storeId)
     {
-        $write = $this->_getWriteAdapter();
-        $bindValues = array(
-            'group_id' => (int)$groupId
-        );
-        $select = $write->select()
-            ->from($this->getMainTable(), array('count'=>'COUNT(*)'))
-            ->where('group_id=:group_id');
-        $count  = $this->_getWriteAdapter()->fetchOne($select, $bindValues);
+        $adapter    = $this->_getWriteAdapter();
+
+        $bindValues = array('group_id' => (int)$groupId);
+        $select = $adapter->select()
+            ->from($this->getMainTable(), array('count' => 'COUNT(*)'))
+            ->where('group_id = :group_id');
+        $count  = $adapter->fetchOne($select, $bindValues);
 
         if ($count == 1) {
             $bind  = array('default_store_id' => (int)$storeId);
-            $where = array('group_id=?' => (int)$groupId);
-            $this->_getWriteAdapter()->update($this->getTable('core/store_group'), $bind, $where);
+            $where = array('group_id = ?' => (int)$groupId);
+            $adapter->update($this->getTable('core/store_group'), $bind, $where);
         }
 
         return $this;
@@ -144,15 +143,15 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     protected function _changeGroup(Mage_Core_Model_Abstract $model)
     {
         if ($model->getOriginalGroupId() && $model->getGroupId() != $model->getOriginalGroupId()) {
-            $write = $this->_getWriteAdapter();
-            $select = $write->select()
+            $adapter = $this->_getReadAdapter();
+            $select = $adapter->select()
                 ->from($this->getTable('core/store_group'), 'default_store_id')
-                ->where($write->quoteInto('group_id=?', $model->getOriginalGroupId()));
-            $storeId = $write->fetchOne($select, 'default_store_id');
+                ->where($adapter->quoteInto('group_id=?', $model->getOriginalGroupId()));
+            $storeId = $adapter->fetchOne($select, 'default_store_id');
 
             if ($storeId == $model->getId()) {
-                $bind = array('default_store_id' => 0);
-                $where = array('group_id=?' => $model->getOriginalGroupId());
+                $bind = array('default_store_id' => Mage_Core_Model_App::ADMIN_STORE_ID);
+                $where = array('group_id = ?' => $model->getOriginalGroupId());
                 $this->_getWriteAdapter()->update($this->getTable('core/store_group'), $bind, $where);
             }
         }
@@ -170,7 +169,7 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        $select->order('sort_order ASC');
+        $select->order('sort_order');
         return $select;
     }
 }

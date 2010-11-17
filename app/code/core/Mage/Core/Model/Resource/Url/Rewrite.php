@@ -81,12 +81,12 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-        /* @var $select Varien_Db_Select */
+        /** @var $select Varien_Db_Select */
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if (!is_null($object->getStoreId())) {
-            $select->where('store_id IN(?)', array(0, $object->getStoreId()));
-            $select->order('store_id DESC');
+            $select->where('store_id IN(?)', array(Mage_Core_Model_App::ADMIN_STORE_ID, $object->getStoreId()));
+            $select->order('store_id ' . Varien_Db_Select::SQL_DESC);
             $select->limit(1);
         }
 
@@ -109,7 +109,7 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
         }
 
         $select = $this->_getReadAdapter()->select();
-        /* @var $select Zend_Db_Select */
+        /** @var $select Varien_Db_Select */
         $select->from(array('main_table' => $this->getMainTable()), 'request_path')
             ->where('main_table.store_id = :store_id')
             ->where('main_table.id_path = :id_path')
@@ -142,7 +142,7 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
         $select  = $adapter->select()
             ->from($this->getMainTable())
             ->where('request_path IN (?)', $path)
-            ->where('store_id IN(?)', array(0, $object->getStoreId()));
+            ->where('store_id IN(?)', array(Mage_Core_Model_App::ADMIN_STORE_ID, $object->getStoreId()));
 
         $items = $adapter->fetchAll($select);
 

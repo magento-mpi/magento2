@@ -84,7 +84,7 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
      * Get Module version from DB
      *
      * @param string $resName
-     * @return string
+     * @return bool|string
      */
     public function getDbVersion($resName)
     {
@@ -113,9 +113,8 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
             self::$_versions[$resName] = $version;
             return $this->_getWriteAdapter()->update($this->getMainTable(),
                     $dbModuleInfo,
-                    array('code=?' => $resName));
-        }
-        else {
+                    array('code = ?' => $resName));
+        } else {
             self::$_versions[$resName] = $version;
             return $this->_getWriteAdapter()->insert($this->getMainTable(), $dbModuleInfo);
         }
@@ -148,15 +147,14 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
     public function setDataVersion($resName, $version)
     {
         $data = array(
-            'code' => $resName,
-            'data_version' => $version
+            'code'          => $resName,
+            'data_version'  => $version
         );
 
         if ($this->getDbVersion($resName) || $this->getDataVersion($resName)) {
             self::$_dataVersions[$resName] = $version;
-            $this->_getWriteAdapter()->update($this->getMainTable(), $data, array('code=?' => $resName));
-        }
-        else {
+            $this->_getWriteAdapter()->update($this->getMainTable(), $data, array('code = ?' => $resName));
+        } else {
             self::$_dataVersions[$resName] = $version;
             $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
         }

@@ -34,7 +34,7 @@
  */
 abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Data_Collection_Db
 {
-    const CACHE_TAG= 'COLLECTION_DATA';
+    const CACHE_TAG = 'COLLECTION_DATA';
 
     /**
      * Model name
@@ -104,7 +104,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      *
      * @var string
      */
-    protected $_eventPrefix = 'core_mysql4_collection_abstract';
+    protected $_eventPrefix = 'core_resource_collection_abstract';
 
     /**
      * Name of event parameter
@@ -244,7 +244,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
                     $column = $field;
                 }
 
-                if (($alias !== null && in_array($alias, $columnsToSelect)) || // If field already joined fron another table
+                if (($alias !== null && in_array($alias, $columnsToSelect)) || // If field already joined from another table
                     ($alias === null && isset($alias, $columnsToSelect))) {
                     continue;
                 }
@@ -401,7 +401,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     }
 
     /**
-     * Standard resource collection initalization
+     * Standard resource collection initialization
      *
      * @param string $model
      * @param Mage_Core_Model_Resource_Db_Abstract $resourceModel
@@ -446,7 +446,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     /**
      *  Set resource model name for collection items
      *
-     * @param Syting $model
+     * @param string $model
      */
     public function setResourceModel($model)
     {
@@ -456,7 +456,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     /**
      *  Retrieve resource model name
      *
-     * @return String
+     * @return string
      */
     public function getResourceModelName()
     {
@@ -595,7 +595,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      * Set reset items data changed flag
      *
      * @param boolean $flag
-     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     public function setResetItemsDataChanged($flag)
     {

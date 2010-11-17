@@ -33,10 +33,10 @@
  */
 class Mage_Core_Model_Resource_Setup
 {
-    const DEFAULT_SETUP_CONNECTION = 'core_setup';
-    const VERSION_COMPARE_EQUAL   = 0;
-    const VERSION_COMPARE_LOWER   = -1;
-    const VERSION_COMPARE_GREATER = 1;
+    const DEFAULT_SETUP_CONNECTION  = 'core_setup';
+    const VERSION_COMPARE_EQUAL     = 0;
+    const VERSION_COMPARE_LOWER     = -1;
+    const VERSION_COMPARE_GREATER   = 1;
 
     const TYPE_DB_INSTALL           = 'install';
     const TYPE_DB_UPGRADE           = 'upgrade';
@@ -197,7 +197,7 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Get core resource resource model
      *
-     * @return Mage_Core_Model_Mysql4_Resource
+     * @return Mage_Core_Model_Resource_Resource
      */
     protected function _getResource()
     {
@@ -307,7 +307,7 @@ class Mage_Core_Model_Resource_Setup
                     return true;
                     break;
              }
-        } else if ($configVer) {
+        } elseif ($configVer) {
             $this->_installResourceDb($configVer);
         }
         return $this;
@@ -317,13 +317,15 @@ class Mage_Core_Model_Resource_Setup
      * Run data install scripts
      *
      * @param string $newVersion
+     * @return Mage_Core_Model_Resource_Setup
      */
     protected function _installData($newVersion)
     {
         $oldVersion = $this->_modifyResourceDb(self::TYPE_DATA_INSTALL, '', $newVersion);
         $this->_modifyResourceDb(self::TYPE_DATA_UPGRADE, $oldVersion, $newVersion);
-
         $this->_getResource()->setDataVersion($this->_resourceName, $newVersion);
+
+        return $this;
     }
 
     /**
@@ -331,25 +333,29 @@ class Mage_Core_Model_Resource_Setup
      *
      * @param string $oldVersion
      * @param string $newVersion
+     * @return Mage_Core_Model_Resource_Setup
      */
     protected function _upgradeData($oldVersion, $newVersion)
     {
         $this->_modifyResourceDb('data-upgrade', $oldVersion, $newVersion);
-
         $this->_getResource()->setDataVersion($this->_resourceName, $newVersion);
+
+        return $this;
     }
 
     /**
      * Run resource installation file
      *
      * @param string $newVersion
-     * @return boolean
+     * @return Mage_Core_Model_Resource_Setup
      */
     protected function _installResourceDb($newVersion)
     {
         $oldVersion = $this->_modifyResourceDb(self::TYPE_DB_INSTALL, '', $newVersion);
         $this->_modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
         $this->_getResource()->setDbVersion($this->_resourceName, $newVersion);
+
+        return $this;
     }
 
     /**
@@ -357,11 +363,14 @@ class Mage_Core_Model_Resource_Setup
      *
      * @param string $oldVersion
      * @param string $newVersion
+     * @return Mage_Core_Model_Resource_Setup
      */
     protected function _upgradeResourceDb($oldVersion, $newVersion)
     {
         $this->_modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
         $this->_getResource()->setDbVersion($this->_resourceName, $newVersion);
+
+        return $this;
     }
 
     /**
@@ -369,21 +378,24 @@ class Mage_Core_Model_Resource_Setup
      *
      * @param string $newVersion
      * @param string $oldVersion
+     * @return Mage_Core_Model_Resource_Setup
      */
     protected function _rollbackResourceDb($newVersion, $oldVersion)
     {
         $this->_modifyResourceDb(self::TYPE_DB_ROLLBACK, $newVersion, $oldVersion);
+        return $this;
     }
 
     /**
      * Uninstall resource
      *
      * @param string $version existing resource version
-     * @return bool
+     * @return Mage_Core_Model_Resource_Setup
      */
     protected function _uninstallResourceDb($version)
     {
         $this->_modifyResourceDb(self::TYPE_DB_UNINSTALL, $version, '');
+        return $this;
     }
 
     /**
@@ -510,6 +522,7 @@ class Mage_Core_Model_Resource_Setup
      * @param string $fromVersion
      * @param string $toVersion
      * @return string|false
+     * @throws Mage_Core_Exception
      */
 
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
@@ -653,9 +666,9 @@ class Mage_Core_Model_Resource_Setup
             $bind    = array('id_field' => $id);
             $select  = $adapter->select()
                 ->from($table)
-                ->where($adapter->quoteIdentifier($idField) . '=:id_field');
+                ->where($adapter->quoteIdentifier($idField) . '= :id_field');
             if (!is_null($parentField)) {
-                $select->where($adapter->quoteIdentifier($parentField) . '=:parent_id');
+                $select->where($adapter->quoteIdentifier($parentField) . '= :parent_id');
                 $bind['parent_id'] = $parentId;
             }
             $this->_setupCache[$table][$parentId][$id] = $adapter->fetchRow($select, $bind);
@@ -796,38 +809,6 @@ class Mage_Core_Model_Resource_Setup
     public function addConfigField($path, $label, array $data=array(), $default=null)
     {
         return $this;
-//        $data['level'] = sizeof(explode('/', $path));
-//        $data['path'] = $path;
-//        $data['frontend_label'] = $label;
-//        if ($id = $this->getTableRow('core/config_field', 'path', $path, 'field_id')) {
-//            $this->updateTableRow('core/config_field', 'field_id', $id, $data);
-//        } else {
-//            if (empty($data['sort_order'])) {
-//                $sql = "select max(sort_order) cnt from ".$this->getTable('core/config_field')." where level=".($data['level']+1);
-//                if ($data['level']>1) {
-//                    $sql.= $this->_conn->quoteInto(" and path like ?", dirname($path).'/%');
-//                }
-//
-//                $result = $this->_conn->raw_fetchRow($sql);
-//                $this->_conn->fetchAll($sql);
-//#print_r($result); die;
-//                $data['sort_order'] = $result['cnt']+1;
-///*
-//// Triggers "Command out of sync" mysql error for next statement!?!?
-//                $data['sort_order'] = $this->_conn->fetchOne("select max(sort_order)
-//                    from ".$this->getTable('core/config_field')."
-//                    where level=?".$parentWhere, $data['level'])+1;
-//*/
-//            }
-//
-//            #$this->_conn->raw_query("insert into ".$this->getTable('core/config_field')." (".join(',', array_keys($data)).") values ('".join("','", array_values($data))."')");
-//            $this->_conn->insert($this->getTable('core/config_field'), $data);
-//        }
-//
-//        if (!is_null($default)) {
-//            $this->setConfigData($path, $default);
-//        }
-//        return $this;
     }
 
     /**
@@ -863,11 +844,11 @@ class Mage_Core_Model_Resource_Setup
      * @param string $scope (default|stores|websites|config)
      * @return Mage_Core_Model_Resource_Setup
      */
-    public function deleteConfigData($path, $scope=null)
+    public function deleteConfigData($path, $scope = null)
     {
-        $where = array('path=?' => $path);
+        $where = array('path = ?' => $path);
         if (!is_null($scope)) {
-            $where['scope=?'] = $scope;
+            $where['scope = ?'] = $scope;
         }
         $this->getConnection()->delete($this->getTable('core/config_data'), $where);
         return $this;

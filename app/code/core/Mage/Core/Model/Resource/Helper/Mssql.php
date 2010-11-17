@@ -122,15 +122,6 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $clonedSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $clonedSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
 
-        /**
-         * Assemble sql query
-         */
-//        $query = sprintf('SELECT %s.* FROM (%s) %s %s',
-//            $wrapperTableName,
-//            $clonedSelect->assemble(),
-//            $wrapperTableName,
-//            implode(' AND ', $whereCondition)
-//        );
 
         $columns = array();
         foreach ($columnList as $columnEntry) {
@@ -143,10 +134,10 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             $whereConditionExpr = '';
         }
 
+        $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), $columns);
         /**
          * Assemble sql query
          */
-        $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), $columns);
         $query = sprintf('SELECT %s FROM (%s) %s %s',
             implode(', ', $quotedColumns),
             $clonedSelect->assemble(),
@@ -156,7 +147,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
 
 
         if (!empty($orderCondition)) {
-            $query .= sprintf(' ORDER BY %s', $orderCondition);
+            $query .= ' ORDER BY ' . $orderCondition;
         }
 
         $query = $this->_assembleLimit($query, $limitCount, $limitOffset, $columnList);
@@ -172,22 +163,21 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
      */
     public function limitUnion($select)
     {
-        $limitCount = $select->getPart(Zend_Db_Select::LIMIT_COUNT);
+        $limitCount  = $select->getPart(Zend_Db_Select::LIMIT_COUNT);
         $limitOffset = $select->getPart(Zend_Db_Select::LIMIT_OFFSET);
-        $order = $select->getPart(Zend_Db_Select::ORDER);
+        $order       = $select->getPart(Zend_Db_Select::ORDER);
 
         $select->reset(Zend_Db_Select::LIMIT_COUNT)
             ->reset(Zend_Db_Select::LIMIT_OFFSET)
             ->reset(Zend_Db_Select::ORDER);
 
         return $this->_getReadAdapter()->select()
-            ->from(array('stest' => new Zend_Db_Expr('(' . $select->assemble() . ')')))
+            ->from(array('u_tbl' => new Zend_Db_Expr('(' . $select->assemble() . ')')))
             ->limit($limitCount, $limitOffset)
             ->order($order);
     }
 
     /**
-     * 
      * Returns Insert From Select On Duplicate query with analytic functions
      *
      * @param Varien_Db_Select $select
@@ -206,7 +196,6 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $orderCondition   = implode(', ', $this->_prepareOrder($clonedSelect, true));
         $groupByCondition = implode(', ', $this->_prepareGroup($clonedSelect, true));
         $having           = $this->_prepareHaving($clonedSelect, true);
-
 
         $columnList = $this->prepareColumnsList($clonedSelect, $groupByCondition);
 
@@ -338,7 +327,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
      * @param Varien_Db_Select $select
      * @param bool $autoReset
      * @return array
-     * @throws Exception
+     * @throws Zend_Db_Exception
      */
     protected function _prepareHaving(Varien_Db_Select $select, $autoReset = false)
     {
@@ -363,7 +352,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
                          */
                         $havings[] = str_replace($correlationName, $column, $having);
                     } else {
-                        throw new Exception(sprintf("Can't prepare expression without column alias: '%s'", $correlationName));
+                        throw new Zend_Db_Exception(sprintf("Can't prepare expression without column alias: '%s'", $correlationName));
                     }
                 }
             }
@@ -384,7 +373,6 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
      * @param int $limitOffset
      * @param array $columnList
      * @return string
-     * @throws Exception
      */
     protected function _assembleLimit($query, $limitCount, $limitOffset, $columnList)
     {
@@ -479,6 +467,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
      * @param string|array $fields
      * @param string $groupConcatDelimiter
      * @param string $fieldsDelimiter
+     * @param string $additionalWhere
      * @return Varien_Db_Select
      */
     public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = '')
@@ -549,7 +538,8 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             $groupConcatSelect->where($additionalWhere);
         }
 
-        $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf("stuff((%s for xml path(''),type).value('.','varchar(max)'), 1, 1, '')", $groupConcatSelect))));
+        $concatField = sprintf("stuff((%s for xml path(''),type).value('.','varchar(max)'), 1, 1, '')", $groupConcatSelect);
+        $select->columns(array($fieldAlias => new Zend_Db_Expr($concatField)));
 
         return $select;
     }

@@ -70,7 +70,7 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
         $stores = array();
         $select = $read->select()
             ->from($this->getTable('core/store'), array('store_id', 'code', 'name', 'website_id'))
-            ->order('sort_order ASC');
+            ->order('sort_order ' . Varien_Db_Select::SQL_ASC);
         $rowset = $read->fetchAssoc($select);
         foreach ($rowset as $s) {
             if (!isset($websites[$s['website_id']])) {
@@ -85,7 +85,7 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
         }
 
         $substFrom = array();
-        $substTo = array();
+        $substTo   = array();
 
         // load all configuration records from database, which are not inherited
         $select = $read->select()
@@ -102,25 +102,26 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
                 continue;
             }
             $value = str_replace($substFrom, $substTo, $r['value']);
-            $xmlConfig->setNode('default/'.$r['path'], $value);
+            $xmlConfig->setNode('default/' . $r['path'], $value);
         }
 
         // inherit default config values to all websites
         $extendSource = $xmlConfig->getNode('default');
         foreach ($websites as $id=>$w) {
-            $websiteNode = $xmlConfig->getNode('websites/'.$w['code']);
+            $websiteNode = $xmlConfig->getNode('websites/' . $w['code']);
             $websiteNode->extend($extendSource);
         }
 
         $deleteWebsites = array();
         // set websites config values from database
         foreach ($rowset as $r) {
-            if ($r['scope']!=='websites') {
+            if ($r['scope'] !== 'websites') {
                 continue;
             }
             $value = str_replace($substFrom, $substTo, $r['value']);
             if (isset($websites[$r['scope_id']])) {
-                $xmlConfig->setNode('websites/'.$websites[$r['scope_id']]['code'].'/'.$r['path'], $value);
+                $nodePath = sprintf('websites/%s/%s', $websites[$r['scope_id']]['code'], $r['path']);
+                $xmlConfig->setNode($nodePath, $value);
             } else {
                 $deleteWebsites[$r['scope_id']] = $r['scope_id'];
             }
@@ -128,7 +129,7 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
 
         // extend website config values to all associated stores
         foreach ($websites as $website) {
-            $extendSource = $xmlConfig->getNode('websites/'.$website['code']);
+            $extendSource = $xmlConfig->getNode('websites/' . $website['code']);
             if (isset($website['stores'])) {
                 foreach ($website['stores'] as $sCode) {
                     $storeNode = $xmlConfig->getNode('stores/'.$sCode);
@@ -148,7 +149,8 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
             }
             $value = str_replace($substFrom, $substTo, $r['value']);
             if (isset($stores[$r['scope_id']])) {
-                $xmlConfig->setNode('stores/'.$stores[$r['scope_id']]['code'].'/'.$r['path'], $value);
+                $nodePath = sprintf('stores/%s/%s', $stores[$r['scope_id']]['code'], $r['path']);
+                $xmlConfig->setNode($nodePath, $value);
             } else {
                 $deleteStores[$r['scope_id']] = $r['scope_id'];
             }
@@ -156,14 +158,14 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
 
         if ($deleteWebsites) {
             $this->_getWriteAdapter()->delete($this->getMainTable(), array(
-                'scope=?' => 'websites',
+                'scope = ?'      => 'websites',
                 'scope_id IN(?)' => $deleteWebsites,
             ));
         }
 
         if ($deleteStores) {
             $this->_getWriteAdapter()->delete($this->getMainTable(), array(
-                'scope=?' => 'stores',
+                'scope=?'        => 'stores',
                 'scope_id IN(?)' => $deleteStores,
             ));
         }
@@ -184,9 +186,9 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
         $writeAdapter = $this->_getWriteAdapter();
         $select = $writeAdapter->select()
             ->from($this->getMainTable())
-            ->where('path=?', $path)
-            ->where('scope=?', $scope)
-            ->where('scope_id=?', $scopeId);
+            ->where('path = ?', $path)
+            ->where('scope = ?', $scope)
+            ->where('scope_id = ?', $scopeId);
         $row = $writeAdapter->fetchRow($select);
 
         $newData = array(
@@ -215,11 +217,11 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function deleteConfig($path, $scope, $scopeId)
     {
-        $writeAdapter = $this->_getWriteAdapter();
-        $writeAdapter->delete($this->getMainTable(), array(
-            $writeAdapter->quoteInto('path=?', $path),
-            $writeAdapter->quoteInto('scope=?', $scope),
-            $writeAdapter->quoteInto('scope_id=?', $scopeId)
+        $adapter = $this->_getWriteAdapter();
+        $adapter->delete($this->getMainTable(), array(
+            $adapter->quoteInto('path = ?', $path),
+            $adapter->quoteInto('scope = ?', $scope),
+            $adapter->quoteInto('scope_id = ?', $scopeId)
         ));
         return $this;
     }

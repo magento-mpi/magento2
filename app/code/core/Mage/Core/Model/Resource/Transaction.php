@@ -139,6 +139,7 @@ class Mage_Core_Model_Resource_Transaction
      * Initialize objects save transaction
      *
      * @return Mage_Core_Model_Resource_Transaction
+     * @throws Exception
      */
     public function save()
     {
@@ -175,11 +176,12 @@ class Mage_Core_Model_Resource_Transaction
      * Initialize objects delete transaction
      *
      * @return Mage_Core_Model_Resource_Transaction
+     * @throws Exception
      */
     public function delete()
     {
         $this->_startTransaction();
-        $error     = false;
+        $error = false;
 
         try {
             foreach ($this->_objects as $object) {

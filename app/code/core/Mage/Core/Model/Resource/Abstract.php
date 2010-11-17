@@ -34,10 +34,13 @@
 abstract class Mage_Core_Model_Resource_Abstract
 {
     /**
-     * Constructor
+     * Main constructor
      */
     public function __construct()
     {
+        /**
+         * Please override this one instead of overriding real __construct constructor
+         */
         $this->_construct();
     }
 
@@ -152,6 +155,7 @@ abstract class Mage_Core_Model_Resource_Abstract
      * @param string $field
      * @param mixed $defaultValue
      * @param bool $unsetEmpty
+     * @return Mage_Core_Model_Resource_Abstract
      */
     protected function _serializeField(Varien_Object $object, $field, $defaultValue = null, $unsetEmpty = false)
     {
@@ -168,6 +172,8 @@ abstract class Mage_Core_Model_Resource_Abstract
         } elseif (is_array($value) || is_object($value)) {
             $object->setData($field, serialize($value));
         }
+
+        return $this;
     }
 
     /**
