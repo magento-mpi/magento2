@@ -72,14 +72,15 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
             }
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
 
+            $periodExpr = $adapter->getDateAddSql(
+                'o.created_at',
+                $this->_getStoreTimezoneUtcOffset(),
+                Varien_Db_Adapter_Interface::INTERVAL_HOUR
+            );
             // Columns list 
             $columns = array(
                 // convert dates from UTC to current admin timezone
-                'period'                         => $adapter->getDateAddSql(
-                    'o.created_at',
-                    $this->_getStoreTimezoneUtcOffset(),
-                    Varien_Db_Adapter_Interface::INTERVAL_HOUR
-                ),
+                'period'                         => $periodExpr,
                 'store_id'                       => 'o.store_id',
                 'order_status'                   => 'o.status',
                 'orders_count'                   => new Zend_Db_Expr('COUNT(o.entity_id)'),
@@ -202,7 +203,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
             }
 
             $select->group(array(
-                'o.created_at', //$periodExpr,
+                $periodExpr,
                 'o.store_id',
                 'o.status',
             ));

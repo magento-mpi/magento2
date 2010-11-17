@@ -70,21 +70,23 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
      */
     protected function _getSelectedColumns()
     {
+        $adapter = $this->getConnection();
+        
         if (!$this->_selectedColumns) {
             if ($this->isTotals()) {
                 $this->_selectedColumns = $this->getAggregatedColumns();
             } else {
                 $this->_selectedColumns = array(
-                    'period'         => 'MAX(period)',
+                    'period'         =>  sprintf('MAX(%s)', $adapter->getDateFormatSql('period', '%Y-%m-%d')),
                     'qty_ordered'    => 'SUM(qty_ordered)',
                     'product_id'     => 'product_id',
                     'product_name'   => 'MAX(product_name)',
                     'product_price'  => 'MAX(product_price)',
                 );
                 if ('year' == $this->_period) {
-                    $this->_selectedColumns['period'] = $this->getConnection()->getDateFormatSql('period', '%Y');
+                    $this->_selectedColumns['period'] = $adapter->getDateFormatSql('period', '%Y');
                 } elseif ('month' == $this->_period) {
-                    $this->_selectedColumns['period'] = $this->getConnection()->getDateFormatSql('period', '%Y-%m');
+                    $this->_selectedColumns['period'] = $adapter->getDateFormatSql('period', '%Y-%m');
                 }
             }
         }

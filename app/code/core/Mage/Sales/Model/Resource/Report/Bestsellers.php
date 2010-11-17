@@ -96,10 +96,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 'product_id'             => 'order_item.product_id',
                 'product_name'           => new Zend_Db_Expr(
                     sprintf('MIN(%s)',
-                        $adapter->getIfNullSql(
-                            $adapter->getIfNullSql('product_name.value','0'),
-                            $adapter->getIfNullSql('product_default_name.value','0')
-                        )
+                        $adapter->getIfNullSql('product_name.value','product_default_name.value')
                     )
                 ),
                 'product_price'          => new Zend_Db_Expr(
@@ -107,9 +104,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                             $helper->prepareColumn(
                                 sprintf('MIN(%s)',
                                     $adapter->getIfNullSql(
-                                        $adapter->getIfNullSql('product_price.value','0'),
-                                        $adapter->getIfNullSql('product_default_price.value','0')
-                                    )
+                                        $adapter->getIfNullSql('product_price.value','product_default_price.value'),0)
                                 ),
                                 $select->getPart(Zend_Db_Select::GROUP)
                             ),
@@ -146,7 +141,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
                 Mage_Catalog_Model_Product_Type::TYPE_BUNDLE,
             );
-            
+
             $joinExpr = array(
                 'product.entity_id = order_item.product_id',
                 $adapter->quoteInto('product.entity_type_id = ?', $product->getTypeId()),
@@ -197,7 +192,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 $adapter->quoteInto('product_price.attribute_id = ?', $attr->getAttributeId())
             );
             $joinExprProductPrice    = implode(' AND ', $joinExprProductPrice);
-            
+
             $joinExprProductDefPrice = array(
                 'product_default_price.entity_id = product.entity_id',
                 'product_default_price.store_id = 0',
@@ -251,7 +246,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
 
             $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $this->getMainTable(),
                 array_keys($columns));
-            $adapter->query($insertQuery); 
+            $adapter->query($insertQuery);
 
             // update rating
             $this->_updateRatingPos(self::AGGREGATION_DAILY);
