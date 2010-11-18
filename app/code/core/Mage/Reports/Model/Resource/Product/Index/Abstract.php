@@ -58,29 +58,29 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
         $adapter = $this->_getWriteAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('visitor_id = ?', (int)$object->getVisitorId());
+            ->where(($object->getVisitorId()) ? 'visitor_id = ?' : 'visitor_id IS NULL', $object->getVisitorId());
 
         $rowSet = $select->query()->fetchAll();
         foreach ($rowSet as $row) {
             $select = $adapter->select()
                 ->from($this->getMainTable())
-                ->where('customer_id = ?', (int)$object->getCustomerId())
-                ->where('product_id = ?', (int)$row['product_id']);
+                ->where('customer_id = ?', $object->getCustomerId())
+                ->where('product_id = ?', $row['product_id']);
             $idx = $adapter->fetchRow($select);
 
             if ($idx) {
                 $adapter->delete($this->getMainTable(), array('index_id = ?' => $row['index_id']));
                 $where = array('index_id = ?' => $idx['index_id']);
                 $data  = array(
-                    'visitor_id'    => (int)$object->getVisitorId(),
-                    'store_id'      => (int)$object->getStoreId(),
+                    'visitor_id'    => $object->getVisitorId(),
+                    'store_id'      => $object->getStoreId(),
                     'added_at'      => Varien_Date::now(),
                 );
             } else {
                 $where = array('index_id = ?' => $row['index_id']);
                 $data  = array(
-                    'customer_id'   => (int)$object->getCustomerId(),
-                    'store_id'      => (int)$object->getStoreId(),
+                    'customer_id'   => $object->getCustomerId(),
+                    'store_id'      => $object->getStoreId(),
                     'added_at'      => Varien_Date::now()
                 );
             }
@@ -115,7 +115,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
     }
 
     /**
-     * Save Product Index data (forsed save)
+     * Save Product Index data (forced save)
      *
      * @param Mage_Reports_Model_Product_Index_Abstract $object
      * @return Mage_Reports_Model_Resource_Product_Index_Abstract
@@ -190,59 +190,31 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
      */
     public function registerIds(Varien_Object $object, $productIds)
     {
-        /**
-         * Prepare data for insert statement
-         */
-        $row   = array(
-            'visitor_id'        => (int)$object->getVisitorId(),
-            'customer_id'       => (int)$object->getCustomerId(),
-            'store_id'          => (int)$object->getStoreId(),
+        $row = array(
+            'visitor_id'    => $object->getVisitorId(),
+            'customer_id'   => $object->getCustomerId(),
+            'store_id'      => $object->getStoreId(),
         );
-
         $addedAt    = Varien_Date::toTimestamp(true);
-        $insertData = array();
+        $data = array();
         foreach ($productIds as $productId) {
-            /**
-             * Prepare select for unique key check
-             */
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable(), $this->getIdFieldName())
-                ->where('visitor_id = ?', $row['visitor_id'])
-                ->where('customer_id = ?', $row['customer_id'])
-                ->where('store_id = ?', $row['store_id']);
-
+            $productId = (int) $productId;
             if ($productId) {
-                /**
-                 * Add data for insert/update
-                 */
-                $row['product_id'] = (int)$productId;
+                $row['product_id'] = $productId;
                 $row['added_at']   = Varien_Date::formatDate($addedAt+1);
-
-                $select->where('product_id = ?', $productId);
-
-                $result = $this->_getReadAdapter()->fetchOne($select);
-
-                /**
-                 * If visitor_id isn't exists
-                 */
-                if (!$result) {
-                    /**
-                     * Prepare data for insert
-                     */
-                    $insertData[] = $row;
-                }
+                $data[] = $row;
             }
+            $addedAt->subSecond(1);
         }
 
-        /**
-         * Insert data
-         */
-        if (!empty($insertData)) {
-            foreach ($insertData as $data) {
-                $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
-            }
+        $matchFields = array('product_id', 'store_id');
+        foreach ($data as $row) {
+            Mage::getResourceHelper('reports')->mergeVisitorProductIndex(
+                $this->getMainTable(),
+                $row,
+                $matchFields
+            );
         }
-
         return $this;
     }
 }
