@@ -519,7 +519,10 @@ class Mage_CatalogInventory_Model_Observer
                 }
             }
         }
-        Mage::getResourceSingleton('cataloginventory/indexer_stock')->reindexProducts($productIds);
+
+        if( count($productIds)) {
+            Mage::getResourceSingleton('cataloginventory/indexer_stock')->reindexProducts($productIds);
+        }
 
         // Reindex previously remembered items
         $productIds = array();
