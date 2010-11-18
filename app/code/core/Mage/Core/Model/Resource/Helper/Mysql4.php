@@ -351,4 +351,16 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         $dateDiff = '(TO_DAYS(' . $startDate . ') - TO_DAYS('.$endDate.'))';
         return new Zend_Db_Expr($dateDiff);
     }
+
+    /**
+     * Add escape symbol for like expression
+     *
+     * @param string $value
+     * @return Zend_Db_Expr
+     */
+    public function addLikeEscape($value)
+    {
+        $adapter = $this->_getReadAdapter();
+        return new Zend_Db_Expr($adapter->quote($value));
+    }
 }

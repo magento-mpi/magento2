@@ -556,4 +556,16 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $dateDiff = 'DATEDIFF(DAY, '.$startDate.', '.$endDate.')';
         return new Zend_Db_Expr($dateDiff);
     }
+
+    /**
+     * Add escape symbol for like expression
+     *
+     * @param string $value
+     * @return Zend_Db_Expr
+     */
+    public function addLikeEscape($value)
+    {
+        $adapter = $this->_getReadAdapter();
+        return new Zend_Db_Expr($adapter->quoteInto(" ? escape '\\\\'", $value));
+    }
 }

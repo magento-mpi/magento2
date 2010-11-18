@@ -64,7 +64,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Admin
 
     public function getCondition()
     {
-        return array('like'=>'%'.$this->_escapeValue($this->getValue()).'%');
+        $helper = Mage::getResourceHelper('core');
+        $value  = '%'.$this->getValue().'%';
+        return array('like'=>$helper->addLikeEscape($this->_escapeValue($value)));
     }
 
     protected function _escapeValue($value)

@@ -501,4 +501,16 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         $query = sprintf('(trunc(%s) - trunc(%s))', $startDate, $endDate);
         return new Zend_Db_Expr($query);
     }
+
+    /**
+     * Add escape symbol for like expression
+     *
+     * @param string $value
+     * @return Zend_Db_Expr
+     */
+    public function addLikeEscape($value)
+    {
+        $adapter = $this->_getReadAdapter();
+        return new Zend_Db_Expr($adapter->quoteInto(" ? escape '\\'", $value));
+    }
 }
