@@ -156,7 +156,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
     /**
      * Correct limitation of queries with UNION
      * No need to do additional actions on Oracle
-     * 
+     *
      * @param Varien_Db_Select $select
      * @return Varien_Db_Select
      */
@@ -166,7 +166,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
     }
 
     /**
-     * 
+     *
      * Returns Insert From Select On Duplicate query with analytic functions
      *
      * @param Varien_Db_Select $select
@@ -391,7 +391,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
                     $limitOffset + $limitCount);
             } else {
                 $query = sprintf('SELECT %s FROM (
-                                      SELECT m1.*, ROWNUM AS analytic_row_number_tbl 
+                                      SELECT m1.*, ROWNUM AS analytic_row_number_tbl
                                       FROM (%s) m1
                                       WHERE ROWNUM <= %d) m2
                                   WHERE m2.analytic_row_number_tbl >= %d',
@@ -511,6 +511,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
     public function addLikeEscape($value)
     {
         $adapter = $this->_getReadAdapter();
-        return new Zend_Db_Expr($adapter->quoteInto(" ? escape '\\'", $value));
+        $quotedValue = str_replace('\\\\', '\\', $adapter->quote($value));
+        return new Zend_Db_Expr($quotedValue . " escape '\\'");
     }
 }
