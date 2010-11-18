@@ -48,6 +48,7 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
             $matchFields[] = 'visitor_id';
         } else {
             $matchFields[] = 'customer_id';
+            unset($data['visitor_id']);
         }
         $selectPart = '';
         $matchPart  = '';
