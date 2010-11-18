@@ -37,7 +37,7 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('googlecheckout/notification'))
-    ->addColumn('serial_number', Varien_Db_Ddl_Table::TYPE_TEXT, 30, array(
+    ->addColumn('serial_number', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
         'nullable'  => false,
         'primary'   => true,
         ), 'Serial Number')
