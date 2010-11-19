@@ -201,10 +201,10 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
             $productId = (int) $productId;
             if ($productId) {
                 $row['product_id'] = $productId;
-                $row['added_at']   = Varien_Date::formatDate($addedAt+1);
+                $row['added_at']   = Varien_Date::formatDate($addedAt);
                 $data[] = $row;
             }
-            $addedAt->subSecond(1);
+            $addedAt -= ($addedAt > 0) ? 1 : 0;
         }
 
         $matchFields = array('product_id', 'store_id');
