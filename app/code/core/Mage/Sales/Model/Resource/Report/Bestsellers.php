@@ -76,10 +76,8 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
 
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr                    = $adapter->getDateAddSql('source_table.created_at',
-                $this->_getStoreTimezoneUtcOffset(),
-                Varien_Db_Adapter_Interface::INTERVAL_HOUR
-            );
+            $periodExpr = $adapter->getDatePartSql($adapter->getDateAddSql('source_table.created_at',
+                $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
 
             $helper                        = Mage::getResourceHelper('core');
             $select = $adapter->select();

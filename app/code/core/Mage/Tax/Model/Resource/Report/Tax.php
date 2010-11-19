@@ -71,7 +71,8 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
 
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = $writeAdapter->getDateAddSql('e.created_at', $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR);
+            $periodExpr = $writeAdapter->getDatePartSql($writeAdapter->getDateAddSql('e.created_at',
+                $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
 
             $countDistinctSubSelect = clone $writeAdapter->select();
             $countDistinctSubSelect->reset()

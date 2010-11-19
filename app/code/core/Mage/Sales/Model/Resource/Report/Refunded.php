@@ -87,7 +87,8 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = $adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(), 'HOURS');
+            $periodExpr = $adapter->getDatePartSql($adapter->getDateAddSql('created_at',
+                $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
             $columns = array(
                 'period'            => $periodExpr,
                 'store_id'          => 'store_id',
@@ -182,8 +183,8 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = $adapter->getDateAddSql('source_table.created_at',
-                $this->_getStoreTimezoneUtcOffset(), 'HOURS');
+            $periodExpr = $adapter->getDatePartSql($adapter->getDateAddSql('source_table.created_at',
+                $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
 
             $columns = array(
                 'period'            => $periodExpr,

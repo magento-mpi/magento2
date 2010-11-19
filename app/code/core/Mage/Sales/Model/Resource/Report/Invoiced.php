@@ -93,8 +93,8 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr = $adapter->getDateAddSql('source_table.created_at',
-                    $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR);
+            $periodExpr = $adapter->getDatePartSql($adapter->getDateAddSql('source_table.created_at',
+                    $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
             $columns = array(
                 // convert dates from UTC to current admin timezone
                 'period'                => $periodExpr,
@@ -202,8 +202,8 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
 
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
             // convert dates from UTC to current admin timezone
-            $periodExpr          = $adapter->getDateAddSql('created_at', $this->_getStoreTimezoneUtcOffset(),
-                Varien_Db_Adapter_Interface::INTERVAL_HOUR);
+            $periodExpr = $adapter->getDatePartSql($adapter->getDateAddSql('created_at',
+                $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
             $ifBaseTotalInvoiced = $adapter->getCheckSql('base_total_invoiced > 0', 1, 0);
 
             $columns = array(

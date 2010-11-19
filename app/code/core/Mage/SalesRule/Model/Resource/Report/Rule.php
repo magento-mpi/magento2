@@ -86,12 +86,8 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
 
             // convert dates from UTC to current admin timezone
-            $periodExpr = new Zend_Db_Expr(
-                $adapter->getDateAddSql(
-                    'source_table.created_at',
-                    $this->_getStoreTimezoneUtcOffset(),
-                    Varien_Db_Adapter_Interface::INTERVAL_HOUR)
-            );
+            $periodExpr = $adapter->getDatePartSql($adapter->getDateAddSql('source_table.created_at',
+                $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
 
             $columns = array(
                 'period'                  => $periodExpr,
