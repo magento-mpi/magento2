@@ -156,6 +156,7 @@ $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
+        'comment'   => 'Customer Segment'
     ));
 
 // use specific attributes for customer segments
