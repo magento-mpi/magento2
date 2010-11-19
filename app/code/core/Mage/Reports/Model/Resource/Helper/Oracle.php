@@ -44,17 +44,17 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
      */
     public function mergeVisitorProductIndex($mainTable, $data, $matchFields)
     {
+        $pseudoUnique = array();
         if (!empty($data['visitor_id'])) {
-            $matchFields[] = 'visitor_id';
-        } else {
-            $matchFields[] = 'customer_id';
-            unset($data['visitor_id']);
+            $pseudoUnique[] = 't1.visitor_id = t2.visitor_id';
+        }
+        if (!empty($data['customer_id'])) {
+            $pseudoUnique[] = 't1.customer_id = t2.customer_id';
         }
         $selectPart = '';
-        $matchPart  = '';
+        $matchPart  = '( ' . implode(' AND ', $pseudoUnique) . ')';
         $insertPart = '';
         $updatePart = '';
-        $deletePart = '';
         $columnsPart = implode(',', array_keys($data));
 
         foreach ($data as $column => $value) {
@@ -74,19 +74,14 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
             }
         }
 
-        if (!empty($data['visitor_id']) && !empty($data['customer_id'])) {
-            $deletePart = ' DELETE WHERE EXISTS ( SELECT 1 FROM ' . $mainTable . ' t3 WHERE '
-                . 't3.store_id = t1.store_id AND t3.customer_id = t1.customer_id AND t3.product_id = t1.product_id AND t3.visitor_id != t1.visitor_id )';
-        }
-
         $selectPart = rtrim($selectPart,', ');
         $updatePart = rtrim($updatePart,', ');
         $insertPart = rtrim($insertPart,', ');
 
         $sql = 'MERGE INTO ' . $mainTable . ' t1 USING ('
-            . ' SELECT ' . $selectPart . ' FROM dual ) t2 ON ( 1 = 1 ' . $matchPart . ' )'
+            . ' SELECT ' . $selectPart . ' FROM dual ) t2 ON ( ' . $matchPart . ' )'
             . 'WHEN MATCHED THEN '
-            . ' UPDATE SET ' . $updatePart . $deletePart
+            . ' UPDATE SET ' . $updatePart
             . ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')'
             . ' VALUES ( ' . $insertPart . ')';
 
