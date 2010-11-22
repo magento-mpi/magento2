@@ -52,9 +52,13 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
 
         $periodCol = 't.period';
         if ($aggregation == $aggregationAliases['monthly']) {
-            $periodCol = $adapter->getDateFormatSql('t.period', '%Y-%m-01');
+            $periodCol = $adapter->getConcatSql(array(
+                $adapter->getDateFormatSql('t.period', '%Y-%m'), $adapter->quote('-01')
+            ));
         } elseif ($aggregation == $aggregationAliases['yearly']) {
-            $periodCol = $adapter->getDateFormatSql('t.period', '%Y-01-01');
+            $periodCol = $adapter->getConcatSql(array(
+                $adapter->getDateFormatSql('t.period', '%Y'), $adapter->quote('-01-01')
+            ));
         }
 
         $cols = array(
@@ -69,7 +73,7 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
         $periodSubSelect->from(array('t' => $mainTable), $cols)
             ->group(array('t.store_id', $periodCol, 't.product_id'));
 
-        $periodSubSelect = $this->getQueryUsingAnalyticFunction($periodSubSelect);
+        //$periodSubSelect = $this->getQueryUsingAnalyticFunction($periodSubSelect);
 
         $columns = array(
             'period'        => 't.period',
