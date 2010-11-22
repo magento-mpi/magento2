@@ -86,7 +86,7 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
         ));
         // Top level
         $cols = array(
-            'period'        => ($postfix) ? 't.period' : $adapter->getConcatSql(array('t.period', $postfix)),
+            'period'        => ($postfix == false) ? 't.period' : $adapter->getConcatSql(array('t.period', $postfix)),
             'store_id'      => 't.store_id',
             'product_id'    => 't.product_id',
             'product_name'  => 't.product_name',
