@@ -91,7 +91,7 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
             'product_id'    => 't.product_id',
             'product_name'  => 't.product_name',
             'product_price' => 't.product_price',
-            'qty_ordered'   => 't.total_qty_ordered',
+            'qty_ordered'   => 't.qty_ordered',
             'rating_pos'    => 't.rating_pos'
         );
         $ratingSelect->from(array('t' => new Zend_Db_Expr(sprintf('(%s)', $ratingSubSelect))), $cols);
