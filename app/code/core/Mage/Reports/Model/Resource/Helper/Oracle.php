@@ -68,9 +68,10 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
             $insertPart .= sprintf('t2.%s, ', $column);
 
             if (!in_array($column, $matchFields)) {
-                if (count($pseudoUnique) == 1 && !isset($pseudoUnique[$column])) {
-                    $updatePart .= sprintf('t1.%s = t2.%s, ', $column, $column);
+                if (count($pseudoUnique) == 1 && isset($pseudoUnique[$column])) {
+                    continue;
                 }
+                $updatePart .= sprintf('t1.%s = t2.%s, ', $column, $column);
             } else {
                 $matchPart .= sprintf('AND t1.%s = t2.%s ', $column, $column);
             }
