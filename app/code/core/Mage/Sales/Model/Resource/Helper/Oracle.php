@@ -50,54 +50,51 @@ class Mage_Sales_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_H
         $ratingSubSelect = $adapter->select();
         $ratingSelect    = $adapter->select();
 
-        $periodCol = 't.period';
+        $postfix = false;
+        $periodCol = 'tt.period';
         if ($aggregation == $aggregationAliases['monthly']) {
-            $periodCol = $adapter->getConcatSql(array(
-                $adapter->getDateFormatSql('t.period', '%Y-%m'), $adapter->quote('-01')
-            ));
+            $postfix = $adapter->quote('-01');
+            $periodCol = $adapter->getDateFormatSql('tt.period', '%Y-%m');
         } elseif ($aggregation == $aggregationAliases['yearly']) {
-            $periodCol = $adapter->getConcatSql(array(
-                $adapter->getDateFormatSql('t.period', '%Y'), $adapter->quote('-01-01')
-            ));
+            $postfix =$adapter->quote('-01-01');
+            $periodCol = $adapter->getDateFormatSql('tt.period', '%Y');
         }
+        // SubLevel 2
+        $periodSubSelect->from(array('tt' => $mainTable), array(
+                'period'            => $periodCol,
+                'store_id'          => 'tt.store_id',
+                'product_id'        => 'tt.product_id',
+                'product_name'      => new Zend_Db_expr('MAX(tt.product_name)'),
+                'product_price'     => new Zend_Db_expr('MAX(tt.product_price)'),
+                'total_qty_ordered' => new Zend_Db_expr('SUM(tt.qty_ordered)')
+        ))->group(array('tt.store_id', $periodCol, 'tt.product_id'));
 
-        $cols = array(
-            'period'            => 't.period',
-            'store_id'          => 't.store_id',
-            'product_id'        => 't.product_id',
-            'product_name'      => new Zend_Db_expr('MAX(t.product_name)'),
-            'product_price'     => new Zend_Db_expr('MAX(t.product_price)'),
-            'total_qty_ordered' => new Zend_Db_expr('SUM(t.qty_ordered)')
+        // SubLevel 1
+        $orderByColumns      = array(
+            'tr.store_id ' . Varien_Db_Select::SQL_ASC,
+            'tr.period ' . Varien_Db_Select::SQL_ASC,
+            'tr.total_qty_ordered ' . Varien_Db_Select::SQL_DESC
         );
-
-        $periodSubSelect->from(array('t' => $mainTable), $cols)
-            ->group(array('t.store_id', $periodCol, 't.product_id'));
-
-        //$periodSubSelect = $this->getQueryUsingAnalyticFunction($periodSubSelect);
-
-        $columns = array(
-            'period'        => 't.period',
+        $ratingSubSelect->from(array('tr' => new Zend_Db_Expr(sprintf('(%s)', $periodSubSelect))), array(
+            'period'        => 'tr.period',
+            'store_id'      => 'tr.store_id',
+            'product_id'    => 'tr.product_id',
+            'product_name'  => 'tr.product_name',
+            'product_price' => 'tr.product_price',
+            'qty_ordered'   => 'tr.total_qty_ordered',
+            'rating_pos'    => $this->prepareColumn('RANK()', 'tr.store_id, tr.period', $orderByColumns)
+        ));
+        // Top level
+        $cols = array(
+            'period'        => ($postfix) ? 't.period' : $adapter->getConcatSql(array('t.period', $postfix)),
             'store_id'      => 't.store_id',
             'product_id'    => 't.product_id',
             'product_name'  => 't.product_name',
             'product_price' => 't.product_price',
+            'qty_ordered'   => 't.total_qty_ordered',
+            'rating_pos'    => 't.rating_pos'
         );
-
-        $cols = $columns;
-        $cols['qty_ordered'] = 't.total_qty_ordered';
-        $orderByColumns      = array(
-            't.store_id ' . Varien_Db_Select::SQL_ASC,
-            't.period ' . Varien_Db_Select::SQL_ASC,
-            'total_qty_ordered ' . Varien_Db_Select::SQL_DESC
-        );
-        $cols['rating_pos']  = $this->prepareColumn('RANK()', 't.store_id, t.period', $orderByColumns);
-        $ratingSubSelect->from(new Zend_Db_Expr(sprintf('(%s)', $periodSubSelect)), $cols);
-
-        $cols = $columns;
-        $cols['period']      = $periodCol;  // important!
-        $cols['qty_ordered'] = 't.qty_ordered';
-        $cols['rating_pos']  = 't.rating_pos';
-        $ratingSelect->from($ratingSubSelect, $cols);
+        $ratingSelect->from(array('t' => new Zend_Db_Expr(sprintf('(%s)', $ratingSubSelect))), $cols);
         $sql = $ratingSelect->insertFromSelect($aggregationTable, array_keys($cols));
 
         $adapter->query($sql);
