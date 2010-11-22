@@ -42,7 +42,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
     protected $_fieldsForUpdate    = array('store_id', 'added_at');
 
     /**
-     * Update Customer from visitor (Customer loggin)
+     * Update Customer from visitor (Customer logged in)
      *
      * @param Mage_Reports_Model_Product_Index_Abstract $object
      * @return Mage_Reports_Model_Resource_Product_Index_Abstract
@@ -52,16 +52,21 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
         /**
          * Do nothing if customer not logged in
          */
-        if (!$object->getCustomerId()) {
+        if (!$object->getCustomerId() || !$object->getVisitorId()) {
             return $this;
         }
         $adapter = $this->_getWriteAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where(($object->getVisitorId()) ? 'visitor_id = ?' : 'visitor_id IS NULL', $object->getVisitorId());
+            ->where('visitor_id = ?', $object->getVisitorId());
 
         $rowSet = $select->query()->fetchAll();
         foreach ($rowSet as $row) {
+
+            /* We need to determine if there are rows with known
+               customer for current product.
+             */
+
             $select = $adapter->select()
                 ->from($this->getMainTable())
                 ->where('customer_id = ?', $object->getCustomerId())
@@ -69,6 +74,10 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
             $idx = $adapter->fetchRow($select);
 
             if ($idx) {
+            /* If we are here it means that we have two rows: one with known customer, but second just visitor is set
+             * One row should be updated with customer_id, second should be deleted
+             *
+             */
                 $adapter->delete($this->getMainTable(), array('index_id = ?' => $row['index_id']));
                 $where = array('index_id = ?' => $idx['index_id']);
                 $data  = array(
@@ -88,7 +97,6 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
             $adapter->update($this->getMainTable(), $data, $where);
 
         }
-
         return $this;
     }
 

@@ -53,7 +53,7 @@ class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_
             $pseudoUnique[] = 't1.customer_id = t2.customer_id';
         }
         $selectPart = '';
-        $matchPart  = '( ' . implode(' AND ', $pseudoUnique) . ')';
+        $matchPart  = '( ' . implode(' OR ', $pseudoUnique) . ')';
         $insertPart = '';
         $updatePart = '';
         $columnsPart = implode(',', array_keys($data));
@@ -75,13 +75,13 @@ class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_
             }
         }
 
-        $selectPart = rtrim($selectPart,', ');
-        $updatePart = rtrim($updatePart,', ');
-        $insertPart = rtrim($insertPart,', ');
+        $selectPart = rtrim($selectPart, ', ');
+        $updatePart = rtrim($updatePart, ', ');
+        $insertPart = rtrim($insertPart, ', ');
 
         $sql = 'MERGE ' . $mainTable . ' t1 USING ('
             . ' SELECT ' . $selectPart . ' ) t2 ON (' . $matchPart . ' )'
-            . 'WHEN MATCHED THEN '
+            . ' WHEN MATCHED THEN '
             . ' UPDATE SET ' . $updatePart
             . ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')'
             . ' VALUES ( ' . $insertPart . ');';
