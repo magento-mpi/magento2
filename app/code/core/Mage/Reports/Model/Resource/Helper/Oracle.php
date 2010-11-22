@@ -52,7 +52,8 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
             $pseudoUnique[] = 't1.customer_id = t2.customer_id';
         }
         $selectPart = '';
-        $matchPart  = '( ' . implode(' OR ', $pseudoUnique) . ')';
+        $matchPart  = '';
+        $updateCond = implode(' OR ', $pseudoUnique);
         $insertPart = '';
         $updatePart = '';
         $columnsPart = implode(',', array_keys($data));
@@ -79,15 +80,15 @@ class Mage_Reports_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource
         $insertPart = rtrim($insertPart, ', ');
 
         $sql = 'MERGE INTO ' . $mainTable . ' t1 USING ('
-            . ' SELECT ' . $selectPart . ' FROM dual ) t2 ON ( ' . $matchPart . ' )'
+            . ' SELECT ' . $selectPart . ' FROM dual ) t2 ON ( 1=1 ' . $matchPart . ' )'
             . ' WHEN MATCHED THEN '
-            . ' UPDATE SET ' . $updatePart
+            . ' UPDATE SET ' . $updatePart . ' WHERE (' . $updateCond . ')' 
             . ' WHEN NOT MATCHED THEN INSERT (' . $columnsPart . ')'
             . ' VALUES ( ' . $insertPart . ')';
 
         $stmt = $this->_getWriteAdapter()->query($sql, $data);
         $result = $stmt->rowCount();
-        
+
         return $result;
     }
 
