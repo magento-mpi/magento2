@@ -153,10 +153,12 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
     protected function _applyDateRangeFilter()
     {
         if ($this->_from !== null) {
-            $this->getSelect()->where('period >= ?', $this->_from);
+            $dt = $this->getConnection()->formatDate($this->_from);
+            $this->getSelect()->where(' (period - ?) >= 0', $dt);
         }
         if ($this->_to !== null) {
-            $this->getSelect()->where('period <= ?', $this->_to);
+            $dt = $this->getConnection()->formatDate($this->_to);
+            $this->getSelect()->where(' (? - period) >= -1', $dt);
         }
         return $this;
     }
