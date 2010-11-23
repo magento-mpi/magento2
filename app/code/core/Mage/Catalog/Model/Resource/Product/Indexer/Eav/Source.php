@@ -112,7 +112,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         $subSelect = $adapter->select()
             ->from(
                 array('s' => $this->getTable('core/store')),
-                array('store_id', ' website_id')
+                array('store_id', 'website_id')
             )
             ->joinLeft(
                 array('d' => $this->getValueTable('catalog/product', 'int')),
