@@ -26,7 +26,7 @@
 
 
 /**
- * Mage_Log_Model_Mysql4_Customers_Collection
+ * Visitor log collection
  *
  * @category    Mage
  * @package     Mage_Log
@@ -91,6 +91,11 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
      */
     protected $_quoteTable;
 
+    /**
+     * Online filter used flag
+     * 
+     * @var bool
+     */
     protected $_isOnlineFilterUsed = false;
 
     /**
@@ -106,7 +111,10 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
         'url'                => 'url_info_table.url'
     );
 
-    function _construct()
+    /**
+     * Collection resource initialization
+     */
+    protected function _construct()
     {
         $this->_init('log/visitor');
 
@@ -130,12 +138,14 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
         $this->getSelect()
             ->where('customer_table.customer_id > 0')
             ->group('customer_table.customer_id');
+        
         return $this;
     }
 
     /**
      * Get GROUP BY date format
      *
+     * @deprecated since 1.5.0.0
      * @param string $type
      * @return string
      */
@@ -156,6 +166,7 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
     /**
      * Get range by type
      *
+     * @deprecated since 1.5.0.0
      * @param string $typeCode
      * @return string
      */

@@ -68,15 +68,16 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _saveUrlInfo($visitor)
     {
-        $data = new Varien_Object(array(
+        $adapter    = $this->_getWriteAdapter();
+        $data       = new Varien_Object(array(
             'url'    => Mage::helper('core/string')->substr($visitor->getUrl(), 0, 250),
             'referer'=> Mage::helper('core/string')->substr($visitor->getHttpReferer(), 0, 250)
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log/url_info_table'));
 
-        $this->_getWriteAdapter()->insert($this->getTable('log/url_info_table'), $bind);
+        $adapter->insert($this->getTable('log/url_info_table'), $bind);
 
-        $visitor->setLastUrlId($this->_getWriteAdapter()->lastInsertId($this->getTable('log/url_info_table')));
+        $visitor->setLastUrlId($adapter->lastInsertId($this->getTable('log/url_info_table')));
 
         return $this;
     }

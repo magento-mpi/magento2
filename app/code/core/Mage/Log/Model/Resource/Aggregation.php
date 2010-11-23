@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Log aggregation resource model 
  *
  * @category    Mage
  * @package     Mage_Log
@@ -35,52 +35,55 @@
 class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Resource initialization
      *
      */
-    public function _construct()
+    protected function _construct()
     {
         $this->_init('log/summary_table', 'log_summary_id');
     }
 
     /**
-     * Enter description here ...
+     * Retrieve last added record
      *
-     * @return unknown
+     * @return string
      */
     public function getLastRecordDate()
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('summary_table'), array('date'=>'MAX(add_date)'));
+        $adapter    = $this->_getReadAdapter();
+        $select     = $adapter->select()
+            ->from($this->getTable('log/summary_table'),
+                array($adapter->quoteIdentifier('date')=>'MAX(add_date)'));
 
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $adapter->fetchOne($select);
     }
 
     /**
-     * Enter description here ...
+     * Retrieve count of visitors, customers
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
-     * @param unknown_type $store
-     * @return unknown
+     * @param string $from
+     * @param string $to
+     * @param int $store
+     * @return array
      */
     public function getCounts($from, $to, $store)
     {
-        $result = array('customers'=>0, 'visitors'=>0);
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('customer'), 'visitor_id')
+        $adapter    = $this->_getReadAdapter();
+        $result     = array('customers'=>0, 'visitors'=>0);
+        $select     = $adapter->select()
+            ->from($this->getTable('log/customer'), 'visitor_id')
             ->where('login_at >= ?', $from)
             ->where('login_at <= ?', $to);
         if ($store) {
             $select->where('store_id = ?', $store);
         }
 
-        $customers = $this->_getReadAdapter()->fetchCol($select);
+        $customers = $adapter->fetchCol($select);
         $result['customers'] = count($customers);
 
 
-        $select = $this->_getReadAdapter()->select();
-        $select->from($this->getTable('visitor'), 'COUNT(*)')
+        $select = $adapter->select();
+        $select->from($this->getTable('log/visitor'), 'COUNT(*)')
             ->where('first_visit_at >= ?', $from)
             ->where('first_visit_at <= ?', $to);
 
@@ -91,53 +94,60 @@ class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Ab
             $select->where('visitor_id NOT IN(?)', $customers);
         }
 
-        $result['visitors'] = $this->_getReadAdapter()->fetchOne($select);
+        $result['visitors'] = $adapter->fetchOne($select);
 
 
         return $result;
     }
 
     /**
-     * Enter description here ...
+     * Save log
      *
-     * @param unknown_type $data
-     * @param unknown_type $id
+     * @param array $data
+     * @param int $id
      */
     public function saveLog($data, $id = null)
     {
+        $adapter = $this->_getWriteAdapter();
         if (is_null($id)) {
-            $this->_getWriteAdapter()->insert($this->getTable('summary_table'), $data);
+            $adapter->insert($this->getTable('log/summary_table'), $data);
         } else {
-            $condition = $this->_getWriteAdapter()->quoteInto('summary_id = ?', $id);
-            $this->_getWriteAdapter()->update($this->getTable('summary_table'), $data, $condition);
+            $condition = $adapter->quoteInto('summary_id = ?', $id);
+            $adapter->update($this->getTable('log/summary_table'), $data, $condition);
         }
     }
 
     /**
-     * Enter description here ...
+     * Remove empty records
      *
-     * @param unknown_type $date
+     * @param string $date
      */
     public function removeEmpty($date)
     {
-        $condition = $this->_getWriteAdapter()->quoteInto('add_date < ? AND customer_count = 0 AND visitor_count = 0', $date);
-        $this->_getWriteAdapter()->delete($this->getTable('summary_table'), $condition);
+        $adapter    = $this->_getWriteAdapter();
+        $condition  = array(
+            'add_date < ?' => $date,
+            'customer_count = 0',
+            'visitor_count = 0'
+        ); 
+        $adapter->delete($this->getTable('log/summary_table'), $condition);
     }
 
     /**
-     * Enter description here ...
+     * Retrieve log id
      *
-     * @param unknown_type $from
-     * @param unknown_type $to
-     * @return unknown
+     * @param string $from
+     * @param string $to
+     * @return string
      */
     public function getLogId($from, $to)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('summary_table'), 'summary_id')
+        $adapter    = $this->_getReadAdapter();
+        $select     = $adapter->select()
+            ->from($this->getTable('log/summary_table'), 'summary_id')
             ->where('add_date >= ?', $from)
             ->where('add_date <= ?', $to);
 
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $adapter->fetchOne($select);
     }
 }

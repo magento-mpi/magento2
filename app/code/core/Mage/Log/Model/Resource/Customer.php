@@ -30,7 +30,7 @@
  *
  * @category   Mage
  * @package    Mage_Log
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Log_Model_Resource_Customer extends Mage_Core_Model_Resource_Db_Abstract
@@ -77,6 +77,9 @@ class Mage_Log_Model_Resource_Customer extends Mage_Core_Model_Resource_Db_Abstr
      */
     protected $_quoteTable;
 
+    /**
+     * Resource initialization
+     */
     protected function _construct()
     {
         $this->_init('log/customer', 'log_id');
@@ -90,6 +93,8 @@ class Mage_Log_Model_Resource_Customer extends Mage_Core_Model_Resource_Db_Abstr
     }
 
     /**
+     * Retrieve select object for load object data
+     * 
      * @param string $field
      * @param mixed $value
      * @param Mage_Log_Model_Customer $object
