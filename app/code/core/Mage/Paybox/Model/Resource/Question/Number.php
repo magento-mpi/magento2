@@ -26,7 +26,7 @@
 
 
 /**
- * Paybox Api Debug Mysql4 resourcre model
+ * Paybox Api Debug resource model
  *
  * @category    Mage
  * @package     Mage_Paybox
