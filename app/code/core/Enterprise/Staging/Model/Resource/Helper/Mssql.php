@@ -64,6 +64,12 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
         $ddlOptions = array();
         $ddlSize = $ddlType = null;
         switch ($field['DATA_TYPE']) {
+            case 'bit':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_BOOLEAN;
+                break;
+            case 'smallint':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_SMALLINT;
+                break;
             case 'int':
                 $ddlType = Varien_Db_Ddl_Table::TYPE_INTEGER;
                 break;
@@ -79,6 +85,9 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
             case 'decimal':
                 $ddlType = Varien_Db_Ddl_Table::TYPE_DECIMAL;
                 $ddlSize = $field['PRECISION'] . ',' .$field['SCALE'];
+                break;
+            case 'date':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_DATE;
                 break;
             case 'datetime':
                 $ddlType = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
