@@ -1024,7 +1024,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      */
     public function clearCategoryProduct($storeId)
     {
-        $adapter = $this->_getReadAdapter();
+        $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()
             ->from(array('tur' => $this->getMainTable()), $this->getIdFieldName())
             ->joinLeft(
