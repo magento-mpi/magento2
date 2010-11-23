@@ -107,37 +107,44 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         if (!$attrIds) {
             return $this;
         }
+        
+        /**@var $subSelect Varien_Db_Select*/
+        $subSelect = $adapter->select()
+            ->from(
+                array('s' => $this->getTable('core/store')),
+                array('store_id', ' website_id')
+            )
+            ->joinLeft(
+                array('d' => $this->getValueTable('catalog/product', 'int')),
+                '1 = 1 AND d.store_id = 0',
+                array('entity_id', 'attribute_id', 'value')
+            )
+            ->where('s.store_id = 1');
 
-        $productValueExpression = $adapter->getIfNullSql('pis.value', 'pid.value');
+        /**@var $select Varien_Db_Select*/
         $select = $adapter->select()
             ->from(
-                array('cs' => $this->getTable('core/store')),
-                array())
-            ->joinLeft(
-                array('pid' => $this->getValueTable('catalog/product', 'int')),
-                $adapter->quoteInto('pid.store_id=?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID),
-                array('entity_id', 'attribute_id'))
+                array('pid' => new Zend_Db_Expr(sprintf('(%s)',$subSelect->assemble()))),
+                array()
+            )
             ->joinLeft(
                 array('pis' => $this->getValueTable('catalog/product', 'int')),
-                'pis.entity_id = pid.entity_id '
-                    . ' AND pis.store_id=cs.store_id',
-                array('cs.store_id', 'value' => $productValueExpression))
-            ->where('cs.store_id!=?', Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
-            ->where('pid.value IS NULL OR pid.attribute_id IN(?)', $attrIds)
-            ->where('pis.value IS NULL OR pis.attribute_id IN(?)', $attrIds)
-            ->where(
-                $adapter->getCheckSql(
-                    'pis.value IS NOT NULL AND pid.value IS NOT NULL AND pis.attribute_id = pid.attribute_id',
-                    '1',
-                    $adapter->getCheckSql('pis.value IS NOT NULL OR pid.value IS NOT NULL' , '1', '0')
-                ) . '=1'
-            );
-
-        $statusCond = $adapter->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
-        $this->_addAttributeToSelect($select, 'status', 'pid.entity_id', 'cs.store_id', $statusCond);
+                'pis.entity_id = pid.entity_id AND pis.store_id = pid.store_id',
+                array()
+            )
+            ->columns(
+                array(
+                    'pid.store_id',
+                    'pid.entity_id',
+                    'pid.attribute_id',
+                    'value' => $adapter->getIfNullSql('pis.value', 'pid.value')
+                )
+            )
+            ->where('pid.attribute_id IN(?)', $attrIds)
+            ->where('? IS NOT NULL', $adapter->getIfNullSql('pis.value', 'pid.value'));
 
         if (!is_null($entityIds)) {
-            $select->where('pid.entity_id IN(?)', $entityIds);
+                $select->where('pid.entity_id IN(?)', $entityIds);
         }
 
         /**
@@ -146,11 +153,12 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         Mage::dispatchEvent('prepare_catalog_product_index_select', array(
             'select'        => $select,
             'entity_field'  => new Zend_Db_Expr('pid.entity_id'),
-            'website_field' => new Zend_Db_Expr('cs.website_id'),
-            'store_field'   => new Zend_Db_Expr('cs.store_id')
+            'website_field' => new Zend_Db_Expr('pid.website_id'),
+            'store_field'   => new Zend_Db_Expr('pid.store_id')
         ));
 
         $query = $select->insertFromSelect($idxTable);
+     //   echo $query;
         $adapter->query($query);
 
         return $this;
