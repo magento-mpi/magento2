@@ -26,7 +26,7 @@
 
 
 /**
- * Eway Setup resourcre model
+ * Eway Setup resource model
  *
  * @category    Mage
  * @package     Mage_Eway

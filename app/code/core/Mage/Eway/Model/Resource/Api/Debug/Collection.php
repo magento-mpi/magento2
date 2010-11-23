@@ -26,7 +26,7 @@
 
 
 /**
- * eWAY Api Debug Mysql4 collection model
+ * eWAY Api Debug collection model
  *
  * @category    Mage
  * @package     Mage_Eway
@@ -35,7 +35,7 @@
 class Mage_Eway_Model_Resource_Api_Debug_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Model initialization
      *
      */
     protected function _construct()
