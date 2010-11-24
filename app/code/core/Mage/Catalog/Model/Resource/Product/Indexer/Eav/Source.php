@@ -134,9 +134,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
             )
             ->columns(
                 array(
-                    'pid.store_id',
                     'pid.entity_id',
                     'pid.attribute_id',
+                    'pid.store_id',
                     'value' => $adapter->getIfNullSql('pis.value', 'pid.value')
                 )
             )
