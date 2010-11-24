@@ -207,7 +207,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
                 'created_at', $days, Varien_Db_Adapter_Interface::INTERVAL_DAY
             );
         } else {
-            $update['expired_at_dynamic'] = 'NULL';
+            $update['expired_at_dynamic'] = new Zend_Db_Expr('NULL');
         }
         $where = array('website_id IN (?)' => $websiteIds);
         $adapter->update($this->getMainTable(), $update, $where);
