@@ -442,6 +442,7 @@ $table = $installer->getConnection()
         ), 'Position')
     ->addColumn('level', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
+        'default'   => '0',
         ), 'Tree Level')
     ->addColumn('children_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,

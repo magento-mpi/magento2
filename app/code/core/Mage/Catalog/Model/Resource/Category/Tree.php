@@ -465,8 +465,8 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         if (empty($ids)) {
             $select = $this->_conn->select()
                 ->from($this->_table, 'entity_id')
-                ->where($this->_conn->quoteIdentifier('level') . ' <= :c_level');
-            $ids = $this->_conn->fetchCol($select, array('c_level' => 2));
+                ->where($levelField . ' <= 2');
+            $ids = $this->_conn->fetchCol($select);
         }
         if (!is_array($ids)) {
             $ids = array($ids);
@@ -479,25 +479,20 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         $select = $this->_conn->select()
             ->from($this->_table, array('path', 'level'))
             ->where('entity_id IN (?)', $ids);
-        $where = array($levelField . '=:zero_level');
-        $uniqueWhere = array();
-        $bind = array(':zero_level' => 0);
-        foreach ($this->_conn->fetchAll($select) as $itemIndex => $item) {
+        $where = array($levelField . '=0' => true);
+
+        foreach ($this->_conn->fetchAll($select) as $item) {
             $pathIds  = explode('/', $item['path']);
             $level = (int)$item['level'];
             while ($level > 0) {
                 $pathIds[count($pathIds) - 1] = '%';
                 $path = implode('/', $pathIds);
-                if (!isset($uniqueWhere[$level . '--' . $path])) {
-                    $where[] = "$levelField=:limit_$itemIndex AND $pathField LIKE :path_$itemIndex";
-                    $bind['limit_' . $itemIndex] = $level;
-                    $bind['path_' . $itemIndex] = $path;
-                    $uniqueWhere[$level . '--' . $path] = true;
-                }
+                $where["$levelField=$level AND $pathField LIKE '$path'"] = true;
                 array_pop($pathIds);
                 $level--;
             }
         }
+        $where = array_keys($where);
 
         // get all required records
         if ($addCollectionData) {
@@ -506,10 +501,10 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
             $select = clone $this->_select;
             $select->order($this->_orderField . ' ' . Varien_Db_Select::SQL_ASC);
         }
-        $select->where('(' . implode(') OR (', $where) . ')');
+        $select->where(implode(' OR ', $where));
 
         // get array of records and add them as nodes to the tree
-        $arrNodes = $this->_conn->fetchAll($select, $bind);
+        $arrNodes = $this->_conn->fetchAll($select);
         if (!$arrNodes) {
             return false;
         }
@@ -524,7 +519,6 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
             $childrenItems[$pathToParent][] = $nodeInfo;
         }
         $this->addChildNodes($childrenItems, '', null);
-
         return $this;
     }
 
