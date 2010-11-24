@@ -73,7 +73,7 @@ class Mage_Sales_Model_Resource_Report_Order_Collection extends Mage_Sales_Model
         } elseif ('year' == $this->_period) {
             $this->_periodFormat = $adapter->getDateExtractSql('period', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
         } else {
-            $this->_periodFormat = 'period';
+            $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m-%d');
         }
 
         if (!$this->isTotals()) {
