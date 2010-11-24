@@ -511,6 +511,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
     public function addLikeEscape($value)
     {
         $adapter = $this->_getReadAdapter();
+        $value = $this->_escapeValue($value);
         $quotedValue = str_replace('\\\\', '\\', $adapter->quote($value));
         return new Zend_Db_Expr($quotedValue . " escape '\\'");
     }

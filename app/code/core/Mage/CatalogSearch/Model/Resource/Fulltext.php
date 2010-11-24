@@ -330,11 +330,9 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $likeCond  = '';
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
-                $likeI = 0;
+                $helper = Mage::getResourceHelper('core');
                 foreach ($preparedTerms[1] as $term) {
-                    $like[] = 's.data_index LIKE :likew' . $likeI;
-                    $bind[':likew' . $likeI] = '%' . $term . '%';
-                    $likeI ++;
+                    $like[] = 's.data_index LIKE '. $helper->addLikeEscape('%' . $term . '%');
                 }
                 if ($like) {
                     $likeCond = '(' . join(' OR ', $like) . ')';

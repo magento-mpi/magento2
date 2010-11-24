@@ -361,6 +361,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     public function addLikeEscape($value)
     {
         $adapter = $this->_getReadAdapter();
+        $value = $this->_escapeValue($value);
         return new Zend_Db_Expr($adapter->quote($value));
     }
 }

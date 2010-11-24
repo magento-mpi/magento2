@@ -134,8 +134,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
                     $param = Varien_Db_Helper::shortName($attribute->getAttributeCode());
                     $selects[] = $this->getConnection()->select()
                         ->from($table, 'entity_id')
-                        ->where($attribute->getAttributeCode().' LIKE :'.$param);
-                    $this->addBindParam($param, $this->_searchQuery);
+                        ->where($attribute->getAttributeCode().' LIKE ' . Mage::getResourceHelper('core')->addLikeEscape($this->_searchQuery));
                 } else {
                     $tables[$table][] = $attribute->getId();
                 }
@@ -154,8 +153,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
                 )
                 ->where('t1.attribute_id IN (?)', $attributeIds)
                 ->where('t1.store_id = ?', 0)
-                ->where($ifValueId . ' LIKE :'.$param);
-                $this->addBindParam($param, $this->_searchQuery);
+                ->where($ifValueId . ' LIKE ' . Mage::getResourceHelper('core')->addLikeEscape($this->_searchQuery));
         }
 
         if ($sql = $this->_getSearchInOptionSql($query)) {
@@ -216,9 +214,9 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
             ->join(array('a' => $attributesTable), 'o.attribute_id=a.attribute_id', array())
             ->where('d.store_id=0')
             ->where('o.attribute_id IN (?)', $attributeIds)
-            ->where($ifValue . ' LIKE :search_query');
+            ->where($ifValue . ' LIKE ' . Mage::getResourceHelper('core')->addLikeEscape($this->_searchQuery));
 
-        $options = $this->getConnection()->fetchAll($select, array('search_query'=>$this->_searchQuery));
+        $options = $this->getConnection()->fetchAll($select);
         if (empty($options)) {
             return false;
         }

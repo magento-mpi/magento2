@@ -566,6 +566,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
     public function addLikeEscape($value)
     {
         $adapter = $this->_getReadAdapter();
+        $value = $this->_escapeValue($value);
         return new Zend_Db_Expr($adapter->quoteInto(" ? escape '\\'", $value));
     }
 }

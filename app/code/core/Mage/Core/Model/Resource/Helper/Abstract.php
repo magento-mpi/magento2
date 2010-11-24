@@ -106,4 +106,15 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
 
         return $resource->getConnection($connection);
     }
+
+    /**
+     * Escape value which participate in LIKE
+     *
+     * @value string
+     * @return string
+     */
+    protected function _escapeValue($value)
+    {
+        return str_replace('_', '\_', str_replace('\\', '\\\\', $value));
+    }
 }
