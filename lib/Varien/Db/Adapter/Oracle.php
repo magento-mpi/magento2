@@ -134,7 +134,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @var string
      */
-    protected $_debugFile           = 'var/debug/oracle.log';
+    protected $_debugFile           = 'oracle/var/debug/oracle.log';
 
     /**
      * Io File Adapter
@@ -1166,10 +1166,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if (!isset($indexList[$keyName])) {
             return $this;
         }
-
         switch (strtolower($indexList[$keyName]['INDEX_TYPE'])){
             case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
+
                 $condition = 'ALTER TABLE %1$s DROP CONSTRAINT "%2$s" CASCADE';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
@@ -1223,7 +1223,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
             $casesResults  = array(
                 "uc.constraint_type = 'P'"                                        => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY . "'",
-                "nvl(uc.constraint_type,'U') != 'P' AND ui.uniqueness = 'UNIQUE'" => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE . "'",
+                "nvl(uc.constraint_type,'N') = 'U'/* AND ui.uniqueness = 'UNIQUE'*/ " => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE . "'",
                 "ui.ityp_owner = 'CTXSYS' AND ui.ityp_name = 'CONTEXT'"           => "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT . "'",
             );
             $defaultValue  = "'" . Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX . "'";
@@ -1233,14 +1233,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 ->from(array('ui' => 'all_indexes'), '')
                 ->joinLeft(
                     array('uc' => 'all_constraints'),
-                    'ui.index_name = uc.constraint_name',
+                    'ui.index_name = uc.constraint_name AND ui.table_owner = uc.owner',
                     array())
                 ->join(
                     array('uic' => 'all_ind_columns'),
-                    'ui.index_name = uic.index_name',
+                    'ui.index_name = uic.index_name AND ui.table_owner = uic.table_owner',
                     array())
                 ->columns(array(
-                    'schema_name'   => 'ui.table_owner',
+                    'schema_name'   => 'ui.owner',
                     'table_name'    => 'ui.table_name',
                     'key_name'      => 'ui.index_name',
                     'column_name'   => 'uic.column_name',
@@ -1248,10 +1248,41 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     'index_method'  => 'ui.index_type',
                 ))
                 ->where('ui.table_name = upper(?)', $tableName)
-                ->where('ui.table_owner = upper(?)', $schemaName);
+                ->where('ui.owner = upper(?)', $schemaName);
 
+            $isIndexExists = $this->select()
+                ->from(
+                    array('ai' => 'all_indexes'),
+                    array(new Zend_Db_Expr('1')))
+                ->where('ai.owner = ac.owner')
+                ->where('ai.index_name = ac.constraint_name');
+            $constraints = $this->select()
+                ->from(
+                    array('ac' => 'all_constraints'),
+                    array())
+                ->join(
+                    array('acc' => 'all_cons_columns'),
+                    'acc.owner = ac.owner AND acc.constraint_name = ac.constraint_name',
+                    array())
+                ->where('ac.table_name = upper(?)', $tableName)
+                ->where("ac.constraint_type IN ('P','U')")
+                ->where('ac.owner = upper(?)', $schemaName)
+                ->where(sprintf('NOT EXISTS (%s)', $isIndexExists->assemble()))
+                ->columns(array(
+                    'schema_name'   => 'ac.owner',
+                    'table_name'    => 'ac.table_name',
+                    'key_name'      => 'ac.constraint_name',
+                    'column_name'   => 'acc.column_name',
+                    'index_type'    => new Zend_Db_Expr(
+                        sprintf("CASE WHEN constraint_type = 'P' THEN '%s' ELSE '%s' END",
+                            Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY,
+                            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)),
 
-            $rowset = $this->fetchAll($select);
+                    'index_method'  => 'ui.index_type',
+                    'index_method'  => new Zend_Db_Expr('NULL')
+                ));
+            $keys = $this->select()->union(array($select, $constraints));
+            $rowset = $this->fetchAll($keys);
             foreach ($rowset as $row) {
                 $upperKeyName = strtoupper($row['key_name']);
                 $columnName   = strtolower($row['column_name']);
@@ -4291,4 +4322,3 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return sprintf('%s %s', $sql, Varien_Db_Adapter_Oracle::SQL_FOR_UPDATE);
     }
 }
-
