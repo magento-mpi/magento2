@@ -134,7 +134,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @var string
      */
-    protected $_debugFile           = 'oracle/var/debug/oracle.log';
+    protected $_debugFile           = 'var/debug/oracle.log';
 
     /**
      * Io File Adapter
@@ -1909,27 +1909,28 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         $query = sprintf('INSERT INTO %s (%s) SELECT * FROM (%s) t2 WHERE NOT EXISTS ( SELECT 1 FROM %s t1 WHERE %s )',
             $table,
-            join(', ', $insertCols),
-            join(' UNION ALL ', $values),
+            implode(', ', $insertCols),
+            implode(' UNION ALL ', $values),
             $table,
-            join(' OR ', $joinConditions));
+            implode(' OR ', $joinConditions));
 
         if ($fields) {
             $query = sprintf("BEGIN\n %s;\n %s;\n END;",
                 $query,
-                sprintf('UPDATE %s t1 SET (%s)= (SELECT %s FROM (%s) t2 WHERE %s) WHERE EXISTS ( SELECT 1 FROM %s t3 WHERE %s )',
+                sprintf('UPDATE %s t1 SET (%s)= (SELECT %s FROM (%s) t2 WHERE %s) WHERE EXISTS ( SELECT 1 FROM (%s) t3 WHERE %s )',
                     $table,
-                    join(', ', $fields),
-                    join(', ', $fields),
-                    join(' UNION ALL ', $values),
-                    join(' OR ', $joinConditions),
-                    $table,
-                    str_replace('t2','t3', join(' OR ', $joinConditions))
+                    implode(', ', $fields),
+                    implode(', ', $fields),
+                    implode(' UNION ALL ', $values),
+                    implode(' OR ', $joinConditions),
+                    implode(' UNION ALL ', $values),
+                    str_replace('t2','t3', implode(' OR ', $joinConditions))
                 )
             );
         }
         return $this->query($query, $bind);
     }
+
 
     /**
      * Inserts a table multiply rows with specified data.
