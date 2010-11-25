@@ -152,13 +152,12 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
      */
     protected function _applyDateRangeFilter()
     {
+        // Remember that field PERIOD is a DATE(YYYY-MM-DD) in all databases including Oracle
         if ($this->_from !== null) {
-            $dt = $this->getConnection()->formatDate($this->_from);
-            $this->getSelect()->where(' (period - ?) >= 0', $dt);
+            $this->getSelect()->where('period >= ?', $this->_from);
         }
         if ($this->_to !== null) {
-            $dt = $this->getConnection()->formatDate($this->_to);
-            $this->getSelect()->where(' (? - period) >= -1', $dt);
+            $this->getSelect()->where('period <= ?', $this->_to);
         }
         return $this;
     }
