@@ -160,7 +160,7 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
                     if ($currentKey) {
                         $moved = prev($targetFields) !== false;
                         // If column positions diffrent
-                        if (($moved && $previous !== key($targetFields)) || !$moved) { 
+                        if (($moved && $previous !== key($targetFields)) || !$moved) {
                             $this->changeColumnPosition($targetTable, $field, $previous);
                         }
                     }
@@ -180,7 +180,7 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
                     $this->_tableContraintMap[$sourceTable][1]
                 );
             }
-            
+
         }
         return $this;
     }
@@ -203,7 +203,7 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
 
     /**
      * Syncronize table indexes
-     * 
+     *
      * @param string $sourceTable
      * @param string $targetTable
      * @return Enterprise_SalesArchive_Model_Resource_Setup
@@ -221,7 +221,9 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
                 }
             }
             if (!$indexExists) {
-                $newIndexName = $this->getConnection()->getIndexName($targetTable, $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']);
+                $newIndexName = $this->getConnection()->getIndexName(
+                    $targetTable, $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']
+                );
                 $this->getConnection()->addIndex(
                     $targetTable, $newIndexName, $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']
                 );

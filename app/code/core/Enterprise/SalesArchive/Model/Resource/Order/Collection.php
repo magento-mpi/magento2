@@ -54,8 +54,8 @@ class Enterprise_SalesArchive_Model_Resource_Order_Collection extends Mage_Sales
     {
         $select = clone $gridSelect;
         $select->reset('from');
-        $select->from(array('main_table' => $this->getTable('enterprise_salesarchive/order_grid')), '');
+        $select->from(array('main_table' => $this->getTable('enterprise_salesarchive/order_grid')), array());
         return $select;
     }
-    
+
 }

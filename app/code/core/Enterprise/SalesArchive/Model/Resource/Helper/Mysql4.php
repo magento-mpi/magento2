@@ -56,11 +56,15 @@ class Enterprise_SalesArchive_Model_Resource_Helper_Mysql4 extends Mage_Core_Mod
             return $this;
         }
 
-        if (!$this->tableExists($table)) {
+        if (!$this->_getWriteAdapter()->isTableExists($table)) {
             Mage::throwException(Mage::helper('enterprise_salesarchive')->__('Table not found'));
         }
 
-        $columns = $this->_fastDescribe($table);
+        $columns = array();
+        $description = $this->_getWriteAdapter()->describeTable($table);
+        foreach ($description as $column) {
+            $columns[$column['COLUMN_NAME']] = $column['DATA_TYPE'];
+        }
 
         if (!isset($columns[$column])) {
             Mage::throwException(Mage::helper('enterprise_salesarchive')->__('Column not found'));
@@ -76,14 +80,14 @@ class Enterprise_SalesArchive_Model_Resource_Helper_Mysql4 extends Mage_Core_Mod
                 $columns[$column],
                 $this->getConnection()->quoteIdentifier($after)
             );
-       } else {
+        } else {
             $sql = sprintf(
                 'ALTER TABLE %s MODIFY COLUMN %s %s FIRST',
                 $this->getConnection()->quoteIdentifier($table),
                 $this->getConnection()->quoteIdentifier($column),
                 $columns[$column]
             );
-       }
+        }
 
         $this->getConnection()->query($sql);
         return $this;
