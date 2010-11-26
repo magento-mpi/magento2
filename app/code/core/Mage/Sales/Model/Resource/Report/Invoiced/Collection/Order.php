@@ -105,6 +105,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced_Collection_Order
         $this->getSelect()->from($this->getResource()->getMainTable() , $this->_getSelectedColumns());
         if (!$this->isTotals()) {
             $this->getSelect()->group($this->_periodFormat);
+            $this->getSelect()->having('SUM(orders_count) > 0');
         }
         return $this;
     }
