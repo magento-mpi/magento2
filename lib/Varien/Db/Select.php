@@ -447,4 +447,28 @@ class Varien_Db_Select extends Zend_Db_Select
 
         return $sql;
     }
+    /**
+     * Add EXISTS clause
+     *
+     * @param  Varien_Db_Select $select
+     * @param  string           $joinCondition
+     * @param   bool            $isExists
+     * @return Varien_Db_Select
+     */
+    public function exists($select, $joinCondition, $isExists = true)
+    {
+        if ($isExists) {
+            $exists = 'EXISTS (%s)';
+        } else {
+            $exists = 'NOT EXISTS (%s)';
+        }
+        $select->reset(self::COLUMNS)
+            ->columns(array(new Zend_Db_Expr('1')))
+            ->where($joinCondition);
+
+        $exists = sprintf($exists, $select->assemble());
+
+        $this->where($exists);
+        return $this;
+    }
 }
