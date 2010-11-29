@@ -71,6 +71,29 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
     }
 
     /**
+     * Init mapping array of short fields to
+     * its full names
+     *
+     * @resturn Varien_Object
+     */
+    protected function _initOldFieldsMap()
+    {
+        $this->_oldFieldsMap = array(
+            'number' => 'track_number'
+        );
+    }
+
+    /**
+     * Back compatibility with old versions.
+     *
+     * @return string
+     */
+    public function getNumber()
+    {
+        return $this->getData('track_number');
+    }
+
+    /**
      * Declare Shipment instance
      *
      * @param   Mage_Sales_Model_Order_Shipment $shipment
@@ -120,8 +143,9 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
     {
         $carrierInstance = Mage::getSingleton('shipping/config')->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
+            $custom = array();
             $custom['title'] = $this->getTitle();
-            $custom['number'] = $this->getNumber();
+            $custom['number'] = $this->getTrackNumber();
             return $custom;
         } else {
             $carrierInstance->setStore($this->getStore());
