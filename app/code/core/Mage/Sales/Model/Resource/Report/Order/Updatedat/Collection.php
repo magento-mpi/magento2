@@ -203,7 +203,7 @@ class Mage_Sales_Model_Resource_Report_Order_Updatedat_Collection
                 $this->_periodFormat = $adapter->getDateExtractSql('e.updated_at',
                     Varien_Db_Adapter_Interface::INTERVAL_YEAR);
             } else {
-                $this->_periodFormat = $adapter->getDatePartSql('e.updated_at');
+                $this->_periodFormat = $adapter->getDateFormatSql('e.updated_at', '%Y-%m-%d');
             }
             $this->_selectedColumns['period'] = $this->_periodFormat;
         }
