@@ -2287,7 +2287,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $sql = sprintf("INSERT INTO %s (%s) %s",
             $this->quoteIdentifier($table, true),
-            implode(',', $columns), implode(' UNION ', $vals));
+            implode(',', $columns), implode(' UNION ALL ', $vals));
 
         // execute the statement and return the number of affected rows
         $stmt = $this->query($sql, $bind);

@@ -1848,7 +1848,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
         $columns = array_map(array($this, 'quoteIdentifier'), $columns);
         $sql = sprintf("INSERT INTO %s (%s) %s",
             $this->quoteIdentifier($table, true),
-            implode(',', $columns), implode(' UNION ', $vals));
+            implode(',', $columns), implode(' UNION ALL ', $vals));
 
         // execute the statement and return the number of affected rows
         $stmt = $this->query($sql, $bind);

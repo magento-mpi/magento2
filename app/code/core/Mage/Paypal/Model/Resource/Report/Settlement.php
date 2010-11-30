@@ -68,10 +68,29 @@ class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resou
                 if ($reportId) {
                     $adapter->delete($this->_rowsTable, array('report_id = ?' => $reportId));
                 }
+                /** @var $date Mage_Core_Model_Date */
+                $date = Mage::getSingleton('core/date');
+
                 foreach ($rows as $key => $row) {
+                    /*
+                     * Converting dates
+                     */
+                    $completionDate = new Zend_Date($rows[$key]['transaction_completion_date']);
+                    $rows[$key]['transaction_completion_date'] = $date->date(null, $completionDate->getTimestamp());
+                    $initiationDate = new Zend_Date($rows[$key]['transaction_initiation_date']);
+                    $rows[$key]['transaction_initiation_date'] = $date->date(null, $initiationDate->getTimestamp());
+                    /*
+                     * Converting numeric
+                     */
+                    $rows[$key]['fee_amount'] = (float)$rows[$key]['fee_amount'];
+                    /*
+                     * Setting reportId
+                     */
                     $rows[$key]['report_id'] = $reportId;
                 }
-                $adapter->insertMultiple($this->_rowsTable, $rows);
+                if (!empty($rows)) {
+                    $adapter->insertMultiple($this->_rowsTable, $rows);
+                }
                 $adapter->commit();
             } catch (Exception $e) {
                 $adapter->rollback();
