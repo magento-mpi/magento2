@@ -94,13 +94,14 @@ class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
         );
 
         if (!$this->isTotals()) {
+
+
             if ('month' == $this->_period) {
                 $this->_periodFormat = $adapter->getDateFormatSql('e.updated_at', '%Y-%m');
             } elseif ('year' == $this->_period) {
-                $this->_periodFormat =
-                    $adapter->getDateExtractSql('e.updated_at', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
+                $this->_periodFormat = $adapter->getDateExtractSql('e.updated_at', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
             } else {
-                $this->_periodFormat = $adapter->getDatePartSql('e.updated_at');
+                $this->_periodFormat = $adapter->getDateFormatSql('e.updated_at', '%Y-%m-%d');
             }
             $this->_selectedColumns['period'] = $this->_periodFormat;
         }

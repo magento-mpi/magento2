@@ -126,12 +126,13 @@ class Mage_Tax_Model_Resource_Report_Updatedat_Collection extends Mage_Sales_Mod
     protected function _getSelectedColumns()
     {
         $adapter = $this->getConnection();
+
         if ('month' == $this->_period) {
-            $this->_periodFormat = 'DATE_FORMAT(e.updated_at, \'%Y-%m\')';
+            $this->_periodFormat = $adapter->getDateFormatSql('e.updated_at', '%Y-%m');
         } elseif ('year' == $this->_period) {
-            $this->_periodFormat = 'EXTRACT(YEAR FROM e.updated_at)';
+            $this->_periodFormat = $adapter->getDateExtractSql('e.updated_at', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
         } else {
-            $this->_periodFormat = $adapter->getDatePartSql('e.updated_at');
+            $this->_periodFormat = $adapter->getDateFormatSql('e.updated_at', '%Y-%m-%d');
         }
 
         // To make this query valid in MSSQL and Oralce we have to add
