@@ -33,6 +33,8 @@
  */
 class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abstract
 {
+    const RATING_STATUS_APPROVED = 'Approved';
+
     /**
      * Resource initialization
      */
@@ -318,7 +320,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
             ->where('review_status.status_code = :status_code')
             ->group('rating_vote.entity_pk_value')
             ->group('review_store.store_id');
-        $bind = array(':status_code' => 'approved');
+        $bind = array(':status_code' => self::RATING_STATUS_APPROVED);
 
         $entityPkValue = $object->getEntityPkValue();
         if ($entityPkValue) {
