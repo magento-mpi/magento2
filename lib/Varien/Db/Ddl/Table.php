@@ -70,7 +70,7 @@ class Varien_Db_Ddl_Table
      *
      * @var string
      */
-    protected $_shemaName;
+    protected $_schemaName;
 
     /**
      * Comment for Table
@@ -180,7 +180,7 @@ class Varien_Db_Ddl_Table
      */
     public function setSchema($name)
     {
-        $this->_shemaName = $name;
+        $this->_schemaName = $name;
         return $this;
     }
 
@@ -216,7 +216,7 @@ class Varien_Db_Ddl_Table
      */
     public function getSchema()
     {
-        return $this->_shemaName;
+        return $this->_schemaName;
     }
 
     /**
@@ -283,12 +283,10 @@ class Varien_Db_Ddl_Table
                         $size       = array_values($size);
                         $precision  = $size[0];
                         $scale      = $size[1];
-                        $size       = null;
                     }
                 } else if (preg_match('#^(\d+),(\d+)$#', $size, $match)) {
                     $precision  = $match[1];
                     $scale      = $match[2];
-                    $size       = null;
                 }
                 // check options
                 if (isset($options['precision'])) {
@@ -362,7 +360,7 @@ class Varien_Db_Ddl_Table
      * Add Foreign Key to table
      *
      * @param string $fkName        the foreign key name
-     * @param string $column        the foregn key column name
+     * @param string $column        the foreign key column name
      * @param string $refTable      the reference table name
      * @param string $refColumn     the reference table column name
      * @param string $onDelete      the action on delete row
