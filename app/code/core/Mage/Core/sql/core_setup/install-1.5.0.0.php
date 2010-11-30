@@ -491,10 +491,8 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store Id')
     ->addColumn('plain_value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
         ), 'Plain Text Value')
     ->addColumn('html_value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
         ), 'Html Value')
     ->addIndex($installer->getIdxName('core/variable_value', array('variable_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('variable_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
