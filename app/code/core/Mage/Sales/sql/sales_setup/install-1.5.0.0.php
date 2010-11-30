@@ -3050,10 +3050,10 @@ $table = $installer->getConnection()
         array('product_id'))
     ->addForeignKey($installer->getFkName('sales/bestsellers_aggregated_daily', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog/product'), 'entity_id',
-        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_NO_ACTION, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/bestsellers_aggregated_daily', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core/store'), 'store_id',
-        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_NO_ACTION, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Bestsellers Aggregated Daily');
 $installer->getConnection()->createTable($table);
 
@@ -3101,10 +3101,10 @@ $table = $installer->getConnection()
         array('product_id'))
     ->addForeignKey($installer->getFkName('sales/bestsellers_aggregated_monthly', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog/product'), 'entity_id',
-        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_NO_ACTION, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/bestsellers_aggregated_monthly', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core/store'), 'store_id',
-        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_NO_ACTION, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Bestsellers Aggregated Monthly');
 $installer->getConnection()->createTable($table);
 
@@ -3151,10 +3151,10 @@ $table = $installer->getConnection()
         array('product_id'))
     ->addForeignKey($installer->getFkName('sales/bestsellers_aggregated_yearly', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog/product'), 'entity_id',
-        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_NO_ACTION, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/bestsellers_aggregated_yearly', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core/store'), 'store_id',
-        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
+        Varien_Db_Ddl_Table::ACTION_NO_ACTION, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Bestsellers Aggregated Yearly');
 $installer->getConnection()->createTable($table);
 
