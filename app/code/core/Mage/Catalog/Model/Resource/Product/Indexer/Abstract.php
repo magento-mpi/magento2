@@ -63,6 +63,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
         $attribute      = $this->_getAttribute($attrCode);
         $attributeId    = $attribute->getAttributeId();
         $attributeTable = $attribute->getBackend()->getTable();
+        $adapter        = $this->_getReadAdapter();
         $joinType       = !is_null($condition) || $required ? 'join' : 'joinLeft';
 
         if ($attribute->isScopeGlobal()) {
@@ -90,7 +91,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
                     . " AND {$sAlias}.store_id = {$store}",
                 array()
             );
-            $expression = $this->_getReadAdapter()->getCheckSql("{$sAlias}.value_id > 0",
+            $expression = $adapter->getCheckSql($adapter->getIfNullSql("{$sAlias}.value_id", -1) . ' > 0',
                 "{$sAlias}.value", "{$dAlias}.value");
         }
 

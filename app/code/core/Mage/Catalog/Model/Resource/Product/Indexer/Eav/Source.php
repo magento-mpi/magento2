@@ -107,7 +107,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         if (!$attrIds) {
             return $this;
         }
-        
+
         /**@var $subSelect Varien_Db_Select*/
         $subSelect = $adapter->select()
             ->from(
@@ -119,7 +119,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
                 '1 = 1 AND d.store_id = 0',
                 array('entity_id', 'attribute_id', 'value')
             )
-            ->where('s.store_id = 1');
+            ->where('s.store_id != 0');
 
         /**@var $select Varien_Db_Select*/
         $select = $adapter->select()
@@ -158,7 +158,6 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         ));
 
         $query = $select->insertFromSelect($idxTable);
-     //   echo $query;
         $adapter->query($query);
 
         return $this;
