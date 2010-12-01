@@ -48,15 +48,15 @@ $table = $installer->getConnection()
         ), 'Status')
     ->addColumn('first_customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
-        'default'   => '0',
         ), 'First Customer Id')
     ->addColumn('first_store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
         ), 'First Store Id')
     ->addForeignKey($installer->getFkName('tag/tag', 'first_customer_id', 'customer/entity', 'entity_id'),
         'first_customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
+    ->addForeignKey($installer->getFkName('tag/tag', 'first_store_id', 'core/store', 'store_id'),
+        'first_store_id', $installer->getTable('core/store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Tag');
 $installer->getConnection()->createTable($table);
