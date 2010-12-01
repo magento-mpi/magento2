@@ -242,7 +242,6 @@ $table = $installer->getConnection()
     ->addColumn('orig_template_code', Varien_Db_Ddl_Table::TYPE_TEXT, 200, array(
         ), 'Original Template Code')
     ->addColumn('orig_template_variables', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
         ), 'Original Template Variables')
     ->addIndex($installer->getIdxName('core/email_template', array('template_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('template_code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
