@@ -68,8 +68,11 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Catalog_Abstract
 
         $product = Mage::getModel('catalog/product');
 
-        Mage::getSingleton('core/resource_iterator')
-                ->walk($_collection->getSelect(), array(array($this, 'addTaggedItemXml')), array('rssObj'=> $rssObj, 'product'=>$product));
+        Mage::getSingleton('core/resource_iterator')->walk(
+            Mage::getResourceHelper('core')->getQueryUsingAnalyticFunction($_collection->getSelect()),
+            array(array($this, 'addTaggedItemXml')),
+            array('rssObj'=> $rssObj, 'product'=>$product)
+        );
 
         return $rssObj->createRssXml();
     }
