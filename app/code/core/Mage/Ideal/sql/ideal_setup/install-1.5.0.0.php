@@ -38,9 +38,9 @@ $installer->startSetup();
  */
 $installer->addAttribute('quote_payment', 'ideal_issuer_id', array());
 $installer->addAttribute('quote_payment', 'ideal_issuer_list', array('type' => 'text'));
-$installer->addAttribute('quote_payment', 'ideal_issuer_id', array());
-$installer->addAttribute('quote_payment', 'ideal_issuer_title', array());
-$installer->addAttribute('quote_payment', 'ideal_transaction_checked', array('type'=>'int'));
+$installer->addAttribute('order_payment', 'ideal_issuer_id', array());
+$installer->addAttribute('order_payment', 'ideal_issuer_title', array());
+$installer->addAttribute('order_payment', 'ideal_transaction_checked', array('type'=>'int'));
 
 /**
  * Prepare database after install
