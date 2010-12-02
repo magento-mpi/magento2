@@ -96,13 +96,18 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
                     'store_id = ?' => $object->getStoreId()
             ));
         } else {
+            $data =  array(
+                'variable_id' => $object->getId(),
+                'store_id'    => $object->getStoreId(),
+                'plain_value' => $object->getPlainValue(),
+                'html_value'  => $object->getHtmlValue()
+            );
+            $data = $this->_prepareDataForTable(new Varien_Object($data), $this->getTable('core/variable_value'));
             $this->_getWriteAdapter()->insertOnDuplicate(
-                $this->getTable('core/variable_value'), array(
-                    'variable_id' => $object->getId(),
-                    'store_id'    => $object->getStoreId(),
-                    'plain_value' => $object->getPlainValue(),
-                    'html_value'  => $object->getHtmlValue()
-                ), array('plain_value', 'html_value'));
+                $this->getTable('core/variable_value'),
+                $data,
+                array('plain_value', 'html_value')
+            );
         }
         return $this;
     }
@@ -150,7 +155,7 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
                 'store_plain_value' => 'store.plain_value',
                 'store_html_value'  => 'store.html_value'
             ));
-        
+
         return $this;
     }
 }
