@@ -160,7 +160,8 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
             'unsigned'  => false,
             'nullable'   => true,
             'default'   => null,
-            'extra'     => null
+            'extra'     => null,
+            'comment'   => $this->getAttribute()->getAttributeCode() . ' column'
         );
 
         if (!$isMulti) {
@@ -168,9 +169,10 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
                 'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
                 'length'    => 255,
                 'unsigned'  => false,
-                'nullable'   => true,
+                'nullable'  => true,
                 'default'   => null,
-                'extra'     => null
+                'extra'     => null,
+                'comment'   => $this->getAttribute()->getAttributeCode() . ' column'
             );
         }
 
@@ -193,7 +195,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
         );
 
         $sortable   = $this->getAttribute()->getUsedForSortBy();
-        if ($sortable and $this->getAttribute()->getFrontend()->getInputType() != 'multiselect') {
+        if ($sortable && $this->getAttribute()->getFrontend()->getInputType() != 'multiselect') {
             $index = sprintf('IDX_%s_VALUE', strtoupper($this->getAttribute()->getAttributeCode()));
 
             $indexes[$index] = array(

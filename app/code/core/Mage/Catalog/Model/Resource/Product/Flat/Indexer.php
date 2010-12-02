@@ -174,19 +174,18 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                     array('additional_table' => $this->getTable('catalog/eav_attribute')),
                     'additional_table.attribute_id = main_table.attribute_id'
                 )
-                ->where('main_table.entity_type_id = :entity_type_id')
-                ->where('main_table.attribute_code IN(?)', $this->_systemAttributes);
+                ->where('main_table.entity_type_id = :entity_type_id');
             $whereCondition = array(
                 'main_table.backend_type = :backend_type',
                 $adapter->quoteInto('additional_table.used_in_product_listing = ?', 1),
-                $adapter->quoteInto('additional_table.used_for_sort_by = ?', 1)
+                $adapter->quoteInto('additional_table.used_for_sort_by = ?', 1),
+                $adapter->quoteInto('main_table.attribute_code IN(?)', $this->_systemAttributes)
             );
             if ($this->getFlatHelper()->isAddFilterableAttributes()) {
                $whereCondition[] = $adapter->quoteInto('additional_table.is_filterable > ?', 0);
             }
 
-            $select->where(implode(') OR (', $whereCondition));
-
+            $select->where(implode(' OR ', $whereCondition));
             $attributesData = $adapter->fetchAll($select, $bind);
             Mage::getSingleton('eav/config')
                 ->importAttributesData($this->getEntityType(), $attributesData);

@@ -70,7 +70,8 @@ class Enterprise_GiftCard_Model_Source_Open extends Mage_Eav_Model_Entity_Attrib
                 'unsigned'  => false,
                 'nullable'   => is_null($attributeDefaultValue) || empty($attributeDefaultValue),
                 'default'   => is_null($attributeDefaultValue) || empty($attributeDefaultValue)?null:$attributeDefaultValue,
-                'extra'     => null
+                'extra'     => null,
+                'comment'   => 'Enterprise Giftcard Open ' . $this->getAttribute()->getAttributeCode() . 'column '
         ));
     }
     /**

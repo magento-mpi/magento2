@@ -591,9 +591,10 @@ class Mage_CatalogIndex_Model_Resource_Indexer extends Mage_Core_Model_Resource_
             $columns[$columnName] = array(
                 'type'      => 'decimal(12,4)',
                 'unsigned'  => false,
-                'is_null'   => true,
+                'nullable'   => true,
                 'default'   => null,
-                'extra'     => null
+                'extra'     => null,
+                'comment'   => $columnName . ' column'
             );
         }
 

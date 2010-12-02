@@ -69,9 +69,10 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
             $this->getAttribute()->getAttributeCode() => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
                 'unsigned'  => true,
-                'is_null'   => true,
+                'nullable'  => true,
                 'default'   => null,
-                'extra'     => null
+                'extra'     => null,
+                'comment'   => 'Enterprise Giftcard Type '. $this->getAttribute()->getAttributeCode() .' column '
             )
         );
         return $columns;

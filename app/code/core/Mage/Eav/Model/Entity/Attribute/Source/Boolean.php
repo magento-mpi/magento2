@@ -94,7 +94,8 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
             'unsigned'  => false,
             'nullable'   => true,
             'default'   => null,
-            'extra'     => null
+            'extra'     => null,
+            'comment'   => $this->getAttribute()->getAttributeCode() . ' column'
         );
 
         return $columns;

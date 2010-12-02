@@ -197,7 +197,8 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
             'unsigned'  => true,
             'nullable'   => true,
             'default'   => null,
-            'extra'     => null
+            'extra'     => null,
+            'comment'   => 'Catalog Product Visibility ' . $this->getAttribute()->getAttributeCode() . ' column'
         ));
     }
 
