@@ -37,11 +37,12 @@ class Mage_Core_Model_Resource_Iterator extends Varien_Object
      * @param Zend_Db_Statement_Interface|Zend_Db_Select|string $query
      * @param array|string $callbacks
      * @param array $args
-     * @return Mage_Core_Model_Resource_Activerecord
+     * @param Varien_Db_Adapter_interface $adapter
+     * @return Mage_Core_Model_Resource_Iterator
      */
-    public function walk($query, array $callbacks, array $args=array())
+    public function walk($query, array $callbacks, array $args=array(), $adapter = null)
     {
-        $stmt = $this->_getStatement($query);
+        $stmt = $this->_getStatement($query, $adapter);
         $args['idx'] = 0;
         while ($row = $stmt->fetch()) {
             $args['row'] = $row;
