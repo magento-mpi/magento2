@@ -188,7 +188,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
         if (!$object->getChildrenCount()) {
             $object->setChildrenCount(0);
         }
-        if (!$object->getLevel()) {
+        if ($object->getLevel() === null) {
             $object->setLevel(1);
         }
 
