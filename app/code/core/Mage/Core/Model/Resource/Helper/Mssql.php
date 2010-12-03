@@ -171,10 +171,17 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             ->reset(Zend_Db_Select::LIMIT_OFFSET)
             ->reset(Zend_Db_Select::ORDER);
 
+        // Restore order to an acceptable array for Zend_Db_Select
+        $_order = array();
+        foreach ($order as $parts)
+        {
+            $_order[] = implode(' ', $parts);
+        }
+
         return $this->_getReadAdapter()->select()
             ->from(array('u_tbl' => new Zend_Db_Expr('(' . $select->assemble() . ')')))
             ->limit($limitCount, $limitOffset)
-            ->order($order);
+            ->order($_order);
     }
 
     /**
