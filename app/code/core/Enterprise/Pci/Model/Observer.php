@@ -45,10 +45,10 @@ class Enterprise_Pci_Model_Observer
         $user     = $observer->getEvent()->getUser();
         $resource = Mage::getResourceSingleton('enterprise_pci/admin_user');
         $authResult = $observer->getEvent()->getResult();
-        $now = Mage::getModel('core/date')->timestamp();
 
         // update locking information regardless whether user locked or not
         if ((!$authResult) && ($user->getId())) {
+            $now = time();
             $lockThreshold = $this->getAdminLockThreshold();
             $maxFailures = (int)Mage::getStoreConfig('admin/security/lockout_failures');
             if (!($lockThreshold && $maxFailures)) {
@@ -77,7 +77,7 @@ class Enterprise_Pci_Model_Observer
         if ($lockExpires = $user->getLockExpires()) {
             $lockExpires = new Zend_Date($lockExpires, Varien_Date::DATETIME_INTERNAL_FORMAT);
             $lockExpires = $lockExpires->toValue();
-            if ($lockExpires > $now) {
+            if ($lockExpires > time()) {
                 throw new Mage_Core_Exception(Mage::helper('enterprise_pci')->__('This account is locked.'), self::ADMIN_USER_LOCKED);
             }
         }
