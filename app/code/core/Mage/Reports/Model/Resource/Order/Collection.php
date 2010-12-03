@@ -179,14 +179,14 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         {
             case '24h':
                 $expression = $this->getConnection()->getConcatSql(array(
-                    $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d %H'),
-                    "'00'"
+                    $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d %H:'),
+                    $this->getConnection()->quote('00')
                 ));
                 break;
             case '7d':
             case '1m':
-               $expression = $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d');
-               break;
+                $expression = $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d');
+                break;
             case '1y':
             case '2y':
             case 'custom':
@@ -195,7 +195,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
                 break;
         }
 
-        return $expression->__toString();
+        return $expression;
     }
 
     /**
