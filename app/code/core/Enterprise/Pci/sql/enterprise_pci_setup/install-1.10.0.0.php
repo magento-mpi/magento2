@@ -86,12 +86,12 @@ $installer->getConnection()->addColumn($tableAdmins, 'failures_num', array(
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'first_failure', array(
-    'type'      => Varien_Db_Ddl_Table::TYPE_DATE,
+    'type'      => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
     'comment'   => 'First failure'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'lock_expires', array(
-    'type'      => Varien_Db_Ddl_Table::TYPE_DATE,
+    'type'      => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
     'comment'   => 'Expiration lock dates'
 ));
 
