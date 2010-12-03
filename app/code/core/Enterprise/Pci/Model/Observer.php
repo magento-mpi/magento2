@@ -45,10 +45,10 @@ class Enterprise_Pci_Model_Observer
         $user     = $observer->getEvent()->getUser();
         $resource = Mage::getResourceSingleton('enterprise_pci/admin_user');
         $authResult = $observer->getEvent()->getResult();
+        $now = Mage::getModel('core/date')->timestamp();
 
         // update locking information regardless whether user locked or not
         if ((!$authResult) && ($user->getId())) {
-            $now = Mage::getModel('core/date')->timestamp();
             $lockThreshold = $this->getAdminLockThreshold();
             $maxFailures = (int)Mage::getStoreConfig('admin/security/lockout_failures');
             if (!($lockThreshold && $maxFailures)) {
