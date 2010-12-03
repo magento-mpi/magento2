@@ -103,8 +103,10 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
     protected function _makeBoundarySelect($from, $to)
     {
         $adapter = $this->getConnection();
-        $from    = $adapter->getDateFormatSql($from, '%Y-%m-%d');
-        $to      = $adapter->getDateFormatSql($to, '%Y-%m-%d');
+        $from = new Zend_Date($from);
+        $from = $this->formatDate($from->getDate(), false);
+        $to = new Zend_Date($to);
+        $to = $this->formatDate($to->getDate(), false);
 
         $cols    = $this->_getSelectedColumns();
         $cols['qty_ordered'] = 'SUM(qty_ordered)';
@@ -115,7 +117,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             ->group('product_id')
             ->order('qty_ordered')
             ->limit($this->_ratingLimit);
-        
+
         $this->_applyStoresFilterToSelect($sel);
 
         return $sel;

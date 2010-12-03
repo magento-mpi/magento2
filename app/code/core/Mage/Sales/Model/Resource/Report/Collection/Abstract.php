@@ -128,8 +128,11 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
      */
     public function setDateRange($from = null, $to = null)
     {
-        $this->_from = $from;
-        $this->_to   = $to;
+        $from = new Zend_Date($from);
+        $this->_from = $this->formatDate($from->getDate(), false);
+        $to = new Zend_Date($to);
+        $this->_to = $this->formatDate($to->getDate(), false);
+
         return $this;
     }
 
@@ -159,6 +162,7 @@ class Mage_Sales_Model_Resource_Report_Collection_Abstract extends Mage_Core_Mod
         if ($this->_to !== null) {
             $this->getSelect()->where('period <= ?', $this->_to);
         }
+
         return $this;
     }
 

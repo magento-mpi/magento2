@@ -135,13 +135,13 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
             $condition = array();
             if ($from !== null) {
                 $dt = new Zend_Date($from);
-                $dt = $this->formatDate($dt->getDate());
+                $dt = $this->formatDate($dt->getDate(), false);
                 $condition[] = $this->_getWriteAdapter()->quoteInto('period >= ?', $dt);
             }
 
             if ($to !== null) {
                 $dt = new Zend_Date($to);
-                $dt = $this->formatDate($dt->getDate());
+                $dt = $this->formatDate($dt->getDate(), false);
                 $condition[] = $this->_getWriteAdapter()->quoteInto('period <= ?', $dt);
             }
             $deleteCondition = implode(' AND ', $condition);
