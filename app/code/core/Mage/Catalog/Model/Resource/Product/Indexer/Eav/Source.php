@@ -129,7 +129,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
             )
             ->joinLeft(
                 array('pis' => $this->getValueTable('catalog/product', 'int')),
-                'pis.entity_id = pid.entity_id AND pis.store_id = pid.store_id',
+                'pis.entity_id = pid.entity_id AND pis.attribute_id = pid.attribute_id AND pis.store_id = pid.store_id',
                 array()
             )
             ->columns(

@@ -302,10 +302,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $importIds = $batchImportModel->getIdCollection();
 
         foreach ($importIds as $importId) {
-            //print '<pre>'.memory_get_usage().'</pre>';
             $batchImportModel->load($importId);
             $importData = $batchImportModel->getBatchData();
-
             $this->saveRow($importData);
         }
     }
@@ -510,6 +508,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
      */
     public function saveRow(array $importData)
     {
+//        var_dump($importData);
         $product = $this->getProductModel()
             ->reset();
 
@@ -684,7 +683,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
         $mediaGalleryBackendModel = $this->getAttribute('media_gallery')->getBackend();
         foreach ($product->getMediaAttributes() as $mediaAttributeCode => $mediaAttribute) {
-            if (!isset($importData[$mediaAttributeCode])) {
+            if (empty($importData[$mediaAttributeCode])) {
                 continue;
             }
             $file = $importData[$mediaAttributeCode];
