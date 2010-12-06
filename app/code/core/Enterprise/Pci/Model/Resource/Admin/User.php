@@ -110,11 +110,12 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
         // purge expired passwords, except that should retain
         $retainPasswordIds = $this->_getWriteAdapter()->fetchCol(
             $this->_getWriteAdapter()->select()
-            ->from($table, 'password_id')
-            ->where('user_id = ?', $userId)
-            ->order('expires ' . Varien_Db_Select::SQL_DESC)
-            ->order('password_id ' . Varien_Db_Select::SQL_DESC)
-            ->limit($retainLimit)
+                ->from($table, 'password_id')
+                ->where('user_id = :user_id')
+                ->order('expires ' . Varien_Db_Select::SQL_DESC)
+                ->order('password_id ' . Varien_Db_Select::SQL_DESC)
+                ->limit($retainLimit),
+            array(':user_id' => $userId)
         );
         $where = array('user_id = ?' => $userId, 'expires <= ?' => time());
         if ($retainPasswordIds) {
@@ -123,9 +124,11 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
         $this->_getWriteAdapter()->delete($table, $where);
 
         // now get all remained passwords
-        return $this->_getReadAdapter()->fetchCol($this->_getReadAdapter()->select()
-            ->from($table, 'password_hash')
-            ->where('user_id = ?', $userId)
+        return $this->_getReadAdapter()->fetchCol(
+            $this->_getReadAdapter()->select()
+                ->from($table, 'password_hash')
+                ->where('user_id = :user_id'),
+            array(':user_id' => $userId)
         );
     }
 
@@ -156,11 +159,13 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
      */
     public function getLatestPassword($userId)
     {
-        return $this->_getReadAdapter()->fetchRow($this->_getReadAdapter()->select()
-            ->from($this->getTable('enterprise_pci/admin_passwords'))
-            ->where('user_id = ? ', $userId)
-            ->order('password_id ' . Varien_Db_Select::SQL_DESC)
-            ->limit(1)
+        return $this->_getReadAdapter()->fetchRow(
+            $this->_getReadAdapter()->select()
+                ->from($this->getTable('enterprise_pci/admin_passwords'))
+                ->where('user_id = :user_id')
+                ->order('password_id ' . Varien_Db_Select::SQL_DESC)
+                ->limit(1),
+            array(':user_id' => $userId)
         );
     }
 }
