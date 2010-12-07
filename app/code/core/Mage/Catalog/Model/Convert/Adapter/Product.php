@@ -225,7 +225,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $this->_productAttributeSets = array();
 
             $entityTypeId = Mage::getModel('eav/entity')
-                ->setType(Mage_Catalog_Model_Product::ENTITY)
+                ->setType('catalog_product')
                 ->getTypeId();
             $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
                 ->setEntityTypeFilter($entityTypeId);
@@ -302,8 +302,10 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $importIds = $batchImportModel->getIdCollection();
 
         foreach ($importIds as $importId) {
+            //print '<pre>'.memory_get_usage().'</pre>';
             $batchImportModel->load($importId);
             $importData = $batchImportModel->getBatchData();
+
             $this->saveRow($importData);
         }
     }
@@ -508,7 +510,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
      */
     public function saveRow(array $importData)
     {
-//        var_dump($importData);
         $product = $this->getProductModel()
             ->reset();
 
@@ -682,19 +683,39 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $product->setStockData($stockData);
 
         $mediaGalleryBackendModel = $this->getAttribute('media_gallery')->getBackend();
+        
+        $arrayToMassAdd = array();
+
         foreach ($product->getMediaAttributes() as $mediaAttributeCode => $mediaAttribute) {
-            if (empty($importData[$mediaAttributeCode])) {
-                continue;
+            if (isset($importData[$mediaAttributeCode])) {
+                $file = $importData[$mediaAttributeCode];
+                if (!$mediaGalleryBackendModel->getImage($product, $file)) {
+                    $arrayToMassAdd[] = array('file' => trim($file), 'mediaAttribute' => $mediaAttributeCode);
+                }
             }
-            $file = $importData[$mediaAttributeCode];
+        }
 
-            if (!$mediaGalleryBackendModel->getImage($product, $file)) {
-                $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . trim($file), $mediaAttribute);
-            }
+        $addedFilesCorrespondence = 
+            $mediaGalleryBackendModel->addImagesWithDifferentMediaAttributes($product, $arrayToMassAdd, Mage::getBaseDir('media') . DS . 'import', false, false);
 
+        foreach ($product->getMediaAttributes() as $mediaAttributeCode => $mediaAttribute) {
+            $addedFile = '';
             if (isset($importData[$mediaAttributeCode . '_label'])) {
-                $fileLabel = $importData[$mediaAttributeCode . '_label'];
-                $mediaGalleryBackendModel->updateImage($product, $file, array('label' => $fileLabel));
+                $fileLabel = trim($importData[$mediaAttributeCode . '_label']);
+                if (isset($importData[$mediaAttributeCode])) {
+                    $keyInAddedFile = array_search($importData[$mediaAttributeCode],
+                        $addedFilesCorrespondence['alreadyAddedFiles']);
+                    if ($keyInAddedFile !== false) {
+                        $addedFile = $addedFilesCorrespondence['alreadyAddedFilesNames'][$keyInAddedFile];
+                    }
+                }
+
+                if (!$addedFile) {
+                    $addedFile = $product->getData($mediaAttributeCode);
+                }
+                if ($fileLabel && $addedFile) {
+                    $mediaGalleryBackendModel->updateImage($product, $addedFile, array('label' => $fileLabel));
+                }
             }
         }
 

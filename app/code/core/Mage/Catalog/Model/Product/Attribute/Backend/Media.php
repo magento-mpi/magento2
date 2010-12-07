@@ -313,6 +313,42 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
     }
 
     /**
+     * Add images with different media attributes.
+     * Image will be added only once if the same image is used with different media attributes
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $fileAndAttributesArray array of arrays of filename and corresponding media attribute
+     * @param string $filePath path, where image cand be found
+     * @param boolean $move if true, it will move source file
+     * @param boolean $exclude mark image as disabled in product page view
+     * @return array array of parallel arrays with original and renamed files
+     */
+    public function addImagesWithDifferentMediaAttributes(Mage_Catalog_Model_Product $product,
+        $fileAndAttributesArray, $filePath = '', $move = false, $exclude = true) {
+
+        $alreadyAddedFiles = array();
+        $alreadyAddedFilesNames = array();
+
+        foreach ($fileAndAttributesArray as $key => $value) {
+            $keyInAddedFiles = array_search($value['file'], $alreadyAddedFiles, true);
+            if ($keyInAddedFiles === false) {
+                $savedFileName = $this->addImage($product, $filePath . $value['file'], null, $move, $exclude);
+                $alreadyAddedFiles[$key] = $value['file'];
+                $alreadyAddedFilesNames[$key] = $savedFileName;
+            } else {
+                $savedFileName = $alreadyAddedFilesNames[$keyInAddedFiles];
+            }
+
+            if (!is_null($value['mediaAttribute'])) {
+                $this->setMediaAttribute($product, $value['mediaAttribute'], $savedFileName);
+            }
+
+        }
+
+        return array('alreadyAddedFiles' => $alreadyAddedFiles, 'alreadyAddedFilesNames' => $alreadyAddedFilesNames);
+    }
+
+    /**
      * Update image in gallery
      *
      * @param Mage_Catalog_Model_Product $product
