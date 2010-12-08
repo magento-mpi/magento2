@@ -355,6 +355,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         $this->query("ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS'");
         $this->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'");
+        $this->query("ALTER SESSION SET NLS_COMP = LINGUISTIC");
+        $this->query("ALTER SESSION SET NLS_SORT = BINARY_CI");       
         //$this->query("ALTER SESSION SET PLSQL_CODE_TYPE = NATIVE");
 
         $this->_debugStat(self::DEBUG_CONNECT, '');
