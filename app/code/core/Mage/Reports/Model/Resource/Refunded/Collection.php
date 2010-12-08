@@ -81,17 +81,17 @@ class Mage_Reports_Model_Resource_Refunded_Collection extends Mage_Sales_Model_E
                     array('base_total_offline_refunded'));
         } else {
             $this->addExpressionAttributeToSelect(
-                    'refunded',
-                    'SUM({{base_total_refunded}}*{{base_to_global_rate}})',
-                    array('base_total_refunded', 'base_to_global_rate'))
-                ->addExpressionAttributeToSelect(
-                    'online_refunded',
-                    'SUM({{base_total_online_refunded}}*{{base_to_global_rate}})',
-                    array('base_total_online_refunded', 'base_to_global_rate'))
-                ->addExpressionAttributeToSelect(
-                    'offline_refunded',
-                    'SUM({{base_total_offline_refunded}}*{{base_to_global_rate}})',
-                    array('base_total_offline_refunded', 'base_to_global_rate'));
+                'refunded',
+                'SUM({{base_total_refunded}}*{{base_to_global_rate}})',
+                array('base_total_refunded', 'base_to_global_rate'))
+            ->addExpressionAttributeToSelect(
+                'online_refunded',
+                'SUM({{base_total_online_refunded}}*{{base_to_global_rate}})',
+                array('base_total_online_refunded', 'base_to_global_rate'))
+            ->addExpressionAttributeToSelect(
+                'offline_refunded',
+                'SUM({{base_total_offline_refunded}}*{{base_to_global_rate}})',
+                array('base_total_offline_refunded', 'base_to_global_rate'));
         }
 
         return $this;
@@ -112,7 +112,7 @@ class Mage_Reports_Model_Resource_Refunded_Collection extends Mage_Sales_Model_E
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::HAVING);
         $countSelect->columns('COUNT(*)');
-        $sql = $countSelect->__toString();
-        return $sql;
+
+        return $countSelect;
     }
 }

@@ -57,12 +57,11 @@ class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog
 
         $this->getSelect()
             ->join(
-            array('r' => $this->getTable('review/review')),
-            'e.entity_id = r.entity_pk_value',
-            array(
-                'review_cnt'    => new Zend_Db_Expr(sprintf('(%s)', $subSelect)),
-                'last_created'  => 'MAX(r.created_at)',
-            ))
+                array('r' => $this->getTable('review/review')),
+                'e.entity_id = r.entity_pk_value',
+                array(
+                    'review_cnt'    => new Zend_Db_Expr(sprintf('(%s)', $subSelect)),
+                    'last_created'  => 'MAX(r.created_at)',))
             ->group('e.entity_id');
 
         $joinCondition      = array(

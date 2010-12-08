@@ -73,10 +73,10 @@ class Mage_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends Var
                 break;
 
             default:
-                if(is_string($customStart)) {
+                if (is_string($customStart)) {
                     $customStart = strtotime($customStart);
                 }
-                if(is_string($customEnd)) {
+                if (is_string($customEnd)) {
                     $customEnd = strtotime($customEnd);
                 }
                 break;

@@ -233,10 +233,10 @@ class Mage_Reports_Model_Resource_Product_Lowstock_Collection extends Mage_Repor
         $this->joinInventoryItem(array('qty'));
         $notifyStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_notify_stock_qty') . ' = 1',
-            (int)Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY,$storeId),
+            (int)Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY, $storeId),
             $this->_getInventoryItemField('notify_stock_qty')
         );
-        $this->getSelect()->where(sprintf('qty < %s', $notifyStockExpr));
+        $this->getSelect()->where('qty < ?', $notifyStockExpr);
         return $this;
     }
 }

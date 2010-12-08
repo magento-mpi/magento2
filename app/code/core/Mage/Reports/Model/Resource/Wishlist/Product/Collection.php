@@ -51,14 +51,17 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
     public function addWishlistCount()
     {
         $wishlistItemTable = $this->getTable('wishlist/item');
-
-        $countColumnName = $this->getSelect()->getAdapter()
-            ->quoteColumnAs(new Zend_Db_Expr('COUNT(wishlist_item_id)'),  'wishlists', true);
-
         $this->getSelect()
-            ->from(array('wi' => $wishlistItemTable), $countColumnName)
+            ->join(
+                array('wi' => $wishlistItemTable),
+                'wi.product_id = e.entity_id',
+                array('wishlists' => new Zend_Db_Expr('COUNT(wi.wishlist_item_id)')))
             ->where('wi.product_id = e.entity_id')
             ->group('wi.product_id');
+        /*
+         * Allow Analytic Functions Usage
+         */
+        $this->_useAnalyticFunction = true;
 
         $this->getEntity()->setStore(0);
         return $this;
@@ -73,10 +76,13 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
     {
         $this->getSelect()->reset();
 
-        $countColumnName = $this->getSelect()->getAdapter()
-            ->quoteColumnAs(new Zend_Db_Expr('COUNT(wishlist_id)'),  'wishlist_cnt', true);
         $this->getSelect()
-            ->from($this->getTable('wishlist/wishlist'), $countColumnName)
+            ->from(
+                array('wishlist' => $this->getTable('wishlist/wishlist')),
+                array(
+                    'wishlist_cnt' => new Zend_Db_Expr('COUNT(wishlist.wishlist_id)'),
+                    'wishlist.customer_id'
+                ))
             ->group('wishlist.customer_id');
         return $this;
     }
@@ -96,9 +102,7 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
         $countSelect->reset(Zend_Db_Select::COLUMNS);
         $countSelect->columns("COUNT(*)");
 
-        $sql = $countSelect->__toString();
-
-        return $sql;
+        return $countSelect;
     }
 
     /**
@@ -110,7 +114,7 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
-        if (in_array($attribute, array('wishlists'))) {
+        if ($attribute == 'wishlists') {
             $this->getSelect()->order($attribute . ' ' . $dir);
         } else {
             parent::setOrder($attribute, $dir);

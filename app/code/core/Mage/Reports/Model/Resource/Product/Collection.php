@@ -182,13 +182,15 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         if ($this->_selectCountSqlType == self::SELECT_COUNT_SQL_TYPE_CART) {
             $countSelect = clone $this->getSelect();
             $countSelect->reset()
-                ->from(array('quote_item_table' => $this->getTable('sales/quote_item')), 'COUNT(DISTINCT quote_item_table.product_id)')
+                ->from(
+                    array('quote_item_table' => $this->getTable('sales/quote_item')),
+                    array('COUNT(DISTINCT quote_item_table.product_id)'))
                 ->join(
                     array('quote_table' => $this->getTable('sales/quote')),
                     'quote_table.entity_id = quote_item_table.quote_id AND quote_table.is_active = 1',
                     array()
                 );
-            return $countSelect->__toString();
+            return $countSelect;
         }
 
         $countSelect = clone $this->getSelect();
@@ -199,8 +201,8 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::HAVING);
         $countSelect->columns("count(DISTINCT e.entity_id)");
-        $sql = $countSelect->__toString();
-        return $sql;
+
+        return $countSelect;
     }
 
     /**
@@ -276,7 +278,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $orderTableAliasName  = $adapter->quoteIdentifier('order');
 
         $orderJoinCondition   = array(
-            sprintf('%s.entity_id = order_items.order_id', $orderTableAliasName),
+            $orderTableAliasName . '.entity_id = order_items.order_id',
             $adapter->quoteInto("{$orderTableAliasName}.state <> ?", Mage_Sales_Model_Order::STATE_CANCELED),
 
         );
@@ -288,8 +290,8 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         );
 
         if ($from != '' && $to != '') {
-            $fieldName            = sprintf('%s.created_at', $orderTableAliasName);
-            $orderJoinCondition[] = $this->_prepareBetweenSql($fieldName, $from, $to); 
+            $fieldName            = $orderTableAliasName . '.created_at';
+            $orderJoinCondition[] = $this->_prepareBetweenSql($fieldName, $from, $to);
         }
 
         $this->getSelect()->reset()
@@ -358,7 +360,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             ->group('e.entity_id')
             ->order('views ' . self::SORT_ORDER_DESC)
             ->having('COUNT(report_table_views.event_id) > ?', 0);
-    
+
         if ($from != '' && $to != '') {
             $this->getSelect()
                 ->where('logged_at >= ?', $from)

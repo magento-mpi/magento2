@@ -89,9 +89,9 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
             if ($quote instanceof Mage_Sales_Model_Quote) {
                 $totals = $quote->getTotals();
                 $item->setTotal($totals['subtotal']->getValue());
-                $quote_items = Mage::getResourceModel('sales/quote_item_collection')->setQuoteFilter($quote->getId());
-                $quote_items->load();
-                $item->setItems($quote_items->count());
+                $quoteItems = Mage::getResourceModel('sales/quote_item_collection')->setQuoteFilter($quote->getId());
+                $quoteItems->load();
+                $item->setItems($quoteItems->count());
             } else {
                 $item->remove();
             }
@@ -159,8 +159,8 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
     public function addSumAvgTotals($storeId = 0)
     {
         $adapter = $this->getConnection();
-        $baseSubtotalRefunded   = $adapter->getCheckSql('orders.base_subtotal_refunded', 0, 'orders.base_subtotal_refunded');
-        $baseSubtotalCanceled   = $adapter->getCheckSql('orders.base_subtotal_canceled', 0, 'orders.base_subtotal_canceled');
+        $baseSubtotalRefunded   = $adapter->getIfNullSql('orders.base_subtotal_refunded', 0);
+        $baseSubtotalCanceled   = $adapter->getIfNullSql('orders.base_subtotal_canceled', 0);
 
         /**
          * calculate average and total amount
@@ -213,12 +213,12 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
 
         if ($this->_addOrderStatistics && !empty($customerIds)) {
             $adapter = $this->getConnection();
-            $baseSubtotalRefunded   = $adapter->getCheckSql('orders.base_subtotal_refunded IS NULL', 0, 'orders.base_subtotal_refunded');
-            $baseSubtotalCanceled   = $adapter->getCheckSql('orders.base_subtotal_canceled IS NULL', 0, 'orders.base_subtotal_canceled');
+            $baseSubtotalRefunded   = $adapter->getIfNullSql('orders.base_subtotal_refunded', 0);
+            $baseSubtotalCanceled   = $adapter->getIfNullSql('orders.base_subtotal_canceled', 0);
 
             $totalExpr = ($this->_addOrderStatisticsIsFilter)
-                ? "(orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}) * orders.base_to_global_rate"
-                : "orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
+                ? "(orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded})*orders.base_to_global_rate"
+                : "orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded}";
 
             $select = $this->getConnection()->select();
             $select->from(array('orders'=>$this->getTable('sales/order')), array(

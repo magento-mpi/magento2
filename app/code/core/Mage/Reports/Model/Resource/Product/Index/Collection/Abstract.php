@@ -88,7 +88,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Collection_Abstract
     public function addFilterByIds($ids)
     {
         if (empty($ids)) {
-            $this->getSelect()->where('0');
+            $this->getSelect()->where('1=0');
         } else {
             $this->getSelect()->where('e.entity_id IN(?)', $ids);
         }

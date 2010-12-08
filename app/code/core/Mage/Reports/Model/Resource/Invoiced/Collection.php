@@ -49,14 +49,18 @@ class Mage_Reports_Model_Resource_Invoiced_Collection extends Mage_Sales_Model_E
             ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to))
             ->addExpressionAttributeToSelect('orders',
                 'COUNT({{base_total_invoiced}})',
-                 array('base_total_invoiced'))
+                array('base_total_invoiced'))
             ->addExpressionAttributeToSelect('orders_invoiced',
                 "SUM({$orderInvoicedExpr})",
-                 array('base_total_invoiced'))
+                array('base_total_invoiced'))
             ->addAttributeToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED))
             ->getSelect()
-                ->group('("*")')
+                ->group('entity_id')
                 ->having('orders > ?', 0);
+        /*
+         * Allow Analytic Functions Usage
+         */
+        $this->_useAnalyticFunction = true;
 
         return $this;
     }
@@ -72,31 +76,31 @@ class Mage_Reports_Model_Resource_Invoiced_Collection extends Mage_Sales_Model_E
         $vals = array_values($storeIds);
         if (count($storeIds) >= 1 && $vals[0] != '') {
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds))
-                ->addExpressionAttributeToSelect(
-                    'invoiced',
-                    'SUM({{base_total_invoiced}})',
-                    array('base_total_invoiced'))
-                ->addExpressionAttributeToSelect(
-                    'invoiced_captured',
-                    'SUM({{base_total_paid}})',
-                    array('base_total_paid'))
-                ->addExpressionAttributeToSelect(
-                    'invoiced_not_captured',
-                    'SUM({{base_total_invoiced}}-{{base_total_paid}})',
-                    array('base_total_invoiced', 'base_total_paid'));
+            ->addExpressionAttributeToSelect(
+                'invoiced',
+                'SUM({{base_total_invoiced}})',
+                array('base_total_invoiced'))
+            ->addExpressionAttributeToSelect(
+                'invoiced_captured',
+                'SUM({{base_total_paid}})',
+                array('base_total_paid'))
+            ->addExpressionAttributeToSelect(
+                'invoiced_not_captured',
+                'SUM({{base_total_invoiced}}-{{base_total_paid}})',
+                array('base_total_invoiced', 'base_total_paid'));
         } else {
             $this->addExpressionAttributeToSelect(
-                    'invoiced',
-                    'SUM({{base_total_invoiced}}*{{base_to_global_rate}})',
-                    array('base_total_invoiced', 'base_to_global_rate'))
-                ->addExpressionAttributeToSelect(
-                    'invoiced_captured',
-                    'SUM({{base_total_paid}}*{{base_to_global_rate}})',
-                    array('base_total_paid', 'base_to_global_rate'))
-                ->addExpressionAttributeToSelect(
-                    'invoiced_not_captured',
-                    'SUM(({{base_total_invoiced}}-{{base_total_paid}})*{{base_to_global_rate}})',
-                    array('base_total_invoiced', 'base_to_global_rate', 'base_total_paid'));
+                'invoiced',
+                'SUM({{base_total_invoiced}}*{{base_to_global_rate}})',
+                array('base_total_invoiced', 'base_to_global_rate'))
+            ->addExpressionAttributeToSelect(
+                'invoiced_captured',
+                'SUM({{base_total_paid}}*{{base_to_global_rate}})',
+                array('base_total_paid', 'base_to_global_rate'))
+            ->addExpressionAttributeToSelect(
+                'invoiced_not_captured',
+                'SUM(({{base_total_invoiced}}-{{base_total_paid}})*{{base_to_global_rate}})',
+                array('base_total_invoiced', 'base_to_global_rate', 'base_total_paid'));
         }
 
         return $this;
@@ -116,8 +120,8 @@ class Mage_Reports_Model_Resource_Invoiced_Collection extends Mage_Sales_Model_E
         $countSelect->reset(Zend_Db_Select::COLUMNS);
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::HAVING);
-        $countSelect->columns("count(*)");
-        $sql = $countSelect->__toString();
-        return $sql;
+        $countSelect->columns("COUNT(*)");
+
+        return $countSelect;
     }
 }

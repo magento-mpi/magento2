@@ -88,7 +88,7 @@ class Mage_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review
         $this->getSelect()->reset(Zend_Db_Select::COLUMNS)
             ->joinInner(
                 array('table_customer_lastname' => $lastnameAttr->getBackend()->getTable()),
-                 implode(' AND ', $lastnameCondition),
+                implode(' AND ', $lastnameCondition),
                 array())
             ->columns(array(
                 'customer_name' => $customerFullname,
@@ -115,6 +115,6 @@ class Mage_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review
 
         $countSelect->columns(new Zend_Db_Expr('COUNT(DISTINCT detail.customer_id)'));
 
-        return  $countSelect->__toString();
+        return  $countSelect;
     }
 }

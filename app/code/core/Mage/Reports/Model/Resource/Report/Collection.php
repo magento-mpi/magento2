@@ -128,7 +128,7 @@ class Mage_Reports_Model_Resource_Report_Collection
     {
         if (!$this->_intervals) {
             $this->_intervals = array();
-            if (!$this->_from && !$this->_to){
+            if (!$this->_from && !$this->_to) {
                 return $this->_intervals;
             }
             $dateStart  = new Zend_Date($this->_from);
@@ -307,6 +307,7 @@ class Mage_Reports_Model_Resource_Report_Collection
     public function timeShift($datetime)
     {
         return Mage::app()->getLocale()
-            ->utcDate(null, $datetime, true, Varien_Date::DATETIME_INTERNAL_FORMAT)->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            ->utcDate(null, $datetime, true, Varien_Date::DATETIME_INTERNAL_FORMAT)
+            ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
     }
 }

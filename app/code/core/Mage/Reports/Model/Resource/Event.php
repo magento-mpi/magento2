@@ -87,7 +87,9 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
         $idFieldName = $collection->getResource()->getIdFieldName();
 
         $derivedSelect = $this->getReadConnection()->select()
-            ->from($this->getTable('reports/event'), array('event_id' => new Zend_Db_Expr('MAX(event_id)'), 'object_id'))
+            ->from(
+                $this->getTable('reports/event'),
+                array('event_id' => new Zend_Db_Expr('MAX(event_id)'), 'object_id'))
             ->where('event_type_id = ?', (int)$eventTypeId)
             ->where('subject_id = ?', (int)$eventSubjectId)
             ->where('subtype = ?', (int)$subtype)
@@ -124,15 +126,12 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
         if (Mage::app()->getStore()->getId() == 0) {
             if (null !== $predefinedStoreIds) {
                 $stores = $predefinedStoreIds;
-            }
-            else {
+            } else {
                 foreach (Mage::app()->getStores() as $store) {
                     $stores[] = $store->getId();
                 }
             }
-        }
-        // get all stores, required by configuration in current store scope
-        else {
+        } else { // get all stores, required by configuration in current store scope
             switch (Mage::getStoreConfig('catalog/recently_products/scope')) {
                 case 'website':
                     $resourceStore = Mage::app()->getStore()->getWebsite()->getStores();

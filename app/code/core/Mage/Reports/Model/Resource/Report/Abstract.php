@@ -234,7 +234,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         }
         $whereCondition = implode(' OR ', $whereCondition);
         if ($whereCondition == '') {
-            $whereCondition = '1<>1';  // FALSE condition!
+            $whereCondition = '1=0';  // FALSE condition!
         }
 
         return $whereCondition;

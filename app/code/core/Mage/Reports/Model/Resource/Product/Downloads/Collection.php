@@ -55,7 +55,7 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
     public function addSummary()
     {
         $adapter  = $this->getConnection();
-        $linkExpr = $adapter->getCheckSql('l_store.title IS NULL', 'l.title', 'l_store.title');
+        $linkExpr = $adapter->getIfNullSql('l_store.title', 'l.title');
 
         $this->getSelect()
             ->joinInner(

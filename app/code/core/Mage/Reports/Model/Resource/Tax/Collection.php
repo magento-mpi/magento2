@@ -63,6 +63,10 @@ class Mage_Reports_Model_Resource_Tax_Collection extends Mage_Sales_Model_Entity
                 'e.entity_id = tax_table.order_id')
             ->group('tax_table.code')
             ->order(array('process', 'priority'));
+        /*
+         * Allow Analytic Functions Usage
+         */
+        $this->_useAnalyticFunction = true;
 
         return $this;
     }
@@ -106,8 +110,6 @@ class Mage_Reports_Model_Resource_Tax_Collection extends Mage_Sales_Model_Entity
         $countSelect->reset(Zend_Db_Select::GROUP);
         $countSelect->reset(Zend_Db_Select::HAVING);
         $countSelect->columns("COUNT(DISTINCT e.entity_id)");
-        $sql = $countSelect->__toString();
-
-        return $sql;
+        return $countSelect;
     }
 }

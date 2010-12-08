@@ -93,7 +93,7 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
             $this->addFieldToFilter('store_id', array('in' => $storeIds));
         }
 
-        
+
         return $this;
     }
 
@@ -187,6 +187,7 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
         $attrEmailTableName = $attrEmail->getBackend()->getTable();
 
         $adapter = $this->getSelect()->getAdapter();
+        $customerName = $adapter->getConcatSql(array('cust_fname.value', 'cust_lname.value'), ' ');
         $this->getSelect()
             ->joinInner(
                 array('cust_email' => $attrEmailTableName),
@@ -209,11 +210,11 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
                 )),
                 array(
                     'lastname'      => 'cust_lname.value',
-                    'customer_name' => $adapter->getConcatSql(array('cust_fname.value', 'cust_lname.value'), ' ')
+                    'customer_name' => $customerName
                 )
             );
 
-        $this->_joinedFields['customer_name'] =  $adapter->getConcatSql(array('cust_fname.value', 'cust_lname.value'), ' ');
+        $this->_joinedFields['customer_name'] = $customerName;
         $this->_joinedFields['email']         = 'cust_email.email';
 
         if ($filter) {
@@ -240,8 +241,11 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
     public function addSubtotal($storeIds = '', $filter = null)
     {
         if (is_array($storeIds)) {
-            $this->getSelect()->columns(array('subtotal' => '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)'));
-            $this->_joinedFields['subtotal'] = '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)';
+            $this->getSelect()->columns(array(
+                'subtotal' => '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)'
+            ));
+            $this->_joinedFields['subtotal'] =
+                '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)';
         } else {
             $this->getSelect()->columns(array('subtotal' => 'main_table.base_subtotal_with_discount'));
             $this->_joinedFields['subtotal'] = 'main_table.base_subtotal_with_discount';
@@ -279,8 +283,7 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
         } else {
             $countSelect->columns("COUNT(DISTINCT main_table.entity_id)");
         }
-        $sql = $countSelect->__toString();
 
-        return $sql;
+        return $countSelect;
     }
 }
