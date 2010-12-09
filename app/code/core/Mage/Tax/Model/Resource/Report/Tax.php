@@ -74,18 +74,13 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
             $periodExpr = $writeAdapter->getDatePartSql($writeAdapter->getDateAddSql('e.created_at',
                 $this->_getStoreTimezoneUtcOffset(), Varien_Db_Adapter_Interface::INTERVAL_HOUR));
 
-            $countDistinctSubSelect = clone $writeAdapter->select();
-            $countDistinctSubSelect->reset()
-                ->from(array('sales_order' => $this->getTable('sales/order')), 'COUNT(DISTINCT sales_order.entity_id)')
-                ->where('sales_order.entity_id = tax.order_id');
-
             $columns = array(
                 'period'                => $periodExpr,
                 'store_id'              => 'e.store_id',
                 'code'                  => 'tax.code',
                 'order_status'          => 'e.status',
-                'percent'               => 'tax.percent',
-                'orders_count'          => new Zend_Db_Expr(sprintf('(%s)', $countDistinctSubSelect)),
+                'percent'               => 'MAX(tax.' . $writeAdapter->quoteIdentifier('percent') .')',
+                'orders_count'          => 'COUNT(DISTINCT e.entity_id)',
                 'tax_base_amount_sum'   => 'SUM(tax.base_real_amount * e.base_to_global_rate)'
             );
 
@@ -105,8 +100,7 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
                 'e.status'
             ));
 
-            $helper        = Mage::getResourceHelper('core');
-            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $this->getMainTable(), array_keys($columns));
+            $insertQuery = $writeAdapter->insertFromSelect($select, $this->getMainTable(), array_keys($columns));
             $writeAdapter->query($insertQuery);
 
             $select->reset();
@@ -116,7 +110,7 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
                 'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
                 'code'                  => 'code',
                 'order_status'          => 'order_status',
-                'percent'               => 'percent',
+                'percent'               => 'MAX(' . $writeAdapter->quoteIdentifier('percent') . ')',
                 'orders_count'          => 'SUM(orders_count)',
                 'tax_base_amount_sum'   => 'SUM(tax_base_amount_sum)'
             );
@@ -134,7 +128,7 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
                 'code',
                 'order_status'
             ));
-            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $this->getMainTable(), array_keys($columns));
+            $insertQuery = $writeAdapter->insertFromSelect($select, $this->getMainTable(), array_keys($columns));
             $writeAdapter->query($insertQuery);
             $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
         } catch (Exception $e) {
