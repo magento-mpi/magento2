@@ -325,7 +325,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
                 $helper = Mage::getResourceHelper('core');
                 foreach ($preparedTerms[1] as $term) {
-                    $like[] = 's.data_index LIKE '. $helper->addLikeEscape('%' . $term . '%');
+                    $like[] = Mage::getResourceHelper('core')->getCILike('s.data_index', $term);  
                 }
                 if ($like) {
                     $likeCond = '(' . join(' OR ', $like) . ')';
@@ -339,7 +339,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $select = $adapter->select()
                 ->from(array($mainTableAlias => $this->getMainTable()), $fields)
                 ->joinInner(array('e' => $this->getTable('catalog/product')),
-                    'e.entity_id=s.product_id',
+                    'e.entity_id = s.product_id',
                     array())
                 ->where($mainTableAlias.'.store_id = ?', (int)$query->getStoreId());
 
