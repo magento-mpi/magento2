@@ -364,4 +364,15 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         $value = $this->_escapeValue($value);
         return new Zend_Db_Expr($adapter->quote($value));
     }
+
+    /**
+     *  Return case insensitive LIKE
+     * @param  string $field
+     * @param  string $value
+     * @return string
+     */
+    public function getCILike($field, $value)
+    {
+        return new Zend_Db_Expr($field . ' LIKE ' . addLikeEscape($value));
+    }
 }

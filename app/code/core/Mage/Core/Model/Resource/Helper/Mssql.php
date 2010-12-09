@@ -576,4 +576,14 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $value = $this->_escapeValue($value);
         return new Zend_Db_Expr($adapter->quoteInto(" ? escape '\\'", $value));
     }
+    /**
+     *  Return case insensitive LIKE
+     * @param  string $field 
+     * @param  string $value
+     * @return string
+     */
+    public function getCILike($field, $value)
+    {
+        return sprintf("REGEXP_LIKE(%s,'%s)", $field, $value);
+    }
 }

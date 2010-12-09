@@ -515,4 +515,15 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
         $quotedValue = str_replace('\\\\', '\\', $adapter->quote($value));
         return new Zend_Db_Expr($quotedValue . " escape '\\'");
     }
+
+    /**
+     *  Return case insensitive LIKE
+     * @param  string $field
+     * @param  string $value
+     * @return string
+     */
+    public function getCILike($field, $value)
+    {
+        return new Zend_Db_Expr(sprintf("REGEXP_LIKE(%s,'%s')", $field, $value));
+    }
 }
