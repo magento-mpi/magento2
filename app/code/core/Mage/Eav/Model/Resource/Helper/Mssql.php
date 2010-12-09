@@ -92,7 +92,29 @@ class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Help
      */
     public function prepareEavAttributeValue($value, $eavType)
     {
-        return ($eavType != 'text') ? $this->castField($value) : new Zend_Db_Expr($value);
+        switch ($eavType) {
+            case 'text' : $value = new Zend_Db_Expr($value);
+                break;
+            case 'datetime' : $value = $this->convertField($value);
+                break;
+            default : $value = $this->castField($value);
+        }
+        return $value;
+
+    }
+
+    /**
+     * Returns expression for converting data into a new data type.
+     *
+     * @param string $field Field name
+     * @param string $type OPTIONAL Field type
+     * @param int $style style format
+     * @return Zend_Db_Expr
+     */
+    public function convertField($field, $type = 'VARCHAR(19)', $style = 120)
+    {
+        $expression = sprintf('CONVERT(%s, %s, %d)', $type, $this->_getReadAdapter()->quoteIdentifier($field), $style);
+        return new Zend_Db_Expr($expression);
     }
 
     /**
