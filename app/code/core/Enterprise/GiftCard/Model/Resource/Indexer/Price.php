@@ -147,7 +147,7 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Mage_Catalog_Mode
 
         $priceExpr = new Zend_Db_Expr(
             'ROUND(' . $write->getCheckSql(
-                $openAmountExpr . ' = NULL',
+                $openAmountExpr . ' IS NULL',
                 $write->getCheckSql($amountsExpr . ' IS NULL', '0', $amountsExpr),
                 $write->getCheckSql(
                     $amountsExpr . ' IS NULL',
