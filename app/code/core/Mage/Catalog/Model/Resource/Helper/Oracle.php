@@ -99,4 +99,16 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
             && ($describe['SCALE'] == $scale)
             && ($describe['PRECISION'] == $precision);
     }
+
+    /**
+     * Getting condition isNull(f1,f2) IS NOT Null
+     *
+     * @param string $field1
+     * @param string $field2
+     * @return string
+     */
+    public function getIsNullNotNullCondition($field1, $field2)
+    {
+        return sprintf('%s IS NOT NULL', $this->_getReadAdapter()->getIfNullSql($field1, $field2));
+    }
 }

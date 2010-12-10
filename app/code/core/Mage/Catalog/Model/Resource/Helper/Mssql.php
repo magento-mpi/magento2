@@ -98,4 +98,16 @@ class Mage_Catalog_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Resource_H
             && ($describe['SCALE'] == $scale)
             && ($describe['PRECISION'] == $precision);
     }
+
+    /**
+     * Getting condition isNull(f1,f2) IS NOT Null
+     *
+     * @param string $field1
+     * @param string $field2
+     * @return string
+     */
+    public function getIsNullNotNullCondition($field1, $field2)
+    {
+        return sprintf('ISNULL(DATALENGTH(%s), 0) + ISNULL(DATALENGTH(%s), 0) > 0', $field1, $field2);
+    }
 }
