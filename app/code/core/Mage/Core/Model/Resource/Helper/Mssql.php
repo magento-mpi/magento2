@@ -584,6 +584,6 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
      */
     public function getCILike($field, $value)
     {
-        return new Zend_Db_Expr($field . ' LIKE ' . $this->addLikeEscape('%' . $value . '%s'));
+        return new Zend_Db_Expr($field . ' LIKE ' . $this->addLikeEscape('%' . $value . '%'));
     }
 }
