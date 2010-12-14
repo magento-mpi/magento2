@@ -146,10 +146,10 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Decimal extends Mage_Core_Model_R
         $rangeExpr  = new Zend_Db_Expr("FLOOR(decimal_index.value / {$range}) + 1");
 
         $select->columns(array(
-            'range' => $rangeExpr,
+            'decimal_range' => $rangeExpr,
             'count' => $countExpr
         ));
-        $select->group('range');
+        $select->group($rangeExpr);
 
         return $adapter->fetchPairs($select);
     }
