@@ -4338,7 +4338,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return sprintf('%s %s', $sql, Varien_Db_Adapter_Oracle::SQL_FOR_UPDATE);
     }
 
-    public function getPrimaryKeyName($tableName, $schemaName)
+	/**
+	 * Try to find installed primary key name, if not - formate new one.
+	 *
+	 * @param string $tableName Table name
+	 * @param string $schemaName OPTIONAL
+	 * @return string Primary Key name
+	 */
+    public function getPrimaryKeyName($tableName, $schemaName = null)
     {
         $indexes = $this->getIndexList($tableName, $schemaName);
         if (isset($indexes['PRIMARY'])) {
