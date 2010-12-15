@@ -1585,9 +1585,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $fieldSql = implode(',', $fieldSql);
 
         $keyList = $this->getIndexList($tableName, $schemaName);
+
         // Drop index if exists
-        if (isset($keyList[strtoupper($indexName)])) {
-            $this->dropIndex($tableName, $indexName, $schemaName);
+        foreach($keyList as $key) {
+            if ($key['KEY_NAME'] == strtoupper($indexName)) {
+                $this->dropIndex($tableName, $indexName, $schemaName);
+            }
         }
 
         // Create index
@@ -1608,12 +1611,20 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $indexList = $this->getIndexList($tableName, $schemaName);
         $keyName = strtoupper($keyName);
-        if (!isset($indexList[$keyName])) {
+        $indexExists = false;
+
+        foreach($indexList as $index) {
+            if ($index['KEY_NAME'] == $keyName) {
+                $keyType = $index['INDEX_TYPE'];
+                $indexExists = true;
+                break;
+            }
+        }
+
+        if (!$indexExists) {
             return $this;
         }
 
-        $keyType = $indexList[$keyName]['INDEX_TYPE'];
-        $keyName = $indexList[$keyName]['KEY_NAME'];
         switch (strtolower($keyType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
                 $query = $this->_getDdlScriptDropPrimaryKey($tableName, $keyName, $schemaName);
@@ -1664,7 +1675,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $ddl = array();
             $query = "
                 SELECT
-                    si.name                 AS Key_name,
+                    UPPER(si.name)                 AS Key_name,
                     CASE
                         WHEN is_unique = 1 THEN 0
                         ELSE 1
@@ -4295,6 +4306,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         return $result;
+    }
+
+    public function getPrimaryKeyName($tableName, $schemaName)
+    {
+        $indexes = $this->getIndexList($tableName, $schemaName);
+        if (isset($indexes['PRIMARY'])) {
+            return $indexes['PRIMARY']['KEY_NAME'];
+        } else {
+            return 'PK_' . strtoupper($tableName);
+        }
+
     }
 
 }

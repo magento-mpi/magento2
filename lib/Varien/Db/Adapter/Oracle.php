@@ -127,14 +127,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @var bool
      */
-    protected $_logCallStack        = false;
+    protected $_logCallStack        = true;
 
     /**
      * Path to SQL debug data log
      *
      * @var string
      */
-    protected $_debugFile           = 'var/debug/oracle.log';
+    protected $_debugFile           = 'oracle/var/debug/oracle.log';
 
     /**
      * Io File Adapter
@@ -1105,8 +1105,11 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $this->resetDdlCache($tableName, $schemaName);
         $keyList = $this->getIndexList($tableName, $schemaName);
 
-        if (isset($keyList[strtoupper($indexName)])) {
-            $this->dropIndex($tableName, $indexName, $schemaName);
+        // Drop index if exists
+        foreach($keyList as $key) {
+            if ($key['KEY_NAME'] == strtoupper($indexName)) {
+                $this->dropIndex($tableName, $indexName, $schemaName);
+            }
         }
 
         if (!is_array($fields)) {
@@ -1165,9 +1168,19 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $schemaName = $this->_getSchemaName();
         }
 
-        if (!isset($indexList[$keyName])) {
+        foreach($indexList as $index) {
+            if ($index['KEY_NAME'] == $keyName) {
+                $keyType = $index['INDEX_TYPE'];
+                $indexExists = true;
+                break;
+            }
+        }
+
+        if (!$indexExists) {
             return $this;
         }
+
+
         switch (strtolower($indexList[$keyName]['INDEX_TYPE'])){
             case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
@@ -4323,5 +4336,15 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function forUpdate($sql)
     {
         return sprintf('%s %s', $sql, Varien_Db_Adapter_Oracle::SQL_FOR_UPDATE);
+    }
+
+    public function getPrimaryKeyName($tableName, $schemaName)
+    {
+        $indexes = $this->getIndexList($tableName, $schemaName);
+        if (isset($indexes['PRIMARY'])) {
+            return $indexes['PRIMARY']['KEY_NAME'];
+        } else {
+            return 'PK_' . strtoupper($tableName);
+        }
     }
 }
