@@ -125,7 +125,6 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
      */
     protected function _initSelect()
     {
-        $mainTable = null;
         // if grouping by product, not by period
         if (!$this->_period) {
             $cols = $this->_getSelectedColumns();
@@ -140,7 +139,12 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
             $this->_applyStoresFilter();
             $this->_applyDateRangeFilter();
 
+            //exclude removed products
+            $subSelect = $this->getConnection()->select();
+            $subSelect->from(array('existed_products'=>$this->getTable('catalog/product')), new Zend_Db_Expr('1)'));
+
             $this->getSelect()
+                ->exists($subSelect, $mainTable.'.product_id = existed_products.entity_id')
                 ->group('product_id')
                 ->order('qty_ordered ' . Varien_Db_Select::SQL_DESC)
                 ->limit($this->_ratingLimit);
@@ -285,14 +289,6 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
                 // add sorting
                 $this->getSelect()->order(array('period ASC', 'qty_ordered DESC'));
             }
-        }
-
-        //exclude removed products
-        if($mainTable) {
-            $subSelect = $this->getConnection()->select();
-            $subSelect->from(array('existed_products'=>$this->getTable('catalog/product')), new Zend_Db_Expr('1)'));
-            $this->getSelect()
-                ->exists($subSelect, $mainTable.'.product_id = existed_products.entity_id');
         }
 
         return $this;
