@@ -3592,7 +3592,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         foreach ($this->describeTable($tableName, $schemaName) as $column) {
             if ($column['COLUMN_NAME'] == $columnName) {
-                return $column['DATA_TYPE'];
+                if (array_search(strtoupper($column['DATA_TYPE']), array('CHAR', 'VARCHAR')) !== false) {
+                    $datetype = sprintf('%s(%s)', $column['DATA_TYPE'], $column['LENGTH']);
+                } else {
+                    $datetype = $column['DATA_TYPE'];
+                }
+                return $datetype;
             }
         }
         return false;
