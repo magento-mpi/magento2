@@ -49,6 +49,13 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/',
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
+    'Mage_Authorizenet' => array(
+        'app/code/core/Mage/Authorizenet/',
+        'app/design/frontend/base/default/template/authorizenet/',
+        'app/design/frontend/base/default/layout/authorizenet.xml',
+        'app/design/adminhtml/default/default/layout/authorizenet.xml',
+        'app/design/adminhtml/default/default/template/authorizenet/'
+    ),
     'Mage_Backup' => array(
         'app/code/core/Mage/Backup/',
     ),
@@ -196,6 +203,11 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/ideal/',
         'app/design/frontend/base/default/layout/ideal.xml',
         'app/design/adminhtml/default/default/template/ideal/',
+    ),
+    'Mage_ImportExport' => array(
+        'app/code/core/Mage/ImportExport/',
+        'app/design/adminhtml/default/default/layout/importexport.xml',
+        'app/design/adminhtml/default/default/template/importexport/',
     ),
     'Mage_Index' => array(
         'app/code/core/Mage/Index/',
@@ -368,6 +380,10 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/moneybookers/',
         'app/design/frontend/base/default/layout/moneybookers.xml',
     ),
+    'Find_Feed' => array(
+        'app/code/community/Find/Feed/',
+        'app/design/adminhtml/default/find/'
+    ),
     'Enterprise_AdminGws' => array(
         'app/code/core/Enterprise/AdminGws/',
         'app/design/adminhtml/default/default/layout/enterprise/admingws.xml',
@@ -446,6 +462,13 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/giftregistry.xml',
         'app/design/frontend/enterprise/default/template/giftregistry/'
     ),
+    'Enterprise_GiftWrapping' => array(
+        'app/code/core/Enterprise/GiftWrapping/',
+        'app/design/adminhtml/default/default/layout/enterprise/giftwrapping.xml',
+        'app/design/adminhtml/default/default/template/enterprise/giftwrapping/',
+        'app/design/frontend/enterprise/default/layout/giftwrapping.xml',
+        'app/design/frontend/enterprise/default/template/giftwrapping/'
+    ),
     'Enterprise_Invitation' => array(
         'app/code/core/Enterprise/Invitation/',
         'app/design/adminhtml/default/default/layout/enterprise/invitation.xml',
@@ -517,6 +540,7 @@ $CONFIG['helpers']  = array(
     'adminhtml'         => 'Mage_Adminhtml',
     'adminnotification' => 'Mage_AdminNotification',
     'api'               => 'Mage_Api',
+    'authorizenet'      => 'Mage_Authorizenet',
     'backup'            => 'Mage_Backup',
     'bundle'            => 'Mage_Bundle',
     'catalog'           => 'Mage_Catalog',
@@ -547,6 +571,7 @@ $CONFIG['helpers']  = array(
     'googlecheckout'    => 'Mage_GoogleCheckout',
     'googleoptimizer'   => 'Mage_GoogleOptimizer',
     'ideal'             => 'Mage_Ideal',
+    'importexport'      => 'Mage_ImportExport',
     'index'             => 'Mage_Index',
     'install'           => 'Mage_Install',
     'log'               => 'Mage_Log',
@@ -582,6 +607,7 @@ $CONFIG['helpers']  = array(
     'widget'            => 'Mage_Widget',
     'xmlconnect'        => 'Mage_XmlConnect',
     'moneybookers'      => 'Phoenix_Moneybookers',
+    'find_feed'         => 'Find_Feed',
     'enterprise_admingws'           => 'Enterprise_AdminGws',
     'enterprise_banner'             => 'Enterprise_Banner',
     'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',
@@ -595,6 +621,7 @@ $CONFIG['helpers']  = array(
     'enterprise_giftcard'           => 'Enterprise_GiftCard',
     'enterprise_giftcardaccount'    => 'Enterprise_GiftCardAccount',
     'enterprise_giftregistry'       => 'Enterprise_GiftRegistry',
+    'enterprise_giftwrapping'       => 'Enterprise_GiftWrapping',
     'enterprise_invitation'         => 'Enterprise_Invitation',
     'enterprise_license'            => 'Enterprise_License',
     'enterprise_logging'            => 'Enterprise_Logging',
