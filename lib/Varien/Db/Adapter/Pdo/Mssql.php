@@ -2160,8 +2160,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     $bind[$column] = $value;
                 }
             }
-
-            $this->update($table, $bind, $where);
+            if (count($bind) > 0) {
+                $this->update($table, $bind, $where);
+            }
         }
 
         return 1;
