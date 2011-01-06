@@ -111,10 +111,12 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         }
 
         $rangeCreatedAt = $this->_getRangeExpressionForAttribute($range, 'created_at');
+        $rangeCreatedAt2 = str_replace('created_at', 'MIN(created_at)', $rangeCreatedAt);
+
         $this->getSelect()
             ->columns(array(
                 'quantity' => 'COUNT(main_table.entity_id)',
-                'range' => $rangeCreatedAt,
+                'range' => $rangeCreatedAt2,
             ))
             ->order('range')
             ->group($rangeCreatedAt);
@@ -135,16 +137,21 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     protected function _prepareSummaryAggregated($range, $customStart, $customEnd)
     {
+
         $this->setMainTable('sales/order_aggregated_created');
         /**
          * Reset all columns, because result will group only by 'created_at' field
          */
         $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
         $rangePeriod = $this->_getRangeExpressionForAttribute($range, 'main_table.period');
+
+        $tableName = $this->getConnection()->quoteIdentifier('main_table.period');
+        $rangePeriod2 = str_replace($tableName, "MIN($tableName)", $rangePeriod);
+
         $this->getSelect()->columns(array(
             'revenue'  => 'SUM(main_table.total_revenue_amount)',
             'quantity' => 'SUM(main_table.orders_count)',
-            'range' => $rangePeriod,
+            'range' => $rangePeriod2,
         ))
         ->order('range')
         ->group($rangePeriod);
