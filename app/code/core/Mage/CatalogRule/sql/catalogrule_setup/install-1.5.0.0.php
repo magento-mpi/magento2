@@ -73,6 +73,7 @@ $table = $installer->getConnection()
         ), 'Simple Action')
     ->addColumn('discount_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, array(12,4), array(
         'nullable'  => false,
+        'default'   => 0.0000,
         ), 'Discount Amount')
     ->addColumn('website_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 4000, array(
         ), 'Website Ids')
