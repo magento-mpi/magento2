@@ -111,7 +111,8 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         }
 
         $rangeCreatedAt = $this->_getRangeExpressionForAttribute($range, 'created_at');
-        $rangeCreatedAt2 = str_replace('created_at', 'MIN(created_at)', $rangeCreatedAt);
+        $rangeCreatedAt2 = str_replace($this->getConnection()->quoteIdentifier('created_at'),
+          'MIN(created_at)', $rangeCreatedAt);
 
         $this->getSelect()
             ->columns(array(
