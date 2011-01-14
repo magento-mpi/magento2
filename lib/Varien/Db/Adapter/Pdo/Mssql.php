@@ -1626,6 +1626,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         switch (strtolower($keyType)) {
+            case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
             case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
                 $query = $this->_getDdlScriptDropPrimaryKey($tableName, $keyName, $schemaName);
                 break;
