@@ -978,6 +978,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 if (!empty($matches) && isset($matches[2])) {
                     $columnProp['DEFAULT'] = $matches[2];
                 }
+                if ($columnProp['DEFAULT'] == '(NULL)') {
+                    $columnProp['DEFAULT'] = null;
+                }
             }
             $this->saveDdlCache($cacheKey, self::DDL_DESCRIBE, $ddl);
         }
@@ -1008,7 +1011,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             }
             if ($columnData['NULLABLE'] === false
                 && !($type == Varien_Db_Ddl_Table::TYPE_TEXT
-                && strlen($columnData['DEFAULT']) == 0)
+                && strlen($columnData['DEFAULT']) != 0)
             ) {
                 $options['nullable'] = false;
             }
@@ -1337,7 +1340,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $definition);
 
         $this->raw_query($sql);
-        if ($defaultValue) {
+        if ($defaultValue !== false) {
             $this->_addColumnDefaultValue($tableName, $columnName, $defaultValue);
         }
         $this->resetDdlCache($tableName, $schemaName);

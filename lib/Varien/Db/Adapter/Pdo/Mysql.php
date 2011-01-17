@@ -1418,7 +1418,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             }
             if ($columnData['NULLABLE'] === false
                 && !($type == Varien_Db_Ddl_Table::TYPE_TEXT
-                && strlen($columnData['DEFAULT']) == 0)
+                && strlen($columnData['DEFAULT']) != 0)
                 ) {
                 $options['nullable'] = false;
             }

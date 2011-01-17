@@ -640,7 +640,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             }
             if ($columnData['NULLABLE'] === false
                 && !($type == Varien_Db_Ddl_Table::TYPE_TEXT
-                && strlen($columnData['DEFAULT']) == 0)
+                && strlen($columnData['DEFAULT']) != 0)
                 ) {
                 $options['nullable'] = false;
             }
