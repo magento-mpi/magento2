@@ -1905,7 +1905,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 'start_teg_pos'=> new Zend_Db_Expr("CHARINDEX('/*ACTION ADDED BY '+ :tablename2 + '*/', OBJECT_DEFINITION(t.object_id))"),
                 'finish_teg_pos'=> new Zend_Db_Expr("CHARINDEX('/* /ACTION ADDED BY '+ :tablename3 + '*/', OBJECT_DEFINITION(t.object_id))")
                 ))
-                ->where("t.parent_id = OBJECT_ID(':tablename4')");
+                ->where("t.parent_id = OBJECT_ID(:tablename4)");
 
                    // "OBJECT_DEFINITION(t.object_id) like '%'+ :tablename4 +'%' AND t.parent_id != OBJECT_ID(:tablename5)"
 
