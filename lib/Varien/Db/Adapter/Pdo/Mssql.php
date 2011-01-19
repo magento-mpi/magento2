@@ -1862,7 +1862,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         if (isset($foreignKeys[$upperFkName])) {
-            $this->_dropDependTriggersAction($foreignKeys[$upperFkName]['TABLE_NAME']);
+            $this->_dropDependTriggersAction($foreignKeys[$upperFkName]['TABLE_NAME'],
+                $foreignKeys[$upperFkName]['REF_TABLE_NAME']);
+            
             $sql = sprintf('ALTER TABLE %s DROP CONSTRAINT %s',
                 $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
                 $this->quoteIdentifier($foreignKeys[$upperFkName]['FK_NAME']));
@@ -1878,10 +1880,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Drop the Depend triggers part
      *
+     * @param string $tableName
      * @param string $refTableName
      * @return Varien_Db_Adapter_Pdo_Mssql
      */
-    protected function _dropDependTriggersAction($refTableName)
+    protected function _dropDependTriggersAction($tableName, $refTableName)
     {
 
         $concatData = array(
@@ -1902,9 +1905,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 'start_teg_pos'=> new Zend_Db_Expr("CHARINDEX('/*ACTION ADDED BY '+ :tablename2 + '*/', OBJECT_DEFINITION(t.object_id))"),
                 'finish_teg_pos'=> new Zend_Db_Expr("CHARINDEX('/* /ACTION ADDED BY '+ :tablename3 + '*/', OBJECT_DEFINITION(t.object_id))")
                 ))
-            ->where(
-                "OBJECT_DEFINITION(t.object_id) like '%'+ :tablename4 +'%' AND t.parent_id != OBJECT_ID(:tablename5)"
-            );
+                ->where("t.parent_id = OBJECT_ID(':tablename4')");
+
+                   // "OBJECT_DEFINITION(t.object_id) like '%'+ :tablename4 +'%' AND t.parent_id != OBJECT_ID(:tablename5)"
 
         $select = $this->select();
         $select->from(array('r' => new Zend_Db_Expr(sprintf('(%s)', $subSelect->assemble()))),
@@ -1913,12 +1916,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             ));
 
         $query = $this->query($select, array(
-            'tablename1' => $refTableName,
-            'tablename2' => $refTableName,
-            'tablename3' => $refTableName,
+            'tablename1' => $tableName,
+            'tablename2' => $tableName,
+            'tablename3' => $tableName,
             'tablename4' => $refTableName,
-            'tablename5' => $refTableName
         ));
+
         while ($row = $query->fetchColumn() ) {
             $this->raw_query(str_replace('CREATE TRIGGER', 'ALTER TRIGGER', $row));
         }
