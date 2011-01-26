@@ -2011,6 +2011,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $cIdentity = true;
         }
 
+        /*  For cases when tables created from createTableByDdl()
+         *  where default value can be quoted already.
+         *  We need to avoid "double-quoting" here
+         */
+        if ( $cDefault !== null && strlen($cDefault)) {
+            $cDefault = str_replace("'", '', $cDefault);
+        }
+
         // prepare default value string
         if ($ddlType == Varien_Db_Ddl_Table::TYPE_TIMESTAMP) {
             if ($cDefault === null) {
