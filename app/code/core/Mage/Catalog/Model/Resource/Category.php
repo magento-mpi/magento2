@@ -263,7 +263,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     {
         $adapter = $this->getReadConnection();
         $positionField = $adapter->quoteIdentifier('position');
-        $level   = count(explode('/', $path)) + 1;
+        $level   = count(explode('/', $path));
         $bind = array(
             'c_level' => $level,
             'c_path'  => $path . '/%'
