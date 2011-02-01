@@ -1681,14 +1681,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 SELECT
                     UPPER(si.name)                 AS Key_name,
                     CASE
-                        WHEN is_unique = 1 THEN 0
+                        WHEN is_unique = 1 AND  (is_unique_constraint = 1 OR is_primary_key = 1) THEN 0
                         ELSE 1
                     END                     AS Non_unique,
                     sc.name                 AS Column_name,
                     CASE
                         WHEN ( si.type = 1 AND si.is_primary_key = 1 ) then 'primary'
-                        WHEN ( si.type = 2 AND si.is_unique = 1 ) then 'unique'
-                        WHEN ( si.type = 2 AND si.is_unique = 0 ) then 'index'
+                        WHEN ( si.type = 2 AND si.is_unique = 1 AND si.is_unique_constraint = 1 ) then 'unique'
+                        WHEN ( si.type = 2 AND is_unique_constraint = 0 ) then 'index'
                         ELSE '??'
                     END                     AS Index_type
                 FROM sys.sysobjects so
