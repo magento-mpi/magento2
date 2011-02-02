@@ -1507,12 +1507,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _getDdlScriptCreateIndex($tableName, $indexName, $fields, $isUniqueIndex, $schemaName = null)
     {
-        return sprintf('CREATE %s INDEX [%s] ON %s ( %s )',
-            ($isUniqueIndex === true ? 'UNIQUE' : ''),
-            $this->quoteIdentifier($indexName),
-            $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
-            $fields
-        );
+        $table = $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
+        $index = $this->quoteIdentifier($indexName);
+
+        if ($isUniqueIndex) {
+            $query = sprintf('ALTER TABLE %s ADD CONSTRAINT [%s] UNIQUE (%s)',
+                $table, $index, $fields);
+        } else {
+            $query = sprintf('CREATE INDEX [%s] ON %s (%s)',
+                $index, $table, $fields);
+        }
+        return $query;
     }
 
     /**
