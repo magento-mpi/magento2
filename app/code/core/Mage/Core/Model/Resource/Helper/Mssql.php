@@ -173,9 +173,11 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
 
         // Restore order to an acceptable array for Zend_Db_Select
         $_order = array();
-        foreach ($order as $parts)
-        {
-            $_order[] = implode(' ', $parts);
+        foreach ($order as $parts) {
+            if (is_array($parts)) {
+                $parts = implode(' ', $parts);
+            }
+            $_order[] = $parts;
         }
 
         return $this->_getReadAdapter()->select()
