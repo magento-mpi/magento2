@@ -69,6 +69,9 @@
                 if (response.success) {
                     $(cancelButtonId).remove();
                     $('checkout-payment-method-load').update(response.update_html);
+                    if (checkout) {
+                        checkout.reloadProgressBlock();
+                    }
                 } else {
                     var msg = response.error_message;
                     if (msg) {
