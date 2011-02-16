@@ -46,6 +46,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'enterprise_reward/notification/balance_update_template';
     const XML_PATH_BALANCE_WARNING_TEMPLATE = 'enterprise_reward/notification/expiry_warning_template';
     const XML_PATH_EMAIL_IDENTITY = 'enterprise_reward/notification/email_sender';
+	const XML_PATH_MIN_POINTS_BALANCE = 'enterprise_reward/general/min_points_balance';
 
     const REWARD_ACTION_ADMIN               = 0;
     const REWARD_ACTION_ORDER               = 1;
