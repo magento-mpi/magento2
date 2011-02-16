@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Admin framework model
  *
@@ -24,7 +25,8 @@ class Model_Admin extends TestModelAbstract
      * Performs login into the BackEnd
      *
      */
-    public function doLogin($userName = null, $password = null) {
+    public function doLogin($userName = null, $password = null)
+    {
         $result = true;
         $userName = $userName ? $userName : $this->userName;
         $password = $password ? $password : $this->password;
@@ -56,13 +58,13 @@ class Model_Admin extends TestModelAbstract
      * Await appearing "Please wait" gif-image and disappearing
      *
      */
-    public  function pleaseWait()
+    public function pleaseWait()
     {
         $loadingMask = $this->getUiElement('/admin/elements/progress_bar');
 
         // await for appear and disappear "Please wait" animated gif...
         for ($second = 0; ; $second++) {
-            if ($second >= 60)  {
+            if ($second >= 60) {
                 break; //fail("timeout");
             }
             try {
@@ -75,8 +77,10 @@ class Model_Admin extends TestModelAbstract
             sleep(1);
         }
 
-        for ($second = 0; ; $second++) {
-            if ($second >= 60)break;
+        for ($second = 0;; $second++) {
+            if ($second >= 60
+
+                )break;
             try {
                 if ($this->isElementPresent($loadingMask)) {
                     break;
@@ -97,53 +101,54 @@ class Model_Admin extends TestModelAbstract
      * @return index of row, -1 if could not be founded
      * Note: this version works only for one(last) pair
      */
-    public function getSpecificRow($tableXPath, $paramsArray) {
-      $this->printDebug('getSpecificRow started');
+    public function getSpecificRow($tableXPath, $paramsArray)
+    {
+        $this->printDebug('getSpecificRow started');
 
-      $colNum = $this->getXpathCount($tableXPath . "//tr[contains(@class,'heading')]//th");
-      $this->printDebug('$colNum = ' . $colNum);
-      $rowNum = $this->getXpathCount($tableXPath . "//tbody//tr");
-      $this->printDebug('$rowNum = ' . $rowNum);
+        $colNum = $this->getXpathCount($tableXPath . "//tr[contains(@class,'heading')]//th");
+        $this->printDebug('$colNum = ' . $colNum);
+        $rowNum = $this->getXpathCount($tableXPath . "//tbody//tr");
+        $this->printDebug('$rowNum = ' . $rowNum);
 
-      foreach (array_keys($paramsArray) as $key) {
-          //Open user with 'User Name' == name
-          //Determine Column with 'User Name' title
-          $keyColInd = -1;
-          for ($col = 0; $col<= $colNum-1; $col++) {
-            $cellLocator = $tableXPath . '.0.' . $col ;
-            $cell = $this->getTable($cellLocator);
-            if ( $key == $cell) {
-                $this->printDebug($key . ' is founded in ' . $cellLocator);
-                $keyColInd = $col;
+        foreach (array_keys($paramsArray) as $key) {
+            //Open user with 'User Name' == name
+            //Determine Column with 'User Name' title
+            $keyColInd = -1;
+            for ($col = 0; $col <= $colNum - 1; $col++) {
+                $cellLocator = $tableXPath . '.0.' . $col;
+                $cell = $this->getTable($cellLocator);
+                if ($key == $cell) {
+                    $this->printDebug($key . ' is founded in ' . $cellLocator);
+                    $keyColInd = $col;
+                }
+                $this->printDebug($cellLocator . ' == ' . $cell);
             }
-            $this->printDebug($cellLocator . ' == ' . $cell);
-          }
-          if ($keyColInd == -1) {
-              $this->printDebug($key . ' not founded in ' . $tableXPath . ' table');
-              return -1;
-          } else {
-              if ($keyColInd >-1) {
-                  $bodyLocator =  $tableXPath . '//tbody';
-                  $valueRowInd = -1;
-                  for ($row = 0; $row <= $rowNum-1; $row++) {
-                    $cellLocator = $bodyLocator . '.' . $row . '.' . $keyColInd;
-                    $cell = $this->getTable($cellLocator);
-                    if ($cell == $paramsArray[$key]) {
-                        $valueRowInd = $row;
-                        $this->printDebug('Founded in ' . $cellLocator);
+            if ($keyColInd == -1) {
+                $this->printDebug($key . ' not founded in ' . $tableXPath . ' table');
+                return -1;
+            } else {
+                if ($keyColInd > -1) {
+                    $bodyLocator = $tableXPath . '//tbody';
+                    $valueRowInd = -1;
+                    for ($row = 0; $row <= $rowNum - 1; $row++) {
+                        $cellLocator = $bodyLocator . '.' . $row . '.' . $keyColInd;
+                        $cell = $this->getTable($cellLocator);
+                        if ($cell == $paramsArray[$key]) {
+                            $valueRowInd = $row;
+                            $this->printDebug('Founded in ' . $cellLocator);
+                        }
+                        $this->printDebug($cellLocator . ' == [' . $cell . ']');
                     }
-                    $this->printDebug($cellLocator . ' == [' . $cell .']');
-                  }
-              }
-          }
-      }
-      if ($valueRowInd > -1 ) {
-        $valueRowInd++;
-        return $valueRowInd;
-       } else {
-              $this->printDebug($paramsArray[$key] . ' not founded in ' . $tableXPath . ' table');
-              return -1;
-       }
+                }
+            }
+        }
+        if ($valueRowInd > -1) {
+            $valueRowInd++;
+            return $valueRowInd;
+        } else {
+            $this->printDebug($paramsArray[$key] . ' not founded in ' . $tableXPath . ' table');
+            return -1;
+        }
     }
 
     /**
@@ -209,7 +214,7 @@ class Model_Admin extends TestModelAbstract
      * Принцип задания 'searchBy1' => XPath: UiNamespace/inputs/'searchBy1'
      * Принцип задания $tableContainer => XPath: UiNamespace/elements/$tableContainer
      *
-    */
+     */
     public function searchAndDoAction($tableContainer, $searchElements, $action, $tableNumber)
     {
         $result = TRUE;
@@ -239,12 +244,13 @@ class Model_Admin extends TestModelAbstract
         return $result;
     }
 
-    /* Click button $saveButton and verify for errors
+    /**
+     * Click button $saveButton and verify for errors
      *
      * @param $saveButton
      * It is necessary to set UiNamespace before using a function.
      * $saveButton path - "UiNamespace"/elements/"$saveButton"
-    */
+     */
     function saveAndVerifyForErrors()
     {
         $this->click($this->getUiElement("/admin/buttons/submit"));
@@ -265,7 +271,8 @@ class Model_Admin extends TestModelAbstract
         }
     }
 
-    /* Verify on opened page Tabs for errors
+    /**
+     * Verify on opened page Tabs for errors
      *
      */
     public function verifyTabsForErrors()
@@ -296,9 +303,10 @@ class Model_Admin extends TestModelAbstract
         return $result;
     }
 
-    /* Verify page for errors
+    /**
+     * Verify page for errors
      *
-    */
+     */
     public function verifyPageForErrors()
     {
         $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
@@ -329,7 +337,8 @@ class Model_Admin extends TestModelAbstract
         }
     }
 
-    /* Get fields name and error for this fields on tab(work for Product ->General, Prices, Inventory tabs
+    /**
+     * Get fields name and error for this fields on tab(work for Product ->General, Prices, Inventory tabs
      * and Attribute->Properties tab)
      *
      */
