@@ -38,7 +38,6 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite_View extends Mage_Core_Hel
      *
      * @param Mage_Catalog_Model_Product $product
      * @param Mage_Adminhtml_Controller_Action $controller
-     *
      * @return Mage_Adminhtml_Helper_Catalog_Product_Composite_View
      */
     public function initProductLayout($product, $controller)
@@ -58,11 +57,9 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite_View extends Mage_Core_Hel
      * @param int $productId
      * @param Mage_Adminhtml_Controller_Action $controller
      * @param null|Varien_Object $params
-     *
-     *
      * @return Mage_Adminhtml_Helper_Catalog_Product_Composite_View
      */
-    public function prepareAndRender($productId, $controller, $params = null)
+    public function prepareAndRender($productId, $controller, Varien_Object $params = null)
     {
         // Prepare data
         $productHelper = Mage::helper('catalog/product');
@@ -70,13 +67,20 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite_View extends Mage_Core_Hel
             $params = new Varien_Object();
         }
 
+        $currentStoreId = $params->getCurrentStoreId();
+        if (!is_numeric($currentStoreId)) {
+            $currentStoreId = Mage::app()->getStore()->getId();
+        }
+
         $product = Mage::getModel('catalog/product')
-            ->setStoreId(Mage::app()->getStore()->getId())
+            ->setStoreId($currentStoreId)
             ->load($productId);
         if (!$product) {
             new Mage_Core_Exception($this->__('Product is not loaded'));
         }
         Mage::register('current_product', $product);
+        Mage::register('product', $product);
+
 
         $buyRequest = $params->getBuyRequest();
         if ($buyRequest) {

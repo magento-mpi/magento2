@@ -19,32 +19,29 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Bundle
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Catalog composite product configuration controller
+ * Bundle option multi select type renderer
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Mage
+ * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Adminhtml_Catalog_Product_CompositeController extends Mage_Adminhtml_Controller_Action
+class Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Multi
+    extends Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option
 {
-    /*
-     * Ajax handler to response configuration fieldset of composite product
+    /**
+     * Set template
+     *
+     * @return void
      */
-    public function configureAction()
+    protected function _construct()
     {
-        // Prepare data
-        $productId  = (int) $this->getRequest()->getParam('productId');
-        $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
-        $params = new Varien_Object();
-        $params->setCurrentStoreId(Mage::getSingleton('adminhtml/session_quote')->getStore()->getId());
-        // Render page
-        $viewHelper->prepareAndRender($productId, $this, $params);
+        $this->setTemplate('bundle/product/composite/fieldset/options/type/multi.phtml');
     }
 }

@@ -328,12 +328,11 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     }
 
     /**
-     * Prepares product options by buyRequest: retrieves values and assignes them as default.
+     * Prepares product options by buyRequest: retrieves values and assigns them as default.
      * Also parses and adds product management related values - e.g. qty
      *
-     * @param Mage_Catalog_Model_Product $product
-     * @param Varien_Object $buyRequest
-     *
+     * @param  Mage_Catalog_Model_Product $product
+     * @param  Varien_Object $buyRequest
      * @return Mage_Catalog_Helper_Product
      */
     public function prepareProductOptions($product, $buyRequest)

@@ -35,22 +35,25 @@
 class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Block_Product_View_Abstract
 {
     protected $_optionRenderers = array();
-    protected $_options = null;
+    protected $_options         = null;
 
     public function getOptions()
     {
         if (!$this->_options) {
-            $this->getProduct()->getTypeInstance(true)->setStoreFilter($this->getProduct()->getStoreId(), $this->getProduct());
+            $product = $this->getProduct();
+            $typeInstance = $product->getTypeInstance(true);
+            $typeInstance->setStoreFilter($product->getStoreId(), $product);
 
-            $optionCollection = $this->getProduct()->getTypeInstance(true)->getOptionsCollection($this->getProduct());
+            $optionCollection = $typeInstance->getOptionsCollection($product);
 
-            $selectionCollection = $this->getProduct()->getTypeInstance(true)->getSelectionsCollection(
-                $this->getProduct()->getTypeInstance(true)->getOptionsIds($this->getProduct()),
-                $this->getProduct()
+            $selectionCollection = $typeInstance->getSelectionsCollection(
+                $typeInstance->getOptionsIds($product),
+                $product
             );
 
             $this->_options = $optionCollection->appendSelections($selectionCollection, false, false);
         }
+
         return $this->_options;
     }
 
@@ -148,10 +151,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             'specialPrice'  => $this->getProduct()->getSpecialPrice()
         );
 
-        if ($preconfiguredFlag) {
-            if (!empty($defaultValues)) {
-                $config['defaultValues'] = $defaultValues;
-            }
+        if ($preconfiguredFlag && !empty($defaultValues)) {
+            $config['defaultValues'] = $defaultValues;
         }
 
         return Mage::helper('core')->jsonEncode($config);

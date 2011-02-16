@@ -119,7 +119,7 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
     /**
      * Append selection to options
      * stripBefore - indicates to reload
-     * appendAll - indecates do we need to filter by saleable and required custom options
+     * appendAll - indicates do we need to filter by saleable and required custom options
      *
      * @param Mage_Bundle_Model_Resource_Selection_Collection $selectionsCollection
      * @param bool $stripBefore
@@ -135,8 +135,7 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
         if (!$this->_selectionsAppended) {
             foreach ($selectionsCollection->getItems() as $key => $_selection) {
                 if ($_option = $this->getItemById($_selection->getOptionId())) {
-                    if ($appendAll
-                            || (!$appendAll && $_selection->isSalable() && !$_selection->getRequiredOptions())) {
+                    if ($appendAll || ($_selection->isSalable() && !$_selection->getRequiredOptions())) {
                         $_selection->setOption($_option);
                         $_option->addSelection($_selection);
                     } else {
@@ -146,6 +145,7 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
             }
             $this->_selectionsAppended = true;
         }
+
         return $this->getItems();
     }
 
@@ -203,3 +203,4 @@ class Mage_Bundle_Model_Resource_Option_Collection extends Mage_Core_Model_Resou
         return $this->_itemIds;
     }
 }
+

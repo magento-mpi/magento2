@@ -350,8 +350,14 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         if (!$this->getProduct($product)->hasData($this->_keyOptionsCollection)) {
             $optionsCollection = Mage::getModel('bundle/option')->getResourceCollection()
                 ->setProductIdFilter($this->getProduct($product)->getId())
-                ->setPositionOrder()
-                ->joinValues($this->getStoreFilter($product));
+                ->setPositionOrder();
+
+            $storeId = $this->getStoreFilter($product);
+            if ($storeId instanceof Mage_Core_Model_Store) {
+                $storeId = $storeId->getId();
+            }
+
+            $optionsCollection->joinValues($storeId);
             $this->getProduct($product)->setData($this->_keyOptionsCollection, $optionsCollection);
         }
         return $this->getProduct($product)->getData($this->_keyOptionsCollection);
