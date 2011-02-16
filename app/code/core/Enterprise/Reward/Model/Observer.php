@@ -431,7 +431,9 @@ class Enterprise_Reward_Model_Observer
                 ->setCustomer($quote->getCustomer())
                 ->setWebsiteId($quote->getStore()->getWebsiteId())
                 ->loadByCustomer();
-            if ($reward->getId()) {
+            $minPointsBalance = (int)Mage::getStoreConfig(Enterprise_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE, $quote->getStoreId());
+
+            if ($reward->getId() && $reward->getPointsBalance() >= $minPointsBalance) {
                 $quote->setRewardInstance($reward);
                 if (!$payment->getMethod()) {
                     $payment->setMethod('free');
