@@ -108,6 +108,33 @@
             <subcategoryname>st-subcat</subcategoryname>
             <parentsubcategoryname>st-rootcat</parentsubcategoryname>
         </manage_categories>
-        
+        <tax>
+            <product_tax_class_name>
+                <ptc1>Test product tax class 1</ptc1>
+                <ptc2>Test product tax class 2</ptc2>
+                <ptc3>Test product tax class 3</ptc3>
+            </product_tax_class_name>
+            <customer_tax_class_name>
+                <ctc1>Test customer tax class 1</ctc1>
+                <ctc2>Test customer tax class 2</ctc2>
+                <ctc3>Test customer tax class 3</ctc3>
+            </customer_tax_class_name>
+            <tax_rate_identifier>
+                <tzr1>Test tax rate 1</tzr1>
+                <tzr2>Test tax rate 2</tzr2>
+                <tzr3>Test tax rate 3</tzr3>
+            </tax_rate_identifier>
+            <tax_rate_percent>12.7</tax_rate_percent>
+            <tax_rule_name>Test tax rule</tax_rule_name>
+            <tax_title>Test tax</tax_title>
+            <country>United States</country>
+            <state>California</state>
+            <range_from>1</range_from>
+            <range_to>10000</range_to>
+            <zip_post_code>*</zip_post_code>
+            <tax_rule_priority>1</tax_rule_priority>
+            <tax_rule_sort_order>1</tax_rule_sort_order>
+            <tax_store_view_title>Test tax</tax_store_view_title>
+        </tax>
     </backend>
 </config>
