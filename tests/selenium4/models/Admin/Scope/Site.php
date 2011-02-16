@@ -116,12 +116,15 @@ class Model_Admin_Scope_Site extends Model_Admin {
         // Filter users by name
         $this->click($this->getUiElement('buttons/reset_filter'));
         sleep(1);
+        $this->waitForElement($this->getUiElement('filters/site_name'),5);
         //Filter by username
         $this->type($this->getUiElement('filters/site_name'),$name);
+        $this->waitForElement($this->getUiElement('buttons/search'),5);
         $this->click($this->getUiElement('buttons/search'));
         sleep(1);
         //Open user with 'User Name' == name
         //Determine Column with 'User Name' title
+        $this->waitForElement($this->getUiElement('filters/site_name'),5);
         $result = $this->findRightSite($this->getUiElement('elements/store_table'), $name, $code);
         $this->setUiNamespace('/admin/pages/system/scope/manage_stores');
         if ($result > -1 ) {

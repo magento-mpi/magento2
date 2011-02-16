@@ -44,7 +44,7 @@ class Model_Admin_System_Config_Web extends Model_Admin
         $this->setUiNamespace('/admin/pages/system/configuration/tabs/web/');
         //Open unSecure section
         if ($this->waitForElement($this->getUiElement('elements/hidedUnsecure'),1)) {
-            $this->click($this->getUiElement('links/unsecure'));
+            $this->click($this->getUiElement('elements/headUnsecure'));
         };
         //uncheck 'Usedefault' if neccessary
         if ($this->isElementPresent($this->getUiElement('unsecure_tab/checkboxes/useDefaultBaseLinkChecked'))) {
@@ -54,7 +54,7 @@ class Model_Admin_System_Config_Web extends Model_Admin
         $this->type($this->getUiElement('unsecure_tab/inputs/baselink'), '{{unsecure_base_url}}' . 'websites/' . $siteCode . '/');
         //Open secure section        
         if ($this->waitForElement($this->getUiElement('elements/hidedSecure'),1)) {
-            $this->click($this->getUiElement('links/secure'));
+            $this->click($this->getUiElement('elements/headSecure'));
         };
         //uncheck 'Usedefault' if neccessary
         if ($this->isElementPresent($this->getUiElement('secure_tab/checkboxes/useDefaultBaseLinkChecked'))) {
