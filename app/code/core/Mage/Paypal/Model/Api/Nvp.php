@@ -550,7 +550,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         if ($this->getAddress()) {
             $request = $this->_importAddresses($request);
             $request['ADDROVERRIDE'] = 1;
-        } elseif ($options && (count($options) < 10)) { // doesn't support more than 10 shipping options
+        } elseif ($options && (count($options) <= 10)) { // doesn't support more than 10 shipping options
             $request['CALLBACK'] = $this->getShippingOptionsCallbackUrl();
             $request['CALLBACKTIMEOUT'] = 6; // max value
             $request['MAXAMT'] = $request['AMT'] + 999.00; // it is impossible to calculate max amount
