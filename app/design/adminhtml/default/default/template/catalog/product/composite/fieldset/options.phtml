@@ -45,15 +45,19 @@ opConfig = new ProductOptionsClass({});
 </script>
 
 <div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Custom Options') ?></h4>
-    </div>
-    <div id="catalog_product_composite_configure_fields_options">
-        <?php
-            foreach($options as $option) {
-                echo $this->getOptionHtml($option);
-            }
-        ?>
+    <div id="catalog_product_composite_configure_fields_options" class="product-configure-options">
+        <div class="entry-edit-head">
+            <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Custom Options') ?></h4>
+        </div>
+        <table class="form-list">
+            <tbody>
+            <?php
+                foreach($options as $option) {
+                    echo $this->getOptionHtml($option);
+                }
+            ?>
+            </tbody>
+        </table>
     </div>
 </div>
 

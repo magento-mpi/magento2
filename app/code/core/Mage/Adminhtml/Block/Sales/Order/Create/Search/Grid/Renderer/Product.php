@@ -42,10 +42,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product exten
     public function render(Varien_Object $row)
     {
         $rendered       =  parent::render($row);
-        $isConfigurable = $row->isComposite() || $row->getOptions() ? true : false;
-        $style          = $isConfigurable ? '' : 'color: #CCC;';
+        $isConfigurable = ($row->isComposite() || $row->getOptions() || $row->getTypeId() == 'giftcard'
+            || $row->getTypeId() == 'downloadable') ? true : false;
+        $style          = $isConfigurable ? '' : 'style="color: #CCC;"';
         $prodAttributes = $isConfigurable ? sprintf('list_type = "product_to_add" product_id = %s', $row->getId()) : 'disabled="disabled"';
-        return $rendered . sprintf('<a href="javascript:void(0)" style="float: right; %s" %s>%s</a>',
-            $style, $prodAttributes, Mage::helper('sales')->__('Configure'));
+        return sprintf('<a href="javascript:void(0)" %s class="f-right" %s>%s</a>',
+            $style, $prodAttributes, Mage::helper('sales')->__('Configure')) . $rendered;
     }
 }

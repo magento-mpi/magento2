@@ -421,6 +421,7 @@ AdminOrder.prototype = {
                         delete(this.gridProducts.get(element.value)[element.inputElements[i].name]);
                     }
                 }
+                this.gridProducts.get(element.value)['configuration'] = productConfigure.getConfiguredData('$current$', element.value);
             }
         } else {
             if(element.inputElements){
@@ -439,6 +440,7 @@ AdminOrder.prototype = {
         data['add_products'] = this.gridProducts.toJSON();
         data['reset_shipping'] = 1;
         this.gridProducts = $H({});
+        productConfigure.clean();
         this.hideArea('search');
         this.loadArea(['search', 'items', 'shipping_method', 'totals', 'giftmessage','billing_method'], true, data);
     },

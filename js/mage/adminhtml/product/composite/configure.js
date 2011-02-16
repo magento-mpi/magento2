@@ -26,22 +26,25 @@
 ProductConfigure = Class.create();
 ProductConfigure.prototype = {
 
-    cachedHtml:       {},
-    listTypes:        {},
-    confirmCallback:  {},
-    cancelCallback:   {},
-    current:          {},
-    confWindow:       {},
-    confFields:       {},
+    cachedHtml:       $H({}),
+    configuredData:   $H({}),
+    listTypes:        $H({}),
+    current:          $H({}),
+    confirmCallback:  null,
+    cancelCallback:   null,
+    confWindow:       null,
+    confFields:       null,
+    confMask:         null,
+    windowHeight:     null,
 
     /**
      * Initialize object
      */
     initialize: function() {
-        this.cachedHtml.base = {};
-        this.cachedHtml.confirmed = {};
-        this.confWindow = $('catalog_product_composite_configure');
-        this.confFields = $('catalog_product_composite_configure_fields');
+        this.confWindow   = $('catalog_product_composite_configure');
+        this.confFields   = $('catalog_product_composite_configure_fields');
+        this.confMask     = $('popup-window-mask');
+        this.windowHeight = $('html-body').getHeight();
     },
 
     /**
@@ -63,21 +66,21 @@ ProductConfigure.prototype = {
      * @param itemId product id
      */
     showItemConfiguration: function(listType, itemId) {
+        if (!listType || !itemId) {
+            return false;
+        }
         this.current.listType = listType;
         this.current.itemId = itemId;
-        if (typeof this.cachedHtml.base[listType] == 'undefined') {
-            this.cachedHtml.base[listType] = {};
-            this.cachedHtml.confirmed[listType] = {};
-        }
-        if (typeof this.cachedHtml.base[listType][itemId] == 'undefined') {
+        this._prepareCachedAndConfigured(listType, itemId);
+
+        if (this._empty(this.cachedHtml[listType][itemId])) {
             this._requestItemConfiguration(listType, itemId);
         } else {
-            if (typeof this.cachedHtml.confirmed[listType][itemId] != 'undefined') {
-                this.confFields.update(this.cachedHtml.confirmed[listType][itemId]);
-            } else {
-                this.confFields.update(this.cachedHtml.base[listType][itemId]);
+            this.confFields.update(this.cachedHtml[listType][itemId]);
+            if (!this._empty(this.configuredData[listType][itemId])) {
+                this._processFieldsData('restore');
             }
-            this.confWindow.style.display = 'block';
+            this._showWindow();
         }
     },
 
@@ -85,18 +88,18 @@ ProductConfigure.prototype = {
      * Get configuration fields of product through ajax put to cache and show them
      *
      * @param listType type of list as scope
-     * @param productId product id
+     * @param itemId product id
      */
-    _requestItemConfiguration: function(listType, productId) {
+    _requestItemConfiguration: function(listType, itemId) {
         var url = this.listTypes[listType];
         if (url) {
             new Ajax.Request(url, {
-                parameters: {productId: productId},
+                parameters: {productId: itemId},
                 onSuccess: function(transport) {
                     var response = transport.responseText;
                     if (response) {
-                        this.cachedHtml.base[listType][productId] = response;
-                        this.showItemConfiguration(listType, productId);
+                        this.cachedHtml[listType][itemId] = response;
+                        this.showItemConfiguration(listType, itemId);
                     }
                 }.bind(this)
             });
@@ -107,9 +110,9 @@ ProductConfigure.prototype = {
      * Triggered on confirm button click
      */
     onConfirmBtn: function() {
-        this.cachedHtml.confirmed[this.current.listType][this.current.itemId] = this.cachedHtml.base[this.current.listType][this.current.itemId];
-        this.confWindow.style.display = 'none';
-        if (this.confirmCallback) {
+        this._closeWindow();
+        this._processFieldsData('save');
+        if (Object.isFunction(this.confirmCallback)) {
             this.confirmCallback();
         }
     },
@@ -118,11 +121,30 @@ ProductConfigure.prototype = {
      * Triggered on cancel button click
      */
     onCancelBtn: function() {
-        this.confWindow.style.display = 'none';
-        if (this.cancelCallback) {
+        this._closeWindow();
+        if (Object.isFunction(this.cancelCallback)) {
             this.cancelCallback();
         }
     },
+
+    /**
+     * Show configuration window
+     */
+    _showWindow: function() {
+        toggleSelectsUnderBlock(this.confMask, false);
+        this.confMask.setStyle({'height':this.windowHeight+'px'}).show();
+        this.confWindow.setStyle({'marginTop':-this.confWindow.getHeight()/2 + "px", 'display':'block'});
+    },
+
+    /**
+     * Close configuration window
+     */
+    _closeWindow: function() {
+        toggleSelectsUnderBlock(this.confMask, true);
+        this.confMask.style.display = 'none';
+        this.confWindow.style.display = 'none';
+    },
+
 
     /**
      * Attach callback function triggered on confirm button click
@@ -140,6 +162,127 @@ ProductConfigure.prototype = {
      */
     setCencelCallback: function(cancelCallback) {
         this.cancelCallback = cancelCallback;
+    },
+
+    /**
+     * Get configured data. All or filtered
+     *
+     * @param listType type of list as scope. e.g.: '$current$', 'product_to_add', empty
+     * @param itemId product id. e.g.: '$current$', 195, empty
+     */
+    getConfiguredData: function(listType, itemId) {
+        // get current listType
+        if (listType == '$current$'
+            && typeof this.current.listType != 'undefined'
+            && typeof itemId == 'undefined'
+            && typeof this.configuredData[this.current.listType] != 'undefined'        
+        ) {
+            return this.configuredData[this.current.listType];
+        // get current listType and current itemId
+        } else if (listType == '$current$' && itemId  == '$current$'
+            && typeof this.current.listType != 'undefined'
+            && typeof this.current.itemId != 'undefined'
+            && typeof this.configuredData[this.current.listType] != 'undefined'
+            && typeof this.configuredData[this.current.listType][this.current.itemId] != 'undefined'
+        ) {
+            return this.configuredData[this.current.listType][this.current.itemId];
+        // get current listType and specified itemId
+        } else if (listType == '$current$' && itemId
+            && typeof this.current.listType != 'undefined'
+            && typeof this.configuredData[this.current.listType] != 'undefined'
+            && typeof this.configuredData[this.current.listType][itemId] != 'undefined'
+        ) {
+            return this.configuredData[this.current.listType][itemId];
+        // get by listType
+        } else if (listType
+            && typeof itemId != 'undefined'
+            && typeof this.configuredData[listType] != 'undefined'
+        ) {
+            return this.configuredData[listType];
+        // get by listType and itemId
+        } else if (listType && itemId
+            && typeof this.configuredData[listType] != 'undefined'
+            && typeof this.configuredData[listType][itemId] != 'undefined'
+        ) {
+            return this.configuredData[listType][itemId];
+        }
+        return this.configuredData;
+    },
+
+    /**
+     * Clean object data
+     */
+    clean: function() {
+        this.current        = $H({});
+        this.cachedHtml     = $H({});
+        this.configuredData = $H({});
+    },
+
+    /**
+     * Save or restore current fields data
+     *
+     * @param method can be 'save' or 'restore'
+     */
+    _processFieldsData: function(method) {
+        var fields          = this.confFields.select('input,textarea,select');
+        var fieldsConfirmed = this.configuredData[this.current.listType][this.current.itemId];
+
+        switch (method) {
+            case 'save':
+                fields.each(function(e) {
+                    if (e.name) {
+                        if (e.type == 'checkbox') {
+                            fieldsConfirmed[e.name] = e.checked;
+                        } else {
+                            fieldsConfirmed[e.name] = e.value;
+                        }
+                    }
+                }.bind(this));
+            break;
+            case 'restore': 
+                fields.each(function(e) {
+                    if (typeof fieldsConfirmed[e.name] != 'undefined') {
+                        if (e.type == 'checkbox') {
+                            e.checked = fieldsConfirmed[e.name];
+                        } else {
+                            e.value = fieldsConfirmed[e.name];
+                        }
+
+                    }
+                }.bind(this));
+            break;
+        }
+    },
+
+    /**
+     * Prepare cached and configured variables for filling
+     *
+     * @param listType type of list as scope
+     * @param itemId product id
+     */
+    _prepareCachedAndConfigured: function(listType, itemId) {
+        if (typeof this.cachedHtml[listType] == 'undefined') {
+            this.cachedHtml[listType] = {};
+            this.configuredData[listType] = {};
+        }
+        if (typeof this.cachedHtml[listType][itemId] == 'undefined') {
+            this.cachedHtml[listType][itemId] = {};
+            this.configuredData[listType][itemId] = {};
+        }
+    },
+
+    /**
+     * Is object has any property ?
+     *
+     * @param obj
+     */
+    _empty: function(obj) {
+        for(var i in obj) {
+            if(obj.hasOwnProperty(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 };
 
