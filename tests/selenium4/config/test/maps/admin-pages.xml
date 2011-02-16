@@ -643,7 +643,6 @@
             <tabs>
                 <web>
                     <secure_tab>
-                        <visibledsecure>//fieldset[@id='web_secure' and @style='']</visibledsecure>
                         <inputs>
                             <baselink>web_secure_base_link_url</baselink>
                         </inputs>
@@ -654,7 +653,6 @@
                         </checkboxes>
                     </secure_tab>
                     <unsecure_tab>
-                        <visibleUnsecure>//fieldset[@id='web_unsecure' and @style='']</visibleUnsecure>
                         <inputs>
                             <baselink>web_unsecure_base_link_url</baselink>
                         </inputs>
@@ -665,6 +663,8 @@
                         </checkboxes>
                     </unsecure_tab>
                     <elements>
+                        <headSecure>//a[@id='web_secure-head']</headSecure>
+                        <headUnsecure>//a[@id='web_unsecure-head']</headUnsecure>
                         <hidedSecure>//fieldset[@id='web_secure' and @style='display: none;']</hidedSecure>
                         <hidedUnsecure>//fieldset[@id='web_unsecure' and @style='display: none;']</hidedUnsecure>
                         <visibleSecure>//fieldset[@id='web_secure' and @style='']</visibleSecure>

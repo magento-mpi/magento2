@@ -118,8 +118,18 @@ class Model_Frontend_Product extends Model_Frontend
                         $result = false;
                     }
                     $this->type($qty_input,$value);
-                }                
-
+                }
+            case self::CONFIGURABLE:
+                $configOptions = $params['configOptions'];
+                foreach ($configOptions as $key => $value) {
+                    $this->printDebug($key . ' ->' . $value);
+                    $option_selector = $this->getUiElement('/frontend/pages/product/inputs/configurable_option',$key);
+                    if (!$this->waitForElement($option_selector,1)) {
+                        $this->setVerificationErrors("Check 3: Configurable Product " . $key . " option dropdown box could not be located");
+                        $result = false;
+                    }
+                    $this->select($option_selector . '//select',$value);
+                }
                 ;
         endswitch;
         $this->clickAndWait($this->getUiElement('/frontend/pages/product/buttons/addToCart'));

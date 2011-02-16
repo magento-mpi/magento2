@@ -45,6 +45,7 @@
         <inputs>
             <qty>qty</qty>
             <grouped_qty>//table[@id="super-product-table"]/tbody//tr[normalize-space(td/text())="%s"]//input[normalize-space(@title)="Qty"]</grouped_qty>
+            <configurable_option>//fieldset[contains(@id,'product-options-wrapper')]//dl[normalize-space(dt/label/text())="%s"]</configurable_option>
         </inputs>
         <buttons>
             <addToCart>//button[contains(span,'Add to Cart')]</addToCart>
