@@ -109,67 +109,67 @@
 
     <target name="clean-unreleased" description="Cleaning checkout from unreleased things">
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/code/core/Mage/XmlConnect"/>
+            <arg line="rm app/code/core/Mage/XmlConnect"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/design/frontend/base/default/layout/xmlconnect.xml"/>
+            <arg line="rm app/design/frontend/base/default/layout/xmlconnect.xml"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/design/frontend/enterprise/default/layout/xmlconnect.xml"/>
+            <arg line="rm app/design/frontend/enterprise/default/layout/xmlconnect.xml"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/design/adminhtml/default/default/template/xmlconnect"/>
+            <arg line="rm app/design/adminhtml/default/default/template/xmlconnect"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/design/adminhtml/default/default/layout/xmlconnect.xml"/>
+            <arg line="rm app/design/adminhtml/default/default/layout/xmlconnect.xml"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/etc/modules/Mage_XmlConnect.xml"/>
+            <arg line="rm app/etc/modules/Mage_XmlConnect.xml"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/locale/en_US/Mage_XmlConnect.csv"/>
+            <arg line="rm app/locale/en_US/Mage_XmlConnect.csv"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm skin/frontend/base/default/images/xmlconnect"/>
+            <arg line="rm skin/frontend/base/default/images/xmlconnect"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm skin/frontend/enterprise/default/images/xmlconnect"/>
+            <arg line="rm skin/frontend/enterprise/default/images/xmlconnect"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm skin/frontend/default/default/images/xmlconnect"/>
+            <arg line="rm skin/frontend/default/default/images/xmlconnect"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm skin/adminhtml/default/default/xmlconnect"/>
+            <arg line="rm skin/adminhtml/default/default/xmlconnect"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm skin/adminhtml/default/default/images/xmlconnect"/>
+            <arg line="rm skin/adminhtml/default/default/images/xmlconnect"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm skin/adminhtml/default/enterprise/images/xmlconnect_tab.png"/>
+            <arg line="rm skin/adminhtml/default/enterprise/images/xmlconnect_tab.png"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm media/xmlconnect"/>
+            <arg line="rm media/xmlconnect"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm js/jscolor"/>
+            <arg line="rm js/jscolor"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/code/core/Enterprise/SalesPool"/>
+            <arg line="rm app/code/core/Enterprise/SalesPool"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/design/frontend/enterprise/default/template/salespool"/>
+            <arg line="rm app/design/frontend/enterprise/default/template/salespool"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/design/frontend/enterprise/default/layout/salespool.xml"/>
+            <arg line="rm app/design/frontend/enterprise/default/layout/salespool.xml"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/design/adminhtml/default/default/template/enterprise/salespool"/>
+            <arg line="rm app/design/adminhtml/default/default/template/enterprise/salespool"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/design/adminhtml/default/default/layout/enterprise/salespool.xml"/>
+            <arg line="rm app/design/adminhtml/default/default/layout/enterprise/salespool.xml"/>
         </exec>
         <exec executable="svn" failonerror="false" dir="${dir.src}">
-            <arg value="rm app/etc/modules/Enterprise_SalesPool.xml"/>
+            <arg line="rm app/etc/modules/Enterprise_SalesPool.xml"/>
         </exec>
     </target>
 
@@ -177,25 +177,25 @@
 
     <target name="clean-ee" depends="clean-unreleased" description="Clean checkout from specific stuff for EE.">
         <exec executable="svn" failonerror="true" dir="${dir.src}">
-            <arg value="rm app/design/frontend/pro"/>
+            <arg line="rm app/design/frontend/pro"/>
         </exec>
         <exec executable="svn" failonerror="true" dir="${dir.src}">
-            <arg value="rm app/design/install/default/pro"/>
+            <arg line="rm app/design/install/default/pro"/>
         </exec>
         <exec executable="svn" failonerror="true" dir="${dir.src}">
-            <arg value="rm skin/adminhtml/default/pro"/>
+            <arg line="rm skin/adminhtml/default/pro"/>
         </exec>
         <exec executable="svn" failonerror="true" dir="${dir.src}">
-            <arg value="rm skin/frontend/pro"/>
+            <arg line="rm skin/frontend/pro"/>
         </exec>
         <exec executable="svn" failonerror="true" dir="${dir.src}">
-            <arg value="rm skin/install/default/pro"/>
+            <arg line="rm skin/install/default/pro"/>
         </exec>
         <exec executable="svn" failonerror="true" dir="${dir.src}">
-            <arg value="rm errors/pro"/>
+            <arg line="rm errors/pro"/>
         </exec>
         <exec executable="svn" failonerror="true" dir="${dir.src}">
-            <arg value="rm downloader/template/professional"/>
+            <arg line="rm downloader/template/professional"/>
         </exec>
     </target>
 
