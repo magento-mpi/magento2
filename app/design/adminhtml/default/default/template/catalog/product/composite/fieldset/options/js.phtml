@@ -59,8 +59,8 @@
 
 <script type="text/javascript">
 //<![CDATA[
-var Options = Class.create();
-Options.prototype = {
+ProductOptionsClass = Class.create(); // FIXME ACPAOC: move this class to Composite namespace
+ProductOptionsClass.prototype = {
     initialize : function(config) {
         this.config = config;
         this.reloadPrice();

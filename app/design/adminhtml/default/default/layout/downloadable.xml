@@ -82,5 +82,8 @@
             <action method="addColumnRender"><column>downloadable</column><block>downloadable/adminhtml_sales_items_column_downloadable_name</block><template>downloadable/sales/items/column/downloadable/creditmemo/name.phtml</template></action>
         </reference>
     </adminhtml_sales_order_creditmemo_view>
-
+    
+    <PRODUCT_TYPE_downloadable>
+        <block name="product.composite.fieldset.downloadable" type="downloadable/adminhtml_catalog_product_composite_fieldset_downloadable" template="downloadable/product/composite/fieldset/downloadable.phtml" output="toHtml" />
+    </PRODUCT_TYPE_downloadable>
 </layout>
