@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 class Frontend_Checkout_Guest_Simple extends TestCaseAbstract
 {
@@ -23,8 +23,8 @@ class Frontend_Checkout_Guest_Simple extends TestCaseAbstract
         $paramArray = array (
             //product data
             'baseUrl' => 'http://kq.varien.com/builds/ee-nightly/current/websites/smoke',
+            //'categoryName' => 'st-subcat',
             'categoryName' => 'SL-Category/Base',
-            //'categoryName' => 'SL-Category/wCO',
             'productName' => 'Simple Product - Base',
             'qty' => 1,
             //checkout data

@@ -154,18 +154,19 @@ class Model_Frontend_Checkout extends Model_Frontend
 
         if ($this->isAlertPresent()) {
                 $this->storeAlert($alert);
-                $this->printInfo("BillingInfo tab could not be saved. Customer email already exists.");
+                $this->printInfo("BillingInfo tab could not be saved. Customer email already exists. Using timestamp.");
                 //Use timestamp based value in email
                 $this->type($this->getUiElement('billingAddress/inputs/email'),$this->getStamp() . '@varien.com');
                 $this->type($this->getUiElement("billingAddress/inputs/password"),$params["password"]);
                 $this->type($this->getUiElement("billingAddress/inputs/confirm"),$params["password"]);
                 $this->click($this->getUiElement("billingAddress/buttons/continue"));
                 $this->pleaseWaitStep($this->getUiElement("billingAddress/elements/pleaseWait"));
+                $this->printInfo('Register ' . $this->getStamp() . '@varien.com email customer.');
                 $alert ='';
 
                 if ($this->isAlertPresent()) {
                         $this->storeAlert($alert);
-                        $this->setVerificationErrors("Check2: BillingInfo tab could not be saved. Customer email already exists ?");
+                        $this->setVerificationErrors('Check2: BillingInfo tab could not be saved. Customer email already exists ?');
                         return false;
                 }
         }
@@ -263,13 +264,15 @@ class Model_Frontend_Checkout extends Model_Frontend
 
         if ($this->waitForElement($this->getUiElement('messages/alreadyExists'), 5)) {
                 $this->printInfo('Account could not be created. Customer email already exists');
-                $this->printInfo('Registering with new email');
+                $this->printInfo('Registering with new email: ' . $this->getStamp() . '@varien.com');
                 //Using stamp based email
                 $this->type($this->getUiElement('inputs/email'),$this->getStamp() . '@varien.com');
                 $this->type($this->getUiElement('inputs/password'),$params['password']);
                 $this->type($this->getUiElement('inputs/confirm'),$params['password']);                
                 $this->clickAndWait($this->getUiElement('buttons/submit'));
-        } 
+        } else {
+            $this->printInfo('Register new customer with email ' . $params['email'] );
+        }
         // Add new Address
         $this->clickAndWait($this->getUiElement('/frontend/pages/multiShippingCheckout/tabs/selectAddresses/buttons/enterNewAddress'));
         // Fill new address fields
@@ -296,6 +299,8 @@ class Model_Frontend_Checkout extends Model_Frontend
         // Check for success message
           if (!$this->waitForElement($this->getUiElement("/admin/messages/success"),1)) {
             $this->setVerificationErrors("Adding new address: no success message");
+          } else {
+              $this->printInfo('Adding new address ');
           }
 //          return false;
         }
@@ -329,7 +334,6 @@ class Model_Frontend_Checkout extends Model_Frontend
             return false;
         }
 
-
         //Perform rest checkout steps
         $this->shippingMethodPaymentPlaceOrderStepsForMS();
     }
@@ -361,12 +365,12 @@ class Model_Frontend_Checkout extends Model_Frontend
         //Proceed to checkout
         if ($isMultiple) {
             $this->printInfo('Starting multipleShipping checkout');
-            $this->waitForElement($this->getUiElement('/frontend/pages/shoppingCart/links/multipleShippingCheckout'),5);
-            $this->clickAndWait($this->getUiElement('/frontend/pages/shoppingCart/links/multipleShippingCheckout'));
+            $this->waitForElement($this->getUiElement('/frontend/pages/shopping_cart/links/multipleShippingCheckout'),5);
+            $this->clickAndWait($this->getUiElement('/frontend/pages/shopping_cart/links/multipleShippingCheckout'));
         } else {
             $this->printInfo('Starting ordinal checkout');
-            $this->waitForElement($this->getUiElement('/frontend/pages/shoppingCart/buttons/proceedToCheckout'),5);
-            $this->clickAndWait($this->getUiElement('/frontend/pages/shoppingCart/buttons/proceedToCheckout'));
+            $this->waitForElement($this->getUiElement('/frontend/pages/shopping_cart/buttons/proceedToCheckout'),5);
+            $this->clickAndWait($this->getUiElement('/frontend/pages/shopping_cart/buttons/proceedToCheckout'));
         }
         $this->printDebug('startCheckout finished');
     }
@@ -579,6 +583,7 @@ class Model_Frontend_Checkout extends Model_Frontend
         $this->printDebug('address count:'.$count);
         for ($i=1; $i<=$count; $i++) {
             $this->click($paneXpath . '[' . $i . "]//label[contains(text(),'Free')]");
+            $this->printInfo('Use Free shipping for order #' . $i );
         };
 
         //Continue
@@ -586,6 +591,7 @@ class Model_Frontend_Checkout extends Model_Frontend
 
         // Fill billibg Information fields
         $this->click($this->getUiElement('billingInformation/inputs/check'));
+        $this->printInfo('Use Check/Money payment method');
         $this->clickAndWait($this->getUiElement('billingInformation/buttons/continue'));
 
         //Place order

@@ -51,6 +51,7 @@ class Frontend_Checkout_Guest_Grouped extends TestCaseAbstract
 
         //Test Flow
         $this->modelProduct->doOpen($paramArray);
+        sleep(10);
         $this->modelProduct->placeToCart($paramArray);
         $this->modelShoppingCart->proceedCheckout();
         $this->modelCheckout->doCheckout($paramArray);
