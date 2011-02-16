@@ -3,6 +3,12 @@
 <topmenu>
     <sales>
         <orders>//div[@class="nav-bar"]//a[span="Orders"]</orders>
+        <tax>
+            <manage_tax_rules>//div[@class="nav-bar"]//a[span="Manage Tax Rules"]</manage_tax_rules>
+            <manage_tax_zone_rate>//div[@class="nav-bar"]//a[span="Manage Tax Zones &amp; Rates"]</manage_tax_zone_rate>
+            <customer_tax_classes>//div[@class="nav-bar"]//a[span="Customer Tax Classes"]</customer_tax_classes>
+            <product_tax_classes>//div[@class="nav-bar"]//a[span="Product Tax Classes"]</product_tax_classes>
+        </tax>
     </sales>
     <customer>
         <managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
