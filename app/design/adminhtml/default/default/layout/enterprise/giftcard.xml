@@ -109,4 +109,8 @@
             </action>
         </reference>
     </adminhtml_sales_order_creditmemo_view>
+
+    <PRODUCT_TYPE_giftcard>
+        <block name="product.composite.fieldset.giftcard" type="enterprise_giftcard/adminhtml_catalog_product_composite_fieldset_giftcard" template="enterprise/giftcard/catalog/product/composite/fieldset/giftcard.phtml" output="toHtml"/>
+    </PRODUCT_TYPE_giftcard>
 </layout>
