@@ -104,14 +104,14 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      *
      * @var string
      */
-    protected $_eventPrefix = 'core_resource_collection_abstract';
+    protected $_eventPrefix = '';
 
     /**
      * Name of event parameter
      *
      * @var string
      */
-    protected $_eventObject = 'object';
+    protected $_eventObject = '';
 
     /**
      * Use analytic function flag
@@ -632,6 +632,11 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
             }
         }
         Mage::dispatchEvent('core_collection_abstract_load_after', array('collection' => $this));
+        if ($this->_eventPrefix && $this->_eventObject) {
+            Mage::dispatchEvent($this->_eventPrefix.'_load_after', array(
+                $this->_eventObject => $this
+            ));
+        }
         return $this;
     }
 

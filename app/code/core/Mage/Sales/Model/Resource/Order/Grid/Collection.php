@@ -49,6 +49,13 @@ class Mage_Sales_Model_Resource_Order_Grid_Collection extends Mage_Sales_Model_R
     protected $_eventObject    = 'order_grid_collection';
 
     /**
+     * Customer mode flag
+     * 
+     * @var bool
+     */
+    protected $_customerModeFlag = false;
+
+    /**
      * Model initialization
      *
      */
@@ -78,5 +85,27 @@ class Mage_Sales_Model_Resource_Order_Grid_Collection extends Mage_Sales_Model_R
         $countSelect->from(array('a' => $unionSelect), 'COUNT(*)');
 
         return $countSelect;
+    }
+
+    /**
+     * Set customer mode flag value
+     *
+     * @param bool $value
+     * @return Mage_Sales_Model_Resource_Order_Grid_Collection
+     */
+    public function setIsCustomerMode($value)
+    {
+        $this->_customerModeFlag = (bool)$value;
+        return $this;
+    }
+
+    /**
+     * Get customer mode flag value
+     *
+     * @return bool
+     */
+    public function getIsCustomerMode()
+    {
+        return $this->_customerModeFlag;
     }
 }

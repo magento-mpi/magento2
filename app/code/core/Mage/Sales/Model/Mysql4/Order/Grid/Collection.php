@@ -35,6 +35,22 @@
 class Mage_Sales_Model_Mysql4_Order_Grid_Collection extends Mage_Sales_Model_Resource_Order_Grid_Collection
 {
 
+<<<<<<< .working
+=======
+    /**
+     * Customer mode flag
+     * 
+     * @var bool
+     */
+    protected $_customerModeFlag = false;
+
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->setMainTable('sales/order_grid');
+    }
+
+>>>>>>> .merge-right.r85383
     /**
      * Get SQL for get record count
      *
@@ -55,5 +71,27 @@ class Mage_Sales_Model_Mysql4_Order_Grid_Collection extends Mage_Sales_Model_Res
         $countSelect->from(array('a' => $unionSelect), 'COUNT(*)');
 
         return $countSelect;
+    }
+
+    /**
+     * Set customer mode flag value
+     *
+     * @param bool $value
+     * @return Mage_Sales_Model_Mysql4_Order_Grid_Collection
+     */
+    public function setIsCustomerMode($value)
+    {
+        $this->_customerModeFlag = (bool)$value;
+        return $this;
+    }
+
+    /**
+     * Get customer mode flag value
+     *
+     * @return bool
+     */
+    public function getIsCustomerMode()
+    {
+        return $this->_customerModeFlag;
     }
 }
