@@ -36,15 +36,17 @@ ProductConfigure.prototype = {
     confFields:       null,
     confMask:         null,
     windowHeight:     null,
+    errorMsgBlock:    null,
 
     /**
      * Initialize object
      */
     initialize: function() {
-        this.confWindow   = $('catalog_product_composite_configure');
-        this.confFields   = $('catalog_product_composite_configure_fields');
-        this.confMask     = $('popup-window-mask');
-        this.windowHeight = $('html-body').getHeight();
+        this.confWindow     = $('catalog_product_composite_configure');
+        this.confFields     = $('catalog_product_composite_configure_fields');
+        this.errorMsgBlock  = $$('#catalog_product_composite_configure .error-msg')[0];
+        this.confMask       = $('popup-window-mask');
+        this.windowHeight   = $('html-body').getHeight();
     },
 
     /**
@@ -53,10 +55,11 @@ ProductConfigure.prototype = {
      * expamle: addListType('wishlist', 'http://magento...')
      *
      * @param type types as scope
-     * @param url for fetching configuration fields through ajax
+     * @param urlFetch for fetching configuration fields through ajax
+     * @param urlConfirm for preprocessing configured data through ajax
      */
-    addListType: function(type, url) {
-        this.listTypes[type] = url;
+    addListType: function(type, urlFetch, urlConfirm) {
+        this.listTypes[type] = {urlFetch: urlFetch, urlConfirm: urlConfirm};
     },
 
     /**
@@ -91,7 +94,7 @@ ProductConfigure.prototype = {
      * @param itemId product id
      */
     _requestItemConfiguration: function(listType, itemId) {
-        var url = this.listTypes[listType];
+        var url = this.listTypes[listType].urlFetch;
         if (url) {
             new Ajax.Request(url, {
                 parameters: {productId: itemId},
@@ -108,12 +111,38 @@ ProductConfigure.prototype = {
 
     /**
      * Triggered on confirm button click
+     * Do preprocessing configured data through ajax if needed
      */
     onConfirmBtn: function() {
-        this._closeWindow();
         this._processFieldsData('save');
-        if (Object.isFunction(this.confirmCallback)) {
-            this.confirmCallback();
+        var url = this.listTypes[this.current.listType].urlConfirm;
+        if (url) {
+            new Ajax.Request(url, {
+                parameters: this.configuredData[this.current.listType][this.current.itemId],
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        var response = transport.responseText.evalJSON();
+                        if (response.ok) {
+                            this.errorMsgBlock.hide();
+                            this._closeWindow();
+                            if (Object.isFunction(this.confirmCallback)) {
+                                this.confirmCallback();
+                            }
+                        } else if (response.error) {
+                            delete this.cachedHtml[this.current.listType][this.current.itemId];
+                            this.showItemConfiguration(this.current.listType, this.current.itemId);
+                            this._processFieldsData('restore');
+                            this.errorMsgBlock.show();
+                            this.errorMsgBlock.innerHTML = response.messages;
+                        }
+                    }
+                }.bind(this)
+            });
+        } else {
+            this._closeWindow();
+            if (Object.isFunction(this.confirmCallback)) {
+                this.confirmCallback();
+            }
         }
     },
 
@@ -141,6 +170,7 @@ ProductConfigure.prototype = {
      */
     _closeWindow: function() {
         toggleSelectsUnderBlock(this.confMask, true);
+        this.errorMsgBlock.hide();
         this.confMask.style.display = 'none';
         this.confWindow.style.display = 'none';
     },
@@ -263,10 +293,14 @@ ProductConfigure.prototype = {
     _prepareCachedAndConfigured: function(listType, itemId) {
         if (typeof this.cachedHtml[listType] == 'undefined') {
             this.cachedHtml[listType] = {};
-            this.configuredData[listType] = {};
         }
         if (typeof this.cachedHtml[listType][itemId] == 'undefined') {
-            this.cachedHtml[listType][itemId] = {};
+            this.cachedHtml[listType][itemId] = null;
+        }
+        if (typeof this.configuredData[listType] == 'undefined') {
+            this.configuredData[listType] = {};
+        }
+        if (typeof this.configuredData[listType][itemId] == 'undefined') {
             this.configuredData[listType][itemId] = {};
         }
     },

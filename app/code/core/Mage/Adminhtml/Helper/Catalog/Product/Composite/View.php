@@ -42,8 +42,8 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite_View extends Mage_Core_Hel
      */
     public function initProductLayout($product, $controller)
     {
-        $controller->addActionLayoutHandles();
         $controller->getLayout()->getUpdate()->addHandle('PRODUCT_TYPE_' . $product->getTypeId());
+        $controller->addActionLayoutHandles();
         $controller->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         return $this;
     }
