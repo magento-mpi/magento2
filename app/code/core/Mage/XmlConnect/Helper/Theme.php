@@ -128,10 +128,10 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
             $dst = $themeDir . DS .$f;
             if ($io->isWriteable($dst)) {
                 try {
-                    if (!($result = $io->cp($src, $dst))) {
+                    if (!$io->cp($src, $dst)) {
                         Mage::throwException(Mage::helper('xmlconnect')->__('Can\t copy file "%s" to "%s".', $src, $dst));
                     } else {
-                        $chmodResult = $io->chmod($dst, 0755);
+                        $io->chmod($dst, 0755);
                     }
                 } catch (Exception $e) {
                     Mage::logException($e);

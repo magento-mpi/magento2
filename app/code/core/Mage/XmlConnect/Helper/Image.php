@@ -29,6 +29,40 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     const XMLCONNECT_GLUE = '_';
 
     /**
+     * Image limits for content
+     *
+     * @var array|null
+     */
+    protected $_content = null;
+
+    /**
+     * Image limits for interface
+     *
+     * @var array|null
+     */
+    protected $_interface = null;
+
+    /**
+     * Array of interface image paths in xmlConfig
+     *
+     * @var array
+     */
+    protected $_interfacePath = array();
+
+    /**
+     * Image limits array
+     *
+     * @var array
+     */
+    protected $_imageLimits = array();
+
+    /**
+     * Images paths in the config
+     *
+     * @var array|null
+     */
+    protected $_confPaths = null;
+    /**
      * Process uploaded file
      * setup filenames to the configuration
      *
@@ -403,9 +437,9 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
                     $data = $update['data'];
                     $target =& $this->findPath($imageLimits, $path);
                     if (is_array($target)) {
-                        array_walk_recursive($target, 'Mage_XmlConnect_Helper_Image::_zoom', $data);
+                        array_walk_recursive($target, 'Mage_XmlConnect_Helper_Image::zoom', $data);
                     } else {
-                        $this->_zoom($target, null, $data);
+                        $this->zoom($target, null, $data);
                     }
                     break;
                 case 'update':
@@ -475,7 +509,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      * @param  string $value    (contains float)
      * @return void
      */
-    static public function _zoom(&$item, $key, $value)
+    static public function zoom(&$item, $key, $value)
     {
         if (is_string($item)) {
             $item = (int) round($item*$value);
@@ -486,24 +520,12 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      * Ensure $dir exists (if not then create one)
      *
      * @param string $dir
-     * @return void
      * @throw Mage_Core_Exception
      */
     protected function _verifyDirExist($dir)
     {
-        $error = false;
-        if (!is_dir($dir)) {
-            if (!mkdir($dir, 0777)) {
-                 $error = true;
-            }
-        } else {
-            if (!is_writable($dir) && (!chmod($dir, 777))) {
-                $error = true;
-            }
-        }
-        if ($error) {
-            Mage::throwException('Can\'t create upload directory.');
-        }
+        $io = new Varien_Io_File;
+        $io->checkAndCreateFolder($dir);
     }
 
     /**
@@ -563,15 +585,15 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function getInterfaceImagesPathsConf()
     {
-        if (!isset($this->confPaths)) {
+        if (!isset($this->_confPaths)) {
             $paths = $this->getInterfaceImagesPaths();
-            $this->confPaths = array();
+            $this->_confPaths = array();
             $len = strlen('conf/native/');
             foreach ($paths as $path => $defaultFileName) {
-                $this->confPaths[$path] = substr($path, $len); 
+                $this->_confPaths[$path] = substr($path, $len);
             }
         }
-        return $this->confPaths;
+        return $this->_confPaths;
     }
 
     /**

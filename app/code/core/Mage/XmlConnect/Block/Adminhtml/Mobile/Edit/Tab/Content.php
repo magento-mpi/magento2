@@ -49,7 +49,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
      */
     protected function _addPage($fieldset, $fieldPrefix, $title=NULL, $simple=FALSE)
     {
-        $title = $this->getDefaultTitle($title, $fieldPrefix);
         $el = $fieldset->addField($fieldPrefix, 'page', array(
             'name'      => $fieldPrefix,
         ));

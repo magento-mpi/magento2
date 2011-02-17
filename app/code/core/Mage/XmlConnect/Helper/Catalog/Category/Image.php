@@ -114,7 +114,7 @@ class Mage_XmlConnect_Helper_Catalog_Category_Image extends Mage_Catalog_Helper_
      */
     public function watermark($fileName, $position, $size=null, $imageOpacity=null)
     {
-        parent::watermark()->setWatermarkImageOpacity($imageOpacity);
+        parent::watermark($fileName, $position)->setWatermarkImageOpacity($imageOpacity);
         return $this;
     }
 

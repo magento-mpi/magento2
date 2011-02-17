@@ -98,7 +98,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
                      * @todo add management of cookie expire to application admin panel
                      */
                     $cookieExpireOffset = 3600 * 24 * 30;
-                    Mage::getModel('core/cookie')->set($item['cookieName'], $item['value'], $cookieExpireOffset, '/', null, null, true);
+                    Mage::getSingleton('core/cookie')->set($item['cookieName'], $item['value'], $cookieExpireOffset, '/', null, null, true);
                 }
             }
 
