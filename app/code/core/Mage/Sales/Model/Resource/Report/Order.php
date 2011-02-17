@@ -191,8 +191,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
                 ->join(array('oi' => $selectOrderItem), 'oi.order_id = o.entity_id', array())
                 ->where('o.state NOT IN (?)', array(
                     Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                    Mage_Sales_Model_Order::STATE_NEW,
-                    Mage_Sales_Model_Order::STATE_CANCELED,
+                    Mage_Sales_Model_Order::STATE_NEW
                 ));
 
             if ($subSelect !== null) {

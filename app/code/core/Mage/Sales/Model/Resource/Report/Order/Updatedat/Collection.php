@@ -238,8 +238,7 @@ class Mage_Sales_Model_Resource_Report_Order_Updatedat_Collection
             ->join(array('oi' => $selectOrderItem), 'oi.order_id = e.entity_id', array())
             ->where('e.state NOT IN (?)', array(
                     Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                    Mage_Sales_Model_Order::STATE_NEW,
-                    Mage_Sales_Model_Order::STATE_CANCELED,
+                    Mage_Sales_Model_Order::STATE_NEW
                 ));
 
         $this->_applyStoresFilter();
