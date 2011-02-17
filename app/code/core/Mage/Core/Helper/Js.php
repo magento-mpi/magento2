@@ -205,6 +205,10 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
                 'Please enter a number lower than 100.' => $this->__('Please enter a number lower than 100.'),
                 'Please enter issue number or start date for switch/solo card type.' =>
                     $this->__('Please enter issue number or start date for switch/solo card type.'),
+                'Please enter a valid day (1-%d).' => $this->__('Please enter a valid day (1-%d).'),
+                'Please enter a valid month (1-12).' => $this->__('Please enter a valid month (1-12).'),
+                'Please enter a valid year (1900-%d).' => $this->__('Please enter a valid year (1900-%d).'),
+                'Please enter a valid full date' => $this->__('Please enter a valid full date')
             );
             foreach ($this->_translateData as $key=>$value) {
                 if ($key == $value) {
