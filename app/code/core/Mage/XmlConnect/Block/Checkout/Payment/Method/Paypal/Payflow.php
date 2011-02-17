@@ -79,7 +79,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
         $_ccType = $this->getInfoData('cc_type');
         $ccTypes = '';
 
-        foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName){
+        foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName) {
             if (!$_typeCode) {
                 continue;
             }
@@ -93,7 +93,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
         $ccMonthes = '';
 
         $_ccExpMonth = $this->getInfoData('cc_exp_month');
-        foreach ($this->getCcMonths() as $k => $v){
+        foreach ($this->getCcMonths() as $k => $v) {
             if (!$k) {
                 continue;
             }
@@ -107,7 +107,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
         $ccYears = '';
 
         $_ccExpYear = $this->getInfoData('cc_exp_year');
-        foreach ($this->getCcYears() as $k => $v){
+        foreach ($this->getCcYears() as $k => $v) {
             if (!$k) {
                 continue;
             }

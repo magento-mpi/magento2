@@ -154,7 +154,7 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
             $offset = (int)$request->getParam('offset', 0);
             $count  = (int)$request->getParam('count', 0);
             $count  = $count <= 0 ? 1 : $count;
-            if($offset + $count < $collection->getSize()){
+            if ($offset + $count < $collection->getSize()) {
                 $this->setHasProductItems(1);
             }
             $collection->getSelect()->limit($count, $offset);

@@ -34,6 +34,12 @@
 class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
+    /**
+     * Constructor
+     *
+     * Setting grid_id, sort order and sort direction
+     *
+     */
     public function __construct()
     {
         parent::__construct();
@@ -93,6 +99,7 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
     /**
      * Remove row click url
      *
+     * @param Mage_Catalog_Model_Product|Varien_Object $row
      * @return string
      */
     public function getRowUrl($row)

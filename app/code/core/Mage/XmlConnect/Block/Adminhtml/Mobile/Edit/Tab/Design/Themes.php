@@ -79,6 +79,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
      * @param id $id
      * @param string $label
      * @param array $data
+     * @return array
      */
     protected function _addColorBox($id, $label, $data)
     {
@@ -138,7 +139,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
     public function getApplication()
     {
         $model = Mage::registry('current_app');
-        if(!($model instanceof Mage_XmlConnect_Model_Application)){
+        if (!($model instanceof Mage_XmlConnect_Model_Application)) {
             Mage::throwException(Mage::helper('xmlconnect')->__('App model not loaded.'));
         }
 

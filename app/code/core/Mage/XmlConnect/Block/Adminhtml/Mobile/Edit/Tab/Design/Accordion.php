@@ -35,8 +35,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion extends M
     {
         if (strpos($block, '/') !== false) {
             $block = $this->getLayout()->createBlock($block);
-        }
-        else {
+        } else {
             $block = $this->getLayout()->getBlock($block);
         }
 

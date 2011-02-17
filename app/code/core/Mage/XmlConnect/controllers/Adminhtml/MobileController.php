@@ -28,6 +28,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 {
     /**
      * Initialize application
+     * 
      * @param string $paramName
      * @return Mage_XmlConnect_Model_Application
      */
@@ -40,8 +41,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if ($app->getId()) {
                 $app->loadConfiguration();
             }
-        }
-        else {
+        } else {
             $app->loadDefaultConfiguration();
         }
         Mage::register('current_app', $app);
@@ -73,16 +73,16 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     /**
      * Set value into multidimensional array 'conf/native/navigationBar/icon'
      *
-     * @param array     &$target                // pointer to target array
-     * @param string    $fieldPath              //'conf/native/navigationBar/icon'
-     * @param mixed     $fieldValue             // 'Some Value' || 12345 || array(1=>3, 'aa'=>43)
-     * @param string    $delimiter              // path delimiter
+     * @param &array &$target                // pointer to target array
+     * @param string $fieldPath              //'conf/native/navigationBar/icon'
+     * @param mixed $fieldValue             // 'Some Value' || 12345 || array(1=>3, 'aa'=>43)
+     * @param string $delimiter              // path delimiter
      * @return null
      */
     protected function _injectFieldToArray(&$target, $fieldPath, $fieldValue, $delimiter = '/')
     {
         $nameParts = explode($delimiter, $fieldPath);
-        foreach($nameParts as $next) {
+        foreach ($nameParts as $next) {
             if (!isset($target[$next])) {
                 $target[$next] = array();
             }
@@ -154,6 +154,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Edit app form
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -390,7 +392,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 Mage::logException($e);
             }
         }
-        if(!$isError && $app->getId() && $redirectSubmit) {
+        if (!$isError && $app->getId() && $redirectSubmit) {
             $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
         } else if ($isError || ($app->getId() && $redirectBack)) {
             if ($isError) {
@@ -436,14 +438,12 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             } else {
                 $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Theme name is not set.'));
             }
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => Mage::helper('xmlconnect')->__('Can\'t save theme.')
@@ -460,13 +460,13 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      * Convert array key->value pairs inside array like:
      * "conf_native_bar_tintcolor" => $val   to   $conf['native']['bar']['tintcolor'] => $val
      *
-     * @param array $data   $_POST
+     * @param array $data $_POST
      * @return array
      */
     protected function _convertPost($data)
     {
         $conf = array();
-        foreach($data as $key => $val){
+        foreach ($data as $key => $val) {
             $parts = explode('_', $key);
             // "4" - is number of expected params conf_native_bar_tintcolor in correct data
             if (is_array($parts) && (count($parts) == 4)) {
@@ -507,8 +507,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => Mage::helper('xmlconnect')->__('Can\'t reset theme.')
@@ -626,6 +625,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      * Process all uploaded files
      * setup filenames to the configuration return array
      *
+     * @param array $data
+     * @param bool $restore
      * @return array
      */
     protected function _processUploadedFiles($data, $restore = false)
@@ -676,23 +677,23 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if (isset($arr['conf']['new_pages']) && isset($arr['conf']['new_pages']['ids'])
             && isset($arr['conf']['new_pages']['labels'])) {
 
-            $new_pages = array();
+            $newPages = array();
             foreach ($arr['conf']['new_pages']['ids'] as $key=>$value) {
-                $new_pages[$key]['id'] = trim($value);
+                $newPages[$key]['id'] = trim($value);
             }
             foreach ($arr['conf']['new_pages']['labels'] as $key=>$value) {
-                $new_pages[$key]['label'] = trim($value);
+                $newPages[$key]['label'] = trim($value);
             }
             if (!isset($arr['conf']['native']['pages'])) {
                 $arr['conf']['native']['pages'] = array();
             }
-            foreach ($new_pages as $key => $page) {
+            foreach ($newPages as $key => $page) {
                 if (empty($page['id']) || empty($page['label'])) {
-                    unset($new_pages[$key]);
+                    unset($newPages[$key]);
                 }
             }
-            if (!empty($new_pages)) {
-                $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $new_pages);
+            if (!empty($newPages)) {
+                $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $newPages);
             }
             unset($arr['conf']['new_pages']);
         }

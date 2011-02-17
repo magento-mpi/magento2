@@ -62,6 +62,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
 
     /**
      * Set quote instances
+     * 
      * @param array $params
      */
     public function __construct($params = array())
@@ -69,14 +70,14 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         $this->_checkoutSession = Mage::getSingleton('checkout/session');
         if (isset($params['quote']) && $params['quote'] instanceof Mage_Sales_Model_Quote) {
             $this->_quote = $params['quote'];
-        }
-        else {
+        } else {
             Mage::throwException(Mage::helper('xmlconnect')->__('Quote instance is required.'));
         }
     }
 
     /**
      * Prepare quote, reserve order ID for specified quote
+     * 
      * @return string
      */
     public function initCheckout()
@@ -110,8 +111,8 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     /**
      * Save shipping and billing address information to quote
      *
-     * @param   array $data
-     * @return  array
+     * @param array $data
+     * @return array
      */
     public function saveShipping($data)
     {
@@ -163,8 +164,8 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     /**
      * Specify quote shipping method
      *
-     * @param   string $shippingMethod
-     * @return  array
+     * @param string $shippingMethod
+     * @return array
      */
     public function saveShippingMethod($shippingMethod)
     {
@@ -198,8 +199,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     {
         if ($this->_quote->isVirtual()) {
             $this->_quote->getBillingAddress()->setPaymentMethod($this->_methodType);
-        }
-        else {
+        } else {
             $this->_quote->getShippingAddress()->setPaymentMethod($this->_methodType);
         }
 
@@ -221,8 +221,6 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
      * Place the order when customer returned from paypal
      * Until this moment all quote data must be valid
      *
-     * @param string $token
-     * @param string $shippingMethodCode
      * @return array
      */
     public function saveOrder()
@@ -245,8 +243,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         if ($order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING) {
             try {
                 $order->sendNewOrderEmail();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::logException($e);
             }
         }

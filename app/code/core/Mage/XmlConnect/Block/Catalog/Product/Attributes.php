@@ -37,15 +37,19 @@ class Mage_XmlConnect_Block_Catalog_Product_Attributes extends Mage_Catalog_Bloc
 
     /**
      * Add additional information (attributes) to current product xml object
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_XmlConnect_Model_Simplexml_Element $productXmlObject
+     *  
      */
     public function addAdditionalData(Mage_Catalog_Model_Product $product, Mage_XmlConnect_Model_Simplexml_Element $productXmlObject)
     {
         if ($product && $productXmlObject && $product->getId()) {
             $this->_product = $product;
             $additionalData = $this->getAdditionalData();
-            if(!empty($additionalData)){
+            if (!empty($additionalData)) {
                 $attributesXmlObj = $productXmlObject->addChild('additional_attributes');
-                foreach ($additionalData as $data){
+                foreach ($additionalData as $data) {
                     $_attrXmlObject = $attributesXmlObj->addChild('item');
                     $_attrXmlObject->addChild('label', $this->htmlEscape(Mage::helper('xmlconnect')->__($data['label'])));
                     $_attrXmlObject->addChild('value', Mage::helper('catalog/output')->productAttribute($product, $data['value'], $data['code']));

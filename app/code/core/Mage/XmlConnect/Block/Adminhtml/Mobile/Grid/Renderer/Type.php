@@ -36,8 +36,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Type extends Mage_Adm
     /**
      * Renders grid column
      *
-     * @param   Varien_Object $row
-     * @return  string
+     * @param Varien_Object $row
+     * @return string
      */
     public function render(Varien_Object $row)
     {

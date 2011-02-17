@@ -48,7 +48,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
         $billingAddress         = $customer->getAddressById($_billingAddssesId);
         $shippingAddress        = $customer->getAddressById($_shippingAddssesId);
 
-        if($billingAddress && $billingAddress->getId()){
+        if ($billingAddress && $billingAddress->getId()) {
             $item = $addressXmlObj->addChild('item');
             $item->addAttribute('label', Mage::helper('xmlconnect')->__('Default Billing Address'));
             $item->addAttribute('default_billing', 1);
@@ -61,8 +61,8 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
             $this->prepareAddressData($shippingAddress, $item);
         }
         $_additionalAddresses = $customer->getAdditionalAddresses();
-        if($_additionalAddresses){
-            foreach($_additionalAddresses as $_address){
+        if ($_additionalAddresses) {
+            foreach ($_additionalAddresses as $_address) {
                 $item = $addressXmlObj->addChild('item');
                 $item->addAttribute('label', Mage::helper('xmlconnect')->__('Additional Address'));
                 $item->addAttribute('additional', 1);
@@ -78,6 +78,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
      * Remove objects from data array and escape data values
      *
      * @param Mage_Customer_Model_Address $address
+     * @param Mage_XmlConnect_Model_Simplexml_Element $item
      * @return array
      */
     public function prepareAddressData(Mage_Customer_Model_Address $address, Mage_XmlConnect_Model_Simplexml_Element $item)

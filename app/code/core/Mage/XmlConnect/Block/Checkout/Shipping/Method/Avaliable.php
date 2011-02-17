@@ -42,23 +42,22 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Chec
     {
         $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<shipping_methods></shipping_methods>');
         $_shippingRateGroups = $this->getShippingRates();
-        if ($_shippingRateGroups){
+        if ($_shippingRateGroups) {
             $store = $this->getQuote()->getStore();
             $_sole = count($_shippingRateGroups) == 1;
-            foreach ($_shippingRateGroups as $code => $_rates){
+            foreach ($_shippingRateGroups as $code => $_rates) {
                 $methodXmlObj = $methodsXmlObj->addChild('method');
                 $methodXmlObj->addAttribute('label', $methodsXmlObj->xmlentities(strip_tags($this->getCarrierName($code))));
                 $ratesXmlObj = $methodXmlObj->addChild('rates');
 
                 $_sole = $_sole && count($_rates) == 1;
-                foreach ($_rates as $_rate){
+                foreach ($_rates as $_rate) {
                     $rateXmlObj = $ratesXmlObj->addChild('rate');
                     $rateXmlObj->addAttribute('label', $methodsXmlObj->xmlentities(strip_tags($_rate->getMethodTitle())));
                     $rateXmlObj->addAttribute('code', $_rate->getCode());
-                    if ($_rate->getErrorMessage()){
+                    if ($_rate->getErrorMessage()) {
                         $rateXmlObj->addChild('error_message', $methodsXmlObj->xmlentities(strip_tags($_rate->getErrorMessage())));
-                    }
-                    else {
+                    } else {
                         $price = Mage::helper('tax')->getShippingPrice($_rate->getPrice(), false, $this->getAddress());
                         $formattedPrice = $store->convertPrice($price, true, false);
                         $rateXmlObj->addAttribute('price', sprintf('%01.2F', $store->convertPrice($price, false, false)));

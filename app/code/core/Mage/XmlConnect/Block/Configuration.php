@@ -58,7 +58,6 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $section
      * @param array $subtree
-     * @param string $prefix
      * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     protected function _buildRecursive($section, $subtree)
@@ -67,7 +66,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
             if (is_array($value)) {
                 if ($key == 'fonts') {
                     $subsection = $section->addChild('fonts');
-                    foreach($value as $label=>$v) {
+                    foreach ($value as $label=>$v) {
                         if (empty($v['name']) || empty($v['size']) || empty($v['color'])) {
                             continue;
                         }
@@ -77,25 +76,21 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
                         $font->addAttribute('size', $v['size']);
                         $font->addAttribute('color', $v['color']);
                     }
-                }
-                elseif ($key == 'pages') {
+                } elseif ($key == 'pages') {
                     $subsection = $section->addChild('content');
-                    foreach($value as $page) {
+                    foreach ($value as $page) {
                         $this->_buildRecursive($subsection->addChild('page'), $page);
                     }
-                }
-                else {
+                } else {
                     $subsection = $section->addChild($key);
                     $this->_buildRecursive($subsection, $value);
                 }
-            }
-            elseif ($value instanceof Mage_XmlConnect_Model_Tabs) {
-                foreach($value->getRenderTabs() as $tab) {
+            } elseif ($value instanceof Mage_XmlConnect_Model_Tabs) {
+                foreach ($value->getRenderTabs() as $tab) {
                     $subsection = $section->addChild('tab');
                     $this->_buildRecursive($subsection, $tab);
                 }
-            }
-            else {
+            } else {
                 $value = (string)$value;
                 if ($value != '') {
                     $section->addChild($key, $value);

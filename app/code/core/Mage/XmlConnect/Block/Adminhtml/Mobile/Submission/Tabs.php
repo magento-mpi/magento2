@@ -25,7 +25,10 @@
  */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-
+    /**
+     * Constructor
+     * Setting view parameters, destination element DomId and title
+     */
     public function __construct()
     {
         parent::__construct();

@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
         $quote = Mage::getSingleton('checkout/session')->getQuote();
 
         /* @var $item Mage_Sales_Model_Quote_Item */
-        foreach($this->getItems() as $item){
+        foreach ($this->getItems() as $item) {
             $type = $this->_getItemType($item);
             $renderer = $this->getItemRenderer($type)->setItem($item);
 
@@ -72,21 +72,19 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
              * Price
              */
             $exclPrice = $inclPrice = 0.00;
-            if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()){
-                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()){
+            if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) {
+                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()) {
                     $exclPrice = $item->getCalculationPrice() + $item->getWeeeTaxAppliedAmount() + $item->getWeeeTaxDisposition();
-                }
-                else {
+                } else {
                     $exclPrice = $item->getCalculationPrice();
                 }
             }
 
-            if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()){
+            if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()) {
                 $_incl = $this->helper('checkout')->getPriceInclTax($item);
-                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()){
+                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()) {
                     $inclPrice = $_incl + $item->getWeeeTaxAppliedAmount();
-                }
-                else {
+                } else {
                     $inclPrice = $_incl - $item->getWeeeTaxDisposition();
                 }
             }
@@ -101,20 +99,19 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
             $formatedPriceXmlObj = $itemXml->addChild('formated_price');
 
             if ($this->helper('tax')->displayCartBothPrices()) {
-                 $priceXmlObj->addAttribute('excluding_tax', $exclPrice);
-                 $priceXmlObj->addAttribute('including_tax', $inclPrice);
+                $priceXmlObj->addAttribute('excluding_tax', $exclPrice);
+                $priceXmlObj->addAttribute('including_tax', $inclPrice);
 
-                 $formatedPriceXmlObj->addAttribute('excluding_tax', $formatedExclPrice);
-                 $formatedPriceXmlObj->addAttribute('including_tax', $formatedInclPrice);
-            }
-            else {
-                 if ($this->helper('tax')->displayCartPriceExclTax()) {
-                     $priceXmlObj->addAttribute('regular', $exclPrice);
-                     $formatedPriceXmlObj->addAttribute('regular', $formatedExclPrice);
+                $formatedPriceXmlObj->addAttribute('excluding_tax', $formatedExclPrice);
+                $formatedPriceXmlObj->addAttribute('including_tax', $formatedInclPrice);
+            } else {
+                if ($this->helper('tax')->displayCartPriceExclTax()) {
+                    $priceXmlObj->addAttribute('regular', $exclPrice);
+                    $formatedPriceXmlObj->addAttribute('regular', $formatedExclPrice);
                 }
                 if ($this->helper('tax')->displayCartPriceInclTax()) {
-                     $priceXmlObj->addAttribute('regular', $inclPrice);
-                     $formatedPriceXmlObj->addAttribute('regular', $formatedInclPrice);
+                    $priceXmlObj->addAttribute('regular', $inclPrice);
+                    $formatedPriceXmlObj->addAttribute('regular', $formatedInclPrice);
                 }
             }
 
@@ -123,20 +120,18 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
              * Subtotal
              */
             $exclPrice = $inclPrice = 0.00;
-            if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()){
-                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()){
+            if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) {
+                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()) {
                     $exclPrice = $item->getRowTotal() + $item->getWeeeTaxAppliedRowAmount() + $item->getWeeeTaxRowDisposition();
-                }
-                else {
+                } else {
                     $exclPrice = $item->getRowTotal();
                 }
             }
-            if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()){
+            if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()) {
                 $_incl = $this->helper('checkout')->getSubtotalInclTax($item);
-                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()){
+                if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()) {
                     $inclPrice = $_incl + $item->getWeeeTaxAppliedRowAmount();
-                }
-                else {
+                } else {
                     $inclPrice = $_incl - $item->getWeeeTaxRowDisposition();
                 }
             }
@@ -151,34 +146,33 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
             $subtotalFormatedPriceXmlObj = $itemXml->addChild('formated_subtotal');
 
             if ($this->helper('tax')->displayCartBothPrices()) {
-                 $subtotalPriceXmlObj->addAttribute('excluding_tax', $exclPrice);
-                 $subtotalPriceXmlObj->addAttribute('including_tax', $inclPrice);
+                $subtotalPriceXmlObj->addAttribute('excluding_tax', $exclPrice);
+                $subtotalPriceXmlObj->addAttribute('including_tax', $inclPrice);
 
-                 $subtotalFormatedPriceXmlObj->addAttribute('excluding_tax', $formatedExclPrice);
-                 $subtotalFormatedPriceXmlObj->addAttribute('including_tax', $formatedInclPrice);
-            }
-            else {
-                 if ($this->helper('tax')->displayCartPriceExclTax()) {
-                     $subtotalPriceXmlObj->addAttribute('regular', $exclPrice);
-                     $subtotalFormatedPriceXmlObj->addAttribute('regular', $formatedExclPrice);
+                $subtotalFormatedPriceXmlObj->addAttribute('excluding_tax', $formatedExclPrice);
+                $subtotalFormatedPriceXmlObj->addAttribute('including_tax', $formatedInclPrice);
+            } else {
+                if ($this->helper('tax')->displayCartPriceExclTax()) {
+                    $subtotalPriceXmlObj->addAttribute('regular', $exclPrice);
+                    $subtotalFormatedPriceXmlObj->addAttribute('regular', $formatedExclPrice);
                 }
                 if ($this->helper('tax')->displayCartPriceInclTax()) {
-                     $subtotalPriceXmlObj->addAttribute('regular', $inclPrice);
-                     $subtotalFormatedPriceXmlObj->addAttribute('regular', $formatedInclPrice);
+                    $subtotalPriceXmlObj->addAttribute('regular', $inclPrice);
+                    $subtotalFormatedPriceXmlObj->addAttribute('regular', $formatedInclPrice);
                 }
             }
 
             /**
              * Options list
              */
-            if ($_options = $renderer->getOptionList()){
+            if ($_options = $renderer->getOptionList()) {
                 $itemOptionsXml = $itemXml->addChild('options');
-                foreach ($_options as $_option){
+                foreach ($_options as $_option) {
                     $_formatedOptionValue = $renderer->getFormatedOptionValue($_option);
                     $optionXml = $itemOptionsXml->addChild('option');
                     $optionXml->addAttribute('label', $itemsXmlObj->xmlentities(strip_tags($_option['label'])));
                     $optionXml->addAttribute('text', $itemsXmlObj->xmlentities(strip_tags($_formatedOptionValue['value'])));
-//                    if (isset($_formatedOptionValue['full_view'])){
+//                    if (isset($_formatedOptionValue['full_view'])) {
 //                        $label = strip_tags($_option['label']);
 //                        $value = strip_tags($_formatedOptionValue['full_view']);
 //                    }

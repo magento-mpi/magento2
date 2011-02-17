@@ -63,16 +63,14 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
             if ($isConfigPlaceholder && file_exists($baseDir . $configPlaceholder)) {
                 $file = $configPlaceholder;
-            }
-            else {
+            } else {
                 // replace file with skin or default skin placeholder
                 $skinBaseDir     = Mage::getDesign()->getSkinBaseDir();
                 $skinPlaceholder = "/images/xmlconnect/catalog/category/placeholder/{$this->getDestinationSubdir()}.jpg";
                 $file = $skinPlaceholder;
                 if (file_exists($skinBaseDir . $file)) {
                     $baseDir = $skinBaseDir;
-                }
-                else {
+                } else {
                     $baseDir = Mage::getDesign()->getSkinBaseDir(array('_theme' => 'default'));
                     if (!file_exists($baseDir . $file)) {
                         $baseDir = Mage::getDesign()->getSkinBaseDir(array('_theme' => 'default', '_package' => 'base'));
@@ -97,7 +95,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
             Mage::app()->getStore()->getId(),
             $path[] = $this->getDestinationSubdir()
         );
-        if((!empty($this->_width)) || (!empty($this->_height)))
+        if ((!empty($this->_width)) || (!empty($this->_height)))
             $path[] = "{$this->_width}x{$this->_height}";
 
         // add misk params as a hash
@@ -145,7 +143,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
 
         $baseDir = Mage::getSingleton('xmlconnect/catalog_category_media_config')->getBaseMediaPath();
 
-        if( file_exists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file) ) {
+        if ( file_exists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file) ) {
             $filePath = $baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file;
         } elseif ( file_exists($baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file) ) {
             $filePath = $baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file;
@@ -155,7 +153,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
             $filePath = $baseDir . '/watermark/' . $file;
         } else {
             $baseDir = Mage::getDesign()->getSkinBaseDir();
-            if( file_exists($baseDir . $file) ) {
+            if ( file_exists($baseDir . $file) ) {
                 $filePath = $baseDir . $file;
             }
         }
@@ -163,6 +161,9 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
         return $filePath;
     }
 
+    /**
+     * Clear catalog cache
+     */
     public function clearCache()
     {
         $directory = Mage::getBaseDir('media') . DS.'catalog'.DS.'category'.DS.'cache'.DS;
@@ -182,8 +183,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
         foreach ($rgbArray as $value) {
             if (null === $value) {
                 $result[] = 'null';
-            }
-            else {
+            } else {
                 $result[] = sprintf('%02s', dechex($value));
             }
         }

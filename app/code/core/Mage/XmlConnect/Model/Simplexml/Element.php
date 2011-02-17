@@ -46,8 +46,7 @@ class Mage_XmlConnect_Model_Simplexml_Element extends Varien_Simplexml_Element
              */
             if (version_compare(phpversion(), '5.2.4', '<')===true) {
                 $name = $source->children()->getName();
-            }
-            else {
+            } else {
                 $name = $source->getName();
             }
             $child = $this->addChild($name);

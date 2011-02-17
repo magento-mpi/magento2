@@ -46,6 +46,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_
      * @param Varien_Data_Form_Element_Fieldset $fieldset
      * @param string $fieldName
      * @param string $title
+     * @param string|null $note
+     * @param string $default
+     * @param boolean $required
      */
     public function addImage($fieldset, $fieldName, $title, $note = null, $default = '', $required = false)
     {
@@ -64,7 +67,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_
      * @param Varien_Data_Form_Element_Fieldset $fieldset
      * @param string $fieldPrefix
      * @param string $title
-     * @param bool $simple
      */
     public function addFont($fieldset, $fieldPrefix, $title)
     {
@@ -81,6 +83,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_
 
     /**
      * Configure image element type
+     *
+     * @return array
      */
     protected function _getAdditionalElementTypes()
     {
@@ -104,7 +108,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_
     public function getApplication()
     {
         $model = Mage::registry('current_app');
-        if(!($model instanceof Mage_XmlConnect_Model_Application)){
+        if (!($model instanceof Mage_XmlConnect_Model_Application)) {
             Mage::throwException(Mage::helper('xmlconnect')->__('App model not loaded.'));
         }
 

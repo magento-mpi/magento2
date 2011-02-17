@@ -49,11 +49,9 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         try{
             $this->loadLayout(false);
             $this->renderLayout();
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             $this->_message(Mage::helper('xmlconnect')->__('An error occurred while loading category filters.'), self::MESSAGE_STATUS_ERROR);
         }
@@ -68,11 +66,9 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
             $this->loadLayout(false);
             $this->renderLayout();
             return;
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_message(Mage::helper('xmlconnect')->__('Unable to load product info.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
@@ -127,27 +123,26 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         /* @var $query Mage_CatalogSearch_Model_Query */
 
         $query->setStoreId(Mage::app()->getStore()->getId());
-
+        //
+        //   return Mage::helper('catalogsearch')->__('Minimum Search query length is %s', $this->_getQuery()->getMinQueryLength());
+        //
         if ($query->getQueryText()) {
             if ($_helper->isMinQueryLength()) {
                 $query->setId(0)
                     ->setIsActive(1)
                     ->setIsProcessed(1);
-            }
-            else {
+            } else {
                 if ($query->getId()) {
                     $query->setPopularity($query->getPopularity()+1);
-                }
-                else {
+                } else {
                     $query->setPopularity(1);
                 }
 
-                if ($query->getRedirect()){
+                if ($query->getRedirect()) {
                     $query->save();
                     $this->getResponse()->setRedirect($query->getRedirect());
                     return;
-                }
-                else {
+                } else {
                     $query->prepare();
                 }
             }
@@ -164,7 +159,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     }
 
     /**
-     * Retrive suggestions based on search query
+     * Retrieve suggestions based on search query
      */
     public function searchSuggestAction()
     {
@@ -175,6 +170,8 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Send product link to friend action
+     *
+     * @return this
      */
     public function sendEmailAction()
     {
@@ -259,22 +256,18 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
                 $model->send();
                 $this->_message(Mage::helper('xmlconnect')->__('Tell a Friend link has been sent.'), self::MESSAGE_STATUS_SUCCESS);
                 return;
-            }
-            else {
+            } else {
                 if (is_array($validate)) {
                     $this->_message(implode(' ', $validate), self::MESSAGE_STATUS_ERROR);
                     return;
-                }
-                else {
+                } else {
                     $this->_message(Mage::helper('xmlconnect')->__('There were some problems with the data.'), self::MESSAGE_STATUS_ERROR);
                     return;
                 }
             }
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_message(Mage::helper('xmlconnect')->__('Some emails were not sent.'), self::MESSAGE_STATUS_ERROR);
         }
 

@@ -50,8 +50,7 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
         if (method_exists($helper, 'getEngine')) {
             $engine = Mage::helper('catalogsearch')->getEngine();
             $isLayeredNavigationAllowed = ($engine instanceof Varien_Object) ? $engine->isLeyeredNavigationAllowed() : true;
-        }
-        else {
+        } else {
             $isLayeredNavigationAllowed = true;
         }
 

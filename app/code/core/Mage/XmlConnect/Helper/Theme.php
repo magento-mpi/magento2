@@ -26,18 +26,17 @@
 
 class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
 {
-
     /**
-     *  Color Themes Cashe
+     * Color Themes Cache
      *
-     *   @param array|null
+     * @param array|null
      */
-    var $_themeArray = null;
+    protected $_themeArray = null;
 
     /**
      * Return for Color Themes Fields array.
      *
-     *  @return array
+     * @return array
      */
     public function getThemeAjaxParameters()
     {
@@ -63,7 +62,7 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
     /**
      * Returns JSON ready Themes array
      *
-     * @params bool     $flushCache    -    load defaults
+     * @params bool $flushCache    -    load defaults
      * @return array
      */
     public function getAllThemesArray($flushCache = false)
@@ -79,13 +78,13 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
     /**
      *  Reads directory media/xmlconnect/themes/*
      *
-     * @param  bool $flushCache  - Reads default color Themes
-     * @return array             - (of Mage_XmlConnect_Model_Theme)
+     * @param bool $flushCache  - Reads default color Themes
+     * @return array - (of Mage_XmlConnect_Model_Theme)
      */
     public function getAllThemes($flushCache = false)
     {
         if (!$this->_themeArray || $flushCache) {
-            $save_libxml_errors = libxml_use_internal_errors(TRUE);
+            $saveLibxmlErrors = libxml_use_internal_errors(TRUE);
             $this->_themeArray = array();
             $themeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes';
             $io = new Varien_Io_File();
@@ -103,7 +102,7 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
                     }
                 }
             }
-            libxml_use_internal_errors($save_libxml_errors);
+            libxml_use_internal_errors($saveLibxmlErrors);
         }
         return $this->_themeArray;
     }
@@ -116,7 +115,7 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
      */
     public function resetAllThemes()
     {
-        $save_libxml_errors = libxml_use_internal_errors(TRUE);
+        $saveLibxmlErrors = libxml_use_internal_errors(TRUE);
         $themeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes';
         $defaultThemeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes' . DS . 'default';
 
@@ -139,7 +138,7 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
                 }
             }
         }
-        libxml_use_internal_errors($save_libxml_errors);
+        libxml_use_internal_errors($saveLibxmlErrors);
     }
 
     /**

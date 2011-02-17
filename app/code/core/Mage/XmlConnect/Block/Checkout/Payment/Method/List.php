@@ -72,7 +72,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         $usedMethods          = $sortedAvailableMethodCodes = $usedCodes = array();
         $allAvailableMethods  = Mage::helper('payment')->getStoreMethods(Mage::app()->getStore(), $this->getQuote());
 
-        foreach ($allAvailableMethods as $method){
+        foreach ($allAvailableMethods as $method) {
             $sortedAvailableMethodCodes[] = $method->getCode();
         }
 
@@ -111,15 +111,14 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
                         if (!is_subclass_of($method, $methodModelClassName)) {
                             continue;
                         }
-                        if(!$this->_canUseMethod($method)){
+                        if (!$this->_canUseMethod($method)) {
                             continue;
                         }
 
                         $this->_assignMethod($method);
                         $usedCodes[] = $method->getCode();
                         $usedMethods[$method->getCode()] = array('renderer' => $methodRenderer, 'method' => $method);
-                    }
-                    catch (Exception $e) {
+                    } catch (Exception $e) {
                         Mage::logException($e);
                     }
                 }
@@ -129,8 +128,8 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         /**
          * Generate methods XML according to sort order
          */
-        foreach ($sortedAvailableMethodCodes as $code){
-            if (!in_array($code, $usedCodes)){
+        foreach ($sortedAvailableMethodCodes as $code) {
+            if (!in_array($code, $usedCodes)) {
                 continue;
             }
 
@@ -171,10 +170,12 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     }
 
     /**
+     * Deprecated function adding Payment method to the xml
+     *
      * @deprecated after 1.4.2.0
-     * @param  Mage_Core_Block_Template                     $block
-     * @param  Mage_XmlConnect_Model_Simplexml_Element      $methodsXmlObj
-     * @param  array                                        $used codes
+     * @param Mage_Core_Block_Template $block
+     * @param Mage_XmlConnect_Model_Simplexml_Element $methodsXmlObj
+     * @param array $used codes
      * @return string|bool
      */
     protected function _addToXml($block, $methodsXmlObj, $usedCodes)
@@ -183,8 +184,9 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     }
 
     /**
+     * Deprecated function check method status
      * @deprecated after 1.4.2.0
-     * @param $method Mage_Payment_Model_Method_Abstract
+     * @param Mage_Payment_Model_Method_Abstract $method
      * @return bool
      */
     public function isAvailable($method)

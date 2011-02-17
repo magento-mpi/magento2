@@ -35,8 +35,7 @@
 class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Resource aplication constructor
-     *
+     * Constructor, setting table and index field
      */
     protected function _construct()
     {
@@ -47,6 +46,7 @@ class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resourc
      * Update Application Status field, insert data to history table
      *
      * @param int $applicationId
+     * @param string $status
      * @param Mage_XmlConnect_Model_Mysql4_Application $status
      */
     public function updateApplicationStatus($applicationId, $status)

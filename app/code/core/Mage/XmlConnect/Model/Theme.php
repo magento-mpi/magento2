@@ -52,7 +52,8 @@ class Mage_XmlConnect_Model_Theme
 
     /**
      * Get theme xml as array
-     * @param  $xml
+     * 
+     * @param array $xml
      * @return array
      */
     protected function _xmlToArray($xml)
@@ -70,6 +71,8 @@ class Mage_XmlConnect_Model_Theme
 
     /**
      * Getter for theme name
+     *
+     * @return string
      */
     public function getName()
     {
@@ -78,6 +81,8 @@ class Mage_XmlConnect_Model_Theme
 
     /**
      * Getter for theme Label
+     *
+     * @return string
      */
     public function getLabel()
     {
@@ -107,15 +112,13 @@ class Mage_XmlConnect_Model_Theme
         foreach ($subtree as $key => $value) {
             if (is_null($prefix)) {
                 $name = $key;
-            }
-            else {
+            } else {
                 $name = $prefix . '[' . $key . ']';
             }
 
             if (is_array($value)) {
                 $result = array_merge($result, $this->_flatArray($value, $name));
-            }
-            else {
+            } else {
                 $result[$name] = $value;
             }
         }
@@ -129,7 +132,8 @@ class Mage_XmlConnect_Model_Theme
      * @param array $xml
      * @return array
      */
-    protected function _validateFormInput($data, $xml=NULL) {
+    protected function _validateFormInput($data, $xml=NULL)
+    {
         $root = false;
         $result = array();
         if (is_null($xml)) {
@@ -141,8 +145,7 @@ class Mage_XmlConnect_Model_Theme
             if (isset($data[$key])) {
                 if (is_array($data[$key])) {
                     $result[$key] = $this->_validateFormInput($data[$key], $value);
-                }
-                else {
+                } else {
                     $result[$key] = $data[$key];
                 }
             }
@@ -165,8 +168,7 @@ class Mage_XmlConnect_Model_Theme
         foreach ($data as $key=>$value) {
             if (is_array($value)) {
                 $this->_buildRecursive($parent->addChild($key), $value);
-            }
-            else {
+            } else {
                 $parent->addChild($key, $value);
             }
         }
@@ -185,8 +187,7 @@ class Mage_XmlConnect_Model_Theme
         clearstatcache();
         if (is_writeable($this->_file)) {
             file_put_contents($this->_file, $xml->asXML());
-        }
-        else {
+        } else {
             Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t write to file "%s".', $this->_file));
         }
     }

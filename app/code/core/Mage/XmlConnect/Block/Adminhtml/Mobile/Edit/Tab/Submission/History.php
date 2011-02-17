@@ -131,6 +131,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
 
     /**
      * Ajax grid URL getter
+     * @return string
      */
     public function getGridUrl()
     {
@@ -150,6 +151,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
     /**
      * Remove row click url
      *
+     * @param Mage_Catalog_Model_Product|Varien_Object $row
      * @return string
      */
     public function getRowUrl($row)

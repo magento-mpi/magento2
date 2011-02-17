@@ -49,7 +49,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped extends Mage_XmlConn
             return $xmlModel->asNiceXml();
         }
         $xmlModel->addAttribute('id', $product->getId());
-        if (!$product->isSaleable()){
+        if (!$product->isSaleable()) {
             return $xmlModel->asNiceXml();
         }
         /**
@@ -59,7 +59,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped extends Mage_XmlConn
         if (!sizeof($_associatedProducts)) {
             return $xmlModel->asNiceXml();
         }
-        foreach ($_associatedProducts as $_item){
+        foreach ($_associatedProducts as $_item) {
             if (!$_item->isSaleable()) {
                 continue;
             }
@@ -77,8 +77,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped extends Mage_XmlConn
              */
             if ($_item->getPrice() != $_item->getFinalPrice()) {
                 $productPrice = $_item->getFinalPrice();
-            }
-            else {
+            } else {
                 $productPrice = $_item->getPrice();
             }
             $productPrice = sprintf('%01.2F', $productPrice);

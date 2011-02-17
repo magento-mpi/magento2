@@ -70,8 +70,7 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Core_Block_Templa
             $countryId  = $xmlModel->xmlentities($address->getCountryId());
             $telephone  = $xmlModel->xmlentities(strip_tags($address->getTelephone()));
             $fax        = $xmlModel->xmlentities(strip_tags($address->getFax()));
-        }
-        else {
+        } else {
             $firstname = $lastname = $company = $street1 = $street2 = $billingChecked = $shippingChecked = '';
             $city = $region = $postcode = $telephone = $fax = '';
             $countryId = $regionId = null;
@@ -92,7 +91,7 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Core_Block_Templa
                     <value>' . $xmlModel->xmlentities($data['value']) . '</value>';
                 if (is_array($regions) && !empty($regions)) {
                     $countryOptionsXml .= '<regions>';
-                    foreach ($regions as $_key => $_data){
+                    foreach ($regions as $_key => $_data) {
                         $countryOptionsXml .= '<region_item' . ($regionId == $_data['value'] ? ' selected="1"' : '') . '>';
                         $countryOptionsXml .=
                             '<label>' . $xmlModel->xmlentities((string)$_data['label']) . '</label>
@@ -144,8 +143,7 @@ EOT;
         $cacheKey = 'DIRECTORY_REGION_SELECT_STORE'.Mage::app()->getStore()->getId().$countryId;
         if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
             $options = unserialize($cache);
-        }
-        else {
+        } else {
             $collection = Mage::getModel('directory/region')->getResourceCollection()
                 ->addCountryFilter($countryId)
                 ->load();
@@ -167,8 +165,7 @@ EOT;
         $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_'.Mage::app()->getStore()->getCode();
         if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
             $options = unserialize($cache);
-        }
-        else {
+        } else {
             $collection = Mage::getModel('directory/country')->getResourceCollection()
                 ->loadByStore();
             $options = $collection->toOptionArray();

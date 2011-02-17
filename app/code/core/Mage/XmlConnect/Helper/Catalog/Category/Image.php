@@ -34,11 +34,28 @@ class Mage_XmlConnect_Helper_Catalog_Category_Image extends Mage_Catalog_Helper_
 
     protected $_watermarkImageOpacity;
 
+    /**
+     * Init
+     * 
+     * @param Mage_Catalog_Model_Product $product
+     * @param string $attributeName
+     * @param string $imageFile
+     * @return Mage_XmlConnect_Helper_Catalog_Category_Image
+     *
+     */
     public function init(Mage_Catalog_Model_Product $product, $attributeName, $imageFile = null)
     {
         return $this;
     }
 
+    /**
+     * Init image helper object
+     *
+     * @param Mage_Catalog_Model_Abstract $category
+     * @param string $attributeName
+     * @param string $imageFile
+     * @return Mage_XmlConnect_Helper_Catalog_Category_Image
+     */
     public function initialize(Mage_Catalog_Model_Abstract $category, $attributeName, $imageFile = null)
     {
         $this->_reset();
@@ -53,14 +70,20 @@ class Mage_XmlConnect_Helper_Catalog_Category_Image extends Mage_Catalog_Helper_
 
         if ($imageFile) {
             $this->setImageFile($imageFile);
-        }
-        else {
-            // add for work original size
+        } else {
+            /*
+             * add for work original size
+             */
             $this->_getModel()->setBaseFile( $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) );
         }
         return $this;
     }
 
+    /**
+     * Return placeholder image file path
+     * 
+     * @return string
+     */
     public function getPlaceholder()
     {
         if (!$this->_placeholder) {
@@ -155,7 +178,7 @@ class Mage_XmlConnect_Helper_Catalog_Category_Image extends Mage_Catalog_Helper_
      */
     protected function getWatermarkImageOpacity()
     {
-        if( $this->_watermarkImageOpacity ) {
+        if ( $this->_watermarkImageOpacity ) {
             return $this->_watermarkImageOpacity;
         }
 
@@ -214,7 +237,8 @@ class Mage_XmlConnect_Helper_Catalog_Category_Image extends Mage_Catalog_Helper_
      * @return bool
      * @throw Mage_Core_Exception
      */
-    public function validateUploadFile($filePath) {
+    public function validateUploadFile($filePath)
+    {
         if (!getimagesize($filePath)) {
             Mage::throwException(Mage::helper('xmlconnect')->__('Disallowed file type.'));
         }

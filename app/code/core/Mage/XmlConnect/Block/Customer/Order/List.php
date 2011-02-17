@@ -56,8 +56,8 @@ class Mage_XmlConnect_Block_Customer_Order_List extends Mage_Core_Block_Template
         $orders->getSelect()->limit(self::ORDERS_LIST_LIMIT, 0);
         $orders->load();
 
-        if(sizeof($orders->getItems())){
-            foreach ($orders as $_order){
+        if (sizeof($orders->getItems())) {
+            foreach ($orders as $_order) {
                 $item = $ordersXmlObj->addChild('item');
                 $item->addChild('entity_id', $_order->getId());
                 $item->addChild('number', $_order->getRealOrderId());

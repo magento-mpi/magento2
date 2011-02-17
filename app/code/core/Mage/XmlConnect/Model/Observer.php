@@ -52,7 +52,7 @@ class Mage_XmlConnect_Model_Observer
     public function changeUpdatedAtParamOnConfigSave($observer)
     {
         $configData = $observer->getEvent()->getConfigData();
-        if($configData && (int)$configData->isValueChanged() && in_array($configData->getPath(), $this->_appDependOnConfigFieldPathes)){
+        if ($configData && (int)$configData->isValueChanged() && in_array($configData->getPath(), $this->_appDependOnConfigFieldPathes)) {
             Mage::getModel('xmlconnect/application')->updateAllAppsUpdatedAtParameter();
         }
     }

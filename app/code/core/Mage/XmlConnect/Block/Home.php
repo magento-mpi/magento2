@@ -59,7 +59,7 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
             $itemsXmlObj = $homeXmlObj->addChild('categories');
         }
 
-        foreach ($categoryCollection->getItems() as $item){
+        foreach ($categoryCollection->getItems() as $item) {
             $itemXmlObj = $itemsXmlObj->addChild('item');
             $itemXmlObj->addChild('label', $homeXmlObj->xmlentities(strip_tags($item->getName())));
             $itemXmlObj->addChild('entity_id', $item->getEntityId());

@@ -26,6 +26,10 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Constructor
+     * Setting view parameters, template
+     */
     public function __construct()
     {
         parent::__construct();

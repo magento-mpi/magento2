@@ -28,11 +28,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
     extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+
+     /**
+     * Constructor
+     * Setting view parameters 
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setShowGlobalIcon(true);
-
     }
 
     /**
@@ -54,7 +58,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
      *
      * @param Varien_Data_Form_Element_Fieldset $fieldset
      * @param string $fieldName
-     * @param string $title
+     * @param string title
+     * @param string $note
+     * @param string $default
+     * @param boolean $required 
      */
     public function addImage($fieldset, $fieldName, $title, $note = '', $default = '', $required = false)
     {

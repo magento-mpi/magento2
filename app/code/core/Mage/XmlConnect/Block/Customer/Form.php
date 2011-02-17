@@ -48,8 +48,7 @@ class Mage_XmlConnect_Block_Customer_Form extends Mage_Core_Block_Template
             $firstname = $xmlModel->xmlentities(strip_tags($customer->getFirstname()));
             $lastname  = $xmlModel->xmlentities(strip_tags($customer->getLastname()));
             $email     = $xmlModel->xmlentities(strip_tags($customer->getEmail()));
-        }
-        else {
+        } else {
             $firstname = $lastname = $email = '';
         }
 
@@ -66,8 +65,7 @@ class Mage_XmlConnect_Block_Customer_Form extends Mage_Core_Block_Template
                         </validators>
                     </field>
                 </fieldset>';
-        }
-        else {
+        } else {
             $passwordManageXml = '
                     <field name="password" type="password" label="' . $xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Password')) . '" required="true"/>
                     <field name="confirmation" type="password" label="' . $xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Confirm Password')) . '" required="true">

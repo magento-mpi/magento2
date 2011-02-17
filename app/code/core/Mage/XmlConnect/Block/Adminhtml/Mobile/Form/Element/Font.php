@@ -27,7 +27,7 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Font extends Varien_Data_Form_Element_Abstract
 {
     /**
-     * Enter description here...
+     * Constructor...
      *
      * @param array $attributes
      */
@@ -67,8 +67,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Font extends Varien_Da
     /**
      * Add form element
      *
-     * @param   Varien_Data_Form_Element_Abstract $element
-     * @return  Varien_Data_Form
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @param boolean|'^'|string $after
+     * @return Varien_Data_Form
      */
     public function addElement(Varien_Data_Form_Element_Abstract $element, $after=false)
     {
@@ -80,7 +81,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Font extends Varien_Da
     /**
      * Get Rendered Element Html
      *
-     * @param string
+     * @return string
      */
     public function getElementHtml()
     {

@@ -185,6 +185,11 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_tabs;
     }
 
+    /**
+     * Return array for tabs like  label -> action array
+     *   
+     * @return array
+     */
     protected function _getTabLabelActionArray()
     {
         if (!isset($this->_tabLabelActionArray)) {
@@ -198,7 +203,8 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Return Translated tab label for given $action
-     * @param  string $action
+     * 
+     * @param string $action
      * @return string|bool
      */
     public function getTabLabel($action)
@@ -210,28 +216,29 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Merges $changes array to $target array recursive, overwriting existing key,  and adding new one
+     * 
      * @static
-     * @param  $target
-     * @param  $changes
+     * @param mixed $target
+     * @param mixed $changes
      * @return array
      */
     static public function arrayMergeRecursive($target, $changes)
     {
-        if(!is_array($target)) {
+        if (!is_array($target)) {
             $target = empty($target) ? array() : array($target);
         }
-        if(!is_array($changes)) {
+        if (!is_array($changes)) {
             $changes = array($changes);
         }
-        foreach($changes as $key => $value) {
-            if(!array_key_exists($key, $target) and !is_numeric($key)) {
+        foreach ($changes as $key => $value) {
+            if (!array_key_exists($key, $target) and !is_numeric($key)) {
                 $target[$key] = $changes[$key];
                 continue;
             }
-            if(is_array($value) or is_array($target[$key])) {
+            if (is_array($value) or is_array($target[$key])) {
                 $target[$key] = self::arrayMergeRecursive($target[$key], $changes[$key]);
-            } else if(is_numeric($key)) {
-                if(!in_array($value, $target)) {
+            } else if (is_numeric($key)) {
+                if (!in_array($value, $target)) {
                     $target[] = $value;
                 }
             } else {
@@ -245,7 +252,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Wrap $body with HTML4 headers
      *
-     * @param string $text
+     * @param string $body
      * @return string
      */
     public function htmlize($body)
@@ -263,13 +270,13 @@ EOT;
     /**
      * Return select options for xml from array
      *
-     * @param  array    $dataArray  - source array
-     * @param  string   $info       - selected item
+     * @param array $dataArray  - source array
+     * @param string $info       - selected item
      * @return string
      */
     public function getArrayAsXmlItemValues($dataArray, $selected) {
         $items = array();
-        foreach ($dataArray as $k => $v){
+        foreach ($dataArray as $k => $v) {
             if (!$k) {
                 continue;
             }
@@ -285,12 +292,14 @@ EOT;
 
     /**
      * Return Solo Xml optional fieldset
-     * @param  $ssCcMonths
-     * @param  $ssCcYears
+     * 
+     * @param $ssCcMonths
+     * @param $ssCcYears
      * @return string
      */
-    public function getSoloXml($ssCcMonths, $ssCcYears) {
-                // issue number ==== validate-cc-ukss cvv
+    public function getSoloXml($ssCcMonths, $ssCcYears)
+    {
+        // issue number ==== validate-cc-ukss cvv
         $solo = <<<EOT
 <fieldset_optional>
     <depend_on name="payment[cc_type]">

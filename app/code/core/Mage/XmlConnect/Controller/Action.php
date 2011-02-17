@@ -62,8 +62,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
             Mage::app()->setCurrentStore(Mage::app()->getStore($appModel->getStoreId())->getCode());
             Mage::getSingleton('core/locale')->emulate($appModel->getStoreId());
             Mage::register('current_app', $appModel);
-        }
-        else {
+        } else {
             $this->_message(Mage::helper('xmlconnect')->__('Specified invalid app code.'), self::MESSAGE_STATUS_ERROR);
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -87,8 +86,11 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
 
     /**
      * Generate message xml and set it to response body
+     * 
      * @param string $text
      * @param string $status
+     * @param string $type
+     * @param string $action
      */
     protected function _message($text, $status, $type='', $action='')
     {

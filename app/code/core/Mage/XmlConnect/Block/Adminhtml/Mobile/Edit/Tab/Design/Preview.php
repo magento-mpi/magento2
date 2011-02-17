@@ -37,6 +37,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Preview extends Mag
     /**
      * Retieve preview action url
      *
+     * @param string $page
      * @return string
      */
     public function getPreviewActionUrl($page = 'home')

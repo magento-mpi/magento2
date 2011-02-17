@@ -34,6 +34,11 @@
 
 class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catalog
 {
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         $categoryXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<category></category>');
@@ -48,7 +53,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
             /**
              * Return products list if there are no child categories
              */
-            if (!$categoryModel->hasChildren()){
+            if (!$categoryModel->hasChildren()) {
                 $productListBlock = $this->getChild('product_list');
                 if ($productListBlock) {
                     $layer = Mage::getSingleton('catalog/layer');
@@ -67,7 +72,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
                 $categoryXmlObj->appendChild($categoryInfoXmlObj);
             }
 
-            if($productListBlock && $productsXmlObj){
+            if ($productListBlock && $productsXmlObj) {
                 $categoryXmlObj->appendChild($productsXmlObj);
             }
 
@@ -82,7 +87,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
             $itemsXmlObj = $categoryXmlObj->addChild('items');
         }
 
-        foreach ($categoryCollection->getItems() as $item){
+        foreach ($categoryCollection->getItems() as $item) {
             $itemXmlObj = $itemsXmlObj->addChild('item');
             $itemXmlObj->addChild('label', $categoryXmlObj->xmlentities(strip_tags($item->getName())));
             $itemXmlObj->addChild('entity_id', $item->getEntityId());

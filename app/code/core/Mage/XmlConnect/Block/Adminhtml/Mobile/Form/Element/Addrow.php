@@ -50,13 +50,18 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow extends Varien_
         return $this->getData('before_element_html');
     }
 
+    /**
+     * Return label html code
+     * 
+     * @param string $idSuffix
+     * @return string
+     */
     public function getLabelHtml($idSuffix = '')
     {
         if (!is_null($this->getLabel())) {
             $html = '<label>'.$this->getLabel()
                 . ( $this->getRequired() ? ' <span class="required">*</span>' : '' ).'</label>';
-        }
-        else {
+        } else {
             $html = '';
         }
         return $html;
@@ -65,6 +70,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow extends Varien_
     /**
      * Overriding toHtml parent method
      * Adding addrow Block to element renderer
+     * 
      * @return string
      */
     public function toHtml()

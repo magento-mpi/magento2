@@ -41,6 +41,8 @@ class Mage_XmlConnect_Model_Tabs
 
     /**
      * Set enabled and disabled application tabs
+     *
+     * @param string $data
      */
     public function __construct($data)
     {
@@ -58,7 +60,8 @@ class Mage_XmlConnect_Model_Tabs
 
     /**
      * Translate Label fields
-     * @param  $tabItems
+     *
+     * @param &array $tabItems
      * @return this
      */
     protected function _translateLabel(& $tabItems)
@@ -76,6 +79,8 @@ class Mage_XmlConnect_Model_Tabs
 
     /**
      * Getter for enabled tabs
+     *
+     * @return array
      */
     public function getEnabledTabs()
     {
@@ -84,6 +89,8 @@ class Mage_XmlConnect_Model_Tabs
 
     /**
      * Getter for disabled tabs
+     *
+     * @return array
      */
     public function getDisabledTabs()
     {
@@ -92,6 +99,8 @@ class Mage_XmlConnect_Model_Tabs
 
     /**
      * Collect tabs with images
+     *
+     * @return array
      */
     public function getRenderTabs()
     {

@@ -35,10 +35,10 @@
 class Mage_XmlConnect_Model_Resource_Filter_Collection extends Varien_Data_Collection
 {
     /**
-     * Set category Id
+     * Set CategoryId filter
      *
-     * @param int $categoryId
-     * @return Mage_XmlConnect_Model_Resource_Filter_Collection
+     * @param  $categoryId
+     * @return Mage_XmlConnect_Model_Mysql4_Filter_Collection
      */
     public function setCategoryId($categoryId)
     {
@@ -49,11 +49,11 @@ class Mage_XmlConnect_Model_Resource_Filter_Collection extends Varien_Data_Colle
     }
 
     /**
-     * Load filter collection
-     *
-     * @param boolean $printQuery
-     * @param boolean $logQuery
-     * @return Mage_XmlConnect_Model_Resource_Filter_Collection
+     * Load data
+     * 
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return Mage_XmlConnect_Model_Mysql4_Filter_Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {

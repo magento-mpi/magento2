@@ -119,7 +119,8 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
 
     /**
      * Get MinSaleQty for product
-     * @param  Mage_Catalog_Model_Product $product
+     * 
+     * @param Mage_Catalog_Model_Product $product
      * @return int|null 
      */
     protected function _getMinimalQty($product)
@@ -140,10 +141,9 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($this->getRequest()->getParam('id', 0));
 
-        if(!$product){
+        if (!$product) {
             throw new Mage_Core_Exception(Mage::helper('xmlconnect')->__('Selected product is unavailable.'));
-        }
-        else{
+        } else {
             $this->setProduct($product);
             $productXmlObj = $this->productToXmlObject($product, 'product');
 
@@ -153,8 +153,6 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
                 $productXmlObj->appendChild($relatedXmlObj);
             }
         }
-
-
         return $productXmlObj->asNiceXml();
     }
 

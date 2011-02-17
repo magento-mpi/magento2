@@ -46,15 +46,15 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
 
         foreach ($this->getQuote()->getTotals() as $total) {
             $code  = $total->getCode();
-            if($code == 'giftcardaccount'){
+            if ($code == 'giftcardaccount') {
                 continue;
             }
             $title = '';
             $value = null;
             $renderer = $this->_getTotalRenderer($code)->setTotal($total);
-            switch ($code){
+            switch ($code) {
                 case 'subtotal':
-                    if($renderer->displayBoth()){
+                    if ($renderer->displayBoth()) {
                         $title = $this->helper('xmlconnect')->__('Subtotal (Excl. Tax)');
                         $this->_addTotalDataToXmlObj($totalsXmlObj, $code . '_excl_tax', $title, $total->getValueExclTax());
 
@@ -64,25 +64,23 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
                     }
                     break;
                 case 'shipping':
-                    if($renderer->displayBoth()){
+                    if ($renderer->displayBoth()) {
                         $title = $renderer->getExcludeTaxLabel();
                         $this->_addTotalDataToXmlObj($totalsXmlObj, $code . '_excl_tax', $title, $renderer->getShippingExcludeTax());
 
                         $code  = $code . '_incl_tax';
                         $title = $renderer->getIncludeTaxLabel();
                         $value = $renderer->getShippingIncludeTax();
-                    }
-                    else if($renderer->displayIncludeTax()){
+                    } else if ($renderer->displayIncludeTax()) {
                         $value = $renderer->getShippingIncludeTax();
-                    }
-                    else{
+                    } else{
                         $value = $renderer->getShippingExcludeTax();
                     }
                     break;
                 case 'grand_total':
                     $grandTotalExlTax = $renderer->getTotalExclTax();
                     $displayBoth = $renderer->includeTax() && $grandTotalExlTax >= 0;
-                    if($displayBoth){
+                    if ($displayBoth) {
                         $title = $this->helper('xmlconnect')->__('Grand Total (Excl. Tax)');
                         $this->_addTotalDataToXmlObj($totalsXmlObj, $code . '_excl_tax', $title, $grandTotalExlTax);
 
@@ -93,10 +91,10 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
                 default:
                     break;
             }
-            if($title == ''){
+            if ($title == '') {
                 $title = $total->getTitle();
             }
-            if(is_null($value)){
+            if (is_null($value)) {
                 $value = $total->getValue();
             }
             $this->_addTotalDataToXmlObj($totalsXmlObj, $code, $title, $value);

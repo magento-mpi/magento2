@@ -29,6 +29,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
 {
     protected $_pages;
 
+    /**
+     * Construnctor
+     * Setting view options
+     */
     public function __construct()
     {
         parent::__construct();
@@ -68,16 +72,16 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
         $isExpressCheckoutAvaliable = Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable();
 
         $paypalActive = 0;
-        if(isset($data['conf[native][paypal][isActive]'])){
+        if (isset($data['conf[native][paypal][isActive]'])) {
             $paypalActive = (int)($data['conf[native][paypal][isActive]'] && $isExpressCheckoutAvaliable);
         }
-        $fieldset2 = $form->addFieldset('paypal_mep_checkout', array('legend' => Mage::helper('xmlconnect')->__('PayPal Mobile Embedded Payment (MEP)')));
+        $fieldsetPaypal = $form->addFieldset('paypal_mep_checkout', array('legend' => Mage::helper('xmlconnect')->__('PayPal Mobile Embedded Payment (MEP)')));
 
         $activateMepMethodNote = Mage::helper('xmlconnect')->__('To activate PayPal MEP payment method activate Express checkout first. ');
         $paypalConfigurationUrl = $this->escapeHtml($this->getUrl('adminhtml/system_config/edit', array('section' => 'paypal')));
         $businessAccountNote = Mage::helper('xmlconnect')->__('MEP is PayPal`s native checkout experience for the iPhone. You can choose to use MEP alongside standard checkout, or use it as your only checkout method for Magento mobile. PayPal MEP requires a <a href="%s">PayPal business account</a>', $paypalConfigurationUrl);
 
-        $paypalActiveField = $fieldset2->addField('conf/native/paypal/isActive', 'select', array(
+        $paypalActiveField = $fieldsetPaypal->addField('conf/native/paypal/isActive', 'select', array(
             'label'     => Mage::helper('xmlconnect')->__('Activate PayPal Checkout'),
             'name'      => 'conf[native][paypal][isActive]',
             'note'      => (!$isExpressCheckoutAvaliable ? $activateMepMethodNote : $businessAccountNote),
@@ -86,7 +90,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
             'disabled'  => !$isExpressCheckoutAvaliable
         ));
 
-        $merchantlabelField = $fieldset2->addField('conf/special/merchantLabel', 'text', array(
+        $merchantlabelField = $fieldsetPaypal->addField('conf/special/merchantLabel', 'text', array(
             'name'      => 'conf[special][merchantLabel]',
             'label'     => Mage::helper('xmlconnect')->__('Merchant Label'),
             'title'     => Mage::helper('xmlconnect')->__('Merchant Label'),

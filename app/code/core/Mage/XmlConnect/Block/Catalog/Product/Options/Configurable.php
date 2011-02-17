@@ -46,7 +46,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
         $optionsXmlObj = $xmlModel->options;
         $options = array();
 
-        if (!$product->isSaleable()){
+        if (!$product->isSaleable()) {
             return $xmlModel->asNiceXml();
         }
 
@@ -98,7 +98,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
             $prices = $attribute->getPrices();
             if (is_array($prices)) {
                 foreach ($prices as $value) {
-                    if(!isset($options[$attributeId][$value['value_index']])) {
+                    if (!isset($options[$attributeId][$value['value_index']])) {
                         continue;
                     }
                     $price = sprintf('%01.2F', $this->_preparePrice($product, $value['pricing_value'], $value['is_percent']));
@@ -112,7 +112,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
                 }
             }
 
-            if(sizeof($info['options']) > 0) {
+            if (sizeof($info['options']) > 0) {
                $attributes[$attributeId] = $info;
             }
         }
@@ -150,7 +150,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
     /**
      * Add recursively relations on each option
      *
-     * @param Mage_XmlConnect_Model_Simplexml_Element $valueNode value node object
+     * @param &Mage_XmlConnect_Model_Simplexml_Element &$valueNode value node object
      * @param array $attributes all products attributes (options)
      * @param array $productIds prodcuts to search in next levels attributes
      * @param int $cycle

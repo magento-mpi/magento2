@@ -150,15 +150,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         foreach ($subtree as $key => $value) {
             if (is_null($prefix)) {
                 $name = $key;
-            }
-            else {
+            } else {
                 $name = $prefix . '[' . $key . ']';
             }
 
             if (is_array($value)) {
                 $result = array_merge($result, $this->_flatArray($value, $name));
-            }
-            else {
+            } else {
                 $result[$name] = $value;
             }
         }
@@ -179,14 +177,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         foreach ($keys as $key) {
             if (!isset($a[$key])) {
                 $result[$key] = $b[$key];
-            }
-            elseif (!isset($b[$key])) {
+            } elseif (!isset($b[$key])) {
                 $result[$key] = $a[$key];
-            }
-            elseif (is_scalar($a[$key]) || is_scalar($b[$key])) {
+            } elseif (is_scalar($a[$key]) || is_scalar($b[$key])) {
                 $result[$key] = $b[$key];
-            }
-            else {
+            } else {
                 $result[$key] = $this->_configMerge($a[$key], $b[$key]);
             }
         }
@@ -205,6 +200,8 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     /**
      * Return first part for application code field
+     *
+     * @return string
      */
     public function getCodePrefix()
     {
@@ -214,6 +211,8 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     /**
      * Checks if application code field has autoincrement
+     *
+     * @return bool
      */
     public function isCodePrefixed()
     {
@@ -325,6 +324,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $result;
     }
 
+    /**
+     * Return current screen_size parameter
+     *
+     * @return string
+     */
     public function getScreenSize()
     {
         if (!isset($this->_data['screen_size'])) {
@@ -333,6 +337,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $this->_data['screen_size'];
     }
 
+    /**
+     * Setter
+     * for current screen_size parameter
+     *
+     * @param string $screenSize
+     * @return this
+     */
     public function setScreenSize($screenSize)
     {
         $this->_data['screen_size'] = Mage::helper('xmlconnect/image')->filterScreenSize((string) $screenSize);
@@ -364,8 +375,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (!empty($value)) {
                 if (is_array($value)) {
                     $subtree[$key] = $this->_absPath($value);
-                }
-                elseif ((substr($key, -4) == 'icon') ||
+                } elseif ((substr($key, -4) == 'icon') ||
                     (substr($key, -4) == 'Icon') ||
                     (substr($key, -5) == 'Image')) {
                     $subtree[$key] = Mage::getBaseUrl('media') . 'xmlconnect/' . $value;
@@ -415,11 +425,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
     /**
      * Load application by code
      *
-     * @param   string $code
-     * @return  Mage_XmlConnect_Model_Application
+     * @param string $code
+     * @return Mage_XmlConnect_Model_Application
      */
     public function loadByCode($code)
     {
@@ -619,11 +630,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     /**
      * Imports post/get data into the model
      *
-     * @param array $data    - $_REQUEST[]
-     *
+     * @param array $data - $_REQUEST[]
      * @return array
      */
-    public function prepareSubmitParams($data) {
+    public function prepareSubmitParams($data)
+    {
 
         $params = array();
         if (isset($data['conf']) && is_array($data['conf'])) {

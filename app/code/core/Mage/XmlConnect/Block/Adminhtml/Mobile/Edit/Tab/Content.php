@@ -29,6 +29,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
 {
     protected $_pages;
 
+    /**
+     * Class constructor
+     * Setting view option
+     */
     public function __construct()
     {
         parent::__construct();
@@ -84,7 +88,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
         ));
 
         if (isset($conf['native']['pages'])) {
-            foreach($conf['native']['pages'] as $key=>$dummy) {
+            foreach ($conf['native']['pages'] as $key=>$dummy) {
                 $this->_addPage($fieldset, 'conf[native][pages]['.$key.']');
             }
         }

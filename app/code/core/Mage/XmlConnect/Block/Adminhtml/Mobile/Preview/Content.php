@@ -33,7 +33,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
      */
     public function setConf($conf)
     {
-        if(!is_array($conf)){
+        if (!is_array($conf)) {
             $conf = array();
         }
         $tabs = isset($conf['tabBar']) && isset($conf['tabBar']['tabs']) ? $conf['tabBar']['tabs'] : false;
@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
    /**
     * Get preview images url
     *
-    * @param string $name  - file name
+    * @param string $name - file name
     * @return string
     */
     public function getPreviewImagesUrl($name = '')
@@ -62,7 +62,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
    /**
     * Retrieve url for images in the skin folder
     *
-    * @param string $name  - path to file name relative to the skin dir
+    * @param string $name - path to file name relative to the skin dir
     * @return string
     */
     public function getDesignPreviewImageUrl($name)
@@ -74,8 +74,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
      * Expose function getInterfaceImagesPaths from xmlconnect/images
      * Converts Data path(conf/submision/zzzz) to config path (conf/native/submission/zzzzz)
      *
-     * @param   string $path
-     * @return
+     * @param string $path
+     * @return array
      */
     public function getInterfaceImagesPaths($path)
     {
@@ -86,7 +86,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
    /**
     * Get xmlconnect css url
     *
-    * @param string $name  - file name
+    * @param string $name - file name
     * @return string
     */
     public function getPreviewCssUrl($name = '')

@@ -25,7 +25,12 @@
  */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-
+    /**
+     * Constructor
+     *
+     * Setting grid_id, DOM destination element id, Title
+     *
+     */
     public function __construct()
     {
         parent::__construct();

@@ -37,7 +37,7 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     const PARENT_CATEGORIES_LEVEL = 2;
 
     /**
-     * _beforeLoad
+     * Before collection load
      *
      * @return Mage_XmlConnect_Model_Resource_Category_Collection
      */
@@ -50,9 +50,9 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     }
 
     /**
-     * 
+     * Adding filter level
      *
-     * @param int $level
+     * @param string $level
      * @return Mage_XmlConnect_Model_Resource_Category_Collection
      */
     public function addLevelExactFilter($level)
@@ -62,8 +62,8 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     }
 
     /**
-     * Set Limit
-     *
+     * Set limit collection
+     * 
      * @param int $offset
      * @param int $count
      * @return Mage_XmlConnect_Model_Resource_Category_Collection
@@ -75,9 +75,9 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
     }
 
     /**
-     * Add parentId to filter
-     *
+     * Adding parentCategory filter
      * @param int $parentId
+     * 
      * @return Mage_XmlConnect_Model_Resource_Category_Collection
      */
     public function addParentIdFilter($parentId)

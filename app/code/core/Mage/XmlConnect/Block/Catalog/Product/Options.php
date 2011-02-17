@@ -53,7 +53,8 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
      * @param string $renderer
      * @return Mage_XmlConnect_Block_Product_Options
      */
-    public function addRenderer($type, $renderer){
+    public function addRenderer($type, $renderer)
+    {
         if (!isset($this->_renderers[$type])) {
             $this->_renderers[$type] = $renderer;
         }
@@ -75,7 +76,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
             return $xmlModel;
         }
         $xmlModel->addAttribute('id', $product->getId());
-        if (!$product->isSaleable() || !sizeof($product->getOptions())){
+        if (!$product->isSaleable() || !sizeof($product->getOptions())) {
             return $xmlModel;
         }
 
@@ -155,12 +156,12 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
         switch ($realType) {
             case Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN:
             case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
-               $type = self::OPTION_TYPE_SELECT;
-               break;
+                $type = self::OPTION_TYPE_SELECT;
+                break;
             case Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE:
             case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
-               $type = self::OPTION_TYPE_CHECKBOX;
-               break;
+                $type = self::OPTION_TYPE_CHECKBOX;
+                break;
             case Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD:
             case Mage_Catalog_Model_Product_Option::OPTION_TYPE_AREA:
             default:

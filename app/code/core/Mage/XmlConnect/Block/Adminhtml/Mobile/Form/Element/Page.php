@@ -58,8 +58,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
     /**
      * Add form element
      *
-     * @param   Varien_Data_Form_Element_Abstract $element
-     * @return  Varien_Data_Form
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @param boolean|'^'|string $after
+     * @return Varien_Data_Form
      */
     public function addElement(Varien_Data_Form_Element_Abstract $element, $after=false)
     {
@@ -71,7 +72,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
      * Getter for Label field
      * fetching first element as label
      *
-     * @param string
+     * @param string $idSuffix 
+     * @return string
      */
     public function getLabelHtml($idSuffix = '')
     {
@@ -84,7 +86,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
      * gettter for second part of rendered field ("selectbox" and "delete button")
      * fetching second element as <element code>
      *
-     * @param string
+     * @return string
      */
     public function getElementHtml()
     {

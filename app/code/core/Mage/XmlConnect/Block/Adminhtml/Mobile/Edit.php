@@ -56,7 +56,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
 
         $this->_formScripts[] = 'function saveAndContinueEdit() {'
             .'if (editForm.submit($(\'edit_form\').action + \'back/edit/\')) {disableElements(\'save\')};}';
-        if($model->getId()){
+        if ($model->getId()) {
             $this->_formScripts[] = 'function saveAndSubmitApp() {'
                 .'if (editForm.submit($(\'edit_form\').action+\'submitapp/' . $model->getId() . '\')) {'
                 .'disableElements(\'save\')};}';

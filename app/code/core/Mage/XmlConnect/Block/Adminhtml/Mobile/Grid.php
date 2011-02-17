@@ -105,6 +105,7 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
     /**
      * Row click url
      *
+     * @param Mage_Catalog_Model_Product|Varien_Object $row
      * @return string
      */
     public function getRowUrl($row)

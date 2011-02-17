@@ -63,7 +63,8 @@ class Mage_XmlConnect_Block_Catalog_Product_Price extends Mage_XmlConnect_Block_
      * @param string $renderer
      * @return Mage_XmlConnect_Block_Product_Options
      */
-    public function addRenderer($type, $renderer){
+    public function addRenderer($type, $renderer)
+    {
         if (!isset($this->_renderers[$type])) {
             $this->_renderers[$type] = $renderer;
         }
@@ -82,8 +83,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price extends Mage_XmlConnect_Block_
             $type = $product->getTypeId();
             if (isset($this->_renderers[$type])) {
                 $blockName = $this->_renderers[$type];
-            }
-            else {
+            } else {
                 $blockName = $this->_defaultPriceRenderer;
             }
 

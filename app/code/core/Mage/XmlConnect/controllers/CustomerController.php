@@ -35,6 +35,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer authentification action
      *
+     * @return void
      */
     public function loginAction()
     {
@@ -96,6 +97,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer registration/edit account form
      *
+     * @return void
      */
     public function formAction()
     {
@@ -115,6 +117,8 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Change customer data action
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -197,6 +201,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Save customer account
      *
+     * @return void
      */
     public function saveAction()
     {
@@ -292,6 +297,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Send new password to customer by specified email
      *
+     * @return void
      */
     public function forgotPasswordAction()
     {
@@ -329,6 +335,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer addresses list
      *
+     * @return void
      */
     public function addressAction()
     {
@@ -378,6 +385,8 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Remove customer address
+     *
+     * @return void
      */
     public function deleteAddressAction()
     {
@@ -400,7 +409,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             try {
                 $address->delete();
                 $this->_message(Mage::helper('xmlconnect')->__('Address has been deleted.'), self::MESSAGE_STATUS_SUCCESS);
-            } catch (Exception $e){
+            } catch (Exception $e) {
                 Mage::logException($e);
                 $this->_message(Mage::helper('xmlconnect')->__('An error occurred while deleting the address.'), self::MESSAGE_STATUS_ERROR);
             }
@@ -410,6 +419,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Add/Save customer address
      *
+     * @return void
      */
     public function saveAddressAction()
     {
@@ -486,6 +496,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer orders list
      *
+     * @return void
      */
     public function orderListAction()
     {
@@ -511,7 +522,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Filtering posted data. Converting localized data if needed
      *
-     * @param array
+     * @param array $data
      * @return array
      */
     protected function _filterPostData($data)

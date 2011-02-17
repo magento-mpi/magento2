@@ -86,7 +86,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images ex
    /**
     * Retrieve url for images in the skin folder
     *
-    * @param string $name  - path to file name relative to the skin dir
+    * @param string $name - path to file name relative to the skin dir
     * @return string
     */
     protected function _getDesignPreviewImageUrl($name)

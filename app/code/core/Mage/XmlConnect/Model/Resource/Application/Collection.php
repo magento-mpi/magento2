@@ -35,8 +35,7 @@
 class Mage_XmlConnect_Model_Resource_Application_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Collection constructor
-     *
+     * Constructor, setting table
      */
     protected function _construct()
     {

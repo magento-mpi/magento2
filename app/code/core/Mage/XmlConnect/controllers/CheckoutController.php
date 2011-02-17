@@ -35,6 +35,8 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Make sure customer is logged in
+     *
+     * @return void
      */
     public function preDispatch()
     {
@@ -70,12 +72,10 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         if ($quote->getHasError()) {
             $this->_message(Mage::helper('xmlconnect')->__('Cart has some errors.'), self::MESSAGE_STATUS_ERROR);
             return;
-        }
-        else if(!$quote->hasItems()){
+        } else if (!$quote->hasItems()) {
             $this->_message(Mage::helper('xmlconnect')->__('Cart is empty.'), self::MESSAGE_STATUS_ERROR);
             return;
-        }
-        else if (!$quote->validateMinimumAmount()) {
+        } else if (!$quote->validateMinimumAmount()) {
             $error = Mage::getStoreConfig('sales/minimum_order/error_message');
             $this->_message($error, self::MESSAGE_STATUS_ERROR);
             return;
@@ -132,8 +132,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
         if (!isset($result['error'])) {
             $this->_message(Mage::helper('xmlconnect')->__('Billing address has been set.'), self::MESSAGE_STATUS_SUCCESS);
-        }
-        else {
+        } else {
             if (!is_array($result['message'])) {
                 $result['message'] = array($result['message']);
             }
@@ -165,8 +164,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         $result = $this->getOnepage()->saveShipping($data, $customerAddressId);
         if (!isset($result['error'])) {
             $this->_message(Mage::helper('xmlconnect')->__('Shipping address has been set.'), self::MESSAGE_STATUS_SUCCESS);
-        }
-        else {
+        } else {
             if (!is_array($result['message'])) {
                 $result['message'] = array($result['message']);
             }
@@ -206,8 +204,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         $result = $this->getOnepage()->saveShippingMethod($data);
         if (!isset($result['error'])) {
             $this->_message(Mage::helper('xmlconnect')->__('Shipping method has been set.'), self::MESSAGE_STATUS_SUCCESS);
-        }
-        else {
+        } else {
             if (!is_array($result['message'])) {
                 $result['message'] = array($result['message']);
             }
@@ -261,14 +258,11 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             $result = $this->getOnepage()->savePayment($data);
             $this->_message(Mage::helper('xmlconnect')->__('Payment method was successfully set.'), self::MESSAGE_STATUS_SUCCESS);
             return;
-        }
-        catch (Mage_Payment_Exception $e) {
+        } catch (Mage_Payment_Exception $e) {
             $result['error'] = $e->getMessage();
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $result['error'] = $e->getMessage();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             $result['error'] = Mage::helper('xmlconnect')->__('Unable to set payment method.');
         }
@@ -326,13 +320,11 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
 
             $this->getResponse()->setBody($message->asNiceXml());
             return;
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
             Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
             $error = $e->getMessage();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
             $error = Mage::helper('xmlconnect')->__('An error occurred while processing your order. Please contact us or try again later.');

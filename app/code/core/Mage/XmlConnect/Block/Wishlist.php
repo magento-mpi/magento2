@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
         $offset = (int)$request->getParam('offset', 0);
         $count  = (int)$request->getParam('count', 0);
         $count  = $count <= 0 ? 1 : $count;
-        if($offset + $count < $this->getWishlist()->getSize()){
+        if ($offset + $count < $this->getWishlist()->getSize()) {
             $hasMoreItems = 1;
         }
         $this->getWishlist()->getSelect()->limit($count, $offset);
@@ -62,7 +62,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
             /**
              * @var Mage_Wishlist_Model_Mysql4_Product_Collection
              */
-            foreach($this->getWishlist() as $item){
+            foreach ($this->getWishlist() as $item) {
                 $itemXmlObj = $wishlistXmlObj->addChild('item');
                 $itemXmlObj->addChild('item_id', $item->getWishlistItemId());
                 $itemXmlObj->addChild('entity_id', $item->getProductId());

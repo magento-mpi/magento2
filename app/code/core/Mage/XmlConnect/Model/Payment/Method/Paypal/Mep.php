@@ -58,7 +58,8 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Paypal_Model_
 
     /**
      * Check whether payment method can be used
-     * @param Mage_Sales_Model_Quote
+     *
+     * @param Mage_Sales_Model_Quote $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -71,8 +72,9 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Paypal_Model_
     /**
      * Capture payment
      *
-     * @param   Varien_Object $orderPayment
-     * @return  Mage_Payment_Model_Abstract
+     * @param Varien_Object $orderPayment
+     * @param float $amount
+     * @return Mage_Payment_Model_Abstract
      */
     public function capture(Varien_Object $payment, $amount)
     {
