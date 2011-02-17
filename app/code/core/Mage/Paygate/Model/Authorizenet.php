@@ -101,10 +101,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                                                     'x_echeck_type');
 
     /**
-     * Kay for storing transaction id in additional information of payment model
+     * Key for storing transaction id in additional information of payment model
      * @var string
      */
-    protected $_realTransactionIdKay = 'x_transaction_id';
+    protected $_realTransactionIdKey = 'x_transaction_id';
 
     /**
      * Key for storing split tender id in additional information of payment model
@@ -220,7 +220,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $payment
                     ->setTransactionId($result->getTransactionId())
                     ->setIsTransactionClosed(0)
-                    ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
+                    ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
                 $this->_registerCard($result, $payment);
                 return $this;
             case self::RESPONSE_CODE_HELD:
@@ -269,7 +269,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 }
                 $payment
                     ->setIsTransactionClosed(0)
-                    ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
+                    ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
                 return $this;
             case self::RESPONSE_CODE_HELD:
                 $this->_processPartialAuthorization($result, $payment);
@@ -309,7 +309,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $payment
                     ->setIsTransactionClosed(1)
                     ->setShouldCloseParentTransaction(1)
-                    ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
+                    ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
                 return $this;
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
@@ -352,7 +352,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $payment
                      ->setIsTransactionClosed(1)
                      ->setShouldCloseParentTransaction(1)
-                     ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
+                     ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
                 return $this;
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
@@ -625,12 +625,12 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * Return additional information`s transaction_id value of parent transaction model
      *
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return string
+     * @return array|null|mixed
      */
     protected function _getRealParentTransactionId($payment)
     {
         $transaction = $payment->getTransaction($payment->getParentTransactionId());
-        return $transaction->getAdditionalInformation($this->_realTransactionIdKay);
+        return $transaction->getAdditionalInformation($this->_realTransactionIdKey);
     }
 
     /**
@@ -685,7 +685,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     $isLastPartialAuthorizationSuccessful = true;
                     break;
                 case self::RESPONSE_CODE_APPROVED:
-                    /* temp */ $orderPayment->setTransactionId($response->getTransactionId())->setIsTransactionClosed(0)->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getTransactionId());
+                    /* temp */ $orderPayment->setTransactionId($response->getTransactionId())->setIsTransactionClosed(0)->setTransactionAdditionalInfo($this->_realTransactionIdKey, $response->getTransactionId());
                     $this->_registerCard($response, $orderPayment);
                     $isLastPartialAuthorizationSuccessful = true;
                     $isPartialAuthorizationProcessCompleted = true;

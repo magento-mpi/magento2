@@ -275,7 +275,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $payment->setTransactionId($response->getXTransId())
             ->setParentTransactionId(null)
             ->setIsTransactionClosed(0)
-            ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $response->getXTransId());
+            ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $response->getXTransId());
 
         if ($response->getXMethod() == self::REQUEST_METHOD_CC) {
             $payment->setCcAvsStatus($response->getXAvsCode())
