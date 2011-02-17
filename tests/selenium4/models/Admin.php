@@ -5,8 +5,7 @@
  *
  * @author Magento Inc.
  */
-class Model_Admin extends TestModelAbstract
-{
+class Model_Admin extends TestModelAbstract {
 
     /**
      * Loading configuration data for the testCase
@@ -63,7 +62,7 @@ class Model_Admin extends TestModelAbstract
         $loadingMask = $this->getUiElement('/admin/elements/progress_bar');
 
         // await for appear and disappear "Please wait" animated gif...
-        for ($second = 0; ; $second++) {
+        for ($second = 0;; $second++) {
             if ($second >= 60) {
                 break; //fail("timeout");
             }
@@ -152,40 +151,41 @@ class Model_Admin extends TestModelAbstract
     }
 
     /**
-     * Verify is there a value for the field and select it
-     * @param  $field, $path, $number
-     *
-     * If $field is raised through Xpath expression such as //*[@id="input_%s"] than %s=$number
+     * Verify is there a value for the field and select it.
      * It is necessary to set UiNamespace before using a function
-     * It is necessary to set NULL if the $number is not needed
-     *
+     * @param <type> $field
+     * @param <type> $value
      * $field path - "UiNamespace"/selectors/"$field"
+     * @return boolean
      */
     public function checkAndSelectField($params, $field, $number)
     {
-        $result = true;
+        $result = false;
         $Data = $params ? $params : $this->Data;
-        if (isset($Data[$field])) {
+        if ($Data[$field] != NULL) {
             if ($this->isElementPresent($this->getUiElement("selectors/" . $field, $number) .
                             $this->getUiElement("/admin/elements/option_for_field", $Data[$field]))) {
                 $this->select($this->getUiElement("selectors/" . $field, $number), "label=" . $Data[$field]);
+                $result = true;
             } else {
-                $this->setVerificationErrors("The value '" . $Data[$field] . "' cannot be set for the field '" . $field . "'");
-                $result = false;
+                $this->printInfo("The value '" . $Data[$field] . "' cannot be set for the field '" . $field . "'");
             }
+        } elseif ($Data[$field] == NULL) {
+            $this->printInfo("The value for the field $field is not specified. The default value will be used");
         }
         return $result;
     }
 
     /**
      * Verify is there a value for the field and fill it
-     * @param  $field,$value, $number
-     *
-     * If $field is raised through Xpath expression such as //*[@id="selector_%s"] than %s=$number
      * It is necessary to set UiNamespace before using a function
+     * @param <type> $params
+     * @param <type> $field
+     * $field path - "UiNamespace"/inputs/"$field"     *
+     * @param <type> $number
+     * If $field is raised through Xpath expression such as //*[@id="selector_%s"] than %s=$number
      * It is necessary to set NULL if the $number is not needed
-     *
-     * $field path - "UiNamespace"/inputs/"$field"
+     * @return boolean
      */
     public function checkAndFillField($params, $field, $number)
     {
@@ -197,23 +197,20 @@ class Model_Admin extends TestModelAbstract
 
     /**
      * Search element(s) and perform action on them.
-     *
-     * @param $tableContainer, $searchElements, $action, $tableNumber
-     *
+     * It is necessary to set UiNamespace before using a function.
+     * @param string $tableContainer
+     * Принцип задания $tableContainer => XPath: UiNamespace/elements/$tableContainer
+     * @param array $searchElements
+     * ARRAY который содержит критерии по каким будет производится поиск и их значения.
+     * Пример задания $searchElements: ar = array('searchBy1'=>'value1','searchBy2'=>'value2','searchBy2'=>'value2');,
+     * где 'searchBy1', 'searchBy2', .. путь к XPath поля, для которого задается значение 'value1'.
+     * Пока работает только с полями ввода. Принцип задания 'searchBy1' => XPath: UiNamespace/inputs/'searchBy1'
+     * @param string $action
+     * $action can have only 2 values: "mark"(mark the found element) and "open"(Open the found element)
+     * @param <type> $tableNumber
      * If $tableContainer is raised through Xpath expression such as //*[@id="table_%s"] then %s=$tableNumber
      * When calling a function it is necessary to set NULL if the $tableNumber is not needed.
-     * It is necessary to set UiNamespace before using a function.
-     *
-     * $searchElements - ARRAY which contains search elements.
-     * $action can have only 2 values: "mark"(mark the found element) and "open"(Open the found element)
-     *
-     * Пример задания $searchElements: ar = array('searchBy1'=>'value1','searchBy2'=>'value2','searchBy2'=>'value2');
-     * где 'searchBy1', 'searchBy2', .. путь к XPath поля, для которого задается значение 'value1'. Пока работает только
-     * с полями ввода.
-     *
-     * Принцип задания 'searchBy1' => XPath: UiNamespace/inputs/'searchBy1'
-     * Принцип задания $tableContainer => XPath: UiNamespace/elements/$tableContainer
-     *
+     * @return boolean
      */
     public function searchAndDoAction($tableContainer, $searchElements, $action, $tableNumber)
     {
@@ -245,122 +242,81 @@ class Model_Admin extends TestModelAbstract
     }
 
     /**
-     * Click button $saveButton and verify for errors
-     *
-     * @param $saveButton
-     * It is necessary to set UiNamespace before using a function.
-     * $saveButton path - "UiNamespace"/elements/"$saveButton"
+     * Click "Save" button and verify for errors.
+     * 
+     * @return boolean
      */
     function saveAndVerifyForErrors()
     {
+        $result = false;
         $this->click($this->getUiElement("/admin/buttons/submit"));
         // check for error message
-        if ($this->waitForElement($this->getUiElement('/admin/messages/error'), 25)) {
-            $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+        if ($this->waitForElement($this->getUiElement('/admin/messages/error1'), 25)) {
+            $etext = $this->getText($this->getUiElement('/admin/messages/error1'));
             $this->setVerificationErrors($etext);
-        } else {
-            if (!$this->verifyTabsForErrors()) {
-                // Check for success message
-                if ($this->waitForElement($this->getUiElement('/admin/messages/success'), 60)) {
-                    $etext = $this->getText($this->getUiElement('/admin/messages/success'));
-                    $this->printInfo($etext);
-                } else {
-                    $this->setVerificationErrors('No success message');
-                }
+        } elseif (!$this->verifyPageAndGetErrors()) {
+            // Check for success message
+            if ($this->waitForElement($this->getUiElement('/admin/messages/success'), 60)) {
+                $etext = $this->getText($this->getUiElement('/admin/messages/success'));
+                $this->printInfo($etext);
+                $result = true;
+            } else {
+                $this->setVerificationErrors('No success message');
             }
-        }
-    }
-
-    /**
-     * Verify on opened page Tabs for errors
-     *
-     */
-    public function verifyTabsForErrors()
-    {
-        $result = false;
-        if ($this->isElementPresent($this->getUiElement("/admin/elements/tabs_container") .
-                        $this->getUiElement("/admin/elements/tab_error"))) {
-            $qtyTab = $this->getXpathCount($this->getUiElement("/admin/elements/tabs_container") .
-                            $this->getUiElement("/admin/elements/tab_error"));
-            $qtyErrors = $this->getXpathCount($this->getUiElement("/admin/elements/error_for_field"));
-            $this->printInfo("Found '" . $qtyErrors . "' errors");
-            for ($y = 1; $y <= $qtyTab; $y++) {
-                $tabName = array();
-                $tabName[$y] = $this->getText($this->getUiElement("/admin/elements/tabs_container") .
-                                $this->getUiElement("/admin/elements/tab_error_many", $y));
-                $this->click($this->getUiElement("/admin/elements/tabs_container") .
-                        $this->getUiElement("/admin/elements/tab_error_many", $y));
-                $this->printInfo("'" . $tabName[$y] . "' tab contains invalid data:");
-                $this->getErrorsInTab();
-            }
-            $result = true;
-        }
-        if ($this->isElementPresent($this->getUiElement("/admin/elements/opened_tab") .
-                        $this->getUiElement("/admin/elements/error_for_field"))) {
-            $this->verifyPageForErrors();
-            $result = true;
         }
         return $result;
     }
 
     /**
-     * Verify page for errors
+     * Проверяет есть ли на открытой странице поля с ошибками.Получает название ошибки и имя поля.
+     * Работает для страниц которые содержат Табы и страницы создания ордера.
      *
+     * @return boolean
      */
-    public function verifyPageForErrors()
+    public function verifyPageAndGetErrors()
     {
-        $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
-
-        $qtyContainer = $this->getXpathCount($this->getUiElement('elements/containers'));
-        $this->printInfo("TABOV!!!" . $qtyContainer);
-        for ($i = 1; $i <= $qtyContainer; $i++) {
-            $qtyErrorsInContainer = $this->getXpathCount($this->getUiElement('elements/containers') . "[$i]" .
-                            $this->getUiElement('/admin/elements/error_for_field'));
-            $this->printInfo($i . "-ERROROV!!!" . $qtyErrorsInContainer);
-            if ($qtyErrorsInContainer > 0) {
-                for ($y = 1; $y <= $qtyErrorsInContainer; $y++) {
-                    if ($this->isElementPresent($this->getUiElement('elements/containers') . "[$i]" .
-                                    $this->getUiElement('/admin/elements/error_for_field') . "[$y]" .
-                                    $this->getUiElement("/admin/elements/field_name_with_error"))) {
-                        $fieldName = $this->getText($this->getUiElement('elements/containers') . "[$i]" .
-                                        $this->getUiElement('/admin/elements/error_for_field') . "[$y]" .
-                                        $this->getUiElement("/admin/elements/field_name_with_error"));
+        $result = false;
+        $this->versetUiNamespace("admin/elements/");
+        if ($this->isElementPresent($this->getUiElement("tabs_container") . $this->getUiElement("tab_error"))) {
+            $qtyTab = $this->getXpathCount($this->getUiElement("tabs_container") . $this->getUiElement("tab_error"));
+            $isTab = 1;
+        } elseif ($this->isElementPresent($this->getUiElement("opened_tab") . $this->getUiElement("error_for_field"))) {
+            $qtyTab = $this->getXpathCount($this->getUiElement("containers_for_order"));
+            $isTab = 0;
+        } else {
+            $isTab = -1;
+        }
+        if ($isTab != -1) {
+            $qtyErrors = $this->getXpathCount($this->getUiElement("error_for_field"));
+            $this->printInfo("\r\n Found '" . $qtyErrors . "' error(s)");
+            for ($y = 1; $y <= $qtyTab; $y++) {
+                switch ($isTab) {
+                    case 1:
+                        $tabName = $this->getText($this->getUiElement("tabs_container") . $this->getUiElement("tab_error_many", $y));
+                        $this->click($this->getUiElement("tabs_container") . $this->getUiElement("tab_error_many", $y));
+                        $this->printInfo("'" . $tabName . "' tab contains invalid data:");
+                        $errorXpath = $this->getUiElement("opened_tab") . $this->getUiElement("error_for_field");
+                        break;
+                    case 0:
+                        $errorXpath = $this->getUiElement("containers_for_order") . "[$y]" . $this->getUiElement("error_for_field");
+                        break;
+                }
+                $qtyFields = $this->getXpathCount($errorXpath);
+                for ($i = 1; $i <= $qtyFields; $i++) {
+                    if ($this->isElementPresent($errorXpath . "[$i]" . $this->getUiElement("field_name_with_error"))) {
+                        $fieldName = $this->getText($errorXpath . "[$i]" . $this->getUiElement("field_name_with_error"));
                     } else {
-                        $fieldName = $this->getAttribute($this->getUiElement('elements/containers') . "[$i]" .
-                                        $this->getUiElement('/admin/elements/error_for_field') . "[$y]" . "@id");
+                        $fieldName = $this->getAttribute($errorXpath . "[$i]" . "@id");
+                        $fieldName = strrev($fieldName);
+                        $fieldName = strrev(substr($fieldName, 0, strpos($fieldName, "-")));
                     }
-                    $errorName = $this->getText($this->getUiElement('elements/containers') . "[$i]" .
-                                    $this->getUiElement('/admin/elements/error_for_field') . "[$y]");
-                    $this->printInfo("Field '" . $fieldName . "' contains error - '" . $errorName . "'");
+                    $errorName = $this->getText($errorXpath . "[$i]");
+                    $this->printInfo("\r\n Field '" . $fieldName . "' contains error - '" . $errorName . "'");
                 }
             }
+            $result = true;
         }
-    }
-
-    /**
-     * Get fields name and error for this fields on tab(work for Product ->General, Prices, Inventory tabs
-     * and Attribute->Properties tab)
-     *
-     */
-    public function getErrorsInTab()
-    {
-        $qtyFields = $this->getXpathCount($this->getUiElement("/admin/elements/opened_tab") .
-                        $this->getUiElement("/admin/elements/error_for_field"));
-        for ($i = 1; $i <= $qtyFields; $i++) {
-            if ($this->isElementPresent($this->getUiElement("/admin/elements/opened_tab") .
-                            $this->getUiElement("/admin/elements/error_for_field_many", $i) .
-                            $this->getUiElement("/admin/elements/field_name_with_error"))) {
-                $fieldName = $this->getText($this->getUiElement("/admin/elements/opened_tab") .
-                                $this->getUiElement("/admin/elements/error_for_field_many", $i) .
-                                $this->getUiElement("/admin/elements/field_name_with_error"));
-            } else {
-                $fieldName = $this->getAttribute($this->getUiElement("/admin/elements/opened_tab") .
-                                $this->getUiElement("/admin/elements/error_for_field_many", $i) . "@id");
-            }
-            $errorName = $this->getText($this->getUiElement("/admin/elements/opened_tab") .
-                            $this->getUiElement("/admin/elements/error_for_field_many", $i));
-            $this->printInfo("Field '" . $fieldName . "' contains error - '" . $errorName . "'");
-        }
+        return $result;
     }
 
 }
