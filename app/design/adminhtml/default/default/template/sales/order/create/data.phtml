@@ -25,7 +25,6 @@
  */
 ?>
 <div class="page-create-order">
-<?php echo $this->getChildHtml('product.composite.configure') ?>
 <p class="switcher">
 <label for="currency_switcher"><?php echo Mage::helper('sales')->__('Order Currency:') ?></label>
 <select id="currency_switcher" name="order[currency]" onchange="order.setCurrencyId(this.value)">

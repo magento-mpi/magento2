@@ -26,17 +26,21 @@
  ?>
 <div id="popup-window-mask" style="display:none;"></div>
 <div id="catalog_product_composite_configure" class="product-configure-popup" style="display:none;">
-    <form action="" method="post" id="product_composite_configure_form" enctype="multipart/form-data">
-    <div class="entry-edit">
-        <div class="entry-edit-head">
-            <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Configure Product') ?></h4>
+    <form action="" method="post" id="product_composite_configure_form" enctype="multipart/form-data" onsubmit="productConfigure.onConfirmBtn()">
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Configure Product') ?></h4>
+            </div>
+            <ul class="messages"><li style="display: none;" class="error-msg"></li></ul>
+            <div id="catalog_product_composite_configure_fields" class="content"></div>
+            <div class="buttons-set a-right">
+                <button type="button" class="scalable" onclick="productConfigure.onCancelBtn()"><span>Cancel</span></button>
+                <button type="submit" class="scalable"<span>Ok</span></button>
+            </div>
         </div>
-        <ul class="messages"><li style="display: none;" class="error-msg"></li></ul>
-        <div id="catalog_product_composite_configure_fields" class="content"></div>
-        <div class="buttons-set a-right">
-            <button type="button" class="scalable" onclick="productConfigure.onCancelBtn()"><span>Cancel</span></button>
-            <button type="button" class="scalable" onclick="productConfigure.onConfirmBtn()"><span>Ok</span></button>
-        </div>
-    </div>
     </form>
+
+    <script type="text/javascript">
+        var productCompositeConfigureForm = new varienForm('product_composite_configure_form');
+    </script>
 </div>

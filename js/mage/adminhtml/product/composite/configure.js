@@ -122,36 +122,40 @@ ProductConfigure.prototype = {
      * Do preprocessing configured data through ajax if needed
      */
     onConfirmBtn: function() {
-        this._processFieldsData('save');
-        var url = this.listTypes[this.current.listType].urlConfirm;
-        if (url) {
-            new Ajax.Request(url, {
-                parameters: this.configuredData[this.current.listType][this.current.itemId],
-                onSuccess: function(transport) {
-                    if (transport.responseText.isJSON()) {
-                        var response = transport.responseText.evalJSON();
-                        if (response.ok) {
-                            this.errorMsgBlock.hide();
-                            this._closeWindow();
-                            if (Object.isFunction(this.confirmCallback)) {
-                                this.confirmCallback();
+        if (productCompositeConfigureForm.validate()) {
+            this._processFieldsData('save');
+            var url = this.listTypes[this.current.listType].urlConfirm;
+            if (url) {
+                new Ajax.Request(url, {
+                    parameters: this.configuredData[this.current.listType][this.current.itemId],
+                    onSuccess: function(transport) {
+                        if (transport.responseText.isJSON()) {
+                            var response = transport.responseText.evalJSON();
+                            if (response.ok) {
+                                this.errorMsgBlock.hide();
+                                this._closeWindow();
+                                if (Object.isFunction(this.confirmCallback)) {
+                                    this.confirmCallback();
+                                }
+                            } else if (response.error) {
+                                delete this.cachedHtml[this.current.listType][this.current.itemId];
+                                this.showItemConfiguration(this.current.listType, this.current.itemId);
+                                this._processFieldsData('restore');
+                                this.errorMsgBlock.show();
+                                this.errorMsgBlock.innerHTML = response.messages;
                             }
-                        } else if (response.error) {
-                            delete this.cachedHtml[this.current.listType][this.current.itemId];
-                            this.showItemConfiguration(this.current.listType, this.current.itemId);
-                            this._processFieldsData('restore');
-                            this.errorMsgBlock.show();
-                            this.errorMsgBlock.innerHTML = response.messages;
                         }
-                    }
-                }.bind(this)
-            });
-        } else {
-            this._closeWindow();
-            if (Object.isFunction(this.confirmCallback)) {
-                this.confirmCallback();
+                    }.bind(this)
+                });
+            } else {
+                this._closeWindow();
+                if (Object.isFunction(this.confirmCallback)) {
+                    this.confirmCallback();
+                }
             }
         }
+
+        return false;
     },
 
     /**
@@ -314,7 +318,7 @@ ProductConfigure.prototype = {
     },
 
     /**
-     * Is object has any property ?
+     * Does object have any property ?
      *
      * @param obj
      */
@@ -325,6 +329,25 @@ ProductConfigure.prototype = {
             }
         }
         return true;
+    },
+
+    /**
+     * Check if qty selected correctly
+     *
+     * @param object element
+     * @param object event
+     */
+    changeOptionQty: function(element, event)
+    {
+        var checkQty = true;
+        if (typeof(event) != 'undefined') {
+            if (event.keyCode == 8 || event.keyCode == 46) {
+                checkQty = false;
+            }
+        }
+        if (checkQty && (Number(element.value) <= 0 || isNaN(Number(element.value)))) {
+            element.value = 1;
+        }
     }
 };
 

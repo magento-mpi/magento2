@@ -540,7 +540,6 @@
                         <block type="adminhtml/sales_order_create_comment" template="sales/order/create/comment.phtml" name="comment" />
                         <block type="adminhtml/sales_order_create_totals" template="sales/order/create/totals.phtml" name="totals" />
                         <block type="adminhtml/sales_order_create_giftmessage" template="sales/order/create/giftmessage.phtml" name="giftmessage" />
-                        <block type="adminhtml/catalog_product_composite_configure" template="catalog/product/composite/configure.phtml" name="product.composite.configure" />
                     </block>
                 </block>
             </block>
@@ -600,7 +599,6 @@
                 <block type="adminhtml/sales_order_create_comment" template="sales/order/create/comment.phtml" name="comment" />
                 <block type="adminhtml/sales_order_create_totals" template="sales/order/create/totals.phtml" name="totals" />
                 <block type="adminhtml/sales_order_create_giftmessage" template="sales/order/create/giftmessage.phtml" name="giftmessage" />
-                <block type="adminhtml/catalog_product_composite_configure" template="catalog/product/composite/configure.phtml" name="product.composite.configure" />
             </block>
         </reference>
     </adminhtml_sales_order_create_load_block_data>

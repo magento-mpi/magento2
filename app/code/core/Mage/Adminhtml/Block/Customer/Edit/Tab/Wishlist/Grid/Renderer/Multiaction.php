@@ -74,7 +74,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Multiaction
     protected function _toLinkHtml($action, Varien_Object $row)
     {
         if (isset($action['process']) && $action['process'] == 'configurable') {
-            $isConfigurable = (bool)($row->isComposite() || $row->getOptions());
+            $isConfigurable = (bool)($row->isComposite() || $row->getOptions()
+                || in_array($row->getTypeId(), array('giftcard', 'downloadable')));
             $style          = ($isConfigurable) ? '' : ' style="color: #CCC"';
             $onClick        = ($isConfigurable)
                 ? sprintf(' onClick="productComposite.showItemConfiguration(\'wishlist\', %s)"', $row->getId())

@@ -73,11 +73,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Multiaction
      */
     protected function _toLinkHtml($action, Varien_Object $row)
     {
+        $product = $row->getProduct();
+
         if (isset($action['process']) && $action['process'] == 'configurable') {
-            $isConfigurable = (bool)($row->getProduct()->isComposite() || $row->getProduct()->getOptions());
+            $isConfigurable = (bool)($product->isComposite() || $product->getOptions()
+                || in_array($product->getTypeId(), array('giftcard', 'downloadable')));
             $style          = ($isConfigurable) ? '' : ' style="color: #CCC"';
             $onClick        = ($isConfigurable)
-                ? sprintf(' onClick="productComposite.showItemConfiguration(\'wishlist\', %s)"', $row->getId())
+                ? sprintf(' onClick="productComposite.showItemConfiguration(\'shoppingCart\', %s)"', $row->getId())
                 : '';
 
             return sprintf('<a href="%s"%s%s>%s</a>', $action['url'], $style, $onClick, $action['caption']);
