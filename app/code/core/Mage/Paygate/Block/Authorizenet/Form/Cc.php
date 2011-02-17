@@ -68,6 +68,16 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
     }
 
     /**
+     * Return url to admin cancel controller
+     *
+     * @return string
+     */
+    public function getAdminCancelUrl()
+    {
+        return $this->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
+    }
+
+    /**
      * Render block HTML
      *
      * @return string
@@ -121,5 +131,16 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
     public function isItPartialAuthorization()
     {
         return $this->getMethod()->isItPartialAuthorization();
+    }
+
+    public function getCancelButtonHtml()
+    {
+        $cancelButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->setData(array(
+                'id'      => 'payment_cancel',
+                'label'   => Mage::helper('paygate')->__('Cancel'),
+                'onclick' => 'cancelPaymentAuthorizations()'
+            ));
+        return $cancelButton->toHtml();
     }
 }

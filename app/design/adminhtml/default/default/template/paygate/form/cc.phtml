@@ -25,10 +25,47 @@
  */
 ?>
 
-<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_before" style="display:none;">
-    <?php echo $this->getChildHtml('cards') ?>
-</ul>
+
+<?php if ($this->isItPartialAuthorization()): ?>
+    <ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_before" style="display:none;">
+        <?php echo $this->getChildHtml('cards') ?>
+        <?php echo $this->getCancelButtonHtml()?>
+            <script type="text/javascript">
+            //<![CDATA[
+            function cancelPaymentAuthorizations(){
+                new Ajax.Request('<?php echo $this->getAdminCancelUrl() ?>', {
+                    onSuccess : function(transport) {
+                        try{
+                            response = eval('(' + transport.responseText + ')');
+                        } catch (e) {
+                            response = {};
+                        }
+
+                        if (response.success) {
+                            order.loadArea(['billing_method'], true, []);
+                        } else {
+                            var msg = response.error_message;
+                            if (msg) {
+                                alert(msg);
+                            }
+                        }
+                    }
+                });
+            }
+            //]]>
+            </script>
+
+    </ul>
+<?php endif;?>
 <?php echo $this->getChildHtml('method_form_block') ?>
-<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_after" style="display:none;">
-    <?php echo $this->getChildHtml('cc_form_after') ?>
-</ul>
+<?php if ($this->isItPartialAuthorization()): ?>
+    <ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>_after" style="display:none;">
+    </ul>
+    <?php if ($_message=$this->getPartialAuthorizationConfirmationMessage()): ?>
+        <script type="text/javascript">
+        //<![CDATA[
+            if (!confirm('<?php echo $_message ?>')) {
+            }
+        </script>
+    <?php endif;?>
+<?php endif;?>
