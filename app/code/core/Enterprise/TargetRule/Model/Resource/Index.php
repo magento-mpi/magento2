@@ -160,13 +160,13 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
         foreach ($ruleCollection as $rule) {
             /* @var $rule Enterprise_TargetRule_Model_Rule */
             if (count($productIds) >= $limit) {
-                continue;
+                break;
             }
             if (!$rule->checkDateForStore($object->getStoreId())) {
                 continue;
             }
 
-            $resultIds = $this->_getProductIdsByRule($rule, $object, $limit, $productIds);
+            $resultIds = $this->_getProductIdsByRule($rule, $object, $rule->getPositionsLimit(), $productIds);
             $productIds = array_merge($productIds, $resultIds);
         }
 
