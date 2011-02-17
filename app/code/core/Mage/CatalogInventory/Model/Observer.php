@@ -37,9 +37,18 @@ class Mage_CatalogInventory_Model_Observer
      * Product qty's checked
      * data is valid if you check quote item qty and use singleton instance
      *
+     * @deprecated after 1.4.2.0-rc1
      * @var array
      */
     protected $_checkedProductsQty = array();
+    
+    /**
+     * Product qty's checked
+     * data is valid if you check quote item qty and use singleton instance
+     *
+     * @var array
+     */
+    protected $_checkedQuoteItems = array();
 
     protected $_itemsForReindex = array();
 
@@ -257,7 +266,7 @@ class Mage_CatalogInventory_Model_Observer
                  */
                 $stockItem->setSuppressCheckQtyIncrements(true);
 
-                $qtyForCheck = $this->_getProductQtyForCheck($option->getProduct()->getId(), $increaseOptionQty);
+                $qtyForCheck = $this->_getQuoteItemQtyForCheck($option->getProduct()->getId(), $quoteItem->getId(), $increaseOptionQty);
 
                 $result = $stockItem->checkQuoteItemQty($optionQty, $qtyForCheck, $option->getValue());
 
@@ -307,12 +316,12 @@ class Mage_CatalogInventory_Model_Observer
                 /**
                  * we are using 0 because original qty was processed
                  */
-                $qtyForCheck = $this->_getProductQtyForCheck($quoteItem->getProduct()->getId(), 0);
+                $qtyForCheck = $this->_getQuoteItemQtyForCheck($quoteItem->getProduct()->getId(), $quoteItem->getId(), 0);
             }
             else {
                 $increaseQty = $quoteItem->getQtyToAdd() ? $quoteItem->getQtyToAdd() : $qty;
                 $rowQty = $qty;
-                $qtyForCheck = $this->_getProductQtyForCheck($quoteItem->getProduct()->getId(), $increaseQty);
+                $qtyForCheck = $this->_getQuoteItemQtyForCheck($quoteItem->getProduct()->getId(), $quoteItem->getId(), $increaseQty);
             }
 
             $result = $stockItem->checkQuoteItemQty($rowQty, $qtyForCheck, $qty);
@@ -365,6 +374,7 @@ class Mage_CatalogInventory_Model_Observer
      * Get product qty includes information from all quote items
      * Need be used only in sungleton mode
      *
+     * @deprecated after 1.4.2.0-rc1
      * @param int $productId
      * @param float $itemQty
      */
@@ -378,6 +388,29 @@ class Mage_CatalogInventory_Model_Observer
         return $qty;
     }
 
+    /**
+     * Get product qty includes information from all quote items
+     * Need be used only in sungleton mode
+     *
+     * @param int   $productId
+     * @param int   $quoteItemId
+     * @param float $itemQty
+     * @return int  
+     */
+    protected function _getQuoteItemQtyForCheck($productId, $quoteItemId, $itemQty)
+    {
+        $qty = $itemQty;
+        if (isset($this->_checkedQuoteItems[$productId]['qty']) && 
+            !in_array($quoteItemId, $this->_checkedQuoteItems[$productId]['items'])) {
+                $qty += $this->_checkedQuoteItems[$productId]['qty'];
+        } 
+        
+        $this->_checkedQuoteItems[$productId]['qty'] = $qty;
+        $this->_checkedQuoteItems[$productId]['items'][] = $quoteItemId;
+
+        return $qty;
+    }     
+    
     /**
      * Subtract qtys of quote item products after multishipping checkout
      *
