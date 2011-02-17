@@ -42,11 +42,18 @@ ProductConfigure.prototype = {
      * Initialize object
      */
     initialize: function() {
+        this._initWindowElements();
+    },
+
+    /**
+     * Initialize window elements
+     */
+    _initWindowElements: function() {
         this.confWindow     = $('catalog_product_composite_configure');
         this.confFields     = $('catalog_product_composite_configure_fields');
-        this.errorMsgBlock  = $$('#catalog_product_composite_configure .error-msg')[0];
         this.confMask       = $('popup-window-mask');
         this.windowHeight   = $('html-body').getHeight();
+        this.errorMsgBlock  = $$('#catalog_product_composite_configure .error-msg')[0];
     },
 
     /**
@@ -72,6 +79,7 @@ ProductConfigure.prototype = {
         if (!listType || !itemId) {
             return false;
         }
+        this._initWindowElements();
         this.current.listType = listType;
         this.current.itemId = itemId;
         this._prepareCachedAndConfigured(listType, itemId);
