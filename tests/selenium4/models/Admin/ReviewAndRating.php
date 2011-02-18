@@ -13,54 +13,122 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
         $this->Data = array();
     }
 
+    public function fillRatingTitleForStore($storeName, $title)
+    {
+        // Fill in Rating Title for store
+        if ($this->isElementPresent($this->getUiElement('inputs/title_for_store', $storeName))) {
+            $this->type($this->getUiElement('inputs/title_for_store', $storeName), $title);
+        } else {
+            $this->printInfo("You cannot specify a title for '" . $storeName . "' store view");
+        }
+    }
+
+    public function setElementVisible($storeName)
+    {
+        //Enable display for store view
+        if ($this->isElementPresent($this->getUiElement('selectors/visible_in') .
+                        "//option[contains(.,'" . $storeName . "')]")) {
+            $this->addSelection($this->getUiElement('selectors/visible_in'), "label=regexp:" . $storeName);
+        } else {
+            $this->printInfo("You cannot turn on the display of ratings for the '" . $storeName . "' store view");
+        }
+    }
+
+    public function doDeleteElement($confirmation)
+    {
+        $result = TRUE;
+        if ($this->isElementPresent($this->getUiElement('/admin/global/buttons/delete'))) {
+            $this->chooseCancelOnNextConfirmation();
+            $this->click($this->getUiElement('/admin/global/buttons/delete'));
+            if ($this->isConfirmationPresent()) {
+                $text = $this->getConfirmation();
+                if ($text == $confirmation) {
+                    $this->chooseOkOnNextConfirmation();
+                    $this->click($this->getUiElement('/admin/global/buttons/delete'));
+                } else {
+                    $this->printInfo('The confirmation text incorrect: ' . $text);
+                    $result = FALSE;
+                }
+            } else {
+                $this->printInfo('The confirmation does not appear');
+            }
+            if ($result) {
+                if ($this->waitForElement($this->getUiElement('/admin/messages/error'), 20)) {
+                    $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+                    $this->setVerificationErrors($etext);
+                } elseif ($this->waitForElement($this->getUiElement('/admin/messages/success'), 30)) {
+                    $etext = $this->getText($this->getUiElement('/admin/messages/success'));
+                    $this->printInfo($etext);
+                } else {
+                    $this->setVerificationErrors('No success message');
+                }
+            }
+        } else {
+            $this->printInfo("There is no way to remove an item(There is no 'Delete' button)");
+        }
+        return $result;
+    }
+
     /**
-     * creating Rating
+     * Create Rating
      *
      * @param array $params May contain the following params:
      * default_value, rating_title_store, store_view_name, store_view_value
-     *
      */
-    public function createRating($params)
+    public function doCreateRating($params)
     {
-        $this->printDebug('createRating() started...');
-        $review_rateData = $params ? $params : $this->review_rateData;
-        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/ratings');
-        $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/manage_ratings"));
-        $this->clickAndWait($this->getUiElement("buttons/add_new"));
-        $this->type($this->getUiElement("inputs/default_value"), $review_rateData["default_value"]);
-        if (isset($review_rateData['store_view_value'])) {
-            $this->type($this->getUiElement("inputs/store_view_value", $review_rateData["store_view_name"]), $review_rateData["store_view_value"]);
+        //Data preparation
+        $Data = $params ? $params : $this->Data;
+        $defTitle = $this->isSetValue($params, 'default_title');
+        $storeTitle = $this->isSetValue($params, 'title_for_store');
+        $storeNameTitle = $this->isSetValue($params, 'store_view_name_title');
+        $storeNameVisible = $this->isSetValue($params, 'store_view_name_visible');
+
+        // Open manage ratings page
+        $this->clickAndWait($this->getUiElement('/admin/topmenu/catalog/reviews_and_ratings/manage_ratings'));
+        // Add new rating
+        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_ratings');
+        $this->clickAndWait($this->getUiElement('buttons/add_new_rating'));
+        // Fill in Default Rating Title
+        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_ratings/ratings');
+        $this->type($this->getUiElement('inputs/title_default'), $defTitle);
+        // Fill in Rating Title(s) for store(s)
+        if (is_array($storeTitle) and is_array($storeNameTitle)) {
+            $qtyFields = count($storeNameTitle);
+            for ($y = 0; $y < $qtyFields; $y++) {
+                $this->fillRatingTitleForStore($storeNameTitle[$y], $storeTitle[$y]);
+            }
+        } elseif ($storeNameTitle != NULL) {
+            $this->fillRatingTitleForStore($storeNameTitle, $storeTitle);
         }
-        $this->addSelection($this->getUiElement("selectors/visible_in"), "label=regexp:" . $review_rateData["store_view_name"]);
+        //Enable display for store view(s)
+        if (is_array($storeNameVisible)) {
+            $qtyStores = count($storeNameVisible);
+            for ($y = 0; $y < $qtyStores; $y++) {
+                $this->setElementVisible($storeNameVisible[$y]);
+            }
+        } elseif ($storeNameVisible != Null) {
+            $this->setElementVisible($storeNameVisible);
+        }
+        // Save
         $this->saveAndVerifyForErrors();
     }
 
     /**
-     * Review approvment
+     * Delete Rating
      *
-     * @param array $params May contain the following params:
-     * search_name
-     *
+     * @param array $deleteRating
      */
-    public function deletingRating($params)
+    public function doDeleteRating($deleteRating)
     {
-        $this->printDebug('deletingReview() started...');
-        $review_rateData = $params ? $params : $this->review_rateData;
-        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/ratings');
-        $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/manage_ratings"));
-        foreach ($review_rateData as $key => $value) {
-            if (preg_match('/^search_rating/', $key)) {
-                $searchRating[$key] = $value;
-            }
-        }
-
-        $result = $this->searchAndDoAction('review_container', $searchRating, 'open', NULL);
-        if ($result) {
-            $this->clickAndWait($this->getUiElement("buttons/delete"));
-            if ($this->assertConfirmationPresent('Are you sure you want to do this?')) {
-                $this->chooseOkOnNextConfirmation();
-            } else {
-                $this->printInfo('An error was accured during deleting process');
+        $this->clickAndWait($this->getUiElement('/admin/topmenu/catalog/reviews_and_ratings/manage_ratings'));
+        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_ratings');
+        $searchResult = $this->searchAndDoAction('rating_container', $deleteRating, "open", NULL);
+        if ($searchResult) {
+            $confirmation = 'Are you sure you want to do this?';
+            $deleteResult = $this->doDeleteElement($confirmation);
+            if (!$deleteResult) {
+                $this->printInfo('Element is not deleleted');
             }
         }
     }
