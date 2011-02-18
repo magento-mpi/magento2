@@ -73,7 +73,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
      * Create Rating
      *
      * @param array $params May contain the following params:
-     * default_value, rating_title_store, store_view_name, store_view_value
+     * rating_title_store, store_view_value
      */
     public function doCreateRating($params)
     {
@@ -134,44 +134,82 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
     }
 
     /**
-     * creating Review
-     *
-     * @param array $params May contain the following params:
-     * SKU, review_container, store_view_name, rating_select, rating_stars,
-     * nickname, summary_of_review, review_text, status
-     *
+     * Setting rating stars
+     * 
+     * @param <type> $productRatingStars 
      */
-    public function createReview($params)
+    public function ratingSet($productRatingStars)
     {
-        $this->printDebug('createReview() started...');
-        $review_rateData = $params ? $params : $this->review_rateData;
-        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/reviews/all_review');
-        $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/customer_reviews/all_reviews"));
-        $this->clickAndWait($this->getUiElement("buttons/add_new"));
-        foreach ($review_rateData as $key => $value) {
-            if (preg_match('/^search_product/', $key)) {
-                $searchProd[$key] = $value;
-            }
-        }
-        sleep(15);
-        $prod_result = $this->searchAndDoAction('product_container', $searchProd, 'open', NULL);
-        if ($prod_result) {
-            $this->select($this->getUiElement("selectors/status"), $review_rateData["status"]);
-            $this->addSelection($this->getUiElement("selectors/visible_in"), "label=regexp:" . $review_rateData["store_view_name"]);
-            $this->pleaseWait();
-            $this->printDebug($review_rateData["rating_select"] . '_' . $review_rateData["rating_stars"]);
-            if ($this->isElementPresent("elements/rating_present")) {
-                $this->click($this->getUiElement("selectors/rating_select", $review_rateData["rating_select"] . '_' . $review_rateData["rating_stars"]));
-            }
-            $this->type($this->getUiElement("inputs/nickname"), $review_rateData["nickname"]);
-            $this->type($this->getUiElement("inputs/summary_of_review"), $review_rateData["summary_of_review"]);
-            $this->type($this->getUiElement("inputs/review_text"), $review_rateData["review_text"]);
-            $this->saveAndVerifyForErrors();
+        //Select stars for each rating
+        $this->waitForElement("elements/rating_present", 1);
+        if ($this->isElementPresent($this->getUiElement("elements/rating_present"))) {
+            $this->click($this->getUiElement("selectors/rating_select", $productRatingStars));
+        } else {
+            $this->printInfo("There are no such ratings ");
         }
     }
 
     /**
      * creating Review
+     *
+     * @param array $params May contain the following params:
+     * review_container, rating_select, rating_stars,
+     * nickname, summary_of_review, review_text, status
+     *
+     */
+    public function createReview($params)
+    {
+        //Data preparation
+        $storeNameVisible = $this->isSetValue($params, 'store_view_name_visible');
+        $productRatingStars = $this->isSetValue($params, 'rating_stars');
+
+        $this->printDebug('createReview() started...');
+        $review_rateData = $params ? $params : $this->review_rateData;
+        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_review');
+        // Open manage review page
+        $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/customer_reviews/all_reviews"));
+        // Add new review
+        $this->clickAndWait($this->getUiElement("buttons/add_new"));
+        //search product for review
+        foreach ($review_rateData as $key => $value) {
+            if (preg_match('/^search_product/', $key)) {
+                $searchProd[$key] = $value;
+            }
+        }
+        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_review/edit_review_page');
+        $prod_result = $this->searchAndDoAction('product_container', $searchProd, 'open', NULL);
+        if ($prod_result) {
+            //Set up review status
+            $this->select($this->getUiElement("selectors/status"), $review_rateData["status"]);
+            //Enable display for store view(s)
+            if (is_array($storeNameVisible)) {
+                $qtyStores = count($storeNameVisible);
+                for ($y = 0; $y < $qtyStores; $y++) {
+                    $this->setElementVisible($storeNameVisible[$y]);
+                }
+            } elseif ($storeNameVisible != Null) {
+                $this->setElementVisible($storeNameVisible);
+            }
+            //select ratings stars
+            if (is_array($productRatingStars)) {
+                $qtyRatings = count($productRatingStars);
+                for ($y = 0; $y < $qtyRatings; $y++) {
+                    $this->ratingSet($productRatingStars[$y]);
+                }
+            } elseif ($productRatingStars != Null) {
+                $this->ratingSet($productRatingStars);
+            }
+            //fill all fields
+            $this->type($this->getUiElement("inputs/nickname"), $review_rateData["nickname"]);
+            $this->type($this->getUiElement("inputs/summary_of_review"), $review_rateData["summary_of_review"]);
+            $this->type($this->getUiElement("inputs/review_text"), $review_rateData["review_text"]);
+            //saving review
+            $this->saveAndVerifyForErrors();
+        }
+    }
+
+    /**
+     * verification Review
      *
      * @param array $params May contain the following params:
      * product_grid, status
@@ -180,9 +218,12 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
     public function ReviewVerification($params)
     {
         $this->printDebug('ReviewVerification() started...');
+        //Data preparation
         $review_rateData = $params ? $params : $this->review_rateData;
         $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
+        //Open manage products page
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/manageproducts"));
+        //Searching for product
         foreach ($review_rateData as $key => $value) {
             if (preg_match('/^search_product/', $key)) {
                 $searchProd[$key] = $value;
@@ -191,9 +232,11 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
         $prod_result = $this->searchAndDoAction('product_grid', $searchProd, 'open', NULL);
         if ($prod_result) {
             $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+            //select product review tab
             $this->waitForElement($this->getUiElement("tabs/product_review"), 10);
             $this->click($this->getUiElement("tabs/product_review"));
             $this->pleaseWait();
+            //searching for review
             foreach ($review_rateData as $key => $value) {
                 if (preg_match('/^search_review/', $key)) {
                     $searchReview[$key] = $value;
@@ -201,6 +244,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
             }
             $review_result = $this->searchAndDoAction('review_grid', $searchReview, NULL, NULL);
             if ($review_result) {
+                //getting review status
                 $status = $this->getText($this->getUiElement("elements/review_status"));
                 $this->printInfo($status);
             }
@@ -211,21 +255,23 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
      * Review approvment
      *
      * @param array $params May contain the following params:
-     * search_title, search_nickname
-     *
+     * 
      */
     public function changeReviewStatus($params)
     {
         $this->printDebug('changeReviewStatus() started...');
         $review_rateData = $params ? $params : $this->review_rateData;
-        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/reviews/all_review');
+        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/edit_review_page');
+        //open manage review page
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/customer_reviews/all_reviews"));
+        //search for review
         foreach ($review_rateData as $key => $value) {
             if (preg_match('/^search_review/', $key)) {
                 $searchReview[$key] = $value;
             }
         }
         if ($this->searchAndDoAction('review_container', $searchReview, 'open', NULL)) {
+            //changing status
             $this->select($this->getUiElement("selectors/status"), 'label=' . $review_rateData['label']);
             $this->saveAndVerifyForErrors();
         }
@@ -235,21 +281,23 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
      * Review deleting
      *
      * @param array $params May contain the following params:
-     * search_title, search_nickname
-     *
+     * 
      */
     public function deletingReview($params)
     {
         $this->printDebug('deletingReview() started...');
         $review_rateData = $params ? $params : $this->review_rateData;
-        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/reviews/all_review');
+        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/all_review');
+        //open manage review page
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/customer_reviews/all_reviews"));
+        //search for review
         foreach ($review_rateData as $key => $value) {
             if (preg_match('/^search_review/', $key)) {
                 $searchReview[$key] = $value;
             }
         }
         $result = $this->searchAndDoAction('review_container', $searchReview, 'open', NULL);
+        //deleating review
         if ($result) {
             $this->clickAndWait($this->getUiElement("buttons/delete"));
             if ($this->assertConfirmationPresent('Are you sure you want to do this?')) {
