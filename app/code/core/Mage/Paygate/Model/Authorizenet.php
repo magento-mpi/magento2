@@ -119,6 +119,16 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     protected $_sessionPartialAuthorizationConfirmationMessageKey = 'paygate_authorizenet_confirmation_message';
 
     /**
+     * Centinel cardinal fields map
+     *
+     * @var array
+     */
+    protected $_centinelFieldMap = array(
+        'centinel_cavv' => 'x_cardholder_authentication_value',
+        'centinel_eci'  => 'x_authentication_indicator'
+    );
+
+    /**
      * Check method for processing with base currency
      *
      * @param string $currencyCode
@@ -471,6 +481,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             case self::REQUEST_TYPE_CAPTURE_ONLY:
                 $request->setXAuthCode($payment->getCcAuthCode());
                 break;
+        }
+
+        if ($this->getIsCentinelValidationEnabled()){
+            $params  = $this->getCentinelValidator()->exportCmpiData(array());
+            $request = Varien_Object_Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
         }
 
         if (!empty($order)) {
