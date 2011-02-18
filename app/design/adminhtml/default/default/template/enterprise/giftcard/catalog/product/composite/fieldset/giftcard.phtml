@@ -147,11 +147,18 @@ productConfigure.giftcardConfig = {};
                 return;
             }
 
-            value = $('giftcard_amount').options[$('giftcard_amount').selectedIndex].value;
+            var customAmount = $('giftcard_amount_input');
+            var value = $('giftcard_amount').options[$('giftcard_amount').selectedIndex].value;
             if (value == 'custom') {
                 $('giftcard_amount_input_fields').show();
+                if (customAmount) {
+                    customAmount.disabled = false;
+                }
             } else {
                 $('giftcard_amount_input_fields').hide();
+                if (customAmount) {
+                    customAmount.disabled = true;
+                }
             }
         }
 

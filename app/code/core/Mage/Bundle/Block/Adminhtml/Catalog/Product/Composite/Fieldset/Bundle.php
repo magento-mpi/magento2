@@ -48,4 +48,20 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle
         }
         return $isLast;
     }
+
+    /**
+     * Returns string with json config for bundle product
+     *
+     * @return string
+     */
+    public function getJsonConfig() {
+        $options = array();
+        $optionsArray = $this->getOptions();
+        foreach ($optionsArray as $option) {
+            $optionId = $option->getId();
+            $options[$optionId] = array('id' => $optionId);
+        }
+        $config = array('options' => $options);
+        return Mage::helper('core')->jsonEncode($config);
+    }
 }

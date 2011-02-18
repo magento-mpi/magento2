@@ -49,3 +49,50 @@ if (!count($options)) {
         </dl>
     </div>
 </div>
+
+<script>
+var BundleControl = Class.create();
+BundleControl.prototype = {
+    initialize: function (config) {
+        this.config = config;
+        this.updateForDefaults();
+    },
+
+    changeSelection: function (selection) {
+        if (selection.multiple) {
+            return;
+        }
+        var parts = selection.id.split('-');
+        var optionId = parts[2];
+        var showQtyInput = (selection.value != '') && (selection.value != 'none');
+        this.updateQtyInput(optionId, showQtyInput);
+    },
+
+    updateQtyInput: function(optionId, active) {
+        var elem = $('bundle-option-' + optionId + '-qty-input');
+        if (!elem) {
+            return;
+        }
+        if (active) {
+            elem.removeClassName('qty-disabled');
+            elem.disabled = false;
+            elem.value = 1;
+        } else {
+            elem.addClassName('qty-disabled');
+            elem.disabled = true;
+            elem.value = 0;
+        }
+    },
+
+    updateForDefaults: function () {
+        for (var optionId in this.config.options) {
+            var selection = $('bundle-option-' + optionId);
+            if (selection) {
+                this.changeSelection(selection);
+            }
+        }
+    },
+}
+
+ProductConfigure.bundleControl = new BundleControl(<?php echo $this->getJsonConfig() ?>);
+</script>
