@@ -39,6 +39,7 @@ AdminOrder.prototype = {
         this.isShippingMethodReseted = data.shipping_method_reseted ? data.shipping_method_reseted : false;
         this.overlayData = $H({});
         this.giftMessageDataChanged = false;
+        this.productConfigureAddFields = {};
     },
 
     setLoadBaseUrl : function(url){
@@ -391,25 +392,44 @@ AdminOrder.prototype = {
 
     productGridRowClick : function(grid, event){
         var trElement = Event.findElement(event, 'tr');
-        var isInput = Event.element(event).tagName == 'INPUT';
-        if (trElement) {
-            var checkbox = Element.select(trElement, 'input')[0];
+        var qtyElement = trElement.select('input[name="qty"]')[0];
+        var eventElement = Event.element(event);
+        var isInputCheckbox = eventElement.tagName == 'INPUT' && eventElement.type == 'checkbox';
+        var isInputQty = eventElement.tagName == 'INPUT' && eventElement.name == 'qty';
+        if (trElement && !isInputQty) {
+            var checkbox = Element.select(trElement, 'input[type="checkbox"]')[0];
             var confLink = Element.select(trElement, 'a')[0];
             if (checkbox) {
                 // processing non composite product
-                if (confLink.disabled) {
-                    var checked = isInput ? checkbox.checked : !checkbox.checked;
+                if (confLink.readAttribute('disabled')) {
+                    var checked = isInputCheckbox ? checkbox.checked : !checkbox.checked;
                     grid.setCheckboxChecked(checkbox, checked);
                 // processing composite product
-                } else if (!isInput || (isInput && checkbox.checked)) {
+                } else if (isInputCheckbox && !checkbox.checked) {
+                    grid.setCheckboxChecked(checkbox, false);
+                // processing composite product
+                } else if (!isInputCheckbox || (isInputCheckbox && checkbox.checked)) {
                     productConfigure.setConfirmCallback(function() {
+                        // sync qty of popup and qty of grid
+                        var confirmedCurrentQty = productConfigure.getCurrentConfirmedQtyElement();
+                        if (qtyElement && confirmedCurrentQty && !isNaN(confirmedCurrentQty.value)) {
+                            qtyElement.value = confirmedCurrentQty.value;
+                        }
+                        // and set checkbox checked
                         grid.setCheckboxChecked(checkbox, true);
-                    });
-                    productConfigure.setCencelCallback(function() {
+                    }.bind(this));
+                    productConfigure.setCancelCallback(function() {
                         if (!$(productConfigure.сonfirmedCurrentId) || !$(productConfigure.сonfirmedCurrentId).innerHTML) {
                             grid.setCheckboxChecked(checkbox, false);
                         }
                     });
+                    productConfigure.setShowWindowCallback(function() {
+                        // sync qty of grid and qty of popup
+                        var formCurrentQty = productConfigure.getCurrentFormQtyElement();
+                        if (formCurrentQty && qtyElement && !isNaN(qtyElement.value)) {
+                            formCurrentQty.value = qtyElement.value;
+                        }
+                    }.bind(this));
                     productConfigure.showItemConfiguration(confLink.readAttribute('list_type'), confLink.readAttribute('product_id'));
                 }
             }
@@ -431,7 +451,7 @@ AdminOrder.prototype = {
                     }
                     
                     if (input.checked || input.name != 'giftmessage') {
-                        product[input.checked.name] = input.value;
+                        product[input.name] = input.value;
                     } else if (product[input.name]) {
                         delete(product[input.name]);
                     }
@@ -450,43 +470,20 @@ AdminOrder.prototype = {
 
     productGridAddSelected : function(){
         if(this.productGridShowButton) Element.show(this.productGridShowButton);
-
-        // prepare loading areas and build url
-        this.hideArea('search');
         var area = ['search', 'items', 'shipping_method', 'totals', 'giftmessage','billing_method'];
-        area = this.prepareArea(area);
-        this.loadingAreas = area;
-        var url = this.loadBaseUrl + 'block/' + area + '?isAjax=true';
-
-        // prepare additional fields
-        var fieldsPrepare = this.prepareParams();
-        fieldsPrepare.reset_shipping = 1;
-        fieldsPrepare.json = 1;
-
-        // prepare additional fields of products
+        // prepare additional fields and filtered items of products
+        var fieldsPrepare = {};
+        var itemsFilter = [];
         var products = this.gridProducts.toObject();
         for (var productId in products) {
-            var paramKey = 'items['+productId+']';
+            itemsFilter.push(productId);
+            var paramKey = 'item['+productId+']';
             for (var productParamKey in products[productId]) {
                 paramKey += '['+productParamKey+']';
                 fieldsPrepare[paramKey] = products[productId][productParamKey];
             }
         }
-
-        // create and add elements of fields
-        var fields = [];
-        for (var name in fieldsPrepare) {
-            fields.push(new Element('input', {type: 'hidden', name: name, value: fieldsPrepare[name]}));
-        }
-        productConfigure.addFields(fields);
-
-        // prepare and do submit
-        productConfigure.addListType('product_to_add', {urlSubmit: url});
-        productConfigure.setOnLoadIFrameCallback(function(response){
-            productConfigure.clean('current');
-            this.loadAreaResponseHandler(response);
-        }.bind(this));
-        productConfigure.submit();
+        this.productConfigureSubmit('product_to_add', area, fieldsPrepare, itemsFilter);
         this.gridProducts = $H({});
     },
 
@@ -582,17 +579,18 @@ AdminOrder.prototype = {
     },
 
     itemsUpdate : function(){
+        var area = ['sidebar', 'items', 'shipping_method', 'billing_method','totals', 'giftmessage'];
+        // prepare additional fields
+        var fieldsPrepare = {update_items: 1};
         var info = $('order-items_grid').select('input', 'select', 'textarea');
-        var data = {};
         for(var i=0; i<info.length; i++){
             if(!info[i].disabled && (info[i].type != 'checkbox' || info[i].checked)) {
-                data[info[i].name] = info[i].getValue();
+                fieldsPrepare[info[i].name] = info[i].getValue();
             }
         }
-        data.reset_shipping = true;
-        data.update_items = true;
+        fieldsPrepare = Object.extend(fieldsPrepare, this.productConfigureAddFields);
+        this.productConfigureSubmit('quote_items', area, fieldsPrepare);
         this.orderItemChanged = false;
-        this.loadArea(['sidebar', 'items', 'shipping_method', 'billing_method','totals', 'giftmessage'], true, data);
     },
 
     itemsOnchangeBind : function(){
@@ -608,6 +606,62 @@ AdminOrder.prototype = {
     itemChange : function(event){
         this.giftmessageOnItemChange(event);
         this.orderItemChanged = true;
+    },
+
+    productConfigureSubmit : function(listType, area, fieldsPrepare, itemsFilter) {
+        // prepare loading areas and build url
+        this.hideArea('search');
+        area = ['sidebar', 'items', 'shipping_method', 'billing_method','totals', 'giftmessage'];
+        area = this.prepareArea(area);
+        this.loadingAreas = area;
+        var url = this.loadBaseUrl + 'block/' + area + '?isAjax=true';
+
+        // prepare additional fields
+        fieldsPrepare = this.prepareParams(fieldsPrepare);
+        fieldsPrepare.reset_shipping = 1;
+        fieldsPrepare.json = 1;
+
+        // create fields
+        var fields = [];
+        for (var name in fieldsPrepare) {
+            fields.push(new Element('input', {type: 'hidden', name: name, value: fieldsPrepare[name]}));
+        }
+        productConfigure.addFields(fields);
+
+        // filter items
+        if (itemsFilter) {
+            productConfigure.addItemsFilter(listType, itemsFilter);
+        }
+
+        // prepare and do submit
+        productConfigure.addListType(listType, {urlSubmit: url});
+        productConfigure.setOnLoadIFrameCallback(function(response){
+            this.loadAreaResponseHandler(response);
+        }.bind(this));
+        productConfigure.submit(listType);
+        // clean
+        this.productConfigureAddFields = {};
+    },
+
+    showQuoteItemConfiguration: function(itemId){
+        var qtyElement = $('order-items_grid').select('input[name="item\['+itemId+'\]\[qty\]"]')[0];
+        productConfigure.setConfirmCallback(function() {
+            // sync qty of popup and qty of grid
+            var confirmedCurrentQty = productConfigure.getCurrentConfirmedQtyElement();
+            if (qtyElement && confirmedCurrentQty && !isNaN(confirmedCurrentQty.value)) {
+                qtyElement.value = confirmedCurrentQty.value;
+            }
+            this.productConfigureAddFields['item['+itemId+'][configured]'] = 1;
+
+        }.bind(this));
+        productConfigure.setShowWindowCallback(function() {
+            // sync qty of grid and qty of popup
+            var formCurrentQty = productConfigure.getCurrentFormQtyElement();
+            if (formCurrentQty && qtyElement && !isNaN(qtyElement.value)) {
+                formCurrentQty.value = qtyElement.value;
+            }
+        }.bind(this));
+        productConfigure.showItemConfiguration('quote_items', itemId);
     },
 
     accountFieldsBind : function(container){

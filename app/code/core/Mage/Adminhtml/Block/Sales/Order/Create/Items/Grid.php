@@ -279,4 +279,20 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         return $this->getQuote()->getStore();
     }
+
+    /**
+     * Return html link button which calls configure window
+     *
+     * @param  $item
+     * @return string
+     */
+    public function getLinkConfigurableProduct ($item) {
+        $product = $item->getProduct();
+        $isConfigurable = ($product->isComposite() || $product->getOptions() || $product->getTypeId() == 'giftcard'
+            || $product->getTypeId() == 'downloadable') ? true : false;
+        $style          = $isConfigurable ? '' : 'style="color: #CCC;"';
+        $prodAttributes = $isConfigurable ? sprintf('onClick="order.showQuoteItemConfiguration(%s)"', $item->getId()) : 'disabled="disabled"';
+        return sprintf('<a href="javascript:void(0)" %s class="f-right" %s>%s</a>',
+            $style, $prodAttributes, Mage::helper('sales')->__('Configure'));
+    }
 }

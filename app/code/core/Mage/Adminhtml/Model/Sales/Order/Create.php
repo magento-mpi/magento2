@@ -737,11 +737,17 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         if (is_array($data)) {
             foreach ($data as $itemId => $info) {
-                $item       = $this->getQuote()->getItemById($itemId);
-                $itemQty    = (float)$info['qty'];
+                if (!empty($info['configured'])) {
+                    $item = $this->getQuote()->updateItem($itemId, new Varien_Object($info));
+                    $itemQty = (float)$item->getQty();
+                } else {
+                    $item       = $this->getQuote()->getItemById($itemId);
+                    $itemQty    = (float)$info['qty'];
+                }
+
                 if ($item && $item->getProduct()->getStockItem()) {
                     if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
-                        $itemQty = (int)$info['qty'];
+                        $itemQty = (int)$itemQty;
                     }
                     else {
                         $item->setIsQtyDecimal(1);
@@ -756,21 +762,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 }
                 $noDiscount = !isset($info['use_discount']);
 
-//                if ($item = $this->getQuote()->getItemById($itemId)) {
-//                    $this->_assignOptionsToItem(
-//                        $item,
-//                        $this->_parseOptions($item, $info['options'])
-//                    );
-//                    if (empty($info['action'])) {
-//                        $item->setQty($itemQty);
-//                        $item->setCustomPrice($itemPrice);
-//                        $item->setNoDiscount($noDiscount);
-//                    }
-//                    else {
-//                        $this->moveQuoteItem($item, $info['action'], $itemQty);
-//                    }
-//                }
-
                 if (empty($info['action'])) {
                     if ($item) {
                         $item->setQty($itemQty);
@@ -778,16 +769,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                         $item->setOriginalCustomPrice($itemPrice);
                         $item->setNoDiscount($noDiscount);
                         $item->getProduct()->setIsSuperMode(true);
-
-                        $this->_assignOptionsToItem(
-                            $item,
-                            $this->_parseOptions($item, $info['options'])
-                        );
                         $item->checkData();
                     }
                 }
                 else {
-                    $this->moveQuoteItem($itemId, $info['action'], $itemQty);
+                    $this->moveQuoteItem($item->getId(), $info['action'], $itemQty);
                 }
             }
             if ($this->_needCollectCart === true) {

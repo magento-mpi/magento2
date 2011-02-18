@@ -179,7 +179,8 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         /**
          * Adding products to quote from special grid and
          */
-        if ($data = $this->getRequest()->getPost('items')) {
+        if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items')) {
+            $data = $this->getRequest()->getPost('item');
             $this->_getOrderCreateModel()->addProducts($data);
         }
 
