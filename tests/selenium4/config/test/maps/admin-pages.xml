@@ -30,6 +30,9 @@
                         <order_number>//div[@class='content-header']//h3</order_number>
                         <gift_card_added>//div[contains(div/h4,'Gift Cards')]//p[contains(.,'%s') and contains(.,'Remove')]</gift_card_added>
                         <coupon_added>//div[contains(div/h4,'Coupon')]//p[contains(.,'%s') and contains(.,'Remove')]</coupon_added>
+                        <gift_message_for_order_container>//div[@id='order-giftmessage']//div[contains(h5,'entire order')]</gift_message_for_order_container>
+                        <gift_message_for_product_container>//div[@id='order-giftmessage']//div[contains(h5,'each gift item')]//h6[.='%s']//following-sibling::div[1]</gift_message_for_product_container>
+                        <add_gift_mes_to_product>//*[@id='order-items_grid']//tr[contains(td/h5,'%s')]//input[contains(@name,'[giftmessage]') and not(contains(@checked ,'checked')) and not(contains(@disabled,'disabled'))]</add_gift_mes_to_product>
                     </elements>
                     <inputs>
                         <!-- "Select Store View for order" page  -->
@@ -82,6 +85,8 @@
                         <!-- "Shipping Method" grid  -->
                         <get_shipping_methods>//*[@id='order-shipping-method-summary']/a</get_shipping_methods>
                         <allowed_method>//li[contains(.,'%s')]/input</allowed_method>
+                        <!-- "Gift Message" grid  -->
+                        <gift_message_content>//tr[contains(.,'%s')]/td[normalize-space(@class)='value']/*</gift_message_content>
                     </inputs>
                     <selectors>
                         <!-- "Select customer for order" page  -->
@@ -110,6 +115,7 @@
                         <sumbit_order>//button[span='Submit Order']</sumbit_order>
                         <add_coupon>//button[span='Apply']</add_coupon>
                         <add_gift_card>//button[span='Add Gift Card']</add_gift_card>
+                        <update_items>//*[@id='order-items']//button[span="Update Items and Qty's"]</update_items>
                     </buttons>
                 </create_order>
                 <view_order>
@@ -117,7 +123,7 @@
                         <create_invoice>//button[span='Invoice']</create_invoice>
                         <create_shippment>//button[span='Ship']</create_shippment>
                         <create_credit_memo>//button[span='Credit Memo']</create_credit_memo>
-                        <reorder>//button[span='Reorder']</reorder>.
+                        <reorder>//button[span='Reorder']</reorder>                        
                     </buttons>
                 </view_order>
             </manage_orders>
