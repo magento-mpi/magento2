@@ -32,9 +32,9 @@
 ?>
 <div class="giftcard-form">
 <?php if ($_product->isAvailable()): ?>
-    <p class="availability in-stock"><?php echo $this->helper('catalog')->__('Availability:') ?> <span><?php echo $this->helper('catalog')->__('In stock') ?></span></p>
+    <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
 <?php else: ?>
-    <p class="availability out-of-stock"><?php echo $this->helper('catalog')->__('Availability:') ?> <span><?php echo $this->helper('catalog')->__('Out of stock') ?></span></p>
+    <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
 <?php endif; ?>
 
 <?php echo $this->getChildHtml('product_type_data_extra') ?>
@@ -55,10 +55,10 @@
             <ul class="form-list">
                 <li>
                     <?php if ($this->isAmountAvailable($_product)): ?>
-                        <label for="giftcard_amount" id="amount_label_select" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Amount'); ?></label>
+                        <label for="giftcard_amount" id="amount_label_select" class="required"><em>*</em><?php echo $this->__('Amount'); ?></label>
                     <?php endif; ?>
                     <?php if ($this->isOpenAmountAvailable($_product)): ?>
-                        <label for="giftcard_amount_input" id="amount_label_input" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Amount in %s', $this->getCurrentCurrency()); ?></label>
+                        <label for="giftcard_amount_input" id="amount_label_input" class="required"><em>*</em><?php echo $this->__('Amount in %s', $this->getCurrentCurrency()); ?></label>
                     <?php endif; ?>
                     <?php if ($this->isOpenAmountAvailable($_product)): ?>
                     <div id="giftcard_amount_box" class="input-box">
@@ -69,12 +69,12 @@
                             <?php $_max = Mage::helper('core')->currency($_product->getOpenAmountMax(), true, false); ?>
                             <p class="notice">
                                 <?php if ($_product->getOpenAmountMax() && $_product->getOpenAmountMin()): ?>
-                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Minimum: %s', $_min); ?></span>
-                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Maximum: %s', $_max); ?></span>
+                                    <span><?php echo $this->__('Minimum: %s', $_min); ?></span>
+                                    <span><?php echo $this->__('Maximum: %s', $_max); ?></span>
                                 <?php elseif ($_product->getOpenAmountMin()): ?>
-                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Minimum: %s', $_min); ?></span>
+                                    <span><?php echo $this->__('Minimum: %s', $_min); ?></span>
                                 <?php elseif ($_product->getOpenAmountMax()): ?>
-                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Maximum: %s', $_max); ?></span>
+                                    <span><?php echo $this->__('Maximum: %s', $_max); ?></span>
                                 <?php endif; ?>
                             </p>
                             <script type="text/javascript">
@@ -118,13 +118,13 @@
                     ?>
                     <div class="input-box">
                         <select name="giftcard_amount" id="giftcard_amount" class="required-entry giftcard-amount-entry">
-                            <option value=""><?php echo Mage::helper('enterprise_giftcard')->__('Choose an Amount...') ?></option>
+                            <option value=""><?php echo $this->__('Choose an Amount...') ?></option>
                             <?php foreach ($this->getAmounts($_product) as $value): ?>
                                 <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>><?php echo Mage::helper('core')->currency($value, true, false); ?></option>
                             <?php endforeach; ?>
 
                             <?php if ($this->isOpenAmountAvailable($_product)): ?>
-                                <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo Mage::helper('enterprise_giftcard')->__('Other Amount...') ?></option>
+                                <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo $this->__('Other Amount...') ?></option>
                             <?php endif; ?>
                         </select>
                     </div>
@@ -172,7 +172,7 @@
         <ul class="form-list">
             <li class="fields">
                 <div class="field">
-                    <label for="giftcard_sender_name" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Name'); ?></label>
+                    <label for="giftcard_sender_name" class="required"><em>*</em><?php echo $this->__('Sender Name'); ?></label>
                     <div class="input-box">
                         <?php
                             $senderName = $preconfigured->getData('giftcard_sender_name');
@@ -191,7 +191,7 @@
                         }
                 ?>
                 <div class="field">
-                    <label for="giftcard_sender_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Email'); ?></label>
+                    <label for="giftcard_sender_email" class="required"><em>*</em><?php echo $this->__('Sender Email'); ?></label>
                     <div class="input-box">
                         <input type="text" id="giftcard_sender_email" name="giftcard_sender_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($senderEmail) ?>"/>
                     </div>
@@ -200,14 +200,14 @@
             </li>
             <li class="fields">
                 <div class="field">
-                    <label for="giftcard_recipient_name" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Recipient Name'); ?></label>
+                    <label for="giftcard_recipient_name" class="required"><em>*</em><?php echo $this->__('Recipient Name'); ?></label>
                     <div class="input-box">
                         <input type="text" id="giftcard_recipient_name" name="giftcard_recipient_name" class="required-entry input-text" value="<?php echo $this->escapeHtml($preconfigured->getData('giftcard_recipient_name')) ?>" />
                     </div>
                 </div>
                 <?php if ($this->isEmailAvailable($_product)): ?>
                 <div class="field">
-                    <label for="giftcard_recipient_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Recipient Email'); ?></label>
+                    <label for="giftcard_recipient_email" class="required"><em>*</em><?php echo $this->__('Recipient Email'); ?></label>
                     <div class="input-box">
                         <input type="text" id="giftcard_recipient_email" name="giftcard_recipient_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($preconfigured->getData('giftcard_recipient_email')) ?>" />
                     </div>
@@ -216,7 +216,7 @@
             </li>
         <?php if ($this->isMessageAvailable($_product)): ?>
             <li>
-                <label for="giftcard_message"><?php echo Mage::helper('enterprise_giftcard')->__('Message'); ?></label>
+                <label for="giftcard_message"><?php echo $this->__('Message'); ?></label>
                 <div class="input-box">
                     <textarea name="giftcard_message" id="giftcard_message" class="input-text giftcard-message-max-length" cols="5" rows="3"><?php echo $this->escapeHtml($preconfigured->getData('giftcard_message')) ?></textarea>
                     <?php if ($this->getMessageMaxLength()): ?>

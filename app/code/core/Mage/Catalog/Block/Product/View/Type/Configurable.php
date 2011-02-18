@@ -88,7 +88,6 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         $attributes = array();
         $options    = array();
         $store      = $this->getCurrentStore();
-        $helper     = Mage::helper('catalog');
         $taxHelper  = Mage::helper('tax');
         $currentProduct = $this->getProduct();
 
@@ -194,7 +193,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             'showBothPrices'    => $taxHelper->displayBothPrices(),
             'defaultTax'        => $defaultTax,
             'currentTax'        => $currentTax,
-            'inclTaxTitle'      => $helper->__('Incl. Tax'),
+            'inclTaxTitle'      => $this->__('Incl. Tax'),
         );
 
         $config = array(
@@ -204,7 +203,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             'basePrice'         => $this->_registerJsPrice($this->_convertPrice($currentProduct->getFinalPrice())),
             'oldPrice'          => $this->_registerJsPrice($this->_convertPrice($currentProduct->getPrice())),
             'productId'         => $currentProduct->getId(),
-            'chooseText'        => $helper->__('Choose an Option...'),
+            'chooseText'        => $this->__('Choose an Option...'),
             'taxConfig'         => $taxConfig
         );
 
