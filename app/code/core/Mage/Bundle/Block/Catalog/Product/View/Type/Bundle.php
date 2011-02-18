@@ -72,9 +72,11 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
         $optionsArray = $this->getOptions();
         $options      = array();
         $selected     = array();
+        $currentProduct = $this->getProduct();
+        $coreHelper   = Mage::helper('core');
 
-        if ($preconfiguredFlag = $this->getProduct()->hasPreconfiguredValues()) {
-            $preconfiguredValues = $this->getProduct()->getPreconfiguredValues();
+        if ($preconfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
+            $preconfiguredValues = $currentProduct->getPreconfiguredValues();
             $defaultValues       = array();
         }
 
@@ -87,7 +89,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             $option = array (
                 'selections' => array(),
                 'title'      => $_option->getTitle(),
-                'isMulti'    => ($_option->getType() == 'multi' || $_option->getType() == 'checkbox')
+                'isMulti'    => in_array($_option->getType(), array('multi', 'checkbox'))
             );
 
             $selectionCount = count($_option->getSelections());
@@ -98,24 +100,24 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                 // recalculate currency
                 $tierPrices = $_selection->getTierPrice();
                 foreach ($tierPrices as &$tierPriceInfo) {
-                    $tierPriceInfo['price'] = Mage::helper('core')->currency($tierPriceInfo['price'], false, false);
+                    $tierPriceInfo['price'] = $coreHelper->currency($tierPriceInfo['price'], false, false);
                 }
                 unset($tierPriceInfo); // break the reference with the last element
 
                 $selection = array (
-                    'qty' => $_qty,
+                    'qty'       => $_qty,
                     'customQty' => $_selection->getSelectionCanChangeQty(),
-                    'price' => Mage::helper('core')->currency($_selection->getFinalPrice(), false, false),
-                    'priceValue' => Mage::helper('core')->currency($_selection->getSelectionPriceValue(), false, false),
+                    'price'     => $coreHelper->currency($_selection->getFinalPrice(), false, false),
+                    'priceValue' => $coreHelper->currency($_selection->getSelectionPriceValue(), false, false),
                     'priceType' => $_selection->getSelectionPriceType(),
                     'tierPrice' => $tierPrices,
-                    'name' => $_selection->getName(),
+                    'name'      => $_selection->getName(),
                     'plusDisposition' => 0,
                     'minusDisposition' => 0
                 );
 
                 $responseObject = new Varien_Object();
-                $args = array('response_object'=>$responseObject, 'selection'=>$_selection);
+                $args = array('response_object' => $responseObject, 'selection' => $_selection);
                 Mage::dispatchEvent('bundle_product_view_config', $args);
                 if (is_array($responseObject->getAdditionalOptions())) {
                     foreach ($responseObject->getAdditionalOptions() as $o=>$v) {
@@ -144,18 +146,18 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
         $config = array(
             'options'       => $options,
             'selected'      => $selected,
-            'bundleId'      => $this->getProduct()->getId(),
+            'bundleId'      => $currentProduct->getId(),
             'priceFormat'   => Mage::app()->getLocale()->getJsPriceFormat(),
-            'basePrice'     => Mage::helper('core')->currency($this->getProduct()->getPrice(), false, false),
-            'priceType'     => $this->getProduct()->getPriceType(),
-            'specialPrice'  => $this->getProduct()->getSpecialPrice()
+            'basePrice'     => $coreHelper->currency($currentProduct->getPrice(), false, false),
+            'priceType'     => $currentProduct->getPriceType(),
+            'specialPrice'  => $currentProduct->getSpecialPrice()
         );
 
         if ($preconfiguredFlag && !empty($defaultValues)) {
             $config['defaultValues'] = $defaultValues;
         }
 
-        return Mage::helper('core')->jsonEncode($config);
+        return $coreHelper->jsonEncode($config);
     }
 
     public function addRenderer($type, $block)

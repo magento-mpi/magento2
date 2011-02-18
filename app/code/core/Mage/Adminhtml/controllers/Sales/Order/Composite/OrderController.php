@@ -42,8 +42,12 @@ class Mage_Adminhtml_Sales_Order_Composite_OrderController extends Mage_Adminhtm
         // Prepare data
         $productId  = (int) $this->getRequest()->getParam('id');
         $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
+
         $params = new Varien_Object();
-        $params->setCurrentStoreId(Mage::getSingleton('adminhtml/session_quote')->getStore()->getId());
+        $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
+        $params->setCurrentStoreId($sessionQuote->getStore()->getId());
+        $params->setCurrentCustomerId($sessionQuote->getCustomerId());
+
         // Render page
         $viewHelper->prepareAndRender($productId, $this, $params);
     }

@@ -67,8 +67,8 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite_View extends Mage_Core_Hel
             $params = new Varien_Object();
         }
 
-        $currentStoreId = $params->getCurrentStoreId();
-        if (!is_numeric($currentStoreId)) {
+        $currentStoreId = (int) $params->getCurrentStoreId();
+        if (!$currentStoreId) {
             $currentStoreId = Mage::app()->getStore()->getId();
         }
 
@@ -81,6 +81,11 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite_View extends Mage_Core_Hel
         Mage::register('current_product', $product);
         Mage::register('product', $product);
 
+        $currentCustomerId = (int) $params->getCurrentCustomerId();
+        if ($currentCustomerId) {
+            $currentCustomer = Mage::getModel('customer/customer')->load($currentCustomerId);
+            Mage::register('current_customer', $currentCustomer);
+        }
 
         $buyRequest = $params->getBuyRequest();
         if ($buyRequest) {
