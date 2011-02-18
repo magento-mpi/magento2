@@ -156,6 +156,7 @@ class Model_Admin extends TestModelAbstract {
      * @param <type> $field
      * @param <type> $value
      * $field path - "UiNamespace"/selectors/"$field"
+     * @param <type> $params
      * @return boolean
      */
     public function checkAndSelectField($params, $field, $number)
@@ -199,12 +200,13 @@ class Model_Admin extends TestModelAbstract {
      * Search element(s) and perform action on them.
      * It is necessary to set UiNamespace before using a function.
      * @param string $tableContainer
-     * Принцип задания $tableContainer => XPath: UiNamespace/elements/$tableContainer
+     * path variable is set on the basis of such a principle: => XPath: UiNamespace/elements/$tableContainer
      * @param array $searchElements
-     * ARRAY который содержит критерии по каким будет производится поиск и их значения.
-     * Пример задания $searchElements: ar = array('searchBy1'=>'value1','searchBy2'=>'value2','searchBy2'=>'value2');,
-     * где 'searchBy1', 'searchBy2', .. путь к XPath поля, для которого задается значение 'value1'.
-     * Пока работает только с полями ввода. Принцип задания 'searchBy1' => XPath: UiNamespace/inputs/'searchBy1'
+     * ARRAY which contains search criteria and their values.
+     * Example $searchElements: ar = array('searchBy1'=>'value1','searchBy2'=>'value2','searchBy2'=>'value2');,
+     * where 'searchBy1', 'searchBy2', .. path to XPath field, for which the value 'value1' is set.
+     * This function works only with field types 'input'.
+     * Principle of task 'searchBy1' => XPath: UiNamespace/inputs/'searchBy1'
      * @param string $action
      * $action can have only 2 values: "mark"(mark the found element) and "open"(Open the found element)
      * @param <type> $tableNumber
@@ -228,7 +230,7 @@ class Model_Admin extends TestModelAbstract {
                 $this->waitForPageToLoad("30000");
             }
             if ($this->isTextPresent($this->getUiElement('/admin/global/elements/no_records'))) {
-                $this->printInfo("\r\n No records found.");
+                $this->printInfo("\r\n Element not found.");
                 $result = FALSE;
             } elseif ($action == "mark") {
                 $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
@@ -245,7 +247,7 @@ class Model_Admin extends TestModelAbstract {
                     } catch (Exception $e) {
 
                     }
-                    sleep(1);
+                    sleep(2);
                 }
             }
         } else {
@@ -253,6 +255,40 @@ class Model_Admin extends TestModelAbstract {
             $result = FALSE;
         }
         return $result;
+    }
+
+    /**
+     * Search for multiple items
+     *
+     * @param <type> $tableContainer
+     * @param <type> $searchElements
+     * @param <type> $tableNumber 
+     */
+    public function multiRunSearch($tableContainer, $searchElements, $tableNumber)
+    {
+        $isArr = false;
+        foreach ($searchElements as $key => $value) {
+            $isArr = $isArr || is_array($value);
+        }
+        if ($isArr) {
+            $i = 1;
+            $qtyNewArrays = 0;
+            foreach ($searchElements as $k => $v) {
+                foreach ($v as $v1) {
+                    if (count($v) > $qtyNewArrays) {
+                        $qtyNewArrays = count($v);
+                    }
+                    ${'array' . $i}[$k] = $v1;
+                    $i++;
+                }
+                $i = 1;
+            }
+            for ($y = 1; $y <= $qtyNewArrays; $y++) {
+                $this->searchAndDoAction($tableContainer, ${'array' . $y}, 'mark', $tableNumber);
+            }
+        } else {
+            $this->searchAndDoAction($tableContainer, $searchElements, 'mark', $tableNumber);
+        }
     }
 
     /**
@@ -282,8 +318,8 @@ class Model_Admin extends TestModelAbstract {
     }
 
     /**
-     * Проверяет есть ли на открытой странице поля с ошибками.Получает название ошибки и имя поля.
-     * Работает для страниц которые содержат Табы и страницы создания ордера.
+     * Verifies if there are fields with errors at the open page. Receives error name and field name.
+     * Works for pages which contain Tabs and order creation page.
      *
      * @return boolean
      */
