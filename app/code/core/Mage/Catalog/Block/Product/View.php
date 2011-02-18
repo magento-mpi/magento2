@@ -60,7 +60,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             if ($description) {
                 $headBlock->setDescription( ($description) );
             } else {
-                $headBlock->setDescription($product->getDescription());
+                $headBlock->setDescription(Mage::helper('core/string')->substr($product->getDescription(), 0, 255));
             }
             if ($this->helper('catalog/product')->canUseCanonicalTag()) {
                 $params = array('_ignore_category'=>true);
