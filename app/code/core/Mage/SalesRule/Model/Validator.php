@@ -315,34 +315,36 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                      */
                     if ($quote->getIsMultiShipping()) {
                         $usedForAddressId = $this->getCartFixedRuleUsedForAddress($rule->getId());
-                        if (!$usedForAddressId || $usedForAddressId == $address->getId()) {
-                            $cartRules = $address->getCartFixedRules();
-                            if (!isset($cartRules[$rule->getId()])) {
-                                $cartRules[$rule->getId()] = $rule->getDiscountAmount();
-                            }
-
-                            if ($cartRules[$rule->getId()] > 0) {
-                                if (1 >= $this->_rulesItemTotals[$rule->getId()]['items_count']) {
-                                    $quoteAmount = $quote->getStore()->convertPrice($cartRules[$rule->getId()]);
-
-                                    $baseDiscountAmount = min($baseItemPrice * $qty, $cartRules[$rule->getId()]);
-                                } else {
-                                    $discountRate = $baseItemPrice * $qty / $this->_rulesItemTotals[$rule->getId()]['base_items_price'];
-                                    $maximumItemDiscount = $rule->getDiscountAmount() * $discountRate;
-                                    $quoteAmount = $quote->getStore()->convertPrice($maximumItemDiscount);
-
-                                    $baseDiscountAmount = min($baseItemPrice * $qty, $maximumItemDiscount);
-                                    $this->_rulesItemTotals[$rule->getId()]['items_count']--;
-                                }
-
-                                $discountAmount = min($itemPrice * $qty, $quoteAmount);
-                                $cartRules[$rule->getId()] -= $baseDiscountAmount;
-                            }
-                            $address->setCartFixedRules($cartRules);
-
+                        if ($usedForAddressId && $usedForAddressId != $address->getId()) {
+                            break;
+                        } else {
                             $this->setCartFixedRuleUsedForAddress($rule->getId(), $address->getId());
                         }
                     }
+                    $cartRules = $address->getCartFixedRules();
+                    if (!isset($cartRules[$rule->getId()])) {
+                        $cartRules[$rule->getId()] = $rule->getDiscountAmount();
+                    }
+
+                    if ($cartRules[$rule->getId()] > 0) {
+                        if ($this->_rulesItemTotals[$rule->getId()]['items_count'] <= 1) {
+                            $quoteAmount = $quote->getStore()->convertPrice($cartRules[$rule->getId()]);
+
+                            $baseDiscountAmount = min($baseItemPrice * $qty, $cartRules[$rule->getId()]);
+                        } else {
+                            $discountRate = $baseItemPrice * $qty / $this->_rulesItemTotals[$rule->getId()]['base_items_price'];
+                            $maximumItemDiscount = $rule->getDiscountAmount() * $discountRate;
+                            $quoteAmount = $quote->getStore()->convertPrice($maximumItemDiscount);
+
+                            $baseDiscountAmount = min($baseItemPrice * $qty, $maximumItemDiscount);
+                            $this->_rulesItemTotals[$rule->getId()]['items_count']--;
+                        }
+
+                        $discountAmount = min($itemPrice * $qty, $quoteAmount);
+                        $cartRules[$rule->getId()] -= $baseDiscountAmount;
+                    }
+                    $address->setCartFixedRules($cartRules);
+
                     break;
 
                 case Mage_SalesRule_Model_Rule::BUY_X_GET_Y_ACTION:
@@ -587,6 +589,10 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 $validItemsCount = 0;
 
                 foreach ($items as $item) {
+                    // For complex product handle only its child items
+                    if ($item->getHasChildren()) {
+                        continue;
+                    }
                     if (!$rule->getActions()->validate($item)) {
                         continue;
                     }
