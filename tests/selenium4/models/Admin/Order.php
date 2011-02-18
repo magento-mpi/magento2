@@ -15,65 +15,17 @@ class Model_Admin_Order extends Model_Admin {
         parent::loadConfigData();
 
         $this->Data = array(
-            'user_choise' => '',
-            'storeview_name' => '',
-            'gift_card_code' => '',
-            'coupon_code' => '',
-            'choise_billing_address' => '',
-            'choise_shipping_address' => '',
-            'payment_method' => '',
-            'shipping_method_title' => '',
-            'shipping_method' => '',
+            'user_choise'               => '',
+            'storeview_name'            => '',
+            'gift_card_code'            => '',
+            'coupon_code'               => '',
+            'choise_billing_address'    => '',
+            'choise_shipping_address'   => '',
+            'payment_method'            => '',
+            'shipping_method_title'     => '',
+            'shipping_method'           => '',
         );
         $this->mapData = Core::getEnvMap('admin/pages/sales/orders/manage_orders/create_order');
-    }
-
-    /**
-     * Get value of the variable '$value'
-     *
-     * @param array $params
-     * @param string $value
-     * @return <type> 
-     */
-    public function isSetValue($params, $value)
-    {
-        $Data = $params ? $params : $this->Data;
-        if (isset($Data[$value])) {
-            return $Data[$value];
-        } elseif (isset($this->Data[$value])) {
-            return $this->Data[$value];
-        } else {
-            $this->printInfo("The value of the variable '" . $value . "' is not set");
-            return NULL;
-        }
-    }
-
-    /**
-     * Data preparation
-     *
-     * @param array $params
-     * @param string $searchWord
-     * @return array
-     */
-    public function dataPreparation($params, $searchWord)
-    {
-        $Data = $params ? $params : $this->Data;
-        $arrayName = array();
-        foreach ($Data as $key => $value) {
-            if (preg_match($searchWord, $key)) {
-                if (is_array($value)) {
-                    $i = 0;
-                    foreach ($value as $v) {
-                        $arrayName[$key][$i] = $v;
-                        $i++;
-                    }
-                    $i = 0;
-                } else {
-                    $arrayName[$key] = $value;
-                }
-            }
-        }
-        return $arrayName;
     }
 
     /**
@@ -202,9 +154,14 @@ class Model_Admin_Order extends Model_Admin {
                 } elseif (preg_match('/state/', $key)) {
                     if (!$this->isElementPresent($this->getUiElement('inputs/not_active/' . $key))) {
                         $this->type($this->getUiElement('inputs/' . $key), $value);
+                        if (preg_match('/shipping/', $key)) {
+                            $this->pleaseWait();
+                        }
                     } else {
                         $this->select($this->getUiElement('selectors/' . $key), $value);
-                        $this->pleaseWait();
+                        if (preg_match('/shipping/', $key)) {
+                            $this->pleaseWait();
+                        }
                     }
                 } else {
                     $this->type($this->getUiElement('inputs/' . $key), $value);
@@ -472,6 +429,80 @@ class Model_Admin_Order extends Model_Admin {
     }
 
     /**
+     * Adding several Gift Messages for diferent products
+     *
+     * @param array $productGiftContent
+     * array which contains field values 'To', 'From', 'Message' and Product Name.
+     *
+     */
+    public function addGiftMessageForProducts($params)
+    {
+        $searchWord = '/^product_gift_mes_/';
+        $productGiftContent = $this->dataPreparation($params, $searchWord);
+        $isArr = false;
+        foreach ($productGiftContent as $key => $value) {
+            $isArr = $isArr || is_array($value);
+        }
+        if ($isArr) {
+            $i = 1;
+            $qtyNewArrays = 0;
+            foreach ($productGiftContent as $k => $v) {
+                foreach ($v as $v1) {
+                    if (count($v) > $qtyNewArrays) {
+                        $qtyNewArrays = count($v);
+                    }
+                    ${'array' . $i}[$k] = $v1;
+                    $i++;
+                }
+                $i = 1;
+            }
+            for ($y = 1; $y <= $qtyNewArrays; $y++) {
+                $this->addGiftMessage('product', ${'array' . $y});
+            }
+        } else {
+            $this->addGiftMessage('product', $productGiftContent);
+        }
+    }
+
+    /**
+     * 3D Secure Card Validation. Work only for HTTPS!!!!
+     */
+    public function secureCardValidation()
+    {
+        $result = true;
+        $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
+        $path = $this->getUiElement('elements/secure_card_valid_container');
+        if ($this->isElementPresent($path)) {
+            $this->click($path . $this->getUiElement('buttons/start_card_validation'));
+            $this->pleaseWait();
+            if ($this->isAlertPresent()) {
+                $text = $this->getAlert();
+                $this->printInfo("\r\n +3D Secure error: " . $text);
+                $result = FALSE;
+            }
+            if ($result) {
+                $this->waitForElement($path . $this->getUiElement('elements/secure_fraime'), 30);
+                $path = $this->getUiElement('elements/secure_page');
+                $this->waitForElement($path, 50);
+                sleep(1);
+                $verifCode = $this->getText($path . $this->getUiElement('elements/secure_code'));
+                preg_match("/([0-9]+)/i", $verifCode, $score);
+                $this->printInfo("\r\n 3D secure verification code is " . $score[1]);
+                $this->type($path . $this->getUiElement('inputs/secure_validation_code'), $score[1]);
+                $this->clickAndWait($path . $this->getUiElement('buttons/submit_card_validation'));
+                if ($this->isElementPresent($path . $this->getUiElement('elements/secure_error'))) {
+                    $text = "3D Secure error: Password" . $this->getText($path . $this->getUiElement('elements/secure_error'));
+                } elseif ($this->waitForElement("//html/body/h1", 20)) {
+                    $text = "3D Secure:" . $this->getText("//html/body/h1") . ". " . $this->getText("//html/body/p");
+                } else {
+                    $text = "3D Secure: No success message";
+                }
+                $this->printInfo("\r\n" . $text);
+            }
+        }
+    }
+
+    /**
      * Crete new order
      *
      * @param array $params
@@ -481,8 +512,6 @@ class Model_Admin_Order extends Model_Admin {
         $Data = $params ? $params : $this->Data;
         $searchWord = '/^order_gift_mes_/';
         $orderGiftContent = $this->dataPreparation($params, $searchWord);
-        $searchWord1 = '/^product_gift_mes_/';
-        $productGiftContent = $this->dataPreparation($params, $searchWord1);
         // Open Order Page
         $this->clickAndWait($this->getUiElement('/admin/topmenu/sales/orders'));
         // Create new Order
@@ -501,36 +530,14 @@ class Model_Admin_Order extends Model_Admin {
                     $res2 = $this->addDiscount('gift_card', $this->isSetValue($params, 'gift_card_code'));
                     $result = $res1 && $res2;
                     if ($result) {
-                        //fill billing Address Tab
-                        if (!$this->isElementPresent($this->getUiElement('elements/only_virtual_added'))) {
-                            $this->fillAddressTab($params, 'billing', $this->isSetValue($params, 'choise_billing_address'));
-                        }
                         //fill shipping Address Tab
-                        $this->fillAddressTab($params, 'shipping', $this->isSetValue($params, 'choise_shipping_address'));
+                        if (!$this->isElementPresent($this->getUiElement('elements/only_virtual_added'))) {
+                            $this->fillAddressTab($params, 'shipping', $this->isSetValue($params, 'choise_shipping_address'));
+                        }
+                        //fill billing Address Tab
+                        $this->fillAddressTab($params, 'billing', $this->isSetValue($params, 'choise_billing_address'));
                         //adding Gift Message for product(s)
-                        $isArr = false;
-                        foreach ($productGiftContent as $key => $value) {
-                            $isArr = $isArr || is_array($value);
-                        }
-                        if ($isArr) {
-                            $i = 1;
-                            $qtyNewArrays = 0;
-                            foreach ($productGiftContent as $k => $v) {
-                                foreach ($v as $v1) {
-                                    if (count($v) > $qtyNewArrays) {
-                                        $qtyNewArrays = count($v);
-                                    }
-                                    ${'array' . $i}[$k] = $v1;
-                                    $i++;
-                                }
-                                $i = 1;
-                            }
-                            for ($y = 1; $y <= $qtyNewArrays; $y++) {
-                                $this->addGiftMessage('product', ${'array' . $y});
-                            }
-                        } else {
-                            $this->addGiftMessage('product', $productGiftContent);
-                        }
+                        $this->addGiftMessageForProducts($params);
                         //adding Gift Message for order
                         $this->addGiftMessage('order', $orderGiftContent);
                         //select Shipping Method
@@ -540,6 +547,7 @@ class Model_Admin_Order extends Model_Admin {
                         }
                         //select Payment Method
                         $this->selectPaymentMethod($params, $this->isSetValue($params, 'payment_method'));
+                        $this->secureCardValidation();
                         // get order Info before submit
                         $orderTotalBefore = $this->getText("//*[@id='order-totals']//tbody");
                         $orderTotalBefore = str_replace("0 ", "0\n ", $orderTotalBefore);
