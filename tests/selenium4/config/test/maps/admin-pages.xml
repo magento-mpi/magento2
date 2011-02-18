@@ -28,6 +28,8 @@
                         <error_for_added_product>//*[@id='order-items_grid']/descendant::*[contains(@class,'error')]</error_for_added_product>
                         <only_virtual_added>//div[contains(@id,'overlay') and not(contains(@style,'display: none;'))]</only_virtual_added>
                         <order_number>//div[@class='content-header']//h3</order_number>
+                        <gift_card_added>//div[contains(div/h4,'Gift Cards')]//p[contains(.,'%s') and contains(.,'Remove')]</gift_card_added>
+                        <coupon_added>//div[contains(div/h4,'Coupon')]//p[contains(.,'%s') and contains(.,'Remove')]</coupon_added>
                     </elements>
                     <inputs>
                         <!-- "Select Store View for order" page  -->
@@ -74,9 +76,9 @@
                         <money_order>//*[@id='p_method_checkmo']</money_order>
                         <purchase_order>//*[@id='p_method_purchaseorder']</purchase_order>
                         <billing_agreement>//*[@id='p_method_paypal_billing_agreement']</billing_agreement>
-                        <card_name>//*[@id='ccsave_cc_owner']</card_name>
+                        <card_name>//*[@id='%s_cc_owner']</card_name>
                         <card_number>//*[@id='%s_cc_number']</card_number>
-                        <verification_number>//*[@id='%s_cc_cid']</verification_number>
+                        <card_verif_number>//*[@id='%s_cc_cid']</card_verif_number>
                         <!-- "Shipping Method" grid  -->
                         <get_shipping_methods>//*[@id='order-shipping-method-summary']/a</get_shipping_methods>
                         <allowed_method>//li[contains(.,'%s')]/input</allowed_method>
@@ -98,8 +100,8 @@
                         <select_shipping_address>//*[@id='order-shipping_address_customer_address_id']</select_shipping_address>
                         <!-- "Payment Method" grid  -->
                         <card_type>//*[@id='%s_cc_type']</card_type>
-                        <month_expiration>//*[@id='%s_expiration']</month_expiration>
-                        <year_expiration>//*[@id='%s_expiration_yr']</year_expiration>
+                        <card_month>//*[@id='%s_expiration']</card_month>
+                        <card_year>//*[@id='%s_expiration_yr']</card_year>
                     </selectors>
                     <buttons>
                         <new_customer>//button[span="Create New Customer"]</new_customer>
