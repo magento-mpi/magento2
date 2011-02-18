@@ -387,10 +387,10 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             foreach ($this->getProduct($product)->getOptions() as $option) {
                 if ($option->getIsRequire() && (!$this->getProduct($product)->getCustomOption('option_'.$option->getId())
                 || strlen($this->getProduct($product)->getCustomOption('option_'.$option->getId())->getValue()) == 0)) {
+                    $this->getProduct($product)->setSkipCheckRequiredOption(true);
                     Mage::throwException(
                         Mage::helper('catalog')->__('The product has required options')
                     );
-                    break;
                 }
             }
         }
