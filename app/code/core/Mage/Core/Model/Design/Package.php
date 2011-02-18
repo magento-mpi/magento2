@@ -596,7 +596,7 @@ class Mage_Core_Model_Design_Package
             return '';
         }
         if (Mage::helper('core')->mergeFiles($files, $targetDir . DS . $targetFilename, false, null, 'js')) {
-            return Mage::getBaseUrl('media') . 'js/' . $targetFilename;
+            return Mage::getBaseUrl('media', Mage::app()->getRequest()->isSecure()) . 'js/' . $targetFilename;
         }
         return '';
     }
@@ -607,18 +607,31 @@ class Mage_Core_Model_Design_Package
      * @param $files
      * @return string
      */
-     public function getMergedCssUrl($files)
-     {
-        $targetFilename = md5(implode(',', $files)) . '.css';
-        $targetDir = $this->_initMergerDir('css');
+    public function getMergedCssUrl($files)
+    {
+        // secure or unsecure
+        $isSecure = Mage::app()->getRequest()->isSecure();
+        $mergerDir = $isSecure ? 'css_secure' : 'css';
+        $targetDir = $this->_initMergerDir($mergerDir);
         if (!$targetDir) {
             return '';
         }
+
+        // base hostname & port
+        $baseMediaUrl = Mage::getBaseUrl('media', $isSecure);
+        $hostname = parse_url($baseMediaUrl, PHP_URL_HOST);
+        $port = parse_url($baseMediaUrl, PHP_URL_PORT);
+        if (false === $port) {
+            $port = $isSecure ? 443 : 80;
+        }
+
+        // merge into target file
+        $targetFilename = md5(implode(',', $files) . "|{$hostname}|{$port}") . '.css';
         if (Mage::helper('core')->mergeFiles($files, $targetDir . DS . $targetFilename, false, array($this, 'beforeMergeCss'), 'css')) {
-            return Mage::getBaseUrl('media') . 'css/' . $targetFilename;
+            return $baseMediaUrl . $mergerDir . '/' . $targetFilename;
         }
         return '';
-     }
+    }
 
     /**
      * Remove all merged js/css files
@@ -628,7 +641,8 @@ class Mage_Core_Model_Design_Package
     public function cleanMergedJsCss()
     {
         $result = (bool)$this->_initMergerDir('js', true);
-        return (bool)$this->_initMergerDir('css', true) && $result;
+        $result = (bool)$this->_initMergerDir('css', true) && $result;
+        return (bool)$this->_initMergerDir('css_secure', true) && $result;
     }
 
     /**
