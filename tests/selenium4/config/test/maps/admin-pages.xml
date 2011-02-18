@@ -33,6 +33,11 @@
                         <gift_message_for_order_container>//div[@id='order-giftmessage']//div[contains(h5,'entire order')]</gift_message_for_order_container>
                         <gift_message_for_product_container>//div[@id='order-giftmessage']//div[contains(h5,'each gift item')]//h6[.='%s']//following-sibling::div[1]</gift_message_for_product_container>
                         <add_gift_mes_to_product>//*[@id='order-items_grid']//tr[contains(td/h5,'%s')]//input[contains(@name,'[giftmessage]') and not(contains(@checked ,'checked')) and not(contains(@disabled,'disabled'))]</add_gift_mes_to_product>
+                        <secure_card_valid_container>//*[@id='order-card_validation']/div</secure_card_valid_container>
+                        <secure_fraime>/div//iframe[normalize-space(@style)='display: block;']</secure_fraime>
+                        <secure_page>//body[@onbeforeunload and @onload]</secure_page>
+                        <secure_code>//font[contains(.,'Password is "1234"')]</secure_code>
+                        <secure_error>//font/b/font/b</secure_error>
                     </elements>
                     <inputs>
                         <!-- "Select Store View for order" page  -->
@@ -87,6 +92,7 @@
                         <allowed_method>//li[contains(.,'%s')]/input</allowed_method>
                         <!-- "Gift Message" grid  -->
                         <gift_message_content>//tr[contains(.,'%s')]/td[normalize-space(@class)='value']/*</gift_message_content>
+                        <secure_validation_code>//input[@name='external.field.password']</secure_validation_code>
                     </inputs>
                     <selectors>
                         <!-- "Select customer for order" page  -->
@@ -116,6 +122,8 @@
                         <add_coupon>//button[span='Apply']</add_coupon>
                         <add_gift_card>//button[span='Add Gift Card']</add_gift_card>
                         <update_items>//*[@id='order-items']//button[span="Update Items and Qty's"]</update_items>
+                        <start_card_validation>//button[span='Start/Reset Validation...']</start_card_validation>
+                        <submit_card_validation>//input[@value='Submit']</submit_card_validation>
                     </buttons>
                 </create_order>
                 <view_order>
