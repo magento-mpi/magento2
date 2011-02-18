@@ -108,6 +108,7 @@
     </target>
 
     <target name="clean-unreleased" description="Cleaning checkout from unreleased things">
+        <!-- XmlConnect now is a part of core
         <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm app/code/core/Mage/XmlConnect"/>
         </exec>
@@ -153,6 +154,7 @@
         <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm js/jscolor"/>
         </exec>
+        -->
         <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm app/code/core/Enterprise/SalesPool"/>
         </exec>
@@ -315,18 +317,6 @@
         </exec>
     </target>
 
-    <target name="branch-sync-mmdb" description="Sync Branches (MMDB solver).">
-        <exec dir="${dir.src}" executable="svn" failonerror="true">
-            <arg line="co ${vcsroot.branch.url} --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache ."/>
-        </exec>
-        <exec dir="${dir.src}" executable="svn" failonerror="true">
-            <arg line="revert -R --quiet --username ${usr.user} --password ${svn.password} --no-auth-cache ."/>
-        </exec>
-        <exec executable="./update-branch.php" failonerror="true">
-            <arg line="${dir.src} ${svn.user} ${svn.password} mmdb-resolver.php"/>
-        </exec>
-    </target>
-
     <target name="dbschema" description="Generate DB schema documentation.">
         <exec executable="/bin/sh" failonerror="false">
             <arg value="schema_generator"/>
@@ -350,6 +340,10 @@
             <arg value="trunk-sample-data"/>
             <arg value="${build.number}"/>
         </exec>
+    </target>
+
+    <target name="start-release" description="Verify that all needed data set for release.">
+
     </target>
 
     <!-- MMDB -->
@@ -387,6 +381,18 @@
             <arg value="${build.number}"/>
             <arg value="${db.model}"/>
             <arg value="${teamcity.buildType.id}"/>
+        </exec>
+    </target>
+
+    <target name="branch-sync-mmdb" description="Sync Branches (MMDB solver).">
+        <exec dir="${dir.src}" executable="svn" failonerror="true">
+            <arg line="co ${vcsroot.branch.url} --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache ."/>
+        </exec>
+        <exec dir="${dir.src}" executable="svn" failonerror="true">
+            <arg line="revert -R --quiet --username ${usr.user} --password ${svn.password} --no-auth-cache ."/>
+        </exec>
+        <exec executable="./update-branch.php" failonerror="true">
+            <arg line="${dir.src} ${svn.user} ${svn.password} mmdb-resolver.php"/>
         </exec>
     </target>
 </project>
