@@ -365,6 +365,10 @@
                         <bundle_items_container>//*[@id='product_bundle_container']//div[contains(@class,'option-box')]</bundle_items_container>
                         <download_sample_container>//*[@id='sample_items_body']/tr</download_sample_container>
                         <download_link_container>//*[@id='link_items_body']/tr</download_link_container>
+                        <review_grid>//*[@id='reviwGrid']</review_grid>
+                        <review_status>//table[@id='reviwGrid_table']//tr[1]/td[contains(.,'Pending') or contains(.,'Approved')]</review_status>
+                        <review_search_title>//input[@id="filter_title"]</review_search_title>
+                        <review_search_nickname>//input[@id="filter_nickname"]</review_search_nickname>
                     </elements>
                     <inputs>
                         <attribute_for_configurable_product>//input[@title='%s']</attribute_for_configurable_product>
@@ -494,6 +498,76 @@
                 </product>
             </manageproducts>
         </categories>
+        <reviews_and_ratings>
+            <reviews>
+                <pending_review>
+
+                </pending_review>
+                <all_review>
+                    <buttons>
+                        <add_new>//button[span="Add New Review"]</add_new>
+                        <save>//button[span="Save Review"]</save>
+                        <delete>//button[span="Delete Review"]</delete>
+                        <search>//button[span="Search"]</search>
+                        <product_saerch>//button[span="Search"]</product_saerch>
+                    </buttons>
+                    <inputs>
+                        <product_saerch>//input[@id="product_filter_name"]</product_saerch>
+                        <default_value>//input[@id="rating_code"]</default_value>
+                        <store_view_value>//*[@id='rating_form']//tr[contains(.,'%s')]//input</store_view_value>
+                        <store_view_name>//label[contains(@for, 'rating_code')]</store_view_name>
+                        <store_view_name_many>//label[@for="rating_code_%s"]</store_view_name_many>
+                        <nickname>//input[@id="nickname"]</nickname>
+                        <summary_of_review>//input[@id="title"]</summary_of_review>
+                        <review_text>//textarea[@id="detail"]</review_text>
+                        <search_title>//input[@id="filter_title"]</search_title>
+                        <search_nickname>//input[@id="filter_nickname"]</search_nickname>
+                        <SKU>//input[@id="product_filter_sku"]</SKU>
+                    </inputs>
+                    <elements>
+                        <product_searched>//table[@id='productGrid_table']//td[normalize-space(text())='%s']</product_searched>
+                        <review_searched>//td[normalize-space(text())='%s']</review_searched>
+                        <review_container>//*[@id='reviwGrid']</review_container>
+                        <product_container>//div[@id='productGrid' and not (contains(@style,'display: none'))]</product_container>
+                        <required_field_error>//*[@class='validation-advice']</required_field_error>
+                        <required>//*[contains(@class,'required-entry')]</required>
+                        <rating_present>//div[@id='rating_detail'and contains(.,'Rating')]</rating_present>
+                        <required_failed_qty>//*[contains(@class,'validation-failed')]</required_failed_qty>
+                        <required_failed_name>//tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style, 'display: none;'))][%s]//label</required_failed_name>
+                    </elements>
+                    <selectors>
+                        <status>//select[@id="status_id"]</status>
+                        <visible_in>//select[@id="select_stores"]</visible_in>
+                        <rating_select>//table[@id="product-review-table"]//input[@id='%s']</rating_select>
+                    </selectors>
+                </all_review>
+            </reviews>
+            <ratings>
+                <buttons>
+                    <add_new>//button[span="Add New Rating"]</add_new>
+                    <save>//button[span="Save Rating"]</save>
+                    <delete>//button[span="Delete Rating"]</delete>
+                    <search>//button[span="Search"]</search>
+                </buttons>
+                <inputs>
+                    <default_value>//input[@id="rating_code"]</default_value>
+                    <store_view_value>//*[@id='rating_form']//tr[contains(.,'%s')]//input</store_view_value>
+                    <store_view_name>//label[contains(@for, 'rating_code')]</store_view_name>
+                    <store_view_name_many>//label[@for="rating_code_%s"]</store_view_name_many>
+                    <search_name>//input[@id="filter_rating_code"]</search_name>
+                </inputs>
+                <elements>
+                    <required_field_error>//*[@class='validation-advice']</required_field_error>
+                    <required>//*[contains(@class,'required-entry')]</required>
+                    <review_container>//div[@id='ratingsGrid']</review_container>
+                    <required_failed_qty>//*[contains(@class,'validation-failed')]</required_failed_qty>
+                    <required_failed_name>//tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style, 'display: none;'))][%s]//label</required_failed_name>
+                </elements>
+                <selectors>
+                    <visible_in>//select[@id="stores"]</visible_in>
+                </selectors>
+            </ratings>
+        </reviews_and_ratings>
     </catalog>
     <system>
         <permissions>
