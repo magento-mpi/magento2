@@ -26,17 +26,24 @@
 ProductConfigure = Class.create();
 ProductConfigure.prototype = {
 
-    cachedHtml:       $H({}),
-    configuredData:   $H({}),
-    listTypes:        $H({}),
-    current:          $H({}),
-    confirmCallback:  null,
-    cancelCallback:   null,
-    confWindow:       null,
-    confFields:       null,
-    confMask:         null,
-    windowHeight:     null,
-    errorMsgBlock:    null,
+    listTypes:                  $H({}),
+    current:                    $H({}),
+    submitResponce:             $H({}),
+    blockWindow:                null,
+    blockForm:                  null,
+    blockFormFields:            null,
+    blockFormAdd:               null,
+    blockFormConfirmed:         null,
+    blockConfirmed:             null,
+    blockIFrame:                null,
+    blockMask:                  null,
+    blockErrorMsg:              null,
+    windowHeight:               null,
+    сonfirmedCurrentId:         null,
+    confirmCallback:            null,
+    cancelCallback:             null,
+    onLoadIFrameCallback:       null,
+    iFrameJSVarname:            null,
 
     /**
      * Initialize object
@@ -49,31 +56,43 @@ ProductConfigure.prototype = {
      * Initialize window elements
      */
     _initWindowElements: function() {
-        this.confWindow     = $('catalog_product_composite_configure');
-        this.confFields     = $('catalog_product_composite_configure_fields');
-        this.confMask       = $('popup-window-mask');
-        this.windowHeight   = $('html-body').getHeight();
-        this.errorMsgBlock  = $$('#catalog_product_composite_configure .error-msg')[0];
+        this.blockWindow                = $('product_composite_configure');
+        this.blockForm                  = $('product_composite_configure_form');
+        this.blockFormFields            = $('product_composite_configure_form_fields');
+        this.blockFormAdd               = $('product_composite_configure_form_additional');
+        this.blockFormConfirmed         = $('product_composite_configure_form_confirmed');
+        this.blockConfirmed             = $('product_composite_configure_confirmed');
+        this.blockIFrame                = $('product_composite_configure_iframe');
+        this.blockMask                  = $('popup-window-mask');
+        this.blockErrorMsg              = $$('#product_composite_configure .error-msg')[0];
+        this.windowHeight               = $('html-body').getHeight();
+        this.iFrameJSVarname            = this.blockForm.select('input[name="as_js_varname"]')[0].value;
     },
 
     /**
-     * Add product list types as scope and their urls for fetching configuration fields through ajax 
-     * expamle: addListType('product_to_add', 'http://magento...')
-     * expamle: addListType('wishlist', 'http://magento...')
+     * Add product list types as scope and their urls 
+     * expamle: addListType('product_to_add', {urlFetch: 'http://magento...'})
+     * expamle: addListType('wishlist', {urlSubmit: 'http://magento...'})
      *
      * @param type types as scope
-     * @param urlFetch for fetching configuration fields through ajax
-     * @param urlConfirm for preprocessing configured data through ajax
+     * @param urls obj can be
+     *             - {urlFetch: 'http://magento...'} for fetching configuration fields through ajax
+     *             - {urlConfirm: 'http://magento...'} for submit configured data through iFrame when clicked confirm button
+     *             - {urlSubmit: 'http://magento...'} for submit configured data through iFrame
      */
-    addListType: function(type, urlFetch, urlConfirm) {
-        this.listTypes[type] = {urlFetch: urlFetch, urlConfirm: urlConfirm};
+    addListType: function(type, urls) {
+        if ('undefined' == typeof this.listTypes[type]) {
+            this.listTypes[type] = {};
+        }
+        Object.extend(this.listTypes[type], urls);
+        return this;
     },
 
     /**
-     * Show configuration fields of product, if it not found then get it through ajax
+     * Show configuration fields of item, if it not found then get it through ajax
      *
      * @param listType type of list as scope
-     * @param itemId
+     * @param itemId 
      */
     showItemConfiguration: function(listType, itemId) {
         if (!listType || !itemId) {
@@ -82,26 +101,26 @@ ProductConfigure.prototype = {
         this._initWindowElements();
         this.current.listType = listType;
         this.current.itemId = itemId;
-        this._prepareCachedAndConfigured(listType, itemId);
+        this.сonfirmedCurrentId = this.blockConfirmed.id+'['+listType+']['+itemId+']';
 
-        if (this._empty(this.cachedHtml[listType][itemId])) {
+        if (!$(this.сonfirmedCurrentId) || !$(this.сonfirmedCurrentId).innerHTML) {
             this._requestItemConfiguration(listType, itemId);
         } else {
-            this.confFields.update(this.cachedHtml[listType][itemId]);
-            if (!this._empty(this.configuredData[listType][itemId])) {
-                this._processFieldsData('restore');
-            }
+            this._processFieldsData('item_restore');
             this._showWindow();
         }
     },
 
     /**
-     * Get configuration fields of product through ajax put to cache and show them
+     * Get configuration fields of product through ajax and show them
      *
      * @param listType type of list as scope
      * @param itemId
      */
     _requestItemConfiguration: function(listType, itemId) {
+        if (!this.listTypes[this.current.listType].urlFetch) {
+            return false;
+        }
         var url = this.listTypes[listType].urlFetch;
         if (url) {
             new Ajax.Request(url, {
@@ -109,8 +128,8 @@ ProductConfigure.prototype = {
                 onSuccess: function(transport) {
                     var response = transport.responseText;
                     if (response) {
-                        this.cachedHtml[listType][itemId] = response;
-                        this.showItemConfiguration(listType, itemId);
+                        this.blockFormFields.update(response);
+                        this._showWindow();
                     }
                 }.bind(this)
             });
@@ -119,34 +138,14 @@ ProductConfigure.prototype = {
 
     /**
      * Triggered on confirm button click
-     * Do preprocessing configured data through ajax if needed
+     * Do submit configured data through iFrame if needed
      */
     onConfirmBtn: function() {
         if (productCompositeConfigureForm.validate()) {
-            this._processFieldsData('save');
+            this._processFieldsData('item_confirm');
             var url = this.listTypes[this.current.listType].urlConfirm;
             if (url) {
-                new Ajax.Request(url, {
-                    parameters: this.configuredData[this.current.listType][this.current.itemId],
-                    onSuccess: function(transport) {
-                        if (transport.responseText.isJSON()) {
-                            var response = transport.responseText.evalJSON();
-                            if (response.ok) {
-                                this.errorMsgBlock.hide();
-                                this._closeWindow();
-                                if (Object.isFunction(this.confirmCallback)) {
-                                    this.confirmCallback();
-                                }
-                            } else if (response.error) {
-                                delete this.cachedHtml[this.current.listType][this.current.itemId];
-                                this.showItemConfiguration(this.current.listType, this.current.itemId);
-                                this._processFieldsData('restore');
-                                this.errorMsgBlock.show();
-                                this.errorMsgBlock.innerHTML = response.messages;
-                            }
-                        }
-                    }.bind(this)
-                });
+                this.submit(url);
             } else {
                 this._closeWindow();
                 if (Object.isFunction(this.confirmCallback)) {
@@ -154,6 +153,7 @@ ProductConfigure.prototype = {
                 }
             }
         }
+        return this;
     },
 
     /**
@@ -164,169 +164,280 @@ ProductConfigure.prototype = {
         if (Object.isFunction(this.cancelCallback)) {
             this.cancelCallback();
         }
+        return this;
+    },
+
+    /**
+     * Submit configured data through iFrame
+     *
+     * @param url
+     */
+    submit: function(url) {
+        // prepare data
+        if (!url && !this.listTypes[this.current.listType].urlSubmit) {
+            return false;
+        }
+        url = url ? url : this.listTypes[this.current.listType].urlSubmit;
+        this._processFieldsData('all_confirmed_to_form');
+        // do submit
+        this.blockIFrame.setAttribute('onload', 'productConfigure.onLoadIFrame()');
+        this.blockForm.action = url;
+        this.blockForm.submit();
+        varienLoaderHandler.handler.onCreate({options: {loaderArea: true}});
+        return this;
+    },
+
+    /**
+     * Add dynamically additional fields for form
+     *
+     * @param fields
+     */
+    addFields: function(fields) {
+        fields.each(function(elm) {
+            this.blockFormAdd.insert(elm);
+        }.bind(this));
+        return this;
+    },
+
+    /**
+     * Triggered when iFrame was loaded. Get response from iFrame and handle it
+     */
+    onLoadIFrame: function() {
+        varienLoaderHandler.handler.onComplete();
+        this._processFieldsData('all_form_to_confirmed');
+        var response = this.blockIFrame.contentWindow[this.iFrameJSVarname];
+        if (response && "object" == typeof response) {
+            if (this.listTypes[this.current.listType].urlConfirm) {
+                if (response.ok) {
+                    this.blockErrorMsg.hide();
+                    this._closeWindow();
+                    this.clean('current');
+                } else if (response.error) {
+                    this.showItemConfiguration(this.current.listType, this.current.itemId);
+                    this.blockErrorMsg.show();
+                    this.blockErrorMsg.innerHTML = response.message;
+                }
+            }
+            if (Object.isFunction(this.onLoadIFrameCallback)) {
+                this.onLoadIFrameCallback(response);
+            }
+        } else {
+            this.clean('current');
+        }
+    },
+
+    /**
+     * Helper for fetching content from iFrame
+     */
+    _getIFrameContent: function() {
+        var content = (this.blockIFrame.contentWindow || this.blockIFrame.contentDocument);
+        if (content.document) {
+            content=content.document;
+        }
+        return content;
     },
 
     /**
      * Show configuration window
      */
     _showWindow: function() {
-        toggleSelectsUnderBlock(this.confMask, false);
-        this.confMask.setStyle({'height':this.windowHeight+'px'}).show();
-        this.confWindow.setStyle({'marginTop':-this.confWindow.getHeight()/2 + "px", 'display':'block'});
+        toggleSelectsUnderBlock(this.blockMask, false);
+        this.blockMask.setStyle({'height':this.windowHeight+'px'}).show();
+        this.blockWindow.setStyle({'marginTop':-this.blockWindow.getHeight()/2 + "px", 'display':'block'});
     },
 
     /**
      * Close configuration window
      */
     _closeWindow: function() {
-        toggleSelectsUnderBlock(this.confMask, true);
-        this.errorMsgBlock.hide();
-        this.confMask.style.display = 'none';
-        this.confWindow.style.display = 'none';
+        toggleSelectsUnderBlock(this.blockMask, true);
+        this.blockErrorMsg.hide();
+        this.blockMask.style.display = 'none';
+        this.blockWindow.style.display = 'none';
     },
 
-
     /**
-     * Attach callback function triggered on confirm button click
+     * Attach callback function triggered when confirm button was clicked 
      *
      * @param confirmCallback
      */
     setConfirmCallback: function(confirmCallback) {
         this.confirmCallback = confirmCallback;
+        return this;
     },
 
     /**
-     * Attach callback function triggered on cancel button click
+     * Attach callback function triggered when cancel button was clicked
      *
      * @param cancelCallback
      */
     setCencelCallback: function(cancelCallback) {
         this.cancelCallback = cancelCallback;
+        return this;
     },
 
     /**
-     * Get configured data. All or filtered
+     * Attach callback function triggered when iFrame was loaded
      *
-     * @param listType type of list as scope. e.g.: '$current$', 'product_to_add', empty
-     * @param itemId e.g.: '$current$', 195, empty
+     * @param onLoadIFrameCallback
      */
-    getConfiguredData: function(listType, itemId) {
-        // get current listType
-        if (listType == '$current$'
-            && typeof this.current.listType != 'undefined'
-            && typeof itemId == 'undefined'
-            && typeof this.configuredData[this.current.listType] != 'undefined'
-        ) {
-            return this.configuredData[this.current.listType];
-        // get current listType and current itemId
-        } else if (listType == '$current$' && itemId  == '$current$'
-            && typeof this.current.listType != 'undefined'
-            && typeof this.current.itemId != 'undefined'
-            && typeof this.configuredData[this.current.listType] != 'undefined'
-            && typeof this.configuredData[this.current.listType][this.current.itemId] != 'undefined'
-        ) {
-            return this.configuredData[this.current.listType][this.current.itemId];
-        // get current listType and specified itemId
-        } else if (listType == '$current$' && itemId
-            && typeof this.current.listType != 'undefined'
-            && typeof this.configuredData[this.current.listType] != 'undefined'
-            && typeof this.configuredData[this.current.listType][itemId] != 'undefined'
-        ) {
-            return this.configuredData[this.current.listType][itemId];
-        // get by listType
-        } else if (listType
-            && typeof itemId != 'undefined'
-            && typeof this.configuredData[listType] != 'undefined'
-        ) {
-            return this.configuredData[listType];
-        // get by listType and itemId
-        } else if (listType && itemId
-            && typeof this.configuredData[listType] != 'undefined'
-            && typeof this.configuredData[listType][itemId] != 'undefined'
-        ) {
-            return this.configuredData[listType][itemId];
-        }
-        return this.configuredData;
+    setOnLoadIFrameCallback: function(onLoadIFrameCallback) {
+        this.onLoadIFrameCallback = onLoadIFrameCallback;
+        return this;
     },
 
     /**
      * Clean object data
+     *
+     * @param method can be 'all' or 'current'
      */
-    clean: function() {
-        this.current        = $H({});
-        this.cachedHtml     = $H({});
-        this.configuredData = $H({});
+    clean: function(method) {
+        switch (method) {
+            case 'all':
+                    this.current = $H({});
+                    this.blockConfirmed.update();
+            break;
+            case 'current':
+                    var pattern = new RegExp(this.blockConfirmed.id+'\\['+this.current.listType+'\\]');
+                    this.blockConfirmed.childElements().each(function(elm) {
+                        if (elm.id.match(pattern)) {
+                            elm.remove();
+                        }
+                    }.bind(this));
+            break;
+            default:
+                    return false;
+            break;
+        }
+        this._getIFrameContent().body.innerHTML = '';
+        this.blockFormAdd.update();
+        this.blockIFrame.removeAttribute('onload');
+        this.blockFormConfirmed.update();
+        this.blockForm.action = '';
+
+        return this;
     },
 
     /**
-     * Save or restore current fields data
+     * Process fields data: save, restore, move saved to form and back
      *
-     * @param method can be 'save' or 'restore'
+     * @param method can be 'item_confirm', 'item_restore', 'all_confirmed_to_form', 'all_form_to_confirmed'
      */
     _processFieldsData: function(method) {
-        var fields          = this.confFields.select('input,textarea,select');
-        var fieldsConfirmed = this.configuredData[this.current.listType][this.current.itemId];
 
-        switch (method) {
-            case 'save':
-                fields.each(function(e) {
-                    if (e.name) {
-                        if (e.type == 'checkbox') {
-                            fieldsConfirmed[e.name] = e.checked;
-                        } else {
-                            fieldsConfirmed[e.name] = e.value;
-                        }
-                    }
-                }.bind(this));
-            break;
-            case 'restore': 
-                fields.each(function(e) {
-                    if (typeof fieldsConfirmed[e.name] != 'undefined') {
-                        if (e.type == 'checkbox') {
-                            e.checked = fieldsConfirmed[e.name];
-                        } else {
-                            e.value = fieldsConfirmed[e.name];
-                        }
-
-                    }
-                }.bind(this));
-            break;
-        }
-    },
-
-    /**
-     * Prepare cached and configured variables for filling
-     *
-     * @param listType type of list as scope
-     * @param itemId
-     */
-    _prepareCachedAndConfigured: function(listType, itemId) {
-        if (typeof this.cachedHtml[listType] == 'undefined') {
-            this.cachedHtml[listType] = {};
-        }
-        if (typeof this.cachedHtml[listType][itemId] == 'undefined') {
-            this.cachedHtml[listType][itemId] = null;
-        }
-        if (typeof this.configuredData[listType] == 'undefined') {
-            this.configuredData[listType] = {};
-        }
-        if (typeof this.configuredData[listType][itemId] == 'undefined') {
-            this.configuredData[listType][itemId] = {};
-        }
-    },
-
-    /**
-     * Does object have any property ?
-     *
-     * @param obj
-     */
-    _empty: function(obj) {
-        for(var i in obj) {
-            if(obj.hasOwnProperty(i)) {
+        /**
+         * Internal function for rename fields names of current list type
+         *
+         * @param method can be 'all_confirmed_to_form', 'all_form_to_confirmed'
+         * @param blockItem
+         */
+        var _renameFields = function(method, blockItem) {
+            var pattern     = null;
+            var replacement = null;
+            var scopeArr    = blockItem.id.match(/.*\[(\w+)\]\[(\w+)\]$/);
+            var listType    = scopeArr[1];
+            var itemId      = scopeArr[2];
+            if (method == 'all_confirmed_to_form') {
+                pattern = RegExp('(\\w+)(\\[?)');
+                replacement = 'items['+itemId+'][$1]$2';
+            } else if (method == 'all_form_to_confirmed') {
+                pattern = new RegExp('items\\['+itemId+'\\]\\[(\\w+)\\](.*)');
+                replacement = '$1$2';
+            } else {
                 return false;
             }
+            if (listType == this.current.listType) {
+                var rename = function (elms) {
+                    for (var i = 0; i < elms.length; i++) {
+                        if (elms[i].name) {
+                            elms[i].name = elms[i].name.replace(pattern, replacement);
+                        }
+                    }
+                };
+                rename(blockItem.getElementsByTagName('input'));
+                rename(blockItem.getElementsByTagName('select'));
+                rename(blockItem.getElementsByTagName('textarea'));
+            }
+        }.bind(this);    
+
+        switch (method) {
+            case 'item_confirm':
+                    if (!$(this.сonfirmedCurrentId)) {
+                        this.blockConfirmed.insert(new Element('div', {id: this.сonfirmedCurrentId}));
+                    } else {
+                        $(this.сonfirmedCurrentId).update();
+                    }
+                    this.blockFormFields.childElements().each(function(elm) {
+                        $(this.сonfirmedCurrentId).insert(elm);
+                    }.bind(this));
+            break;
+            case 'item_restore':
+                    this.blockFormFields.update();
+
+                    // clone confirmed to form
+                    $(this.сonfirmedCurrentId).childElements().each(function(elm) {
+                        var cloned = elm.cloneNode(true);
+                        this.blockFormFields.insert(cloned);
+                    }.bind(this));
+
+                    // get confirmed values
+                    var fieldsValue = {};
+                    var getConfirmedValues = function (elms) {
+                        for (var i = 0; i < elms.length; i++) {
+                            if (elms[i].name) {
+                                if ('undefined' == typeof fieldsValue[elms[i].name] ) {
+                                    fieldsValue[elms[i].name] = {};
+                                }
+                                if (elms[i].type == 'checkbox') {
+                                    fieldsValue[elms[i].name][elms[i].value] = elms[i].checked;
+                                } else if (elms[i].type == 'radio') {
+                                    if (elms[i].checked) {
+                                        fieldsValue[elms[i].name] = elms[i].value;
+                                    }
+                                } else {
+                                    fieldsValue[elms[i].name] = Form.Element.getValue(elms[i]);
+                                }
+                            }
+                        }
+                    }.bind(this);
+                    getConfirmedValues($(this.сonfirmedCurrentId).getElementsByTagName('input'));
+                    getConfirmedValues($(this.сonfirmedCurrentId).getElementsByTagName('select'));
+                    getConfirmedValues($(this.сonfirmedCurrentId).getElementsByTagName('textarea'));
+
+                    // restore confirmed values
+                    var restoreConfirmedValues = function (elms) {
+                        for (var i = 0; i < elms.length; i++) {
+                            if ('undefined' != typeof fieldsValue[elms[i].name]) {
+                                if (elms[i].type == 'checkbox') {
+                                    elms[i].checked = fieldsValue[elms[i].name][elms[i].value];
+                                } else if (elms[i].type == 'radio') {
+                                    if (elms[i].value == fieldsValue[elms[i].name]) {
+                                        elms[i].checked = true;
+                                    }
+                                } else {
+                                    elms[i].setValue(fieldsValue[elms[i].name]);
+                                }
+                            }
+                        }
+                    }.bind(this);
+                    restoreConfirmedValues(this.blockFormFields.getElementsByTagName('input'));
+                    restoreConfirmedValues(this.blockFormFields.getElementsByTagName('select'));
+                    restoreConfirmedValues(this.blockFormFields.getElementsByTagName('textarea'));
+            break;
+            case 'all_confirmed_to_form':
+                    this.blockFormConfirmed.update();
+                    this.blockConfirmed.childElements().each(function(blockItem) {
+                        _renameFields(method, blockItem);
+                        this.blockFormConfirmed.insert(blockItem);
+                    }.bind(this));
+            break;
+            case 'all_form_to_confirmed':
+                    this.blockFormConfirmed.childElements().each(function(blockItem) {
+                        _renameFields(method, blockItem);
+                        this.blockConfirmed.insert(blockItem);
+                    }.bind(this));
+            break;
         }
-        return true;
     },
 
     /**
@@ -338,7 +449,7 @@ ProductConfigure.prototype = {
     changeOptionQty: function(element, event)
     {
         var checkQty = true;
-        if (typeof(event) != 'undefined') {
+        if ('undefined' != typeof event) {
             if (event.keyCode == 8 || event.keyCode == 46) {
                 checkQty = false;
             }
@@ -349,6 +460,6 @@ ProductConfigure.prototype = {
     }
 };
 
-document.observe("dom:loaded", function() {
+Event.observe(window, 'load',  function() {
     productConfigure = new ProductConfigure();
 });

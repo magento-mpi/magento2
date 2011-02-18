@@ -594,6 +594,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 }
             }
         }
+        // @TODO adapt for configurable composite products
         if (isset($data['add'])) {
             foreach ($data['add'] as $productId => $qty) {
                 $this->addProduct($productId, $qty);
@@ -659,12 +660,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      * Add product to current order quote
      *
      * @param   mixed $product
-     * @param   mixed $qty
+     * @param   Varien_Object $config
      * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
-    public function addProduct($product, $qty=1)
+    public function addProduct($product, array $config)
     {
-        $qty = (float)$qty;
+        $config = new Varien_Object($config);
+        $qty = (float)$config->getQty();
         if (!($product instanceof Mage_Catalog_Model_Product)) {
             $productId = $product;
             $product = Mage::getModel('catalog/product')
@@ -690,7 +692,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         else {
             $product->setSkipCheckRequiredOption(true);
-            $item = $this->getQuote()->addProduct($product, $qty);
+            $item = $this->getQuote()->addProduct($product, $config);
+            if (is_string($item)) {
+                Mage::throwException($item);
+            }
             $product->unsSkipCheckRequiredOption();
             $item->checkData();
         }
@@ -707,10 +712,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     public function addProducts(array $products)
     {
-        foreach ($products as $productId => $data) {
-            $qty = isset($data['qty']) ? (float)$data['qty'] : 1;
+        foreach ($products as $productId => $config) {
+            $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
-                $this->addProduct($productId, $qty);
+                $this->addProduct($productId, $config);
             }
             catch (Mage_Core_Exception $e){
                 $this->getSession()->addError($e->getMessage());

@@ -124,7 +124,6 @@ AdminOrder.prototype = {
         var field = Event.element(event);
         var re = /[^\[]*\[([^\]]*)_address\]\[([^\]]*)\](\[(\d)\])?/;
         var matchRes = field.name.match(re);
-        if(!matchRes) return true;
         var type = matchRes[1];
         var name = matchRes[2];
         var data;
@@ -395,10 +394,10 @@ AdminOrder.prototype = {
         var isInput = Event.element(event).tagName == 'INPUT';
         if (trElement) {
             var checkbox = Element.select(trElement, 'input')[0];
-            var confLinkAttr = Element.select(trElement, 'a')[0].attributes;
+            var confLink = Element.select(trElement, 'a')[0];
             if (checkbox) {
                 // processing non composite product
-                if (confLinkAttr.disabled) {
+                if (confLink.disabled) {
                     var checked = isInput ? checkbox.checked : !checkbox.checked;
                     grid.setCheckboxChecked(checkbox, checked);
                 // processing composite product
@@ -407,9 +406,11 @@ AdminOrder.prototype = {
                         grid.setCheckboxChecked(checkbox, true);
                     });
                     productConfigure.setCencelCallback(function() {
-                        grid.setCheckboxChecked(checkbox, false);
+                        if (!$(productConfigure.сonfirmedCurrentId) || !$(productConfigure.сonfirmedCurrentId).innerHTML) {
+                            grid.setCheckboxChecked(checkbox, false);
+                        }
                     });
-                    productConfigure.showItemConfiguration(confLinkAttr.list_type.value, confLinkAttr.product_id.value);
+                    productConfigure.showItemConfiguration(confLink.readAttribute('list_type'), confLink.readAttribute('product_id'));
                 }
             }
         }
@@ -419,6 +420,7 @@ AdminOrder.prototype = {
         if (checked) {
             if(element.inputElements) {
                 this.gridProducts.set(element.value, {});
+                var product = this.gridProducts.get(element.value);
                 for (var i = 0; i < element.inputElements.length; i++) {
                     var input = element.inputElements[i];
                     if (!input.hasClassName('input-inactive')) {
@@ -428,14 +430,12 @@ AdminOrder.prototype = {
                         }
                     }
                     
-                    var product = this.gridProducts.get(element.value);
                     if (input.checked || input.name != 'giftmessage') {
                         product[input.checked.name] = input.value;
                     } else if (product[input.name]) {
                         delete(product[input.name]);
                     }
                 }
-                this.gridProducts.get(element.value)['configuration'] = productConfigure.getConfiguredData('$current$', element.value);
             }
         } else {
             if(element.inputElements){
@@ -450,13 +450,44 @@ AdminOrder.prototype = {
 
     productGridAddSelected : function(){
         if(this.productGridShowButton) Element.show(this.productGridShowButton);
-        var data = {};
-        data['add_products'] = this.gridProducts.toJSON();
-        data['reset_shipping'] = 1;
-        this.gridProducts = $H({});
-        productConfigure.clean();
+
+        // prepare loading areas and build url
         this.hideArea('search');
-        this.loadArea(['search', 'items', 'shipping_method', 'totals', 'giftmessage','billing_method'], true, data);
+        var area = ['search', 'items', 'shipping_method', 'totals', 'giftmessage','billing_method'];
+        area = this.prepareArea(area);
+        this.loadingAreas = area;
+        var url = this.loadBaseUrl + 'block/' + area + '?isAjax=true';
+
+        // prepare additional fields
+        var fieldsPrepare = this.prepareParams();
+        fieldsPrepare.reset_shipping = 1;
+        fieldsPrepare.json = 1;
+
+        // prepare additional fields of products
+        var products = this.gridProducts.toObject();
+        for (var productId in products) {
+            var paramKey = 'items['+productId+']';
+            for (var productParamKey in products[productId]) {
+                paramKey += '['+productParamKey+']';
+                fieldsPrepare[paramKey] = products[productId][productParamKey];
+            }
+        }
+
+        // create and add elements of fields
+        var fields = [];
+        for (var name in fieldsPrepare) {
+            fields.push(new Element('input', {type: 'hidden', name: name, value: fieldsPrepare[name]}));
+        }
+        productConfigure.addFields(fields);
+
+        // prepare and do submit
+        productConfigure.addListType('product_to_add', {urlSubmit: url});
+        productConfigure.setOnLoadIFrameCallback(function(response){
+            productConfigure.clean('current');
+            this.loadAreaResponseHandler(response);
+        }.bind(this));
+        productConfigure.submit();
+        this.gridProducts = $H({});
     },
 
     selectCustomer : function(grid, event){
@@ -635,35 +666,39 @@ AdminOrder.prototype = {
                 loaderArea: indicator,
                 onSuccess: function(transport) {
                     var response = transport.responseText.evalJSON();
-                    if (response.error) {
-                        alert(response.message);
-                    }
-                    if(response.ajaxExpired && response.ajaxRedirect) {
-                        setLocation(response.ajaxRedirect);
-                    }
-                    if(!this.loadingAreas){
-                        this.loadingAreas = [];
-                    }
-                    if(typeof this.loadingAreas == 'string'){
-                        this.loadingAreas = [this.loadingAreas];
-                    }
-                    if(this.loadingAreas.indexOf('message'==-1)) this.loadingAreas.push('message');
-                    for(var i=0; i<this.loadingAreas.length; i++){
-                        var id = this.loadingAreas[i];
-                        if($(this.getAreaId(id))){
-                            if ('message' != id || response[id]) {
-                                $(this.getAreaId(id)).update(response[id] ? response[id] : '');
-                            }
-                            if ($(this.getAreaId(id)).callback) {
-                                this[$(this.getAreaId(id)).callback]();
-                            }
-                        }
-                    }
+                    this.loadAreaResponseHandler(response);
                 }.bind(this)
             });
         }
         else {
             new Ajax.Request(url, {parameters:params,loaderArea: indicator});
+        }
+    },
+
+    loadAreaResponseHandler : function (response){
+        if (response.error) {
+            alert(response.message);
+        }
+        if(response.ajaxExpired && response.ajaxRedirect) {
+            setLocation(response.ajaxRedirect);
+        }
+        if(!this.loadingAreas){
+            this.loadingAreas = [];
+        }
+        if(typeof this.loadingAreas == 'string'){
+            this.loadingAreas = [this.loadingAreas];
+        }
+        if(this.loadingAreas.indexOf('message'==-1)) this.loadingAreas.push('message');
+        for(var i=0; i<this.loadingAreas.length; i++){
+            var id = this.loadingAreas[i];
+            if($(this.getAreaId(id))){
+                if ('message' != id || response[id]) {
+                    $(this.getAreaId(id)).update(response[id] ? response[id] : '');
+                }
+                if ($(this.getAreaId(id)).callback) {
+                    this[$(this.getAreaId(id)).callback]();
+                }
+            }
         }
     },
 

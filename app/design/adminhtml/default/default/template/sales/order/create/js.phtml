@@ -26,7 +26,9 @@
  ?>
 <script type="text/javascript">
     order.sidebarHide();
-    document.observe("dom:loaded", function() {
-        productConfigure.addListType('product_to_add', '<?php echo $this->getUrl('*/sales_order_composite_order/configure') ?>');
+    Event.observe(window, 'load',  function() {
+        productConfigure.addListType('product_to_add', {
+            urlFetch: '<?php echo $this->getUrl('*/sales_order_composite_order/configure') ?>'
+        });
     });
 </script>
