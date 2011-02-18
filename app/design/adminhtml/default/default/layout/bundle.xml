@@ -107,6 +107,7 @@ Layout handle for budle products
                 <action method="addRenderer"><type>radio</type><block>bundle/adminhtml_catalog_product_composite_fieldset_options_type_radio</block></action>
                 <action method="addRenderer"><type>checkbox</type><block>bundle/adminhtml_catalog_product_composite_fieldset_options_type_checkbox</block></action>
             </block>
+            <remove name="product.composite.fieldset.qty" />
         </reference>
     </PRODUCT_TYPE_bundle>
 </layout>
