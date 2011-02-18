@@ -147,7 +147,12 @@ ProductConfigure.prototype = {
                 parameters: {id: itemId},
                 onSuccess: function(transport) {
                     var response = transport.responseText;
-                    if (response) {
+                    if (response.isJSON()) {
+                        response = response.evalJSON();
+                        if (response.error) {
+                            alert(response.message);
+                        }
+                    } else if (response) {
                         this.blockFormFields.update(response);
                         this._showWindow();
                     }

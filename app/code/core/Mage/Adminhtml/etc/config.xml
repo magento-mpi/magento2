@@ -157,6 +157,8 @@
                     <available_product_types>
                         <simple/>
                         <virtual/>
+                        <configurable/>
+                        <grouped/>
                     </available_product_types>
                 </create>
             </order>

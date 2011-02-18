@@ -616,7 +616,6 @@ AdminOrder.prototype = {
     productConfigureSubmit : function(listType, area, fieldsPrepare, itemsFilter) {
         // prepare loading areas and build url
         this.hideArea('search');
-        area = ['sidebar', 'items', 'shipping_method', 'billing_method','totals', 'giftmessage'];
         area = this.prepareArea(area);
         this.loadingAreas = area;
         var url = this.loadBaseUrl + 'block/' + area + '?isAjax=true';

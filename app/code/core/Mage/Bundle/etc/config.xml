@@ -260,6 +260,15 @@
                 </bundle>
             </updates>
         </layout>
+        <sales>
+            <order>
+                <create>
+                    <available_product_types>
+                        <bundle/>
+                    </available_product_types>
+                </create>
+            </order>
+        </sales>
         <events>
             <catalog_product_prepare_save>
                 <observers>

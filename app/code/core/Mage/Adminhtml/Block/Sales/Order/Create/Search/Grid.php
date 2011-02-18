@@ -96,6 +96,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             ->addAttributeToSelect('price')
             ->addMinimalPrice()
             ->addStoreFilter()
+            ->addAttributeToFilter('type_id', array_keys(
+                Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
+            ))
             ->addAttributeToSelect('gift_message_available');
 
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
