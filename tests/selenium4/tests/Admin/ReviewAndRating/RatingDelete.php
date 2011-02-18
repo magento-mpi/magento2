@@ -18,11 +18,11 @@ class Admin_ReviewAndRating_RatingDelete extends TestCaseAbstract {
     function testRating()
     {
         $review_rateData = array(
-            'search_rating_name' => 'Test Rating',
+            'search_rating_name' => 'Test-Rating-default_title',
             //'search_rating_id' => '',
         );
         if ($this->model->doLogin()) {
-            $this->model->deletingRating($review_rateData);
+            $this->model->doDeleteRating($review_rateData);
         }
     }
 
