@@ -31,7 +31,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Mage_Adminhtml_Block_Catalog_Product_Composite_Configure
+class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Mage_Catalog_Block_Product_View_Type_Grouped
 {
 
     /**
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
 
     /**
      * Retrieve array of associated products
-     * 
+     *
      * @return array
      */
     public function getAssociatedProducts()
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
         }
         return $this;
     }
-    
+
     /**
      * Check whether the price can be shown for the specified product
      *
@@ -90,6 +90,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
      */
     public function getCanShowProductPrice($product)
     {
-        return $product->getCanShowPrice() !== false;
+        return true;
     }
 }
