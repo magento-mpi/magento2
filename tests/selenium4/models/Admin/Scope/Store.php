@@ -127,7 +127,7 @@ class Model_Admin_Scope_Store extends Model_Admin {
         $this->type($this->getUiElement('filters/store_name'),$name);
         $this->clickAndWait($this->getUiElement('buttons/search'));
         //Open user with 'Store Name' == name
-        if ($this->isTextPresent($this->getUiElement('/admin/elements/no_records'),2)) {
+        if ($this->isTextPresent($this->getUiElement('/admin/global/elements/no_records'),2)) {
           // Store not founded
           $this->printDebug('doOpenStore finished with false');
           return false;

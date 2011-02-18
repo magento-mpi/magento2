@@ -99,7 +99,7 @@ class Model_Admin_Scope_StoreView extends Model_Admin {
         $this->clickAndWait($this->getUiElement('buttons/search'));
         sleep(1);
         //Open user with 'Store Name View' == name
-        if ($this->isTextPresent($this->getUiElement('/admin/elements/no_records'))) {
+        if ($this->isTextPresent($this->getUiElement('/admin/global/elements/no_records'))) {
           // Store View not founded
           $this->printDebug('doOpenStoreView finished with false');
           return false;
