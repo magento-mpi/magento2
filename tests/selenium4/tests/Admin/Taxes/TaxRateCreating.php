@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Taxes_TaxRteeCreating extends TestCaseAbstract {
+class Admin_Taxes_TaxRateCreating extends TestCaseAbstract {
 
     /**
      * Setup procedure.
