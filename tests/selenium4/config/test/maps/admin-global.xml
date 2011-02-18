@@ -51,6 +51,7 @@
         <reset_search>//button[span='Reset Filter']</reset_search>
         <submit>//button[normalize-space(@class)='scalable save submit-button' or normalize-space(@class)='scalable save' and not(contains(span,'Continue'))]</submit>
         <add>//button[normalize-space(@class)='scalable add' and contains(.,'%s')]</add>
+        <delete>//button[normalize-space(@class)='scalable delete']</delete>
     </buttons>
     <messages>
         <error1>//*/div/ul//li[normalize-space(@class)='error-msg']/ancestor::div[not(contains(@style,'display: none;')) and not(contains(@id,'dynamic-price-warrning'))]/ul/li</error1>
