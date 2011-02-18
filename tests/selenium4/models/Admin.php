@@ -59,7 +59,7 @@ class Model_Admin extends TestModelAbstract {
      */
     public function pleaseWait()
     {
-        $loadingMask = $this->getUiElement('/admin/elements/progress_bar');
+        $loadingMask = $this->getUiElement('/admin/global/elements/progress_bar');
 
         // await for appear and disappear "Please wait" animated gif...
         for ($second = 0;; $second++) {
@@ -164,7 +164,7 @@ class Model_Admin extends TestModelAbstract {
         $Data = $params ? $params : $this->Data;
         if ($Data[$field] != NULL) {
             if ($this->isElementPresent($this->getUiElement("selectors/" . $field, $number) .
-                            $this->getUiElement("/admin/elements/option_for_field", $Data[$field]))) {
+                            $this->getUiElement("/admin/global/elements/option_for_field", $Data[$field]))) {
                 $this->select($this->getUiElement("selectors/" . $field, $number), "label=" . $Data[$field]);
                 $result = true;
             } else {
@@ -218,24 +218,24 @@ class Model_Admin extends TestModelAbstract {
         if (is_array($searchElements) and count($searchElements) > 0) {
             foreach ($searchElements as $key => $value) {
                 $this->type($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
-                        $this->getUiElement("inputs/" . $key), $value);
+                        $this->getUiElement("/admin/global/inputs/" . $key), $value);
             }
             $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
-                    $this->getUiElement("/admin/buttons/search"));
+                    $this->getUiElement("/admin/global/buttons/search"));
             if ($this->isTextPresent('Please wait...')) {
                 $this->pleaseWait();
             } else {
                 $this->waitForPageToLoad("30000");
             }
-            if ($this->isTextPresent($this->getUiElement('/admin/elements/no_records'))) {
+            if ($this->isTextPresent($this->getUiElement('/admin/global/elements/no_records'))) {
                 $this->printInfo("\r\n No records found.");
                 $result = FALSE;
             } elseif ($action == "mark") {
                 $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
-                        $this->getUiElement('/admin/elements/mark_filtered_element', $searchElements));
+                        $this->getUiElement('/admin/global/elements/mark_filtered_element', $searchElements));
             } elseif ($action == "open") {
                 $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
-                        $this->getUiElement('/admin/elements/filtered_element', $searchElements));
+                        $this->getUiElement('/admin/global/elements/filtered_element', $searchElements));
                 for ($second = 0;; $second++) {
                     if ($second >= 60)
                         break;
@@ -263,10 +263,10 @@ class Model_Admin extends TestModelAbstract {
     function saveAndVerifyForErrors()
     {
         $result = false;
-        $this->click($this->getUiElement("/admin/buttons/submit"));
+        $this->click($this->getUiElement("/admin/global/buttons/submit"));
         // check for error message
-        if ($this->waitForElement($this->getUiElement('/admin/messages/error1'), 20)) {
-            $etext = $this->getText($this->getUiElement('/admin/messages/error1'));
+        if ($this->waitForElement($this->getUiElement('/admin/global/messages/error1'), 20)) {
+            $etext = $this->getText($this->getUiElement('/admin/global/messages/error1'));
             $this->setVerificationErrors($etext);
         } elseif (!$this->verifyPageAndGetErrors()) {
             // Check for success message
@@ -290,7 +290,7 @@ class Model_Admin extends TestModelAbstract {
     public function verifyPageAndGetErrors()
     {
         $result = false;
-        $this->setUiNamespace("admin/elements/");
+        $this->setUiNamespace("admin/global/elements/");
         if ($this->isElementPresent($this->getUiElement("tabs_container") . $this->getUiElement("tab_error"))) {
             $qtyTab = $this->getXpathCount($this->getUiElement("tabs_container") . $this->getUiElement("tab_error"));
             $isTab = 1;
