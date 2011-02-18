@@ -123,7 +123,7 @@
                         <create_invoice>//button[span='Invoice']</create_invoice>
                         <create_shippment>//button[span='Ship']</create_shippment>
                         <create_credit_memo>//button[span='Credit Memo']</create_credit_memo>
-                        <reorder>//button[span='Reorder']</reorder>                        
+                        <reorder>//button[span='Reorder']</reorder>
                     </buttons>
                 </view_order>
             </manage_orders>
@@ -542,31 +542,24 @@
                     </selectors>
                 </all_review>
             </reviews>
-            <ratings>
-                <buttons>
-                    <add_new>//button[span="Add New Rating"]</add_new>
-                    <save>//button[span="Save Rating"]</save>
-                    <delete>//button[span="Delete Rating"]</delete>
-                    <search>//button[span="Search"]</search>
-                </buttons>
-                <inputs>
-                    <default_value>//input[@id="rating_code"]</default_value>
-                    <store_view_value>//*[@id='rating_form']//tr[contains(.,'%s')]//input</store_view_value>
-                    <store_view_name>//label[contains(@for, 'rating_code')]</store_view_name>
-                    <store_view_name_many>//label[@for="rating_code_%s"]</store_view_name_many>
-                    <search_name>//input[@id="filter_rating_code"]</search_name>
-                </inputs>
+            <manage_ratings>
                 <elements>
-                    <required_field_error>//*[@class='validation-advice']</required_field_error>
-                    <required>//*[contains(@class,'required-entry')]</required>
-                    <review_container>//div[@id='ratingsGrid']</review_container>
-                    <required_failed_qty>//*[contains(@class,'validation-failed')]</required_failed_qty>
-                    <required_failed_name>//tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style, 'display: none;'))][%s]//label</required_failed_name>
+                    <rating_container>//div[@id='ratingsGrid']</rating_container>
                 </elements>
-                <selectors>
-                    <visible_in>//select[@id="stores"]</visible_in>
-                </selectors>
-            </ratings>
+                <buttons>
+                    <add_new_rating>//button[span="Add New Rating"]</add_new_rating>
+                </buttons>
+                <!-- related pages-->
+                <ratings>
+                    <inputs>
+                        <title_default>//input[@id="rating_code"]</title_default>
+                        <title_for_store>//*[@id='rating_form']//tr[contains(.,'%s')]//input</title_for_store>
+                    </inputs>
+                    <selectors>
+                        <visible_in>//*[@id='stores']</visible_in>
+                    </selectors>
+                </ratings>
+            </manage_ratings>
         </reviews_and_ratings>
     </catalog>
     <system>
