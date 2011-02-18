@@ -47,6 +47,9 @@ wishlistControl = {
             );
 
         return false;
+    },
+    updateList: function () {
+        <?php echo $this->getJsObjectName() ?>.initGrid.bind(<?php echo $this->getJsObjectName() ?>);
     }
 }
 //-->

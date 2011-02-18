@@ -142,11 +142,10 @@ ProductConfigure.prototype = {
      */
     onConfirmBtn: function() {
         if (productCompositeConfigureForm.validate()) {
-            this._processFieldsData('item_confirm');
-            var url = this.listTypes[this.current.listType].urlConfirm;
-            if (url) {
-                this.submit(url);
+            if (this.listTypes[this.current.listType].urlConfirm) {
+                this.submit();
             } else {
+                this._processFieldsData('item_confirm');
                 this._closeWindow();
                 if (Object.isFunction(this.confirmCallback)) {
                     this.confirmCallback();
@@ -172,16 +171,21 @@ ProductConfigure.prototype = {
      *
      * @param url
      */
-    submit: function(url) {
+    submit: function() {
         // prepare data
-        if (!url && !this.listTypes[this.current.listType].urlSubmit) {
+        var urlConfirm = this.listTypes[this.current.listType].urlConfirm;
+        var urlSubmit = this.listTypes[this.current.listType].urlSubmit; 
+        if (!urlConfirm && !urlSubmit) {
             return false;
         }
-        url = url ? url : this.listTypes[this.current.listType].urlSubmit;
-        this._processFieldsData('all_confirmed_to_form');
+        if (urlConfirm) {
+            this.blockForm.action = urlConfirm;
+        } else {
+            this._processFieldsData('all_confirmed_to_form');
+            this.blockForm.action = urlSubmit;
+        }
         // do submit
         this.blockIFrame.setAttribute('onload', 'productConfigure.onLoadIFrame()');
-        this.blockForm.action = url;
         this.blockForm.submit();
         varienLoaderHandler.handler.onCreate({options: {loaderArea: true}});
         return this;

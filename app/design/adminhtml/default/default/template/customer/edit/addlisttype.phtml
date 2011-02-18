@@ -25,8 +25,20 @@
  */
  ?>
 <script type="text/javascript">
-    document.observe("dom:loaded", function() {
-        productConfigure.addListType('wishlist', '<?php echo $this->getUrl('*/customer_wishlist_product_composite_wishlist/configure') ?>');
-        productConfigure.addListType('shopping_cart', '<?php echo $this->getUrl('*/customer_cart_product_composite_cart/configure') ?>');
+    Event.observe(window, 'load',  function() {
+        productConfigure.addListType(
+            'wishlist',
+            {
+                urlFetch: '<?php echo $this->getUrl('*/customer_wishlist_product_composite_wishlist/configure') ?>',
+                urlConfirm: '<?php echo $this->getUrl('*/customer_wishlist_product_composite_wishlist/update') ?>'
+            }
+        );
+        productConfigure.addListType(
+            'shopping_cart',
+            {
+                urlFetch: '<?php echo $this->getUrl('*/customer_cart_product_composite_cart/configure') ?>',
+                urlConfirm: '<?php echo $this->getUrl('*/customer_wishlist_product_composite_cart/update') ?>'
+            }
+       );
     });
 </script>
