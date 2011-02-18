@@ -143,101 +143,104 @@
             </manage_orders>
         </orders>
         <tax>
-            <manage_tax_rules>
+            <manage_tax_rule>
                 <buttons>
                     <add_new_tax_rule>//button[span='Add New Tax Rule']</add_new_tax_rule>
-                    <save>//button[span='Save Rule']</save>
-                    <search>//button[span='Search']</search>
-                    <delete>//button[span='Delete Rule']</delete>
                 </buttons>
                 <inputs>
-                    <tax_rule_name>//*[@id='code']</tax_rule_name>
-                    <tax_rule_priority>//*[@id='priority']</tax_rule_priority>
-                    <tax_rule_sort_order>//*[@id='position']</tax_rule_sort_order>
                     <search_line>//input[@id='filter_code']</search_line>
                 </inputs>
                 <elements>
-                    <searched_item>//table[@id='taxRuleGrid_table']//td[normalize-space(text())='%s']</searched_item>
-                    <required_field_error>//*[@class='validation-advice']</required_field_error>
-                    <required>//*[contains(@class,'required-entry')]</required>
-                    <required_failed_qty>//*[contains(@class,'validation-failed')]</required_failed_qty>
-                    <required_failed_name>//tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style, 'display: none;'))][%s]//label</required_failed_name>
+                    <tax_grid_container>//*[@id='taxRuleGrid']</tax_grid_container>
                 </elements>
-                <selectors>
-                    <product_tax_class>//*[@id='tax_product_class']</product_tax_class>
-                    <customer_tax_class>//*[@id='tax_customer_class']</customer_tax_class>
-                    <tax_rate>//*[@id='tax_rate']</tax_rate>
-                </selectors>
-            </manage_tax_rules>
+                <edit_tax_rule_page>
+                    <buttons>
+                        <save>//button[span='Save Rule']</save>
+                        <delete>//button[span='Delete Rule']</delete>
+                    </buttons>
+                    <inputs>
+                        <tax_rule_name>//*[@id='code']</tax_rule_name>
+                        <tax_rule_priority>//*[@id='priority']</tax_rule_priority>
+                        <tax_rule_sort_order>//*[@id='position']</tax_rule_sort_order>
+                    </inputs>
+                    <selectors>
+                        <product_tax_class>//*[@id='tax_product_class']</product_tax_class>
+                        <customer_tax_class>//*[@id='tax_customer_class']</customer_tax_class>
+                        <tax_rate>//*[@id='tax_rate']</tax_rate>
+                    </selectors>
+                </edit_tax_rule_page>
+            </manage_tax_rule>
             <manage_tax_zone_rate>
                 <buttons>
                     <add_new>//button[span='Add New Tax Rate']</add_new>
-                    <save>//button[span='Save Rate']</save>
-                    <search>//button[span='Search']</search>
-                    <delete>//button[span='Delete Rate']</delete>
                 </buttons>
-                <inputs>
-                    <tax_rate_identifier>//*[@id='code']</tax_rate_identifier>
-                    <tax_rate_percent>//*[@id='rate']</tax_rate_percent>
-                    <zip_post_code>//*[@id='tax_postcode']</zip_post_code>
-                    <range_from>//*[@id='zip_from']</range_from>
-                    <range_to>//*[@id='zip_to']</range_to>
-                    <tax_title>//*</tax_title>
-                    <store_view_name_for_tax_title>//form[@id='rate_form']//td//input[@name="title[%s]"]</store_view_name_for_tax_title>
-                    <store_view_name_for_title_many>//form[@id='rate_form']//th[%s]</store_view_name_for_title_many>
-                    <search_line>//input[@id='filter_code']</search_line>
-                </inputs>
                 <elements>
-                    <tab_container>//*[@id='product_attribute_tabs']</tab_container>
-                    <store_view_name_for_tax_title>//form[@id='rate_form']//th</store_view_name_for_tax_title>
-                    <store_view_name_for_title_many>//form[@id='rate_form']//th[%s]</store_view_name_for_title_many>
-                    <required_field_error>//*[@class='validation-advice']</required_field_error>
-                    <searched_item>//table[@id='tax_rate_grid_table']//td[normalize-space(text())='%s']</searched_item>
-                    <required_failed_qty>//*[contains(@class,'validation-failed')]</required_failed_qty>
-                    <required_failed_name>//tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style, 'display: none;'))][%s]//label</required_failed_name>
+                    <tax_grid_container>//*[@id='tax_rate_grid']</tax_grid_container>
                 </elements>
-                <selectors>
-                    <country>//*[@id='tax_country_id']</country>
-                    <state>//*[@id='tax_region_id']</state>
-                    <zip_post_is_range>//*[@id='zip_is_range']</zip_post_is_range>
-                </selectors>
+                <edit_tax_zone_rate_page>
+                    <buttons>
+                        <save>//button[span='Save Rate']</save>
+                        <delete>//button[span='Delete Rate']</delete>
+                    </buttons>
+                    <inputs>
+                        <tax_rate_identifier>//*[@id='code']</tax_rate_identifier>
+                        <tax_rate_percent>//*[@id='rate']</tax_rate_percent>
+                        <zip_post_code>//*[@id='tax_postcode']</zip_post_code>
+                        <range_from>//*[@id='zip_from']</range_from>
+                        <range_to>//*[@id='zip_to']</range_to>
+                        <store_view_name_for_tax_title>//form[@id='rate_form']//td[%s]//input</store_view_name_for_tax_title>
+                        <search_line>//input[@id='filter_code']</search_line>
+                    </inputs>
+                    <elements>
+                        <store_view_name_for_tax_title>//form[@id='rate_form']//th</store_view_name_for_tax_title>
+                        <store_view_name_for_title_many>//form[@id='rate_form']//th[%s]</store_view_name_for_title_many>
+                    </elements>
+                    <selectors>
+                        <country>//*[@id='tax_country_id']</country>
+                        <state>//*[@id='tax_region_id']</state>
+                        <zip_post_is_range>//*[@id='zip_is_range']</zip_post_is_range>
+                        <state_disabled>//*[@id='tax_region_id' and @disabled='']</state_disabled>
+                    </selectors>
+                </edit_tax_zone_rate_page>
             </manage_tax_zone_rate>
-            <customer_tax_classes>
+            <manage_customer_tax_class>
                 <buttons>
                     <add_new>//button[span='Add New']</add_new>
-                    <save>//button[span='Save Class']</save>
-                    <search>//button[span='Search']</search>
-                    <delete>//button[span='Delete Class']</delete>
                 </buttons>
                 <elements>
-                    <searched_item>//table[@id='taxClassGrid_table']//td[normalize-space(text())='%s']</searched_item>
-                    <required_field_error>//*[@class='validation-advice']</required_field_error>
-                    <required_failed_qty>//*[contains(@class,'validation-failed')]</required_failed_qty>
-                    <required_failed_name>//tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style, 'display: none;'))]//label</required_failed_name>
+                    <tax_grid_container>//*[@id='taxClassGrid']</tax_grid_container>
                 </elements>
-                <inputs>
-                    <customer_tax_class_name>//*[@id='class_name']</customer_tax_class_name>
-                    <search_line>//input[@id='filter_class_name']</search_line>
-                </inputs>
-            </customer_tax_classes>
-            <product_tax_classes>
+                <edit_customer_tax_class_page>
+                    <buttons>
+                        <add_new>//button[span='Add New']</add_new>
+                        <save>//button[span='Save Class']</save>
+                        <search>//button[span='Search']</search>
+                        <delete>//button[span='Delete Class']</delete>
+                    </buttons>
+                    <inputs>
+                        <customer_tax_class_name>//*[@id='class_name']</customer_tax_class_name>
+                        <search_line>//input[@id='filter_class_name']</search_line>
+                    </inputs>
+                </edit_customer_tax_class_page>
+            </manage_customer_tax_class>
+            <manage_product_tax_class>
                 <buttons>
                     <add_new>//button[span='Add New']</add_new>
-                    <save>//button[span='Save Class']</save>
-                    <search>//button[span='Search']</search>
-                    <delete>//button[span='Delete Class']</delete>
                 </buttons>
                 <elements>
-                    <searched_item>//table[@id='taxClassGrid_table']//td[normalize-space(text())='%s']</searched_item>
-                    <required_field_error>//*[@class='validation-advice']</required_field_error>
-                    <required_failed_qty>//*[contains(@class,'validation-failed')]</required_failed_qty>
-                    <required_failed_name>//tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style, 'display: none;'))]//label</required_failed_name>
+                    <tax_grid_container>//*[@id='taxClassGrid']</tax_grid_container>
                 </elements>
-                <inputs>
-                    <product_tax_class_name>//*[@id='class_name']</product_tax_class_name>
-                    <search_line>//input[@id='filter_class_name']</search_line>
-                </inputs>
-            </product_tax_classes>
+                <edit_product_tax_class_page>
+                    <buttons>
+                        <save>//button[span='Save Class']</save>
+                        <delete>//button[span='Delete Class']</delete>
+                    </buttons>
+                    <inputs>
+                        <product_tax_class_name>//*[@id='class_name']</product_tax_class_name>
+                        <search_line>//input[@id='filter_class_name']</search_line>
+                    </inputs>
+                </edit_product_tax_class_page>
+            </manage_product_tax_class>
         </tax>
     </sales>
     <catalog>
