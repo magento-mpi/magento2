@@ -1,20 +1,20 @@
 <?php
 
-class Admin_Taxes_unifiedTaxDelete extends TestCaseAbstract {
+class Admin_Taxes_unifiedTaxDeleteNeg extends TestCaseAbstract {
 
     /**
      * Setup procedure.
      * Initializes model and loads configuration
      */
     function setUp() {
-        $this->model = $this->getModel('admin/TaxRuleDelete');
+        $this->model = $this->getModel('admin/tax');
         $this->setUiNamespace();
     }
 
     /**
      * Test deleating Tax Rule
      */
-    function UnifiedTaxDeleating() {
+    function testUnifiedTaxDeleating() {
         $taxData = array(
         'product_tax_class_name' => 'Test product tax class',
         'customer_tax_class_name' => 'Test customer tax class',

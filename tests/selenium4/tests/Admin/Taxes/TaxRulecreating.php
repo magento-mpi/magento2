@@ -16,9 +16,12 @@ class Admin_Taxes_TaxRulecreating extends TestCaseAbstract {
      */
     function testCreateTaxRule() {
         $taxData = array(
-        'product_tax_class_name' => Core::getEnvConfig('backend/tax/product_tax_class_name'),
-        'customer_tax_class_name' => Core::getEnvConfig('backend/tax/customer_tax_class_name'),
-        'tax_rate_identifier' => Core::getEnvConfig('backend/tax/tax_rate_identifier'),
+        'product_tax_class' => array('Test product tax class 1', 'Test product tax class 2', 'Test product tax class 3'),
+            ////Core::getEnvConfig('backend/tax/product_tax_class_name'),
+        'customer_tax_class' => array('Test customer tax class 1', 'Test customer tax class 2', 'Test customer tax class 3'),
+            ////Core::getEnvConfig('backend/tax/customer_tax_class_name'),
+        'tax_rate' => array('Test tax rate 1', 'Test tax rate 2', 'Test tax rate 3'),
+            ////Core::getEnvConfig('backend/tax/tax_rate_identifier'),
         'tax_rate_percent' => Core::getEnvConfig('backend/tax/tax_rate_percent'),
         'tax_rule_name' => Core::getEnvConfig('backend/tax/tax_rule_name'),
         'zip_post_code' => Core::getEnvConfig('backend/tax/zip_post_code'),

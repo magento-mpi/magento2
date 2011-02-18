@@ -24,12 +24,12 @@ class Admin_Taxes_unifiedTaxDelete extends TestCaseAbstract {
             'search_tax_rule_name' => 'Test tax rule',
         );
         if ($this->model->doLogin()) {
-            $this->model->unifiedTaxDelete($taxData, "manage_tax_rules", "tax_rule_name");
+            $this->model->unifiedTaxDelete($taxData, "customer_tax_class", "customer_tax_class_name");
             /*
-             * manage_tax_zone_rate, tax_rate_identifier
-             * manage_tax_rules, tax_rule_name
-             * product_tax_classes, product_tax_class_name
-             * customer_tax_classes, customer_tax_class_name
+             * tax_zone_rate, tax_rate_identifier
+             * tax_rule, tax_rule_name
+             * product_tax_class, product_tax_class_name
+             * customer_tax_class, customer_tax_class_name
              */
         }
     }
