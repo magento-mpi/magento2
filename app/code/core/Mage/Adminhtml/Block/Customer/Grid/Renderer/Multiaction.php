@@ -76,18 +76,17 @@ class Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction
         $product = $row->getProduct();
 
         if (isset($action['process']) && $action['process'] == 'configurable') {
-            $isConfigurable = (bool)($product->isComposite() || $product->getOptions()
+            $hasConfigurableOptions = (bool)($product->isComposite() || $product->getOptions()
                 || in_array($product->getTypeId(), array('giftcard', 'downloadable')));
-            $style          = ($isConfigurable) ? '' : ' style="color: #CCC"';
-            $onClick        = ($isConfigurable)
-                ? sprintf(
-                        ' onClick="productConfigure.showItemConfiguration(\'%s\', %s)"',
-                        $action['list_type'],
-                        $row->getId()
-                    )
-                : '';
+            if ($hasConfigurableOptions) {
+                $style = '';
+                $onClick = sprintf('onclick="return %s.configureItem(%s)"', $action['control_object'], $row->getId());
+            } else {
+                $style = 'style="color: #CCC"';
+                $onClick = '';
+            }
 
-            return sprintf('<a href="%s"%s%s>%s</a>', $action['url'], $style, $onClick, $action['caption']);
+            return sprintf('<a href="%s" %s %s>%s</a>', $action['url'], $style, $onClick, $action['caption']);
         } else {
             return parent::_toLinkHtml($action, $row);
         }

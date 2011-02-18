@@ -48,6 +48,20 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
     protected $_wishlistItemTableAlias         = 't_wi';
 
     /**
+     * Constructor. Added just to throw exception, because after Magento 1.5.0.0 it's impossible
+     * to use product collection in wishlist
+     *
+     * @deprecated after 1.5.0.0
+     * @see Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return void
+     */
+    public function __construct()
+    {
+        throw new Exception("Usage of product collection is deprecated in wishlist.");
+    }
+
+
+    /**
      * Get add days in whishlist filter of product collection flag
      *
      * @return boolean

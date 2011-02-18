@@ -180,6 +180,7 @@ ProductConfigure.prototype = {
         }
         if (urlConfirm) {
             this.blockForm.action = urlConfirm;
+            this.addFields([new Element('input', {type: 'hidden', name: 'id', value: this.current.itemId})]);
         } else {
             this._processFieldsData('all_confirmed_to_form');
             this.blockForm.action = urlSubmit;

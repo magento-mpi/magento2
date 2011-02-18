@@ -507,24 +507,23 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     /**
      * Update product in shopping cart (quote)
      *
-     * @param   int $productId
+     * @param   int|Mage_Catalog_Model_Product $product
      * @param   mixed $requestInfo
      * @return  Mage_Checkout_Model_Cart
      */
-    public function updateProduct($product, $requestInfo=null)
+    public function updateProduct($product, $requestInfo = null)
     {
         $product = $this->_getProduct($product);
         $request = $this->_getProductRequest($requestInfo);
         $itemId = (int) $requestInfo['id'];
-        $updateItem = $this->getQuote()->getItemById($itemId);
 
         //Check if current product already exists in cart
         $productId = $product->getId();
         $items = $this->getQuote()->getAllItems();
-        $quoteProduct = null;
+        $productInQuote = false;
         foreach ($items as $item) {
             if ($item->getProductId() == $productId) {
-                $quoteProduct = $item;
+                $productInQuote = true;
                 break;
             }
         }
@@ -532,33 +531,14 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if ($product->getStockItem()) {
             $minimumQty = $product->getStockItem()->getMinSaleQty();
             //If product was not found in cart and there is set minimal qty for it
-            if($minimumQty && $minimumQty > 0 && $request->getQty() < $minimumQty && $quoteProduct === null){
+            if ($minimumQty && ($minimumQty > 0) && ($request->getQty() < $minimumQty) && !$productInQuote){
                 $request->setQty($minimumQty);
             }
         }
 
         if ($product->getId()) {
             try {
-                $resultItem = $this->getQuote()->addProduct($product, $request);
-
-                if ($resultItem->getId() != $itemId) {
-                    $this->getQuote()->removeItem($itemId);
-
-                    $items = $this->getQuote()->getAllItems();
-                    $eqItems = array();
-                    foreach ($items as $item) {
-                        if ($item->getProductId() == $productId && $item->getId() != $resultItem->getId()) {
-                            if ($resultItem->compare($item)) {
-                                $resultItem->setQty($resultItem->getQty() + $item->getQty());
-                                $this->getQuote()->removeItem($item->getId());
-                            }
-                        }
-                    }
-                } else {
-                    $resultItem->setQty($request->getQty());
-                }
-
-                $result = $resultItem;
+                $result = $this->getQuote()->updateItem($itemId, $request);
             } catch (Mage_Core_Exception $e) {
                 $this->getCheckoutSession()->setUseNotice(false);
                 $result = $e->getMessage();

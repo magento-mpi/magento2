@@ -161,7 +161,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
                     'caption'   => $helper->__('Configure'),
                     'url'       => 'javascript:void(0)',
                     'process'   => 'configurable',
-                    'list_type' => 'wishlist'
+                    'control_object' => 'wishlistControl'
                 ),
                 array(
                     'caption'   => $helper->__('Delete'),

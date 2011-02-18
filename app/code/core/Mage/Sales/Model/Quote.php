@@ -907,6 +907,51 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Updates quote item with new configuration
+     *
+     * @param   int $itemId
+     * @param   Varien_Object $buyRequest
+     * @return  Mage_Sales_Model_Quote_Item
+     */
+    public function updateItem($itemId, $buyRequest)
+    {
+        $item = $this->getItemById($itemId);
+        if (!$item) {
+            Mage::throwException(Mage::helper('sales')->__('Wrong quote item id to update configuration.'));
+        }
+        $productId = $item->getProduct()->getId();
+
+        $product = Mage::getModel('catalog/product')
+            ->load($productId);
+
+        $resultItem = $this->addProduct($product, $buyRequest);
+
+        if ($resultItem->getId() != $itemId) {
+            /*
+             * Product configuration didn't stick to original quote item
+             * It either has same configuration as some other quote item's product or completely new configuration
+             */
+            $this->removeItem($itemId);
+
+            $items = $this->getAllItems();
+            foreach ($items as $item) {
+                if (($item->getProductId() == $productId) && ($item->getId() != $resultItem->getId())) {
+                    if ($resultItem->compare($item)) {
+                        // Product configuration is same as in other quote item
+                        $resultItem->setQty($resultItem->getQty() + $item->getQty());
+                        $this->removeItem($item->getId());
+                        break;
+                    }
+                }
+            }
+        } else {
+            $resultItem->setQty($buyRequest->getQty());
+        }
+
+        return $resultItem;
+    }
+
+    /**
      * Retrieve quote item by product id
      *
      * @param   Mage_Catalog_Model_Product $product

@@ -35,7 +35,9 @@
 class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController extends Mage_Adminhtml_Controller_Action
 {
     /*
-     * Ajax handler to response configuration fieldset of composite product in customer's cart
+     * Ajax handler to response configuration fieldset of composite product in customer's wishlist
+     *
+     * @return void
      */
     public function configureAction()
     {
@@ -53,5 +55,48 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
                 $viewHelper->prepareAndRender($wishlistItem->getProductId(), $this, $params);
             }
         }
+    }
+
+    /*
+     * IFrame handler for submitted configuration for wishlist item
+     *
+     * @return void
+     */
+    public function updateAction()
+    {
+        // Update wishlist item
+        $wishlistItemId = (int) $this->getRequest()->getParam('id');
+        $errorMessage = null;
+        try {
+            if (!$wishlistItemId) {
+                Mage::throwException($this->__('No wishlist item id defined.'));
+            }
+            /* @var $wishlistItem Mage_Wishlist_Model_Wishlist_Item */
+            $wishlistItem = Mage::getModel('wishlist/item')->load($wishlistItemId);
+            if (!$wishlistItem) {
+                Mage::throwException($this->__('Wrong wishlist item'));
+            }
+
+            /* @var $wishlist Mage_Wishlist_Model_Wishlist */
+            $wishlist = Mage::getModel('wishlist/wishlist');
+            $wishlist->load($wishlistItem->getWishlistId());
+            $buyRequest = new Varien_Object($this->getRequest()->getParams());
+            $wishlist->updateItem($wishlistItemId, $buyRequest);
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+        }
+
+        // Form result for client javascript
+        $updateResult = new Varien_Object();
+        if ($errorMessage) {
+            $updateResult->setError(1);
+            $updateResult->setMessage($errorMessage);
+        } else {
+            $updateResult->setOk(1);
+        }
+
+        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper->renderUpdateResult($this, $updateResult);
     }
 }
