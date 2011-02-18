@@ -44,20 +44,16 @@ opConfig = new ProductOptionsClass({});
 //]]>
 </script>
 
-<div class="entry-edit">
-    <div id="catalog_product_composite_configure_fields_options" class="product-configure-options">
-        <div class="entry-edit-head">
-            <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Custom Options') ?></h4>
-        </div>
-        <table class="form-list">
-            <tbody>
+<div id="catalog_product_composite_configure_fields_options" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
+    <h4><?php echo Mage::helper('catalog')->__('Custom Options') ?></h4>
+    <div class="product-options">
+        <dl>
             <?php
                 foreach($options as $option) {
                     echo $this->getOptionHtml($option);
                 }
             ?>
-            </tbody>
-        </table>
+        </dl>
     </div>
 </div>
 

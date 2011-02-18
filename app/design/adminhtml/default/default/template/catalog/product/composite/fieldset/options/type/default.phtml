@@ -28,9 +28,6 @@
 /* @var $this Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options */
 $option = $this->getOption()
 ?>
-<tr>
-    <td class="label">
-        <label><?php echo $this->escapeHtml($option->getTitle()) ?></label>
-    </td>
-    <td class="value">&nbsp;</td>
-</tr>
+<dt>
+    <label><?php echo $this->escapeHtml($option->getTitle()) ?></label>
+</dt>

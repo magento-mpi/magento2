@@ -371,7 +371,7 @@ AdminOrder.prototype = {
                     }
                 }
                 
-                input.disabled = !checkbox.checked || input.getAttribute('inactiveField');
+                input.disabled = !checkbox.checked || input.hasClassName('input-inactive');
                 
                 Event.observe(input,'keyup', this.productGridRowInputChange.bind(this));
                 Event.observe(input,'change',this.productGridRowInputChange.bind(this));
@@ -421,7 +421,7 @@ AdminOrder.prototype = {
                 this.gridProducts.set(element.value, {});
                 for (var i = 0; i < element.inputElements.length; i++) {
                     var input = element.inputElements[i];
-                    if (!input.getAttribute('inactiveField')) {
+                    if (!input.hasClassName('input-inactive')) {
                         input.disabled = false;
                         if (input.name == 'qty' && !input.value) {
                             input.value = 1;

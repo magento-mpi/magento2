@@ -116,4 +116,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
     {
         return true;
     }
+
+    /**
+     * Checks whether block is last fieldset in popup
+     *
+     * @return bool
+     */
+    public function getIsLastFieldset()
+    {
+        if ($this->hasData('is_last_fieldset')) {
+            return $this->getData('is_last_fieldset');
+        } else {
+            return !$this->getProduct()->getOptions();
+        }
+    }
 }

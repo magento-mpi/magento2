@@ -33,15 +33,15 @@ if (!is_array($configValue)) {
 }
 ?>
 <?php if ($this->getProduct()->isSaleable() && $this->hasLinks()):?>
-    <div class="entry-edit-head">
-        <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Downloadable Information') ?></h4>
-    </div>
-    <div id="catalog_product_composite_configure_fields_downloadable">
+
+<div id="catalog_product_composite_configure_fields_downloadable" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
+    <h4><?php echo Mage::helper('catalog')->__('Downloadable Information') ?></h4>
+    <div class="product-options">
         <dl>
         <?php $_links = $this->getLinks(); ?>
         <?php $_isRequired = $this->getLinkSelectionRequired(); ?>
             <dt><label<?php if ($_isRequired) echo ' class="required"' ?>><?php if ($_isRequired) echo '<em>*</em>' ?><?php echo $this->getLinksTitle() ?></label></dt>
-            <dd<?php /* if ($_option->decoratedIsLast){?> class="last"<?php } */ ?>>
+            <dd class="last">
                 <ul id="downloadable-links-list" class="options-list">
                 <?php foreach ($_links as $_link): ?>
                     <li>
@@ -81,6 +81,7 @@ if (!is_array($configValue)) {
             </dd>
         </dl>
     </div>
+</div>
 
     <script type="text/javascript">
     //<![CDATA[

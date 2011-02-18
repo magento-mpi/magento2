@@ -41,13 +41,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty extends M
      */
     public function render(Varien_Object $row)
     {
+        $isInactive = $row->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+
         $html = '<input type="text" ';
         $html .= 'name="' . $this->getColumn()->getId() . '" ';
         $html .= 'value="' . $row->getData($this->getColumn()->getIndex()) . '" ';
-        if ($row->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
-            $html .= 'disabled="disabled" inactiveField="1"';
+        if ($isInactive) {
+            $html .= 'disabled="disabled" ';
         }
-        $html .= 'class="input-text ' . $this->getColumn()->getInlineCss() . '" />';
+        $html .= 'class="input-text ' . $this->getColumn()->getInlineCss() . ($isInactive ? ' input-inactive' : '') . '" />';
         return $html;
     }
 }

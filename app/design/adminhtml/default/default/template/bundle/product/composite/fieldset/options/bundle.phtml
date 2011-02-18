@@ -34,18 +34,18 @@ if (!count($options)) {
 }
 ?>
 
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Bundle Items') ?></h4>
-    </div>
-    <div id="catalog_product_composite_configure_fields_bundle">
-        <?php
-            foreach($options as $option) {
-                if (!$option->getSelections()) {
-                    continue;
+<div id="catalog_product_composite_configure_fields_bundle" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
+    <h4><?php echo Mage::helper('catalog')->__('Bundle Items') ?></h4>
+    <div class="product-options">
+        <dl>
+            <?php
+                foreach($options as $option) {
+                    if (!$option->getSelections()) {
+                        continue;
+                    }
+                    echo $this->getOptionHtml($option);
                 }
-                echo $this->getOptionHtml($option);
-            }
-        ?>
+            ?>
+        </dl>
     </div>
 </div>

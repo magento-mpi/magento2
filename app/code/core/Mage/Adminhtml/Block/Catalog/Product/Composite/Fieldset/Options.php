@@ -46,5 +46,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options extends Ma
             'catalog/product_view_options_type_default',
             'catalog/product/composite/fieldset/options/type/default.phtml'
         );
+        $this->setIsLastFieldset(true);
     }
 }
