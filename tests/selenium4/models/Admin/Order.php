@@ -15,40 +15,92 @@ class Model_Admin_Order extends Model_Admin {
         parent::loadConfigData();
 
         $this->Data = array(
-            'user_choise'               => '',
-            'storeview_name'            => '',
-            'billing_address_choise'    => '',
-            'shipping_address_choise'   => '',
-            'payment_method'            => '',
-            'shipping_method_title'     => '',
-            'shipping_method'           => ''
+            'user_choise' => '',
+            'storeview_name' => '',
+            'gift_card_code' => '',
+            'coupon_code' => '',
+            'choise_billing_address' => '',
+            'choise_shipping_address' => '',
+            'payment_method' => '',
+            'shipping_method_title' => '',
+            'shipping_method' => '',
         );
+        $this->mapData = Core::getEnvMap('admin/pages/sales/orders/manage_orders/create_order');
     }
 
     /**
-     * Выбор пользователя для создания заказа.
+     * Get value of the variable '$value'
+     *
+     * @param array $params
+     * @param string $value
+     * @return <type> 
+     */
+    public function isSetValue($params, $value)
+    {
+        $Data = $params ? $params : $this->Data;
+        if (isset($Data[$value])) {
+            return $Data[$value];
+        } elseif (isset($this->Data[$value])) {
+            return $this->Data[$value];
+        } else {
+            $this->printInfo("The value of the variable '" . $value . "' is not set");
+            return NULL;
+        }
+    }
+
+    /**
+     * Data preparation
+     *
+     * @param array $params
+     * @param string $searchWord
+     * @return array
+     */
+    public function dataPreparation($params, $searchWord)
+    {
+        $Data = $params ? $params : $this->Data;
+        $arrayName = array();
+        foreach ($Data as $key => $value) {
+            if (preg_match($searchWord, $key)) {
+                if (is_array($value)) {
+                    $i = 0;
+                    foreach ($value as $v) {
+                        $arrayName[$key][$i] = $v;
+                        $i++;
+                    }
+                    $i = 0;
+                } else {
+                    $arrayName[$key] = $value;
+                }
+            }
+        }
+        return $arrayName;
+    }
+
+    /**
+     * User’s choice for order creation.
      *
      * @param string $userType
-     * имеет два значения 'new' и 'exist'.
-     * Если $userType='new' будет выбран вариант создания нового пользователя
-     * Если $userType='esixt' то будет выбран существующих пользователь
-     *
-     * @param array $searchUser
-     * массив в котором заданны значения для поиска пользователя (имя, e-mail, телефон и т.д.)
+     * has two values: 'new' и 'exist'.
+     * If $userType='new' new user’s creation variant will be selected.
+     * If $userType='esixt' existing user will be selected.
+     * @param array $params
+     * array in which values for user search are set (name, e-mail, telephone number etc.)
      */
-    public function chooseUser($userType, $searchUser)
+    public function chooseUser($params, $userType)
     {
         $result = true;
         $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order/');
+        $searchWord = '/^search_user/';
+        $searchUser = $this->dataPreparation($params, $searchWord);
         switch ($userType) {
-            case "new":
-                $this->click($this->getUiElement("buttons/new_customer"));
+            case 'new':
+                $this->click($this->getUiElement('buttons/new_customer'));
                 $this->pleaseWait();
                 break;
-            case "exist":
-                $result = $this->searchAndDoAction("select_customer_container", $searchUser, "open", NULL);
-                if ($result) {
-                    $this->pleaseWait();
+            case 'exist':
+                $result = $this->searchAndDoAction('select_customer_container', $searchUser, 'open', NULL);
+                if (!$result) {
+                    $this->setVerificationErrors('Error searching customer');
                 }
                 break;
             default :
@@ -59,26 +111,25 @@ class Model_Admin_Order extends Model_Admin {
     }
 
     /**
-     * Select Store.
+     * Select Store.Before using it is needed to set UiNamespace.
      *
      * @param string $path
-     * Название элемента в котором содержится Xpath элемента.
-     * Задание идет по такому принципу: UiNamespace/inputs/$path.
-     * Перед использованием нужно задавать UiNamespace.
-     *
+     * element name which contains Xpath element.
+     * Variable is set on the basis of such a principle: UiNamespace/inputs/$path.
      * @param <type> $value
-     * Элемент массива который содержит Store name
+     * array element which contains Store name
      */
     public function selectStore($path, $value)
     {
         $result = TRUE;
         if (isset($value) and $value != Null) {
-            $qtySite = $this->getXpathCount($this->getUiElement("inputs/" . $path, $value));
+            $qtySite = $this->getXpathCount($this->getUiElement('inputs/' . $path, $value));
             if ($qtySite > 0) {
                 if ($qtySite > 1) {
-                    $this->printInfo("\r\n There are " . $qtySite . " elements for which value '" . $path . "'='" . $value . "'. The first will be selected");
+                    $this->printInfo("\r\n There are " . $qtySite . " elements for which value '" . $path . "'='" .
+                            $value . "'. The first will be selected");
                 }
-                $this->click($this->getUiElement("inputs/" . $path, $value));
+                $this->click($this->getUiElement('inputs/' . $path, $value));
                 $this->pleaseWait();
             } else {
                 $this->setVerificationErrors("Element for which value '" . $path . "'='" . $value . "' does not exist");
@@ -92,44 +143,24 @@ class Model_Admin_Order extends Model_Admin {
     }
 
     /**
-     * Добавление продуктов для создания ордера с админки
+     * Adding products for admin order creation.
      *
-     * @param array $searchProducts
-     * Массив, который содержит идентификаторы продуктов(sku, name, id и т.д.)
-     * по которым будет выполняться поиск для дальнейшего добавления.
+     * @param array $params
+     * array which contains products identificators (sku, name, id etc.)
+     * on which search for further adding will be done.
      */
-    public function addProducts($searchProducts)
+    public function addProducts($params)
     {
         $result = TRUE;
-        $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order/');
-        $this->click($this->getUiElement("buttons/add_product"));
-        if (is_array($searchProducts) and count($searchProducts) > 0) {
-            $isArr = false;
-            foreach ($searchProducts as $key => $value) {
-                $isArr = $isArr || is_array($value);
-            }
-            if ($isArr) {
-                $i = 1;
-                $qtyNewArrays = 0;
-                foreach ($searchProducts as $k => $v) {
-                    foreach ($v as $v1) {
-                        if (count($v) > $qtyNewArrays) {
-                            $qtyNewArrays = count($v);
-                        }
-                        ${'array' . $i}[$k] = $v1;
-                        $i++;
-                    }
-                    $i = 1;
-                }
-                for ($y = 1; $y <= $qtyNewArrays; $y++) {
-                    $this->searchAndDoAction("select_product_for_order_container", ${'array' . $y}, "mark", NULL);
-                }
-            } else {
-                $this->searchAndDoAction("select_product_for_order_container", $searchProducts, "mark", NULL);
-            }
+        $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
+        $searchWord = '/^search_product/';
+        $searchProducts = $this->dataPreparation($params, $searchWord);
+        if (count($searchProducts) > 0) {
+            $this->click($this->getUiElement('buttons/add_product'));
+            $this->multiRunSearch('select_product_for_order_container', $searchProducts, NULL);
+            $this->click($this->getUiElement('buttons/add_product_confirm'));
+            $this->pleaseWait();
         }
-        $this->click($this->getUiElement("buttons/add_product_confirm"));
-        $this->pleaseWait();
         if ($this->isElementPresent("//*[@id='order-items_grid']//tfoot")) {
             $arInfo = array();
             for ($i = 1; $i <= 5; $i++) {
@@ -152,20 +183,19 @@ class Model_Admin_Order extends Model_Admin {
     }
 
     /**
-     * Заполнение полей для Shipping или Billing адресса
+     * New data input in fields for Shipping or Billing address
      *
      * @param array $adress
-     * Массив, который содержит данные для Shipping или Billing адресса
-     * (First Name, Last Name, Country и т.д.)
+     * array which contains data for Shipping or Billing address (First Name, Last Name, Country etc.)
      */
     public function newAddress($adress)
     {
-        if (count($adress) > 0 and is_array($adress)) {
+        if (count($adress) > 0) {
             $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
             foreach ($adress as $key => $value) {
                 if (preg_match('/country/', $key)) {
                     if (!$this->isElementPresent($this->getUiElement('selectors/' . $key) .
-                                    $this->getUiElement('/admin/elements/selected_option', $value))) {
+                                    $this->getUiElement('/admin/global/elements/selected_option', $value))) {
                         $this->select($this->getUiElement('selectors/' . $key), $value);
                         $this->pleaseWait();
                     }
@@ -177,7 +207,7 @@ class Model_Admin_Order extends Model_Admin {
                         $this->pleaseWait();
                     }
                 } else {
-                    $this->type($this->getUiElement("inputs/" . $key), $value);
+                    $this->type($this->getUiElement('inputs/' . $key), $value);
                     if (preg_match('/shipping/', $key)) {
                         $this->pleaseWait();
                     }
@@ -187,37 +217,42 @@ class Model_Admin_Order extends Model_Admin {
     }
 
     /**
-     * Выбор Shipping или Billing адресса
+     * Choice and filling in Shipping or Billing address
      *
      * @param string $tab
-     * Имеет 2 значения: 'shipping' и  'billing' - указывает какой адресс будет заполняться
-     *
+     * has two values: 'shipping' and  'billing' – defines which address will be fillen in
      * @param string $addressType
-     * Имеет 4 значения: 'new','exist', 'default' и "sameAsBilling".
-     * В соответствии с этими значениями будет создан новый адресс, выбран существующий
-     * или же будет использоваться default адресс. "sameAsBilling" может использоваться только для
-     * Shipping адресса.
-     * 
-     * @param array $adress
-     * Массив, который содержит данные для Shipping или Billing адресса
-     * (First Name, Last Name, Country и т.д.)
+     * has four values: 'new','exist', 'default' and 'sameAsBilling'.
+     * In accordance with these values a new address will be set or chosen existing one
+     * or default address will be used. 'sameAsBilling' can be ised only for Shipping address.
+     * @param array $params
+     * array which contains data for Shipping or Billing address (First Name, Last Name, Country etc.)
      */
-    public function fillAddressTab($tab, $addressType, $adress)
+    public function fillAddressTab($params, $tab, $addressType)
     {
+        $path = $this->getUiElement('selectors/select_' . $tab . '_address');
+        switch ($tab) {
+            case 'shipping':
+                $searchWord = '/^shipping_(?!method)/';
+                break;
+            case 'billing':
+                $searchWord = '/^billing_/';
+                break;
+        }
+        $adress = $this->dataPreparation($params, $searchWord);
         switch ($addressType) {
             case 'new':
-                if ($this->isElementPresent($this->getUiElement('selectors/select_' . $tab . '_address') .
-                                $this->getUiElement('/admin/elements/selected_option', ""))) {
-                    $this->select($this->getUiElement('selectors/select_' . $tab . '_address'), 'label=Add New Address');
+                if ($this->isElementPresent($path . $this->getUiElement('/admin/global/elements/selected_option', ''))) {
+                    $this->select($path, 'label=Add New Address');
                     $this->pleaseWait();
                 }
                 $this->newAddress($adress);
                 break;
             case 'exist':
-                $addressCount = $this->getXpathCount($this->getUiElement('selectors/select_' . $tab . '_address') . '/option');
+                $addressCount = $this->getXpathCount($path . '/option');
                 $res = 0;
                 for ($i = 1; $i <= $addressCount; $i++) {
-                    $addressValue = $this->getText($this->getUiElement('selectors/select_' . $tab . '_address') . "/option[$i]");
+                    $addressValue = $this->getText($path . "/option[$i]");
                     foreach ($adress as $v) {
                         $res += preg_match("/$v/", $addressValue);
                     }
@@ -228,7 +263,7 @@ class Model_Admin_Order extends Model_Admin {
                     $res = 0;
                 };
                 if (is_string($res)) {
-                    $this->select($this->getUiElement('selectors/select_' . $tab . '_address'), "label=" . $res);
+                    $this->select($path, 'label=' . $res);
                     $this->pleaseWait();
                     $this->printInfo($tab . " adress '" . $res . "' is selected");
                 } else {
@@ -236,9 +271,16 @@ class Model_Admin_Order extends Model_Admin {
                 }
                 break;
             case 'default':
-                if (!$this->isElementPresent($this->getUiElement('selectors/select_' . $tab . '_address') .
-                                $this->getUiElement('/admin/elements/selected_option', ""))) {
+                if (!$this->isElementPresent($path . $this->getUiElement('/admin/global/elements/selected_option', ''))) {
                     $this->printInfo("\r\n Default address is not specified");
+                }
+                break;
+            case 'sameAsBilling':
+                if ($tab == 'shipping') {
+                    $this->click($this->getUiElement('inputs/same_as_billing'));
+                    $this->pleaseWait();
+                } else {
+                    $this->printInfo('This option can not be chosen for Billing address');
                 }
                 break;
             default :
@@ -247,14 +289,13 @@ class Model_Admin_Order extends Model_Admin {
     }
 
     /**
-     * Выбор Shipping Method для оплаты заказа
+     * Select Shipping Method for order.
      *
      * @param string $shippingMethodTitle
-     * title для Shipping Method которое задается в System->Configuration->Shipping Methods-><Метод>->Title
-     *
+     * title for Shipping Method which is set in System->Configuration->Shipping Methods-><Method>->Title
      * @param string $shippingMethod
-     * Method Name которое задается в System->Configuration->Shipping Methods-><Метод>->Method Name
-     * (для Flat Rate,Free Shipping) и в System->...->Allowed Methods (для UPS, USPS, FedEx,DHL)
+     * Method Name which is set in System->Configuration->Shipping Methods-><Method>->Method Name
+     * (for Flat Rate,Free Shipping) and in System->...->Allowed Methods (for UPS, USPS, FedEx,DHL)
      */
     public function selectShippingMethod($shippingMethodTitle, $shippingMethod)
     {
@@ -263,7 +304,7 @@ class Model_Admin_Order extends Model_Admin {
         $this->click($this->getUiElement('inputs/get_shipping_methods'));
         $this->pleaseWait();
         if ($this->isTextPresent($this->getUiElement('elements/no_shipping'))) {
-            $this->setVerificationErrors($this->getUiElement('elements/no_shipping'));
+            $this->printInfo("\r\n Shipping Method: " . $this->getUiElement('elements/no_shipping'));
             $result = FALSE;
         } elseif ($this->isElementPresent($this->getUiElement('elements/shipping_container')) and
                 $shippingMethodTitle != Null and $shippingMethod != Null) {
@@ -281,11 +322,11 @@ class Model_Admin_Order extends Model_Admin {
                 $this->setVerificationErrors($error);
                 $result = FALSE;
             } else {
-                $this->setVerificationErrors("This shipping method is currently unavailable.");
+                $this->setVerificationErrors('This shipping method is currently unavailable.');
                 $result = FALSE;
             }
         } else {
-            $this->printInfo("Shipping Method is not set");
+            $this->printInfo('Shipping Method is not set');
             $result = FALSE;
         }
         if ($result) {
@@ -297,52 +338,136 @@ class Model_Admin_Order extends Model_Admin {
     }
 
     /**
-     * Выбор Payment Method
+     * Select Payment Method.
      *
+     * @param string $paymentMethod
+     * has 6 values: 'paypaluk_direct', 'verisign', 'paypal_direct', 'authorizenet', 'ccsave', 'money_order' -
+     * each of which fits chosen Payment methodу
      * @param array $params
      */
-    public function selectPaymentMethod($params)
+    public function selectPaymentMethod($params, $paymentMethod)
     {
         $result = TRUE;
-        $Data = $params ? $params : $this->Data;
-        if ($Data['payment_method'] != NULL) {
-            $paymentMethod = $Data['payment_method'];
+        $par = array();
+        $mapData = $par ? $par : $this->mapData;
+        $searchWord = '/^card_/';
+        $cardData = $this->dataPreparation($params, $searchWord);
+        if ($paymentMethod != NULL) {
             $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
             if ($this->isTextPresent($this->getUiElement('elements/no_payment'))) {
-                $this->printInfo("\r\n " . $this->getUiElement('elements/no_payment'));
+                $this->printInfo("\r\n Payment Method: " . $this->getUiElement('elements/no_payment'));
             } elseif ($this->isElementPresent($this->getUiElement('inputs/' . $paymentMethod))) {
                 $this->click($this->getUiElement('inputs/' . $paymentMethod));
                 $this->pleaseWait();
                 if ($this->isElementPresent($this->getUiElement('elements/credit_card_payment', $paymentMethod))) {
-                    if ($paymentMethod == 'ccsave') {
-                        $cardName = $Data['card_name'];
-                        $this->type($this->getUiElement("inputs/card_name"), $cardName);
-                    }
-                    if ($Data['card_type'] != NULL) {
-                        $this->select($this->getUiElement("selectors/card_type", $paymentMethod), "label=" . $Data['card_type']);
-                    }
-                    if ($Data['card_number'] != NULL) {
-                        $this->type($this->getUiElement("inputs/card_number", $paymentMethod), $Data['card_number']);
-                        $this->pleaseWait();
-                    }
-                    if ($Data['card_month'] != NULL) {
-                        $this->select($this->getUiElement("selectors/month_expiration", $paymentMethod), "label=regexp:" . $Data['card_month']);
-                        $this->pleaseWait();
-                    }
-                    if ($Data['card_year'] != NULL) {
-                        $this->select($this->getUiElement("selectors/year_expiration", $paymentMethod), "label=" . $Data['card_year']);
-                        $this->pleaseWait();
-                    }
-                    if ($this->isElementPresent($this->getUiElement("inputs/verification_number", $paymentMethod))) {
-                        if ($Data['card_verif_number'] != NULL) {
-                            $this->type($this->getUiElement("inputs/verification_number", $paymentMethod), $Data['card_verif_number']);
-                            $this->pleaseWait();
+                    if (count($cardData) > 0) {
+                        foreach ($cardData as $key => $value) {
+                            if (isset($mapData['inputs'][$key])) {
+                                if ($this->isElementPresent($this->getUiElement('inputs/' . $key, $paymentMethod))) {
+                                    $this->type($this->getUiElement('inputs/' . $key, $paymentMethod), $value);
+                                }
+                                if ($this->isTextPresent('Please wait...')) {
+                                    $this->pleaseWait();
+                                }
+                            } elseif (isset($mapData['selectors'][$key])) {
+                                if ($this->isElementPresent($this->getUiElement('selectors/' . $key, $paymentMethod))) {
+                                    $this->select($this->getUiElement('selectors/' . $key, $paymentMethod),
+                                            "label=regexp:" . $value);
+                                }
+                                if ($this->isTextPresent('Please wait...')) {
+                                    $this->pleaseWait();
+                                }
+                            }
                         }
                     }
                 }
             }
         } else {
             $this->printInfo("\r\n Payment Method is not set");
+        }
+    }
+
+    /**
+     * Add discount code
+     *
+     * @param string $discountType
+     * has two values: 'coupon' and 'gift_card'
+     * @param string $code
+     * @return boolean
+     */
+    public function addDiscount($discountType, $code)
+    {
+        $result = TRUE;
+        $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
+        if ($this->isElementPresent($this->getUiElement('inputs/' . $discountType . '_code')) and $code != NULL) {
+            $this->type($this->getUiElement('inputs/' . $discountType . '_code'), $code);
+            $this->click($this->getUiElement('buttons/add_' . $discountType));
+            $this->pleaseWait();
+            if ($this->isElementPresent($this->getUiElement('/admin/messages/error'))) {
+                $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+                $this->setVerificationErrors($etext);
+                $result = FALSE;
+            } elseif ($this->isElementPresent($this->getUiElement('elements/' . $discountType . '_added', $code))) {
+                $this->printInfo("\r\n $discountType with code=$code is added");
+            }
+        } elseif ($code != NULL) {
+            $this->printInfo("\r\n There is no way to add $discountType code");
+            $result = FALSE;
+        }
+        return $result;
+    }
+
+    /**
+     * Adding Gift Message for order or product
+     *
+     * @param string $giftType
+     * has two values: 'order' and  'product'
+     * @param array $giftContent
+     * array which contains field values 'To', 'From', 'Message' and if $giftType='product' - product name.
+     */
+    public function addGiftMessage($giftType, $giftContent)
+    {
+        $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
+        $path = NULL;
+        switch ($giftType) {
+            case 'order':
+                $giftMessageFor = $giftType;
+                $path = $this->getUiElement('elements/gift_message_for_order_container');
+                break;
+            case 'product':
+                if (isset($giftContent['product_gift_mes_product_name'])) {
+                    $productName = $giftContent['product_gift_mes_product_name'];
+                    $giftMessageFor = $productName . " $giftType";
+                    if ($this->isElementPresent($this->getUiElement('elements/add_gift_mes_to_product', $productName))) {
+                        $this->click($this->getUiElement('elements/add_gift_mes_to_product', $productName));
+                        $this->click($this->getUiElement('buttons/update_items'));
+                        $this->pleaseWait();
+                        $path = $this->getUiElement('elements/gift_message_for_product_container', $productName);
+                    } else {
+                        $this->printInfo("\r\n You cannot add Gift Message for $giftMessageFor because this option is disabled");
+                    }
+                }
+                break;
+        }
+        if ($this->isElementPresent($path) and $giftContent != Null and $path != NULL) {
+            $ar = array();
+            foreach ($giftContent as $k => $v) {
+                if (preg_match('/_from$/', $k)) {
+                    $ar['From'] = $v;
+                }
+                if (preg_match('/_to$/', $k)) {
+                    $ar['To'] = $v;
+                }
+                if (preg_match('/_message$/', $k)) {
+                    $ar['Message'] = $v;
+                }
+            }
+            foreach ($ar as $key => $value) {
+                ${'xpath' . $key} = $path . $this->getUiElement('inputs/gift_message_content', $key);
+                $this->type(${'xpath' . $key}, $value);
+            }
+        } elseif ($giftContent != Null and $path != NULL) {
+            $this->printInfo("\r\n You cannot add Gift Message for $giftMessageFor because this option is disabled");
         }
     }
 
@@ -354,64 +479,85 @@ class Model_Admin_Order extends Model_Admin {
     public function doCreateOrder($params)
     {
         $Data = $params ? $params : $this->Data;
-        foreach ($Data as $key => $value) {
-            if (preg_match('/search_product/', $key)) {
-                $searchProducts[$key] = $value;
-            }
-            if (preg_match('/search_user/', $key)) {
-                $searchUser[$key] = $value;
-            }
-            if (preg_match('/billing_/', $key) and !preg_match('/choise/', $key)) {
-                $billingData[$key] = $value;
-            }
-            if (preg_match('/shipping_/', $key) and !preg_match('/method/', $key) and !preg_match('/choise/', $key)) {
-                $shippingData[$key] = $value;
-            }
-        }
-        if (!isset($searchUser)) {
-            $searchUser = NULL;
-        }
-        if (!isset($searchProducts)) {
-            $searchProducts = NULL;
-        }
-        if (!isset($billingData)) {
-            $billingData = NULL;
-        }
-        if (!isset($shippingData)) {
-            $shippingData = NULL;
-        }
+        $searchWord = '/^order_gift_mes_/';
+        $orderGiftContent = $this->dataPreparation($params, $searchWord);
+        $searchWord1 = '/^product_gift_mes_/';
+        $productGiftContent = $this->dataPreparation($params, $searchWord1);
         // Open Order Page
-        $this->clickAndWait($this->getUiElement("/admin/topmenu/sales/orders"));
+        $this->clickAndWait($this->getUiElement('/admin/topmenu/sales/orders'));
         // Create new Order
         $this->setUiNamespace('admin/pages/sales/orders/manage_orders/');
-        $this->clickAndWait($this->getUiElement("buttons/create_order"));
+        $this->clickAndWait($this->getUiElement('buttons/create_order'));
         $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order');
-        if ($this->chooseUser($Data['user_choise'], $searchUser)) {
-            if ($this->selectStore("storeview_name", $Data["storeview_name"])) {
-                if ($this->addProducts($searchProducts)) {
-                    if (!$this->isElementPresent($this->getUiElement("elements/only_virtual_added"))) {
-                        $this->fillAddressTab("billing", $Data['billing_address_choise'], $billingData);
-                    }
-                    $this->fillAddressTab("shipping", $Data['shipping_address_choise'], $shippingData);
-                    if (!$this->isElementPresent($this->getUiElement("elements/only_virtual_added"))) {
-                        $this->selectShippingMethod($Data['shipping_method_title'], $Data['shipping_method']);
-                    }
-                    $this->selectPaymentMethod($params);
-                    $orderTotalBefore = $this->getText("//*[@id='order-totals']//tbody");
-                    $orderTotalBefore = str_replace("0 ", "0\n ", $orderTotalBefore);
-                    $this->printInfo("\r\n Before placing an order:\r\n " . $orderTotalBefore);
-                    $result = $this->saveAndVerifyForErrors("containers");
-                    //Definition of order number
+        //choose User
+        if ($this->chooseUser($params, $this->isSetValue($params, 'user_choise'))) {
+            //select Store
+            if ($this->selectStore('storeview_name', $this->isSetValue($params, 'storeview_name'))) {
+                //add Product(s)
+                if ($this->addProducts($params)) {
+                    //add coupon Discount
+                    $res1 = $this->addDiscount('coupon', $this->isSetValue($params, 'coupon_code'));
+                    //add gift_card Discount
+                    $res2 = $this->addDiscount('gift_card', $this->isSetValue($params, 'gift_card_code'));
+                    $result = $res1 && $res2;
                     if ($result) {
-                        $ordNum = $this->getText($this->getUiElement("elements/order_number"));
-                        $ord = explode(" ", $ordNum);
-                        $orderTotalAfter = $this->getText("//*[contains(@class,'order-totals')]");
-                        $orderStatus = $this->getText("//*[@id='order_status']");
-                        $orderTotalAfter = str_replace("0 ", "0\n ", $orderTotalAfter);
-                        $this->printInfo("\r\n After placing an order:\r\n " . $orderTotalAfter);
-                        $this->printInfo("\r\n Order number - " . $ord[2] . "\r\n Order Status - " . $orderStatus);
-                        $searchOrder["search_order_id"] = $ord[2];
-                        return $searchOrder;
+                        //fill billing Address Tab
+                        if (!$this->isElementPresent($this->getUiElement('elements/only_virtual_added'))) {
+                            $this->fillAddressTab($params, 'billing', $this->isSetValue($params, 'choise_billing_address'));
+                        }
+                        //fill shipping Address Tab
+                        $this->fillAddressTab($params, 'shipping', $this->isSetValue($params, 'choise_shipping_address'));
+                        //adding Gift Message for product(s)
+                        $isArr = false;
+                        foreach ($productGiftContent as $key => $value) {
+                            $isArr = $isArr || is_array($value);
+                        }
+                        if ($isArr) {
+                            $i = 1;
+                            $qtyNewArrays = 0;
+                            foreach ($productGiftContent as $k => $v) {
+                                foreach ($v as $v1) {
+                                    if (count($v) > $qtyNewArrays) {
+                                        $qtyNewArrays = count($v);
+                                    }
+                                    ${'array' . $i}[$k] = $v1;
+                                    $i++;
+                                }
+                                $i = 1;
+                            }
+                            for ($y = 1; $y <= $qtyNewArrays; $y++) {
+                                $this->addGiftMessage('product', ${'array' . $y});
+                            }
+                        } else {
+                            $this->addGiftMessage('product', $productGiftContent);
+                        }
+                        //adding Gift Message for order
+                        $this->addGiftMessage('order', $orderGiftContent);
+                        //select Shipping Method
+                        if (!$this->isElementPresent($this->getUiElement('elements/only_virtual_added'))) {
+                            $this->selectShippingMethod($this->isSetValue($params, 'shipping_method_title'),
+                                    $this->isSetValue($params, 'shipping_method'));
+                        }
+                        //select Payment Method
+                        $this->selectPaymentMethod($params, $this->isSetValue($params, 'payment_method'));
+                        // get order Info before submit
+                        $orderTotalBefore = $this->getText("//*[@id='order-totals']//tbody");
+                        $orderTotalBefore = str_replace("0 ", "0\n ", $orderTotalBefore);
+                        $this->printInfo("\r\n Before placing an order:\r\n " . $orderTotalBefore);
+                        $result = $this->saveAndVerifyForErrors();
+                        // get order Info after submit
+                        if ($result) {
+                            $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order/');
+                            $ordNum = $this->getText($this->getUiElement('elements/order_number'));
+                            $ord = explode(" ", $ordNum);
+                            $orderTotalAfter = $this->getText("//*[contains(@class,'order-totals')]");
+                            $orderStatus = $this->getText("//*[@id='order_status']");
+                            $orderTotalAfter = str_replace("0 ", "0\n ", $orderTotalAfter);
+                            $this->printInfo("\r\n After placing an order:\r\n " . $orderTotalAfter);
+                            $this->printInfo("\r\n Order number - " . $ord[2] . "\r\n Order Status - " . $orderStatus);
+                            $searchOrder['search_order_id'] = $ord[2];
+                            return $searchOrder;
+                        }
                     }
                 }
             }
@@ -419,32 +565,32 @@ class Model_Admin_Order extends Model_Admin {
         return NULL;
     }
 
-    /** Открытие Ордера и выполнение дествий над ним.
+    /**
+     * Open order and perform actions on it.
      *
      * @param array $searchOrder
-     * Массив в котором заданны значения для поиска Order(id, status, дата создания и т.д.)
+     * array in which values are set for Order search (id, status, creation date etc.)
      * @param string $actionName
-     * В данный момент может иметь 4 значения: "create_invoice", "create_shippment", "create_credit_memo","reorder"
-     * create_invoice - создание инвойса. Создание частичного инвойса не реализовано.
-     * create_shippment - создание шипмента. Создание частичного шипмента не реализовано.
-     * create_credit_memo - создание кредит мемо. Создание частичного кредит мемо не реализовано.
-     * reorder - пересоздание заказа
+     * At the moment can have four values: 'create_invoice', 'create_shippment', 'create_credit_memo','reorder'
+     * create_invoice – invoice creation. Creation of partial invoice is not realized.
+     * create_shippment – shippment creation. Creation of partial shippment is not realized.
+     * create_credit_memo – creation of credit memo. Creation of partial credit memo is not realized.
+     * reorder – order recreation
      */
     public function openOrderAndDoAction($searchOrder, $actionName)
     {
         $this->printDebug("$actionName started");
         // Open Order Page
-        $this->clickAndWait($this->getUiElement("/admin/topmenu/sales/orders"));
+        $this->clickAndWait($this->getUiElement('/admin/topmenu/sales/orders'));
         $this->setUiNamespace('admin/pages/sales/orders/manage_orders');
-        $searchResult = $this->searchAndDoAction("order_grid", $searchOrder, "open", NULL);
+        $searchResult = $this->searchAndDoAction('order_grid', $searchOrder, 'open', NULL);
         if ($searchResult) {
             $this->setUiNamespace('admin/pages/sales/orders/manage_orders/view_order');
-            //checking: can create an Invoice?
-            if (!$this->waitForElement($this->getUiElement("buttons/" . $actionName), 10)) {
+            if (!$this->waitForElement($this->getUiElement('buttons/' . $actionName), 10)) {
                 $this->printInfo("\r\n You cannot perform an action: $actionName");
                 $result = false;
             } else {
-                $this->clickAndWait($this->getUiElement("buttons/" . $actionName));
+                $this->clickAndWait($this->getUiElement('buttons/' . $actionName));
                 $saveResult = $this->saveAndVerifyForErrors();
                 if ($saveResult) {
                     $orderTotalAfter = $this->getText("//*[contains(@class,'order-totals')]");
