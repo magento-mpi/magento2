@@ -4,5 +4,4 @@
     <message>//div[@id="messages" and string-length(//ul/@class)>2]</message>
     <success>//li[@class="success-msg"]</success>
     <error>//li[normalize-space(@class)='error-msg']</error>
-    <error1>//*/div/ul//li[normalize-space(@class)='error-msg']/ancestor::div[not(contains(@style,'display: none;')) and not(contains(@id,'dynamic-price-warrning'))]/ul/li</error1>
 </messages>
