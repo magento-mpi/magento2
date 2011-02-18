@@ -28,10 +28,10 @@
     order.sidebarHide();
     Event.observe(window, 'load',  function() {
         productConfigure.addListType('product_to_add', {
-            urlFetch: '<?php echo $this->getUrl('*/sales_order_composite_order/configureProductToAdd') ?>'
+            urlFetch: '<?php echo $this->getUrl('*/sales_order_create/configureProductToAdd') ?>'
         });
         productConfigure.addListType('quote_items', {
-            urlFetch: '<?php echo $this->getUrl('*/sales_order_composite_order/configureQuoteItems') ?>'
+            urlFetch: '<?php echo $this->getUrl('*/sales_order_create/configureQuoteItems') ?>'
         });
     });
 </script>

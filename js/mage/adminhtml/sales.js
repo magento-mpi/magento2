@@ -409,7 +409,9 @@ AdminOrder.prototype = {
                     grid.setCheckboxChecked(checkbox, false);
                 // processing composite product
                 } else if (!isInputCheckbox || (isInputCheckbox && checkbox.checked)) {
-                    productConfigure.setConfirmCallback(function() {
+                    var listType = confLink.readAttribute('list_type');
+                    var productId = confLink.readAttribute('product_id');
+                    productConfigure.setConfirmCallback(listType, function() {
                         // sync qty of popup and qty of grid
                         var confirmedCurrentQty = productConfigure.getCurrentConfirmedQtyElement();
                         if (qtyElement && confirmedCurrentQty && !isNaN(confirmedCurrentQty.value)) {
@@ -418,19 +420,19 @@ AdminOrder.prototype = {
                         // and set checkbox checked
                         grid.setCheckboxChecked(checkbox, true);
                     }.bind(this));
-                    productConfigure.setCancelCallback(function() {
+                    productConfigure.setCancelCallback(listType, function() {
                         if (!$(productConfigure.сonfirmedCurrentId) || !$(productConfigure.сonfirmedCurrentId).innerHTML) {
                             grid.setCheckboxChecked(checkbox, false);
                         }
                     });
-                    productConfigure.setShowWindowCallback(function() {
+                    productConfigure.setShowWindowCallback(listType, function() {
                         // sync qty of grid and qty of popup
                         var formCurrentQty = productConfigure.getCurrentFormQtyElement();
                         if (formCurrentQty && qtyElement && !isNaN(qtyElement.value)) {
                             formCurrentQty.value = qtyElement.value;
                         }
                     }.bind(this));
-                    productConfigure.showItemConfiguration(confLink.readAttribute('list_type'), confLink.readAttribute('product_id'));
+                    productConfigure.showItemConfiguration(listType, productId);
                 }
             }
         }
@@ -635,7 +637,7 @@ AdminOrder.prototype = {
 
         // prepare and do submit
         productConfigure.addListType(listType, {urlSubmit: url});
-        productConfigure.setOnLoadIFrameCallback(function(response){
+        productConfigure.setOnLoadIFrameCallback(listType, function(response){
             this.loadAreaResponseHandler(response);
         }.bind(this));
         productConfigure.submit(listType);
@@ -644,8 +646,9 @@ AdminOrder.prototype = {
     },
 
     showQuoteItemConfiguration: function(itemId){
+        var listType = 'quote_items';
         var qtyElement = $('order-items_grid').select('input[name="item\['+itemId+'\]\[qty\]"]')[0];
-        productConfigure.setConfirmCallback(function() {
+        productConfigure.setConfirmCallback(listType, function() {
             // sync qty of popup and qty of grid
             var confirmedCurrentQty = productConfigure.getCurrentConfirmedQtyElement();
             if (qtyElement && confirmedCurrentQty && !isNaN(confirmedCurrentQty.value)) {
@@ -654,14 +657,14 @@ AdminOrder.prototype = {
             this.productConfigureAddFields['item['+itemId+'][configured]'] = 1;
 
         }.bind(this));
-        productConfigure.setShowWindowCallback(function() {
+        productConfigure.setShowWindowCallback(listType, function() {
             // sync qty of grid and qty of popup
             var formCurrentQty = productConfigure.getCurrentFormQtyElement();
             if (formCurrentQty && qtyElement && !isNaN(qtyElement.value)) {
                 formCurrentQty.value = qtyElement.value;
             }
         }.bind(this));
-        productConfigure.showItemConfiguration('quote_items', itemId);
+        productConfigure.showItemConfiguration(listType, itemId);
     },
 
     accountFieldsBind : function(container){

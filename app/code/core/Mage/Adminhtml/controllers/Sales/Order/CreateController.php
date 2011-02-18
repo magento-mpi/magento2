@@ -463,4 +463,48 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
         return Mage::getSingleton('admin/session')->isAllowed('sales/order');
     }
+
+    /*
+     * Ajax handler to response configuration fieldset of composite product in order
+     */
+    public function configureProductToAddAction()
+    {
+        // Prepare data
+        $productId  = (int) $this->getRequest()->getParam('id');
+        $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
+
+        $params = new Varien_Object();
+        $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
+        $params->setCurrentStoreId($sessionQuote->getStore()->getId());
+        $params->setCurrentCustomerId($sessionQuote->getCustomerId());
+
+        // Render page
+        $viewHelper->prepareAndRender($productId, $this, $params);
+    }
+
+    /*
+     * Ajax handler to response configuration fieldset of composite product in quote items
+     */
+    public function configureQuoteItemsAction()
+    {
+        $quoteItemId = (int) $this->getRequest()->getParam('id');
+        if ($quoteItemId) {
+            $quoteItem = Mage::getModel('sales/quote_item')->load($quoteItemId);
+            if ($quoteItem) {
+                $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
+                $params = new Varien_Object();
+
+                $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
+                        ->addItemFilter(array($quoteItemId));
+                $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
+
+                $params->setBuyRequest($quoteItem->getBuyRequest());
+                $params->setCurrentStoreId($quoteItem->getStoreId());
+
+                // Render page
+                $viewHelper->prepareAndRender($quoteItem->getProductId(), $this, $params);
+            }
+        }
+    }
+
 }

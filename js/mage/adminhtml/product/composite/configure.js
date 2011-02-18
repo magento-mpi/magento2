@@ -40,9 +40,10 @@ ProductConfigure.prototype = {
     blockErrorMsg:              null,
     windowHeight:               null,
     сonfirmedCurrentId:         null,
-    confirmCallback:            null,
-    cancelCallback:             null,
-    onLoadIFrameCallback:       null,
+    confirmCallback:            {},
+    cancelCallback:             {},
+    onLoadIFrameCallback:       {},
+    showWindowCallback:         {},
     iFrameJSVarname:            null,
 
     /**
@@ -115,11 +116,11 @@ ProductConfigure.prototype = {
         if (!listType || !itemId) {
             return false;
         }
-        
+
         this._initWindowElements();
         this.current.listType = listType;
         this.current.itemId = itemId;
-        this.current.externalParams = externalParams; 
+        this.current.externalParams = externalParams;
         this.сonfirmedCurrentId = this.blockConfirmed.id+'['+listType+']['+itemId+']';
 
         if (!$(this.сonfirmedCurrentId) || !$(this.сonfirmedCurrentId).innerHTML) {
@@ -166,8 +167,8 @@ ProductConfigure.prototype = {
             } else {
                 this._processFieldsData('item_confirm');
                 this._closeWindow();
-                if (Object.isFunction(this.confirmCallback)) {
-                    this.confirmCallback();
+                if (Object.isFunction(this.confirmCallback[this.current.listType])) {
+                    this.confirmCallback[this.current.listType]();
                 }
             }
         }
@@ -179,8 +180,8 @@ ProductConfigure.prototype = {
      */
     onCancelBtn: function() {
         this._closeWindow();
-        if (Object.isFunction(this.cancelCallback)) {
-            this.cancelCallback();
+        if (Object.isFunction(this.cancelCallback[this.current.listType])) {
+            this.cancelCallback[this.current.listType]();
         }
         return this;
     },
@@ -203,7 +204,7 @@ ProductConfigure.prototype = {
         }
         if (urlConfirm) {
             this.blockForm.action = urlConfirm;
-            
+
             var fields = [new Element('input', {type: 'hidden', name: 'id', value: this.current.itemId})];
             if (this.current.externalParams) {
                 for (var paramName in this.current.externalParams) {
@@ -254,8 +255,8 @@ ProductConfigure.prototype = {
                     return false;
                 }
             }
-            if (Object.isFunction(this.onLoadIFrameCallback)) {
-                this.onLoadIFrameCallback(response);
+            if (Object.isFunction(this.onLoadIFrameCallback[this.current.listType])) {
+                this.onLoadIFrameCallback[this.current.listType](response);
             }
         }
         this.clean('current');
@@ -303,8 +304,8 @@ ProductConfigure.prototype = {
         toggleSelectsUnderBlock(this.blockMask, false);
         this.blockMask.setStyle({'height':this.windowHeight+'px'}).show();
         this.blockWindow.setStyle({'marginTop':-this.blockWindow.getHeight()/2 + "px", 'display':'block'});
-        if (Object.isFunction(this.showWindowCallback)) {
-            this.showWindowCallback();
+        if (Object.isFunction(this.showWindowCallback[this.current.listType])) {
+            this.showWindowCallback[this.current.listType]();
         }
     },
 
@@ -324,8 +325,8 @@ ProductConfigure.prototype = {
      *
      * @param confirmCallback
      */
-    setConfirmCallback: function(confirmCallback) {
-        this.confirmCallback = confirmCallback;
+    setConfirmCallback: function(listType, confirmCallback) {
+        this.confirmCallback[listType] = confirmCallback;
         return this;
     },
 
@@ -334,8 +335,8 @@ ProductConfigure.prototype = {
      *
      * @param cancelCallback
      */
-    setCancelCallback: function(cancelCallback) {
-        this.cancelCallback = cancelCallback;
+    setCancelCallback: function(listType, cancelCallback) {
+        this.cancelCallback[listType] = cancelCallback;
         return this;
     },
 
@@ -344,8 +345,8 @@ ProductConfigure.prototype = {
      *
      * @param onLoadIFrameCallback
      */
-    setOnLoadIFrameCallback: function(onLoadIFrameCallback) {
-        this.onLoadIFrameCallback = onLoadIFrameCallback;
+    setOnLoadIFrameCallback: function(listType, onLoadIFrameCallback) {
+        this.onLoadIFrameCallback[listType] = onLoadIFrameCallback;
         return this;
     },
 
@@ -354,8 +355,8 @@ ProductConfigure.prototype = {
      *
      * @param showWindowCallback
      */
-    setShowWindowCallback: function(showWindowCallback) {
-        this.showWindowCallback = showWindowCallback;
+    setShowWindowCallback: function(listType, showWindowCallback) {
+        this.showWindowCallback[listType] = showWindowCallback;
         return this;
     },
 
