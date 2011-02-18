@@ -266,7 +266,7 @@ Layout handle for configurable products
         </reference>
     </adminhtml_catalog_category_edit>
 
-    <adminhtml_catalog_product_composite_configure>
+    <ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE>
         <block type="core/text_list" name="product.composite.fieldset" output="toHtml">
             <block name="product.composite.fieldset.options" type="adminhtml/catalog_product_composite_fieldset_options" template="catalog/product/composite/fieldset/options.phtml">
                 <action method="addOptionRenderer"><type>text</type><block>catalog/product_view_options_type_text</block><template>catalog/product/composite/fieldset/options/type/text.phtml</template></action>
@@ -276,7 +276,7 @@ Layout handle for configurable products
                 <block type="core/template" name="product.composite.fieldset.options.js" as="options_js" template="catalog/product/composite/fieldset/options/js.phtml" />
             </block>
         </block>
-    </adminhtml_catalog_product_composite_configure>
+    </ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE>
 <!--
 Additional block in composite_fieldset block dependant on product type
 -->
