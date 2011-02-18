@@ -527,6 +527,7 @@
                     <elements>
                         <product_container>//div[@id='productGrid' and not (contains(@style,'display: none'))]</product_container>
                         <rating_present>//div[@class='product-review-box']</rating_present>
+                        <review_container>//div[@id='reviwGrid']</review_container>
                     </elements>
                     <selectors>
                         <status>//select[@id="status_id"]</status>
