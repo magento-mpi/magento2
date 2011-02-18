@@ -44,6 +44,7 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Abstract
     {
         $collection->setCurPage(1)
             ->setPageSize(3)
+            ->setInStockFilter(true)
             ->addWishListSortOrder('added_at', 'desc');
             /* Price data is added to consider item stock status using price index */
 //            ->addPriceData();

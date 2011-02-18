@@ -35,6 +35,18 @@
 class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
 {
     /**
+     * Add wishlist conditions to collection
+     *
+     * @param  Mage_Wishlist_Model_Mysql4_Item_Collection $collection
+     * @return Mage_Wishlist_Block_Customer_Wishlist
+     */
+    protected function _prepareCollection($collection)
+    {
+        $collection->setInStockFilter(true);
+        return $this;
+    }    
+    
+    /**
      * Preparing global layout
      *
      * @return Mage_Wishlist_Block_Customer_Wishlist

@@ -36,6 +36,14 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
 {
     protected $_productVisible = false;
     protected $_productSalable = false;
+    
+    /**
+     * If product out of stock, its item will be removed after load
+     * 
+     * @var bool
+     */
+    protected $_productInStock = false;
+    
     /**
      * Product Ids array
      *
@@ -124,9 +132,15 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());
             if ($product) {
-                $product->setCustomOptions(array());
-                $item->setProduct($product);
-                $item->setProductName($product->getName());
+                if ($this->_productInStock && 
+                    !$product->isSalable() && 
+                    !Mage::helper('cataloginventory')->isShowOutOfStock()) {
+                        $this->removeItemByKey($item->getId()); 
+                } else {
+                    $product->setCustomOptions(array());
+                    $item->setProduct($product);
+                    $item->setProductName($product->getName());
+                }
             } else {
                 $item->isDeleted(true);
             }
@@ -212,13 +226,35 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      * @param bool $flag
      * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
-    public function setVisibilityFilter($flag = true){
+    public function setVisibilityFilter($flag = true)
+    {
         $this->_productVisible = (bool)$flag;
         return $this;
     }
 
-    public function setSalableFilter($flag = true){
+    /**
+     * Set Salable Filter.
+     * This filter apply Salable Product Types Filter to product collection.
+     * 
+     * @param bool $flag
+     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     */
+    public function setSalableFilter($flag = true)
+    {
         $this->_productSalable = (bool)$flag;
+        return $this;
+    }
+    
+    /**
+     * Set In Stock Filter.
+     * This filter remove items with no salable product.
+     *  
+     * @param bool $flag
+     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     */
+    public function setInStockFilter($flag = true)
+    {
+        $this->_productInStock = (bool)$flag;
         return $this;
     }
 

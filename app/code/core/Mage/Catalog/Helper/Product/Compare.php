@@ -187,8 +187,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
 
             if (Mage::getSingleton('customer/session')->isLoggedIn()) {
                 $this->_itemCollection->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
-            }
-            else {
+            } else {
                 $this->_itemCollection->setVisitorId(Mage::getSingleton('log/visitor')->getId());
             }
 
@@ -201,6 +200,9 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
             $this->_itemCollection->addAttributeToSelect('name')
                 ->addUrlRewrite()
                 ->load();
+                
+            /* update compare items count */
+            $this->_getSession()->setCatalogCompareItemsCount(count($this->_itemCollection));
         }
 
         return $this->_itemCollection;
