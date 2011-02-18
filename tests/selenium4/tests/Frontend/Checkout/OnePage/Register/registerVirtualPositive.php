@@ -28,7 +28,6 @@ class Frontend_Register_Virtual_Positive_Checkout extends TestCaseAbstract
             'qty' => 1,
             //checkout data
             'checkoutMethod' => 'Register',
-            'shippingMethod' => 'Flat',
             'paymentMethod' => 'Check / Money order',
             //customer data
             'firstName' => 'Login',

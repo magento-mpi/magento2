@@ -33,7 +33,6 @@ class Frontend_Register_GiftCard_Positive_Checkout extends TestCaseAbstract
             'message' => 'Sample GC message',
             //checkout data
             'checkoutMethod' => 'Register',
-            'shippingMethod' => 'Flat',
             'paymentMethod' => 'Check / Money order',
             //customer data
             'firstName' => 'Login',

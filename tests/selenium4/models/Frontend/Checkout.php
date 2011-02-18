@@ -40,12 +40,14 @@ class Model_Frontend_Checkout extends Model_Frontend
 
         if ('Checkout as Guest'==$params['checkoutMethod']) {
             //Select '...as Guest'
+            $this->printInfo('Guest checkout started');
             $this->click($this->getUiElement('checkoutMethod/inputs/asGuest'));
             $this->click($this->getUiElement('checkoutMethod/buttons/continue'));            
         }
 
         if ('Login'==$params['checkoutMethod']) {
             //Select '...as login'
+            $this->printInfo('Login checkout started');
             $this->type($this->getUiElement('checkoutMethod/inputs/loginEmail'),$params['email']);
             $this->type($this->getUiElement('checkoutMethod/inputs/password'),$params['password']);
             $this->clickAndWait($this->getUiElement('checkoutMethod/buttons/login'));
@@ -58,9 +60,53 @@ class Model_Frontend_Checkout extends Model_Frontend
             }
         }
 
-        // Fill billing address tab
-        $this->fillBillingTab($params);
-        $this->fillShippingTab($params);
+        if ('Register'==$params['checkoutMethod']) {
+            //Select 'Register'
+            $this->printInfo('Checkout with Registration started');
+            if ($this->waitForElement($this->getUiElement("checkoutMethod/buttons/register"),3)) {
+            //Register for Downlodable product type
+                $this->click($this->getUiElement("checkoutMethod/buttons/register"));
+            } else {
+            // Register for all product types except downlodable
+                $this->click($this->getUiElement("checkoutMethod/inputs/register"));
+                $this->click($this->getUiElement("checkoutMethod/buttons/continue"));
+            }
+            //Specify password with confirmation
+            $this->setUiNamespace('/frontend/pages/onePageCheckout/tabs/');
+            $this->type($this->getUiElement("billingAddress/inputs/password"),$params["password"]);
+            $this->type($this->getUiElement("billingAddress/inputs/confirm"),$params["password"]);
+            // Fill billing address tab
+            $this->fillBillingTab($params);
+            //Press Continue
+//            $this->click($this->getUiElement("billingAddress/buttons/continue"));
+//            $this->pleaseWaitStep($this->getUiElement("billingAddress/elements/pleaseWait"));
+            $alert ='';
+            if ($this->isAlertPresent()) {
+                    $this->storeAlert($alert);
+                    $this->printInfo("BillingInfo tab could not be saved. Customer email already exists. Using timestamp.");
+                    //Use timestamp based value in email
+                    $this->type($this->getUiElement('billingAddress/inputs/email'),$this->getStamp() . '@varien.com');
+                    $this->type($this->getUiElement("billingAddress/inputs/password"),$params["password"]);
+                    $this->type($this->getUiElement("billingAddress/inputs/confirm"),$params["password"]);
+                    $this->click($this->getUiElement("billingAddress/buttons/continue"));
+                    $this->pleaseWaitStep($this->getUiElement("billingAddress/elements/pleaseWait"));
+                    $this->printInfo('Customer with email ' . $this->getStamp() . '@varien.com has been registered.');
+                    $alert ='';
+
+                    if ($this->isAlertPresent()) {
+                            $this->storeAlert($alert);
+                            $this->setVerificationErrors('Check2: BillingInfo tab could not be saved. Customer email already exists ?');
+                            return false;
+                    }
+            }
+        }
+        if ('Register'!=$params['checkoutMethod']) {
+            // Fill billing address tab
+            $this->fillBillingTab($params);
+        };
+        if (isset($params['shippingMethod'])){
+            $this->fillShippingTab($params);
+        }
         $this->fillPaymentInfoTab($params);
         $this->placeOrder();
 
@@ -128,6 +174,7 @@ class Model_Frontend_Checkout extends Model_Frontend
      *       postcode
      *       telephone
      *       fax
+     *  PS: Used for SmokeTests
      */
     public function registerCheckout($params)
     {
@@ -136,7 +183,7 @@ class Model_Frontend_Checkout extends Model_Frontend
 
         $this->setUiNamespace('/frontend/pages/onePageCheckout/tabs/');
 
-        //Select "...as Guest"
+        //Select "...as Register"
         $this->click($this->getUiElement("checkoutMethod/inputs/register"));
         $this->click($this->getUiElement("checkoutMethod/buttons/continue"));
 
@@ -453,8 +500,8 @@ class Model_Frontend_Checkout extends Model_Frontend
              $this->click($this->getUiElement('shippingMethod/buttons/continue'));
              $this->pleaseWaitStep($this->getUiElement('shippingMethod/elements/pleaseWait'));
         } else {
-                    $this->setVerificationErrors('Check 4: Shipping method tab is not visible.');
-                    return false;
+            $this->setVerificationErrors('Check 4: Shipping method tab is not visible.');
+            return false;
         }
          $this->printDebug('fillShippingTab finished...');
     }
@@ -491,6 +538,7 @@ class Model_Frontend_Checkout extends Model_Frontend
         $result = false;
         $this->printDebug('placeOrder started...');
         $this->setUiNamespace('/frontend/pages/onePageCheckout/tabs/');
+        $this->waitForElement($this->getUiElement('orderReview/buttons/placeOrder'),3);
         $this->clickAndWait($this->getUiElement('orderReview/buttons/placeOrder'));
 
          // Check for success message

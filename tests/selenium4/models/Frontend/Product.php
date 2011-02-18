@@ -76,11 +76,13 @@ class Model_Frontend_Product extends Model_Frontend
             $result = self::GROUPED;
         }   elseif ($this->isElementPresent($type_markers['downlodable'])) {
                 $result = self::DOWNLODABLE;
-            }   elseif ($this->isElementPresent($type_markers['configurable'])) {
-                    $result = self::CONFIGURABLE;
-                }   elseif ($this->isElementPresent($type_markers['bundle'])) {
-                        $result = self::BUNDLE;
-                    }
+            } elseif ($this->isElementPresent($type_markers['giftcard'])) {
+                $result = self::GIFTCARD;
+                } elseif ($this->isElementPresent($type_markers['configurable'])) {
+                        $result = self::CONFIGURABLE;
+                    }   elseif ($this->isElementPresent($type_markers['bundle'])) {
+                            $result = self::BUNDLE;
+                        }
 
         $this->printDebug('detectType() finished: ' . $result);
         return $result;
@@ -119,6 +121,7 @@ class Model_Frontend_Product extends Model_Frontend
                     }
                     $this->type($qty_input,$value);
                 }
+                break;
             case self::CONFIGURABLE:
                 $configOptions = $params['configOptions'];
                 foreach ($configOptions as $key => $value) {
@@ -130,8 +133,61 @@ class Model_Frontend_Product extends Model_Frontend
                     }
                     $this->select($option_selector . '//select',$value);
                 }
+                break;
                 ;
+            case self::BUNDLE:
+                $bundleOptions = $params['bundleOptions'];
+                foreach ($bundleOptions as $key => $value) {
+                    $this->printDebug($key . ' ->' . $value);
+                    $option_type = $this->detectOptionType($key);
+                    $this->printDebug('option_type = ' . $option_type);
+                    if (($option_type == 'checkbox') or ($option_type == 'radio')) {
+                        $option_param  = array (
+                            $key,
+                            $value
+                        );
+                        $this->click($this->getUiElement('/frontend/pages/product/inputs/bundle_option_value_selection', $option_param) . '//input');
+                    }
+
+                    if ($option_type == 'select') {
+                        $option_param  = array (
+                            $key,
+                            $value
+                        );
+//                        $this->printDebug('Try to select in selector: ' . $this->getUiElement('/frontend/pages/product/inputs/bundle_option_value', $option_param));
+                        $selection = 'label=glob:' . $value . '*';
+//                        $this->printDebug('select option: ' . $selection );
+                        $this->select($this->getUiElement('/frontend/pages/product/inputs/bundle_option_value', $option_param) . '//select',  $selection);
+                    }
+                 }
+                break;
+                ;
+            case self::DOWNLODABLE:
+                $downloadOptions = $params['downloadOptions'];
+                foreach ($downloadOptions as $key => $value) {
+                    $this->printDebug($key . ' ->' . $value);
+                    $locator = $this->getUiElement('/frontend/pages/product/inputs/download_option_value', $value);                    
+                    if ($this->waitForElement($locator,3)) {
+                        $this->printDebug('click to :' . $locator);
+                        $this->click($locator);
+                    } else {
+                        $this->printInfo('Option ' . $value . ' not founded in product page');
+                    }
+                    
+                 }
+                break;
+                ;
+            case self::GIFTCARD:
+                $this->type($this->getUiElement('/frontend/pages/product/inputs/gc_sender_name'),$params['senderName']);
+                $this->type($this->getUiElement('/frontend/pages/product/inputs/gc_sender_email'),$params['senderEmail']);
+                $this->type($this->getUiElement('/frontend/pages/product/inputs/gc_recipient_name'),$params['recipientName']);
+                $this->type($this->getUiElement('/frontend/pages/product/inputs/gc_recipient_email'),$params['recipientEmail']);
+                $this->type($this->getUiElement('/frontend/pages/product/inputs/gc_message'),$params['message']);
+                break;
+                ;
+
         endswitch;
+
         $this->clickAndWait($this->getUiElement('/frontend/pages/product/buttons/addToCart'));
 
         // Check for success message
@@ -170,6 +226,42 @@ class Model_Frontend_Product extends Model_Frontend
         $this->printDebug('placeToCart() finished with ' . $result);
         return $result;
     }
+
+    /**
+     * Detect type of bundle (custom) option
+     * @param - $optionName - title of option
+     * @return one from  'input', 'select', 'checkbox' or -1 on fail
+     */
+    public function detectOptionType($optionName = null)
+    {
+        $result = -1;
+        $this->printDebug('detectOptionType() started...');
+        if (isset($optionName)) {
+            $locator = $this->getUiElement('/frontend/pages/product/inputs/bundle_option',$optionName);
+            if ($this->getXpathCount($locator)) {
+//                $this->printDebug($optionName . ' has been founded');
+                $options_locator = $this->getUiElement('/frontend/pages/product/inputs/bundle_option_value',$optionName);
+                if ($this->getXpathCount($options_locator)) {
+//                    $this->printDebug('Options has been founded');
+                    if ($this->getXpathCount($options_locator . '//li[1]/input')>0) {
+                        // have inputs
+                        $result = $this->getAttribute($options_locator . '//li[1]/input/@type');
+                    };
+                    if ($this->getXpathCount($options_locator . '//select')>0) {
+                        // have selectors
+                        $result = 'select';
+                    };                    
+                }
+            } else {
+                $this->printDebug('Option ' . $optionName . ' not founded in the page');
+            }
+            
+        }
+        $this->printDebug('Option ' . $optionName . ' with type = ' . $result . ' has founded in the page');
+        $this->printDebug('detectOptionType() finished');
+        return $result;
+    }
+
 
     // Smoke TestCase
 

@@ -32,7 +32,6 @@ class Frontend_Register_Downloadable_Positive_Checkout extends TestCaseAbstract
                                     ),
             //checkout data
             'checkoutMethod' => 'Register',
-            'shippingMethod' => 'Flat',
             'paymentMethod' => 'Check / Money order',
             //customer data
             'firstName' => 'Register',

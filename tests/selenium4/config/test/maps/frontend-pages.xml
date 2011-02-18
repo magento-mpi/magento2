@@ -46,9 +46,18 @@
             <qty>qty</qty>
             <grouped_qty>//table[@id="super-product-table"]/tbody//tr[normalize-space(td/text())="%s"]//input[normalize-space(@title)="Qty"]</grouped_qty>
             <configurable_option>//fieldset[contains(@id,'product-options-wrapper')]//dl[normalize-space(dt/label/text())="%s"]</configurable_option>
+            <bundle_option>//fieldset[contains(@id,'product-options-wrapper')]//dl/dt[normalize-space(label/text())="%s"]</bundle_option>
+            <bundle_option_value>//fieldset[@id='product-options-wrapper']//dt[normalize-space(label/text())="%s"]/following-sibling::*[1]</bundle_option_value>
+            <bundle_option_value_selection>//fieldset[@id='product-options-wrapper']//dt[normalize-space(label/text())="%s"]/following-sibling::*[1]//li[contains(span/label/text(),"%s")]</bundle_option_value_selection>
+            <download_option_value>//fieldset[@id='product-options-wrapper']//dd//li[normalize-space(span/label/text())='%s']//input</download_option_value>
+            <gc_sender_name>//input[@id='giftcard_sender_name']</gc_sender_name>
+            <gc_sender_email>//input[@id='giftcard_sender_email']</gc_sender_email>
+            <gc_recipient_name>//input[@id='giftcard_recipient_name']</gc_recipient_name>
+            <gc_recipient_email>//input[@id='giftcard_recipient_email']</gc_recipient_email>
+            <gc_message>//textarea[@id='giftcard_message']</gc_message>
         </inputs>
         <buttons>
-            <addToCart>//button[contains(span,'Add to Cart')]</addToCart>
+            <addToCart>//button[normalize-space(span)='Add to Cart']</addToCart>
         </buttons>
         <elements>
             <productImage>//*[contains(@class,'product-image')]//img</productImage>
@@ -93,6 +102,7 @@
                 <buttons>
                     <continue>//button[contains(span,'Continue')]</continue>
                     <login>//button[contains(span,'Login')]</login>
+                    <register>//button[contains(span,'Register')]</register>
                 </buttons>
             </checkoutMethod>
             <billingAddress>
