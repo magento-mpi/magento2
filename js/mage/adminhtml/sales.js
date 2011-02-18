@@ -356,15 +356,25 @@ AdminOrder.prototype = {
         if (checkbox && inputs.length > 0) {
             checkbox.inputElements = inputs;
             for (var i = 0; i < inputs.length; i++) {
-                inputs[i].checkboxElement = checkbox;
-                if (this.gridProducts.get(checkbox.value) && this.gridProducts.get(checkbox.value)[inputs[i].name] && inputs[i].name != 'giftmessage') {
-                    inputs[i].value = this.gridProducts.get(checkbox.value)[inputs[i].name];
-                } else if (this.gridProducts.get(checkbox.value) && this.gridProducts.get(checkbox.value)[inputs[i].name]) {
-                    inputs[i].checked = true;
+                var input = inputs[i];
+                input.checkboxElement = checkbox;
+                
+                var product = this.gridProducts.get(checkbox.value);
+                if (product) {
+                    var defaultValue = product[input.name];
+                    if (defaultValue) {
+                        if (input.name == 'giftmessage') {
+                            input.checked = true;
+                        } else {
+                            input.value = defaultValue;
+                        }
+                    }
                 }
-                inputs[i].disabled = !checkbox.checked;
-                Event.observe(inputs[i],'keyup', this.productGridRowInputChange.bind(this));
-                Event.observe(inputs[i],'change',this.productGridRowInputChange.bind(this));
+                
+                input.disabled = !checkbox.checked || input.getAttribute('inactiveField');
+                
+                Event.observe(input,'keyup', this.productGridRowInputChange.bind(this));
+                Event.observe(input,'change',this.productGridRowInputChange.bind(this));
             }
         }
     },
@@ -409,17 +419,20 @@ AdminOrder.prototype = {
         if (checked) {
             if(element.inputElements) {
                 this.gridProducts.set(element.value, {});
-                for(var i = 0; i < element.inputElements.length; i++) {
-                    element.inputElements[i].disabled = false;
-                    if (element.inputElements[i].name == 'qty') {
-                        if (!element.inputElements[i].value) {
-                            element.inputElements[i].value = 1;
+                for (var i = 0; i < element.inputElements.length; i++) {
+                    var input = element.inputElements[i];
+                    if (!input.getAttribute('inactiveField')) {
+                        input.disabled = false;
+                        if (input.name == 'qty' && !input.value) {
+                            input.value = 1;
                         }
                     }
-                    if (element.inputElements[i].name!='giftmessage' || element.inputElements[i].checked) {
-                        this.gridProducts.get(element.value)[element.inputElements[i].name] = element.inputElements[i].value;
-                    } else if (element.inputElements[i].name=='giftmessage' && this.gridProducts.get(element.value)[element.inputElements[i].name]) {
-                        delete(this.gridProducts.get(element.value)[element.inputElements[i].name]);
+                    
+                    var product = this.gridProducts.get(element.value);
+                    if (input.checked || input.name != 'giftmessage') {
+                        product[input.checked.name] = input.value;
+                    } else if (product[input.name]) {
+                        delete(product[input.name]);
                     }
                 }
                 this.gridProducts.get(element.value)['configuration'] = productConfigure.getConfiguredData('$current$', element.value);
