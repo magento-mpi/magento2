@@ -86,6 +86,9 @@ AdminOrder.prototype = {
 
     selectAddress : function(el, container){
         id = el.value;
+        if (id.length == 0) {
+            id = '0';
+        }
         if(this.addresses[id]){
             this.fillAddressFields(container, this.addresses[id]);
         }
