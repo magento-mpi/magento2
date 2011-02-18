@@ -1,0 +1,47 @@
+
+<global>
+    <elements>
+        <progress_bar>//div[@id='loading-mask' and contains(@style,'display: none')]</progress_bar>
+        <no_records>No records found.</no_records>
+        <mark_filtered_element>//td[normalize-space(text())='%s']/ancestor::tr/td/input[@type='checkbox']</mark_filtered_element>
+        <filtered_element>//td[normalize-space(text())='%s']</filtered_element>
+        <tabs_container>//*[contains(@class,'tabs')]</tabs_container>
+        <opened_tab>//form/div[@style='' or contains(@style,'display: block')]</opened_tab>
+        <tab_error>/li[contains(a/@class,'error')]/a/span</tab_error>
+        <tab_error_many>/li[contains(a/@class,'error')][%s]/a/span</tab_error_many>
+        <error_for_field>/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]</error_for_field>
+        <field_name_with_error>/ancestor::tr/td[normalize-space(@class)='label']/descendant-or-self::*[string-length(text())>1]</field_name_with_error>
+        <option_for_field>//descendant::option[contains(text(),'%s')]</option_for_field>
+        <selected_option>//option[@selected='selected' and contains(text(),'%s')]</selected_option>й
+        <containers_for_order>//td/div[contains(@id,'order-') and not(contains(@style,'display: none;')) and not(contains(@class,'validation-advice'))]</containers_for_order>
+    </elements>
+    <inputs>
+        <search_user_id>//*[@id='filter_entity_id']</search_user_id>
+        <search_user_name>//*[@id='filter_name']</search_user_name>
+        <search_user_email>//*[@id='filter_email']</search_user_email>
+        <search_user_tel>//*[@id='filter_Telephone']</search_user_tel>
+        <search_user_zip>//*[@id='filter_billing_postcode']</search_user_zip>
+        <search_user_state>//*[@id='filter_billing_regione']</search_user_state>
+        <search_registered_from_storeview>//*[@id='filter_store_name']</search_registered_from_storeview>
+        <search_product_id>//*[contains(@id,'_id')]</search_product_id>
+        <search_product_id_from>//*[contains(@id,'_id_from')]</search_product_id_from>
+        <search_product_id_to>//*[contains(@id,'_id_to')]</search_product_id_to>
+        <search_product_name>//*[contains(@id,'filter_name')]</search_product_name>
+        <search_product_sku>//*[contains(@id,'filter_sku')]</search_product_sku>
+        <search_product_price_from>//*[contains(@id,'filter_price_from')]</search_product_price_from>
+        <search_product_price_to>//*[contains(@id,'filter_price_to')]</search_product_price_to>
+        <search_product_qty_from>//*[contains(@id,'filter_qty_from')]</search_product_qty_from>
+        <search_product_qty_to>//*[contains(@id,'filter_qty_to')]</search_product_qty_to>
+        <search_order_id>//*[@id='filter_real_order_id']</search_order_id>
+    </inputs>
+    <buttons>
+        <search>//button[span='Search']</search>
+        <reset_search>//button[span='Reset Filter']</reset_search>
+        <submit>//button[normalize-space(@class)='scalable save submit-button' or normalize-space(@class)='scalable save' and not(contains(span,'Continue'))]</submit>
+        <add>//button[normalize-space(@class)='scalable add' and contains(.,'%s')]</add>
+    </buttons>
+    <messages>
+        <error1>//*/div/ul//li[normalize-space(@class)='error-msg']/ancestor::div[not(contains(@style,'display: none;')) and not(contains(@id,'dynamic-price-warrning'))]/ul/li</error1>
+    </messages>
+</global>
+
