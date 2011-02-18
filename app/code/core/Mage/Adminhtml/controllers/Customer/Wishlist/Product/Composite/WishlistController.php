@@ -43,13 +43,17 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
     {
         $wishlistItemId = (int) $this->getRequest()->getParam('id');
         if ($wishlistItemId) {
-            $wishlistItem = Mage::getModel('wishlist/item')->load($wishlistItemId);
-            if ($wishlistItem) {
+            $wishlistItem = Mage::getModel('wishlist/item')
+                ->load($wishlistItemId);
+            $wishlist = Mage::getModel('wishlist/wishlist')
+                ->load($wishlistItem->getWishlistId());
+            if ($wishlistItem && $wishlist) {
                 $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
                 $params = new Varien_Object();
 
                 $params->setBuyRequest($wishlistItem->getBuyRequest());
                 $params->setCurrentStoreId($wishlistItem->getStoreId());
+                $params->setCurrentCustomerId($wishlist->getCustomerId());
 
                 // Render page
                 $viewHelper->prepareAndRender($wishlistItem->getProductId(), $this, $params);
@@ -72,7 +76,8 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
                 Mage::throwException($this->__('No wishlist item id defined.'));
             }
             /* @var $wishlistItem Mage_Wishlist_Model_Wishlist_Item */
-            $wishlistItem = Mage::getModel('wishlist/item')->load($wishlistItemId);
+            $wishlistItem = Mage::getModel('wishlist/item')
+                ->load($wishlistItemId);
             if (!$wishlistItem) {
                 Mage::throwException($this->__('Wrong wishlist item'));
             }

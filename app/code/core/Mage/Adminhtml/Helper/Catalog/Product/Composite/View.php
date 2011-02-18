@@ -82,12 +82,20 @@ class Mage_Adminhtml_Helper_Catalog_Product_Composite_View extends Mage_Core_Hel
         Mage::register('current_product', $product);
         Mage::register('product', $product);
 
-        $currentCustomerId = (int) $params->getCurrentCustomerId();
-        if ($currentCustomerId) {
-            $currentCustomer = Mage::getModel('customer/customer')->load($currentCustomerId);
+        // Register customer we're working with
+        $currentCustomer = $params->getCurrentCustomer();
+        if (!$currentCustomer) {
+            $currentCustomerId = (int) $params->getCurrentCustomerId();
+            if ($currentCustomerId) {
+                $currentCustomer = Mage::getModel('customer/customer')
+                    ->load($currentCustomerId);
+            }
+        }
+        if ($currentCustomer) {
             Mage::register('current_customer', $currentCustomer);
         }
 
+        // Prepare buy request values
         $buyRequest = $params->getBuyRequest();
         if ($buyRequest) {
             $productHelper->prepareProductOptions($product, $buyRequest);

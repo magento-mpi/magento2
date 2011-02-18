@@ -41,10 +41,11 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle
      */
     public function getIsLastFieldset()
     {
-        if ($this->hasData('is_last_fieldset')) {
-            return $this->getData('is_last_fieldset');
-        } else {
-            return !$this->getProduct()->getOptions();
+        $isLast = $this->getData('is_last_fieldset');
+        if (!$isLast) {
+            $options = $this->getProduct()->getOptions();
+            return !$options || !count($options);
         }
+        return $isLast;
     }
 }

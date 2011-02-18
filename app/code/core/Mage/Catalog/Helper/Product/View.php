@@ -80,6 +80,10 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
         $currentCategory = Mage::registry('current_category');
         $root = $controller->getLayout()->getBlock('root');
         if ($root) {
+            $controllerClass = $controller->getFullActionName();
+            if ($controllerClass != 'catalog-product-view') {
+                $root->addBodyClass('catalog-product-view');
+            }
             $root->addBodyClass('product-' . $product->getUrlKey());
             if ($currentCategory instanceof Mage_Catalog_Model_Category) {
                 $root->addBodyClass('categorypath-' . $currentCategory->getUrlPath())

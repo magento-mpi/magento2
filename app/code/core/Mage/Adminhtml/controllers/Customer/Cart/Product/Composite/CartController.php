@@ -42,22 +42,34 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
     public function configureAction()
     {
         $quoteItemId = (int) $this->getRequest()->getParam('id');
-        if ($quoteItemId) {
-            $quoteItem = Mage::getModel('sales/quote_item')->load($quoteItemId);
-            if ($quoteItem) {
-                $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
-                $params = new Varien_Object();
+        $customerId = (int) $this->getRequest()->getParam('customer_id');
+        $websiteId = (int) $this->getRequest()->getParam('website_id');
 
-                $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
-                        ->addItemFilter(array($quoteItemId));
-                $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
+        $customer = Mage::getModel('customer/customer')
+            ->load($customerId);
 
-                $params->setBuyRequest($quoteItem->getBuyRequest());
-                $params->setCurrentStoreId($quoteItem->getStoreId());
+        /* @var $quote Mage_Sales_Model_Quote */
+        $quote = Mage::getModel('sales/quote')
+            ->setWebsite(Mage::app()->getWebsite($websiteId))
+            ->loadByCustomer($customer);
 
-                // Render page
-                $viewHelper->prepareAndRender($quoteItem->getProductId(), $this, $params);
-            }
+        $quoteItem = $quote->getItemById($quoteItemId);
+
+        if ($quoteItem) {
+            $optionCollection = Mage::getModel('sales/quote_item_option')
+                ->getCollection()
+                ->addItemFilter(array($quoteItemId));
+            $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
+
+            $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
+            $params = new Varien_Object();
+
+            $params->setBuyRequest($quoteItem->getBuyRequest());
+            $params->setCurrentStoreId($quoteItem->getStoreId());
+            $params->setCurrentCustomer($customer);
+
+            // Render page
+            $viewHelper->prepareAndRender($quoteItem->getProductId(), $this, $params);
         }
     }
 
@@ -78,8 +90,8 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
                 Mage::throwException($this->__('No customer id defined'));
             }
 
-            $customer = Mage::getModel('customer/customer');
-            $customer->load($customerId);
+            $customer = Mage::getModel('customer/customer')
+                ->load($customerId);
 
             /* @var $quote Mage_Sales_Model_Quote */
             $quote = Mage::getModel('sales/quote')

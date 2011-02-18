@@ -781,6 +781,7 @@ ul.item-options li { padding-left:.7em; }
 
 .giftcard-amount-form { margin:0 0 10px; }
 .giftcard-amount-form li { overflow:hidden; width:100%; }
+.giftcard-amount-form .field { overflow:hidden; margin-bottom:10px; width:100%; }
 .giftcard-amount-form .form-list .input-text { width:70px; }
 .giftcard-amount-form .form-list select { width:150px; }
 .giftcard-amount-form .form-list .input-box { float:left; width:75%; }

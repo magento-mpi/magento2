@@ -33,9 +33,6 @@
             <img src="<?php echo $this->getProductThumbnail()->resize(50)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" />
         </span>
     <?php endif; ?>
-        <span class="product-image" style="margin-top:50px">
-            <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item') ?>" class="btn-remove"><?php echo $this->__('Edit item')?></a>
-        </span>
 
     <div class="product-details">
         <p class="product-name">
@@ -171,6 +168,8 @@
             <a href="#" onclick="return false;" class="details"><?php echo $this->__('View Details') ?></a>
         </div>
         <?php endif; ?>
+        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item') ?>" class="btn-remove"><?php echo $this->__('Edit item')?></a>
+        |
         <a href="<?php echo $this->getDeleteUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');" title="<?php echo $this->__('Remove item') ?>" class="btn-remove"><?php echo $this->__('Remove item')?></a>
     </div>
 </li>

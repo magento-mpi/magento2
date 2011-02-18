@@ -34,17 +34,4 @@
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Downloadable
     extends Mage_Downloadable_Block_Catalog_Product_Links
 {
-    /**
-     * Checks whether block is last fieldset in popup
-     *
-     * @return bool
-     */
-    public function getIsLastFieldset()
-    {
-        if ($this->hasData('is_last_fieldset')) {
-            return $this->getData('is_last_fieldset');
-        } else {
-            return !$this->getProduct()->getOptions();
-        }
-    }
 }

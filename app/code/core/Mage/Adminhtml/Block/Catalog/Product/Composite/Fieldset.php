@@ -52,9 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset extends Mage_Core_
             }
 
             $i++;
-            if ($i == $total) {
-                $block->setIsLastFieldset(true);
-            }
+            $block->setIsLastFieldset($i == $total);
 
             $this->addText($block->toHtml());
         }

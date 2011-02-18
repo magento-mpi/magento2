@@ -82,12 +82,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $wishlist = Mage::getModel('wishlist/wishlist');
         $collection = $wishlist->loadByCustomer($this->_getCustomer())
             ->setSharedStoreIds($wishlist->getSharedStoreIds(false))
-            //->getProductCollection()
             ->getItemCollection()
                 ->resetSortOrder()
-//                ->addAttributeToSelect('name')
-//                ->addAttributeToSelect('price')
-//                ->addAttributeToSelect('small_image')
                 ->addDaysInWishlist()
                 ->addStoreData();
 
