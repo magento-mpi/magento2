@@ -6,7 +6,8 @@ class Admin_AttributeSet_DeleteSet extends TestCaseAbstract {
      * Setup procedure.
      * Initializes model and loads configuration
      */
-    function setUp() {
+    function setUp()
+    {
         $this->model = $this->getModel('admin/attributeset');
         $this->setUiNamespace();
     }
@@ -14,9 +15,14 @@ class Admin_AttributeSet_DeleteSet extends TestCaseAbstract {
     /**
      * Test deletion Attribute Set
      */
-    function testAttributeSetDeletion() {
+    function testAttributeSetDeletion()
+    {
+        $setData = Core::getEnvConfig('backend/attribute_set');
+        /*$setData = array(
+            'search_set_name' => 'smoke_attrSet'
+        );*/
         if ($this->model->doLogin()) {
-            $this->model->doDeleteAtrSet();
+            $this->model->doDeleteAtrSet($setData);
         }
     }
 

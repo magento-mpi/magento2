@@ -1,25 +1,30 @@
 <?php
 
-class Admin_AttributeSet_AddSet extends TestCaseAbstract
-{
+class Admin_AttributeSet_AddSet extends TestCaseAbstract {
 
     /**
      * Setup procedure.
      * Initializes model and loads configuration
      */
-    function setUp() {
+    function setUp()
+    {
         $this->model = $this->getModel('admin/attributeset');
         $this->setUiNamespace();
     }
-    
+
     /**
-    * Test addition new Attribute Set
-    */
+     * Test addition new Attribute Set
+     */
     function testAttributeSetCreation()
     {
+        $setData = Core::getEnvConfig('backend/attribute_set');
+        /*$setData = array(
+            'set_name' => 'smoke_attrSet1',
+            'based_on' => 'smoke_attrSet'
+        );*/
         if ($this->model->doLogin()) {
-            $this->model->doDeleteAtrSet();
-            $this->model->doCreateAtrSet();
+            $this->model->doCreateAtrSet($setData);
         }
     }
+
 }
