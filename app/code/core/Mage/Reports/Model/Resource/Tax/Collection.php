@@ -72,15 +72,14 @@ class Mage_Reports_Model_Resource_Tax_Collection extends Mage_Sales_Model_Entity
     }
 
     /**
-     * Set stpre ods
+     * Set store filter to collection
      *
-     * @param unknown_type $storeIds
+     * @param array $storeIds
      * @return Mage_Reports_Model_Resource_Tax_Collection
      */
     public function setStoreIds($storeIds)
     {
-        $vals = array_values($storeIds);
-        if (count($storeIds) >= 1 && $vals[0] != '') {
+        if ($storeIds) {
             $this->getSelect()
                 ->where('e.store_id IN(?)', (array)$storeIds)
                 ->columns(array('tax' => 'SUM(tax_table.base_real_amount)'));

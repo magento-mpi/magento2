@@ -474,21 +474,20 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     }
 
     /**
-     * Set store ids
+     * Set store filter collection
      *
      * @param array $storeIds
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
     public function setStoreIds($storeIds)
-    {
-        $vals = array_values($storeIds);
+    {        
         $adapter = $this->getConnection();
         $baseSubtotalInvoiced = $adapter->getIfNullSql('main_table.base_subtotal_invoiced', 0);
         $baseDiscountRefunded = $adapter->getIfNullSql('main_table.base_discount_refunded', 0);
         $baseSubtotalRefunded = $adapter->getIfNullSql('main_table.base_subtotal_refunded', 0);
         $baseDiscountInvoiced = $adapter->getIfNullSql('main_table.base_discount_invoiced', 0);
         $baseTotalInvocedCost = $adapter->getIfNullSql('main_table.base_total_invoiced_cost', 0);
-        if (count($storeIds) >= 1 && $vals[0] != '') {
+        if ($storeIds) {
             $this->getSelect()->columns(array(
                 'subtotal'  => 'SUM(main_table.base_subtotal)',
                 'tax'       => 'SUM(main_table.base_tax_amount)',

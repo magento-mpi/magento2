@@ -66,15 +66,14 @@ class Mage_Reports_Model_Resource_Invoiced_Collection extends Mage_Sales_Model_E
     }
 
     /**
-     * Set store ids
+     * Set store filter collection
      *
      * @param array $storeIds
      * @return Mage_Reports_Model_Resource_Invoiced_Collection
      */
     public function setStoreIds($storeIds)
     {
-        $vals = array_values($storeIds);
-        if (count($storeIds) >= 1 && $vals[0] != '') {
+        if ($storeIds) {
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds))
             ->addExpressionAttributeToSelect(
                 'invoiced',
