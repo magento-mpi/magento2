@@ -330,8 +330,15 @@ class Model_Admin extends TestModelAbstract {
         if ($this->isElementPresent($this->getUiElement("tabs_container") . $this->getUiElement("tab_error"))) {
             $qtyTab = $this->getXpathCount($this->getUiElement("tabs_container") . $this->getUiElement("tab_error"));
             $isTab = 1;
-        } elseif ($this->isElementPresent($this->getUiElement("opened_tab") . $this->getUiElement("error_for_field"))) {
-            $qtyTab = $this->getXpathCount($this->getUiElement("containers_for_order"));
+        } elseif ($this->isElementPresent("//form" . $this->getUiElement("error_for_field"))) {
+            if ($this->isElementPresent($this->getUiElement("containers_for_order"))) {
+                $qtyTab = $this->getXpathCount($this->getUiElement("containers_for_order"));
+                $isOrderPage = 1;
+            } else {
+                $qtyTab = $this->getXpathCount("//form//div[contains(@class,'fieldset')]");
+/*!!!*/                $this->printInfo("\r\n количество блоков" . $qtyTab);
+                $isOrderPage = -1;
+            }
             $isTab = 0;
         } else {
             $isTab = -1;
@@ -348,7 +355,15 @@ class Model_Admin extends TestModelAbstract {
                         $errorXpath = $this->getUiElement("opened_tab") . $this->getUiElement("error_for_field");
                         break;
                     case 0:
-                        $errorXpath = $this->getUiElement("containers_for_order") . "[$y]" . $this->getUiElement("error_for_field");
+                        if ($isOrderPage == 1) {
+                            $errorXpath = $this->getUiElement("containers_for_order") . "[$y]" . $this->getUiElement("error_for_field");
+                        } else {
+                            if ($this->isElementPresent($this->getUiElement("opened_tab"))) {
+                                $errorXpath = $this->getUiElement("opened_tab") . $this->getUiElement("error_for_field");
+                            } else {
+                                $errorXpath = "//form" . $this->getUiElement("error_for_field");
+                            }
+                        }
                         break;
                 }
                 $qtyFields = $this->getXpathCount($errorXpath);
@@ -367,6 +382,26 @@ class Model_Admin extends TestModelAbstract {
             $result = true;
         }
         return $result;
+    }
+
+    /**
+     * Get value of the variable '$value'
+     *
+     * @param array $params
+     * @param string $value
+     * @return <type>
+     */
+    public function isSetValue($params, $value)
+    {
+        $Data = $params ? $params : $this->Data;
+        if (isset($Data[$value])) {
+            return $Data[$value];
+        } elseif (isset($this->Data[$value])) {
+            return $this->Data[$value];
+        } else {
+            $this->printInfo("The value of the variable '" . $value . "' is not set");
+            return NULL;
+        }
     }
 
 }
