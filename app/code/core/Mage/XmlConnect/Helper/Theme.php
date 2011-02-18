@@ -62,7 +62,7 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
     /**
      * Returns JSON ready Themes array
      *
-     * @params bool $flushCache    -    load defaults
+     * @param bool $flushCache -    load defaults
      * @return array
      */
     public function getAllThemesArray($flushCache = false)

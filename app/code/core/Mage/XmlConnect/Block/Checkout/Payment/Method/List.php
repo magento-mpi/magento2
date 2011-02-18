@@ -159,6 +159,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     /**
      * Check and prepare payment method model
      *
+     * @param mixed $method
      * @return bool
      */
     protected function _canUseMethod($method)
@@ -175,8 +176,8 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
      * @deprecated after 1.4.2.0
      * @param Mage_Core_Block_Template $block
      * @param Mage_XmlConnect_Model_Simplexml_Element $methodsXmlObj
-     * @param array $used codes
-     * @return string|bool
+     * @param array $usedCodes
+     * @return bool
      */
     protected function _addToXml($block, $methodsXmlObj, $usedCodes)
     {
@@ -185,6 +186,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
 
     /**
      * Deprecated function check method status
+     * 
      * @deprecated after 1.4.2.0
      * @param Mage_Payment_Model_Method_Abstract $method
      * @return bool

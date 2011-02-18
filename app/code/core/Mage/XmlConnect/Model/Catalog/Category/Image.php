@@ -136,8 +136,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
     {
         $filePath = false;
 
-        if (!$file = $this->getWatermarkFile())
-        {
+        if (!$file = $this->getWatermarkFile()) {
             return $filePath;
         }
 

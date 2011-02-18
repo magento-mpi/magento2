@@ -58,7 +58,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
      *
      * @param Varien_Data_Form_Element_Fieldset $fieldset
      * @param string $fieldName
-     * @param string title
+     * @param string $title
      * @param string $note
      * @param string $default
      * @param boolean $required 
@@ -252,6 +252,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
     /**
      * Configure image element type
      *
+     * @return array
      */
     protected function _getAdditionalElementTypes()
     {

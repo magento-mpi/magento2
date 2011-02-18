@@ -37,7 +37,7 @@ class Mage_XmlConnect_Model_Resource_Filter_Collection extends Varien_Data_Colle
     /**
      * Set CategoryId filter
      *
-     * @param  $categoryId
+     * @param int $categoryId
      * @return Mage_XmlConnect_Model_Mysql4_Filter_Collection
      */
     public function setCategoryId($categoryId)

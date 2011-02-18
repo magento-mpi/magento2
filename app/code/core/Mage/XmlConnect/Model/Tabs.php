@@ -64,7 +64,7 @@ class Mage_XmlConnect_Model_Tabs
      * @param &array $tabItems
      * @return this
      */
-    protected function _translateLabel(& $tabItems)
+    protected function _translateLabel(&$tabItems)
     {
         if (is_array($tabItems)) {
             foreach ($tabItems as $id => $tab) {

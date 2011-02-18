@@ -192,8 +192,8 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     /**
      * Specify quote payment method
      *
-     * @param   array $data
-     * @return  array
+     * @param array $data
+     * @return array
      */
     public function savePayment($data)
     {

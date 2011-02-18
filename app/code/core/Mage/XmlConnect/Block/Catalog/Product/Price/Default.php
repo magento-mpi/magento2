@@ -330,7 +330,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Default extends Mage_Catalog_B
     /**
      * Get tier prices (formatted) as array of strings
      *
-     * @param array
+     * @param array $_tierPrices
      * @param Mage_Catalog_Model_Product $_product
      * 
      * @return array

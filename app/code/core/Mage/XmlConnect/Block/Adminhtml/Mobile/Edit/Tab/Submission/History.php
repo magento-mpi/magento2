@@ -39,6 +39,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
      * Set order by column and order direction
      * Set grid ID
      * Set use AJAX for grid
+     *
      */
     public function __construct()
     {

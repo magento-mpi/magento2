@@ -67,7 +67,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      * setup filenames to the configuration
      *
      * @param string $field
-     * @param mixed $target
+     * @param mixed &$target
      * @retun string
      */
     public function handleUpload($field, &$target)
@@ -110,7 +110,8 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
 
     /**
      * Return correct system filename for current screenSize
-     * @param string $field
+     *
+     * @param string $fieldPath
      * @param string $fileName
      * @param string $default
      * @return string
@@ -230,7 +231,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
                     return;
             }
             imagealphablending($img, false);
-            imagesavealpha  ($img  , true);
+            imagesavealpha($img, true);
             imagepng($img, $file['tmp_name']);
             imagedestroy($img);
         }
@@ -323,7 +324,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     /**
      * Return correct size for given $imageName and device screen_size
      *
-     * @param string $imageName
+     * @param string $imagePath
      * @return int
      */
     public function getImageSizeForInterface($imagePath)
@@ -437,9 +438,9 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
                     $data = $update['data'];
                     $target =& $this->findPath($imageLimits, $path);
                     if (is_array($target)) {
-                        array_walk_recursive($target, 'Mage_XmlConnect_Helper_Image::zoom', $data);
+                        array_walk_recursive($target, array($this, '_zoom'), $data);
                     } else {
-                        $this->zoom($target, null, $data);
+                        $this->_zoom($target, null, $data);
                     }
                     break;
                 case 'update':
@@ -479,8 +480,8 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     /**
      * Return reference to the $path in $array
      * 
-     * @param  &array    $array
-     * @param  string   $path
+     * @param array $array
+     * @param string $path
      * @return &mixed    //(reference)
      */
     public function &findPath(&$array, $path)
@@ -503,13 +504,12 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     /**
      * Multiply given $item by $value if non array
      *
-     * @static
-     * @param  mixed $item      (argument to change)
-     * @param  mixed $key       (not used)
-     * @param  string $value    (contains float)
+     * @param mixed $item (argument to change)
+     * @param mixed $key (not used)
+     * @param string $value (contains float)
      * @return void
      */
-    static public function zoom(&$item, $key, $value)
+    protected function _zoom(&$item, $key, $value)
     {
         if (is_string($item)) {
             $item = (int) round($item*$value);
@@ -524,7 +524,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     protected function _verifyDirExist($dir)
     {
-        $io = new Varien_Io_File;
+        $io = new Varien_Io_File();
         $io->checkAndCreateFolder($dir);
     }
 

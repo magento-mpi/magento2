@@ -44,8 +44,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
      *
      * @param Varien_Data_Form_Element_Fieldset $fieldset
      * @param string $fieldPrefix
-     * @param string $title
-     * @param bool $simple
      */
     protected function _addPage($fieldset, $fieldPrefix)
     {

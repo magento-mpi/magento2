@@ -73,7 +73,7 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
                         $value = $renderer->getShippingIncludeTax();
                     } else if ($renderer->displayIncludeTax()) {
                         $value = $renderer->getShippingIncludeTax();
-                    } else{
+                    } else {
                         $value = $renderer->getShippingExcludeTax();
                     }
                     break;

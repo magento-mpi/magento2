@@ -72,7 +72,7 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Paypal_Model_
     /**
      * Capture payment
      *
-     * @param Varien_Object $orderPayment
+     * @param Varien_Object $payment
      * @param float $amount
      * @return Mage_Payment_Model_Abstract
      */

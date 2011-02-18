@@ -58,7 +58,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Font extends Varien_Da
             'style' => 'width: 70px; margin: 0',
         )));
 
-        $this->addElement(new Mage_XmlConnect_Block_Adminhtml_Form_Element_Color(array(
+        $this->addElement(new Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Color(array(
             'name'  => $name . '[color]',
             'style' => 'width: 60px; margin: 0'
         )));

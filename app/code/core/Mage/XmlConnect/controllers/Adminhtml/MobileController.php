@@ -73,10 +73,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     /**
      * Set value into multidimensional array 'conf/native/navigationBar/icon'
      *
-     * @param &array &$target                // pointer to target array
-     * @param string $fieldPath              //'conf/native/navigationBar/icon'
-     * @param mixed $fieldValue             // 'Some Value' || 12345 || array(1=>3, 'aa'=>43)
-     * @param string $delimiter              // path delimiter
+     * @param &array $target // pointer to target array
+     * @param string $fieldPath //'conf/native/navigationBar/icon'
+     * @param mixed $fieldValue // 'Some Value' || 12345 || array(1=>3, 'aa'=>43)
+     * @param string $delimiter // path delimiter
      * @return null
      */
     protected function _injectFieldToArray(&$target, $fieldPath, $fieldValue, $delimiter = '/')
@@ -265,8 +265,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     /**
      * Format post/get data for session storage
      *
-     * @param array $data    - $_REQUEST[]
-     *
+     * @param array $data - $_REQUEST[]
      * @return array
      */
     protected function _filterFormDataForSession($data)
@@ -314,7 +313,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             // set URL and other appropriate options
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($ch, CURLOPT_TIMEOUT, 60);

@@ -357,6 +357,8 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Customer add/edit address form
+     *
+     * @return void
      */
     public function addressFormAction()
     {

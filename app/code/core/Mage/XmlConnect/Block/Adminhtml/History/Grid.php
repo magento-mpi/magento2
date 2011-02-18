@@ -38,7 +38,6 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
      * Constructor
      *
      * Setting grid_id, sort order and sort direction
-     *
      */
     public function __construct()
     {
@@ -46,7 +45,6 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
         $this->setId('app_history_grid');
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('ASC');
-
     }
 
     /**

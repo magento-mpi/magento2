@@ -69,8 +69,8 @@ class Mage_XmlConnect_Model_Simplexml_Element extends Varien_Simplexml_Element
     /**
      * Converts meaningful xml character (") to xml attribute specification
      *
-     * @param  string
-     * @return string
+     * @param string $value
+     * @return string|this
      */
     public function xmlAttribute($value = null)
     {

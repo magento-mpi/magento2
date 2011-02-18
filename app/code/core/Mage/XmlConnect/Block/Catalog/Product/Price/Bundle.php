@@ -99,7 +99,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                     foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                         if ($_weeeHelper->typeOfDisplay($product, array(2, 4))) {
                             $amount = $_weeeTaxAttribute->getAmount() + $_weeeTaxAttribute->getTaxAmount();
-                        } else{
+                        } else {
                             $amount = $_weeeTaxAttribute->getAmount();
                         }
                         $weeeItemXmlObj = $weeeXmlObj->addChild('item');
@@ -117,7 +117,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                     foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                         if ($_weeeHelper->typeOfDisplay($product, array(2, 4))) {
                             $amount = $_weeeTaxAttribute->getAmount() + $_weeeTaxAttribute->getTaxAmount();
-                        } else{
+                        } else {
                             $amount = $_weeeTaxAttribute->getAmount();
                         }
                         $weeeItemXmlObj = $weeeXmlObj->addChild('item');
@@ -143,7 +143,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             if ($_weeeHelper->typeOfDisplay($product, array(2, 4))) {
                                 $amount = $_weeeTaxAttribute->getAmount() + $_weeeTaxAttribute->getTaxAmount();
-                            } else{
+                            } else {
                                 $amount = $_weeeTaxAttribute->getAmount();
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
@@ -161,7 +161,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             if ($_weeeHelper->typeOfDisplay($product, array(2, 4))) {
                                 $amount = $_weeeTaxAttribute->getAmount() + $_weeeTaxAttribute->getTaxAmount();
-                            } else{
+                            } else {
                                 $amount = $_weeeTaxAttribute->getAmount();
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
@@ -239,7 +239,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             if ($_weeeHelper->typeOfDisplay($product, array(2, 4))) {
                                 $amount = $_weeeTaxAttribute->getAmount() + $_weeeTaxAttribute->getTaxAmount();
-                            } else{
+                            } else {
                                 $amount = $_weeeTaxAttribute->getAmount();
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
@@ -257,7 +257,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                         foreach ($_weeeTaxAttributes as $_weeeTaxAttribute) {
                             if ($_weeeHelper->typeOfDisplay($product, array(2, 4))) {
                                 $amount = $_weeeTaxAttribute->getAmount() + $_weeeTaxAttribute->getTaxAmount();
-                            } else{
+                            } else {
                                 $amount = $_weeeTaxAttribute->getAmount();
                             }
                             $weeeItemXmlObj = $weeeXmlObj->addChild('item');
@@ -269,7 +269,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
                         $priceXmlObj->addAttribute('including_tax', $_coreHelper->currency($_minimalPriceInclTax, true, false));
                     }
                 }
-             }
+            }
         }
     }
 

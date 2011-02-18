@@ -511,7 +511,8 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      *
      * @return array
      */
-    public function getLastParams() {
+    public function getLastParams()
+    {
         if (!isset($this->_lastParams)) {
             $this->_lastParams = Mage::getModel('xmlconnect/history')->getLastParams($this->getId());
         }
@@ -544,6 +545,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     /**
      * Validate submit application data
      *
+     * @param array $params
      * @return array|bool
      */
     public function validateSubmit($params)

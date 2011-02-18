@@ -45,7 +45,11 @@ class Mage_XmlConnect_Model_Theme
             Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t read file "%s".', $file));
         }
         $text = file_get_contents($file);
-        $this->_xml = simplexml_load_string($text);
+        try {
+            $this->_xml = simplexml_load_string($text);
+        } catch (Exception $e) {
+            Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t load XML.'));
+        }
         if (empty($this->_xml)) {
             Mage::throwException(Mage::helper('xmlconnect')->__('Invalid XML.'));
         }

@@ -93,7 +93,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                      $inclPrice = $_incl + $item->getWeeeTaxAppliedAmount();
                  } else {
                     $inclPrice = $_incl - $item->getWeeeTaxDisposition();
-                }
+                 }
              }
 
              $exclPrice = Mage::helper('xmlconnect')->formatPriceForXml($exclPrice);

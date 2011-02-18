@@ -34,7 +34,6 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getFilterByKey($key)
     {
-        $filterModelName = '';
         switch ($key) {
             case 'price':
                 $filterModelName = 'catalog/layer_filter_price';
@@ -217,7 +216,6 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Merges $changes array to $target array recursive, overwriting existing key,  and adding new one
      * 
-     * @static
      * @param mixed $target
      * @param mixed $changes
      * @return array
@@ -270,11 +268,12 @@ EOT;
     /**
      * Return select options for xml from array
      *
-     * @param array $dataArray  - source array
-     * @param string $info       - selected item
+     * @param array $dataArray - source array
+     * @param string $info - selected item
      * @return string
      */
-    public function getArrayAsXmlItemValues($dataArray, $selected) {
+    public function getArrayAsXmlItemValues($dataArray, $selected)
+    {
         $items = array();
         foreach ($dataArray as $k => $v) {
             if (!$k) {
@@ -293,8 +292,8 @@ EOT;
     /**
      * Return Solo Xml optional fieldset
      * 
-     * @param $ssCcMonths
-     * @param $ssCcYears
+     * @param string $ssCcMonths
+     * @param string $ssCcYears
      * @return string
      */
     public function getSoloXml($ssCcMonths, $ssCcYears)

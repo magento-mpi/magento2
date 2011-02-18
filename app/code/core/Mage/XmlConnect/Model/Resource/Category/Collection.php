@@ -76,8 +76,8 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
 
     /**
      * Adding parentCategory filter
+     *
      * @param int $parentId
-     * 
      * @return Mage_XmlConnect_Model_Resource_Category_Collection
      */
     public function addParentIdFilter($parentId)
