@@ -1,6 +1,6 @@
-<?php
+  <?php
 
-class Frontend_Checkout_Guest_Grouped extends TestCaseAbstract
+class Frontend_Checkout_Login_Downlodalbe extends TestCaseAbstract
 {
     /**
      * Setup procedure.
@@ -15,28 +15,30 @@ class Frontend_Checkout_Guest_Grouped extends TestCaseAbstract
 
     /**
      * Test frontend guest checkout
-     * MAGE-39:Performs Guest checkout of Groupped product.
+     * MAGE-37:Performs Guest checkout of Simple product
      */
-    function testGuestGroupedPositive()
+    function testGuestDownlodalbePositive()
     {
         // Test Dara
         $paramArray = array (
             //product data
             'baseUrl' => 'http://kq.varien.com/builds/ee-nightly/current/websites/smoke',
+            //'categoryName' => 'st-subcat',
             'categoryName' => 'SL-Category/Base',
-            'productName' => 'Grouped Product - Base',
-            'associatedProducts' => array (
-                                    'A Product - A' => '3',
-                                    'A Product - B' => '2',
+            'productName' => 'Downlodable Product - Base',
+            'downloadOptions' => array (
+                                    '1' => 'file sample',
+                                    '2' => 'linko sample',
                                     ),
+            'qty' => 1,
             //checkout data
-            'checkoutMethod' => 'Checkout as Guest',
+            'checkoutMethod' => 'Login',
             'shippingMethod' => 'Flat',
             'paymentMethod' => 'Check / Money order',
             //customer data
             'firstName' => 'Guest',
             'lastName' => 'User',
-            'email' => 'atu1@varien.com',
+            'email' => 'stu1@varien.com',
             'password' => '123123',
             'company' => 'AT Company',
             'street1' => 'street1',
@@ -50,9 +52,15 @@ class Frontend_Checkout_Guest_Grouped extends TestCaseAbstract
         );
 
         //Test Flow
-        $this->modelProduct->doOpen($paramArray);
-        $this->modelProduct->placeToCart($paramArray);
-        $this->modelShoppingCart->proceedCheckout();
-        $this->modelCheckout->doCheckout($paramArray);
+        if ($this->modelProduct->doOpen($paramArray)) {
+            if ($this->modelProduct->placeToCart($paramArray)) {
+                $this->modelShoppingCart->proceedCheckout();
+                $this->modelCheckout->doCheckout($paramArray);
+            } else {
+                $this->setVerificationErrors('Product was not placed to cart');
+            }
+        } else {
+            $this->setVerificationErrors('Product could not be opened');
+        }
     }
 }
