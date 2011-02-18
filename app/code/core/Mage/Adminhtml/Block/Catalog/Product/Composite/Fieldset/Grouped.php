@@ -33,6 +33,26 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Mage_Catalog_Block_Product_View_Type_Grouped
 {
+    /**
+     * Retrieve price block
+     *
+     * @param  int $productTypeId
+     * @return array
+     */
+    protected function _getPriceBlock($productTypeId)
+    {
+        if (!isset($this->_priceBlock[$productTypeId])) {
+            $block = 'adminhtml/catalog_product_price';
+            if (isset($this->_priceBlockTypes[$productTypeId])) {
+                if ($this->_priceBlockTypes[$productTypeId]['block'] != '') {
+                    $block = $this->_priceBlockTypes[$productTypeId]['block'];
+                }
+            }
+            $this->_priceBlock[$productTypeId] = $this->getLayout()->createBlock($block);
+        }
+
+        return $this->_priceBlock[$productTypeId];
+    }
 
     /**
      * Retrieve product
