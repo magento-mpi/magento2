@@ -35,9 +35,20 @@
 abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Template
 {
     protected $_priceBlock = array();
+
+    /**
+     * Default price block
+     *
+     * @var string
+     */
+    protected $_block = 'catalog/product_price';
+
     protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
+
     protected $_tierPriceDefaultTemplate  = 'catalog/product/view/tierprices.phtml';
+
     protected $_priceBlockTypes = array();
+
     /**
      * Flag which allow/disallow to use link for as low as price
      *
@@ -140,7 +151,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     protected function _getPriceBlock($productTypeId)
     {
         if (!isset($this->_priceBlock[$productTypeId])) {
-            $block = 'catalog/product_price';
+            $block = $this->_block;
             if (isset($this->_priceBlockTypes[$productTypeId])) {
                 if ($this->_priceBlockTypes[$productTypeId]['block'] != '') {
                     $block = $this->_priceBlockTypes[$productTypeId]['block'];

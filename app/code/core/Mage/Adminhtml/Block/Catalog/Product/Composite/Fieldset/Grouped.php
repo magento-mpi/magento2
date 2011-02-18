@@ -34,24 +34,20 @@
 class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Mage_Catalog_Block_Product_View_Type_Grouped
 {
     /**
-     * Retrieve price block
-     *
-     * @param  int $productTypeId
-     * @return array
+     * Redefine default price block
+     * Set current customer to tax calculation
      */
-    protected function _getPriceBlock($productTypeId)
+    protected function _construct()
     {
-        if (!isset($this->_priceBlock[$productTypeId])) {
-            $block = 'adminhtml/catalog_product_price';
-            if (isset($this->_priceBlockTypes[$productTypeId])) {
-                if ($this->_priceBlockTypes[$productTypeId]['block'] != '') {
-                    $block = $this->_priceBlockTypes[$productTypeId]['block'];
-                }
-            }
-            $this->_priceBlock[$productTypeId] = $this->getLayout()->createBlock($block);
-        }
+        parent::_construct();
 
-        return $this->_priceBlock[$productTypeId];
+        $this->_block = 'adminhtml/catalog_product_price';
+        $this->_useLinkForAsLowAs = false;
+
+        $taxCalculation = Mage::getSingleton('tax/calculation');
+        if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
+            $taxCalculation->setCustomer(Mage::registry('current_customer'));
+        }
     }
 
     /**
