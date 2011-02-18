@@ -163,7 +163,7 @@ class Model_Admin extends TestModelAbstract {
     {
         $result = false;
         $Data = $params ? $params : $this->Data;
-        if ($Data[$field] != NULL) {
+        if (isset($Data[$field]) and $Data[$field] != NULL) {
             if ($this->isElementPresent($this->getUiElement("selectors/" . $field, $number) .
                             $this->getUiElement("/admin/global/elements/option_for_field", $Data[$field]))) {
                 $this->select($this->getUiElement("selectors/" . $field, $number), "label=" . $Data[$field]);
@@ -171,7 +171,7 @@ class Model_Admin extends TestModelAbstract {
             } else {
                 $this->printInfo("The value '" . $Data[$field] . "' cannot be set for the field '" . $field . "'");
             }
-        } elseif ($Data[$field] == NULL) {
+        } else {
             $this->printInfo("The value for the field $field is not specified. The default value will be used");
         }
         return $result;
