@@ -261,7 +261,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
     {
         $this->printDebug('changeReviewStatus() started...');
         $review_rateData = $params ? $params : $this->review_rateData;
-        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/edit_review_page');
+        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_review/edit_review_page');
         //open manage review page
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/customer_reviews/all_reviews"));
         //search for review
@@ -278,32 +278,20 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
     }
 
     /**
-     * Review deleting
+     * Delete Review
      *
-     * @param array $params May contain the following params:
-     * 
+     * @param array $deleteReview
      */
-    public function deletingReview($params)
+    public function doDeleteReview($deleteReview)
     {
-        $this->printDebug('deletingReview() started...');
-        $review_rateData = $params ? $params : $this->review_rateData;
-        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/all_review');
-        //open manage review page
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/customer_reviews/all_reviews"));
-        //search for review
-        foreach ($review_rateData as $key => $value) {
-            if (preg_match('/^search_review/', $key)) {
-                $searchReview[$key] = $value;
-            }
-        }
-        $result = $this->searchAndDoAction('review_container', $searchReview, 'open', NULL);
-        //deleating review
-        if ($result) {
-            $this->clickAndWait($this->getUiElement("buttons/delete"));
-            if ($this->assertConfirmationPresent('Are you sure you want to do this?')) {
-                $this->chooseOkOnNextConfirmation();
-            } else {
-                $this->printInfo('An error was accured during deleting process');
+        $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_review/edit_review_page');
+        $searchResult = $this->searchAndDoAction('review_container', $deleteReview, "open", NULL);
+        if ($searchResult) {
+            $confirmation = 'Are you sure you want to do this?';
+            $deleteResult = $this->doDeleteElement($confirmation);
+            if (!$deleteResult) {
+                $this->printInfo('Element is not deleleted');
             }
         }
     }
