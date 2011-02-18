@@ -53,8 +53,10 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getCardsBlock()
     {
-        return $this->getLayout()->createBlock('paygate/authorizenet_cards')
-            ->setMethod($this->getMethod());
+        return $this->getLayout()->createBlock('paygate/authorizenet_info_cc')
+            ->setMethod($this->getMethod())
+            ->setInfo($this->getMethod()->getInfoInstance())
+            ->setHideTitle(true);
     }
 
     /**
@@ -68,13 +70,13 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
     }
 
     /**
-     * Return url to admin cancel controller
+     * Return url to admin cancel controller from admin url model
      *
      * @return string
      */
     public function getAdminCancelUrl()
     {
-        return $this->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
+        return Mage::getModel('adminhtml/url')->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
     }
 
     /**
@@ -94,10 +96,10 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      *
      * @return string
      */
-    public function showNoticeMessage()
+    public function showNoticeMessage($message)
     {
         return $this->getLayout()->getMessagesBlock()
-            ->addNotice($this->__('Please enter another credit card number to complete your purchase.'))
+            ->addNotice($this->__($message))
             ->getGroupedHtml();
     }
 
@@ -108,9 +110,33 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getPartialAuthorizationConfirmationMessage()
     {
-        $message = $this->getMethod()->getPartialAuthorizationConfirmationMessage();
-        $this->getMethod()->unsetPartialAuthorizationConfirmationMessage();
-        return $message;
+        $lastActionState = $this->getMethod()->getPartialAuthorizationLastActionState();
+        if ($lastActionState == Mage_Paygate_Model_Authorizenet::PARTIAL_AUTH_LAST_SUCCESS) {
+            $this->getMethod()->unsetPartialAuthorizationLastActionState();
+            return Mage::helper('paygate')->__('The amount on your credit card is insufficient to complete your purchase. The available amount has been put on hold. To complete your purchase click OK and specify additional credit card number. To cancel the purchase and release the amount on hold, click Cancel.');
+        } elseif ($lastActionState == Mage_Paygate_Model_Authorizenet::PARTIAL_AUTH_LAST_DECLINED) {
+            $this->getMethod()->unsetPartialAuthorizationLastActionState();
+            return Mage::helper('paygate')->__('Your credit card has been declined. Click OK to specify another credit card to complete your purchase. Click Cancel to release the amount on hold and select another payment method.');
+        }
+        return false;;
+    }
+
+    /**
+     * Return partial authorization form message and unset it in payment model
+     *
+     * @return string
+     */
+    public function getPartialAuthorizationFormMessage()
+    {
+        $lastActionState = $this->getMethod()->getPartialAuthorizationLastActionState();
+        if ($lastActionState == Mage_Paygate_Model_Authorizenet::PARTIAL_AUTH_ALL_CANCELED) {
+            $this->getMethod()->unsetPartialAuthorizationLastActionState();
+            return Mage::helper('paygate')->__('Your payment has been cancelled. All authorized amounts have been released.');
+        } elseif ($lastActionState == Mage_Paygate_Model_Authorizenet::PARTIAL_AUTH_CARDS_LIMIT_EXCEEDED) {
+            $this->getMethod()->unsetPartialAuthorizationLastActionState();
+            return Mage::helper('paygate')->__('You have reached the maximum number of credit cards that can be used for one payment. The available amounts on all used cards were insufficient to complete payment. The payment has been cancelled and amounts on hold have been released.');
+        }
+        return false;;
     }
 
     /**
@@ -120,7 +146,7 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getCancelConfirmationMessage()
     {
-        return $this->__('Are you sure you want to cancel your payment? Click Yes to cancel your payment and release the amount on hold. Click No to enter another credit card and continue with your payment.');
+        return $this->__('Are you sure you want to cancel your payment? Click OK to cancel your payment and release the amount on hold. Click Cancel to enter another credit card and continue with your payment.');
     }
 
     /**
@@ -133,6 +159,11 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
         return $this->getMethod()->isItPartialAuthorization();
     }
 
+    /**
+     * Return HTML content for creating admin panel`s button
+     *
+     * @return string
+     */
     public function getCancelButtonHtml()
     {
         $cancelButton = $this->getLayout()->createBlock('adminhtml/widget_button')

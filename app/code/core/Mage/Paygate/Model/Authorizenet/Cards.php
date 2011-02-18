@@ -24,9 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Paygate_Model_Authorizenet_Cards// extends Mage_Core_Model_Abstract
+class Mage_Paygate_Model_Authorizenet_Cards
 {
     const CARDS_NAMESPACE = 'authorize_cards';
+    const CARD_ID_KEY = 'id';
+    const CARD_PROCESSED_AMOUNT_KEY = 'processed_amount';
 
     /**
      * Cards information
@@ -60,28 +62,64 @@ class Mage_Paygate_Model_Authorizenet_Cards// extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Add based on $cardInfo card to payment
+     * Add based on $cardInfo card to payment and return Id of new item
      *
      * @param mixed $cardInfo
-     * @return Mage_Paygate_Model_Authorizenet_Cart
+     * @return string
      */
-    public function addCard($cardInfo)
+    public function registerCard($cardInfo = array())
     {
         $this->_isPaymentValid();
-        $this->_cards[] = $cardInfo;
+        $cardId = md5(microtime(1));
+        $cardInfo[self::CARD_ID_KEY] = $cardId;
+        $this->_cards[$cardId] = $cardInfo;
         $this->_payment->setAdditionalInformation(self::CARDS_NAMESPACE, $this->_cards);
+        return $this->getCard($cardId);
+    }
+
+    /**
+     * Save data from card object in cards storage
+     *
+     * @param Varien_Object $card
+     * @return Mage_Paygate_Model_Authorizenet_Cards
+     */
+    public function updateCard($card)
+    {
+        $cardId = $card->getData(self::CARD_ID_KEY);
+        if ($cardId && isset($this->_cards[$cardId])) {
+            $this->_cards[$cardId] = $card->getData();
+            $this->_payment->setAdditionalInformation(self::CARDS_NAMESPACE, $this->_cards);
+        }
         return $this;
+    }
+
+    /**
+     * Return card for $cardId
+     *
+     * @return Varien_Object
+     */
+    public function getCard($cardId)
+    {
+        if (isset($this->_cards[$cardId])) {
+            $card = new Varien_Object($this->_cards[$cardId]);
+            return $card;
+        }
+        return false;
     }
 
     /**
      * Get all stored cards
      *
-     * @return mixed
+     * @return array
      */
     public function getCards()
     {
         $this->_isPaymentValid();
-        return $this->_cards;
+        $_cards = array();
+        foreach(array_keys($this->_cards) as $key) {
+            $_cards[$key] = $this->getCard($key);
+        }
+        return $_cards;
     }
 
     /**
@@ -103,10 +141,9 @@ class Mage_Paygate_Model_Authorizenet_Cards// extends Mage_Core_Model_Abstract
     public function getProcessedAmount()
     {
         $amount = 0;
-        if ($this->getCards()) {
-            foreach ($this->getCards() as $card) {
-                $amount += $card['processed_amount'];
-            }
+        foreach ($this->_cards as $card) {
+            $amount += $card[self::CARD_PROCESSED_AMOUNT_KEY];
+
         }
         return $amount;
     }

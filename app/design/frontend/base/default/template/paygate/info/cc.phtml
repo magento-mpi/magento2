@@ -25,28 +25,32 @@
  */
 ?>
 
+<?php if (!$this->getHideTitle()): ?>
+    <p><strong><?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?></strong></p>
+<?php endif;?>
+
 <?php
     $cards = $this->getCards();
     $showCount = count($cards) > 1;
 ?>
 
-<div>
+<dl class="cards-list">
 <?php foreach ($cards as $key => $card): ?>
     <?php if ($showCount): ?>
-        <b><?php echo sprintf($this->__('Credit Card %s'), $key + 1); ?></b><br>
+        <dt><?php echo sprintf($this->__('Credit Card %s'), $key + 1); ?></dt>
     <?php endif;?>
 
-    <div <?php if ($showCount):?> style="padding:5px 0px 10px 20px"<?php endif;?>>
-    <table>
+    <dd <?php if ($showCount):?> class="offset"<?php endif;?>>
+    <table class="info-table">
         <tbody>
-        <?php foreach ($card as $info):?>
+        <?php foreach ($card as $_label => $_value):?>
         <tr>
-            <td><?php echo $info['label']; ?>:</td>
-            <td><?php echo $info['value']; ?></td>
+            <th><?php echo $this->escapeHtml($_label)?>:</th>
+            <td><?php echo nl2br(implode($this->getValueAsArray($_value, true), "\n"))?></td>
         </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
-    </div>
+    </dd>
 <?php endforeach; ?>
-</div>
+</dl>

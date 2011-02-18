@@ -489,6 +489,9 @@ tr.summary-details-excluded { font-style:italic; }
 .btn-remove,
 .btn-remove2 { display:block; width:15px; height:15px; font-size:0; line-height:0; background:url(../images/btn_remove.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
 
+.cards-list dt { margin:5px 0 0; }
+.cards-list .offset { padding:2px 0 2px 20px; }
+
 .separator { margin:0 3px; }
 
 .divider { clear:both; display:block; font-size:0; line-height:0; height:1px; margin:10px 0; background:url(../images/bkg_dots1.gif) 0 50% repeat-x; text-indent:-999em; overflow:hidden; }
@@ -1257,6 +1260,9 @@ tr.summary-details-excluded { font-style:italic; }
 
 .sp-methods .centinel-logos a { margin-right:3px; }
 .sp-methods .centinel-logos img { vertical-align:middle; }
+
+.sp-methods .release-amounts { margin:1.5em 0 2em; }
+.sp-methods .release-amounts button { float:left; margin:5px 10px 0 0; }
 
 .please-wait { float:right; }
 .please-wait img { vertical-align:middle; }

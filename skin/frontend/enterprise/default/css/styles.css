@@ -510,6 +510,9 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .data-table .btn-remove { display:block; margin:0 auto; width:13px; height:12px; font-size:0; line-height:0; background:url(../images/btn_remove.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
 .data-table .btn-remove2 {}
 
+.cards-list dt { margin:5px 0 0; }
+.cards-list .offset { padding:2px 0 2px 20px; }
+
 .divider { margin:16px 0; background:#e7e7e7; font-size:0; line-height:0; height:1px; overflow:hidden; }
 
 /* Noscript Notice */
@@ -1800,6 +1803,9 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .sp-methods .adv-container { padding-left:170px; }
 .sp-methods .centinel-logos a { margin-right:3px; }
 .sp-methods .centinel-logos img { vertical-align:middle; }
+
+.sp-methods .release-amounts { margin:1.5em 0 2em; }
+.sp-methods .release-amounts button { float:left; margin:5px 10px 0 0; }
 
 .checkmo-list li { margin:0 0 4px; }
 .checkmo-list label { padding-top:0; }

@@ -1058,6 +1058,11 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     protected function _addTransaction($type, $salesDocument = null, $failsafe = false)
     {
+        if ($this->getSkipTransactionCreation()) {
+            $this->unsTransactionId();
+            return null;
+        }
+
         // look for set transaction ids
         $transactionId = $this->getTransactionId();
         if (null !== $transactionId) {
@@ -1405,6 +1410,17 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     public function setTransactionAdditionalInfo($key, $value)
     {
         $this->_transactionAdditionalInfo[$key] = $value;
+    }
+
+    /**
+     * Reset transaction additional info property
+     *
+     * @return Mage_Sales_Model_Order_Payment
+     */
+    public function resetTransactionAdditionalInfo()
+    {
+        $this->_transactionAdditionalInfo = array();
+        return $this;
     }
 
     /**

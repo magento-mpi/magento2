@@ -24,44 +24,71 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Paygate_Block_Authorizenet_Info_Cc extends Mage_Payment_Block_Info
+class Mage_Paygate_Block_Authorizenet_Info_Cc extends Mage_Payment_Block_Info_Cc
 {
     /**
-     * Cards info block
-     *
-     * @return string
+     * Set block template
      */
-    public function getCardsInfoBlock()
+    protected function _construct()
     {
-        return $this->_createBlock('paygate/authorizenet_cards')
-            ->setMethod($this->getMethod());
+        parent::_construct();
+        $this->setTemplate('paygate/info/cc.phtml');
     }
 
     /**
-     * Create block
+     * Render as PDF
      *
-     * @param string $blockType
+     * @return string
+     */
+    public function toPdf()
+    {
+        $this->setTemplate('paygate/info/pdf.phtml');
+        return $this->toHtml();
+    }
+
+    /**
+     * Retrieve card info object
+     *
      * @return mixed
      */
-    protected function _createBlock($blockType)
+    public function getInfo()
     {
-        if ($this->getLayout()) {
-            return $this->getLayout()->createBlock($blockType);
+        if ($this->hasCardInfoObject()) {
+            return $this->getCardInfoObject();
         }
-        else {
-            $className = Mage::getConfig()->getBlockClassName($blockType);
-            return new $className;
-        }
+        return parent::getInfo();
     }
 
     /**
-     * Render block HTML
+     * Retrieve credit cards info
      *
-     * @return string
+     * @return array
      */
-    protected function _toHtml()
+    public function getCards()
     {
-        $this->setChild('cards_info_block', $this->getCardsInfoBlock());
-        return parent::_toHtml();
+        $cardsData = $this->getMethod()->getCardsStorage()->getCards();
+        $cards = array();
+
+        if (is_array($cardsData)) {
+            foreach ($cardsData as $cardInfo) {
+                $data = array();
+                if ($cardInfo->getProcessedAmount()) {
+                    $amount = Mage::helper('core')->currency($cardInfo->getProcessedAmount(), true, false);
+                    $data[Mage::helper('paygate')->__('Processed Amount')] = $amount;
+                }
+                if ($cardInfo->getBalanceOnCard() && is_numeric($cardInfo->getBalanceOnCard())) {
+                    $balance = Mage::helper('core')->currency($cardInfo->getBalanceOnCard(), true, false);
+                    $data[Mage::helper('paygate')->__('Remaining Balance')] = $balance;
+                }
+                $this->setCardInfoObject($cardInfo);
+                $cards[] = array_merge($this->getSpecificInformation(), $data);
+                $this->unsCardInfoObject();
+                $this->_paymentSpecificInformation = null;
+            }
+        }
+        if ($this->getInfo()->getCcType()) {
+            $cards[] = $this->getSpecificInformation();
+        }
+        return $cards;
     }
 }
