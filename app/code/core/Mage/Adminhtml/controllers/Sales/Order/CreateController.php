@@ -116,9 +116,11 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     /**
      * Processing request data
      *
+     * @param string $action
+     *
      * @return Mage_Adminhtml_Sales_Order_CreateController
      */
-    protected function _processData()
+    protected function _processData($action = null)
     {
         /**
          * Saving order data
@@ -179,7 +181,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         /**
          * Adding products to quote from special grid and
          */
-        if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items')) {
+        if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items') && !($action == 'save')) {
             $data = $this->getRequest()->getPost('item');
             $this->_getOrderCreateModel()->addProducts($data);
         }
@@ -408,7 +410,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     public function saveAction()
     {
         try {
-            $this->_processData();
+            $this->_processData('save');
             if ($paymentData = $this->getRequest()->getPost('payment')) {
                 $this->_getOrderCreateModel()->setPaymentData($paymentData);
                 $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentData);
