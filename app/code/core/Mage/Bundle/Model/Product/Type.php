@@ -954,9 +954,15 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function processBuyRequest($product, $buyRequest)
     {
+        $option     = $buyRequest->getBundleOption();
+        $optionQty  = $buyRequest->getBundleOptionQty();
+
+        $option     = (is_array($option)) ? array_filter($option, 'intval') : array();
+        $optionQty  = (is_array($optionQty)) ? array_filter($optionQty, 'intval') : array();
+
         $options = array(
-            'bundle_option'     => array_filter($buyRequest->getBundleOption(), 'intval'),
-            'bundle_option_qty' => array_filter($buyRequest->getBundleOptionQty(), 'intval')
+            'bundle_option'     => $option,
+            'bundle_option_qty' => $optionQty
         );
 
         return $options;

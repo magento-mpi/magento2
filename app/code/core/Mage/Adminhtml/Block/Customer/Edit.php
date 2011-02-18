@@ -82,6 +82,18 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         }
     }
 
+    /**
+     * Prepare form html. Add block for configurable product modification interface
+     *
+     * @return string
+     */
+    public function getFormHtml()
+    {
+        $html = parent::getFormHtml();
+        $html .= $this->getLayout()->createBlock('adminhtml/catalog_product_composite_configure')->toHtml();
+        return $html;
+    }
+
     public function getValidationUrl()
     {
         return $this->getUrl('*/*/validate', array('_current'=>true));

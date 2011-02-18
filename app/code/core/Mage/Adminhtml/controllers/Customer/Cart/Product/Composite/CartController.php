@@ -32,19 +32,30 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Catalog_Product_CompositeController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage_Adminhtml_Controller_Action
 {
     /*
-     * Ajax handler to response configuration fieldset of composite product
+     * Ajax handler to response configuration fieldset of composite product in customer's cart
      */
     public function configureAction()
     {
-        // Prepare data
-        $productId  = (int) $this->getRequest()->getParam('productId');
-        $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
-        $params = new Varien_Object();
-        $params->setCurrentStoreId(Mage::getSingleton('adminhtml/session_quote')->getStore()->getId());
-        // Render page
-        $viewHelper->prepareAndRender($productId, $this, $params);
+        $quoteItemId = (int) $this->getRequest()->getParam('id');
+        if ($quoteItemId) {
+            $quoteItem = Mage::getModel('sales/quote_item')->load($quoteItemId);
+            if ($quoteItem) {
+                $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
+                $params = new Varien_Object();
+
+                $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
+                        ->addItemFilter(array($quoteItemId));
+                $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
+
+                $params->setBuyRequest($quoteItem->getBuyRequest());
+                $params->setCurrentStoreId($quoteItem->getStoreId());
+
+                // Render page
+                $viewHelper->prepareAndRender($quoteItem->getProductId(), $this, $params);
+            }
+        }
     }
 }

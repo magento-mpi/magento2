@@ -25,8 +25,8 @@
  */
  ?>
 <script type="text/javascript">
-    order.sidebarHide();
     document.observe("dom:loaded", function() {
-        productConfigure.addListType('product_to_add', '<?php echo $this->getUrl('*/sales_order_composite_order/configure') ?>');
+        productConfigure.addListType('wishlist', '<?php echo $this->getUrl('*/customer_wishlist_product_composite_wishlist/configure') ?>');
+        productConfigure.addListType('shopping_cart', '<?php echo $this->getUrl('*/customer_cart_product_composite_cart/configure') ?>');
     });
 </script>

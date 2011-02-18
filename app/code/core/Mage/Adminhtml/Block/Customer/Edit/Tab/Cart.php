@@ -112,19 +112,20 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
         $this->addColumn('action', array(
             'header'    => $helper->__('Action'),
             'index'     => 'quote_item_id',
-            'renderer'  => 'adminhtml/customer_edit_tab_view_grid_renderer_multiaction',
+            'renderer'  => 'adminhtml/customer_grid_renderer_multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption' => $helper->__('Configure'),
-                    'url'     => 'javascript:void(0)',
-                    'process' => 'configurable'
+                    'caption'   => $helper->__('Configure'),
+                    'url'       => 'javascript:void(0)',
+                    'process'   => 'configurable',
+                    'list_type' => 'shopping_cart'
                 ),
                 array(
-                    'caption' => $helper->__('Delete'),
-                    'url'     => '#',
-                    'onclick' => 'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
+                    'caption'   => $helper->__('Delete'),
+                    'url'       => '#',
+                    'onclick'   => 'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
                 )
             )
         ));

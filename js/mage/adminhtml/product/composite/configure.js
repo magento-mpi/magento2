@@ -73,7 +73,7 @@ ProductConfigure.prototype = {
      * Show configuration fields of product, if it not found then get it through ajax
      *
      * @param listType type of list as scope
-     * @param itemId product id
+     * @param itemId
      */
     showItemConfiguration: function(listType, itemId) {
         if (!listType || !itemId) {
@@ -99,13 +99,13 @@ ProductConfigure.prototype = {
      * Get configuration fields of product through ajax put to cache and show them
      *
      * @param listType type of list as scope
-     * @param itemId product id
+     * @param itemId
      */
     _requestItemConfiguration: function(listType, itemId) {
         var url = this.listTypes[listType].urlFetch;
         if (url) {
             new Ajax.Request(url, {
-                parameters: {productId: itemId},
+                parameters: {id: itemId},
                 onSuccess: function(transport) {
                     var response = transport.responseText;
                     if (response) {
@@ -154,8 +154,6 @@ ProductConfigure.prototype = {
                 }
             }
         }
-
-        return false;
     },
 
     /**
@@ -210,14 +208,14 @@ ProductConfigure.prototype = {
      * Get configured data. All or filtered
      *
      * @param listType type of list as scope. e.g.: '$current$', 'product_to_add', empty
-     * @param itemId product id. e.g.: '$current$', 195, empty
+     * @param itemId e.g.: '$current$', 195, empty
      */
     getConfiguredData: function(listType, itemId) {
         // get current listType
         if (listType == '$current$'
             && typeof this.current.listType != 'undefined'
             && typeof itemId == 'undefined'
-            && typeof this.configuredData[this.current.listType] != 'undefined'        
+            && typeof this.configuredData[this.current.listType] != 'undefined'
         ) {
             return this.configuredData[this.current.listType];
         // get current listType and current itemId
@@ -300,7 +298,7 @@ ProductConfigure.prototype = {
      * Prepare cached and configured variables for filling
      *
      * @param listType type of list as scope
-     * @param itemId product id
+     * @param itemId
      */
     _prepareCachedAndConfigured: function(listType, itemId) {
         if (typeof this.cachedHtml[listType] == 'undefined') {

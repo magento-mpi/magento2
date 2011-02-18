@@ -25,13 +25,13 @@
  */
 
 /**
- * Adminhtml customers shopping cart grid item action renderer for few action controls in one cell
+ * Adminhtml customers wishlist grid item action renderer for few action controls in one cell
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Multiaction
+class Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction
     extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
 {
     /**
@@ -80,7 +80,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Multiaction
                 || in_array($product->getTypeId(), array('giftcard', 'downloadable')));
             $style          = ($isConfigurable) ? '' : ' style="color: #CCC"';
             $onClick        = ($isConfigurable)
-                ? sprintf(' onClick="productComposite.showItemConfiguration(\'shoppingCart\', %s)"', $row->getId())
+                ? sprintf(
+                        ' onClick="productConfigure.showItemConfiguration(\'%s\', %s)"',
+                        $action['list_type'],
+                        $row->getId()
+                    )
                 : '';
 
             return sprintf('<a href="%s"%s%s>%s</a>', $action['url'], $style, $onClick, $action['caption']);
