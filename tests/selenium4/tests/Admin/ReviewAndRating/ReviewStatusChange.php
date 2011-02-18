@@ -18,7 +18,7 @@ class Admin_ReviewAndRating_ReviewStatusChange extends TestCaseAbstract {
     function testRating()
     {
         $review_rateData = array(
-            'label' => 'Approved',
+            'status' => 'Approved',
             'search_review_nickname' => 'Test user',
             'search_review_title' => 'Test review',
             //'search_review_id' => '',
