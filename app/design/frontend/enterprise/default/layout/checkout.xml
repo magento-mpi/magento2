@@ -337,9 +337,8 @@ One page checkout main layout
         </reference>
         <reference name="content">
             <block type="checkout/onepage" name="checkout.onepage" template="checkout/onepage.phtml">
-                <block type="core/template" name="checkout.callout" as="checkoutCallout" template="callouts/callout.phtml">
-                    <action method="setImgSrc"><src>images/callouts/checkout-callout.gif</src></action>
-                    <action method="setImgAlt" translate="alt" module="catalog"><alt>Need help with checking out? Let us help! Call us at (555) 555-0123.</alt></action>
+                <block type="cms/block" name="checkout.callout" as="checkoutCallout">
+                    <action method="setBlockId"><block_id>checkout_callout</block_id></action>
                 </block>
                 <block type="checkout/onepage_progress" as="checkoutProgress" name="checkout.progress" template="checkout/onepage/progress.phtml"/>
                 <block type="checkout/onepage_login" name="checkout.onepage.login" as="login" template="checkout/onepage/login.phtml">
