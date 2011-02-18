@@ -935,22 +935,21 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $state  = Mage_Sales_Model_Order::STATE_PROCESSING;
         $status = true;
         if ($isOnline) {
-
             // invoke authorization on gateway
             $this->getMethodInstance()->setStore($order->getStoreId())->authorize($this, $amount);
-
-            // similar logic of "payment review" order as in capturing
-            if ($this->getIsTransactionPending()) {
-                $message = Mage::helper('sales')->__('Authorizing amount of %s is pending approval on gateway.', $this->_formatPrice($amount));
-                $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
-                if ($this->getIsFraudDetected()) {
-                    $status = Mage_Sales_Model_Order::STATUS_FRAUD;
-                }
-            } else {
-                $message = Mage::helper('sales')->__('Authorized amount of %s.', $this->_formatPrice($amount));
-            }
         } else {
             $message = Mage::helper('sales')->__('Registered notification about authorized amount of %s.', $this->_formatPrice($amount));
+        }
+
+        // similar logic of "payment review" order as in capturing
+        if ($this->getIsTransactionPending()) {
+            $message = Mage::helper('sales')->__('Authorizing amount of %s is pending approval on gateway.', $this->_formatPrice($amount));
+            $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+            if ($this->getIsFraudDetected()) {
+                $status = Mage_Sales_Model_Order::STATUS_FRAUD;
+            }
+        } else {
+            $message = Mage::helper('sales')->__('Authorized amount of %s.', $this->_formatPrice($amount));
         }
 
         // update transactions, order state and add comments

@@ -66,6 +66,8 @@ class Mage_Paypal_Model_Config
      */
     const METHOD_PAYFLOWPRO   = 'verisign';
 
+    const METHOD_PAYFLOWLINK  = 'payflow_link';
+
     const METHOD_BILLING_AGREEMENT = 'paypal_billing_agreement';
 
     /**
@@ -457,12 +459,14 @@ class Mage_Paypal_Model_Config
                 self::METHOD_WPP_PE_DIRECT,
                 self::METHOD_WPP_PE_EXPRESS,
                 self::METHOD_PAYFLOWPRO,
+                self::METHOD_PAYFLOWLINK,
             ),
             'CA' => array(
                 self::METHOD_WPS,
                 self::METHOD_WPP_DIRECT,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_PAYFLOWPRO,
+                self::METHOD_PAYFLOWLINK,
             ),
             'GB' => array(
                 self::METHOD_WPS,
@@ -475,11 +479,13 @@ class Mage_Paypal_Model_Config
                 self::METHOD_WPS,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_PAYFLOWPRO,
+                self::METHOD_PAYFLOWLINK,
             ),
             'NZ' => array(
                 self::METHOD_WPS,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_PAYFLOWPRO,
+                self::METHOD_PAYFLOWLINK,
             ),
             'DE' => array(
                 self::METHOD_WPS,
@@ -940,6 +946,7 @@ class Mage_Paypal_Model_Config
             case self::METHOD_WPP_DIRECT:
             case self::METHOD_WPP_PE_DIRECT:
             case self::METHOD_PAYFLOWPRO:
+            case self::METHOD_PAYFLOWLINK:
                 return true;
         }
         return false;
