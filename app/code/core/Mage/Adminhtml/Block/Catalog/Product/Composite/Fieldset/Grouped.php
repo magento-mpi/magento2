@@ -34,4 +34,22 @@
 class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Mage_Adminhtml_Block_Catalog_Product_Composite_Configure
 {
 
+    /**
+     * Retrieve product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct()
+    {
+        if (!$this->hasData('product')) {
+            $this->setData('product', Mage::registry('product'));
+        }
+        $product = $this->getData('product');
+        if (is_null($product->getTypeInstance(true)->getStoreFilter($product))) {
+            $product->getTypeInstance(true)->setStoreFilter(Mage::app()->getStore($product->getStoreId()), $product);
+        }
+
+        return $product;
+    }
+
 }

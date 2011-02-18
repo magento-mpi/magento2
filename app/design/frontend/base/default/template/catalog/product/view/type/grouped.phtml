@@ -33,6 +33,7 @@
 ?>
 <?php
 $_product = $this->getProduct();
+$this->setPreconfiguredValue();
 $_associatedProducts = $this->getAssociatedProducts();
 $_hasAssociatedProducts = count($_associatedProducts) > 0;
 ?>

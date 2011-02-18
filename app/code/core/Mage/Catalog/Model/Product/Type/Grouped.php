@@ -31,7 +31,7 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product_Type_Abstract
+    class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product_Type_Abstract
 {
     const TYPE_CODE = 'grouped';
 
@@ -331,7 +331,11 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      */
     public function processBuyRequest($product, $buyRequest)
     {
-        $options = array('super_group' => array_filter($buyRequest->getSuperAttribute(), 'intval'));
+
+        $superGroup = $buyRequest->getSuperGroup();
+        $superGroup = (is_array($superGroup)) ? array_filter($superGroup, 'intval') : array();
+
+        $options = array('super_group' => $superGroup);
 
         return $options;
     }
