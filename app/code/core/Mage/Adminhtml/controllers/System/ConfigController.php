@@ -35,6 +35,30 @@
 class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Whether current section is allowed
+     *
+     * @var bool
+     */
+    protected $_isAllowedSection = true;
+
+    /**
+     * Controller predispatch method
+     * Check if current section is found and is allowed
+     *
+     * @return Mage_Adminhtml_System_ConfigController
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+
+        if ($this->getRequest()->getParam('section')) {
+            $this->_isAllowedSection = $this->_isSectionAllowed($this->getRequest()->getParam('section'));
+        }
+
+        return $this;
+    }
+
+    /**
      * Enter description here...
      *
      */
@@ -73,7 +97,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
 
-        if ($this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
+        if ($this->_isAllowedSection) {
             $this->_addContent($this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm());
 
             $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('system/shipping/ups.phtml'));
@@ -244,11 +268,13 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             return true;
         }
         catch (Zend_Acl_Exception $e) {
-            $this->_forward('noroute');
+            $this->norouteAction();
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
         catch (Exception $e) {
-            $this->_forward('denied');
+            $this->deniedAction();
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
     }
