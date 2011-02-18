@@ -4,8 +4,7 @@
         <topmenu>#include maps/admin-topmenu.xml</topmenu>
         <pages>#include maps/admin-pages.xml</pages>
         <messages>#include maps/admin-messages.xml</messages>
-        <elements>#include maps/admin-elements.xml</elements>
-        <buttons>#include maps/admin-buttons.xml</buttons>
+        <global>#include maps/admin-global.xml</global>
     </admin>
     <frontend>
         <pages>#include maps/frontend-pages.xml</pages>
