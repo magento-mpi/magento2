@@ -63,7 +63,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
     {
         $websiteId = Mage::app()->getStore($this->getQuote()->getStoreId())->getWebsiteId();
         $minPointsBalance = (int)Mage::getStoreConfig(Enterprise_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE, $this->getQuote()->getStoreId());
-		
+
         return $this->getReward()->getPointsBalance() >= $minPointsBalance 
             && Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)
             && Mage::getSingleton('admin/session')->isAllowed('enterprise_reward/affect')
