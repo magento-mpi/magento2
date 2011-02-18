@@ -138,14 +138,15 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
      * 
      * @param <type> $productRatingStars 
      */
-    public function ratingSet($productRatingStars)
+    public function ratingSet($nameRating, $valueRating)
     {
         //Select stars for each rating
-        $this->waitForElement("elements/rating_present", 1);
-        if ($this->isElementPresent($this->getUiElement("elements/rating_present"))) {
-            $this->click($this->getUiElement("selectors/rating_select", $productRatingStars));
+        $this->waitForElement($this->getUiElement("elements/ratings_not_empty"), 1);
+        if ($this->isElementPresent($this->getUiElement("elements/rating_present", $nameRating))) {
+            $inputRating = $nameRating . "_" . $valueRating;
+            $this->click($this->getUiElement("selectors/rating_select", $inputRating));
         } else {
-            $this->printInfo("There are no such ratings ");
+            $this->printInfo("\r\n Rating " . $nameRating . " is defined incorect");
         }
     }
 
@@ -161,17 +162,18 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
     {
         //Data preparation
         $storeNameVisible = $this->isSetValue($params, 'store_view_name_visible');
+        $productRatingForStars = $this->isSetValue($params, 'rating_for_stars');
         $productRatingStars = $this->isSetValue($params, 'rating_stars');
 
         $this->printDebug('createReview() started...');
-        $review_rateData = $params ? $params : $this->review_rateData;
+        $Data = $params ? $params : $this->Data;
         $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_review');
         // Open manage review page
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/customer_reviews/all_reviews"));
         // Add new review
         $this->clickAndWait($this->getUiElement("buttons/add_new"));
         //search product for review
-        foreach ($review_rateData as $key => $value) {
+        foreach ($Data as $key => $value) {
             if (preg_match('/^search_product/', $key)) {
                 $searchProd[$key] = $value;
             }
@@ -180,7 +182,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
         $prod_result = $this->searchAndDoAction('product_container', $searchProd, 'open', NULL);
         if ($prod_result) {
             //Set up review status
-            $this->select($this->getUiElement("selectors/status"), $review_rateData["status"]);
+            $this->checkAndSelectField($params, "status", NULL);
             //Enable display for store view(s)
             if (is_array($storeNameVisible)) {
                 $qtyStores = count($storeNameVisible);
@@ -191,18 +193,29 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
                 $this->setElementVisible($storeNameVisible);
             }
             //select ratings stars
-            if (is_array($productRatingStars)) {
-                $qtyRatings = count($productRatingStars);
-                for ($y = 0; $y < $qtyRatings; $y++) {
-                    $this->ratingSet($productRatingStars[$y]);
+            $this->waitForElement($this->getUiElement("elements/rating_qty"), 1);
+            $ratings_exist = ($this->getXpathCount($this->getUiElement("elements/rating_qty")));
+            $ratings_defined = count($productRatingForStars);
+            if ($ratings_exist == $ratings_defined) {
+                if (is_array($productRatingForStars)) {
+                    $ratings_defined = count($productRatingForStars);
+                    for ($y = 0; $y < $ratings_defined; $y++) {
+                        $this->ratingSet($productRatingForStars[$y], $productRatingStars[$y]);
+                    }
+                } elseif ($productRatingForStars != Null) {
+                    $this->ratingSet($productRatingForStars, $productRatingStars);
                 }
-            } elseif ($productRatingStars != Null) {
-                $this->ratingSet($productRatingStars);
+            } elseif ($ratings_exist != 0) {
+                $this->printInfo("\r\n Wrong q-ty of ratings ");
+                $this->printInfo("\r\n Q-ty of rating that exist is:  " . $ratings_exist . " !");
+                $this->printInfo("\r\n Q-ty of defined ratings is:  " . $ratings_defined . " !");
+            } elseif ($ratings_defined != 0) {
+                $this->printInfo("\r\n There are no such ratings ");
             }
             //fill all fields
-            $this->type($this->getUiElement("inputs/nickname"), $review_rateData["nickname"]);
-            $this->type($this->getUiElement("inputs/summary_of_review"), $review_rateData["summary_of_review"]);
-            $this->type($this->getUiElement("inputs/review_text"), $review_rateData["review_text"]);
+            $this->type($this->getUiElement("inputs/nickname"), $Data["nickname"]);
+            $this->type($this->getUiElement("inputs/summary_of_review"), $Data["summary_of_review"]);
+            $this->type($this->getUiElement("inputs/review_text"), $Data["review_text"]);
             //saving review
             $this->saveAndVerifyForErrors();
         }
@@ -219,12 +232,12 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
     {
         $this->printDebug('ReviewVerification() started...');
         //Data preparation
-        $review_rateData = $params ? $params : $this->review_rateData;
+        $Data = $params ? $params : $this->Data;
         $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
         //Open manage products page
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/manageproducts"));
         //Searching for product
-        foreach ($review_rateData as $key => $value) {
+        foreach ($Data as $key => $value) {
             if (preg_match('/^search_product/', $key)) {
                 $searchProd[$key] = $value;
             }
@@ -237,7 +250,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
             $this->click($this->getUiElement("tabs/product_review"));
             $this->pleaseWait();
             //searching for review
-            foreach ($review_rateData as $key => $value) {
+            foreach ($Data as $key => $value) {
                 if (preg_match('/^search_review/', $key)) {
                     $searchReview[$key] = $value;
                 }
@@ -260,19 +273,19 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
     public function changeReviewStatus($params)
     {
         $this->printDebug('changeReviewStatus() started...');
-        $review_rateData = $params ? $params : $this->review_rateData;
+        $Data = $params ? $params : $this->Data;
         $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_review/edit_review_page');
         //open manage review page
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/reviews_and_ratings/customer_reviews/all_reviews"));
         //search for review
-        foreach ($review_rateData as $key => $value) {
+        foreach ($Data as $key => $value) {
             if (preg_match('/^search_review/', $key)) {
                 $searchReview[$key] = $value;
             }
         }
         if ($this->searchAndDoAction('review_container', $searchReview, 'open', NULL)) {
             //changing status
-            $this->select($this->getUiElement("selectors/status"), 'label=' . $review_rateData['label']);
+            $this->checkAndSelectField($params, "status", NULL);
             $this->saveAndVerifyForErrors();
         }
     }
