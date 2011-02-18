@@ -36,7 +36,7 @@
                         <secure_card_valid_container>//*[@id='order-card_validation']/div</secure_card_valid_container>
                         <secure_fraime>/div//iframe[normalize-space(@style)='display: block;']</secure_fraime>
                         <secure_page>//body[@onbeforeunload and @onload]</secure_page>
-                        <secure_code>//font[contains(.,'Password is "1234"')]</secure_code>
+                        <secure_code>//font[contains(.,'Password is')]</secure_code>
                         <secure_error>//font/b/font/b</secure_error>
                     </elements>
                     <inputs>
@@ -48,7 +48,10 @@
                         <gift_card_code>//*[@id='giftcardaccount_add_input']</gift_card_code>
                         <!-- "Account Information" grid  -->
                         <user_email>//*[@id='email']</user_email>
-                        <!-- "Billing Address" grid  -->                        
+                        <!-- "Billing Address" grid  -->
+                        <billing_prefix>//*[@id='order-billing_address_prefix']</billing_prefix>
+                        <billing_initial>//*[@id='order-billing_address_middlename']</billing_initial>
+                        <billing_suffix>//*[@id='order-billing_address_suffix']</billing_suffix>
                         <billing_fname>//*[@id='order-billing_address_firstname']</billing_fname>
                         <billing_lname>//*[@id='order-billing_address_lastname']</billing_lname>
                         <billing_company>//*[@id='order-billing_address_company']</billing_company>
@@ -58,9 +61,12 @@
                         <billing_zip>//*[@id='order-billing_address_postcode']</billing_zip>
                         <billing_tel>//*[@id='order-billing_address_telephone']</billing_tel>
                         <billing_fax>//*[@id='order-billing_address_fax']</billing_fax>
-                        <save_billing>//*[@id='order-billing_address_save_in_address_book']</save_billing>
+                        <billing_save>//*[@id='order-billing_address_save_in_address_book']</billing_save>
                         <!-- "Shipping Address" grid  -->
                         <same_as_billing>//*[@id='order-shipping_same_as_billing']</same_as_billing>
+                        <shipping_prefix>//*[@id='order-shipping_address_prefix']</shipping_prefix>
+                        <shipping_initial>//*[@id='order-shipping_address_middlename']</shipping_initial>
+                        <shipping_suffix>//*[@id='order-shipping_address_suffix']</shipping_suffix>
                         <shipping_fname>//*[@id='order-shipping_address_firstname']</shipping_fname>
                         <shipping_lname>//*[@id='order-shipping_address_lastname']</shipping_lname>
                         <shipping_company>//*[@id='order-shipping_address_company']</shipping_company>
@@ -70,7 +76,7 @@
                         <shipping_zip>//*[@id='order-shipping_address_postcode']</shipping_zip>
                         <shipping_tel>//*[@id='order-shipping_address_telephone']</shipping_tel>
                         <shipping_fax>//*[@id='order-shipping_address_fax']</shipping_fax>
-                        <save_shipping>//*[@id='order-shipping_address_save_in_address_book']</save_shipping>
+                        <shipping_save>//*[@id='order-shipping_address_save_in_address_book']</shipping_save>
                         <not_active>
                             <shipping_state>//*[@id='order-shipping_address_region' and @style='display: none;']</shipping_state>
                             <billing_state>//*[@id='order-billing_address_region' and @style='display: none;']</billing_state>
