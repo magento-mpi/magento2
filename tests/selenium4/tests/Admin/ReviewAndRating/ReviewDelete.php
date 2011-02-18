@@ -22,7 +22,7 @@ class Admin_ReviewAndRating_ReviewDelete extends TestCaseAbstract {
             'search_review_nickname' => 'Test user',//Core::getEnvConfig('backend/rating_and_review/review/nickname'),
         );
         if ($this->model->doLogin()) {
-            $this->model->deletingReview($review_rateData);
+            $this->model->doDeleteReview($review_rateData);
         }
     }
 
