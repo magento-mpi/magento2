@@ -75,6 +75,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
             $product = $item->getProduct();
             $item->setName($product->getName());
             $item->setPrice($product->getPrice());
+            $item->setTypeId($product->getTypeId());
         }
         return $items;
     }
