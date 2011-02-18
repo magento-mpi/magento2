@@ -315,7 +315,7 @@ class Enterprise_CustomerBalance_Model_Observer
         }
 
         if ($creditmemo->getCustomerBalTotalRefunded() > $creditmemo->getCustomerBalanceReturnMax()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Store credit amount can not exceed order amount.'));
+            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Store credit amount cannot exceed order amount.'));
         }
         //doing actual refund to customer balance if user have submitted refund form
         if ($creditmemo->getCustomerBalanceRefundFlag() && $creditmemo->getBsCustomerBalTotalRefunded()) {
