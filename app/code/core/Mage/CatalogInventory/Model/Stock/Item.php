@@ -643,9 +643,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $qtyIncrements = $this->getQtyIncrements();
         if ($qtyIncrements && ($qty % $qtyIncrements != 0)) {
             $result->setHasError(true)
-                ->setMessage(Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $qtyIncrements * 1))
                 ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity.'))
                 ->setQuoteMessageIndex('qty');
+            if ($this->getIsChildItem()) {
+                $result->setMessage(Mage::helper('cataloginventory')->__('%s is available for purchase in increments of %s only.', $this->getProductName(), $qtyIncrements * 1));
+            } else {
+                $result->setMessage(Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $qtyIncrements * 1));
+            }
         }
 
         return $result;

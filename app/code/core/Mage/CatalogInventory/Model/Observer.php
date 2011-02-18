@@ -324,7 +324,19 @@ class Mage_CatalogInventory_Model_Observer
                 $qtyForCheck = $this->_getQuoteItemQtyForCheck($quoteItem->getProduct()->getId(), $quoteItem->getId(), $increaseQty);
             }
 
+            $productTypeCustomOption = $quoteItem->getProduct()->getCustomOption('product_type');
+            if (!is_null($productTypeCustomOption)) {
+                // Check if product related to current item is a part of grouped product
+                if ($productTypeCustomOption->getValue() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
+                    $stockItem->setIsChildItem(true);
+                }
+            }
+
             $result = $stockItem->checkQuoteItemQty($rowQty, $qtyForCheck, $qty);
+
+            if ($stockItem->hasIsChildItem()) {
+                $stockItem->unsIsChildItem();
+            }
 
             if (!is_null($result->getItemIsQtyDecimal())) {
                 $quoteItem->setIsQtyDecimal($result->getItemIsQtyDecimal());
