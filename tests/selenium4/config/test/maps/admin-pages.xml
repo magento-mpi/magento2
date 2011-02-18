@@ -309,7 +309,7 @@
                     </inputs>
                     <buttons>
                         <save_attribute>//button[span="Save Attribute"]</save_attribute>
-                        <add_new_option>add_new_option_button</add_new_option>
+                        <add_new_option>//button[span="Add Option"]</add_new_option>
                     </buttons>
                     <tabs>
                         <properties>//a[@id='product_attribute_tabs_main']/span</properties>
@@ -525,9 +525,9 @@
                         <review_text>//textarea[@id="detail"]</review_text>
                     </inputs>
                     <elements>
-                        <product_container>//div[@id='productGrid' and not (contains(@style,'display: none'))]</product_container>
-                        <rating_present>//div[@class='product-review-box']</rating_present>
                         <review_container>//div[@id='reviwGrid']</review_container>
+                        <rating_qty>//table[@id='product-review-table']//tr[contains(td/@class,'label')]</rating_qty>
+                        <rating_present>//table[@id='product-review-table']//td[contains(text(),'%s')]</rating_present>
                     </elements>
                     <selectors>
                         <status>//select[@id="status_id"]</status>
