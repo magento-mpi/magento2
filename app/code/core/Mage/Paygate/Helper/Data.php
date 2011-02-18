@@ -30,131 +30,75 @@
 class Mage_Paygate_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Convert s lot of messages to one message
+     * Converts a lot of messages to message
      *
      * @param  array $messages
      * @return string
      */
-    public function messagesToMessage($messages)
+    public function convertMessagesToMessage($messages)
     {
         return implode(' | ', $messages);
     }
 
     /**
-     * Return message for preauthorize capture gateway action
+     * Return message for gateway transaction request
      *
      * @param  Mage_Payment_Model_Info $payment
-     * @param  Varien_Object $card
+     * @param  string $requestType
      * @param  string $lastTransactionId
-     * @return string
+     * @param  Varien_Object $card
+     * @param float $amount
+     * @param string $exception
+     * @return bool|string
      */
-    public function getPlaceTransactionMessage($payment, $card, $transactionType)
+    public function getTransactionMessage($payment, $requestType, $lastTransactionId, $card, $amount = false, $exception = false)
     {
-        switch ($transactionType) {
-            case Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH:
-                return $this->__(
-                    'Credit Card: xxxx-%s Authorized amount of %s. Authorize.Net Transaction ID %s',
-                    $card->getCcLast4(),
-                    $this->_formatPrice($payment, $card->getProcessedAmount()),
-                    $card->getLastTransId()
-                );
-            case Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE:
-                return $this->__(
-                    'Credit Card: xxxx-%s Authorized and Captured amount of %s. Authorize.Net Transaction ID %s',
-                    $card->getCcLast4(),
-                    $this->_formatPrice($payment, $card->getProcessedAmount()),
-                    $card->getLastTransId()
-                );
+        $operation = $this->_getOperation($requestType);
+
+        if (!$operation) {
+            return false;
         }
+
+        if ($amount) {
+            $amount = $this->__('amount %s', $this->_formatPrice($payment, $amount));
+        }
+
+        if ($exception) {
+            $result = $this->__('failed');
+        } else {
+            $result = $this->__('successful');
+        }
+
+        $card = $this->__('Credit Card: xxxx-%s', $card->getCcLast4());
+        $transaction = $this->__('Authorize.Net Transaction ID %s', $lastTransactionId);
+
+        return $this->__('%s %s %s - %s. %s. %s', $card, $amount, $operation, $result, $transaction, $exception );
     }
 
     /**
-     * Return message for preauthorize capture gateway action
+     * Return operation name for request type
      *
-     * @param  Mage_Payment_Model_Info $payment
-     * @param  Varien_Object $card
-     * @param  float $amount
-     * @param  string $lastTransactionId
-     * @param  Exception $exception
-     * @return string
+     * @param  string $requestType
+     * @return bool|string
      */
-    public function getPreauthorizeCaptureTransactionMessage($payment, $card, $amount, $lastTransactionId, $exception = null)
+    protected function _getOperation($requestType)
     {
-        if (is_null($exception)) {
-            return $this->__(
-                'Credit Card: xxxx-%s Captured amount of %s. Authorize.Net Transaction ID %s - successful',
-                $card->getCcLast4(),
-                $this->_formatPrice($payment, $amount),
-                $lastTransactionId
-            );
-        } else {
-            return $this->__(
-                'Credit Card: xxxx-%s Captured amount of %s. Authorize.Net Transaction ID %s - failed. %s',
-                $card->getCcLast4(),
-                $this->_formatPrice($payment, $amount),
-                $lastTransactionId,
-                $exception->getMessage()
-            );
+        switch ($requestType) {
+            case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_AUTH_ONLY:
+                return $this->__('authorize');
+            case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_AUTH_CAPTURE:
+                return $this->__('authorize and capture');
+            case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_PRIOR_AUTH_CAPTURE:
+                return $this->__('capture');
+            case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_CREDIT:
+                return $this->__('refund');
+            case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_VOID:
+                return $this->__('void');
+            default:
+                return false;
         }
     }
-
-    /**
-     * Return message for refund gateway action
-     *
-     * @param  Mage_Payment_Model_Info $payment
-     * @param  Varien_Object $card
-     * @param  float $amount
-     * @param  string $lastTransactionId
-     * @param  Exception $exception
-     * @return string
-     */
-    public function getRefundTransactionMessage($payment, $card, $amount, $lastTransactionId, $exception = null)
-    {
-        if (is_null($exception)) {
-            return $this->__(
-                'Credit Card: xxxx-%s Refunded amount of %s. Authorize.Net Transaction ID %s - successful',
-                $card->getCcLast4(),
-                $this->_formatPrice($payment, $amount),
-                $lastTransactionId
-            );
-        } else {
-            return $this->__(
-                'Credit Card: xxxx-%s Captured amount of %s. Authorize.Net Transaction ID %s - failed. %s',
-                $card->getCcLast4(),
-                $this->_formatPrice($payment, $amount),
-                $lastTransactionId,
-                $exception->getMessage()
-            );
-        }
-    }
-
-    /**
-     * Return message for void gateway action
-     *
-     * @param  Mage_Payment_Model_Info $payment
-     * @param  Varien_Object $card
-     * @param  string $lastTransactionId
-     * @param  Exception $exception
-     * @return string
-     */
-    public function getVoidTransactionMessage($payment, $card, $lastTransactionId, $exception = null)
-    {
-        if (is_null($exception)) {
-            return $this->__(
-                'Credit Card: xxxx-%s Voided. Authorize.Net Transaction ID %s - successful',
-                $card->getCcLast4(),
-                $lastTransactionId
-            );
-        } else {
-            return $this->__(
-                'Credit Card: xxxx-%s Voided. Authorize.Net Transaction ID %s - failed. %s',
-                $card->getCcLast4(),
-                $lastTransactionId,
-                $exception->getMessage()
-            );
-        }
-    }
-
+    
     /**
      * Format price with currency sign
      * @param  Mage_Payment_Model_Info $payment
