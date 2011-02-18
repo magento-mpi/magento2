@@ -84,6 +84,8 @@
     </adminhtml_sales_order_creditmemo_view>
     
     <PRODUCT_TYPE_downloadable>
-        <block name="product.composite.fieldset.downloadable" type="downloadable/adminhtml_catalog_product_composite_fieldset_downloadable" template="downloadable/product/composite/fieldset/downloadable.phtml" output="toHtml" />
+        <reference name="product.composite.fieldset">
+            <block type="downloadable/adminhtml_catalog_product_composite_fieldset_downloadable" name="product.composite.fieldset.downloadable" before="product.composite.fieldset.options" template="downloadable/product/composite/fieldset/downloadable.phtml" />
+        </reference>
     </PRODUCT_TYPE_downloadable>
 </layout>

@@ -281,10 +281,14 @@ Layout handle for configurable products
 Additional block in composite_fieldset block dependant on product type
 -->
     <PRODUCT_TYPE_configurable>
-        <block name="product.composite.fieldset.configurable" type="adminhtml/catalog_product_composite_fieldset_configurable" template="catalog/product/composite/fieldset/configurable.phtml" output="toHtml" />
+        <reference name="product.composite.fieldset">
+            <block type="adminhtml/catalog_product_composite_fieldset_configurable" name="product.composite.fieldset.configurable" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/configurable.phtml" />
+        </reference>
     </PRODUCT_TYPE_configurable>
     <PRODUCT_TYPE_grouped>
-        <block name="product.composite.fieldset.grouped" type="adminhtml/catalog_product_composite_fieldset_grouped" template="catalog/product/composite/fieldset/grouped.phtml" output="toHtml" />
+        <reference name="product.composite.fieldset">
+            <block type="adminhtml/catalog_product_composite_fieldset_grouped" name="product.composite.fieldset.grouped" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/grouped.phtml" output="toHtml" />
+        </reference>
     </PRODUCT_TYPE_grouped>
 
 </layout>
