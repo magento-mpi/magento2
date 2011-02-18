@@ -13,7 +13,7 @@
         <field_name_with_error>/ancestor::tr/td[normalize-space(@class)='label']/descendant-or-self::*[string-length(text())>1]</field_name_with_error>
         <option_for_field>//descendant::option[contains(text(),'%s')]</option_for_field>
         <selected_option>//option[@selected='selected' and contains(text(),'%s')]</selected_option>й
-        <containers_for_order>//td/div[contains(@id,'order-') and not(contains(@style,'display: none;')) and not(contains(@class,'validation-advice'))]</containers_for_order>
+        <containers_for_order>//td/div[contains(@id,'order-') and not(contains(@style,'display: none;')) and not(contains(@class,'validation-advice')) and not(contains(@id,'-sidebar'))]</containers_for_order>
     </elements>
     <inputs>
         <search_user_id>//*[@id='filter_entity_id']</search_user_id>
