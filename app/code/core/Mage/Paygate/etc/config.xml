@@ -109,7 +109,7 @@
                 <login backend_model="adminhtml/system_config_backend_encrypted"/>
                 <merchant_email/>
                 <model>paygate/authorizenet</model>
-                <order_status>1</order_status>
+                <order_status>processing</order_status>
                 <payment_action>authorize</payment_action>
                 <test>1</test>
                 <title>Credit Card (Authorize.net)</title>
