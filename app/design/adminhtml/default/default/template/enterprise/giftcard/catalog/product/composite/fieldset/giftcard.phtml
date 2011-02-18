@@ -31,6 +31,11 @@
     $_storeId = $_product->getStoreId();
     $preconfigured = $_product->getPreconfiguredValues();
 ?>
+<script>
+//<![CDATA[
+productConfigure.giftcardConfig = {};
+//]]>
+</script>
 <div id="catalog_product_composite_configure_fields_downloadable" class="giftcard-form <?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
 
 <?php if (!$_product->isAvailable()): ?>
@@ -95,10 +100,10 @@
                                 </p>
                                 <script type="text/javascript">
                                 //<![CDATA[
-                                    minAllowedAmount = <?php echo Mage::helper('core')->currencyByStore($_product->getOpenAmountMin(), $_storeId, false, false) ?>;
-                                    maxAllowedAmount = <?php echo Mage::helper('core')->currencyByStore($_product->getOpenAmountMax(), $_storeId, false, false) ?>;
+                                    productConfigure.giftcardConfig.minAllowedAmount = <?php echo Mage::helper('core')->currencyByStore($_product->getOpenAmountMin(), $_storeId, false, false) ?>;
+                                    productConfigure.giftcardConfig.maxAllowedAmount = <?php echo Mage::helper('core')->currencyByStore($_product->getOpenAmountMax(), $_storeId, false, false) ?>;
 
-                                    function parsePrice(value) {
+                                    productConfigure.giftcardConfig.parsePrice = function (value) {
                                         value = value.replace('\'', '').replace(' ', '');
                                         separatorComa = value.indexOf(',');
                                         separatorDot  = value.indexOf('.');
@@ -117,11 +122,13 @@
                                     }
 
                                     Validation.add('giftcard-min-amount', '<?php echo $this->__('Entered amount is too low'); ?>', function(v) {
-                                        return (parsePrice(v) >= minAllowedAmount);
+                                        return (productConfigure.giftcardConfig.parsePrice(v) >= productConfigure.giftcardConfig.minAllowedAmount);
                                     });
                                     Validation.add('giftcard-max-amount', '<?php echo $this->__('Entered amount is too high'); ?>', function(v) {
-                                        if (maxAllowedAmount == 0) {return true;}
-                                        return (parsePrice(v) <= maxAllowedAmount);
+                                        if (productConfigure.giftcardConfig.maxAllowedAmount == 0) {
+                                            return true;
+                                        }
+                                        return (productConfigure.giftcardConfig.parsePrice(v) <= productConfigure.giftcardConfig.maxAllowedAmount);
                                     });
                                 //]]>
                                 </script>
@@ -134,12 +141,7 @@
         </div>
         <script type="text/javascript">
         //<![CDATA[
-        if ($('giftcard_amount') && $('giftcard_amount_input_fields')) {
-            $('giftcard_amount_input_fields').hide();
-            Event.observe($('giftcard_amount'), 'change', switchGiftCardInputs);
-        }
-
-        function switchGiftCardInputs()
+        productConfigure.giftcardConfig.switchGiftCardInputs = function ()
         {
             if (!$('giftcard_amount') || !$('giftcard_amount_input_fields')) {
                 return;
@@ -153,7 +155,12 @@
             }
         }
 
-        switchGiftCardInputs();
+        if ($('giftcard_amount') && $('giftcard_amount_input_fields')) {
+            $('giftcard_amount_input_fields').hide();
+            Event.observe($('giftcard_amount'), 'change', productConfigure.giftcardConfig.switchGiftCardInputs);
+        }
+
+        productConfigure.giftcardConfig.switchGiftCardInputs();
         //]]>
         </script>
     <?php endif; ?>

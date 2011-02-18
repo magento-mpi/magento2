@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Radio
-    extends Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option
+    extends Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type
 {
     /**
      * Set template

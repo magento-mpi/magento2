@@ -50,7 +50,7 @@ if (!is_array($configValue)) {
                         $value = $_link->getId();
                         $checked = ($configValue && (in_array($value, $configValue))) ? 'checked' : '';
                         ?>
-                            <input type="checkbox" class="checkbox<?php if($_isRequired):?> validate-one-required-by-name<?php endif; ?> product-downloadable-link" onclick="dConfig.reloadPrice()" name="links[]" id="links_<?php echo $_link->getId() ?>" value="<?php echo $value ?>" <?php echo $checked ?> />
+                            <input type="checkbox" class="checkbox<?php if($_isRequired):?> validate-one-required-by-name<?php endif; ?> product-downloadable-link" name="links[]" id="links_<?php echo $_link->getId() ?>" value="<?php echo $value ?>" <?php echo $checked ?> />
                         <?php } ?>
                         <span class="label">
                         <label for="links_<?php echo $_link->getId() ?>">
@@ -85,34 +85,6 @@ if (!is_array($configValue)) {
 
     <script type="text/javascript">
     //<![CDATA[
-        var ProductDownloadableClass = Class.create(); // FIXME ACPAOC: move it to Composite namespace
-        ProductDownloadableClass.prototype = {
-            config : {},
-            initialize : function(config){
-                this.config = config;
-                this.reloadPrice();
-                document.observe("dom:loaded", this.reloadPrice.bind(this));
-            },
-            reloadPrice : function(){
-                var price = 0;
-                config = this.config;
-                $$('.product-downloadable-link').each(function(elm){
-                    if (config[elm.value] && elm.checked) {
-                        price += parseFloat(config[elm.value]);
-                    }
-                });
-                try {
-                    var _displayZeroPrice = optionsPrice.displayZeroPrice;
-                    optionsPrice.displayZeroPrice = false;
-                    optionsPrice.changePrice('downloadable', price);
-                    optionsPrice.reload();
-                    optionsPrice.displayZeroPrice = _displayZeroPrice;
-                } catch (e) {
-
-                }
-            }
-        };
-
         validateDownloadableCallback = function (elmId, result) {
             var container = $('downloadable-links-list');
             if (result == 'failed') {
@@ -123,8 +95,6 @@ if (!is_array($configValue)) {
                 container.addClassName('validation-passed');
             }
         }
-
-        dConfig = new ProductDownloadableClass(<?php echo $this->getJsonConfig() ?>);
     //]]>
     </script>
 <?php endif;?>

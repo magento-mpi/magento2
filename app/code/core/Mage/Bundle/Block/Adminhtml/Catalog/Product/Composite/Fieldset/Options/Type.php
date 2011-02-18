@@ -24,24 +24,20 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Bundle option checkbox type renderer
+ * Bundle option type renderer
  *
  * @category    Mage
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Checkbox
-    extends Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type
+class Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type
+    extends Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option
 {
-    /**
-     * Set template
-     *
-     * @return void
-     */
-    protected function _construct()
+    public function setValidationContainer($elementId, $containerId)
     {
-        $this->setTemplate('bundle/product/composite/fieldset/options/type/checkbox.phtml');
+        return '<script type="text/javascript">
+            $(\'' . $elementId . '\').advaiceContainer = \'' . $containerId . '\';
+            </script>';
     }
 }

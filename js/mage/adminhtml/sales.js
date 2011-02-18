@@ -571,7 +571,10 @@ AdminOrder.prototype = {
         return false;
     },
 
-    cbSidebarOnLoadIframe: function () {
+    cbSidebarOnLoadIframe: function (response) {
+        if (!response.ok) {
+            return;
+        }
         productConfigure.setOnLoadIFrameCallback(null);
         this.loadArea(['items', 'shipping_method', 'billing_method','totals', 'giftmessage'], true);
     },

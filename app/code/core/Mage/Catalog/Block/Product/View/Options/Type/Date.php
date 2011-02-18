@@ -96,10 +96,12 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
             ->setName('options['.$this->getOption()->getId().'][date]')
             ->setClass('product-custom-option datetime-picker input-text' . $require)
             ->setImage($this->getSkinUrl('images/calendar.gif'))
-            ->setExtraParams('onchange="opConfig.reloadPrice()"')
             ->setFormat(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT))
             ->setValue($value)
             ->setYearsRange('[' . $yearStart . ', ' . $yearEnd . ']');
+        if (!$this->getSkipJsReloadPrice()) {
+            $calendar->setExtraParams('onchange="opConfig.reloadPrice()"');
+        }
 
         return $calendar->getHtml();
     }
@@ -194,8 +196,14 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setId('options_' . $this->getOption()->getId() . '_' . $name)
             ->setClass('product-custom-option datetime-picker' . $require)
-            ->setExtraParams('style="width:auto;" onchange="opConfig.reloadPrice()"')
+            ->setExtraParams()
             ->setName('options[' . $option->getId() . '][' . $name . ']');
+
+        $extraParams = 'style="width:auto"';
+        if (!$this->getSkipJsReloadPrice()) {
+            $extraParams .= ' onchange="opConfig.reloadPrice()"';
+        }
+        $select->setExtraParams($extraParams);
 
         if (is_null($value)) {
             $value = $this->getProduct()->getPreconfiguredValues()->getData('options/' . $option->getId() . '/' . $name);

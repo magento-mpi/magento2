@@ -37,13 +37,6 @@ if (!count($options)) {
 
 <?php echo $this->getChildHtml('options_js') ?>
 
-<script type="text/javascript">
-//<![CDATA[
-// FIXME ACPAOC: move class to Composite namespace
-opConfig = new ProductOptionsClass({});
-//]]>
-</script>
-
 <div id="product_composite_configure_fields_options" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
     <h4><?php echo Mage::helper('catalog')->__('Custom Options') ?></h4>
     <div class="product-options">
@@ -56,9 +49,3 @@ opConfig = new ProductOptionsClass({});
         </dl>
     </div>
 </div>
-
-<script type="text/javascript">
-//<![CDATA[
-opConfig.reloadPrice();
-//]]>
-</script>

@@ -47,4 +47,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options extends Ma
             'catalog/product/composite/fieldset/options/type/default.phtml'
         );
     }
+
+    /**
+     * Get option html block
+     *
+     * @param Mage_Catalog_Model_Product_Option $option
+     *
+     * @return string
+     */
+    public function getOptionHtml(Mage_Catalog_Model_Product_Option $option)
+    {
+        $renderer = $this->getOptionRender(
+            $this->getGroupOfOption($option->getType())
+        );
+        if (is_null($renderer['renderer'])) {
+            $renderer['renderer'] = $this->getLayout()->createBlock($renderer['block'])
+                ->setTemplate($renderer['template'])
+                ->setSkipJsReloadPrice(1);
+        }
+        return $renderer['renderer']
+            ->setProduct($this->getProduct())
+            ->setOption($option)
+            ->toHtml();
+    }
 }

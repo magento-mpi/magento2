@@ -24,50 +24,9 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php // FIXME ACPAOC ?>
-<script type="text/javascript" src="http://maglocal.com/js/prototype/prototype.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/prototype/window.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/scriptaculous/builder.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/scriptaculous/effects.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/scriptaculous/dragdrop.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/scriptaculous/controls.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/scriptaculous/slider.js"></script>
-
-<script type="text/javascript" src="http://maglocal.com/js/lib/ccard.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/prototype/validation.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/varien/js.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/translate.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/hash.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/events.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/loader.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/grid.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/tabs.js"></script>
-
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/form.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/accordion.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/tools.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/uploader.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/product.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/calendar/calendar.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/calendar/calendar-setup.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/sales.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/giftmessage.js"></script>
-
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/product/composite/configure.js"></script>
-<script type="text/javascript" src="http://maglocal.com/js/mage/adminhtml/sales/centinel.js"></script>
-<?php  // END OF FIXME ACPAOC ?>
 
 <script type="text/javascript">
 //<![CDATA[
-ProductOptionsClass = Class.create(); // FIXME ACPAOC: move this class to Composite namespace
-ProductOptionsClass.prototype = {
-    initialize : function(config) {
-        this.config = config;
-        this.reloadPrice();
-    },
-    reloadPrice : function() {
-    }
-}
 validateOptionsCallback = function (elmId, result){
     var container = $(elmId).up('ul.options-list');
     if (!container) {
@@ -81,6 +40,8 @@ validateOptionsCallback = function (elmId, result){
         container.addClassName('validation-passed');
     }
 }
+
+productConfigure.opConfig = {};
 
 var DateOption = Class.create({
 
@@ -140,6 +101,6 @@ var DateOption = Class.create({
         }
     }
 });
-dateOption = new DateOption();
+productConfigure.opConfig.dateOption = new DateOption();
 //]]>
 </script>
