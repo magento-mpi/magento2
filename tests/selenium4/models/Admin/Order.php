@@ -135,6 +135,20 @@ class Model_Admin_Order extends Model_Admin {
     }
 
     /**
+     * Account Information Form. Fill in fields 'Email' and 'Group'
+     *
+     * @param array $params
+     */
+    public function newAccountInfo($params)
+    {
+        $result = $this->checkAndSelectField($params, 'user_group', Null);
+        if ($result) {
+            $this->pleaseWait();
+        }
+        $this->checkAndFillField($params, 'user_email', NULL);
+    }
+
+    /**
      * New data input in fields for Shipping or Billing address
      *
      * @param array $adress
@@ -162,6 +176,11 @@ class Model_Admin_Order extends Model_Admin {
                         if (preg_match('/shipping/', $key)) {
                             $this->pleaseWait();
                         }
+                    }
+                } elseif (preg_match('/save/', $key) and $value == 'Yes') {
+                    $this->click($this->getUiElement('inputs/' . $key));
+                    if (preg_match('/shipping/', $key)) {
+                        $this->pleaseWait();
                     }
                 } else {
                     $this->type($this->getUiElement('inputs/' . $key), $value);
@@ -522,6 +541,8 @@ class Model_Admin_Order extends Model_Admin {
         if ($this->chooseUser($params, $this->isSetValue($params, 'user_choise'))) {
             //select Store
             if ($this->selectStore('storeview_name', $this->isSetValue($params, 'storeview_name'))) {
+                //Account Information
+                $this->newAccountInfo($params);
                 //add Product(s)
                 if ($this->addProducts($params)) {
                     //add coupon Discount
@@ -530,12 +551,12 @@ class Model_Admin_Order extends Model_Admin {
                     $res2 = $this->addDiscount('gift_card', $this->isSetValue($params, 'gift_card_code'));
                     $result = $res1 && $res2;
                     if ($result) {
+                        //fill billing Address Tab
+                        $this->fillAddressTab($params, 'billing', $this->isSetValue($params, 'choise_billing_address'));
                         //fill shipping Address Tab
                         if (!$this->isElementPresent($this->getUiElement('elements/only_virtual_added'))) {
                             $this->fillAddressTab($params, 'shipping', $this->isSetValue($params, 'choise_shipping_address'));
                         }
-                        //fill billing Address Tab
-                        $this->fillAddressTab($params, 'billing', $this->isSetValue($params, 'choise_billing_address'));
                         //adding Gift Message for product(s)
                         $this->addGiftMessageForProducts($params);
                         //adding Gift Message for order
@@ -549,8 +570,8 @@ class Model_Admin_Order extends Model_Admin {
                         $this->selectPaymentMethod($params, $this->isSetValue($params, 'payment_method'));
                         $this->secureCardValidation();
                         // get order Info before submit
-                        $orderTotalBefore = $this->getText("//*[@id='order-totals']//tbody");
-                        $orderTotalBefore = str_replace("0 ", "0\n ", $orderTotalBefore);
+                        $orderTotalBefore = strrev($this->getText("//*[@id='order-totals']//tbody"));
+                        $orderTotalBefore = strrev(preg_replace("/ (?=([0-9]+.[0-9]+))/", " \n", $orderTotalBefore));
                         $this->printInfo("\r\n Before placing an order:\r\n " . $orderTotalBefore);
                         $result = $this->saveAndVerifyForErrors();
                         // get order Info after submit
@@ -558,9 +579,9 @@ class Model_Admin_Order extends Model_Admin {
                             $this->setUiNamespace('admin/pages/sales/orders/manage_orders/create_order/');
                             $ordNum = $this->getText($this->getUiElement('elements/order_number'));
                             $ord = explode(" ", $ordNum);
-                            $orderTotalAfter = $this->getText("//*[contains(@class,'order-totals')]");
                             $orderStatus = $this->getText("//*[@id='order_status']");
-                            $orderTotalAfter = str_replace("0 ", "0\n ", $orderTotalAfter);
+                            $orderTotalAfter = strrev($this->getText("//*[contains(@class,'order-totals')]"));
+                            $orderTotalAfter = strrev(preg_replace("/ (?=([0-9]+.[0-9]+))/", " \n", $orderTotalAfter));
                             $this->printInfo("\r\n After placing an order:\r\n " . $orderTotalAfter);
                             $this->printInfo("\r\n Order number - " . $ord[2] . "\r\n Order Status - " . $orderStatus);
                             $searchOrder['search_order_id'] = $ord[2];
@@ -601,9 +622,9 @@ class Model_Admin_Order extends Model_Admin {
                 $this->clickAndWait($this->getUiElement('buttons/' . $actionName));
                 $saveResult = $this->saveAndVerifyForErrors();
                 if ($saveResult) {
-                    $orderTotalAfter = $this->getText("//*[contains(@class,'order-totals')]");
                     $orderStatus = $this->getText("//*[@id='order_status']");
-                    $orderTotalAfter = str_replace("0 ", "0\n ", $orderTotalAfter);
+                    $orderTotalAfter = strrev($this->getText("//*[contains(@class,'order-totals')]"));
+                    $orderTotalAfter = strrev(preg_replace("/ (?=([0-9]+.[0-9]+))/", " \n", $orderTotalAfter));
                     $this->printInfo("\r\n After $actionName:\r\n " . $orderTotalAfter);
                     $this->printInfo("\r\n Order Status - " . $orderStatus);
                 }
