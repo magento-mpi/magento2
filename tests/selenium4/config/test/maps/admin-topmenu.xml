@@ -22,6 +22,13 @@
             <managecategories>//div[@class="nav-bar"]//a[span="Manage Categories"]</managecategories>
         </categories>
         <manageproducts>//div[@class="nav-bar"]//a[span="Manage Products"]</manageproducts>
+        <reviews_and_ratings>
+            <customer_reviews>
+                <pending_reviews>//div[@class="nav-bar"]//a[span="Pending Reviews"]</pending_reviews>
+                <all_reviews>//div[@class="nav-bar"]//a[span="All Reviews"]</all_reviews>
+            </customer_reviews>
+            <manage_ratings>//div[@class="nav-bar"]//a[span="Manage Ratings"]</manage_ratings>
+        </reviews_and_ratings>
     </catalog>
     <system>
         <permissions>
