@@ -7,9 +7,6 @@
                     <order_grid>//*[@id='sales_order_grid']</order_grid>
                     <order_status>//table[@id='sales_order_grid_table']//*[contains(text(),'%s')]/following-sibling::*[7]</order_status>
                 </elements>
-                <inputs>
-                    <search_order_id>//*[@id='filter_real_order_id']</search_order_id>
-                </inputs>
                 <buttons>
                     <create_order>//button[span='Create New Order']</create_order>
                 </buttons>
@@ -33,22 +30,8 @@
                         <order_number>//div[@class='content-header']//h3</order_number>
                     </elements>
                     <inputs>
-                        <!-- "Select customer for order" page  -->
-                        <search_user_id>//*[@id='filter_entity_id']</search_user_id>
-                        <search_user_name>//*[@id='filter_name']</search_user_name>
-                        <search_user_email>//*[@id='filter_email']</search_user_email>
-                        <search_user_tel>//*[@id='filter_Telephone']</search_user_tel>
-                        <search_user_zip>//*[@id='filter_billing_postcode']</search_user_zip>
-                        <search_user_state>//*[@id='filter_billing_regione']</search_user_state>
-                        <search_registered_from_storeview>//*[@id='filter_store_name']</search_registered_from_storeview>
                         <!-- "Select Store View for order" page  -->
                         <storeview_name>//label[normalize-space(text())='%s']</storeview_name>
-                        <!-- "Please Select Products to Add" grid  -->
-                        <search_product_id>//*[@id='filter_entity_id']</search_product_id>
-                        <search_product_name>//*[@id='filter_name']</search_product_name>
-                        <search_product_sku>//*[@id='filter_sku']</search_product_sku>
-                        <search_product_price_from>//*[@id='filter_price_from']</search_product_price_from>
-                        <search_product_price_to>//*[@id='filter_price_to']</search_product_price_to>
                         <!-- "Apply Coupon Code" grid  -->
                         <coupon_code>//*[@id='coupons:code']</coupon_code>
                         <!-- "Gift Cards" grid  -->
@@ -93,7 +76,7 @@
                         <billing_agreement>//*[@id='p_method_paypal_billing_agreement']</billing_agreement>
                         <card_name>//*[@id='ccsave_cc_owner']</card_name>
                         <card_number>//*[@id='%s_cc_number']</card_number>
-                        <verification_number>//*[@id='%s_cc_cid']</verification_number>                        
+                        <verification_number>//*[@id='%s_cc_cid']</verification_number>
                         <!-- "Shipping Method" grid  -->
                         <get_shipping_methods>//*[@id='order-shipping-method-summary']/a</get_shipping_methods>
                         <allowed_method>//li[contains(.,'%s')]/input</allowed_method>
@@ -358,36 +341,25 @@
             </managecategories>
             <manageproducts>
                 <elements>
-                    <filtered_product>//table[@id='productGrid_table']//td[contains(text(),'%s')]</filtered_product>
+                    <product_grid>//*[@id='productGrid']</product_grid>
                 </elements>
                 <buttons>
                     <addproduct>//button[span="Add Product"]</addproduct>
                     <addproductcontinue>//button[span="Continue"]</addproductcontinue>
-                    <reset_filter>//button[span="Reset Filter"]</reset_filter>
-                    <search>//button[span="Search"]</search>
-                    <sumbit_actions>//button[span="Submit"]</sumbit_actions>
                 </buttons>
-                <inputs>
-                    <filter_sku>product_filter_sku</filter_sku>
-                    <select_product>//table[@id='productGrid_table']//td[contains(text(),'%s')]/ancestor::tr/td/input</select_product>
-                    <select_actions>productGrid_massaction-select</select_actions>
-                </inputs>
                                         <!-- related pages-->
                 <product>
                     <elements>
-                        <product_grid>//*[@id='productGrid']</product_grid>
                         <tab_container>//*[@id='product_info_tabs']</tab_container>
                         <tier_price_table>//tbody[@id='tier_price_container']</tier_price_table>
                         <grouped_items_search_table>//div[@id='super_product_grid']</grouped_items_search_table>
                         <configurable_items_search_table>//div[@id='super_product_links']</configurable_items_search_table>
                         <bundle_items_container>//*[@id='product_bundle_container']//div[contains(@class,'option-box')]</bundle_items_container>
-                        <bundle_items_search_table>//*[@id='bundle_option_search_%s']</bundle_items_search_table>
                         <download_sample_container>//*[@id='sample_items_body']/tr</download_sample_container>
                         <download_link_container>//*[@id='link_items_body']/tr</download_link_container>
                     </elements>
                     <inputs>
                         <attribute_for_configurable_product>//input[@title='%s']</attribute_for_configurable_product>
-                        <product_filter_sku>//*[@id='product_filter_sku']</product_filter_sku>
                         <!-- General Tab-->
                         <name>//*[@id='name']</name>
                         <description>//*[@id='description']</description>
@@ -413,8 +385,8 @@
                         <notify_stock_qty>//*[@id='inventory_notify_stock_qty']</notify_stock_qty>
                         <qty_increments>//*[@id='inventory_qty_increments']</qty_increments>
                         <giftcard_amounts>product[giftcard_amounts][%s][price]</giftcard_amounts>
-                        <open_amount_max>open_amount_max</open_amount_max>
-                        <open_amount_min>open_amount_min</open_amount_min>
+                        <open_amount_max>//*[@id='open_amount_max']</open_amount_max>
+                        <open_amount_min>//*[@id='open_amount_min']</open_amount_min>
                         <!-- Websites Tab-->
                         <website>//*[text()='%s']</website>
                         <website_many>//div[contains(div/big/strong/label,'%s')][%s]//input</website_many>
@@ -445,9 +417,6 @@
                         <!-- Bundle Items Tab-->
                         <bundle_options_title>//*[@id='id_bundle_options_%s_title']</bundle_options_title>
                         <bundle_options_position>bundle_options[%s][position]</bundle_options_position>
-                        <filter_sku>//*[@id='filter_sku']</filter_sku>
-                        <filter_name>//*[@id='filter_name']</filter_name>
-                        <filter_id>//*[@id='filter_entity_id']</filter_id>
                     </inputs>
                     <selectors>
                         <attribute_set>//*[@id='attribute_set_id']</attribute_set>
@@ -496,10 +465,8 @@
                         <associated_products>//a[@title='Associated Products']</associated_products>
                     </tabs>
                     <buttons>
-                        <save>//button[span="Save"]</save>
                         <duplicate>//button[span="Duplicate"]</duplicate>
                         <delete>//button[span="Delete"]</delete>
-                        <search>//button[contains(span,'Search')]</search>
                         <create_new_attribute>//button[contains(span,'Create New Attribute')]</create_new_attribute>
                         <!-- Prices Tab-->
                         <add_amount>//button[span="Add Amount"]</add_amount>
@@ -516,11 +483,6 @@
                         <bundle_option_add_product_confirm>add_button_%s</bundle_option_add_product_confirm>
                         <bundle_items_search>//*[@id='bundle_option_search_%s']//button[contains(span,'Search')]</bundle_items_search>
                     </buttons>
-                    <messages>
-                        <productsaved>//div[@id="messages"]//li[@class="success-msg"]</productsaved>
-                        <skumustbeunique>//*[@id='advice-validate-ajax-sku']</skumustbeunique>
-                        <product_duplicated>//ul[@class='messages']//*[contains(text(),'The product has been duplicated.')]</product_duplicated>
-                    </messages>
                 </product>
             </manageproducts>
         </categories>
