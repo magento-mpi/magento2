@@ -336,7 +336,6 @@ class Model_Admin extends TestModelAbstract {
                 $isOrderPage = 1;
             } else {
                 $qtyTab = $this->getXpathCount("//form//div[contains(@class,'fieldset')]");
-/*!!!*/                $this->printInfo("\r\n количество блоков" . $qtyTab);
                 $isOrderPage = -1;
             }
             $isTab = 0;
@@ -355,14 +354,18 @@ class Model_Admin extends TestModelAbstract {
                         $errorXpath = $this->getUiElement("opened_tab") . $this->getUiElement("error_for_field");
                         break;
                     case 0:
-                        if ($isOrderPage == 1) {
-                            $errorXpath = $this->getUiElement("containers_for_order") . "[$y]" . $this->getUiElement("error_for_field");
-                        } else {
-                            if ($this->isElementPresent($this->getUiElement("opened_tab"))) {
-                                $errorXpath = $this->getUiElement("opened_tab") . $this->getUiElement("error_for_field");
-                            } else {
-                                $errorXpath = "//form" . $this->getUiElement("error_for_field");
-                            }
+                        switch ($isOrderPage) {
+                            case 1:
+                                $errorXpath = $this->getUiElement("containers_for_order") .
+                                        "[$y]" . $this->getUiElement("error_for_field");
+                                break;
+                            case -1:
+                                if ($this->isElementPresent($this->getUiElement("opened_tab"))) {
+                                    $errorXpath = $this->getUiElement("opened_tab") . $this->getUiElement("error_for_field");
+                                } else {
+                                    $errorXpath = "//form" . $this->getUiElement("error_for_field");
+                                }
+                                break;
                         }
                         break;
                 }
@@ -402,6 +405,34 @@ class Model_Admin extends TestModelAbstract {
             $this->printInfo("The value of the variable '" . $value . "' is not set");
             return NULL;
         }
+    }
+
+    /**
+     * Data preparation
+     *
+     * @param array $params
+     * @param string $searchWord
+     * @return array
+     */
+    public function dataPreparation($params, $searchWord)
+    {
+        $Data = $params ? $params : $this->Data;
+        $arrayName = array();
+        foreach ($Data as $key => $value) {
+            if (preg_match($searchWord, $key)) {
+                if (is_array($value)) {
+                    $i = 0;
+                    foreach ($value as $v) {
+                        $arrayName[$key][$i] = $v;
+                        $i++;
+                    }
+                    $i = 0;
+                } else {
+                    $arrayName[$key] = $value;
+                }
+            }
+        }
+        return $arrayName;
     }
 
 }
