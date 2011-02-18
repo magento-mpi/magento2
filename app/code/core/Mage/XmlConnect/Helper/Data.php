@@ -34,7 +34,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getFilterByKey($key)
     {
-        $filterModelName = 'catalog/layer_filter_attribute';
+        $filterModelName = '';
         switch ($key) {
             case 'price':
                 $filterModelName = 'catalog/layer_filter_price';
@@ -328,5 +328,16 @@ EOT;
 </fieldset_optional>
 EOT;
         return $solo;
+    }
+
+    /**
+     * Format price for correct view inside xml strings
+     *
+     * @param float $price
+     * @return string
+     */
+    public function formatPriceForXml($price)
+    {
+        return sprintf('%01.2F', $price);
     }
 }

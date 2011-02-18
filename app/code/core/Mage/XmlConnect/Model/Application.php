@@ -317,7 +317,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
         $isActive = 0;
         if (isset($result['paypal']) && isset($result['paypal']['isActive'])) {
-            $isActive = (int)($result['paypal']['isActive'] && Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable());
+            $isActive = (int)($result['paypal']['isActive'] && Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable(null, $this->getStoreId()));
         }
         $result['paypal']['isActive'] = $isActive;
 

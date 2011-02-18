@@ -115,7 +115,6 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
      */
     public function resetAllThemes()
     {
-        $saveLibxmlErrors = libxml_use_internal_errors(TRUE);
         $themeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes';
         $defaultThemeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes' . DS . 'default';
 
@@ -138,7 +137,6 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
                 }
             }
         }
-        libxml_use_internal_errors($saveLibxmlErrors);
     }
 
     /**

@@ -113,7 +113,7 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
      */
     protected function _addTotalDataToXmlObj($totalsXmlObj, $code, $title, $value)
     {
-        $value = sprintf('%01.2F', $value);
+        $value = Mage::helper('xmlconnect')->formatPriceForXml($value);
         $totalXmlObj = $totalsXmlObj->addChild($code);
         $totalXmlObj->addChild('title', $totalsXmlObj->xmlentities(strip_tags($title)));
         $formatedValue = $this->getQuote()->getStore()->formatPrice($value, false);

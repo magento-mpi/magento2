@@ -47,7 +47,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
      * @param string $title
      * @param bool $simple
      */
-    protected function _addPage($fieldset, $fieldPrefix, $title=NULL, $simple=FALSE)
+    protected function _addPage($fieldset, $fieldPrefix)
     {
         $el = $fieldset->addField($fieldPrefix, 'page', array(
             'name'      => $fieldPrefix,

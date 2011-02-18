@@ -106,7 +106,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle extends Mage_XmlConne
                 $valueNode->addAttribute('qty', $_qty);
 
                 $price = $product->getPriceModel()->getSelectionPreFinalPrice($product, $_selection);
-                $price = sprintf('%01.2F', $price);
+                $price = Mage::helper('xmlconnect')->formatPriceForXml($price);
                 if ($price > 0.00) {
                     $valueNode->addAttribute('price', $price);
                     $valueNode->addAttribute('formated_price', $this->_formatPriceString($price, $product));

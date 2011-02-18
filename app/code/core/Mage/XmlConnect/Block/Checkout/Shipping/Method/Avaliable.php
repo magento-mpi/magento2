@@ -60,7 +60,7 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Chec
                     } else {
                         $price = Mage::helper('tax')->getShippingPrice($_rate->getPrice(), false, $this->getAddress());
                         $formattedPrice = $store->convertPrice($price, true, false);
-                        $rateXmlObj->addAttribute('price', sprintf('%01.2F', $store->convertPrice($price, false, false)));
+                        $rateXmlObj->addAttribute('price', Mage::helper('xmlconnect')->formatPriceForXml($store->convertPrice($price, false, false)));
                         $rateXmlObj->addAttribute('formated_price', $formattedPrice);
                     }
                 }

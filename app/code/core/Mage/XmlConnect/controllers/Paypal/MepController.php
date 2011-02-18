@@ -149,7 +149,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
                     $quoteAddress = $this->_getQuote()->getShippingAddress();
                 }
                 $taxAmount = Mage::helper('core')->currency($quoteAddress->getBaseTaxAmount(), false, false);
-                $message->addChild('tax_amount', sprintf('%01.2F', $taxAmount));
+                $message->addChild('tax_amount', Mage::helper('xmlconnect')->formatPriceForXml($taxAmount));
                 $this->getResponse()->setBody($message->asNiceXml());
             } else {
                 if (!is_array($result['message'])) {

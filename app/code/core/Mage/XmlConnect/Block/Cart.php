@@ -96,10 +96,10 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                 }
              }
 
-             $exclPrice = sprintf('%01.2F', $exclPrice);
+             $exclPrice = Mage::helper('xmlconnect')->formatPriceForXml($exclPrice);
              $formatedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
 
-             $inclPrice = sprintf('%01.2F', $inclPrice);
+             $inclPrice = Mage::helper('xmlconnect')->formatPriceForXml($inclPrice);
              $formatedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
 
              $priceXmlObj = $itemXml->addChild('price');
@@ -143,10 +143,10 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                  }
              }
 
-             $exclPrice = sprintf('%01.2F', $exclPrice);
+             $exclPrice = Mage::helper('xmlconnect')->formatPriceForXml($exclPrice);
              $formatedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
 
-             $inclPrice = sprintf('%01.2F', $inclPrice);
+             $inclPrice = Mage::helper('xmlconnect')->formatPriceForXml($inclPrice);
              $formatedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
 
              $subtotalPriceXmlObj = $itemXml->addChild('subtotal');

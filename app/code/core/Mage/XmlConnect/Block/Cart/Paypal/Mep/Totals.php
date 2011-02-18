@@ -44,7 +44,7 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mep_Totals extends Mage_Checkout_Block_C
         $totalsXmlObj  = new Mage_XmlConnect_Model_Simplexml_Element('<cart_totals></cart_totals>');
         foreach ($paypalCart->getTotals(true) as $code => $amount) {
             $currencyAmount = $this->helper('core')->currency($amount, false, false);
-            $totalsXmlObj->addChild($code, sprintf('%01.2F', $currencyAmount));
+            $totalsXmlObj->addChild($code, Mage::helper('xmlconnect')->formatPriceForXml($currencyAmount));
         }
         return $totalsXmlObj->asNiceXml();
     }
