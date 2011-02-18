@@ -483,6 +483,15 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'VI' => 'Visa', 'MC' => 'MasterCard', 'DI' => 'Discover', 'AE' => 'Amex', 'SM' => 'Maestro', 'SO' => 'Solo');
 
     /**
+     * Required fields in the response
+     *
+     * @var array
+     */
+    protected $_requiredResponseParams = array(
+        self::DO_DIRECT_PAYMENT => array('ACK', 'CORRELATIONID', 'AMT')
+    );
+    
+    /**
      * Warning codes recollected after each API call
      *
      * @var array
@@ -912,6 +921,14 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             Mage::throwException(Mage::helper('paypal')->__('Unable to communicate with the PayPal gateway.'));
         }
 
+        
+        if (!$this->_validateResponse($methodName, $response)) {
+            Mage::logException(new Exception(
+                Mage::helper('paypal')->__("PayPal response hasn't required fields.")
+            ));
+            Mage::throwException(Mage::helper('paypal')->__('There was an error processing your order. Please contact us or try again later.'));
+        }
+        
         $this->_callErrors = array();
         if ($this->_isCallSuccessful($response)) {
             if ($this->_rawResponseNeeded) {
@@ -985,6 +1002,25 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
         return false;
     }
+    
+    /**
+     * Validate response array.
+     * 
+     * @param string $method
+     * @param array $response
+     * @return bool
+     */
+    protected function _validateResponse($method, $response) 
+    {
+        if (isset($this->_requiredResponseParams[$method])) {
+            foreach ($this->_requiredResponseParams[$method] as $param) {
+                if (!isset($response[$param])) {
+                    return false;
+                }    
+            }
+        }
+        return true;
+    } 
 
     /**
      * Parse an NVP response string into an associative array
