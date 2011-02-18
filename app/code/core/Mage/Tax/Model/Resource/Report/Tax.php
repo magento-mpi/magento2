@@ -93,12 +93,7 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'e.created_at'));
             }
 
-            $select->group(array(
-                $periodExpr,
-                'e.store_id',
-                'code',
-                'e.status'
-            ));
+            $select->group(array($periodExpr, 'e.store_id', 'code', 'tax.percent', 'e.status'));
 
             $insertQuery = $writeAdapter->insertFromSelect($select, $this->getMainTable(), array_keys($columns));
             $writeAdapter->query($insertQuery);
@@ -123,11 +118,7 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->group(array(
-                'period',
-                'code',
-                'order_status'
-            ));
+            $select->group(array('period', 'code', 'percent', 'order_status'));
             $insertQuery = $writeAdapter->insertFromSelect($select, $this->getMainTable(), array_keys($columns));
             $writeAdapter->query($insertQuery);
             $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);

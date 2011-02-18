@@ -193,10 +193,7 @@ class Mage_Tax_Model_Resource_Report_Updatedat_Collection extends Mage_Sales_Mod
         }
 
         if (!$this->isTotals() && !$this->isSubTotals()) {
-            $select->group(array(
-                $this->_periodFormat,
-                'code'
-            ));
+            $select->group(array($this->_periodFormat, 'code', 'percent'));
         }
 
         if ($this->isSubTotals()) {
