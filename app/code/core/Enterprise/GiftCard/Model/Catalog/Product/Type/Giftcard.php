@@ -288,7 +288,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
             'giftcard_amount'         => $buyRequest->getGiftcardAmount(),
             'custom_giftcard_amount'  => $buyRequest->getCustomGiftcardAmount(),
             'giftcard_sender_name'    => $buyRequest->getGiftcardSenderName(),
+            'giftcard_sender_email'    => $buyRequest->getGiftcardSenderEmail(),
             'giftcard_recipient_name' => $buyRequest->getGiftcardRecipientName(),
+            'giftcard_recipient_email' => $buyRequest->getGiftcardRecipientEmail(),
             'giftcard_message'        => $buyRequest->getGiftcardMessage()
         );
 

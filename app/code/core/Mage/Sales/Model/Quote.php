@@ -929,6 +929,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if (is_string($resultItem)) {
             Mage::throwException($resultItem);
         }
+        if ($resultItem->getParentItem()) {
+            $resultItem = $resultItem->getParentItem();
+        }
 
         if ($resultItem->getId() != $itemId) {
             /*
