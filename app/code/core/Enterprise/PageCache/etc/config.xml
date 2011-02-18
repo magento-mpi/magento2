@@ -143,6 +143,14 @@
                     </enterprise_pagecache>
                 </observers>
             </catalogrule_after_apply>
+            <controller_action_postdispatch_adminhtml_system_store_save>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>cleanCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </controller_action_postdispatch_adminhtml_system_store_save>
         </events>
     </adminhtml>
     <frontend>
