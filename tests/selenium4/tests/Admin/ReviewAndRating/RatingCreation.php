@@ -18,13 +18,13 @@ class Admin_ReviewAndRating_RatingCreation extends TestCaseAbstract {
     function testRating()
     {
         $review_rateData = array(
-            'default_value' => 'Test Rating',//Core::getEnvConfig('backend/rating_and_review/rating_title_default'),
-            'rating_title_store' => 'Test store rating',//Core::getEnvConfig('backend/rating_and_review/rating_title_store'),
-            'store_view_name' => 'Xandr shop',//Core::getEnvConfig('backend/rating_and_review/store_view_name'),
-            'store_view_value' => 'Xandr shop',//Core::getEnvConfig('backend/rating_and_review/store_view_value'),
+            'default_title' => 'Test-Rating-default_title',
+            'title_for_store' => array('Test-Rating-title_for_SmokeTestStoreView', 'Test-Rating-title_for_DefaultStoreView'),
+            'store_view_name_title' =>array('SmokeTestStoreView','Default Store View'),
+            'store_view_name_visible' => array('SmokeTestStoreView','Default Store View'),
         );
         if ($this->model->doLogin()) {
-            $this->model->createRating($review_rateData);
+            $this->model->doCreateRating($review_rateData);
         }
     }
 
