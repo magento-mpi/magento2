@@ -61,11 +61,13 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
         $isGrouped  = array();
 
         $cart       = Mage::getSingleton('checkout/cart');
-        $collection = $wishlist->getItemCollection();
+        $collection = $wishlist->getItemCollection()
+                ->setVisibilityFilter();
 
         foreach ($collection as $item) {
             /** @var Mage_Wishlist_Model_Item */
             try {
+                $item->unsProduct();
                 if ($item->addToCart($cart, $isOwner)) {
                     $addedItems[] = $item->getProduct();
                 }

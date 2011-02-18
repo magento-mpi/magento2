@@ -89,10 +89,8 @@ class Mage_Wishlist_Model_Resource_Wishlist extends Mage_Core_Model_Resource_Db_
     {
         if (is_null($this->_itemsCount)) {
             $collection = $wishlist->getProductCollection()
-                ->addStoreFilter();
-
-            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($collection);
+                ->addStoreFilter()
+                ->setVisibilityFilter();
 
             $this->_itemsCount = $collection->getSize();
         }

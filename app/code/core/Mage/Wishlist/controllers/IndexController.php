@@ -132,10 +132,12 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         }
 
         try {
-            $wishlist->addNewItem($product->getId());
+            $buyRequest = new Varien_Object($this->getRequest()->getParams());
+            
+            $item = $wishlist->addNewItem($product, $buyRequest);
             $wishlist->save();
 
-            Mage::dispatchEvent('wishlist_add_product', array('wishlist'=>$wishlist, 'product'=>$product));
+            Mage::dispatchEvent('wishlist_add_product', array('wishlist'=>$wishlist, 'product'=>$product, 'item'=>$item));
 
             if ($referer = $session->getBeforeWishlistUrl()) {
                 $session->setBeforeWishlistUrl(null);
@@ -182,10 +184,11 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
     {
         $id = (int) $this->getRequest()->getParam('id');
         $wishlist = $this->_getWishlist();
-        $item = Mage::getModel('wishlist/item')->load($id);
+        /* @var $item Mage_Wishlist_Model_Item */
+        $item = $wishlist->getItem($id);
 
         try {
-            if ($item->getWishlistId() != $wishlist->getId()) {
+            if (!$item) {
                 throw new Exception($this->__('Cannot load wishlist item'));
             }
 
@@ -193,9 +196,14 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             $params = new Varien_Object();
             $params->setCategoryId(false);
-            // FIXME ACPAOC:
-            // Set buyRequest here
-            // END OF FIXME
+            $buyRequest = $item->getBuyRequest();
+            if (!$buyRequest->getQty() && $item->getQty()) {
+                $buyRequest->setQty($item->getQty());
+            }
+            if ($buyRequest->getQty() && !$item->getQty()) {
+                $item->setQty($buyRequest->getQty());
+            }
+            $params->setBuyRequest($buyRequest);
 
             Mage::helper('catalog/product_view')->prepareAndRender($item->getProductId(), $this, $params);
         } catch (Exception $e) {
@@ -210,9 +218,49 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
      */
     public function updateItemOptionsAction()
     {
-        // FIXME ACPAOC
-        // Update options here
-        // END OF FIXME
+        $session = Mage::getSingleton('customer/session');
+        $wishlist = $this->_getWishlist();
+        if (!$wishlist) {
+            $this->_redirect('*/');
+            return;
+        }
+        
+        $productId = (int) $this->getRequest()->getParam('product');
+        if (!$productId) {
+            $this->_redirect('*/');
+            return;
+        }
+
+        $product = Mage::getModel('catalog/product')->load($productId);
+        if (!$product->getId() || !$product->isVisibleInCatalog()) {
+            $session->addError($this->__('Cannot specify product.'));
+            $this->_redirect('*/');
+            return;
+        }
+
+        try {
+
+            $id = (int) $this->getRequest()->getParam('id');
+            $buyRequest = new Varien_Object($this->getRequest()->getParams());
+            
+            /* @var $item Mage_Wishlist_Model_Item */
+            $item = $wishlist->updateItem($id, $buyRequest);
+            
+            $wishlist->save();
+
+            Mage::dispatchEvent('wishlist_update_item', array('wishlist'=>$wishlist, 'product'=>$product, 'item'=>$item));
+
+            Mage::helper('wishlist')->calculate();
+
+            $message = $this->__('%1$s has been updated in your wishlist.', $product->getName());
+            $session->addSuccess($message);
+        }
+        catch (Mage_Core_Exception $e) {
+            $session->addError($this->__('An error occurred while updating wishlist: %s', $e->getMessage()));
+        }
+        catch (Exception $e) {
+            $session->addError($this->__('An error occurred while updating wishlist.'));
+        }
         $this->_redirect('*/*');
     }
 

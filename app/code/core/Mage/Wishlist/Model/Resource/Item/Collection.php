@@ -34,6 +34,28 @@
  */
 class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
+    protected $_productVisible = false;
+    /**
+     * Product Ids array
+     *
+     * @var array
+     */
+    protected $_productIds = array();
+
+    /**
+     * Store Ids array
+     *
+     * @var array
+     */
+    protected $_storeIds = array();
+
+    /**
+     * Add days in whishlist filter of product collection
+     *
+     * @var boolean
+     */
+    protected $_addDaysInWishlist = false;
+
     /**
      * Initialize resource model for collection
      *
@@ -41,6 +63,74 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     public function _construct()
     {
         $this->_init('wishlist/item');
+    }
+
+    /**
+     * After load processing
+     *
+     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     */
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+
+        /**
+         * Assign products
+         */
+        $this->_assignProducts();
+        $this->resetItemsDataChanged();
+
+        return $this;
+    }
+
+    /**
+     * Add products to items and item options
+     *
+     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     */
+    protected function _assignProducts()
+    {
+        Varien_Profiler::start('WISHLIST:'.__METHOD__);
+        $productIds = array();
+        foreach ($this as $item) {
+            $productIds[$item->getProductId()]=1;
+        }
+        $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
+        $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
+
+        $productCollection = Mage::getModel('catalog/product')->getCollection()
+            ->addIdFilter($this->_productIds)
+            ->addAttributeToSelect($attributes)
+            ->addOptionsToResult()
+            ->addPriceData()
+            ->addUrlRewrite();
+
+        if ($this->_productVisible) {
+            Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($productCollection);
+        }
+
+        foreach ($this->_storeIds as $id) {
+            $productCollection->addStoreFilter($id);
+        }
+
+        Mage::dispatchEvent('wishlist_item_collection_products_after_load', array(
+            'product_collection'    => $productCollection
+        ));
+
+        foreach ($this as $item) {
+            $product = $productCollection->getItemById($item->getProductId());
+            if ($product) {
+                $product->setCustomOptions(array());
+                $item->setProduct($product);
+                $item->setProductName($product->getName());
+            } else {
+                $item->isDeleted(true);
+            }
+        }
+
+        Varien_Profiler::stop('WISHLIST:'.__METHOD__);
+
+        return $this;
     }
 
     /**
@@ -62,11 +152,77 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      * @param int|array $store
      * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
-    public function addStoreFilter($store)
+    public function addStoreFilter($store = null)
     {
-        $this->addFieldToFilter('store_id', array('in' => $store));
+        if (!is_array($store)) {
+            $store = array($store);
+        }
+        $this->_storeIds = $store;
 
         return $this;
     }
 
+    /**
+     * This method will be not supported anymore
+     *
+     * @deprecated since 1.4.0.0
+     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     */
+    public function addStoreData()
+    {
+        $storeTable = Mage::getSingleton('core/resource')->getTableName('core/store');
+        $this->getSelect()->join(array('store'=>$storeTable), 'main_table.store_id=store.store_id', array(
+            'store_name'=>'name',
+            'item_store_id' => 'store_id'
+        ));
+        return $this;
+    }
+
+    /**
+     * Add wishlist sort order
+     *
+     * @param string $attribute
+     * @param string $dir
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    public function addWishListSortOrder($attribute = 'added_at', $dir = 'desc')
+    {
+        $this->setOrder($attribute, $dir);
+        return $this;
+    }
+
+    /**
+     * Reset sort order
+     *
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    public function resetSortOrder()
+    {
+        $this->getSelect()->reset(Zend_Db_Select::ORDER);
+        return $this;
+    }
+
+    /**
+     * Set product Visibility Filter to product collection flag
+     *
+     * @param bool $flag
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    public function setVisibilityFilter($flag = true){
+        $this->_productVisible = (bool)$flag;
+        return $this;
+    }
+
+    /**
+     * Set add days in whishlist
+     *
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    public function addDaysInWishlist($flag = null)
+    {
+        $this->getSelect()->columns(array('days_in_wishlist' => 
+            "(TO_DAYS('" . (substr(Mage::getSingleton('core/date')->date(), 0, -2) . '00') . "') ".
+            "- TO_DAYS(DATE_ADD(added_at, INTERVAL " .(int) Mage::getSingleton('core/date')->getGmtOffset() . " SECOND)))"));
+        return $this;
+    }
 }

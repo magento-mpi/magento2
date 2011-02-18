@@ -85,6 +85,27 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     {
         return parent::_getResource();
     }
+    
+    /**
+     * Check if two options array are identical
+     *
+     * @param array $options1
+     * @param array $options2
+     * @return bool
+     */
+    protected function _compareOptions($options1, $options2)
+    {
+        $skipOptions = array('id', 'qty', 'return_url');
+        foreach ($options1 as $code => $value) {
+            if (in_array($code, $skipOptions)) {
+                continue;
+            }
+            if (!isset($options2[$code]) || $options2[$code] != $value) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Validate wish list item data
@@ -205,7 +226,6 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
             throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_IS_GROUPED_PRODUCT);
         }
 
-        $product->setQty(1);
         $storeId = $this->getStoreId();
 
         if ($product->getStatus() != Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
@@ -232,11 +252,9 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
             throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_NOT_SALABLE);
         }
 
-        if ($product->getTypeInstance(true)->hasRequiredOptions($product)) {
-            throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
-        }
+        $buyRequest = $this->getBuyRequest();
 
-        $cart->addProduct($product);
+        $cart->addProduct($product, $buyRequest);
         if (!$product->isVisibleInSiteVisibility()) {
             $cart->getQuote()->getItemByProduct($product)->setStoreId($storeId);
         }
@@ -265,5 +283,72 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         }
 
         return $product->getUrlModel()->getUrl($product, array('_query' => $query));
+    }
+
+    /**
+     * Returns formatted buy request - object, holding request received from
+     * product view page with keys and options for configured product
+     *
+     * @return Varien_Object
+     */
+    public function getBuyRequest()
+    {
+        $_buyRequest = $this->getData('buy_request');
+        $buyRequest = new Varien_Object(unserialize($_buyRequest));
+        
+        $buyRequest->setQty($this->getQty());
+        return $buyRequest;
+    }
+
+    /**
+     * Set buy request - object, holding request received from
+     * product view page with keys and options for configured product
+     * @param Varien_Object $buyRequest
+     * @return Mage_Wishlist_Model_Item
+     */
+    public function setBuyRequest($buyRequest)
+    {
+        $buyRequest->setId($this->getId());
+        
+        $_buyRequest = serialize($buyRequest->getData());
+        $this->setData('buy_request', $_buyRequest);
+        return $this;
+    }
+
+    /**
+     * Check product representation in item
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @param   Varien_Object $buyRequest
+     * @return  bool
+     */
+    public function isRepresent($product, $buyRequest)
+    {
+        if ($this->getProductId() != $product->getId()) {
+            return false;
+        }
+
+        $selfOptions = $this->getBuyRequest()->getData();
+
+        if (empty($buyRequest) && !empty($selfOptions)) {
+            return false;
+        }
+        if (empty($selfOptions) && !empty($buyRequest)) {
+            if (!$product->isComposite()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        $requestArray = $buyRequest->getData();
+        
+        if(!$this->_compareOptions($requestArray, $selfOptions)){
+            return false;
+        }
+        if(!$this->_compareOptions($selfOptions, $requestArray)){
+            return false;
+        }
+        return true;
     }
 }

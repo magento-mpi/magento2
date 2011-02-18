@@ -61,11 +61,12 @@
                 </thead>
                 <tbody>
                 <?php foreach ($this->getWishlistItems() as $item): ?>
+                    <?php $product = $item->getProduct(); ?>
                     <tr>
                         <td>
-                            <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->htmlEscape($item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($item, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($item->getName()) ?>" /></a>
-                            <h2 class="product-name"><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->htmlEscape($item->getName()) ?></a></h2>
-                            <?php echo $this->getPriceHtml($item) ?>
+                            <a class="product-image" href="<?php echo $this->getProductUrl($product) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
+                            <h2 class="product-name"><a href="<?php echo $this->getProductUrl($product) ?>"><?php echo $this->htmlEscape($product->getName()) ?></a></h2>
+                            <?php echo $this->getPriceHtml($product) ?>
                         </td>
                         <td>
                             <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" onfocus="focusComment(this)" onblur="focusComment(this)" title="<?php echo $this->__('Comment') ?>"><?php echo $this->hasDescription($item) ? $this->getEscapedDescription($item) : $this->helper('wishlist')->defaultCommentString() ?></textarea>
@@ -75,22 +76,22 @@
                         </td>
                         <?php if ($this->getEnabled() && $entityValues):?>
                         <td>
-                            <?php if ($this->checkProductType($item)): ?>
+                            <?php if ($this->checkProductType($product)): ?>
                             <div class="btn-gift-registry">
                                 <div class="input-box">
-                                    <select id="giftregistry_entity_<?php echo $item->getProductId()?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
+                                    <select id="giftregistry_entity_<?php echo $product->getProductId()?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
                                         <?php foreach ($entityValues as $_entity):?>
                                             <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('core/string')->truncate($_entity->getTitle(), 40))?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
-                                <button type="button" onclick="addProductToGiftregistry('<?php echo $item->getProductId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+                                <button type="button" onclick="addProductToGiftregistry('<?php echo $product->getProductId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
                             </div>
                             <?php endif;?>
                         </td>
                         <?php endif;?>
                         <td class="a-center">
-                        <?php if ($item->isSaleable()): ?>
+                        <?php if ($product->isSaleable()): ?>
                             <button type="button" title="<?php echo $this->__('Add to Cart') ?>" onclick="setLocation('<?php echo $this->getItemAddToCartUrl($item) ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                         <?php else: ?>
                             <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>

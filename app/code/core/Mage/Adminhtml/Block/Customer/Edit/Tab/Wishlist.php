@@ -82,12 +82,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $wishlist = Mage::getModel('wishlist/wishlist');
         $collection = $wishlist->loadByCustomer($this->_getCustomer())
             ->setSharedStoreIds($wishlist->getSharedStoreIds(false))
-            ->getProductCollection()
+            //->getProductCollection()
+            ->getItemCollection()
                 ->resetSortOrder()
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('small_image')
-                ->setDaysInWishlist(true)
+//                ->addAttributeToSelect('name')
+//                ->addAttributeToSelect('price')
+//                ->addAttributeToSelect('small_image')
+                ->addDaysInWishlist()
                 ->addStoreData();
 
         $this->setCollection($collection);
@@ -113,12 +114,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
 
         $this->addColumn('product_name', array(
             'header'    => $helper->__('Product name'),
-            'index'     => 'name'
+            'index'     => 'product_name'
         ));
 
         $this->addColumn('description', array(
             'header'    => $helper->__('User description'),
-            'index'     => 'wishlist_item_description',
+            'index'     => 'description',
             'renderer'  => 'adminhtml/customer_edit_tab_wishlist_grid_renderer_description'
         ));
 
