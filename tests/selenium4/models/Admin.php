@@ -222,9 +222,13 @@ class Model_Admin extends TestModelAbstract {
             }
             $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
                     $this->getUiElement("/admin/buttons/search"));
-            $this->pleaseWait();
+            if ($this->isTextPresent('Please wait...')) {
+                $this->pleaseWait();
+            } else {
+                $this->waitForPageToLoad("30000");
+            }
             if ($this->isTextPresent($this->getUiElement('/admin/elements/no_records'))) {
-                $this->printInfo($this->getUiElement('/admin/elements/no_records'));
+                $this->printInfo("\r\n No records found.");
                 $result = FALSE;
             } elseif ($action == "mark") {
                 $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
@@ -232,7 +236,17 @@ class Model_Admin extends TestModelAbstract {
             } elseif ($action == "open") {
                 $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
                         $this->getUiElement('/admin/elements/filtered_element', $searchElements));
-                !$this->isElementPresent($this->getUiElement("elements/" . $tableContainer, $tableNumber), 20);
+                for ($second = 0;; $second++) {
+                    if ($second >= 60)
+                        break;
+                    try {
+                        if (!$this->isElementPresent($this->getUiElement("elements/" . $tableContainer, $tableNumber)))
+                            break;
+                    } catch (Exception $e) {
+
+                    }
+                    sleep(1);
+                }
             }
         } else {
             $this->printInfo('Implementation of a function "searchAndDoAction" is skipped because data for the search is not specified ');
@@ -251,7 +265,7 @@ class Model_Admin extends TestModelAbstract {
         $result = false;
         $this->click($this->getUiElement("/admin/buttons/submit"));
         // check for error message
-        if ($this->waitForElement($this->getUiElement('/admin/messages/error1'), 25)) {
+        if ($this->waitForElement($this->getUiElement('/admin/messages/error1'), 20)) {
             $etext = $this->getText($this->getUiElement('/admin/messages/error1'));
             $this->setVerificationErrors($etext);
         } elseif (!$this->verifyPageAndGetErrors()) {
@@ -276,7 +290,7 @@ class Model_Admin extends TestModelAbstract {
     public function verifyPageAndGetErrors()
     {
         $result = false;
-        $this->versetUiNamespace("admin/elements/");
+        $this->setUiNamespace("admin/elements/");
         if ($this->isElementPresent($this->getUiElement("tabs_container") . $this->getUiElement("tab_error"))) {
             $qtyTab = $this->getXpathCount($this->getUiElement("tabs_container") . $this->getUiElement("tab_error"));
             $isTab = 1;
