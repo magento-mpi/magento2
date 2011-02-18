@@ -35,6 +35,7 @@
 class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     protected $_productVisible = false;
+    protected $_productSalable = false;
     /**
      * Product Ids array
      *
@@ -107,6 +108,9 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
 
         if ($this->_productVisible) {
             Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($productCollection);
+        }
+        if ($this->_productSalable) {
+            $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
         }
 
         foreach ($this->_storeIds as $id) {
@@ -210,6 +214,11 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      */
     public function setVisibilityFilter($flag = true){
         $this->_productVisible = (bool)$flag;
+        return $this;
+    }
+
+    public function setSalableFilter($flag = true){
+        $this->_productSalable = (bool)$flag;
         return $this;
     }
 

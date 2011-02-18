@@ -71,11 +71,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
                 ->setStore($this->_getStore())
                 ->setSharedStoreIds($this->_getStore()->getWebsite()->getStoreIds());
             if ($wishlist->getId()) {
-                $collection = $wishlist->getProductCollection()
-                    ->resetSortOrder()
-                    ->addAttributeToSelect('name')
-                    ->addAttributeToSelect('price');
-                $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
+                $collection = $wishlist->getItemCollection()
+                    ->setSalableFilter()
+                    ->resetSortOrder();
             } else {
                 $collection = parent::getItemsCollection();
             }
