@@ -1,18 +1,19 @@
 <?php
+
 /**
  * Admin customer framework model
  *
  * @author Magento Inc.
  */
-class Model_Admin_Tax extends Model_Admin
-{
-     public function loadConfigData()
-     {
+class Model_Admin_Tax extends Model_Admin {
+
+    public function loadConfigData()
+    {
         parent::loadConfigData();
-       $this-> taxData = array();
-     }
-    
-     /**
+        $this->taxData = array();
+    }
+
+    /**
      * creating Product Tax Class
      *
      * @param array $params May contain the following params:
@@ -26,8 +27,8 @@ class Model_Admin_Tax extends Model_Admin
         $this->setUiNamespace('admin/pages/sales/tax/product_tax_classes');
         $this->clickAndWait($this->getUiElement("/admin/topmenu/sales/tax/product_tax_classes"));
         $this->clickAndWait($this->getUiElement("buttons/add_new"));
-        $this->type($this->getUiElement("inputs/product_tax_class_name"),$taxData["product_tax_class_name"]);
-        $this->model->unifiedTaxSave();
+        $this->type($this->getUiElement("inputs/product_tax_class_name"), $taxData["product_tax_class_name"]);
+        $this->unifiedTaxSave();
     }
 
     /**
@@ -45,8 +46,8 @@ class Model_Admin_Tax extends Model_Admin
         $this->setUiNamespace('admin/pages/sales/tax/customer_tax_classes');
         $this->clickAndWait($this->getUiElement("/admin/topmenu/sales/tax/customer_tax_classes"));
         $this->clickAndWait($this->getUiElement("buttons/add_new"));
-        $this->type($this->getUiElement("inputs/customer_tax_class_name"),$taxData["customer_tax_class_name"]);
-        $this->model->unifiedTaxSave();
+        $this->type($this->getUiElement("inputs/customer_tax_class_name"), $taxData["customer_tax_class_name"]);
+        $this->unifiedTaxSave();
     }
 
     /**
@@ -66,14 +67,15 @@ class Model_Admin_Tax extends Model_Admin
         $this->setUiNamespace('admin/pages/sales/tax/manage_tax_zone_rate');
         $this->clickAndWait($this->getUiElement("/admin/topmenu/sales/tax/manage_tax_zone_rate"));
         $this->clickAndWait($this->getUiElement("buttons/add_new"));
-        $this->type($this->getUiElement("inputs/tax_rate_identifier"),$taxData["tax_rate_identifier"]);
-        $this->type($this->getUiElement("inputs/tax_rate_percent"),$taxData["tax_rate_percent"]);
-        $this->type($this->getUiElement("inputs/zip_post_code"),$taxData["zip_post_code"]);
-        $this->select($this->getUiElement("selectors/country"),$taxData["country"]);
-        if (($taxData["country"] == 'United States')||($taxData["country"] == 'Canada')) {
-        $this->select($this->getUiElement("selectors/state"),$taxData["state"]);
-        } 
-        $needStore = 0;
+        $this->type($this->getUiElement("inputs/tax_rate_identifier"), $taxData["tax_rate_identifier"]);
+        $this->type($this->getUiElement("inputs/tax_rate_percent"), $taxData["tax_rate_percent"]);
+        $this->type($this->getUiElement("inputs/zip_post_code"), $taxData["zip_post_code"]);
+        $this->select($this->getUiElement("selectors/country"), $taxData["country"]);
+        if ($this->isElementPresent($this->getUiElement("selectors/state_disabled"))) {
+
+        } else {
+            $this->select($this->getUiElement("selectors/state"), $taxData["state"]);
+        }
         if (isset($taxData['store_view_name'])) {
             $qtyStore = $this->getXpathCount($this->getUiElement("elements/store_view_name_for_tax_title"));
             for ($i = 1; $i <= $qtyStore; $i++) {
@@ -83,10 +85,11 @@ class Model_Admin_Tax extends Model_Admin
                 }
             }
             if ($needStore != NULL) {
-                $this->type($this->getUiElement("inputs/store_view_name_for_tax_title", $needStore), $taxData["tax_store_view_title"]);
+                $this->type($this->getUiElement("inputs/store_view_name_for_tax_title", $needStore),
+                        $taxData["tax_store_view_title"]);
             }
-        }    
-        $this->model->unifiedTaxSave();
+        }
+        $this->unifiedTaxSave();
     }
 
     /**
@@ -104,53 +107,68 @@ class Model_Admin_Tax extends Model_Admin
         $this->setUiNamespace('admin/pages/sales/tax/manage_tax_rules');
         $this->clickAndWait($this->getUiElement("/admin/topmenu/sales/tax/manage_tax_rules"));
         $this->clickAndWait($this->getUiElement("buttons/add_new_tax_rule"));
-        $this->type($this->getUiElement("inputs/tax_rule_name"),$taxData["tax_rule_name"]);
-        if (count($taxData["product_tax_class_name"]) <= 1) {
-               $this->printDebug('There are no product tax classes');
+        $this->type($this->getUiElement("inputs/tax_rule_name"), $taxData["tax_rule_name"]);
+        if (count($taxData["product_tax_class_name"]) < 1) {
+            $this->printDebug('There are no product tax classes');
         } else {
             for ($i = 0; $i < count($taxData["product_tax_class_name"]); $i++) {
                 $index = (array_values($taxData["product_tax_class_name"]));
-                $this->addSelection($this->getUiElement("selectors/product_tax_class"),"label=".$index[$i]);
+                $this->addSelection($this->getUiElement("selectors/product_tax_class"), "label=" . $index[$i]);
             }
         }
-        if (count($taxData["customer_tax_class_name"]) <= 1) {
-                $this->printDebug('There are no customer tax classes');
+        if (count($taxData["customer_tax_class_name"]) < 1) {
+            $this->printDebug('There are no customer tax classes');
         } else {
             for ($i = 0; $i < count($taxData["customer_tax_class_name"]); $i++) {
                 $index = (array_values($taxData["customer_tax_class_name"]));
-                $this->addSelection($this->getUiElement("selectors/customer_tax_class"),"label=".$index[$i]);
+                $this->addSelection($this->getUiElement("selectors/customer_tax_class"), "label=" . $index[$i]);
             }
         }
-        if (count($taxData["tax_rate_identifier"]) <= 1) {
-               $this->printDebug('There are no tax rates');
+        if (count($taxData["tax_rate_identifier"]) < 1) {
+            $this->printDebug('There are no tax rates');
         } else {
             for ($i = 0; $i < count($taxData["tax_rate_identifier"]); $i++) {
                 $index = (array_values($taxData["tax_rate_identifier"]));
-                $this->addSelection($this->getUiElement("selectors/tax_rate"),"label=".$index[$i]);
+                $this->addSelection($this->getUiElement("selectors/tax_rate"), "label=" . $index[$i]);
             }
         }
-        $this->type($this->getUiElement("inputs/tax_rule_priority"),$taxData["tax_rule_priority"]);
-        $this->type($this->getUiElement("inputs/tax_rule_sort_order"),$taxData["tax_rule_sort_order"]);
-        $this->model->unifiedTaxSave();
+        $this->type($this->getUiElement("inputs/tax_rule_priority"), $taxData["tax_rule_priority"]);
+        $this->type($this->getUiElement("inputs/tax_rule_sort_order"), $taxData["tax_rule_sort_order"]);
+        $this->unifiedTaxSave();
     }
 
     /**
      * Unified deleating process for all tax elements.
      */
-        public function unifiedTaxDelete($params, $path, $datanme)
+    public function unifiedTaxDelete($params, $path, $dataname)
     {
         $this->printDebug('delete process started...');
         $taxData = $params ? $params : $this->taxData;
-        $this->setUiNamespace('admin/pages/sales/tax/'.$path);
-        $this->clickAndWait($this->getUiElement("/admin/topmenu/sales/tax/".$path));
-        $this->type($this->getUiElement("inputs/search_line"), $taxData[$dataname]);
-        $this->clickAndWait($this->getUiElement("buttons/search"));
-        if($this->isTextPresent('No record found.')) {
-            $this->printInfo('No such element found');
-        } else {
-            $this->clickAndWait($this->getUiElement("elements/searched_item", $taxData[$dataname]));
+        $this->setUiNamespace('admin/pages/sales/tax/' . $path);
+        $this->clickAndWait($this->getUiElement("/admin/topmenu/sales/tax/" . $path));
+        switch ($path) {
+            case "product_tax_classes":
+                $delete = '_product';
+                break;
+            case "customer_tax_classes":
+                $delete = '_customer';
+                break;
+            case "manage_tax_rules":
+                $delete = '_rule';
+                break;
+            case "manage_tax_zone_rate":
+                $delete = '_rate';
+                break;
+        }
+        foreach ($taxData as $key => $value) {
+            if (preg_match('/^search_tax' . $delete . '/', $key)) {
+                $searchTax[$key] = $value;
+            }
+        }
+        $tax_result = $this->searchAndDoAction('tax_grid', $searchTax, 'open', NULL);
+        if ($tax_result) {
             $this->clickAndWait($this->getUiElement("buttons/delete"));
-            if($this->assertConfirmationPresent('Are you sure you want to do this?')) {
+            if ($this->assertConfirmationPresent('Are you sure you want to do this?')) {
                 $this->chooseOkOnNextConfirmation();
             } else {
                 $this->printInfo('An error was accured during deleting process');
@@ -167,7 +185,7 @@ class Model_Admin_Tax extends Model_Admin
                 if (!$this->waitForElement($this->getUiElement("/admin/messages/success"), 60)) {
                     $this->setVerificationErrors("Check 2: Deleting process error. no success message");
                 } else {
-                    $this->printInfo('' . $taxData[$dataname] . ' has been deleted');
+                    $this->printInfo('Tax element has been deleted');
                 }
             }
         } else {
@@ -179,7 +197,7 @@ class Model_Admin_Tax extends Model_Admin
     /**
      * Unified saving process for all tax elements.
      */
-        public function unifiedTaxSave()
+    public function unifiedTaxSave()
     {
         $this->printDebug('Trying to save tax');
         $this->click($this->getUiElement("buttons/save"));
@@ -187,24 +205,25 @@ class Model_Admin_Tax extends Model_Admin
             $qtyFields = $this->getXpathCount($this->getUiElement("elements/required_failed_qty"));
             for ($i = 1; $i <= $qtyFields; $i++) {
                 $selectName = $this->getText($this->getUiElement("elements/required_failed_name", $i));
-                $this->printDebug('Field "'.$selectName .'" is required');
+                $this->printDebug('Field "' . $selectName . '" is required');
             }
         } elseif ($this->waitForElement($this->getUiElement("/admin/messages/message"), 60)) {
-                //check for error message
-                if ($this->waitForElement($this->getUiElement("/admin/messages/error"), 2)) {
-                    $etext = $this->getText($this->getUiElement("/admin/messages/error"));
-                    $this->setVerificationErrors("Check 1: Tax Creating error." . $etext);
-                } else {
-                    // Check for success message
-                    if (!$this->waitForElement($this->getUiElement("/admin/messages/success"), 60)) {
-                        $this->setVerificationErrors("Check 2: Tax Creating error. no success message");
-                    } else {
-                        $this->printInfo('Tax has been created');
-                        }
-                    }
+            //check for error message
+            if ($this->waitForElement($this->getUiElement("/admin/messages/error"), 2)) {
+                $etext = $this->getText($this->getUiElement("/admin/messages/error"));
+                $this->setVerificationErrors("Check 1: Tax Creating error." . $etext);
             } else {
-                $this->setVerificationErrors("Check 3: Tax Rule Creating error. No any messages from Magento. Hangs up ?");
+                // Check for success message
+                if (!$this->waitForElement($this->getUiElement("/admin/messages/success"), 60)) {
+                    $this->setVerificationErrors("Check 2: Tax Creating error. no success message");
+                } else {
+                    $this->printInfo('Tax has been created');
                 }
+            }
+        } else {
+            $this->setVerificationErrors("Check 3: Tax Rule Creating error. No any messages from Magento. Hangs up ?");
+        }
         $this->printDebug('Creating process finished');
     }
+
 }
