@@ -42,7 +42,7 @@
 <script>
 function addSidebarCompositeListType() {
     productConfigure.addListType('sidebar', {
-        urlFetch: '<?php echo $this->getUrl('*/sales_order_composite_order/configure') ?>',
+        urlFetch: '<?php echo $this->getUrl('*/sales_order_create/configureProductToAdd') ?>',
         urlConfirm: '<?php echo $this->getUrl('*/sales_order_create/addConfigured') ?>'
     });
 }

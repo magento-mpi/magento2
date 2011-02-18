@@ -46,7 +46,7 @@ wishlistControl = {
     },
 
     configureItem: function (itemId) {
-        productConfigure.setOnLoadIFrameCallback(this.cbOnLoadIframe.bind(this));
+        productConfigure.setOnLoadIFrameCallback('wishlist', this.cbOnLoadIframe.bind(this));
         productConfigure.showItemConfiguration('wishlist', itemId);
         return false;
     },
@@ -55,7 +55,6 @@ wishlistControl = {
         if (!response.ok) {
             return;
         }
-        productConfigure.setOnLoadIFrameCallback(null);
         this.reload();
     },
 

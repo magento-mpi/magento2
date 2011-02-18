@@ -922,9 +922,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $productId = $item->getProduct()->getId();
 
         $product = Mage::getModel('catalog/product')
+            ->setStoreId($this->getStore()->getId())
             ->load($productId);
 
         $resultItem = $this->addProduct($product, $buyRequest);
+        if (is_string($resultItem)) {
+            Mage::throwException($resultItem);
+        }
 
         if ($resultItem->getId() != $itemId) {
             /*

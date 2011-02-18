@@ -566,7 +566,7 @@ AdminOrder.prototype = {
             }
         }
         
-        productConfigure.setOnLoadIFrameCallback(this.cbSidebarOnLoadIframe.bind(this));
+        productConfigure.setOnLoadIFrameCallback('sidebar', this.cbSidebarOnLoadIframe.bind(this));
         productConfigure.showItemConfiguration('sidebar', productId, params);
         return false;
     },
@@ -575,7 +575,6 @@ AdminOrder.prototype = {
         if (!response.ok) {
             return;
         }
-        productConfigure.setOnLoadIFrameCallback(null);
         this.loadArea(['items', 'shipping_method', 'billing_method','totals', 'giftmessage'], true);
     },
     

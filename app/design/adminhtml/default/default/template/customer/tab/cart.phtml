@@ -51,7 +51,7 @@
     },
 
     configureItem: function (itemId) {
-        productConfigure.setOnLoadIFrameCallback(this.cbOnLoadIframe.bind(this));
+        productConfigure.setOnLoadIFrameCallback('<?php echo $listType ?>', this.cbOnLoadIframe.bind(this));
         productConfigure.showItemConfiguration('<?php echo $listType ?>', itemId);
         return false;
     },
@@ -60,7 +60,6 @@
         if (!response.ok) {
             return;
         }
-        productConfigure.setOnLoadIFrameCallback(null);
         this.reload();
     },
 
