@@ -483,6 +483,7 @@
                         <downloadable_information>//a[@title='Downloadable Information']</downloadable_information>
                         <bundle_items>//a[@title='Bundle Items']</bundle_items>
                         <associated_products>//a[@title='Associated Products']</associated_products>
+                        <product_review>//a[@title='Product Reviews']</product_review>
                     </tabs>
                     <buttons>
                         <duplicate>//button[span="Duplicate"]</duplicate>
@@ -507,49 +508,33 @@
             </manageproducts>
         </categories>
         <reviews_and_ratings>
-            <reviews>
-                <pending_review>
-
-                </pending_review>
-                <all_review>
+            <manage_review>
+                <buttons>
+                    <add_new>//button[span="Add New Review"]</add_new>
+                    <search>//button[span="Search"]</search>
+                </buttons>
+                <edit_review_page>
                     <buttons>
-                        <add_new>//button[span="Add New Review"]</add_new>
                         <save>//button[span="Save Review"]</save>
                         <delete>//button[span="Delete Review"]</delete>
-                        <search>//button[span="Search"]</search>
                         <product_saerch>//button[span="Search"]</product_saerch>
                     </buttons>
                     <inputs>
-                        <product_saerch>//input[@id="product_filter_name"]</product_saerch>
-                        <default_value>//input[@id="rating_code"]</default_value>
-                        <store_view_value>//*[@id='rating_form']//tr[contains(.,'%s')]//input</store_view_value>
-                        <store_view_name>//label[contains(@for, 'rating_code')]</store_view_name>
-                        <store_view_name_many>//label[@for="rating_code_%s"]</store_view_name_many>
                         <nickname>//input[@id="nickname"]</nickname>
                         <summary_of_review>//input[@id="title"]</summary_of_review>
                         <review_text>//textarea[@id="detail"]</review_text>
-                        <search_title>//input[@id="filter_title"]</search_title>
-                        <search_nickname>//input[@id="filter_nickname"]</search_nickname>
-                        <SKU>//input[@id="product_filter_sku"]</SKU>
                     </inputs>
                     <elements>
-                        <product_searched>//table[@id='productGrid_table']//td[normalize-space(text())='%s']</product_searched>
-                        <review_searched>//td[normalize-space(text())='%s']</review_searched>
-                        <review_container>//*[@id='reviwGrid']</review_container>
                         <product_container>//div[@id='productGrid' and not (contains(@style,'display: none'))]</product_container>
-                        <required_field_error>//*[@class='validation-advice']</required_field_error>
-                        <required>//*[contains(@class,'required-entry')]</required>
-                        <rating_present>//div[@id='rating_detail'and contains(.,'Rating')]</rating_present>
-                        <required_failed_qty>//*[contains(@class,'validation-failed')]</required_failed_qty>
-                        <required_failed_name>//tr[contains(td/div/@class,'validation-advice') and not(contains(td/div/@style, 'display: none;'))][%s]//label</required_failed_name>
+                        <rating_present>//div[@class='product-review-box']</rating_present>
                     </elements>
                     <selectors>
                         <status>//select[@id="status_id"]</status>
                         <visible_in>//select[@id="select_stores"]</visible_in>
                         <rating_select>//table[@id="product-review-table"]//input[@id='%s']</rating_select>
                     </selectors>
-                </all_review>
-            </reviews>
+                </edit_review_page>
+            </manage_review>
             <manage_ratings>
                 <elements>
                     <rating_container>//div[@id='ratingsGrid']</rating_container>
