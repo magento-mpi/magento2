@@ -77,4 +77,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart extends Mage_Adminhtm
     {
         return $item->getId();
     }
+
+    /**
+     * Retrieve product identifier linked with item
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  int
+     */
+    public function getProductId($item)
+    {
+        return $item->getProduct()->getId();
+    }
 }

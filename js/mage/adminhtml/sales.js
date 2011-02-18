@@ -553,7 +553,30 @@ AdminOrder.prototype = {
             $('page:container').addClassName('container');
         }
     },
+    
+    sidebarConfigureProduct: function (productId) {
+        var params = {};
+        params.reset_shipping = true;
+        params.add_product = productId;
+        this.prepareParams(params);
+        for (var i in params) {
+            if (params[i] === null) {
+                unset(params[i]);
+            } else if (typeof(params[i]) == 'boolean') {
+                params[i] = params[i] ? 1 : 0; 
+            }
+        }
+        
+        productConfigure.setOnLoadIFrameCallback(this.cbSidebarOnLoadIframe.bind(this));
+        productConfigure.showItemConfiguration('sidebar', productId, params);
+        return false;
+    },
 
+    cbSidebarOnLoadIframe: function () {
+        productConfigure.setOnLoadIFrameCallback(null);
+        this.loadArea(['items', 'shipping_method', 'billing_method','totals', 'giftmessage'], true);
+    },
+    
     removeSidebarItem : function(id, from){
         this.loadArea(['sidebar_'+from], 'sidebar_data_'+from, {remove_item:id, from:from});
     },

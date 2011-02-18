@@ -79,5 +79,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
         }
         return $items;
     }
+
+    /**
+     * Retrieve product identifier linked with item
+     *
+     * @param   Mage_Wishlist_Model_Item $item
+     * @return  int
+     */
+    public function getProductId($item)
+    {
+        return $item->getProduct()->getId();
+    }
 }
 

@@ -173,7 +173,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
          * Adding product to quote from shoping cart, wishlist etc.
          */
         if ($productId = (int) $this->getRequest()->getPost('add_product')) {
-            $this->_getOrderCreateModel()->addProduct($productId);
+            $this->_getOrderCreateModel()->addProduct($productId, $this->getRequest()->getPost());
         }
 
         /**
@@ -344,6 +344,35 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         $this->getResponse()->setBody($this->getLayout()->getBlock('content')->toHtml());
+    }
+
+    /**
+     * Adds configured product to quote
+     */
+    public function addConfiguredAction()
+    {
+        $errorMessage = null;
+        try {
+            $this->_initSession()
+                ->_processData();
+        }
+        catch (Exception $e){
+            $this->_reloadQuote();
+            $errorMessage = $e->getMessage();
+        }
+
+        // Form result for client javascript
+        $updateResult = new Varien_Object();
+        if ($errorMessage) {
+            $updateResult->setError(1);
+            $updateResult->setMessage($errorMessage);
+        } else {
+            $updateResult->setOk(1);
+        }
+
+        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper->renderUpdateResult($this, $updateResult);
     }
 
     /**

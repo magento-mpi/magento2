@@ -1083,7 +1083,7 @@ p.product-image { cursor:default !important; }
 .product-view .product-shop .price-box .price-as-configured .price-including-tax .price { color:#e55100; }
 .product-view .product-shop .price-box .price-as-configured .price-excluding-tax .price { color:#222; font-size:11px; }
 .product-view .product-shop .price-box p { margin:4px 0; }
-.product-view .product-shop .add-to-links { margin:10px 0; }
+.product-view .product-shop .add-to-links { float:left; margin:10px 0; }
 
 .product-view .product-name h1 { font-size:22px; line-height:1.2; color:#d12c01; font-weight:normal; }
 .product-view .product-ids { text-transform:uppercase; }

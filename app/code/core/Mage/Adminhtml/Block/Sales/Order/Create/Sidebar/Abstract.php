@@ -93,6 +93,17 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
     }
 
     /**
+     * Retrieve product identifier linked with item
+     *
+     * @param   mixed $item
+     * @return  int
+     */
+    public function getProductId($item)
+    {
+        return $item->getId();
+    }
+
+    /**
      * Retreive item count
      *
      * @return int

@@ -94,13 +94,15 @@ ProductConfigure.prototype = {
      * @param listType type of list as scope
      * @param itemId 
      */
-    showItemConfiguration: function(listType, itemId) {
+    showItemConfiguration: function(listType, itemId, externalParams) {
         if (!listType || !itemId) {
             return false;
         }
+        
         this._initWindowElements();
         this.current.listType = listType;
         this.current.itemId = itemId;
+        this.current.externalParams = externalParams; 
         this.сonfirmedCurrentId = this.blockConfirmed.id+'['+listType+']['+itemId+']';
 
         if (!$(this.сonfirmedCurrentId) || !$(this.сonfirmedCurrentId).innerHTML) {
@@ -180,7 +182,14 @@ ProductConfigure.prototype = {
         }
         if (urlConfirm) {
             this.blockForm.action = urlConfirm;
-            this.addFields([new Element('input', {type: 'hidden', name: 'id', value: this.current.itemId})]);
+            
+            var fields = [new Element('input', {type: 'hidden', name: 'id', value: this.current.itemId})];
+            if (this.current.externalParams) {
+                for (var paramName in this.current.externalParams) {
+                    fields.push(new Element('input', {type: 'hidden', name: paramName, value: this.current.externalParams[paramName]}));
+                }
+            }
+            this.addFields(fields);
         } else {
             this._processFieldsData('all_confirmed_to_form');
             this.blockForm.action = urlSubmit;
