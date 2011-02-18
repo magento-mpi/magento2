@@ -441,6 +441,7 @@ tr.summary-details-excluded { font-style:italic; }
 .link-rss { background:url(../images/i_rss.gif) 0 2px no-repeat; padding-left:18px; line-height:14px; white-space:nowrap; }
 .btn-remove { display:block; width:11px; height:11px; font-size:0; line-height:0; background:url(../images/btn_remove.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
 .btn-remove2 { display:block; width:16px; height:16px; font-size:0; line-height:0; background:url(../images/btn_trash.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
+.btn-edit    { display:block; width:11px; height:11px; font-size:0; line-height:0; background:url(../images/btn_edit.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
 
 .cards-list dt { margin:5px 0 0; }
 .cards-list .offset { padding:2px 0 2px 20px; }
@@ -555,7 +556,8 @@ tr.summary-details-excluded { font-style:italic; }
 .block .block-content { background:#e7f1f4; }
 .block .block-content li.item { padding:7px 9px; }
 .block .block-content .product-name { color:#1e7ec8; }
-.block .btn-remove { float:right; margin:1px 0 2px 5px; }
+.block .btn-remove,
+.block .btn-edit { float:right; margin:1px 0 2px 5px; }
 .block .actions { background:#dee5e8 url(../images/bkg_block-actions.gif) 0 0 repeat-x; padding:6px 9px; text-align:right; }
 .block .actions a { float:left; }
 .block .actions button.button { float:right; }
@@ -997,6 +999,7 @@ tr.summary-details-excluded { font-style:italic; }
 .product-options-bottom .tier-prices .price,
 .product-options-bottom .tier-prices .benefit { color:#e26703; }
 .product-options-bottom .price-box { float:left; margin:0; padding:0; }
+.product-options-bottom .add-to-links { clear:both; padding:5px 0 0; text-align:right; }
 .col3-layout .product-options-bottom .price-box { float:none; padding:0 0 5px; }
 .product-options-bottom .price-label { float:left; padding-right:5px; }
 .product-options-bottom .price-tax { float:left; }
