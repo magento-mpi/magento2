@@ -25,23 +25,30 @@
  */
 
 /**
- * Frontend ajax controller
+ * Core data helper
  *
- * @category    Mage
- * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_AjaxController extends Mage_Core_Controller_Front_Action
+class Mage_Core_Helper_Translate extends Mage_Core_Helper_Abstract
 {
     /**
-     * Ajax action for inline translation
-     *
+     * Save transalation data to database for specific area
+     * 
+     * @param array $translate
+     * @param string $area
+     * @param string $return_type
+     * @return string
      */
-    public function translateAction ()
+    public function apply($translate, $area, $returnType = 'json')
     {
-        $translation = $this->getRequest()->getPost('translate');
-        $area = $this->getRequest()->getPost('area');
-        echo Mage::helper('core/translate')->apply($translation, $area);
-        exit();
+        try {
+            if ($area) {
+                Mage::getDesign()->setArea($area);
+            }
+            Mage::getModel('core/translate_inline')->processAjaxPost($translate);
+            return $returnType == 'json' ? "{success:true}" : true;
+        } catch (Exception $e) {
+            return $returnType == 'json' ? "{error:true,message:'" . $e->getMessage() . "'}" : false;
+        }    
     }
 }

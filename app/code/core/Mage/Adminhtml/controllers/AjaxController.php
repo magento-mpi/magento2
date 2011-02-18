@@ -19,19 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Frontend ajax controller
+ * Backend ajax controller
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_AjaxController extends Mage_Core_Controller_Front_Action
+class Mage_Adminhtml_AjaxController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Ajax action for inline translation
