@@ -449,14 +449,16 @@ FormElementDependenceController.prototype = {
         // toggle target row
         if (shouldShowUp) {
             $(idTo).up(this._config.levels_up).select('input', 'select', 'td').each(function (item) {
-                if (!item.type || item.type != 'hidden') { // don't touch hidden inputs, bc they may have custom logic
+                // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
+                if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
                     item.disabled = false;
                 }
             });
             $(idTo).up(this._config.levels_up).show();
         } else {
             $(idTo).up(this._config.levels_up).select('input', 'select', 'td').each(function (item){
-                if (!item.type || item.type != 'hidden') { // don't touch hidden inputs, bc they may have custom logic
+            	// don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
+                if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
                     item.disabled = true;
                 }
             });
