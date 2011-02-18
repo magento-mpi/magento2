@@ -39,7 +39,8 @@
 
     $_product           = $this->getProduct();
     $_id                = $_product->getId();
-    $_storeId           = Mage::registry('current_product')->getStoreId();
+    $_storeId           = $_product->getStoreId();
+    $_website           = Mage::app()->getStore($_storeId)->getWebsite();
 
     $_weeeSeparator     = '';
     $_simplePricesTax   = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());
@@ -52,9 +53,9 @@
 $_exclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax = null);
 $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax = true);
 ?>
-<?php $_weeeTaxAmount = $_weeeHelper->getAmountForDisplay($_product); ?>
+<?php $_weeeTaxAmount = $_weeeHelper->getAmount($_product, null, null, $_website); ?>
 <?php if ($_weeeHelper->typeOfDisplay($_product, array(1,2,4))): ?>
-    <?php $_weeeTaxAmount = $_weeeHelper->getAmount($_product); ?>
+    <?php $_weeeTaxAmount = $_weeeHelper->getAmount($_product, null, null, $_website); ?>
     <?php $_weeeTaxAttributes = $_weeeHelper->getProductWeeeAttributesForDisplay($_product); ?>
 <?php endif; ?>
 

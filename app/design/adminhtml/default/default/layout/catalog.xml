@@ -287,7 +287,7 @@ Additional block in composite_fieldset block dependant on product type
     </PRODUCT_TYPE_configurable>
     <PRODUCT_TYPE_grouped>
         <reference name="product.composite.fieldset">
-            <block type="adminhtml/catalog_product_composite_fieldset_grouped" name="product.composite.fieldset.grouped" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/grouped.phtml" output="toHtml" />
+            <block type="adminhtml/catalog_product_composite_fieldset_grouped" name="product.composite.fieldset.grouped" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/grouped.phtml"/>
         </reference>
     </PRODUCT_TYPE_grouped>
 

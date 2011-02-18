@@ -75,8 +75,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Ma
      */
     public function getAssociatedProducts()
     {
-        return $this->getProduct()->getTypeInstance(true)
-            ->getAssociatedProducts($this->getProduct());
+        $product = $this->getProduct();
+        $result = $product->getTypeInstance(true)
+            ->getAssociatedProducts($product);
+
+        $storeId = $product->getStoreId();
+        foreach ($result as $item) {
+            $item->setStoreId($storeId);
+        }
+
+        return $result;
     }
 
 
