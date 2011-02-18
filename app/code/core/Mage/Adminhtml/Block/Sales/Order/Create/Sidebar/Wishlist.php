@@ -63,10 +63,20 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
         return $collection;
     }
 
-    public function getItemId($item)
+    /**
+     * Retrieve all items
+     *
+     * @return array
+     */
+    public function getItems()
     {
-        return $item->getWishlistItemId();
+        $items = parent::getItems();
+        foreach ($items as $item) {
+            $product = $item->getProduct();
+            $item->setName($product->getName());
+            $item->setPrice($product->getPrice());
+        }
+        return $items;
     }
-
 }
 
