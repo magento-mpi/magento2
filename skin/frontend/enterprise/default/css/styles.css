@@ -1681,6 +1681,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .opc-progress-container .opc-block-progress dt.complete { font-weight:bold; margin:2px 0 4px; }
 .opc-progress-container .opc-block-progress dt.complete a { font-weight:normal; text-transform:lowercase; }
 .opc-progress-container .opc-block-progress dd.complete { margin:5px 0 8px; padding:5px; }
+.opc-progress-container .block-progress .cards-list dd { padding:0; }
+.opc-progress-container .block-progress .cards-list .info-table th { font-weight:normal; }
 
 .opc { float:right; width:755px; }
 .opc li.section { position:relative; }

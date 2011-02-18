@@ -1121,11 +1121,20 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * @param string $type
      * @param Mage_Sales_Model_Abstract $salesDocument
      * @param bool $failsafe
+     * @param string $message
      * @return null|Mage_Sales_Model_Order_Payment_Transaction
      */
-    public function addTransaction($type, $salesDocument = null, $failsafe = false)
+    public function addTransaction($type, $salesDocument = null, $failsafe = false, $message = false)
     {
-        return $this->_addTransaction($type, $salesDocument, $failsafe);
+        $transaction = $this->_addTransaction($type, $salesDocument, $failsafe);
+
+        if ($message) {
+            $order = $this->getOrder();
+            $message = $this->_appendTransactionToMessage($transaction, $message);
+            $order->addStatusHistoryComment($message);
+        }
+
+        return $transaction;
     }
 
     /**

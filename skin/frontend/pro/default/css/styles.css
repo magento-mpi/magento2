@@ -1347,6 +1347,9 @@ tr.summary-details-excluded { font-style:italic; }
 .block-progress dt.complete { margin:0; color:#333; }
 .block-progress dd.complete {}
 .block-progress p { margin:0; }
+.block-progress .cards-list dt { font-size:12px; margin:5px 0; padding:0; }
+.block-progress .cards-list dd { margin:0; padding:0; }
+.block-progress .cards-list .info-table th { font-weight:normal; }
 
 .opc .buttons-set { margin:15px 0 0; }
 .opc .buttons-set p.required { margin:0; padding:0 0 10px; }

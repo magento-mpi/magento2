@@ -111,13 +111,19 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * Key for storing transaction id in additional information of payment model
      * @var string
      */
-    protected $_realTransactionIdKey = 'x_transaction_id';
+    protected $_realTransactionIdKey = 'real_transaction_id';
 
     /**
      * Key for storing split tender id in additional information of payment model
      * @var string
      */
     protected $_splitTenderIdKey = 'split_tender_id';
+
+    /**
+     * Key for storing locking gateway actions flag in additional information of payment model
+     * @var string
+     */
+    protected $_isGatewayActionsLockedKey = 'is_gateway_actions_locked';
 
     /**
      * Key for storing partial authorization last action state in session
@@ -162,6 +168,55 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $this->setData('_accepted_currency', $acceptedCurrencyCodes);
         }
         return $this->_getData('_accepted_currency');
+    }
+
+    /**
+     * Check capture availability
+     *
+     * @return bool
+     */
+    public function canCapture()
+    {
+        if ($this->_isGatewayActionsLocked($this->getInfoInstance())) {
+            return false;
+        }
+        return $this->_isPreauthorizeCapture($this->getInfoInstance());
+    }
+
+    /**
+     * Check refund availability
+     *
+     * @return bool
+     */
+    public function canRefund()
+    {
+        if ($this->_isGatewayActionsLocked($this->getInfoInstance())
+            || $this->getCardsStorage()->getCardsCount() <= 0) {
+            return false;
+        }
+        foreach($this->getCardsStorage()->getCards() as $card) {
+            $lastTransaction = $this->getInfoInstance()->getTransaction($card->getLastTransId());
+            if ($lastTransaction
+                && $lastTransaction->getTxnType() == Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE
+                && !$lastTransaction->getIsClosed()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check void availability
+     *
+     * @param   Varien_Object $invoicePayment
+     * @return  bool
+     */
+    public function canVoid(Varien_Object $payment)
+    {
+        if ($this->_isGatewayActionsLocked($this->getInfoInstance())) {
+            return false;
+        }
+        return $this->_isPreauthorizeCapture($this->getInfoInstance());
     }
 
     /**
@@ -212,7 +267,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         $this->_initCardsStorage($payment);
 
-        if ($this->isItPartialAuthorization($payment)) {
+        if ($this->isPartialAuthorization($payment)) {
             $this->_partialAuthorization($payment, $amount, self::REQUEST_TYPE_AUTH_ONLY);
             $payment->setSkipTransactionCreation(true);
             return $this;
@@ -238,7 +293,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         $this->_initCardsStorage($payment);
         if ($this->_isPreauthorizeCapture($payment)) {
             $this->_preauthorizeCapture($payment, $amount);
-        } else if ($this->isItPartialAuthorization($payment)) {
+        } else if ($this->isPartialAuthorization($payment)) {
             $this->_partialAuthorization($payment, $amount, self::REQUEST_TYPE_AUTH_CAPTURE);
         } else {
             $this->_place($payment, $amount, self::REQUEST_TYPE_AUTH_CAPTURE);
@@ -256,10 +311,32 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     public function void(Varien_Object $payment)
     {
         $cardsStorage = $this->getCardsStorage($payment);
+
+        $messages = array();
+        $isSuccessful = false;
+        $isFiled = false;
         foreach($cardsStorage->getCards() as $card) {
-            $this->_voidCardTransaction($payment, $card);
+            try {
+                $newTransaction = $this->_voidCardTransaction($payment, $card);
+                $messages[] = Mage::helper('paygate')->getVoidTransactionMessage(
+                    $payment, $card, $newTransaction->getAdditionalInformation($this->_realTransactionIdKey)
+                );
+                $isSuccessful = true;
+            } catch (Exception $e) {
+                $authTransaction = $payment->getTransaction($card->getLastTransId());
+                $messages[] = Mage::helper('paygate')->getVoidTransactionMessage(
+                    $payment, $card, $authTransaction->getAdditionalInformation($this->_realTransactionIdKey), $e
+                );
+                $isFiled = true;
+                continue;
+            }
             $cardsStorage->updateCard($card);
         }
+
+        if ($isFiled) {
+            $this->_processFailureMultitransactionAction($payment, $messages, $isSuccessful);
+        }
+
         $payment->setSkipTransactionCreation(true);
         return $this;
     }
@@ -272,25 +349,53 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @return Mage_Paygate_Model_Authorizenet
      * @throws Mage_Core_Exception
      */
-    public function refund(Varien_Object $payment, $totalAmount)
+    public function refund(Varien_Object $payment, $requestedAmount)
     {
-        $refundedAmount = 0;
         $cardsStorage = $this->getCardsStorage($payment);
+
+        if ($this->_formatAmount($cardsStorage->getCapturedAmount() - $cardsStorage->getRefundedAmount()) < $requestedAmount) {
+            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for refund.'));
+        }
+
+        $messages = array();
+        $isSuccessful = false;
+        $isFiled = false;
         foreach($cardsStorage->getCards() as $card) {
-            if ($refundedAmount < $totalAmount) {
-                $amountForRefund = $card->getCapturedAmount();
-                if ($amountForRefund > $totalAmount-$refundedAmount) {
-                    $amountForRefund = $totalAmount-$refundedAmount;
+            if ($requestedAmount > 0) {
+                $cardAmountForRefund = $this->_formatAmount($card->getCapturedAmount() - $card->getRefundedAmount());
+                if ($cardAmountForRefund <= 0) {
+                    continue;
                 }
-                $this->_refundCardTransaction($payment, $amountForRefund, $card);
-                $card->setRefundedAmount($amountForRefund);
+                if ($cardAmountForRefund > $requestedAmount) {
+                    $cardAmountForRefund = $requestedAmount;
+                }
+                try {
+                    $newTransaction = $this->_refundCardTransaction($payment, $cardAmountForRefund, $card);
+                    $messages[] = Mage::helper('paygate')->getRefundTransactionMessage(
+                        $payment, $card, $cardAmountForRefund, $newTransaction->getAdditionalInformation($this->_realTransactionIdKey)
+                    );
+                    $isSuccessful = true;
+                } catch (Exception $e) {
+                    $captureTransaction = $payment->getTransaction($card->getLastTransId());
+                    $messages[] = Mage::helper('paygate')->getRefundTransactionMessage(
+                        $payment, $card, $cardAmountForRefund, $captureTransaction->getAdditionalInformation($this->_realTransactionIdKey), $e
+                    );
+                    $isFiled = true;
+                    continue;
+                }
+                $card->setRefundedAmount($this->_formatAmount($card->getRefundedAmount() + $cardAmountForRefund));
                 $cardsStorage->updateCard($card);
-                $refundedAmount += $amountForRefund;
+                $requestedAmount = $this->_formatAmount($requestedAmount - $cardAmountForRefund);
             } else {
                 $payment->setSkipTransactionCreation(true);
                 return $this;
             }
         }
+
+        if ($isFiled) {
+            $this->_processFailureMultitransactionAction($payment, $messages, $isSuccessful);
+        }
+
         $payment->setSkipTransactionCreation(true);
         return $this;
     }
@@ -300,7 +405,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      *
      * @param Mage_Payment_Model_Info $payment
      */
-    public function cancelAuthorizations(Mage_Payment_Model_Info $payment) {
+    public function cancelPartialAuthorization(Mage_Payment_Model_Info $payment) {
         if (!$payment->getAdditionalInformation($this->_splitTenderIdKey)) {
             Mage::throwException(Mage::helper('paygate')->__('Invalid split tenderId ID.'));
         }
@@ -360,7 +465,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     $card->getLastTransId(),
                     $newTransactionType,
                     array('is_transaction_closed' => 0),
-                    array($this->_realTransactionIdKey => $card->getLastTransId())
+                    array($this->_realTransactionIdKey => $card->getLastTransId()),
+                    Mage::helper('paygate')->getPlaceTransactionMessage($payment, $card, $newTransactionType)
                 );
                 if ($requestType == self::REQUEST_TYPE_AUTH_CAPTURE) {
                     $card->setCapturedAmount($card->getProcessedAmount());
@@ -418,7 +524,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $card->getLastTransId(),
                 $newTransactionType,
                 array('is_transaction_closed' => 0),
-                array($this->_realTransactionIdKey => $card->getLastTransId())
+                array($this->_realTransactionIdKey => $card->getLastTransId()),
+                Mage::helper('paygate')->getPlaceTransactionMessage($payment, $card, $newTransactionType)
             );
             if ($requestType == self::REQUEST_TYPE_AUTH_CAPTURE) {
                 $card->setCapturedAmount($card->getProcessedAmount());
@@ -455,23 +562,50 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param decimal $amount
      * @return Mage_Paygate_Model_Authorizenet
      */
-    protected function _preauthorizeCapture($payment, $totalAmount)
+    protected function _preauthorizeCapture($payment, $requestedAmount)
     {
-        $capturedAmount = 0;
         $cardsStorage = $this->getCardsStorage($payment);
+
+        if ($this->_formatAmount($cardsStorage->getProcessedAmount() - $cardsStorage->getCapturedAmount()) < $requestedAmount) {
+            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for capture.'));
+        }
+
+        $messages = array();
+        $isSuccessful = false;
+        $isFiled = false;
         foreach($cardsStorage->getCards() as $card) {
-            if ($capturedAmount < $totalAmount) {
-                $amountForCapture = $card->getProcessedAmount();
-                if ($amountForCapture > $totalAmount-$capturedAmount) {
-                    $amountForCapture = $totalAmount-$capturedAmount;
+            if ($requestedAmount > 0) {
+                $cardAmountForCapture = $card->getProcessedAmount();
+                if ($cardAmountForCapture > $requestedAmount) {
+                    $cardAmountForCapture = $requestedAmount;
                 }
-                $this->_preauthorizeCaptureCardTransaction($payment, $amountForCapture, $card);
-                $card->setCapturedAmount($amountForCapture);
+                try {
+                    $newTransaction = $this->_preauthorizeCaptureCardTransaction($payment, $cardAmountForCapture , $card);
+                    $messages[] = Mage::helper('paygate')->getPreauthorizeCaptureTransactionMessage(
+                        $payment, $card, $cardAmountForCapture, $newTransaction->getAdditionalInformation($this->_realTransactionIdKey)
+                    );
+                    $isSuccessful = true;
+                } catch (Exception $e) {
+                    $authTransaction = $payment->getTransaction($card->getLastTransId());
+                    $messages[] = Mage::helper('paygate')->getPreauthorizeCaptureTransactionMessage(
+                        $payment, $card, $cardAmountForCapture, $authTransaction->getAdditionalInformation($this->_realTransactionIdKey), $e
+                    );
+                    $isFiled = true;
+                    continue;
+                }
+                $card->setCapturedAmount($cardAmountForCapture);
                 $cardsStorage->updateCard($card);
-                $capturedAmount += $amountForCapture;
+                $requestedAmount = $this->_formatAmount($requestedAmount - $cardAmountForCapture);
             } else {
-                $this->_voidCardTransaction($payment, $card);
+                /**
+                 * This functional is commented because partial capture is disable. See self::_canCapturePartial.
+                 */
+                //$this->_voidCardTransaction($payment, $card);
             }
+        }
+
+        if ($isFiled) {
+            $this->_processFailureMultitransactionAction($payment, $messages, $isSuccessful);
         }
         return $this;
     }
@@ -482,7 +616,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param Mage_Payment_Model_Info $payment
      * @param decimal $amount
      * @param Varien_Object $card
-     * @return Mage_Paygate_Model_Authorizenet
+     * @return Mage_Sales_Model_Order_Payment_Transaction
      */
     protected function _preauthorizeCaptureCardTransaction($payment, $amount, $card)
     {
@@ -501,7 +635,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             case self::RESPONSE_CODE_APPROVED:
                  $captureTransactionId = $result->getTransactionId() . '-capture';
                  $card->setLastTransId($captureTransactionId);
-                 $this->_addTransaction(
+                 return $this->_addTransaction(
                      $payment,
                      $captureTransactionId,
                      Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
@@ -509,9 +643,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                          'is_transaction_closed' => 0,
                          'parent_transaction_id' => $authTransactionId
                      ),
-                     array($this->_realTransactionIdKey => $result->getTransactionId())
+                     array($this->_realTransactionIdKey => $result->getTransactionId()),
+                     Mage::helper('paygate')->getPreauthorizeCaptureTransactionMessage(
+                         $payment, $card, $amount, $result->getTransactionId()
+                     )
                  );
-                 return $this;
             case self::RESPONSE_CODE_HELD:
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
@@ -519,7 +655,6 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             default:
                 Mage::throwException(Mage::helper('paygate')->__('Payment capturing error.'));
         }
-        return $this;
     }
 
     /**
@@ -527,7 +662,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      *
      * @param Mage_Payment_Model_Info $payment
      * @param Varien_Object $card
-     * @return Mage_Paygate_Model_Authorizenet
+     * @return Mage_Sales_Model_Order_Payment_Transaction
      */
     protected function _voidCardTransaction($payment, $card)
     {
@@ -545,7 +680,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             case self::RESPONSE_CODE_APPROVED:
                 $voidTransactionId = $result->getTransactionId() . '-void';
                 $card->setLastTransId($voidTransactionId);
-                $this->_addTransaction(
+                return $this->_addTransaction(
                     $payment,
                     $voidTransactionId,
                     Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID,
@@ -554,16 +689,17 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                         'should_close_parent_transaction' => 1,
                         'parent_transaction_id' => $authTransactionId
                     ),
-                    array($this->_realTransactionIdKey => $result->getTransactionId())
+                    array($this->_realTransactionIdKey => $result->getTransactionId()),
+                    Mage::helper('paygate')->getVoidTransactionMessage(
+                        $payment, $card, $result->getTransactionId()
+                    )
                 );
-                return $this;
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
                 Mage::throwException(Mage::helper('paygate')->__('Payment voiding error.'));
         }
-        return $this;
     }
 
     /**
@@ -571,10 +707,14 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      *
      * @param Mage_Payment_Model_Info $payment
      * @param Varien_Object $card
-     * @return Mage_Paygate_Model_Authorizenet
+     * @return Mage_Sales_Model_Order_Payment_Transaction
      */
     protected function _refundCardTransaction($payment, $amount, $card)
     {
+        /**
+         * Card has last transaction with type "refund" when all captured amount is refunded.
+         * Until this moment card has last transaction with type "capture".
+         */
         $captureTransactionId = $card->getLastTransId();
         $captureTransaction = $payment->getTransaction($captureTransactionId);
         $realCaptureTransactionId = $captureTransaction->getAdditionalInformation($this->_realTransactionIdKey);
@@ -590,26 +730,35 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
                 $refundTransactionId = $result->getTransactionId() . '-refund';
-                $card->setLastTransId($refundTransactionId);
-                $this->_addTransaction(
+                $shouldCloseCaptureTransaction = 0;
+                /**
+                 * If it is last amount for refund, transaction with type "capture" will be closed
+                 * and card will has last transaction with type "refund"
+                 */
+                if ($this->_formatAmount($card->getCapturedAmount() - $card->getRefundedAmount()) == $amount) {
+                    $card->setLastTransId($refundTransactionId);
+                    $shouldCloseCaptureTransaction = 1;
+                }
+                return $this->_addTransaction(
                     $payment,
                     $refundTransactionId,
                     Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
                     array(
                         'is_transaction_closed' => 1,
-                        'should_close_parent_transaction' => 1,
+                        'should_close_parent_transaction' => $shouldCloseCaptureTransaction,
                         'parent_transaction_id' => $captureTransactionId
                     ),
-                    array($this->_realTransactionIdKey => $result->getTransactionId())
+                    array($this->_realTransactionIdKey => $result->getTransactionId()),
+                    Mage::helper('paygate')->getRefundTransactionMessage(
+                        $payment, $card, $amount, $result->getTransactionId()
+                    )
                 );
-                break;
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
                 Mage::throwException(Mage::helper('paygate')->__('Payment refunding error.'));
         }
-        return $this;
     }
 
     /**
@@ -645,7 +794,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param Mage_Payment_Model_Info $payment
      * @return bool
      */
-    public function isItPartialAuthorization($payment = null)
+    public function isPartialAuthorization($payment = null)
     {
         if (is_null($payment)) {
             $payment = $this->getInfoInstance();
@@ -663,6 +812,18 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     public function processInvoice($invoice, $payment)
     {
         $invoice->setTransactionId(1);
+        return $this;
+    }
+
+    /**
+     * Set transaction ID into creditmemo for informational purposes
+     * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Payment_Model_Method_Abstract
+     */
+    public function processCreditmemo($creditmemo, $payment)
+    {
+        $creditmemo->setTransactionId(1);
         return $this;
     }
 
@@ -718,7 +879,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         if (!$isPartialAuthorizationProcessCompleted) {
             $quotePayment = $orderPayment->getOrder()->getQuote()->getPayment();
             if ($isCreditCardsLimitExceed) {
-                $this->cancelAuthorizations($orderPayment);
+                $this->cancelPartialAuthorization($orderPayment);
                 $this->_clearAssignedData($quotePayment);
                 $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_CARDS_LIMIT_EXCEEDED);
                 $exceptionMessage = Mage::helper('paygate')->__('You have reached the maximum number of credit card allowed to be used for the payment.');
@@ -1054,7 +1215,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @return null|Mage_Sales_Model_Order_Payment_Transaction
      */
     protected function _addTransaction(Mage_Sales_Model_Order_Payment $payment, $transactionId, $transactionType,
-        array $transactionDetails = array(), array $transactionAdditionalInfo = array()
+        array $transactionDetails = array(), array $transactionAdditionalInfo = array(), $message = false
     ) {
         $payment->setTransactionId($transactionId);
         $payment->resetTransactionAdditionalInfo();
@@ -1064,11 +1225,63 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         foreach ($transactionAdditionalInfo as $key => $value) {
             $payment->setTransactionAdditionalInfo($key, $value);
         }
-        $transaction = $payment->addTransaction($transactionType);
+        $transaction = $payment->addTransaction($transactionType, null, false , $message);
         foreach ($transactionDetails as $key => $value) {
             $payment->unsetData($key);
         }
         $payment->unsLastTransId();
         return $transaction;
+    }
+
+    /**
+     * Round up and cast specified amount to float or string
+     *
+     * @param string|float $amount
+     * @param bool $asFloat
+     * @return string|float
+     */
+    protected function _formatAmount($amount, $asFloat = false)
+    {
+        $amount = sprintf('%.2F', $amount); // "f" depends on locale, "F" doesn't
+        return $asFloat ? (float)$amount : $amount;
+    }
+
+    /**
+     * If gateway actions are locked return true
+     *
+     * @param  Mage_Payment_Model_Info $payment
+     * @return bool
+     */
+    protected function _isGatewayActionsLocked($payment)
+    {
+        return $payment->getAdditionalInformation($this->_isGatewayActionsLockedKey);
+    }
+
+    /**
+     * Process exceptions for gateway action with a lot of transactions
+     *
+     * @param  Mage_Payment_Model_Info $payment
+     * @param  string $messages
+     * @param  bool $isSuccessfulTransactions
+     */
+    protected function _processFailureMultitransactionAction($payment, $messages, $isSuccessfulTransactions)
+    {
+        $messages[] = Mage::helper('paygate')->__('Gateway actions are locked because the gateway cannot complete one or more of the transactions. Please log in to your Authorize.Net account to manually resolve the issue(s).');
+        if ($isSuccessfulTransactions) {
+            /**
+             * If there is successful transactions we can not to cancel order but
+             * have to save information about processed transactions in order`s comments and disable
+             * opportunity to voiding\capturing\refunding in future. Current order and payment will not be saved because we have to
+             * load new order object and set information into this object.
+             */
+            $currentOrderId = $payment->getOrder()->getId();
+            $copyOrder = Mage::getModel('sales/order')->load($currentOrderId);
+            $copyOrder->getPayment()->setAdditionalInformation($this->_isGatewayActionsLockedKey, 1);
+            foreach($messages as $message) {
+                $copyOrder->addStatusHistoryComment($message);
+            }
+            $copyOrder->save();
+        }
+        Mage::throwException(Mage::helper('paygate')->messagesToMessage($messages));
     }
 }

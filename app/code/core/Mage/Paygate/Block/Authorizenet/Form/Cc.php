@@ -154,9 +154,9 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      *
      * @return string
      */
-    public function isItPartialAuthorization()
+    public function isPartialAuthorization()
     {
-        return $this->getMethod()->isItPartialAuthorization();
+        return $this->getMethod()->isPartialAuthorization();
     }
 
     /**

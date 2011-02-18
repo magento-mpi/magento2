@@ -29,6 +29,8 @@ class Mage_Paygate_Model_Authorizenet_Cards
     const CARDS_NAMESPACE = 'authorize_cards';
     const CARD_ID_KEY = 'id';
     const CARD_PROCESSED_AMOUNT_KEY = 'processed_amount';
+    const CARD_CAPTURED_AMOUNT_KEY = 'captured_amount';
+    const CARD_REFUNDED_AMOUNT_KEY = 'refunded_amount';
 
     /**
      * Cards information
@@ -96,6 +98,7 @@ class Mage_Paygate_Model_Authorizenet_Cards
     /**
      * Return card for $cardId
      *
+     * $param string $cardId
      * @return Varien_Object
      */
     public function getCard($cardId)
@@ -134,18 +137,33 @@ class Mage_Paygate_Model_Authorizenet_Cards
     }
 
     /**
-     * Return count of saved cards
+     * Return processed amount for all cards
      *
-     * @return int
+     * @return float
      */
     public function getProcessedAmount()
     {
-        $amount = 0;
-        foreach ($this->_cards as $card) {
-            $amount += $card[self::CARD_PROCESSED_AMOUNT_KEY];
+        return $this->_getAmount(self::CARD_PROCESSED_AMOUNT_KEY);
+    }
 
-        }
-        return $amount;
+    /**
+     * Return captured amount for all cards
+     *
+     * @return float
+     */
+    public function getCapturedAmount()
+    {
+        return $this->_getAmount(self::CARD_CAPTURED_AMOUNT_KEY);
+    }
+
+    /**
+     * Return refunded amount for all cards
+     *
+     * @return float
+     */
+    public function getRefundedAmount()
+    {
+        return $this->_getAmount(self::CARD_REFUNDED_AMOUNT_KEY);
     }
 
     /**
@@ -170,5 +188,20 @@ class Mage_Paygate_Model_Authorizenet_Cards
             throw new Exception('Payment instance is not set');
         }
     }
-
+    /**
+     * Return total for cards data fields
+     *
+     * $param string $key
+     * @return float
+     */
+    public function _getAmount($key)
+    {
+        $amount = 0;
+        foreach ($this->_cards as $card) {
+            if (isset($card[$key])) {
+                $amount += $card[$key];
+            }
+        }
+        return $amount;
+    }
 }
