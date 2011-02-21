@@ -362,7 +362,7 @@
                 </manage_stock>
             </catalog_product_dataflow>
         </fieldsets>
-        <routers>            
+        <routers>
             <adminhtml>
                 <args>
                     <modules>
