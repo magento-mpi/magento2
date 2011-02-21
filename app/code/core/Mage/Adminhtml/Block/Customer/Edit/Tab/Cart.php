@@ -78,6 +78,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
         $this->addColumn('name', array(
             'header'    => Mage::helper('catalog')->__('Product Name'),
             'index'     => 'name',
+            'renderer'  => 'adminhtml/customer_edit_tab_view_grid_renderer_item'
         ));
 
         $this->addColumn('sku', array(

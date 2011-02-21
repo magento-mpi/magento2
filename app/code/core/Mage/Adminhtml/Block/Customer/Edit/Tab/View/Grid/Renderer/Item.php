@@ -31,17 +31,17 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Item extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Constructor to set default template
      *
-     * @return Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Item
+     * @return Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('customer/edit/tab/wishlist/grid/item.phtml');
+        $this->setTemplate('customer/edit/tab/view/grid/item.phtml');
         return $this;
     }
 
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Item extends
 
         $helper = Mage::helper($helperName);
         if (!($helper instanceof Mage_Catalog_Helper_Product_Configuration_Interface)) {
-            Mage::throwException($this->__("Helper for wishlist options rendering doesn't implement required interface."));
+            Mage::throwException($this->__("Helper for options rendering doesn't implement required interface."));
         }
 
         return $helper;
@@ -125,7 +125,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Item extends
     /*
      * Renders item product name and its configuration
      *
-     * @param Mage_Wishlist_Model_Item $item
+     * @param Mage_Catalog_Model_Product_Configuration_Item_Interface $item
      * @return string
      */
     public function render(Varien_Object $item)
