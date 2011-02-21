@@ -30,7 +30,7 @@ class Model_Admin_AttributeSet extends Model_Admin {
         $this->setUiNamespace('admin/pages/catalog/attributes/manage_attribute_sets');
         $this->clickAndWait($this->getUiElement('buttons/add_set'));
         // Set UiNamespace
-        $this->setUiNamespace('admin/pages/catalog/attributes/manage_attribute_sets/create_attribute_set');
+        $this->setUiNamespace('admin/pages/catalog/attributes/manage_attribute_sets/attribute_set');
         // Fill fields Name and Based On
         $this->checkAndFillField($params, 'set_name', NULL);
         $result = $this->checkAndSelectField($params, 'based_on', Null);
