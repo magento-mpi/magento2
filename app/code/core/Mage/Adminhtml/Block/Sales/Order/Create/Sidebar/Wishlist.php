@@ -40,9 +40,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
      */
     protected $_sidebarStorageAction = 'add_wishlist_item';
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('sales_order_create_sidebar_wishlist');
         $this->setDataId('wishlist');
     }

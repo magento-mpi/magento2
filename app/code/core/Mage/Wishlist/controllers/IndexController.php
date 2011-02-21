@@ -193,8 +193,13 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             $params->setBuyRequest($buyRequest);
 
             Mage::helper('catalog/product_view')->prepareAndRender($item->getProductId(), $this, $params);
+        } catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('customer/session')->addError($e->getMessage());
+            $this->_redirect('*');
+            return;
         } catch (Exception $e) {
             Mage::getSingleton('customer/session')->addError($this->__('Cannot configure product'));
+            Mage::logException($e);
             $this->_redirect('*');
             return;
         }
@@ -241,12 +246,11 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             $message = $this->__('%1$s has been updated in your wishlist.', $product->getName());
             $session->addSuccess($message);
-        }
-        catch (Mage_Core_Exception $e) {
-            $session->addError($this->__('An error occurred while updating wishlist: %s', $e->getMessage()));
-        }
-        catch (Exception $e) {
+        } catch (Mage_Core_Exception $e) {
+            $session->addError($e->getMessage());
+        } catch (Exception $e) {
             $session->addError($this->__('An error occurred while updating wishlist.'));
+            Mage::logException($e);
         }
         $this->_redirect('*/*');
     }
