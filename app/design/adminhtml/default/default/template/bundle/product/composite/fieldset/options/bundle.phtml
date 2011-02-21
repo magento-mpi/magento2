@@ -25,27 +25,19 @@
  */
 ?>
 
-<?php
-/* @var $this Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle */
-
-$options = Mage::helper('core')->decorateArray($this->getOptions());
-if (!count($options)) {
-    return;
-}
-?>
+<?php /* @var $this Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Bundle */ ?>
+<?php $options = Mage::helper('core')->decorateArray($this->getOptions()); ?>
+<?php if (count($options)): ?>
 
 <div id="catalog_product_composite_configure_fields_bundle" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
     <h4><?php echo Mage::helper('catalog')->__('Bundle Items') ?></h4>
     <div class="product-options">
         <dl>
-            <?php
-                foreach($options as $option) {
-                    if (!$option->getSelections()) {
-                        continue;
-                    }
-                    echo $this->getOptionHtml($option);
-                }
-            ?>
+            <?php foreach ($options as $option) : ?>
+                <?php if ($option->getSelections()) : ?>
+                    <?php echo $this->getOptionHtml($option); ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
         </dl>
     </div>
 </div>
@@ -104,3 +96,5 @@ BundleControl.prototype = {
 
 ProductConfigure.bundleControl = new BundleControl(<?php echo $this->getJsonConfig() ?>);
 </script>
+
+<?php endif; ?>

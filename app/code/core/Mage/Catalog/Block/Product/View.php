@@ -199,4 +199,28 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         return (bool)Mage::app()->getRequest()->getParam('startcustomization');
     }
+
+    /**
+     * Get default qty - either as preconfigured, or as 1.
+     * Also restricts it by minimal qty.
+     *
+     * @param null|Mage_Catalog_Model_Product
+     *
+     * @return int|float
+     */
+    public function getProductDefaultQty($product = null)
+    {
+        if (!$product) {
+            $product = $this->getProduct();
+        }
+
+        $qty = $this->getMinimalQty($product);
+        $config = $product->getPreconfiguredValues();
+        $configQty = $config->getQty();
+        if ($configQty > $qty) {
+            $qty = $configQty;
+        }
+
+        return $qty;
+    }
 }

@@ -27,13 +27,13 @@
 
 /**
  * Wishlist Product collection
- * Deprecated because since Magento 1.4.2.0 it's impossible
+ * Deprecated because after Magento 1.4.2.0 it's impossible
  * to use product collection in wishlist
  *
- * @deprecated deprecated since 1.4.2.0
- * @category    Mage
- * @package     Mage_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @deprecated after 1.4.2.0
+ * @category   Mage
+ * @package    Mage_Wishlist
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
@@ -171,7 +171,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
     }
 
     /**
-     * Prevent loading collection because since Magento 1.4.2.0 it's impossible
+     * Prevent loading collection because after Magento 1.4.2.0 it's impossible
      * to use product collection in wishlist
      *
      * @return bool

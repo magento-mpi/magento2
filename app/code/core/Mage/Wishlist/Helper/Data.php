@@ -118,9 +118,9 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * alias for getProductCollection
      *
-     * @deprecated since 1.4.2.0
+     * @deprecated after 1.4.2.0
      * @see Mage_Wishlist_Model_Wishlist::getItemCollection()
-     * 
+     *
      * @return Mage_Wishlist_Model_Mysql4_Product_Collection
      */
     public function getItemCollection()
@@ -147,9 +147,9 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve wishlist product items collection
      *
-     * @deprecated since 1.4.2.0
+     * @deprecated after 1.4.2.0
      * @see Mage_Wishlist_Model_Wishlist::getItemCollection()
-     * 
+     *
      * @return Mage_Wishlist_Model_Mysql4_Product_Collection
      */
     public function getProductCollection()
@@ -226,7 +226,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->getAddUrlWithParams($item);
     }
-    
+
     /**
      * Retrieve url for updating product in wishlist
      *

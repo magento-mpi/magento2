@@ -124,7 +124,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Back compatibility retrieve wishlist product items
      *
-     * @deprecated deprecated since 1.4.2.0
+     * @deprecated after 1.4.2.0
      * @return Mage_Wishlist_Model_Mysql4_Item_Collection
      */
     public function getWishlist()

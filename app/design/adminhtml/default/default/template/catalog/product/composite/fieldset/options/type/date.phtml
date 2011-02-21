@@ -24,11 +24,9 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php
-/* @var $this Mage_Catalog_Block_Product_View_Options_Type_Date */
-$_option = $this->getOption();
-$_optionId = $_option->getId();
-?>
+<?php /* @var $this Mage_Catalog_Block_Product_View_Options_Type_Date */ ?>
+<?php $_option = $this->getOption(); ?>
+<?php $_optionId = $_option->getId(); ?>
 <dt class="label"><label<?php if ($_option->getIsRequire()) echo ' class="required"' ?>><?php if ($_option->getIsRequire()) echo '<em>*</em>' ?><?php echo  $this->escapeHtml($_option->getTitle()) ?></label>
     <?php echo $this->getFormatedPrice() ?></dt>
 <dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>

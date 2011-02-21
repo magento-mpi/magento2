@@ -178,4 +178,14 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         return $configValue && (in_array($link->getId(), $configValue));
     }
 
+    /**
+     * Returns value for link's input checkbox - either 'checked' or ''
+     *
+     * @param Mage_Downloadable_Model_Link $link
+     * @return string
+     */
+    public function getLinkCheckedValue($link)
+    {
+        return $this->getIsLinkChecked($link) ? 'checked' : '';
+    }
 }

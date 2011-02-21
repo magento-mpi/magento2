@@ -29,12 +29,10 @@
 <div id="catalog_product_composite_configure_fields_grouped" class="grid <?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
     <h4><?php echo Mage::helper('catalog')->__('Associated Products') ?></h4>
     <div class="product-options">
-        <?php
-        $_product = $this->getProduct();
-        $this->setPreconfiguredValue();
-        $_associatedProducts = $this->getAssociatedProducts();
-        $_hasAssociatedProducts = count($_associatedProducts) > 0;
-        ?>
+        <?php $_product = $this->getProduct(); ?>
+        <?php $this->setPreconfiguredValue(); ?>
+        <?php $_associatedProducts = $this->getAssociatedProducts(); ?>
+        <?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
         <?php if (!$_product->isAvailable() || !$_hasAssociatedProducts): ?>
             <p class="availability out-of-stock"><?php echo Mage::helper('catalog')->__('Availability:') ?> <span><?php echo Mage::helper('catalog')->__('Out of stock') ?></span></p>
         <?php endif; ?>

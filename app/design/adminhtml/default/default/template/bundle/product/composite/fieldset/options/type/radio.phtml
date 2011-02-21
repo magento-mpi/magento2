@@ -25,14 +25,11 @@
  */
 
 ?>
-
 <?php /* @var $this Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Radio */ ?>
-<?php
-    $_option      = $this->getOption();
-    $_selections  = $_option->getSelections();
-    $_default     = $_option->getDefaultSelection();
-    list($_defaultQty, $_canChangeQty) = $this->_getDefaultValues();
-?>
+<?php $_option = $this->getOption(); ?>
+<?php $_selections  = $_option->getSelections(); ?>
+<?php $_default = $_option->getDefaultSelection(); ?>
+<?php list($_defaultQty, $_canChangeQty) = $this->_getDefaultValues(); ?>
 
 <dt>
     <span class="qty-holder">

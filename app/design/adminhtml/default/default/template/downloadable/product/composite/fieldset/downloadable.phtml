@@ -24,10 +24,8 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php
-/* @var $this Mage_Downloadable_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Downloadable */
-$_linksPurchasedSeparately = $this->getLinksPurchasedSeparately();
-?>
+<?php /* @var $this Mage_Downloadable_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Downloadable */ ?>
+<?php $_linksPurchasedSeparately = $this->getLinksPurchasedSeparately(); ?>
 <?php if ($this->getProduct()->isSaleable() && $this->hasLinks()):?>
 
 <div id="catalog_product_composite_configure_fields_downloadable" class="<?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
@@ -41,13 +39,9 @@ $_linksPurchasedSeparately = $this->getLinksPurchasedSeparately();
                 <ul id="downloadable-links-list" class="options-list">
                 <?php foreach ($_links as $_link): ?>
                     <li>
-                    <?php
-                        if ($_linksPurchasedSeparately) {
-                            $value = $_link->getId();
-                            $checked = $this->getIsLinkChecked($_link) ? 'checked' : '';
-                        ?>
-                            <input type="checkbox" class="checkbox<?php if($_isRequired):?> validate-one-required-by-name<?php endif; ?> product-downloadable-link" name="links[]" id="links_<?php echo $_link->getId() ?>" value="<?php echo $value ?>" <?php echo $checked ?> />
-                        <?php } ?>
+                    <?php if ($_linksPurchasedSeparately): ?>
+                        <input type="checkbox" class="checkbox<?php if ($_isRequired):?> validate-one-required-by-name<?php endif; ?> product-downloadable-link" name="links[]" id="links_<?php echo $_link->getId() ?>" value="<?php echo $_link->getId(); ?>" <?php echo $this->getLinkCheckedValue($_link); ?> />
+                        <?php endif; ?>
                         <span class="label">
                         <label for="links_<?php echo $_link->getId() ?>">
                         <?php echo $_link->getTitle() ?>

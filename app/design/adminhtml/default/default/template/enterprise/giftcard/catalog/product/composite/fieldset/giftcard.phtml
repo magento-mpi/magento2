@@ -25,11 +25,9 @@
  */
 ?>
 <?php /* @var $this Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftcard */?>
-<?php
-    $_product = $this->getProduct();
-    $_id = $_product->getId();
-    $_storeId = $_product->getStoreId();
-?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_id = $_product->getId(); ?>
+<?php $_storeId = $_product->getStoreId(); ?>
 <script>
 //<![CDATA[
 productConfigure.giftcardConfig = {};
@@ -182,16 +180,14 @@ productConfigure.giftcardConfig = {};
                             <input type="text" id="giftcard_sender_name" name="giftcard_sender_name" class="required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultValue('giftcard_sender_name')) ?>" />
                         </div>
                     </div>
-                    <?php
-                        if ($this->isEmailAvailable($_product)) {
-                    ?>
+                    <?php if ($this->isEmailAvailable($_product)): ?>
                     <div class="field">
                         <label for="giftcard_sender_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Email'); ?></label>
                         <div class="input-box">
                             <input type="text" id="giftcard_sender_email" name="giftcard_sender_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultValue('giftcard_sender_email')) ?>"/>
                         </div>
                     </div>
-                    <?php } ?>
+                    <?php endif; ?>
                 </li>
                 <li class="fields">
                     <div class="field">

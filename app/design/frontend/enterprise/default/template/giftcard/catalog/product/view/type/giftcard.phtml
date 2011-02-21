@@ -25,10 +25,8 @@
  */
 ?>
 <?php /* @var $this Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard */?>
-<?php
-    $_product = $this->getProduct();
-    $_id = $_product->getId();
-?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_id = $_product->getId(); ?>
 <div class="giftcard-form">
 <?php if ($_product->isAvailable()): ?>
     <p class="availability in-stock"><?php echo $this->helper('catalog')->__('Availability:') ?> <span><?php echo $this->helper('catalog')->__('In stock') ?></span></p>
@@ -111,24 +109,21 @@
                         <?php endif; ?>
                     </div>
                     <?php endif; ?>
-                    <?php
-                        if ($this->isAmountAvailable($_product)) {
-                            $configValue = $this->getDefaultValue('giftcard_amount');
-                    ?>
-                    <div class="input-box">
-                        <select name="giftcard_amount" id="giftcard_amount" class="required-entry giftcard-amount-entry">
-                            <option value=""><?php echo Mage::helper('enterprise_giftcard')->__('Choose an Amount...') ?></option>
-                            <?php foreach ($this->getAmounts($_product) as $value): ?>
-                                <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>><?php echo Mage::helper('core')->currency($value, true, false); ?></option>
-                            <?php endforeach; ?>
+                    <?php if ($this->isAmountAvailable($_product)): ?>
+                        <?php $configValue = $this->getDefaultValue('giftcard_amount'); ?>
+                        <div class="input-box">
+                            <select name="giftcard_amount" id="giftcard_amount" class="required-entry giftcard-amount-entry">
+                                <option value=""><?php echo Mage::helper('enterprise_giftcard')->__('Choose an Amount...') ?></option>
+                                <?php foreach ($this->getAmounts($_product) as $value): ?>
+                                    <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>><?php echo Mage::helper('core')->currency($value, true, false); ?></option>
+                                <?php endforeach; ?>
 
-                            <?php if ($this->isOpenAmountAvailable($_product)): ?>
-                                <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo Mage::helper('enterprise_giftcard')->__('Other Amount...') ?></option>
-                            <?php endif; ?>
-                        </select>
-                    </div>
-                    <?php } ?>
-
+                                <?php if ($this->isOpenAmountAvailable($_product)): ?>
+                                    <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo Mage::helper('enterprise_giftcard')->__('Other Amount...') ?></option>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    <?php endif; ?>
                 </li>
             </ul>
         </div>
@@ -176,16 +171,14 @@
                         <input type="text" id="giftcard_sender_name" name="giftcard_sender_name" class="required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultSenderName()) ?>" />
                     </div>
                 </div>
-                <?php
-                    if ($this->isEmailAvailable($_product)) {
-                ?>
+                <?php if ($this->isEmailAvailable($_product)): ?>
                 <div class="field">
                     <label for="giftcard_sender_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Email'); ?></label>
                     <div class="input-box">
                         <input type="text" id="giftcard_sender_email" name="giftcard_sender_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultSenderEmail()) ?>"/>
                     </div>
                 </div>
-                <?php } ?>
+                <?php endif; ?>
             </li>
             <li class="fields">
                 <div class="field">

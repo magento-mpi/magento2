@@ -25,10 +25,9 @@
  */
 
 ?>
-
 <?php /* @var $this Mage_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Checkbox */ ?>
-<?php $_option = $this->getOption() ?>
-<?php $_selections = $_option->getSelections() ?>
+<?php $_option = $this->getOption(); ?>
+<?php $_selections = $_option->getSelections(); ?>
 <dt><label<?php if ($_option->getRequired()) echo ' class="required"' ?>><?php if ($_option->getRequired()) echo '<em>*</em>' ?><?php echo $this->htmlEscape($_option->getTitle()) ?></label></dt>
 <dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
     <div class="input-box">
