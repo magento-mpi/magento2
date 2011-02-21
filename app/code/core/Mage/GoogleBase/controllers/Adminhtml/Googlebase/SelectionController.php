@@ -24,18 +24,34 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-require_once 'Mage/GoogleBase/controllers/Adminhtml/Googlebase/ItemsController.php';
-
 /**
- * GoogleBase Admin Items Controller
+ * GoogleBase Products selection grid controller
  *
- * @category   Mage
- * @package    Mage_GoogleBase
- * @name       Mage_GoogleBase_ItemsController
- * @author     Magento Core Team <core@magentocommerce.com>
- * @deprecated  after 1.4.2.0 Mage_GoogleBase_Adminhtml_Googlebase_ItemsController is used
-*/
-class Mage_GoogleBase_ItemsController extends Mage_GoogleBase_Adminhtml_Googlebase_ItemsController
+ * @category    Mage
+ * @package     Mage_GoogleBase
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_GoogleBase_Adminhtml_Googlebase_SelectionController extends Mage_Adminhtml_Controller_Action
 {
+    public function searchAction()
+    {
+        return $this->getResponse()->setBody(
+            $this->getLayout()
+                ->createBlock('googlebase/adminhtml_items_product')
+                ->setIndex($this->getRequest()->getParam('index'))
+                ->setFirstShow(true)
+                ->toHtml()
+           );
+    }
 
+    public function gridAction()
+    {
+        $this->loadLayout();
+        return $this->getResponse()->setBody(
+            $this->getLayout()
+                ->createBlock('googlebase/adminhtml_items_product')
+                ->setIndex($this->getRequest()->getParam('index'))
+                ->toHtml()
+           );
+    }
 }
