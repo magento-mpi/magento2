@@ -77,10 +77,11 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     protected function _validateOgoneData()
     {
         $params = $this->getRequest()->getParams();
-        $this->_getApi()->debugData(array('result' => $params));
+        $api = $this->_getApi();
+        $api->debugData(array('result' => $params));
 
-        $referenceHash = Mage::helper('ogone')->getHash($params, $this->_getApi()->getConfig()->getShaInCode(),
-            Mage_Ogone_Helper_Data::HASH_DIR_IN, (int)$this->_getApi()->getConfig()->getConfigData('shamode')
+        $referenceHash = $api->getHash($params, $api->getConfig()->getShaInCode(), Mage_Ogone_Model_Api::HASH_DIR_IN,
+            (int)$api->getConfig()->getConfigData('shamode'), $api->getConfig()->getConfigData('hashing_algorithm')
         );
 
         if ($params['SHASIGN'] != $referenceHash) {
@@ -460,7 +461,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
 
     /**
      * @deprecated after 1.4.2.0-beta1
-     * @see Mage_Ogone_Helper_Data::$_inShortMap
+     * @see Mage_Ogone_Model_Api::$_inShortMap
      * @return string
      */
     protected function _getSHAInSet($params, $key)

@@ -137,6 +137,7 @@
                 <title>Ogone</title>
                 <secret_key backend_model="adminhtml/system_config_backend_encrypted"/>
                 <payment_action>authorize</payment_action>
+                <hashing_algorithm>sha256</hashing_algorithm>
                 <template>ogone</template>
                 <ogone_gateway>https://secure.ogone.com/ncol/test/orderstandard.asp</ogone_gateway>
                 <pending_ogone>pending_ogone</pending_ogone>
