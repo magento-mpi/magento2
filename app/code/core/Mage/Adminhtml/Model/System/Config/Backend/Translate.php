@@ -34,13 +34,20 @@
 class Mage_Adminhtml_Model_System_Config_Backend_Translate extends Mage_Core_Model_Config_Data
 {
     /**
-     * Set status 'invalidate' for blocks and page caches
+     * Path to config node with list of caches 
+     * 
+     * @var string
+     */
+    const XML_PATH_INVALID_CACHES = 'dev/translate_inline/invalid_caches';
+    
+    /**
+     * Set status 'invalidate' for blocks and other output caches
      * 
      * @return Mage_Adminhtml_Model_System_Config_Backend_Translate
      */
     protected function _afterSave()
     {
-        $types = array(Mage_Core_Block_Abstract::CACHE_GROUP, 'full_page');
+        $types = array_keys(Mage::getStoreConfig(self::XML_PATH_INVALID_CACHES));
         if ($this->isValueChanged()) {
             Mage::app()->getCacheInstance()->invalidateType($types);
         }

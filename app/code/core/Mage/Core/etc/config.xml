@@ -229,6 +229,9 @@
             <translate_inline>
                 <active>0</active>
                 <active_admin>0</active_admin>
+                <invalid_caches>
+                    <block_html/>
+                </invalid_caches>
             </translate_inline>
             <log>
                 <active>0</active>

@@ -337,6 +337,14 @@
                 <multicurrency>1</multicurrency>
             </page_crawl>
         </system>
+        
+        <dev>
+            <translate_inline>
+                <invalid_caches>
+                    <full_page/>
+                </invalid_caches>
+            </translate_inline>
+        </dev>
     </default>
     <crontab>
         <jobs>

@@ -527,7 +527,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Translate, blocks and page caches should be disabled for both frontend and admin inline translations.</comment>
+                            <comment>Translate, blocks and other output caches should be disabled for both frontend and admin inline translations.</comment>
                         </active_admin>
                     </fields>
                 </translate_inline>
