@@ -253,14 +253,17 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $response = $this->getResponse();
 
+        $order = Mage::getModel('sales/order')
+                ->loadByIncrementId($response->getInvoice());
+
         if ($response->getResult() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER &&
             $response->getResult() != self::RESPONSE_CODE_DECLINED_BY_FILTER &&
             $response->getResult() != self::RESPONSE_CODE_APPROVED) {
+            if ($order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
+                $order->registerCancellation($response->getRespmsg())->save();
+            }
             Mage::throwException($response->getRespmsg());
         }
-
-        $order = Mage::getModel('sales/order')
-                ->loadByIncrementId($response->getInvoice());
 
         $amountCompared = ($response->getAmount() ==
             $order->getPayment()->getBaseAmountAuthorized()) ? true : false;

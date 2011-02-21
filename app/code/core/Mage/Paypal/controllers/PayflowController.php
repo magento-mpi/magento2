@@ -86,7 +86,9 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
             $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
                 //Cancel order
-                $order->registerCancellation($errorMsg)->save();
+                if ($order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
+                    $order->registerCancellation($errorMsg)->save();
+                }
                 $quote = Mage::getModel('sales/quote')
                     ->load($order->getQuoteId());
                 //Return quote
