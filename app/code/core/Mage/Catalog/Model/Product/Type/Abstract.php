@@ -782,7 +782,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             $errors[] = $e->getMessages();
         } catch (Exception $e) {
             Mage::logException($e);
-            $errors[]->Mage::helper('catalog')->__('There was an error while request processing.');
+            $errors[] = Mage::helper('catalog')->__('There was an error while request processing.');
         }
 
         return $errors;
