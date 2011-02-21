@@ -189,15 +189,4 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $this->_forward('noRoute');
         }
     }
-
-    /**
-     * Display product image action
-     *
-     * @return
-     */
-    public function initSessionLayoutMessages() {
-        $controller->initLayoutMessages('catalog/session');
-        $controller->initLayoutMessages('tag/session');
-        $controller->initLayoutMessages('checkout/session');
-    }
 }
