@@ -185,6 +185,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                                 $minimalPrice += $selMinPrice;
                                 $minPriceFounded = true;
                             } elseif (true !== $minPriceFounded) {
+                                $selMinPrice += $minimalPrice;
                                 $minPriceFounded = false === $minPriceFounded ? $selMinPrice : min($minPriceFounded, $selMinPrice);
                             }
 
