@@ -130,11 +130,21 @@ class Mage_Paypal_Block_Payflow_Link_Iframe extends Mage_Payment_Block_Form
     protected function _getOrder()
     {
         if (!$this->_order) {
-            $incrementId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+            $incrementId = $this->_getCheckout()->getLastRealOrderId();
             $this->_order = Mage::getModel('sales/order')
                 ->loadByIncrementId($incrementId);
         }
         return $this->_order;
+    }
+
+	/**
+     * Get frontend checkout session object
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function _getCheckout()
+    {
+        return Mage::getSingleton('checkout/session');
     }
 
     /**
@@ -145,6 +155,7 @@ class Mage_Paypal_Block_Payflow_Link_Iframe extends Mage_Payment_Block_Form
     protected function _beforeToHtml()
     {
         if ($this->_getOrder()->getId() &&
+            $this->_getOrder()->getQuoteId() == $this->_getCheckout()->getQuoteId() &&
             $this->_getOrder()->getPayment()->getMethodInstance()->getCode() == $this->_paymentMethodCode) {
             $this->_shouldRender = true;
         }
