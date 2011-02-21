@@ -83,6 +83,21 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         return Mage::app()->getStore();
     }
 
+    /**
+     * Returns additional values for js config, con be overriden by descedants
+     *
+     * @return array
+     */
+    protected function _getAdditionalConfig()
+    {
+        return array();
+    }
+
+    /**
+     * Composes configuration for js
+     *
+     * @return string
+     */
     public function getJsonConfig()
     {
         $attributes = array();
@@ -210,6 +225,8 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         if ($preconfiguredFlag && !empty($defaultValues)) {
             $config['defaultValues'] = $defaultValues;
         }
+
+        $config = array_merge($config, $this->_getAdditionalConfig());
 
         return Mage::helper('core')->jsonEncode($config);
     }

@@ -74,6 +74,7 @@ Product reviews page
             <action method="addItem"><type>skin_js</type><name>js/jqzoom/jquery-1.3.1.min.js</name></action>
             <action method="addItem"><type>skin_js</type><name>js/jqzoom/jquery.jqzoom1.0.1.js</name></action>
             <action method="addJs"><script>varien/product.js</script></action>
+            <action method="addJs"><script>varien/configurable.js</script></action>
         </reference>
         <reference name="content">
             <block type="review/product_view" name="product.info" template="catalog/product/view.phtml">

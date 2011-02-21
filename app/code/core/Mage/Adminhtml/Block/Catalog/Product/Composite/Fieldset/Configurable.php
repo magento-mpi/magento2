@@ -60,4 +60,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable exten
     {
         return Mage::app()->getStore($this->getProduct()->getStoreId());
     }
+
+    /**
+     * Returns additional values for js config, con be overriden by descedants
+     *
+     * @return array
+     */
+    protected function _getAdditionalConfig()
+    {
+        $result = parent::_getAdditionalConfig();
+        $result['disablePriceReload'] = true; // There's no field for price at popup
+        $result['stablePrices'] = true; // We don't want to recalc prices displayed in OPTIONs of SELECT
+        return $result;
+    }
 }
