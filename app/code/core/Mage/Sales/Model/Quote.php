@@ -866,7 +866,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             if (!$parentItem) {
                 $parentItem = $item;
             }
-            if ($parentItem && $candidate->getParentProductId()) {
+            if ($parentItem && $candidate->getParentProductId() && !$item->getId()) {
                 $item->setParentItem($parentItem);
             }
 
