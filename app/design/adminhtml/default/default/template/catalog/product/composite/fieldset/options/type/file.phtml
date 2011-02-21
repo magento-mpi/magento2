@@ -24,17 +24,15 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php
-    /* @var $this Mage_Catalog_Block_Product_View_Options_Type_File */
-    $_option = $this->getOption();
-    $_fileInfo = $this->getFileInfo();
-    $_fileExists = $_fileInfo->hasData() ? true : false;
-    $_fileName = 'options_' . $_option->getId() . '_file';
-    $_fieldNameAction = $_fileName . '_action';
-    $_fieldValueAction = $_fileExists ? 'save_old' : 'save_new';
-    $_fileNamed = $_fileName . '_name';
-    $_rand = rand();
-?>
+<?php $_option = $this->getOption(); ?>
+<?php $_fileInfo = $this->getFileInfo(); ?>
+<?php $_fileExists = $_fileInfo->hasData() ? true : false; ?>
+<?php $_fileName = 'options_' . $_option->getId() . '_file'; ?>
+<?php $_fieldNameAction = $_fileName . '_action'; ?>
+<?php $_fieldValueAction = $_fileExists ? 'save_old' : 'save_new'; ?>
+<?php $_fileNamed = $_fileName . '_name'; ?>
+<?php $_rand = rand(); ?>
+
 <script type="text/javascript">
 //<![CDATA[
     opFile<?php echo $_rand; ?> = {
