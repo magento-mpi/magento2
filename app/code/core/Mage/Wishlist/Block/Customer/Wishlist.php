@@ -178,4 +178,27 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
             ->setOptionList($helper->getOptions($item))
             ->toHtml();
     }
+
+    /**
+     * Returns default description to show in textarea field
+     *
+     * @param Mage_Wishlist_Model_Item $item
+     * @return string
+     */
+    public function getCommentValue(Mage_Wishlist_Model_Item $item)
+    {
+        return $this->hasDescription($item) ? $this->getEscapedDescription($item) : Mage::helper('wishlist')->defaultCommentString();
+    }
+
+    /**
+     * Returns qty to show visually to user
+     *
+     * @param Mage_Wishlist_Model_Item $item
+     * @return float
+     */
+    public function getAddToCartQty(Mage_Wishlist_Model_Item $item)
+    {
+        $qty = $this->getQty($item);
+        return $qty ? $qty : 1;
+    }
 }

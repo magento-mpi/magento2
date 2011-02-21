@@ -103,8 +103,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Process modes
      */
-    const PROCESS_MODE_CART = 'cart'; // Product is added to cart, full validation is required
-    const PROCESS_MODE_DEFAULT = 'default'; // Product configuration is of no importance - validate incoming options, skip all others
+    const PROCESS_MODE_FULL = 'full'; // Full validation - all required options must be set, whole configuration must be valid
+    const PROCESS_MODE_LITE = 'lite'; // Lite validation - only received options are validated
 
     /**
      * Specify type instance product
@@ -359,7 +359,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * @param string $processMode
      * @return array|string
      */
-    public function processConfiguration(Varien_Object $buyRequest, $product = null, $processMode = self::PROCESS_MODE_DEFAULT)
+    public function processConfiguration(Varien_Object $buyRequest, $product = null, $processMode = self::PROCESS_MODE_LITE)
     {
         $_products = $this->_prepareProduct($buyRequest, $product, $processMode);
 
@@ -379,7 +379,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     public function prepareForCart(Varien_Object $buyRequest, $product = null, $processMode = null)
     {
         if (!$processMode) {
-            $processMode = self::PROCESS_MODE_CART;
+            $processMode = self::PROCESS_MODE_FULL;
         }
         $_products = $this->_prepareProduct($buyRequest, $product, $processMode);
         $this->processFileQueue();
@@ -454,7 +454,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     protected function _isStrictProcessMode($processMode)
     {
-        return $processMode == self::PROCESS_MODE_CART;
+        return $processMode == self::PROCESS_MODE_FULL;
     }
 
     /**
@@ -515,7 +515,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     protected function _prepareOptionsForCart(Varien_Object $buyRequest, $product = null)
     {
-        return $this->_prepareOptions($buyRequest, $product, self::PROCESS_MODE_CART);
+        return $this->_prepareOptions($buyRequest, $product, self::PROCESS_MODE_FULL);
     }
 
     /**

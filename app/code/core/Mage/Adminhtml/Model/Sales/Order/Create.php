@@ -715,7 +715,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if ($item) {
             $item->setQty($item->getQty()+$qty);
         } else {
-            $item = $this->getQuote()->addProduct($product, $config, Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_DEFAULT);
+            $item = $this->getQuote()->addProduct($product, $config, Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE);
             if (is_string($item)) {
                 Mage::throwException($item);
             }

@@ -43,6 +43,7 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
 
             $quoteItemsCollection = array();
             $quote = Mage::getModel('sales/quote')->setItemCount(true);
+            $emptyQuoteItem = Mage::getModel('sales/quote_item');
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 $remainingQty = $item->getQty() - $item->getQtyFulfilled();
@@ -50,8 +51,8 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
                     $remainingQty = 0;
                 }
                 // Create a new qoute item and import data from gift registry item to it
-                $quoteItem = Mage::getModel('sales/quote_item')
-                    ->addData($item->getData())
+                $quoteItem = clone $emptyQuoteItem;
+                $quoteItem->addData($item->getData())
                     ->setQuote($quote)
                     ->setProduct($product)
                     ->setRemainingQty($remainingQty)

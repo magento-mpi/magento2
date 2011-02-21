@@ -181,7 +181,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
                 ->save();
         }
 
-        $this->addItem($item); // TODO ACPAOC: fix it if necessary
+        $this->addItem($item);
 
         return $item;
     }
@@ -213,12 +213,6 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             return false;
         }
         return $this->getItemCollection()->getItemById($itemId);
-
-//        $item = Mage::getModel('wishlist/item')->load($itemId);
-//        if ($item->getWishlistId() != $this->getId()) {
-//            return false;
-//        }
-//        return $item;
     }
 
     /**
@@ -310,12 +304,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             $item = $this->_addCatalogProduct($candidate, $candidate->getQty());
             $items[] = $item;
 
-            /**
-             * We specify qty after we know about parent (for stock)
-             */
-            //$item->addQty($candidate->getCartQty());
-
-            // collect errors instead of throwing first one
+            // Collect errors instead of throwing first one
             if ($item->getHasError()) {
                 $errors[] = $item->getMessage();
             }

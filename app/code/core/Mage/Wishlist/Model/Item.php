@@ -543,23 +543,20 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract implements Mage_
         if (is_array($option)) {
             $option = Mage::getModel('wishlist/item_option')->setData($option)
                 ->setItem($this);
-        }
-        elseif (($option instanceof Varien_Object) && !($option instanceof Mage_Wishlist_Model_Item_Option)) {
+        } else if ($option instanceof Mage_Wishlist_Model_Item_Option) {
+            $option->setItem($this);
+        } else if ($option instanceof Varien_Object) {
             $option = Mage::getModel('wishlist/item_option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
-        }
-        elseif($option instanceof Mage_Wishlist_Model_Item_Option) {
-            $option->setItem($this);
-        }
-        else {
+        } else {
             Mage::throwException(Mage::helper('sales')->__('Invalid item option format.'));
         }
 
-        if ($exOption = $this->getOptionByCode($option->getCode())) {
+        $exOption = $this->getOptionByCode($option->getCode());
+        if ($exOption) {
             $exOption->addData($option->getData());
-        }
-        else {
+        } else {
             $this->_addOptionCode($option);
             $this->_options[] = $option;
         }
@@ -605,5 +602,4 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract implements Mage_
         $product = $this->getProduct();
         return $product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
     }
-
 }

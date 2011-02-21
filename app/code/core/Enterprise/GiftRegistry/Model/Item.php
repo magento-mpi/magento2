@@ -66,6 +66,12 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      */
     protected $_optionsByCode = array();
 
+    /**
+     * Flag stating that options were successfully saved
+     *
+     */
+    protected $_flagOptionsSaved = null;
+
     function _construct() {
         $this->_init('enterprise_giftregistry/item');
     }
@@ -244,6 +250,20 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Checks if item model has data changes
+     *
+     * @return boolean
+     */
+    protected function _hasModelChanged()
+    {
+        if (!$this->hasDataChanges()) {
+            return false;
+        }
+
+        return $this->_getResource()->hasDataChanged($this);
+    }
+
+    /**
      * Save item options after item is saved
      *
      * @return Enterprise_GiftRegistry_Model_Item
@@ -252,6 +272,44 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     {
         $this->_saveItemOptions();
         return parent::_afterSave();
+    }
+
+    /**
+     * Save item options
+     *
+     * @return Enterprise_GiftRegistry_Model_Item
+     */
+    protected function _saveItemOptions()
+    {
+        foreach ($this->_options as $index => $option) {
+            if ($option->isDeleted()) {
+                $option->delete();
+                unset($this->_options[$index]);
+                unset($this->_optionsByCode[$option->getCode()]);
+            } else {
+                $option->save();
+            }
+        }
+
+        $this->_flagOptionsSaved = true; // Report to watchers that options were saved
+
+        return $this;
+    }
+
+    /**
+     * Save model plus its options
+     * Ensures saving options in case when resource model was not changed
+     */
+    public function save()
+    {
+        $hasDataChanges = $this->hasDataChanges();
+        $this->_flagOptionsSaved = false;
+
+        parent::save();
+
+        if ($hasDataChanges && !$this->_flagOptionsSaved) {
+            $this->_saveItemOptions();
+        }
     }
 
     /**
@@ -370,46 +428,6 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
             return $this->_optionsByCode[$code];
         }
         return null;
-    }
-
-    /**
-     * Checks if item model has data changes
-     * Call save item options if model doesn't need to be saved
-     *
-     * @return boolean
-     */
-    protected function _hasModelChanged()
-    {
-        if (!$this->hasDataChanges()) {
-            return false;
-        }
-
-        $result = $this->_getResource()->hasDataChanged($this);
-        if ($result === false) {
-           $this->_saveItemOptions();
-        }
-
-        return $result;
-    }
-
-    /**
-     * Save item options
-     *
-     * @return Enterprise_GiftRegistry_Model_Item
-     */
-    protected function _saveItemOptions()
-    {
-        foreach ($this->_options as $index => $option) {
-            if ($option->isDeleted()) {
-                $option->delete();
-                unset($this->_options[$index]);
-                unset($this->_optionsByCode[$option->getCode()]);
-            } else {
-                $option->save();
-            }
-        }
-
-        return $this;
     }
 
     /**

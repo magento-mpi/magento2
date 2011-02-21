@@ -67,15 +67,14 @@
                             <?php echo $this->getDetailsHtml($item) ?>
                         </td>
                         <td>
-                            <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" onfocus="focusComment(this)" onblur="focusComment(this)" title="<?php echo $this->__('Comment') ?>"><?php echo $this->hasDescription($item) ? $this->getEscapedDescription($item) : $this->helper('wishlist')->defaultCommentString() ?></textarea>
+                            <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" onfocus="focusComment(this)" onblur="focusComment(this)" title="<?php echo $this->__('Comment') ?>"><?php echo $this->getCommentValue($item); ?></textarea>
                         </td>
                         <td>
                             <span class="nobr"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span>
                         </td>
                         <td class="a-center">
                         <?php if ($item->canHaveQty()): ?>
-                            <?php $qty = ($item->getQty() > 0) ? $item->getQty() : 1; ?>
-                            <p><input type="text" class="input-text qty" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $qty * 1; ?>" /></p>
+                            <p><input type="text" class="input-text qty" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $this->getAddToCartQty($item) * 1 ?>" /></p>
                         <?php endif; ?>
                         <?php if ($product->isSaleable()): ?>
                             <button type="button" title="<?php echo $this->__('Add to Cart') ?>" onclick="addWItemToCart(<?php echo $item->getId(); ?>)" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>

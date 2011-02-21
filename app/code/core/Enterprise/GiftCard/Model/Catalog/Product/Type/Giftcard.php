@@ -119,9 +119,10 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
 
         return parent::isSalable($product);
     }
-    
+
     /**
-     * Prepare product
+     * Prepare product to be added to some products list.
+     * Use standard preparation process and also add specific giftcard options.
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product

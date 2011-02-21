@@ -74,7 +74,7 @@
                             <?php echo $this->getDetailsHtml($item) ?>
                         </td>
                         <td>
-                            <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" onfocus="focusComment(this)" onblur="focusComment(this)" title="<?php echo $this->__('Comment') ?>"><?php echo $this->hasDescription($item) ? $this->getEscapedDescription($item) : $this->helper('wishlist')->defaultCommentString() ?></textarea>
+                            <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" onfocus="focusComment(this)" onblur="focusComment(this)" title="<?php echo $this->__('Comment') ?>"><?php echo $this->getCommentValue($item); ?></textarea>
                         </td>
                         <td>
                             <span class="nobr"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span>
@@ -97,8 +97,7 @@
                         <?php endif;?>
                         <td class="a-center">
                         <?php if ($item->canHaveQty()): ?>
-                            <?php $qty = ($item->getQty() > 0) ? $item->getQty() : 1; ?>
-                            <p><input type="text" class="input-text qty" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $qty * 1; ?>" /></p>
+                            <p><input type="text" class="input-text qty" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $this->getAddToCartQty($item) * 1 ?>" /></p>
                         <?php endif; ?>
                         <?php if ($product->isSaleable()): ?>
                             <button type="button" title="<?php echo $this->__('Add to Cart') ?>" onclick="addWItemToCart(<?php echo $item->getId(); ?>)" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
@@ -121,7 +120,6 @@
                     <button type="button" title="<?php echo $this->__('Add All to Cart') ?>" onclick="addAllWItemsToCart()" class="button btn-add"><span><span><?php echo $this->__('Add All to Cart') ?></span></span></button>
                 <?php endif;?>
                 <button type="submit" title="<?php echo $this->__('Update Wishlist') ?>" onclick="this.name='do'" class="button btn-update"><span><span><?php echo $this->__('Update Wishlist') ?></span></span></button>
-                <?php /*<button type="button" onclick="updateAction('<?php echo $this->getAddUrl()?>')" class="button"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>*/ ?>
             </div>
         </fieldset>
     </form>
