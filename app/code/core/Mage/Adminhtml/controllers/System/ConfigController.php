@@ -261,11 +261,13 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         try {
             $session = Mage::getSingleton('admin/session');
             $resourceLookup = "admin/system/config/{$section}";
-            $resourceId = $session->getData('acl')->get($resourceLookup)->getResourceId();
-            if (!$session->isAllowed($resourceId)) {
-                throw new Exception('');
+            if ($session->getData('acl') instanceof Mage_Admin_Model_Acl) {
+                $resourceId = $session->getData('acl')->get($resourceLookup)->getResourceId();
+                if (!$session->isAllowed($resourceId)) {
+                    throw new Exception('');
+                }
+                return true;
             }
-            return true;
         }
         catch (Zend_Acl_Exception $e) {
             $this->norouteAction();
