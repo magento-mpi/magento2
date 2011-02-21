@@ -85,7 +85,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
 
     /**
      * File queue array
-     * 
+     *
      * @var array
      */
     protected $_fileQueue       = array();
@@ -408,9 +408,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                         if (!$io->isWriteable($path) && !$io->mkdir($path, 0777, true)) {
                             Mage::throwException(Mage::helper('catalog')->__("Cannot create writeable directory '%s'.", $path));
                         }
-                        
+
                         $uploader->setDestination($path);
-                        
+
                         if (empty($src) || empty($dst) || !$uploader->receive($src)) {
                             /**
                              * @todo: show invalid option
@@ -556,20 +556,20 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 if ($option = $this->getProduct($product)->getOptionById($optionId)) {
 
-                    $quoteItemOption = $this->getProduct($product)->getCustomOption('option_'.$option->getId());
+                    $confItemOption = $this->getProduct($product)->getCustomOption('option_'.$option->getId());
 
                     $group = $option->groupFactory($option->getType())
                         ->setOption($option)
                         ->setProduct($this->getProduct())
-                        ->setQuoteItemOption($quoteItemOption);
+                        ->setConfigurationItemOption($confItemOption);
 
                     $optionArr['options'][] = array(
                         'label' => $option->getTitle(),
-                        'value' => $group->getFormattedOptionValue($quoteItemOption->getValue()),
-                        'print_value' => $group->getPrintableOptionValue($quoteItemOption->getValue()),
+                        'value' => $group->getFormattedOptionValue($confItemOption->getValue()),
+                        'print_value' => $group->getPrintableOptionValue($confItemOption->getValue()),
                         'option_id' => $option->getId(),
                         'option_type' => $option->getType(),
-                        'option_value' => $quoteItemOption->getValue(),
+                        'option_value' => $confItemOption->getValue(),
                         'custom_view' => $group->isCustomizedView()
                     );
                 }
@@ -684,12 +684,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 if ($option = $this->getProduct($product)->getOptionById($optionId)) {
 
-                    $quoteItemOption = $this->getProduct($product)->getCustomOption('option_'.$optionId);
+                    $confItemOption = $this->getProduct($product)->getCustomOption('option_'.$optionId);
 
                     $group = $option->groupFactory($option->getType())
                         ->setOption($option)->setListener(new Varien_Object());
 
-                    if ($optionSku = $group->getOptionSku($quoteItemOption->getValue(), $skuDelimiter)) {
+                    if ($optionSku = $group->getOptionSku($confItemOption->getValue(), $skuDelimiter)) {
                         $sku .= $skuDelimiter . $optionSku;
                     }
 
@@ -735,10 +735,10 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Method is needed for specific actions to change given quote options values
+     * Method is needed for specific actions to change given configuration options values
      * according current product type logic
      * Example: the cataloginventory validation of decimal qty can change qty to int,
-     * so need to change quote item qty option value too.
+     * so need to change configuration item qty option value too.
      *
      * @param array         $options
      * @param Varien_Object $option

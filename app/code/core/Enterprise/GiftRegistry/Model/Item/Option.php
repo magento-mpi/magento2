@@ -32,6 +32,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
+    implements Mage_Catalog_Model_Product_Configuration_Item_Option_Interface
 {
     /**
      * Related gift registry item
@@ -42,7 +43,7 @@ class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
 
     /**
      * Product related to option
-     * 
+     *
      * @var Mage_Catalog_Model_Product $product
      */
     protected $_product;
@@ -114,6 +115,16 @@ class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
     public function getProduct()
     {
         return $this->_product;
+    }
+
+    /**
+     * Get option value
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->_getData('value');
     }
 
     /**

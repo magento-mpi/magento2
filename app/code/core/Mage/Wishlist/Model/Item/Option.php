@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
+ * @package     Mage_Wishlist
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -32,6 +32,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Wishlist_Model_Item_Option extends Mage_Core_Model_Abstract
+    implements Mage_Catalog_Model_Product_Configuration_Item_Option_Interface
 {
     protected $_item;
     protected $_product;
@@ -102,6 +103,16 @@ class Mage_Wishlist_Model_Item_Option extends Mage_Core_Model_Abstract
     public function getProduct()
     {
         return $this->_product;
+    }
+
+    /**
+     * Get option value
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->_getData('value');
     }
 
     /**

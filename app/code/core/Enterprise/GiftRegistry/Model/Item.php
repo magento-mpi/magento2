@@ -48,6 +48,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
+    implements Mage_Catalog_Model_Product_Configuration_Item_Interface
 {
 
     /**
@@ -214,7 +215,6 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         return $this->getProduct()->getProductUrl();
     }
 
-
     /**
      * Return item product
      *
@@ -222,7 +222,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      */
     protected function _getProduct()
     {
-        if (!$this->getProduct()) {
+        if (!$this->_getData('product')) {
             $product = Mage::getModel('catalog/product')->load($this->getProductId());
             if (!$product->getId()) {
                 Mage::throwException(
@@ -230,7 +230,17 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
             }
             $this->setProduct($product);
         }
-        return $this->getProduct();
+        return $this->_getData('product');
+    }
+
+    /**
+     * Return item product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct()
+    {
+        return $this->_getProduct();
     }
 
     /**

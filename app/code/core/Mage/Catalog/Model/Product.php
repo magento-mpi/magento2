@@ -1503,12 +1503,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function addCustomOption($code, $value, $product=null)
     {
         $product = $product ? $product : $this;
-        $this->_customOptions[$code] = new Varien_Object(array(
-            'product_id'=> $product->getId(),
-            'product'   => $product,
-            'code'      => $code,
-            'value'     => $value,
-        ));
+        $option = Mage::getModel('catalog/product_configuration_item_option')
+            ->addData(array(
+                'product_id'=> $product->getId(),
+                'product'   => $product,
+                'code'      => $code,
+                'value'     => $value,
+            ));
+        $this->_customOptions[$code] = $option;
         return $this;
     }
 
