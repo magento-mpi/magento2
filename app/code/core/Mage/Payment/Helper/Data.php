@@ -35,68 +35,16 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_PAYMENT_GROUPS = 'global/payment/groups';
 
     /**
-     * Disabled modules configuration
-     *
-     * @var Varien_Simplexml_Config
-     */
-    protected $_disabledModulesConfig = null;
-
-    /**
      * Retrieve method model object
      *
      * @param   string $code
-     * @return  Mage_Payment_Model_Method_Abstract
+     * @return  Mage_Payment_Model_Method_Abstract|false
      */
     public function getMethodInstance($code)
     {
         $key = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/model';
         $class = Mage::getStoreConfig($key);
-        if (!$class) {
-            Mage::throwException($this->__('Cannot load configuration for payment method "%s"', $code));
-        }
         return Mage::getModel($class);
-    }
-
-    /**
-     * Whether payment module is disabled
-     *
-     * @param string $code
-     * @return bool
-     */
-    protected function _paymentModuleIsDisabled($code)
-    {
-        $paymentModules = $this->_getDisabledModulesConfiguration('default/' . self::XML_PATH_PAYMENT_METHODS);
-        if ($paymentModules && $paymentModules->$code) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Get configuration of disabled modules
-     *
-     * @param string $path
-     * @return Varien_Simplexml_Config
-     */
-    protected function _getDisabledModulesConfiguration($path)
-    {
-        if (is_null($this->_disabledModulesConfig)) {
-            $configModel = new Varien_Simplexml_Config();
-            $mergeToObject = new Varien_Simplexml_Config();
-            $mergeToObject->loadString('<config/>');
-            $modules = Mage::getConfig()->getNode('modules')->children();
-            foreach ($modules as $modName => $module) {
-                if (!$module->is('active')) {
-                    $configFile = Mage::getConfig()->getModuleDir('etc', $modName) . DS . 'config.xml';
-                    if ($configModel->loadFile($configFile)) {
-                        $mergeToObject->extend($configModel, true);
-                    }
-                }
-            }
-            $this->_disabledModulesConfig = $mergeToObject->getNode($path);
-        }
-
-        return $this->_disabledModulesConfig;
     }
 
     /**
@@ -208,11 +156,8 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $result = array();
         foreach ($this->getPaymentMethods($store) as $code => $data) {
-            if ($this->_paymentModuleIsDisabled($code)) {
-                continue;
-            }
             $method = $this->getMethodInstance($code);
-            if ($method->canManageRecurringProfiles()) {
+            if ($method && $method->canManageRecurringProfiles()) {
                 $result[] = $method;
             }
         }
@@ -258,13 +203,12 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         $groupRelations = array();
 
         foreach ($this->getPaymentMethods($store) as $code => $data) {
-            if ($this->_paymentModuleIsDisabled($code)) {
-                continue;
-            }
             if ((isset($data['title']))) {
                 $methods[$code] = $data['title'];
             } else {
-                $methods[$code] = $this->getMethodInstance($code)->getConfigData('title', $store);
+                if ($this->getMethodInstance($code)) {
+                    $methods[$code] = $this->getMethodInstance($code)->getConfigData('title', $store);
+                }
             }
             if ($asLabelValue && $withGroups && isset($data['group'])) {
                 $groupRelations[$code] = $data['group'];
