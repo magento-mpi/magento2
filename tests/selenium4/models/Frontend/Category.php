@@ -89,9 +89,10 @@ class Model_Frontend_Category extends Model_Frontend
             $result = false;
         }
         // Check for existance of st-01 product imgage title
+        $href=strtolower(preg_replace('/( )|(\.)/', '-', $productName));
         $paramArray = array (
             '1' => $productName,
-            '2' => $productName
+            '2' => $href
         );
         if (!$this->waitForElement($this->getUiElement("frontend/pages/category/links/productImg",$paramArray),2)) {
             $this->setVerificationErrors('Check 3: No "ProductName Image Link" founded');

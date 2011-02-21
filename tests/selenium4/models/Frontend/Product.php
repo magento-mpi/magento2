@@ -27,7 +27,7 @@ class Model_Frontend_Product extends Model_Frontend
 
         $params = Core::getEnvConfig('backend/create_product');
         $params ['subcategoryname'] = Core::getEnvConfig('backend/manage_categories/subcategoryname');
-
+        $params ['categoryName'] = Core::getEnvConfig('backend/manage_categories/categoryName');
         $this->productData = $params;
 
         $this->categoryModel = $this->getModel('frontend/category');
@@ -309,7 +309,7 @@ class Model_Frontend_Product extends Model_Frontend
             // Check for presence correct price on product-page
             if ($this->waitForElement($this->getUiElement("frontend/pages/product/elements/price"),2)) {
                 $priceOnPage = $this->getText($this->getUiElement("frontend/pages/product/elements/price"));
-                $priceFromConfig = $this->money_format('%.2n',$price);
+                $priceFromConfig = $this->money_format('%i',$price);
                 if ($priceOnPage != $priceFromConfig) {
                     $this->setVerificationErrors('Check 4: PriceOnPage [' . $priceOnPage . '] did not matched to expected [' . $priceFromConfig . ']');
                     $result = false;
