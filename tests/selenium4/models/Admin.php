@@ -377,10 +377,11 @@ class Model_Admin extends TestModelAbstract {
                 for ($i = 1; $i <= $qtyFields; $i++) {
                     if ($this->isElementPresent($errorXpath . "[$i]" . $this->getUiElement("field_name_with_error"))) {
                         $fieldName = $this->getText($errorXpath . "[$i]" . $this->getUiElement("field_name_with_error"));
+                        $fieldName = preg_replace('/( \*)|(\*)/', '', $fieldName);
                     } else {
                         $fieldName = $this->getAttribute($errorXpath . "[$i]" . "@id");
                         $fieldName = strrev($fieldName);
-                        $fieldName = strrev(substr($fieldName, 0, strpos($fieldName, "-")));
+                        $fieldName = strrev(substr($fieldName, 0, strpos($fieldName, "-")));                        
                     }
                     $errorName = $this->getText($errorXpath . "[$i]");
                     $this->printInfo("\r\n Field '" . $fieldName . "' contains error - '" . $errorName . "'");
