@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         if (isset($values[$option->getId()]) && is_array($values[$option->getId()])) {
 
             $this->setUserValue($this->_validateFile($values) ? $values[$option->getId()] : null);
-            
+
             return $this;
         }
 
@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
     /**
      * Validate uploaded file
-     * 
+     *
      * @throws Mage_Core_Exception
      * @return Mage_Catalog_Model_Product_Option_Type_Default
      */
@@ -191,7 +191,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 'target' => $fileFullPath,
                 'overwrite' => true
             ));
-            
+
             $this->getProduct()->getTypeInstance(true)->addFileQueue(array(
                 'operation' => 'receive_uploaded_file',
                 'src_name'  => $file,
@@ -223,7 +223,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
         } elseif ($upload->getErrors()) {
             $errors = $this->_getValidatorErrors($upload->getErrors(), $fileInfo);
-            
+
             if (count($errors) > 0) {
                 $this->setIsValid(false);
                 Mage::throwException( implode("\n", $errors) );
@@ -265,7 +265,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         if (empty($fileFullPath)) {
             return false;
         }
-        
+
         $validatorChain = new Zend_Validate();
 
         $_dimentions = array();
@@ -394,16 +394,15 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 $customOptionUrlParams = $this->getCustomOptionUrlParams()
                     ? $this->getCustomOptionUrlParams()
                     : array(
-                        'id'  => $this->getQuoteItemOption()->getId(),
+                        'id'  => $this->getConfigurationItemOption()->getId(),
                         'key' => $value['secret_key']
                     );
 
                 $value['url'] = array('route' => $this->_customOptionDownloadUrl, 'params' => $customOptionUrlParams);
 
                 $this->_formattedOptionValue = $this->_getOptionHtml($value);
-                $this->getQuoteItemOption()->setValue(serialize($value));
+                $this->getConfigurationItemOption()->setValue(serialize($value));
                 return $this->_formattedOptionValue;
-
             } catch (Exception $e) {
                 return $optionValue;
             }
@@ -463,7 +462,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $value = unserialize($optionValue);
             return sprintf('%s [%d]',
                 Mage::helper('core')->htmlEscape($value['title']),
-                $this->getQuoteItemOption()->getId()
+                $this->getConfigurationItemOption()->getId()
             );
 
         } catch (Exception $e) {
@@ -482,8 +481,8 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     {
         // search quote item option Id in option value
         if (preg_match('/\[([0-9]+)\]/', $optionValue, $matches)) {
-            $quoteItemOptionId = $matches[1];
-            $option = Mage::getModel('sales/quote_item_option')->load($quoteItemOptionId);
+            $confItemOptionId = $matches[1];
+            $option = Mage::getModel('sales/quote_item_option')->load($confItemOptionId);
             try {
                 unserialize($option->getValue());
                 return $option->getValue();

@@ -43,6 +43,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Quote_Item_Option extends Mage_Core_Model_Abstract
+    implements Mage_Catalog_Model_Product_Configuration_Item_Option_Interface
 {
     protected $_item;
     protected $_product;
@@ -113,6 +114,16 @@ class Mage_Sales_Model_Quote_Item_Option extends Mage_Core_Model_Abstract
     public function getProduct()
     {
         return $this->_product;
+    }
+
+    /**
+     * Get option value
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->_getData('value');
     }
 
     /**

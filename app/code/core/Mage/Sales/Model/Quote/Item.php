@@ -132,6 +132,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
+    implements Mage_Catalog_Model_Product_Configuration_Item_Interface
 {
     /**
      * Prefix of model events names
