@@ -16,6 +16,9 @@
         <containers_for_order>//td/div[contains(@id,'order-') and not(contains(@style,'display: none;')) and not(contains(@class,'validation-advice')) and not(contains(@id,'-sidebar'))]</containers_for_order>
     </elements>
     <inputs>
+        <search_set_name>//*[@id='filter_set_name']</search_set_name>
+        <search_product_attribute_code>//*[@id='filter_attribute_code']</search_product_attribute_code>
+        <search_product_attribute_label>//*[@id='filter_frontend_label']</search_product_attribute_label>
         <search_user_id>//*[@id='filter_entity_id']</search_user_id>
         <search_user_name>//*[@id='filter_name']</search_user_name>
         <search_user_email>//*[@id='filter_email']</search_user_email>
