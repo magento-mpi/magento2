@@ -13,7 +13,7 @@ class Admin_OrderWorkFlow_Order4 extends TestCaseAbstract {
     }
 
     /**
-     * Testing order creation
+     * Testing order creation(Negativ Test)
      *
      * Conditions:
      * 1. new user;
@@ -49,7 +49,12 @@ class Admin_OrderWorkFlow_Order4 extends TestCaseAbstract {
         );
         if ($this->model->doLogin()) {
             $orderNumder = $this->model->doCreateOrder($orderData);
-            $this->model->openOrderAndDoAction($orderNumder, "create_invoice");
+            if ($orderNumder != NULL) {
+                $this->model->openOrderAndDoAction($orderNumder, "create_invoice");
+                $this->model->openOrderAndDoAction($orderNumder, "create_shippment");
+                $this->model->openOrderAndDoAction($orderNumder, "create_credit_memo");
+                $this->model->openOrderAndDoAction($orderNumder, "reorder");
+            }
         }
     }
 

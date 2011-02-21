@@ -22,16 +22,16 @@ class Admin_OrderWorkFlow_all extends TestCaseAbstract {
         $orderData = array(
             //<--- User --->//
             'user_choise' => 'exist',
-            'search_user_email' => 'st9-user@varien.com',
-            'search_user_name' => 'FName LName',
+            'search_user_email' => 'admin_user_1@magento.com',
+            'search_user_name' => 'Without Address',
             //<--- Storeview--->//
             'storeview_name' => 'SmokeTestStoreView',
             //<--- Product(s)--->//
             'search_product_sku' => 'SP-01',
             'search_product_name' => 'Simple Product 01.Required Fields',
             //<--- Order coupons --->//
-            'gift_card_code' => 'NKA0FH-KIC-C06-2M8',
-            'coupon_code' => '2106',
+            //'gift_card_code' => '',
+            //'coupon_code' => '',
             //<--- Billing Address --->//
             'choise_billing_address' => 'new',
             'billing_prefix' => 'Prefix(billing)',
@@ -86,10 +86,12 @@ class Admin_OrderWorkFlow_all extends TestCaseAbstract {
         );
         if ($this->model->doLogin()) {
             $orderNumder = $this->model->doCreateOrder($orderData);
-            $this->model->openOrderAndDoAction($orderNumder, "create_invoice");
-            $this->model->openOrderAndDoAction($orderNumder, "create_shippment");
-            $this->model->openOrderAndDoAction($orderNumder, "create_credit_memo");
-            $this->model->openOrderAndDoAction($orderNumder, "reorder");
+            if ($orderNumder != NULL) {
+                $this->model->openOrderAndDoAction($orderNumder, "create_invoice");
+                $this->model->openOrderAndDoAction($orderNumder, "create_shippment");
+                $this->model->openOrderAndDoAction($orderNumder, "create_credit_memo");
+                $this->model->openOrderAndDoAction($orderNumder, "reorder");
+            }
         }
     }
 

@@ -77,10 +77,12 @@ class Admin_OrderWorkFlow_Order5 extends TestCaseAbstract {
         );
         if ($this->model->doLogin()) {
             $orderNumder = $this->model->doCreateOrder($orderData);
-            $this->model->openOrderAndDoAction($orderNumder, "create_invoice");
-            $this->model->openOrderAndDoAction($orderNumder, "create_shippment");
-            $this->model->openOrderAndDoAction($orderNumder, "create_credit_memo");
-            $this->model->openOrderAndDoAction($orderNumder, "reorder");
+            if ($orderNumder != NULL) {
+                $this->model->openOrderAndDoAction($orderNumder, "create_invoice");
+                $this->model->openOrderAndDoAction($orderNumder, "create_shippment");
+                $this->model->openOrderAndDoAction($orderNumder, "create_credit_memo");
+                $this->model->openOrderAndDoAction($orderNumder, "reorder");
+            }
         }
     }
 
