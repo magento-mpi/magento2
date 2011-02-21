@@ -107,8 +107,27 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
         if ($typeId != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
              Mage::throwException($this->__('Wrong product type to extract configurable options.'));
         }
+        
+        $options = array();
+        /**
+         * @var Mage_Catalog_Model_Product_Type_Grouped
+         */
+        $typeInstance = $product->getTypeInstance(true);
+        $associatedProducts = $typeInstance->getAssociatedProducts($product);
+        
+        if ($associatedProducts) {
+            foreach ($associatedProducts as $associatedProduct) {
+                $qty = $item->getOptionByCode('associated_product_' . $associatedProduct->getId());
+                $option = array(
+                    'label' => $associatedProduct->getName(),
+                    'value' => ($qty && $qty->getValue()) ? $qty->getValue() : 0
+                );
 
-        return $this->getCustomOptions($item);
+                $options[] = $option;
+            }
+        }        
+
+        return array_merge($options, $this->getCustomOptions($item));
     }
 
     /**
@@ -130,6 +149,4 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
         }
         return $this->getCustomOptions($item);
     }
-
-
 }
