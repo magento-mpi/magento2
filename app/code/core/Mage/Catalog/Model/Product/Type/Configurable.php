@@ -446,7 +446,10 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
         $salable = false;
         foreach ($this->getUsedProducts(null, $product) as $child) {
-            $salable = $salable || $child->isSalable();
+            if ($child->isSalable()) {
+                $salable = true;
+                break;
+            }
         }
         return $salable;
     }

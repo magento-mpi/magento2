@@ -529,9 +529,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             //$optionsCollection = $this->getOptionsByIds($optionIds, $product);
             $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
             $optionsCollection = $this->getOptionsCollection($product);
-            if (!$this->getProduct($product)->getSkipCheckRequiredOption()) {
+            if (!$this->getProduct($product)->getSkipCheckRequiredOption() && $isStrictProcessMode) {
                 foreach ($optionsCollection->getItems() as $option) {
-                    if ($option->getRequired() && !isset($options[$option->getId()]) && $isStrictProcessMode) {
+                    if ($option->getRequired() && !isset($options[$option->getId()])) {
                         return Mage::helper('bundle')->__('Required options are not selected.');
                     }
                 }
@@ -654,7 +654,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     ->addCustomOption('bundle_option_ids', serialize($optionIds))
                     ->addCustomOption('bundle_selection_attributes', serialize($attributes));
                 //}
-                
+
                 if ($isStrictProcessMode) {
                     $_result[0]->setCartQty($qty);
                 }

@@ -102,10 +102,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
 
     /**
      * Process modes
-     *
      */
-    const PROCESS_MODE_CART = 'cart';
-    const PROCESS_MODE_DEFAULT = 'default';
+    const PROCESS_MODE_CART = 'cart'; // Product is added to cart, full validation is required
+    const PROCESS_MODE_DEFAULT = 'default'; // Product configuration is of no importance - validate incoming options, skip all others
 
     /**
      * Specify type instance product
@@ -374,14 +373,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
+     * @param null|string $processMode
      * @return array|string
      */
-    public function prepareForCart(Varien_Object $buyRequest, $product = null)
+    public function prepareForCart(Varien_Object $buyRequest, $product = null, $processMode = null)
     {
-        $_products = $this->_prepareProduct($buyRequest, $product, self::PROCESS_MODE_CART);
-
+        if (!$processMode) {
+            $processMode = self::PROCESS_MODE_CART;
+        }
+        $_products = $this->_prepareProduct($buyRequest, $product, $processMode);
         $this->processFileQueue();
-
         return $_products;
     }
 
@@ -504,6 +505,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
 
     /**
      * Process product custom defined options for cart
+     *
+     * @deprecated after 1.4.2.0
+     * @see _prepareOptions()
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product

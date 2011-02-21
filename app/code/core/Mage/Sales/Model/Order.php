@@ -344,7 +344,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * Order statuses
      */
     const STATUS_FRAUD  = 'fraud';
-    
+
     /**
      * Order flags
      */
@@ -752,15 +752,32 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         foreach ($this->getItemsCollection() as $item) {
             $products[] = $item->getProductId();
         }
-        $productsCollection = Mage::getModel('catalog/product')->getCollection()
-            ->setStoreId($this->getStoreId());
 
         if (!empty($products)) {
-            $productsCollection->addIdFilter($products)
+            /*
+             * @TODO ACPAOC: Use product collection here, but ensure that product is loaded with order store id, otherwise there'll be problems with isSalable()
+             * for configurables, bundles and other composites
+             *
+             */
+            /*
+            $productsCollection = Mage::getModel('catalog/product')->getCollection()
+                ->setStoreId($this->getStoreId())
+                ->addIdFilter($products)
                 ->addAttributeToSelect('status')
                 ->load();
+
             foreach ($productsCollection as $product) {
                 if (!$product->isSalable()) {
+                    return false;
+                }
+            }
+            */
+
+            foreach ($products as $productId) {
+                $product = Mage::getModel('catalog/product')
+                    ->setStoreId($this->getStoreId())
+                    ->load($productId);
+                if (!$product->getId() || !$product->isSalable()) {
                     return false;
                 }
             }

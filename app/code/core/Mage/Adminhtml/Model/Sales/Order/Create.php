@@ -587,7 +587,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $infoBuyRequests = array();
 
         if (isset($data['add_order_item'])) {
-            foreach ($data['add_order_item'] as $orderItemId=>$value) {
+            foreach ($data['add_order_item'] as $orderItemId => $value) {
                 $orderItem = Mage::getModel('sales/order_item')->load($orderItemId);
                 $item = $this->initFromOrderItem($orderItem);
                 if (is_string($item)) {
@@ -711,16 +711,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             }
         }
         $qty = $qty > 0 ? $qty : 1;
-        if ($item = $this->getQuote()->getItemByProduct($product)) {
+        $item = $this->getQuote()->getItemByProduct($product);
+        if ($item) {
             $item->setQty($item->getQty()+$qty);
-        }
-        else {
-            $product->setSkipCheckRequiredOption(true);
-            $item = $this->getQuote()->addProduct($product, $config);
+        } else {
+            $item = $this->getQuote()->addProduct($product, $config, Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_DEFAULT);
             if (is_string($item)) {
                 Mage::throwException($item);
             }
-            $product->unsSkipCheckRequiredOption();
             $item->checkData();
         }
 

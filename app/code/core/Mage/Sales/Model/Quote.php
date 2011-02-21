@@ -820,10 +820,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      *
      * return error message if product type instance can't prepare product
      *
-     * @param   mixed $product
-     * @return  Mage_Sales_Model_Quote_Item || string
+     * @param mixed $product
+     * @param null|float|Varien_Object $request
+     * @param null|string $processMode
+     * @return Mage_Sales_Model_Quote_Item || string
      */
-    public function addProduct(Mage_Catalog_Model_Product $product, $request=null)
+    public function addProduct(Mage_Catalog_Model_Product $product, $request = null, $processMode = null)
     {
         if ($request === null) {
             $request = 1;
@@ -836,7 +838,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         $cartCandidates = $product->getTypeInstance(true)
-            ->prepareForCart($request, $product);
+            ->prepareForCart($request, $product, $processMode);
 
         /**
          * Error message
