@@ -15,7 +15,7 @@
             <password>123123</password>
         </auth>
         <checkout>
-            <productUrl>http://kq.varien.com/builds/ee-nightly/current/websites/smoke/st-subcat/st-01.html</productUrl>
+            <productUrl>http://kq.varien.com/builds/ee-nightly/current/websites/smoke/st-subcat/simple-product-01-required-fields.html</productUrl>
             <qty>1</qty>
             <company>The Smokers</company>
             <street1>Address Line1</street1>
@@ -48,7 +48,7 @@
     </frontend>
     <!-- Backend section -->
     <backend>
-        <baseUrl>https://kq.varien.com/builds/ee-nightly/current/index.php/control/</baseUrl>
+        <baseUrl>http://kq.varien.com/builds/ee-nightly/current/index.php/control/</baseUrl>
         <!-- <baseUrl>https://kq.varien.com/enterprise/1.8.0.0/index.php/control/</baseUrl> -->
         <auth>
             <username>admin</username>
@@ -70,13 +70,14 @@
         </customer>
         <attribute_set>
             <set_name>smoke_attrSet</set_name>
-            <default_set>label=Default</default_set>
+            <default_set>Default</default_set>
         </attribute_set>        
         <create_product>
-            <sku>st-01</sku>
-            <duplicated_sku>st-03</duplicated_sku>
-            <name>st-01</name>
-            <price>11</price>
+            <sku>SP-01</sku>
+            <duplicated_sku>SP(dublicate)-01</duplicated_sku>
+            <name>Simple Product 01.Required Fields</name>
+            <productName>Simple Product 01.Required Fields</productName>
+            <price>176</price>
         </create_product>
         <user>
             <name>test</name>
@@ -106,6 +107,7 @@
         <manage_categories>
             <rootname>st-rootcat</rootname>
             <subcategoryname>st-subcat</subcategoryname>
+            <categoryName>st-subcat</categoryName>
             <parentsubcategoryname>st-rootcat</parentsubcategoryname>
         </manage_categories>
         <tax>
