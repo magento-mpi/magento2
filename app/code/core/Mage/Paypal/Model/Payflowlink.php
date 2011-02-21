@@ -329,8 +329,26 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
                 ->setShiptozip($shipping->getPostcode())
                 ->setShiptocountry($shipping->getCountry());
         }
+        //pass store Id to request
+        $request->setUser1($order->getStoreId());
 
         return $request;
+    }
+
+    /**
+     * Get store id from response if exists
+     * or default
+     *
+     * @return int
+     */
+    protected function _getStoreId()
+    {
+        $response = $this->getResponse();
+        if ($response->getUser1()) {
+            return (int) $response->getUser1();
+        }
+
+        return Mage::app()->getStore($this->getStore())->getId();
     }
 
     /**
@@ -343,11 +361,11 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $request = Mage::getModel('paypal/payflow_request');
         $request
-            ->setUser($this->getConfigData('user'))
-            ->setVendor($this->getConfigData('vendor'))
-            ->setPartner($this->getConfigData('partner'))
-            ->setPwd($this->getConfigData('pwd'))
-            ->setVerbosity($this->getConfigData('verbosity'))
+            ->setUser($this->getConfigData('user', $this->_getStoreId()))
+            ->setVendor($this->getConfigData('vendor', $this->_getStoreId()))
+            ->setPartner($this->getConfigData('partner', $this->_getStoreId()))
+            ->setPwd($this->getConfigData('pwd', $this->_getStoreId()))
+            ->setVerbosity($this->getConfigData('verbosity', $this->_getStoreId()))
             ->setTender(self::TENDER_CC);
         return $request;
     }

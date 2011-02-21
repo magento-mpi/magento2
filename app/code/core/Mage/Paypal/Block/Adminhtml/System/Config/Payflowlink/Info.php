@@ -61,6 +61,13 @@
      */
     public function getFrontendUrl($routePath)
     {
-        return Mage::getSingleton('core/url')->getUrl($routePath);
+        if ($this->getRequest()->getParam('website')) {
+            $websiteUrl = (string) Mage::getConfig()
+                ->getNode('websites/'.$this->getRequest()->getParam('website').'/web/unsecure/base_url');
+        } else {
+            $websiteUrl = Mage::getBaseUrl();
+        }
+
+        return $websiteUrl . $routePath;
     }
 }
