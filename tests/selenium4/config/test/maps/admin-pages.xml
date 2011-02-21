@@ -441,6 +441,7 @@
                         <attribute_set>//*[@id='attribute_set_id']</attribute_set>
                         <type>//*[@id='product_type']</type>
                         <!-- General Tab-->
+                        <conf_attribute>//*[@id='attrribute_dropdown_for_conf_product']</conf_attribute>
                         <sku_type>//*[@id='sku_type']</sku_type>
                         <weight_type>//*[@id='weight_type']</weight_type>
                         <status>//*[@id='status']</status>
@@ -662,8 +663,94 @@
         </scope>
         <configuration>
             <elements>
-                <store_selector>store_switcher</store_selector>
+                <store_selector>//*[@id='store_switcher']</store_selector>
+                
+                <scope_per_webiste>//*[@id='store_switcher']/option[normalize-space(text())='%s']</scope_per_webiste>
+                <scope_per_storeview>//*[@id='store_switcher']/optgroup/option[normalize-space(text())='%s']</scope_per_storeview>
+                <form_name>//div[a/text()='%s']/a</form_name>
+                <form_name_not_opened>//div[a/text()='%s']/a</form_name_not_opened>
+                <form_container>//fieldset[legend='%s']</form_container>
+                <form_container_not_active>//fieldset[legend='%s' and contains(@style,'display: none;')]</form_container_not_active>
+                <tab>//*[@id='system_config_tabs']//a[normalize-space(span)='%s']</tab>
             </elements>
+            <selectors>
+                <select_store>//*[@id='store_switcher']</select_store>
+            </selectors>
+            <inputs>
+                <use_default_checkbox>//tr[td/*/@id='%s']/td[normalize-space(@class)='use-default']/input</use_default_checkbox>
+            </inputs>
+            <!-- related tabs-->
+            <shipping_methods>
+                <inputs>
+                    <flatrate_title>//*[@id='carriers_flatrate_title']</flatrate_title>
+                    <flatrate_method_name>//*[@id='carriers_flatrate_name']</flatrate_method_name>
+                    <flatrate_price>//*[@id='carriers_flatrate_price']</flatrate_price>
+                    <flatrate_handling_fee>//*[@id='carriers_flatrate_handling_fee']</flatrate_handling_fee>
+                    <flatrate_error_mes>//*[@id='carriers_flatrate_specificerrmsg']</flatrate_error_mes>
+                    <flatrate_specific_country>//*[@id='carriers_flatrate_specificcountry' and not(@disabled)]</flatrate_specific_country>
+                    <flatrate_sort>//*[@id='carriers_flatrate_sort_order']</flatrate_sort>
+                    <freeshipping_title>//*[@id='carriers_freeshipping_title']</freeshipping_title>
+                    <freeshipping_method_name>//*[@id='carriers_freeshipping_name']</freeshipping_method_name>
+                    <freeshipping_min_amount>//*[@id='carriers_freeshipping_free_shipping_subtotal']</freeshipping_min_amount>
+                    <freeshipping_error_mes>//*[@id='carriers_freeshipping_specificerrmsg']</freeshipping_error_mes>
+                    <freeshipping_specific_country>//*[@id='carriers_freeshipping_specificcountry' and not(@disabled)]</freeshipping_specific_country>
+                    <freeshipping_sort>//*[@id='carriers_freeshipping_sort_order']</freeshipping_sort>
+                    <usps_gateway_url>//*[@id='carriers_usps_gateway_url']</usps_gateway_url>
+                    <usps_title>//*[@id='carriers_usps_title']</usps_title>
+                    <usps_user_id>//*[@id='carriers_usps_userid']</usps_user_id>
+                    <usps_max_weight>//*[@id='carriers_usps_max_package_weight']</usps_max_weight>
+                    <usps_handling_fee>//*[@id='carriers_usps_handling_fee']</usps_handling_fee>
+                    <usps_allowed_methods>//*[@id='carriers_usps_allowed_methods']</usps_allowed_methods>
+                    <usps_min_amount_free>//*[@id='carriers_usps_free_shipping_subtotal']</usps_min_amount_free>
+                    <usps_error_mes>//*[@id='carriers_usps_specificerrmsg']</usps_error_mes>
+                    <usps_specific_country>//*[@id='carriers_usps_specificcountry' and not(@disabled)]</usps_specific_country>
+                    <usps_sort>//*[@id='carriers_usps_sort_order']</usps_sort>
+                    <ups_gateway_url>//*[@id='carriers_ups_gateway_url']</ups_gateway_url>
+                    <ups_title>//*[@id='carriers_ups_title']</ups_title>
+                    <ups_max_weight>//*[@id='carriers_ups_max_package_weight']</ups_max_weight>
+                    <ups_min_weight>//*[@id='carriers_ups_min_package_weight']</ups_min_weight>
+                    <ups_handling_fee>//*[@id='carriers_ups_handling_fee']</ups_handling_fee>
+                    <ups_allowed_methods>//*[@id='carriers_ups_allowed_methods']</ups_allowed_methods>
+                    <ups_min_amount_free>//*[@id='carriers_ups_free_shipping_subtotal']</ups_min_amount_free>
+                    <ups_error_mes>//*[@id='carriers_ups_specificerrmsg']</ups_error_mes>
+                    <ups_specific_country>//*[@id='carriers_ups_specificcountry' and not(@disabled)]</ups_specific_country>
+                    <ups_sort>//*[@id='carriers_ups_sort_order']</ups_sort>
+                </inputs>
+                <selectors>
+                    <flatrate_enable>//*[@id='carriers_flatrate_active']</flatrate_enable>
+                    <flatrate_type>//*[@id='carriers_flatrate_type']</flatrate_type>
+                    <flatrate_handling_type>//*[@id='carriers_flatrate_handling_type']</flatrate_handling_type>
+                    <flatrate_apply_country>//*[@id='carriers_flatrate_sallowspecific']</flatrate_apply_country>
+                    <flatrate_show>//*[@id='carriers_flatrate_showmethod']</flatrate_show>
+                    <freeshipping_enable>//*[@id='carriers_freeshipping_active']</freeshipping_enable>
+                    <freeshipping_apply_country>//*[@id='carriers_freeshipping_sallowspecific']</freeshipping_apply_country>
+                    <freeshipping_show>//*[@id='carriers_freeshipping_showmethod']</freeshipping_show>
+                    <usps_enable>//*[@id='carriers_usps_active']</usps_enable>
+                    <usps_container>//*[@id='carriers_usps_container']</usps_container>
+                    <usps_size>//*[@id='carriers_usps_size']</usps_size>
+                    <usps_machinable>//*[@id='carriers_usps_machinable']</usps_machinable>
+                    <usps_handling_type>//*[@id='carriers_usps_handling_type']</usps_handling_type>
+                    <usps_handling_apply>//*[@id='carriers_usps_handling_action']</usps_handling_apply>
+                    <usps_free_method>//*[@id='carriers_usps_free_method']</usps_free_method>
+                    <usps_free_shipping_enable>//*[@id='carriers_usps_free_shipping_enable']</usps_free_shipping_enable>
+                    <usps_apply_country>//*[@id='carriers_usps_sallowspecific']</usps_apply_country>
+                    <usps_show>//*[@id='carriers_usps_showmethod']</usps_show>
+                    <usps_debug>//*[@id='carriers_usps_debug']</usps_debug>
+                    <ups_enable>//*[@id='carriers_ups_active']</ups_enable>
+                    <ups_type>//*[@id='carriers_ups_type']</ups_type>
+                    <ups_container>//*[@id='carriers_ups_container']</ups_container>
+                    <ups_dest_type>//*[@id='carriers_ups_dest_type']</ups_dest_type>
+                    <ups_weight_unit>//*[@id='carriers_ups_unit_of_measure']</ups_weight_unit>
+                    <ups_pickup_method>//*[@id='carriers_ups_pickup']</ups_pickup_method>
+                    <ups_handling_type>//*[@id='carriers_ups_handling_type']</ups_handling_type>
+                    <ups_handling_apply>//*[@id='carriers_ups_handling_action']</ups_handling_apply>
+                    <ups_free_method>//*[@id='carriers_ups_free_method']</ups_free_method>
+                    <ups_free_shipping_enable>//*[@id='carriers_ups_free_shipping_enable']</ups_free_shipping_enable>
+                    <ups_apply_country>//*[@id='carriers_ups_sallowspecific']</ups_apply_country>
+                    <ups_show>//*[@id='carriers_ups_showmethod']</ups_show>
+                    <ups_debug>//*[@id='carriers_ups_debug']</ups_debug>
+                </selectors>
+            </shipping_methods>
             <links>
                 <web>link=Web</web>
             </links>
