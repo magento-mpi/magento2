@@ -124,9 +124,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $priceFacets = array();
             $facetCount  = ceil($maxPrice / $range);
 
-            for ($i = 0; $i < $facetCount; $i++) {
+            for ($i = 0; $i < $facetCount + 1; $i++) {
                 $to = ($i + 1) * $range;
-                if ($i + 1 < $facetCount) {
+                if ($i < $facetCount) {
                     $to -= 0.001;
                 }
                 $priceFacets[] = array(
