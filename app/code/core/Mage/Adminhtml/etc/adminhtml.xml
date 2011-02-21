@@ -56,12 +56,12 @@
                     <sort_order>40</sort_order>
                     <children>
                         <gui translate="title">
-                            <title>Profiles (Dataflow)</title>
+                            <title>Dataflow - Profiles</title>
                             <action>adminhtml/system_convert_gui</action>
                             <sort_order>30</sort_order>
                         </gui>
                         <profiles translate="title">
-                            <title>Advanced Profiles (Dataflow)</title>
+                            <title>Dataflow - Advance Profiles</title>
                             <action>adminhtml/system_convert_profile</action>
                             <sort_order>40</sort_order>
                         </profiles>
