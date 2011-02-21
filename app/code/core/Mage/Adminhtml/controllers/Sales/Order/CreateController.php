@@ -444,9 +444,15 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
     }
 
+    /**
+     * Acl check for admin
+     *
+     * @return bool
+     */
     protected function _isAllowed()
     {
-        switch ($this->getRequest()->getActionName()) {
+        $action = strtolower($this->getRequest()->getActionName()); 
+        switch ($action) {
             case 'index':
                 $aclResource = 'sales/order/actions/create';
                 break;
@@ -463,7 +469,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 $aclResource = 'sales/order/actions';
                 break;
         }
-        return Mage::getSingleton('admin/session')->isAllowed('sales/order');
+        return Mage::getSingleton('admin/session')->isAllowed($aclResource);
     }
 
     /*
