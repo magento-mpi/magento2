@@ -358,7 +358,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 . $this->__('Google Buyer ID: %s', '<strong>' . $this->getData('root/buyer-id/VALUE') . '</strong><br />')
                 . $this->__('Is Buyer Willing to Receive Marketing Emails: %s', '<strong>' . $emailStr . '</strong>');
         if ($taxMessage) {
-            $message .= $this->__('<br />Warning: <strong>'.$taxMessage.'</strong><br />');
+            $message .= $this->__('<br />Warning: <strong>%s</strong><br />', $taxMessage);
         }
 
         $order->addStatusToHistory($order->getStatus(), $message);
@@ -425,7 +425,10 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             );
             $quote->setBaseGrandTotal($grandTotal);
 
-            $message = $this->__('Tax value may differ from Magento tax for some reason');
+            $message = $this->__(
+            	'The tax amount has been applied based on the information received from Google Checkout,
+            	because tax amount received from Google Checkout is different from the calculated tax amount'
+            );
             return $message;
         }
 
