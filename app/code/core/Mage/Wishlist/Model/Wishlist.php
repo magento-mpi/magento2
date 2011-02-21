@@ -134,6 +134,61 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         $this->setUpdatedAt(Mage::getSingleton('core/date')->gmtDate());
         return $this;
     }
+    
+    /**
+     * Save related items
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    protected function _afterSave()
+    {
+        parent::_afterSave();
+
+        if (null !== $this->_itemCollection) {
+            $this->getItemCollection()->save();
+        }
+        return $this;
+    }
+
+    /**
+     * Adding catalog product object data to wishlist
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  Mage_Wishlist_Model_Item
+     */
+    protected function _addCatalogProduct(Mage_Catalog_Model_Product $product, $qty = 1)
+    {
+        //$item = new Mage_Wishlist_Model_Item();
+
+        $item = null;
+        foreach ($this->getItemCollection() as $_item) {
+            if ($_item->representProduct($product)) {
+                $item = $_item;
+                break;
+            }
+        }
+
+        if ($item === null) {
+            $item = Mage::getModel('wishlist/item');
+            $item->setProductId($product->getId())
+                ->setWishlistId($this->getId())
+                ->setAddedAt(now())
+                ->setStoreId($this->getStore()->getId())
+                //->setBuyRequest($_buyRequest)
+                ->setOptions($product->getCustomOptions())
+                ->setProduct($product)
+                ->setQty($qty)
+                ->save();
+        } else {
+            $item//->setBuyRequest($buyRequest)
+                ->setQty($item->getQty() + $qty)
+                ->save();
+        }
+
+        $this->addItem($item); // !!!
+
+        return $item;
+    }
 
     /**
      * Retrieve wishlist item collection
@@ -161,11 +216,13 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         if (!$itemId) {
             return false;
         }
-        $item = Mage::getModel('wishlist/item')->load($itemId);
-        if ($item->getWishlistId() != $this->getId()) {
-            return false;
-        }
-        return $item;
+        return $this->getItemCollection()->getItemById($itemId);
+
+//        $item = Mage::getModel('wishlist/item')->load($itemId);
+//        if ($item->getWishlistId() != $this->getId()) {
+//            return false;
+//        }
+//        return $item;
     }
 
     /**
@@ -187,7 +244,23 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Add new item to wishlist
+     * Adding item to wishlist
+     *
+     * @param   Mage_Wishlist_Model_Item $item
+     * @return  Mage_Wishlist_Model_Wishlist
+     */
+    public function addItem(Mage_Wishlist_Model_Item $item)
+    {
+        $item->setWishlist($this);
+        if (!$item->getId()) {
+            $this->getItemCollection()->addItem($item);
+            Mage::dispatchEvent('wishlist_add_item', array('item' => $item));
+        }
+        return $this;
+    }
+
+    /**
+     * Add new product to wishlist
      *
      * @param int|Mage_Catalog_Model_Product $product
      * @param mixed $buyRequest
@@ -211,30 +284,46 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         } else {
             $_buyRequest = new Varien_Object();
         }
-        $qty = $_buyRequest->getQty()?$_buyRequest->getQty():$_product->getStockItem()->getMinSaleQty();
+        
+        $cartCandidates = $_product->getTypeInstance(true)
+            ->processConfiguration($_buyRequest, $_product);
 
-        $item = null;
-        foreach ($this->getItemCollection() as $_item) {
-            if ($_item->isRepresent($_product, $_buyRequest)) {
-                $item = $_item;
-                break;
+        /**
+         * Error message
+         */
+        if (is_string($cartCandidates)) {
+            return $cartCandidates;
+        }
+
+        /**
+         * If prepare process return one object
+         */
+        if (!is_array($cartCandidates)) {
+            $cartCandidates = array($cartCandidates);
+        }
+
+        $errors = array();
+        $items = array();
+
+        foreach ($cartCandidates as $candidate) {
+            if ($candidate->getParentProductId()) {
+                continue;
+            }
+            $item = $this->_addCatalogProduct($candidate, $candidate->getQty());
+            $items[] = $item;
+
+            /**
+             * We specify qty after we know about parent (for stock)
+             */
+            //$item->addQty($candidate->getCartQty());
+
+            // collect errors instead of throwing first one
+            if ($item->getHasError()) {
+                $errors[] = $item->getMessage();
             }
         }
-
-        if ($item === null) {
-            $item = Mage::getModel('wishlist/item');
-            $item->setProductId($_product->getId())
-                ->setWishlistId($this->getId())
-                ->setAddedAt(now())
-                ->setStoreId($this->getStore()->getId())
-                ->setBuyRequest($_buyRequest)
-                ->setQty($qty)
-                ->save();
-        } else {
-            $item->setBuyRequest($buyRequest)
-                ->setQty($item->getQty() + $qty)
-                ->save();
-        }
+        
+        Mage::dispatchEvent('wishlist_product_add_after', array('items' => $items));
 
         return $item;
     }
@@ -383,24 +472,34 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         }
 
         $product = $item->getProduct();
-        $newItem = null;
 
-        foreach ($this->getItemCollection() as $_item) {
-            if ($item->getId() != $_item->getId() && $_item->isRepresent($product, $buyRequest)) {
-                $newItem = $_item;
-                break;
+        if ($productId = $product->getId()) {
+            $resultItem = $this->addNewItem($product, $buyRequest);
+            /**
+             * Error message
+             */
+            if (is_string($resultItem)) {
+                Mage::throwException(Mage::helper('checkout')->__($resultItem));
             }
-        }
 
-        if ($newItem === null) {
-            $item->setBuyRequest($buyRequest)
-                ->setQty($buyRequest->getQty())
-                ->save();
+            if ($resultItem->getId() != $itemId) {
+                $item->isDeleted(true);
+
+                $items = $this->getItemCollection();
+                $eqItems = array();
+                foreach ($items as $_item) {
+                    if ($_item->getProductId() == $productId && $_item->getId() != $resultItem->getId()) {
+                        if ($resultItem->compareOptions($resultItem->getOptions(), $_item->getOptions())) {
+                            $resultItem->setQty($resultItem->getQty() + $_item->getQty());
+                            $_item->isDeleted(true);
+                        }
+                    }
+                }
+            } else {
+                $resultItem->setQty($buyRequest->getQty()*1);
+            }
         } else {
-            $item->delete();
-            $newItem->setBuyRequest($buyRequest)
-                ->setQty($newItem->getQty() + $buyRequest->getQty())
-                ->save();
+            Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
         }
     }
 }

@@ -491,40 +491,29 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     }
 
     /**
-     * Initialize product(s) for add to cart process
+     * Prepare product
      *
-     * @param   Varien_Object $buyRequest
-     * @param   Mage_Catalog_Model_Product $product
-     * @return  unknown
+     * @param Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
+     * @param string $processMode
+     * @return array|string
      */
-    public function prepareForCart(Varien_Object $buyRequest, $product = null)
+    protected function _prepareProduct(Varien_Object $buyRequest, $product, $processMode)
     {
-        $result = parent::prepareForCart($buyRequest, $product);
+        $result = parent::_prepareProduct($buyRequest, $product, $processMode);
 
         if (is_string($result)) {
             return $result;
         }
 
-        if (!is_array($buyRequest->getBundleOption())) {
-            if ($product) {
-                $product->setOptionsValidationFail(true);
-            }
-
-            Mage::throwException(Mage::helper('bundle')->__('Invalid options set'));
-        }
-
         $selections = array();
-
         $product = $this->getProduct($product);
+        $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
+        $_appendAllSelections = (bool)$product->getSkipCheckRequiredOption();
 
-        $_appendAllSelections = false;
-        if ($product->getSkipCheckRequiredOption()) {
-            $_appendAllSelections = true;
-        }
-
-        $options = array_filter($buyRequest->getBundleOption(), 'intval');
-
-        if ($options) {
+        $options = $buyRequest->getBundleOption();
+        if (is_array($options)) {
+            $options = array_filter($options, 'intval');
             $qtys = $buyRequest->getBundleOptionQty();
             foreach ($options as $_optionId => $_selections) {
                 if (empty($_selections)) {
@@ -533,7 +522,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
             $optionIds = array_keys($options);
 
-            if (empty($optionIds)) {
+            if (empty($optionIds) && $isStrictProcessMode) {
                 return Mage::helper('bundle')->__('Please select options for product.');
             }
 
@@ -542,7 +531,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $optionsCollection = $this->getOptionsCollection($product);
             if (!$this->getProduct($product)->getSkipCheckRequiredOption()) {
                 foreach ($optionsCollection->getItems() as $option) {
-                    if ($option->getRequired() && !isset($options[$option->getId()])) {
+                    if ($option->getRequired() && !isset($options[$option->getId()]) && $isStrictProcessMode) {
                         return Mage::helper('bundle')->__('Required options are not selected.');
                     }
                 }
@@ -588,6 +577,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
             $selections = $selections->getItems();
         } else {
+            $product->setOptionsValidationFail(true);
             $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
 
             $optionCollection = $product->getTypeInstance(true)->getOptionsCollection($product);
@@ -612,7 +602,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 }
             }
         }
-        if (count($selections) > 0) {
+        if (count($selections) > 0 || !$isStrictProcessMode) {
             $uniqueKey = array($product->getId());
             $selectionIds = array();
 
@@ -662,9 +652,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
                 $result[] = $_result[0]->setParentProductId($product->getId())
                     ->addCustomOption('bundle_option_ids', serialize($optionIds))
-                    ->addCustomOption('bundle_selection_attributes', serialize($attributes))
-                    ->setCartQty($qty);
+                    ->addCustomOption('bundle_selection_attributes', serialize($attributes));
                 //}
+                
+                if ($isStrictProcessMode) {
+                    $_result[0]->setCartQty($qty);
+                }
 
                 $selectionIds[] = $_result[0]->getSelectionId();
                 $uniqueKey[] = $_result[0]->getSelectionId();

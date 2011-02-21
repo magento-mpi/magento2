@@ -52,6 +52,10 @@
                     <item>
                         <table>wishlist_item</table>
                     </item>
+                    <item>
+                        <table>wishlist_item</table>
+                    </item>
+                    <item_option><table>wishlist_item_option</table></item_option>
                 </entities>
             </wishlist_resource>
         </models>

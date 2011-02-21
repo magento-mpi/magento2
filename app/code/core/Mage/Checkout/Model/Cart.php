@@ -506,9 +506,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     {
         $product = $this->_getProduct($productInfo);
         $request = $this->_getProductRequest($requestInfo);
-        $itemId = (int) $requestInfo['id'];
+        $itemId = isset($requestInfo['id']) ? $requestInfo['id'] : null;
 
         $productId = $product->getId();
+        if (!$productId) {
+            Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
+        }
 
         if ($product->getStockItem()) {
             $minimumQty = $product->getStockItem()->getMinSaleQty();
@@ -521,24 +524,21 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             }
         }
 
-        if ($productId) {
-            try {
-                $result = $this->getQuote()->updateItem($itemId, $request);
-            } catch (Mage_Core_Exception $e) {
-                $this->getCheckoutSession()->setUseNotice(false);
-                $result = $e->getMessage();
+        try {
+            $result = $this->getQuote()->updateItem($itemId, $request);
+        } catch (Mage_Core_Exception $e) {
+            $this->getCheckoutSession()->setUseNotice(false);
+            $result = $e->getMessage();
+        }
+
+        /**
+         * We can get string if updating process had some errors
+         */
+        if (is_string($result)) {
+            if ($this->getCheckoutSession()->getUseNotice() === null) {
+                $this->getCheckoutSession()->setUseNotice(true);
             }
-            /**
-             * String we can get if prepare process has error
-             */
-            if (is_string($result)) {
-                if ($this->getCheckoutSession()->getUseNotice() === null) {
-                    $this->getCheckoutSession()->setUseNotice(true);
-                }
-                Mage::throwException($result);
-            }
-        } else {
-            Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
+            Mage::throwException($result);
         }
 
         Mage::dispatchEvent('checkout_cart_product_update_after', array('quote_item' => $result, 'product' => $product));

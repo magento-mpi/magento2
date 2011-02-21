@@ -133,10 +133,20 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         try {
             $buyRequest = new Varien_Object($this->getRequest()->getParams());
 
-            $item = $wishlist->addNewItem($product, $buyRequest);
+            $result = $wishlist->addNewItem($product, $buyRequest);
+            if (is_string($result)) {
+                Mage::throwException($result);
+            }
             $wishlist->save();
 
-            Mage::dispatchEvent('wishlist_add_product', array('wishlist'=>$wishlist, 'product'=>$product, 'item'=>$item));
+            Mage::dispatchEvent(
+                'wishlist_add_product',
+                array(
+                    'wishlist'  => $wishlist,
+                    'product'   => $product,
+                    'item'      => $result
+                )
+            );
 
             $referer = $session->getBeforeWishlistUrl();
             if ($referer) {
@@ -159,8 +169,10 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             $session->addError($this->__('An error occurred while adding item to wishlist: %s', $e->getMessage()));
         }
         catch (Exception $e) {
+            mage::log($e->getMessage());
             $session->addError($this->__('An error occurred while adding item to wishlist.'));
         }
+
         $this->_redirect('*');
     }
 
@@ -364,6 +376,10 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         $redirectUrl = Mage::getUrl('*/*');
 
         try {
+            $options = Mage::getModel('wishlist/item_option')->getCollection()
+                    ->addItemFilter(array($itemId));
+            $item->setOptions($options->getOptionsByItem($itemId));
+
             $item->addToCart($cart, true);
             $cart->save()-> getQuote()->collectTotals();
             $wishlist->save();

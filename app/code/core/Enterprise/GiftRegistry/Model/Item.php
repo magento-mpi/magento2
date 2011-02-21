@@ -49,6 +49,22 @@
  */
 class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
 {
+
+    /**
+     * List of options related to item
+     *
+     * @var array
+     */
+    protected $_options = array();
+
+    /**
+     * Assoc array of item options
+     * Option codes are used as array keys
+     *
+     * @var array
+     */
+    protected $_optionsByCode = array();
+
     function _construct() {
         $this->_init('enterprise_giftregistry/item');
     }
@@ -113,12 +129,13 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
 
         $product->setGiftregistryItemId($this->getId());
         $product->addCustomOption('giftregistry_id', $this->getEntityId());
-        $request = unserialize($this->getCustomOptions());
-        $request['qty'] = $qty;
+        $request = $this->getBuyRequest();
+        $request->setQty($qty);
 
         $cart->addProduct($product, $request);
-        if (!empty($request['related_product'])) {
-            $cart->addProductsByIds(explode(',', $request['related_product']));
+        $relatedProduct = $request->getRelatedProduct();
+        if (!empty($relatedProduct)) {
+            $cart->addProductsByIds(explode(',', $relatedProduct));
         }
 
         if (!$product->isVisibleInSiteVisibility()) {
@@ -138,26 +155,20 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
             return false;
         }
 
-        $productCustomOptions = $product->getCustomOptions();
+        $itemOptions = $this->getOptionsByCode();
+        $productOptions = $product->getCustomOptions();
 
-        if (empty($productCustomOptions['info_buyRequest'])) {
+        if (!$this->_compareOptions($itemOptions, $productOptions)) {
             return false;
         }
-        $requestOption = $productCustomOptions['info_buyRequest'];
-        $requestArray = unserialize($requestOption->getValue());
-        $selfOptions = unserialize($this->getCustomOptions());
-
-        if(!$this->_compareOptions($requestArray, $selfOptions)){
-            return false;
-        }
-        if(!$this->_compareOptions($selfOptions, $requestArray)){
+        if (!$this->_compareOptions($productOptions, $itemOptions)) {
             return false;
         }
         return true;
     }
 
     /**
-     * Check if two options array are identical
+     * Check if two option sets are identical
      *
      * @param array $options1
      * @param array $options2
@@ -165,12 +176,15 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      */
     protected function _compareOptions($options1, $options2)
     {
-        $skipOptions = array('qty');
-        foreach ($options1 as $code => $value) {
+        $skipOptions = array('qty','info_buyRequest');
+        foreach ($options1 as $option) {
+            $code = $option->getCode();
             if (in_array($code, $skipOptions)) {
                 continue;
             }
-            if (!isset($options2[$code]) || $options2[$code] != $value) {
+            if ( !isset($options2[$code])
+                || ($options2[$code]->getValue() === null)
+                || $options2[$code]->getValue() != $option->getValue()) {
                 return false;
             }
         }
@@ -217,5 +231,210 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
             $this->setProduct($product);
         }
         return $this->getProduct();
+    }
+
+    /**
+     * Save item options after item is saved
+     *
+     * @return Enterprise_GiftRegistry_Model_Item
+     */
+    protected function _afterSave()
+    {
+        $this->_saveItemOptions();
+        return parent::_afterSave();
+    }
+
+    /**
+     * Initialize item options
+     *
+     * @param array $options
+     * @return Enterprise_GiftRegistry_Model_Item
+     */
+    public function setOptions($options)
+    {
+        foreach ($options as $option) {
+            $this->addOption($option);
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve all item options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->_options;
+    }
+
+    /**
+     * Retrieve all item options as assoc array with option codes as array keys
+     *
+     * @return array
+     */
+    public function getOptionsByCode()
+    {
+        return $this->_optionsByCode;
+    }
+
+    /**
+     * Remove option from item options
+     *
+     * @param string $code
+     * @return Enterprise_GiftRegistry_Model_Item
+     */
+    public function removeOption($code)
+    {
+        $option = $this->getOptionByCode($code);
+        if ($option) {
+            $option->isDeleted(true);
+        }
+        return $this;
+    }
+
+    /**
+     * Add option to item
+     *
+     * @throws  Mage_Core_Exception
+     * @param   Enterprise_GiftRegistry_Model_Item_Option $option
+     * @return  Enterprise_GiftRegistry_Model_Item
+     */
+    public function addOption($option)
+    {
+        if (is_array($option)) {
+            $option = Mage::getModel('enterprise_giftregistry/item_option')->setData($option)
+                ->setItem($this);
+        } elseif ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
+            // import data from existing quote item option
+            $option = Mage::getModel('enterprise_giftregistry/item_option')->setProduct($option->getProduct())
+               ->setCode($option->getCode())
+               ->setValue($option->getValue())
+               ->setItem($this);
+        } elseif (($option instanceof Varien_Object) && !($option instanceof Enterprise_GiftRegistry_Model_Item_Option)) {
+            $option = Mage::getModel('enterprise_giftregistry/item_option')->setData($option->getData())
+               ->setProduct($option->getProduct())
+               ->setItem($this);
+        } elseif($option instanceof Enterprise_GiftRegistry_Model_Item_Option) {
+            $option->setItem($this);
+        } else {
+            Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Invalid item option format.'));
+        }
+
+        $exOption = $this->getOptionByCode($option->getCode());
+        if (!is_null($exOption)) {
+            $exOption->addData($option->getData());
+        } else {
+            $this->_addOptionCode($option);
+            $this->_options[] = $option;
+        }
+        return $this;
+    }
+
+    /**
+     * Register option code
+     *
+     * @throws  Mage_Core_Exception
+     * @param   Enterprise_GiftRegistry_Model_Item_Option $option
+     * @return  Enterprise_GiftRegistry_Model_Item
+     */
+    protected function _addOptionCode($option)
+    {
+        if (!isset($this->_optionsByCode[$option->getCode()])) {
+            $this->_optionsByCode[$option->getCode()] = $option;
+        } else {
+            Mage::throwException(Mage::helper('enterprise_giftregistry')->__('An item option with code %s already exists.', $option->getCode()));
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve item option by code
+     *
+     * @param   string $code
+     * @return  Enterprise_GiftRegistry_Model_Item_Option|null
+     */
+    public function getOptionByCode($code)
+    {
+        if (isset($this->_optionsByCode[$code]) && !$this->_optionsByCode[$code]->isDeleted()) {
+            return $this->_optionsByCode[$code];
+        }
+        return null;
+    }
+
+    /**
+     * Checks if item model has data changes
+     * Call save item options if model doesn't need to be saved
+     *
+     * @return boolean
+     */
+    protected function _hasModelChanged()
+    {
+        if (!$this->hasDataChanges()) {
+            return false;
+        }
+
+        $result = $this->_getResource()->hasDataChanged($this);
+        if ($result === false) {
+           $this->_saveItemOptions();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Save item options
+     *
+     * @return Enterprise_GiftRegistry_Model_Item
+     */
+    protected function _saveItemOptions()
+    {
+        foreach ($this->_options as $index => $option) {
+            if ($option->isDeleted()) {
+                $option->delete();
+                unset($this->_options[$index]);
+                unset($this->_optionsByCode[$option->getCode()]);
+            } else {
+                $option->save();
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns formatted buy request - object, holding request received from
+     * product view page with keys and options for configured product
+     *
+     * @return Varien_Object|null
+     */
+    public function getBuyRequest()
+    {
+        $option = $this->getOptionByCode('info_buyRequest');
+        if ($option) {
+            $buyRequest = new Varien_Object(unserialize($option->getValue()));
+            // Qty value that is stored in buyRequest can be out-of-date
+            $buyRequest->setQty($this->getQty()*1);
+        } else {
+            $buyRequest = null;
+        }
+
+        return $buyRequest;
+    }
+
+    /**
+     * Clone gift registry item
+     *
+     * @return Enterprise_GiftRegistry_Model_Item
+     */
+    public function __clone()
+    {
+        $options = $this->getOptions();
+        $this->_options = array();
+        $this->_optionsByCode = array();
+        foreach ($options as $option) {
+            $this->addOption(clone $option);
+        }
+        return $this;
     }
 }

@@ -172,13 +172,24 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
         $this->setIsValid(false);
 
         $option = $this->getOption();
-        if (!isset($values[$option->getId()]) && $option->getIsRequire() && !$this->getProduct()->getSkipCheckRequiredOption()) {
+        if (!isset($values[$option->getId()]) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s).'));
         } elseif (isset($values[$option->getId()])) {
             $this->setUserValue($values[$option->getId()]);
             $this->setIsValid(true);
         }
         return $this;
+    }
+
+    /**
+     * Check skip required option validation
+     *
+     * @return bool
+     */
+    public function getSkipCheckRequiredOption()
+    {
+        return $this->getProduct()->getSkipCheckRequiredOption() ||
+            $this->getProcessMode() == Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_DEFAULT;
     }
 
     /**

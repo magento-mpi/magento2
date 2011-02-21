@@ -18,34 +18,26 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_Wishlist
+ * @category    Enterprise
+ * @package     Enterprise_GiftRegistry
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* @var $installer Mage_Core_Model_Resource_Setup */
-$installer = $this;
-$installer->startSetup();
-$installer->getConnection()->addColumn($this->getTable('wishlist_item'), 'qty', 'DECIMAL( 12, 4 ) NOT NULL');
-
-$installer->run("
-CREATE TABLE `{$this->getTable('wishlist_item_option')}` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `wishlist_item_id` int(10) unsigned NOT NULL,
-  `product_id` int(10) unsigned NOT NULL,
-  `code` varchar(255) NOT NULL,
-  `value` text NOT NULL,
-  PRIMARY KEY (`option_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Additional options for wishlist item';
-");
-
-$installer->getConnection()->addConstraint(
-    'FK_WISHLIST_ITEM_OPTION_ITEM_ID',
-    $this->getTable('wishlist_item_option'),
-    'wishlist_item_id',
-    $this->getTable('wishlist_item'),
-    'wishlist_item_id'
-);
-
-$installer->endSetup();
+/**
+ * Gift registry item option mysql4 resource model
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftRegistry
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_GiftRegistry_Model_Mysql4_Item_Option extends Mage_Core_Model_Mysql4_Abstract
+{
+    /**
+     * Internal constructor
+     */
+    protected function _construct()
+    {
+        $this->_init('enterprise_giftregistry/item_option', 'option_id');
+    }
+}

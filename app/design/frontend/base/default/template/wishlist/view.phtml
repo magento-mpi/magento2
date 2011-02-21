@@ -59,6 +59,7 @@
                         <td>
                             <a class="product-image" href="<?php echo $this->getProductUrl($product) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
                             <h2 class="product-name"><a href="<?php echo $this->getProductUrl($product) ?>"><?php echo $this->htmlEscape($product->getName()) ?></a></h2>
+                            <?php echo $this->__('Quantity') ?>: <?php echo $this->getQty($item) ?><br/>
                             <?php echo $this->getPriceHtml($product) ?>
                         </td>
                         <td>

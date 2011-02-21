@@ -946,9 +946,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             ->load($productId);
 
         $resultItem = $this->addProduct($product, $buyRequest);
+
         if (is_string($resultItem)) {
             Mage::throwException($resultItem);
         }
+
         if ($resultItem->getParentItem()) {
             $resultItem = $resultItem->getParentItem();
         }

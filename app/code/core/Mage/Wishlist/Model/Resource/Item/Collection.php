@@ -88,7 +88,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     /**
      * After load processing
      *
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     protected function _afterLoad()
     {
@@ -97,8 +97,31 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         /**
          * Assign products
          */
+        $this->_assignOptions();
         $this->_assignProducts();
         $this->resetItemsDataChanged();
+
+
+        $this->getPageSize();
+
+        return $this;
+    }
+
+    /**
+     * Add options to items
+     *
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
+     */
+    protected function _assignOptions()
+    {
+        $itemIds = array_keys($this->_items);
+        $optionCollection = Mage::getModel('wishlist/item_option')->getCollection()
+            ->addItemFilter($itemIds);
+        foreach ($this as $item) {
+            $item->setOptions($optionCollection->getOptionsByItem($item));
+        }
+        $productIds = $optionCollection->getProductIds();
+        $this->_productIds = array_merge($this->_productIds, $productIds);
 
         return $this;
     }
@@ -106,7 +129,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     /**
      * Add products to items and item options
      *
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     protected function _assignProducts()
     {
@@ -194,7 +217,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     /**
      * Add items store data to collection
      *
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function addStoreData()
     {
@@ -247,7 +270,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      * This filter apply Salable Product Types Filter to product collection.
      * 
      * @param bool $flag
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function setSalableFilter($flag = true)
     {
@@ -260,7 +283,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      * This filter remove items with no salable product.
      *  
      * @param bool $flag
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function setInStockFilter($flag = true)
     {

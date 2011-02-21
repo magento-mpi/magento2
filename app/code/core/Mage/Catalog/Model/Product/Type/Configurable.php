@@ -515,16 +515,30 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Initialize product(s) for add to cart process
+     * Prepare product
      *
-     * @param   Varien_Object $buyRequest
-     * @param   Mage_Catalog_Model_Product $product
-     * @return  mixed
+     * @param Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
+     * @param string $processMode
+     * @return array|string
      */
-    public function prepareForCart(Varien_Object $buyRequest, $product = null)
+    protected function _prepareProduct(Varien_Object $buyRequest, $product, $processMode)
     {
-        if ($attributes = $buyRequest->getSuperAttribute()) {
-            $result = parent::prepareForCart($buyRequest, $product);
+        $attributes = $buyRequest->getSuperAttribute();
+        if ($attributes || !$this->_isStrictProcessMode($processMode)) {
+            if (!$this->_isStrictProcessMode($processMode)) {
+                if (is_array($attributes)) {
+                    foreach ($attributes as $key => $val) {
+                        if (empty($val)) {
+                            unset($attributes[$key]);
+                        }
+                    }
+                } else {
+                    $attributes = array();
+                }
+            }
+
+            $result = parent::_prepareProduct($buyRequest, $product, $processMode);
             if (is_array($result)) {
                 $product = $this->getProduct($product);
                 /**
@@ -535,8 +549,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                     $product->addCustomOption('product_qty_'.$subProduct->getId(), 1, $subProduct);
                     $product->addCustomOption('simple_product', $subProduct->getId(), $subProduct);
 
-
-                    $_result = $subProduct->getTypeInstance(true)->prepareForCart($buyRequest, $subProduct);
+                    $_result = $subProduct->getTypeInstance(true)->_prepareProduct($buyRequest, $subProduct, $processMode);
                     if (is_string($_result) && !is_array($_result)) {
                         return $_result;
                     }
@@ -560,15 +573,16 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
                     $_result[0]->setParentProductId($product->getId())
                         // add custom option to simple product for protection of process when we add simple product separately
-                        ->addCustomOption('parent_product_id', $product->getId())
-                        ->setCartQty(1);
-
+                        ->addCustomOption('parent_product_id', $product->getId());
+                    if ($this->_isStrictProcessMode($processMode)) {
+                        $_result[0]->setCartQty(1);
+                    }
                     $result[] = $_result[0];
-
                     return $result;
                 }
             }
         }
+
         return $this->getSpecifyOptionMessage();
     }
 

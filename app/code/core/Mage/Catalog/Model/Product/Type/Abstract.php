@@ -83,6 +83,13 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     protected $_storeFilter     = null;
 
+    /**
+     * File queue array
+     * 
+     * @var array
+     */
+    protected $_fileQueue       = array();
+
     const CALCULATE_CHILD = 0;
     const CALCULATE_PARENT = 1;
 
@@ -92,6 +99,13 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     const SHIPMENT_SEPARATELY = 1;
     const SHIPMENT_TOGETHER = 0;
+
+    /**
+     * Process modes
+     *
+     */
+    const PROCESS_MODE_CART = 'cart';
+    const PROCESS_MODE_DEFAULT = 'default';
 
     /**
      * Specify type instance product
@@ -271,19 +285,20 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Initialize product(s) for add to cart process
+     * Prepare product
      *
-     * @param   Varien_Object $buyRequest
+     * @param Varien_Object $buyRequest
      * @param   Mage_Catalog_Model_Product $product
-     * @return  array|string
+     * @param string $processMode
+     * @return array|string
      */
-    public function prepareForCart(Varien_Object $buyRequest, $product = null)
+    protected function _prepareProduct(Varien_Object $buyRequest, $product, $processMode)
     {
         $product = $this->getProduct($product);
         /* @var Mage_Catalog_Model_Product $product */
         // try to add custom options
         try {
-            $options = $this->_prepareOptionsForCart($buyRequest, $product);
+            $options = $this->_prepareOptions($buyRequest, $product, $processMode);
         } catch (Mage_Core_Exception $e) {
             return $e->getMessage();
         }
@@ -295,7 +310,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         // (if product was buying within grouped product)
         $superProductConfig = $buyRequest->getSuperProductConfig();
         if (!empty($superProductConfig['product_id'])
-            && !empty($superProductConfig['product_type'])) {
+            && !empty($superProductConfig['product_type'])
+        ) {
             $superProductId = (int) $superProductConfig['product_id'];
             if ($superProductId) {
                 if (!$superProduct = Mage::registry('used_super_product_'.$superProductId)) {
@@ -309,10 +325,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                         $product->addCustomOption('product_type', $productType, $superProduct);
 
                         $buyRequest->setData('super_product_config', array(
-                                'product_type'  => $productType,
-                                'product_id'    => $superProduct->getId()
-                            )
-                        );
+                            'product_type' => $productType,
+                            'product_id'   => $superProduct->getId()
+                        ));
                     }
                 }
             }
@@ -329,9 +344,116 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         }
 
         // set quantity in cart
-        $product->setCartQty($buyRequest->getQty());
+        if ($this->_isStrictProcessMode($processMode)) {
+            $product->setCartQty($buyRequest->getQty());
+        }
+        $product->setQty($buyRequest->getQty());
 
         return array($product);
+    }
+
+    /**
+     * Process product configuaration
+     *
+     * @param Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
+     * @param string $processMode
+     * @return array|string
+     */
+    public function processConfiguration(Varien_Object $buyRequest, $product = null, $processMode = self::PROCESS_MODE_DEFAULT)
+    {
+        $_products = $this->_prepareProduct($buyRequest, $product, $processMode);
+
+        $this->processFileQueue();
+
+        return $_products;
+    }
+
+    /**
+     * Initialize product(s) for add to cart process
+     *
+     * @param Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
+     * @return array|string
+     */
+    public function prepareForCart(Varien_Object $buyRequest, $product = null)
+    {
+        $_products = $this->_prepareProduct($buyRequest, $product, self::PROCESS_MODE_CART);
+
+        $this->processFileQueue();
+
+        return $_products;
+    }
+
+    /**
+     * Process File Queue
+     * @return Mage_Catalog_Model_Product_Type_Abstract
+     */
+    public function processFileQueue()
+    {
+        if (empty ($this->_fileQueue)) {
+            return $this;
+        }
+
+        foreach ($this->_fileQueue as &$queueOptions) {
+            if (isset($queueOptions['operation']) && $operation = $queueOptions['operation']) {
+                switch ($operation) {
+                    case 'receive_uploaded_file':
+                        $src = isset($queueOptions['src_name']) ? $queueOptions['src_name'] : '';
+                        $dst = isset($queueOptions['dst_name']) ? $queueOptions['dst_name'] : '';
+                        $uploader = isset($queueOptions['uploader']) ? $queueOptions['uploader'] : null;
+
+                        $path = dirname($dst);
+                        $io = new Varien_Io_File();
+                        if (!$io->isWriteable($path) && !$io->mkdir($path, 0777, true)) {
+                            Mage::throwException(Mage::helper('catalog')->__("Cannot create writeable directory '%s'.", $path));
+                        }
+                        
+                        $uploader->setDestination($path);
+                        
+                        if (empty($src) || empty($dst) || !$uploader->receive($src)) {
+                            /**
+                             * @todo: show invalid option
+                             */
+                            if (isset($queueOptions['option'])) {
+                                $queueOptions['option']->setIsValid(false);
+                            }
+                            Mage::throwException(Mage::helper('catalog')->__("File upload failed"));
+                        }
+                        break;
+                    case 'move_uploaded_file':
+                        $src = $queueOptions['src_name'];
+                        $dst = $queueOptions['dst_name'];
+                        move_uploaded_file($src, $dst);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            $queueOptions = null;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add file to File Queue
+     * @param array $queueOptions Array of File Queue (eg. ['operation'=>'move', 'src_name'=>'filename', 'dst_name'=>'filename2'])
+     */
+    public function addFileQueue($queueOptions)
+    {
+        $this->_fileQueue[] = $queueOptions;
+    }
+
+    /**
+     * Check if current process mode is strict
+     *
+     * @param string $processMode
+     * @return bool
+     */
+    protected function _isStrictProcessMode($processMode)
+    {
+        return $processMode == self::PROCESS_MODE_CART;
     }
 
     /**
@@ -345,13 +467,14 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Check custom defined options for product
+     * Process custom defined options for product
      *
-     * @param  Varien_Object $buyRequest
-     * @param  Mage_Catalog_Model_Product $product
-     * @return array|string
+     * @param Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
+     * @param string $processMode
+     * @return array
      */
-    protected function _prepareOptionsForCart(Varien_Object $buyRequest, $product = null)
+    protected function _prepareOptions(Varien_Object $buyRequest, $product, $processMode)
     {
         $transport = new StdClass;
         $transport->options = array();
@@ -361,6 +484,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 ->setOption($_option)
                 ->setProduct($this->getProduct($product))
                 ->setRequest($buyRequest)
+                ->setProcessMode($processMode)
                 ->validateUserValue($buyRequest->getOptions());
 
             $preparedValue = $group->prepareForCart();
@@ -368,10 +492,26 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 $transport->options[$_option->getId()] = $preparedValue;
             }
         }
-        Mage::dispatchEvent('catalog_product_type_prepare_cart_options', array(
-            'transport' => $transport, 'buy_request' => $buyRequest, 'product' => $product
+
+        $eventName = sprintf('catalog_product_type_prepare_%s_options', $processMode);
+        Mage::dispatchEvent($eventName, array(
+            'transport'   => $transport,
+            'buy_request' => $buyRequest,
+            'product' => $product
         ));
         return $transport->options;
+    }
+
+    /**
+     * Process product custom defined options for cart
+     *
+     * @param Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    protected function _prepareOptionsForCart(Varien_Object $buyRequest, $product = null)
+    {
+        return $this->_prepareOptions($buyRequest, $product, self::PROCESS_MODE_CART);
     }
 
     /**

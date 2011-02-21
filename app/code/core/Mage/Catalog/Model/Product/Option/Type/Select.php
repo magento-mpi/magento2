@@ -47,7 +47,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
         $option = $this->getOption();
         $value = $this->getUserValue();
 
-        if (empty($value) && $option->getIsRequire() && !$this->getProduct()->getSkipCheckRequiredOption()) {
+        if (empty($value) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
             Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s).'));
         }

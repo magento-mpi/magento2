@@ -60,15 +60,22 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
             Mage::throwException($this->__('No wishlist item id defined.'));
         }
 
-        $this->_wishlistItem = Mage::getModel('wishlist/item')
+        /* @var $wishlistItem Mage_Wishlist_Model_Item */
+        $wishlistItem = Mage::getModel('wishlist/item')
             ->load($wishlistItemId);
 
-        if (!$this->_wishlistItem->getWishlistId()) {
+        if (!$wishlistItem->getWishlistId()) {
             Mage::throwException($this->__('Wishlist item is not loaded.'));
         }
 
+        $optionCollection = Mage::getModel('wishlist/item_option')->getCollection()
+            ->addItemFilter(array($wishlistItemId));
+        $wishlistItem->setOptions($optionCollection->getOptionsByItem($wishlistItem));
+
         $this->_wishlist = Mage::getModel('wishlist/wishlist')
-            ->load($this->_wishlistItem->getWishlistId());
+            ->load($wishlistItem->getWishlistId());
+
+        $this->_wishlistItem = $wishlistItem;
 
         return $this;
     }
