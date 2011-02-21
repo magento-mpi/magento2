@@ -78,6 +78,23 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     }
 
     /**
+     * Check whether payment method can be used
+     *
+     * @param Mage_Sales_Model_Quote
+     * @return bool
+     */
+    public function isAvailable($quote = null)
+    {
+        $storeId = Mage::app()->getStore($this->getStore())->getId();
+        $config = Mage::getModel('paypal/config')->setStoreId($storeId);
+        if ($config->isMethodAvailable($this->getCode()) &&
+            Mage_Payment_Model_Method_Abstract::isAvailable($quote)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Instantiate state and set it to state object
      *
      * @param string $paymentAction
