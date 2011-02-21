@@ -557,6 +557,7 @@ AdminOrder.prototype = {
     },
     
     sidebarConfigureProduct: function (productId) {
+        // create additional fields
         var params = {};
         params.reset_shipping = true;
         params.add_product = productId;
@@ -568,19 +569,26 @@ AdminOrder.prototype = {
                 params[i] = params[i] ? 1 : 0; 
             }
         }
-        
-        productConfigure.setOnLoadIFrameCallback('sidebar', this.cbSidebarOnLoadIframe.bind(this));
-        productConfigure.showItemConfiguration('sidebar', productId, params);
+        var fields = [];
+        for (var name in params) {
+            fields.push(new Element('input', {type: 'hidden', name: name, value: params[name]}));
+        }
+        // add additional fields before triggered submit
+        productConfigure.setBeforeSubmitCallback('sidebar', function() {
+            productConfigure.addFields(fields);
+        }.bind(this));
+        // response handler
+        productConfigure.setOnLoadIFrameCallback('sidebar', function(response) {
+            if (!response.ok) {
+                return;
+            }
+            this.loadArea(['items', 'shipping_method', 'billing_method','totals', 'giftmessage'], true);
+        }.bind(this));
+        // show item configuration
+        productConfigure.showItemConfiguration('sidebar', productId);
         return false;
     },
 
-    cbSidebarOnLoadIframe: function (response) {
-        if (!response.ok) {
-            return;
-        }
-        this.loadArea(['items', 'shipping_method', 'billing_method','totals', 'giftmessage'], true);
-    },
-    
     removeSidebarItem : function(id, from){
         this.loadArea(['sidebar_'+from], 'sidebar_data_'+from, {remove_item:id, from:from});
     },

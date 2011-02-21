@@ -44,6 +44,7 @@ ProductConfigure.prototype = {
     cancelCallback:             {},
     onLoadIFrameCallback:       {},
     showWindowCallback:         {},
+    beforeSubmitCallback:       {},
     iFrameJSVarname:            null,
 
     /**
@@ -92,7 +93,7 @@ ProductConfigure.prototype = {
     /**
      * Add filter of items
      *
-     * @param listType
+     * @param listType scope name
      * @param itemsFilter
      */
     addItemsFilter: function(listType, itemsFilter) {
@@ -109,10 +110,10 @@ ProductConfigure.prototype = {
     /**
      * Show configuration fields of item, if it not found then get it through ajax
      *
-     * @param listType type of list as scope
+     * @param listType scope name
      * @param itemId 
      */
-    showItemConfiguration: function(listType, itemId, externalParams) {
+    showItemConfiguration: function(listType, itemId) {
         if (!listType || !itemId) {
             return false;
         }
@@ -120,7 +121,6 @@ ProductConfigure.prototype = {
         this._initWindowElements();
         this.current.listType = listType;
         this.current.itemId = itemId;
-        this.current.externalParams = externalParams;
         this.сonfirmedCurrentId = this.blockConfirmed.id+'['+listType+']['+itemId+']';
 
         if (!$(this.сonfirmedCurrentId) || !$(this.сonfirmedCurrentId).innerHTML) {
@@ -134,7 +134,7 @@ ProductConfigure.prototype = {
     /**
      * Get configuration fields of product through ajax and show them
      *
-     * @param listType type of list as scope
+     * @param listType scope name
      * @param itemId
      */
     _requestItemConfiguration: function(listType, itemId) {
@@ -194,7 +194,7 @@ ProductConfigure.prototype = {
     /**
      * Submit configured data through iFrame
      *
-     * @param url
+     * @param listType scope name
      */
     submit: function(listType) {
         // prepare data
@@ -209,20 +209,16 @@ ProductConfigure.prototype = {
         }
         if (urlConfirm) {
             this.blockForm.action = urlConfirm;
-
-            var fields = [new Element('input', {type: 'hidden', name: 'id', value: this.current.itemId})];
-            if (this.current.externalParams) {
-                for (var paramName in this.current.externalParams) {
-                    fields.push(new Element('input', {type: 'hidden', name: paramName, value: this.current.externalParams[paramName]}));
-                }
-            }
-            this.addFields(fields);
+            this.addFields([new Element('input', {type: 'hidden', name: 'id', value: this.current.itemId})]);
         } else {
             this._processFieldsData('current_confirmed_to_form');
             this.blockForm.action = urlSubmit;
         }
         // do submit
         this.blockIFrame.setAttribute('onload', 'productConfigure.onLoadIFrame()');
+        if (Object.isFunction(this.beforeSubmitCallback[this.current.listType])) {
+            this.beforeSubmitCallback[this.current.listType]();
+        }
         this.blockForm.submit();
         varienLoaderHandler.handler.onCreate({options: {loaderArea: true}});
         return this;
@@ -362,6 +358,16 @@ ProductConfigure.prototype = {
      */
     setShowWindowCallback: function(listType, showWindowCallback) {
         this.showWindowCallback[listType] = showWindowCallback;
+        return this;
+    },
+
+    /**
+     * Attach callback function triggered before submitting form
+     *
+     * @param beforeSubmitCallback
+     */
+    setBeforeSubmitCallback: function(listType, beforeSubmitCallback) {
+        this.beforeSubmitCallback[listType] = beforeSubmitCallback;
         return this;
     },
 
