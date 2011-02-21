@@ -557,6 +557,60 @@
         </reviews_and_ratings>
     </catalog>
     <customers>
+        <reviews_and_ratings>
+            <manage_review>
+                <buttons>
+                    <add_new>//button[span="Add New Review"]</add_new>
+                    <search>//button[span="Search"]</search>
+                </buttons>
+                <elements>
+                    <product_container>//div[@id='productGrid']</product_container>
+                </elements>
+                <edit_review_page>
+                    <buttons>
+                        <save>//button[span="Save Review"]</save>
+                        <delete>//button[span="Delete Review"]</delete>
+                        <product_saerch>//button[span="Search"]</product_saerch>
+                    </buttons>
+                    <inputs>
+                        <nickname>//input[@id="nickname"]</nickname>
+                        <summary_of_review>//input[@id="title"]</summary_of_review>
+                        <review_text>//textarea[@id="detail"]</review_text>
+                    </inputs>
+                    <elements>
+                        <review_container>//div[@id='reviwGrid']</review_container>
+                        <rating_qty>//table[@id='product-review-table']//tr[contains(td/@class,'label')]</rating_qty>
+                        <rating_present>//table[@id='product-review-table']//td[contains(text(),'%s')]</rating_present>
+                        <ratings_not_empty>//table[@id='product-review-table']</ratings_not_empty>
+                    </elements>
+                    <selectors>
+                        <status>//select[@id="status_id"]</status>
+                        <visible_in>//select[@id="select_stores"]</visible_in>
+                        <rating_select>//table[@id="product-review-table"]//input[@id='%s']</rating_select>
+                    </selectors>
+                </edit_review_page>
+            </manage_review>
+            <manage_ratings>
+                <elements>
+                    <rating_container>//div[@id='ratingsGrid']</rating_container>
+                </elements>
+                <buttons>
+                    <add_new_rating>//button[span="Add New Rating"]</add_new_rating>
+                </buttons>
+                <!-- related pages-->
+                <ratings>
+                    <inputs>
+                        <title_default>//input[@id="rating_code"]</title_default>
+                        <title_for_store>//*[@id='rating_form']//tr[contains(.,'%s')]//input</title_for_store>
+                    </inputs>
+                    <selectors>
+                        <visible_in>//*[@id='stores']</visible_in>
+                    </selectors>
+                </ratings>
+            </manage_ratings>
+        </reviews_and_ratings>
+    </catalog>
+    <customers>
         <manage_customers>
             <buttons>
                 <add_new_customer>//button[span='Add New Customer']</add_new_customer>
@@ -566,6 +620,9 @@
                 <customer_container_contains>//*[@id='customerGrid']//td[contains(text(),'%s')]</customer_container_contains>
                 <customer_container>//*[@id='customerGrid']</customer_container>
             </elements>
+            <inputs>
+                <search_email>//input[@id='filter_email']</search_email>
+            </inputs>
             <edit_customer_page>
                 <buttons>
                     <add_new_address>//button[span='Add New Address']</add_new_address>
@@ -592,7 +649,7 @@
                     <first_name>//input[@id='_accountfirstname']</first_name>
                     <last_name>//input[@id='_accountlastname']</last_name>
                     <email>//input[@id='_accountemail']</email>
-                    <password>//input[@id='_accountpassword']</password>
+                    <password>//input[contains(@id,'_account') and contains(@id,'password')]</password>
                     <zip_code>//input[contains(@id,'item') and contains(@id,'postcode')]</zip_code>
                     <city>//input[contains(@id,'item') and contains(@id,'city')]</city>
                     <telephone>//input[contains(@id,'item') and contains(@id,'telephone')]</telephone>
