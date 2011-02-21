@@ -42,7 +42,7 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
 
         if (Mage::helper('enterprise_search')->getIsEngineAvailableForNavigation(false)) {
             $this->_categoryBlockName        = 'enterprise_search/catalog_layer_filter_category';
-            $this->_attributeFilterBlockName = 'enterprise_search/catalog_layer_filter_attribute';
+            $this->_attributeFilterBlockName = 'enterprise_search/catalogsearch_layer_filter_attribute';
             $this->_priceFilterBlockName     = 'enterprise_search/catalog_layer_filter_price';
             $this->_decimalFilterBlockName   = 'enterprise_search/catalog_layer_filter_decimal';
         }
