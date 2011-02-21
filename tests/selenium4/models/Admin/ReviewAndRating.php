@@ -34,40 +34,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
         }
     }
 
-    public function doDeleteElement($confirmation)
-    {
-        $result = TRUE;
-        if ($this->isElementPresent($this->getUiElement('/admin/global/buttons/delete'))) {
-            $this->chooseCancelOnNextConfirmation();
-            $this->click($this->getUiElement('/admin/global/buttons/delete'));
-            if ($this->isConfirmationPresent()) {
-                $text = $this->getConfirmation();
-                if ($text == $confirmation) {
-                    $this->chooseOkOnNextConfirmation();
-                    $this->click($this->getUiElement('/admin/global/buttons/delete'));
-                } else {
-                    $this->printInfo('The confirmation text incorrect: ' . $text);
-                    $result = FALSE;
-                }
-            } else {
-                $this->printInfo('The confirmation does not appear');
-            }
-            if ($result) {
-                if ($this->waitForElement($this->getUiElement('/admin/messages/error'), 20)) {
-                    $etext = $this->getText($this->getUiElement('/admin/messages/error'));
-                    $this->setVerificationErrors($etext);
-                } elseif ($this->waitForElement($this->getUiElement('/admin/messages/success'), 30)) {
-                    $etext = $this->getText($this->getUiElement('/admin/messages/success'));
-                    $this->printInfo($etext);
-                } else {
-                    $this->setVerificationErrors('No success message');
-                }
-            }
-        } else {
-            $this->printInfo("There is no way to remove an item(There is no 'Delete' button)");
-        }
-        return $result;
-    }
+
 
     /**
      * Create Rating
