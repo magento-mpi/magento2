@@ -29,23 +29,23 @@
     <menu>
         <system>
             <children>
-                <convert translate="title" module="importexport">
+                <convert translate="title">
                     <children>
-                        <importexport_import translate="title" module="importexport">
+                        <import translate="title" module="importexport">
                             <title>Import</title>
                             <action>adminhtml/import</action>
                             <sort_order>10</sort_order>
-                        </importexport_import>
-                        <importexport_export translate="title" module="importexport">
+                        </import>
+                        <export translate="title" module="importexport">
                             <title>Export</title>
                             <action>adminhtml/export</action>
                             <sort_order>20</sort_order>
-                        </importexport_export>
-                        <!--<importexport_faq translate="title" module="importexport">
+                        </export>
+                        <!--<faq translate="title" module="importexport">
                             <title>Import / Export FAQ</title>
                             <action>adminhtml/faq</action>
                             <sort_order>30</sort_order>
-                        </importexport_faq>-->
+                        </faq>-->
                     </children>
                 </convert>
             </children>
