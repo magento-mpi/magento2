@@ -154,8 +154,6 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getProductCollection()
     {
-        throw new Exception("Usage of product collection is deprecated in wishlist.");
-        
         if (is_null($this->_productCollection)) {
             $this->_productCollection = $this->getWishlist()
                 ->getProductCollection();

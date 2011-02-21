@@ -174,32 +174,15 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      * @deprecated since 1.4.2.0
      * @see Mage_Wishlist_Model_Wishlist::getItemCollection()
      *
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return Mage_Wishlist_Model_Mysql4_Product_Collection
      */
     public function getProductCollection()
     {
-        throw new Exception("Usage of product collection is deprecated in wishlist.");
-
         $collection = $this->getData('product_collection');
         if (is_null($collection)) {
-            $collection = $this->getItemCollection()
-                ->addStoreFilter($this->getStore()->getId())
-                ->addWishlistFilter($this)
-                ->addWishListSortOrder();
-
-            foreach ($collection as $item) {
-                $item->setName($item->getProduct()->getName());
-                $item->setSku($item->getProduct()->getSku());
-                $item->setPrice($item->getProduct()->getPrice());
-                $item->setFinalPrice($item->getProduct()->getFinalPrice());
-                $item->setWishlistItemDescription($item->getDescription());
-                $item->setProductUrl($item->getProduct()->getProductUrl());
-                $item->setDescription($item->getProduct()->getDescription());
-            }
-
+            $collection = Mage::getResourceModel('wishlist/product_collection');
             $this->setData('product_collection', $collection);
         }
-
         return $collection;
     }
 
