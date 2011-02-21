@@ -367,10 +367,10 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         // Form result for client javascript
         $updateResult = new Varien_Object();
         if ($errorMessage) {
-            $updateResult->setError(1);
+            $updateResult->setError(true);
             $updateResult->setMessage($errorMessage);
         } else {
-            $updateResult->setOk(1);
+            $updateResult->setOk(true);
         }
 
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
@@ -468,45 +468,70 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 
     /*
      * Ajax handler to response configuration fieldset of composite product in order
+     *
+     * @return Mage_Adminhtml_Sales_Order_CreateController
      */
     public function configureProductToAddAction()
     {
         // Prepare data
         $productId  = (int) $this->getRequest()->getParam('id');
-        $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
 
-        $params = new Varien_Object();
+        $configureResult = new Varien_Object();
+        $configureResult->setOk(true);
+        $configureResult->setProductId($productId);
         $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
-        $params->setCurrentStoreId($sessionQuote->getStore()->getId());
-        $params->setCurrentCustomerId($sessionQuote->getCustomerId());
+        $configureResult->setCurrentStoreId($sessionQuote->getStore()->getId());
+        $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         // Render page
-        $viewHelper->prepareAndRender($productId, $this, $params);
+        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper->renderConfigureResult($this, $configureResult);
+
+        return $this;
     }
 
     /*
      * Ajax handler to response configuration fieldset of composite product in quote items
+     *
+     * @return Mage_Adminhtml_Sales_Order_CreateController
      */
     public function configureQuoteItemsAction()
     {
-        $quoteItemId = (int) $this->getRequest()->getParam('id');
-        if ($quoteItemId) {
-            $quoteItem = Mage::getModel('sales/quote_item')->load($quoteItemId);
-            if ($quoteItem) {
-                $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
-                $params = new Varien_Object();
-
-                $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
-                        ->addItemFilter(array($quoteItemId));
-                $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
-
-                $params->setBuyRequest($quoteItem->getBuyRequest());
-                $params->setCurrentStoreId($quoteItem->getStoreId());
-
-                // Render page
-                $viewHelper->prepareAndRender($quoteItem->getProductId(), $this, $params);
+        // Prepare data
+        $configureResult = new Varien_Object();
+        try {
+            $quoteItemId = (int) $this->getRequest()->getParam('id');
+            if (!$quoteItemId) {
+                Mage::throwException($this->__('Quote item id is not received.'));
             }
-        }
-    }
 
+            $quoteItem = Mage::getModel('sales/quote_item')->load($quoteItemId);
+            if (!$quoteItem->getId()) {
+                Mage::throwException($this->__('Quote item is not loaded.'));
+            }
+
+            $configureResult->setOk(true);
+            $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
+                    ->addItemFilter(array($quoteItemId));
+            $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
+
+            $configureResult->setBuyRequest($quoteItem->getBuyRequest());
+            $configureResult->setCurrentStoreId($quoteItem->getStoreId());
+            $configureResult->setProductId($quoteItem->getProductId());
+            $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
+            $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
+
+        } catch (Exception $e) {
+            $configureResult->setError(true);
+            $configureResult->setMessage($e->getMessage());
+        }
+
+        // Render page
+        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper->renderConfigureResult($this, $configureResult);
+
+        return $this;
+    }
 }

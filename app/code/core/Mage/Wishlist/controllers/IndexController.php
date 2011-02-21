@@ -33,7 +33,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
-    implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**
      * Action list where need check enabled cookie
@@ -133,7 +132,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
         try {
             $buyRequest = new Varien_Object($this->getRequest()->getParams());
-            
+
             $item = $wishlist->addNewItem($product, $buyRequest);
             $wishlist->save();
 
@@ -163,18 +162,6 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             $session->addError($this->__('An error occurred while adding item to wishlist.'));
         }
         $this->_redirect('*');
-    }
-
-    /**
-     * Loads layout messages from message storage
-     * Needed to implement interface for showing product view page (configure action)
-     *
-     * @param string $messagesStorage
-     * @return Mage_Wishlist_IndexController
-     */
-    public function initLayoutMessages($messagesStorage)
-    {
-        return $this->_initLayoutMessages($messagesStorage);
     }
 
     /**
@@ -224,7 +211,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             $this->_redirect('*/');
             return;
         }
-        
+
         $productId = (int) $this->getRequest()->getParam('product');
         if (!$productId) {
             $this->_redirect('*/');
@@ -242,10 +229,10 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             $id = (int) $this->getRequest()->getParam('id');
             $buyRequest = new Varien_Object($this->getRequest()->getParams());
-            
+
             /* @var $item Mage_Wishlist_Model_Item */
             $item = $wishlist->updateItem($id, $buyRequest);
-            
+
             $wishlist->save();
 
             Mage::dispatchEvent('wishlist_update_item', array('wishlist'=>$wishlist, 'product'=>$product, 'item'=>$item));

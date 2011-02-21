@@ -31,7 +31,6 @@
  * @package    Mage_Catalog
  */
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
-    implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**
      * Current applied design settings
@@ -112,18 +111,6 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Loads layout messages from message storage
-     * Needed to implement interface for showing product view page (view action)
-     *
-     * @param string $messagesStorage
-     * @return Mage_Catalog_ProductController
-     */
-    public function initLayoutMessages($messagesStorage)
-    {
-        return $this->_initLayoutMessages($messagesStorage);
-    }
-
-    /**
      * Product view action
      */
     public function viewAction()
@@ -201,5 +188,16 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         } catch( Exception $e ) {
             $this->_forward('noRoute');
         }
+    }
+
+    /**
+     * Display product image action
+     *
+     * @return
+     */
+    public function initSessionLayoutMessages() {
+        $controller->initLayoutMessages('catalog/session');
+        $controller->initLayoutMessages('tag/session');
+        $controller->initLayoutMessages('checkout/session');
     }
 }

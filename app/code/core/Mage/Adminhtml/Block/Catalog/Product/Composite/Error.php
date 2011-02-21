@@ -19,21 +19,28 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Interface needed to be implemented by controller that wants to
- * show product view page
+ * Adminhtml block for showing product options fieldsets
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author    Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Catalog_Controller_Product_View_Interface
+class Mage_Adminhtml_Block_Catalog_Product_Composite_Error extends Mage_Core_Block_Template
 {
     /**
-     * Loads layout messages from message storage
+     * Returns error message to show what kind of error happened during retrieving of product
+     * configuration controls
      *
-     * @param string $messagesStorage
+     * @return string
      */
-    public function initLayoutMessages($messagesStorage);
+    public function getErrorMessage()
+    {
+        return Mage::registry('composite_configure_result_error_message');
+    }
 }

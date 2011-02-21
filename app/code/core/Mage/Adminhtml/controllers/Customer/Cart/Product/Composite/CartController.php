@@ -34,89 +34,118 @@
 
 class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Customer we're working with
+     *
+     * @var Mage_Customer_Model_Customer
+     */
+    protected $_customer = null;
+
+    /**
+     * Quote we're working with
+     *
+     * @var Mage_Sales_Model_Quote
+     */
+    protected $_quote = null;
+
+    /**
+     * Quote item we're working with
+     *
+     * @var Mage_Sales_Model_Quote_Item
+     */
+    protected $_quoteItem = null;
+
+    /*
+     * Loads customer, quote and quote item by request params
+     *
+     * @return Mage_Adminhtml_Customer_Cart_Product_Composite_CartController
+     */
+    protected function _initData()
+    {
+        $customerId = (int) $this->getRequest()->getParam('customer_id');
+        if (!$customerId) {
+            Mage::throwException($this->__('No customer id defined.'));
+        }
+
+        $this->_customer = Mage::getModel('customer/customer')
+            ->load($customerId);
+
+        $quoteItemId = (int) $this->getRequest()->getParam('id');
+        $websiteId = (int) $this->getRequest()->getParam('website_id');
+
+        $this->_quote = Mage::getModel('sales/quote')
+            ->setWebsite(Mage::app()->getWebsite($websiteId))
+            ->loadByCustomer($this->_customer);
+
+        $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
+        if (!$this->_quoteItem) {
+            Mage::throwException($this->__('Wrong quote item.'));
+        }
+
+        return $this;
+    }
+
     /*
      * Ajax handler to response configuration fieldset of composite product in customer's cart
      *
-     * @return void
+     * @return Mage_Adminhtml_Customer_Cart_Product_Composite_CartController
      */
     public function configureAction()
     {
-        $quoteItemId = (int) $this->getRequest()->getParam('id');
-        $customerId = (int) $this->getRequest()->getParam('customer_id');
-        $websiteId = (int) $this->getRequest()->getParam('website_id');
+        $configureResult = new Varien_Object();
+        try {
+            $this->_initData();
 
-        $customer = Mage::getModel('customer/customer')
-            ->load($customerId);
+            $quoteItem = $this->_quoteItem;
 
-        /* @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getModel('sales/quote')
-            ->setWebsite(Mage::app()->getWebsite($websiteId))
-            ->loadByCustomer($customer);
-
-        $quoteItem = $quote->getItemById($quoteItemId);
-
-        if ($quoteItem) {
             $optionCollection = Mage::getModel('sales/quote_item_option')
                 ->getCollection()
-                ->addItemFilter(array($quoteItemId));
+                ->addItemFilter($quoteItem);
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
-            $viewHelper = Mage::helper('adminhtml/catalog_product_composite_view');
-            $params = new Varien_Object();
-
-            $params->setBuyRequest($quoteItem->getBuyRequest());
-            $params->setCurrentStoreId($quoteItem->getStoreId());
-            $params->setCurrentCustomer($customer);
-
-            // Render page
-            $viewHelper->prepareAndRender($quoteItem->getProductId(), $this, $params);
+            $configureResult->setOk(true);
+            $configureResult->setProductId($quoteItem->getProductId());
+            $configureResult->setBuyRequest($quoteItem->getBuyRequest());
+            $configureResult->setCurrentStoreId($quoteItem->getStoreId());
+            $configureResult->setCurrentCustomer($this->_customer);
+        } catch (Exception $e) {
+            $configureResult->setError(true);
+            $configureResult->setMessage($e->getMessage());
         }
+
+        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper->renderConfigureResult($this, $configureResult);
+
+        return $this;
     }
 
     /*
      * IFrame handler for submitted configuration for quote item
      *
-     * @return void
+     * @return Mage_Adminhtml_Customer_Cart_Product_Composite_CartController
      */
     public function updateAction()
     {
-        // Update item configuration
-        $quoteItemId = (int) $this->getRequest()->getParam('id');
-        $customerId = (int) $this->getRequest()->getParam('customer_id');
-        $websiteId = (int) $this->getRequest()->getParam('website_id');
-        $errorMessage = null;
+        $updateResult = new Varien_Object();
         try {
-            if (!$customerId) {
-                Mage::throwException($this->__('No customer id defined'));
-            }
-
-            $customer = Mage::getModel('customer/customer')
-                ->load($customerId);
-
-            /* @var $quote Mage_Sales_Model_Quote */
-            $quote = Mage::getModel('sales/quote')
-                ->setWebsite(Mage::app()->getWebsite($websiteId))
-                ->loadByCustomer($customer);
+            $this->_initData();
 
             $buyRequest = new Varien_Object($this->getRequest()->getParams());
-            $quote->updateItem($quoteItemId, $buyRequest);
-            $quote->collectTotals()
+            $this->_quote->updateItem($this->_quoteItem->getId(), $buyRequest);
+            $this->_quote->collectTotals()
                 ->save();
-        } catch (Exception $e) {
-            $errorMessage = $e->getMessage();
-        }
 
-        // Form result for client javascript
-        $updateResult = new Varien_Object();
-        if ($errorMessage) {
-            $updateResult->setError(1);
-            $updateResult->setMessage($errorMessage);
-        } else {
-            $updateResult->setOk(1);
+            $updateResult->setOk(true);
+        } catch (Exception $e) {
+            $updateResult->setError(true);
+            $updateResult->setMessage($e->getMessage());
         }
 
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
         $helper = Mage::helper('adminhtml/catalog_product_composite');
         $helper->renderUpdateResult($this, $updateResult);
+
+        return $this;
     }
 }

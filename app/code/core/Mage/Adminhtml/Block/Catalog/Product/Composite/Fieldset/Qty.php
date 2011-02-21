@@ -38,8 +38,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty extends Mage_C
      *
      * @return void
      */
-    public function __construct()
+    public function _construct()
     {
+        parent::_construct();
         $this->setIsLastFieldset(true);
     }
 

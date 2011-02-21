@@ -97,8 +97,6 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
     /**
      * Prepares product view page - inits layout and all needed stuff
      *
-     * $controller must implement Mage_Catalog_Controller_Product_View_Interface
-     *
      * $params can have all values as $params in Mage_Catalog_Helper_Product - initProduct().
      * Plus following keys:
      *   - 'buy_request' - Varien_Object holding buyRequest to configure product
@@ -106,7 +104,6 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
      * @param int $productId
      * @param Mage_Core_Controller_Front_Action $controller
      * @param null|Varien_Object $params
-     *
      *
      * @return Mage_Catalog_Helper_Product_View
      */
@@ -140,14 +137,8 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
 
         $this->initProductLayout($product, $controller);
 
-        if ($controller instanceof Mage_Catalog_Controller_Product_View_Interface) {
-            $controller->initLayoutMessages('catalog/session');
-            $controller->initLayoutMessages('tag/session');
-            $controller->initLayoutMessages('checkout/session');
-        } else {
-            throw new Mage_Core_Exception($this->__('Bad controller interface for showing product'), $this->ERR_BAD_CONTROLLER_INTERFACE);
-        }
-        $controller->renderLayout();
+        $controller->initLayoutMessages(array('catalog/session', 'tag/session', 'checkout/session'))
+            ->renderLayout();
 
         return $this;
     }

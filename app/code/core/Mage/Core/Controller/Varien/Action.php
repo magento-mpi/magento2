@@ -607,20 +607,42 @@ abstract class Mage_Core_Controller_Varien_Action
             ->setDispatched(false);
     }
 
+    /**
+     * Inits layout messages by message storage(s), loading and adding messages to layout messages block
+     *
+     * @param string|array $messagesStorage
+     * @return Mage_Core_Controller_Varien_Action
+     */
     protected function _initLayoutMessages($messagesStorage)
     {
-        if ($storage = Mage::getSingleton($messagesStorage)) {
-            $this->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
-            $this->getLayout()->getMessagesBlock()->setEscapeMessageFlag(
-                $storage->getEscapeMessages(true)
-            );
+        if (!is_array($messagesStorage)) {
+            $messagesStorage = array($messagesStorage);
         }
-        else {
-            Mage::throwException(
-                 Mage::helper('core')->__('Invalid messages storage "%s" for layout messages initialization', (string)$messagesStorage)
-            );
+        foreach ($messagesStorage as $storageName) {
+            $storage = Mage::getSingleton($storageName);
+            if ($storage) {
+                $block = $this->getLayout()->getMessagesBlock();
+                $block->addMessages($storage->getMessages(true));
+                $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
+            }
+            else {
+                Mage::throwException(
+                     Mage::helper('core')->__('Invalid messages storage "%s" for layout messages initialization', (string) $storageName)
+                );
+            }
         }
         return $this;
+    }
+
+    /**
+     * Inits layout messages by message storage(s), loading and adding messages to layout messages block
+     *
+     * @param string|array $messagesStorage
+     * @return Mage_Core_Controller_Varien_Action
+     */
+    public function initLayoutMessages($messagesStorage)
+    {
+        return $this->_initLayoutMessages($messagesStorage);
     }
 
     /**

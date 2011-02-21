@@ -28,7 +28,6 @@
  * Shopping cart controller
  */
 class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
-    implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**
      * Action list where need check enabled cookie
@@ -254,18 +253,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $this->_getSession()->setCartWasUpdated(true);
         }
         $this->_goBack();
-    }
-
-    /**
-     * Loads layout messages from message storage
-     * Needed to implement interface for showing product view page (configure action)
-     *
-     * @param string $messagesStorage
-     * @return Mage_Checkout_CartController
-     */
-    public function initLayoutMessages($messagesStorage)
-    {
-        return $this->_initLayoutMessages($messagesStorage);
     }
 
     /**
