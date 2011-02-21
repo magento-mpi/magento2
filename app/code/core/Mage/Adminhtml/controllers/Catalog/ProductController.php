@@ -311,7 +311,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function categoriesAction()
     {
         $this->_initProduct();
-        $this->loadLayout(false);
+        $this->loadLayout();
         $this->renderLayout();
     }
 
@@ -322,7 +322,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function optionsAction()
     {
         $this->_initProduct();
-        $this->loadLayout(false);
+        $this->loadLayout();
         $this->renderLayout();
     }
 
@@ -430,12 +430,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function reviewsAction()
     {
         $this->_initProduct();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_reviews', 'admin.product.reviews')
+        $this->loadLayout();
+        $this->getLayout()->getBlock('admin.product.reviews')
                 ->setProductId(Mage::registry('product')->getId())
-                ->setUseAjax(true)
-                ->toHtml()
-        );
+                ->setUseAjax(true);
+        $this->renderLayout();
     }
 
     /**
@@ -781,11 +780,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function tagGridAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_tag', 'admin.product.tags')
-                ->setProductId($this->getRequest()->getParam('id'))
-                ->toHtml()
-        );
+        $this->loadLayout();
+        $this->getLayout()->getBlock('admin.product.tags')
+                ->setProductId($this->getRequest()->getParam('id'));
+        $this->renderLayout();
     }
 
     /**
@@ -914,11 +912,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function tagCustomerGridAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_tag_customer', 'admin.product.tags.customers')
-                ->setProductId($this->getRequest()->getParam('id'))
-                ->toHtml()
-        );
+        $this->loadLayout();
+        $this->getLayout()->getBlock('admin.product.tags.customers')
+                ->setProductId($this->getRequest()->getParam('id'));
+        $this->renderLayout();
     }
 
     public function quickCreateAction()

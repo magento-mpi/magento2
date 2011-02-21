@@ -72,6 +72,36 @@
         </reference>
     </adminhtml_catalog_product_edit>
 
+    <adminhtml_catalog_product_categories>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/catalog_product_edit_tab_categories" name="catalog.product.edit.tab.categories"/>
+        </block>
+    </adminhtml_catalog_product_categories>
+
+    <adminhtml_catalog_product_reviews>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/catalog_product_edit_tab_reviews" name="admin.product.reviews"/>
+        </block>
+    </adminhtml_catalog_product_reviews>
+
+    <adminhtml_catalog_product_taggrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/catalog_product_edit_tab_tag" name="admin.product.tags"/>
+        </block>
+    </adminhtml_catalog_product_taggrid>
+
+    <adminhtml_catalog_product_tagcustomergrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/catalog_product_edit_tab_tag_customer" name="admin.product.tags.customers"/>
+        </block>
+    </adminhtml_catalog_product_tagcustomergrid>
+
+    <adminhtml_catalog_product_options>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/catalog_product_edit_tab_options" name="admin.product.options"/>
+        </block>
+    </adminhtml_catalog_product_options>
+
     <adminhtml_catalog_product_related>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="adminhtml/catalog_product_edit_tab_related" name="catalog.product.edit.tab.related"/>
