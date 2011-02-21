@@ -36,8 +36,10 @@ ProductConfigure.prototype = {
     blockFormConfirmed:         null,
     blockConfirmed:             null,
     blockIFrame:                null,
+    blockCancelBtn:             null,
     blockMask:                  null,
-    blockErrorMsg:              null,
+    blockMsg:                   null,
+    blockMsgError:              null,
     windowHeight:               null,
     сonfirmedCurrentId:         null,
     confirmCallback:            {},
@@ -65,8 +67,10 @@ ProductConfigure.prototype = {
         this.blockFormConfirmed         = $('product_composite_configure_form_confirmed');
         this.blockConfirmed             = $('product_composite_configure_confirmed');
         this.blockIFrame                = $('product_composite_configure_iframe');
+        this.blockCancelBtn             = $('product_composite_configure_form_cancel');
         this.blockMask                  = $('popup-window-mask');
-        this.blockErrorMsg              = $$('#product_composite_configure .error-msg')[0];
+        this.blockMsg                   = $('product_composite_configure_messages');
+        this.blockMsgError              = this.blockMsg.select('.error-msg')[0];
         this.windowHeight               = $('html-body').getHeight();
         this.iFrameJSVarname            = this.blockForm.select('input[name="as_js_varname"]')[0].value;
     },
@@ -150,7 +154,11 @@ ProductConfigure.prototype = {
                     if (response.isJSON()) {
                         response = response.evalJSON();
                         if (response.error) {
-                            alert(response.message);
+                            this.blockMsg.show();
+                            this.blockMsgError.innerHTML = response.message;
+                            this.blockCancelBtn.hide();
+                            this.setConfirmCallback(this.current.listType, null);
+                            this._showWindow();
                         }
                     } else if (response) {
                         this.blockFormFields.update(response);
@@ -246,13 +254,13 @@ ProductConfigure.prototype = {
         if (response && "object" == typeof response) {
             if (this.listTypes[this.current.listType].urlConfirm) {
                 if (response.ok) {
-                    this.blockErrorMsg.hide();
                     this._closeWindow();
                     this.clean('current');
                 } else if (response.error) {
                     this.showItemConfiguration(this.current.listType, this.current.itemId);
-                    this.blockErrorMsg.show();
-                    this.blockErrorMsg.innerHTML = response.message;
+                    this.blockMsg.show();
+                    this.blockMsgError.innerHTML = response.message;
+                    this._showWindow();
                     return false;
                 }
             }
@@ -315,7 +323,6 @@ ProductConfigure.prototype = {
      */
     _closeWindow: function() {
         toggleSelectsUnderBlock(this.blockMask, true);
-        this.blockErrorMsg.hide();
         this.blockMask.style.display = 'none';
         this.blockWindow.style.display = 'none';
         this.clean('window');
@@ -378,10 +385,6 @@ ProductConfigure.prototype = {
      */
     clean: function(method) {
         switch (method) {
-            case 'all':
-                    this.current = $H({});
-                    this.blockConfirmed.update();
-            break;
             case 'current':
                     var pattern = new RegExp(this.blockConfirmed.id+'\\['+this.current.listType+'\\]');
                     this.blockConfirmed.childElements().each(function(elm) {
@@ -391,18 +394,24 @@ ProductConfigure.prototype = {
                     }.bind(this));
             break;
             case 'window':
-                    this._getIFrameContent().body.innerHTML = '';
-                    this.blockIFrame.contentWindow[this.iFrameJSVarname] = {};
                     this.blockFormFields.update();
+                    this.blockMsg.hide();
+                    this.blockMsgError.update();
+                    this.blockCancelBtn.show();
             break;
             default:
-                    return false;
+                this.current = $H({});
+                this.blockConfirmed.update();
+                this.blockFormFields.update();
+                this.blockMsg.hide();
+                this.blockMsgError.update();
+                this.blockCancelBtn.show();
             break;
         }
         this._getIFrameContent().body.innerHTML = '';
         this.blockIFrame.contentWindow[this.iFrameJSVarname] = {};
-        this.blockFormAdd.update();
         this.blockIFrame.removeAttribute('onload');
+        this.blockFormAdd.update();
         this.blockFormConfirmed.update();
         this.blockForm.action = '';
 

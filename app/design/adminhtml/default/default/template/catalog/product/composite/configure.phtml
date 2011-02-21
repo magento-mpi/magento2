@@ -32,12 +32,14 @@
             <div class="entry-edit-head">
                 <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('catalog')->__('Configure Product') ?></h4>
             </div>
-            <ul class="messages"><li style="display: none;" class="error-msg"></li></ul>
+            <div id="product_composite_configure_messages" style="display: none;" >
+                <ul class="messages"><li class="error-msg"></li></ul>
+            </div>
             <div id="product_composite_configure_form_fields" class="content"></div>
             <div id="product_composite_configure_form_additional" style="display:none;"></div>
             <div id="product_composite_configure_form_confirmed" style="display:none;"></div>
             <div class="buttons-set a-right">
-                <button type="button" class="scalable" onclick="productConfigure.onCancelBtn()"><span>Cancel</span></button>
+                <button type="button" class="scalable" onclick="productConfigure.onCancelBtn()" id="product_composite_configure_form_cancel"><span>Cancel</span></button>
                 <button type="submit" class="scalable"><span>Ok</span></button>
             </div>
         </div>

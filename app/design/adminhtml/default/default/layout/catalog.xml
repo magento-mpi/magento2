@@ -280,7 +280,7 @@ Layout handle for configurable products
     </ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE>
     
     <ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR>
-        <block type="adminhtml/catalog_product_composite_error" name="product.composite.error" template="catalog/product/composite/error.phtml" output="toHtml" />
+        <block type="adminhtml/catalog_product_composite_error" name="product.composite.error" output="toHtml" />
     </ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR>
     
     <ADMINHTML_CATALOG_PRODUCT_COMPOSITE_UPDATE_RESULT>
