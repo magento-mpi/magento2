@@ -134,7 +134,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         $this->setUpdatedAt(Mage::getSingleton('core/date')->gmtDate());
         return $this;
     }
-    
+
     /**
      * Save related items
      *
@@ -158,8 +158,6 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      */
     protected function _addCatalogProduct(Mage_Catalog_Model_Product $product, $qty = 1)
     {
-        //$item = new Mage_Wishlist_Model_Item();
-
         $item = null;
         foreach ($this->getItemCollection() as $_item) {
             if ($_item->representProduct($product)) {
@@ -174,18 +172,16 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
                 ->setWishlistId($this->getId())
                 ->setAddedAt(now())
                 ->setStoreId($this->getStore()->getId())
-                //->setBuyRequest($_buyRequest)
                 ->setOptions($product->getCustomOptions())
                 ->setProduct($product)
                 ->setQty($qty)
                 ->save();
         } else {
-            $item//->setBuyRequest($buyRequest)
-                ->setQty($item->getQty() + $qty)
+            $item->setQty($item->getQty() + $qty)
                 ->save();
         }
 
-        $this->addItem($item); // !!!
+        $this->addItem($item); // TODO ACPAOC: fix it if necessary
 
         return $item;
     }
@@ -268,12 +264,14 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      */
     public function addNewItem($product, $buyRequest = null)
     {
-        /* @var $_product Mage_Catalog_Model_Product */
-        if ($product instanceof Mage_Catalog_Model_Product) {
-            $_product = $product;
-        } else {
-            $_product = Mage::getModel('catalog/product')->load((int)$product);
-        }
+        /*
+         * Always load product, to ensure:
+         * a) we have new instance and do not interfere with other products in wishlist
+         * b) product has full set of attributes
+         */
+        $productId = ($product instanceof Mage_Catalog_Model_Product) ? $product->getId() : (int) $product;
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product')->load($productId);
 
         if ($buyRequest instanceof Varien_Object) {
             $_buyRequest = $buyRequest;
@@ -284,9 +282,9 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         } else {
             $_buyRequest = new Varien_Object();
         }
-        
-        $cartCandidates = $_product->getTypeInstance(true)
-            ->processConfiguration($_buyRequest, $_product);
+
+        $cartCandidates = $product->getTypeInstance(true)
+            ->processConfiguration($_buyRequest, $product);
 
         /**
          * Error message
@@ -322,7 +320,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
                 $errors[] = $item->getMessage();
             }
         }
-        
+
         Mage::dispatchEvent('wishlist_product_add_after', array('items' => $items));
 
         return $item;
@@ -472,8 +470,8 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         }
 
         $product = $item->getProduct();
-
-        if ($productId = $product->getId()) {
+        $productId = $product->getId();
+        if ($productId) {
             $resultItem = $this->addNewItem($product, $buyRequest);
             /**
              * Error message
