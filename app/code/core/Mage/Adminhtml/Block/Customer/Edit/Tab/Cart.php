@@ -69,61 +69,59 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
 
     protected function _prepareColumns()
     {
-        $helper = Mage::helper('customer');
-
         $this->addColumn('product_id', array(
-            'header'    => $helper->__('Product ID'),
+            'header'    => Mage::helper('customer')->__('Product ID'),
             'index'     => 'product_id',
             'width'     => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header'    => $helper->__('Product Name'),
+            'header'    => Mage::helper('customer')->__('Product Name'),
             'index'     => 'name',
         ));
 
         $this->addColumn('sku', array(
-            'header'    => $helper->__('SKU'),
+            'header'    => Mage::helper('customer')->__('SKU'),
             'index'     => 'sku',
             'width'     => '100px',
         ));
 
         $this->addColumn('qty', array(
-            'header'    => $helper->__('Qty'),
+            'header'    => Mage::helper('customer')->__('Qty'),
             'index'     => 'qty',
             'type'      => 'number',
             'width'     => '60px',
         ));
 
         $this->addColumn('price', array(
-            'header'    => $helper->__('Price'),
+            'header'    => Mage::helper('customer')->__('Price'),
             'index'     => 'price',
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
-            'header'    => $helper->__('Total'),
+            'header'    => Mage::helper('customer')->__('Total'),
             'index'     => 'row_total',
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('action', array(
-            'header'    => $helper->__('Action'),
+            'header'    => Mage::helper('customer')->__('Action'),
             'index'     => 'quote_item_id',
             'renderer'  => 'adminhtml/customer_grid_renderer_multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption'   => $helper->__('Configure'),
+                    'caption'   => Mage::helper('customer')->__('Configure'),
                     'url'       => 'javascript:void(0)',
                     'process'   => 'configurable',
                     'control_object' => $this->getJsObjectName() . 'cartControl'
                 ),
                 array(
-                    'caption'   => $helper->__('Delete'),
+                    'caption'   => Mage::helper('customer')->__('Delete'),
                     'url'       => '#',
                     'onclick'   => 'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
                 )

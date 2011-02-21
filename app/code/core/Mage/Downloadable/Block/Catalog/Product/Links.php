@@ -96,18 +96,19 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         }
 
         $taxHelper = Mage::helper('tax');
+        $coreHelper = $this->helper('core');
         $_priceInclTax = $taxHelper->getPrice($link->getProduct(), $price, true);
         $_priceExclTax = $taxHelper->getPrice($link->getProduct(), $price);
 
         $priceStr = '<span class="price-notice">+';
         if ($taxHelper->displayPriceIncludingTax()) {
-            $priceStr .= $this->helper('core')->currencyByStore($_priceInclTax, 3);
+            $priceStr .= $coreHelper->currencyByStore($_priceInclTax, 3);
         } elseif ($taxHelper->displayPriceExcludingTax()) {
-            $priceStr .= $this->helper('core')->currencyByStore($_priceExclTax, 3);
+            $priceStr .= $coreHelper->currencyByStore($_priceExclTax, 3);
         } elseif ($taxHelper->displayBothPrices()) {
-            $priceStr .= $this->helper('core')->currencyByStore($_priceExclTax, 3);
+            $priceStr .= $coreHelper->currencyByStore($_priceExclTax, 3);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' (+'.$this->helper('core')
+                $priceStr .= ' (+'.$coreHelper
                     ->currencyByStore($_priceInclTax, 3).' '.$this->__('Incl. Tax').')';
             }
         }

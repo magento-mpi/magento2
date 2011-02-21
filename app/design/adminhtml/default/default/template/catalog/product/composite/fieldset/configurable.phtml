@@ -41,7 +41,7 @@ $_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
             <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
                 <div class="input-box">
                     <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select">
-                        <option><?php echo $this->__('Choose an Option...') ?></option>
+                        <option><?php echo Mage::helper('catalog')->__('Choose an Option...') ?></option>
                     </select>
                 </div>
             </dd>

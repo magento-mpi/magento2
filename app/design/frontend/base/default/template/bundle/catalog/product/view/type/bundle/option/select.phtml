@@ -27,37 +27,28 @@
 ?>
 
 <?php /* @var $this Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Select */ ?>
-<?php $_option = $this->getOption() ?>
-<?php $_selections = $_option->getSelections() ?>
-<?php $_default = $_option->getDefaultSelection() ?>
-<?php $_showSingle = (count($_selections) == 1 && $_option->getRequired()) ?>
-<dt><span class="qty-holder">
-        <?php $selectedOptions = $this->_getSelectedOptions() ?>
-        <?php if ($_default && empty($selectedOptions)): ?>
-            <?php $_defaultQty = $_default->getSelectionQty()*1 ?>
-            <?php $_canChangeQty = $_default->getSelectionCanChangeQty() ?>
-        <?php else: ?>
-            <?php if (!$_showSingle): ?>
-                <?php $_defaultQty = $this->_getSelectedQty() ?>
-                <?php $_canChangeQty = (bool)$_defaultQty ?>
-            <?php else: ?>
-                <?php $_defaultQty = $_selections[0]->getSelectionQty()*1 ?>
-                <?php $_canChangeQty = $_selections[0]->getSelectionCanChangeQty() ?>
-            <?php endif; ?>
-        <?php endif; ?>
+<?php
+    $_option      = $this->getOption();
+    $_selections  = $_option->getSelections();
+    $_default     = $_option->getDefaultSelection();
+    list($_defaultQty, $_canChangeQty) = $this->_getDefaultValues();
+?>
+
+<dt>
+    <span class="qty-holder">
         <label for="bundle-option-<?php echo $_option->getId() ?>-qty-input"><?php echo $this->__('Qty:') ?>&nbsp;</label><input onkeyup="bundle.changeOptionQty(this, event)" onblur="bundle.changeOptionQty(this, event)" <?php if (!$_canChangeQty) echo ' disabled="disabled"' ?> id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty<?php if (!$_canChangeQty) echo ' qty-disabled' ?>" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>"/>
     </span>
     <label<?php if ($_option->getRequired()) echo ' class="required"' ?>><?php if ($_option->getRequired()) echo '<em>*</em>' ?><?php echo $this->htmlEscape($_option->getTitle()) ?></label>
 </dt>
 <dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
     <div class="input-box">
-    <?php if ($_showSingle): ?>
+    <?php if ($this->_showSingle()): ?>
         <?php echo $this->getSelectionTitlePrice($_selections[0]) ?>
         <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>"/>
     <?php else:?>
         <select onchange="bundle.changeSelection(this)" id="bundle-option-<?php echo $_option->getId() ?>" name="bundle_option[<?php echo $_option->getId() ?>]" class="bundle-option-<?php echo $_option->getId() ?><?php if ($_option->getRequired()) echo ' required-entry' ?> bundle-option-select change-container-classname">
             <option value=""><?php echo $this->__('Choose a selection...') ?></option>
-        <?php foreach($_selections as $_selection): ?>
+        <?php foreach ($_selections as $_selection): ?>
             <option value="<?php echo $_selection->getSelectionId() ?>"<?php if ($this->_isSelected($_selection)) echo ' selected="selected"' ?><?php if (!$_selection->isSaleable()) echo ' disabled="disabled"' ?>><?php echo $this->getSelectionTitlePrice($_selection, false) ?></option>
         <?php endforeach; ?>
         </select>

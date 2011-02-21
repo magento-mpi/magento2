@@ -64,7 +64,13 @@ BundleControl.prototype = {
         }
         var parts = selection.id.split('-');
         var optionId = parts[2];
-        var showQtyInput = (selection.value != '') && (selection.value != 'none');
+
+        var showQtyInput = true;
+        if (selection.type == 'radio') {
+            showQtyInput = !($('bundle-option-' + optionId).checked);
+        } else {
+            showQtyInput = (selection.value != '') && (selection.value != 'none');
+        }
         this.updateQtyInput(optionId, showQtyInput);
     },
 
@@ -76,7 +82,9 @@ BundleControl.prototype = {
         if (active) {
             elem.removeClassName('qty-disabled');
             elem.disabled = false;
-            elem.value = 1;
+            if (elem.value == '0') {
+                elem.value = 1;
+            }
         } else {
             elem.addClassName('qty-disabled');
             elem.disabled = true;

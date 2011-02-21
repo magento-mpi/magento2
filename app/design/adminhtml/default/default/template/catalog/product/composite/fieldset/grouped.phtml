@@ -36,7 +36,7 @@
         $_hasAssociatedProducts = count($_associatedProducts) > 0;
         ?>
         <?php if (!$_product->isAvailable() || !$_hasAssociatedProducts): ?>
-            <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+            <p class="availability out-of-stock"><?php echo Mage::helper('catalog')->__('Availability:') ?> <span><?php echo Mage::helper('catalog')->__('Out of stock') ?></span></p>
         <?php endif; ?>
         <table class="data-table grouped-items-table" id="super-product-table">
             <col />
@@ -46,14 +46,14 @@
             <col width="1" />
             <thead>
                 <tr "class="headings">
-                    <th><?php echo $this->__('ID') ?></th>
-                    <th><?php echo $this->__('SKU') ?></th>
-                    <th><?php echo $this->__('Product Name') ?></th>
+                    <th><?php echo Mage::helper('catalog')->__('ID') ?></th>
+                    <th><?php echo Mage::helper('catalog')->__('SKU') ?></th>
+                    <th><?php echo Mage::helper('catalog')->__('Product Name') ?></th>
                     <?php if ($this->getCanShowProductPrice($_product)): ?>
-                    <th class="a-right"><?php echo $this->__('Price') ?></th>
+                    <th class="a-right"><?php echo Mage::helper('catalog')->__('Price') ?></th>
                     <?php endif; ?>
                     <?php if ($_product->isSaleable()): ?>
-                    <th class="a-center"><?php echo $this->__('Qty') ?></th>
+                    <th class="a-center"><?php echo Mage::helper('catalog')->__('Qty') ?></th>
                     <?php endif; ?>
                 </tr>
             </thead>
@@ -76,7 +76,7 @@
                     <?php if ($_product->isSaleable()): ?>
                     <td class="a-center">
                     <?php if ($_item->isSaleable()) : ?>
-                        <input type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $_item->getQty()*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                        <input type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $_item->getQty()*1 ?>" title="<?php echo Mage::helper('catalog')->__('Qty') ?>" class="input-text qty" />
                     <?php else: ?>
                         <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                     <?php endif; ?>
@@ -86,7 +86,7 @@
             <?php endforeach; ?>
             <?php else: ?>
                <tr>
-                   <td colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
+                   <td colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo Mage::helper('catalog')->__('No options of this product are available.') ?></td>
                </tr>
             <?php endif; ?>
             </tbody>

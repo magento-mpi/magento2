@@ -99,8 +99,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
      */
     protected function _prepareColumns()
     {
-        $helper = Mage::helper('customer');
-
         /*$this->addColumn('product_id', array(
             'header'    => $helper->__('ID'),
             'index'     => 'product_id',
@@ -109,58 +107,58 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         ));*/
 
         $this->addColumn('product_name', array(
-            'header'    => $helper->__('Product name'),
+            'header'    => Mage::helper('customer')->__('Product name'),
             'index'     => 'product_name'
         ));
 
         $this->addColumn('description', array(
-            'header'    => $helper->__('User description'),
+            'header'    => Mage::helper('customer')->__('User description'),
             'index'     => 'description',
             'renderer'  => 'adminhtml/customer_edit_tab_wishlist_grid_renderer_description'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store', array(
-                'header'    => $helper->__('Added From'),
+                'header'    => Mage::helper('customer')->__('Added From'),
                 'index'     => 'store_name',
                 'type'      => 'store'
             ));
         }
 
         $this->addColumn('visible_in', array(
-            'header'    => $helper->__('Visible In'),
+            'header'    => Mage::helper('customer')->__('Visible In'),
             'index'     => 'item_store_id',
             'type'      => 'store'
         ));
 
         $this->addColumn('added_at', array(
-            'header'    => $helper->__('Date Added'),
+            'header'    => Mage::helper('customer')->__('Date Added'),
             'index'     => 'added_at',
             'gmtoffset' => true,
             'type'      => 'date'
         ));
 
         $this->addColumn('days', array(
-            'header'    => $helper->__('Days in Wishlist'),
+            'header'    => Mage::helper('customer')->__('Days in Wishlist'),
             'index'     => 'days_in_wishlist',
             'type'      => 'number'
         ));
 
         $this->addColumn('action', array(
-            'header'    => $helper->__('Action'),
+            'header'    => Mage::helper('customer')->__('Action'),
             'index'     => 'wishlist_item_id',
             'renderer'  => 'adminhtml/customer_grid_renderer_multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption'   => $helper->__('Configure'),
+                    'caption'   => Mage::helper('customer')->__('Configure'),
                     'url'       => 'javascript:void(0)',
                     'process'   => 'configurable',
                     'control_object' => 'wishlistControl'
                 ),
                 array(
-                    'caption'   => $helper->__('Delete'),
+                    'caption'   => Mage::helper('customer')->__('Delete'),
                     'url'       => '#',
                     'onclick'   => 'return wishlistControl.removeItem($wishlist_item_id);'
                 )

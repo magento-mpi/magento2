@@ -42,6 +42,56 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
     protected $_selectedOptions = null;
 
     /**
+     * Show if option has a single selection
+     *
+     * @var bool
+     */
+    protected $_showSingle = null;
+
+    /**
+     * Check if option has a single selection
+     *
+     * @return bool
+     */
+    protected function _showSingle()
+    {
+        if (is_null($this->_showSingle)) {
+            $_option        = $this->getOption();
+            $_selections    = $_option->getSelections();
+
+            $this->_showSingle = (count($_selections) == 1 && $_option->getRequired());
+        }
+
+        return $this->_showSingle;
+    }
+
+    /**
+     * Retrieve default values for template
+     *
+     * @return array
+     */
+    protected function _getDefaultValues()
+    {
+        $_option            = $this->getOption();
+        $_default           = $_option->getDefaultSelection();
+        $_selections        = $_option->getSelections();
+        $selectedOptions    = $this->_getSelectedOptions();
+
+        if ($_default && empty($selectedOptions)) {
+            $_defaultQty = $_default->getSelectionQty()*1;
+            $_canChangeQty = $_default->getSelectionCanChangeQty();
+        } elseif (!$this->_showSingle()) {
+            $_defaultQty = $this->_getSelectedQty();
+            $_canChangeQty = (bool)$_defaultQty;
+        } else {
+            $_defaultQty = $_selections[0]->getSelectionQty()*1;
+            $_canChangeQty = $_selections[0]->getSelectionCanChangeQty();
+        }
+
+        return array($_defaultQty, $_canChangeQty);
+    }
+
+    /**
      * Collect selected options
      *
      * @return void
