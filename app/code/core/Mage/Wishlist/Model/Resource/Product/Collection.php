@@ -49,7 +49,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
     protected $_wishlistItemTableAlias         = 't_wi';
 
     /**
-     * Constructor. Added just to throw exception, because after Magento 1.5.0.0 it's impossible
+     * Constructor. Added just to throw exception, because since Magento 1.4.2.0 it's impossible
      * to use product collection in wishlist
      *
      * @deprecated deprecated since 1.4.2.0
