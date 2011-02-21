@@ -63,9 +63,17 @@
     {
         if ($this->getRequest()->getParam('website')) {
             $website = Mage::getModel('core/website')->load($this->getRequest()->getParam('website'));
-            $websiteUrl = Mage::getStoreConfig('web/unsecure/base_link_url', $website->getDefaultStore());
+            $secure = Mage::getStoreConfigFlag(
+                Mage_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
+                $website->getDefaultStore()
+            );
+            $path = $secure ? 'web/secure/base_link_url' : 'web/unsecure/base_link_url';
+            $websiteUrl = Mage::getStoreConfig($path, $website->getDefaultStore());
         } else {
-            $websiteUrl = Mage::getBaseUrl();
+            $secure = Mage::getStoreConfigFlag(
+                Mage_Core_Model_Url::XML_PATH_SECURE_IN_FRONT
+            );
+            $websiteUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, $secure);
         }
 
         return $websiteUrl . $routePath;
