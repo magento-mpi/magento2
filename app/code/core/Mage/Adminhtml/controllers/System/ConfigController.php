@@ -39,7 +39,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      *
      * @var bool
      */
-    protected $_isAllowedSection = true;
+    protected $_isSectionAllowedFlag = true;
 
     /**
      * Controller predispatch method
@@ -52,7 +52,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         parent::preDispatch();
 
         if ($this->getRequest()->getParam('section')) {
-            $this->_isAllowedSection = $this->_isSectionAllowed($this->getRequest()->getParam('section'));
+            $this->_isSectionAllowedFlag = $this->_isSectionAllowed($this->getRequest()->getParam('section'));
         }
 
         return $this;
@@ -97,7 +97,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
 
-        if ($this->_isAllowedSection) {
+        if ($this->_isSectionAllowedFlag) {
             $this->_addContent($this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm());
 
             $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('system/shipping/ups.phtml'));
