@@ -106,6 +106,7 @@ class Mage_Core_Model_Translate_Inline
         'cite'          => 'Citation',
         'dt'            => 'Item in a definition list',
         'dd'            => 'Item description in a definition list.',
+        'li'            => 'Item in a list',
         'caption'       => 'Table caption',
         'th'            => 'Header cell in a table',
         'td'            => 'Standard cell in a table',
