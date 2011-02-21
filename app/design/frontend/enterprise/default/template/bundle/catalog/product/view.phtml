@@ -121,7 +121,7 @@ $_product = $this->getProduct();
         <div id="options-container" style="display:none">
             <div id="customizeTitle" class="page-title title-buttons">
                 <h1><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $_product->getName(), 'name')) ?></h1>
-                <button class="button" type="button" onclick="Enterprise.Bundle.end();"><span><span><?php echo $this->__('&laquo; Go back to product detail'); ?></span></span></button>
+                <a href="#" onclick="Enterprise.Bundle.end(); return false;"><small>&lsaquo;</small> Go back to product detail</a>
             </div>
             <?php echo $this->getChildHtml('bundleSummary') ?>
             <?php if ($this->getChildChildHtml('container1')):?>
