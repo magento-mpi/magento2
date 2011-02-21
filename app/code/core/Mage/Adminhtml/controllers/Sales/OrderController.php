@@ -648,7 +648,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $aclResource = 'sales/order/actions/comment';
                 break;
             case 'creditmemos':
-                $aclResource = 'sales/order/actions/creditmemos';
+                $aclResource = 'sales/order/actions/creditmemo';
                 break;
             case 'reviewpayment':
                 $aclResource = 'sales/order/actions/review_payment';
