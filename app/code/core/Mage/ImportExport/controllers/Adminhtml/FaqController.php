@@ -56,6 +56,6 @@ class Mage_ImportExport_Adminhtml_FaqController extends Mage_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/importexport/importexport_faq');
+        return Mage::getSingleton('admin/session')->isAllowed('system/convert/importexport_faq');
     }
 }

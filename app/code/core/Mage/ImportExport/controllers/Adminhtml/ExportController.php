@@ -65,7 +65,7 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/importexport/importexport_export');
+        return Mage::getSingleton('admin/session')->isAllowed('system/convert/export');
     }
 
     /**
