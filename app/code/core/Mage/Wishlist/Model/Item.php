@@ -49,7 +49,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 {
     const EXCEPTION_CODE_NOT_SALABLE            = 901;
     const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS   = 902;
-    const EXCEPTION_CODE_IS_GROUPED_PRODUCT     = 903;
+    const EXCEPTION_CODE_IS_GROUPED_PRODUCT     = 903; // deprecated after 1.4.2.0, because we can store product configuration and add grouped products
 
    /**
      * Prefix of model events names
@@ -87,7 +87,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
      * @var array
      */
     protected $_notRepresentOptions = array('info_buyRequest');
-    
+
     /**
      * Initialize resource model
      *
@@ -106,7 +106,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     {
         return parent::_getResource();
     }
-    
+
     /**
      * Check if two options array are identical
      *
@@ -311,10 +311,6 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     {
         $product = $this->getProduct();
 
-        if (Mage_Catalog_Model_Product_Type::TYPE_GROUPED == $product->getTypeId()) {
-            throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_IS_GROUPED_PRODUCT);
-        }
-
         $storeId = $this->getStoreId();
 
         if ($product->getStatus() != Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
@@ -388,7 +384,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         } else {
             $buyRequest = new Varien_Object();
         }
-        
+
         $buyRequest->setQty($this->getQty()*1);
         return $buyRequest;
     }
@@ -402,7 +398,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     public function setBuyRequest($buyRequest)
     {
         $buyRequest->setId($this->getId());
-        
+
         $_buyRequest = serialize($buyRequest->getData());
         $this->setData('buy_request', $_buyRequest);
         return $this;
@@ -435,7 +431,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         }
 
         $requestArray = $buyRequest->getData();
-        
+
         if(!$this->_compareOptions($requestArray, $selfOptions)){
             return false;
         }
@@ -591,4 +587,16 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         }
         return null;
     }
+
+    /**
+     * Returns whether Qty field is valid for this item
+     *
+     * @return bool
+     */
+    public function canHaveQty()
+    {
+        $product = $this->getProduct();
+        return $product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+    }
+
 }

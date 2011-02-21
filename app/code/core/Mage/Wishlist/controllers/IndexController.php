@@ -393,9 +393,12 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         }
 
         // Set qty
-        $qty = $this->_processLocalizedQty($this->getRequest()->getParam('qty'));
-        if ($qty) {
-            $item->setQty($qty);
+        $qtys = $this->getRequest()->getParam('qty');
+        if (isset($qtys[$itemId])) {
+            $qty = $this->_processLocalizedQty($qtys[$itemId]);
+            if ($qty) {
+                $item->setQty($qty);
+            }
         }
 
         /* @var $session Mage_Wishlist_Model_Session */
@@ -424,11 +427,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(Mage::helper('wishlist')->__('This product(s) is currently out of stock'));
             } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                $redirectUrl = $item->getProductUrl();
-                $item->delete();
-            } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_IS_GROUPED_PRODUCT) {
-                $redirectUrl = $item->getProductUrl();
-                $item->delete();
+                $redirectUrl = Mage::getUrl('*/*/configure/', array('id' => $item->getId()));
             } else {
                 $session->addError($e->getMessage());
             }

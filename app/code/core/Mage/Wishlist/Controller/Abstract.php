@@ -82,7 +82,6 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
         $addedItems = array();
         $notSalable = array();
         $hasOptions = array();
-        $isGrouped  = array();
 
         $cart       = Mage::getSingleton('checkout/cart');
         $collection = $wishlist->getItemCollection()
@@ -112,8 +111,6 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                     $notSalable[] = $item;
                 } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                     $hasOptions[] = $item;
-                } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_IS_GROUPED_PRODUCT) {
-                    $isGrouped[] = $item;
                 } else {
                     $messages[] = $e->getMessage();
                 }
@@ -144,14 +141,6 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
             $messages[] = Mage::helper('wishlist')->__('Unable to add the following product(s) to shopping cart: %s.', join(', ', $products));
         }
 
-        if ($isGrouped) {
-            $products = array();
-            foreach ($isGrouped as $item) {
-                $products[] = '"' . $item->getProduct()->getName() . '"';
-            }
-            $messages[] = Mage::helper('wishlist')->__('Product(s) %s are grouped. Each of them can be added to cart separately only.', join(', ', $products));
-        }
-
         if ($hasOptions) {
             $products = array();
             foreach ($hasOptions as $item) {
@@ -164,12 +153,6 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
             $isMessageSole = (count($messages) == 1);
             if ($isMessageSole && count($hasOptions) == 1) {
                 $item = $hasOptions[0];
-                if ($isOwner) {
-                    $item->delete();
-                }
-                $redirectUrl = $item->getProductUrl();
-            } elseif ($isMessageSole && count($isGrouped) == 1) {
-                $item = $isGrouped[0];
                 if ($isOwner) {
                     $item->delete();
                 }

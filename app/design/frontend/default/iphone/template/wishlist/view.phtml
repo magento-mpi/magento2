@@ -61,8 +61,10 @@
                             <span class="nobr"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span>
                         </td>
                         <td class="a-center">
+                        <?php if ($item->canHaveQty()): ?>
                             <?php $qty = ($item->getQty() > 0) ? $item->getQty() : 1; ?>
                             <p><input type="text" class="input-text qty" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $qty * 1; ?>" /></p>
+                        <?php endif; ?>
                         <?php if($item->isSaleable()): ?>
                             <button type="button" title="<?php echo $this->__('Add to Cart') ?>" onclick="addWItemToCart(<?php echo $item->getId(); ?>)" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                         <?php else: ?>
