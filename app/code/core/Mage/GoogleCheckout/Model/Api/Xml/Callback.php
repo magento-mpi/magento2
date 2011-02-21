@@ -306,6 +306,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         $quote->getPayment()->importData(array('method'=>'googlecheckout'));
 
+        $taxMessage = $this->_applyCustomTax($quote->getShippingAddress());
+
         // CONVERT QUOTE TO ORDER
         $convertQuote = Mage::getSingleton('sales/convert_quote');
 
@@ -355,6 +357,9 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $message = $this->__('Google Order Number: %s', '<strong>' . $this->getGoogleOrderNumber() . '</strong><br />')
                 . $this->__('Google Buyer ID: %s', '<strong>' . $this->getData('root/buyer-id/VALUE') . '</strong><br />')
                 . $this->__('Is Buyer Willing to Receive Marketing Emails: %s', '<strong>' . $emailStr . '</strong>');
+        if ($taxMessage) {
+            $message .= $this->__('<br />Warning: <strong>'.$taxMessage.'</strong><br />');
+        }
 
         $order->addStatusToHistory($order->getStatus(), $message);
         $order->place();
@@ -370,6 +375,61 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
 
         $this->getGRequest()->SendMerchantOrderNumber($order->getExtOrderId(), $order->getIncrementId());
+    }
+
+    /**
+     * If tax value differs tax which is setted on magento,
+     * apply Google tax and recollect quote
+     *
+     * @param Varien_Object $qAddress
+     * @return string | false
+     */
+    protected function _applyCustomTax($qAddress)
+    {
+        $quote = $qAddress->getQuote();
+        $qTaxAmount = $qAddress->getBaseTaxAmount();
+        $newTaxAmount = $this->getData('root/order-adjustment/total-tax/VALUE');
+
+        if ($qTaxAmount != $newTaxAmount) {
+            $taxQuotient = (int) $qTaxAmount ? $newTaxAmount/$qTaxAmount : $newTaxAmount;
+
+            $qAddress->setTaxAmount(
+                $this->_reCalculateToStoreCurrency($newTaxAmount, $quote)
+            );
+            $qAddress->setBaseTaxAmount($newTaxAmount);
+
+            $grandTotal = $qAddress->getBaseGrandTotal() - $qTaxAmount + $newTaxAmount;
+            $qAddress->setGrandTotal(
+                $this->_reCalculateToStoreCurrency($grandTotal, $quote)
+            );
+            $qAddress->setBaseGrandTotal($grandTotal);
+
+            $subtotalInclTax = $qAddress->getSubtotalInclTax() - $qTaxAmount + $newTaxAmount;
+            $qAddress->setSubtotalInclTax($subtotalInclTax);
+
+            foreach ($quote->getAllVisibleItems() as $item) {
+                if ($item->getParentItem()) {
+                    continue;
+                }
+                if ($item->getTaxAmount()) {
+                    $item->setTaxAmount($item->getTaxAmount()*$taxQuotient);
+                    $item->setBaseTaxAmount($item->getBaseTaxAmount()*$taxQuotient);
+                    $taxPercent = round(($item->getTaxAmount()/$item->getRowTotal())*100);
+                    $item->setTaxPercent($taxPercent);
+                }
+            }
+
+            $grandTotal = $quote->getBaseGrandTotal() - $qTaxAmount + $newTaxAmount;
+            $quote->setGrandTotal(
+                $this->_reCalculateToStoreCurrency($grandTotal, $quote)
+            );
+            $quote->setBaseGrandTotal($grandTotal);
+
+            $message = $this->__('Tax value may differ from Magento tax for some reason');
+            return $message;
+        }
+
+        return false;
     }
 
     /**
