@@ -491,7 +491,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     }
 
     /**
-     * Prepare product
+     * Prepare product and its configuration to be added to some products list.
+     * Perform standard preparation process and then prepare of bundle selections options.
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product

@@ -258,7 +258,8 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     }
 
     /**
-     * Prepare product
+     * Prepare product and its configuration to be added to some products list.
+     * Perform standard preparation process and add logic specific to Grouped product type.
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product

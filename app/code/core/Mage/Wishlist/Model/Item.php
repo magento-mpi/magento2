@@ -89,6 +89,12 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract implements Mage_
     protected $_notRepresentOptions = array('info_buyRequest');
 
     /**
+     * Flag stating that options were successfully saved
+     *
+     */
+    protected $_flagOptionsSaved = null;
+
+    /**
      * Initialize resource model
      *
      */
@@ -157,12 +163,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract implements Mage_
             return false;
         }
 
-        $result = $this->_getResource()->hasDataChanged($this);
-        if ($result === false) {
-           $this->_saveItemOptions();
-        }
-
-        return $result;
+        return $this->_getResource()->hasDataChanged($this);
     }
 
     /**
@@ -182,7 +183,25 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract implements Mage_
             }
         }
 
+        $this->_flagOptionsSaved = true; // Report to watchers that options were saved
+
         return $this;
+    }
+
+    /**
+     * Save model plus its options
+     * Ensures saving options in case when resource model was not changed
+     */
+    public function save()
+    {
+        $hasDataChanges = $this->hasDataChanges();
+        $this->_flagOptionsSaved = false;
+
+        parent::save();
+
+        if ($hasDataChanges && !$this->_flagOptionsSaved) {
+            $this->_saveItemOptions();
+        }
     }
 
     /**

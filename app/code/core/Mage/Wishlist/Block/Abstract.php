@@ -255,14 +255,9 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      */
     public function getQty($item)
     {
-        $qty = 1;
-        $product = null;
-        if ($item instanceof Mage_Wishlist_Model_Item) {
-            $product = $item->getProduct();
-            $qty = $item->getQty() * 1;
-        } elseif ($item instanceof Mage_Catalog_Model_Product) {
-            $product = $item;
-            $product->getQty() * 1;
+        $qty = $item->getQty() * 1;
+        if (!$qty) {
+            $qty = 1;
         }
         return $qty;
     }

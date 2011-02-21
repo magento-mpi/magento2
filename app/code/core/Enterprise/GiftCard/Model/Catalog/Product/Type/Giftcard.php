@@ -121,7 +121,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     }
 
     /**
-     * Prepare product to be added to some products list.
+     * Prepare product and its configuration to be added to some products list.
      * Use standard preparation process and also add specific giftcard options.
      *
      * @param Varien_Object $buyRequest

@@ -206,11 +206,12 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
             $_width = 0;
             $_height = 0;
-
-            $_imageSize = @getimagesize($fileInfo['tmp_name']);
-            if (is_array($_imageSize) && count($_imageSize) > 1) {
-                $_width = $_imageSize[0];
-                $_height = $_imageSize[1];
+            if (is_readable($fileInfo['tmp_name'])) {
+                $_imageSize = getimagesize($fileInfo['tmp_name']);
+                if ($_imageSize) {
+                    $_width = $_imageSize[0];
+                    $_height = $_imageSize[1];
+                }
             }
 
             $this->setUserValue(array(

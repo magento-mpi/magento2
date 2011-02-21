@@ -271,9 +271,10 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
 
         return $this;
     }
-    
+
     /**
-     * Prepare product
+     * Prepare product and its configuration to be added to some products list.
+     * Perform standard preparation process and then prepare options for downloadable links.
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product

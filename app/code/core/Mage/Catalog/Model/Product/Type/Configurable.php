@@ -518,7 +518,8 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Prepare product
+     * Prepare product and its configuration to be added to some products list.
+     * Perform standard preparation process and then add Configurable specific options.
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
