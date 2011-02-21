@@ -816,16 +816,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Add product to quote
-     *
-     * return error message if product type instance can't prepare product
+     * Advanced func to add product to quote - processing mode can be specified there.
+     * Returns error message if product type instance can't prepare product.
      *
      * @param mixed $product
      * @param null|float|Varien_Object $request
      * @param null|string $processMode
-     * @return Mage_Sales_Model_Quote_Item || string
+     * @return Mage_Sales_Model_Quote_Item|string
      */
-    public function addProduct(Mage_Catalog_Model_Product $product, $request = null, $processMode = null)
+    public function addProductAdvanced(Mage_Catalog_Model_Product $product, $request = null, $processMode = null)
     {
         if ($request === null) {
             $request = 1;
@@ -838,7 +837,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         $cartCandidates = $product->getTypeInstance(true)
-            ->prepareForCart($request, $product, $processMode);
+            ->prepareForCartAdvanced($request, $product, $processMode);
 
         /**
          * Error message
@@ -888,6 +887,21 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         Mage::dispatchEvent('sales_quote_product_add_after', array('items' => $items));
 
         return $item;
+    }
+
+
+    /**
+     * Add product to quote
+     *
+     * return error message if product type instance can't prepare product
+     *
+     * @param mixed $product
+     * @param null|float|Varien_Object $request
+     * @return Mage_Sales_Model_Quote_Item|string
+     */
+    public function addProduct(Mage_Catalog_Model_Product $product, $request = null)
+    {
+        return $this->addProductAdvanced($product, $request, Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL);
     }
 
     /**

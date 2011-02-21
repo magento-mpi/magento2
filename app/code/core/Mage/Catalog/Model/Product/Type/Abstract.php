@@ -369,14 +369,15 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Initialize product(s) for add to cart process
+     * Initialize product(s) for add to cart process.
+     * Advanced version of func to prepare product for cart - processMode can be specified there.
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
      * @param null|string $processMode
      * @return array|string
      */
-    public function prepareForCart(Varien_Object $buyRequest, $product = null, $processMode = null)
+    public function prepareForCartAdvanced(Varien_Object $buyRequest, $product = null, $processMode = null)
     {
         if (!$processMode) {
             $processMode = self::PROCESS_MODE_FULL;
@@ -384,6 +385,18 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $_products = $this->_prepareProduct($buyRequest, $product, $processMode);
         $this->processFileQueue();
         return $_products;
+    }
+
+    /**
+     * Initialize product(s) for add to cart process
+     *
+     * @param Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
+     * @return array|string
+     */
+    public function prepareForCart(Varien_Object $buyRequest, $product = null)
+    {
+        return $this->prepareForCartAdvanced($buyRequest, $product, self::PROCESS_MODE_FULL);
     }
 
     /**

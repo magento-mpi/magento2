@@ -187,12 +187,8 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $dispersion = Varien_File_Uploader::getDispretionPath($fileName);
 
             $filePath = $dispersion;
-            $destination = $this->getQuoteTargetDir() . $filePath;
-            //$upload->setDestination($destination);
-
             $fileHash = md5(file_get_contents($fileInfo['tmp_name']));
             $filePath .= DS . $fileHash . '.' . $extension;
-
             $fileFullPath = $this->getQuoteTargetDir() . $filePath;
 
             $upload->addFilter('Rename', array(
@@ -641,19 +637,30 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     /**
      * Simple check if file is image
      *
-     * @param array $fileInfo File data from Zend_File_Transfer
+     * @param array|string $fileInfo - either file data from Zend_File_Transfer or file path
      * @return boolean
      */
     protected function _isImage($fileInfo)
     {
         try {
+            // Maybe array with file info came in
+            if (is_array($fileInfo)) {
+                return strstr($fileInfo['type'], 'image/');
+            }
 
-            return @getimagesize($fileInfo) !== false;
+            // File path came in - check the physical file
+            if (!is_readable($fileInfo)) {
+                throw new Exception("File is not readable.");
+            }
+            $imageInfo = getimagesize($fileInfo);
+            if (!$imageInfo) {
+                throw new Exception("File is not an image.");
+            }
+            return true;
 
             // We can use Zend Validator, but the lack of mime types
             // $validator = new Zend_Validate_File_IsImage();
             // return $validator->isValid($fileInfo['tmp_name'], $fileInfo);
-
         } catch (Exception $e) {
             return false;
         }
