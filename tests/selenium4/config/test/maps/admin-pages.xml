@@ -556,6 +556,72 @@
             </manage_ratings>
         </reviews_and_ratings>
     </catalog>
+    <customers>
+        <manage_customers>
+            <buttons>
+                <add_new_customer>//button[span='Add New Customer']</add_new_customer>
+                <search>//button[span='Search']</search>
+            </buttons>
+            <elements>
+                <customer_container_contains>//*[@id='customerGrid']//td[contains(text(),'%s')]</customer_container_contains>
+                <customer_container>//*[@id='customerGrid']</customer_container>
+            </elements>
+            <edit_customer_page>
+                <buttons>
+                    <add_new_address>//button[span='Add New Address']</add_new_address>
+                    <save_customer>//button[span='Save Customer']</save_customer>
+                    <save_and_continue>//button[span='Save and Continue Edit']</save_and_continue>
+                    <delete_address>//a[not (contains(@style,'none'))]//img[@alt='Remove address']</delete_address>
+                </buttons>
+                <elements>
+                    <address_list_container>//td[contains(.,'Customer Addresses')]</address_list_container>
+                    <edit_address_container>//div[@id='address_form_container']</edit_address_container>
+                    <search_in_address_list>//td[contains(.,'Customer Addresses')]//li[contains(address, '%s')]</search_in_address_list>
+                    <is_billing_shipping>//li[contains(@id,'address_item')][%s]//label[contains(text(),'%s')]</is_billing_shipping>
+                    <billing_shipping_checked>//td[contains(.,'Customer Addresses')]//input[@checked='checked' and contains(@title,'%s')]</billing_shipping_checked>
+                    <edit_address>//img[@alt='Edit address']</edit_address>
+                    <check_street_line>//input[contains(@id,'item') and contains(@id,'street%s') and contains(@value,'%s')]</check_street_line>
+                    <text_fields>//div[contains(@id,'new_item')]//tr[contains(.,'%s')]/td[contains(@class,'value')]/input</text_fields>
+                    <check_text_fields>//tr[contains(td,'%s')]/td[contains(@class,'value')]/input[@value='%s']</check_text_fields>
+                    <check_country>//select[contains(@id,'item') and contains(@id,'country_id')]//option[@selected='selected' and contains(.,'%s')]</check_country>
+                    <check_state>//select[contains(@id,'item') and contains(@id,'region_id')]//option[@selected='selected' and contains(.,'%s')]</check_state>
+                    <edit_page_open>//div[@id="page:left"]/h3</edit_page_open>
+                    <new_address_container>//div[contains(@id,'new_item')]['%s']</new_address_container>
+                </elements>
+                <inputs>
+                    <first_name>//input[@id='_accountfirstname']</first_name>
+                    <last_name>//input[@id='_accountlastname']</last_name>
+                    <email>//input[@id='_accountemail']</email>
+                    <password>//input[@id='_accountpassword']</password>
+                    <zip_code>//input[contains(@id,'item') and contains(@id,'postcode')]</zip_code>
+                    <city>//input[contains(@id,'item') and contains(@id,'city')]</city>
+                    <telephone>//input[contains(@id,'item') and contains(@id,'telephone')]</telephone>
+                    <street_line>//input[contains(@id,'item') and contains(@id,'street%s')]</street_line>
+                    <state>//input[(contains(@id,'item') and contains(@id,'region')) and not(contains(@type,'hidden'))]</state>
+                    <store_credit_update_balance>//input[@id='_customerbalanceamount_delta']</store_credit_update_balance>
+                    <store_credit_notify_email>//input[@id='_customerbalancenotify_by_email']</store_credit_notify_email>
+                    <store_credit_comment>//input[@id='_customerbalancecomment']</store_credit_comment>
+                    <reward_points_update_points>//input[@id='reward_points_delta']</reward_points_update_points>
+                    <reward_points_comment>//input[@id='reward_comment']</reward_points_comment>
+                </inputs>
+                <selectors>
+                    <associate_to_website>//select[@id='_accountwebsite_id']</associate_to_website>
+                    <customer_group>//select[@id='_accountgroup_id']</customer_group>
+                    <country>//select[contains(@id,'item') and contains(@id,'country_id')]</country>
+                    <state>//select[(contains(@id,'item') and contains(@id,'region_id'))]</state>
+                    <store_credit_website>//select[@id='_customerbalancewebsite_id']</store_credit_website>
+                    <store_credit_email_from>//select[@id='_customerbalancestore_id']</store_credit_email_from>
+                    <reward_points_store>//select[@id='_customerbalancestore_id']</reward_points_store>
+                </selectors>
+                <tabs>
+                    <addresses_tab>//a[@id='customer_info_tabs_addresses']</addresses_tab>
+                    <account_info>//a[@id='customer_info_tabs_account']</account_info>
+                    <store_credit>//a[@id='customer_info_tabs_customerbalance']</store_credit>
+                    <reward_points>//a[@id='customer_info_tabs_customer_edit_tab_reward']</reward_points>
+                </tabs>
+            </edit_customer_page>
+        </manage_customers>
+    </customers>
     <system>
         <permissions>
             <users>
