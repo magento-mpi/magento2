@@ -267,8 +267,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                             $result->SetShippingDetails($methodName, $price - $address->getBaseShippingDiscountAmount(), "true");
                             $result->setTaxDetails($taxAmount);
                             $i++;
-                        }
-                        else {
+                        } else {
                             $result->SetShippingDetails($methodName, 0, "false");
                         }
                     }
@@ -304,12 +303,13 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $quote = $qAddress->getQuote();
         $taxCalculationModel = Mage::getSingleton('tax/calculation');
         $request = $taxCalculationModel->getRateRequest($qAddress);
-        $rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass));
         $taxCalculationModel->processShippingAmount($qAddress);
+        $rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass));
+
         if (!Mage::helper('tax')->shippingPriceIncludesTax()) {
-                $shippingTax    = $qAddress->getShippingAmount() * $rate/100;
-                $shippingBaseTax= $qAddress->getBaseShippingAmount() * $rate/100;
-            } else {
+            $shippingTax    = $qAddress->getShippingAmount() * $rate/100;
+            $shippingBaseTax= $qAddress->getBaseShippingAmount() * $rate/100;
+        } else {
             $shippingTax    = $qAddress->getShippingTaxAmount();
             $shippingBaseTax= $qAddress->getBaseShippingTaxAmount();
         }
