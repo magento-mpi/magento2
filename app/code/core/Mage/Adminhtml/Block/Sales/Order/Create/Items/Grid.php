@@ -136,12 +136,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function getSubtotal()
     {
-        if ($this->getQuote()->isVirtual()) {
-            $address = $this->getQuote()->getBillingAddress();
-        }
-        else {
-            $address = $this->getQuote()->getShippingAddress();
-        }
+        $address = $this->getQuoteAddress();
         if ($this->displayTotalsIncludeTax()) {
             if ($address->getSubtotalInclTax()) {
                 return $address->getSubtotalInclTax();
@@ -155,7 +150,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function getSubtotalWithDiscount()
     {
-        $address = $this->getQuote()->getShippingAddress();
+        $address = $this->getQuoteAddress();
         if ($this->displayTotalsIncludeTax()) {
             return $address->getSubtotal()+$address->getTaxAmount()+$this->getDiscountAmount();
         } else {
@@ -167,7 +162,22 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         return $this->getQuote()->getShippingAddress()->getDiscountAmount();
     }
-
+    
+    /**
+     * Retrive quote address
+     * 
+     * @return Mage_Sales_Model_Quote_Address 
+     */
+    public function getQuoteAddress()
+    {
+        if ($this->getQuote()->isVirtual()) {
+            return $this->getQuote()->getBillingAddress();
+        }
+        else {
+            return $this->getQuote()->getShippingAddress();
+        }
+    }
+    
     public function usedCustomPriceForItem($item)
     {
         return $item->hasCustomPrice();
