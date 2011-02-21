@@ -579,7 +579,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $infoBuyRequests = array();
 
         if (isset($data['add_order_item'])) {
-            foreach ($data['reorder'] as $orderItemId=>$value) {
+            foreach ($data['add_order_item'] as $orderItemId=>$value) {
                 $orderItem = Mage::getModel('sales/order_item')->load($orderItemId);
                 $item = $this->initFromOrderItem($orderItem);
                 if (is_string($item)) {
@@ -592,7 +592,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             }
         }
         if (isset($data['add_cart_item'])) {
-            foreach ($data['cartItem'] as $itemId => $qty) {
+            foreach ($data['add_cart_item'] as $itemId => $qty) {
                 if ($item = $this->getCustomerCart()->getItemById($itemId)) {
                     $infobuyRequest = $item->getOptionByCode('info_buyRequest');
                     if ($infobuyRequest === null || !in_array($infobuyRequest->getValue(), $infoBuyRequests)) {
@@ -603,7 +603,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             }
         }
         if (isset($data['add_wishlist_item'])) {
-            foreach ($data['wishlistItem'] as $itemId => $qty) {
+            foreach ($data['add_wishlist_item'] as $itemId => $qty) {
                 $item = Mage::getModel('wishlist/item')->load($itemId);
                 if ($item && $item->getBuyRequest()) {
                     $this->addProduct($item->getProduct()->getId(), $item->getBuyRequest()->toArray());
