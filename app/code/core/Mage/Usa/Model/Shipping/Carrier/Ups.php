@@ -692,6 +692,9 @@ XMLRequest;
                     && $this->getConfigData('shipper_number')
                     && !empty($negotiatedArr);
 
+                $currencyModel = Mage::getModel('directory/currency');
+                $allowedCurrencies = $currencyModel->getConfigAllowCurrencies();
+
                 foreach ($arr as $shipElement){
                     $code = (string)$shipElement->Service->Code;
                     #$shipment = $this->getShipmentByCode($code);
@@ -703,8 +706,31 @@ XMLRequest;
                             $cost = $shipElement->TotalCharges->MonetaryValue;
                         }
 
-                        $costArr[$code] = $cost;
-                        $priceArr[$code] = $this->getMethodPrice(floatval($cost),$code);
+                        //convert price with Origin country currency code to base currency code
+                        $successConversion = true;
+                        $responseCurrencyCode = (string) $shipElement->TotalCharges->CurrencyCode;
+                        if ($responseCurrencyCode) {
+                            if (in_array($responseCurrencyCode, $allowedCurrencies)) {
+                                $cost *= $currencyModel
+                                    ->load($responseCurrencyCode)
+                                    ->getAnyRate($this->_request->getBaseCurrency()->getCode());
+                            } else {
+                                $errorTitle = Mage::helper('directory')
+                                    ->__('Can\'t convert rate from "%s-%s".',
+                                        $responseCurrencyCode,
+                                        $this->_request->getPackageCurrency()->getCode());
+                                $error = Mage::getModel('shipping/rate_result_error');
+                                $error->setCarrier('ups');
+                                $error->setCarrierTitle($this->getConfigData('title'));
+                                $error->setErrorMessage($errorTitle);
+                                $successConversion = false;
+                            }
+                        }
+
+                        if ($successConversion) {
+                            $costArr[$code] = $cost;
+                            $priceArr[$code] = $this->getMethodPrice(floatval($cost),$code);
+                        }
                     }
                 }
             } else {
