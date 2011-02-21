@@ -1,12 +1,13 @@
 <?php
 
-class Frontend_ShoppingCart_AddVirtualPositive extends TestCaseAbstract
-{
+class Frontend_ShoppingCart_AddVirtualPositive extends TestCaseAbstract {
+
     /**
      * Setup procedure.
      * Initializes model and loads configuration
      */
-    function setUp() {
+    function setUp()
+    {
         $this->modelProduct = $this->getModel('frontend/product');
         $this->modelShoppingCart = $this->getModel('frontend/shoppingcart');
         $this->setUiNamespace();
@@ -19,11 +20,10 @@ class Frontend_ShoppingCart_AddVirtualPositive extends TestCaseAbstract
     function testAddGroupedPositive()
     {
         // Test Dara
-        $paramArray = array (
-            'baseUrl' => 'http://kq.varien.com/builds/ee-nightly/current/websites/smoke',
-            'categoryName' => 'SL-Category/Base',
-            'productName' => 'Virtual Product - Base',
-            'qty' => 1,
+        $paramArray = array(
+            'categoryName'  => 'st-subcat',
+            'productName'   => 'Virtual Product 01.Required Fields',
+            'qty'           => 1,
         );
 
         //Test Flow
@@ -33,4 +33,5 @@ class Frontend_ShoppingCart_AddVirtualPositive extends TestCaseAbstract
             $this->setVerificationErrors("Check1 : Product ${paramArray['productName']} could not be opened");
         }
     }
+
 }

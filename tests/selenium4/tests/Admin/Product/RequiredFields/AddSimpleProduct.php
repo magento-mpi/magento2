@@ -26,7 +26,7 @@ class Admin_Product_RequiredFields_AddSimpleProduct extends TestCaseAbstract {
             'sku'                   => 'SP-01',
             'weight'                => rand(10, 100),
             'status'                => 'Enabled',
-            'price'                 => rand(100, 300),
+            'price'                 => 176,
             'tax_class'             => 'None',
             'manage_stock'          => 'Yes',
             'inventory_qty'         => '100',

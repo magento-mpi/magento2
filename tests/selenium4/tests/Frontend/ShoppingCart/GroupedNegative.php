@@ -20,13 +20,13 @@ class Frontend_ShoppingCart_AddGroupedNegative extends TestCaseAbstract
     {
         // Test Dara
         $paramArray = array (
-            'baseUrl' => 'http://kq.varien.com/builds/ee-nightly/current/websites/smoke',
-            'categoryName' => 'SL-Category/Base',
-            'productName' => 'Grouped Product - Base',
-            'associatedProducts' => array (
-                                    'A Product - A' => '1',
-                                    'A Product - B' => '0',
-                                    )
+            'categoryName'          => 'st-subcat',
+            'productName'           => 'Grouped Product 01.Required Fields',
+            'associatedProducts'    => array (
+                                        'Virtual Product 01.Required Fields'        => '3',
+                                        'Downloadable Product 01.Required Fields'   => '2',
+                                        'Simple Product 01.Required Fields'         => '0',
+                                        )
         );
 
         //Test Flow
