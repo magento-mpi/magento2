@@ -70,38 +70,38 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('customer')->__('Product ID'),
+            'header'    => Mage::helper('catalog')->__('Product ID'),
             'index'     => 'product_id',
             'width'     => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('customer')->__('Product Name'),
+            'header'    => Mage::helper('catalog')->__('Product Name'),
             'index'     => 'name',
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('customer')->__('SKU'),
+            'header'    => Mage::helper('catalog')->__('SKU'),
             'index'     => 'sku',
             'width'     => '100px',
         ));
 
         $this->addColumn('qty', array(
-            'header'    => Mage::helper('customer')->__('Qty'),
+            'header'    => Mage::helper('catalog')->__('Qty'),
             'index'     => 'qty',
             'type'      => 'number',
             'width'     => '60px',
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('customer')->__('Price'),
+            'header'    => Mage::helper('catalog')->__('Price'),
             'index'     => 'price',
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
-            'header'    => Mage::helper('customer')->__('Total'),
+            'header'    => Mage::helper('sales')->__('Total'),
             'index'     => 'row_total',
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
