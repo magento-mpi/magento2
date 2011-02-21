@@ -34,4 +34,28 @@
  */
 class Mage_Reports_Model_Mysql4_Product_Sold_Collection extends Mage_Reports_Model_Resource_Product_Sold_Collection
 {
+    
+    /**
+     * Add website product limitation
+     *
+     * @return Mage_Reports_Model_Mysql4_Product_Sold_Collection
+     */
+    protected function _productLimitationJoinWebsite()
+    {
+        $filters     = $this->_productLimitationFilters;
+        $conditions  = array(
+            'product_website.product_id=e.entity_id'
+        );
+        if (isset($filters['website_ids'])) {
+            $conditions[] = $this->getConnection()
+                ->quoteInto('product_website.website_id IN(?)', $filters['website_ids']);
+            
+            $subQuery = $this->getConnection()->select()
+                ->from(array('product_website' => $this->getTable('catalog/product_website')), array('product_website.product_id'))
+                ->where(join(' AND ', $conditions));
+            $this->getSelect()->where('e.entity_id IN( '.$subQuery.' )');
+        }
+        
+        return $this;
+    }
 }
