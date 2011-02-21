@@ -225,19 +225,36 @@ class Model_Admin_Attributes extends Model_Admin {
         $Data = $params ? $params : $this->Data;
         $type = $Data['attrribute_type'];
         $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/manageproducts"));
-        //$this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
-        //$this->clickAndWait($this->getUiElement("buttons/addproduct"));
-        //$this->clickAndWait($this->getUiElement("buttons/addproductcontinue"));
+        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
+        $this->clickAndWait($this->getUiElement("buttons/addproduct"));
+        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->checkAndSelectField($params, 'attribute_set');
+        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
+        $this->clickAndWait($this->getUiElement("buttons/addproductcontinue"));
         $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
         $this->click($this->getUiElement("buttons/create_new_attribute"));
         $this->waitForPopUp("new_attribute", "30000");
         $this->selectWindow("name=new_attribute");
         $this->setUiNamespace('admin/pages/catalog/attributes/manage_attributes/attribute');
         $this->waitForElement($this->getUiElement('selectors/attrribute_type'), 20);
-        $this->fillAttributePropertiesTab();
-        $this->fillManageLabelAndOptionsTab();
+        // Fill in data
         $this->setUiNamespace('admin/pages/catalog/attributes/manage_attributes/attribute');
-        $this->saveAndVerifyForErrors("save_attribute");
+        $this->fillAttributePropetriesForm($params);
+        if ($type != 'Media Image' and $type != 'Fixed Product Tax') {
+            $this->fillFrontendPropertiesForm($params);
+        }
+        $this->fillManageLabelAndOptionsTab($params);
+        $this->click($this->getUiElement("/admin/global/buttons/submit"));
+        // check for error message
+        if ($this->waitForElement($this->getUiElement('/admin/messages/success'), 10)) {
+            $etext = $this->getText($this->getUiElement('/admin/messages/success'));
+            $this->printInfo($etext);
+        } elseif ($this->waitForElement($this->getUiElement('/admin/messages/error'), 10)) {
+            $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+            $this->setVerificationErrors($etext);
+        } else {
+            $this->setVerificationErrors('No success message');
+        }
         $this->selectWindow("null");
     }
 

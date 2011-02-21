@@ -78,6 +78,9 @@ class Model_Admin_Product extends Model_Admin {
         $Data = $params ? $params : $this->Data;
         $type = $Data['type'];
         $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        if ($this->isElementPresent($this->getUiElement('selectors/conf_attribute'))) {
+            $this->select($this->getUiElement('selectors/conf_attribute'), $type);
+        }
         //Name
         $this->checkAndFillField($params, 'name', Null);
         //Description
