@@ -112,12 +112,16 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_
                     $bundleSelections = $bundleOption->getSelections();
 
                     foreach ($bundleSelections as $bundleSelection) {
-                        $option['value'][] = ($this->getSelectionQty($product, $bundleSelection->getSelectionId()) * 1)
-                            . ' x ' . $this->escapeHtml($bundleSelection->getName())
-                            . ' ' . Mage::helper('core')->currency($this->getSelectionFinalPrice($item, $bundleSelection));
+                        $qty = $this->getSelectionQty($product, $bundleSelection->getSelectionId()) * 1;
+                        if ($qty) {
+                            $option['value'][] = $qty . ' x ' . $this->escapeHtml($bundleSelection->getName())
+                                . ' ' . Mage::helper('core')->currency($this->getSelectionFinalPrice($item, $bundleSelection));
+                        }
                     }
 
-                    $options[] = $option;
+                    if ($option['value']) {
+                        $options[] = $option;
+                    }
                 }
             }
         }
