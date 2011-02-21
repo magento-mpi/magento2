@@ -122,7 +122,9 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
             $this->_initData();
 
             $buyRequest = new Varien_Object($this->getRequest()->getParams());
-            $this->_wishlist->updateItem($this->_wishlistItem->getId(), $buyRequest);
+            $this->_wishlist
+                ->updateItem($this->_wishlistItem->getId(), $buyRequest)
+                ->save();
 
             $updateResult->setOk(true);
         } catch (Exception $e) {

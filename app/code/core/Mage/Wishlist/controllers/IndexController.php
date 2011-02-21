@@ -250,9 +250,8 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             $buyRequest = new Varien_Object($this->getRequest()->getParams());
 
             /* @var $item Mage_Wishlist_Model_Item */
-            $item = $wishlist->updateItem($id, $buyRequest);
-
-            $wishlist->save();
+            $item = $wishlist->updateItem($id, $buyRequest)
+                ->save();
 
             Mage::dispatchEvent('wishlist_update_item', array('wishlist' => $wishlist, 'product' => $product, 'item' => $item));
 

@@ -167,11 +167,12 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         }
 
         if ($item === null) {
+            $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $this->getStore()->getId();
             $item = Mage::getModel('wishlist/item');
             $item->setProductId($product->getId())
                 ->setWishlistId($this->getId())
                 ->setAddedAt(now())
-                ->setStoreId($this->getStore()->getId())
+                ->setStoreId($storeId)
                 ->setOptions($product->getCustomOptions())
                 ->setProduct($product)
                 ->setQty($qty)
@@ -263,9 +264,19 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
          * a) we have new instance and do not interfere with other products in wishlist
          * b) product has full set of attributes
          */
-        $productId = ($product instanceof Mage_Catalog_Model_Product) ? $product->getId() : (int) $product;
+        if ($product instanceof Mage_Catalog_Model_Product) {
+            $productId = $product->getId();
+            // Maybe force some store by wishlist internal properties
+            $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $product->getStoreId();
+        } else {
+            $productId = (int) $product;
+            $storeId = Mage::app()->getStore()->getId();
+        }
+
         /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = Mage::getModel('catalog/product')
+            ->setStoreId($storeId)
+            ->load($productId);
 
         if ($buyRequest instanceof Varien_Object) {
             $_buyRequest = $buyRequest;
@@ -301,6 +312,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             if ($candidate->getParentProductId()) {
                 continue;
             }
+            $candidate->setWishlistStoreId($storeId);
             $item = $this->_addCatalogProduct($candidate, $candidate->getQty());
             $items[] = $item;
 
@@ -451,6 +463,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      *
      * @param int $itemId
      * @param Varien_Object $buyRequest
+     * @return Mage_Wishlist_Model_Wishlist
      */
     public function updateItem($itemId, $buyRequest) {
         $item = $this->getItem((int)$itemId);
@@ -461,6 +474,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         $product = $item->getProduct();
         $productId = $product->getId();
         if ($productId) {
+            $product->setWishlistStoreId($item->getStoreId());
             $resultItem = $this->addNewItem($product, $buyRequest);
             /**
              * Error message
@@ -471,6 +485,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 
             if ($resultItem->getId() != $itemId) {
                 $item->isDeleted(true);
+                $this->setDataChanges(true);
 
                 $items = $this->getItemCollection();
                 $eqItems = array();
@@ -488,5 +503,6 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         } else {
             Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
         }
+        return $this;
     }
 }
