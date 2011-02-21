@@ -734,6 +734,23 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Checking product exist in Quote
+     *
+     * @param int $productId
+     * @return bool
+     */
+    public function hasProductId($productId)
+    {
+        foreach ($this->getAllItems() as $item) {
+            if ($item->getProductId() == $productId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Retrieve item model object by item identifier
      *
      * @param   int $itemId
@@ -752,7 +769,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function removeItem($itemId)
     {
-        if ($item = $this->getItemById($itemId)) {
+        $item = $this->getItemById($itemId);
+        if ($item) {
             $item->setQuote($this);
             /**
              * If we remove item from quote - we can't use multishipping mode
@@ -921,6 +939,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
         $productId = $item->getProduct()->getId();
 
+        //We need to create new clear product instance with same $productId
+        //to set new option values from $buyRequest
         $product = Mage::getModel('catalog/product')
             ->setStoreId($this->getStore()->getId())
             ->load($productId);

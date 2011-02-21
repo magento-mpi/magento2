@@ -37,7 +37,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Wishlist Product Items Collection
      *
-     * @var Mage_Wishlist_Model_Mysql4_Product_Collection
+     * @var Mage_Wishlist_Model_Mysql4_Item_Collection
      */
     protected $_collection;
 
@@ -95,7 +95,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Prepare additional conditions to collection
      *
-     * @param Mage_Wishlist_Model_Mysql4_Product_Collection $collection
+     * @param Mage_Wishlist_Model_Mysql4_Item_Collection $collection
      * @return Mage_Wishlist_Block_Customer_Wishlist
      */
     protected function _prepareCollection($collection)
@@ -111,15 +111,9 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     public function getWishlistItems()
     {
         if (is_null($this->_collection)) {
-//            $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
             $this->_collection = $this->_getWishlist()
                 ->getItemCollection()
-//                ->addAttributeToSelect($attributes)
                 ->addStoreFilter();
-//                ->addUrlRewrite();
-
-//            Mage::getSingleton('catalog/product_visibility')
-//                ->addVisibleInSiteFilterToCollection($this->_collection);
 
             $this->_prepareCollection($this->_collection);
         }
@@ -130,8 +124,8 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Back compatibility retrieve wishlist product items
      *
-     * @deprecated
-     * @return Mage_Wishlist_Model_Mysql4_Product_Collection
+     * @deprecated deprecated since 1.4.2.0
+     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
      */
     public function getWishlist()
     {
@@ -155,9 +149,9 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @return string
      */
-    public function getItemAddToCartUrl($product)
+    public function getItemAddToCartUrl($item)
     {
-        return $this->_getHelper()->getAddToCartUrl($product);
+        return $this->_getHelper()->getAddToCartUrl($item);
     }
 
     /**

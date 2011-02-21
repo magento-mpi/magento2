@@ -431,7 +431,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function representProduct($product)
     {
         $itemProduct = $this->getProduct();
-        if ($itemProduct->getId() != $product->getId()) {
+        if (!$product || $itemProduct->getId() != $product->getId()) {
             return false;
         }
 

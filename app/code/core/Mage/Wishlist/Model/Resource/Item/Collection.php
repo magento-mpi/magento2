@@ -34,7 +34,18 @@
  */
 class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
+    /**
+     * Product Visibility Filter to product collection flag
+     * 
+     * @var bool
+     */
     protected $_productVisible = false;
+
+    /**
+     * Product Salable Filter to product collection flag
+     *
+     * @var bool
+     */
     protected $_productSalable = false;
     
     /**
@@ -181,9 +192,8 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * This method will be not supported anymore
+     * Add items store data to collection
      *
-     * @deprecated since 1.4.0.0
      * @return Mage_Wishlist_Model_Mysql4_Item_Collection
      */
     public function addStoreData()

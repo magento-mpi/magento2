@@ -138,10 +138,10 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             Mage::dispatchEvent('wishlist_add_product', array('wishlist'=>$wishlist, 'product'=>$product, 'item'=>$item));
 
-            if ($referer = $session->getBeforeWishlistUrl()) {
+            $referer = $session->getBeforeWishlistUrl();
+            if ($referer) {
                 $session->setBeforeWishlistUrl(null);
-            }
-            else {
+            } else {
                 $referer = $this->_getRefererUrl();
             }
 

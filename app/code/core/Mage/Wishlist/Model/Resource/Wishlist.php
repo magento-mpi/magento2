@@ -88,7 +88,7 @@ class Mage_Wishlist_Model_Resource_Wishlist extends Mage_Core_Model_Resource_Db_
     public function fetchItemsCount(Mage_Wishlist_Model_Wishlist $wishlist)
     {
         if (is_null($this->_itemsCount)) {
-            $collection = $wishlist->getProductCollection()
+            $collection = $wishlist->getItemCollection()
                 ->addStoreFilter()
                 ->setVisibilityFilter();
 

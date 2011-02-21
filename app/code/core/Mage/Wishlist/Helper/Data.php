@@ -118,7 +118,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * alias for getProductCollection
      *
-     * @deprecated since 1.5.0.0
+     * @deprecated since 1.4.2.0
      * @see Mage_Wishlist_Model_Wishlist::getItemCollection()
      * 
      * @return Mage_Wishlist_Model_Mysql4_Product_Collection
@@ -150,13 +150,15 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve wishlist product items collection
      *
-     * @deprecated since 1.5.0.0
+     * @deprecated since 1.4.2.0
      * @see Mage_Wishlist_Model_Wishlist::getItemCollection()
      * 
      * @return Mage_Wishlist_Model_Mysql4_Product_Collection
      */
     public function getProductCollection()
     {
+        throw new Exception("Usage of product collection is deprecated in wishlist.");
+        
         if (is_null($this->_productCollection)) {
             $this->_productCollection = $this->getWishlist()
                 ->getProductCollection();

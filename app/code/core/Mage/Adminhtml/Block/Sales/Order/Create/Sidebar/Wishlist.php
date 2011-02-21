@@ -61,7 +61,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
     {
         $collection = $this->getData('item_collection');
         if (is_null($collection)) {
-            if ($collection = $this->getCreateOrderModel()->getCustomerWishlist(true)) {
+            $collection = $this->getCreateOrderModel()->getCustomerWishlist(true);
+            if ($collection) {
                 $collection = $collection->getItemCollection()->load();
             }
             $this->setData('item_collection', $collection);

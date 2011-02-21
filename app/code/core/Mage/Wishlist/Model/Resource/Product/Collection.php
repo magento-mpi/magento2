@@ -28,6 +28,7 @@
 /**
  * Wishlist Product collection
  *
+ * @deprecated deprecated since 1.4.2.0
  * @category    Mage
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -51,7 +52,7 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
      * Constructor. Added just to throw exception, because after Magento 1.5.0.0 it's impossible
      * to use product collection in wishlist
      *
-     * @deprecated after 1.5.0.0
+     * @deprecated deprecated since 1.4.2.0
      * @see Mage_Wishlist_Model_Mysql4_Item_Collection
      * @return void
      */
