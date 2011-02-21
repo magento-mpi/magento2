@@ -36,9 +36,9 @@ class Enterprise_Search_Block_Catalogsearch_Layer_Filter_Attribute extends Mage_
     /**
      * Set model name
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->_filterModelName = 'enterprise_search/search_layer_filter_attribute';
     }
 
