@@ -191,13 +191,16 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     }
 
     /**
-     * Define if page with product custom options should display at start
+     * Define if setting of product options must be shown instantly.
+     * Used in case when options are usually hidden and shown only when user
+     * presses some button or link. In editing mode we better show these options
+     * instantly.
      *
      * @return bool
      */
-    public function startBundleCustomization()
+    public function isStartCustomization()
     {
-        return (bool)Mage::app()->getRequest()->getParam('startcustomization');
+        return $this->getProduct()->getConfigureMode() || Mage::app()->getRequest()->getParam('startcustomization');
     }
 
     /**

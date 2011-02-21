@@ -196,6 +196,8 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             $params = new Varien_Object();
             $params->setCategoryId(false);
+            $params->setConfigureMode(true);
+
             $buyRequest = $item->getBuyRequest();
             if (!$buyRequest->getQty() && $item->getQty()) {
                 $buyRequest->setQty($item->getQty());

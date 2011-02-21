@@ -100,6 +100,8 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
      * $params can have all values as $params in Mage_Catalog_Helper_Product - initProduct().
      * Plus following keys:
      *   - 'buy_request' - Varien_Object holding buyRequest to configure product
+     *   - 'specify_options' - boolean, whether to show 'Specify options' message
+     *   - 'configure_mode' - boolean, whether we're in Configure-mode to edit product configuration
      *
      * @param int $productId
      * @param Mage_Core_Controller_Front_Action $controller
@@ -124,6 +126,10 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
         $buyRequest = $params->getBuyRequest();
         if ($buyRequest) {
             $productHelper->prepareProductOptions($product, $buyRequest);
+        }
+
+        if ($params->hasConfigureMode()) {
+            $product->setConfigureMode($params->getConfigureMode());
         }
 
         Mage::dispatchEvent('catalog_controller_product_view', array('product' => $product));

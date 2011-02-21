@@ -276,6 +276,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         try {
             $params = new Varien_Object();
             $params->setCategoryId(false);
+            $params->setConfigureMode(true);
             $params->setBuyRequest($quoteItem->getBuyRequest());
 
             Mage::helper('catalog/product_view')->prepareAndRender($quoteItem->getProduct()->getId(), $this, $params);

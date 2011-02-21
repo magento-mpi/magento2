@@ -135,7 +135,7 @@ $_product = $this->getProduct();
     </div>
 </div>
 <script type="text/javascript">
-        <?php if ($this->startBundleCustomization()): ?>
+        <?php if ($this->isStartCustomization()): ?>
             Enterprise.Bundle.start();
         <?php endif;?>
         var productAddToCartForm = new VarienForm('product_addtocart_form');
