@@ -159,17 +159,17 @@ class Model_Admin extends TestModelAbstract {
      * @param <type> $params
      * @return boolean
      */
-    public function checkAndSelectField($params, $field, $number)
+    public function checkAndSelectField($params, $field)
     {
-        $result = false;
-        $Data = $params ? $params : $this->Data;
-        if (isset($Data[$field]) and $Data[$field] != NULL) {
-            if ($this->isElementPresent($this->getUiElement("selectors/" . $field, $number) .
-                            $this->getUiElement("/admin/global/elements/option_for_field", $Data[$field]))) {
-                $this->select($this->getUiElement("selectors/" . $field, $number), "label=" . $Data[$field]);
-                $result = true;
+        $result = true;
+        if ($this->isSetValue($params, $field) != NULL) {
+            $value = $this->isSetValue($params, $field);
+            if ($this->isElementPresent($this->getUiElement("selectors/" . $field) .
+                            $this->getUiElement("/admin/global/elements/option_for_field", $value))) {
+                $this->select($this->getUiElement("selectors/" . $field), "label=" . $value);
             } else {
-                $this->printInfo("The value '" . $Data[$field] . "' cannot be set for the field '" . $field . "'");
+                $this->printInfo("The value '" . $value . "' cannot be set for the field '" . $field . "'");
+                $result = false;
             }
         } else {
             $this->printInfo("The value for the field $field is not specified. The default value will be used");
@@ -190,9 +190,9 @@ class Model_Admin extends TestModelAbstract {
      */
     public function checkAndFillField($params, $field, $number)
     {
-        $Data = $params ? $params : $this->Data;
-        if (isset($Data[$field])) {
-            $this->type($this->getUiElement("inputs/" . $field, $number), $Data[$field]);
+        if ($this->isSetValue($params, $field) != NULL) {
+            $value = $this->isSetValue($params, $field);
+            $this->type($this->getUiElement("inputs/" . $field, $number), $value);
         }
     }
 
@@ -232,23 +232,29 @@ class Model_Admin extends TestModelAbstract {
             if ($this->isTextPresent($this->getUiElement('/admin/global/elements/no_records'))) {
                 $this->printInfo("\r\n Element not found.");
                 $result = FALSE;
-            } elseif ($action == "mark") {
-                $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
-                        $this->getUiElement('/admin/global/elements/mark_filtered_element', $searchElements));
-            } elseif ($action == "open") {
-                $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
-                        $this->getUiElement('/admin/global/elements/filtered_element', $searchElements));
-                for ($second = 0;; $second++) {
-                    if ($second >= 60)
-                        break;
-                    try {
-                        if (!$this->isElementPresent($this->getUiElement("elements/" . $tableContainer, $tableNumber)))
+            } elseif ($this->isElementPresent($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
+                            $this->getUiElement('/admin/global/elements/filtered_element', $searchElements))) {
+                if ($action == "mark") {
+                    $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
+                            $this->getUiElement('/admin/global/elements/mark_filtered_element', $searchElements));
+                } elseif ($action == "open") {
+                    $this->click($this->getUiElement("elements/" . $tableContainer, $tableNumber) .
+                            $this->getUiElement('/admin/global/elements/filtered_element', $searchElements));
+                    for ($second = 0;; $second++) {
+                        if ($second >= 60)
                             break;
-                    } catch (Exception $e) {
-
+                        try {
+                            if (!$this->isElementPresent($this->getUiElement("elements/" . $tableContainer, $tableNumber)))
+                                break;
+                        } catch (Exception $e) {
+                            
+                        }
+                        sleep(2);
                     }
-                    sleep(2);
                 }
+            } else {
+                $this->printInfo(("\r\n Element not found."));
+                $result = FALSE;
             }
         } else {
             $this->printInfo('Implementation of a function "searchAndDoAction" is skipped because data for the search is not specified ');
@@ -433,6 +439,47 @@ class Model_Admin extends TestModelAbstract {
             }
         }
         return $arrayName;
+    }
+
+    /**
+     * Delete opened element
+     *
+     * @param string $confirmation
+     * @return boolean
+     */
+    public function doDeleteElement($confirmation)
+    {
+        $result = TRUE;
+        if ($this->isElementPresent($this->getUiElement('/admin/global/buttons/delete'))) {
+            $this->chooseCancelOnNextConfirmation();
+            $this->click($this->getUiElement('/admin/global/buttons/delete'));
+            if ($this->isConfirmationPresent()) {
+                $text = $this->getConfirmation();
+                if ($text == $confirmation) {
+                    $this->chooseOkOnNextConfirmation();
+                    $this->click($this->getUiElement('/admin/global/buttons/delete'));
+                } else {
+                    $this->printInfo('The confirmation text incorrect: ' . $text);
+                    $result = FALSE;
+                }
+            } else {
+                $this->printInfo('The confirmation does not appear');
+            }
+            if ($result) {
+                if ($this->waitForElement($this->getUiElement('/admin/messages/error'), 20)) {
+                    $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+                    $this->setVerificationErrors($etext);
+                } elseif ($this->waitForElement($this->getUiElement('/admin/messages/success'), 30)) {
+                    $etext = $this->getText($this->getUiElement('/admin/messages/success'));
+                    $this->printInfo($etext);
+                } else {
+                    $this->setVerificationErrors('No success message');
+                }
+            }
+        } else {
+            $this->printInfo("There is no way to remove an item(There is no 'Delete' button)");
+        }
+        return $result;
     }
 
 }
