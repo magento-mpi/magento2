@@ -47,6 +47,13 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
     protected $_defaultCgiGatewayUrl        = 'http://www.ups.com:80/using/services/rave/qcostcgi.cgi';
 
+    /**
+     * Base currency rate
+     *
+     * @var double
+     */
+    protected $_baseCurrencyRate;
+
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!$this->getConfigFlag('active')) {
@@ -673,6 +680,23 @@ XMLRequest;
         return $this->_parseXmlResponse($xmlResponse);
     }
 
+    /**
+     * Get base currency rate
+     *
+     * @param string $code
+     * @return double
+     */
+    protected function _getBaseCurrencyRate($code)
+    {
+        if (!$this->_baseCurrencyRate) {
+            $this->_baseCurrencyRate = Mage::getModel('directory/currency')
+                ->load($code)
+                ->getAnyRate($this->_request->getBaseCurrency()->getCode());
+        }
+
+        return $this->_baseCurrencyRate;
+    }
+
     protected function _parseXmlResponse($xmlResponse)
     {
         $costArr = array();
@@ -692,8 +716,7 @@ XMLRequest;
                     && $this->getConfigData('shipper_number')
                     && !empty($negotiatedArr);
 
-                $currencyModel = Mage::getModel('directory/currency');
-                $allowedCurrencies = $currencyModel->getConfigAllowCurrencies();
+                $allowedCurrencies = Mage::getModel('directory/currency')->getConfigAllowCurrencies();
 
                 foreach ($arr as $shipElement){
                     $code = (string)$shipElement->Service->Code;
@@ -711,9 +734,7 @@ XMLRequest;
                         $responseCurrencyCode = (string) $shipElement->TotalCharges->CurrencyCode;
                         if ($responseCurrencyCode) {
                             if (in_array($responseCurrencyCode, $allowedCurrencies)) {
-                                $cost *= $currencyModel
-                                    ->load($responseCurrencyCode)
-                                    ->getAnyRate($this->_request->getBaseCurrency()->getCode());
+                                $cost *= $this->_getBaseCurrencyRate($responseCurrencyCode);
                             } else {
                                 $errorTitle = Mage::helper('directory')
                                     ->__('Can\'t convert rate from "%s-%s".',
