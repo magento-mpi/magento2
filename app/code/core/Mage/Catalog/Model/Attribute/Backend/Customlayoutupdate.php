@@ -34,7 +34,7 @@
 
 class Mage_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
-    
+
    /**
     * Product custom layout update attribute validate function.
     * In case invalid data throws exception.
@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Mage_Eav_M
        try {
            new Varien_Simplexml_Element($updates);
        } catch(Exception $e) {
-           $eavExc = new Mage_Eav_Model_Entity_Attribute_Exception(Mage::helper('catalog/product')->__('Invalid value. Must be strongly formatted xml string!'));
+           $eavExc = new Mage_Eav_Model_Entity_Attribute_Exception(Mage::helper('catalog/product')->__('Please enter valid XML data.'));
            $eavExc->setAttributeCode($attributeName);
            throw $eavExc;
        }
