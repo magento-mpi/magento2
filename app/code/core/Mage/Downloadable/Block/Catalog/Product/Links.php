@@ -162,4 +162,20 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         return Mage::getStoreConfigFlag(Mage_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 
+    /**
+     * Returns whether link checked by default or not
+     *
+     * @param Mage_Downloadable_Model_Link $link
+     * @return bool
+     */
+    public function getIsLinkChecked($link)
+    {
+        $configValue = $this->getProduct()->getPreconfiguredValues()->getLinks();
+        if (!$configValue || !is_array($configValue)) {
+            return false;
+        }
+
+        return $configValue && (in_array($link->getId(), $configValue));
+    }
+
 }
