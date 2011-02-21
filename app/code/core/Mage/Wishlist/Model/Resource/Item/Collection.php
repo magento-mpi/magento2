@@ -152,7 +152,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
             Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($productCollection);
         }
         if ($this->_productSalable) {
-            $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
+            $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
         }
 
         foreach ($this->_storeIds as $id) {
