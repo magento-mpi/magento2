@@ -643,28 +643,20 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     protected function _isImage($fileInfo)
     {
-        try {
-            // Maybe array with file info came in
-            if (is_array($fileInfo)) {
-                return strstr($fileInfo['type'], 'image/');
-            }
+        // Maybe array with file info came in
+        if (is_array($fileInfo)) {
+            return strstr($fileInfo['type'], 'image/');
+        }
 
-            // File path came in - check the physical file
-            if (!is_readable($fileInfo)) {
-                throw new Exception("File is not readable.");
-            }
-            $imageInfo = getimagesize($fileInfo);
-            if (!$imageInfo) {
-                throw new Exception("File is not an image.");
-            }
-            return true;
-
-            // We can use Zend Validator, but the lack of mime types
-            // $validator = new Zend_Validate_File_IsImage();
-            // return $validator->isValid($fileInfo['tmp_name'], $fileInfo);
-        } catch (Exception $e) {
+        // File path came in - check the physical file
+        if (!is_readable($fileInfo)) {
             return false;
         }
+        $imageInfo = getimagesize($fileInfo);
+        if (!$imageInfo) {
+            return false;
+        }
+        return true;
     }
 
     /**
