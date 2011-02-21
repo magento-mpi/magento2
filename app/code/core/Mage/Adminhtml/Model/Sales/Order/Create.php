@@ -402,11 +402,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     /**
      * Retrieve customer wishlist model object
      *
+     * @params bool $cacheReload pass cached wishlist object and get new one
      * @return Mage_Wishlist_Model_Wishlist
      */
-    public function getCustomerWishlist()
+    public function getCustomerWishlist($cacheReload = false)
     {
-        if (!is_null($this->_wishlist)) {
+        if (!is_null($this->_wishlist) && !$cacheReload) {
             return $this->_wishlist;
         }
 
@@ -490,8 +491,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if ($item = $this->_getQuoteItem($item)) {
             switch ($moveTo) {
                 case 'order':
-                    $info = array();
-                    if ($info = $item->getOptionByCode('info_buyRequest')) {
+                    $info = $item->getOptionByCode('info_buyRequest');
+                    if ($info) {
                         $info = new Varien_Object(
                             unserialize($info->getValue())
                         );
@@ -524,8 +525,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                             ->load($item->getProduct()->getId());
                         $product->setSkipCheckRequiredOption(true);
 
-                        $info = array();
-                        if ($info = $item->getOptionByCode('info_buyRequest')) {
+                        $info = $item->getOptionByCode('info_buyRequest');
+                        if ($info) {
                             $info = new Varien_Object(
                                 unserialize($info->getValue())
                             );
@@ -550,7 +551,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     break;
                 case 'wishlist':
                     if ($wishlist = $this->getCustomerWishlist()) {
-                        $wishlist->addNewItem($item->getProduct()->getId());
+                        $info = $item->getOptionByCode('info_buyRequest');
+                        if ($info) {
+                            $info = new Varien_Object(
+                                unserialize($info->getValue())
+                            );
+                            $info->setOptions($this->_prepareOptionsForRequest($item));
+                        }
+                        $wishlist->addNewItem($item->getProduct()->getId(), $info);
                     }
                     break;
                 case 'comparelist':
@@ -570,7 +578,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         // skip item duplicates based on info_buyRequest option
         $infoBuyRequests = array();
 
-        if (isset($data['reorder'])) {
+        if (isset($data['add_order_item'])) {
             foreach ($data['reorder'] as $orderItemId=>$value) {
                 $orderItem = Mage::getModel('sales/order_item')->load($orderItemId);
                 $item = $this->initFromOrderItem($orderItem);
@@ -583,7 +591,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 }
             }
         }
-        if (isset($data['cartItem'])) {
+        if (isset($data['add_cart_item'])) {
             foreach ($data['cartItem'] as $itemId => $qty) {
                 if ($item = $this->getCustomerCart()->getItemById($itemId)) {
                     $infobuyRequest = $item->getOptionByCode('info_buyRequest');
@@ -594,7 +602,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 }
             }
         }
-        // @TODO adapt for configurable composite products
+        if (isset($data['add_wishlist_item'])) {
+            foreach ($data['wishlistItem'] as $itemId => $qty) {
+                $item = Mage::getModel('wishlist/item')->load($itemId);
+                if ($item && $item->getBuyRequest()) {
+                    $this->addProduct($item->getProduct()->getId(), $item->getBuyRequest()->toArray());
+                }
+            }
+        }
         if (isset($data['add'])) {
             foreach ($data['add'] as $productId => $qty) {
                 $this->addProduct($productId, array('qty' => $qty));
@@ -762,7 +777,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 }
                 $noDiscount = !isset($info['use_discount']);
 
-                if (empty($info['action'])) {
+                if (empty($info['action']) || !empty($info['configured'])) {
                     if ($item) {
                         $item->setQty($itemQty);
                         $item->setCustomPrice($itemPrice);

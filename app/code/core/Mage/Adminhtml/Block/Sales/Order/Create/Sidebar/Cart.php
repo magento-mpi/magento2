@@ -33,7 +33,12 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart extends Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
 {
-    protected $_sidebarStorageAction = 'cartItem';
+    /**
+     * Storage action on selected item
+     *
+     * @var string
+     */
+    protected $_sidebarStorageAction = 'add_cart_item';
 
     public function __construct()
     {

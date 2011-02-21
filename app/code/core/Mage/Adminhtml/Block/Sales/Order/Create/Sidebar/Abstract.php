@@ -33,6 +33,11 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
+    /**
+     * Default Storage action on selected item
+     *
+     * @var string
+     */
     protected $_sidebarStorageAction = 'add';
 
     /**

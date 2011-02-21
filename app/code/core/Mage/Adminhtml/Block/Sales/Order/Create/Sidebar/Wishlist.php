@@ -33,6 +33,12 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
 {
+    /**
+     * Storage action on selected item
+     *
+     * @var string
+     */
+    protected $_sidebarStorageAction = 'add_wishlist_item';
 
     public function __construct()
     {
@@ -55,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
     {
         $collection = $this->getData('item_collection');
         if (is_null($collection)) {
-            if ($collection = $this->getCreateOrderModel()->getCustomerWishlist()) {
+            if ($collection = $this->getCreateOrderModel()->getCustomerWishlist(true)) {
                 $collection = $collection->getItemCollection()->load();
             }
             $this->setData('item_collection', $collection);
@@ -90,5 +96,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
     {
         return $item->getProduct()->getId();
     }
-}
 
+    /**
+     * Retrieve identifier of block item
+     *
+     * @param   Varien_Object $item
+     * @return  int
+     */
+    public function getIdentifierId($item)
+    {
+        return $item->getId();
+    }
+}
