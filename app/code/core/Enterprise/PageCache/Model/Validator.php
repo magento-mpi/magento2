@@ -42,6 +42,7 @@ class Enterprise_PageCache_Model_Validator
         'Mage_Review_Model_Review',
         'Enterprise_Cms_Model_Hierarchy_Node',
         'Enterprise_Banner_Model_Banner',
+        'Mage_Core_Model_Store_Group',
     );
 
     /**
@@ -85,6 +86,14 @@ class Enterprise_PageCache_Model_Validator
         if (!empty($intersect)) {
             $this->_invelidateCache();
         }
+
+        if ($object->getOrigData() && $object->getData()) {
+            $intersect = array_diff_assoc($object->getOrigData(), $object->getData());
+            if (!empty($intersect)) {
+                $this->_invelidateCache();
+            }
+        }
+
         return $this;
     }
 
