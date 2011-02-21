@@ -113,8 +113,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
 
                 }
                 $isFilterAllowed = true;
-            }
-            elseif ($category && $category->getId()) {
+            } elseif ($category && $category->getId()) {
                 $entityStores = $category->getStoreIds() ? $category->getStoreIds() : array();
                 if  (!$entityStores) {
                     $stores = array(); //reset the stores
@@ -157,8 +156,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             if (!$model->getIsSystem()) {
                 $element->unsetData('disabled');
             }
-        }
-        else {
+        } else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'store_id',
                 'value'     => Mage::app()->getStore(true)->getId()
@@ -198,9 +196,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             if ($category->getId() || $product->getId()) {
                 $_category = $category;
             }
+
             if ($product->getId()) {
                 $_product = $product;
             }
+
             if ($_category || $_product) {
                 $catalogUrlModel = Mage::getSingleton('catalog/url');
                 $idPath->setValue($catalogUrlModel->generatePath('id', $_product, $_category));
@@ -208,13 +208,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
                     $requestPath->setValue($catalogUrlModel->generatePath('request', $_product, $_category, ''));
                 }
                 $targetPath->setValue($catalogUrlModel->generatePath('target', $_product, $_category));
-            }
-            else {
+            } else {
                 $idPath->unsetData('disabled');
                 $targetPath->unsetData('disabled');
             }
-        }
-        else {
+        } else {
             if (!$model->getProductId() && !$model->getCategoryId()) {
                 $idPath->unsetData('disabled');
                 $targetPath->unsetData('disabled');
