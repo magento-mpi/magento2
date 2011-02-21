@@ -279,7 +279,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve URL for adding item to shoping cart
      *
-     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param string|Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @return  string
      */
     public function getAddToCartUrl($item)
@@ -293,11 +293,12 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
             ))
         );
 
-        return $this->_getUrlStore($item)->getUrl('wishlist/index/cart', array(
-                'item'          => $item->getWishlistItemId(),
-                $urlParamName   => $continueUrl
-            )
+        $urlParamName = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $params = array(
+            'item' => is_string($item) ? $item : $item->getWishlistItemId(),
+            $urlParamName => $continueUrl
         );
+        return $this->_getUrlStore($item)->getUrl('wishlist/index/cart', $params);
     }
 
     /**

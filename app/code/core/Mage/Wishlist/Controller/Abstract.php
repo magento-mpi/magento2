@@ -35,6 +35,30 @@
 abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Front_Action
 {
     /**
+     * Filter to convert localized values to internal ones
+     * @var Zend_Filter_LocalizedToNormalized
+     */
+    protected $_localFilter = null;
+
+    /**
+     * Processes localized qty (entered by user at frontend) into internal php format
+     *
+     * @param string $qty
+     * @return float|int|null
+     */
+    protected function _processLocalizedQty($qty)
+    {
+        if (!$this->_localFilter) {
+            $this->_localFilter = new Zend_Filter_LocalizedToNormalized(array('locale' => Mage::app()->getLocale()->getLocaleCode()));
+        }
+        $qty = $this->_localFilter->filter($qty);
+        if ($qty < 0) {
+            $qty = null;
+        }
+        return $qty;
+    }
+
+    /**
      * Retrieve current wishlist instance
      *
      * @return Mage_Wishlist_Model_Wishlist|false
@@ -64,10 +88,21 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
         $collection = $wishlist->getItemCollection()
                 ->setVisibilityFilter();
 
+        $qtys = $this->getRequest()->getParam('qty');
         foreach ($collection as $item) {
             /** @var Mage_Wishlist_Model_Item */
             try {
                 $item->unsProduct();
+
+                // Set qty
+                if (isset($qtys[$item->getId()])) {
+                    $qty = $this->_processLocalizedQty($qtys[$item->getId()]);
+                    if ($qty) {
+                        $item->setQty($qty);
+                    }
+                }
+
+                // Add to cart
                 if ($item->addToCart($cart, $isOwner)) {
                     $addedItems[] = $item->getProduct();
                 }

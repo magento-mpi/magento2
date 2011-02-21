@@ -87,6 +87,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         $this->_getWishlist();
         $this->loadLayout();
 
+
         $session = Mage::getSingleton('customer/session');
         $block   = $this->getLayout()->getBlock('customer.wishlist');
         $referer = $session->getAddActionReferer(true);
@@ -243,7 +244,6 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         }
 
         try {
-
             $id = (int) $this->getRequest()->getParam('id');
             $buyRequest = new Varien_Object($this->getRequest()->getParams());
 
@@ -252,7 +252,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             $wishlist->save();
 
-            Mage::dispatchEvent('wishlist_update_item', array('wishlist'=>$wishlist, 'product'=>$product, 'item'=>$item));
+            Mage::dispatchEvent('wishlist_update_item', array('wishlist' => $wishlist, 'product' => $product, 'item' => $item));
 
             Mage::helper('wishlist')->calculate();
 
@@ -282,12 +282,34 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
             foreach ($post['description'] as $itemId => $description) {
                 $item = Mage::getModel('wishlist/item')->load($itemId);
+                if ($item->getWishlistId() != $wishlist->getId()) {
+                    continue;
+                }
+
+                // Extract new values
                 $description = (string) $description;
-                if(!strlen($description) || $item->getWishlistId() != $wishlist->getId()) {
+                if (!strlen($description)) {
+                    $description = $item->getDescription();
+                }
+
+                $qty = null;
+                if (isset($post['qty'][$itemId])) {
+                    $qty = $this->_processLocalizedQty($post['qty'][$itemId]);
+                }
+                if (!$qty) {
+                    $qty = $item->getQty();
+                    if (!$qty) {
+                        $qty = 1;
+                    }
+                }
+
+                // Check that we need to save
+                if (($item->getDescription() == $description) && ($item->getQty() == $qty)) {
                     continue;
                 }
                 try {
                     $item->setDescription($description)
+                        ->setQty($qty)
                         ->save();
                     $updatedItems++;
                 }
@@ -361,12 +383,19 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             return $this->_redirect('*/*');
         }
 
-        $itemId     = (int)$this->getRequest()->getParam('item');
+        $itemId = (int) $this->getRequest()->getParam('item');
+
         /* @var $item Mage_Wishlist_Model_Item */
-        $item       = Mage::getModel('wishlist/item')->load($itemId);
+        $item = Mage::getModel('wishlist/item')->load($itemId);
 
         if (!$item->getId() || $item->getWishlistId() != $wishlist->getId()) {
             return $this->_redirect('*/*');
+        }
+
+        // Set qty
+        $qty = $this->_processLocalizedQty($this->getRequest()->getParam('qty'));
+        if ($qty) {
+            $item->setQty($qty);
         }
 
         /* @var $session Mage_Wishlist_Model_Session */
@@ -381,7 +410,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             $item->setOptions($options->getOptionsByItem($itemId));
 
             $item->addToCart($cart, true);
-            $cart->save()-> getQuote()->collectTotals();
+            $cart->save()->getQuote()->collectTotals();
             $wishlist->save();
 
             Mage::helper('wishlist')->calculate();
