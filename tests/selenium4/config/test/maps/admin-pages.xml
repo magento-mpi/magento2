@@ -246,43 +246,54 @@
     <catalog>
         <attributes>
             <manage_attribute_sets>
-                <locators>
-                    <open_set>//td[contains(text(),'%s')]</open_set>
-                    <set_many>//tr[contains(td,'%s')][%s]</set_many>
-                </locators>
+                <elements>
+                    <atr_set_search_container>//*[@id='setGrid']</atr_set_search_container>
+                </elements>
                 <buttons>
                     <add_set>//button[span="Add New Set"]</add_set>
-                    <search>//button[span="Search"]</search>
-                    <reset_search>//button[span="Reset Filter"]</reset_search>
                 </buttons>
-                <input>
-                    <search_by_name>filter_set_name</search_by_name>
-                </input>
-                <messages>
-                    <set_deleted>//li[@class='success-msg']//*[contains(text(),'The attribute set has been removed.')]</set_deleted>
-                </messages>
-            </manage_attribute_sets>
-            <create_attribute_set>
-                <buttons>
-                    <save_set>//button[span="Save Attribute Set"]</save_set>
-                </buttons>
-                <input>
-                    <set_name>attribute_set_name</set_name>
-                    <based_on>skeleton_set</based_on>
-                </input>
-                <messages>
-                    <set_saved>//li[@class='success-msg']//*[contains(text(),'The attribute set has been saved.')]</set_saved>
-                    <set_not_saved>//li[@class="error-msg"]</set_not_saved>
-                </messages>
-            </create_attribute_set>
-            <edit_atrribute_set>
-                <buttons>
-                    <delete_set>//button[span="Delete Attribute Set"]</delete_set>
-                </buttons>
-            </edit_atrribute_set>
-            <manage_attributes>
-                <attribute>
+                <!-- related pages-->
+                <attribute_set>
+                    <inputs>
+                        <set_name>//*[@id='attribute_set_name']</set_name>
+                    </inputs>
                     <selectors>
+                        <based_on>//*[@id='skeleton_set']</based_on>
+                    </selectors>
+                </attribute_set>
+            </manage_attribute_sets>
+            <manage_attributes>
+                <elements>
+                    <attribute_search_grid>//*[@id='attributeGrid']</attribute_search_grid>
+                </elements>
+                <buttons>
+                    <add_attribute>//button[span="Add New Attribute"]</add_attribute>
+                </buttons>
+                <!-- related pages-->
+                <attribute>
+                    <elements>
+                        <tab_container>//*[@id='product_attribute_tabs']</tab_container>
+                        <store_view_name_for_title>//table[@id='attribute-labels-table']//th</store_view_name_for_title>
+                        <qty_options>//*[@id='matage-options-panel']//tr[normalize-space(@class)='option-row']</qty_options>
+                    </elements>
+                    <inputs>
+                        <!-- Attribute Properties Form-->
+                        <attrribute_code>//*[@id='attribute_code']</attrribute_code>
+                        <default_value_date>//*[@id='default_value_date']</default_value_date>
+                        <default_value_textarea>//*[@id='default_value_textarea']</default_value_textarea>
+                        <default_value_text>//*[@id='default_value_text']</default_value_text>
+                        <!-- Frontend Properties Form-->
+                        <position>//*[@id='position' and not(@disabled)]</position>
+                        <!-- Manage Titles Form-->
+                        <attribute_admin_title>//*[@name='frontend_label[0]']</attribute_admin_title>
+                        <attribute_store_view_title>//table[@id='attribute-labels-table']//td[%s]/input</attribute_store_view_title>
+                        <!-- Manage Options Form-->
+                        <attribute_admin_option_name>//*[@name='option[value][option_%s][0]']</attribute_admin_option_name>
+                        <attribute_store_view_option_name>//*[@name='option[value][option_%s][%s]']</attribute_store_view_option_name>
+                        <attribute_admin_option_position>//*[@name='option[order][option_%s]']</attribute_admin_option_position>
+                    </inputs>
+                    <selectors>
+                        <!-- Attribute Properties Form-->
                         <attrribute_type>//*[@id='frontend_input']</attrribute_type>
                         <scope>//*[@id='is_global']</scope>
                         <unique_value>//*[@id='is_unique']</unique_value>
@@ -290,49 +301,28 @@
                         <input_validation>//*[@id='frontend_class']</input_validation>
                         <apply_to>//select[@onchange='toggleApplyVisibility(this)']</apply_to>
                         <use_to_create_configurable >//*[@id='is_configurable']</use_to_create_configurable>
+                        <default_value_yesno>//*[@id='default_value_yesno']</default_value_yesno>
+                        <!-- Frontend Properties Form-->
                         <use_in_quick_search>//*[@id='is_searchable']</use_in_quick_search>
                         <use_in_advanced_search>//*[@id='is_visible_in_advanced_search']</use_in_advanced_search>
                         <comparable>//*[@id='is_comparable']</comparable>
-                        <use_in_layered_navigation>//*[@id='is_filterable']</use_in_layered_navigation>
-                        <use_in_search_results>//*[@id='is_filterable_in_search']</use_in_search_results>
+                        <use_in_layered_navigation>//*[@id='is_filterable' and not(@disabled)]</use_in_layered_navigation>
+                        <use_in_search_results>//*[@id='is_filterable_in_search' and not(@disabled)]</use_in_search_results>
                         <use_for_promo_rules>//*[@id='is_used_for_promo_rules']</use_for_promo_rules>
                         <wysiwyg_enable>//*[@id='is_wysiwyg_enabled']</wysiwyg_enable>
                         <html_allowed_on_front>//*[@id='is_html_allowed_on_front']</html_allowed_on_front>
                         <visible_on_front>//*[@id='is_visible_on_front']</visible_on_front>
-                        <use_in_product_listing>//*[@id='used_in_product_listing']</use_in_product_listing>
+                        <use_in_product_listing>//*[@id='used_in_product_listing' and not(@disabled)]</use_in_product_listing>
                         <use_for_sort_by>//*[@id='used_for_sort_by']</use_for_sort_by>
-                        <default_value_yesno>//*[@id='default_value_yesno']</default_value_yesno>
                     </selectors>
-                    <inputs>
-                        <attrribute_code>attribute_code</attrribute_code>
-                        <default_value>default_value_text</default_value>
-                        <position>position</position>
-                        <default_value_date>default_value_date</default_value_date>
-                        <default_value_textarea>default_value_textarea</default_value_textarea>
-                        <default_value_text>default_value_text</default_value_text>
-                        <attribute_admin_title>frontend_label[0]</attribute_admin_title>
-                        <attribute_store_view_title>frontend_label[%s]</attribute_store_view_title>
-                        <attribute_admin_option_name>option[value][option_%s][0]</attribute_admin_option_name>
-                        <attribute_store_view_option_name>option[value][option_%s][%s]</attribute_store_view_option_name>
-                        <attribute_admin_option_position>option[order][option_%s]</attribute_admin_option_position>
-                    </inputs>
                     <buttons>
-                        <save_attribute>//button[span="Save Attribute"]</save_attribute>
                         <add_new_option>//button[span="Add Option"]</add_new_option>
                     </buttons>
                     <tabs>
                         <properties>//a[@id='product_attribute_tabs_main']/span</properties>
                         <manage_label>//a[@id='product_attribute_tabs_labels']/span</manage_label>
                     </tabs>
-                    <elements>
-                        <tab_container>//*[@id='product_attribute_tabs']</tab_container>
-                        <store_view_name_for_title>//table[@id='attribute-labels-table']//th</store_view_name_for_title>
-                        <store_view_name_for_title_many>//table[@id='attribute-labels-table']//th[%s]</store_view_name_for_title_many>
-                    </elements>
                 </attribute>
-                <buttons>
-                    <add_attribute>//button[span="Add New Attribute"]</add_attribute>
-                </buttons>
             </manage_attributes>
         </attributes>
         <categories>
