@@ -512,8 +512,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
         // if operator requires array and it is not, or on opposite, return false
         if ((
-                ($op == '()' || $op == '!()' || $op == '{}' || $op == '!{}')
-                && !is_array($value)
+            ($op == '()' || $op == '!()' || $op == '{}' || $op == '!{}')
+            && !is_array($value)
             ) || (
                 !($op == '()' || $op == '!()' || $op == '{}' || $op == '!{}')
                 && is_array($value)
