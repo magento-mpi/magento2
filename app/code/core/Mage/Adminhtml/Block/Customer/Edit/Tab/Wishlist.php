@@ -49,6 +49,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     protected $_parentTemplate;
 
     /**
+     * List of helpers to show options for product cells
+     */
+    protected $_productHelpers = array();
+
+    /**
      * Initialize Grid
      *
      */
@@ -60,6 +65,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $this->_parentTemplate = $this->getTemplate();
         $this->setTemplate('customer/tab/wishlist.phtml');
         $this->setEmptyText(Mage::helper('customer')->__('No Items Found'));
+        $this->addProductConfigurationHelper('default', 'catalog/product_configuration');
     }
 
     /**
@@ -101,7 +107,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     {
         $this->addColumn('product_name', array(
             'header'    => Mage::helper('customer')->__('Product name'),
-            'index'     => 'product_name'
+            'index'     => 'product_name',
+            'renderer'  => 'adminhtml/customer_edit_tab_wishlist_grid_renderer_item'
         ));
 
         $this->addColumn('description', array(
@@ -210,5 +217,29 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     public function getRowUrl($row)
     {
         return $this->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
+    }
+
+    /**
+     * Adds product type helper depended on product type (used to show options in item cell)
+     *
+     * @param string $productType
+     * @param string $helperName
+     *
+     * @return Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist
+     */
+    public function addProductConfigurationHelper($productType, $helperName)
+    {
+        $this->_productHelpers[$productType] = $helperName;
+        return $this;
+    }
+
+    /**
+     * Returns array of product configuration helpers
+     *
+     * @return array
+     */
+    public function getProductConfigurationHelpers()
+    {
+        return $this->_productHelpers;
     }
 }

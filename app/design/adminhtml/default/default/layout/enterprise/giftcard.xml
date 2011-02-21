@@ -109,6 +109,12 @@
             </action>
         </reference>
     </adminhtml_sales_order_creditmemo_view>
+    
+    <adminhtml_customer_wishlist>
+        <reference name="customer.wishlist.edit.tab">
+            <action method="addProductConfigurationHelper"><type>giftcard</type><name>enterprise_giftcard/catalog_product_configuration</name></action>
+        </reference>
+    </adminhtml_customer_wishlist>
 
     <PRODUCT_TYPE_giftcard>
         <reference name="product.composite.fieldset">

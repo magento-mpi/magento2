@@ -442,7 +442,12 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
             }
         }
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_wishlist')->toHtml());
+
+        $this->getLayout()->getUpdate()
+            ->addHandle(strtolower($this->getFullActionName()));
+        $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
+
+        $this->renderLayout();
     }
 
     /**
