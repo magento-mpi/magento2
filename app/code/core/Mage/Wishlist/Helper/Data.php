@@ -139,9 +139,6 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         if (is_null($this->_wishlistItemCollection)) {
             $this->_wishlistItemCollection = $this->getWishlist()
                 ->getItemCollection();
-
-            //Mage::getSingleton('catalog/product_visibility')
-            //    ->addVisibleInSiteFilterToCollection($this->_productCollection);
         }
         return $this->_wishlistItemCollection;
     }

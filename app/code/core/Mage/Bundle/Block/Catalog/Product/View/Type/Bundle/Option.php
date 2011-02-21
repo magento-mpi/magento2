@@ -129,6 +129,13 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
             $this->formatPriceString($price, $includeContainer) . ($includeContainer ? '</span>' : '');
     }
 
+    /**
+     * Set JS validation container for element
+     *
+     * @param int $elementId
+     * @param int $containerId
+     * @return string
+     */
     public function setValidationContainer($elementId, $containerId)
     {
         return '<script type="text/javascript">
@@ -137,6 +144,13 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
             </script>';
     }
 
+    /**
+     * Format price string
+     *
+     * @param float $price
+     * @param bool $includeContainer
+     * @return string
+     */
     public function formatPriceString($price, $includeContainer = true)
     {
         $taxHelper  = Mage::helper('tax');

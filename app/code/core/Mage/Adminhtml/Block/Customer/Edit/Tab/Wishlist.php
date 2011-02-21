@@ -83,9 +83,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $collection = $wishlist->loadByCustomer($this->_getCustomer())
             ->setSharedStoreIds($wishlist->getSharedStoreIds(false))
             ->getItemCollection()
-                ->resetSortOrder()
-                ->addDaysInWishlist()
-                ->addStoreData();
+            ->resetSortOrder()
+            ->addDaysInWishlist()
+            ->addStoreData();
 
         $this->setCollection($collection);
 

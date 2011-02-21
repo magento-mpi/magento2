@@ -473,6 +473,9 @@ AdminOrder.prototype = {
         grid.reloadParams = {'products[]':this.gridProducts.keys()};
     },
 
+    /**
+     * Submit configured products to quote
+     */
     productGridAddSelected : function(){
         if(this.productGridShowButton) Element.show(this.productGridShowButton);
         var area = ['search', 'items', 'shipping_method', 'totals', 'giftmessage','billing_method'];
@@ -555,7 +558,12 @@ AdminOrder.prototype = {
             $('page:container').addClassName('container');
         }
     },
-    
+
+    /**
+     * Show configuration of product and add handlers on submit form
+     *
+     * @param productId
+     */
     sidebarConfigureProduct: function (productId) {
         // create additional fields
         var params = {};
@@ -623,6 +631,14 @@ AdminOrder.prototype = {
         this.orderItemChanged = true;
     },
 
+    /**
+     * Submit batch of configured products
+     *
+     * @param listType
+     * @param area
+     * @param fieldsPrepare
+     * @param itemsFilter
+     */
     productConfigureSubmit : function(listType, area, fieldsPrepare, itemsFilter) {
         // prepare loading areas and build url
         this.hideArea('search');
@@ -657,6 +673,11 @@ AdminOrder.prototype = {
         this.productConfigureAddFields = {};
     },
 
+    /**
+     * Show configuration of quote item
+     *
+     * @param itemId
+     */
     showQuoteItemConfiguration: function(itemId){
         var listType = 'quote_items';
         var qtyElement = $('order-items_grid').select('input[name="item\['+itemId+'\]\[qty\]"]')[0];

@@ -518,7 +518,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     $this->_needCollectCart = true;
                     break;
                 case 'cart':
-                    if (($cart = $this->getCustomerCart()) && is_null($item->getOptionByCode('additional_options'))) {
+                    $cart = $this->getCustomerCart();
+                    if ($cart && is_null($item->getOptionByCode('additional_options'))) {
                         //options and info buy request
                         $product = Mage::getModel('catalog/product')
                             ->setStoreId($this->getQuote()->getStoreId())
@@ -550,7 +551,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     }
                     break;
                 case 'wishlist':
-                    if ($wishlist = $this->getCustomerWishlist()) {
+                    $wishlist = $this->getCustomerWishlist();
+                    if ($wishlist) {
                         $info = $item->getOptionByCode('info_buyRequest');
                         if ($info) {
                             $info = new Varien_Object(
@@ -573,6 +575,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         return $this;
     }
 
+    /**
+     * Handle data sent from sidebar
+     *
+     * @param array $data
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
     public function applySidebarData($data)
     {
         // skip item duplicates based on info_buyRequest option
@@ -593,7 +601,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         if (isset($data['add_cart_item'])) {
             foreach ($data['add_cart_item'] as $itemId => $qty) {
-                if ($item = $this->getCustomerCart()->getItemById($itemId)) {
+                $item = $this->getCustomerCart()->getItemById($itemId);
+                if ($item) {
                     $infobuyRequest = $item->getOptionByCode('info_buyRequest');
                     if ($infobuyRequest === null || !in_array($infobuyRequest->getValue(), $infoBuyRequests)) {
                         $this->moveQuoteItem($item, 'order', $qty);
