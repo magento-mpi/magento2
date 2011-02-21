@@ -77,9 +77,10 @@
         <table cellspacing="0" class="data order-tables">
             <col />
             <col width="100" />
-            <col width="40" />
             <col width="100" />
-            <col width="80" />
+            <col width="40"  />
+            <col width="100" />
+            <col width="80"  />
             <col width="100" />
             <?php if($this->isGiftMessagesAvailable()): ?>
             <col width="1" />
@@ -87,7 +88,7 @@
             <col width="80" />
             <thead>
                 <tr class="headings">
-                    <th class="no-link"><?php echo $this->helper('sales')->__('Product') ?></th>
+                    <th class="no-link" colspan="2"><?php echo $this->helper('sales')->__('Product') ?></th>
                     <th class="no-link"><?php echo $this->helper('sales')->__('Price') ?></th>
                     <th class="no-link"><?php echo $this->helper('sales')->__('Qty') ?></th>
                     <th class="no-link"><?php echo $this->helper('sales')->__('Subtotal') ?></th>
@@ -102,7 +103,7 @@
             </thead>
             <tfoot>
                 <tr>
-                    <td class="a-left"><?php echo $this->helper('sales')->__('Total %d product(s)', count($_items)) ?></td>
+                    <td class="a-left" colspan="2"><?php echo $this->helper('sales')->__('Total %d product(s)', count($_items)) ?></td>
                     <td colspan="2" class="a-right"><?php echo $this->helper('sales')->__('Subtotal:') ?></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotal()) ?></strong></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getDiscountAmount()) ?></strong></td>
@@ -114,7 +115,7 @@
                 <?php $i=0 ?>
                 <?php foreach ($_items as $_item):$i++ ?>
                     <tr class="<?php echo ($i%2)?'even':'odd' ?>">
-                        <td> <?php echo $this->getLinkConfigurableProduct($_item) ?>
+                        <td class="first">
                             <h5 class="title"><?php echo $this->htmlEscape($_item->getName()) ?></h5>
                             <div>
                                 <strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong>
@@ -127,6 +128,9 @@
                             </div>
                             <?php endforeach; ?>
                             <?php endif; ?>
+                        </td>
+                        <td class="a-center v-middle">
+                            <?php echo $this->getConfigureBtn($_item) ?>
                         </td>
                         <td class="price">
 

@@ -136,6 +136,7 @@
 .grid td input.input-inactive   { background:#eee; }
 .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
 .grid table.border td           { background:#fff !important; }
+.grid table td.first,
 .grid table td.last             { border-right:0; }
 .grid table td.product          { text-align:right; }
 .grid table td.empty-text       { padding:15px; }
