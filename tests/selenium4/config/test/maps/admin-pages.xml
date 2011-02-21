@@ -369,9 +369,9 @@
                         <tier_price_table>//tbody[@id='tier_price_container']</tier_price_table>
                         <grouped_items_search_table>//div[@id='super_product_grid']</grouped_items_search_table>
                         <configurable_items_search_table>//div[@id='super_product_links']</configurable_items_search_table>
-                        <bundle_items_container>//*[@id='product_bundle_container']//div[contains(@class,'option-box')]</bundle_items_container>
-                        <download_sample_container>//*[@id='sample_items_body']/tr</download_sample_container>
-                        <download_link_container>//*[@id='link_items_body']/tr</download_link_container>
+                        <bundle_items_container>//*[@id='product_bundle_container']//div[contains(@class,'option-box') and not(contains(@style,'display: none;'))]</bundle_items_container>
+                        <download_sample_container>//*[@id='sample_items_body']/tr[not(contains(@style,'display: none;'))]</download_sample_container>
+                        <download_link_container>//*[@id='link_items_body']/tr[not(contains(@style,'display: none;'))]</download_link_container>
                         <review_grid>//*[@id='reviwGrid']</review_grid>
                         <review_status>//table[@id='reviwGrid_table']//tr[1]/td[contains(.,'Pending') or contains(.,'Approved')]</review_status>
                         <review_search_title>//input[@id="filter_title"]</review_search_title>
@@ -464,7 +464,7 @@
                         <giftcard_allow_message>//*[@id='giftcard_allow_message']</giftcard_allow_message>
                         <giftcard_email_template>//*[@id='giftcard_email_template']</giftcard_email_template>
                         <!-- Downloadable Information Tab-->
-                        <downloadable_link_purchase_type>//*[@id='downloadable_link_purchase_type']</downloadable_link_purchase_type>
+                        <downloadable_links_purchase_type>//*[@id='downloadable_link_purchase_type']</downloadable_links_purchase_type>
                         <downloadable_link_shareable>//*[@id='downloadable_link _%s_shareable']</downloadable_link_shareable>
                         <!-- Bundle Items Tab-->
                         <bundle_shipment_type>//*[@id='shipment_type']</bundle_shipment_type>
