@@ -425,10 +425,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             );
             $quote->setBaseGrandTotal($grandTotal);
 
-            $message = $this->__(
-            	'The tax amount has been applied based on the information received from Google Checkout,
-            	because tax amount received from Google Checkout is different from the calculated tax amount'
-            );
+            $message = $this->__('The tax amount has been applied based on the information received from Google Checkout, because tax amount received from Google Checkout is different from the calculated tax amount');
             return $message;
         }
 
