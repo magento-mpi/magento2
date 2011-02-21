@@ -293,7 +293,11 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     public function updateItemOptionsAction()
     {
         $cart   = $this->_getCart();
+        $id = (int) $this->getRequest()->getParam('id');
         $params = $this->getRequest()->getParams();
+        if (!isset($params['options'])) {
+            $params['options'] = array();
+        }
         try {
             if (isset($params['qty'])) {
                 $filter = new Zend_Filter_LocalizedToNormalized(
@@ -313,7 +317,17 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 return;
             }
 
-            $cart->updateProduct($product, $params);
+            /**
+             * Process buyRequest file options of quote item
+             */
+            $quoteItem = $cart->getQuote()->getItemById($id);
+            $buyRequest = new Varien_Object($params);
+            if ($quoteItem instanceof Mage_Sales_Model_Quote_Item) {
+                $itemBuyRequest = $quoteItem->getBuyRequest();
+                $buyRequest = Mage::helper('catalog/product')->processBuyRequestFiles($buyRequest, $itemBuyRequest);
+            }
+
+            $cart->updateProduct($product, $buyRequest);
             if (!empty($related)) {
                 $cart->addProductsByIds(explode(',', $related));
             }

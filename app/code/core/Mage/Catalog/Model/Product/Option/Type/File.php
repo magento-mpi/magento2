@@ -74,15 +74,16 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $this->setIsValid(true);
         $option = $this->getOption();
         // Set option value from request (Admin/Front reorders)
-        if (isset($values[$option->getId()]) && is_array($values[$option->getId()])) {
-
+        if (isset($values[$option->getId()])
+            && is_array($values[$option->getId()])
+            && !array_key_exists('configuration_itemid', $values[$option->getId()])
+        ) {
             $this->setUserValue($this->_validateFile($values) ? $values[$option->getId()] : null);
-
             return $this;
         }
 
         try {
-            $this->_validateUploadedFile();
+            $this->_validateUploadedFile($values);
         } catch (Exception $e) {
             if ($this->getSkipCheckRequiredOption()) {
                 $this->setUserValue(null);
@@ -98,16 +99,23 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      * Validate uploaded file
      *
      * @throws Mage_Core_Exception
+     * @param array $values Option values
      * @return Mage_Catalog_Model_Product_Option_Type_Default
      */
-    protected function _validateUploadedFile()
+    protected function _validateUploadedFile($values = null)
     {
         $option = $this->getOption();
         /**
          * Upload init
          */
-        $upload = new Zend_File_Transfer_Adapter_Http();
-        $file = 'options_' . $option->getId() . '_file';
+        $upload   = new Zend_File_Transfer_Adapter_Http();
+        $file     = 'options_' . $option->getId() . '_file';
+        if (isset($values[$option->getId()]['configuration_itemid'])) {
+            $fileItem = sprintf('item_%s_%s', $values[$option->getId()]['configuration_itemid'], $file);
+            if ($fileItem && $upload->isUploaded($fileItem)) {
+                $file = $fileItem;
+            }
+        }
 
         try {
             $runValidation = $option->getIsRequire() || $upload->isUploaded($file);

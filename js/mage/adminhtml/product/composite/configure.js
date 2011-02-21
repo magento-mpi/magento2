@@ -432,22 +432,30 @@ ProductConfigure.prototype = {
          * @param blockItem
          */
         var _renameFields = function(method, blockItem) {
-            var pattern     = null;
-            var replacement = null;
-            var scopeArr    = blockItem.id.match(/.*\[\w+\]\[(\w+)\]$/);
-            var itemId      = scopeArr[1];
+            var pattern         = null;
+            var patternFlat     = null;
+            var replacement     = null;
+            var replacementFlat = null
+            var scopeArr        = blockItem.id.match(/.*\[\w+\]\[(\w+)\]$/);
+            var itemId          = scopeArr[1];
             if (method == 'current_confirmed_to_form') {
-                pattern = RegExp('(\\w+)(\\[?)');
-                replacement = 'item['+itemId+'][$1]$2';
+                pattern         = RegExp('(\\w+)(\\[?)');
+                patternFlat     = RegExp('(\\w+)');
+                replacement     = 'item['+itemId+'][$1]$2';
+                replacementFlat = 'item_'+itemId+'_$1';
             } else if (method == 'form_confirmed_to_confirmed') {
-                pattern = new RegExp('item\\['+itemId+'\\]\\[(\\w+)\\](.*)');
-                replacement = '$1$2';
+                pattern         = new RegExp('item\\['+itemId+'\\]\\[(\\w+)\\](.*)');
+                patternFlat     = new RegExp('item_'+itemId+'_(\\w+)');
+                replacement     = '$1$2';
+                replacementFlat = '$1';
             } else {
                 return false;
             }
             var rename = function (elms) {
                 for (var i = 0; i < elms.length; i++) {
-                    if (elms[i].name) {
+                    if (elms[i].name && elms[i].type == 'file') {
+                        elms[i].name = elms[i].name.replace(patternFlat, replacementFlat);
+                    } else if (elms[i].name) {
                         elms[i].name = elms[i].name.replace(pattern, replacement);
                     }
                 }

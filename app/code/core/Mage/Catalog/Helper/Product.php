@@ -343,4 +343,59 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 
         return $this;
     }
+
+    /**
+     * Process buyRequest file options
+     * Set $buyRequest file options from $itemBuyRequest and $configurationItemId in some cases
+     *
+     * @param Varien_Object $buyRequest
+     * @param Varien_Object $itemBuyRequest
+     * @param int $configurationItemId
+     * @return Varien_Object
+     */
+    public function processBuyRequestFiles (Varien_Object $buyRequest, Varien_Object $itemBuyRequest = null,
+        $configurationItemId = null)
+    {
+        if ($buyRequest->hasData()) {
+            $optionsFileAction = array();
+            foreach ($buyRequest->getData() as $key => $action) {
+                if ($action) {
+                    if (preg_match('/options_(\d+)_file_action/', $key, $match)) {
+                        $optionsFileAction[$action][] = $match[1];
+                    }
+                }
+            }
+            if (!empty($optionsFileAction['save_old']) && $itemBuyRequest->hasOptions()) {
+                $itemOptions = $itemBuyRequest->getOptions();
+                if (is_array($itemOptions)) {
+                    foreach ($optionsFileAction['save_old'] as $optionFileId) {
+                        if (array_key_exists($optionFileId, $itemOptions)) {
+                            $buyRequestOptions = $buyRequest->hasOptions() ? $buyRequest->getOptions() : array();
+                            $buyRequestOptions[$optionFileId] = $itemOptions[$optionFileId];
+                            if ($configurationItemId) {
+                                $buyRequestOptions[$optionFileId]['configuration_itemid'] = $configurationItemId;
+                            }
+                            $buyRequest->setOptions($buyRequestOptions);
+                            foreach ($_FILES as $key => $action) {
+                                if (sprintf('options_%s_file', $optionFileId) == $key
+                                    || sprintf('item_%s_options_%s_file', $configurationItemId, $optionFileId) == $key
+                                ) {
+                                    unset($_FILES[$key]);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (!empty($optionsFileAction['save_new']) && $configurationItemId) {
+                foreach ($optionsFileAction['save_new'] as $optionFileId){
+                    $buyRequestOptions = $buyRequest->hasOptions() ? $buyRequest->getOptions() : array();
+                    $buyRequestOptions[$optionFileId]['configuration_itemid'] = $configurationItemId;
+                    $buyRequest->setOptions($buyRequestOptions);
+                }
+            }
+        }
+
+        return $buyRequest;
+    }
+
 }

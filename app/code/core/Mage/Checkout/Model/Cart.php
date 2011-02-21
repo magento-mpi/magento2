@@ -504,10 +504,9 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     public function updateProduct($productInfo, $requestInfo = null)
     {
-        $product = $this->_getProduct($productInfo);
-        $request = $this->_getProductRequest($requestInfo);
-        $itemId = isset($requestInfo['id']) ? $requestInfo['id'] : null;
-
+        $product   = $this->_getProduct($productInfo);
+        $request   = $this->_getProductRequest($requestInfo);
+        $itemId    = $request->getId();
         $productId = $product->getId();
         if (!$productId) {
             Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
