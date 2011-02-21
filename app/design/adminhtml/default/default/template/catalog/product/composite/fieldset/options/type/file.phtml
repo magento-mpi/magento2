@@ -38,15 +38,15 @@
 <script type="text/javascript">
 //<![CDATA[
     opFile<?php echo $_rand; ?> = {
-        initializeFile: function($inputBox) {
-            this.inputFile = $inputBox.select('input[name="<?php echo $_fileName; ?>"]')[0];
-            this.inputFileAction = $inputBox.select('input[name="<?php echo $_fieldNameAction; ?>"]')[0];
-            this.fileNameBox = $inputBox.up('dd').select('.<?php echo $_fileNamed ?>')[0];
+        initializeFile: function(inputBox) {
+            this.inputFile = inputBox.select('input[name="<?php echo $_fileName; ?>"]')[0];
+            this.inputFileAction = inputBox.select('input[name="<?php echo $_fieldNameAction; ?>"]')[0];
+            this.fileNameBox = inputBox.up('dd').select('.<?php echo $_fileNamed ?>')[0];
         },
 
-        toggleFileChange: function($inputBox) {
-            this.initializeFile($inputBox);
-            $inputBox.toggle();
+        toggleFileChange: function(inputBox) {
+            this.initializeFile(inputBox);
+            inputBox.toggle();
             if (!this.fileDeleteFlag) {
                 this.fileChangeFlag = this.fileChangeFlag ? false : true;
                 if (this.fileChangeFlag) {
@@ -57,9 +57,9 @@
             }
         },
 
-        toggleFileDelete: function($inputBox) {
-            this.initializeFile($inputBox);
-            this.fileDeleteFlag = this.fileDeleteFlag ? false : true;
+        toggleFileDelete: function(fileDeleteFlag, inputBox) {
+            this.initializeFile(inputBox);
+            this.fileDeleteFlag = fileDeleteFlag.checked ? true : false;
             if (this.fileDeleteFlag) {
                 this.inputFileAction.value = '';
                 this.inputFile.writeAttribute({disabled: 'disabled'});
@@ -82,9 +82,8 @@
         <a href="javascript:void(0)" class="label" onclick="opFile<?php echo $_rand; ?>.toggleFileChange(this.next('.input-box'))">
             <?php echo Mage::helper('catalog')->__('Change') ?>
         </a>&nbsp;
-        <a href="javascript:void(0)" class="label" onclick="opFile<?php echo $_rand; ?>.toggleFileDelete(this.next('.input-box'))">
-            <?php echo Mage::helper('catalog')->__('Delete') ?>
-        </a>
+        <input type="checkbox" onclick="opFile<?php echo $_rand; ?>.toggleFileDelete(this, this.next('.input-box'))" />
+        <span class="label"><?php echo Mage::helper('catalog')->__('Delete') ?></span>
     <?php endif; ?>
     <div class="input-box" <?php echo $_fileExists ? 'style="display:none"' : '' ?>>
         <input type="file" name="<?php echo $_fileName; ?>" class="product-custom-option<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" />
