@@ -29,7 +29,7 @@ class Admin_Customer_addNewCustomerShippingAddress extends TestCaseAbstract {
         $Data = array(
             'Last Name' => 'Last name 1',
             'First Name' => 'First name 1',
-            'Email' => 'test19@test.com',
+            'Email' => 'test21@test.com',
             'Telephone' => '54312312',
             'Zip' => '54312',
             'City' => 'Sheldonopolis'
@@ -42,8 +42,7 @@ class Admin_Customer_addNewCustomerShippingAddress extends TestCaseAbstract {
             'password' => '123123q',
             'Last name' => 'Last name',
             'First_name' => 'First name',
-            'Email' => 'test19@test.com',
-            'CustID' => '17',
+            'Email' => 'test21@test.com',
             'street_line_1' => 'Street Address Sample test',
             'street_line_2' => 'Street Address Sample test',
             'search' => array('Name' => 'First name'),
@@ -57,11 +56,11 @@ class Admin_Customer_addNewCustomerShippingAddress extends TestCaseAbstract {
             'First_name' => 'First name 2',
             'street_line_1' => 'Street Address Sample L1',
             'street_line_2' => 'Street Address Sample L2',
-            'is billing' => true,
-            'is shipping' => false,
+            'is billing' => false,
+            'is shipping' => true,
         );
         if ($this->model->doLogin()) {
-            $this->model->addNewCustomer($Data, $aData, $VerifyData);
+            $this->model->addNewCustomerWithAddress($Data, $aData, $VerifyData);
         }
     }
 

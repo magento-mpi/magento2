@@ -15,17 +15,15 @@ class Model_Admin_Customer extends Model_Admin {
         parent::loadConfigData();
         $this->Data = array();
         $this->aData = array();
-        $this->customerId = '1'; //Core::getEnvConfig('backend/customer/id');
     }
 
     /**
-     * creating Product Tax Class
+     * creating customer with address
      *
-     * @param array $params May contain the following params:
-     * product_tax_class_name
+     * 
      *
      */
-    public function addNewCustomer($params, $param, $parametr)
+    public function addNewCustomerWithAddress($params, $param, $parametr)
     {
         $this->printDebug('addNewCustomer() started...');
         $Data = $params ? $params : $this->Data;
@@ -34,9 +32,9 @@ class Model_Admin_Customer extends Model_Admin {
 
         $this->setUiNamespace('admin/pages/customers/manage_customers/');
         $this->clickAndWait($this->getUiElement("/admin/topmenu/customer/managecustomers"));
-        if ($this->isCustomerPresent($aData['CustID'])) {
+        if ($this->isCustomerPresent($param)) {
             $this->printInfo('Customer is present');
-            if ($this->isCustomerAddressPresent($aData['First_name'], $aData['CustID'])) {
+            if ($this->isCustomerAddressPresent($aData['First_name'], $param)) {
                 $this->printInfo('Customer has address');
                 if (!$this->verifyAddress($params, $param, true, true, $parametr)) {
                     if ($this->addAddress($params, $param, $aData['is billing'], $aData['is shipping'])) {
@@ -58,27 +56,50 @@ class Model_Admin_Customer extends Model_Admin {
                 $this->addAddress($params, $param, $aData['is billing'], $aData['is shipping']);
                 $this->printInfo('Customer added');
             } else {
-                $this->printInfo('SHITSHITSHIT!!!');
+                $this->printInfo('Something goes wrong. Try againg');
             }
         }
     }
 
     /**
+     * creating customer with out address
+     *
      *
      */
-    public function doAddNewCustomer($param)
+    public function addNewCustomer($param)
     {
+
+        $this->printDebug('addNewCustomer() started...');
         $aData = $param ? $param : $this->aData;
 
-        $this->clickAndWait($this->getUiElement("/admin/pages/customers/manage_customers/buttons/add_new_customer"));
-        $this->doEditCustomerAccountInfo($param);
+        $this->setUiNamespace('admin/pages/customers/manage_customers/');
+        $this->clickAndWait($this->getUiElement("/admin/topmenu/customer/managecustomers"));
+        if ($this->isCustomerPresent($param)) {
+            $this->printInfo('Customer is present');
+        } else {
+            $this->printInfo('There is no customer with such email');
+            if ($this->doAddNewCustomer($param)) {
+                $this->printInfo('Customer added');
+            } else {
+                $this->printInfo('Something goes wrong. Try againg');
+            }
+        }
+    }
 
-        $this->setUiNamespace('admin/pages/customers/manage_customers');
+    /**
+     * adding new customer
+     */
+    public function doAddNewCustomer($params)
+    {
+        $Data = $params ? $params : $this->Data;
+
+        $this->clickAndWait($this->getUiElement("/admin/pages/customers/manage_customers/buttons/add_new_customer"));
+        $this->doEditCustomerAccountInfo($params);
         return true;
     }
 
     /**
-     *
+     * filling all required fields at edit customer info page
      */
     public function doEditCustomerAccountInfo($param)
     {
@@ -86,7 +107,7 @@ class Model_Admin_Customer extends Model_Admin {
         if ($this->isElementPresent($this->getUiElement("edit_customer_page/tabs/account_info") . "[not (contains(@class,'active'))]")) {
             $this->click($this->getUiElement("edit_customer_page/tabs/account_info"));
         }
-
+        $this->waitForElement($this->getUiElement("edit_customer_page/inputs/password"), 1);
         //fill all fields on account info tab
         $this->type($this->getUiElement("edit_customer_page/inputs/first_name"), $aData['First_name']);
         $this->type($this->getUiElement("edit_customer_page/inputs/last_name"), $aData['Last name']);
@@ -99,28 +120,29 @@ class Model_Admin_Customer extends Model_Admin {
     }
 
     /**
-     *
+     * edit info for existing customer
      */
-    public function editingCustomer($param)
+    public function editingCustomer($params, $param)
     {
         $this->printDebug('doEditCustomer() started...');
         $Data = $params ? $params : $this->Data;
         $aData = $param ? $param : $this->aData;
-        $VerifyData = $parametr ? $parametr : $this->VerifyData;
 
         $this->setUiNamespace('admin/pages/customers/manage_customers/');
         $this->clickAndWait($this->getUiElement("/admin/topmenu/customer/managecustomers"));
-        if ($this->isCustomerPresent($aData['CustID'])) {
+        if ($this->isCustomerPresent($param)) {
             $this->printInfo('Customer is present');
-            if ($this->isCustomerAddressPresent($aData['First_name'], $aData['CustID'])) {
-                $this->doEditCustomerAccountInfo($parametr);
-                $this->doAddAddress($params, $param, $isBilling, $isShipping);
-                $this->editStoreCredit($params);
-                $this->editRewardPoints($params);
+            if ($this->isCustomerAddressPresent($aData['First_name'], $param)) {
+                $this->doEditCustomerAccountInfo($param);
+                $this->doAddAddress($params, $param, $aData['is billing'], $aData['is shipping']);
+                $this->editStoreCredit($param);
+                $this->editRewardPoints($param);
             } else {
                 $this->printInfo('This customer have no addresses in address book');
                 $this->addAddress($params, $param, true, true);
                 $this->printInfo('Now he has one=)');
+                $this->editStoreCredit($param);
+                $this->editRewardPoints($param);
             }
         } else {
             $this->printInfo("There is no such customer");
@@ -133,56 +155,52 @@ class Model_Admin_Customer extends Model_Admin {
      * @returns true on success
      *
      */
-    public function doOpenCustomer($CustID /* = null */)
+    public function doOpenCustomer($param)
     {
-        //$this->click($this->getUiElement("admin/topmenu/customer/managecustomers"));
-        //$this->waitForPageToLoad("90000");
-        //$this->type("filter_entity_id_from", $CustID);
-        //$this->type("filter_entity_id_to", $CustID);
-        //$this->click($this->getUiElement("admin/customer/button/search"));
-        //$this->pleaseWait();
+        $aData = $param ? $param : $this->aData;
         $this->printInfo("doOpenCustomer() started");
-        if ($this->waitForElement($this->getUiElement("elements/customer_container_contains", $CustID), 30)) {
-            $this->click($this->getUiElement("elements/customer_container_contains", $CustID));
+        if ($this->waitForElement($this->getUiElement("elements/customer_container_contains", $aData['Email']), 30)) {
+            $this->click($this->getUiElement("elements/customer_container_contains", $aData['Email']));
             $this->waitForPageToLoad("90000");
             return true;
         } else {
-            $this->setVerificationErrors("Customer " . $CustID . " could not be loaded");
+            $this->setVerificationErrors("Customer " . $aData['Email'] . " could not be loaded");
             return false;
         }
     }
 
     /**
-     * Determine existing of customer with ID = $CustID
-     * @param $CustID - customer ID
+     * Determine existing of customer with Email
      * @returns true if exists
      *
      */
-    public function isCustomerPresent($CustID)
+    public function isCustomerPresent($param)
     {
-        //$this->click($this->getUiElement("admin/topmenu/customer/managecustomers"));
-        //$this->waitForPageToLoad("90000");
-        $this->type("filter_entity_id_from", $CustID);
-        $this->type("filter_entity_id_to", $CustID);
+        $aData = $param ? $param : $this->aData;
+        $this->setUiNamespace('admin/pages/customers/manage_customers/');
+        sleep(15);
+        $this->type($this->getUiElement("inputs/search_email"), $aData['Email']);
+        //$this->type("filter_entity_id_to", $CustID);
         $this->click($this->getUiElement("buttons/search"));
 
         $this->pleaseWait();
         sleep(1);
 
-        return $this->isElementPresent($this->getUiElement("elements/customer_container_contains", $CustID));
+        return $this->isElementPresent($this->getUiElement("elements/customer_container_contains", $aData['Email']));
     }
 
     /**
-     * Determine existing address with FirstName containing $FirstName in customer with ID = $CustID
-     * @param $CustID - customer ID
+     * Determine existing address with FirstName containing $FirstName in customer with Email
      * @param $FirstName - part of "First name" field
      * @returns true such sddress exists
      *
      */
-    public function isCustomerAddressPresent($FirstName, $CustID)
+    public function isCustomerAddressPresent($FirstName, $param)
     {
+        $aData = $param ? $param : $this->aData;
         $this->printInfo("isCustomerAddressPresent is started");
-        if ($this->doOpenCustomer($CustID)) {
+        $this->setUiNamespace('admin/pages/customers/manage_customers/');
+        if ($this->doOpenCustomer($param)) {
             // Open Address Tab
             $this->click($this->getUiElement("edit_customer_page/tabs/addresses_tab"));
             sleep(1);
@@ -195,7 +213,6 @@ class Model_Admin_Customer extends Model_Admin {
 
     /**
      * Delete all addresses of customer with ID=$CustID
-     * @param $CustID - customer ID
      *
      */
     public function delAllAddresses($params)
@@ -203,9 +220,9 @@ class Model_Admin_Customer extends Model_Admin {
         $Data = $params ? $params : $this->Data;
         $this->setUiNamespace('admin/pages/customers/manage_customers/');
         $this->clickAndWait($this->getUiElement("/admin/topmenu/customer/managecustomers"));
-        if ($this->isCustomerPresent($Data['CustID'])) {
+        if ($this->isCustomerPresent($param)) {
             $this->printInfo('Customer is present');
-            if ($this->doOpenCustomer($Data['CustID'])) {
+            if ($this->doOpenCustomer($param)) {
                 $this->click($this->getUiElement("edit_customer_page/tabs/addresses_tab"));
                 sleep(5);
                 // Remove All Addresses
@@ -223,7 +240,6 @@ class Model_Admin_Customer extends Model_Admin {
                 sleep(5);
                 $this->printInfo("shit the BRICKSSSS");
                 sleep(5);
-
 
                 //$this->chooseOkOnNextConfirmation();
                 //$shell->SendKeys("{ENTER}");
@@ -277,12 +293,9 @@ class Model_Admin_Customer extends Model_Admin {
      * @param $FirstName - part of "First name" field*
      * @return false if customer doesnot exisrs
      */
-    public function delAddresses($FirstName, $CustID = null)
+    public function delAddresses($FirstName, $param)
     {
-        if (null === $CustID) {
-            $CustID = $this->customerId;
-        }
-        if ($this->doOpenCustomer($CustID)) {
+        if ($this->doOpenCustomer($param)) {
             // Remove Test Addresses
             while ($this->isElementPresent($this->getUiElement("admin/customer/address/managepanel") . "//ul[contains(@id,'address_list')]//li[contains(address,'" . $FirstName . "')]//img[@alt='Remove address']")) {
                 $this->click($this->getUiElement("admin/customer/address/managepanel") . "//ul[contains(@id,'address_list')]//li[contains(address,'" . $FirstName . "')]//img[@alt='Remove address']");
@@ -296,7 +309,7 @@ class Model_Admin_Customer extends Model_Admin {
     }
 
     /**
-     * Add new address to the customer @CustID
+     * Add new address to the customer with Email
      * @param subTestID - will be placed to the  First Name field
      * @param boolean isBilling - if set, new address will be dafault billing address
      * @param boolean isShipping - if set, new address will be dafault shipping address
@@ -307,7 +320,7 @@ class Model_Admin_Customer extends Model_Admin {
         $aData = $param ? $param : $this->aData;
         $this->setUiNamespace('admin/pages/customers/manage_customers/edit_customer_page');
         if (!$this->isElementPresent($this->getUiElement("elements/edit_page_open"))) {
-            $this->doOpenCustomer($aData["CustID"]);
+            $this->doOpenCustomer($param);
         }
         // Open Address Tab
         $this->waitForElement($this->getUiElement("tabs/addresses_tab"), 2);
@@ -320,54 +333,64 @@ class Model_Admin_Customer extends Model_Admin {
     }
 
     /**
-     *
+     * filling all info on store credit tab
      */
-    public function editStoreCredit($params)
+    public function editStoreCredit($param)
     {
-        if ($this->isElementPresent($this->getUiElement("edit_customer_page/tabs/store_credit") . "[not (contains(@class,'active'))]")) {
-            $this->click($this->getUiElement("edit_customer_page/tabs/store_credit"));
+        $aData = $param ? $param : $this->aData;
+        $this->setUiNamespace('admin/pages/customers/manage_customers/edit_customer_page');
+        if ($this->isElementPresent($this->getUiElement("tabs/store_credit") . "[not (contains(@class,'active'))]")) {
+            $this->click($this->getUiElement("tabs/store_credit"));
         }
-        $this->select($this->getUiElement("edit_customer_page/selectors/store_credit_website"), 'website');
-        $this->type($this->getUiElement("edit_customer_page/inputs/store_credit_update_balance"), $aData['balance']);
+        $this->click($this->getUiElement("tabs/store_credit"));
+        $this->pleaseWait();
+        $this->select($this->getUiElement("selectors/store_credit_website"), $aData['store_credit_website']);
+        $this->type($this->getUiElement("inputs/store_credit_update_balance"), $aData['store_credit_balance']);
         if ($aData['Notify_email']) {
-            $this->click($this->getUiElement("edit_customer_page/inputs/store_credit_notify_email"));
-            $this->select($this->getUiElement("edit_customer_page/selectors/store_credit_email_from"), $aData['storeview']);
+            $this->click($this->getUiElement("inputs/store_credit_notify_email"));
+            $this->select($this->getUiElement("selectors/store_credit_email_from"), $aData['store_credit_storeview']);
         }
-        $this->type($this->getUiElement("edit_customer_page/inputs/store_credit_comment"), $aData['comment']);
-        $this->clickAndWait($this->getUiElement("edit_customer_page/buttons/save_and_continue"));
+        $this->type($this->getUiElement("inputs/store_credit_comment"), $aData['store_credit_comment']);
+        //$this->clickAndWait($this->getUiElement("buttons/save_and_continue"));
     }
 
     /**
-     * 
+     * filling all info on raward points tab
      */
-    public function editRewardPoints($params)
+    public function editRewardPoints($param)
     {
+        $aData = $param ? $param : $this->aData;
+        $this->setUiNamespace('admin/pages/customers/manage_customers');
         if ($this->isElementPresent($this->getUiElement("edit_customer_page/tabs/reward_points") . "[not (contains(@class,'active'))]")) {
             $this->click($this->getUiElement("edit_customer_page/tabs/reward_points"));
         }
+        $this->click($this->getUiElement("edit_customer_page/tabs/reward_points"));
+        $this->waitForElement($this->getUiElement("edit_customer_page/inputs/reward_points_update_points"), 1);
         $this->select($this->getUiElement("edit_customer_page/selectors/reward_points_store"), $aData['reward_points_store']);
         //if ((-4294967295<=$aData['reward points'])||($aData['reward points']=>4294967295)) {
-            $this->type($this->getUiElement("edit_customer_page/inputs/reward_points_update_points"), $aData['reward points']);
+        $this->type($this->getUiElement("edit_customer_page/inputs/reward_points_update_points"), $aData['reward points']);
         //}
         $this->type($this->getUiElement("edit_customer_page/inputs/reward_points_comment"), $aData['reward_points_comment']);
-        $this->clickAndWait($this->getUiElement("edit_customer_page/buttons/save_and_continue"));
+        //$this->clickAndWait($this->getUiElement("edit_customer_page/buttons/save_and_continue"));
     }
 
     /**
-     *
+     * adding address to opened customer
      */
     public function doAddAddress($params, $param, $isBilling, $isShipping)
     {
         $aData = $param ? $param : $this->aData;
 
-        if ($this->isElementPresent($this->getUiElement("edit_customer_page/tabs/addresses_tab") . "[not (contains(@class,'active'))]")) {
-            $this->click($this->getUiElement("edit_customer_page/tabs/addresses_tab"));
-        }
-        $address_qty = count($this->getUiElement("elements/edit_address")) - 1;
-        $this->printInfo($address_qty);
-        if ($this->isElementPresent($this->getUiElement("elements/new_address_container", $address_qty))) {
-
-        }
+        $this->setUiNamespace('admin/pages/customers/manage_customers/edit_customer_page');
+        //if ($this->isElementPresent($this->getUiElement("tabs/addresses_tab") . "[not (contains(@class,'active'))]")) {
+        $this->click($this->getUiElement("tabs/addresses_tab"));
+        //}
+        $this->waitForElement($this->getUiElement("elements/edit_address"), 3);
+        sleep(10);
+        $address_qty = count($this->getUiElement("elements/edit_address") - 1);
+        $this->printInfo("address_qty = " . $address_qty);
+        //if ($this->isElementPresent($this->getUiElement("elements/new_address_container", $address_qty))) {
+        //}
         // Fill New Address
         foreach ($params as $key => $val) {
             $this->fillTextField($key, $val, $address_qty);
@@ -379,13 +402,22 @@ class Model_Admin_Customer extends Model_Admin {
         // Specify Default Billing Address
         if ($isBilling) {
             $this->printInfo($address_qty);
-            $billing = array($address_qty+2,'Billing');
+            if ($address_qty > 0) {
+                $billing = array($address_qty + 2, 'Billing');
+            } elseif ($address_qty == 0) {
+                $billing = array(1, 'Billing');
+            }
             $this->printInfo($billing);
+            $this->waitForElement($this->getUiElement("elements/is_billing_shipping", $billing), 1);
             $this->click($this->getUiElement("elements/is_billing_shipping", $billing));
         }
         if ($isShipping) {
+            if ($address_qty > 0) {
+                $shipping = array($address_qty + 2, 'Shipping');
+            } elseif ($address_qty == 0) {
+                $shipping = array(1, 'Shipping');
+            }
             $this->printInfo($address_qty);
-            $shipping = array($address_qty+2,'Shipping');
             $this->printInfo($shipping);
             $this->click($this->getUiElement("elements/is_billing_shipping", $shipping));
         }
@@ -393,7 +425,6 @@ class Model_Admin_Customer extends Model_Admin {
 
     /**
      * Check values of added address.
-     * @param CustID - ID customer
      * @param TestID - address with TestID in the First Name field will be used
      * @param boolean isBilling - if set, address will be checked as dafault billing address
      * @param boolean isShipping - if set, address will be checked as dafault shipping address
@@ -404,6 +435,7 @@ class Model_Admin_Customer extends Model_Admin {
         $aData = $param ? $param : $this->aData;
         // Verify Section Start
         // Open Address Tab
+        $this->setUiNamespace('admin/pages/customers/manage_customers');
         $this->click($this->getUiElement("edit_customer_page/tabs/addresses_tab"));
         $this->click($this->getUiElement("edit_customer_page/elements/address_list_container", $aData['First_name']));
         $i = 0;
@@ -513,8 +545,8 @@ class Model_Admin_Customer extends Model_Admin {
                 $this->printInfo("element  " . $fieldName . " filled with value " . $fieldValue);
             }
         } else {
-            $this->type($this->getUiElement("elements/text_fields", $fieldName), $fieldValue);
-            $this->printInfo("element  " . $fieldName . " filled with value " . $fieldValue);
+            //$this->type($this->getUiElement("elements/text_fields", $fieldName), $fieldValue);
+            //$this->printInfo("element  " . $fieldName . " filled with value " . $fieldValue);
         }
     }
 
