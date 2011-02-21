@@ -36,7 +36,7 @@ class Admin_Product_RequiredFields_AddBundleFixedProduct extends TestCaseAbstrac
             'website_name'          => 'SmokeTestSite',
             'category_name'         => 'st-subcat',
             'bundle_options_title'  => 'Bundle Options Title 01',
-            'bundle_items_sku'      => array('SP-01', 'VP-01', 'DP-01')
+            'search_product_sku'      => array('SP-01', 'VP-01', 'DP-01')
         );
         if ($this->model->doLogin()) {
             $this->model->doCreateProduct($arrayData);

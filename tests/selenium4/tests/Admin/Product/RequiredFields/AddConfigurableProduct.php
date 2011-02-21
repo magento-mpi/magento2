@@ -31,7 +31,9 @@ class Admin_Product_RequiredFields_AddConfigurableProduct extends TestCaseAbstra
             'manage_stock'          => 'Yes',
             'stock_availability'    => 'In Stock',
             'website_name'          => 'SmokeTestSite',
-            'category_name'         => 'st-subcat'
+            'category_name'         => 'st-subcat',
+            //<!-- Associated Products tab -->
+            'search_product_sku'=> array('SP-01', 'VP-01', 'DP-01')
         );
         if ($this->model->doLogin()) {
             $this->model->doCreateProduct($arrayData);

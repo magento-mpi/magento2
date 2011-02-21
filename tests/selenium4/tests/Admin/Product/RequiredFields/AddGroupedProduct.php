@@ -29,7 +29,9 @@ class Admin_Product_RequiredFields_AddGroupedProduct extends TestCaseAbstract {
             'stock_availability'    => 'In Stock',
             'website_name'          => 'SmokeTestSite',
             'category_name'         => 'st-subcat',
-            'grouped_items_sku'     => array('SP-01', 'VP-01', 'DP-01')
+            'grouped_items_sku'     => array('SP-01', 'VP-01', 'DP-01'),
+            //<!-- Associated Products tab -->
+            'search_product_sku'     => array('SP-01', 'VP-01', 'DP-01')
         );
         if ($this->model->doLogin()) {
             $this->model->doCreateProduct($arrayData);
