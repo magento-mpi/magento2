@@ -130,36 +130,45 @@ class Model_Admin_Attributes extends Model_Admin {
         // open Manage Label / Options Tab
         $this->click($this->getUiElement('tabs/manage_label'));
         $this->checkAndFillField($params, 'attribute_admin_title', NULL);
-        foreach ($Data['attribute_store_view_title'] as $key => $value) {
-            $this->fillTitlesForStore($key, $value);
+        if (isset($Data['attribute_store_view_title'])) {
+            foreach ($Data['attribute_store_view_title'] as $key => $value) {
+                $this->fillTitlesForStore($key, $value);
+            }
         }
         if ($type == 'Multiple Select' or $type == 'Dropdown') {
             $qtyOptions = $this->getXpathCount($this->getUiElement('elements/qty_options'));
-            foreach ($Data['attribute_admin_option_name'] as $key => $value) {
-                $i = $key + $qtyOptions;
-                $this->click($this->getUiElement('buttons/add_new_option'));
-                $this->type($this->getUiElement('inputs/attribute_admin_option_name', $i), $value);
-            }
-            foreach ($Data['attribute_admin_option_position'] as $key => $value) {
-                $i = $key + $qtyOptions;
-                if (!$this->isElementPresent($this->getUiElement('inputs/attribute_admin_option_position', $i))) {
+            if (isset($Data['attribute_admin_option_name'])) {
+                foreach ($Data['attribute_admin_option_name'] as $key => $value) {
+                    $i = $key + $qtyOptions;
                     $this->click($this->getUiElement('buttons/add_new_option'));
+                    $this->type($this->getUiElement('inputs/attribute_admin_option_name', $i), $value);
                 }
-                $this->type($this->getUiElement('inputs/attribute_admin_option_position', $i), $value);
             }
-            foreach ($Data['attribute_store_view_option_name'] as $key => $value) {
-                $number = $this->determineStoreNumber($key) - 1;
-                if (is_array($value) and $number != -2) {
-                    foreach ($value as $k => $v) {
-                        $mas = array($qtyOptions + $k, $number);
-                        if (!$this->isElementPresent($this->getUiElement('inputs/attribute_store_view_option_name', $mas))) {
-                            $this->click($this->getUiElement('buttons/add_new_option'));
+            if (isset($Data['attribute_admin_option_position'])) {
+                foreach ($Data['attribute_admin_option_position'] as $key => $value) {
+                    $i = $key + $qtyOptions;
+                    if (!$this->isElementPresent($this->getUiElement('inputs/attribute_admin_option_position', $i))) {
+                        $this->click($this->getUiElement('buttons/add_new_option'));
+                    }
+                    $this->type($this->getUiElement('inputs/attribute_admin_option_position', $i), $value);
+                }
+            }
+            if (isset($Data['attribute_store_view_option_name'])) {
+                foreach ($Data['attribute_store_view_option_name'] as $key => $value) {
+                    $number = $this->determineStoreNumber($key) - 1;
+                    if (is_array($value) and $number != -2) {
+                        foreach ($value as $k => $v) {
+                            $mas = array($qtyOptions + $k, $number);
+                            if (!$this->isElementPresent($this->getUiElement('inputs/attribute_store_view_option_name',
+                                                    $mas))) {
+                                $this->click($this->getUiElement('buttons/add_new_option'));
+                            }
+                            $this->type($this->getUiElement('inputs/attribute_store_view_option_name', $mas), $v);
                         }
+                    } elseif ($number != -1) {
+                        $mas = array($qtyOptions, $number);
                         $this->type($this->getUiElement('inputs/attribute_store_view_option_name', $mas), $v);
                     }
-                } elseif ($number != -1) {
-                    $mas = array($qtyOptions, $number);
-                    $this->type($this->getUiElement('inputs/attribute_store_view_option_name', $mas), $v);
                 }
             }
         }

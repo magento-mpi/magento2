@@ -5,13 +5,13 @@
  *
  * @author Magento Inc.
  */
-class Model_Admin_Category extends Model_Admin
-{
+class Model_Admin_Category extends Model_Admin {
 
     /**
      * Loading configuration data for the testCase
      */
-    public function loadConfigData() {
+    public function loadConfigData()
+    {
         parent::loadConfigData();
 
         $this->categoryData = Core::getEnvConfig('backend/manage_categories');
@@ -203,7 +203,7 @@ class Model_Admin_Category extends Model_Admin
                     }
                 }
             } else {
-                array_push($numNeededCat,0);
+                array_push($numNeededCat, 0);
                 for ($j = 0; $j <= $qtyRoot - 1; $j++) {
                     $mas = array($categoryData['rootname'], $numNeededCat[$j]);
                     $this->click($this->getUiElement("locators/root_many", $mas));
@@ -303,7 +303,7 @@ class Model_Admin_Category extends Model_Admin
                     }
                 }
             } else {
-                array_push($numNeededCat,0);
+                array_push($numNeededCat, 0);
                 for ($j = 0; $j <= $qtyRoot - 1; $j++) {
                     $mas = array($categoryData['subcategoryname'], $numNeededCat[$j]);
                     $this->click($this->getUiElement("locators/sub_many", $mas));

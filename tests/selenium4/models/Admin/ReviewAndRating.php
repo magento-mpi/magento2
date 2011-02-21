@@ -34,8 +34,6 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
         }
     }
 
-
-
     /**
      * Create Rating
      *
@@ -149,7 +147,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
         $prod_result = $this->searchAndDoAction('product_container', $searchProd, 'open', NULL);
         if ($prod_result) {
             //Set up review status
-            $this->checkAndSelectField($params, "status", NULL);
+            $this->checkAndSelectField($params, "status");
             //Enable display for store view(s)
             if (is_array($storeNameVisible)) {
                 $qtyStores = count($storeNameVisible);
@@ -252,7 +250,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
         }
         if ($this->searchAndDoAction('review_container', $searchReview, 'open', NULL)) {
             //changing status
-            $this->checkAndSelectField($params, "status", NULL);
+            $this->checkAndSelectField($params, "status");
             $this->saveAndVerifyForErrors();
         }
     }

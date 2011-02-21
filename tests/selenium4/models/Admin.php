@@ -171,9 +171,7 @@ class Model_Admin extends TestModelAbstract {
                 $this->printInfo("The value '" . $value . "' cannot be set for the field '" . $field . "'");
                 $result = false;
             }
-        } else {
-            $this->printInfo("The value for the field $field is not specified. The default value will be used");
-        }
+        } 
         return $result;
     }
 
@@ -408,7 +406,7 @@ class Model_Admin extends TestModelAbstract {
         } elseif (isset($this->Data[$value])) {
             return $this->Data[$value];
         } else {
-            $this->printInfo("The value of the variable '" . $value . "' is not set");
+            //$this->printInfo("The value of the variable '" . $value . "' is not set");
             return NULL;
         }
     }
@@ -466,8 +464,8 @@ class Model_Admin extends TestModelAbstract {
                 $this->printInfo('The confirmation does not appear');
             }
             if ($result) {
-                if ($this->waitForElement($this->getUiElement('/admin/messages/error'), 20)) {
-                    $etext = $this->getText($this->getUiElement('/admin/messages/error'));
+                if ($this->waitForElement($this->getUiElement('/admin/global/messages/error1'), 20)) {
+                    $etext = $this->getText($this->getUiElement('/admin/global/messages/error1'));
                     $this->setVerificationErrors($etext);
                 } elseif ($this->waitForElement($this->getUiElement('/admin/messages/success'), 30)) {
                     $etext = $this->getText($this->getUiElement('/admin/messages/success'));

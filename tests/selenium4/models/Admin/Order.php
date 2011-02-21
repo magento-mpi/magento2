@@ -82,7 +82,9 @@ class Model_Admin_Order extends Model_Admin {
                             $value . "'. The first will be selected");
                 }
                 $this->click($this->getUiElement('inputs/' . $path, $value));
-                $this->pleaseWait();
+                if ($this->isTextPresent('Please wait...')) {
+                    $this->pleaseWait();
+                }
             } else {
                 $this->setVerificationErrors("Element for which value '" . $path . "'='" . $value . "' does not exist");
                 $result = FALSE;
@@ -141,7 +143,7 @@ class Model_Admin_Order extends Model_Admin {
      */
     public function newAccountInfo($params)
     {
-        $result = $this->checkAndSelectField($params, 'user_group', Null);
+        $result = $this->checkAndSelectField($params, 'user_group');
         if ($result) {
             $this->pleaseWait();
         }
