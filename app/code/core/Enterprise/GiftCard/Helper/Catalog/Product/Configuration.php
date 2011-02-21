@@ -32,6 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_Abstract
+    implements Mage_Catalog_Helper_Product_Configuration_Interface
 {
     /**
      * Prepare custom option for display, returns false if there's no value
@@ -70,7 +71,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
                 'value' => $value
             );
         }
-        
+
         $value = $this->prepareCustomOption($item, 'giftcard_recipient_name');
         if ($value) {
             $email = $this->prepareCustomOption($item, 'giftcard_recipient_email');
@@ -82,7 +83,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
                 'value' => $value
             );
         }
-        
+
         $value = $this->prepareCustomOption($item, 'giftcard_message');
         if ($value) {
             $result[] = array(
@@ -90,7 +91,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
                 'value' => $value
             );
         }
-        
+
         return $result;
     }
 
@@ -103,5 +104,5 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
     public function getOptions(Mage_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
         return array_merge($this->getGiftcardOptions($item), Mage::helper('catalog/product_configuration')->getCustomOptions($item));
-    }    
+    }
 }

@@ -32,6 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Downloadable_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_Abstract
+    implements Mage_Catalog_Helper_Product_Configuration_Interface
 {
     /**
      * Retrieves item links options
@@ -82,14 +83,16 @@ class Mage_Downloadable_Helper_Catalog_Product_Configuration extends Mage_Core_H
         $options = Mage::helper('catalog/product_configuration')->getOptions($item);
 
         $links = $this->getLinks($item);
-        $linksOption = array(
-            'label' => $this->getLinksTitle($item->getProduct()),
-            'value' => array()
-        );
-        foreach ($links as $link) {
-            $linksOption['value'][] = $link->getTitle();
+        if ($links) {
+            $linksOption = array(
+                'label' => $this->getLinksTitle($item->getProduct()),
+                'value' => array()
+            );
+            foreach ($links as $link) {
+                $linksOption['value'][] = $link->getTitle();
+            }
+            $options[] = $linksOption;
         }
-        $options[] = $linksOption;
 
         return $options;
     }

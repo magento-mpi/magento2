@@ -32,6 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_Abstract
+    implements Mage_Catalog_Helper_Product_Configuration_Interface
 {
     /**
      * Get selection quantity
@@ -111,8 +112,8 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_
                     $bundleSelections = $bundleOption->getSelections();
 
                     foreach ($bundleSelections as $bundleSelection) {
-                        $option['value'][] = $this->getSelectionQty($product, $bundleSelection->getSelectionId()) 
-                            . ' x ' . $this->escapeHtml($bundleSelection->getName()) 
+                        $option['value'][] = ($this->getSelectionQty($product, $bundleSelection->getSelectionId()) * 1)
+                            . ' x ' . $this->escapeHtml($bundleSelection->getName())
                             . ' ' . Mage::helper('core')->currency($this->getSelectionFinalPrice($item, $bundleSelection));
                     }
 
@@ -120,7 +121,7 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_
                 }
             }
         }
-        
+
         return $options;
     }
 
@@ -133,7 +134,7 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_
     public function getOptions(Mage_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
         return array_merge(
-            $this->getBundleOptions($item), 
+            $this->getBundleOptions($item),
             Mage::helper('catalog/product_configuration')->getCustomOptions($item)
         );
     }

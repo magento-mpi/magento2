@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Item extends
      * Returns helper for product type
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Core_Helper_Abstract
+     * @return Mage_Catalog_Helper_Product_Configuration_Interface
      */
     protected function _getProductHelper($product)
     {
@@ -76,7 +76,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Item extends
             $helperName = 'catalog/product_configuration';
         }
 
-        return Mage::helper($helperName);
+        $helper = Mage::helper($helperName);
+        if (!($helper instanceof Mage_Catalog_Helper_Product_Configuration_Interface)) {
+            Mage::throwException($this->__("Helper for wishlist options rendering doesn't implement required interface."));
+        }
+
+        return $helper;
     }
 
     /*

@@ -117,6 +117,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
             'renderer'  => 'adminhtml/customer_edit_tab_wishlist_grid_renderer_description'
         ));
 
+        $this->addColumn('qty', array(
+            'header'    => Mage::helper('customer')->__('Qty'),
+            'index'     => 'qty',
+            'type'      => 'number',
+            'width'     => '60px'
+        ));
+
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store', array(
                 'header'    => Mage::helper('customer')->__('Added From'),

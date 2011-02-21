@@ -38,10 +38,14 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
     {
         $outputEnabled = Mage::helper('core')->isModuleOutputEnabled($this->getModuleName());
         if ($outputEnabled) {
-            $block = $this->getLayout()->getBlock('my.account.wrapper');
-            if ($block) {
-                $block->unsetChild('customer.wishlist');
-                $block->append($this, 'customer.wishlist');
+            $wrapper = $this->getLayout()->getBlock('my.account.wrapper');
+            if ($wrapper) {
+                $oldBlock = $this->getLayout()->getBlock('customer.wishlist');
+                if ($oldBlock) {
+                    $wrapper->unsetChild('customer.wishlist');
+                    $this->setOptionsRenderCfgs($oldBlock->getOptionsRenderCfgs());
+                }
+                $wrapper->append($this, 'customer.wishlist');
             }
         }
         return parent::_prepareLayout();

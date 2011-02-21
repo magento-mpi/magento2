@@ -19,35 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Wishlist
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Configurable product renderer for product in wishlist cell
+ * Wishlist block customer items
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Item_Configurable extends Mage_Adminhtml_Block_Abstract
+class Mage_Wishlist_Block_Customer_Wishlist_Item_Options extends Mage_Wishlist_Block_Abstract
 {
-    /**
-     * Render block HTML
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $item = $this->getItem();
-        /* @var $helper Mage_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('catalog/product_configuration');
-        $options = $helper->getOptions($item);
-        if ($item) {
-            return $this->escapeHtml($item->getProductName()) . implode($options);
-        } else {
-            return '';
-        }
-    }
 }
