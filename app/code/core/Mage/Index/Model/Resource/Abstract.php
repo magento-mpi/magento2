@@ -41,7 +41,14 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
      *
      * @var bool
      */
-    protected $_isNeedUseIdxTable  = false;
+    protected $_isNeedUseIdxTable = false;
+
+    /**
+     * Flag that defines if need to disable keys during data inserting
+     *
+     * @var bool
+     */
+    protected $_isDisableKeys = true;
 
     /**
      * Reindex all
@@ -152,7 +159,10 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
             $from   = $this->_getIndexAdapter();
             $to     = $this->_getWriteAdapter();
         }
-        $to->disableTableKeys($destTable);
+
+        if ($this->useDisableKeys()) {
+            $to->disableTableKeys($destTable);
+        }
         if ($from === $to) {
             $query = $select->insertFromSelect($destTable, $columns);
             $to->query($query);
@@ -173,7 +183,9 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
                 $to->insertArray($destTable, $columns, $data);
             }
         }
-        $to->enableTableKeys($destTable);
+        if ($this->useDisableKeys()) {
+            $to->enableTableKeys($destTable);
+        }
         return $this;
     }
 
@@ -189,6 +201,20 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
             $this->_isNeedUseIdxTable = (bool)$value;
         }
         return $this->_isNeedUseIdxTable;
+    }
+
+    /**
+     * Set or get flag that defines if need to disable keys during data inserting
+     *
+     * @param bool $value
+     * @return bool
+     */
+    public function useDisableKeys($value = null)
+    {
+        if (!is_null($value)) {
+            $this->_isDisableKeys = (bool)$value;
+        }
+        return $this->_isDisableKeys;
     }
 
     /**
