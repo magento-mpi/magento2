@@ -138,9 +138,9 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
         } else {
             $productIds = $this->getTypeIndex($object->getType())
                 ->loadProductIds($object);
+            $productIds = array_diff($productIds, $object->getExcludeProductIds());
         }
 
-        $productIds = array_diff($productIds, $object->getExcludeProductIds());
         shuffle($productIds);
 
         return array_slice($productIds, 0, $object->getLimit());
@@ -155,7 +155,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
     protected function _matchProductIds($object)
     {
         $limit      = $object->getLimit() + $this->getOverfillLimit();
-        $productIds = array();
+        $productIds = $object->getExcludeProductIds();
         $ruleCollection = $object->getRuleCollection();
         foreach ($ruleCollection as $rule) {
             /* @var $rule Enterprise_TargetRule_Model_Rule */
@@ -170,7 +170,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
             $productIds = array_merge($productIds, $resultIds);
         }
 
-        return $productIds;
+        return array_diff($productIds, $object->getExcludeProductIds());
     }
 
     /**
