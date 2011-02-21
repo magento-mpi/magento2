@@ -111,10 +111,8 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
      */
     public function formAction()
     {
-        $tokenBlock = $this->_getIframeBlock()
-            ->setTemplate('paypal/payflow/link/form.phtml');
-
-        $this->getResponse()->setBody($tokenBlock->toHtml());
+        $this->getResponse()
+            ->setBody($this->_getIframeBlock()->toHtml());
     }
 
     /**
@@ -150,7 +148,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
      */
     protected function _getIframeBlock()
     {
-        $this->loadLayout('checkout_onepage_review');
+        $this->loadLayout('paypal_payflow_link_iframe');
         return $this->getLayout()
             ->getBlock('payflow.link.iframe');
     }
