@@ -216,8 +216,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
         if (empty($categoryIds)) {
             return array();
         }
-        $collection = Mage::getResourceModel('catalog/category_collection')
-            ->addFieldToFilter('entity_id', array('in'=>$categoryIds));
+        $collection = Mage::getResourceModel('catalog/category_collection');
+
+        if ($rootId) {
+            $collection->addFieldToFilter('parent_id', $rootId);
+        } else {
+            $collection->addFieldToFilter('entity_id', array('in'=>$categoryIds));
+        }
+
         foreach ($collection as $item) {
             if ($rootId && !in_array($rootId, $item->getPathIds())) {
                 continue;
