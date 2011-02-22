@@ -49,7 +49,7 @@ class Mage_Sales_Model_Mysql4_Order_Status extends Mage_Core_Model_Mysql4_Abstra
         if ($field == 'default_state') {
             $select = $this->_getReadAdapter()->select()
                 ->from($this->getMainTable())
-                ->join(array('state_table'=>$this->_stateTable), 'main_table.status=state_table.status', 'status')
+                ->join(array('state_table'=>$this->_stateTable), $this->getMainTable().'.status=state_table.status', 'status')
                 ->where('state_table.state=?', $value)
                 ->order('state_table.is_default DESC')
                 ->limit(1);
