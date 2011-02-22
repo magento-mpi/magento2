@@ -597,12 +597,14 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         $adapter = $this->getConnection();
         $baseSubtotalRefunded = $adapter->getIfNullSql('main_table.base_subtotal_refunded', 0);
         $baseSubtotalCanceled = $adapter->getIfNullSql('main_table.base_subtotal_canceled', 0);
+        $baseDiscountCanceled = $adapter->getIfNullSql('main_table.base_discount_canceled', 0);
+
         /**
          * calculate average and total amount
          */
         $expr = ($storeId == 0)
-            ? "(main_table.base_subtotal - {$baseSubtotalRefunded} - {$baseSubtotalCanceled}) * main_table.base_to_global_rate"
-            : "main_table.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
+            ? "(main_table.base_subtotal - {$baseSubtotalRefunded} - {$baseSubtotalCanceled} - ABS(main_table.base_discount_amount) - {$baseDiscountCanceled}) * main_table.base_to_global_rate"
+            : "main_table.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded} - ABS(main_table.base_discount_amount) - {$baseDiscountCanceled}";
 
         $this->getSelect()
             ->columns(array('orders_avg_amount' => "AVG({$expr})"))
