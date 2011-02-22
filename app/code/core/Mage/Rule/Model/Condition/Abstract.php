@@ -80,7 +80,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 'date'        => array('==', '>=', '<='),
                 'select'      => array('==', '!='),
                 'boolean'     => array('==', '!='),
-                'multiselect' => array('{}', '!{}'),
+                'multiselect' => array('{}', '!{}', '()', '!()'),
                 'grid'        => array('()', '!()'),
             );
         }
