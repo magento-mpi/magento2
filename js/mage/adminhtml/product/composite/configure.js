@@ -513,14 +513,16 @@ ProductConfigure.prototype = {
                     var restoreConfirmedValues = function (elms) {
                         for (var i = 0; i < elms.length; i++) {
                             if ('undefined' != typeof fieldsValue[elms[i].name]) {
-                                if (elms[i].type == 'checkbox') {
-                                    elms[i].checked = fieldsValue[elms[i].name][elms[i].value];
-                                } else if (elms[i].type == 'radio') {
-                                    if (elms[i].value == fieldsValue[elms[i].name]) {
-                                        elms[i].checked = true;
+                                if (elms[i].type != 'file') {
+                                    if (elms[i].type == 'checkbox') {
+                                        elms[i].checked = fieldsValue[elms[i].name][elms[i].value];
+                                    } else if (elms[i].type == 'radio') {
+                                        if (elms[i].value == fieldsValue[elms[i].name]) {
+                                            elms[i].checked = true;
+                                        }
+                                    } else {
+                                        elms[i].setValue(fieldsValue[elms[i].name]);
                                     }
-                                } else {
-                                    elms[i].setValue(fieldsValue[elms[i].name]);
                                 }
                             }
                         }
