@@ -336,6 +336,7 @@ table.form-edit                         { width:100%; }
 .entry-edit fieldset,
 .entry-edit .fieldset                   { padding:10px 15px; margin-bottom:15px; }
 .entry-edit .entry-edit-head h4         { float:left; padding:0; background:none; margin:0; color:#fff; font-size:1em; line-height:18px; min-height:0; }
+.entry-edit .entry-edit-head .tools     { float:right;}
 .entry-edit .entry-edit-head strong,
 .entry-edit .entry-edit-head a          { color:#fff; font-size:1em; line-height:18px; min-height:0; font-weight:bold}
 .entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
@@ -407,7 +408,7 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .field-row                      { display:block; margin-bottom:5px; }
 span.delete-image,
 span.delete-file                { display:block; white-space:nowrap; padding-left:25px; }
-span.delete-file				{ padding:0; }
+span.delete-file                { padding:0; }
 
 /* Back compatibility with span forms */
 .entry-edit .field-row          { display:block; }
