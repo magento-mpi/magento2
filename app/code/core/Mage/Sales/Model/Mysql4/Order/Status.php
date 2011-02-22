@@ -24,11 +24,28 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Order status resource model
+ */
 class Mage_Sales_Model_Mysql4_Order_Status extends Mage_Core_Model_Mysql4_Abstract
 {
+    /**
+     * Status labels table
+     *
+     * @var string
+     */
     protected $_labelsTable;
+
+    /**
+     * Status state table
+     *
+     * @var string
+     */
     protected $_stateTable;
 
+    /**
+     * Internal constructor
+     */
     protected function _construct()
     {
         $this->_init('sales/order_status', 'status');
@@ -77,6 +94,7 @@ class Mage_Sales_Model_Mysql4_Order_Status extends Mage_Core_Model_Mysql4_Abstra
      * Save status labels per store
      *
      * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Sales_Model_Mysql4_Order_Status
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
@@ -110,6 +128,7 @@ class Mage_Sales_Model_Mysql4_Order_Status extends Mage_Core_Model_Mysql4_Abstra
      * @param string $status
      * @param string $state
      * @param bool $isDefault
+     * @return Mage_Sales_Model_Mysql4_Order_Status
      */
     public function assignState($status, $state, $isDefault)
     {
@@ -136,6 +155,7 @@ class Mage_Sales_Model_Mysql4_Order_Status extends Mage_Core_Model_Mysql4_Abstra
      *
      * @param string $status
      * @param string $state
+     * @return Mage_Sales_Model_Mysql4_Order_Status
      */
     public function unassignState($status, $state)
     {

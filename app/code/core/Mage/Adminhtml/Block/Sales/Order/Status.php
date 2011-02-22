@@ -33,7 +33,9 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Status extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         $this->_controller = 'sales_order_status';
@@ -47,11 +49,21 @@ class Mage_Adminhtml_Block_Sales_Order_Status extends Mage_Adminhtml_Block_Widge
         parent::__construct();
     }
 
+    /**
+     * Create url getter
+     *
+     * @return string
+     */
     public function getCreateUrl()
     {
         return $this->getUrl('*/sales_order_status/new');
     }
 
+    /**
+     * Assign url getter
+     *
+     * @return string
+     */
     public function getAssignUrl()
     {
         return $this->getUrl('*/sales_order_status/assign');

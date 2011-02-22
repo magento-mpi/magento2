@@ -24,6 +24,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Assign order status to order state form
+ */
 class Mage_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct()
@@ -33,8 +36,9 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Mage_Adminhtml
     }
 
     /**
+     * Prepare form fields
      *
-     * return Mage_Adminhtml_Block_Widget_Form
+     * @return Mage_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()
     {

@@ -26,10 +26,12 @@
 
 /**
  * Flat sales order status history collection
- *
  */
 class Mage_Sales_Model_Mysql4_Order_Status_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
+    /**
+     * Internal constructor
+     */
     protected function _construct()
     {
         $this->_init('sales/order_status');
@@ -45,10 +47,16 @@ class Mage_Sales_Model_Mysql4_Order_Status_Collection extends Mage_Core_Model_My
         return $this->_toOptionArray('status', 'label');
     }
 
+    /**
+     * Get collection data as options hash
+     *
+     * @return array
+     */
     public function toOptionHash()
     {
         return $this->_toOptionHash('status', 'label');
     }
+
     /**
      * Join order states table
      */
@@ -78,6 +86,12 @@ class Mage_Sales_Model_Mysql4_Order_Status_Collection extends Mage_Core_Model_My
         return $this;
     }
 
+    /**
+     * Define label order
+     *
+     * @param string $dir
+     * @return Mage_Sales_Model_Mysql4_Order_Status_Collection
+     */
     public function orderByLabel($dir = 'ASC')
     {
         $this->getSelect()->order('main_table.label '.$dir);

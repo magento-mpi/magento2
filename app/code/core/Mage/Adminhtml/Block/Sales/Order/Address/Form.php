@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Sales_Order_Address_Form
     }
 
     /**
-     * Prepare Form and add elements to form
+     * Define form attributes (id, method, action)
      *
      * @return Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address
      */
@@ -66,6 +66,11 @@ class Mage_Adminhtml_Block_Sales_Order_Address_Form
         return $this;
     }
 
+    /**
+     * Form header text getter
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         return Mage::helper('sales')->__('Order Address Information');
@@ -79,15 +84,5 @@ class Mage_Adminhtml_Block_Sales_Order_Address_Form
     public function getFormValues()
     {
         return $this->_getAddress()->getData();
-    }
-
-    /**
-     * Return billing address object
-     *
-     * @return Mage_Customer_Model_Address
-     */
-    public function getAddress()
-    {
-        return $this->_getAddress();
     }
 }

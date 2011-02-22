@@ -24,6 +24,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Edit order address form container block
+ */
 class Mage_Adminhtml_Block_Sales_Order_Address extends Mage_Adminhtml_Block_Widget_Form_Container
 {
 
@@ -53,6 +56,11 @@ class Mage_Adminhtml_Block_Sales_Order_Address extends Mage_Adminhtml_Block_Widg
         return Mage::helper('sales')->__('Edit Order %s %s Address', $orderId, $type);
     }
 
+    /**
+     * Back button url getter
+     *
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl(

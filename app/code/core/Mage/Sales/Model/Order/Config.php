@@ -33,7 +33,13 @@
  */
 class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
 {
+    /**
+     * Statuses per state array
+     *
+     * @var array
+     */
     protected $_stateStatuses;
+
     private $_states;
 
     public function __construct()
@@ -71,7 +77,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
     /**
      * Retrieve status label
      *
-     * @param   string $status
+     * @param   string $code
      * @return  string
      */
     public function getStatusLabel($code)
