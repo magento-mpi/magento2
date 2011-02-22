@@ -28,8 +28,8 @@
 $installer = $this;
 
 foreach(array(
-        'sales_flat_order', 'sales_flat_order_grid', 'sales_flat_creditmemo', 'sales_flat_creditmemo_grid',
-        'sales_flat_invoice', 'sales_flat_invoice_grid', 'sales_flat_shipment','sales_flat_shipment_grid',
+        'sales/order', 'sales/order_grid', 'sales/creditmemo', 'sales/creditmemo_grid',
+        'sales/invoice', 'sales/invoice_grid', 'sales/shipment','sales/shipment_grid',
     ) as $table) {
     $tableName = $installer->getTable($table);
     $installer->getConnection()->dropKey($tableName, 'IDX_INCREMENT_ID');
