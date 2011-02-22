@@ -1,26 +1,30 @@
 <?php
 
-class Admin_Category_deleteroot extends TestCaseAbstract
-{
+class Admin_Category_deleteroot extends TestCaseAbstract {
 
     /**
      * Setup procedure.
      * Initializes model and loads configuration
      */
-    function setUp() {
+    function setUp()
+    {
         $this->model = $this->getModel('admin/category');
         $this->setUiNamespace();
     }
 
-
     /**
-     * Delete root category
+     * Deletion root category
      *
      */
-    function testRootCategoryDeletion() {
+    function testDeleteRootCategory()
+    {
         // Test Flow
+        $categoryName = Core::getEnvConfig('backend/categories/root_name');
+
         if ($this->model->doLogin()) {
-            $this->model->doDeleteRootCategory();
+            $this->model->navigate("Catalog/Categories/Manage Categories");
+            $this->model->doDeleteCategory($categoryName);
         }
     }
+
 }
