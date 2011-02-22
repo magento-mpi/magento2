@@ -585,7 +585,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             array('value' => Mage_Catalog_Model_Product_Status::STATUS_DISABLED),
             $updateCond
         );
-        
+
         return $this;
     }
 
@@ -602,5 +602,14 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             ->where('entity_id IN (?)', $productIds);
         return $this->_getReadAdapter()->fetchAll($select);
     }
-    
+
+    /**
+     * @deprecated after 1.4.2.0
+     * @param  $object Mage_Catalog_Model_Product
+     * @return array
+     */
+    public function getParentProductIds($object)
+    {
+        return array();
+    }
 }

@@ -1358,9 +1358,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this;
     }
 
+    /**
+     * @deprecated after 1.4.2.0
+     * @return Mage_Catalog_Model_Product
+     */
     public function loadParentProductIds()
     {
-        return $this->setParentProductIds($this->_getResource()->getParentProductIds($this));
+        return $this->setParentProductIds(array());
     }
 
     public function delete()
