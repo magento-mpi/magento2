@@ -113,7 +113,7 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
             if(indexOf >= 0){
                 checkbox.checked = true;
                 if (!position.value) {
-                    position.value = indexOf+1;
+                    position.value = indexOf + 1;
                 }
             }
 
@@ -351,8 +351,10 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
      *
      * @return Enterprise_Banner_Block_Adminhtml_Widget_Chooser
      */
-    protected function _prepareCollection() {
+    protected function _prepareCollection()
+    {
         parent::_prepareCollection();
+        
         foreach ($this->getCollection() as $item) {
             foreach ($this->getSelectedBanners() as $pos => $banner) {
                 if ($banner == $item->getBannerId()) {
