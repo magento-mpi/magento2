@@ -174,7 +174,8 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
                     $product->setCustomOptions(array());
                     $item->setProduct($product);
                     $item->setProductName($product->getName());
-                    $item->setProductPrice($product->getPrice());
+                    $item->setName($product->getName());
+                    $item->setPrice($product->getPrice());
                 }
             } else {
                 $item->isDeleted(true);
