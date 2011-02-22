@@ -588,7 +588,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
             $selectionCollection = $product->getTypeInstance(true)
                 ->getSelectionsCollection(
-                    $product->getTypeInstance(true)->getOptionsIds($product),
+                    $optionIds,
                     $product
                 );
 
@@ -614,9 +614,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
             foreach ($selections as $selection) {
                 if ($selection->getSelectionCanChangeQty() && isset($qtys[$selection->getOptionId()])) {
-                    $qty = $qtys[$selection->getOptionId()] > 0 ? $qtys[$selection->getOptionId()] : 1;
+                    $qty = (float)$qtys[$selection->getOptionId()] > 0 ? $qtys[$selection->getOptionId()] : 1;
                 } else {
-                    $qty = $selection->getSelectionQty() ? $selection->getSelectionQty() : 1;
+                    $qty = (float)$selection->getSelectionQty() ? $selection->getSelectionQty() : 1;
                 }
 
                 $product->addCustomOption('selection_qty_' . $selection->getSelectionId(), $qty, $selection);
@@ -652,7 +652,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 }
 
                 $result[] = $_result[0]->setParentProductId($product->getId())
-                    ->addCustomOption('bundle_option_ids', serialize($optionIds))
+                    ->addCustomOption('bundle_option_ids', serialize(array_map('intval', $optionIds)))
                     ->addCustomOption('bundle_selection_attributes', serialize($attributes));
                 //}
 
@@ -671,7 +671,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             foreach ($result as $item) {
                 $item->addCustomOption('bundle_identity', $uniqueKey);
             }
-            $product->addCustomOption('bundle_option_ids', serialize($optionIds));
+            $product->addCustomOption('bundle_option_ids', serialize(array_map('intval',$optionIds)));
             $product->addCustomOption('bundle_selection_ids', serialize($selectionIds));
 
             return $result;
