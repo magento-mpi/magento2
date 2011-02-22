@@ -33,7 +33,7 @@
                     <children>
                         <oscimport translate="title" module="oscommerce">
                             <title>osCommerce</title>
-                            <action>oscommerce/adminhtml_import</action>
+                            <action>adminhtml/oscommerce_import</action>
                         </oscimport>
                     </children>
                 </convert>
@@ -43,7 +43,7 @@
             <children>
                 <oscorder translate="title" module="oscommerce">
                     <title>osCommerce Orders</title>
-                    <action>oscommerce/adminhtml_order</action>
+                    <action>adminhtml/oscommerce_order</action>
                     <sort_order>100</sort_order>
                 </oscorder>
             </children>

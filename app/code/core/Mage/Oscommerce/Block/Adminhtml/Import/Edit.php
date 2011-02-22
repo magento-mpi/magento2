@@ -54,6 +54,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block_W
             }
         ";
         parent::__construct();
+        $this->setFormActionUrl($this->getUrl('*/oscommerce_import/save'));
     }
 
     public function getHeaderText()

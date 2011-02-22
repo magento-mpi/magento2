@@ -92,13 +92,13 @@
     </global>
     <admin>
         <routers>
-            <oscommerce>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Mage_Oscommerce</module>
-                    <frontName>oscommerce</frontName>
+                    <modules>
+                        <Mage_Oscommerce before="Mage_Adminhtml">Mage_Oscommerce_Adminhtml</Mage_Oscommerce>
+                    </modules>
                 </args>
-            </oscommerce>
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>
