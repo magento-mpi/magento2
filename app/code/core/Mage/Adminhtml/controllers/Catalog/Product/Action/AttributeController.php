@@ -203,11 +203,10 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/update_attributes');
     }
-    
+
     /**
      * Attributes validation action
      *
-     * @return Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
      */
     public function validateAction()
     {
