@@ -210,7 +210,10 @@ Object.extend(Validation, {
         }
         else{
             elm.advices.each(function(pair){
-                this.hideAdvice(elm, pair.value);
+                if (!advice || pair.value.id != advice.id) {
+                    // hide non-current advice after delay
+                    this.hideAdvice(elm, pair.value);
+                }
             }.bind(this));
         }
         elm.advices.set(adviceName, advice);
@@ -233,7 +236,9 @@ Object.extend(Validation, {
         }
     },
     hideAdvice : function(elm, advice){
-        if(advice != null) advice.hide();
+        if (advice != null) {
+            new Effect.Fade(advice, {duration : 1, afterFinishInternal : function() {advice.hide();}});
+        }
     },
     updateCallback : function(elm, status) {
         if (typeof elm.callbackFunction != 'undefined') {
