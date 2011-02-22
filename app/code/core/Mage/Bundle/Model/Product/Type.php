@@ -622,11 +622,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 $product->addCustomOption('selection_qty_' . $selection->getSelectionId(), $qty, $selection);
                 $selection->addCustomOption('selection_id', $selection->getSelectionId());
 
+                $beforeQty = 0;
                 if ($customOption = $product->getCustomOption('product_qty_' . $selection->getId())) {
-                    $customOption->setValue($customOption->getValue() + $qty);
-                } else {
-                    $product->addCustomOption('product_qty_' . $selection->getId(), $qty, $selection);
+                    $beforeQty = $customOption->getValue();
                 }
+                $product->addCustomOption('product_qty_' . $selection->getId(), $qty + $beforeQty, $selection);
 
                 /*
                  * creating extra attributes that will be converted
