@@ -287,9 +287,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then prepare options belonging to specific product type.
      *
-     * @param Varien_Object $buyRequest
-     * @param   Mage_Catalog_Model_Product $product
-     * @param string $processMode
+     * @param  Varien_Object $buyRequest
+     * @param  Mage_Catalog_Model_Product $product
+     * @param  string $processMode
      * @return array|string
      */
     protected function _prepareProduct(Varien_Object $buyRequest, $product, $processMode)

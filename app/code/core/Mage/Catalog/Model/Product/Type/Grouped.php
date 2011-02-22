@@ -293,7 +293,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                                 return Mage::helper('checkout')->__('Cannot process the item.');
                             }
 
-                            if ($this->_isStrictProcessMode($processMode)) {
+                            if ($isStrictProcessMode) {
                                 $_result[0]->setCartQty($qty);
                                 $_result[0]->addCustomOption('product_type', self::TYPE_CODE, $product);
                                 $_result[0]->addCustomOption('info_buyRequest',

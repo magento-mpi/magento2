@@ -172,7 +172,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
 
         /**
-         * Adding product to quote from shoping cart, wishlist etc.
+         * Adding product to quote from shopping cart, wishlist etc.
          */
         if ($productId = (int) $this->getRequest()->getPost('add_product')) {
             $this->_getOrderCreateModel()->addProduct($productId, $this->getRequest()->getPost());
