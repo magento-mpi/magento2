@@ -555,6 +555,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                                 unserialize($info->getValue())
                             );
                             $info->setOptions($this->_prepareOptionsForRequest($item));
+                            $info->setStoreId($this->getSession()->getStoreId());
                         }
                         $wishlist->addNewItem($item->getProduct()->getId(), $info);
                     }

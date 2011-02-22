@@ -270,7 +270,11 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $product->getStoreId();
         } else {
             $productId = (int) $product;
-            $storeId = Mage::app()->getStore()->getId();
+            if ($buyRequest->getStoreId()) {
+                $storeId = $buyRequest->getStoreId();
+            } else {
+                $storeId = Mage::app()->getStore()->getId();
+            }
         }
 
         /* @var $product Mage_Catalog_Model_Product */
