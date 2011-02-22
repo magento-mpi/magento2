@@ -36,11 +36,61 @@ class Enterprise_Customer_Model_Resource_Sales_Quote_Address
     extends Enterprise_Customer_Model_Resource_Sales_Address_Abstract
 {
     /**
+     * Main entity model name
+     */
+    protected $_parentModelName = 'sales/quote_address';
+
+    /**
+     * Main entity resource model
+     * @var Mage_Sales_Model_Resource_Quote_Address
+     */
+    protected $_parentResourceModel = null;
+
+    /**
      * Initialize resource
      *
      */
     protected function _construct()
     {
         $this->_init('enterprise_customer/sales_quote_address', 'entity_id');
+    }
+
+    /**
+     * Return resource model of the main entity
+     *
+     * @return Mage_Sales_Model_Resource_Quote_Address
+     */
+    protected function _getParentResourceModel()
+    {
+        if (is_null($this->_parentResourceModel)) {
+            $this->_parentResourceModel = Mage::getModel($this->_parentModelName)->getResource();
+        }
+        return $this->_parentResourceModel;
+    }
+
+    /**
+     * Check if main entity exists in main table.
+     * Need to prevent errors in case of multiple customer log in into one account.
+     *
+     * @param Enterprise_Customer_Model_Sales_Abstract $sales
+     * @return bool
+     */
+    public function isEntityExists(Enterprise_Customer_Model_Sales_Abstract $sales)
+    {
+        if (!$sales->getId()) {
+            return false;
+        }
+
+        $parentTable = $this->_getParentResourceModel()->getMainTable();
+        $parentIdField = $this->_getParentResourceModel()->getIdFieldName();
+        $select = $this->_getWriteAdapter()->select()
+            ->from($parentTable, $parentIdField)
+            ->forUpdate(true)
+            ->where("{$parentIdField} = ?", $sales->getId());
+
+        if ($this->_getWriteAdapter()->fetchOne($select)){
+            return true;
+        }
+        return false;
     }
 }

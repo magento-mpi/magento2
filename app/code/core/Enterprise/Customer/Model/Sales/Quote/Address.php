@@ -45,4 +45,12 @@ class Enterprise_Customer_Model_Sales_Quote_Address extends Enterprise_Customer_
     {
         $this->_init('enterprise_customer/sales_quote_address');
     }
+
+    protected function _beforeSave()
+    {
+        if ($this->_dataSaveAllowed && !$this->_getResource()->isEntityExists($this)) {
+            $this->_dataSaveAllowed = false;
+        }
+        return parent::_beforeSave();
+    }
 }
