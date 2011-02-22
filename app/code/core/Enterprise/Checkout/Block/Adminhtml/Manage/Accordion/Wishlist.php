@@ -34,6 +34,7 @@
 class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
+    protected $_controlFieldName = 'product_id';
     /**
      * Initialize Grid
      *
@@ -50,7 +51,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     }
 
     /**
-     * Return custom object name for js grid 
+     * Return custom object name for js grid
      *
      * @return string
      */

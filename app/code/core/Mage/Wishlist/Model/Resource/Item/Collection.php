@@ -36,7 +36,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
 {
     /**
      * Product Visibility Filter to product collection flag
-     * 
+     *
      * @var bool
      */
     protected $_productVisible = false;
@@ -47,14 +47,14 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      * @var bool
      */
     protected $_productSalable = false;
-    
+
     /**
      * If product out of stock, its item will be removed after load
-     * 
+     *
      * @var bool
      */
     protected $_productInStock = false;
-    
+
     /**
      * Product Ids array
      *
@@ -166,14 +166,15 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());
             if ($product) {
-                if ($this->_productInStock && 
-                    !$product->isSalable() && 
+                if ($this->_productInStock &&
+                    !$product->isSalable() &&
                     !Mage::helper('cataloginventory')->isShowOutOfStock()) {
-                        $this->removeItemByKey($item->getId()); 
+                        $this->removeItemByKey($item->getId());
                 } else {
                     $product->setCustomOptions(array());
                     $item->setProduct($product);
                     $item->setProductName($product->getName());
+                    $item->setProductPrice($product->getPrice());
                 }
             } else {
                 $item->isDeleted(true);
@@ -268,7 +269,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     /**
      * Set Salable Filter.
      * This filter apply Salable Product Types Filter to product collection.
-     * 
+     *
      * @param bool $flag
      * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
@@ -277,11 +278,11 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         $this->_productSalable = (bool)$flag;
         return $this;
     }
-    
+
     /**
      * Set In Stock Filter.
      * This filter remove items with no salable product.
-     *  
+     *
      * @param bool $flag
      * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
@@ -298,7 +299,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      */
     public function addDaysInWishlist($flag = null)
     {
-        $this->getSelect()->columns(array('days_in_wishlist' => 
+        $this->getSelect()->columns(array('days_in_wishlist' =>
             "(TO_DAYS('" . (substr(Mage::getSingleton('core/date')->date(), 0, -2) . '00') . "') ".
             "- TO_DAYS(DATE_ADD(added_at, INTERVAL " .(int) Mage::getSingleton('core/date')->getGmtOffset() . " SECOND)))"));
         return $this;
