@@ -727,7 +727,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                echo $e;die();
                 $this->_getSession()->addException(
                     $e,
                     Mage::helper('sales')->__('An error occurred while updating the order address. The address has not been changed.')

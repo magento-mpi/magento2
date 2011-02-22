@@ -157,7 +157,6 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
                 } catch (Mage_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 } catch (Exception $e) {
-                    echo $e;die();
                     $this->_getSession()->addException(
                         $e,
                         Mage::helper('sales')->__('An error occurred while assigning order status. Status has not been assigned.')
@@ -185,7 +184,6 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                echo $e;die();
                 $this->_getSession()->addException(
                     $e,
                     Mage::helper('sales')->__('An error occurred while unassigning order status.')
