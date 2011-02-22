@@ -48,7 +48,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     }
 
     /**
-     * Return custom object name for js grid 
+     * Return custom object name for js grid
      *
      * @return string
      */
@@ -178,5 +178,16 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     public function getGridUrl()
     {
         return $this->getUrl('*/*/products', array('_current'=>true));
+    }
+
+    /**
+     * Add columns with controls to manage added products and their quantity
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    protected function _addControlColumns()
+    {
+        parent::_addControlColumns();
+        $this->getColumn('in_products')->setHeader(" ");
     }
 }

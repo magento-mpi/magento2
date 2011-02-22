@@ -136,7 +136,8 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
             'field_name'=> $this->getId() ? $this->getId() : 'source_product',
             'align'     => 'center',
             'index'     => $this->_controlFieldName,
-            'use_index' => true
+            'use_index' => true,
+            'sortable'  => false
         ));
 
         $this->addColumn('qty', array(
