@@ -19,10 +19,8 @@ class Admin_ReviewAndRating_ReviewCreatingWithRatings extends TestCaseAbstract {
     {
         $review_rateData = array(
             'status' => 'Pending',
-            'rating_for_stars' => array('Test-Rating-default_title', '123'),
-            //'rating_for_stars' => 'Test-Rating-default_title',
-            'rating_stars' => array('3', '5'),
-            //'rating_stars' => '3',
+            'rating_for_stars' => 'Test-Rating-default_title',
+            'rating_stars' => '3',
             //Star q-ty for 'rating_for_stars' Ratings. q-ty 'rating_stars' elements
             //must be equal to q-ty 'rating_for_stars' elements
             
