@@ -217,12 +217,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
         $productId = $product->getId();
 
+        $requestedQty = $request->getQty();
+        $productInQuote = $this->getQuote()->hasProductId($productId);
         if ($product->getStockItem()) {
             $minimumQty = $product->getStockItem()->getMinSaleQty();
             //If product was not found in cart and there is set minimal qty for it
-            if ($minimumQty && $minimumQty > 0 && $request->getQty() < $minimumQty
-                && !$this->getQuote()->hasProductId($productId)
-            ){
+            if ($minimumQty && $minimumQty > 0 && $requestedQty < $minimumQty && !$productInQuote) {
                 $request->setQty($minimumQty);
             }
         }
@@ -230,6 +230,16 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if ($productId) {
             try {
                 $result = $this->getQuote()->addProduct($product, $request);
+                // Add corresponding message to quote item if quantity was recalculated
+                if ($result->getQty() != $requestedQty && !$productInQuote) {
+                    // If quantity was recalculated to be equal to the minimum quantity allowed for purchase
+                    if ($minimumQty && $minimumQty > 0 && $requestedQty < $minimumQty && !$productInQuote) {
+                        $this->getQuote()->addMessage(Mage::helper('cataloginventory')->__('%s cannot be ordered in requested quantity.',
+                            Mage::helper('core')->htmlEscape($product->getName())), 'qty');
+                        $result->setMessage(Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', $minimumQty));
+                    }
+                    $result->setMessage(Mage::helper('checkout')->__('Quantity was recalculated from %d to %d', $requestedQty, $result->getQty()));
+                }
             } catch (Mage_Core_Exception $e) {
                 $this->getCheckoutSession()->setUseNotice(false);
                 $result = $e->getMessage();
@@ -377,7 +387,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             if ($qty > 0) {
                 $item->setQty($qty);
 
-                if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
+                if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty) && $qty == $item->getQty()) {
                     $qtyRecalculatedFlag = true;
                     $message = $messageFactory->notice(Mage::helper('checkout')->__('Quantity was recalculated from %d to %d', $itemInfo['before_suggest_qty'], $qty));
                     $session->addQuoteItemMessage($item->getId(), $message);
@@ -512,19 +522,27 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
         }
 
+        $requestedQty = $request->getQty();
         if ($product->getStockItem()) {
             $minimumQty = $product->getStockItem()->getMinSaleQty();
-            //If product was not found in cart and there is set minimal qty for it
-            if ($minimumQty && ($minimumQty > 0)
-                && ($request->getQty() < $minimumQty)
-                && !$this->getQuote()->hasProductId($productId)
-            ) {
+            //If there is a minimal qty for product
+            if ($minimumQty && $minimumQty > 0 && $requestedQty < $minimumQty) {
                 $request->setQty($minimumQty);
             }
         }
 
         try {
             $result = $this->getQuote()->updateItem($itemId, $request);
+            // Add corresponding message to quote item if quantity was recalculated
+            if ($result->getQty() != $requestedQty) {
+                // If quantity was recalculated to be equal to the minimum quantity allowed for purchase
+                if($minimumQty && $minimumQty > 0 && $requestedQty < $minimumQty) {
+                    $this->getQuote()->addMessage(Mage::helper('cataloginventory')->__('%s cannot be ordered in requested quantity.',
+                        Mage::helper('core')->htmlEscape($product->getName())), 'qty');
+                    $result->setMessage(Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', $minimumQty));
+                }
+                $result->setMessage(Mage::helper('checkout')->__('Quantity was recalculated from %d to %d', $requestedQty, $result->getQty()));
+            }
         } catch (Mage_Core_Exception $e) {
             $this->getCheckoutSession()->setUseNotice(false);
             $result = $e->getMessage();
