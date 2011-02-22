@@ -57,21 +57,9 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
                 }
             }
 
-            $this->getResponse()
-                ->setHttpResponseCode(200)
-                ->setHeader('Pragma', 'public', true)
-                ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-                ->setHeader('Content-type', $info['type'], true)
-                ->setHeader('Content-Length', $info['size'])
-                ->setHeader('Content-Disposition', 'inline' . '; filename='.$info['title']);
-
-            $this->getResponse()
-                ->clearBody();
-            $this->getResponse()
-                ->sendHeaders();
-
-            readfile($filePath);
-
+            if (!Mage::helper('catalog/product_options')->downloadFileOption($this->getResponse(), $filePath, $info)) {
+                throw new Exception();
+            }
         } catch (Exception $e) {
             $this->_forward('noRoute');
         }

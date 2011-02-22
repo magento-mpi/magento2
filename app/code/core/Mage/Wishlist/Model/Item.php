@@ -45,11 +45,18 @@
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract implements Mage_Catalog_Model_Product_Configuration_Item_Interface
+class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
+    implements Mage_Catalog_Model_Product_Configuration_Item_Interface
 {
     const EXCEPTION_CODE_NOT_SALABLE            = 901;
     const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS   = 902;
     const EXCEPTION_CODE_IS_GROUPED_PRODUCT     = 903; // deprecated after 1.4.2.0, because we can store product configuration and add grouped products
+
+    /**
+     * Custom path to download attached file
+     * @var string
+     */
+    protected $_customOptionDownloadUrl = 'wishlist/index/downloadCustomOption';
 
    /**
      * Prefix of model events names
@@ -620,5 +627,36 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract implements Mage_
     {
         $product = $this->getProduct();
         return $product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+    }
+
+    /**
+     * Get current custom option download url
+     */
+    public function getCustomDownloadUrl()
+    {
+        return $this->_customOptionDownloadUrl;
+    }
+
+    /**
+     * Sets custom option download url
+     */
+    public function setCustomDownloadUrl($url)
+    {
+        $this->_customOptionDownloadUrl = $url;
+    }
+
+    /**
+     * Returns special download params (if needed) for custom option with type = 'file'.
+     * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
+     *
+     * We have to customize only controller url, so return it.
+     *
+     * @return null|Varien_Object
+     */
+    public function getFileDownloadParams()
+    {
+        $params = new Varien_Object();
+        $params->setUrl($this->_customOptionDownloadUrl);
+        return $params;
     }
 }

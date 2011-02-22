@@ -802,4 +802,16 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
 
         return $buyRequest;
     }
+
+    /**
+     * Returns special download params (if needed) for custom option with type = 'file'
+     * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
+     * Return null, as quote item needs no additional configuration.
+     *
+     * @return null|Varien_Object
+     */
+    public function getFileDownloadParams()
+    {
+        return null;
+    }
 }

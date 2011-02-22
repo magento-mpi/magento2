@@ -465,4 +465,16 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    /**
+     * Returns special download params (if needed) for custom option with type = 'file'
+     * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
+     * Currently returns null, as far as we don't show file options and don't need controllers to give file.
+     *
+     * @return null|Varien_Object
+     */
+    public function getFileDownloadParams()
+    {
+        return null;
+    }
 }

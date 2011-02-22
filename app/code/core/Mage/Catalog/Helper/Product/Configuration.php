@@ -56,6 +56,20 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
                         ->setConfigurationItem($item)
                         ->setConfigurationItemOption($itemOption);
 
+                    if ('file' == $option->getType()) {
+                        $downloadParams = $item->getFileDownloadParams();
+                        if ($downloadParams) {
+                            $url = $downloadParams->getUrl();
+                            if ($url) {
+                                $group->setCustomOptionDownloadUrl($url);
+                            }
+                            $urlParams = $downloadParams->getUrlParams();
+                            if ($urlParams) {
+                                $group->setCustomOptionUrlParams($urlParams);
+                            }
+                        }
+                    }
+
                     $options[] = array(
                         'label' => $option->getTitle(),
                         'value' => $group->getFormattedOptionValue($itemOption->getValue()),
