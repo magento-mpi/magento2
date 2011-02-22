@@ -715,7 +715,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if ($item) {
             $item->setQty($item->getQty()+$qty);
         } else {
-            $item = $this->getQuote()->addProductAdvanced($product, $config, Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE);
+            $isGrouped = $product->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+            $processMode = $isGrouped ? Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL: Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE;
+            $item = $this->getQuote()->addProductAdvanced($product, $config, $processMode);
             if (is_string($item)) {
                 Mage::throwException($item);
             }
