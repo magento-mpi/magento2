@@ -543,30 +543,25 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
      */
     public function downloadCustomOptionAction()
     {
-        $optionId = $this->getRequest()->getParam('id');
-        $option = Mage::getModel('wishlist/item_option')->load($optionId);
-
         try {
-            if (!$option->getId()) {
-                throw new Exception();
-            }
+            $optionId = $this->getRequest()->getParam('id');
+            $option   = Mage::getModel('wishlist/item_option')->load($optionId);
+            $hasError = false;
 
-            $info = unserialize($option->getValue());
-            $secretKey = $this->getRequest()->getParam('key');
-            if ($secretKey != $info['secret_key']) {
-                throw new Exception();
-            }
+            if ($option->getId()) {
+                $info      = unserialize($option->getValue());
+                $filePath  = Mage::getBaseDir() . $info['quote_path'];
+                $secretKey = $this->getRequest()->getParam('key');
 
-            $filePath = Mage::getBaseDir() . $info['quote_path'];
-            if (!is_file($filePath) || !is_readable($filePath)) {
-                throw new Exception();
+                if ($secretKey == $info['secret_key']) {
+                    $this->_prepareDownloadResponse($info['title'], array(
+                        'value' => $filePath,
+                        'type'  => 'filename'
+                    ));
+                }
             }
-
-            if (!Mage::helper('catalog/product_options')->downloadFileOption($this->getResponse(), $filePath, $info)) {
-                throw new Exception();
-            }
-        } catch (Exception $e) {
-            $this->_forward('noRoute');
+        } catch(Exception $e) {
         }
+        $this->_forward('noRoute');
     }
 }

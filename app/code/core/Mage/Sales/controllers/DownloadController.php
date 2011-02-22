@@ -56,10 +56,10 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
                     throw new Exception();
                 }
             }
-
-            if (!Mage::helper('catalog/product_options')->downloadFileOption($this->getResponse(), $filePath, $info)) {
-                throw new Exception();
-            }
+            $this->_prepareDownloadResponse($info['title'], array(
+               'value' => $filePath,
+               'type'  => 'filename'
+            ));
         } catch (Exception $e) {
             $this->_forward('noRoute');
         }
