@@ -34,6 +34,7 @@ class Enterprise_PageCache_Model_Processor
     const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
     const REQUEST_ID_PREFIX             = 'REQEST_';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
+    const DESIGN_EXCEPTION_KEY          = 'FPC_DESIGN_EXCEPTION_CACHE';
 
     /**
      * @deprecated after 1.8.0.0 - moved to Enterprise_PageCache_Model_Container_Viewedproducts
@@ -92,10 +93,37 @@ class Enterprise_PageCache_Model_Processor
             if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP])) {
                 $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP];
             }
+            $designPackage = $this->_getDesignPackage();
+
+            if ($designPackage) {
+                $uri .= '_' . $designPackage;
+            }
         }
+
         $this->_requestId       = $uri;
         $this->_requestCacheId  = $this->prepareCacheId($this->_requestId);
         $this->_requestTags     = array(self::CACHE_TAG);
+    }
+
+    /**
+     * Get currenly configured design package.
+     * Depends on design exception rules configuration and browser user agent
+     *
+     * return string|bool
+     */
+    protected function _getDesignPackage()
+    {
+        $exceptions = Mage::app()->loadCache(self::DESIGN_EXCEPTION_KEY);
+
+        if (!$exceptions) {
+            return false;
+        }
+
+        $rules = @unserialize($exceptions);
+        if (empty($rules)) {
+            return false;
+        }
+        return Mage_Core_Model_Design_Package::getPackageByUserAgent($rules);
     }
 
     /**

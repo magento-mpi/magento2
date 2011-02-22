@@ -291,7 +291,7 @@
                         <ua_regexp translate="comment">
                             <label></label>
                             <frontend_model>adminhtml/system_config_form_field_regexceptions</frontend_model>
-                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <backend_model>adminhtml/system_config_backend_design_exception</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

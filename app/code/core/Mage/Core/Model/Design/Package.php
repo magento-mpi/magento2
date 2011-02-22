@@ -553,32 +553,52 @@ class Mage_Core_Model_Design_Package
      */
     protected function _checkUserAgentAgainstRegexps($regexpsConfigPath)
     {
-        if (!empty($_SERVER['HTTP_USER_AGENT'])) {
-            if (!empty(self::$_customThemeTypeCache[$regexpsConfigPath])) {
-                return self::$_customThemeTypeCache[$regexpsConfigPath];
+        if (empty($_SERVER['HTTP_USER_AGENT'])) {
+            return false;
+        }
+
+        if (!empty(self::$_customThemeTypeCache[$regexpsConfigPath])) {
+            return self::$_customThemeTypeCache[$regexpsConfigPath];
+        }
+
+        $configValueSerialized = Mage::getStoreConfig($regexpsConfigPath, $this->getStore());
+
+        if (!$configValueSerialized) {
+            return false;
+        }
+
+        $regexps = @unserialize($configValueSerialized);
+
+        if (empty($regexps)) {
+            return false;
+        }
+
+        return self::getPackageByUserAgent($regexps, $regexpsConfigPath);
+    }
+
+    /**
+     * Return package name based on design exception rules
+     *
+     * @param array $rules - design exception rules
+     * @param string $regexpsConfigPath
+     */
+    public static function getPackageByUserAgent(array $rules, $regexpsConfigPath = 'path_mock')
+    {
+        foreach ($rules as $rule) {
+            if (!empty(self::$_regexMatchCache[$rule['regexp']][$_SERVER['HTTP_USER_AGENT']])) {
+                self::$_customThemeTypeCache[$regexpsConfigPath] = $rule['value'];
+                return $rule['value'];
             }
-            $configValueSerialized = Mage::getStoreConfig($regexpsConfigPath, $this->getStore());
-            if ($configValueSerialized) {
-                $regexps = @unserialize($configValueSerialized);
-                if (!empty($regexps)) {
-                    foreach ($regexps as $rule) {
-                        if (!empty(self::$_regexMatchCache[$rule['regexp']][$_SERVER['HTTP_USER_AGENT']])) {
-                            self::$_customThemeTypeCache[$regexpsConfigPath] = $rule['value'];
-                            return $rule['value'];
-                        }
-                        $regexp = $rule['regexp'];
-                        if (false === strpos($regexp, '/', 0)) {
-                            $regexp = '/' . $regexp . '/';
-                        }
-                        if (@preg_match($regexp, $_SERVER['HTTP_USER_AGENT'])) {
-                            self::$_regexMatchCache[$rule['regexp']][$_SERVER['HTTP_USER_AGENT']] = true;
-                            self::$_customThemeTypeCache[$regexpsConfigPath] = $rule['value'];
-                            return $rule['value'];
-                        }
-                    }
-                }
+
+            $regexp = '/' . trim($rule['regexp'], '/') . '/';
+
+            if (@preg_match($regexp, $_SERVER['HTTP_USER_AGENT'])) {
+                self::$_regexMatchCache[$rule['regexp']][$_SERVER['HTTP_USER_AGENT']] = true;
+                self::$_customThemeTypeCache[$regexpsConfigPath] = $rule['value'];
+                return $rule['value'];
             }
         }
+
         return false;
     }
 
