@@ -615,7 +615,7 @@ class Mage_Core_Model_Design_Package
         if (!$targetDir) {
             return '';
         }
-        if (Mage::helper('core')->mergeFiles($files, $targetDir . DS . $targetFilename, false, null, 'js')) {
+        if ($this->_mergeFiles($files, $targetDir . DS . $targetFilename, false, null, 'js')) {
             return Mage::getBaseUrl('media', Mage::app()->getRequest()->isSecure()) . 'js/' . $targetFilename;
         }
         return '';
@@ -647,10 +647,43 @@ class Mage_Core_Model_Design_Package
 
         // merge into target file
         $targetFilename = md5(implode(',', $files) . "|{$hostname}|{$port}") . '.css';
-        if (Mage::helper('core')->mergeFiles($files, $targetDir . DS . $targetFilename, false, array($this, 'beforeMergeCss'), 'css')) {
+        if ($this->_mergeFiles($files, $targetDir . DS . $targetFilename, false, array($this, 'beforeMergeCss'), 'css')) {
             return $baseMediaUrl . $mergerDir . '/' . $targetFilename;
         }
         return '';
+    }
+
+    /**
+     * Merges files into one and saves it into DB (if DB file storage is on)
+     *
+     * @see Mage_Core_Helper_Data::mergeFiles()
+     * @param array $srcFiles
+     * @param string|false $targetFile - file path to be written
+     * @param bool $mustMerge
+     * @param callback $beforeMergeCallback
+     * @param array|string $extensionsFilter
+     * @return bool|string
+     */
+    protected function _mergeFiles(array $srcFiles, $targetFile = false, $mustMerge = false, $beforeMergeCallback = null, $extensionsFilter = array())
+    {
+        if (Mage::helper('core/file_storage_database')->checkDbUsage()) {
+            if (!file_exists($targetFile)) {
+                Mage::helper('core/file_storage_database')->saveFileToFilesystem($targetFile);
+            }
+            if (file_exists($targetFile)) {
+                $filemtime = filemtime($targetFile);
+            } else {
+                $filemtime = null;
+            }
+            $result = Mage::helper('core')->mergeFiles($srcFiles, $targetFile, $mustMerge, $beforeMergeCallback, $extensionsFilter);
+            if ($result && (filemtime($targetFile) > $filemtime)) {
+                Mage::helper('core/file_storage_database')->saveFile($targetFile);
+            }
+            return $result;
+
+        } else {
+            return Mage::helper('core')->mergeFiles($srcFiles, $targetFile, $mustMerge, $beforeMergeCallback, $extensionsFilter);
+        }
     }
 
     /**
@@ -679,6 +712,7 @@ class Mage_Core_Model_Design_Package
             $dir = Mage::getBaseDir('media') . DS . $dirRelativeName;
             if ($cleanup) {
                 Varien_Io_File::rmdirRecursive($dir);
+                Mage::helper('core/file_storage_database')->deleteFolder($dir);
             }
             if (!is_dir($dir)) {
                 mkdir($dir);

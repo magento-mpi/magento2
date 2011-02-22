@@ -589,6 +589,37 @@ final class Mage
     }
 
     /**
+     * @static
+     * @param string $code
+     * @param string $type
+     * @param array $options
+     * @param string|array $modules
+     */
+    public static function init($code = '', $type = 'store', $options = array(), $modules = array())
+    {
+        try {
+            self::setRoot();
+            self::$_app     = new Mage_Core_Model_App();
+            self::$_config  = new Mage_Core_Model_Config();
+
+            if (!empty($modules)) {
+                self::$_app->initSpecified($code, $type, $options, $modules);
+            } else {
+                self::$_app->init($code, $type, $options);
+            }
+        } catch (Mage_Core_Model_Session_Exception $e) {
+            header('Location: ' . self::getBaseUrl());
+            die;
+        } catch (Mage_Core_Model_Store_Exception $e) {
+            require_once(self::getBaseDir() . DS . 'errors' . DS . '404.php');
+            die;
+        } catch (Exception $e) {
+            self::printException($e);
+            die;
+        }
+    }
+
+    /**
      * Front end main entry point
      *
      * @param string $code

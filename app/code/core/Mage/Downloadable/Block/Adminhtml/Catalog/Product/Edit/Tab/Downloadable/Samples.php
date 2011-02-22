@@ -100,6 +100,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
             $file = Mage::helper('downloadable/file')->getFilePath(
                 Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
             );
+            if ($item->getSampleFile() && !is_file($file)) {
+                Mage::helper('core/file_storage_database')->saveFileToFilesystem($file);
+            }
             if ($item->getSampleFile() && is_file($file)) {
                 $tmpSampleItem['file_save'] = array(
                     array(

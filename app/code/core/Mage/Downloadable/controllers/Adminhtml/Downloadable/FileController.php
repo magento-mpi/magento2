@@ -54,6 +54,12 @@ class Mage_Downloadable_Adminhtml_Downloadable_FileController extends Mage_Admin
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save($tmpPath);
+
+            if (isset($result['file'])) {
+                $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
+                Mage::helper('core/file_storage_database')->saveFile($fullPath);
+            }
+
             $result['cookie'] = array(
                 'name'     => session_name(),
                 'value'    => $this->_getSession()->getSessionId(),

@@ -755,7 +755,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $fileName   = $ioFile->getCleanPath($path . $file);
         $path       = $ioFile->getCleanPath($path);
 
-        if (!$ioFile->fileExists($fileName) || strpos($fileName, $path) !== 0) {
+        if ((!$ioFile->fileExists($fileName) || strpos($fileName, $path) !== 0)
+            && !Mage::helper('core/file_storage')->processStorageFile(str_replace('/', DS, $fileName))
+        ) {
             return $this->norouteAction();
         }
 

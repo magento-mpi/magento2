@@ -133,9 +133,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > $this->_getUploadMaxFilesize()) {
                 $this->setIsValid(false);
                 Mage::throwException(
-                    Mage::helper('catalog')->__("The file you uploaded is larger than %s Megabytes allowed by server",
-                        $this->_bytesToMbytes($this->_getUploadMaxFilesize())
-                    )
+                    Mage::helper('catalog')->__("The file you uploaded is larger than %s Megabytes allowed by server", $this->_bytesToMbytes($this->_getUploadMaxFilesize()))
                 );
             } else {
                 $this->setUserValue(null);
@@ -260,15 +258,19 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
          */
         $fileFullPath = '';
         if (isset($optionValue['order_path']) && !$this->getUseQuotePath()) {
-            $_fileFullPath = Mage::getBaseDir() . $optionValue['order_path'];
-            $fileFullPath = is_file($_fileFullPath) ? $_fileFullPath: $fileFullPath;
+            $fileFullPath = Mage::getBaseDir() . $optionValue['order_path'];
+        } else if (isset($optionValue['quote_path'])) {
+            $fileFullPath = Mage::getBaseDir() . $optionValue['quote_path'];
         }
-        if (isset($optionValue['quote_path'])) {
-            $_fileFullPath = Mage::getBaseDir() . $optionValue['quote_path'];
-            $fileFullPath = is_file($_fileFullPath) ? $_fileFullPath: $fileFullPath;
-        }
+
         if (empty($fileFullPath)) {
             return false;
+        }
+
+        if (!is_file($fileFullPath)) {
+            if (!Mage::helper('core/file_storage_database')->saveFileToFilesystem($fileFullPath)) {
+                return false;
+            }
         }
 
         $validatorChain = new Zend_Validate();
@@ -522,6 +524,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $orderFileFullPath = Mage::getBaseDir() . $value['order_path'];
             $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
             $this->_createWriteableDir($dir);
+            Mage::helper('core/file_storage_database')->copyFile($quoteFileFullPath, $orderFileFullPath);
             @copy($quoteFileFullPath, $orderFileFullPath);
         } catch (Exception $e) {
             return $this;

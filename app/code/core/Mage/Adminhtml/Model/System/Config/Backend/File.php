@@ -52,19 +52,28 @@ class Mage_Adminhtml_Model_System_Config_Backend_File extends Mage_Core_Model_Co
             $uploadDir = $this->_getUploadDir();
 
             try {
+                //For DB file storage
+                //We are unable to change Varien_File_Uploader, so in case when DB storage allowed we will do next:
+                //We upload image to local Magento FS, then we check whether this file exists in DB
+                //If it exists, we are getting unique name from DB, and change them on FS
+                //After this we upload file to DB storage
                 $file = array();
                 $file['tmp_name'] = $_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value'];
                 $file['name'] = $_FILES['groups']['name'][$this->getGroupId()]['fields'][$this->getField()]['value'];
                 $uploader = new Varien_File_Uploader($file);
                 $uploader->setAllowedExtensions($this->_getAllowedExtensions());
                 $uploader->setAllowRenameFiles(true);
-                $uploader->save($uploadDir);
+                $result = $uploader->save($uploadDir);
+
+                $result['file'] = Mage::helper('core/file_storage_database')->saveUploadedFile($result);
+
             } catch (Exception $e) {
                 Mage::throwException($e->getMessage());
                 return $this;
             }
 
-            if ($filename = $uploader->getUploadedFileName()) {
+            $filename = $result['file'];
+            if ($filename) {
                 if ($this->_addWhetherScopeInfo()) {
                     $filename = $this->_prependScopeInfo($filename);
                 }

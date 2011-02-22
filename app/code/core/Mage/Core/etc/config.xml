@@ -83,6 +83,8 @@
                     <flag>
                         <table>core_flag</table>
                     </flag>
+                    <file_storage><table>core_file_storage</table></file_storage>
+                    <directory_storage><table>core_directory_storage</table></directory_storage>
                 </entities>
             </core_resource>
         </models>
@@ -249,6 +251,11 @@
                 <host>localhost</host>
                 <port>25</port>
             </smtp>
+
+            <media_storage_configuration>
+                <media_storage>0</media_storage>
+                <media_database>default_setup</media_database>
+            </media_storage_configuration>
         </system>
         <trans_email>
             <ident_custom1>

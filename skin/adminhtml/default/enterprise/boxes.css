@@ -1179,6 +1179,10 @@ input.downloads { width:6.5em !important; }
 .log-details table td { padding-top:4px; padding-bottom:4px; vertical-align:middle; }
 .log-details table th { font-weight:bold; padding-right:30px; white-space:nowrap; }
 
+.sync-indicator { margin-left:5px; margin-right:5px; position:absolute; white-space:nowrap; }
+.sync-indicator img,
+.sync-indicator span { vertical-align:middle; }
+
 /* Configuration */
 /*fieldset.config td          { padding-top:5px; padding-bottom:5px; }
 fieldset.config input.input-text { width:250px; }
