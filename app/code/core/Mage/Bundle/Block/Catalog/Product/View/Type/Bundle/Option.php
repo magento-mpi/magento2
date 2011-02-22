@@ -80,7 +80,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
         if ($_default && empty($selectedOptions)) {
             $_defaultQty = $_default->getSelectionQty()*1;
             $_canChangeQty = $_default->getSelectionCanChangeQty();
-        } elseif (!$this->_showSingle()) {
+        } elseif (!$this->_showSingle() || $this->getProduct()->hasPreconfiguredValues()) {
             $_defaultQty = $this->_getSelectedQty();
             $_canChangeQty = (bool)$_defaultQty;
         } else {

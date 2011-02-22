@@ -557,7 +557,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                             $info->setOptions($this->_prepareOptionsForRequest($item));
                             $info->setStoreId($this->getSession()->getStoreId());
                         }
-                        $wishlist->addNewItem($item->getProduct()->getId(), $info);
+                        $wishlist->addNewItem($item->getProduct(), $info);
                     }
                     break;
                 case 'comparelist':
@@ -611,8 +611,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (isset($data['add_wishlist_item'])) {
             foreach ($data['add_wishlist_item'] as $itemId => $qty) {
                 $item = Mage::getModel('wishlist/item')->load($itemId);
-                if ($item && $item->getBuyRequest()) {
-                    $this->addProduct($item->getProduct()->getId(), $item->getBuyRequest()->toArray());
+                if ($item) {
+                    $options = Mage::getResourceModel('wishlist/item_option_collection')
+                        ->addFieldToFilter('code', 'info_buyRequest')
+                        ->addItemFilter(array($itemId));
+
+                    $item->setOptions($options->getOptionsByItem($itemId));
+                    $this->addProduct($item->getProduct(), $item->getBuyRequest()->toArray());
                 }
             }
         }
