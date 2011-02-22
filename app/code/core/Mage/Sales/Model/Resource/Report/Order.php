@@ -185,6 +185,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
                 'total_qty_invoiced' => new Zend_Db_expr('SUM(qty_invoiced)'),
             );
             $selectOrderItem->from($this->getTable('sales/order_item'), $cols)
+                ->where('parent_item_id IS NULL')
                 ->group('order_id');
 
             $select->from(array('o' => $this->getTable('sales/order')), $columns)

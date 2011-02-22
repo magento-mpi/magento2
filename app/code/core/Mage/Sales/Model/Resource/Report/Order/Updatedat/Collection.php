@@ -231,6 +231,7 @@ class Mage_Sales_Model_Resource_Report_Order_Updatedat_Collection
                 'total_qty_ordered'  => "SUM(qty_ordered - {$ifnullQtyCanceled})",
                 'total_qty_invoiced' => 'SUM(qty_invoiced)',
             ))
+            ->where('parent_item_id IS NULL')
             ->group('order_id');
 
         $select = $this->getSelect()
