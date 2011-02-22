@@ -59,8 +59,8 @@
                         <td>
                             <a class="product-image" href="<?php echo $this->getProductUrl($product) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
                             <h2 class="product-name"><a href="<?php echo $this->getProductUrl($product) ?>"><?php echo $this->htmlEscape($product->getName()) ?></a></h2>
-                            <?php $qty = $this->getQty($item); ?>
-                            <?php if ($qty): ?>
+                            <?php $qty = $this->getQty($item) ?>
+                            <?php if ($item->canHaveQty() && $qty): ?>
                             <div class="product-qty"><?php echo Mage::helper('wishlist')->__('Quantity') ?>: <?php echo $qty; ?></div>
                             <?php endif; ?>
                             <?php echo $this->getPriceHtml($product) ?>
