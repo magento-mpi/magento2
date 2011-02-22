@@ -297,10 +297,19 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
                 if (isset($post['qty'][$itemId])) {
                     $qty = $this->_processLocalizedQty($post['qty'][$itemId]);
                 }
-                if (!$qty) {
+                if (is_null($qty)) {
                     $qty = $item->getQty();
                     if (!$qty) {
                         $qty = 1;
+                    }
+                } elseif (0 == $qty) {
+                    try {
+                        $item->delete();
+                    } catch (Exception $e) {
+                        Mage::logException($e);
+                        Mage::getSingleton('customer/session')->addError(
+                            $this->__('Can\'t delete item from wishlist')
+                        );
                     }
                 }
 
