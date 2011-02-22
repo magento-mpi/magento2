@@ -786,7 +786,9 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $open = Mage_Sales_Model_Order_Invoice::STATE_OPEN;
             $paid = Mage_Sales_Model_Order_Invoice::STATE_PAID;
             if ($orderInvoice->getState() == $open && $orderInvoice->getBaseGrandTotal() == $latestCharged) {
-                $orderInvoice->setState($paid)->save();
+                $orderInvoice->setState($paid)
+                    ->setTransactionId($this->getGoogleOrderNumber())
+                    ->save();
                 break;
             }
         }
