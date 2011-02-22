@@ -216,13 +216,20 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
         $order->getPayment()->setTransactionId($params['PAYID']);
         $order->getPayment()->setLastTransId($params['PAYID']);
 
-        try{
-            if ($this->_getApi()->getPaymentAction()==Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE) {
-                $this->_processDirectSale();
-            } else {
-                $this->_processAuthorize();
-            }
-        }catch(Exception $e) {
+        try {
+            $status = $this->getRequest()->getParam('STATUS');
+            switch ($status) {
+                case Mage_Ogone_Model_Api::OGONE_AUTHORIZED:
+                case Mage_Ogone_Model_Api::OGONE_AUTH_PROCESSING:
+                    $this->_processAuthorize();
+                    break;
+                case Mage_Ogone_Model_Api::OGONE_PAYMENT_REQUESTED_STATUS:
+                    $this->_processDirectSale();
+                    break;
+                default:
+                    throw new Exception (Mage::helper('ogone')->__('Can\'t detect Ogone payment action'));
+             }
+        } catch(Exception $e) {
             $this->_getCheckout()->addError(Mage::helper('ogone')->__('The order cannot be saved.'));
             $this->_redirect('checkout/cart');
             return;
