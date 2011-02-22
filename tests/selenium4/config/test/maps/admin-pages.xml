@@ -326,34 +326,55 @@
             </manage_attributes>
         </attributes>
         <categories>
-            <managecategories>
-                <locators>
-                    <root_category>//div/li[@class='x-tree-node']/div/a[contains(span,'%s')]</root_category>
-                    <sub_category>//ul/li[@class='x-tree-node']/div/a[contains(span,'%s')]</sub_category>
-                    <root_many>//li[contains(@class,'x-tree-node') and contains(div/a/span,'%s') and not(contains(../@class,'x-tree-node'))][%s]/div/a</root_many>
-                    <sub_many>//li[contains(@class,'x-tree-node') and contains(div/a/span,'%s') and not(contains(../@class,'x-node'))][%s]/div/a</sub_many>
-                </locators>
-                <buttons>
-                    <addrootcategory>add_root_category_button</addrootcategory>
-                    <addsubcategory>add_subcategory_button</addsubcategory>
-                    <savecategory>//button[contains(span,"Save Category")]</savecategory>
-                    <delete_category>//button[contains(span,"Delete Category")]</delete_category>
-                </buttons>
+            <manage_categories>
                 <inputs>
-                    <name>group_3name</name>
+                    <!-- "General Information Tab-->
+                    <category_name>//*[@id='group_3name']</category_name>
+                    <category_url>//*[@id='group_3url_key']</category_url>
+                    <category_description>//*[@id='group_3description']</category_description>
+                    <category_page_title>//*[@id='group_3meta_title']</category_page_title>
+                    <category_meta_keywords>//*[@id='group_3meta_keywords']</category_meta_keywords>
+                    <category_meta_description>//*[@id='group_3meta_description']</category_meta_description>
+                    <!-- "Display Settings Tab-->
+                    <category_available_sort_by>//*[@id='group_10available_sort_by']</category_available_sort_by>
+                    <category_navigation_price_step>//*[@id='group_10filter_price_range']</category_navigation_price_step>
+                    <!-- "Custom Design Tab-->
+                    <category_custom_design_from>//*[@id='group_11custom_design_from']</category_custom_design_from>
+                    <category_ustom_design_to>//*[@id='group_11custom_design_to']</category_ustom_design_to>
+                    <category_custom_layout_update>//*[@id='group_11custom_layout_update']</category_custom_layout_update>
+                    <!-- "Category Products Tab-->
                 </inputs>
                 <selectors>
-                    <isactive>group_3is_active</isactive>
-                    <isanchor>group_10is_anchor</isanchor>
-                    <storeswitcher>store_switcher</storeswitcher>
+                    <store_switcher>//*[@id='store_switcher']</store_switcher>
+                    <!-- "General Information Tab-->
+                    <category_is_active>//*[@id='group_3is_active']</category_is_active>
+                    <category_include_in_menu>//*[@id='group_3include_in_menu']</category_include_in_menu>
+                    <!-- "Display Settings Tab-->
+                    <category_display_mode>//*[@id='group_10display_mode']</category_display_mode>
+                    <category_cms_block>//*[@id='group_10landing_page']</category_cms_block>
+                    <category_is_anchor>//*[@id='group_10is_anchor']</category_is_anchor>
+                    <category_default_sort_by>//*[@id='group_10default_sort_by']</category_default_sort_by>
+                    <!-- "Custom Design Tab-->
+                    <category_use_parent_settings>//*[@id='group_11custom_use_parent_settings']</category_use_parent_settings>
+                    <category_apply_to_products>//*[@id='group_11custom_apply_to_products']</category_apply_to_products>
+                    <category_custom_design>//*[@id='group_11custom_design']</category_custom_design>
+                    <category_page_layout>//*[@id='group_11page_layout']</category_page_layout>
+                    <!-- "Category Products Tab-->                    
                 </selectors>
                 <tabs>
-                    <displaysettings>link=Display Settings</displaysettings>
+                    <general_information>//a[contains(span,"General Information")]</general_information>
+                    <display_settings>//a[contains(span,"Display Settings")]</display_settings>
+                    <custom_design>//a[contains(span,"Custom Design")]</custom_design>
+                    <category_products>//a[contains(span,"Category Products")]</category_products>
                 </tabs>
-                <messages>
-                    <categorysaved>//div[@id="messages"]//li[@class="success-msg"]</categorysaved>
-                </messages>
-            </managecategories>
+                <buttons>
+                    <add_root_category>//*[@id='add_root_category_button']</add_root_category>
+                    <add_sub_category>//*[@id='add_subcategory_button']</add_sub_category>
+                    <add_event>//button[contains(span,"Add Event...")]</add_event>
+                    <save_category>//button[contains(span,"Save Category")]</save_category>
+                    <delete_category>//button[contains(span,"Delete Category")]</delete_category>
+                </buttons>
+            </manage_categories>
             <manageproducts>
                 <elements>
                     <product_grid>//*[@id='productGrid']</product_grid>
@@ -528,60 +549,6 @@
                         <review_container>//div[@id='reviwGrid']</review_container>
                         <rating_qty>//table[@id='product-review-table']//tr[contains(td/@class,'label')]</rating_qty>
                         <rating_present>//table[@id='product-review-table']//td[contains(text(),'%s')]</rating_present>
-                    </elements>
-                    <selectors>
-                        <status>//select[@id="status_id"]</status>
-                        <visible_in>//select[@id="select_stores"]</visible_in>
-                        <rating_select>//table[@id="product-review-table"]//input[@id='%s']</rating_select>
-                    </selectors>
-                </edit_review_page>
-            </manage_review>
-            <manage_ratings>
-                <elements>
-                    <rating_container>//div[@id='ratingsGrid']</rating_container>
-                </elements>
-                <buttons>
-                    <add_new_rating>//button[span="Add New Rating"]</add_new_rating>
-                </buttons>
-                <!-- related pages-->
-                <ratings>
-                    <inputs>
-                        <title_default>//input[@id="rating_code"]</title_default>
-                        <title_for_store>//*[@id='rating_form']//tr[contains(.,'%s')]//input</title_for_store>
-                    </inputs>
-                    <selectors>
-                        <visible_in>//*[@id='stores']</visible_in>
-                    </selectors>
-                </ratings>
-            </manage_ratings>
-        </reviews_and_ratings>
-    </catalog>
-    <customers>
-        <reviews_and_ratings>
-            <manage_review>
-                <buttons>
-                    <add_new>//button[span="Add New Review"]</add_new>
-                    <search>//button[span="Search"]</search>
-                </buttons>
-                <elements>
-                    <product_container>//div[@id='productGrid']</product_container>
-                </elements>
-                <edit_review_page>
-                    <buttons>
-                        <save>//button[span="Save Review"]</save>
-                        <delete>//button[span="Delete Review"]</delete>
-                        <product_saerch>//button[span="Search"]</product_saerch>
-                    </buttons>
-                    <inputs>
-                        <nickname>//input[@id="nickname"]</nickname>
-                        <summary_of_review>//input[@id="title"]</summary_of_review>
-                        <review_text>//textarea[@id="detail"]</review_text>
-                    </inputs>
-                    <elements>
-                        <review_container>//div[@id='reviwGrid']</review_container>
-                        <rating_qty>//table[@id='product-review-table']//tr[contains(td/@class,'label')]</rating_qty>
-                        <rating_present>//table[@id='product-review-table']//td[contains(text(),'%s')]</rating_present>
-                        <ratings_not_empty>//table[@id='product-review-table']</ratings_not_empty>
                     </elements>
                     <selectors>
                         <status>//select[@id="status_id"]</status>
