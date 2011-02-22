@@ -67,7 +67,9 @@
                 Mage_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
                 $website->getDefaultStore()
             );
-            $path = $secure ? 'web/secure/base_link_url' : 'web/unsecure/base_link_url';
+            $path = $secure ?
+                Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL :
+                Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL;
             $websiteUrl = Mage::getStoreConfig($path, $website->getDefaultStore());
         } else {
             $secure = Mage::getStoreConfigFlag(
