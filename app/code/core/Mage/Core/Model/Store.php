@@ -362,9 +362,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Convert config values for url pathes
      *
-     * @todo check and delete this if it is not used anymore
      * @deprecated after 1.4.2.0
      * @param string $value
      * @return string
