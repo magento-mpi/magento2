@@ -380,7 +380,12 @@ class Mage_Customer_Model_Convert_Parser_Customer
             if (in_array($code, $internal) || $attr->getFrontendInput()=='hidden') {
                 continue;
             }
-            $attributes['billing_'.$code] = 'billing_'.$code;
+
+            if ($code == 'street') {
+                $attributes['billing_'.$code.'_full'] = 'billing_'.$code;
+            } else {
+                $attributes['billing_'.$code] = 'billing_'.$code;                
+            }
         }
         $attributes['billing_country'] = 'billing_country';
 
@@ -389,7 +394,12 @@ class Mage_Customer_Model_Convert_Parser_Customer
             if (in_array($code, $internal) || $attr->getFrontendInput()=='hidden') {
                 continue;
             }
-            $attributes['shipping_'.$code] = 'shipping_'.$code;
+
+            if ($code == 'street') {
+                $attributes['shipping_'.$code.'_full'] = 'shipping_'.$code;
+            } else {
+                $attributes['shipping_'.$code] = 'shipping_'.$code;
+            }
         }
         $attributes['shipping_country'] = 'shipping_country';
 
