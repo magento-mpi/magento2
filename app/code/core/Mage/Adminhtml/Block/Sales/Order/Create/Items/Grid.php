@@ -296,7 +296,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
      * @param  $item
      * @return string
      */
-    public function getConfigureBtn ($item) {
+    public function getConfigureButtonHtml ($item) {
         $product = $item->getProduct();
         $isConfigurable = ($product->isComposite() || $product->getOptions() || $product->getTypeId() == 'giftcard'
             || $product->getTypeId() == 'downloadable') ? true : false;
