@@ -288,15 +288,19 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
             $selectClone = clone $select;
 
             $select
-                ->where("rate.zip_is_range IS NULL")
-                ->where("rate.tax_postcode IS NULL OR rate.tax_postcode IN('*', '', ?)",
-                        $this->_createSearchPostCodeTemplates($postcode));
+                ->where("rate.zip_is_range IS NULL");
 
             $selectClone
                 ->where("rate.zip_is_range IS NOT NULL");
-            
+
+            if ($request->getPostcode() != '*') {
+                $select
+                    ->where("rate.tax_postcode IS NULL OR rate.tax_postcode IN('*', '', ?)",
+                        $this->_createSearchPostCodeTemplates($postcode));
                 /* Wrong expresion for mssql string to int comparison */
-                //->where('? BETWEEN rate.zip_from AND rate.zip_to', $postcode);
+                //$selectClone
+                //    ->where('? BETWEEN rate.zip_from AND rate.zip_to', $postcode);
+            }
 
             /**
              * @see ZF-7592 issue http://framework.zend.com/issues/browse/ZF-7592
