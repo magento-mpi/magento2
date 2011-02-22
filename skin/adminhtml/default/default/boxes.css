@@ -819,9 +819,11 @@ ul.item-options li { padding-left:.7em; }
 .product-options .options-list .label { display:block; margin-left:20px; }
 .product-options li { margin:3px 0; }
 
-/* Wishlist Product Options */
-.item-product-options dt { font-weight:bold; margin:5px 0 0; }
-.item-product-options dd { padding:0 0 0 7px; }
+/* Wishlist Bundle Product Options */
+.bundle-product-options { padding:5px 0 0 13px; }
+.bundle-product-options dl { padding:5px 0 0 15px; }
+.bundle-product-options dt { color:#111; }
+.bundle-product-options dd { color:#5b5b5b; margin-bottom:10px; }
 
 /* Order Totals */
 .order-totals                           { margin-left:auto; border:1px solid #d7c699 !important; padding:12px 0; background:#fcfac9; text-align:right; }
