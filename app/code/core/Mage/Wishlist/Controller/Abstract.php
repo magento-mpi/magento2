@@ -112,7 +112,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                 } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                     $hasOptions[] = $item;
                 } else {
-                    $messages[] = $e->getMessage();
+                    $messages[] = $this->__('%s for "%s".', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                 }
             } catch (Exception $e) {
                 Mage::logException($e);
