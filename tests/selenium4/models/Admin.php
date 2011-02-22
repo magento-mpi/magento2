@@ -171,7 +171,7 @@ class Model_Admin extends TestModelAbstract {
                 $this->printInfo("The value '" . $value . "' cannot be set for the field '" . $field . "'");
                 $result = false;
             }
-        } 
+        }
         return $result;
     }
 
@@ -381,7 +381,7 @@ class Model_Admin extends TestModelAbstract {
                     } else {
                         $fieldName = $this->getAttribute($errorXpath . "[$i]" . "@id");
                         $fieldName = strrev($fieldName);
-                        $fieldName = strrev(substr($fieldName, 0, strpos($fieldName, "-")));                        
+                        $fieldName = strrev(substr($fieldName, 0, strpos($fieldName, "-")));
                     }
                     $errorName = $this->getText($errorXpath . "[$i]");
                     $this->printInfo("\r\n Field '" . $fieldName . "' contains error - '" . $errorName . "'");
@@ -477,6 +477,32 @@ class Model_Admin extends TestModelAbstract {
             }
         } else {
             $this->printInfo("There is no way to remove an item(There is no 'Delete' button)");
+        }
+        return $result;
+    }
+
+    public function navigate($pagePath)
+    {
+        $result = FALSE;
+        $link = '//ul[@id="nav"]';
+        $nodes = explode('/', $pagePath);
+        $i = 0;
+        foreach ($nodes as $node) {
+            $link .= '//li[a/span="' . $node . '" and  contains(@class,"level' . $i . '")]';
+            $i++;
+        }
+        $link .= '/a';
+        $this->printDebug($link);
+        if ($this->isElementPresent($link)) {
+            $this->clickAndWait($link);
+            $pageName = end($nodes);
+            $openedPageName = $this->getText("//*[@id='page:main-container']//h3");
+            if ($openedPageName == $pageName) {
+                return TRUE;
+                $this->printInfo('открытая правильная категория');
+            }
+        } else {
+            $this->setVerificationErrors("$pagePath page could not be opened");
         }
         return $result;
     }
