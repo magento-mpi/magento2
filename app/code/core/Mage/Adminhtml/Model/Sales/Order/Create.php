@@ -1491,6 +1491,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $this->_errors[] = Mage::helper('adminhtml')->__('You need to specify order items.');
         }
 
+        foreach ($items as $item) {
+            $messages = $item->getMessage(false);
+            if ($item->getHasError() && is_array($messages) && !empty($messages)) {
+                $this->_errors = array_merge($this->_errors, $messages);
+            }
+        }
+
         if (!$this->getQuote()->isVirtual()) {
             if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
                 $this->_errors[] = Mage::helper('adminhtml')->__('Shipping method must be specified.');

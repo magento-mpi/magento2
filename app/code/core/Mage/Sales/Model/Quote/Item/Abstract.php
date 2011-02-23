@@ -121,11 +121,14 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      * @return Mage_Sales_Model_Quote_Item_Abstract
      */
     public function setMessage($messages) {
+        $messagesExists = $this->getMessage(false);
         if (!is_array($messages)) {
             $messages = array($messages);
         }
         foreach ($messages as $message) {
-            $this->addMessage($message);
+            if (!in_array($message, $messagesExists)) {
+                $this->addMessage($message);
+            }
         }
         return $this;
     }

@@ -324,6 +324,29 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     }
 
     /**
+     * Check if product can be bought
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Bundle_Model_Product_Type
+     * @throws Mage_Core_Exception
+     */
+    public function checkProductBuyState($product = null)
+    {
+        parent::checkProductBuyState($product);
+        $product = $this->getProduct($product);
+        $option = $product->getCustomOption('info_buyRequest');
+        if ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
+            $buyRequest = new Varien_Object(unserialize($option->getValue()));
+            if (!$buyRequest->hasLinks()) {
+                Mage::throwException(
+                    Mage::helper('downloadable')->__('Please specify product link(s).')
+                );
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Prepare additional options/information for order item which will be
      * created from this product
      *

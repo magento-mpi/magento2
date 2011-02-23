@@ -890,18 +890,35 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     public function checkProductBuyState($product = null)
     {
         parent::checkProductBuyState($product);
-        $product = $this->getProduct($product);
-        $productOptionIds = $this->getOptionsIds($product);
-        $productSelections = $this->getSelectionsCollection($productOptionIds, $product);
+        $product            = $this->getProduct($product);
+        $productOptionIds   = $this->getOptionsIds($product);
+        $productSelections  = $this->getSelectionsCollection($productOptionIds, $product);
+        $selectionIds       = $product->getCustomOption('bundle_selection_ids');
+        $selectionIds       = unserialize($selectionIds->getValue());
+        $buyRequest         = $product->getCustomOption('info_buyRequest');
+        $buyRequest         = new Varien_Object(unserialize($buyRequest->getValue()));
+        $bundleOption       = $buyRequest->getBundleOption();
 
-        $selectionIds   = $product->getCustomOption('bundle_selection_ids');
-        $selectionIds   = unserialize($selectionIds->getValue());
+        if (empty($bundleOption)) {
+            Mage::throwException($this->getSpecifyOptionMessage());
+        }
+
         foreach ($selectionIds as $selectionId) {
             /* @var $selection Mage_Bundle_Model_Selection */
             $selection = $productSelections->getItemById($selectionId);
             if (!$selection || !$selection->isSalable()) {
                 Mage::throwException(
                     Mage::helper('bundle')->__('Selected required options are not available.')
+                );
+            }
+        }
+
+        $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
+        $optionsCollection = $this->getOptionsCollection($product);
+        foreach ($optionsCollection->getItems() as $option) {
+            if ($option->getRequired() && empty($bundleOption[$option->getId()])) {
+                Mage::throwException(
+                    Mage::helper('bundle')->__('Required options are not selected.')
                 );
             }
         }

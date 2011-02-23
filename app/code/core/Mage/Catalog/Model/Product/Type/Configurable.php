@@ -591,6 +591,35 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
+     * Check if product can be bought
+     *
+     * @param  Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Product_Type_Abstract
+     * @throws Mage_Core_Exception
+     */
+    public function checkProductBuyState($product = null)
+    {
+        parent::checkProductBuyState($product);
+        $product = $this->getProduct($product);
+        $option = $product->getCustomOption('info_buyRequest');
+        if ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
+            $buyRequest = new Varien_Object(unserialize($option->getValue()));
+            $attributes = $buyRequest->getSuperAttribute();
+            if (is_array($attributes)) {
+                foreach ($attributes as $key => $val) {
+                    if (empty($val)) {
+                        unset($attributes[$key]);
+                    }
+                }
+            }
+            if (empty($attributes)) {
+                Mage::throwException($this->getSpecifyOptionMessage());
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Retrieve message for specify option(s)
      *
      * @return string
