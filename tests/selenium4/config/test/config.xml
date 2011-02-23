@@ -48,40 +48,36 @@
     </frontend>
     <!-- Backend section -->
     <backend>
-        <baseUrl>http://kq.varien.com/builds/ee-nightly/current/index.php/control/</baseUrl>
-        <!-- <baseUrl>https://kq.varien.com/enterprise/1.8.0.0/index.php/control/</baseUrl> -->
+        <baseUrl>https://kq.varien.com/builds/ee-nightly/current/index.php/control/</baseUrl>
         <auth>
             <username>admin</username>
             <password>123123q</password>
         </auth>
-        <payment_method>
-            <check>p_method_checkmo</check>
-            <credit_card>p_method_ccsave</credit_card>
-            <autorize>p_method_authorizenet</autorize>
-            <paypal_direct_uk>p_method_paypal_direct</paypal_direct_uk>
-        </payment_method>        
-        <shipping_method>
-            <flat_rate>s_method_flatrate_flatrate</flat_rate>
-            <free_shipp>s_method_freeshipping_freeshipping</free_shipp>
-        </shipping_method>
-        <customer>
-            <id>102</id>
-            <email>st8-user@varien.com</email>
-        </customer>
+        <categories>
+            <root_name>st-rootcat</root_name>
+            <sub_category_name>st-subcat</sub_category_name>
+        </categories>
         <attribute_set>
             <set_name>smoke_attrSet</set_name>
             <default_set>Default</default_set>
-        </attribute_set>        
-        <create_product>
-            <sku>SP-01</sku>
-            <duplicated_sku>SP(dublicate)-01</duplicated_sku>
+        </attribute_set>
+        <simple_product>
+            <type>Simple Product</type>
+            <attribute_set>smoke_attrSet</attribute_set>
             <name>Simple Product 01.Required Fields</name>
-            <productName>Simple Product 01.Required Fields</productName>
+            <description>Product description</description>
+            <short_description>Product short description</short_description>
+            <sku>SP-01</sku>
+            <weight>65</weight>
+            <status>Enabled</status>
             <price>176</price>
-        </create_product>
-        <user>
-            <name>test</name>
-        </user>
+            <tax_class>None</tax_class>
+            <manage_stock>Yes</manage_stock>
+            <inventory_qty>100</inventory_qty>
+            <stock_availability>In Stock</stock_availability>
+            <website_name>SmokeTestSite</website_name>
+            <category_name>st-subcat</category_name>
+        </simple_product>
         <scope>
             <site>
                 <name>SmokeTestSite</name>
@@ -104,39 +100,5 @@
                 <status>label=Enabled</status>
             </store_view_for_delete>
         </scope>
-        <manage_categories>
-            <rootname>st-rootcat</rootname>
-            <subcategoryname>st-subcat</subcategoryname>
-            <categoryName>st-subcat</categoryName>
-            <parentsubcategoryname>st-rootcat</parentsubcategoryname>
-        </manage_categories>
-        <tax>
-            <product_tax_class_name>
-                <ptc1>Test product tax class 1</ptc1>
-                <ptc2>Test product tax class 2</ptc2>
-                <ptc3>Test product tax class 3</ptc3>
-            </product_tax_class_name>
-            <customer_tax_class_name>
-                <ctc1>Test customer tax class 1</ctc1>
-                <ctc2>Test customer tax class 2</ctc2>
-                <ctc3>Test customer tax class 3</ctc3>
-            </customer_tax_class_name>
-            <tax_rate_identifier>
-                <tzr1>Test tax rate 1</tzr1>
-                <tzr2>Test tax rate 2</tzr2>
-                <tzr3>Test tax rate 3</tzr3>
-            </tax_rate_identifier>
-            <tax_rate_percent>12.7</tax_rate_percent>
-            <tax_rule_name>Test tax rule</tax_rule_name>
-            <tax_title>Test tax</tax_title>
-            <country>United States</country>
-            <state>California</state>
-            <range_from>1</range_from>
-            <range_to>10000</range_to>
-            <zip_post_code>*</zip_post_code>
-            <tax_rule_priority>1</tax_rule_priority>
-            <tax_rule_sort_order>1</tax_rule_sort_order>
-            <tax_store_view_title>Test tax</tax_store_view_title>
-        </tax>
     </backend>
 </config>
