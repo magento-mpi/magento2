@@ -1,12 +1,13 @@
 <?php
 
-class Admin_Taxes_ProductTaxClassCreating extends TestCaseAbstract {
+class Admin_Taxes_ProductTaxClassCreateNeg extends TestCaseAbstract {
 
     /**
      * Setup procedure.
      * Initializes model and loads configuration
      */
-    function setUp() {
+    function setUp()
+    {
         $this->model = $this->getModel('admin/tax');
         $this->setUiNamespace();
     }
@@ -14,12 +15,14 @@ class Admin_Taxes_ProductTaxClassCreating extends TestCaseAbstract {
     /**
      * Test creating Product Tax Class
      */
-    function testCreateProductTaxClass() {
+    function testCreateProductTaxClass()
+    {
         $taxData = array(
-        'product_tax_class_name' => Core::getEnvConfig('backend/tax/product_tax_class_name/ptc1'),
-            );
+            'product_tax_class_name' => 'Shipping',
+        );
         if ($this->model->doLogin()) {
-            $this->model->createProductTaxClass($taxData);
+            $this->model->doCreateProductTaxClass($taxData);
         }
     }
+
 }

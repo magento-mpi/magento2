@@ -17,11 +17,11 @@ class Admin_AttributeSet_DeleteSet extends TestCaseAbstract {
      */
     function testAttributeSetDeletion()
     {
-        $setData = Core::getEnvConfig('backend/attribute_set');
-        /*$setData = array(
-            'search_set_name' => 'smoke_attrSet'
-        );*/
+        $setData = array(
+            'search_set_name' =>Core::getEnvConfig('backend/attribute_set/set_name')
+        );
         if ($this->model->doLogin()) {
+            $this->model->navigate('Catalog/Attributes/Manage Attribute Sets');
             $this->model->doDeleteAtrSet($setData);
         }
     }

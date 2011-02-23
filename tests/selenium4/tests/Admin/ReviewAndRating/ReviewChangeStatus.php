@@ -1,6 +1,6 @@
 <?php
 
-class Admin_ReviewAndRating_ReviewDelete extends TestCaseAbstract {
+class Admin_ReviewAndRating_ReviewStatusChange extends TestCaseAbstract {
 
     /**
      * Setup procedure.
@@ -13,9 +13,9 @@ class Admin_ReviewAndRating_ReviewDelete extends TestCaseAbstract {
     }
 
     /**
-     * Test Rating deleting
+     * Test Rating approving
      */
-    function testReviewDelete()
+    function testRating()
     {
         $reviewData = array(
             'search_review_product_sku'     => 'SP-01',
@@ -23,9 +23,10 @@ class Admin_ReviewAndRating_ReviewDelete extends TestCaseAbstract {
             'search_review_title'           => 'Test review',
             'search_review_nickname'        => 'Test user',
             'search_review_detail'          => 'Test review text',
+            'status'                        => 'Approved',
         );
         if ($this->model->doLogin()) {
-            $this->model->doDeleteReview($reviewData);
+            $this->model->changeReviewStatus($reviewData);
         }
     }
 

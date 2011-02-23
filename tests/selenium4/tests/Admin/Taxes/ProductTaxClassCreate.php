@@ -1,12 +1,13 @@
 <?php
 
-class Admin_Taxes_ProductTaxClassCreatingNeg extends TestCaseAbstract {
+class Admin_Taxes_ProductTaxClassCreate extends TestCaseAbstract {
 
     /**
      * Setup procedure.
      * Initializes model and loads configuration
      */
-    function setUp() {
+    function setUp()
+    {
         $this->model = $this->getModel('admin/tax');
         $this->setUiNamespace();
     }
@@ -14,12 +15,13 @@ class Admin_Taxes_ProductTaxClassCreatingNeg extends TestCaseAbstract {
     /**
      * Test creating Product Tax Class
      */
-    function testCreateProductTaxClass() {
+    function testCreateProductTaxClass()
+    {
         $taxData = array(
-        'product_tax_class_name' => 'Shipping',
-            );
+            'product_tax_class_name' => 'Test Product Tax Class',
+        );
         if ($this->model->doLogin()) {
-            $this->model->createProductTaxClass($taxData);
+            $this->model->doCreateProductTaxClass($taxData);
         }
     }
 

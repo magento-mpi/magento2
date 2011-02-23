@@ -1,6 +1,6 @@
 <?php
 
-class Admin_ReviewAndRating_RatingDelete extends TestCaseAbstract {
+class Admin_ReviewAndRating_RatingCreateNeg extends TestCaseAbstract {
 
     /**
      * Setup procedure.
@@ -13,15 +13,15 @@ class Admin_ReviewAndRating_RatingDelete extends TestCaseAbstract {
     }
 
     /**
-     * Test Rating Delete
+     * Test Rating creating
      */
-    function testRating()
+    function testRatingCreateNeg()
     {
         $reviewData = array(
-            'search_rating_name' => 'Test Rating(Default Value)',
+            'title_for_stores' => array('Default Value' => 'Price'),
         );
         if ($this->model->doLogin()) {
-            $this->model->doDeleteRating($reviewData);
+            $this->model->doCreateRating($reviewData);
         }
     }
 

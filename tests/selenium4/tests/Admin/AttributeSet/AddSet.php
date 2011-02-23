@@ -18,11 +18,8 @@ class Admin_AttributeSet_AddSet extends TestCaseAbstract {
     function testAttributeSetCreation()
     {
         $setData = Core::getEnvConfig('backend/attribute_set');
-        /*$setData = array(
-            'set_name' => 'smoke_attrSet1',
-            'based_on' => 'smoke_attrSet'
-        );*/
         if ($this->model->doLogin()) {
+            $this->model->navigate('Catalog/Attributes/Manage Attribute Sets');
             $this->model->doCreateAtrSet($setData);
         }
     }
