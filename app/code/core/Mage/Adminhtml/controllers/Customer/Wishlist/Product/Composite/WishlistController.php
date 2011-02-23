@@ -122,8 +122,11 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
             $this->_initData();
 
             $buyRequest = new Varien_Object($this->getRequest()->getParams());
+            $qty = $buyRequest->getQty() ? $buyRequest->getQty() : 0;
+
             $this->_wishlist
                 ->updateItem($this->_wishlistItem->getId(), $buyRequest)
+                ->setQty($qty)
                 ->save();
 
             $updateResult->setOk(true);
