@@ -81,7 +81,7 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Mage_Core_Model_
         return $this;
     }
 
-	/**
+    /**
      * Processing object before save data.
      * Need to check if main entity is already deleted from the database:
      * we should not save additional attributes for deleted entities.

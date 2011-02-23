@@ -37,6 +37,8 @@ class Enterprise_Customer_Model_Resource_Sales_Order_Address
 {
     /**
      * Main entity resource model name
+     *
+     * @var string
      */
     protected $_parentResourceModelName = 'sales/order_address';
 

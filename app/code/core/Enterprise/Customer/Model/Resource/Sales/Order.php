@@ -36,6 +36,8 @@ class Enterprise_Customer_Model_Resource_Sales_Order extends Enterprise_Customer
 {
     /**
      * Main entity resource model name
+     *
+     * @var string
      */
     protected $_parentResourceModelName = 'sales/order';
 

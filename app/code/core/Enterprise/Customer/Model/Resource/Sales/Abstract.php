@@ -51,6 +51,8 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
     /**
      * Main entity resource model name
      * Should be overwritten in subclasses.
+     *
+     * @var string
      */
     protected $_parentResourceModelName = '';
 
@@ -160,7 +162,6 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
         }
 
         $resource = $this->_getParentResourceModel();
-
         if (!$resource) {
             /**
              * If resource model is absent, we shouldn't check the database for if main entity exists.
@@ -174,8 +175,7 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
             ->from($parentTable, $parentIdField)
             ->forUpdate(true)
             ->where("{$parentIdField} = ?", $sales->getId());
-
-        if ($this->_getWriteAdapter()->fetchOne($select)){
+        if ($this->_getWriteAdapter()->fetchOne($select)) {
             return true;
         }
         return false;

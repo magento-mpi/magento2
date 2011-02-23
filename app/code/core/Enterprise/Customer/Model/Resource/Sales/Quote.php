@@ -36,6 +36,8 @@ class Enterprise_Customer_Model_Resource_Sales_Quote extends Enterprise_Customer
 {
     /**
      * Main entity resource model name
+     *
+     * @var string
      */
     protected $_parentResourceModelName = 'sales/quote';
 
