@@ -333,6 +333,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             }
         }
 
+        $product->prepareCustomOptions();
         $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
 
         if ($options) {

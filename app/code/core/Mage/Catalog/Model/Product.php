@@ -1795,4 +1795,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         return $preconfiguredValues;
     }
+
+    /**
+     * Prepare product custom options.
+     * To be sure that all product custom options does not has ID and has product instance
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function prepareCustomOptions()
+    {
+        foreach ($this->getCustomOptions() as $option) {
+            if (!is_object($option->getProduct()) || $option->getId()) {
+                $this->addCustomOption($option->getCode(), $option->getValue());
+            }
+        }
+
+        return $this;
+    }
 }
