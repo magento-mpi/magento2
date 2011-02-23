@@ -724,6 +724,15 @@ class Mage_Catalog_Model_Url
                     return $this->_rewrites[$idPath]->getRequestPath();
                 }
             }
+            /**
+             * check if current generated request path is one of the old paths
+             */
+            $fullPath = $requestPath.$suffix;
+            $finalOldTargetPath = $this->getResource()->findFinalTargetPath($fullPath, $storeId);
+            if ($finalOldTargetPath && $finalOldTargetPath == $idPath) {
+                $this->getResource()->deleteRewrite($fullPath, $storeId);
+                return $fullPath;
+            }
         }
         /**
          * Check 2 variants: $requestPath and $requestPath . '-' . $productId
