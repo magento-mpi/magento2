@@ -481,6 +481,11 @@ class Model_Admin extends TestModelAbstract {
         return $result;
     }
 
+    /**
+     *
+     * @param string $pagePath
+     * @return boolean
+     */
     public function navigate($pagePath)
     {
         $result = FALSE;
