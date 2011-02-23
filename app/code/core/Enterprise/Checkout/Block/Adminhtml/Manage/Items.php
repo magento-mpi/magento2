@@ -62,6 +62,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
                 $result[] = $item;
             }
         }
+
         return $result;
     }
 
@@ -84,6 +85,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     {
         $res = Mage::getSingleton('tax/config')->displayCartSubtotalInclTax($this->getStore())
             || Mage::getSingleton('tax/config')->displayCartSubtotalBoth($this->getStore());
+
         return $res;
     }
 
@@ -101,10 +103,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
             $address = $this->getQuote()->getShippingAddress();
         }
         if ($this->displayTotalsIncludeTax()) {
-            return $address->getSubtotal()+$address->getTaxAmount();
+            return $address->getSubtotal() + $address->getTaxAmount();
         } else {
             return $address->getSubtotal();
         }
+
         return false;
     }
 
@@ -117,9 +120,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     {
         $address = $this->getQuote()->getShippingAddress();
         if ($this->displayTotalsIncludeTax()) {
-            return $address->getSubtotal()+$address->getTaxAmount()+$this->getDiscountAmount();
+            return $address->getSubtotal() + $address->getTaxAmount() + $this->getDiscountAmount();
         } else {
-            return $address->getSubtotal()+$this->getDiscountAmount();
+            return $address->getSubtotal() + $this->getDiscountAmount();
         }
     }
 
@@ -187,5 +190,37 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     protected function getCustomer()
     {
         return Mage::registry('checkout_current_customer');
+    }
+
+    /**
+     * Generate configure button html
+     *
+     * @param  Mage_Sales_Model_Quote_Item $item
+     * @return string
+     */
+    public function getConfigureButtonHtml($item)
+    {
+        $product = $item->getProduct();
+        $isConfigurable = ($product->isComposite() || $product->getOptions()
+            || in_array($product->getTypeId(), array('downloadable', 'giftcard'))) ? true : false;
+        $class          = ($isConfigurable) ? '' : 'disabled';
+        $addAttributes  = ($isConfigurable)
+            ? sprintf(
+                'onClick="' . $this->getJsObjectName() . 'cartControl.configureItem(%s)"',
+                $item->getId())
+            : 'disabled="disabled"';
+
+        return sprintf('<button type="button" class="scalable %s" %s><span>%s</span></button>',
+            $class, $addAttributes, Mage::helper('sales')->__('Configure'));
+    }
+
+    /**
+     * Retrieve selected website id
+     *
+     * @return int
+     */
+    public function getWebsiteId()
+    {
+        return Mage::app()->getStore(Mage::getSingleton('adminhtml/session_quote')->getStoreId())->getWebsiteId();
     }
 }

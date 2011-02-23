@@ -257,7 +257,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function displaySubtotalInclTax($item)
     {
-        $tax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : ($item->getTaxAmount() ? $item->getTaxAmount() : 0));
+        $tax = ($item->getTaxBeforeDiscount())
+            ? $item->getTaxBeforeDiscount()
+            : ($item->getTaxAmount() ? $item->getTaxAmount() : 0);
         return $this->formatPrice($item->getRowTotal()+$tax);
     }
 
@@ -265,7 +267,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         $tax = 0;
         if ($item->getTaxPercent()) {
-            $tax = $item->getPrice()*($item->getTaxPercent()/100);
+            $tax = $item->getPrice() * ($item->getTaxPercent() / 100);
         }
         return $this->convertPrice($item->getPrice()+($tax/$item->getQty()));
     }
@@ -296,13 +298,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
      * @param  $item
      * @return string
      */
-    public function getConfigureButtonHtml ($item)
+    public function getConfigureButtonHtml($item)
     {
         $product = $item->getProduct();
-        $isConfigurable = ($product->isComposite() || $product->getOptions() || $product->getTypeId() == 'giftcard'
-            || $product->getTypeId() == 'downloadable') ? true : false;
-        $class          = $isConfigurable ? '' : 'disabled';
-        $addAttributes = $isConfigurable ? sprintf('onClick="order.showQuoteItemConfiguration(%s)"', $item->getId()) : 'disabled="disabled"';
+        $isConfigurable = ($product->isComposite() || $product->getOptions()
+            || in_array($product->getTypeId(), array('downloadable', 'giftcard'))) ? true : false;
+        $class          = ($isConfigurable) ? '' : 'disabled';
+        $addAttributes  = ($isConfigurable)
+            ? sprintf('onClick="order.showQuoteItemConfiguration(%s)"', $item->getId())
+            : 'disabled="disabled"';
+
         return sprintf('<button type="button" class="scalable %s" %s><span>%s</span></button>',
             $class, $addAttributes, Mage::helper('sales')->__('Configure'));
     }
@@ -316,7 +321,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     public function getItemExtraInfo($item)
     {
         return $this->getLayout()
-                    ->getBlock('order_item_extra_info')
-                    ->setItem($item);
+            ->getBlock('order_item_extra_info')
+            ->setItem($item);
     }
 }

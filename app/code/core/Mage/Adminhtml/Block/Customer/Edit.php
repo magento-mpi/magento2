@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
             $this->_addButton('save_and_continue', array(
                 'label'     => Mage::helper('customer')->__('Save and Continue Edit'),
                 'onclick'   => 'saveAndContinueEdit(\''.$this->_getSaveAndContinueUrl().'\')',
-                'class' => 'save'
+                'class'     => 'save'
             ), 10);
         }
 

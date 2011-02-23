@@ -34,7 +34,6 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_Widget_Grid
 {
-
     public function __construct($attributes=array())
     {
         parent::__construct($attributes);
@@ -95,16 +94,16 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('catalog')->__('Price'),
-            'index'     => 'price',
-            'type'      => 'currency',
+            'header'        => Mage::helper('catalog')->__('Price'),
+            'index'         => 'price',
+            'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
-            'header'    => Mage::helper('sales')->__('Total'),
-            'index'     => 'row_total',
-            'type'      => 'currency',
+            'header'        => Mage::helper('sales')->__('Total'),
+            'index'         => 'row_total',
+            'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
@@ -116,10 +115,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption'   => Mage::helper('customer')->__('Configure'),
-                    'url'       => 'javascript:void(0)',
-                    'process'   => 'configurable',
-                    'control_object' => $this->getJsObjectName() . 'cartControl'
+                    'caption'           => Mage::helper('customer')->__('Configure'),
+                    'url'               => 'javascript:void(0)',
+                    'process'           => 'configurable',
+                    'control_object'    => $this->getJsObjectName() . 'cartControl'
                 ),
                 array(
                     'caption'   => Mage::helper('customer')->__('Delete'),
