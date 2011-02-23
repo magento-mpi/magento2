@@ -162,11 +162,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         return $this->getQuote()->getShippingAddress()->getDiscountAmount();
     }
-    
+
     /**
      * Retrive quote address
-     * 
-     * @return Mage_Sales_Model_Quote_Address 
+     *
+     * @return Mage_Sales_Model_Quote_Address
      */
     public function getQuoteAddress()
     {
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             return $this->getQuote()->getShippingAddress();
         }
     }
-    
+
     public function usedCustomPriceForItem($item)
     {
         return $item->hasCustomPrice();
@@ -296,7 +296,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
      * @param  $item
      * @return string
      */
-    public function getConfigureButtonHtml ($item) {
+    public function getConfigureButtonHtml ($item)
+    {
         $product = $item->getProduct();
         $isConfigurable = ($product->isComposite() || $product->getOptions() || $product->getTypeId() == 'giftcard'
             || $product->getTypeId() == 'downloadable') ? true : false;
@@ -304,5 +305,18 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         $addAttributes = $isConfigurable ? sprintf('onClick="order.showQuoteItemConfiguration(%s)"', $item->getId()) : 'disabled="disabled"';
         return sprintf('<button type="button" class="scalable %s" %s><span>%s</span></button>',
             $class, $addAttributes, Mage::helper('sales')->__('Configure'));
+    }
+
+    /**
+     * Get Order Item ExtraInfo block
+     *
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @return Mage_Core_Block_Abstract
+     */
+    public function getItemExtraInfo($item)
+    {
+        return $this->getLayout()
+                    ->getBlock('order_item_extra_info')
+                    ->setItem($item);
     }
 }

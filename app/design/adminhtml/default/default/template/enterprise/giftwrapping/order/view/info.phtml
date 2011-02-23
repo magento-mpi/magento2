@@ -1,0 +1,96 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+<?php if ($this->canDisplayGiftWrapping()): ?>
+<div class="box-right" id="wrapping-order-container">
+<div class="entry-edit">
+<fieldset>
+<div><?php echo $this->__('Gift Wrapping for the Entire Order') ?></div><br>
+<?php if ($this->getOrderInfo()->getDesign()): ?>
+<table>
+<tr>
+<td><?php echo $this->__('Gift Wrapping Design') ?> :
+    <span><?php echo $this->getOrderInfo()->getDesign(); ?></span>
+    <br><br>
+    <div id="price-box">
+        <?php if ($this->getDisplayWrappingBothPrices()): ?>
+        <div>
+            <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+            <span class="price"><?php echo $this->getOrderInfo()->getPriceExclTax(); ?></span>
+        </div>
+        <div>
+            <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+            <span class="price"><?php echo $this->getOrderInfo()->getPriceInclTax(); ?></span>
+        </div>
+        <?php else: ?>
+        <div>
+            <span class="label"><?php echo $this->__('Price') ?>:</span>
+            <span class="price"><?php echo $this->getOrderInfo()->getPrice(); ?></span>
+        </div>
+        <?php endif; ?>
+    </div>
+</td>
+<td>&nbsp;</td>
+<?php if ($this->getOrderInfo()->getPath()): ?>
+<td><img id="image-box" height="75" width="75" src="<?php echo $this->getOrderInfo()->getPath(); ?>"/></td>
+<?php endif; ?>
+</tr>
+</table>
+<?php endif; ?>
+
+<p>
+    <input type="checkbox" id="allow-gift-receipt" class="checkbox" disabled="disabled" <?php if ($this->getAllowGiftReceipt()):?> checked="checked"<?php endif; ?> />
+    <label for="allow-gift-receipt"><?php echo $this->__('Send Gift Receipt') ?></label>
+</p>
+<p>
+    <input type="checkbox" id="add-printed-card" class="checkbox" disabled="disabled" <?php if ($this->getPrintedCard()):?> checked="checked"<?php endif; ?> />
+    <label for="add-printed-card"><?php echo $this->__('Add Printed Card') ?></label>
+
+    <?php if ($this->getPrintedCard()): ?>
+    <div id="price-card-box">
+    <?php if ($this->getDisplayCardBothPrices()): ?>
+        <div>
+            <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+            <span class="price"><?php echo $this->getCardInfo()->getPriceExclTax(); ?></span>
+        </div>
+        <div>
+            <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+            <span class="price"><?php echo $this->getCardInfo()->getPriceInclTax(); ?></span>
+        </div>
+    <?php else: ?>
+        <div>
+            <span class="label"><?php echo $this->__('Price') ?>:</span>
+            <span class="price"><?php echo $this->getCardInfo()->getPrice(); ?></span>
+        </div>
+    <?php endif; ?>
+    </div>
+    <?php endif; ?>
+</p>
+
+</fieldset>
+</div>
+</div>
+<?php endif; ?>

@@ -40,9 +40,6 @@
             <col width="100" />
             <col width="80" />
             <col width="100" />
-            <?php if($this->isGiftMessagesAvailable()): ?>
-            <col width="1" />
-            <?php endif; ?>
             <col width="80" />
             <thead>
                 <tr class="headings">
@@ -53,9 +50,6 @@
                     <th class="no-link"><?php echo $this->helper('sales')->__('Discount') ?></th>
                     <th class="no-link"><?php echo $this->helper('sales')->__('Row Subtotal') ?></th>
 
-                    <?php if($this->isGiftMessagesAvailable()): ?>
-                    <th class="no-link"><?php echo $this->helper('sales')->__('Gift') ?></th>
-                    <?php endif ?>
                     <th class="no-link last"><?php echo $this->helper('sales')->__('Action') ?></th>
                 </tr>
             </thead>
@@ -82,9 +76,6 @@
             <col width="100" />
             <col width="80"  />
             <col width="100" />
-            <?php if($this->isGiftMessagesAvailable()): ?>
-            <col width="1" />
-            <?php endif; ?>
             <col width="80" />
             <thead>
                 <tr class="headings">
@@ -95,9 +86,6 @@
                     <th class="no-link"><?php echo $this->helper('sales')->__('Discount') ?></th>
                     <th class="no-link"><?php echo $this->helper('sales')->__('Row Subtotal') ?></th>
 
-                    <?php if($this->isGiftMessagesAvailable()): ?>
-                    <th class="no-link"><?php echo $this->helper('sales')->__('Gift') ?></th>
-                    <?php endif ?>
                     <th class="no-link last"><?php echo $this->helper('sales')->__('Action') ?></th>
                 </tr>
             </thead>
@@ -108,13 +96,13 @@
                     <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotal()) ?></strong></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getDiscountAmount()) ?></strong></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotalWithDiscount()) ?></strong></td>
-                    <td <?php if($this->isGiftMessagesAvailable()): ?>colspan="2"<?php endif; ?>>&nbsp;</td>
+                    <td colspan="2">&nbsp;</td>
                 </tr>
             </tfoot>
-            <tbody>
                 <?php $i=0 ?>
                 <?php foreach ($_items as $_item):$i++ ?>
-                    <tr class="<?php echo ($i%2)?'even':'odd' ?>">
+                <tbody class="<?php echo ($i%2)?'even':'odd' ?>">
+                    <tr>
                         <td class="first">
                             <h5 class="title"><?php echo $this->htmlEscape($_item->getName()) ?></h5>
                             <div>
@@ -397,11 +385,6 @@
     <?php endif; ?>
 
                         </td>
-                        <?php if($this->isGiftMessagesAvailable()): ?>
-                        <td class="a-center">
-                            <input type="checkbox" name="item[<?php echo $_item->getId() ?>][giftmessage]"<?php if($this->isAllowedForGiftMessage($_item)): ?> checked="checked"<?php endif; ?><?php if(!$this->isGiftMessagesAvailable($_item)): ?> disabled="disabled"<?php endif; ?>/>
-                        </td>
-                        <?php endif ?>
                         <td class="last">
                             <select name="item[<?php echo $_item->getId() ?>][action]" style="width:100px;">
                                 <option value=""></option>
@@ -413,8 +396,9 @@
                             </select>
                         </td>
                     </tr>
+                    <?php echo $this->getItemExtraInfo($_item)->toHtml(); ?>
+                </tbody>
                 <?php endforeach; ?>
-            </tbody>
         </table>
     </div>
     <table cellspacing="0" width="100%">
@@ -426,8 +410,96 @@
         </tr>
     </table>
     <br />
-    <div id="order-coupons"><?php echo $this->getChildHtml() ?></div>
+    <div id="order-coupons"><?php echo $this->getChildHtml();?></div>
     <div class="clear"></div>
     <script type="text/javascript">order.itemsOnchangeBind()</script>
 </div>
+
+<?php if ($this->isGiftMessagesAvailable()) : ?>
+<script type="text/javascript">
+    /**
+     * Loader function for gift message data
+     *
+     * @param Function callback
+     * @param int itemId
+     */
+    function loadGiftMessageFields(callback, itemId)
+    {
+        $('item_' + itemId + '_giftmessage').checked = true;
+        var area = 'giftmessage';
+        var url = '<?php echo $this->getUrl('*/*/loadBlock');?>' + 'block/' + area + '?isAjax=true';
+
+        var info = $('order-items_grid').select('input', 'select', 'textarea');
+        var params = {};
+        for (var i = 0; i < info.length; i++){
+            if (!info[i].disabled && (info[i].type != 'checkbox' || info[i].checked)) {
+                params[info[i].name] = info[i].getValue();
+            }
+        }
+        params.reset_shipping = true;
+        params.update_items = true;
+        params.json = true;
+        new Ajax.Request(url, {
+            parameters: params,
+            onSuccess: function(transport) {
+                var response = transport.responseText.evalJSON();
+                if (response) {
+                    $('order-giftmessage').update(response['giftmessage']);
+                    if (Object.isFunction(callback)) {
+                        callback();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Retrieve gift options tooltip content
+     *
+     * @param int itemId
+     */
+    function getGiftOptionsTooltipContent(itemId)
+    {
+        var contentLines = [];
+        var contentLine = null;
+        if ($('giftmessage_' + itemId + '_message')) {
+            contentLine = '<span style="font-weight: bold;"><?php echo $this->__('Gift Message')?></span>: ' + $('giftmessage_' + itemId + '_message').getValue();
+            if (contentLine.length > 70) {
+                contentLine = contentLine.slice(0,67) + '...';
+            }
+            contentLines.push(contentLine);
+        }
+        //Add another gift options below
+        return contentLines.join('<br/>');
+    }
+
+    /**
+     * Retrieve gift options window title
+     *
+     * @param int itemId
+     */
+    function getGiftOptionsWindowTitle(itemId)
+    {
+        var title = '<?php echo Mage::helper('sales')->__('Gift Options for'); ?>';
+        if ($('giftmessage_' + itemId + '_product_name')) {
+            title += ' ' + $('giftmessage_' + itemId + '_product_name').getValue();
+        }
+        return title;
+    }
+
+    giftOptions.addGiftOptionsGroup('giftmessage', ['sender', 'message', 'recipient']);
+    giftOptions.setExternalFieldsloaderFunction(loadGiftMessageFields);
+    giftOptions.setContentLoaderFunction(giftOptions.loadGiftOptionsValues, true);
+    giftOptions.setOkCallback(giftOptions.saveGiftOptionsValues, true);
+    giftOptions.setGiftOptionsWindowTitleLoaderFunction(getGiftOptionsWindowTitle);
+
+    giftOptionsTooltip.setTooltipContentLoaderFunction(getGiftOptionsTooltipContent);
+
+    <?php foreach ($_items as $_item): ?>
+        <?php if ($this->isGiftMessagesAvailable($_item)): ?>
+    giftOptionsTooltip.addTargetLink('gift_options_link_<?php echo $_item->getId() ?>', <?php echo $_item->getId() ?>);
+        <?php endif; ?>
+    <?php endforeach; ?>
+</script>
+<?php endif; ?>
 <?php endif; ?>
