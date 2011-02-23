@@ -36,8 +36,12 @@ class Enterprise_Customer_Model_Resource_Sales_Order_Address
     extends Enterprise_Customer_Model_Resource_Sales_Address_Abstract
 {
     /**
+     * Main entity resource model name
+     */
+    protected $_parentResourceModelName = 'sales/order_address';
+
+    /**
      * Initializes resource
-     *
      */
     protected function _construct()
     {

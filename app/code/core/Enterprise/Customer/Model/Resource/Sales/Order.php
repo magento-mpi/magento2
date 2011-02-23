@@ -35,8 +35,12 @@
 class Enterprise_Customer_Model_Resource_Sales_Order extends Enterprise_Customer_Model_Resource_Sales_Abstract
 {
     /**
+     * Main entity resource model name
+     */
+    protected $_parentResourceModelName = 'sales/order';
+
+    /**
      * Initialize resource
-     *
      */
     protected function _construct()
     {
