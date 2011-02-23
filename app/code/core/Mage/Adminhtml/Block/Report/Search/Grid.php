@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addExportType('*/*/exportSearchCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportSearchExcel', Mage::helper('reports')->__('XML'));
+        $this->addExportType('*/*/exportSearchExcel', Mage::helper('reports')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }
