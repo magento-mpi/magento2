@@ -371,9 +371,7 @@ One page checkout main layout
                     <block type="core/template" name="checkout.onepage.payment.additional" as="additional" />
                     <block type="core/template" name="checkout.onepage.payment.methods_additional" as="methods_additional" />
                 </block>
-                <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="checkout/onepage/review.phtml">
-                    <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
-                </block>
+                <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="checkout/onepage/review.phtml"/>
             </block>
         </reference>
         <update handle="customer_form_template_handle"/>
@@ -453,6 +451,8 @@ One page checkout order review block
             <block type="core/text_list" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
                 <label>Items After</label>
             </block>
+            <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
+            <block type="core/template" name="checkout.onepage.review.button" as="button" template="checkout/onepage/review/button.phtml"/>
         </block>
         <block type="core/text_list" name="additional.product.info" translate="label">
             <label>Additional Product Info</label>
