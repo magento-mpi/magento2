@@ -337,7 +337,18 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     }
 
     /**
-     * refund the amount with transaction id
+     * Cancel the payment through gateway
+     *
+     * @param  Mage_Payment_Model_Info $payment
+     * @return Mage_Paygate_Model_Authorizenet
+     */
+    public function cancel(Varien_Object $payment)
+    {
+        return $this->void($payment);
+    }
+
+    /**
+     * Refund the amount with transaction id
      *
      * @param Mage_Payment_Model_Info $payment
      * @param decimal $amount
@@ -366,7 +377,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 }
                 try {
                     $newTransaction = $this->_refundCardTransaction($payment, $cardAmountForRefund, $card);
-                    $messages[] = $newTransaction->getMessage(); 
+                    $messages[] = $newTransaction->getMessage();
                     $isSuccessful = true;
                 } catch (Exception $e) {
                     $messages[] = $e->getMessage();
@@ -648,7 +659,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         }
 
         $exceptionMessage = Mage::helper('paygate')->getTransactionMessage(
-            $payment, self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE, $realAuthTransactionId, $card, $amount, $exceptionMessage 
+            $payment, self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE, $realAuthTransactionId, $card, $amount, $exceptionMessage
         );
         Mage::throwException($exceptionMessage);
     }
@@ -1242,7 +1253,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         $payment->unsLastTransId();
 
         /**
-         * It for self using 
+         * It for self using
          */
         $transaction->setMessage($message);
 
