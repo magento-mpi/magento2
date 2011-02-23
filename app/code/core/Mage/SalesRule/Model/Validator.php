@@ -47,6 +47,15 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
     protected $_baseRoundingDeltas = array();
 
     /**
+     * Defines if method Mage_SalesRule_Model_Validator::process() was already called
+     * Used for clearing applied rule ids in Quote and in Address
+     *
+     * @deprecated since 1.4.2.0
+     * @var bool
+     */
+    protected $_isFirstTimeProcessRun = false;
+
+    /**
      * Defines if method Mage_SalesRule_Model_Validator::reset() wasn't called
      * Used for clearing applied rule ids in Quote and in Address
      *
