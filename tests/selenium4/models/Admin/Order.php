@@ -534,7 +534,7 @@ class Model_Admin_Order extends Model_Admin {
         $searchWord = '/^order_gift_mes_/';
         $orderGiftContent = $this->dataPreparation($params, $searchWord);
         // Open Order Page
-        $this->clickAndWait($this->getUiElement('/admin/topmenu/sales/orders'));
+        $this->navigate('Sales/Orders');
         // Create new Order
         $this->setUiNamespace('admin/pages/sales/orders/manage_orders/');
         $this->clickAndWait($this->getUiElement('buttons/create_order'));
@@ -612,7 +612,7 @@ class Model_Admin_Order extends Model_Admin {
     {
         $this->printDebug("$actionName started");
         // Open Order Page
-        $this->clickAndWait($this->getUiElement('/admin/topmenu/sales/orders'));
+        $this->navigate('Sales/Orders');
         $this->setUiNamespace('admin/pages/sales/orders/manage_orders');
         $searchResult = $this->searchAndDoAction('order_grid', $searchOrder, 'open', NULL);
         if ($searchResult) {

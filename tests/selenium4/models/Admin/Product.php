@@ -44,10 +44,10 @@ class Model_Admin_Product extends Model_Admin {
     public function selectProductSettings($params, $type, $configAttribut)
     {
         $result = true;
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         $this->checkAndSelectField($params, 'attribute_set');
         $result = $this->checkAndSelectField($params, 'type');
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
+        $this->setUiNamespace('admin/pages/catalog/manage_products');
         $this->clickAndWait($this->getUiElement('buttons/addproductcontinue'));
         if ($type == 'Configurable Product') {
             if ($configAttribut != NULL) {
@@ -77,7 +77,7 @@ class Model_Admin_Product extends Model_Admin {
     {
         $Data = $params ? $params : $this->Data;
         $type = $Data['type'];
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         if ($this->isElementPresent($this->getUiElement('selectors/conf_attribute'))) {
             $this->select($this->getUiElement('selectors/conf_attribute'), $type);
         }
@@ -128,7 +128,7 @@ class Model_Admin_Product extends Model_Admin {
     {
         $Data = $params ? $params : $this->Data;
         $type = $Data['type'];
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         //Prices Tab
         $this->click($this->getUiElement('tabs/price'));
         //Price type, Price View and Price for Bundle product
@@ -192,7 +192,7 @@ class Model_Admin_Product extends Model_Admin {
     {
         $Data = $params ? $params : $this->Data;
         $type = $Data['type'];
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         $this->click($this->getUiElement('tabs/inventory'));
         //Manage Stock.
         $this->uncheckUseDefault($params, 'selectors/manage_stock', 'manage_stock', 2);
@@ -244,7 +244,7 @@ class Model_Admin_Product extends Model_Admin {
      */
     public function fillWebsitesTab($websiteName)
     {
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         $this->click($this->getUiElement('tabs/websites'));
         $this->OrderModel->selectStore('website', $websiteName);
     }
@@ -392,7 +392,7 @@ class Model_Admin_Product extends Model_Admin {
     {
         $Data = $params ? $params : $this->Data;
         $type = $Data['type'];
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         //Open Associated Products Tab
         $this->click($this->getUiElement('tabs/associated_products'));
         $this->pleaseWait();
@@ -456,7 +456,7 @@ class Model_Admin_Product extends Model_Admin {
     public function fillBundleItemsTab($params)
     {
         $Data = $params ? $params : $this->Data;
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         //Open Bundle Items Tab
         $this->click($this->getUiElement('tabs/bundle_items'));
         $this->pleaseWait();
@@ -479,7 +479,7 @@ class Model_Admin_Product extends Model_Admin {
     public function fillGiftCardInformTab($params)
     {
         $Data = $params ? $params : $this->Data;
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         //Gift Card Information Tab
         $this->click($this->getUiElement('tabs/gift_card_information'));
         //Card Type
@@ -511,8 +511,8 @@ class Model_Admin_Product extends Model_Admin {
         $configAttribut = $this->isSetValue($params, 'attrib_for_conf_prod');
         $categoryName = $this->isSetValue($params, 'category_name');
         $websiteName = $this->isSetValue($params, 'website_name');
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
-        $this->clickAndWait($this->getUiElement('/admin/topmenu/catalog/manageproducts'));
+        $this->setUiNamespace('admin/pages/catalog/manage_products');
+        $this->navigate('Catalog/Manage Products');
         $this->clickAndWait($this->getUiElement('buttons/addproduct'));
         if ($this->selectProductSettings($params, $type, $configAttribut)) {
             $this->fillGeneralTab($params);
@@ -534,7 +534,7 @@ class Model_Admin_Product extends Model_Admin {
                     $this->fillAssociatedProductsTab($params);
                     break;
             }
-            $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+            $this->setUiNamespace('admin/pages/catalog/manage_products/product');
             $this->saveAndVerifyForErrors();
         }
     }
@@ -546,8 +546,8 @@ class Model_Admin_Product extends Model_Admin {
     public function doDeleteProduct($params)
     {
         $Data = $params ? $params : $this->Data;
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
-        $this->clickAndWait($this->getUiElement('/admin/topmenu/catalog/manageproducts'));
+        $this->setUiNamespace('admin/pages/catalog/manage_products');
+        $this->navigate('Catalog/Manage Products');
         $searchWord = '/search_product_/';
         $searchElements = $this->dataPreparation($params, $searchWord);
         $result = $this->searchAndDoAction('product_grid', $searchElements, 'open', NUll);

@@ -185,7 +185,7 @@ class Model_Admin_Attributes extends Model_Admin {
         $Data = $params ? $params : $this->Data;
         $type = $Data['attrribute_type'];
         // Open Manage Attributes Page
-        $this->clickAndWait($this->getUiElement('/admin/topmenu/catalog/attributes/manage_attibutes'));
+        $this->navigate('Catalog/Attributes/Manage Attributes');
         // Click Add new Attribute
         $this->setUiNamespace('admin/pages/catalog/attributes/manage_attributes');
         $this->clickAndWait($this->getUiElement('buttons/add_attribute'));
@@ -202,7 +202,7 @@ class Model_Admin_Attributes extends Model_Admin {
     public function doDeleteAttribute($params)
     {
         // Open Manage Attributes Page
-        $this->clickAndWait($this->getUiElement('/admin/topmenu/catalog/attributes/manage_attibutes'));
+        $this->navigate('Catalog/Attributes/Manage Attributes');
         $this->clickAndWait($this->getUiElement('/admin/global/buttons/reset_search'));
         $this->setUiNamespace('admin/pages/catalog/attributes/manage_attributes');
         $searchWord = '/search_product_attribute_/';
@@ -224,14 +224,14 @@ class Model_Admin_Attributes extends Model_Admin {
     {
         $Data = $params ? $params : $this->Data;
         $type = $Data['attrribute_type'];
-        $this->clickAndWait($this->getUiElement("/admin/topmenu/catalog/manageproducts"));
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
+        $this->navigate('Catalog/Manage Products');
+        $this->setUiNamespace('admin/pages/catalog/manage_products');
         $this->clickAndWait($this->getUiElement("buttons/addproduct"));
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         $this->checkAndSelectField($params, 'attribute_set');
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts');
+        $this->setUiNamespace('admin/pages/catalog/manage_products');
         $this->clickAndWait($this->getUiElement("buttons/addproductcontinue"));
-        $this->setUiNamespace('admin/pages/catalog/categories/manageproducts/product');
+        $this->setUiNamespace('admin/pages/catalog/manage_products/product');
         $this->click($this->getUiElement("buttons/create_new_attribute"));
         $this->waitForPopUp("new_attribute", "30000");
         $this->selectWindow("name=new_attribute");
@@ -246,10 +246,10 @@ class Model_Admin_Attributes extends Model_Admin {
         $this->fillManageLabelAndOptionsTab($params);
         $this->click($this->getUiElement("/admin/global/buttons/submit"));
         // check for error message
-        if ($this->waitForElement($this->getUiElement('/admin/messages/success'), 10)) {
+        if ($this->waitForElement($this->getUiElement('/admin/messages/success'), 20)) {
             $etext = $this->getText($this->getUiElement('/admin/messages/success'));
             $this->printInfo($etext);
-        } elseif ($this->waitForElement($this->getUiElement('/admin/messages/error'), 10)) {
+        } elseif ($this->waitForElement($this->getUiElement('/admin/messages/error'), 20)) {
             $etext = $this->getText($this->getUiElement('/admin/messages/error'));
             $this->setVerificationErrors($etext);
         } else {

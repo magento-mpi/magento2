@@ -15,7 +15,7 @@ class Model_Admin_Scope_Store extends Model_Admin {
         $this->storeData = array(
             'name'         => Core::getEnvConfig('backend/scope/store/name'),
             'siteName'     => Core::getEnvConfig('backend/scope/site/name'),
-            'rootCategory' => Core::getEnvConfig('backend/manage_categories/rootname'),
+            'rootCategory' => Core::getEnvConfig('backend/categories/root_name'),
         );
     }
 

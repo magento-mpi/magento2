@@ -24,8 +24,6 @@ class Model_Admin_AttributeSet extends Model_Admin {
      */
     public function doCreateAtrSet($params)
     {
-        // Open Manage Attribute Sets Page
-        $this->clickAndWait($this->getUiElement('/admin/topmenu/catalog/attributes/manage_attibute_set'));
         // Add new Attribute Set
         $this->setUiNamespace('admin/pages/catalog/attributes/manage_attribute_sets');
         $this->clickAndWait($this->getUiElement('buttons/add_set'));
@@ -33,7 +31,7 @@ class Model_Admin_AttributeSet extends Model_Admin {
         $this->setUiNamespace('admin/pages/catalog/attributes/manage_attribute_sets/attribute_set');
         // Fill fields Name and Based On
         $this->checkAndFillField($params, 'set_name', NULL);
-        $result = $this->checkAndSelectField($params, 'based_on');
+        $result = $this->checkAndSelectField($params, 'default_set');
         // Saving
         if ($result) {
             $this->saveAndVerifyForErrors();
@@ -49,8 +47,6 @@ class Model_Admin_AttributeSet extends Model_Admin {
      */
     public function doDeleteAtrSet($params)
     {
-        // Open Manage Attribute Sets Page
-        $this->clickAndWait($this->getUiElement('/admin/topmenu/catalog/attributes/manage_attibute_set'));
         // Set UiNamespace
         $this->setUiNamespace('admin/pages/catalog/attributes/manage_attribute_sets');
         $searchElements = $this->dataPreparation($params, '/search_set/');
