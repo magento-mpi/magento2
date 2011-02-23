@@ -564,7 +564,7 @@ AdminOrder.prototype = {
      *
      * @param productId
      */
-    sidebarConfigureProduct: function (productId) {
+    sidebarConfigureProduct: function (listType, productId, itemId) {
         // create additional fields
         var params = {};
         params.reset_shipping = true;
@@ -582,18 +582,19 @@ AdminOrder.prototype = {
             fields.push(new Element('input', {type: 'hidden', name: name, value: params[name]}));
         }
         // add additional fields before triggered submit
-        productConfigure.setBeforeSubmitCallback('sidebar', function() {
+        productConfigure.setBeforeSubmitCallback(listType, function() {
             productConfigure.addFields(fields);
         }.bind(this));
         // response handler
-        productConfigure.setOnLoadIFrameCallback('sidebar', function(response) {
+        productConfigure.setOnLoadIFrameCallback(listType, function(response) {
             if (!response.ok) {
                 return;
             }
             this.loadArea(['items', 'shipping_method', 'billing_method','totals', 'giftmessage'], true);
         }.bind(this));
         // show item configuration
-        productConfigure.showItemConfiguration('sidebar', productId);
+        itemId = itemId ? itemId : productId;
+        productConfigure.showItemConfiguration(listType, itemId);
         return false;
     },
 
