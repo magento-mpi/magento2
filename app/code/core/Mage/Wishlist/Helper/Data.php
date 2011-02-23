@@ -106,8 +106,21 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getItemCount()
     {
-        if (!Mage::getSingleton('customer/session')->hasWishlistItemCount()) {
-            $this->calculate();
+        return $this->getSummaryQty(true);
+    }
+
+    /**
+     * Get wishlist items summary (inchlude config settings)
+     *
+     * @param bool $showCountItems
+     * @return decimal
+     */
+    public function getSummaryQty($showCountItems = false)
+    {
+        $storedDisplayType = Mage::getSingleton('customer/session')->getWishlistDisplayType();
+        $currentDisplayType = Mage::getStoreConfig('wishlist/wishlist_link/use_qty');
+        if ($currentDisplayType != $storedDisplayType || !Mage::getSingleton('customer/session')->hasWishlistItemCount()) {
+            $this->calculate($showCountItems);
         }
 
         return Mage::getSingleton('customer/session')->getWishlistItemCount();
@@ -395,19 +408,27 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      * Calculate count of wishlist items and put value to customer session.
      * Method called after wishlist modifications and trigger 'wishlist_items_renewed' event.
      *
+     * @param bool $showCountItems
      * @return Mage_Wishlist_Helper_Data
      */
-    public function calculate()
+    public function calculate($showCountItems = false)
     {
+        $session = Mage::getSingleton('customer/session');
         if (!$this->_isCustomerLogIn()) {
             $count = 0;
         } else {
-            $count = $this->getWishlistItemCollection()
-                /* Price data is added to consider item stock status using price index */
-//                ->addPriceData()
-                ->getSize();
+            if (!$showCountItems && Mage::getStoreConfig('wishlist/wishlist_link/use_qty')) {
+                $count = $this->getWishlistItemCollection()
+                    ->getItemsQty();
+            } else {
+                $count = $this->getWishlistItemCollection()
+                    /* Price data is added to consider item stock status using price index */
+//                  ->addPriceData()
+                    ->getSize();
+            }
+            $session->setWishlistDisplayType(Mage::getStoreConfig('wishlist/wishlist_link/use_qty'));
         }
-        Mage::getSingleton('customer/session')->setWishlistItemCount($count);
+        $session->setWishlistItemCount($count);
         Mage::dispatchEvent('wishlist_items_renewed');
         return $this;
     }
