@@ -94,6 +94,7 @@
                                         <children>
                                             <create translate="title"><title>Create</title></create>
                                             <view translate="title"><title>View</title></view>
+                                            <email translate="title"><title>Send Order Email</title></email>
                                             <reorder translate="title"><title>Reorder</title></reorder>
                                             <edit translate="title"><title>Edit</title></edit>
                                             <cancel translate="title"><title>Cancel</title></cancel>
