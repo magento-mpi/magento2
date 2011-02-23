@@ -58,10 +58,10 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
 
         $rssObj = Mage::getModel('rss/rss');
         $data = array('title' => $title,
-                'description' => $title,
-                'link'        => $newurl,
-                'charset'     => 'UTF-8',
-                );
+                      'description' => $title,
+                      'link'        => $newurl,
+                      'charset'     => 'UTF-8',
+        );
         $rssObj->_addHeader($data);
 
         $_configManageStock = (int)Mage::getStoreConfigFlag(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
@@ -78,6 +78,9 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
                 $stockItemWhere, 'inner')
             ->setOrder('low_stock_date')
         ;
+        $collection->addAttributeToFilter('status', array('in' => Mage::getSingleton('catalog/product_status')->getVisibleStatusIds()));
+        $collection->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds());
+
         $_globalNotifyStockQty = (float) Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
 
         Mage::dispatchEvent('rss_catalog_notify_stock_collection_select', array('collection' => $collection));
