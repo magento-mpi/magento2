@@ -683,19 +683,19 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $product->setStockData($stockData);
 
         $mediaGalleryBackendModel = $this->getAttribute('media_gallery')->getBackend();
-        
+
         $arrayToMassAdd = array();
 
         foreach ($product->getMediaAttributes() as $mediaAttributeCode => $mediaAttribute) {
             if (isset($importData[$mediaAttributeCode])) {
                 $file = $importData[$mediaAttributeCode];
-                if (!$mediaGalleryBackendModel->getImage($product, $file)) {
+                if (trim($file) && !$mediaGalleryBackendModel->getImage($product, $file)) {
                     $arrayToMassAdd[] = array('file' => trim($file), 'mediaAttribute' => $mediaAttributeCode);
                 }
             }
         }
 
-        $addedFilesCorrespondence = 
+        $addedFilesCorrespondence =
             $mediaGalleryBackendModel->addImagesWithDifferentMediaAttributes($product, $arrayToMassAdd, Mage::getBaseDir('media') . DS . 'import', false, false);
 
         foreach ($product->getMediaAttributes() as $mediaAttributeCode => $mediaAttribute) {
