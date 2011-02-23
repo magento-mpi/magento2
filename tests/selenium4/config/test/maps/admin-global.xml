@@ -6,7 +6,7 @@
         <mark_filtered_element>//td[normalize-space(text())='%s']/ancestor::tr/td/input[@type='checkbox']</mark_filtered_element>
         <filtered_element>//td[normalize-space(text())='%s']</filtered_element>
         <tabs_container>//*[contains(@class,'tabs')]</tabs_container>
-        <opened_tab>//form//div[@style='' or contains(@style,'display: block')]</opened_tab>
+        <opened_tab>//form/div[@style='' or contains(@style,'display: block')]</opened_tab>
         <tab_error>/li[contains(a/@class,'error')]/a/span</tab_error>
         <tab_error_many>/li[contains(a/@class,'error')][%s]/a/span</tab_error_many>
         <error_for_field>/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]</error_for_field>
@@ -36,18 +36,18 @@
         <search_product_qty_from>//*[contains(@id,'filter_qty_from')]</search_product_qty_from>
         <search_product_qty_to>//*[contains(@id,'filter_qty_to')]</search_product_qty_to>
         <search_order_id>//*[@id='filter_real_order_id']</search_order_id>
-        <search_review_nickname>//input[@id='filter_nickname']</search_review_nickname>
-        <search_review_title>//input[@id="filter_title"]</search_review_title>
         <search_review_id>//input[@id="filter_review_id"]</search_review_id>
+        <search_review_title>//input[@id="filter_title"]</search_review_title>
+        <search_review_nickname>//input[@id='filter_nickname']</search_review_nickname>
         <search_review_detail>//input[@id="filter_detail"]</search_review_detail>
         <search_review_product_name>//input[@id="filter_name"]</search_review_product_name>
         <search_review_product_sku>//input[@id="filter_sku"]</search_review_product_sku>
         <search_rating_id>//input[@id="filter_rating_id"]</search_rating_id>
         <search_rating_name>//input[@id="filter_rating_code"]</search_rating_name>
-        <search_tax_product_class_name>//input[@id="filter_class_name"]</search_tax_product_class_name>
-        <search_tax_customer_class_name>//input[@id="filter_class_name"]</search_tax_customer_class_name>
-        <search_tax_rate_identigier>//input[@id="filter_code"]</search_tax_rate_identigier>
         <search_tax_rule_name>//input[@id="filter_code"]</search_tax_rule_name>
+        <search_tax_rate_name>//input[@id="filter_code"]</search_tax_rate_name>
+        <search_product_tax_class_name>//input[@id="filter_class_name"]</search_product_tax_class_name>
+        <search_customer_tax_class_name>//input[@id="filter_class_name"]</search_customer_tax_class_name>
     </inputs>
     <buttons>
         <search>//button[span='Search']</search>
