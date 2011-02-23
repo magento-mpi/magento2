@@ -56,10 +56,9 @@ BundleControl.prototype = {
         }
         var parts = selection.id.split('-');
         var optionId = parts[2];
-
         var showQtyInput = true;
         if (selection.type == 'radio') {
-            showQtyInput = !($('bundle-option-' + optionId).checked);
+            showQtyInput = $(selection.id).checked;
         } else {
             showQtyInput = (selection.value != '') && (selection.value != 'none');
         }
