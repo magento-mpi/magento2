@@ -39,6 +39,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abstract
+    implements Mage_Catalog_Model_Product_Configuration_Item_Interface
 {
     protected $_parentItem  = null;
     protected $_children    = array();
@@ -50,6 +51,43 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      * @return Mage_Sales_Model_Quote
      */
     abstract function getQuote();
+
+    /**
+     * Retrieve product model object associated with item
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct()
+    {
+        $product = $this->_getData('product');
+        if (($product === null) && $this->getProductId()) {
+            $product = Mage::getModel('catalog/product')
+                ->setStoreId($this->getQuote()->getStoreId())
+                ->load($this->getProductId());
+            $this->setProduct($product);
+        }
+
+        /**
+         * Reset product final price because it related to custom options
+         */
+        $product->setFinalPrice(null);
+        if (is_array($this->_optionsByCode)) {
+            $product->setCustomOptions($this->_optionsByCode);
+        }
+        return $product;
+    }
+
+    /**
+     * Returns special download params (if needed) for custom option with type = 'file'
+     * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
+     * Return null, as quote item needs no additional configuration.
+     *
+     * @return null|Varien_Object
+     */
+    public function getFileDownloadParams()
+    {
+        return null;
+    }
 
     /**
      * Specify parent item id before saving data

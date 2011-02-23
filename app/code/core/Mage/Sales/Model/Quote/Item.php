@@ -132,7 +132,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
-    implements Mage_Catalog_Model_Product_Configuration_Item_Interface
 {
     /**
      * Prefix of model events names
@@ -404,29 +403,6 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
 //            }
 //        }
         return $this;
-    }
-
-    /**
-     * Retrieve product model object associated with item
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    public function getProduct()
-    {
-        $product = $this->_getData('product');
-        if (($product === null) && $this->getProductId()) {
-            $product = Mage::getModel('catalog/product')
-                ->setStoreId($this->getQuote()->getStoreId())
-                ->load($this->getProductId());
-            $this->setProduct($product);
-        }
-
-        /**
-         * Reset product final price because it related to custom options
-         */
-        $product->setFinalPrice(null);
-        $product->setCustomOptions($this->_optionsByCode);
-        return $product;
     }
 
     /**
@@ -801,17 +777,5 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $buyRequest->setQty($this->getQty());
 
         return $buyRequest;
-    }
-
-    /**
-     * Returns special download params (if needed) for custom option with type = 'file'
-     * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
-     * Return null, as quote item needs no additional configuration.
-     *
-     * @return null|Varien_Object
-     */
-    public function getFileDownloadParams()
-    {
-        return null;
     }
 }
