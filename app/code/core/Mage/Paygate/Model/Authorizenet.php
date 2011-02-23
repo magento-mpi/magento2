@@ -180,7 +180,20 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         if ($this->_isGatewayActionsLocked($this->getInfoInstance())) {
             return false;
         }
-        return $this->_isPreauthorizeCapture($this->getInfoInstance());
+        if ($this->_isPreauthorizeCapture($this->getInfoInstance())) {
+            return true;
+        }
+
+        /**
+         * If there are not transactions it is placing order and capturing is available
+         */
+        foreach($this->getCardsStorage()->getCards() as $card) {
+            $lastTransaction = $this->getInfoInstance()->getTransaction($card->getLastTransId());
+            if ($lastTransaction) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
