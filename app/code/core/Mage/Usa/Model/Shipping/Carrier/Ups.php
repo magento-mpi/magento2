@@ -706,7 +706,7 @@ XMLRequest;
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0];
-            if($success===1){
+            if ($success===1) {
                 $arr = $xml->getXpath("//RatingServiceSelectionResponse/RatedShipment");
                 $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
 
@@ -760,7 +760,7 @@ XMLRequest;
                 $error = Mage::getModel('shipping/rate_result_error');
                 $error->setCarrier('ups');
                 $error->setCarrierTitle($this->getConfigData('title'));
-                //$error->setErrorMessage($errorTitle);
+                Mage::log($errorTitle);
                 $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             }
         }
@@ -774,7 +774,7 @@ XMLRequest;
             if(!isset($errorTitle)){
                 $errorTitle = Mage::helper('usa')->__('Cannot retrieve shipping rates');
             }
-            //$error->setErrorMessage($errorTitle);
+            Mage::log($errorTitle);
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
