@@ -66,7 +66,8 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle extends Mage_XmlConne
         }
 
         foreach ($bundleOptions as $_option) {
-            if (!$_option->getSelections($product->getId())) {
+            $selections = $_option->getSelections();
+            if (empty($selections)) {
                 continue;
             }
 
@@ -89,7 +90,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle extends Mage_XmlConne
 
 //            $_default = $_option->getDefaultSelection();
 
-            foreach ($_option->getSelections($product->getId()) as $_selection) {
+            foreach ($selections as $_selection) {
                 if (!$_selection->isSaleable()) {
                     continue;
                 }
