@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Abstract import adapter
  *
@@ -145,10 +145,10 @@ abstract class Mage_ImportExport_Model_Import_Adapter_Abstract implements Seekab
     }
 
     /**
-	 * Seeks to a position.
+     * Seeks to a position.
      *
-	 * @param int $position The position to seek to.
-	 * @return void
+     * @param int $position The position to seek to.
+     * @return void
      */
     public function seek($position)
     {

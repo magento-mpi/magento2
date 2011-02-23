@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
  * Export entity product model
  *
@@ -242,7 +242,6 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         $rowTierPrices   = array();
         $stockItemRows   = array();
         $linksRows       = array();
-        $giftcardAmounts = array();
         $gfAmountFields  = array();
         $defaultStoreId  = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
 
@@ -385,23 +384,6 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED   => '_associated_'
         );
 
-        // prepare giftcard amounts data
-        if (isset($this->_productTypeModels['giftcard'])) {
-            $giftcardAmountsData = $this->_connection->fetchAll($this->_connection->select()
-                ->from($resource->getTableName('enterprise_giftcard/amount'))
-                ->where('entity_id IN (?)', array_keys($dataRows))
-            );
-            foreach ($giftcardAmountsData as $giftcardAmountRow) {
-                $giftcardAmounts[$giftcardAmountRow['entity_id']][] = array(
-                    '_giftcard_amounts_website' => 0 == $giftcardAmountRow['website_id']
-                                                   ? self::VALUE_ALL
-                                                   : $this->_websiteIdToCode[$giftcardAmountRow['website_id']],
-                    '_giftcard_amounts_amount' => $giftcardAmountRow['value']
-                );
-            }
-            $gfAmountFields = array('_giftcard_amounts_website', '_giftcard_amounts_amount');
-        }
-
         // prepare configurable products data
         $configurableData  = array();
         $configurablePrice = array();
@@ -496,8 +478,8 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 $row = array();
                 $productId = $option['product_id'];
                 $optionId  = $option['option_id'];
-                $customOptions = isset($customOptionsDataPre[$productId][$optionId])  
-                               ? $customOptionsDataPre[$productId][$optionId] 
+                $customOptions = isset($customOptionsDataPre[$productId][$optionId])
+                               ? $customOptionsDataPre[$productId][$optionId]
                                : array();
 
                 if (Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID == $storeId) {
@@ -568,7 +550,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         // create export file
         $headerCols = array_merge(
             array(
-                self::COL_SKU, self::COL_STORE, self::COL_ATTR_SET, 
+                self::COL_SKU, self::COL_STORE, self::COL_ATTR_SET,
                 self::COL_TYPE, self::COL_CATEGORY, '_product_websites'
             ),
             $validAttrCodes,
@@ -590,7 +572,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         // have we merge configurable products data
         if ($configurableData) {
             $headerCols = array_merge($headerCols, array(
-                '_super_products_sku', '_super_attribute_code', 
+                '_super_products_sku', '_super_attribute_code',
                 '_super_attribute_option', '_super_attribute_price_corr'
             ));
         }
@@ -615,9 +597,6 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 }
                 if (!empty($rowTierPrices[$productId])) {
                     $dataRow = array_merge($dataRow, array_shift($rowTierPrices[$productId]));
-                }
-                if (!empty($giftcardAmounts[$productId])) {
-                    $dataRow = array_merge($dataRow, array_shift($giftcardAmounts[$productId]));
                 }
                 foreach ($linkIdColPrefix as $linkId => $colPrefix) {
                     if (!empty($linksRows[$productId][$linkId])) {
@@ -661,9 +640,6 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             if (!empty($configurableData[$productId])) {
                 $additionalRowsCount = max($additionalRowsCount, count($configurableData[$productId]));
             }
-            if (!empty($giftcardAmounts[$productId])) {
-                $additionalRowsCount = max($additionalRowsCount, count($giftcardAmounts[$productId]));
-            }
 
             if ($additionalRowsCount) {
                 for ($i = 0; $i < $additionalRowsCount; $i++) {
@@ -694,9 +670,6 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                     }
                     if (!empty($configurableData[$productId])) {
                         $dataRow = array_merge($dataRow, array_shift($configurableData[$productId]));
-                    }
-                    if (!empty($giftcardAmounts[$productId])) {
-                        $dataRow = array_merge($dataRow, array_shift($giftcardAmounts[$productId]));
                     }
                     $writer->writeRow($dataRow);
                 }

@@ -30,14 +30,14 @@ $installer->startSetup();
 
 $installer->run("
 CREATE TABLE IF NOT EXISTS `{$installer->getTable('importexport_importdata')}` (
-	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`entity` VARCHAR(50) NOT NULL,
-	`behavior` SET('" . Mage_ImportExport_Model_Import::BEHAVIOR_APPEND. "','"
+    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `entity` VARCHAR(50) NOT NULL,
+    `behavior` SET('" . Mage_ImportExport_Model_Import::BEHAVIOR_APPEND. "','"
     . Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE . "','" .
     Mage_ImportExport_Model_Import::BEHAVIOR_DELETE . "') NOT NULL DEFAULT '" .
     Mage_ImportExport_Model_Import::BEHAVIOR_APPEND . "',
-	`data` MEDIUMTEXT NOT NULL DEFAULT '',
-	PRIMARY KEY (`id`)
+    `data` MEDIUMTEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (`id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=MyISAM

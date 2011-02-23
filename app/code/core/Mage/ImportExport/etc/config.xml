@@ -108,14 +108,12 @@
                 <configurable>importexport/import_entity_product_type_configurable</configurable>
                 <virtual>importexport/import_entity_product_type_simple</virtual>
                 <grouped>importexport/import_entity_product_type_grouped</grouped>
-                <giftcard>importexport/import_entity_product_type_giftcard</giftcard>
             </import_product_types>
             <export_product_types>
                 <simple>importexport/export_entity_product_type_simple</simple>
                 <configurable>importexport/export_entity_product_type_configurable</configurable>
                 <virtual>importexport/export_entity_product_type_simple</virtual>
                 <grouped>importexport/export_entity_product_type_grouped</grouped>
-                <giftcard>importexport/export_entity_product_type_giftcard</giftcard>
             </export_product_types>
         </importexport>
     </global>
