@@ -486,9 +486,6 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
     protected function _prepareWebsiteDateTable()
     {
         $write = $this->_getWriteAdapter();
-        $table = $this->_getWebsiteDateTable();
-        $write->delete($table);
-
         $baseCurrency = Mage::app()->getBaseCurrencyCode();
 
         $select = $write->select()
@@ -530,9 +527,14 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model
             }
         }
 
+        $write->beginTransaction();
+        $table = $this->_getWebsiteDateTable();
+        $write->delete($table);
+
         if ($data) {
             $write->insertMultiple($table, $data);
         }
+        $write->commit();
 
         return $this;
     }
