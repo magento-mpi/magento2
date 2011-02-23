@@ -56,6 +56,7 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
         return $this->getLayout()->createBlock('paygate/authorizenet_info_cc')
             ->setMethod($this->getMethod())
             ->setInfo($this->getMethod()->getInfoInstance())
+            ->setCheckoutProgressBlock(false)
             ->setHideTitle(true);
     }
 
