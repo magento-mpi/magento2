@@ -356,9 +356,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      * Initialize creation data from existing order Item
      *
      * @param Mage_Sales_Model_Order_Item $orderItem
+     * @param int $qty
      * @return Mage_Sales_Model_Quote_Item | string
      */
-    public function initFromOrderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = 1)
+    public function initFromOrderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = null)
     {
         if (!$orderItem->getId()) {
             return $this;
@@ -376,7 +377,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             if (is_string($item)) {
                 return $item;
             }
-            $item->setQty($qty);
+            if (is_numeric($qty)) {
+                $item->setQty($qty);
+            }
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
                 $item->addOption(new Varien_Object(
                     array(
