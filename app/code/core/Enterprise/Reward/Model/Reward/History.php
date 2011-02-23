@@ -100,7 +100,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
             $this->_spendAvailablePoints($this->getPointsDelta());
         }
 
-        $now = new Zend_Date(time());
+        $now = time();
         $this->addData(array(
             'created_at' => $this->getResource()->formatDate($now),
             'expired_at_static' => null,
@@ -110,8 +110,8 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
 
         $lifetime = (int)Mage::helper('enterprise_reward')->getGeneralConfig('expiration_days', $this->getWebsiteId());
         if ($lifetime > 0) {
-            $expires = clone $now;
-            $expires = $this->getResource()->formatDate($expires->addDay($lifetime));
+            $expires = $now + $lifetime * 86400;
+            $expires = $this->getResource()->formatDate($expires);
             $this->addData(array(
                 'expired_at_static' => $expires,
                 'expired_at_dynamic' => $expires,
