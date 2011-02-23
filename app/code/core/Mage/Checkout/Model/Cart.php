@@ -230,6 +230,9 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if ($productId) {
             try {
                 $result = $this->getQuote()->addProduct($product, $request);
+                if (is_string($result)) {
+                    Mage::throwException($result);
+                }
                 // Add corresponding message to quote item if quantity was recalculated
                 if ($result->getQty() != $requestedQty && !$productInQuote) {
                     // If quantity was recalculated to be equal to the minimum quantity allowed for purchase
@@ -533,6 +536,9 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
         try {
             $result = $this->getQuote()->updateItem($itemId, $request);
+            if (is_string($result)) {
+                Mage::throwException($result);
+            }
             // Add corresponding message to quote item if quantity was recalculated
             if ($result->getQty() != $requestedQty) {
                 // If quantity was recalculated to be equal to the minimum quantity allowed for purchase
