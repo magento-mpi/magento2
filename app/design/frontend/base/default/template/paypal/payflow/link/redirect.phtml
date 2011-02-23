@@ -42,6 +42,7 @@
         }
     }
     window.top.checkout.gotoSection("<?php echo $this->getGotoSection() ?>");
+    window.top.document.getElementById('review-please-wait').setStyle({top: '50%'});
     window.top.document.getElementById('checkout-review-submit').show();
     <?php if ($this->getErrorMsg()): ?>
         alert('<?php echo $this->getErrorMsg() ?>');

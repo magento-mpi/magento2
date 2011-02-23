@@ -28,22 +28,27 @@
  * @see Mage_Paypal_Block_Payflow_Link_Iframe
  */
 ?>
-<div class="authentication">
-    <div style="text-align:center;"><?php echo $this->__('Please do not refresh the page while the form loads.') ?></div>
-    <iframe id="payflow-link-iframe" style="background:none repeat scroll 0 0 transparent;height:610px;width:99%;" frameborder="0" border="0" src="<?php echo $this->getFrameActionUrl() ?>"></iframe>
-</div>
 <script type="text/javascript">
 //<![CDATA[
-var headers = $$('#' + checkout.accordion.container.readAttribute('id') + ' .section');
-headers.each(function(header) {
-    header.removeClassName('allow');
-});
-$('payflow-link-iframe').observe('load', function(){
-    checkout.loadWaiting = 'review';
-    checkout.setLoadWaiting(false);
-    if (checkout.accordion.currentSection == 'opc-review') {
-        $('checkout-review-submit').hide();
+Review.prototype.save = function() {
+    if (checkout.loadWaiting!=false) return;
+    checkout.setLoadWaiting('review');
+    $('review-please-wait').setStyle({top: $('review-please-wait').offsetTop+'px'});
+    var params = Form.serialize(payment.form);
+    if (this.agreementsForm) {
+        params += '&'+Form.serialize(this.agreementsForm);
     }
-});
+    params.save = true;
+    var request = new Ajax.Request(
+        this.saveUrl,
+        {
+            method:'post',
+            parameters:params,
+            onComplete: function(){},
+            onSuccess: this.onSave,
+            onFailure: checkout.ajaxFailure.bind(checkout)
+        }
+    );
+}
 //]]>
 </script>

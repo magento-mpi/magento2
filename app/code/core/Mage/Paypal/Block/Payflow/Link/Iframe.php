@@ -174,9 +174,31 @@ class Mage_Paypal_Block_Payflow_Link_Iframe extends Mage_Payment_Block_Form
      */
     protected function _toHtml()
     {
+        if ($this->_isAfterPaymentSave()) {
+            $this->setTemplate('paypal/payflow/link/js.phtml');
+            return parent::_toHtml();
+        }
         if (!$this->_shouldRender) {
             return '';
         }
         return parent::_toHtml();
+    }
+
+    /**
+     * Check whether block is rendering after save payment
+     *
+     * @return bool
+     */
+    protected function _isAfterPaymentSave()
+    {
+        $quote = $this->_getCheckout()->getQuote();
+        if ($quote->getPayment()->getMethod() == $this->_paymentMethodCode &&
+            $quote->getIsActive() &&
+            $this->getTemplate() &&
+            $this->getRequest()->getActionName() == 'savePayment') {
+            return true;
+        }
+
+        return false;
     }
 }
