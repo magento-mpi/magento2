@@ -128,7 +128,7 @@ class Mage_Sales_Model_Service_Order
             }
 
             $item = $this->_convertor->itemToShipmentItem($orderItem);
-            if ($orderItem->isDummy()) {
+            if ($orderItem->isDummy(true)) {
                 $qty = 1;
             } else {
                 if (isset($qtys[$orderItem->getId()])) {
@@ -238,7 +238,7 @@ class Mage_Sales_Model_Service_Order
                 $baseAllowedAmount = $order->getBaseShippingAmount() - $order->getBaseShippingRefunded();
                 $baseAllowedAmount = min($baseAllowedAmount, $invoice->getBaseShippingAmount());
             }
-            $creditmemo->setBaseShippingAmount($baseAllowedAmount);            
+            $creditmemo->setBaseShippingAmount($baseAllowedAmount);
         }
 
         $creditmemo->collectTotals();
