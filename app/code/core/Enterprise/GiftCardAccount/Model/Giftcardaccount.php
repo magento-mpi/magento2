@@ -66,6 +66,8 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     protected $_eventPrefix = 'enterprise_giftcardaccount';
     protected $_eventObject = 'giftcardaccount';
 
+    protected $_requestedCode = false;
+
     protected $_defaultPoolModelClass = 'enterprise_giftcardaccount/pool';
 
     protected function _construct()
@@ -163,6 +165,8 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      */
     public function loadByCode($code)
     {
+        $this->_requestedCode = $code;
+
         return $this->load($code, 'code');
     }
 
@@ -215,7 +219,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     public function removeFromCart($saveQuote = true, $quote = null)
     {
         if (!$this->getId()) {
-            $this->_throwException('Wrong gift card account ID.');
+            $this->_throwException('Wrong gift card account code: ' . $this->_requestedCode);
         }
         if (is_null($quote)) {
             $quote = $this->_getCheckoutSession()->getQuote();
@@ -280,8 +284,9 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      */
     public function isValid($expirationCheck = true, $statusCheck = true, $websiteCheck = false, $balanceCheck = true)
     {
+        $code = $this->_requestedCode ? sprintf(' Requested code: %s', $this->_requestedCode) : '';
         if (!$this->getId()) {
-            $this->_throwException('Wrong gift card account ID.');
+            $this->_throwException('Wrong gift card account ID.' . $code);
         }
 
         if ($websiteCheck) {
