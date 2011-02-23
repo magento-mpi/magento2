@@ -53,6 +53,16 @@
             <username>admin</username>
             <password>123123q</password>
         </auth>
+        <admin_user>
+            <user_name>testAdmin</user_name>
+            <user_first_name>FName</user_first_name>
+            <user_last_name>LName</user_last_name>
+            <user_email>test_admin@magento.com</user_email>
+            <user_password>123123q</user_password>
+            <user_confirmation>123123q</user_confirmation>
+            <user_active>Active</user_active>
+            <search_admin_role_name>Administrators</search_admin_role_name>
+        </admin_user>
         <categories>
             <root_name>st-rootcat</root_name>
             <sub_category_name>st-subcat</sub_category_name>

@@ -623,32 +623,32 @@
                 <manage_users>
                     <buttons>
                         <add_new_user>//button[span="Add New User"]</add_new_user>
-                        <reset_filter>//button[span="Reset Filter"]</reset_filter>
-                        <search>//button[span="Search"]</search>
                     </buttons>
-                    <filters>
-                        <user_name>//input[@id='filter_username']</user_name>
-                    </filters>
                     <elements>
-                        <user_table>//table[@id='permissionsUserGrid_table']</user_table>
-                        <heading>//table[@id='permissionsUserGrid_table']//tr[contains(@class,'heading')]</heading>
-                        <body>//table[@id='permissionsUserGrid_table']//tbody</body>
+                        <user_table_container>//*[@id='permissionsUserGrid']</user_table_container>
                     </elements>
+                                        <!-- related pages-->
+                    <edit_user>
+                        <elements>
+                            <user_role_container>//*[@id='permissionsUserRolesGrid']</user_role_container>
+                        </elements>
+                        <inputs>
+                            <user_name>//*[@id='user_username']</user_name>
+                            <user_first_name>//*[@id='user_firstname']</user_first_name>
+                            <user_last_name>//*[@id='user_lastname']</user_last_name>
+                            <user_email>//*[@id='user_email']</user_email>
+                            <user_password>//*[@id='user_password']</user_password>
+                            <user_confirmation>//*[@id='user_confirmation']</user_confirmation>
+                        </inputs>
+                        <selectors>
+                            <user_active>//*[@id='user_is_active']</user_active>
+                        </selectors>
+                        <tabs>
+                            <user_info>//*[@id='page_tabs_main_section']/span</user_info>
+                            <user_role>//*[@id='page_tabs_roles_section']/span</user_role>
+                        </tabs>
+                    </edit_user>
                 </manage_users>
-                <user>
-                    <inputs>
-                        <user_name>user_username</user_name>
-                        <first_name>user_firstname</first_name>
-                        <last_name>user_lastname</last_name>
-                        <email>user_email</email>
-                        <password>user_password</password>
-                        <confirmation>user_confirmation</confirmation>
-                    </inputs>
-                    <buttons>
-                        <save>//button[span="Save User"]</save>
-                        <delete>//button[span="Delete User"]</delete>
-                    </buttons>
-                </user>
             </users>
         </permissions>
         <scope>
