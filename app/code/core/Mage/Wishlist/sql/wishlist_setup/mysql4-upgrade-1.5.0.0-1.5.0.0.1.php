@@ -27,10 +27,10 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
-$installer->getConnection()->addColumn($this->getTable('wishlist_item'), 'qty', 'DECIMAL( 12, 4 ) NOT NULL');
+$installer->getConnection()->addColumn($this->getTable('wishlist/item'), 'qty', 'DECIMAL( 12, 4 ) NOT NULL');
 
 $installer->run("
-CREATE TABLE `{$this->getTable('wishlist_item_option')}` (
+CREATE TABLE `{$this->getTable('wishlist/item_option')}` (
   `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `wishlist_item_id` int(10) unsigned NOT NULL,
   `product_id` int(10) unsigned NOT NULL,
@@ -42,9 +42,9 @@ CREATE TABLE `{$this->getTable('wishlist_item_option')}` (
 
 $installer->getConnection()->addConstraint(
     'FK_WISHLIST_ITEM_OPTION_ITEM_ID',
-    $this->getTable('wishlist_item_option'),
+    $this->getTable('wishlist/item_option'),
     'wishlist_item_id',
-    $this->getTable('wishlist_item'),
+    $this->getTable('wishlist/item'),
     'wishlist_item_id'
 );
 
