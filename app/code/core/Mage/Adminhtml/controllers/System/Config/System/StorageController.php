@@ -55,11 +55,12 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
             return;
         }
 
+        session_write_close();
+
         $flag = $this->_getSyncFlag();
         if ($flag && $flag->getState() == Mage_Core_Model_File_Storage_Flag::STATE_RUNNING
-            || ($flag->getLastUpdate()
-                    && time() > strtotime($flag->getLastUpdate()) + Mage_Core_Model_File_Storage_Flag::FLAG_TTL
-                )
+            && $flag->getLastUpdate()
+            && time() <= (strtotime($flag->getLastUpdate()) + Mage_Core_Model_File_Storage_Flag::FLAG_TTL)
         ) {
             return;
         }
@@ -86,7 +87,10 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
     public function statusAction()
     {
         $flag = $this->_getSyncFlag();
-        if ($flag && $flag->getState() == Mage_Core_Model_File_Storage_Flag::STATE_RUNNING) {
+        if ($flag && $flag->getState() == Mage_Core_Model_File_Storage_Flag::STATE_RUNNING
+            && $flag->getLastUpdate()
+            && time() <= (strtotime($flag->getLastUpdate()) + Mage_Core_Model_File_Storage_Flag::FLAG_TTL)
+        ) {
             $result = array('state' => Mage_Core_Model_File_Storage_Flag::STATE_RUNNING);
 
             $flagData = $flag->getFlagData();

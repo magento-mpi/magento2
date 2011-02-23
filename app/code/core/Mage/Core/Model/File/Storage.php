@@ -147,7 +147,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
             }
 
             $offset = 0;
-            while (($files = $sourceModel->exportFiles($offset)) !== false) {
+            while (($files = $sourceModel->exportFiles($offset, 1)) !== false) {
                 if ($flag) {
                     $flag->save();
                 }
