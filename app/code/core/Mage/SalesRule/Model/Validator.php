@@ -47,12 +47,12 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
     protected $_baseRoundingDeltas = array();
 
     /**
-     * Defines if method Mage_SalesRule_Model_Validator::process() was already called
+     * Defines if method Mage_SalesRule_Model_Validator::reset() wasn't called
      * Used for clearing applied rule ids in Quote and in Address
      *
      * @var bool
      */
-    protected $_isFirstTimeProcessRun = false;
+    protected $_isFirstTimeResetRun = true;
 
     /**
      * Information about item totals for rules.
@@ -229,6 +229,23 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Reset quote and address applied rules
+     *
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @return Mage_SalesRule_Model_Validator
+     */
+    public function reset(Mage_Sales_Model_Quote_Address $address)
+    {
+        if ($this->_isFirstTimeResetRun) {
+            $address->setAppliedRuleIds('');
+            $address->getQuote()->setAppliedRuleIds('');
+            $this->_isFirstTimeResetRun = false;
+        }
+        
+        return $this;
+    }
+
+    /**
      * Quote item discount calculation process
      *
      * @param   Mage_Sales_Model_Quote_Item_Abstract $item
@@ -241,13 +258,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         $item->setDiscountPercent(0);
         $quote      = $item->getQuote();
         $address    = $this->_getAddress($item);
-
-        //Clearing applied rule ids for quote and address
-        if ($this->_isFirstTimeProcessRun !== true){
-            $this->_isFirstTimeProcessRun = true;
-            $quote->setAppliedRuleIds('');
-            $address->setAppliedRuleIds('');
-        }
 
         $itemPrice  = $this->_getItemPrice($item);
         $baseItemPrice = $this->_getItemBasePrice($item);
