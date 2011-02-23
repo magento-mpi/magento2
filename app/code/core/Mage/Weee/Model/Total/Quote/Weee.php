@@ -33,7 +33,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
      * @var Mage_Weee_Helper_Data
      */
     protected $_helper;
-    protected $_store;    
+    protected $_store;
 
     /**
      * Tax configuration object
@@ -223,7 +223,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
     protected function _processTaxSettings($item, $value, $baseValue, $rowValue, $baseRowValue)
     {
         if ($this->_helper->isTaxable($this->_store) && $rowValue) {
-            if (!$this->_config->priceIncludesTax($this->_store)) {
+            if ($this->_config->priceIncludesTax($this->_store)) {
                 $item->setExtraTaxableAmount($value)
                     ->setBaseExtraTaxableAmount($baseValue)
                     ->setExtraRowTaxableAmount($rowValue)
