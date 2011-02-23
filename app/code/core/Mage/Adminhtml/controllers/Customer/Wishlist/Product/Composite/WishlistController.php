@@ -112,7 +112,7 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
     /*
      * IFrame handler for submitted configuration for wishlist item
      *
-     * @return Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
+     * @return false
      */
     public function updateAction()
     {
@@ -134,11 +134,30 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
             $updateResult->setError(true);
             $updateResult->setMessage($e->getMessage());
         }
-
+        $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
         $helper = Mage::helper('adminhtml/catalog_product_composite');
-        $helper->renderUpdateResult($this, $updateResult);
+        Mage::getSingleton('adminhtml/session')->setCompositeProductResult($updateResult);
+        $this->_redirect('*/*/showUpdateResult');
 
-        return $this;
+        return false;
+    }
+
+    /*
+     * Show item update result from updateAction
+     *
+     */
+    public function showUpdateResultAction()
+    {
+        $session = Mage::getSingleton('adminhtml/session');
+        if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof Varien_Object){
+            /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+            $helper = Mage::helper('adminhtml/catalog_product_composite');
+            $helper->renderUpdateResult($this, $session->getCompositeProductResult());
+            $session->unsCompositeProductResult(null);
+        } else {
+            $session->unsCompositeProductResult();
+            return false;
+        }
     }
 }

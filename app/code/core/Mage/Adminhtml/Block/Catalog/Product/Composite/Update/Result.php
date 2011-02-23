@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Composite_Update_Result extends Mage_
     {
         $updateResult = Mage::registry('composite_update_result');
         $resultJson = Mage::helper('core')->jsonEncode($updateResult);
-        $jsVarname = $this->getRequest()->getParam('as_js_varname');
+        $jsVarname = $updateResult->getJsVarName();
         return Mage::helper('adminhtml/js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
     }
 }
