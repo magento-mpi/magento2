@@ -106,7 +106,6 @@ class Mage_Core_Model_Translate_Inline
         'cite'          => 'Citation',
         'dt'            => 'Item in a definition list',
         'dd'            => 'Item description in a definition list.',
-        'li'            => 'Item in a list',
         'caption'       => 'Table caption',
         'th'            => 'Header cell in a table',
         'td'            => 'Standard cell in a table',
@@ -434,7 +433,6 @@ class Mage_Core_Model_Translate_Inline
         while (preg_match('#(>|title=\")*('.$this->_tokenRegex.')#', $this->_content, $m, PREG_OFFSET_CAPTURE, $next)) {
             if(-1 == $m[1][1])//title was not found - this is not an attribute
             {
-
                 $tr = '{shown:\''.$this->_escape($m[3][0]).'\','
                     .'translated:\''.$this->_escape($m[4][0]).'\','
                     .'original:\''.$this->_escape($m[5][0]).'\','

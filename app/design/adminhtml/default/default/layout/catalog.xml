@@ -102,6 +102,12 @@
         </block>
     </adminhtml_catalog_product_options>
 
+    <adminhtml_catalog_product_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/catalog_product_grid" name="admin.product.grid"/>
+        </block>
+    </adminhtml_catalog_product_grid>
+
     <adminhtml_catalog_product_related>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="adminhtml/catalog_product_edit_tab_related" name="catalog.product.edit.tab.related"/>
