@@ -89,8 +89,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
         $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_ratings');
         $searchResult = $this->searchAndDoAction('rating_container', $deleteRating, "open", NULL);
         if ($searchResult) {
-            $confirmation = 'Are you sure you want to do this?';
-            $deleteResult = $this->doDeleteElement($confirmation);
+            $deleteResult = $this->doDeleteElement();
             if (!$deleteResult) {
                 $this->printInfo('Element is not deleleted');
             }
@@ -247,8 +246,7 @@ class Model_Admin_ReviewAndRating extends Model_Admin {
         $this->setUiNamespace('admin/pages/catalog/reviews_and_ratings/manage_review');
         $searchResult = $this->searchAndDoAction('review_container', $deleteReview, "open", NULL);
         if ($searchResult) {
-            $confirmation = 'Are you sure you want to do this?';
-            $deleteResult = $this->doDeleteElement($confirmation);
+            $deleteResult = $this->doDeleteElement();
             if (!$deleteResult) {
                 $this->printInfo('Element is not deleleted');
             }

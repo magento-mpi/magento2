@@ -552,10 +552,7 @@ class Model_Admin_Product extends Model_Admin {
         $searchElements = $this->dataPreparation($params, $searchWord);
         $result = $this->searchAndDoAction('product_grid', $searchElements, 'open', NUll);
         if ($result) {
-            $confirmation = 'Are you sure?';
-            sleep(5);
-            $this->doDeleteElement($confirmation);
-            sleep(5);
+            $this->doDeleteElement();
         }
     }
 

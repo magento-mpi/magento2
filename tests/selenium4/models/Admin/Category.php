@@ -214,8 +214,7 @@ class Model_Admin_Category extends Model_Admin {
     public function doDeleteCategory($categotyPath)
     {
         if ($this->doSelectCategory($categotyPath)) {
-            $confirmation = 'Are you sure you want to delete this category?';
-            $this->doDeleteElement($confirmation);
+            $this->doDeleteElement();
         }
     }
 

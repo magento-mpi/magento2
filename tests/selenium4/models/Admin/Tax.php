@@ -203,8 +203,7 @@ class Model_Admin_Tax extends Model_Admin {
         $searchElements = $this->dataPreparation($params, $searchWord);
         $search_res = $this->searchAndDoAction($tableContainer, $searchElements, 'open', NULL);
         if ($search_res) {
-            $confirmation = 'Are you sure you want to do this?';
-            $deleteResult = $this->doDeleteElement($confirmation);
+            $deleteResult = $this->doDeleteElement();
             if (!$deleteResult) {
                 $this->printInfo('Element is not deleleted');
             }

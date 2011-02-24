@@ -190,7 +190,12 @@ class Model_Admin extends TestModelAbstract {
     {
         if ($this->isSetValue($params, $field) != NULL) {
             $value = $this->isSetValue($params, $field);
-            $this->type($this->getUiElement("inputs/" . $field, $number), $value);
+            $xpath = $this->getUiElement("inputs/" . $field, $number);
+            if ($this->isElementPresent($xpath)) {
+                $this->type($xpath, $value);
+            } else {
+                $this->printInfo("Field '" . $field . "' is not found on this page");
+            }
         }
     }
 
@@ -443,20 +448,24 @@ class Model_Admin extends TestModelAbstract {
     /**
      * Delete opened element
      *
-     * @param string $confirmation
      * @return boolean
      */
-    public function doDeleteElement($confirmation)
+    public function doDeleteElement()
     {
         $result = TRUE;
-        if ($this->isElementPresent($this->getUiElement('/admin/global/buttons/delete'))) {
+        $buttonXpath = $this->getUiElement('/admin/global/buttons/delete');
+        if ($this->isElementPresent($buttonXpath)) {
+            $confirmation = $this->getAttribute($buttonXpath . '@onclick');
+            preg_match_all("/([a-z]+ )+([a-z]+)\?/i", $confirmation, $allMes);
+            $confirmation = $allMes[0][0];
             $this->chooseCancelOnNextConfirmation();
-            $this->click($this->getUiElement('/admin/global/buttons/delete'));
+            $this->click($buttonXpath);
             if ($this->isConfirmationPresent()) {
                 $text = $this->getConfirmation();
                 if ($text == $confirmation) {
                     $this->chooseOkOnNextConfirmation();
-                    $this->click($this->getUiElement('/admin/global/buttons/delete'));
+                    $this->click($buttonXpath);
+                    $this->getConfirmation();
                 } else {
                     $this->printInfo('The confirmation text incorrect: ' . $text);
                     $result = FALSE;
@@ -503,8 +512,8 @@ class Model_Admin extends TestModelAbstract {
             $pageName = end($nodes);
             $openedPageName = $this->getText("//*[@id='page:main-container']//h3");
             if ($openedPageName == $pageName) {
+                $this->printInfo('Opened the correct category');
                 return TRUE;
-                $this->printInfo('открытая правильная категория');
             }
         } else {
             $this->setVerificationErrors("$pagePath page could not be opened");

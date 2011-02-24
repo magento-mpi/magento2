@@ -63,8 +63,7 @@ class Model_Admin_AdminUser extends Model_Admin {
         $searchElements = $this->dataPreparation($params, $searchWord);
         $userSearch = $this->searchAndDoAction('user_table_container', $searchElements, 'open', NULL);
         if ($userSearch) {
-            $confirmation = 'Are you sure you want to do this?';
-            $this->doDeleteElement($confirmation);
+            $this->doDeleteElement();
         }
     }
 

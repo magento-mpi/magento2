@@ -52,9 +52,7 @@ class Model_Admin_AttributeSet extends Model_Admin {
         $searchElements = $this->dataPreparation($params, '/search_set/');
         $result = $this->searchAndDoAction('atr_set_search_container', $searchElements, 'open', NULL);
         if ($result) {
-            $confirmation =
-                    'All products of this set will be deleted! Are you sure you want to delete this attribute set?';
-            $deleteResult = $this->doDeleteElement($confirmation);
+            $deleteResult = $this->doDeleteElement();
             if (!$deleteResult) {
                 $this->printInfo('Element is not deleleted');
             }

@@ -209,8 +209,7 @@ class Model_Admin_Attributes extends Model_Admin {
         $searchElements = $this->dataPreparation($params, $searchWord);
         $result = $this->searchAndDoAction('attribute_search_grid', $searchElements, 'open', Null);
         if ($result) {
-            $confirmation = 'Are you sure you want to do this?';
-            $this->doDeleteElement($confirmation);
+            $this->doDeleteElement();
         }
     }
 
