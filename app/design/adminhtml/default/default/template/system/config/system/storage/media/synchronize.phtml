@@ -57,9 +57,10 @@
             loaderArea:     false,
 
             onSuccess: function(transport) {
+                var response;
+
                 try {
                     response = eval('(' + transport.responseText + ')');
-
                     if (response.state == '<?php echo Mage_Core_Model_File_Storage_Flag::STATE_RUNNING ?>'
                         && response.message
                     ) {
@@ -109,4 +110,4 @@
 //]]>
 </script>
 
-<?php echo $this->getButtonHtml() ?><span class="sync-indicator no-display" id="sync_span"><img alt="Synchronize" src="<?php echo $this->getSkinUrl('images/process_spinner.gif') ?>"/><span id="sync_message_span"></span></span>
+<?php echo $this->getButtonHtml() ?><span class="sync-indicator no-display" id="sync_span"><img alt="Synchronize" style="margin:0 5px" src="<?php echo $this->getSkinUrl('images/process_spinner.gif') ?>"/><span id="sync_message_span"></span></span>

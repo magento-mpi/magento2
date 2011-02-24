@@ -109,7 +109,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
             switch ($state) {
                 case Mage_Core_Model_File_Storage_Flag::STATE_RUNNING:
                     if (!$flag->getLastUpdate()
-                        || time() <= (strtotime($flag->getLastUpdate()) + Mage_Core_Model_File_Storage_Flag::FLAG_TT)
+                        || time() <= (strtotime($flag->getLastUpdate()) + Mage_Core_Model_File_Storage_Flag::FLAG_TTL)
                     ) {
                         $flagData = $flag->getFlagData();
                         if (is_array($flagData)
@@ -143,11 +143,13 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
 
                     $result['html'] = $block->toHtml();
                     break;
+                default:
+                    $state = Mage_Core_Model_File_Storage_Flag::STATE_INACTIVE;
+                    break;
             }
         } else {
             $state = Mage_Core_Model_File_Storage_Flag::STATE_INACTIVE;
         }
-
         $result['state'] = $state;
 
         $result = Mage::helper('core')->jsonEncode($result);
