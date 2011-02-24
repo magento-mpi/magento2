@@ -281,13 +281,11 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     Mage::helper('enterprise_giftregistry')->__('The gift registry items have been updated.')
                 );
             }
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Failed to update gift registry items list.'));
         }
 
@@ -365,8 +363,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $message = Mage::helper('enterprise_giftregistry')->__('An error occurred while sending email(s).');
             $this->_getSession()->addException($e, $message);
         }
