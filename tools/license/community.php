@@ -74,6 +74,17 @@ updateLicense(array(
     ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'themeCallback',  true, true, true
 );
 
+//The Find
+// php-code files
+updateLicense(array('app/code/community/Find'), '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_OSL, 'codePoolCallback', true, true, true);
+// xml files
+updateLicense(array('app/code/community/Find'), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'codePoolCallback', true, true, true);
+updateLicense(array('app/etc/modules'), 'Find_Feed.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'xmlModulesCallback', true, true, true);
+// design phtml-files
+updateLicense(array('app/design/adminhtml/default/find/template'), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_AFL, 'themeCallback', true, true, true);
+// design layouts
+updateLicense(array('app/design/adminhtml/default/find/layout'), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'themeCallback',  true, true, true);
+
 // phoenix moneybookers
 updateLicense('app/code/community/Phoenix/Moneybookers', '*.php', REGEX_PHP, REPLACEMENT_PHP, PHOENIX_OSL, new Callback('codePoolCallback', 'community'), true, true, true);
 updateLicense('app/code/community/Phoenix/Moneybookers', '*.xml', REGEX_XML, REPLACEMENT_XML, PHOENIX_OSL, new Callback('codePoolCallback', 'community'), true, true, true);

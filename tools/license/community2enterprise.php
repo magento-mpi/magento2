@@ -129,5 +129,17 @@ updateLicense(null, array("downloader/index.php", "downloader/mage.php"), REGEX_
 updateLicense('downloader/skin', array('*.css', '*.js'), REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, 'skinDownloaderCallback');
 updateLicense('downloader/template', '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'themeDownloaderCallback');
 
+//TheFind
+// php-code files
+updateLicense(array('app/code/community/Find'), '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'codePoolCallback');
+// xml files
+updateLicense(array('app/code/community/Find'), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'codePoolCallback');
+updateLicense(array('app/etc/modules'), 'Find_Feed.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'xmlModulesCallback');
+// design phtml-files
+updateLicense(array('app/design/adminhtml/default/find/template'), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'themeCallback');
+// design layouts
+updateLicense(array('app/design/adminhtml/default/find/layout'), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'themeCallback');
+
+
 echo "done\n";
 exit;

@@ -122,5 +122,24 @@ updateLicense(null, array(
     'js/lib/flex.js',
 ), REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_PRO, array('lib', 'js'), true, true, true);
 
+
+//downloader
+updateLicense("downloader/Maged", "*.php", REGEX_PHP, REPLACEMENT_PHP, NOTICE_PRO, 'codeDownloaderCallback');
+updateLicense("downloader/lib", "*.php", REGEX_PHP, REPLACEMENT_PHP, NOTICE_PRO, 'libCallback');
+updateLicense(null, array("downloader/index.php", "downloader/mage.php"), REGEX_PHP, REPLACEMENT_PHP, NOTICE_PRO, 'codeDownloaderCallback');
+updateLicense('downloader/skin', array('*.css', '*.js'), REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_PRO, 'skinDownloaderCallback');
+updateLicense('downloader/template', '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_PRO, 'themeDownloaderCallback');
+
+//TheFind
+// php-code files
+updateLicense(array('app/code/community/Find'), '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_PRO, 'codePoolCallback');
+// xml files
+updateLicense(array('app/code/community/Find'), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_PRO, 'codePoolCallback');
+updateLicense(array('app/etc/modules'), 'Find_Feed.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_PRO, 'xmlModulesCallback');
+// design phtml-files
+updateLicense(array('app/design/adminhtml/default/find/template'), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_PRO, 'themeCallback');
+// design layouts
+updateLicense(array('app/design/adminhtml/default/find/layout'), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_PRO, 'themeCallback');
+
 echo "done\n";
 exit;
