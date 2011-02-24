@@ -39,15 +39,15 @@
             <table class="header-buttons">
                 <tr>
                     <td class="info">
-        <div class="login-btn back-button">
-            <div class="login-left-alt"></div>
-            <div class="login-body"><span><?php echo Mage::helper('xmlconnect')->__('Back'); ?></span></div>
-            <div class="login-right"></div>
-        </div>
+                        <div class="login-btn back-button">
+                            <div class="login-left-alt"></div>
+                            <div class="login-body"><span><?php echo Mage::helper('xmlconnect')->__('Back'); ?></span></div>
+                            <div class="login-right"></div>
+                        </div>
                     </td>
                     <td class="logo-small"><div>
                         <img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getDesignPreviewImageUrl($this->getInterfaceImagesPaths('conf/navigationBar/icon')); ?>"/>
-                <span class="sh-title">
+                        <span class="sh-title">
                             <span class="sh-title1" style="font:bold <?php echo $this->getData('conf/fonts/Title1/size'); ?>px <?php echo $this->getData('conf/fonts/Title1/name'); ?>;">
                                 <span class="sh-title2" style="color: <?php echo $this->getData('conf/fonts/Title1/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__("T-Shirts"); ?></span>
                         <?php echo Mage::helper('xmlconnect')->__("T-Shirts"); ?>
@@ -61,9 +61,14 @@
             <div class="login-body"><span><?php echo Mage::helper('xmlconnect')->__('Edit Filter'); ?></span></div>
             <div class="login-right"></div>
                     </div></td>
+                    <td class="info"><div class="login-btn edit-filter">
+                        <div class="login-left"></div>
+                        <div class="login-body"><span><?php echo Mage::helper('xmlconnect')->__('Edit Filter'); ?></span></div>
+                        <div class="login-right"></div>
+                    </div></td>
                 </tr>
             </table>
-        </div>                
+        </div>
     </div>
     <div class="filter-header" style="background:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>;">
         <div class="gradient"></div>

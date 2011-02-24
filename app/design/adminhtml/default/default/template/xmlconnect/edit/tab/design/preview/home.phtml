@@ -24,6 +24,9 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<?php
+$categoryItemTintColor = $this->getCategoryItemTintColor();
+?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-home.css'); ?>" media="all" />
 <div class="main-frame">
 <div class="main-block" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
@@ -62,21 +65,25 @@
     </div>
     <div class="catalog" style="background:<?php echo $this->getData('conf/body/scrollBackgroundColor'); ?>">
         <div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="76" height="76" alt="" />
-            <div class="item-text" style="font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("80px x 80px"); ?></div>
+            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="80" height="80" alt="" />
+            <div class="item-text" style="font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;<?php echo $categoryItemTintColor; ?>"><?php echo Mage::helper('xmlconnect')->__("80x80 px"); ?></div>
         </div>
         <div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="76" height="76" alt="" />
-            <div class="item-text" style="font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("80px x 80px"); ?></div>
+            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="80" height="80" alt="" />
+            <div class="item-text" style="font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;<?php echo $categoryItemTintColor; ?>"><?php echo Mage::helper('xmlconnect')->__("80x80 px"); ?></div>
         </div>
         <div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="76" height="76" alt="" />
-            <div class="item-text" style="font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("80px x 80px"); ?></div>
+            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="80" height="80" alt="" />
+            <div class="item-text" style="font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;<?php echo $categoryItemTintColor; ?>"><?php echo Mage::helper('xmlconnect')->__("80x80 px"); ?></div>
         </div>
         <div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="76" height="76" alt="" />
+            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="80" height="80" alt="" />
+            <div class="item-text" style="font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;<?php echo $categoryItemTintColor; ?>"><?php echo Mage::helper('xmlconnect')->__("80x80 px"); ?></div>
+        </div>
+        <!-- div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
+            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="80" height="80" alt="" />
             <div class="item-text" style="font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px/18px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("80px x 80px"); ?></div>
-        </div>
+        </div -->
     </div>
     <?php echo $this->getChildHtml('tab_items'); ?>
 </div>

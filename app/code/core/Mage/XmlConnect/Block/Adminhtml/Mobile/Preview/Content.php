@@ -26,6 +26,13 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminhtml_Block_Template
 {
     /**
+     * Category item tint color styles
+     *
+     * @var string
+     */
+    protected $categoryItemTintColor = '';
+
+    /**
      * Prepare config data
      * Implement set "conf" data as magic method
      *
@@ -93,5 +100,55 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     public function getPreviewCssUrl($name = '')
     {
         return  Mage::getDesign()->getSkinUrl('xmlconnect/' . $name);
+    }
+
+    /**
+     * Get category item tint color styles
+     *
+     * @return string
+     */
+    public function getCategoryItemTintColor()
+    {
+        if (!strlen($this->categoryItemTintColor)) {
+            $percent = .4;
+            $mask = 255;
+
+            $hex = str_replace('#','',$this->getData('conf/categoryItem/tintColor'));
+            $hex2 = '';
+            $_rgb = array();
+
+            $d = '[a-fA-F0-9]';
+
+            if (preg_match("/^($d$d)($d$d)($d$d)\$/", $hex, $rgb)) {
+                $_rgb = array(hexdec($rgb[1]), hexdec($rgb[2]), hexdec($rgb[3]));
+            }
+            if (preg_match("/^($d)($d)($d)$/", $hex, $rgb)) {
+                $_rgb = array(hexdec($rgb[1] . $rgb[1]), hexdec($rgb[2] . $rgb[2]), hexdec($rgb[3] . $rgb[3]));
+            }
+
+            for ($i=0; $i<3; $i++) {
+                $_rgb[$i] = round($_rgb[$i] * $percent) + round($mask * (1-$percent));
+                if ($_rgb[$i] > 255) {
+                    $_rgb[$i] = 255;
+                }
+            }
+
+            for($i=0; $i < 3; $i++) {
+                $hex_digit = dechex($_rgb[$i]);
+                if(strlen($hex_digit) == 1) {
+                    $hex_digit = "0" . $hex_digit;
+                }
+                $hex2 .= $hex_digit;
+            }
+            if($hex && $hex2){
+                // for IE
+                $this->categoryItemTintColor .= "filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#".$hex2."', endColorstr='#".$hex."');";
+                // for webkit browsers
+                $this->categoryItemTintColor .= "background:-webkit-gradient(linear, left top, left bottom, from(#".$hex2."), to(#".$hex."));";
+                // for firefox
+                $this->categoryItemTintColor .= "background:-moz-linear-gradient(top,  #".$hex2.",  #".$hex.");";
+            }
+        }
+        return $this->categoryItemTintColor;
     }
 }
