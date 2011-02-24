@@ -26,6 +26,7 @@ BUILD_TOOLS="$OLDPWD"
 
 DB_NAME="builds-$BUILD_NAME-$BUILD_NUMBER"
 DB_NAME=${DB_NAME//-/_}
+DB_NAME=${DB_NAME//./_}
 SB=""
 
 NUM_BUILDS=10
@@ -35,7 +36,7 @@ check_failure() {
         cd $OLDPWD
         IFS=$OLDIFS
         failed "ERROR # ${1} : ${2}"
-    fi  
+    fi
 }
 
 failed() {
