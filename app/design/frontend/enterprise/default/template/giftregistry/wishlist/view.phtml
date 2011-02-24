@@ -80,13 +80,13 @@
                             <?php if ($this->checkProductType($product)): ?>
                             <div class="btn-gift-registry">
                                 <div class="input-box">
-                                    <select id="giftregistry_entity_<?php echo $product->getProductId()?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
+                                    <select id="giftregistry_entity_<?php echo $product->getId()?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
                                         <?php foreach ($entityValues as $_entity):?>
                                             <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('core/string')->truncate($_entity->getTitle(), 40))?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
-                                <button type="button" onclick="addProductToGiftregistry('<?php echo $product->getProductId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+                                <button type="button" onclick="addProductToGiftregistry('<?php echo $product->getId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
                             </div>
                             <?php endif;?>
                         </td>
