@@ -45,7 +45,11 @@ Review.prototype.save = function() {
         {
             method:'post',
             parameters:params,
-            onComplete: function(){},
+            onComplete: function(transport) {
+                if (!response.success) {
+                    checkout.setLoadWaiting(false);
+                }
+            },
             onSuccess: this.onSave,
             onFailure: checkout.ajaxFailure.bind(checkout)
         }
