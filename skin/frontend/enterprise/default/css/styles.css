@@ -1343,7 +1343,7 @@ button.btn-cart span {}
 .bundle-summary .product .block-title h2 { color:#5a5a5a; font-weight:normal; padding-left:5px; }
 .bundle-summary .product-image { border:1px solid #d6d6d6; float:left; margin:0 -60px 0 0; }
 .bundle-summary .product-details {}
-.bundle-summary .product-details p.availability { font-weight:bold; font-size:11px; margin:28px 0 0; position:absolute; }
+.bundle-summary .product-details p.availability { font-weight:bold; font-size:11px; margin:28px 0 0; position:relative; }
 .bundle-summary .price-box { margin-bottom:35px; }
 .bundle-summary .price-box .price-as-configured .price { font-weight:normal; }
 .bundle-summary .price-box .price-as-configured .price-label { color:#010101; font-size:14px; font-weight:normal; margin-right:10px; }
