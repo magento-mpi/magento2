@@ -76,11 +76,18 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
         $_default           = $_option->getDefaultSelection();
         $_selections        = $_option->getSelections();
         $selectedOptions    = $this->_getSelectedOptions();
+        $inPreConfigured    = $this->getProduct()->hasPreconfiguredValues()
+            && $this->getProduct()->getPreconfiguredValues()
+                    ->getData('bundle_option_qty/' . $_option->getId());
 
-        if ($_default && empty($selectedOptions)) {
+        if (empty($selectedOptions) && $_default) {
             $_defaultQty = $_default->getSelectionQty()*1;
             $_canChangeQty = $_default->getSelectionCanChangeQty();
-        } elseif (!$this->_showSingle() || $this->getProduct()->hasPreconfiguredValues()) {
+        } elseif (!$inPreConfigured && $selectedOptions && !is_array($selectedOptions)) {
+            $selectedSelection = $_option->getSelectionById($selectedOptions);
+            $_defaultQty = $selectedSelection->getSelectionQty()*1;
+            $_canChangeQty = $selectedSelection->getSelectionCanChangeQty();
+        } elseif (!$this->_showSingle() || $inPreConfigured) {
             $_defaultQty = $this->_getSelectedQty();
             $_canChangeQty = (bool)$_defaultQty;
         } else {
