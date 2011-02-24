@@ -35,6 +35,16 @@
 class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
+     * Config key 'Display Wishlist Summary'
+     */
+    const WISHLIST_LINK_USE_QTY = 'wishlist/wishlist_link/use_qty';
+
+    /**
+     * Config key 'Display Out of Stock Products'
+     */
+    const CATALOGINVENTORY_SHOW_OUT_OF_STOCK = 'cataloginventory/options/show_out_of_stock';
+
+    /**
      * Customer Wishlist instance
      *
      * @var Mage_Wishlist_Model_Wishlist
@@ -107,8 +117,14 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     public function getItemCount()
     {
         $storedDisplayType = Mage::getSingleton('customer/session')->getWishlistDisplayType();
-        $currentDisplayType = Mage::getStoreConfig('wishlist/wishlist_link/use_qty');
-        if ($currentDisplayType != $storedDisplayType || !Mage::getSingleton('customer/session')->hasWishlistItemCount()) {
+        $currentDisplayType = Mage::getStoreConfig(self::WISHLIST_LINK_USE_QTY);
+
+        $storedDisplayOutOfStockProducts = Mage::getSingleton('customer/session')->getDisplayOutOfStockProducts();
+        $currentDisplayOutOfStockProducts = Mage::getStoreConfig(self::CATALOGINVENTORY_SHOW_OUT_OF_STOCK);
+        if (!Mage::getSingleton('customer/session')->hasWishlistItemCount()
+                || ($currentDisplayType != $storedDisplayType)
+                || !Mage::getSingleton('customer/session')->hasDisplayOutOfStockProducts()
+                || ($currentDisplayOutOfStockProducts != $storedDisplayOutOfStockProducts)) {
             $this->calculate();
         }
 
@@ -406,16 +422,14 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         if (!$this->_isCustomerLogIn()) {
             $count = 0;
         } else {
-            if (Mage::getStoreConfig('wishlist/wishlist_link/use_qty')) {
+            if (Mage::getStoreConfig(self::WISHLIST_LINK_USE_QTY)) {
                 $count = $this->getWishlistItemCollection()
                     ->getItemsQty();
             } else {
-                $count = $this->getWishlistItemCollection()
-                    /* Price data is added to consider item stock status using price index */
-//                  ->addPriceData()
-                    ->getSize();
+                $count = count($this->getWishlistItemCollection()->setInStockFilter(true));
             }
-            $session->setWishlistDisplayType(Mage::getStoreConfig('wishlist/wishlist_link/use_qty'));
+            $session->setWishlistDisplayType(Mage::getStoreConfig(self::WISHLIST_LINK_USE_QTY));
+            $session->setDisplayOutOfStockProducts(Mage::getStoreConfig(self::CATALOGINVENTORY_SHOW_OUT_OF_STOCK));
         }
         $session->setWishlistItemCount($count);
         Mage::dispatchEvent('wishlist_items_renewed');
