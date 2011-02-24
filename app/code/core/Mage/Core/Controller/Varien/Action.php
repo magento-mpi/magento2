@@ -491,8 +491,18 @@ abstract class Mage_Core_Controller_Varien_Action
         Mage::app()->loadArea($this->getLayout()->getArea());
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT) && Mage::getStoreConfig('web/browser_capabilities/cookies')) {
-            $this->_forward('noCookies', 'index', 'core');
+            if ($this->getRequest()->getParam('noCookie', false)) {
+                $this->_forward('noCookies', 'index', 'core');
+            } else {
+                $backUrl = ltrim($this->getRequest()->getPathInfo(),'/');
+                $this->_redirect($backUrl, array('noCookie' => 1, 'backUrl' => base64_encode($backUrl)));
+            }
             return;
+        }
+
+        if ($this->getRequest()->getParam('noCookie', false)) {
+            $backUrl = base64_decode($this->getRequest()->getParam('backUrl'));
+            $this->_redirect($backUrl);
         }
 
         if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {

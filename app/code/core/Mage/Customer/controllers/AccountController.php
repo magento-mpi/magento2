@@ -38,7 +38,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      *
      * @var array
      */
-    protected $_cookieCheckActions = array('loginPost', 'create');
+    protected $_cookieCheckActions = array('loginPost', 'create', 'createpost', 'login');
 
     /**
      * Retrieve customer session model object
