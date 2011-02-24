@@ -30,6 +30,7 @@ AdminOrder.prototype = {
         this.customerId     = data.customer_id ? data.customer_id : false;
         this.storeId        = data.store_id ? data.store_id : false;
         this.currencyId     = false;
+        this.currencySymbol = data.currency_symbol ? data.currency_symbol : false;
         this.addresses      = data.addresses ? data.addresses : $H({});
         this.shippingAsBilling = data.shippingAsBilling ? data.shippingAsBilling : false;
         this.gridProducts   = $H({});
@@ -83,6 +84,10 @@ AdminOrder.prototype = {
         this.currencyId = id;
         //this.loadArea(['sidebar', 'data'], true);
         this.loadArea(['data'], true);
+    },
+
+    setCurrencySymbol : function(symbol){
+        this.currencySymbol = symbol;
     },
 
     selectAddress : function(el, container){
@@ -404,7 +409,6 @@ AdminOrder.prototype = {
             var checkbox = Element.select(trElement, 'input[type="checkbox"]')[0];
             var confLink = Element.select(trElement, 'a')[0];
             var priceColl = Element.select(trElement, '.price')[0];
-            var currency = priceColl.innerHTML.match(/(.*?)[0-9\.,]+/)[1];
             if (checkbox) {
                 // processing non composite product
                 if (confLink.readAttribute('disabled')) {
@@ -418,7 +422,12 @@ AdminOrder.prototype = {
                     var listType = confLink.readAttribute('list_type');
                     var productId = confLink.readAttribute('product_id');
                     if (typeof this.productPriceBase[productId] == 'undefined') {
-                        this.productPriceBase[productId] = parseFloat(priceColl.innerHTML.match(/.*?([0-9\.,]+)/)[1].replace(/,/g,''));
+                        var priceBase = priceColl.innerHTML.match(/.*?([0-9\.,]+)/);
+                        if (!priceBase) {
+                            this.productPriceBase[productId] = 0;
+                        } else {
+                            this.productPriceBase[productId] = parseFloat(priceBase[1].replace(/,/g,''));
+                        }
                     }
                     productConfigure.setConfirmCallback(listType, function() {
                         // sync qty of popup and qty of grid
@@ -428,7 +437,7 @@ AdminOrder.prototype = {
                         }
                         // calc and set product price
                         var productPrice = this._calcProductPrice();
-                        priceColl.innerHTML = currency + (productPrice + this.productPriceBase[productId]);
+                        priceColl.innerHTML = this.currencySymbol + (productPrice + this.productPriceBase[productId]);
                         // and set checkbox checked
                         grid.setCheckboxChecked(checkbox, true);
                     }.bind(this));
@@ -455,17 +464,15 @@ AdminOrder.prototype = {
      */
     _calcProductPrice: function () {
         var productPrice = 0;
-        var optQty = 0;
+        var optQty = 1;
         var getPriceFields = function (elms) {
             var productPrice = 0;
             var getPrice = function (elm) {
                 if (elm.hasAttribute('price')) {
-                    if (elm.hasAttribute('qtyId')) {
-                        optQty = $(elm.getAttribute('qtyId')).value;
-                        return parseFloat(elm.readAttribute('price')) * optQty;
-                    } else {
-                        return parseFloat(elm.readAttribute('price'));
+                    if (elm.hasAttribute('qtyId') && $(elm.getAttribute('qtyId')).value) {
+                        optQty = parseFloat($(elm.getAttribute('qtyId')).value);
                     }
+                    return parseFloat(elm.readAttribute('price')) * optQty;
                 }
                 return 0;
             };
@@ -838,6 +845,7 @@ AdminOrder.prototype = {
         else {
             new Ajax.Request(url, {parameters:params,loaderArea: indicator});
         }
+        productConfigure.clean();
     },
 
     loadAreaResponseHandler : function (response){
