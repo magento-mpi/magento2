@@ -44,10 +44,8 @@ class Enterprise_GiftWrapping_Model_Observer
     {
         if (is_array($data)) {
             $wrapping = Mage::getModel('enterprise_giftwrapping/wrapping')->load($data['design']);
-            if ($wrapping->getId()) {
-                $entity->setGwId($wrapping->getId())
-                    ->save();
-            }
+            $entity->setGwId($wrapping->getId())
+                ->save();
         }
         return $this;
     }
@@ -65,9 +63,7 @@ class Enterprise_GiftWrapping_Model_Observer
             $wrappingInfo = array();
             if (isset($data['design'])) {
                 $wrapping = Mage::getModel('enterprise_giftwrapping/wrapping')->load($data['design']);
-                if ($wrapping->getId()) {
-                    $wrappingInfo['gw_id'] = $wrapping->getId();
-                }
+                $wrappingInfo['gw_id'] = $wrapping->getId();
             }
             $wrappingInfo['gw_allow_gift_receipt'] = isset($data['allow_gift_receipt']);
             $wrappingInfo['gw_add_printed_card'] = isset($data['add_printed_card']);
