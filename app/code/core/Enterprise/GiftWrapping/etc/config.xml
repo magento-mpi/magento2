@@ -281,5 +281,15 @@
                 <allow_printed_card>1</allow_printed_card>
             </gift_options>
         </sales>
+        <tax>
+            <cart_display>
+                <gift_wrapping>1</gift_wrapping>
+                <printed_card>1</printed_card>
+            </cart_display>
+            <sales_display>
+                <gift_wrapping>1</gift_wrapping>
+                <printed_card>1</printed_card>
+            </sales_display>
+         </tax>
     </default>
 </config>

@@ -74,7 +74,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $useConfig = Mage_Catalog_Model_Product_Attribute_Backend_Boolean::ATTRIBUTE_CONFIG_ALLOW;
         if ($productConfig == $useConfig || is_null($productConfig)) {
-            return $this->isGiftWrappingAvailableForItems();
+            return $this->isGiftWrappingAvailableForItems($store);
         } else {
             return $productConfig == Mage_Catalog_Model_Product_Attribute_Backend_Boolean::ATTRIBUTE_ALLOWED;
         }

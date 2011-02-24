@@ -23,9 +23,9 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-
 ?>
-<?php if ($this->getDisplayWrapping()): ?>
+
+<?php if ($this->canDisplayGiftWrappingForOrder()): ?>
 <div class="entry-edit box-right">
 
     <div><?php echo Mage::helper('sales')->__('Gift Wrapping for the Entire Order') ?></div>
@@ -98,7 +98,11 @@
 var giftWrappingOrder = {
     designsInfo : <?php echo $this->getDesignsInfo()->toJson() ?>,
     cardInfo : <?php echo $this->getCardInfo()->toJson() ?>,
+    allowPrintedCard: <?php echo (int)$this->getAllowPrintedCard() ?>,
     setCardPrice : function(event, checked) {
+        if (!this.allowPrintedCard) {
+            return;
+        }
         var value = (event) ? Event.element(event).checked : checked;
         if (value) {
             if (this.cardInfo.price_incl_tax && $('card-price-incl-tax')) {

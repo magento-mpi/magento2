@@ -62,15 +62,16 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
             if ($item->getParentItem()) {
                 continue;
             }
-            $allowed = $item->getProduct()->getGiftWrappingAvailable();
-            if (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId())) {
+            if ($this->getDisplayGiftWrappingForItem($item)) {
                 $temp = array();
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
                         $temp['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
                         $temp['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
                     } else {
-                        $temp['price'] = $this->calculatePrice(new Varien_Object(), $price, $this->getDisplayWrappingPriceInclTax());
+                        $temp['price'] = $this->calculatePrice(new Varien_Object(), $price,
+                            $this->getDisplayWrappingPriceInclTax()
+                        );
                     }
                 }
                 $temp['design'] = $item->getGwId();
@@ -81,71 +82,33 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
     }
 
     /**
-     * Retrieve wrapping design from current quote
-     *
-     * @return int
-     */
-    public function getWrappingDesignValue()
-    {
-        return (int)$this->getQuote()->getGwId();
-    }
-
-    /**
-     * Retrieve wrapping gift receipt from current quote
-     *
-     * @return int
-     */
-    public function getWrappingGiftReceiptValue()
-    {
-        return (int)$this->getQuote()->getGwAllowGiftReceipt();
-    }
-
-    /**
-     * Retrieve wrapping printed card from current quote
-     *
-     * @return int
-     */
-    public function getWrappingPrintedCardValue()
-    {
-        return (int)$this->getQuote()->getGwAddPrintedCard();
-    }
-    /**
-     * Check ability to display both prices for printed card in shopping cart
+     * Check ability to display gift wrapping for items during backend order create
      *
      * @return bool
      */
-    public function getDisplayCardBothPrices()
+    public function canDisplayGiftWrappingForItems()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartCardBothPrices($this->getStoreId());
+        $canDisplay = false;
+        foreach ($this->getQuote()->getAllItems() as $item) {
+            if ($item->getParentItem()) {
+                continue;
+            }
+            if ($this->getDisplayGiftWrappingForItem($item)) {
+                $canDisplay = true;
+            }
+        }
+        return $canDisplay;
     }
 
     /**
-     * Check ability to display prices including tax for printed card in shopping cart
+     * Check ability to display gift wrapping for quote item
      *
+     * @param Mage_Sales_Model_Quote_Item $item
      * @return bool
      */
-    public function getDisplayCardPriceInclTax()
+    public function getDisplayGiftWrappingForItem($item)
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartCardIncludeTaxPrice($this->getStoreId());
-    }
-
-    /**
-     * Check allow printed card
-     *
-     * @return bool
-     */
-    public function getAllowPrintedCard()
-    {
-        return Mage::helper('enterprise_giftwrapping')->allowPrintedCard($this->getStoreId());
-    }
-
-    /**
-     * Check allow gift receipt
-     *
-     * @return bool
-     */
-    public function getAllowGiftReceipt()
-    {
-        return Mage::helper('enterprise_giftwrapping')->allowGiftReceipt($this->getStoreId());
+        $allowed = $item->getProduct()->getGiftWrappingAvailable();
+        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
     }
 }

@@ -62,4 +62,14 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Items
         }
         return new Varien_Object($data);
     }
+
+    /**
+     * Check ability to display gift wrapping for order items
+     *
+     * @return bool
+     */
+    public function canDisplayGiftWrappingForItems()
+    {
+        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForItems($this->getStoreId());
+    }
 }

@@ -119,4 +119,14 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
     {
         return Mage::helper('enterprise_giftwrapping')->allowGiftReceipt($this->getStoreId());
     }
+
+    /**
+     * Check ability to display gift wrapping during backend order create
+     *
+     * @return bool
+     */
+    public function canDisplayGiftWrappingForOrder()
+    {
+        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId());
+    }
 }

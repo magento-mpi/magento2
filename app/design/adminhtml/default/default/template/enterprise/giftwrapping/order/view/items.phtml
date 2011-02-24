@@ -25,6 +25,7 @@
  */
 ?>
 
+<?php if ($this->canDisplayGiftWrappingForItems()): ?>
 <div id="wrapping-item-container" class="no-display">
     <h4>Gift Wrapping</h4>
     <div class="gift-wrapping-form">
@@ -98,3 +99,4 @@ var giftWrappingItem = {
 giftWrappingItem.init();
 //]]>
 </script>
+<?php endif; ?>

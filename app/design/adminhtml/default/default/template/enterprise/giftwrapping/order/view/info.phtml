@@ -58,10 +58,13 @@
             </div>
             <?php endif; ?>
 
+            <?php if ($this->getAllowGiftReceipt()): ?>
             <p>
                 <input type="checkbox" id="allow-gift-receipt" class="checkbox" disabled="disabled" <?php if ($this->getAllowGiftReceipt()):?> checked="checked"<?php endif; ?> />
                 <label for="allow-gift-receipt"><?php echo $this->__('Send Gift Receipt') ?></label>
             </p>
+            <?php endif; ?>
+            <?php if ($this->getAllowPrintedCard()): ?>
             <p>
                 <input type="checkbox" id="add-printed-card" class="checkbox" disabled="disabled" <?php if ($this->getPrintedCard()):?> checked="checked"<?php endif; ?> />
                 <label for="add-printed-card"><?php echo $this->__('Add Printed Card') ?></label>
@@ -84,6 +87,7 @@
                 </div>
             <?php endif; ?>
             </div>
+            <?php endif; ?>
             <?php endif; ?>
         </fieldset>
     </div>

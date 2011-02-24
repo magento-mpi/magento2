@@ -24,6 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+
+<?php if ($this->canDisplayGiftWrappingForItems()): ?>
 <div id="wrapping-item-container">
     <h4>Gift Wrapping</h4>
     <div class="gift-wrapping-form">
@@ -149,3 +151,4 @@ var giftWrappingItem = {
 giftWrappingItem.init();
 //]]>
 </script>
+<?php endif; ?>
