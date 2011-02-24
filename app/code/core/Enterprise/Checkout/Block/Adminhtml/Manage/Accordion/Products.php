@@ -45,9 +45,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->setPagerVisibility(true);
         $this->setFilterVisibility(true);
         $this->setHeaderText(Mage::helper('enterprise_checkout')->__('Products'));
-        $this->setRowClickCallback('checkoutObj.productGridRowClick.bind(checkoutObj)');
-        $this->setCheckboxCheckCallback('checkoutObj.productGridCheckboxCheck.bind(checkoutObj)');
-        $this->setRowInitCallback('checkoutObj.productGridRowInit.bind(checkoutObj)');
     }
 
     /**
@@ -194,5 +191,15 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     {
         parent::_addControlColumns();
         $this->getColumn('in_products')->setHeader(" ");
+    }
+
+    /*
+     * Add custom options to product collection
+     *
+     * return Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
+     */
+    protected function _afterLoadCollection() {
+        $this->getCollection()->addOptionsToResult();
+        return parent::_afterLoadCollection();
     }
 }

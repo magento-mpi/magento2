@@ -76,8 +76,11 @@ $params = array(
         productConfigure.addListType('product_to_add', {
             urlFetch: '<?php echo $this->getUrl('*/checkout/configureProductToAdd', $params) ?>'
         });
-        productConfigure.addListType('quote_items', {
-            urlFetch: '<?php echo $this->getUrl('*/sales_order_create/configureQuoteItems') ?>'
+        productConfigure.addListType('wishlist', {
+            urlFetch: '<?php echo $this->getUrl('*/checkout/configureWishlistItem', $params) ?>'
+        });
+        productConfigure.addListType('ordered', {
+            urlFetch: '<?php echo $this->getUrl('*/checkout/configureOrderedItem', $params) ?>'
         });
     });
 </script>

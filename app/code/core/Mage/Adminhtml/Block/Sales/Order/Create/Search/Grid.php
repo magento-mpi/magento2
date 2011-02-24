@@ -209,6 +209,4 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         $this->getCollection()->addOptionsToResult();
         return parent::_afterLoadCollection();
     }
-
 }
-

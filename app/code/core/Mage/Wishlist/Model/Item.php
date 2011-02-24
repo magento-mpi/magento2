@@ -659,4 +659,31 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         $params->setUrl($this->_customOptionDownloadUrl);
         return $params;
     }
+
+    /**
+     * Loads item together with its options (default load() method doesn't load options).
+     * If we need to load only some of options, then option code or array of option codes
+     * can be provided in $optionsFilter.
+     *
+     * @param int $id
+     * @param null|string|array $optionsFilter
+     *
+     * @return Mage_Wishlist_Model_Item
+     */
+    public function loadWithOptions($id, $optionsFilter = null)
+    {
+        $this->load($id);
+        if (!$this->getId()) {
+            return $this;
+        }
+
+        $options = Mage::getResourceModel('wishlist/item_option_collection')
+            ->addItemFilter($this);
+        if ($optionsFilter) {
+            $options->addFieldToFilter('code', $optionsFilter);
+        }
+
+        $this->setOptions($options->getOptionsByItem($this));
+        return $this;
+    }
 }

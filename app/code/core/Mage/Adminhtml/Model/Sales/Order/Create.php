@@ -634,13 +634,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         if (isset($data['add_wishlist_item'])) {
             foreach ($data['add_wishlist_item'] as $itemId => $qty) {
-                $item = Mage::getModel('wishlist/item')->load($itemId);
-                if ($item) {
-                    $options = Mage::getResourceModel('wishlist/item_option_collection')
-                        ->addFieldToFilter('code', 'info_buyRequest')
-                        ->addItemFilter(array($itemId));
-
-                    $item->setOptions($options->getOptionsByItem($itemId));
+                $item = Mage::getModel('wishlist/item')
+                    ->loadWithOptions($itemId, 'info_buyRequest');
+                if ($item->getId()) {
                     $this->addProduct($item->getProduct(), $item->getBuyRequest()->toArray());
                 }
             }

@@ -48,9 +48,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
         $this->setHeaderText(
             Mage::helper('enterprise_checkout')->__('Wishlist (%s)', $this->getItemsCount())
         );
-        $this->setRowClickCallback('checkoutObj.productGridRowClick.bind(checkoutObj)');
-        $this->setCheckboxCheckCallback('checkoutObj.productGridCheckboxCheck.bind(checkoutObj)');
-        $this->setRowInitCallback('checkoutObj.productGridRowInit.bind(checkoutObj)');
     }
 
     /**
@@ -94,5 +91,31 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     public function getGridUrl()
     {
         return $this->getUrl('*/*/viewWishlist', array('_current'=>true));
+    }
+
+    /**
+     * Add columns with controls to manage added products and their quantity
+     * Uses inherited methods, but modifies Qty column to change renderer
+     *
+     * @return Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
+     */
+    protected function _addControlColumns()
+    {
+        parent::_addControlColumns();
+
+        $this->addColumn('qty', array(
+            'sortable'  => false,
+            'header'    => Mage::helper('enterprise_checkout')->__('Qty To Add'),
+            'renderer'  => 'enterprise_checkout/adminhtml_manage_grid_renderer_wishlist_qty',
+            'name'      => 'qty',
+            'inline_css'=> 'qty',
+            'align'     => 'right',
+            'type'      => 'input',
+            'validate_class' => 'validate-number',
+            'index'     => 'qty',
+            'width'     => '1',
+        ));
+
+        return $this;
     }
 }

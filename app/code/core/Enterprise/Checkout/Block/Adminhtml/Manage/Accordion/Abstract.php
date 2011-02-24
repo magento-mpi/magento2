@@ -48,9 +48,9 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
         $this->setUseAjax(true);
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        $this->setRowClickCallback('checkoutObj.gridRowClick.bind(checkoutObj)');
-        $this->setCheckboxCheckCallback('checkoutObj.gridCheckboxCheck.bind(checkoutObj)');
-        $this->setRowInitCallback('checkoutObj.gridRowInit.bind(checkoutObj)');
+        $this->setRowClickCallback('checkoutObj.productGridRowClick.bind(checkoutObj)');
+        $this->setCheckboxCheckCallback('checkoutObj.productGridCheckboxCheck.bind(checkoutObj)');
+        $this->setRowInitCallback('checkoutObj.productGridRowInit.bind(checkoutObj)');
     }
 
     /**

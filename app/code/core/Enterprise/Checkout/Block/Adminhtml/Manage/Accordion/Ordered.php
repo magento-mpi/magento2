@@ -61,7 +61,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
+            $productIds = array();
             $storeIds = $this->_getStore()->getWebsite()->getStoreIds();
+
+            // Load last order of a customer
             /* @var $collection Mage_Core_Model_Mysql4_Collection_Abstract */
             $collection = Mage::getResourceModel('sales/order_collection')
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
@@ -72,18 +75,46 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
             foreach ($collection as $order) {
                 break;
             }
+
+            // Add products to order items
             if (isset($order)) {
+                $productIds = array();
                 $collection = $order->getItemsCollection();
                 foreach ($collection as $item) {
                     if ($item->getParentItem()) {
                         $collection->removeItemByKey($item->getId());
+                    } else {
+                        $productIds[$item->getProductId()] = $item->getProductId();
+                    }
+                }
+                if ($productIds) {
+                    // Load products collection
+                    $products = Mage::getModel('catalog/product')->getCollection()
+                        ->setStore($this->_getStore())
+                        ->addAttributeToSelect('name')
+                        ->addAttributeToSelect('sku')
+                        ->addAttributeToSelect('price')
+                        ->addAttributeToFilter('type_id',
+                            array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray())
+                        )
+                        ->addStoreFilter($this->_getStore())
+                        ->addIdFilter($productIds);
+                     Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($products);
+                     $products->addOptionsToResult();
+
+                    // Set products to items
+                    foreach ($collection as $item) {
+                        $productId = $item->getProductId();
+                        $product = $products->getItemById($productId);
+                        if ($product) {
+                            $item->setProduct($product);
+                        } else {
+                            $collection->removeItemByKey($item->getId());
+                        }
                     }
                 }
             }
-            if (isset($order)) {
-                $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
-            }
-            $this->setData('items_collection', isset($order) ? $collection : parent::getItemsCollection());
+            $this->setData('items_collection', $productIds ? $collection : parent::getItemsCollection());
         }
         return $this->getData('items_collection');
     }

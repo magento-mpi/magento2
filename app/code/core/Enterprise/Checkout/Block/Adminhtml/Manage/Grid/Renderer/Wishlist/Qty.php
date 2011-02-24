@@ -31,29 +31,16 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
+class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty
+    extends Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
 {
     /**
-     * Render product name to add Configure link
+     * Returns whether this qty field must be inactive
      *
      * @param   Varien_Object $row
-     * @return  string
+     * @return  bool
      */
-    public function render(Varien_Object $row)
-    {
-        $rendered       =  parent::render($row);
-        $isConfigurable = false;
-        if ($row instanceof Mage_Catalog_Model_Product) {
-            $isConfigurable = $row->isProductConfigurable();
-            $listType = 'product_to_add';
-        } else if (($row instanceof Mage_Wishlist_Model_Item) || ($row instanceof Mage_Sales_Model_Order_Item)) {
-            $_product = $row->getProduct();
-            $isConfigurable = $_product->isProductConfigurable();
-            $listType = ($row instanceof Mage_Wishlist_Model_Item) ? 'wishlist' : 'ordered';
-        }
-        $style          = $isConfigurable ? '' : 'style="color: #CCC;"';
-        $prodAttributes = $isConfigurable ? sprintf('list_type = "%s" item_id = %s', $listType, $row->getId()) : 'disabled="disabled"';
-        return sprintf('<a href="javascript:void(0)" %s class="f-right" %s>%s</a>',
-            $style, $prodAttributes, Mage::helper('sales')->__('Configure')) . $rendered;
+    protected function _isInactive($row) {
+        return $row->getProduct()->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
     }
 }

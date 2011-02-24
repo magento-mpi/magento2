@@ -145,6 +145,10 @@ AdminCheckout.prototype = {
             });
     },
 
+    /**
+    * Left for compatibility of js.
+    * Adviced to use productGridRowClick() for more powerful product management.
+    */
     gridRowClick: function(grid, event)
     {
         var trElement = Event.findElement(event, 'tr');
@@ -158,6 +162,10 @@ AdminCheckout.prototype = {
         }
     },
 
+    /**
+    * Left for compatibility of js.
+    * Adviced to use productGridCheckboxCheck() for more powerful product management.
+    */
     gridCheckboxCheck: function(grid, element, checked)
     {
         this.setCheckboxChecked(element, checked);
@@ -183,6 +191,10 @@ AdminCheckout.prototype = {
         }
     },
 
+    /**
+     * Left for compatibility of js.
+     * Adviced to use productGridRowInit() for more powerful product management.
+     */
     gridRowInit: function(grid, row)
     {
         var checkbox = $(row).down('input[type="checkbox"]');
@@ -311,7 +323,10 @@ AdminCheckout.prototype = {
                 // processing composite product
                 } else if (!isInputCheckbox || (isInputCheckbox && checkbox.checked)) {
                     var listType = confLink.readAttribute('list_type');
-                    var productId = confLink.readAttribute('product_id');
+                    var itemId = confLink.readAttribute('item_id');
+                    if (!itemId) {
+                        itemId = confLink.readAttribute('product_id');
+                    }
                     productConfigure.setConfirmCallback(listType, function() {
                         // sync qty of popup and qty of grid
                         var confirmedCurrentQty = productConfigure.getCurrentConfirmedQtyElement();
@@ -329,11 +344,15 @@ AdminCheckout.prototype = {
                     productConfigure.setShowWindowCallback(listType, function() {
                         // sync qty of grid and qty of popup
                         var formCurrentQty = productConfigure.getCurrentFormQtyElement();
-                        if (formCurrentQty && qtyElement && !isNaN(qtyElement.value)) {
-                            formCurrentQty.value = qtyElement.value;
+                        if (formCurrentQty && qtyElement && (qtyElement.value != '') && !isNaN(qtyElement.value)) {
+                            var value = qtyElement.value;
+                            if (value == '0') {
+                                value = 1;
+                            }
+                            formCurrentQty.value = value;
                         }
                     }.bind(this));
-                    productConfigure.showItemConfiguration(listType, productId);
+                    productConfigure.showItemConfiguration(listType, itemId);
                 }
             }
         }

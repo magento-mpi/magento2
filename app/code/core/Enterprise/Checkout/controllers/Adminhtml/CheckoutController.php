@@ -450,6 +450,96 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         return $this;
     }
 
+    /*
+     * Ajax handler to configure item in wishlist
+     *
+     * @return Enterprise_Checkout_Adminhtml_CheckoutController
+     */
+    public function configureWishlistItemAction()
+    {
+        // Prepare data
+        $configureResult = new Varien_Object();
+        try {
+            $this->_initAction();
+
+            $customer   = Mage::registry('checkout_current_customer');
+            $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $store      = Mage::registry('checkout_current_store');
+            $storeId    = ($store instanceof Mage_Core_Model_Store) ? $store->getId() : (int) $store;
+
+            $itemId = (int) $this->getRequest()->getParam('id');
+            if (!$itemId) {
+                Mage::throwException($this->__('Wishlist item id is not received.'));
+            }
+
+            $item = Mage::getModel('wishlist/item')
+                ->loadWithOptions($itemId, 'info_buyRequest');
+            if (!$item->getId()) {
+                Mage::throwException($this->__('Wishlist item is not loaded.'));
+            }
+
+            $configureResult->setOk(true)
+                ->setProductId($item->getProductId())
+                ->setBuyRequest($item->getBuyRequest())
+                ->setCurrentStoreId($storeId)
+                ->setCurrentCustomerId($customerId);
+        } catch (Exception $e) {
+            $configureResult->setError(true);
+            $configureResult->setMessage($e->getMessage());
+        }
+
+        // Render page
+        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper->renderConfigureResult($this, $configureResult);
+        return $this;
+    }
+
+    /*
+     * Ajax handler to configure item in wishlist
+     *
+     * @return Enterprise_Checkout_Adminhtml_CheckoutController
+     */
+    public function configureOrderedItemAction()
+    {
+        // Prepare data
+        $configureResult = new Varien_Object();
+        try {
+            $this->_initAction();
+
+            $customer   = Mage::registry('checkout_current_customer');
+            $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $store      = Mage::registry('checkout_current_store');
+            $storeId    = ($store instanceof Mage_Core_Model_Store) ? $store->getId() : (int) $store;
+
+            $itemId = (int) $this->getRequest()->getParam('id');
+            if (!$itemId) {
+                Mage::throwException($this->__('Ordered item id is not received.'));
+            }
+
+            $item = Mage::getModel('sales/order_item')
+                ->load($itemId);
+            if (!$item->getId()) {
+                Mage::throwException($this->__('Ordered item is not loaded.'));
+            }
+
+            $configureResult->setOk(true)
+                ->setProductId($item->getProductId())
+                ->setBuyRequest($item->getBuyRequest())
+                ->setCurrentStoreId($storeId)
+                ->setCurrentCustomerId($customerId);
+        } catch (Exception $e) {
+            $configureResult->setError(true);
+            $configureResult->setMessage($e->getMessage());
+        }
+
+        // Render page
+        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper->renderConfigureResult($this, $configureResult);
+        return $this;
+    }
+
     /**
      * Process exceptions in ajax requests
      *
