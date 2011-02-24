@@ -117,6 +117,16 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     }
 
     /**
+     * Check ability to display gift wrapping in shopping cart
+     *
+     * @return bool
+     */
+    public function getDisplayWrapping()
+    {
+        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder();
+    }
+    
+    /**
      * Check ability to display both prices for gift wrapping in shopping cart
      *
      * @return bool

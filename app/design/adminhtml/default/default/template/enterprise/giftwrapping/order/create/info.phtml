@@ -25,6 +25,7 @@
  */
 
 ?>
+<?php if ($this->getDisplayWrapping()): ?>
 <div class="entry-edit box-right">
 
 <fieldset>
@@ -192,3 +193,4 @@ giftWrappingOrder.setWrapping(null, <?php echo $this->getWrappingDesignValue() ?
 giftWrappingOrder.setCardPrice(null, <?php echo $this->getWrappingPrintedCardValue() ?>);
 //]]>
 </script>
+<?php endif; ?>
