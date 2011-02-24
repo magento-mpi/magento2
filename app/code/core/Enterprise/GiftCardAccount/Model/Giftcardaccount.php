@@ -68,9 +68,9 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     /**
      * Giftcard code that was requested for load
      *
-     * @var string
+     * @var bool|string
      */
-    protected $_requestedCode = '';
+    protected $_requestedCode = false;
 
     protected $_defaultPoolModelClass = 'enterprise_giftcardaccount/pool';
 
@@ -232,7 +232,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     public function removeFromCart($saveQuote = true, $quote = null)
     {
         if (!$this->getId()) {
-            $this->_throwException('Wrong gift card account code: ' . $this->_requestedCode);
+            $this->_throwException(Mage::helper('enterprise_giftcardaccount')->__('Wrong gift card account code: "%s".', $this->_requestedCode));
         }
         if (is_null($quote)) {
             $quote = $this->_getCheckoutSession()->getQuote();
@@ -253,7 +253,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             }
         }
 
-        $this->_throwException('This gift card account wasn\'t found in the quote.');
+        $this->_throwException(Mage::helper('enterprise_giftcardaccount')->__('This gift card account wasn\'t found in the quote.'));
     }
 
     /**
@@ -297,9 +297,10 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      */
     public function isValid($expirationCheck = true, $statusCheck = true, $websiteCheck = false, $balanceCheck = true)
     {
-        $code = $this->_requestedCode ? sprintf(' Requested code: %s', $this->_requestedCode) : '';
         if (!$this->getId()) {
-            $this->_throwException('Wrong gift card account ID.' . $code);
+            $this->_throwException(
+                Mage::helper('enterprise_giftcardaccount')->__('Wrong gift card account ID. Requested code: "%s"', $this->_requestedCode)
+            );
         }
 
         if ($websiteCheck) {
@@ -308,26 +309,34 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             }
             $website = Mage::app()->getWebsite($websiteCheck)->getId();
             if ($this->getWebsiteId() != $website) {
-                $this->_throwException(sprintf('Wrong gift card account website: %s.', $this->getWebsiteId()));
+                $this->_throwException(
+                    Mage::helper('enterprise_giftcardaccount')->__('Wrong gift card account website: %s.', $this->getWebsiteId())
+                );
             }
         }
 
         if ($statusCheck && ($this->getStatus() != self::STATUS_ENABLED)) {
-            $this->_throwException(sprintf('Gift card account %s is not enabled.', $this->getId()));
+            $this->_throwException(
+                Mage::helper('enterprise_giftcardaccount')->__('Gift card account %s is not enabled.', $this->getId())
+            );
         }
 
         if ($expirationCheck && $this->isExpired()) {
-            $this->_throwException(sprintf('Gift card account %s is expired.', $this->getId()));
+            $this->_throwException(
+                Mage::helper('enterprise_giftcardaccount')->__('Gift card account %s is expired.', $this->getId())
+            );
         }
 
         if ($balanceCheck) {
             if ($this->getBalance() <= 0) {
-                $this->_throwException(sprintf('Gift card account %s balance does not have funds.', $this->getId()));
+                $this->_throwException(
+                    Mage::helper('enterprise_giftcardaccount')->__('Gift card account %s balance does not have funds.', $this->getId())
+                );
             }
             if ($balanceCheck !== true && is_numeric($balanceCheck)) {
                 if ($this->getBalance() < $balanceCheck) {
                     $this->_throwException(
-                        sprintf('Gift card account %s balance is less than amount to be charged.', $this->getId())
+                        Mage::helper('enterprise_giftcardaccount')->__('Gift card account %s balance is less than amount to be charged.', $this->getId())
                     );
                 }
             }
