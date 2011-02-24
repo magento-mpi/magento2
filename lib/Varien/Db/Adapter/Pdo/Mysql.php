@@ -380,7 +380,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
             if (strpos($sql, ':') !== false || strpos($sql, '?') !== false) {
                 $before = count($this->_bindParams);
-                $sql = preg_replace_callback('#(([\'"])((\\2)|((.*?)\\2)))#', array($this, 'proccessBindCallback'), $sql);
+                $sql = preg_replace_callback('#(([\'"])((\\2)|((.*?[^\\\\])\\2)))#', array($this, 'proccessBindCallback'), $sql);
                 Varien_Exception::processPcreError();
                 if (!$isNamedBind && count($this->_bindParams) != $before) {
                     // normalize mixed bind
