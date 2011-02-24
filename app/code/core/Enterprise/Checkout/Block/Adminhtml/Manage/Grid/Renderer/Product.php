@@ -43,12 +43,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
         $rendered       =  parent::render($row);
         $isConfigurable = false;
         if ($row instanceof Mage_Catalog_Model_Product) {
-            $isConfigurable = ($row->isComposite() || $row->getOptions() || $row->getTypeId() == 'giftcard'
-                || $row->getTypeId() == 'downloadable') ? true : false;
+            $isConfigurable = $row->isProductConfigurable();
         } elseif ($row instanceof Mage_Wishlist_Model_Item) {
             $_product = $row->getProduct();
-            $isConfigurable = ($_product->isComposite() || $_product->getOptions() || $_product->getTypeId() == 'giftcard'
-                || $_product->getTypeId() == 'downloadable') ? true : false;
+            $isConfigurable = $_product->isProductConfigurable();
         }
         $style          = $isConfigurable ? '' : 'style="color: #CCC;"';
         $prodAttributes = $isConfigurable ? sprintf('list_type = "product_to_add" product_id = %s', $row->getId()) : 'disabled="disabled"';
