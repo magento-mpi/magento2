@@ -106,7 +106,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_C
      */
     public function getDisplayWrappingBothPrices()
     {
-        return Mage::helper('enterprise_giftwrapping')->displaySalesWrappingBothPrices($this->getStoreId());
+        return Mage::helper('enterprise_giftwrapping')->displaySalesWrappingBothPrices();
     }
 
     /**
@@ -116,7 +116,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_C
      */
     public function getDisplayWrappingPriceInclTax()
     {
-        return Mage::helper('enterprise_giftwrapping')->displaySalesWrappingIncludeTaxPrice($this->getStoreId());
+        return Mage::helper('enterprise_giftwrapping')->displaySalesWrappingIncludeTaxPrice();
     }
 
     /**
@@ -126,7 +126,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_C
      */
     public function getDisplayCardBothPrices()
     {
-        return Mage::helper('enterprise_giftwrapping')->displaySalesCardBothPrices($this->getStoreId());
+        return Mage::helper('enterprise_giftwrapping')->displaySalesCardBothPrices();
     }
 
     /**
@@ -136,6 +136,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_C
      */
     public function getDisplayCardPriceInclTax()
     {
-        return Mage::helper('enterprise_giftwrapping')->displaySalesCardIncludeTaxPrice($this->getStoreId());
+        return Mage::helper('enterprise_giftwrapping')->displaySalesCardIncludeTaxPrice();
     }
 }

@@ -123,7 +123,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
      */
     public function getDisplayWrappingBothPrices()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartWrappingBothPrices($this->getStoreId());
+        return Mage::helper('enterprise_giftwrapping')->displayCartWrappingBothPrices();
     }
 
     /**
@@ -133,7 +133,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
      */
     public function getDisplayWrappingPriceInclTax()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartWrappingIncludeTaxPrice($this->getStoreId());
+        return Mage::helper('enterprise_giftwrapping')->displayCartWrappingIncludeTaxPrice();
     }
 
     /**
