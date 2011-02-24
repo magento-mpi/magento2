@@ -146,6 +146,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function canDisplayGiftWrapping()
     {
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId());
+        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId())
+            || $this->getAllowPrintedCard()
+            || $this->getAllowGiftReceipt();
     }
 }

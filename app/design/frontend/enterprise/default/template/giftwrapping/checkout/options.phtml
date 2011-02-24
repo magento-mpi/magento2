@@ -25,7 +25,9 @@
  */
 ?>
 
+<?php if ($this->canDisplayGiftWrapping()): ?>
 <div class="no-display">
+    <?php if ($this->getAllowForOrder()): ?>
     <div id="gift-wrapping-container">
         <div class="gift-wrapping-form">
             <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
@@ -51,6 +53,7 @@
             </div>
         </div>
     </div>
+    <?php endif;?>
 
     <div id="gift-options-container">
         <?php if ($this->getAllowGiftReceipt()): ?>
@@ -126,6 +129,7 @@ var giftWrapping = {
                     data.id = id;
                     this.cardInfo.id = id;
                     this.insertOptions(element, this.cardInfo);
+                    toogleVisibility(['add-gift-options-'+data.id], true);
                 }
             }, this);
         }
@@ -208,3 +212,4 @@ var giftWrapping = {
 giftWrapping.assign();
 //]]>
 </script>
+<?php endif; ?>

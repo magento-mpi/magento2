@@ -277,4 +277,17 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     {
         return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForItems();
     }
+
+    /**
+     * Check allow gift wrapping for order
+     *
+     * @return bool
+     */
+    public function canDisplayGiftWrapping()
+    {
+        return $this->getAllowForOrder()
+            || $this->getAllowForItems()
+            || $this->getAllowPrintedCard()
+            || $this->getAllowGiftReceipt();
+    }
 }
