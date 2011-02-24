@@ -227,10 +227,10 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
      */
     public function getImageUrl()
     {
-        if ($this->hasTmpImage()) {
+        if ($this->getTmpImage()) {
             return Mage::getBaseUrl('media') . self::TMP_IMAGE_PATH . '/' . $this->getTmpImage();
         }
-        if ($this->hasImage()) {
+        if ($this->getImage()) {
             return Mage::getBaseUrl('media') . self::IMAGE_PATH . '/' . $this->getImage();
         }
 

@@ -160,10 +160,15 @@ var giftWrapping = {
     },
 
     setDesign : function(value, id) {
+        var imageBox = $('image-box-'+id);
         if (this.designsInfo[value].path) {
-            $('image-box-'+id).src = this.designsInfo[value].path;
-            $('image-box-'+id).removeClassName('no-display').up().removeClassName('no-display');
+            imageBox.src = this.designsInfo[value].path;
+            imageBox.removeClassName('no-display');
+        } else {
+            imageBox.src = '';
+            imageBox.addClassName('no-display');
         }
+        imageBox.up().removeClassName('no-display');
     },
 
     setPrice : function(value, id) {
