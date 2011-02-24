@@ -143,7 +143,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
             return $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
-            return $e->getMessage();
+            return Mage::helper('enterprise_giftcard')->__('An error has occurred while preparing Gift Card.');
         }
 
         $product->addCustomOption('giftcard_amount', $amount, $product);
