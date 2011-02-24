@@ -131,6 +131,9 @@ var giftWrappingItem = {
                 $('giftwrapping_design_item').value = this.itemsInfo[this.itemId].design;
                 this.setWrapping(null, this.itemsInfo[this.itemId].design);
             }
+            $('wrapping-item-container').removeClassName('no-display');
+        } else {
+            $('wrapping-item-container').addClassName('no-display');
         }
         Event.observe($('gift_options_ok_button'), 'click', this.processOk.bind(this));
         Event.observe($('gift_options_cancel_button'), 'click', this.processCancel.bind(this));

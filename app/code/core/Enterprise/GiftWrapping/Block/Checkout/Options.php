@@ -152,8 +152,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
                 continue;
             }
             $allowed = $item->getProduct()->getGiftWrappingAvailable();
-            if (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForItems()
-                && Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed)) {
+            if (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed)) {
                 $temp = array();
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {

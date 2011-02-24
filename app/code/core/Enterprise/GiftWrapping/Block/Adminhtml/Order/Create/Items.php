@@ -63,7 +63,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
                 continue;
             }
             $allowed = $item->getProduct()->getGiftWrappingAvailable();
-            if (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForItems($allowed)) {
+            if (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId())) {
                 $temp = array();
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {

@@ -110,7 +110,6 @@ var giftWrapping = {
     itemsInfo : <?php echo $this->getItemsInfo()->toJson() ?>,
     cardInfo : <?php echo $this->getCardInfo()->toJson() ?>,
     allowForOrder : <?php echo (int)$this->getAllowForOrder() ?>,
-    allowForItems : <?php echo (int)$this->getAllowForItems() ?>,
     allowGiftReceipt : <?php echo (int)$this->getAllowGiftReceipt() ?>,
     allowPrintedCard : <?php echo (int)$this->getAllowPrintedCard() ?>,
 
@@ -124,17 +123,15 @@ var giftWrapping = {
             }, this);
         }
 
-        if (this.allowForItems) {
-            $$('.options-items-container').each(function(element){
-                var parts = element.id.sub('options-items-container-','').split('-');
-                var id = parts[1];
-                if (this.itemsInfo[id]) {
-                    data.id = id;
-                    this.insertBlock(element, data);
-                    toogleVisibility(['add-gift-options-'+parts[0],'add-gift-options-for-items-'+parts[0]], true);
-                }
-            }, this);
-        }
+        $$('.options-items-container').each(function(element){
+            var parts = element.id.sub('options-items-container-','').split('-');
+            var id = parts[1];
+            if (this.itemsInfo[id]) {
+                data.id = id;
+                this.insertBlock(element, data);
+                toogleVisibility(['add-gift-options-'+parts[0],'add-gift-options-for-items-'+parts[0]], true);
+            }
+        }, this);
 
         if (this.allowGiftReceipt || this.allowPrintedCard) {
             $$('.extra-options-container').each(function(element){
