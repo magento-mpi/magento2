@@ -94,7 +94,7 @@ class Mage_Paypal_Model_Observer
                     $controller->loadLayout('checkout_onepage_review');
                     $html = $controller->getLayout()->getBlock('payflow.link.iframe')->toHtml();
                     $result['update_section'] = array(
-                        'name' => 'review',
+                        'name' => 'paypaliframe',
                         'html' => $html
                     );
                     $result['redirect'] = false;
