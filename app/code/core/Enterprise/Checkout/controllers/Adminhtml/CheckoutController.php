@@ -427,8 +427,11 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function configureProductToAddAction()
     {
         $this->_initAction();
-        $customer = Mage::registry('checkout_current_customer');
-        $store = Mage::registry('checkout_current_store');
+        $customer   = Mage::registry('checkout_current_customer');
+        $store      = Mage::registry('checkout_current_store');
+
+        $storeId    = ($store instanceof Mage_Core_Model_Store) ? $store->getId() : (int) $store;
+        $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
 
         // Prepare data
         $productId  = (int) $this->getRequest()->getParam('id');
@@ -437,8 +440,8 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         $configureResult->setOk(true);
         $configureResult->setProductId($productId);
         $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
-        $configureResult->setCurrentStoreId($store);
-        $configureResult->setCurrentCustomerId($customer);
+        $configureResult->setCurrentStoreId($storeId);
+        $configureResult->setCurrentCustomerId($customerId);
 
         // Render page
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */

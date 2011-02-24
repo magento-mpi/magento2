@@ -187,16 +187,17 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     }
 
     /**
-     * Add product to current quote
+     * Add product to current order quote
      *
-     * @param mixed $product
-     * @param mixed $qty
-     * @return Mage_Sales_Model_Quote_Item
-     * @throws Mage_Core_Exception
+     * @param   mixed $product
+     * @param   Varien_Object $config
+     * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
-    public function addProduct($product, $qty = 1)
+    public function addProduct($product, array $config)
     {
-        $qty = (float)$qty;
+        $config = new Varien_Object($config);
+        $qty = (float)$config->getQty();
+
         if (!($product instanceof Mage_Catalog_Model_Product)) {
             $productId = $product;
             $product = Mage::getModel('catalog/product')
@@ -204,33 +205,39 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                 ->setStoreId($this->getStore()->getId())
                 ->load($product);
             if (!$product->getId()) {
-                Mage::throwException(Mage::helper('enterprise_checkout')->__('Failed to add a product to cart by id "%s"', $productId));
+                Mage::throwException(
+                    Mage::helper('adminhtml')->__('Failed to add a product to cart by id "%s".', $productId)
+                );
             }
         }
 
-        if($product->getStockItem()) {
-            $product->getStockItem()->setCustomerGroupId($this->getCustomer()->getGroupId());
+        if ($product->getStockItem()) {
             if (!$product->getStockItem()->getIsQtyDecimal()) {
                 $qty = (int)$qty;
-            }
-            else {
+            } else {
                 $product->setIsQtyDecimal(1);
             }
         }
         $qty = $qty > 0 ? $qty : 1;
-        if ($item = $this->createQuote()->getItemByProduct($product)) {
+
+        $item = $this->getQuote()->getItemByProduct($product);
+        if ($item) {
             $item->setQty($item->getQty() + $qty);
-        }
-        else {
-            $product->setSkipCheckRequiredOption(true);
-            $item = $this->createQuote()->addProduct($product, $qty);
+        } else {
+            $isGrouped = $product->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+            $processMode = $isGrouped ?
+                Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL :
+                Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE;
+            $product->setCartQty($config->getQty());
+            $item = $this->getQuote()->addProductAdvanced($product, $config, $processMode);
             if (is_string($item)) {
                 Mage::throwException($item);
             }
-            $product->unsSkipCheckRequiredOption();
             $item->checkData();
         }
-        return $item;
+
+        $this->setRecollect(true);
+        return $this;
     }
 
     /**
@@ -264,9 +271,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
                 $item->addOption(new Varien_Object(
                     array(
-                        'product' => $item->getProduct(),
-                        'code' => 'additional_options',
-                        'value' => serialize($additionalOptions)
+                        'product'   => $item->getProduct(),
+                        'code'      => 'additional_options',
+                        'value'     => serialize($additionalOptions)
                     )
                 ));
             }
@@ -281,6 +288,28 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         } else {
             Mage::throwException(Mage::helper('enterprise_checkout')->__('Failed to add a product of order item'));
         }
+    }
+
+    /**
+     * Add multiple products to current order quote
+     *
+     * @param   array $products
+     * @return  Enterprise_Checkout_Model_Cart
+     */
+    public function addProducts(array $products)
+    {
+        foreach ($products as $productId => $config) {
+            $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
+            try {
+                $this->addProduct($productId, $config);
+            } catch (Mage_Core_Exception $e) {
+                $this->getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                return $e;
+            }
+        }
+
+        return $this;
     }
 
     /**
