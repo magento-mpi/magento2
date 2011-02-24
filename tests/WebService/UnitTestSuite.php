@@ -11,6 +11,10 @@ class UnitTestSuite extends Mage_TestSuite
 
     protected function setUp()
     {
+        if ( !WebService_Fixtures_Fixtures::run() ) {
+            $this->markTestSuiteSkipped(WebService_Fixtures_Fixtures::getErrorMessage());
+        }
+        Mage::app('admin');
         WebService_Helper_Data::set('Suite', 'Unit');
 
         WebService_Helper_Data::set(
@@ -38,17 +42,6 @@ class UnitTestSuite extends Mage_TestSuite
         foreach($moduleList as $moduleName) {
             $modelPath = WebService_Helper_Xml::getValueByPath( self::$_configFilePath, '//root/modules/'.$moduleName.'/model');
             $modulePath = $testPath.'/'.$modelPath.'TestCase';
-//            $groups = array($moduleName);
-//            $class = new ReflectionClass(WebService_Helper_Data::transformToClass($modulePath));
-//            $methods = $class->getMethods();
-//            foreach( $methods as $method ) {
-//                if( strpos($method->name, 'test') === 0 ) {
-//                    $suite->addTestMethod($class, $method, &$groups);
-//                }
-//            }
-
-            // $suite->addTestMethod(new ReflectionClass(WebService_Helper_Data::transformToClass($modulePath)), 'testCreate', $suite->getName());
-            //$suite->addTestFile( $modulePath.'.php');
             $suite->addTestSuite( WebService_Helper_Data::transformToClass($modulePath) );
         }
 

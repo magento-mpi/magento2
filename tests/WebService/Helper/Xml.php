@@ -11,17 +11,58 @@
  */
 class WebService_Helper_Xml
 {
-    public static function simpleXmlToArray($xml)
+    /**
+     * @param SimpleXMLObject $xml
+     * @param String $keyTrimmer
+     * @return array
+     *
+     * In XML notation we can't have nodes with digital names in other words fallowing XML will be not valid:
+     * &lt;24&gt;
+     *      Defoult category
+     * &lt;/24&gt;
+     *
+     * But this one will not cause any problems:
+     * &lt;qwe_24&gt;
+     *      Defoult category
+     * &lt;/qwe_24&gt;
+     *
+     * So when we want to obtain an array with key 24 we will pass the correct XML from above and $keyTrimmer = 'qwe_';
+     * As a result we will obtain an array with digital key node.
+     *
+     * In the other case just don't pass the $keyTrimmer.
+     */
+    public static function simpleXmlToArray($xml, $keyTrimmer = null)
     {
         $result = array();
 
-        foreach (get_object_vars($xml->children()) as $key => $node)
-        {
-            if (is_object($node)){
-                $result[$key] = WebService_Helper_Xml::simpleXmlToArray($node);
-            } else {
-                $result[$key] = (string)$node;
+        $isTrimmed = false;
+        if (!is_null($keyTrimmer)){
+            $isTrimmed = true;
+        }
+
+        if(is_object($xml)){
+            foreach (get_object_vars($xml->children()) as $key => $node)
+            {
+                $arrKey = $key;
+                if ($isTrimmed){
+                    $arrKey = str_replace($keyTrimmer, '', $key);//, &$isTrimmed);
+                }
+                if (is_numeric($arrKey)){
+                    $arrKey = 'Obj' . $arrKey;
+                }
+                if (is_object($node)){
+                    $result[$arrKey] = WebService_Helper_Xml::simpleXmlToArray($node, $keyTrimmer);
+                } elseif(is_array($node)){
+                    $result[$arrKey] = array();
+                    foreach($node as $node_key => $node_value){
+                        $result[$arrKey][] = WebService_Helper_Xml::simpleXmlToArray($node_value, $keyTrimmer);
+                    }
+                } else {
+                    $result[$arrKey] = (string)$node;
+                }
             }
+        } else {
+            $result = (string) $xml;
         }
         return $result;
     }

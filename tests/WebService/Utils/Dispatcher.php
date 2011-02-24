@@ -21,7 +21,7 @@ class WebService_Utils_Dispatcher
         $params = array(
             "xmlPath" => WebService_Helper_Data::get('pathToConfig').'/'.self::$_modelName.'/'.ucfirst($methodName).'.xml'
         );
-        $result = $method->invokeArgs(new stdClass(), $params);
+        $result = $method->invokeArgs(new $className(), $params);
         return $result;
     }
 }

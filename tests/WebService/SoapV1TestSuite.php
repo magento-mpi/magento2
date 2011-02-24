@@ -11,6 +11,11 @@ class SoapV1TestSuite extends Mage_TestSuite
 
     protected function setUp()
     {
+        if ( !WebService_Fixtures_Fixtures::run() ) {
+            var_dump('Applying fixtures to DB: ' . WebService_Fixtures_Fixtures::getDbName());
+            var_dump(WebService_Fixtures_Fixtures::getErrorMessage());
+            $this->markTestSuiteSkipped(WebService_Fixtures_Fixtures::getErrorMessage());
+        }
         WebService_Helper_Data::set('Suite', 'Api/SoapV1');
 
         WebService_Helper_Data::set(
