@@ -190,7 +190,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     /**
      * Check if price include tax should be used for calculations.
      * We are using price include tax just in case when catalog prices are including tax
-     * and customer tax requist is same as store tax request
+     * and customer tax request is same as store tax request
      *
      * @param $store
      * @return bool
