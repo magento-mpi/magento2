@@ -34,4 +34,26 @@
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
+
+    /**
+     * Clear collection
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function clear()
+    {
+        foreach ($this->_items as $i => $item) {
+            $item->hasStockItem() && $item->unsStockItem();
+            $item = $this->_items[$i] = null;
+        }
+
+        foreach ($this->_itemsById as $i => $item) {
+            $item = $this->_itemsById[$i] = null;
+        }
+
+        unset($this->_items, $this->_data, $this->_itemsById);
+        $this->_data = array();
+        $this->_itemsById = array();
+        return parent::clear();
+    }
 }
