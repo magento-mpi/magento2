@@ -127,7 +127,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     /**
      * Add columns with controls to manage added products and their quantity
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
      */
     protected function _addControlColumns()
     {
@@ -136,7 +136,6 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
             'type'      => 'checkbox',
             'field_name'=> $this->getId() ? $this->getId() : 'source_product',
             'align'     => 'center',
-//            'values'    => $this->_getSelectedProducts(),
             'index'     => $this->_controlFieldName,
             'use_index' => true,
             'sortable'  => false

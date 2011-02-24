@@ -422,7 +422,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     /*
      * Ajax handler to response configuration fieldset of composite product in order
      *
-     * @return Mage_Adminhtml_Sales_Order_CreateController
+     * @return Enterprise_Checkout_Adminhtml_CheckoutController
      */
     public function configureProductToAddAction()
     {
@@ -437,11 +437,10 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         $productId  = (int) $this->getRequest()->getParam('id');
 
         $configureResult = new Varien_Object();
-        $configureResult->setOk(true);
-        $configureResult->setProductId($productId);
-        $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
-        $configureResult->setCurrentStoreId($storeId);
-        $configureResult->setCurrentCustomerId($customerId);
+        $configureResult->setOk(true)
+            ->setProductId($productId)
+            ->setCurrentStoreId($storeId)
+            ->setCurrentCustomerId($customerId);
 
         // Render page
         /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
@@ -549,21 +548,24 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         /**
          * Identify customer
          */
-        if ($customerId = $this->getRequest()->getParam('customer_id')) {
+        $customerId = $this->getRequest()->getParam('customer_id');
+        if ($customerId) {
             $this->_getSession()->setCustomerId((int) $customerId);
         }
 
         /**
          * Identify store
          */
-        if ($storeId = $this->getRequest()->getParam('store_id')) {
+        $storeId = $this->getRequest()->getParam('store_id');
+        if ($storeId) {
             $this->_getSession()->setStoreId((int) $storeId);
         }
 
         /**
          * Identify currency
          */
-        if ($currencyId = $this->getRequest()->getParam('currency_id')) {
+        $currencyId = $this->getRequest()->getParam('currency_id');
+        if ($currencyId) {
             $this->_getSession()->setCurrencyId((string) $currencyId);
             $this->getCartModel()->setRecollect(true);
         }
@@ -591,18 +593,16 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $this->_initAction();
             $this->_initSession()
                 ->_processData();
-        }
-        catch (Mage_Core_Exception $e){
+        } catch (Exception $e) {
             $this->_reloadQuote();
-            $this->_getSession()->addError($e->getMessage());
-        }
-        catch (Exception $e){
-            $this->_reloadQuote();
-            $this->_getSession()->addException($e, $e->getMessage());
+            if ($e instanceof Mage_Core_Exception) {
+                $this->_getSession()->addError($e->getMessage());
+            } else {
+                $this->_getSession()->addException($e, $e->getMessage());
+            }
         }
 
-
-        $asJson= $this->getRequest()->getParam('json');
+        $asJson = $this->getRequest()->getParam('json');
         $block = $this->getRequest()->getParam('block');
 
         $update = $this->getLayout()->getUpdate();
@@ -637,14 +637,10 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     protected function _processData($action = null)
     {
         /**
-         * Initialize catalog rule data
-         */
-//        $this->getCartModel()->initRuleData();
-
-        /**
          * Adding product to quote from shopping cart, wishlist etc.
          */
-        if ($productId = (int) $this->getRequest()->getPost('add_product')) {
+        $productId = (int) $this->getRequest()->getPost('add_product');
+        if ($productId) {
             $this->getCartModel()->addProduct($productId, $this->getRequest()->getPost());
         }
 
@@ -669,17 +665,19 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         /**
          * Remove quote item
          */
-        if ( ($itemId = (int) $this->getRequest()->getPost('remove_item'))
-             && ($from = (string) $this->getRequest()->getPost('from'))) {
-            $this->getCartModel($itemId)->removeItem($itemId, $from);
+        $removeItemId = (int) $this->getRequest()->getPost('remove_item');
+        $removeFrom = (string) $this->getRequest()->getPost('from');
+        if ($removeItemId && $removeFrom) {
+            $this->getCartModel()->removeItem($removeItemId, $removeFrom);
         }
 
         /**
          * Move quote item
          */
-        if ( ($itemId = (int) $this->getRequest()->getPost('move_item'))
-            && ($moveTo = (string) $this->getRequest()->getPost('to')) ) {
-            $this->getCartModel()->moveQuoteItem($itemId, $moveTo);
+        $moveItemId = (int) $this->getRequest()->getPost('move_item');
+        $moveTo = (string) $this->getRequest()->getPost('to');
+        if ($moveItemId && $moveTo) {
+            $this->getCartModel()->moveQuoteItem($moveItemId, $moveTo);
         }
 
         $this->getCartModel()

@@ -281,9 +281,9 @@ AdminCheckout.prototype = {
         var products = this.gridProducts.toObject();
         for (var productId in products) {
             itemsFilter.push(productId);
-            var paramKey = 'item['+productId+']';
+            var paramKey = 'item[' + productId + ']';
             for (var productParamKey in products[productId]) {
-                paramKey += '['+productParamKey+']';
+                paramKey += '[' + productParamKey + ']';
                 fieldsPrepare[paramKey] = products[productId][productParamKey];
             }
         }
@@ -410,7 +410,7 @@ AdminCheckout.prototype = {
         }
         grid.reloadParams = {'products[]':this.gridProducts.keys()};
     },
-    
+
     loadAreaResponseHandler : function (response){
         if (response.error) {
             alert(response.message);

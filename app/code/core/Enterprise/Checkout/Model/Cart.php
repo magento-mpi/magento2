@@ -196,7 +196,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     public function addProduct($product, array $config)
     {
         $config = new Varien_Object($config);
-        $qty = (float)$config->getQty();
+        $qty = (float) $config->getQty();
 
         if (!($product instanceof Mage_Catalog_Model_Product)) {
             $productId = $product;
@@ -294,7 +294,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      * Add multiple products to current order quote
      *
      * @param   array $products
-     * @return  Enterprise_Checkout_Model_Cart
+     * @return  Enterprise_Checkout_Model_Cart|Exception
      */
     public function addProducts(array $products)
     {
@@ -326,24 +326,24 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
 
         foreach ($data as $itemId => $info) {
             if (!empty($info['configured'])) {
-                $item       = $this->getQuote()->updateItem($itemId, new Varien_Object($info));
-                $itemQty    = (float)$item->getQty();
+                $item = $this->getQuote()->updateItem($itemId, new Varien_Object($info));
+                $itemQty = (float)$item->getQty();
             } else {
-                $item       = $this->getQuote()->getItemById($itemId);
-                $itemQty    = (float)$info['qty'];
+                $item = $this->getQuote()->getItemById($itemId);
+                $itemQty = (float)$info['qty'];
             }
 
             if ($item && $item->getProduct()->getStockItem()) {
                 if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
-                    $itemQty = (int)$itemQty;
+                    $itemQty = (int) $itemQty;
                 } else {
                     $item->setIsQtyDecimal(1);
                 }
             }
 
-            $itemQty    = $itemQty > 0 ? $itemQty : 1;
+            $itemQty = ($itemQty > 0) ? $itemQty : 1;
             if (isset($info['custom_price'])) {
-                $itemPrice  = $this->_parseCustomPrice($info['custom_price']);
+                $itemPrice = $this->_parseCustomPrice($info['custom_price']);
             } else {
                 $itemPrice = null;
             }
@@ -381,7 +381,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      */
     public function moveQuoteItem($item, $moveTo)
     {
-        if ($item = $this->_getQuoteItem($item)) {
+        $item = $this->_getQuoteItem($item);
+        if ($item) {
             switch ($moveTo) {
                 case 'wishlist':
                     $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->getCustomer(), true)
@@ -477,20 +478,4 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
         return false;
     }
-
-    /**
-     * Initialize data for price rules
-     *
-     * @return Mage_Adminhtml_Model_Sales_Order_Create
-     */
-//    public function initRuleData()
-//    {
-//        Mage::register('rule_data', new Varien_Object(array(
-//            'store_id'  => $this->_session->getStore()->getId(),
-//            'website_id'  => $this->_session->getStore()->getWebsiteId(),
-//            'customer_group_id' => $this->getCustomerGroupId(),
-//        )));
-//
-//        return $this;
-//    }
 }

@@ -741,7 +741,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      * Add multiple products to current order quote
      *
      * @param   array $products
-     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     * @return  Mage_Adminhtml_Model_Sales_Order_Create|Exception
      */
     public function addProducts(array $products)
     {
