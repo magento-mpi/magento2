@@ -204,7 +204,7 @@ ProductConfigure.prototype = {
      *
      * @param listType scope name
      */
-    submit: function(listType) {
+    submit: function (listType) {
         // prepare data
         if (listType) {
             this.current.listType = listType;
@@ -221,6 +221,31 @@ ProductConfigure.prototype = {
         } else {
             this._processFieldsData('current_confirmed_to_form');
             this.blockForm.action = urlSubmit;
+            
+            // Remove item controls that duplicate added fields (e.g. sometimes qty controls can intersect)
+            var tagNames = ['input', 'select', 'textarea'];
+
+            var names = {}; // Map of added field names
+            for (var i = 0, len = tagNames.length; i < len; i++) {
+                var tagName = tagNames[i];
+                var elements = this.blockFormAdd.getElementsByTagName(tagName);
+                for (var index = 0, elLen = elements.length; index < elLen; index++) {
+                    names[elements[index].name] = true;
+                }
+            }
+
+            for (var i = 0, len = tagNames.length; i < len; i++) {
+                var tagName = tagNames[i];
+                var elements = this.blockFormConfirmed.getElementsByTagName(tagName);
+                for (var index = 0, elLen = elements.length; index < elLen; index++) {
+                    var element = elements[index];
+                    if (names[element.name]) {
+                        element.remove();
+                        elLen--;
+                        index--;
+                    }
+                }
+            }
         }
         // do submit
         this.blockIFrame.setAttribute('onload', 'productConfigure.onLoadIFrame()');
@@ -464,7 +489,7 @@ ProductConfigure.prototype = {
             rename(blockItem.getElementsByTagName('select'));
             rename(blockItem.getElementsByTagName('textarea'));
         }.bind(this);
-
+        
         switch (method) {
             case 'item_confirm':
                     if (!$(this.сonfirmedCurrentId)) {

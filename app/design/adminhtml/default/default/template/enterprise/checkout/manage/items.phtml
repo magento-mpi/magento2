@@ -417,7 +417,6 @@
             }
 
             this.reload({'delete':itemId});
-
             return false;
         }
     };
@@ -428,7 +427,7 @@ $params = array(
     'store'     => $this->getStore()->getId()
 );
 ?>
-    Event.observe(window, 'load',  function() {
+    funcAddItemsListType = function () {
         productConfigure.addListType(
             '<?php echo $listType ?>',
             {
@@ -436,5 +435,10 @@ $params = array(
                 urlSubmit: ''
             }
         );
-    });
+    }
+    if (typeof(productConfigure) != 'undefined') {
+        funcAddItemsListType();
+    } else {
+        Event.observe(window, 'load',  funcAddItemsListType);
+    }
 </script>

@@ -55,24 +55,31 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      * Init store based on quote and customer sharing options
      * Store customer, store and quote to registry
      *
+     * @param bool $useRedirects
+     *
      * @throws Mage_Core_Exception
+     * @throws Enterprise_Checkout_Exception
      * @return Enterprise_Checkout_Adminhtml_CheckoutController
      */
-    protected function _initAction()
+    protected function _initData($useRedirects = true)
     {
         $customerId = $this->getRequest()->getParam('customer');
         $customer = Mage::getModel('customer/customer')->load($customerId);
         if (!$customer->getId()) {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Customer not found'));
+            throw new Enterprise_Checkout_Exception(Mage::helper('enterprise_checkout')->__('Customer not found'));
         }
 
         if (Mage::app()->getStore()->getWebsiteId() == $customer->getWebsiteId()) {
-            $this->_getSession()->addError(
-                Mage::helper('enterprise_checkout')->__('Shopping cart management disabled for this customer.')
-            );
-            $this->_redirect('*/customer/edit', array('id' => $customer->getId()));
-            $this->_redirectFlag = true;
-            return $this;
+            if ($useRedirects) {
+                $this->_getSession()->addError(
+                    Mage::helper('enterprise_checkout')->__('Shopping cart management disabled for this customer.')
+                );
+                $this->_redirect('*/customer/edit', array('id' => $customer->getId()));
+                $this->_redirectFlag = true;
+                return $this;
+            } else {
+                throw new Enterprise_Checkout_Exception($this->__('Shopping cart management disabled for this customer.'));
+            }
         }
 
         $cart = $this->getCartModel();
@@ -81,8 +88,8 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         $storeId = $this->getRequest()->getParam('store');
 
         if ($storeId === null || Mage::app()->getStore($storeId)->isAdmin()) {
-
-            if ($storeId = $cart->getPreferredStoreId()) {
+            $storeId = $cart->getPreferredStoreId();
+            if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
                 if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
                     $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array(
@@ -94,7 +101,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                Mage::throwException(Mage::helper('enterprise_checkout')->__('Store not found'));
+                throw new Enterprise_Checkout_Exception($this->__('Store not found.'));
             }
         } else {
             // try to find quote for selected store
@@ -104,7 +111,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         $quote = $cart->getQuote();
 
         // Currency init
-        if($quote->getId()) {
+        if ($quote->getId()) {
             $quoteCurrencyCode = $quote->getData('quote_currency_code');
             if ($quoteCurrencyCode != Mage::app()->getStore($storeId)->getCurrentCurrencyCode()) {
                 $quoteCurrency = Mage::getModel('directory/currency')->load($quoteCurrencyCode);
@@ -121,6 +128,23 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         Mage::register('checkout_current_store', Mage::app()->getStore($storeId));
 
         return $this;
+    }
+
+    /**
+     * Init store based on quote and customer sharing options
+     * Store customer, store and quote to registry
+     *
+     * Deprecated - use _initData() instead
+     *
+     * @deprecated after 1.5.0.0
+     *
+     * @throws Mage_Core_Exception
+     * @throws Enterprise_Checkout_Exception
+     * @return Enterprise_Checkout_Adminhtml_CheckoutController
+     */
+    protected function _initAction()
+    {
+        return $this->_initData();
     }
 
     /**
@@ -155,7 +179,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function indexAction()
     {
         try {
-            $this->_initAction();
+            $this->_initData();
             if ($this->_redirectFlag) {
                 return;
             }
@@ -181,7 +205,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function cartAction()
     {
         try {
-            $this->_initAction();
+            $this->_initData();
             if ($this->_redirectFlag) {
                 return;
             }
@@ -199,7 +223,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     {
         try {
             $this->_isModificationAllowed();
-            $this->_initAction();
+            $this->_initData();
             if ($this->_redirectFlag) {
                 return;
             }
@@ -266,11 +290,12 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     {
         try {
             $this->_isModificationAllowed();
-            $this->_initAction();
+            $this->_initData();
             if ($this->_redirectFlag) {
                 return;
             }
-            if ($items = $this->getRequest()->getPost('item', array())) {
+            $items = $this->getRequest()->getPost('item', array());
+            if ($items) {
                 $this->getCartModel()->updateQuoteItems($items);
             }
             $this->getCartModel()->saveQuote();
@@ -286,7 +311,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     {
         try {
             $this->_isModificationAllowed();
-            $this->_initAction();
+            $this->_initData();
             if ($this->_redirectFlag) {
                 return;
             }
@@ -322,7 +347,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function accordionAction()
     {
         try {
-            $this->_initAction();
+            $this->_initData();
             if ($this->_redirectFlag) {
                 return;
             }
@@ -342,7 +367,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             Mage::throwException(Mage::helper('enterprise_checkout')->__('Access denied.'));
         }
         try {
-            $this->_initAction();
+            $this->_initData();
             if ($this->_redirectFlag) {
                 return;
             }
@@ -426,7 +451,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     public function configureProductToAddAction()
     {
-        $this->_initAction();
+        $this->_initData();
         $customer   = Mage::registry('checkout_current_customer');
         $store      = Mage::registry('checkout_current_store');
 
@@ -460,7 +485,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         // Prepare data
         $configureResult = new Varien_Object();
         try {
-            $this->_initAction();
+            $this->_initData();
 
             $customer   = Mage::registry('checkout_current_customer');
             $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
@@ -505,7 +530,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         // Prepare data
         $configureResult = new Varien_Object();
         try {
-            $this->_initAction();
+            $this->_initData();
 
             $customer   = Mage::registry('checkout_current_customer');
             $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
@@ -588,7 +613,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     public function configureQuoteItemsAction()
     {
-        $this->_initAction();
+        $this->_initData();
 
         // Prepare data
         $configureResult = new Varien_Object();
@@ -627,41 +652,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         return $this;
     }
 
-
-    /**
-     * Initialize order creation session data
-     *
-     * @return Enterprise_Checkout_Adminhtml_CheckoutController
-     */
-    protected function _initSession()
-    {
-        /**
-         * Identify customer
-         */
-        $customerId = $this->getRequest()->getParam('customer_id');
-        if ($customerId) {
-            $this->_getSession()->setCustomerId((int) $customerId);
-        }
-
-        /**
-         * Identify store
-         */
-        $storeId = $this->getRequest()->getParam('store_id');
-        if ($storeId) {
-            $this->_getSession()->setStoreId((int) $storeId);
-        }
-
-        /**
-         * Identify currency
-         */
-        $currencyId = $this->getRequest()->getParam('currency_id');
-        if ($currencyId) {
-            $this->_getSession()->setCurrencyId((string) $currencyId);
-            $this->getCartModel()->setRecollect(true);
-        }
-        return $this;
-    }
-
     /**
      * Reload quote
      *
@@ -679,16 +669,21 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     public function loadBlockAction()
     {
+        $criticalException = false;
         try {
-            $this->_initAction();
-            $this->_initSession()
+            $this->_initData(false)
                 ->_processData();
         } catch (Exception $e) {
-            $this->_reloadQuote();
-            if ($e instanceof Mage_Core_Exception) {
+            if ($e instanceof Enterprise_Checkout_Exception) {
                 $this->_getSession()->addError($e->getMessage());
+                $criticalException = true;
             } else {
-                $this->_getSession()->addException($e, $e->getMessage());
+                $this->_reloadQuote();
+                if ($e instanceof Mage_Core_Exception) {
+                    $this->_getSession()->addError($e->getMessage());
+                } else {
+                    $this->_getSession()->addException($e, $e->getMessage());
+                }
             }
         }
 
@@ -697,9 +692,9 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
         $update = $this->getLayout()->getUpdate();
         if ($asJson) {
-            $update->addHandle('adminhtml_sales_order_create_load_block_json');
+            $update->addHandle('adminhtml_checkout_manage_load_block_json');
         } else {
-            $update->addHandle('adminhtml_sales_order_create_load_block_plain');
+            $update->addHandle('adminhtml_checkout_manage_load_block_plain');
         }
 
         if ($block) {
@@ -709,7 +704,10 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             }
 
             foreach ($blocks as $block) {
-                $update->addHandle('adminhtml_sales_order_create_load_block_' . $block);
+                if ($criticalException && ($block != 'message')) {
+                    continue;
+                }
+                $update->addHandle('adminhtml_checkout_manage_load_block_' . $block);
             }
         }
 

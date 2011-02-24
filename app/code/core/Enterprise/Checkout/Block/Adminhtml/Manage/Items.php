@@ -41,29 +41,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     /**
      * Prepare items collection
      *
-     * @return Mage_Adminhtml_Block_Template
-     */
-    protected function _prepareCollection()
-    {
-        $this->setCollection($this->getQuote()->getItemsCollection());
-        return parent::_prepareCollection();
-    }
-
-    /**
-     * Prepare items collection
-     *
-     * @return Mage_Adminhtml_Block_Template
+     * @return array
      */
     protected function getItems()
     {
-        $result = array();
-        foreach ($this->getQuote()->getItemsCollection() as $item) {
-            if(!$item->getParentItemId()) {
-                $result[] = $item;
-            }
-        }
-
-        return $result;
+        return $this->getQuote()->getAllVisibleItems();
     }
 
     /**

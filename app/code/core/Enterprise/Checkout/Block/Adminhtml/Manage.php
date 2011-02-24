@@ -185,9 +185,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
 
     public function getOrderDataJson()
     {
-        $data = array();
-        $data['customer_id']    = Mage::getSingleton('adminhtml/session')->getCustomerId();
-        $data['store_id']       = Mage::getSingleton('adminhtml/session')->getStoreId();
+        $data = array(
+            'customer_id' => $this->_getCustomer()->getId(),
+            'store_id' => $this->_getStore()->getId()
+        );
 
         return Mage::helper('core')->jsonEncode($data);
     }

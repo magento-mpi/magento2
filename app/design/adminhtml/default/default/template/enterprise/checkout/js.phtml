@@ -260,7 +260,6 @@ AdminCheckout.prototype = {
 
         // prepare additional fields
         fieldsPrepare = this.prepareParams(fieldsPrepare);
-        fieldsPrepare.reset_shipping = 1;
         fieldsPrepare.json = 1;
 
         // create fields
@@ -277,7 +276,7 @@ AdminCheckout.prototype = {
 
         // prepare and do submit
         productConfigure.addListType(listType, {urlSubmit: url});
-        productConfigure.setOnLoadIFrameCallback(listType, function(response){
+        productConfigure.setOnLoadIFrameCallback(listType, function(response) {
             this.loadAreaResponseHandler(response);
         }.bind(this));
         productConfigure.submit(listType);
@@ -400,7 +399,7 @@ AdminCheckout.prototype = {
 
     productGridCheckboxCheck : function(grid, element, checked){
         if (checked) {
-            if(element.inputElements) {
+            if (element.inputElements) {
                 this.gridProducts.set(element.value, {});
                 var product = this.gridProducts.get(element.value);
                 for (var i = 0; i < element.inputElements.length; i++) {
@@ -420,7 +419,7 @@ AdminCheckout.prototype = {
                 }
             }
         } else {
-            if(element.inputElements){
+            if (element.inputElements) {
                 for(var i = 0; i < element.inputElements.length; i++) {
                     element.inputElements[i].disabled = true;
                 }
@@ -458,7 +457,7 @@ AdminCheckout.prototype = {
     },
 
     getAreaId : function(area){
-        return 'order-' + area;
+        return 'checkout_' + area;
     },
 
     itemsUpdate : function(){
