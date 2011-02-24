@@ -92,10 +92,7 @@ class Mage_Paypal_Model_Observer
 
                 if (empty($result['error'])) {
                     $controller->loadLayout('checkout_onepage_review');
-                    $html = $controller->getLayout()->getBlock('root')->toHtml();
-                    /*$formBlock = $controller->getLayout()
-                        ->createBlock('paypal/payflow_link_iframe');
-                    $html .= $formBlock->toHtml();*/
+                    $html = $controller->getLayout()->getBlock('payflow.link.iframe')->toHtml();
                     $result['update_section'] = array(
                         'name' => 'review',
                         'html' => $html

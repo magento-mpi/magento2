@@ -28,10 +28,8 @@
  * @see Mage_Paypal_Block_Payflow_Link_Iframe
  */
 ?>
-<div class="authentication">
-    <div style="text-align:center;"><?php echo $this->__('Please do not refresh the page while the form loads.') ?></div>
-    <iframe id="payflow-link-iframe" style="background:none repeat scroll 0 0 transparent;height:610px;width:99%;" frameborder="0" border="0" src="<?php echo $this->getFrameActionUrl() ?>"></iframe>
-</div>
+<div style="text-align:center;"><?php echo $this->__('Please do not refresh the page while the form loads.') ?></div>
+<iframe id="payflow-link-iframe" style="background:none repeat scroll 0 0 transparent;height:610px;width:99%;" frameborder="0" border="0" src="<?php echo $this->getFrameActionUrl() ?>"></iframe>
 <script type="text/javascript">
 //<![CDATA[
 var headers = $$('#' + checkout.accordion.container.readAttribute('id') + ' .section');
