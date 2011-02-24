@@ -53,7 +53,7 @@ class Mage_Wishlist_Block_Links extends Mage_Page_Block_Template_Links_Block
     public function __construct()
     {
         if ($this->helper('wishlist')->isAllow()) {
-            $count = $this->helper('wishlist')->getSummaryQty();
+            $count = $this->helper('wishlist')->getItemCount();
             if ($count > 1) {
                 $text = $this->__('My Wishlist (%d items)', $count);
             }

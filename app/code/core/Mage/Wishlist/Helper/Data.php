@@ -100,27 +100,16 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve wishlist item count
+     * Retrieve wishlist item count (inchlude config settings)
      *
      * @return int
      */
     public function getItemCount()
     {
-        return $this->getSummaryQty(true);
-    }
-
-    /**
-     * Get wishlist items summary (inchlude config settings)
-     *
-     * @param bool $showCountItems
-     * @return decimal
-     */
-    public function getSummaryQty($showCountItems = false)
-    {
         $storedDisplayType = Mage::getSingleton('customer/session')->getWishlistDisplayType();
         $currentDisplayType = Mage::getStoreConfig('wishlist/wishlist_link/use_qty');
         if ($currentDisplayType != $storedDisplayType || !Mage::getSingleton('customer/session')->hasWishlistItemCount()) {
-            $this->calculate($showCountItems);
+            $this->calculate();
         }
 
         return Mage::getSingleton('customer/session')->getWishlistItemCount();
@@ -407,17 +396,17 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Calculate count of wishlist items and put value to customer session.
      * Method called after wishlist modifications and trigger 'wishlist_items_renewed' event.
+     * Depends from configuration.
      *
-     * @param bool $showCountItems
      * @return Mage_Wishlist_Helper_Data
      */
-    public function calculate($showCountItems = false)
+    public function calculate()
     {
         $session = Mage::getSingleton('customer/session');
         if (!$this->_isCustomerLogIn()) {
             $count = 0;
         } else {
-            if (!$showCountItems && Mage::getStoreConfig('wishlist/wishlist_link/use_qty')) {
+            if (Mage::getStoreConfig('wishlist/wishlist_link/use_qty')) {
                 $count = $this->getWishlistItemCollection()
                     ->getItemsQty();
             } else {
