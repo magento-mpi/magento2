@@ -27,7 +27,10 @@
 class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Format date
+     * Formating date value before save
+     *
+     * Should set (bool, string) correct type for empty value from html form,
+     * neccessary for farther proccess, else date string
      *
      * @param Varien_Object $object
      * @throws Mage_Eav_Exception
@@ -43,6 +46,11 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_En
             } catch (Exception $e) {
                 throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid date'));
             }
+
+            if (is_null($value)) {
+                $value = $object->getData($attributeName);
+            }
+
             $object->setData($attributeName, $value);
             $object->setData($attributeName . '_is_formated', true);
         }
