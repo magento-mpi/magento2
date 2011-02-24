@@ -68,28 +68,6 @@
     <?php echo $this->getChildHtml('update_button') ?>
 </div>
 
-<?php
-$params = array(
-    'customer'   => $this->_getCustomer()->getId(),
-    'store'    => $this->_getStore()->getId()
-);
-?>
-
-<script type="text/javascript">
-    Event.observe(window, 'load',  function() {
-        productConfigure.addListType('product_to_add', {
-            urlFetch: '<?php echo $this->getUrl('*/checkout/configureProductToAdd', $params) ?>'
-        });
-        productConfigure.addListType('wishlist', {
-            urlFetch: '<?php echo $this->getUrl('*/checkout/configureWishlistItem', $params) ?>'
-        });
-        productConfigure.addListType('ordered', {
-            urlFetch: '<?php echo $this->getUrl('*/checkout/configureOrderedItem', $params) ?>'
-        });
-    });
-</script>
-
-
 <div id="products_search">
     <p class="form-buttons" style="text-align:right;">
         <?php echo $this->getChildHtml('addto_cart_button') ?>

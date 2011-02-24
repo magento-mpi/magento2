@@ -42,15 +42,13 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
     public function render(Varien_Object $row)
     {
         $rendered       =  parent::render($row);
-        $isConfigurable = false;
+        $listType = $this->getColumn()->getGrid()->getListType();
         if ($row instanceof Mage_Catalog_Model_Product) {
-            $isConfigurable = $row->canConfigure();
-            $listType = 'product_to_add';
+            $product = $row;
         } else if (($row instanceof Mage_Wishlist_Model_Item) || ($row instanceof Mage_Sales_Model_Order_Item)) {
-            $_product = $row->getProduct();
-            $isConfigurable = $_product->canConfigure();
-            $listType = ($row instanceof Mage_Wishlist_Model_Item) ? 'wishlist' : 'ordered';
+            $product = $row->getProduct();
         }
+        $isConfigurable = $product->canConfigure();
         $style          = $isConfigurable ? '' : 'style="color: #CCC;"';
         $prodAttributes = $isConfigurable ? sprintf('list_type = "%s" item_id = %s', $listType, $row->getId()) : 'disabled="disabled"';
         return sprintf('<a href="javascript:void(0)" %s class="f-right" %s>%s</a>',

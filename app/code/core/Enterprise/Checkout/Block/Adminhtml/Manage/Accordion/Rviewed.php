@@ -35,6 +35,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
     /**
+     * Javascript list type name for this grid
+     */
+    protected $_listType = 'rviewed';
+
+    /**
      * Initialize Grid
      */
     public function __construct()
@@ -73,6 +78,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
                     ->addIdFilter($productIds)
                     ->load();
                 $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
+                $productCollection->addOptionsToResult();
             }
             $this->setData('items_collection', $productCollection);
         }

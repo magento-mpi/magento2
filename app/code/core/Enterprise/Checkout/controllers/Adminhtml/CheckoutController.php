@@ -218,6 +218,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
     /**
      * Add products to quote, ajax
+     * Currently not used, as all requests now go through loadBlock action
      */
     public function addToCartAction()
     {
@@ -285,6 +286,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
 
     /**
      * Mass update quote items, ajax
+     * Currently not used, as all requests now go through loadBlock action
      */
     public function updateItemsAction()
     {
@@ -716,31 +718,52 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     }
 
     /**
-     * Processing request data
+     * Returns item info by list and list item id
+     * Returned object has following keys:
+     *  - product_id - null if no item found
+     *  - buy_request - Varien_Object, empty if not buy request stored for this item
      *
-     * @param string $action
+     * @param string $listType
+     * @param int $itemId
+     *
+     * @return Varien_Object
+     */
+    protected function _getListItemInfo($listType, $itemId)
+    {
+        $productId = null;
+        $buyRequest = new Varien_Object();
+        switch ($listType) {
+            case 'wishlist':
+                $item = Mage::getModel('wishlist/item')
+                    ->loadWithOptions($itemId, 'info_buyRequest');
+                if ($item->getId()) {
+                    $productId = $item->getProductId();
+                    $buyRequest = $item->getBuyRequest();
+                }
+                break;
+            case 'ordered':
+                $item = Mage::getModel('sales/order_item')
+                    ->load($itemId);
+                if ($item->getId()) {
+                    $productId = $item->getProductId();
+                    $buyRequest = $item->getBuyRequest();
+                }
+                break;
+            default:
+                $productId = (int) $itemId;
+                break;
+        }
+
+        return new Varien_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+    }
+
+    /**
+     * Processing request data
      *
      * @return Enterprise_Checkout_Adminhtml_CheckoutController
      */
-    protected function _processData($action = null)
+    protected function _processData()
     {
-        /**
-         * Adding product to quote from shopping cart, wishlist etc.
-         */
-        $productId = (int) $this->getRequest()->getPost('add_product');
-        if ($productId) {
-            $this->getCartModel()->addProduct($productId, $this->getRequest()->getPost());
-        }
-
-        /**
-         * Adding products to quote from special grid and
-         */
-        if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items') && !($action == 'save')) {
-            $items = $this->getRequest()->getPost('item');
-            $items = $this->_processFiles('create_items', $items);
-            $this->getCartModel()->addProducts($items);
-        }
-
         /**
          * Update quote items
          */
@@ -748,6 +771,46 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             $items = $this->getRequest()->getPost('item', array());
             $items = $this->_processFiles('update_items', $items);
             $this->getCartModel()->updateQuoteItems($items);
+        }
+
+        /**
+         * Add products from different lists
+         */
+        $listTypes = $this->getRequest()->getPost('configure_complex_list_types');
+        if ($listTypes) {
+            $listTypes = array_filter(explode(',', $listTypes));
+            $listItems = $this->getRequest()->getPost('list');
+            foreach ($listTypes as $listType) {
+                if (!isset($listItems[$listType])
+                    || !is_array($listItems[$listType])
+                    || !isset($listItems[$listType]['item'])
+                    || !is_array($listItems[$listType]['item'])) {
+                    continue;
+                }
+
+                $items = $listItems[$listType]['item'];
+                foreach ($items as $itemId => $info) {
+                    if (!is_array($info)) {
+                        $info = array(); // For sure to filter incoming data
+                    }
+
+                    $itemInfo = $this->_getListItemInfo($listType, $itemId);
+                    if (!$itemInfo) {
+                        continue;
+                    }
+                    if (isset($info['_config_absent'])) {
+                        // User added items without configuration (used multiple checkbox control) - try to use configs from list
+                        $buyRequest = $itemInfo->getBuyRequest();
+                        if (isset($info['qty'])) {
+                            $buyRequest->setQty($info['qty']);
+                        }
+                        $config = $buyRequest->getData();
+                    } else {
+                        $config = $info;
+                    }
+                    $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
+                }
+            }
         }
 
         /**

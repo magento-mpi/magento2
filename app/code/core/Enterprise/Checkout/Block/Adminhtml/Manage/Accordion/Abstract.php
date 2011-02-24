@@ -40,6 +40,16 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     protected $_controlFieldName = 'entity_id';
 
     /**
+     * Javascript list type name for this grid
+     */
+    protected $_listType = 'product_to_add';
+
+    /**
+     * Url to configure this grid's items
+     */
+    protected $_configureRoute = '*/checkout/configureProductToAdd';
+
+    /**
      * Initialize Grid
      */
     public function __construct()
@@ -70,7 +80,8 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
      */
     public function getItemsCount()
     {
-        if ($collection = $this->getItemsCollection()) {
+        $collection = $this->getItemsCollection();
+        if ($collection) {
             return count($collection->getItems());
         }
         return 0;
@@ -175,5 +186,42 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     protected function _getStore()
     {
         return Mage::registry('checkout_current_store');
+    }
+
+    /**
+     * Returns javascript list type of this grid
+     *
+     * @return string
+     */
+    public function getListType()
+    {
+        return $this->_listType;
+    }
+
+    /**
+     * Returns url to configure item
+     *
+     * @return string
+     */
+    public function getConfigureUrl()
+    {
+        $params = array(
+            'customer'   => $this->_getCustomer()->getId(),
+            'store'    => $this->_getStore()->getId()
+        );
+        return $this->getUrl($this->_configureRoute, $params);
+    }
+
+    /**
+     * Returns additional javascript to init this grid
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getAdditionalJavaScript ()
+    {
+        return "Event.observe(window, 'load',  function() {\n"
+            . "productConfigure.addListType('" . $this->getListType() . "', {urlFetch: '" . $this->getConfigureUrl() . "'})\n"
+            . "});\n"
+            . "checkoutObj.addSourceGrid({htmlId: '" . $this->getId() . "', listType: '" . $this->getListType() . "'});\n";
     }
 }

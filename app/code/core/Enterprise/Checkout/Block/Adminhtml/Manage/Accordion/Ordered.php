@@ -41,6 +41,16 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
     protected $_controlFieldName = 'item_id';
 
     /**
+     * Javascript list type name for this grid
+     */
+    protected $_listType = 'ordered';
+
+    /**
+     * Url to configure this grid's items
+     */
+    protected $_configureRoute = '*/checkout/configureOrderedItem';
+
+    /**
      * Initialize Grid
      *
      */

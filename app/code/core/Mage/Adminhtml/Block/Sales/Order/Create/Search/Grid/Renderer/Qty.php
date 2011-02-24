@@ -59,8 +59,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
             $qty = '';
         } else {
             $qty = $row->getData($this->getColumn()->getIndex());
-            if ($qty !== null) {
-                $qty *= 1;
+            $qty *= 1;
+            if (!$qty) {
+                $qty = '';
             }
         }
 

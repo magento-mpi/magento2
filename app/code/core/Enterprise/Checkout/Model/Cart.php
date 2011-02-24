@@ -189,14 +189,28 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     /**
      * Add product to current order quote
      *
+     * $config can be integer qty (older behaviour, when no product configuration was possible)
+     * or it can be array of options (newer behaviour).
+     *
+     * In case of older behaviour same product ids are not added, but quote item qty is increased.
+     * In case of newer behaviour same product ids with different configs are added as separate quote items.
+     *
      * @param   mixed $product
-     * @param   Varien_Object $config
+     * @param   Varien_Object|array $config
      * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
-    public function addProduct($product, array $config)
+    public function addProduct($product, $config)
     {
-        $config = new Varien_Object($config);
-        $qty = (float) $config->getQty();
+        if (is_array($config) || ($config instanceof Varien_Object)) {
+            $config = is_array($config) ? new Varien_Object($config) : $config;
+            $qty = (float) $config->getQty();
+            $separateSameProducts = true;
+        } else {
+            $qty = (float) $config;
+            $config = new Varien_Object();
+            $config->setQty($qty);
+            $separateSameProducts = false;
+        }
 
         if (!($product instanceof Mage_Catalog_Model_Product)) {
             $productId = $product;
@@ -220,7 +234,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
         $qty = $qty > 0 ? $qty : 1;
 
-        $item = $this->getQuote()->getItemByProduct($product);
+        $item = null;
+        if (!$separateSameProducts) {
+            $item = $this->getQuote()->getItemByProduct($product);
+        }
         if ($item) {
             $item->setQty($item->getQty() + $qty);
         } else {

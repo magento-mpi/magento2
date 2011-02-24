@@ -41,7 +41,8 @@ AdminCheckout.prototype = {
         this.gridProducts   = $H({});
         this.customerId     = data.customer_id ? data.customer_id : false;
         this.storeId        = data.store_id ? data.store_id : false;
-        this.productConfigureAddFields = {};
+        this.quoteAddFields = {};
+        this.sourceGrids = {};
     },
 
     setLoadBaseUrl : function(url){
@@ -253,6 +254,10 @@ AdminCheckout.prototype = {
         return params;
     },
 
+    addSourceGrid: function (info) {
+        this.sourceGrids[info.htmlId] = info;
+    },
+
     productConfigureSubmit: function(listType, area, fieldsPrepare, itemsFilter) {
         // prepare loading areas and build url
         this.loadingAreas = area;
@@ -270,36 +275,104 @@ AdminCheckout.prototype = {
         productConfigure.addFields(fields);
 
         // filter items
+        productConfigure.itemsFilter = $H({});
         if (itemsFilter) {
-            productConfigure.addItemsFilter(listType, itemsFilter);
+            if (itemsFilter instanceof Hash) {
+                itemsFilter.each(function (item) {
+                    productConfigure.addItemsFilter(item.key, item.value);
+                });
+            } else {
+                productConfigure.addItemsFilter(listType, itemsFilter);
+            }
         }
 
-        // prepare and do submit
-        productConfigure.addListType(listType, {urlSubmit: url});
+        // configure and run submitting
+        if (listType instanceof Array) {
+            var clearSources = true;
+            var listType = productConfigure.addComplexListType(listType, url);
+        } else {
+            var clearSources = false;
+            productConfigure.addListType(listType, {urlSubmit: url});
+        }
         productConfigure.setOnLoadIFrameCallback(listType, function(response) {
             this.loadAreaResponseHandler(response);
+            if (clearSources) {
+                this.clearSources();
+            }
         }.bind(this));
+
         productConfigure.submit(listType);
-        // clean
-        this.productConfigureAddFields = {};
     },
 
     productGridAddSelected: function () {
-        var area = ['items'];
-        // prepare additional fields and filtered items of products
-        var fieldsPrepare = {};
-        var itemsFilter = [];
-        var products = this.gridProducts.toObject();
-        for (var productId in products) {
-            itemsFilter.push(productId);
-            var paramKey = 'item[' + productId + ']';
-            for (var productParamKey in products[productId]) {
-                paramKey += '[' + productParamKey + ']';
-                fieldsPrepare[paramKey] = products[productId][productParamKey];
+        // Scan through all grids and add checked products them to submitted list types
+        var sources = $H({});
+        for (var sourceId in this.sourceGrids) {
+            var sourceGrid = this.sourceGrids[sourceId];
+            var table = $(sourceId + '_table');
+            if (!table) {
+                continue;
             }
+
+            var items = [];
+            var checkboxes = table.select('input[type=checkbox][name=' + sourceId + ']:checked');
+            checkboxes.each(function (elem) {
+                if (!elem.value || (elem.value == 'on')) {
+                    return;
+                }
+                var itemInfo = {};
+                itemInfo.id = elem.value;
+
+                var tr = elem.up('tr');
+                if (tr) {
+                    var qty = tr.select('input[name=qty]');
+                    if (qty.length) {
+                        itemInfo.qty = qty[0].value;
+                    }
+                }
+
+                items.push(itemInfo);
+            });
+
+            if (!items.length) {
+                continue;
+            }
+            sources.set(sourceId, items);
         }
-        this.productConfigureSubmit('product_to_add', area, fieldsPrepare, itemsFilter);
-        this.gridProducts = $H({});
+        if (!sources.values().length) {
+            alert('<?php echo Mage::helper('enterprise_checkout')->__('Choose some products to add to shopping cart.') ?>');
+            return;
+        }
+
+        // Prepare additional fields and filtered items
+        var fieldsPrepare = {};
+        var itemsFilter = $H({});
+        var listTypes = [];
+        var this_obj = this;
+        sources.each(function (item) {
+            var sourceId = item.key;
+            var items = item.value;
+            var sourceGrid = this.sourceGrids[sourceId];
+            var listType = sourceGrid.listType;
+
+            var itemIds = [];
+            for (var i = 0, len = items.length; i < len; i++) {
+                var item = items[i];
+                itemIds.push(item.id);
+
+                var paramKey = 'list[' + listType + '][item][' + item.id + '][qty]';
+                fieldsPrepare[paramKey] = item.qty;
+
+                if (!productConfigure.itemConfigured(listType, item.id)) {
+                    var paramKey = 'list[' + listType + '][item][' + item.id + '][_config_absent]';
+                    fieldsPrepare[paramKey] = 1;
+                }
+            }
+            itemsFilter.set(listType, itemIds);
+
+            listTypes.push(listType);
+        }.bind(this));
+        this.productConfigureSubmit(listTypes, ['items'], fieldsPrepare, itemsFilter);
     },
 
     productGridRowClick: function(grid, event){
@@ -436,21 +509,20 @@ AdminCheckout.prototype = {
         if(response.ajaxExpired && response.ajaxRedirect) {
             setLocation(response.ajaxRedirect);
         }
-        if(!this.loadingAreas){
+        if (!this.loadingAreas) {
             this.loadingAreas = [];
         }
-        if(typeof this.loadingAreas == 'string'){
+        if (typeof this.loadingAreas == 'string'){
             this.loadingAreas = [this.loadingAreas];
         }
-        if(this.loadingAreas.indexOf('message'==-1)) this.loadingAreas.push('message');
-        for(var i=0; i<this.loadingAreas.length; i++){
+        if (this.loadingAreas.indexOf('message'==-1)) {
+            this.loadingAreas.push('message');
+        }
+        for (var i=0; i < this.loadingAreas.length; i++){
             var id = this.loadingAreas[i];
             if($(this.getAreaId(id))){
                 if ('message' != id || response[id]) {
                     $(this.getAreaId(id)).update(response[id] ? response[id] : '');
-                }
-                if ($(this.getAreaId(id)).callback) {
-                    this[$(this.getAreaId(id)).callback]();
                 }
             }
         }
@@ -470,8 +542,9 @@ AdminCheckout.prototype = {
                 fieldsPrepare[info[i].name] = info[i].getValue();
             }
         }
-        fieldsPrepare = Object.extend(fieldsPrepare, this.productConfigureAddFields);
+        fieldsPrepare = Object.extend(fieldsPrepare, this.quoteAddFields);
         this.productConfigureSubmit('checkoutItemsGrid', area, fieldsPrepare);
+        this.quoteAddFields = {};
     },
 
     showQuoteItemConfiguration: function(itemId){
@@ -483,7 +556,7 @@ AdminCheckout.prototype = {
             if (qtyElement && confirmedCurrentQty && !isNaN(confirmedCurrentQty.value)) {
                 qtyElement.value = confirmedCurrentQty.value;
             }
-            this.productConfigureAddFields['item['+itemId+'][configured]'] = 1;
+            this.quoteAddFields['item['+itemId+'][configured]'] = 1;
         }.bind(this));
 
         productConfigure.setShowWindowCallback(listType, function() {
@@ -495,6 +568,25 @@ AdminCheckout.prototype = {
         }.bind(this));
 
         checkoutItemsGridcartControl.configureItem(itemId);
+    },
+
+    clearSources: function () {
+        for (var sourceId in this.sourceGrids) {
+            var sourceGrid = this.sourceGrids[sourceId];
+            var table = $(sourceId + '_table');
+            if (!table) {
+                continue;
+            }
+
+            var items = [];
+            table.select('input[type=checkbox][name=' + sourceId + ']').each(function(elem) {
+                elem.checked = false;
+            });
+
+            table.select('input[type=text][name=qty]').each(function(elem) {
+                elem.value = '';
+            });
+        }
     }
 }
 </script>

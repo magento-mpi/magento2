@@ -34,7 +34,22 @@
 class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
-    protected $_controlFieldName = 'product_id';
+    /**
+     * Collection field name for using in controls
+     * @var string
+     */
+    protected $_controlFieldName = 'wishlist_item_id';
+
+    /**
+     * Javascript list type name for this grid
+     */
+    protected $_listType = 'wishlist';
+
+    /**
+     * Url to configure this grid's items
+     */
+    protected $_configureRoute = '*/checkout/configureWishlistItem';
+
     /**
      * Initialize Grid
      *

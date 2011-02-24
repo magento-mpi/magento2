@@ -35,6 +35,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
     /**
+     * Javascript list type name for this grid
+     */
+    protected $_listType = 'rcompared';
+
+    /**
      * Initialize Grid
      *
      */
@@ -77,6 +82,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
                 $productCollection, Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->_getCustomer()->getId(), 0, $skipProducts
             );
             $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection->addOptionsToResult();
             $this->setData('items_collection', $productCollection);
         }
         return $this->_getData('items_collection');

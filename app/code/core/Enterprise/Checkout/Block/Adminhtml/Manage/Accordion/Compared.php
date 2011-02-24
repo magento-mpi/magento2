@@ -34,6 +34,11 @@
 class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
+    /**
+     * Javascript list type name for this grid
+     */
+    protected $_listType = 'compared';
+
     public function __construct()
     {
         parent::__construct();
@@ -61,6 +66,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price');
             $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
+            $collection->addOptionsToResult();
             $this->setData('items_collection', $collection);
         }
         return $this->_getData('items_collection');
