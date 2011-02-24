@@ -44,11 +44,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
         $rendered       =  parent::render($row);
         $isConfigurable = false;
         if ($row instanceof Mage_Catalog_Model_Product) {
-            $isConfigurable = $row->isProductConfigurable();
+            $isConfigurable = $row->canConfigure();
             $listType = 'product_to_add';
         } else if (($row instanceof Mage_Wishlist_Model_Item) || ($row instanceof Mage_Sales_Model_Order_Item)) {
             $_product = $row->getProduct();
-            $isConfigurable = $_product->isProductConfigurable();
+            $isConfigurable = $_product->canConfigure();
             $listType = ($row instanceof Mage_Wishlist_Model_Item) ? 'wishlist' : 'ordered';
         }
         $style          = $isConfigurable ? '' : 'style="color: #CCC;"';

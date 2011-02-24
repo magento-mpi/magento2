@@ -36,6 +36,13 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     protected $_canUseQtyDecimals  = false;
 
     /**
+     * Product is configurable
+     *
+     * @var bool
+     */
+    protected $_isConfigurable  = true;
+
+    /**
      * Check is gift card product
      *
      * @param Mage_Catalog_Model_Product $product

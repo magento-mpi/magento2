@@ -36,6 +36,13 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     const TYPE_DOWNLOADABLE = 'downloadable';
 
     /**
+     * Product is configurable
+     *
+     * @var bool
+     */
+    protected $_isConfigurable  = true;
+
+    /**
      * Get downloadable product links
      *
      * @param Mage_Catalog_Model_Product $product

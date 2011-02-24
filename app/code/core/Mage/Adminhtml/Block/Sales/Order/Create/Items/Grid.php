@@ -301,13 +301,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     public function getConfigureButtonHtml($item)
     {
         $product = $item->getProduct();
-        $isConfigurable = $product->isProductConfigurable();
 
         $options = array(
             'label' => Mage::helper('sales')->__('Configure'),
             'title' => Mage::helper('sales')->__('This product does not have any configurable options.')
         );
-        if ($isConfigurable) {
+        if ($product->canConfigure()) {
             $options['onclick'] = sprintf('order.showQuoteItemConfiguration(%s)', $item->getId());
         } else {
             $options['class'] = ' disabled';

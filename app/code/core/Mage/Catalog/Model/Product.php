@@ -1814,21 +1814,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Check if product has any of configurable options
+     * Check if product can be configured
      *
      * @return bool
      */
-    public function isProductConfigurable()
+    public function canConfigure()
     {
-        static $isConfigurable = null;
-
-        if (is_null($isConfigurable)) {
-            $options = $this->getOptions();
-            $isConfigurable = $this->isComposite()
-                || !empty($options)
-                || in_array($this->getTypeId(), Mage::getSingleton('catalog/product_type')->getAdditionalConfigurableTypes()) ? true : false;
-        }
-
-        return $isConfigurable;
+        $options = $this->getOptions();
+        return $this->isComposite() || !empty($options) || $this->getTypeInstance(true)->isConfigurable();
     }
 }

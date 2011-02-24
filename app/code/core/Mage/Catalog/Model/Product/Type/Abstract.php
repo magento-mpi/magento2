@@ -63,11 +63,18 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected $_editableAttributes;
 
     /**
-     * Is a compotite product type
+     * Is a composite product type
      *
      * @var bool
      */
     protected $_isComposite = false;
+
+    /**
+     * Is a configurable product type
+     *
+     * @var bool
+     */
+    protected $_isConfigurable  = false;
 
     /**
      * Whether product quantity is fractional number or not
@@ -660,6 +667,17 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     public function isComposite($product = null)
     {
         return $this->_isComposite;
+    }
+
+    /**
+     * Check if product is configurable
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function isConfigurable($product = null)
+    {
+        return $this->_isConfigurable;
     }
 
     /**
