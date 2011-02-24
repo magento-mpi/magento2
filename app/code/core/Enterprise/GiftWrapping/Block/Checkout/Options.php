@@ -95,7 +95,9 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
         $taxClass = Mage::helper('enterprise_giftwrapping')->getWrappingTaxClass();
         $item->setTaxClassId($taxClass);
 
-        $price = Mage::helper('enterprise_giftwrapping')->getPrice($item, $basePrice, $includeTax, $shippingAddress, $billingAddress);
+        $price = Mage::helper('enterprise_giftwrapping')->getPrice($item, $basePrice, $includeTax, $shippingAddress,
+            $billingAddress
+        );
         return Mage::helper('core')->currency($price, true, false);
     }
 
@@ -112,7 +114,9 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
                 $temp['price_incl_tax'] = $this->calculatePrice($item, $item->getBasePrice(), true);
                 $temp['price_excl_tax'] = $this->calculatePrice($item, $item->getBasePrice());
             } else {
-                $temp['price'] = $this->calculatePrice($item, $item->getBasePrice(), $this->displayWrappingIncludeTaxPrice());
+                $temp['price'] = $this->calculatePrice($item, $item->getBasePrice(),
+                    $this->getDisplayWrappingIncludeTaxPrice()
+                );
             }
             $temp['path'] = $item->getImageUrl();
             $data[$item->getId()] = $temp;
@@ -159,7 +163,9 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
                         $temp['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
                         $temp['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
                     } else {
-                        $temp['price'] = $this->calculatePrice(new Varien_Object(), $price, $this->displayWrappingIncludeTaxPrice());
+                        $temp['price'] = $this->calculatePrice(new Varien_Object(), $price,
+                            $this->getDisplayWrappingIncludeTaxPrice()
+                        );
                     }
                 }
                 $data[$item->getId()] = $temp;
@@ -183,12 +189,15 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
                      $data['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
                      $data['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
                  } else {
-                    $data['price'] = $this->calculatePrice(new Varien_Object(), $price, $this->displayCardIncludeTaxPrice());
-                 }
+                    $data['price'] = $this->calculatePrice(new Varien_Object(), $price,
+                        $this->getDisplayCardIncludeTaxPrice()
+                    );
+                }
             }
         }
         return new Varien_Object($data);
     }
+
     /**
      * Check display both prices for gift wrapping
      *
@@ -196,7 +205,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getDisplayWrappingBothPrices()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayWrappingBothPrices();
+        return Mage::helper('enterprise_giftwrapping')->displayCartWrappingBothPrices();
     }
 
     /**
@@ -206,7 +215,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function getDisplayCardBothPrices()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCardBothPrices();
+        return Mage::helper('enterprise_giftwrapping')->displayCartCardBothPrices();
     }
 
     /**
@@ -214,9 +223,9 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      *
      * @return bool
      */
-    public function displayWrappingIncludeTaxPrice()
+    public function getDisplayWrappingIncludeTaxPrice()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayWrappingIncludeTaxPrice();
+        return Mage::helper('enterprise_giftwrapping')->displayCartWrappingIncludeTaxPrice();
     }
 
     /**
@@ -224,19 +233,9 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      *
      * @return bool
      */
-    public function displayCardIncludeTaxPrice()
+    public function getDisplayCardIncludeTaxPrice()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCardIncludeTaxPrice();
-    }
-
-    /**
-     * Check display prices excluding tax for gift wrapping
-     *
-     * @return bool
-     */
-    public function displayWrappingExcludeTaxPrice()
-    {
-        return Mage::helper('enterprise_giftwrapping')->displayWrappingExcludeTaxPrice();
+        return Mage::helper('enterprise_giftwrapping')->displayCartCardIncludeTaxPrice();
     }
 
     /**

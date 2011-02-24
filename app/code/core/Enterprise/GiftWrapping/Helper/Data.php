@@ -45,12 +45,6 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_TAX_CLASS = 'tax/classes/wrapping_tax_class';
 
     /**
-     * Gift wrapping and printed card display price
-     */
-    const XML_PATH_PRICE_DISPLAY_WRAPPING     = 'tax/display/gift_wrapping';
-    const XML_PATH_PRICE_DISPLAY_PRINTED_CARD = 'tax/display/printed_card';
-
-    /**
      * Shopping cart display settings
      */
     const XML_PATH_PRICE_DISPLAY_CART_WRAPPING        = 'tax/cart_display/gift_wrapping';
@@ -106,66 +100,6 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     public function isGiftWrappingAvailableForOrder($store = null)
     {
         return Mage::getStoreConfig(self::XML_PATH_ALLOWED_FOR_ORDER, $store);
-    }
-
-    /**
-     * Check ability to display both prices for gift wrapping
-     *
-     * @param Mage_Core_Model_Store|int $store
-     * @return bool
-     */
-    public function displayWrappingBothPrices($store = null)
-    {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_WRAPPING, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
-    }
-
-    /**
-     * Check ability to display prices including tax for gift wrapping
-     *
-     * @param Mage_Core_Model_Store|int $store
-     * @return bool
-     */
-    public function displayWrappingIncludeTaxPrice($store = null)
-    {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_WRAPPING, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX;
-    }
-
-    /**
-     * Check ability to display including tax price for printed card
-     *
-     * @param Mage_Core_Model_Store|int $store
-     * @return bool
-     */
-    public function displayCardIncludeTaxPrice($store = null)
-    {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_PRINTED_CARD, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX;
-    }
-
-    /**
-     * Check ability to display prices excluding tax for gift wrapping
-     *
-     * @param Mage_Core_Model_Store|int $store
-     * @return bool
-     */
-    public function displayWrappingExcludeTaxPrice($store = null)
-    {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_WRAPPING, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
-    }
-
-    /**
-     * Check ability to display both prices for printed card
-     *
-     * @param Mage_Core_Model_Store|int $store
-     * @return bool
-     */
-    public function displayCardBothPrices($store = null)
-    {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_PRINTED_CARD, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
