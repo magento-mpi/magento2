@@ -28,12 +28,15 @@
 <?php if ($this->canDisplayGiftWrappingForOrder()): ?>
 <div class="entry-edit box-right">
 
+    <?php if ($this->isGiftWrappingForEntireOrder()): ?>
     <div><?php echo Mage::helper('sales')->__('Gift Wrapping for the Entire Order') ?></div>
+    <?php endif; ?>
     <br />
     <fieldset>
-        <p><?php echo $this->__('You can leave a box blank if you don\'t wish to add a gift wrap for whole order') ?></p>
-        
+
         <div id="wrapping-container">
+            <?php if ($this->isGiftWrappingForEntireOrder()): ?>
+            <p><?php echo $this->__('You can leave a box blank if you don\'t wish to add a gift wrap for whole order') ?></p>
             <div class="gift-wrapping-form">
                 <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
                 <div id="wrapping-price-box" class="gift-wrapping-design no-display">
@@ -58,6 +61,7 @@
                     <input type="hidden" value="quote" name="giftwrapping[<?php echo $this->getEntityId() ?>][type]" />
                 </div>
             </div>
+            <?php endif; ?>
 
             <?php if ($this->getAllowGiftReceipt()): ?>
             <p>

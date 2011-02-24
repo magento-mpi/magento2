@@ -132,4 +132,14 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
             || $this->getAllowGiftReceipt();
 
     }
+
+    /**
+     * Checking for gift wrapping for the entire Order
+     *
+     * @return bool
+     */
+    public function isGiftWrappingForEntireOrder()
+    {
+        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId());
+    }
 }
