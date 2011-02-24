@@ -160,22 +160,19 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             if ($product->isConfigurable()) {
 
                 $request = $this->_getProductRequest($params);
-                $cartCandidates = $product->getTypeInstance(true)->prepareForCart($request, $product);
+
                 /**
                  * Hardcoded Configurable product default
+                 * Set min required qty for a product if it's need
                  */
-                $minSaleQty = ((isset($params['qty']) ? $params['qty'] : 0) > 1) ? $params['qty'] : 1;
-                if (is_array($cartCandidates)) {
-                    foreach ($cartCandidates as $candidate) {
-                        $current = $candidate->getStockItem()->getMinSaleQty();
-                        if ($minSaleQty < $current) {
-                            $minSaleQty = $current;
-                        }
-                    }
+                $requestedQty = ((isset($params['qty']) ? $params['qty'] : 0) > 1) ? $params['qty'] : 1;
+                $subProduct = $product->getTypeInstance(true)->getProductByAttributes($request->getSuperAttribute(), $product);
+
+                if ($requestedQty < ($requiredQty = $subProduct->getStockItem()->getMinSaleQty())) {
+                    $requestedQty = $requiredQty;
                 }
-                if ($minSaleQty) {
-                    $params['qty'] = $minSaleQty;
-                }
+
+                $params['qty'] = $requestedQty;
             }
 
             $cart->addProduct($product, $params);

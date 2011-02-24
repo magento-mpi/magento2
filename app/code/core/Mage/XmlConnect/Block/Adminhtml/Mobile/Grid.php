@@ -62,7 +62,7 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('code', array(
-            'header'    => Mage::helper('xmlconnect')->__('Code'),
+            'header'    => Mage::helper('xmlconnect')->__('App Code'),
             'align'     => 'left',
             'index'     => 'code',
             'width'     => '200',

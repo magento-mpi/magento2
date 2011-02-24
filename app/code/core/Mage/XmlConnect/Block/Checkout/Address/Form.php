@@ -116,9 +116,13 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
         <field name="{$addressType}[lastname]" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Last Name'))}" required="true" value="$lastname" />
         <field name="{$addressType}[company]" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Company'))}" value="$company" />
 EOT;
-        if ($isAllowedGuestCheckout) {
+        if ($isAllowedGuestCheckout && !Mage::getSingleton('customer/session')->isLoggedIn() && $addressType == 'billing') {
             $xml .= <<<EOT
-        <field name="{$addressType}[email]" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Email Address'))}" value="$email" />
+        <field name="{$addressType}[email]" type="text" label="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Email Address'))}" value="$email" required="true" >
+            <validators>
+                <validator type="email" message="{$xmlModel->xmlentities(Mage::helper('xmlconnect')->__('Wrong email format'))}"/>
+            </validators>
+        </field>
 EOT;
         }
         $xml .= <<<EOT

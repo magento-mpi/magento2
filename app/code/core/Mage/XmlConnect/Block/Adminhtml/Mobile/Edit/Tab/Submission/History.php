@@ -79,7 +79,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
      */
     public function canShowTab()
     {
-        return true;
+        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication();
     }
 
     /**

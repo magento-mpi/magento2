@@ -69,7 +69,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
         /**
          * PayPal MEP management
          */
-        $isExpressCheckoutAvaliable = Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable();
+        $isExpressCheckoutAvaliable = Mage::getModel('xmlconnect/payment_method_paypal_mep')
+            ->isAvailable(null, $this->getApplication()->getStoreId());
 
         $paypalActive = 0;
         if (isset($data['conf[native][paypal][isActive]'])) {
@@ -138,7 +139,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
      */
     public function canShowTab()
     {
-        return true;
+        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication();
     }
 
     /**

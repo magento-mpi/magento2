@@ -56,6 +56,14 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
+        /**
+         * Check is website offline
+         */
+        if ((int)Mage::getStoreConfig('general/restriction/is_active') && (int)Mage::getStoreConfig('general/restriction/mode') == 0) {
+            $this->_message(Mage::helper('xmlconnect')->__('Website is offline.'), self::MESSAGE_STATUS_SUCCESS);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
         $appModel = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
         $appModel->setScreenSize($screenSize);
         if ($appModel && $appModel->getId()) {

@@ -216,7 +216,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     {
         $file =& $_FILES[$field];
 
-        $file['name'] = preg_replace('/\.(gif|jp[e]g)$/i', '.png', $file['name']);
+        $file['name'] = preg_replace('/\.(gif|jpeg|jpg)$/i', '.png', $file['name']);
 
         list($x, $x, $fileType) = getimagesize($file['tmp_name']);
         if ($fileType != IMAGETYPE_PNG ) {
@@ -607,7 +607,11 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     {
         $paths = array (
             'conf/native/navigationBar/icon' => 'smallIcon_1_6.png',
+            'conf/native/body/bannerImageLandscape' => 'banner_1_2_l.png',
+            'conf/native/body/bannerImagePortret' => 'banner_1_2_p.png',
             'conf/native/body/bannerImage' => 'banner_1_2.png',
+            'conf/native/body/backgroundImageLandscape' => 'accordion_open_l.png',
+            'conf/native/body/backgroundImagePortret' => 'accordion_open_p.png',
             'conf/native/body/backgroundImage' => 'accordion_open.png',
         );
         if ($imagePath == null) {

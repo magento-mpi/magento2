@@ -238,8 +238,14 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
      */
     public function paymentMethodsAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->loadLayout(false);
+            $this->renderLayout();
+            return;
+        } catch (Mage_Core_Exception $e) {
+            $result['error'] = $e->getMessage();
+        }
+        $this->_message($result['error'], self::MESSAGE_STATUS_ERROR);
     }
 
     /**

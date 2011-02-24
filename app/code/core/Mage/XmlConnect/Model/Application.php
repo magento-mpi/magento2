@@ -106,6 +106,22 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     protected $_imageIds = array('icon', 'loader_image', 'logo', 'big_logo');
 
+    /**
+     * Submission/Resubmission key max length
+     *
+     * @var int
+     */
+    const APP_MAX_KEY_LENGTH = 40;
+
+    /**
+     * XML path to config with an email address for contact to receive credentials of Urban Airship notifications
+     */
+    const XML_CONTACT_CREDENTIALS_EMAIL = 'xmlconnect/mobile_application/urbanairship_credentials_email';
+
+    /**
+     * XML path to config with Urban Airship Terms of Service URL
+     */
+    const XML_URBAN_AIRSHIP_TOS_URL = 'xmlconnect/mobile_application/urbanairship_terms_of_service_url';
 
     /**
      * Initialize application
@@ -190,12 +206,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     /**
      * Set default configuration data
+     *
+     * @return void
      */
     public function loadDefaultConfiguration()
     {
-        $this->setType('iphone');
         $this->setCode($this->getCodePrefix());
-        $this->setConf(Mage::helper('xmlconnect/iphone')->getDefaultConfiguration());
+        $this->setConf(Mage::helper('xmlconnect')->getDeviceHelper()->getDefaultConfiguration());
     }
 
     /**
@@ -237,7 +254,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function getRenderConf()
     {
-        $result = Mage::helper('xmlconnect/iphone')->getDefaultConfiguration();
+        $result = Mage::helper('xmlconnect')->getDeviceHelper()->getDefaultConfiguration();
         $result = $result['native'];
         $extra = array();
         if (isset($this->_data['conf'])) {
@@ -320,6 +337,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $isActive = (int)($result['paypal']['isActive'] && Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable(null, $this->getStoreId()));
         }
         $result['paypal']['isActive'] = $isActive;
+
+        if ((int)Mage::getStoreConfig('general/restriction/is_active')) {
+            $result['website_restrictions']['mode'] = (int)Mage::getStoreConfig('general/restriction/mode');
+        }
 
         return $result;
     }
@@ -418,11 +439,17 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function loadConfiguration()
     {
-        $configuration = $this->getConfiguration();
-        if (!empty($configuration)) {
-            $configuration = unserialize($configuration);
-            $this->setData('conf', $configuration);
+        static $isConfigurationLoaded = null;
+
+        if (is_null($isConfigurationLoaded)) {
+            $configuration = $this->getConfiguration();
+            if (!empty($configuration)) {
+                $configuration = unserialize($configuration);
+                $this->setData('conf', $configuration);
+                $isConfigurationLoaded = true;
+            }
         }
+
         return $this;
     }
 
@@ -559,6 +586,17 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $errors[] = Mage::helper('xmlconnect')->__('Please enter the Title.');
         }
 
+        if (isset($params['title'])) {
+            if ($this->getType() == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE) {
+                $strRules = array('max' => '12');
+            } else {
+                $strRules = array('max' => '200');
+            }
+            if (!Zend_Validate::is($params['title'], 'StringLength', $strRules)) {
+                $errors[] = Mage::helper('xmlconnect')->__(sprintf('"Title" is more than %d characters long', $strRules['max']));
+            }
+        }
+
         if (!Zend_Validate::is(isset($params['copyright']) ? $params['copyright'] : null, 'NotEmpty')) {
             $errors[] = Mage::helper('xmlconnect')->__('Please enter the Copyright.');
         }
@@ -574,14 +612,18 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
 
         if ($this->getIsResubmitAction()) {
-            if (!Zend_Validate::is(
-                    isset($params['resubmission_activation_key']) ? $params['resubmission_activation_key'] : null,
-                    'NotEmpty')) {
+            $resubmissionKey = isset($params['resubmission_activation_key']) ? $params['resubmission_activation_key'] : null;
+            if (!Zend_Validate::is($resubmissionKey, 'NotEmpty')) {
                 $errors[] = Mage::helper('xmlconnect')->__('Please enter the Resubmission Key.');
+            } else if (!Zend_Validate::is($resubmissionKey, 'StringLength', array(1, self::APP_MAX_KEY_LENGTH))) {
+                $errors[] = Mage::helper('xmlconnect')->__('Submit App failure. Invalid activation key provided');
             }
         } else {
-            if (!Zend_Validate::is(isset($params['key']) ? $params['key'] : null, 'NotEmpty')) {
-                    $errors[] = Mage::helper('xmlconnect')->__('Please enter the Activation Key.');
+            $key = isset($params['key']) ? $params['key'] : null;
+            if (!Zend_Validate::is($key, 'NotEmpty')) {
+                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Activation Key.');
+            } else if (!Zend_Validate::is($key, 'StringLength', array(1, self::APP_MAX_KEY_LENGTH))) {
+                $errors[] = Mage::helper('xmlconnect')->__('Submit App failure. Invalid activation key provided');
             }
         }
 
@@ -609,18 +651,48 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
         }
 
-        if ( ($native === false)
-            || (!isset($native['body']) || !is_array($native['body'])
-            || !isset($native['body']['bannerImage'])
-            || !Zend_Validate::is($native['body']['bannerImage'], 'NotEmpty'))) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
-        }
+        if (Mage::helper('xmlconnect')->getApplication()->getType() == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD) {
+            if ( ($native === false)
+                || (!isset($native['body']) || !is_array($native['body'])
+                || !isset($native['body']['bannerImageLandscape'])
+                || !Zend_Validate::is($native['body']['bannerImageLandscape'], 'NotEmpty'))) {
+                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen (landscape mode)" field from Design Tab.');
+            }
 
-        if (($native === false)
-            || (!isset($native['body']) || !is_array($native['body'])
-            || !isset($native['body']['backgroundImage'])
-            || !Zend_Validate::is($native['body']['backgroundImage'], 'NotEmpty'))) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
+            if ( ($native === false)
+                || (!isset($native['body']) || !is_array($native['body'])
+                || !isset($native['body']['bannerImagePortret'])
+                || !Zend_Validate::is($native['body']['bannerImagePortret'], 'NotEmpty'))) {
+                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen (portret mode)" field from Design Tab.');
+            }
+
+            if (($native === false)
+                || (!isset($native['body']) || !is_array($native['body'])
+                || !isset($native['body']['backgroundImageLandscape'])
+                || !Zend_Validate::is($native['body']['backgroundImageLandscape'], 'NotEmpty'))) {
+                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (landscape mode)" field from Design Tab.');
+            }
+
+            if (($native === false)
+                || (!isset($native['body']) || !is_array($native['body'])
+                || !isset($native['body']['backgroundImagePortret'])
+                || !Zend_Validate::is($native['body']['backgroundImagePortret'], 'NotEmpty'))) {
+                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (portret mode)" field from Design Tab.');
+            }
+        } else {
+            if ( ($native === false)
+                || (!isset($native['body']) || !is_array($native['body'])
+                || !isset($native['body']['bannerImage'])
+                || !Zend_Validate::is($native['body']['bannerImage'], 'NotEmpty'))) {
+                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
+            }
+
+            if (($native === false)
+                || (!isset($native['body']) || !is_array($native['body'])
+                || !isset($native['body']['backgroundImage'])
+                || !Zend_Validate::is($native['body']['backgroundImage'], 'NotEmpty'))) {
+                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
+            }
         }
 
         if (empty($errors)) {
@@ -648,7 +720,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $params['name'] = $this->getName();
             $params['code'] = $this->getCode();
             $params['type'] = $this->getType();
-            $params['url'] = Mage::getBaseUrl() . 'xmlconnect/configuration/index/app_code/' . $this->getCode();
+            $params['url'] = Mage::app()
+                                ->setCurrentStore($this->getStoreId())
+                                ->getStore()
+                                ->getBaseUrl() . 'xmlconnect/configuration/index/app_code/' . $this->getCode();
             $params['magentoversion'] = Mage::getVersion();
 
             if (isset($params['country']) && is_array($params['country'])) {
@@ -727,4 +802,46 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $this->_getResource()->updateAllAppsUpdatedAtParameter();
         return $this;
     }
+
+    /**
+     * Getter return concatenated user and password
+     *
+     * @return string
+     */
+    public function getUserpwd()
+    {
+        $this->loadConfiguration();
+        return $this->getAppKey() . ':' . $this->getAppMasterSecret();
+    }
+
+    /**
+     * Getter for Application Key
+     *
+     * @return string
+     */
+    public function getAppKey()
+    {
+        return $this->getData('conf/native/notifications/applicationKey');
+    }
+
+    /**
+     * Getter for Application Secret
+     *
+     * @return string
+     */
+    public function getAppSecret()
+    {
+        return $this->getData('conf/native/notifications/applicationSecret');
+    }
+
+    /**
+     * Getter for Application Master Secret
+     *
+     * @return string
+     */
+    public function getAppMasterSecret()
+    {
+        return $this->getData('conf/native/notifications/applicationMasterSecret');
+    }
+
 }

@@ -50,6 +50,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             'name'      => 'name',
             'label'     => Mage::helper('xmlconnect')->__('App Name'),
             'title'     => Mage::helper('xmlconnect')->__('App Name'),
+            'maxlength' => '250',
             'required'  => true,
         ));
 
@@ -83,12 +84,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             $storeElement->setDisabled(true);
         }
 
-        $fieldset->addField('type', 'select', array(
-                'name'      => 'type',
+        $fieldset->addField('devtype', 'text', array(
+                'name'      => 'devtype',
                 'label'     => Mage::helper('xmlconnect')->__('Device Type'),
                 'title'     => Mage::helper('xmlconnect')->__('Device Type'),
-                'disabled'  => $model->getId() ? true : false,
-                'values'    => Mage::helper('xmlconnect')->getDeviceTypeOptions(),
+                'readonly'  => true,
         ));
 
         $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
@@ -97,7 +97,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             'label'     => Mage::helper('xmlconnect')->__('Catalog Only App?'),
             'name'      => 'browsing_mode',
             'note'      => Mage::helper('xmlconnect')->__('A Catalog Only App will not support functions such as add to cart, add to wishlist, or login.'),
-            'values'   => $yesNoValues
+            'values'    => $yesNoValues
         ));
 
         $form->setValues($model->getFormData());
@@ -132,7 +132,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
      */
     public function canShowTab()
     {
-        return true;
+        return (bool) !Mage::getSingleton('adminhtml/session')->getNewApplication();
     }
 
     /**

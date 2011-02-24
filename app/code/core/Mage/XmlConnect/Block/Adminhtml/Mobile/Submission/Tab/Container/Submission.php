@@ -125,10 +125,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'name'      => 'submission_action',
             'value'     => '1',
         ));
+
         $fieldset->addField('conf/submit_text/title', 'text', array(
             'name'      => 'conf[submit_text][title]',
             'label'     => Mage::helper('xmlconnect')->__('Title'),
-            'maxlength' => '200',
+            'maxlength' => $formData['type'] == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE ? '12' : '200',
             'value'     => isset($formData['conf[submit_text][title]']) ? $formData['conf[submit_text][title]'] : null,
             'note'      => Mage::helper('xmlconnect')->__('Name that appears beneath your app when users install it to their device. We recommend choosing a name that is 10-12 characters and that your customers will recognize.'),
             'required'  => true,

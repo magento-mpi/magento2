@@ -39,9 +39,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
         $tabs = isset($conf['tabBar']) && isset($conf['tabBar']['tabs']) ? $conf['tabBar']['tabs'] : false;
         if ($tabs !== false) {
             foreach ($tabs->getEnabledTabs() as $tab) {
-                $conf['tabBar'][$tab->action]['label'] = $tab->label;
-                $conf['tabBar'][$tab->action]['image'] =
-                    Mage::helper('xmlconnect/image')->getSkinImagesUrl('mobile_preview/' . $tab->image);
+                $tab = (array) $tab;
+                $conf['tabBar'][$tab['action']]['label'] = $tab['label'];
+                $conf['tabBar'][$tab['action']]['image'] =
+                    Mage::helper('xmlconnect/image')->getSkinImagesUrl('mobile_preview/' . $tab['image']);
             }
         }
         $this->setData('conf', $conf);

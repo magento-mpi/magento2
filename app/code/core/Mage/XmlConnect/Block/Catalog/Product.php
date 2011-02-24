@@ -61,7 +61,6 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
                 $propertyToResizeName = 'image';
             }
 
-            
             $icon = clone Mage::helper('catalog/image')->init($product, $propertyToResizeName)
                 ->resize($imageToResize);
 
@@ -119,9 +118,9 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
 
     /**
      * Get MinSaleQty for product
-     * 
+     *
      * @param Mage_Catalog_Model_Product $product
-     * @return int|null 
+     * @return int|null
      */
     protected function _getMinimalQty($product)
     {
@@ -153,7 +152,11 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
                 $productXmlObj->appendChild($relatedXmlObj);
             }
         }
+
+        $productXmlObj->appendChild($this->getChild('xmlconnect.catalog.product.options')
+            ->getProductOptionsXmlObject($product)
+        );
+
         return $productXmlObj->asNiceXml();
     }
-
 }

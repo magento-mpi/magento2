@@ -44,6 +44,8 @@
                     <application><table>xmlconnect_application</table></application>
                     <history><table>xmlconnect_history</table></history>
                     <application_design><table>xmlconnect_application</table></application_design>
+                    <queue><table>xmlconnect_queue</table></queue>
+                    <template><table>xmlconnect_notification_template</table></template>
                 </entities>
             </xmlconnect_resource>
         </models>
@@ -70,6 +72,16 @@
                 <xmlconnect/>
             </direct_front_name>
         </request>
+        <events>
+            <websiterestriction_frontend>
+                <observers>
+                    <xmlconnect>
+                        <class>xmlconnect/observer</class>
+                        <method>restrictWebsite</method>
+                    </xmlconnect>
+                </observers>
+            </websiterestriction_frontend>
+        </events>
     </global>
     <admin>
          <routers>
@@ -108,6 +120,14 @@
                     </xmlconnect>
                 </observers>
             </core_config_data_save_after>
+            <before_save_message_queue>
+                <observers>
+                    <xmlconnect>
+                        <class>xmlconnect/observer</class>
+                        <method>sendMessageImmediately</method>
+                    </xmlconnect>
+                </observers>
+            </before_save_message_queue>
         </events>
     </adminhtml>
     <frontend>
@@ -174,8 +194,12 @@
                         </tabBar>
                         <body>
                             <bannerImage> <width>320</width> <height>230</height> </bannerImage>
+                            <bannerImageLandscape> <width>320</width> <height>230</height> </bannerImageLandscape>
+                            <bannerImagePortret> <width>320</width> <height>230</height> </bannerImagePortret>
                             <itemBackgroundIcon> <width>90</width> <height>120</height> </itemBackgroundIcon>
                             <backgroundImage> <width>320</width> <height>367</height> </backgroundImage>
+                            <backgroundImageLandscape> <width>320</width> <height>367</height> </backgroundImageLandscape>
+                            <backgroundImagePortret> <width>320</width> <height>367</height> </backgroundImagePortret>
                             <rowBackgroundIcon> <width>320</width> <height>90</height> </rowBackgroundIcon>
                             <rowAttributeIcon> <widthMax>30</widthMax> <heightMax>90</heightMax> </rowAttributeIcon>
                             <addToCartBackgroundIcon> <width>136</width> <height>28</height> </addToCartBackgroundIcon>
@@ -271,6 +295,30 @@
                     </updates>
                 </c>
             </_320x480>
+            <_480x800>
+                <default>
+                    <source>default</source>
+                    <updates>
+                        <u1>
+                            <path>/</path>
+                            <function>zoom</function>
+                            <data>1.5</data>
+                        </u1>
+                    </updates>
+                </default>
+            </_480x800>
+            <_480x854>
+                <default>
+                    <source>default</source>
+                    <updates>
+                        <u1>
+                            <path>/</path>
+                            <function>zoom</function>
+                            <data>1.5</data>
+                        </u1>
+                    </updates>
+                </default>
+            </_480x854>
             <_640x960>
                 <default>
                     <source>default</source>
@@ -289,12 +337,36 @@
                 <magentocommerce_url>www.magentocommerce.com/mobile/activate/</magentocommerce_url>
                 <activation_key_url>http://www.magentocommerce.com/product/mobile</activation_key_url>
                 <resubmission_key_url>http://www.magentocommerce.com/product/mobile#resubmission</resubmission_key_url>
+                <urbanairship_terms_of_service_url>https://go.urbanairship.com/partners/magento/</urbanairship_terms_of_service_url>
+                <urbanairship_credentials_email>magentomobile@magento.com</urbanairship_credentials_email>
+                <cron_send_messages_count>3</cron_send_messages_count>
+                <nodes_excluded_from_config_xml>
+                    <master_secret>notifications/applicationMasterSecret</master_secret>
+                </nodes_excluded_from_config_xml>
             </mobile_application>
             <devices>
                 <iphone>
                     <tab_limit>5</tab_limit>
+                    <notification_type>aps</notification_type>
                 </iphone>
             </devices>
+            <flurry_analytics>
+                <statistics_url>http://www.flurry.com/product/analytics/index.html</statistics_url>
+            </flurry_analytics>
+            <push>
+                <broadcast_url>https://go.urbanairship.com/api/push/broadcast/</broadcast_url>
+            </push>
+            <airmail>
+                <broadcast_url>https://go.urbanairship.com/api/airmail/send/broadcast/</broadcast_url>
+            </airmail>
         </xmlconnect>
     </default>
+    <crontab>
+        <jobs>
+            <xmlconnect_notification_send_all>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>xmlconnect/observer::scheduledSend</model></run>
+            </xmlconnect_notification_send_all>
+        </jobs>
+    </crontab>
 </config>

@@ -191,7 +191,11 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             } catch (Mage_Core_Exception $e) {
                 $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
             } catch (Exception $e) {
-                $this->_message(Mage::helper('xmlconnect')->__('Can\'t save the customer.'), self::MESSAGE_STATUS_ERROR);
+                if ($e instanceof Mage_Eav_Model_Entity_Attribute_Exception) {
+                    $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+                } else {
+                    $this->_message(Mage::helper('xmlconnect')->__('Can\'t save the customer.'), self::MESSAGE_STATUS_ERROR);
+                }
             }
         } else {
             $this->_message(Mage::helper('xmlconnect')->__('POST data is not valid.'), self::MESSAGE_STATUS_ERROR);
@@ -478,8 +482,8 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     $this->getResponse()->setBody($message->asNiceXml());
                     return;
                 } else {
-                    if (is_array($addressValidation)) {
-                        $this->_message(implode('. ', $addressValidation), self::MESSAGE_STATUS_ERROR);
+                    if (is_array($errors)) {
+                        $this->_message(implode('. ', $errors), self::MESSAGE_STATUS_ERROR);
                     } else {
                         $this->_message(Mage::helper('xmlconnect')->__('Can\'t save address.'), self::MESSAGE_STATUS_ERROR);
                     }
