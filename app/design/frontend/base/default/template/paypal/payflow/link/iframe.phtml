@@ -29,7 +29,7 @@
  */
 ?>
 <div style="text-align:center;"><?php echo $this->__('Please do not refresh the page while the form loads.') ?></div>
-<iframe id="payflow-link-iframe" style="background:none repeat scroll 0 0 transparent;height:610px;width:99%;" frameborder="0" border="0" src="<?php echo $this->getFrameActionUrl() ?>"></iframe>
+<iframe id="payflow-link-iframe" style="display:none;background:none repeat scroll 0 0 transparent;height:610px;width:99%;" frameborder="0" border="0" src="<?php echo $this->getFrameActionUrl() ?>"></iframe>
 <script type="text/javascript">
 //<![CDATA[
 var headers = $$('#' + checkout.accordion.container.readAttribute('id') + ' .section');
@@ -37,6 +37,7 @@ headers.each(function(header) {
     header.removeClassName('allow');
 });
 $('payflow-link-iframe').observe('load', function(){
+    $('payflow-link-iframe').show();
     checkout.loadWaiting = 'review';
     checkout.setLoadWaiting(false);
     if (checkout.accordion.currentSection == 'opc-review') {
