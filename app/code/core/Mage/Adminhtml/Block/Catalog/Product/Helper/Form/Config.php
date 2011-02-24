@@ -19,32 +19,38 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Product attribute for enable/disable option
+ * Adminhtml additional helper block
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Attribute_Backend_Boolean extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Config extends Varien_Data_Form_Element_Select
 {
     /**
-     * Set attribute default value if value empty
+     * Retrieve element html
      *
-     * @param Varien_Object $object
-     * @return Mage_Catalog_Model_Product_Attribute_Backend_Boolean
+     * @return string
      */
-    public function beforeSave($object)
+    public function getElementHtml()
     {
-        $attributeCode = $this->getAttribute()->getName();
-        if ($object->getData('use_config_' . $attributeCode)) {
-            $object->setData($attributeCode, '');
-        }
-        return $this;
+        $html = parent::getElementHtml();
+
+        $htmlId   = 'use_config_' . $this->getHtmlId();
+        $checked  = ($this->getValue() == '') ? ' checked="checked"' : '';
+        $disabled = ($this->getReadonly()) ? ' disabled="disabled"' : '';
+
+        $html .= '<input id="'.$htmlId.'" name="product['.$htmlId.']" '.$disabled.' value="1" ' . $checked;
+        $html .= ' onclick="toggleValueElements(this, this.parentNode);" class="checkbox" type="checkbox" />';
+        $html .= ' <label for="'.$htmlId.'">' . Mage::helper('adminhtml')->__('Use Config Settings').'</label>';
+        $html .= '<script type="text/javascript">toggleValueElements($(\''.$htmlId.'\'), $(\''.$htmlId.'\').parentNode);</script>';
+
+        return $html;
     }
 }
