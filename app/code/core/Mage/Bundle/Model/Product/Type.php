@@ -149,9 +149,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             if ($this->getProduct($product)->hasCustomOptions()) {
                 $customOption = $this->getProduct($product)->getCustomOption('bundle_selection_ids');
                 $selectionIds = unserialize($customOption->getValue());
-                $selections = $this->getSelectionsByIds($selectionIds, $product);
-                foreach ($selections->getItems() as $selection) {
-                    $skuParts[] = $selection->getSku();
+                if (!empty($selectionIds)) {
+                    $selections = $this->getSelectionsByIds($selectionIds, $product);
+                    foreach ($selections->getItems() as $selection) {
+                        $skuParts[] = $selection->getSku();
+                    }
                 }
             }
 
