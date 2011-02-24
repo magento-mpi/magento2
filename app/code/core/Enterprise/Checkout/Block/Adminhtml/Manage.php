@@ -172,4 +172,23 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
     {
         return $this->getUrl('*/*/createOrder', array('_current' => true));
     }
+
+    /**
+     * Retrieve url for loading blocks
+     *
+     * @return string
+     */
+    public function getLoadBlockUrl()
+    {
+        return $this->getUrl('*/*/loadBlock');
+    }
+
+    public function getOrderDataJson()
+    {
+        $data = array();
+        $data['customer_id']    = Mage::getSingleton('adminhtml/session')->getCustomerId();
+        $data['store_id']       = Mage::getSingleton('adminhtml/session')->getStoreId();
+
+        return Mage::helper('core')->jsonEncode($data);
+    }
 }

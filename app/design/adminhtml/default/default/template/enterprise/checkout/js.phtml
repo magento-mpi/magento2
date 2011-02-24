@@ -36,12 +36,12 @@ var AdminCheckout = new Class.create();
 AdminCheckout.prototype = {
 
     initialize: function(data){
-        this.checkboxes =  $H({});
+        this.checkboxes     = $H({});
         this.loadBaseUrl    = false;
         this.gridProducts   = $H({});
-//        this.customerId     = data.customer_id ? data.customer_id : false;
-//        this.storeId        = data.store_id ? data.store_id : false;
-        this.currencyId     = false;
+        this.customerId     = data.customer_id ? data.customer_id : false;
+        this.storeId        = data.store_id ? data.store_id : false;
+        this.productConfigureAddFields = {};
     },
 
     setLoadBaseUrl : function(url){
@@ -100,49 +100,12 @@ AdminCheckout.prototype = {
 
     addToCart: function()
     {
-//        new Ajax.Request('<?php echo $this->getActionUrl('addToCart') ?>', {
-//            parameters: {source: this.checkboxes.toJSON()},
-//            onSuccess: function(transport) {
-//                try {
-//                    this.onAjaxSuccess(transport);
-//                    this.reloadItems();
-//                    if ($('cc_info') != undefined) {
-//                        this.reloadCoupon();
-//                    }
-//                    if (this.getContext('source_wishlist').keys().size() > 0) {
-//                        wishlistItemsGrid.reload();
-//                    }
-//                    this.resetSource();
-//                } catch (e) {
-//                    var message = e.error ? e.error : e.message;
-//                    alert(message);
-//                }
-//            }.bind(this)
-//        });
         this.productGridAddSelected();
     },
 
     updateItems: function()
     {
-        var params = this.serializeData('checkout_items');
-        new Ajax.Request('<?php echo $this->getActionUrl('updateItems') ?>', {
-            parameters: params,
-            onSuccess: function(transport) {
-                try {
-                    this.onAjaxSuccess(transport);
-                    this.reloadItems();
-                    if ($('cc_info') != undefined) {
-                        this.reloadCoupon();
-                    }
-                    if (params.values().indexOf('wishlist') != -1) {
-                        wishlistItemsGrid.reload();
-                    }
-                } catch (e) {
-                    var message = e.error ? e.error : e.message;ma
-                    alert(message);
-                }
-            }.bind(this)
-        });
+        this.itemsUpdate();
     },
 
     applyCoupon: function(ccode)
@@ -265,24 +228,16 @@ AdminCheckout.prototype = {
         if (!params) {
             params = {};
         }
-        if (!params.customer_id) {
-            params.customer_id = this.customerId;
+        if (!params.customer) {
+            params.customer = this.customerId;
         }
-        if (!params.store_id) {
-            params.store_id = this.storeId;
-        }
-        if (!params.currency_id) {
-            params.currency_id = this.currencyId;
+        if (!params.store) {
+            params.store = this.storeId;
         }
         if (!params.form_key) {
             params.form_key = FORM_KEY;
         }
-//        var data = this.serializeData('order-billing_method');
-//        if (data) {
-//            data.each(function(value) {
-//                params[value[0]] = value[1];
-//            });
-//        }
+
         return params;
     },
 
@@ -458,20 +413,6 @@ AdminCheckout.prototype = {
     },
     
     loadAreaResponseHandler : function (response){
-//                try {
-//                    this.onAjaxSuccess(transport);
-//                    this.reloadItems();
-//                    if ($('cc_info') != undefined) {
-//                        this.reloadCoupon();
-//                    }
-//                    if (this.getContext('source_wishlist').keys().size() > 0) {
-//                        wishlistItemsGrid.reload();
-//                    }
-//                    this.resetSource();
-//                } catch (e) {
-//                    var message = e.error ? e.error : e.message;
-//                    alert(message);
-//                }
         if (response.error) {
             alert(response.message);
         }
@@ -496,6 +437,47 @@ AdminCheckout.prototype = {
                 }
             }
         }
+    },
+
+    getAreaId : function(area){
+        return 'order-' + area;
+    },
+
+    itemsUpdate : function(){
+        var area = ['items'];
+        // prepare additional fields
+        var fieldsPrepare = {update_items: 1};
+        var info = $('order-items_grid').select('input', 'select', 'textarea');
+        for (var i = 0; i < info.length; i++) {
+            if(!info[i].disabled && (info[i].type != 'checkbox' || info[i].checked)) {
+                fieldsPrepare[info[i].name] = info[i].getValue();
+            }
+        }
+        fieldsPrepare = Object.extend(fieldsPrepare, this.productConfigureAddFields);
+        this.productConfigureSubmit('checkoutItemsGrid', area, fieldsPrepare);
+    },
+
+    showQuoteItemConfiguration: function(itemId){
+        var listType    = 'checkoutItemsGrid';
+        var qtyElement  = $('order-items_grid').select('input[name="item\['+itemId+'\]\[qty\]"]')[0];
+        productConfigure.setConfirmCallback(listType, function() {
+            // sync qty of popup and qty of grid
+            var confirmedCurrentQty = productConfigure.getCurrentConfirmedQtyElement();
+            if (qtyElement && confirmedCurrentQty && !isNaN(confirmedCurrentQty.value)) {
+                qtyElement.value = confirmedCurrentQty.value;
+            }
+            this.productConfigureAddFields['item['+itemId+'][configured]'] = 1;
+        }.bind(this));
+
+        productConfigure.setShowWindowCallback(listType, function() {
+            // sync qty of grid and qty of popup
+            var formCurrentQty = productConfigure.getCurrentFormQtyElement();
+            if (formCurrentQty && qtyElement && !isNaN(qtyElement.value)) {
+                formCurrentQty.value = qtyElement.value;
+            }
+        }.bind(this));
+
+        checkoutItemsGridcartControl.configureItem(itemId);
     }
 }
 </script>

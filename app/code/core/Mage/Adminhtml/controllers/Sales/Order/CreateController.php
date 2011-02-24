@@ -199,7 +199,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         /**
          * Remove quote item
          */
-        if ( ($itemId = (int) $this->getRequest()->getPost('remove_item'))
+        if (($itemId = (int) $this->getRequest()->getPost('remove_item'))
              && ($from = (string) $this->getRequest()->getPost('from'))) {
             $this->_getOrderCreateModel($itemId)->removeItem($itemId, $from);
         }
@@ -207,7 +207,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         /**
          * Move quote item
          */
-        if ( ($itemId = (int) $this->getRequest()->getPost('move_item'))
+        if (($itemId = (int) $this->getRequest()->getPost('move_item'))
             && ($moveTo = (string) $this->getRequest()->getPost('to')) ) {
             $this->_getOrderCreateModel()->moveQuoteItem($itemId, $moveTo);
         }
@@ -275,7 +275,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      * @param array $items
      * @return array
      */
-    protected function _processFiles ($method, $items)
+    protected function _processFiles($method, $items)
     {
         $productHelper = Mage::helper('catalog/product');
         foreach ($items as $id => $item) {

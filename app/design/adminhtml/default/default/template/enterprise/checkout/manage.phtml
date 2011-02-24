@@ -37,8 +37,8 @@
 
 <?php echo $this->getChildHtml('checkout.js') ?>
 <script type="text/javascript">
-    checkoutObj = new AdminCheckout();
-    checkoutObj.setLoadBaseUrl('<?php echo $this->getUrl('*/*/loadBlock'); ?>');
+    checkoutObj = new AdminCheckout(<?php echo $this->getOrderDataJson() ?>);
+    checkoutObj.setLoadBaseUrl('<?php echo $this->getLoadBlockUrl() ?>');
 
 </script>
 
@@ -73,11 +73,6 @@ $params = array(
 
 <script type="text/javascript">
     Event.observe(window, 'load',  function() {
-//        productsGrid.rowClickCallback = checkoutObj.productGridRowClick.bind(productsGrid);
-//        productsGrid.checkboxCheckCallback = checkoutObj.gridCheckboxCheck.bind(checkoutObj);
-//        productsGrid.initRowCallback = checkoutObj.gridRowInit.bind(checkoutObj);
-//        productsGrid.initGridRows();
-
         productConfigure.addListType('product_to_add', {
             urlFetch: '<?php echo $this->getUrl('*/checkout/configureProductToAdd', $params) ?>'
         });

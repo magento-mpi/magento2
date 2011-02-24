@@ -488,4 +488,232 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/view')
             || Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update');
     }
+
+    /**
+     * Configure quote items
+     *
+     * @return Enterprise_Checkout_Adminhtml_CheckoutController
+     */
+    public function configureQuoteItemsAction()
+    {
+        $this->_initAction();
+
+        // Prepare data
+        $configureResult = new Varien_Object();
+        try {
+            $quoteItemId = (int) $this->getRequest()->getParam('id');
+
+            if (!$quoteItemId) {
+                Mage::throwException($this->__('Quote item id is not received.'));
+            }
+
+            $quoteItem = Mage::getModel('sales/quote_item')->load($quoteItemId);
+            if (!$quoteItem->getId()) {
+                Mage::throwException($this->__('Quote item is not loaded.'));
+            }
+
+            $configureResult->setOk(true);
+            $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
+                    ->addItemFilter(array($quoteItemId));
+            $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
+
+            $configureResult->setBuyRequest($quoteItem->getBuyRequest());
+            $configureResult->setCurrentStoreId($quoteItem->getStoreId());
+            $configureResult->setProductId($quoteItem->getProductId());
+            $sessionQuote = Mage::getSingleton('adminhtml/session_quote');
+            $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
+        } catch (Exception $e) {
+            $configureResult->setError(true);
+            $configureResult->setMessage($e->getMessage());
+        }
+
+        // Render page
+        /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+        $helper = Mage::helper('adminhtml/catalog_product_composite');
+        $helper->renderConfigureResult($this, $configureResult);
+
+        return $this;
+    }
+
+
+    /**
+     * Initialize order creation session data
+     *
+     * @return Enterprise_Checkout_Adminhtml_CheckoutController
+     */
+    protected function _initSession()
+    {
+        /**
+         * Identify customer
+         */
+        if ($customerId = $this->getRequest()->getParam('customer_id')) {
+            $this->_getSession()->setCustomerId((int) $customerId);
+        }
+
+        /**
+         * Identify store
+         */
+        if ($storeId = $this->getRequest()->getParam('store_id')) {
+            $this->_getSession()->setStoreId((int) $storeId);
+        }
+
+        /**
+         * Identify currency
+         */
+        if ($currencyId = $this->getRequest()->getParam('currency_id')) {
+            $this->_getSession()->setCurrencyId((string) $currencyId);
+            $this->getCartModel()->setRecollect(true);
+        }
+        return $this;
+    }
+
+    /**
+     * Reload quote
+     *
+     * @return Enterprise_Checkout_Adminhtml_CheckoutController
+     */
+    protected function _reloadQuote()
+    {
+        $id = $this->getCartModel()->getQuote()->getId();
+        $this->getCartModel()->getQuote()->load($id);
+        return $this;
+    }
+
+    /**
+     * Loading page block
+     */
+    public function loadBlockAction()
+    {
+        try {
+            $this->_initAction();
+            $this->_initSession()
+                ->_processData();
+        }
+        catch (Mage_Core_Exception $e){
+            $this->_reloadQuote();
+            $this->_getSession()->addError($e->getMessage());
+        }
+        catch (Exception $e){
+            $this->_reloadQuote();
+            $this->_getSession()->addException($e, $e->getMessage());
+        }
+
+
+        $asJson= $this->getRequest()->getParam('json');
+        $block = $this->getRequest()->getParam('block');
+
+        $update = $this->getLayout()->getUpdate();
+        if ($asJson) {
+            $update->addHandle('adminhtml_sales_order_create_load_block_json');
+        } else {
+            $update->addHandle('adminhtml_sales_order_create_load_block_plain');
+        }
+
+        if ($block) {
+            $blocks = explode(',', $block);
+            if ($asJson && !in_array('message', $blocks)) {
+                $blocks[] = 'message';
+            }
+
+            foreach ($blocks as $block) {
+                $update->addHandle('adminhtml_sales_order_create_load_block_' . $block);
+            }
+        }
+
+        $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
+        $this->getResponse()->setBody($this->getLayout()->getBlock('content')->toHtml());
+    }
+
+    /**
+     * Processing request data
+     *
+     * @param string $action
+     *
+     * @return Enterprise_Checkout_Adminhtml_CheckoutController
+     */
+    protected function _processData($action = null)
+    {
+        /**
+         * Initialize catalog rule data
+         */
+//        $this->getCartModel()->initRuleData();
+
+        /**
+         * Adding product to quote from shopping cart, wishlist etc.
+         */
+        if ($productId = (int) $this->getRequest()->getPost('add_product')) {
+            $this->getCartModel()->addProduct($productId, $this->getRequest()->getPost());
+        }
+
+        /**
+         * Adding products to quote from special grid and
+         */
+        if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items') && !($action == 'save')) {
+            $items = $this->getRequest()->getPost('item');
+            $items = $this->_processFiles('create_items', $items);
+            $this->getCartModel()->addProducts($items);
+        }
+
+        /**
+         * Update quote items
+         */
+        if ($this->getRequest()->getPost('update_items')) {
+            $items = $this->getRequest()->getPost('item', array());
+            $items = $this->_processFiles('update_items', $items);
+            $this->getCartModel()->updateQuoteItems($items);
+        }
+
+        /**
+         * Remove quote item
+         */
+        if ( ($itemId = (int) $this->getRequest()->getPost('remove_item'))
+             && ($from = (string) $this->getRequest()->getPost('from'))) {
+            $this->getCartModel($itemId)->removeItem($itemId, $from);
+        }
+
+        /**
+         * Move quote item
+         */
+        if ( ($itemId = (int) $this->getRequest()->getPost('move_item'))
+            && ($moveTo = (string) $this->getRequest()->getPost('to')) ) {
+            $this->getCartModel()->moveQuoteItem($itemId, $moveTo);
+        }
+
+        $this->getCartModel()
+            ->saveQuote();
+
+        return $this;
+    }
+
+    /**
+     * Process buyRequest file options of items
+     *
+     * @param  string $method
+     * @param  array $items
+     * @return array
+     */
+    protected function _processFiles($method, $items)
+    {
+        $productHelper = Mage::helper('catalog/product');
+        foreach ($items as $id => $item) {
+            $buyRequest = new Varien_Object($item);
+            switch ($method) {
+                case 'create_items':
+                    $buyRequest = $productHelper->processBuyRequestFiles($buyRequest, null, $id);
+                    break;
+                case 'update_items':
+                    $quoteItem = $this->getCartModel()->getQuote()->getItemById($id);
+                    if ($quoteItem instanceof Mage_Sales_Model_Quote_Item) {
+                        $itemBuyRequest = $quoteItem->getBuyRequest();
+                        $buyRequest = $productHelper->processBuyRequestFiles($buyRequest, $itemBuyRequest, $id);
+                    }
+                    break;
+            }
+            if ($buyRequest instanceof Varien_Object && $buyRequest->hasData()) {
+                $items[$id] = $buyRequest->toArray();
+            }
+        }
+
+        return $items;
+    }
 }

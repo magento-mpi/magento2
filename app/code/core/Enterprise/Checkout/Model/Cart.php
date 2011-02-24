@@ -291,41 +291,55 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      */
     public function updateQuoteItems($data)
     {
-        if (!$this->getQuote()->getId()) {
+        if (!$this->getQuote()->getId() || !is_array($data)) {
             return $this;
         }
-        if (is_array($data)) {
-            foreach ($data as $itemId => $info) {
-                $item = $this->getQuote()->getItemById($itemId);
-                $itemQty = (float)$info['qty'];
-                if ($item && $item->getProduct()->getStockItem()) {
-                    $item->getProduct()->getStockItem()->setCustomerGroupId($this->getCustomer()->getGroupId());
-                    if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
-                        $itemQty = (int)$info['qty'];
-                    }
-                    else {
-                        $item->setIsQtyDecimal(1);
-                    }
-                }
 
-                // remove items with zero and negative quantity
-                if ($itemQty < 0.00001) {
-                    $this->moveQuoteItem($itemId, false);
-                    continue;
-                }
+        foreach ($data as $itemId => $info) {
+            if (!empty($info['configured'])) {
+                $item       = $this->getQuote()->updateItem($itemId, new Varien_Object($info));
+                $itemQty    = (float)$item->getQty();
+            } else {
+                $item       = $this->getQuote()->getItemById($itemId);
+                $itemQty    = (float)$info['qty'];
+            }
 
-                if (empty($info['action'])) {
-                    if ($item) {
-                        $item->setQty($itemQty);
-                        $item->getProduct()->setIsSuperMode(true);
-                        $item->checkData();
-                    }
-                }
-                else {
-                    $this->moveQuoteItem($itemId, $info['action']);
+            if ($item && $item->getProduct()->getStockItem()) {
+                if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
+                    $itemQty = (int)$itemQty;
+                } else {
+                    $item->setIsQtyDecimal(1);
                 }
             }
+
+            $itemQty    = $itemQty > 0 ? $itemQty : 1;
+            if (isset($info['custom_price'])) {
+                $itemPrice  = $this->_parseCustomPrice($info['custom_price']);
+            } else {
+                $itemPrice = null;
+            }
+            $noDiscount = !isset($info['use_discount']);
+
+            if (empty($info['action']) || !empty($info['configured'])) {
+                if ($item) {
+                    $item->setQty($itemQty);
+                    $item->setCustomPrice($itemPrice);
+                    $item->setOriginalCustomPrice($itemPrice);
+                    $item->setNoDiscount($noDiscount);
+                    $item->getProduct()->setIsSuperMode(true);
+                    $item->checkData();
+                }
+            } else {
+                $this->moveQuoteItem($item->getId(), $info['action'], $itemQty);
+            }
         }
+        if ($this->_needCollectCart === true) {
+            $this->getCustomerCart()
+                ->collectTotals()
+                ->save();
+        }
+        $this->setRecollect(true);
+
         return $this;
     }
 
@@ -434,4 +448,20 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
         return false;
     }
+
+    /**
+     * Initialize data for price rules
+     *
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+//    public function initRuleData()
+//    {
+//        Mage::register('rule_data', new Varien_Object(array(
+//            'store_id'  => $this->_session->getStore()->getId(),
+//            'website_id'  => $this->_session->getStore()->getWebsiteId(),
+//            'customer_group_id' => $this->getCustomerGroupId(),
+//        )));
+//
+//        return $this;
+//    }
 }

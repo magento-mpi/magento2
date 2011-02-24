@@ -424,16 +424,16 @@
 
 <?php
 $params = array(
-    'customer_id'   => $this->getCustomer()->getId(),
-    'website_id'    => $this->getWebsiteId()
+    'customer'  => $this->getCustomer()->getId(),
+    'store'     => $this->getStore()->getId()
 );
 ?>
     Event.observe(window, 'load',  function() {
         productConfigure.addListType(
             '<?php echo $listType ?>',
             {
-                urlFetch:   '<?php echo $this->getUrl('*/customer_cart_product_composite_cart/configure', $params) ?>',
-                urlConfirm: '<?php echo $this->getUrl('*/customer_cart_product_composite_cart/update', $params) ?>'
+                urlFetch:  '<?php echo $this->getUrl('*/checkout/configureQuoteItems', $params) ?>',
+                urlSubmit: ''
             }
         );
     });

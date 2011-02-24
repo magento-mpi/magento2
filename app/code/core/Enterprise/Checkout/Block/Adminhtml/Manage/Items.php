@@ -206,21 +206,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
         $class          = ($isConfigurable) ? '' : 'disabled';
         $addAttributes  = ($isConfigurable)
             ? sprintf(
-                'onClick="' . $this->getJsObjectName() . 'cartControl.configureItem(%s)"',
+                'onClick="checkoutObj.showQuoteItemConfiguration(%s)"',
                 $item->getId())
             : 'disabled="disabled"';
 
         return sprintf('<button type="button" class="scalable %s" %s><span>%s</span></button>',
             $class, $addAttributes, Mage::helper('sales')->__('Configure'));
-    }
-
-    /**
-     * Retrieve selected website id
-     *
-     * @return int
-     */
-    public function getWebsiteId()
-    {
-        return Mage::app()->getStore(Mage::getSingleton('adminhtml/session_quote')->getStoreId())->getWebsiteId();
     }
 }
