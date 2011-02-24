@@ -40,6 +40,7 @@ AdminOrder.prototype = {
         this.overlayData = $H({});
         this.giftMessageDataChanged = false;
         this.productConfigureAddFields = {};
+        this.productPriceBase = {};
     },
 
     setLoadBaseUrl : function(url){
@@ -402,6 +403,8 @@ AdminOrder.prototype = {
         if (trElement && !isInputQty) {
             var checkbox = Element.select(trElement, 'input[type="checkbox"]')[0];
             var confLink = Element.select(trElement, 'a')[0];
+            var priceColl = Element.select(trElement, '.price')[0];
+            var currency = priceColl.innerHTML.match(/(.*?)[0-9\.,]+/)[1];
             if (checkbox) {
                 // processing non composite product
                 if (confLink.readAttribute('disabled')) {
@@ -414,12 +417,18 @@ AdminOrder.prototype = {
                 } else if (!isInputCheckbox || (isInputCheckbox && checkbox.checked)) {
                     var listType = confLink.readAttribute('list_type');
                     var productId = confLink.readAttribute('product_id');
+                    if (typeof this.productPriceBase[productId] == 'undefined') {
+                        this.productPriceBase[productId] = parseFloat(priceColl.innerHTML.match(/.*?([0-9\.,]+)/)[1].replace(/,/g,''));
+                    }
                     productConfigure.setConfirmCallback(listType, function() {
                         // sync qty of popup and qty of grid
                         var confirmedCurrentQty = productConfigure.getCurrentConfirmedQtyElement();
                         if (qtyElement && confirmedCurrentQty && !isNaN(confirmedCurrentQty.value)) {
                             qtyElement.value = confirmedCurrentQty.value;
                         }
+                        // calc and set product price
+                        var productPrice = this._calcProductPrice();
+                        priceColl.innerHTML = currency + (productPrice + this.productPriceBase[productId]);
                         // and set checkbox checked
                         grid.setCheckboxChecked(checkbox, true);
                     }.bind(this));
@@ -439,6 +448,48 @@ AdminOrder.prototype = {
                 }
             }
         }
+    },
+
+    /**
+     * Calc product price through its options
+     */
+    _calcProductPrice: function () {
+        var productPrice = 0;
+        var optQty = 0;
+        var getPriceFields = function (elms) {
+            var productPrice = 0;
+            var getPrice = function (elm) {
+                if (elm.hasAttribute('price')) {
+                    if (elm.hasAttribute('qtyId')) {
+                        optQty = $(elm.getAttribute('qtyId')).value;
+                        return parseFloat(elm.readAttribute('price')) * optQty;
+                    } else {
+                        return parseFloat(elm.readAttribute('price'));
+                    }
+                }
+                return 0;
+            };
+            for(var i = 0; i < elms.length; i++) {
+                if (elms[i].type == 'select-one' || elms[i].type == 'select-multiple') {
+                    for(var ii = 0; ii < elms[i].options.length; ii++) {
+                        if (elms[i].options[ii].selected) {
+                            productPrice += getPrice(elms[i].options[ii]);
+                        }
+                    }
+                }
+                else if (((elms[i].type == 'checkbox' || elms[i].type == 'radio') && elms[i].checked)
+                        || ((elms[i].type == 'file' || elms[i].type == 'text' || elms[i].type == 'textarea' || elms[i].type == 'hidden')
+                            && Form.Element.getValue(elms[i]))
+                ) {
+                    productPrice += getPrice(elms[i]);
+                }
+            }
+            return productPrice;
+        }.bind(this);
+        productPrice += getPriceFields($(productConfigure.сonfirmedCurrentId).getElementsByTagName('input'));
+        productPrice += getPriceFields($(productConfigure.сonfirmedCurrentId).getElementsByTagName('select'));
+        productPrice += getPriceFields($(productConfigure.сonfirmedCurrentId).getElementsByTagName('textarea'));
+        return Math.round(productPrice*100)/100;
     },
 
     productGridCheckboxCheck : function(grid, element, checked){

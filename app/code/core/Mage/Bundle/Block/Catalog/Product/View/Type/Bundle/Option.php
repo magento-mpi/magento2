@@ -173,6 +173,21 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
             $this->formatPriceString($price, $includeContainer) . ($includeContainer ? '</span>' : '');
     }
 
+    /**
+     * Get price for selection product
+     *
+     * @param Mage_Catalog_Model_Product $_selection
+     * @return int|float
+     */
+    public function getSelectionPrice($_selection)
+    {
+        $price = 0;
+        if ($_selection) {
+            $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection);
+        }
+        return is_numeric($price) ? $price : 0;
+    }
+
     public function getSelectionTitlePrice($_selection, $includeContainer = true)
     {
         $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection, 1);
