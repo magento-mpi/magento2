@@ -104,6 +104,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     {
         $this->addColumn('product_name', array(
             'header'    => Mage::helper('enterprise_checkout')->__('Product name'),
+            'renderer'  => 'enterprise_checkout/adminhtml_manage_grid_renderer_product',
             'index'     => 'name',
             'sortable'  => false
         ));
@@ -135,6 +136,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
             'type'      => 'checkbox',
             'field_name'=> $this->getId() ? $this->getId() : 'source_product',
             'align'     => 'center',
+//            'values'    => $this->_getSelectedProducts(),
             'index'     => $this->_controlFieldName,
             'use_index' => true,
             'sortable'  => false
@@ -143,6 +145,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
         $this->addColumn('qty', array(
             'sortable'  => false,
             'header'    => Mage::helper('enterprise_checkout')->__('Qty To Add'),
+            'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',

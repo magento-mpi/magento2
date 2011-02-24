@@ -48,6 +48,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
         $this->setHeaderText(
             Mage::helper('enterprise_checkout')->__('Wishlist (%s)', $this->getItemsCount())
         );
+        $this->setRowClickCallback('checkoutObj.productGridRowClick.bind(checkoutObj)');
+        $this->setCheckboxCheckCallback('checkoutObj.productGridCheckboxCheck.bind(checkoutObj)');
+        $this->setRowInitCallback('checkoutObj.productGridRowInit.bind(checkoutObj)');
     }
 
     /**

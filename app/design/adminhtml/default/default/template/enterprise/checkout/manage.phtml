@@ -38,6 +38,8 @@
 <?php echo $this->getChildHtml('checkout.js') ?>
 <script type="text/javascript">
     checkoutObj = new AdminCheckout();
+    checkoutObj.setLoadBaseUrl('<?php echo $this->getUrl('*/*/loadBlock'); ?>');
+
 </script>
 
 <div class="content-header">
@@ -61,6 +63,30 @@
     </div>
     <?php echo $this->getChildHtml('update_button') ?>
 </div>
+
+<?php
+$params = array(
+    'customer'   => $this->_getCustomer()->getId(),
+    'store'    => $this->_getStore()->getId()
+);
+?>
+
+<script type="text/javascript">
+    Event.observe(window, 'load',  function() {
+//        productsGrid.rowClickCallback = checkoutObj.productGridRowClick.bind(productsGrid);
+//        productsGrid.checkboxCheckCallback = checkoutObj.gridCheckboxCheck.bind(checkoutObj);
+//        productsGrid.initRowCallback = checkoutObj.gridRowInit.bind(checkoutObj);
+//        productsGrid.initGridRows();
+
+        productConfigure.addListType('product_to_add', {
+            urlFetch: '<?php echo $this->getUrl('*/checkout/configureProductToAdd', $params) ?>'
+        });
+        productConfigure.addListType('quote_items', {
+            urlFetch: '<?php echo $this->getUrl('*/sales_order_create/configureQuoteItems') ?>'
+        });
+    });
+</script>
+
 
 <div id="products_search">
     <p class="form-buttons" style="text-align:right;">

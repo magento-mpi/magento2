@@ -54,6 +54,7 @@
                 </block>
                 <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="checkout.form_coupon"/>
             </block>
+            <block type="adminhtml/catalog_product_composite_configure" name="configure.popup"/>
         </reference>
     </adminhtml_checkout_index>
 

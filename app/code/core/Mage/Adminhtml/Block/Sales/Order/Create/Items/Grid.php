@@ -162,11 +162,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         return $this->getQuote()->getShippingAddress()->getDiscountAmount();
     }
-
+    
     /**
      * Retrive quote address
-     *
-     * @return Mage_Sales_Model_Quote_Address
+     * 
+     * @return Mage_Sales_Model_Quote_Address 
      */
     public function getQuoteAddress()
     {
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             return $this->getQuote()->getShippingAddress();
         }
     }
-
+    
     public function usedCustomPriceForItem($item)
     {
         return $item->hasCustomPrice();
