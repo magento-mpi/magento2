@@ -65,7 +65,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
                 $temp['price_incl_tax'] = $this->calculatePrice($item, $item->getBasePrice(), true);
                 $temp['price_excl_tax'] = $this->calculatePrice($item, $item->getBasePrice());
             } else {
-                $temp['price'] = $this->calculatePrice($item, $item->getBasePrice(), $this->displayWrappingIncludeTaxPrice());
+                $temp['price'] = $this->calculatePrice($item, $item->getBasePrice(), $this->getDisplayWrappingPriceInclTax());
             }
             $temp['path'] = $item->getImageUrl();
             $temp['design'] = $item->getDesign();

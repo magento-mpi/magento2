@@ -31,7 +31,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
      * Intialize form
      *
      * @return void
-     */        
+     */
     public function __construct()
     {
         parent::__construct();
@@ -116,7 +116,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
 
         $uploadButton = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label' => Mage::helper('enterprise_giftwrapping')->__('Upload files'),
+                'label' => Mage::helper('enterprise_giftwrapping')->__('Upload File'),
                 'id' => 'upload_image_button',
                 'onclick' => 'uploadImagesForPreview()'
             ));
