@@ -424,6 +424,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         } else {
             if (Mage::getStoreConfig(self::WISHLIST_LINK_USE_QTY)) {
                 $count = $this->getWishlistItemCollection()
+                    ->setInStockFilter(true)
                     ->getItemsQty();
             } else {
                 $count = count($this->getWishlistItemCollection()->setInStockFilter(true));
