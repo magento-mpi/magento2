@@ -473,7 +473,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    protected function canConfigure($product = null)
+    public function canConfigure($product = null)
     {
         return $this->hasLinks($product) && $this->getProduct($product)->getLinksPurchasedSeparately();
     }
