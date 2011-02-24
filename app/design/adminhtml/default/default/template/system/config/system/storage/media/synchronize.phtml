@@ -29,26 +29,57 @@
 
 <script type="text/javascript">
 //<![CDATA[
-    defaultValues = [];
-    defaultValues['system_media_storage_configuration_media_storage'] = $('system_media_storage_configuration_media_storage').value;
-    defaultValues['system_media_storage_configuration_media_database'] = $('system_media_storage_configuration_media_database').value;
+    currentValues = [];
+    <?php $syncStorageParams = $this->getSyncStorageParams() ?>
+    currentValues['system_media_storage_configuration_media_storage']   = '<?php echo $syncStorageParams['storage_type'] ?>';
+    currentValues['system_media_storage_configuration_media_database']  = '<?php echo $syncStorageParams['connection_name'] ?>';
 
-
-    Event.observe(window, 'load', function(){
-        $('synchronize_button').addClassName('disabled');
-        checkStatus();
-    });
-    $('system_media_storage_configuration_media_storage').observe('change', enableButton);
-    $('system_media_storage_configuration_media_database').observe('change', enableButton);
-
-    function enableButton(event) {
+    function checkButtonState(event) {
         var element = Event.element(event);
-        if (element.value != defaultValues[element.id]) {
-            $('synchronize_button').removeClassName('disabled');
+        if (element.value != currentValues[element.id]) {
+            enableSyncButton();
         } else {
-            $('synchronize_button').addClassName('disabled');
+            disableSyncButton();
         }
     }
+
+    function defineButtonState() {
+        if ($('system_media_storage_configuration_media_storage').value != currentValues['system_media_storage_configuration_media_storage']
+            || ($('row_system_media_storage_configuration_media_database').visible()
+                && $('system_media_storage_configuration_media_database').value != currentValues['system_media_storage_configuration_media_database'])
+        ) {
+            enableSyncButton();
+        }
+    }
+
+    function enableStorageSelection() {
+        $('system_media_storage_configuration_media_storage').enable('enabled');
+        $('system_media_storage_configuration_media_database').enable('enabled');
+    }
+
+    function disableStorageSelection() {
+        $('system_media_storage_configuration_media_storage').disable('disabled');
+        $('system_media_storage_configuration_media_database').disable('disabled');
+    }
+
+    function enableSyncButton() {
+        Form.Element.enable('synchronize_button');
+        $('synchronize_button').removeClassName('disabled');
+    }
+
+    function disableSyncButton() {
+        Form.Element.disable('synchronize_button');
+        $('synchronize_button').addClassName('disabled');
+    }
+
+    Event.observe(window, 'load', function(){
+        disableStorageSelection();
+        disableSyncButton();
+        defineButtonState();
+        checkStatus();
+    });
+    $('system_media_storage_configuration_media_storage').observe('change', checkButtonState);
+    $('system_media_storage_configuration_media_database').observe('change', checkButtonState);
 
     function checkStatus() {
         u = new Ajax.PeriodicalUpdater('', '<?php echo $this->getAjaxStatusUpdateUrl() ?>', {
@@ -70,10 +101,11 @@
                         }
                     } else {
                         u.stop();
+                        enableStorageSelection();
                         $('sync_span').addClassName('no-display');
 
-                        if (response.state == '<?php echo Mage_Core_Model_File_Storage_Flag::STATE_FINISHED ?>') {
-                            if (response.html) {
+                        if (response.state == '<?php echo Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED ?>') {
+                            if (response.html && response.html != '') {
                                 $$('div.notification-global').each(function(e) {
                                     if (!e.hasClassName('notification-global-notice')) {
                                         e.hide();
@@ -81,6 +113,10 @@
                                 });
 
                                 Element.insert($('anchor-content'), {'before': response.html});
+                            }
+
+                            if (response.has_errors) {
+                                enableSyncButton();
                             }
                         }
                     }
@@ -105,7 +141,8 @@
 
         window.setTimeout('checkStatus()', 2011);
 
-        $('synchronize_button').addClassName('disabled');
+        disableStorageSelection();
+        disableSyncButton();
     }
 //]]>
 </script>

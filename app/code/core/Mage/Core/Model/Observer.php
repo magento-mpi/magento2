@@ -35,54 +35,62 @@
 class Mage_Core_Model_Observer
 {
     /**
-     * Check if to show popup message about synchronize process complete status
+     * Check if synchronize process is finished and generate notification message
      *
-     * @param Varien_Event_Observer $observer
+     * @param  Varien_Event_Observer $observer
      * @return Mage_Core_Model_Observer
      */
     public function addSynchronizeNotification(Varien_Event_Observer $observer)
     {
         $adminSession = Mage::getSingleton('admin/session');
-        $adminSession->setSyncProcessStopWatch(false);
-        if (!$adminSession->getSyncProcessStopWatch()) {
+        if (!$adminSession->hasSyncProcessStopWatch()) {
             $flag = Mage::getSingleton('core/file_storage')->getSyncFlag();
-
-            $syncProcessStopWatch = true;
-            if ($flag) {
-                $state = $flag->getState();
-
-                if ($state == Mage_Core_Model_File_Storage_Flag::STATE_RUNNING) {
-                    $syncProcessStopWatch = false;
-                } elseif ($state == Mage_Core_Model_File_Storage_Flag::STATE_FINISHED) {
-                    $flagData = $flag->getFlagData();
-                    if (isset($flagData['errors']) && $flagData['errors']) {
-                        $severity       = Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR;
-                        $title          = Mage::helper('adminhtml')->__('An error has occured while syncronization has been completed');
-                        $description    = Mage::helper('adminhtml')->__('One or more media files failed to be synchronized during the media storages syncronization process. Refer to the log file for details.');
-                    } else {
-                        $severity       = Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE;
-                        $title          = Mage::helper('adminhtml')->__('Media storage synchronization has complete');
-                        $description    = Mage::helper('adminhtml')->__('Synchronization of media storages has been successfully completed.');
-                    }
-
-                    $date = date('Y-m-d H:i:s');
-
-                    Mage::getModel('adminnotification/inbox')->parse(array(
-                        array(
-                            'severity'      => $severity,
-                            'date_added'    => $date,
-                            'title'         => $title,
-                            'description'   => $description,
-                            'url'           => '',
-                            'internal'      => true
-                        )
-                    ));
-
-                    $flag->delete();
-                }
+            $state = $flag->getState();
+            magE::log($state);
+            if ($state == Mage_Core_Model_File_Storage_Flag::STATE_RUNNING) {
+                $syncProcessStopWatch = true;
+            } else {
+                $syncProcessStopWatch = false;
             }
 
             $adminSession->setSyncProcessStopWatch($syncProcessStopWatch);
+        }
+        $adminSession->setSyncProcessStopWatch(false);
+
+        if (!$adminSession->getSyncProcessStopWatch()) {
+            if (!isset($flag)) {
+                $flag = Mage::getSingleton('core/file_storage')->getSyncFlag();
+            }
+
+            $state = $flag->getState();
+            if ($state == Mage_Core_Model_File_Storage_Flag::STATE_FINISHED) {
+                $flagData = $flag->getFlagData();
+                if (isset($flagData['has_errors']) && $flagData['has_errors']) {
+                    $severity       = Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR;
+                    $title          = Mage::helper('adminhtml')->__('An error has occured while syncronization has been completed');
+                    $description    = Mage::helper('adminhtml')->__('One or more media files failed to be synchronized during the media storages syncronization process. Refer to the log file for details.');
+                } else {
+                    $severity       = Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE;
+                    $title          = Mage::helper('adminhtml')->__('Media storage synchronization has complete');
+                    $description    = Mage::helper('adminhtml')->__('Synchronization of media storages has been successfully completed.');
+                }
+
+                $date = date('Y-m-d H:i:s');
+                Mage::getModel('adminnotification/inbox')->parse(array(
+                    array(
+                        'severity'      => $severity,
+                        'date_added'    => $date,
+                        'title'         => $title,
+                        'description'   => $description,
+                        'url'           => '',
+                        'internal'      => true
+                    )
+                ));
+
+                $flag->setState(Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED)->save();
+            }
+
+            $adminSession->setSyncProcessStopWatch(false);
         }
 
         return $this;

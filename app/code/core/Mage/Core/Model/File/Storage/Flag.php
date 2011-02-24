@@ -46,6 +46,10 @@ class Mage_Core_Model_File_Storage_Flag extends Mage_Core_Model_Flag
      * Synchronization finished
      */
     const STATE_FINISHED    = 2;
+    /**
+     * Synchronization finished and notify message was formed
+     */
+    const STATE_NOTIFIED    = 3;
 
     /**
      * Flag time to life in seconds

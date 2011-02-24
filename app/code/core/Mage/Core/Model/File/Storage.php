@@ -54,6 +54,22 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'core_file_storage';
 
     /**
+     * Show if there were errors while synchronize process
+     *
+     * @param  Mage_Core_Model_Abstract $sourceModel
+     * @param  Mage_Core_Model_Abstract $destinationModel
+     * @return bool
+     */
+    protected function _synchronizeHasErrors(Mage_Core_Model_Abstract $sourceModel, Mage_Core_Model_Abstract $destinationModel)
+    {
+        if (!$sourceModel || !$destinationModel) {
+            return true;
+        }
+
+        return $sourceModel->hasErrors() || $destinationModel->hasErrors();
+    }
+
+    /**
      * Return synchronize process status flag
      *
      * @return Mage_Core_Model_File_Storage_Flag
@@ -69,7 +85,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
      *
      * params = array(
      *  connection  => string,  - define connection for model if needed
-     *  init        => bool     - force initialization process for storage
+     *  init        => bool     - force initialization process for storage model
      * )
      *
      * @param  int|null $storage
@@ -79,7 +95,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
     public function getStorageModel($storage = null, $params = array())
     {
         if (is_null($storage)) {
-            $storage = Mage::helper('core/file_storage')->getCurrentStorage();
+            $storage = Mage::helper('core/file_storage')->getCurrentStorageCode();
         }
 
         switch ($storage) {
@@ -109,10 +125,9 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
      * )
      *
      * @param  array $storage
-     * @param  Mage_Core_Model_File_Storage_Flag|null $flag
      * @return Mage_Core_Model_File_Storage
      */
-    public function synchronize($storage, Mage_Core_Model_File_Storage_Flag $flag = null)
+    public function synchronize($storage)
     {
         if (isset($storage['type'])) {
             $storageDest    = (int) $storage['type'];
@@ -120,7 +135,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
             $helper         = Mage::helper('core/file_storage');
 
             // if unable to sync to internal storage from itself
-            if ($storageDest == $helper->getCurrentStorage() && $helper->isInternalStorage()) {
+            if ($storageDest == $helper->getCurrentStorageCode() && $helper->isInternalStorage()) {
                 return $this;
             }
 
@@ -137,21 +152,32 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
                 return $this;
             }
 
-            if ($flag) {
-                $flagData = array(
-                    'source'        => $sourceModel->getStorageName(),
-                    'destination'   => $destinationModel->getStorageName()
-                );
-                $flag->setFlagData($flagData);
-            }
+            $hasErrors = false;
+            $flag = $this->getSyncFlag();
+            $flagData = array(
+                'source'                        => $sourceModel->getStorageName(),
+                'destination'                   => $destinationModel->getStorageName(),
+                'destination_storage_type'      => $storageDest,
+                'destination_connection_name'   => (string) $destinationModel->getConfigConnectionName(),
+                'has_errors'                    => false,
+                'timeout_reached'               => false
+            );
+            $flag->setFlagData($flagData);
 
             $destinationModel->clear();
 
             $offset = 0;
             while (($dirs = $sourceModel->exportDirectories($offset)) !== false) {
-                if ($flag) {
-                    $flag->save();
+                $flagData['timeout_reached'] = false;
+                if (!$hasErrors) {
+                    $hasErrors = $this->_synchronizeHasErrors($sourceModel, $destinationModel);
+                    if ($hasErrors) {
+                        $flagData['has_errors'] = true;
+                    }
                 }
+
+                $flag->setFlagData($flagData)
+                    ->save();
 
                 $destinationModel->importDirectories($dirs);
                 $offset += count($dirs);
@@ -160,19 +186,21 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
 
             $offset = 0;
             while (($files = $sourceModel->exportFiles($offset, 1)) !== false) {
-                if ($flag) {
-                    $flag->save();
+                $flagData['timeout_reached'] = false;
+                if (!$hasErrors) {
+                    $hasErrors = $this->_synchronizeHasErrors($sourceModel, $destinationModel);
+                    if ($hasErrors) {
+                        $flagData['has_errors'] = true;
+                    }
                 }
+
+                $flag->setFlagData($flagData)
+                    ->save();
 
                 $destinationModel->importFiles($files);
                 $offset += count($files);
             }
             unset($files);
-        }
-
-        if ($flag) {
-            $flagData['errors'] = ($sourceModel->hasErrors() || $destinationModel->hasErrors());
-            $flag->setFlagData($flagData);
         }
 
         return $this;
