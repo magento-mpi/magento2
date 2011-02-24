@@ -67,8 +67,10 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     protected $_eventObject = 'giftcardaccount';
     /**
      * Giftcard code that was requested for load
+     *
+     * @var string
      */
-    protected $_requestedCode = false;
+    protected $_requestedCode = '';
 
     protected $_defaultPoolModelClass = 'enterprise_giftcardaccount/pool';
 

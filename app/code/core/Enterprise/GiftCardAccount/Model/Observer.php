@@ -253,7 +253,6 @@ class Enterprise_GiftCardAccount_Model_Observer
             return $this;
         }
 
-        // validation of gift cards
         $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
         $website = Mage::app()->getStore($quote->getStoreId())->getWebsite();
         foreach ($cards as $one) {
