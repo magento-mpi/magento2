@@ -70,6 +70,14 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
 
     protected $_defaultPoolModelClass = 'enterprise_giftcardaccount/pool';
 
+    /**
+     * Static variable to contain codes, that were saved on previous steps in series of consecutive saves
+     * Used if you use different read and write connections
+     *
+     * @var array
+     */
+    protected static $_alreadySelectedIds = array();
+
     protected function _construct()
     {
         $this->_init('enterprise_giftcardaccount/giftcardaccount');
@@ -141,6 +149,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 ->setId($this->getCode())
                 ->setStatus(Enterprise_GiftCardAccount_Model_Pool_Abstract::STATUS_USED)
                 ->save();
+            self::$_alreadySelectedIds[] = $this->getCode();
         }
 
         parent::_afterSave();
@@ -153,7 +162,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      */
     protected function _defineCode()
     {
-        return $this->setCode($this->getPoolModel()->shift());
+        return $this->setCode($this->getPoolModel()->shift(self::$_alreadySelectedIds));
     }
 
 

@@ -36,16 +36,19 @@ abstract class Enterprise_GiftCardAccount_Model_Pool_Abstract extends Mage_Core_
 
     /**
      * Return first free code
-     *
+     * 
+     * @param array $notInArray - codes, that have to be excluded from selection
      * @return string
      */
-    public function shift()
+    public function shift($notInArray = array())
     {
         $collection = $this->getCollection()
             ->addFieldToFilter('status', self::STATUS_FREE)
-            ->setPageSize(1)
-            ->load();
-
+            ->setPageSize(1);
+        if (!empty($notInArray)) {
+            $collection->addFieldToFilter('code', array('nin' => $notInArray));
+        }
+        $collection->load();
         if (!$items = $collection->getItems()) {
             Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('No codes left in the pool.'));
         }
