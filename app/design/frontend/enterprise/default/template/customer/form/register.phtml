@@ -60,18 +60,7 @@
                     <label for="is_subscribed"><?php echo $this->__('Sign Up for Newsletter') ?></label>
                 </li>
                 <?php endif ?>
-            <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
-            <?php if ($_dob->isEnabled()): ?>
-                <li><?php echo $_dob->setDate($this->getFormData()->getDob())->toHtml() ?></li>
-            <?php endif ?>
-            <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
-            <?php if ($_taxvat->isEnabled()): ?>
-                <li><?php echo $_taxvat->setTaxvat($this->getFormData()->getTaxvat())->toHtml() ?></li>
-            <?php endif ?>
-            <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
-            <?php if ($_gender->isEnabled()): ?>
-                <li><?php echo $_gender->setGender($this->getFormData()->getGender())->toHtml() ?></li>
-            <?php endif ?>
+
             <?php $customerAttributes = $this->getChild('customer_form_user_attributes');?>
             <?php if ($customerAttributes): ?>
                 <?php $customerAttributes->setShowContainer(false);?>
