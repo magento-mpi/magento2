@@ -25,39 +25,31 @@
  */
 ?>
 <div id="wrapping-item-container">
-<fieldset>
-<table>
-    <tr>
-        <td><?php echo $this->__('Gift Wrapping Design') ?>
-        <br><br>
-        <div id="wrapping-item-price-box" class="no-display">
-        <?php if ($this->getDisplayWrappingBothPrices()): ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-            <span class="price" id="wrapping-item-price-excl-tax"></span>
+    <h4>Gift Wrapping</h4>
+    <div class="gift-wrapping-form">
+        <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
+        <div class="gift-wrapping-design no-display">
+            <img id="wrapping-item-image-box" class="image-box no-display" height="75" width="75" alt="" src="" />
+            <div id="wrapping-item-price-box" class="no-display">
+                <?php if ($this->getDisplayWrappingBothPrices()): ?>
+                <div>
+                    <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                    <span class="price" id="wrapping-item-price-excl-tax"></span>
+                </div>
+                <div>
+                    <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                    <span class="price" id="wrapping-item-price-incl-tax"></span>
+                </div>
+                <?php else: ?>
+                <div>
+                    <span class="label"><?php echo $this->__('Price') ?>:</span>
+                    <span class="price" id="wrapping-item-price"></span>
+                </div>
+                <?php endif; ?>
+            </div>
         </div>
-        <div>
-            <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-            <span class="price" id="wrapping-item-price-incl-tax"></span>
-        </div>
-        <?php else: ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price') ?>:</span>
-            <span class="price" id="wrapping-item-price"></span>
-        </div>
-        <?php endif; ?>
+        <div class="no-display"><input type="hidden" id="giftwrapping_type" value="quote_item" /></div>
     </div>
-        </td>
-        <td>&nbsp;</td>
-        <td>
-            <?php echo $this->getDesignSelectHtml() ?>
-            <input type="hidden" id="giftwrapping_type" value="quote_item" />
-        </td>
-        <td>&nbsp;</td>
-        <td><img id="wrapping-item-image-box" class="no-display" height="75" width="75"/></td>
-    </tr>
-</table>
-</fieldset>
 </div>
 
 <script type="text/javascript">
@@ -79,7 +71,7 @@ var giftWrappingItem = {
             this.setDesign(design);
             this.setPrice(design);
         } else {
-            $('wrapping-item-price-box').addClassName('no-display');
+            $('wrapping-item-price-box').addClassName('no-display').up().addClassName('no-display');
             $('wrapping-item-image-box').addClassName('no-display');
         }
     },
@@ -87,7 +79,7 @@ var giftWrappingItem = {
     setDesign : function(value) {
         if (this.designsInfo[value].path) {
             $('wrapping-item-image-box').src = this.designsInfo[value].path;
-            $('wrapping-item-image-box').removeClassName('no-display');
+            $('wrapping-item-image-box').removeClassName('no-display').up().removeClassName('no-display');
         }
     },
 

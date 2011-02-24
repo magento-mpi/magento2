@@ -917,6 +917,17 @@ ul.item-options li { padding-left:.7em; }
 .giftmessage-whole-order-container .entry-edit textarea { width:99% !important; padding:2px 3px; }
 .giftmessage-whole-order-container .entry-edit label { width:121px; }
 
+.gift-wrapping-form { padding:10px 0; }
+.gift-wrapping-form label { margin-right:10px; vertical-align:middle; }
+.gift-wrapping-form .gift-wrapping-design { overflow:hidden; padding:10px 0 0; width:100%; }
+.gift-wrapping-form .gift-wrapping-design .image-box { border:1px solid #ccc; float:left; margin-right:10px; }
+.gift-wrapping-form .price { font-weight:bold; }
+
+.gift-options-tooltip { background:#fefefe; border:1px solid #bbb; padding:5px 8px; position:absolute; -moz-border-radius:2px; border-radius:2px; -webkit-box-shadow:0 0 10px #ddd; -moz-box-shadow:0 0 10px #ddd; box-shadow:0 0 10px #ddd; -webkit-background-clip:padding-box; }
+
+.product-configure-popup .gift-wrapping-form { border:none; padding:0; }
+.product-configure-popup .gift-wrapping-form fieldset { margin-bottom:0; }
+
 /* PayPal */
 .paypal-payment-notice { background:url(images/paypal_logo.gif) no-repeat 5px center #eaf0ee; border:1px solid #ccc; margin-bottom:10px; padding:10px 5px 5px 115px; }
 .paypal-payment-notice h4,

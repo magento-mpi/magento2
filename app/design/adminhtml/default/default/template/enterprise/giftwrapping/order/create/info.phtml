@@ -28,83 +28,69 @@
 <?php if ($this->getDisplayWrapping()): ?>
 <div class="entry-edit box-right">
 
-<fieldset>
-<div><?php echo Mage::helper('sales')->__('Gift Wrapping for the Entire Order') ?></div><br>
-<p>
-    <?php echo $this->__('You can leave a box blank if you don\'t wish to add a gift wrap for whole order') ?>
-</p>
-
-<div id="wrapping-container">
-<table>
-    <tr>
-        <td><?php echo $this->__('Gift Wrapping Design') ?>
-        <br><br>
-        <div id="wrapping-price-box" class="no-display">
-        <?php if ($this->getDisplayWrappingBothPrices()): ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-            <span class="price" id="wrapping-price-excl-tax"></span>
-        </div>
-        <div>
-            <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-            <span class="price" id="wrapping-price-incl-tax"></span>
-        </div>
-        <?php else: ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price') ?>:</span>
-            <span class="price" id="wrapping-price"></span>
-        </div>
-        <?php endif; ?>
-    </div>
-        </td>
-        <td>&nbsp;</td>
-        <td>
-            <?php echo $this->getDesignSelectHtml() ?>
-            <input type="hidden" value="quote" name="giftwrapping[<?php echo $this->getEntityId() ?>][type]" />
-        </td>
-        <td>&nbsp;</td>
-        <td>
-            <div>
-                <img id="wrapping-image-box" class="no-display" height="75" width="75"/>
+    <div><?php echo Mage::helper('sales')->__('Gift Wrapping for the Entire Order') ?></div>
+    <br />
+    <fieldset>
+        <p><?php echo $this->__('You can leave a box blank if you don\'t wish to add a gift wrap for whole order') ?></p>
+        
+        <div id="wrapping-container">
+            <div class="gift-wrapping-form">
+                <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
+                <div id="wrapping-price-box" class="gift-wrapping-design no-display">
+                    <img id="wrapping-image-box" class="image-box no-display" height="75" width="75" alt="" src="" />
+                    <?php if ($this->getDisplayWrappingBothPrices()): ?>
+                    <div>
+                        <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                        <span class="price" id="wrapping-price-excl-tax"></span>
+                    </div>
+                    <div>
+                        <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                        <span class="price" id="wrapping-price-incl-tax"></span>
+                    </div>
+                    <?php else: ?>
+                    <div>
+                        <span class="label"><?php echo $this->__('Price') ?>:</span>
+                        <span class="price" id="wrapping-price"></span>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <div class="no-display">
+                    <input type="hidden" value="quote" name="giftwrapping[<?php echo $this->getEntityId() ?>][type]" />
+                </div>
             </div>
-        </td>
-    </tr>
-</table>
 
-<?php if ($this->getAllowGiftReceipt()): ?>
-<p>
-    <input type="checkbox" id="allow-gift-receipt" class="checkbox" value="1" name="giftwrapping[<?php echo $this->getEntityId() ?>][allow_gift_receipt]" />
-    <label for="allow-gift-receipt"><?php echo $this->__('Send Gift Receipt') ?></label>
-</p>
-<?php endif; ?>
+            <?php if ($this->getAllowGiftReceipt()): ?>
+            <p>
+                <input type="checkbox" id="allow-gift-receipt" class="checkbox" value="1" name="giftwrapping[<?php echo $this->getEntityId() ?>][allow_gift_receipt]" />
+                <label for="allow-gift-receipt"><?php echo $this->__('Send Gift Receipt') ?></label>
+            </p>
+            <?php endif; ?>
 
-<?php if ($this->getAllowPrintedCard()): ?>
-<p>
-    <input type="checkbox" id="add-printed-card" class="checkbox" value="1" name="giftwrapping[<?php echo $this->getEntityId() ?>][add_printed_card]" />
-    <label for="add-printed-card"><?php echo $this->__('Add Printed Card') ?></label>
-
-    <div id="card-price-box" class="no-display">
-    <?php if ($this->getDisplayCardBothPrices()): ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-            <span class="price" id="card-price-excl-tax"></span>
+            <?php if ($this->getAllowPrintedCard()): ?>
+            <p>
+                <input type="checkbox" id="add-printed-card" class="checkbox" value="1" name="giftwrapping[<?php echo $this->getEntityId() ?>][add_printed_card]" />
+                <label for="add-printed-card"><?php echo $this->__('Add Printed Card') ?></label>
+            </p>
+            <div id="card-price-box" class="no-display">
+            <?php if ($this->getDisplayCardBothPrices()): ?>
+                <div>
+                    <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                    <span class="price" id="card-price-excl-tax"></span>
+                </div>
+                <div>
+                    <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                    <span class="price" id="card-price-incl-tax"></span>
+                </div>
+            <?php else: ?>
+                <div>
+                    <span class="label"><?php echo $this->__('Price') ?>:</span>
+                    <span class="price" id="card-price"></span>
+                </div>
+            <?php endif; ?>
+            </div>
+            <?php endif; ?>
         </div>
-        <div>
-            <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-            <span class="price" id="card-price-incl-tax"></span>
-        </div>
-    <?php else: ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price') ?>:</span>
-            <span class="price" id="card-price"></span>
-        </div>
-    <?php endif; ?>
-    </div>
-</p>
-<?php endif; ?>
-</div>
-
-</fieldset>
+    </fieldset>
 </div>
 
 <script type="text/javascript">

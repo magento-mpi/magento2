@@ -26,78 +26,64 @@
 ?>
 
 <div class="no-display">
-<div id="gift-wrapping-container">
-<div style="padding-left:20px">
-<table>
-    <tr>
-        <td><?php echo $this->__('Gift Wrapping Design') ?>
-        <br><br>
-        <div class="price-box no-display" id="price-box-{{id}}">
-           <?php if ($this->getDisplayWrappingBothPrices()): ?>
-            <span class="price-excluding-tax">
-                <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-                <span class="price" id="price-excluding-tax-{{id}}"></span>
-            </span>
-            <span class="price-including-tax">
-                <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-                <span class="price" id="price-including-tax-{{id}}"></span>
-            </span>
-            <?php else: ?>
-            <span class="regular-price">
-                <span class="label"><?php echo $this->__('Price') ?>:</span>
-                <span class="price" id="regular-price-{{id}}"></span>
-            </span>
-            <?php endif;?>
-        </div>
-        </td>
-        <td>&nbsp;</td>
-        <td><?php echo $this->getDesignSelectHtml() ?></td>
-        <td>&nbsp;</td>
-        <td>
-            <div>
-                <img class="image-box no-display" id="image-box-{{id}}" id="image-box-{{id}}" height="75" width="75"/>
+    <div id="gift-wrapping-container">
+        <div class="gift-wrapping-form">
+            <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
+            <div class="gift-wrapping-design no-display">
+                <img class="image-box no-display" id="image-box-{{id}}" height="75" width="75" alt="" src="" />
+                <div class="price-box no-display" id="price-box-{{id}}">
+                   <?php if ($this->getDisplayWrappingBothPrices()): ?>
+                    <span class="price-excluding-tax">
+                        <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                        <span class="price" id="price-excluding-tax-{{id}}"></span>
+                    </span>
+                    <span class="price-including-tax">
+                        <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                        <span class="price" id="price-including-tax-{{id}}"></span>
+                    </span>
+                    <?php else: ?>
+                    <span class="regular-price">
+                        <span class="label"><?php echo $this->__('Price') ?>:</span>
+                        <span class="price" id="regular-price-{{id}}"></span>
+                    </span>
+                    <?php endif;?>
+                </div>
             </div>
-        </td>
-    </tr>
-</table>
-</div>
-</div>
-
-<div id="gift-options-container">
-<?php if ($this->getAllowGiftReceipt()): ?>
-<p>
-    <input type="checkbox" name="giftwrapping[{{id}}][allow_gift_receipt]" id="allow-gift-receipt-{{id}}" value="1" class="checkbox" />
-    <label for="allow-gift-receipt-{{id}}"><?php echo $this->__('Send Gift Receipt') ?></label>
-</p>
-<?php endif;?>
-<?php if ($this->getAllowPrintedCard()): ?>
-<p>
-    <input type="checkbox" name="giftwrapping[{{id}}][add_printed_card]" id="add-printed-card-{{id}}" value="1" onclick="" class="checkbox" />
-    <label for="add-printed-card-{{id}}"><?php echo $this->__('Add Printed Card') ?></label>
-    <div class="price-box no-display" id="price-options-box-{{id}}">
-    <p>
-        <?php if ($this->getDisplayCardBothPrices()): ?>
-            <span class="price-excluding-tax">
-                <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-                <span class="price" id="price-card-excluding-tax-{{id}}">{{price_excl_tax}}</span>
-            </span>
-            <span class="price-including-tax">
-                <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-                <span class="price" id="price-card-including-tax-{{id}}">{{price_incl_tax}}</span>
-            </span>
-            <?php else: ?>
-            <span class="regular-price">
-                <span class="label"><?php echo $this->__('Price') ?>:</span>
-                <span class="price" id="regular-card-price-{{id}}">{{price}}</span>
-            </span>
-        <?php endif;?>
-        </p>
+        </div>
     </div>
-</p>
-<?php endif;?>
-</div>
 
-</div>
+    <div id="gift-options-container">
+        <?php if ($this->getAllowGiftReceipt()): ?>
+        <p>
+            <input type="checkbox" name="giftwrapping[{{id}}][allow_gift_receipt]" id="allow-gift-receipt-{{id}}" value="1" class="checkbox" />
+            <label for="allow-gift-receipt-{{id}}"><?php echo $this->__('Send Gift Receipt') ?></label>
+        </p>
+        <?php endif;?>
+        <?php if ($this->getAllowPrintedCard()): ?>
+        <p>
+            <input type="checkbox" name="giftwrapping[{{id}}][add_printed_card]" id="add-printed-card-{{id}}" value="1" onclick="" class="checkbox" />
+            <label for="add-printed-card-{{id}}"><?php echo $this->__('Add Printed Card') ?></label>
+        </p>
+        <p class="price-box no-display" id="price-options-box-{{id}}">
+            <?php if ($this->getDisplayCardBothPrices()): ?>
+                <span class="price-excluding-tax">
+                    <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                    <span class="price" id="price-card-excluding-tax-{{id}}">{{price_excl_tax}}</span>
+                </span>
+                <span class="price-including-tax">
+                    <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                    <span class="price" id="price-card-including-tax-{{id}}">{{price_incl_tax}}</span>
+                </span>
+                <?php else: ?>
+                <span class="regular-price">
+                    <span class="label"><?php echo $this->__('Price') ?>:</span>
+                    <span class="price" id="regular-card-price-{{id}}">{{price}}</span>
+                </span>
+            <?php endif;?>
+        </p>
+        <?php endif;?>
+    </div>
+
 </div>
 
 <script type="text/javascript">
@@ -172,7 +158,7 @@ var giftWrapping = {
     setDesign : function(value, id) {
         if (this.designsInfo[value].path) {
             $('image-box-'+id).src = this.designsInfo[value].path;
-            $('image-box-'+id).removeClassName('no-display');
+            $('image-box-'+id).removeClassName('no-display').up().removeClassName('no-display');
         }
     },
 
@@ -215,11 +201,10 @@ var giftWrapping = {
             this.setPrice(element.value, id);
         } else {
             $('price-box-'+id).addClassName('no-display');
-            $('image-box-'+id).addClassName('no-display');
+            $('image-box-'+id).addClassName('no-display').up().addClassName('no-display');
         }
     }
 }
 giftWrapping.assign();
 //]]>
 </script>
-

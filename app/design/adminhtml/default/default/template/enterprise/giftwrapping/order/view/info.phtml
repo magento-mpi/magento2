@@ -26,71 +26,66 @@
 ?>
 <?php if ($this->canDisplayGiftWrapping()): ?>
 <div class="box-right" id="wrapping-order-container">
-<div class="entry-edit">
-<fieldset>
-<div><?php echo $this->__('Gift Wrapping for the Entire Order') ?></div><br>
-<?php if ($this->getOrderInfo()->getDesign()): ?>
-<table>
-<tr>
-<td><?php echo $this->__('Gift Wrapping Design') ?> :
-    <span><?php echo $this->getOrderInfo()->getDesign(); ?></span>
-    <br><br>
-    <div id="price-box">
-        <?php if ($this->getDisplayWrappingBothPrices()): ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-            <span class="price"><?php echo $this->getOrderInfo()->getPriceExclTax(); ?></span>
-        </div>
-        <div>
-            <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-            <span class="price"><?php echo $this->getOrderInfo()->getPriceInclTax(); ?></span>
-        </div>
-        <?php else: ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price') ?>:</span>
-            <span class="price"><?php echo $this->getOrderInfo()->getPrice(); ?></span>
-        </div>
-        <?php endif; ?>
+    <div class="entry-edit">
+        <div><?php echo $this->__('Gift Wrapping for the Entire Order') ?></div>
+        <br />
+        <fieldset>
+            <?php if ($this->getOrderInfo()->getDesign()): ?>
+            <div class="gift-wrapping-form">
+                <?php echo $this->__('Gift Wrapping Design') ?>: <span><?php echo $this->getOrderInfo()->getDesign(); ?></span>
+                <div class="gift-wrapping-design">
+                    <?php if ($this->getOrderInfo()->getPath()): ?>
+                        <img id="image-box" class="image-box" height="75" width="75" alt="" src="<?php echo $this->getOrderInfo()->getPath(); ?>"/>
+                    <?php endif; ?>
+                    <div id="price-box">
+                        <?php if ($this->getDisplayWrappingBothPrices()): ?>
+                        <div>
+                            <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                            <span class="price"><?php echo $this->getOrderInfo()->getPriceExclTax(); ?></span>
+                        </div>
+                        <div>
+                            <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                            <span class="price"><?php echo $this->getOrderInfo()->getPriceInclTax(); ?></span>
+                        </div>
+                        <?php else: ?>
+                        <div>
+                            <span class="label"><?php echo $this->__('Price') ?>:</span>
+                            <span class="price"><?php echo $this->getOrderInfo()->getPrice(); ?></span>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <p>
+                <input type="checkbox" id="allow-gift-receipt" class="checkbox" disabled="disabled" <?php if ($this->getAllowGiftReceipt()):?> checked="checked"<?php endif; ?> />
+                <label for="allow-gift-receipt"><?php echo $this->__('Send Gift Receipt') ?></label>
+            </p>
+            <p>
+                <input type="checkbox" id="add-printed-card" class="checkbox" disabled="disabled" <?php if ($this->getPrintedCard()):?> checked="checked"<?php endif; ?> />
+                <label for="add-printed-card"><?php echo $this->__('Add Printed Card') ?></label>
+            </p>
+            <?php if ($this->getPrintedCard()): ?>
+            <div id="price-card-box">
+            <?php if ($this->getDisplayCardBothPrices()): ?>
+                <div>
+                    <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                    <span class="price"><?php echo $this->getCardInfo()->getPriceExclTax(); ?></span>
+                </div>
+                <div>
+                    <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                    <span class="price"><?php echo $this->getCardInfo()->getPriceInclTax(); ?></span>
+                </div>
+            <?php else: ?>
+                <div>
+                    <span class="label"><?php echo $this->__('Price') ?>:</span>
+                    <span class="price"><?php echo $this->getCardInfo()->getPrice(); ?></span>
+                </div>
+            <?php endif; ?>
+            </div>
+            <?php endif; ?>
+        </fieldset>
     </div>
-</td>
-<td>&nbsp;</td>
-<?php if ($this->getOrderInfo()->getPath()): ?>
-<td><img id="image-box" height="75" width="75" src="<?php echo $this->getOrderInfo()->getPath(); ?>"/></td>
-<?php endif; ?>
-</tr>
-</table>
-<?php endif; ?>
-
-<p>
-    <input type="checkbox" id="allow-gift-receipt" class="checkbox" disabled="disabled" <?php if ($this->getAllowGiftReceipt()):?> checked="checked"<?php endif; ?> />
-    <label for="allow-gift-receipt"><?php echo $this->__('Send Gift Receipt') ?></label>
-</p>
-<p>
-    <input type="checkbox" id="add-printed-card" class="checkbox" disabled="disabled" <?php if ($this->getPrintedCard()):?> checked="checked"<?php endif; ?> />
-    <label for="add-printed-card"><?php echo $this->__('Add Printed Card') ?></label>
-
-    <?php if ($this->getPrintedCard()): ?>
-    <div id="price-card-box">
-    <?php if ($this->getDisplayCardBothPrices()): ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-            <span class="price"><?php echo $this->getCardInfo()->getPriceExclTax(); ?></span>
-        </div>
-        <div>
-            <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-            <span class="price"><?php echo $this->getCardInfo()->getPriceInclTax(); ?></span>
-        </div>
-    <?php else: ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price') ?>:</span>
-            <span class="price"><?php echo $this->getCardInfo()->getPrice(); ?></span>
-        </div>
-    <?php endif; ?>
-    </div>
-    <?php endif; ?>
-</p>
-
-</fieldset>
-</div>
 </div>
 <?php endif; ?>

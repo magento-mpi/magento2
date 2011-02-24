@@ -24,36 +24,32 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+
 <div id="wrapping-item-container" class="no-display">
-<fieldset>
-<table>
-<tr>
-<td><?php echo $this->__('Gift Wrapping Design') ?> :
-    <span id="item-design"></span>
-    <br><br>
-    <div id="item-price-box" class="no-display">
-        <?php if ($this->getDisplayWrappingBothPrices()): ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-            <span class="price" id="item-price-excl-tax"></span>
+    <h4>Gift Wrapping</h4>
+    <div class="gift-wrapping-form">
+        <div class="gift-wrapping-design">
+            <img class="image-box no-display" id="item-image-box" height="75" width="75" alt="" src=""/>
+            <?php echo $this->__('Gift Wrapping Design') ?>: <span id="item-design"></span>
+            <div id="item-price-box" class="no-display">
+            <?php if ($this->getDisplayWrappingBothPrices()): ?>
+            <div>
+                <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
+                <span class="price" id="item-price-excl-tax"></span>
+            </div>
+            <div>
+                <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
+                <span class="price" id="item-price-incl-tax"></span>
+            </div>
+            <?php else: ?>
+            <div>
+                <span class="label"><?php echo $this->__('Price') ?>:</span>
+                <span class="price" id="item-price"></span>
+            </div>
+            <?php endif; ?>
+            </div>
         </div>
-        <div>
-            <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-            <span class="price" id="item-price-incl-tax"></span>
-        </div>
-        <?php else: ?>
-        <div>
-            <span class="label"><?php echo $this->__('Price') ?>:</span>
-            <span class="price" id="item-price"></span>
-        </div>
-        <?php endif; ?>
     </div>
-</td>
-<td>&nbsp;</td>
-<td><img class="no-display" id="item-image-box" height="75" width="75"/></td>
-</tr>
-</table>
-</fieldset>
 </div>
 
 <script type="text/javascript">
