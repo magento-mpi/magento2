@@ -10,7 +10,7 @@
                 <buttons>
                     <create_order>//button[span='Create New Order']</create_order>
                 </buttons>
-                <!-- related pages-->
+                        <!-- related pages-->
                 <create_order>
                     <elements>
                         <containers>//td/div[contains(@id,'order-') and not(contains(@style,'display: none;')) and not(contains(@class,'validation-advice'))]</containers>
@@ -81,7 +81,7 @@
                             <shipping_state>//*[@id='order-shipping_address_region' and @style='display: none;']</shipping_state>
                             <billing_state>//*[@id='order-billing_address_region' and @style='display: none;']</billing_state>
                         </not_active>
-                        <!-- "Payment Method" grid  -->                        
+                        <!-- "Payment Method" grid  -->
                         <paypaluk_direct>//*[@id='p_method_paypaluk_direct']</paypaluk_direct>
                         <verisign>//*[@id='p_method_verisign']</verisign>
                         <paypal_direct>//*[@id='p_method_paypal_direct']</paypal_direct>
@@ -150,7 +150,7 @@
                 <buttons>
                     <add_new_tax_rule>//button[span='Add New Tax Rule']</add_new_tax_rule>
                 </buttons>
-                                    <!-- related pages-->
+                        <!-- related pages-->
                 <edit_tax_rule>
                     <inputs>
                         <tax_rule_name>//*[@id='code']</tax_rule_name>
@@ -169,7 +169,7 @@
                 <buttons>
                     <add_new>//button[span='Add New Tax Rate']</add_new>
                 </buttons>
-                                    <!-- related pages-->
+                        <!-- related pages-->
                 <edit_tax_zone_rate>
                     <elements>
                         <store_view_name_for_tax_title>//form[@id='rate_form']//th</store_view_name_for_tax_title>
@@ -198,7 +198,7 @@
                 <buttons>
                     <add_new>//button[span='Add New']</add_new>
                 </buttons>
-                                    <!-- related pages-->
+                        <!-- related pages-->
                 <edit_customer_tax_class>
                     <inputs>
                         <customer_tax_class_name>//*[@id='class_name']</customer_tax_class_name>
@@ -212,7 +212,7 @@
                 <buttons>
                     <add_new>//button[span='Add New']</add_new>
                 </buttons>
-                                    <!-- related pages-->
+                        <!-- related pages-->
                 <edit_product_tax_class>
                     <inputs>
                         <product_tax_class_name>//*[@id='class_name']</product_tax_class_name>
@@ -230,7 +230,7 @@
                 <addproduct>//button[span="Add Product"]</addproduct>
                 <addproductcontinue>//button[span="Continue"]</addproductcontinue>
             </buttons>
-                                        <!-- related pages-->
+                        <!-- related pages-->
             <product>
                 <elements>
                     <tab_container>//*[@id='product_info_tabs']</tab_container>
@@ -245,7 +245,7 @@
                 </elements>
                 <inputs>
                     <attribute_for_configurable_product>//input[@title='%s']</attribute_for_configurable_product>
-                        <!-- General Tab-->
+                    <!-- General Tab-->
                     <name>//*[@id='name']</name>
                     <description>//*[@id='description']</description>
                     <short_description>//*[@id='short_description']</short_description>
@@ -254,14 +254,14 @@
                     <news_from_date>//*[@id='news_from_date']</news_from_date>
                     <news_to_date>//*[@id='news_to_date']</news_to_date>
                     <url_key>//*[@id='url_key']</url_key>
-                        <!-- Prices Tab-->
+                    <!-- Prices Tab-->
                     <price>//*[@id='price']</price>
                     <special_price>//*[@id='special_price']</special_price>
                     <special_from_date>//*[@id='special_from_date']</special_from_date>
                     <special_to_date>//*[@id='special_to_date']</special_to_date>
                     <tier_price_price>//*[@id='tier_price_row_%s_price']</tier_price_price>
                     <tier_price_qty>//*[@id='tier_price_row_%s_qty']</tier_price_qty>
-                        <!-- Inventory Tab-->
+                    <!-- Inventory Tab-->
                     <ucheck_use_default>/following-sibling::*[%s][@checked='checked' and contains(class,checkbox)]</ucheck_use_default>
                     <inventory_qty>//*[@id='inventory_qty']</inventory_qty>
                     <inventory_min_qty>//*[@id='inventory_min_qty']</inventory_min_qty>
@@ -272,13 +272,13 @@
                     <giftcard_amounts>product[giftcard_amounts][%s][price]</giftcard_amounts>
                     <open_amount_max>//*[@id='open_amount_max']</open_amount_max>
                     <open_amount_min>//*[@id='open_amount_min']</open_amount_min>
-                        <!-- Websites Tab-->
+                    <!-- Websites Tab-->
                     <website>//*[text()='%s']</website>
                     <website_many>//div[contains(div/big/strong/label,'%s')][%s]//input</website_many>
-                        <!-- Categories Tab-->
+                    <!-- Categories Tab-->
                     <category>//ul/li[@class='x-tree-node']/div/a[contains(span,'%s')]</category>
                     <category_many>//div[contains(@class,'x-tree-root-node')]/li[contains(ul/li/div/a/span,'%s')][%s]/ul/li/div/a/span</category_many>
-                        <!-- Downloadable Information Tab-->
+                    <!-- Downloadable Information Tab-->
                     <downloadable_links_title>downloadable_links_title</downloadable_links_title>
                     <downloadable_link_title>downloadable[link][%s][title]</downloadable_link_title>
                     <downloadable_link_price>downloadable[link][%s][price]</downloadable_link_price>
@@ -293,47 +293,47 @@
                     <downloadable_sample_url_type>downloadable_sample_%s_url_type</downloadable_sample_url_type>
                     <downloadable_sample_url>downloadable[sample][%s][sample_url]</downloadable_sample_url>
                     <downloadable_sample_sort_order>downloadable[sample][%s][sort_order]</downloadable_sample_sort_order>
-                        <!-- Gift Card Information Tab-->
+                    <!-- Gift Card Information Tab-->
                     <giftcard_use_default_is_redeemable>giftcard_use_config_is_redeemable</giftcard_use_default_is_redeemable>
                     <giftcard_use_default_lifetime>giftcard_use_config_lifetime</giftcard_use_default_lifetime>
                     <giftcard_use_default_allow_message>giftcard_use_config_allow_message</giftcard_use_default_allow_message>
                     <giftcard_use_default_email_template>giftcard_use_config_email_template</giftcard_use_default_email_template>
                     <giftcard_lifetime>//*[@id='giftcard_lifetime']</giftcard_lifetime>
-                        <!-- Bundle Items Tab-->
+                    <!-- Bundle Items Tab-->
                     <bundle_options_title>//*[@id='id_bundle_options_%s_title']</bundle_options_title>
                     <bundle_options_position>bundle_options[%s][position]</bundle_options_position>
                 </inputs>
                 <selectors>
                     <attribute_set>//*[@id='attribute_set_id']</attribute_set>
                     <type>//*[@id='product_type']</type>
-                        <!-- General Tab-->
+                    <!-- General Tab-->
                     <conf_attribute>//*[@id='attrribute_dropdown_for_conf_product']</conf_attribute>
                     <sku_type>//*[@id='sku_type']</sku_type>
                     <weight_type>//*[@id='weight_type']</weight_type>
                     <status>//*[@id='status']</status>
                     <visibility>//*[@id='visibility']</visibility>
                     <allow_gift_message>//*[@id='gift_message_available']</allow_gift_message>
-                        <!-- Prices Tab-->
+                    <!-- Prices Tab-->
                     <price_type>//*[@id='price_type']</price_type>
                     <allow_open_amount>//*[@id='allow_open_amount']</allow_open_amount>
                     <tax_class>//*[@id='tax_class_id']</tax_class>
                     <enable_googlecheckout>//*[@id='enable_googlecheckout']</enable_googlecheckout>
                     <price_view>//*[@id='price_view']</price_view>
-                        <!-- Inventory Tab-->
+                    <!-- Inventory Tab-->
                     <manage_stock>//*[@id='inventory_manage_stock']</manage_stock>
                     <is_qty_decimal>//*[@id='inventory_is_qty_decimal']</is_qty_decimal>
                     <backorders>//*[@id='inventory_backorders']</backorders>
                     <enable_qty_increments>//*[@id='inventory_enable_qty_increments']</enable_qty_increments>
                     <stock_availability>//*[@id='inventory_stock_availability']</stock_availability>
-                        <!-- Gift Card Information Tab-->
+                    <!-- Gift Card Information Tab-->
                     <giftcard_type>//*[@id='giftcard_type']</giftcard_type>
                     <giftcard_is_redeemable>//*[@id='giftcard_is_redeemable']</giftcard_is_redeemable>
                     <giftcard_allow_message>//*[@id='giftcard_allow_message']</giftcard_allow_message>
                     <giftcard_email_template>//*[@id='giftcard_email_template']</giftcard_email_template>
-                        <!-- Downloadable Information Tab-->
+                    <!-- Downloadable Information Tab-->
                     <downloadable_links_purchase_type>//*[@id='downloadable_link_purchase_type']</downloadable_links_purchase_type>
                     <downloadable_link_shareable>//*[@id='downloadable_link _%s_shareable']</downloadable_link_shareable>
-                        <!-- Bundle Items Tab-->
+                    <!-- Bundle Items Tab-->
                     <bundle_shipment_type>//*[@id='shipment_type']</bundle_shipment_type>
                     <bundle_options_type>//*[@id='bundle_option_%s_type']</bundle_options_type>
                     <bundle_options_required>//*[@id='bundle_option_%s_required']</bundle_options_required>
@@ -355,16 +355,16 @@
                     <duplicate>//button[span="Duplicate"]</duplicate>
                     <delete>//button[span="Delete"]</delete>
                     <create_new_attribute>//button[contains(span,'Create New Attribute')]</create_new_attribute>
-                        <!-- Prices Tab-->
+                    <!-- Prices Tab-->
                     <add_amount>//button[span="Add Amount"]</add_amount>
                     <add_tier_price>//button[contains(span,'Add Tier')]</add_tier_price>
-                        <!-- Custom Options Tab-->
+                    <!-- Custom Options Tab-->
                     <add_new_option>//*[@id='add_new_defined_option']</add_new_option>
                     <add_new_row>//*[@id='add_select_row_button_%s']</add_new_row>
-                        <!-- Downloadable Information Tab-->
+                    <!-- Downloadable Information Tab-->
                     <add_link_item>add_link_item</add_link_item>
                     <add_sample_item>add_sample_item</add_sample_item>
-                        <!-- Bundle Items Tab-->
+                    <!-- Bundle Items Tab-->
                     <add_new_bundle_option>add_new_option</add_new_bundle_option>
                     <bundle_option_add_product>bundle_option_%s_add_button</bundle_option_add_product>
                     <bundle_option_add_product_confirm>add_button_%s</bundle_option_add_product_confirm>
@@ -431,7 +431,7 @@
                 <buttons>
                     <add_set>//button[span="Add New Set"]</add_set>
                 </buttons>
-                <!-- related pages-->
+                        <!-- related pages-->
                 <attribute_set>
                     <inputs>
                         <set_name>//*[@id='attribute_set_name']</set_name>
@@ -512,7 +512,7 @@
                 <buttons>
                     <add_new>//button[span="Add New Review"]</add_new>
                 </buttons>
-                                        <!-- related pages-->
+                        <!-- related pages-->
                 <edit_review>
                     <elements>
                         <rating_disabled>//*[@id='rating_detail' and contains(text(),"Rating isn't Available")]</rating_disabled>
@@ -538,7 +538,7 @@
                 <buttons>
                     <add_new_rating>//button[span="Add New Rating"]</add_new_rating>
                 </buttons>
-                                        <!-- related pages-->
+                        <!-- related pages-->
                 <ratings>
                     <inputs>
                         <visible_in>//*[@id='stores']</visible_in>
@@ -550,71 +550,65 @@
     </catalog>
     <customers>
         <manage_customers>
-            <buttons>
-                <add_new_customer>//button[span='Add New Customer']</add_new_customer>
-                <search>//button[span='Search']</search>
-            </buttons>
             <elements>
-                <customer_container_contains>//*[@id='customerGrid']//td[contains(text(),'%s')]</customer_container_contains>
                 <customer_container>//*[@id='customerGrid']</customer_container>
             </elements>
-            <inputs>
-                <search_email>//input[@id='filter_email']</search_email>
-            </inputs>
-            <edit_customer_page>
-                <buttons>
-                    <add_new_address>//button[span='Add New Address']</add_new_address>
-                    <save_customer>//button[span='Save Customer']</save_customer>
-                    <save_and_continue>//button[span='Save and Continue Edit']</save_and_continue>
-                    <delete_address>//a[not (contains(@style,'none'))]//img[@alt='Remove address']</delete_address>
-                </buttons>
+            <buttons>
+                <add_new_customer>//button[span='Add New Customer']</add_new_customer>
+            </buttons>
+                        <!-- related pages-->
+            <create_customer>
                 <elements>
-                    <address_list_container>//td[contains(.,'Customer Addresses')]</address_list_container>
-                    <edit_address_container>//div[@id='address_form_container']</edit_address_container>
-                    <search_in_address_list>//td[contains(.,'Customer Addresses')]//li[contains(address, '%s')]</search_in_address_list>
-                    <is_billing_shipping>//li[contains(@id,'address_item')][%s]//label[contains(text(),'%s')]</is_billing_shipping>
-                    <billing_shipping_checked>//td[contains(.,'Customer Addresses')]//input[@checked='checked' and contains(@title,'%s')]</billing_shipping_checked>
-                    <edit_address>//img[@alt='Edit address']</edit_address>
-                    <check_street_line>//input[contains(@id,'item') and contains(@id,'street%s') and contains(@value,'%s')]</check_street_line>
-                    <text_fields>//div[contains(@id,'new_item')]//tr[contains(.,'%s')]/td[contains(@class,'value')]/input</text_fields>
-                    <check_text_fields>//tr[contains(td,'%s')]/td[contains(@class,'value')]/input[@value='%s']</check_text_fields>
-                    <check_country>//select[contains(@id,'item') and contains(@id,'country_id')]//option[@selected='selected' and contains(.,'%s')]</check_country>
-                    <check_state>//select[contains(@id,'item') and contains(@id,'region_id')]//option[@selected='selected' and contains(.,'%s')]</check_state>
-                    <edit_page_open>//div[@id="page:left"]/h3</edit_page_open>
-                    <new_address_container>//div[contains(@id,'new_item')]['%s']</new_address_container>
+                    <address_list>//*[@id='address_list']/li</address_list>
                 </elements>
                 <inputs>
-                    <first_name>//input[@id='_accountfirstname']</first_name>
-                    <last_name>//input[@id='_accountlastname']</last_name>
-                    <email>//input[@id='_accountemail']</email>
-                    <password>//input[contains(@id,'_account') and contains(@id,'password')]</password>
-                    <zip_code>//input[contains(@id,'item') and contains(@id,'postcode')]</zip_code>
-                    <city>//input[contains(@id,'item') and contains(@id,'city')]</city>
-                    <telephone>//input[contains(@id,'item') and contains(@id,'telephone')]</telephone>
-                    <street_line>//input[contains(@id,'item') and contains(@id,'street%s')]</street_line>
-                    <state>//input[(contains(@id,'item') and contains(@id,'region')) and not(contains(@type,'hidden'))]</state>
-                    <store_credit_update_balance>//input[@id='_customerbalanceamount_delta']</store_credit_update_balance>
-                    <store_credit_notify_email>//input[@id='_customerbalancenotify_by_email']</store_credit_notify_email>
-                    <store_credit_comment>//input[@id='_customerbalancecomment']</store_credit_comment>
-                    <reward_points_update_points>//input[@id='reward_points_delta']</reward_points_update_points>
-                    <reward_points_comment>//input[@id='reward_comment']</reward_points_comment>
+                    <!-- Account Information Tab-->
+                    <prefix>//*[@id='_accountprefix']</prefix>
+                    <first_name>//*[@id='_accountfirstname']</first_name>
+                    <middle_name>//*[@id='_accountmiddlename']</middle_name>
+                    <last_name>//*[@id='_accountlastname']</last_name>
+                    <suffix>//*[@id='_accountsuffix']</suffix>
+                    <email>//*[@id='_accountemail']</email>
+                    <date_of_birth>//*[@id='_accountdob']</date_of_birth>
+                    <tax_vat_number>//*[@id='_accounttaxvat']</tax_vat_number>
+                    <send_welcome_email>//*[@id='_accountsendemail' and not(@disabled)]</send_welcome_email>
+                    <password>//*[@id='_accountpassword']</password>
+                    <generate_password>//*[@id='account-send-pass']</generate_password>
+                    <!-- Addresses Tab-->
+                    <address_prefix>//*[@id='_item%sprefix']</address_prefix>
+                    <address_first_name>//*[@id='_item%sfirstname']</address_first_name>
+                    <address_middle_name>//*[@id='_item%smiddlename']</address_middle_name>
+                    <address_last_name>//*[@id='_item%slastname']</address_last_name>
+                    <address_suffix>//*[@id='_item%ssuffix']</address_suffix>
+                    <address_company>//*[@id='_item%scompany']</address_company>
+                    <address_strreet>//*[@id='_item%sstreet0']</address_strreet>
+                    <address_city>//*[@id='_item%scity']</address_city>
+                    <address_state>//*[@id='_item%sregion' and not(@type='hidden')]</address_state>
+                    <address_zip_code>//*[@id='_item%spostcode']</address_zip_code>
+                    <address_tel>//*[@id='_item%stelephone']</address_tel>
+                    <address_fax>//*[@id='_item%sfax']</address_fax>
+                    <use_def_billing>//*[@title='Set as Default Billing Address' and not(@checked)]</use_def_billing>
+                    <use_def_shipping>//*[@title='Set as Default Shipping Address' and not(@checked)]</use_def_shipping>
                 </inputs>
                 <selectors>
-                    <associate_to_website>//select[@id='_accountwebsite_id']</associate_to_website>
-                    <customer_group>//select[@id='_accountgroup_id']</customer_group>
-                    <country>//select[contains(@id,'item') and contains(@id,'country_id')]</country>
-                    <state>//select[(contains(@id,'item') and contains(@id,'region_id'))]</state>
-                    <store_credit_website>//select[@id='_customerbalancewebsite_id']</store_credit_website>
-                    <store_credit_email_from>//select[@id='_customerbalancestore_id']</store_credit_email_from>
-                    <reward_points_store>//select[@id='_customerbalancestore_id']</reward_points_store>
+                    <!-- Account Information Tab-->
+                    <associate_website>//*[@id='_accountwebsite_id' and not(@disabled)]</associate_website>
+                    <customer_group>//*[@id='_accountgroup_id']</customer_group>
+                    <gender>//*[@id='_accountgender']</gender>
+                    <send_welcome_email_from>//*[@id='_accountsendemail_store_id' and not(@disabled)]</send_welcome_email_from>
+                    <!-- Account Information Tab-->
+                    <address_country>//*[@id='_item%scountry_id' and not(@type='hidden')]</address_country>
+                    <address_state>//*[@id='_item%sregion_id']</address_state>
                 </selectors>
+                <buttons>
+                    <add_new_address>//button[span='Add New Address']</add_new_address>
+                    <delete_address>//a[not(@style='display: none;')]//img[@alt='Remove address']</delete_address>
+                </buttons>
                 <tabs>
-                    <addresses_tab>//a[@id='customer_info_tabs_addresses']</addresses_tab>
-                    <account_info>//a[@id='customer_info_tabs_account']</account_info>
-                    <store_credit>//a[@id='customer_info_tabs_customerbalance']</store_credit>
-                    <reward_points>//a[@id='customer_info_tabs_customer_edit_tab_reward']</reward_points>
+                    <account_info>//*[@id='customer_info_tabs_account']/span</account_info>
+                    <addresses>//*[@id='customer_info_tabs_addresses']/span</addresses>
                 </tabs>
-            </edit_customer_page>
+            </create_customer>
         </manage_customers>
     </customers>
     <system>
@@ -627,7 +621,7 @@
                     <elements>
                         <user_table_container>//*[@id='permissionsUserGrid']</user_table_container>
                     </elements>
-                                        <!-- related pages-->
+                        <!-- related pages-->
                     <edit_user>
                         <elements>
                             <user_role_container>//*[@id='permissionsUserRolesGrid']</user_role_container>
@@ -725,7 +719,7 @@
         <configuration>
             <elements>
                 <store_selector>//*[@id='store_switcher']</store_selector>
-                
+
                 <scope_per_webiste>//*[@id='store_switcher']/option[normalize-space(text())='%s']</scope_per_webiste>
                 <scope_per_storeview>//*[@id='store_switcher']/optgroup/option[normalize-space(text())='%s']</scope_per_storeview>
                 <form_name>//div[a/text()='%s']/a</form_name>
@@ -740,7 +734,7 @@
             <inputs>
                 <use_default_checkbox>//tr[td/*/@id='%s']/td[normalize-space(@class)='use-default']/input</use_default_checkbox>
             </inputs>
-            <!-- related tabs-->
+                        <!-- related tabs-->
             <shipping_methods>
                 <inputs>
                     <flatrate_title>//*[@id='carriers_flatrate_title']</flatrate_title>

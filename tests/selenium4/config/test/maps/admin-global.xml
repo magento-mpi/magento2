@@ -24,7 +24,7 @@
         <search_user_email>//*[@id='filter_email']</search_user_email>
         <search_user_tel>//*[@id='filter_Telephone']</search_user_tel>
         <search_user_zip>//*[@id='filter_billing_postcode']</search_user_zip>
-        <search_user_state>//*[@id='filter_billing_regione']</search_user_state>
+        <search_user_state>//*[@id='filter_billing_regione' or @id='filter_billing_region']</search_user_state>
         <search_registered_from_storeview>//*[@id='filter_store_name']</search_registered_from_storeview>
         <search_product_id>//*[contains(@id,'_id')]</search_product_id>
         <search_product_id_from>//*[contains(@id,'_id_from')]</search_product_id_from>
@@ -60,7 +60,7 @@
         <reset_search>//button[span='Reset Filter']</reset_search>
         <submit>//button[normalize-space(@class)='scalable save submit-button' or normalize-space(@class)='scalable save' and not(contains(span,'Continue'))]</submit>
         <add>//button[normalize-space(@class)='scalable add' and contains(.,'%s')]</add>
-        <delete>//button[normalize-space(@class)='scalable delete']</delete>
+        <delete>//*[normalize-space(@class)='content-header']//button[normalize-space(@class)='scalable delete']</delete>
     </buttons>
     <messages>
         <error1>//*/div/ul//li[normalize-space(@class)='error-msg']/ancestor::div[not(contains(@style,'display: none;')) and not(contains(@id,'dynamic-price-warrning'))]/ul/li</error1>
