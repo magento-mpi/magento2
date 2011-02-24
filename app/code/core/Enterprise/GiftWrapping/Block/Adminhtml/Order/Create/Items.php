@@ -70,7 +70,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
                         $temp['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
                         $temp['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
                     } else {
-                        $temp['price'] = $this->calculatePrice(new Varien_Object(), $price, $this->displayWrappingIncludeTaxPrice());
+                        $temp['price'] = $this->calculatePrice(new Varien_Object(), $price, $this->getDisplayWrappingPriceInclTax());
                     }
                 }
                 $temp['design'] = $item->getGwId();

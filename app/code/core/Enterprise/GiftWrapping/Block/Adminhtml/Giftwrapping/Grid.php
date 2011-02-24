@@ -104,6 +104,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
         $this->addColumn('base_price', array(
             'header'  => Mage::helper('enterprise_giftwrapping')->__('Price'),
             'index'   => 'base_price',
+            'type'    => 'price',
+            'currency_code' => Mage::app()->getWebsite()->getBaseCurrencyCode()
         ));
 
         $this->addColumn('action',

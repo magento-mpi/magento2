@@ -106,7 +106,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
             )
         ));
 
-        $fieldset->addField('base_price', 'text', array(
+        $fieldset->addType('price', 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price');
+        $fieldset->addField('base_price', 'price', array(
             'label'    => Mage::helper('enterprise_giftwrapping')->__('Price'),
             'name'     => 'base_price',
             'required' => true,
