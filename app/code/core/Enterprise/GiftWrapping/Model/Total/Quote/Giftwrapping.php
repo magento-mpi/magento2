@@ -128,8 +128,12 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
             if ($item->getProduct()->isVirtual() || $item->getParentItem() || !$item->getGwId()) {
                 continue;
             }
-            $wrapping = $this->_getWrapping($item->getGwId(), $this->_store);
-            $wrappingBasePrice = $wrapping->getBasePrice();
+            if ($item->getProduct()->getGiftWrappingPrice()) {
+                $wrappingBasePrice = $item->getProduct()->getGiftWrappingPrice();
+            } else {
+                $wrapping = $this->_getWrapping($item->getGwId(), $this->_store);
+                $wrappingBasePrice = $wrapping->getBasePrice();
+            }
             $wrappingPrice = $this->_store->convertPrice($wrappingBasePrice);
             $item->setGwBasePrice($wrappingBasePrice);
             $item->setGwPrice($wrappingPrice);
@@ -193,7 +197,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
         $wrapping = Mage::getModel('enterprise_giftwrapping/wrapping');
         $wrapping->setStoreId($store->getId());
         $wrapping->load($wrappingId);
-        return $wrapping; 
+        return $wrapping;
     }
 
     /**
