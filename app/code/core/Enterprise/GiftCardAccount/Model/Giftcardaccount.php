@@ -164,7 +164,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      */
     protected function _defineCode()
     {
-        return $this->setCode($this->getPoolModel()->shift(self::$_alreadySelectedIds));
+        return $this->setCode($this->getPoolModel()->setExcludedIds(self::$_alreadySelectedIds)->shift());
     }
 
 

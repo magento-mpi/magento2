@@ -37,15 +37,15 @@ abstract class Enterprise_GiftCardAccount_Model_Pool_Abstract extends Mage_Core_
     /**
      * Return first free code
      * 
-     * @param array $notInArray - codes, that have to be excluded from selection
      * @return string
      */
-    public function shift($notInArray = array())
+    public function shift()
     {
+        $notInArray = $this->getExcludedIds();
         $collection = $this->getCollection()
             ->addFieldToFilter('status', self::STATUS_FREE)
             ->setPageSize(1);
-        if (!empty($notInArray)) {
+        if (is_array($notInArray) && !empty($notInArray)) {
             $collection->addFieldToFilter('code', array('nin' => $notInArray));
         }
         $collection->load();
