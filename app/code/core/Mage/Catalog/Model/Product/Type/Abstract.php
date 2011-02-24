@@ -74,7 +74,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      *
      * @var bool
      */
-    protected $_isConfigurable  = false;
+    protected $_canConfigure = false;
 
     /**
      * Whether product quantity is fractional number or not
@@ -675,9 +675,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isConfigurable($product = null)
+    public function canConfigure($product = null)
     {
-        return $this->_isConfigurable;
+        return $this->_canConfigure;
     }
 
     /**

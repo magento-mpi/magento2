@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      *
      * @var bool
      */
-    protected $_isConfigurable          = true;
+    protected $_canConfigure            = true;
 
     /**
      * Return relation info about used products

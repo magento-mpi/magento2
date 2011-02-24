@@ -40,7 +40,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      *
      * @var bool
      */
-    protected $_isConfigurable  = true;
+    protected $_canConfigure = true;
 
     /**
      * Check is gift card product

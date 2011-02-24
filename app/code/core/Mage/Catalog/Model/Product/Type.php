@@ -222,15 +222,4 @@ class Mage_Catalog_Model_Product_Type
         }
         return self::$_typesPriority;
     }
-
-    /**
-     * Return additional configurable product types
-     *
-     * @static
-     * @return array
-     */
-    public static function getAdditionalConfigurableTypes()
-    {
-        return array(self::TYPE_DOWNLOADABLE, self::TYPE_GIFTCARD);
-    }
 }

@@ -36,13 +36,6 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     const TYPE_DOWNLOADABLE = 'downloadable';
 
     /**
-     * Product is configurable
-     *
-     * @var bool
-     */
-    protected $_isConfigurable  = true;
-
-    /**
      * Get downloadable product links
      *
      * @param Mage_Catalog_Model_Product $product
@@ -472,5 +465,16 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         $options = array('links' => $links);
 
         return $options;
+    }
+
+    /**
+     * Check if downloadable product has links and they can be purchased separately
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    protected function canConfigure($product = null)
+    {
+        return $this->hasLinks($product) && $this->getProduct($product)->getLinksPurchasedSeparately();
     }
 }

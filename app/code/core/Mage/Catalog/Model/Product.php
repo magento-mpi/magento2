@@ -1404,6 +1404,17 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Check if product can be configured
+     *
+     * @return bool
+     */
+    public function canConfigure()
+    {
+        $options = $this->getOptions();
+        return $this->isComposite() || !empty($options) || $this->getTypeInstance(true)->canConfigure($this);
+    }
+
+    /**
      * Retrieve sku through type instance
      *
      * @return string
@@ -1811,16 +1822,5 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
 
         return $this;
-    }
-
-    /**
-     * Check if product can be configured
-     *
-     * @return bool
-     */
-    public function canConfigure()
-    {
-        $options = $this->getOptions();
-        return $this->isComposite() || !empty($options) || $this->getTypeInstance(true)->isConfigurable();
     }
 }
