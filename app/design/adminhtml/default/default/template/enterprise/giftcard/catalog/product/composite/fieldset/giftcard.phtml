@@ -62,7 +62,7 @@ productConfigure.giftcardConfig = {};
                             $configValue = $this->getDefaultValue('giftcard_amount');
                         ?>
                         <div class="input-box">
-                            <select name="giftcard_amount" id="giftcard_amount" class="required-entry giftcard-amount-entry">
+                            <select name="giftcard_amount" id="giftcard_amount" class="required-entry giftcard-amount-entry" onchange="productConfigure.giftcardConfig.switchGiftCardInputs.call(this,event||window.event)">
                                 <option value=""><?php echo Mage::helper('enterprise_giftcard')->__('Choose an Amount...') ?></option>
                                 <?php foreach ($this->getAmounts($_product) as $value): ?>
                                     <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>><?php echo Mage::helper('core')->currencyByStore($value, $_storeId, true, false); ?></option>
@@ -161,7 +161,6 @@ productConfigure.giftcardConfig = {};
 
         if ($('giftcard_amount') && $('giftcard_amount_input_fields')) {
             $('giftcard_amount_input_fields').hide();
-            Event.observe($('giftcard_amount'), 'change', productConfigure.giftcardConfig.switchGiftCardInputs);
         }
 
         productConfigure.giftcardConfig.switchGiftCardInputs();
