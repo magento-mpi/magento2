@@ -102,7 +102,13 @@ class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resour
             $select = $adapter->select()
                 ->from($this->getMainTable())
                 ->where('url=?', $item['url']);
-            $row = $adapter->fetchRow($select);
+
+            if (isset($item['internal'])) {
+                $row = false;
+                unset($item['internal']);
+            } else {
+                $row = $write->fetchRow($select);
+            }
 
             if (!$row) {
                 $adapter->insert($this->getMainTable(), $item);

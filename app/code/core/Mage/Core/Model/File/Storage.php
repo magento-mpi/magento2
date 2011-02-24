@@ -54,6 +54,16 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'core_file_storage';
 
     /**
+     * Return synchronize process status flag
+     *
+     * @return Mage_Core_Model_File_Storage_Flag
+     */
+    public function getSyncFlag()
+    {
+        return Mage::getSingleton('core/file_storage_flag')->loadSelf();
+    }
+
+    /**
      * Retrieve storage model
      * If storage not defined - retrieve current storage
      *
@@ -128,10 +138,11 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
             }
 
             if ($flag) {
-                $flag->setFlagData(array(
+                $flagData = array(
                     'source'        => $sourceModel->getStorageName(),
                     'destination'   => $destinationModel->getStorageName()
-                ));
+                );
+                $flag->setFlagData($flagData);
             }
 
             $destinationModel->clear();
@@ -145,6 +156,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
                 $destinationModel->importDirectories($dirs);
                 $offset += count($dirs);
             }
+            unset($dirs);
 
             $offset = 0;
             while (($files = $sourceModel->exportFiles($offset, 1)) !== false) {
@@ -155,6 +167,12 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
                 $destinationModel->importFiles($files);
                 $offset += count($files);
             }
+            unset($files);
+        }
+
+        if ($flag) {
+            $flagData['errors'] = ($sourceModel->hasErrors() || $destinationModel->hasErrors());
+            $flag->setFlagData($flagData);
         }
 
         return $this;

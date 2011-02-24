@@ -1,0 +1,90 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+
+/**
+ * Core Observer model
+ *
+ * @category   Mage
+ * @package    Mage_Core
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Core_Model_Observer
+{
+    /**
+     * Check if to show popup message about synchronize process complete status
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Core_Model_Observer
+     */
+    public function addSynchronizeNotification(Varien_Event_Observer $observer)
+    {
+        $adminSession = Mage::getSingleton('admin/session');
+        $adminSession->setSyncProcessStopWatch(false);
+        if (!$adminSession->getSyncProcessStopWatch()) {
+            $flag = Mage::getSingleton('core/file_storage')->getSyncFlag();
+
+            $syncProcessStopWatch = true;
+            if ($flag) {
+                $state = $flag->getState();
+
+                if ($state == Mage_Core_Model_File_Storage_Flag::STATE_RUNNING) {
+                    $syncProcessStopWatch = false;
+                } elseif ($state == Mage_Core_Model_File_Storage_Flag::STATE_FINISHED) {
+                    $flagData = $flag->getFlagData();
+                    if (isset($flagData['errors']) && $flagData['errors']) {
+                        $severity       = Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR;
+                        $title          = Mage::helper('adminhtml')->__('An error has occured while syncronization has been completed');
+                        $description    = Mage::helper('adminhtml')->__('One or more media files failed to be synchronized during the media storages syncronization process. Refer to the log file for details.');
+                    } else {
+                        $severity       = Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE;
+                        $title          = Mage::helper('adminhtml')->__('Media storage synchronization has complete');
+                        $description    = Mage::helper('adminhtml')->__('Synchronization of media storages has been successfully completed.');
+                    }
+
+                    $date = date('Y-m-d H:i:s');
+
+                    Mage::getModel('adminnotification/inbox')->parse(array(
+                        array(
+                            'severity'      => $severity,
+                            'date_added'    => $date,
+                            'title'         => $title,
+                            'description'   => $description,
+                            'url'           => '',
+                            'internal'      => true
+                        )
+                    ));
+
+                    $flag->delete();
+                }
+            }
+
+            $adminSession->setSyncProcessStopWatch($syncProcessStopWatch);
+        }
+
+        return $this;
+    }
+}
