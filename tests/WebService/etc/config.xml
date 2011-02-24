@@ -10,5 +10,22 @@
             <model>Customer/Customer</model>
             <is_active>true</is_active>
         </Customer>
+        <Salesorder>
+            <model>Sales/Order</model>
+            <is_active>true</is_active>
+        </Salesorder>
     </modules>
+    <fixtures>
+        <befor_test>
+            <Enterprice>
+                <path>Enterprice.sql</path>
+                <is_active>true</is_active>
+            </Enterprice>
+            <Base>
+                <path>Base.sql</path>
+                <is_active>true</is_active>
+            </Base>
+        </befor_test>
+        <after_test></after_test>
+    </fixtures>
 </root>
