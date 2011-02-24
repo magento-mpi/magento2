@@ -1219,7 +1219,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
                         'value_id' => $attribute->getBackend()->getValueId(),
                         'value'    => $v,
                     );
-                } else if ($v == $origData[$k] && $origData['store_id'] != $this->getDefaultStoreId()) {
+                } else if ($v == $origData[$k] && isset($origData['store_id']) && $origData['store_id'] != $this->getDefaultStoreId()) {
                     $insert[$attrId] = $v;
                 }
             } else if (!$this->_isAttributeValueEmpty($attribute, $v)) {
