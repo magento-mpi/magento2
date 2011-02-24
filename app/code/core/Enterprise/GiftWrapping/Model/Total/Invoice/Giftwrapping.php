@@ -69,7 +69,7 @@ class Enterprise_GiftWrapping_Model_Total_Invoice_Giftwrapping extends Mage_Sale
         /**
          * Wrapping for order
          */
-        if (/*$order->getGwId() && */$order->getGwBasePrice()
+        if ($order->getGwId() && $order->getGwBasePrice()
             && $order->getGwBasePrice() != $order->getGwBasePriceInvoiced()) {
             $order->setGwBasePriceInvoiced($order->getGwBasePrice());
             $order->setGwPriceInvoiced($order->getGwPrice());
@@ -80,7 +80,7 @@ class Enterprise_GiftWrapping_Model_Total_Invoice_Giftwrapping extends Mage_Sale
         /**
          * Printed card
          */
-        if (/*$order->getGwAddPrintedCard() && */$order->getGwPrintedCardBasePrice()
+        if ($order->getGwAddPrintedCard() && $order->getGwPrintedCardBasePrice()
             && $order->getGwPrintedCardBasePrice() != $order->getGwPrintedCardBasePriceInvoiced()) {
             $order->setGwPrintedCardBasePriceInvoiced($order->getGwPrintedCardBasePrice());
             $order->setGwPrintedCardPriceInvoiced($order->getGwPrintedCardPrice());

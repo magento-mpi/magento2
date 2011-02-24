@@ -69,7 +69,7 @@ class Enterprise_GiftWrapping_Model_Total_Invoice_Tax_Giftwrapping extends Mage_
         /**
          * Wrapping for order
          */
-        if (/*$order->getGwId() && */$order->getGwBaseTaxAmount()
+        if ($order->getGwId() && $order->getGwBaseTaxAmount()
             && $order->getGwBaseTaxAmount() != $order->getGwBaseTaxAmountInvoiced()) {
             $order->setGwBaseTaxAmountInvoiced($order->getGwBaseTaxAmount());
             $order->setGwTaxAmountInvoiced($order->getGwTaxAmount());
@@ -80,7 +80,7 @@ class Enterprise_GiftWrapping_Model_Total_Invoice_Tax_Giftwrapping extends Mage_
         /**
          * Printed card
          */
-        if (/*$order->getGwAddPrintedCard() && */$order->getGwPrintedCardBaseTaxAmount()
+        if ($order->getGwAddPrintedCard() && $order->getGwPrintedCardBaseTaxAmount()
             && $order->getGwPrintedCardBaseTaxAmount() != $order->getGwPrintedCardBaseTaxAmountInvoiced()) {
             $order->setGwPrintedCardBaseTaxAmountInvoiced($order->getGwPrintedCardBaseTaxAmount());
             $order->setGwPrintedCardTaxAmountInvoiced($order->getGwPrintedCardTaxAmount());
@@ -88,18 +88,18 @@ class Enterprise_GiftWrapping_Model_Total_Invoice_Tax_Giftwrapping extends Mage_
             $invoice->setGwPrintedCardTaxAmount($order->getGwPrintedCardTaxAmount());
         }
 
-        $invoice->setBaseTaxAmount(
-            $invoice->getBaseTaxAmount()
-            + $invoice->getGwItemsBaseTaxAmount()
-            + $invoice->getGwBaseTaxAmount()
-            + $invoice->getGwPrintedCardBaseTaxAmount()
-        );
-        $invoice->setTaxAmount(
-            $invoice->getTaxAmount()
-            + $invoice->getGwItemsTaxAmount()
-            + $invoice->getGwTaxAmount()
-            + $invoice->getGwPrintedCardTaxAmount()
-        );
+        if (!$invoice->isLast()) {
+            $baseTaxAmount = $invoice->getGwItemsBaseTaxAmount()
+                + $invoice->getGwBaseTaxAmount()
+                + $invoice->getGwPrintedCardBaseTaxAmount();
+            $taxAmount = $invoice->getGwItemsTaxAmount()
+                + $invoice->getGwTaxAmount()
+                + $invoice->getGwPrintedCardTaxAmount();
+            $invoice->setBaseTaxAmount($invoice->getBaseTaxAmount() + $baseTaxAmount);
+            $invoice->setTaxAmount($invoice->getTaxAmount() + $taxAmount);
+            $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $baseTaxAmount);
+            $invoice->setGrandTotal($invoice->getGrandTotal() + $taxAmount);
+        }
 
         return $this;
     }

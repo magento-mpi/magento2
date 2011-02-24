@@ -69,7 +69,7 @@ class Enterprise_GiftWrapping_Model_Total_Creditmemo_Tax_Giftwrapping extends Ma
         /**
          * Wrapping for order
          */
-        if (/*$order->getGwId() && */$order->getGwBaseTaxAmountInvoiced()
+        if ($order->getGwId() && $order->getGwBaseTaxAmountInvoiced()
             && $order->getGwBaseTaxAmountInvoiced() != $order->getGwBaseTaxAmountRefunded()) {
             $order->setGwBaseTaxAmountRefunded($order->getGwBaseTaxAmountInvoiced());
             $order->setGwTaxAmountRefunded($order->getGwTaxAmountInvoiced());
@@ -80,7 +80,7 @@ class Enterprise_GiftWrapping_Model_Total_Creditmemo_Tax_Giftwrapping extends Ma
         /**
          * Printed card
          */
-        if (/*$order->getGwAddPrintedCard() && */$order->getGwPrintedCardBaseTaxAmountInvoiced()
+        if ($order->getGwAddPrintedCard() && $order->getGwPrintedCardBaseTaxAmountInvoiced()
             && $order->getGwPrintedCardBaseTaxAmountInvoiced() != $order->getGwPrintedCardBaseTaxAmountRefunded()) {
             $order->setGwPrintedCardBaseTaxAmountRefunded($order->getGwPrintedCardBaseTaxAmountInvoiced());
             $order->setGwPrintedCardTaxAmountRefunded($order->getGwPrintedCardTaxAmountInvoiced());
@@ -88,18 +88,17 @@ class Enterprise_GiftWrapping_Model_Total_Creditmemo_Tax_Giftwrapping extends Ma
             $creditmemo->setGwPrintedCardTaxAmount($order->getGwPrintedCardTaxAmountInvoiced());
         }
 
-        $creditmemo->setBaseTaxAmount(
-            $creditmemo->getBaseTaxAmount()
-            + $creditmemo->getGwItemsBaseTaxAmount()
+        $baseTaxAmount = $creditmemo->getGwItemsBaseTaxAmount()
             + $creditmemo->getGwBaseTaxAmount()
-            + $creditmemo->getGwPrintedCardBaseTaxAmount()
-        );
-        $creditmemo->setTaxAmount(
-            $creditmemo->getTaxAmount()
-            + $creditmemo->getGwItemsTaxAmount()
+            + $creditmemo->getGwPrintedCardBaseTaxAmount();
+        $taxAmount = $creditmemo->getGwItemsTaxAmount()
             + $creditmemo->getGwTaxAmount()
-            + $creditmemo->getGwPrintedCardTaxAmount()
-        );
+            + $creditmemo->getGwPrintedCardTaxAmount();
+        $creditmemo->setBaseTaxAmount($creditmemo->getBaseTaxAmount() + $baseTaxAmount);
+        $creditmemo->setTaxAmount($creditmemo->getTaxAmount() + $taxAmount);
+        $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() + $baseTaxAmount);
+        $creditmemo->setGrandTotal($creditmemo->getGrandTotal() + $taxAmount);
+
         return $this;
     }
 }

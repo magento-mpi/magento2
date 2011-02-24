@@ -69,7 +69,7 @@ class Enterprise_GiftWrapping_Model_Total_Creditmemo_Giftwrapping extends Mage_S
         /**
          * Wrapping for order
          */
-        if (/*$order->getGwId() && */$order->getGwBasePriceInvoiced()
+        if ($order->getGwId() && $order->getGwBasePriceInvoiced()
             && $order->getGwBasePriceInvoiced() != $order->getGwBasePriceRefunded()) {
             $order->setGwBasePriceRefunded($order->getGwBasePriceInvoiced());
             $order->setGwPriceRefunded($order->getGwPriceInvoiced());
@@ -80,7 +80,7 @@ class Enterprise_GiftWrapping_Model_Total_Creditmemo_Giftwrapping extends Mage_S
         /**
          * Printed card
          */
-        if (/*$order->getGwAddPrintedCard() && */$order->getGwPrintedCardBasePriceInvoiced()
+        if ($order->getGwAddPrintedCard() && $order->getGwPrintedCardBasePriceInvoiced()
             && $order->getGwPrintedCardBasePriceInvoiced() != $order->getGwPrintedCardBasePriceRefunded()) {
             $order->setGwPrintedCardBasePriceRefunded($order->getGwPrintedCardBasePriceInvoiced());
             $order->setGwPrintedCardPriceRefunded($order->getGwPrintedCardPriceInvoiced());

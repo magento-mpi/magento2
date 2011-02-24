@@ -82,7 +82,7 @@
                     <tax_giftwrapping>
                         <class>enterprise_giftwrapping/total_quote_tax_giftwrapping</class>
                         <after>tax</after>
-                        <before>graund_total</before>
+                        <before>grand_total</before>
                     </tax_giftwrapping>
                 </totals>
             </quote>
@@ -90,10 +90,12 @@
                 <totals>
                     <giftwrapping>
                         <class>enterprise_giftwrapping/total_invoice_giftwrapping</class>
+                        <after>subtotal</after>
                     </giftwrapping>
                     <tax_giftwrapping>
                         <class>enterprise_giftwrapping/total_invoice_tax_giftwrapping</class>
                         <after>tax</after>
+                        <before>grand_total</before>
                     </tax_giftwrapping>
                 </totals>
             </order_invoice>
@@ -101,10 +103,12 @@
                 <totals>
                     <giftwrapping>
                         <class>enterprise_giftwrapping/total_creditmemo_giftwrapping</class>
+                        <after>subtotal</after>
                     </giftwrapping>
                     <tax_giftwrapping>
                         <class>enterprise_giftwrapping/total_creditmemo_tax_giftwrapping</class>
                         <after>tax</after>
+                        <before>grand_total</before>
                     </tax_giftwrapping>
                 </totals>
             </order_creditmemo>
