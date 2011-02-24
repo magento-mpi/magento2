@@ -34,7 +34,7 @@
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php if ($this->hasWishlistItems()): ?>
-    <form id="wishlist-view-form" naction="<?php echo $this->getUrl('*/*/update') ?>" method="post">
+    <form id="wishlist-view-form" action="<?php echo $this->getUrl('*/*/update') ?>" method="post">
         <fieldset>
             <?php echo $this->getBlockHtml('formkey')?>
             <table class="data-table" id="wishlist-table">
