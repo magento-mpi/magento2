@@ -261,16 +261,6 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     }
 
     /**
-     * Check allow gift wrapping options
-     *
-     * @return bool
-     */
-    public function getAllowGiftOptions()
-    {
-        return $this->getAllowGiftReceipt() || $this->getAllowPrintedCard();
-    }
-
-    /**
      * Check allow gift wrapping on order level
      *
      * @return bool

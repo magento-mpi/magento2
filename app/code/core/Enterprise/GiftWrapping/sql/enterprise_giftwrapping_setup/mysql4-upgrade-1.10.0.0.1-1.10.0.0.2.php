@@ -27,11 +27,3 @@
 $installer = $this;
 /* @var $installer Enterprise_GiftWrapping_Model_Resource_Mysql4_Setup */
 
-$installer->addAttribute('quote', 'giftwrapping_options', array('type' => 'text', 'visible' => false));
-$installer->addAttribute('quote_item', 'giftwrapping_options', array('type' => 'text', 'visible' => false));
-
-$installer->addAttribute('quote_address', 'giftwrapping_options', array('type' => 'text', 'visible' => false));
-$installer->addAttribute('quote_address_item', 'giftwrapping_options', array('type' => 'text', 'visible' => false));
-
-$installer->addAttribute('order', 'giftwrapping_options', array('type' => 'text', 'visible' => false));
-$installer->addAttribute('order_item', 'giftwrapping_options', array('type' => 'text', 'visible' => false));

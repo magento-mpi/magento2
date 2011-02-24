@@ -35,11 +35,11 @@
         <div class="price-box no-display" id="price-box-{{id}}">
            <?php if ($this->getDisplayWrappingBothPrices()): ?>
             <span class="price-excluding-tax">
-                <span class="label"><?php echo $this->__('Excl. Tax') ?>:</span>
+                <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
                 <span class="price" id="price-excluding-tax-{{id}}"></span>
             </span>
             <span class="price-including-tax">
-                <span class="label"><?php echo $this->__('Incl. Tax') ?>:</span>
+                <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
                 <span class="price" id="price-including-tax-{{id}}"></span>
             </span>
             <?php else: ?>
@@ -64,7 +64,6 @@
 </div>
 
 <div id="gift-options-container">
-<?php if ($this->getAllowGiftOptions()): ?>
 <?php if ($this->getAllowGiftReceipt()): ?>
 <p>
     <input type="checkbox" name="giftwrapping[{{id}}][allow_gift_receipt]" id="allow-gift-receipt-{{id}}" value="1" class="checkbox" />
@@ -79,11 +78,11 @@
     <p>
         <?php if ($this->getDisplayCardBothPrices()): ?>
             <span class="price-excluding-tax">
-                <span class="label"><?php echo $this->__('Excl. Tax') ?>:</span>
+                <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
                 <span class="price" id="price-card-excluding-tax-{{id}}">{{price_excl_tax}}</span>
             </span>
             <span class="price-including-tax">
-                <span class="label"><?php echo $this->__('Incl. Tax') ?>:</span>
+                <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
                 <span class="price" id="price-card-including-tax-{{id}}">{{price_incl_tax}}</span>
             </span>
             <?php else: ?>
@@ -97,7 +96,7 @@
 </p>
 <?php endif;?>
 </div>
-<?php endif;?>
+
 </div>
 </div>
 
@@ -112,7 +111,7 @@ var giftWrapping = {
     cardInfo : <?php echo $this->getCardInfo()->toJson() ?>,
     allowForOrder : <?php echo (int)$this->getAllowForOrder() ?>,
     allowForItems : <?php echo (int)$this->getAllowForItems() ?>,
-    allowOptions : <?php echo (int)$this->getAllowGiftOptions() ?>,
+    allowGiftReceipt : <?php echo (int)$this->getAllowGiftReceipt() ?>,
     allowPrintedCard : <?php echo (int)$this->getAllowPrintedCard() ?>,
 
     assign : function() {
@@ -137,7 +136,7 @@ var giftWrapping = {
             }, this);
         }
 
-        if (this.allowOptions) {
+        if (this.allowGiftReceipt || this.allowPrintedCard) {
             $$('.extra-options-container').each(function(element){
                 var id = element.id.sub('extra-options-container-','');
                 if (this.cardInfo) {
