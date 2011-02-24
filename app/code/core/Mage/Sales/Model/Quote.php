@@ -872,11 +872,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
             /**
              * We specify qty after we know about parent (for stock)
-             * Skip this step if we are updating some qoute item
              */
-            if (!$this->hasIsItemUpdateProcess()) {
-                $item->addQty($candidate->getCartQty());
-            }
+            $item->addQty($candidate->getCartQty());
 
             // collect errors instead of throwing first one
             if ($item->getHasError()) {
@@ -964,9 +961,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             ->setStoreId($this->getStore()->getId())
             ->load($productId);
 
-        $this->setIsItemUpdateProcess(true);
         $resultItem = $this->addProduct($product, $buyRequest);
-        $this->unsIsItemUpdateProcess();
 
         if (is_string($resultItem)) {
             Mage::throwException($resultItem);
@@ -988,34 +983,16 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 if (($item->getProductId() == $productId) && ($item->getId() != $resultItem->getId())) {
                     if ($resultItem->compare($item)) {
                         // Product configuration is same as in other quote item
-                        $qty = $resultItem->getQty() + $item->getQty();
-                        $stockItem = $resultItem->getProduct()->getStockItem();
-                        if ($stockItem) {
-                            $suggestedQty = $stockItem->suggestQty($qty);
-                        } else {
-                            $suggestedQty = $qty;
-                        }
-                        $resultItem->setQty($suggestedQty);
+                        $resultItem->setQty($resultItem->getQty() + $item->getQty());
                         $this->removeItem($item->getId());
                         break;
                     }
                 }
             }
         } else {
-            $qty = $buyRequest->getQty();
-            $stockItem = $product->getStockItem();
-            if ($stockItem) {
-                $suggestedQty = $stockItem->suggestQty($qty);
-            } else {
-                $suggestedQty = $qty;
-            }
-            $resultItem->setQty($suggestedQty);
+            $resultItem->setQty($buyRequest->getQty());
         }
 
-        if ($qty != $suggestedQty && $resultItem->getQty() == $suggestedQty) {
-            $this->addMessage(Mage::helper('checkout')->__("%s quantity was recalculated because of quantity increment mismatch",
-                Mage::helper('core')->htmlEscape($resultItem->getProduct()->getName())), 'qty');
-        }
         return $resultItem;
     }
 

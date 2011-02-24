@@ -198,7 +198,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                     $message = $this->__('%s was added to your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
                     $this->_getSession()->addSuccess($message);
                 }
-                $this->_addQuoteMessagesToCheckoutSession('qty');
                 $this->_goBack();
             }
         } catch (Mage_Core_Exception $e) {
@@ -346,7 +345,6 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                     $message = $this->__('%s was updated in your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
                     $this->_getSession()->addSuccess($message);
                 }
-                $this->_addQuoteMessagesToCheckoutSession('qty');
                 $this->_goBack();
             }
         } catch (Mage_Core_Exception $e) {
@@ -405,45 +403,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $this->_getSession()->addException($e, $this->__('Cannot update shopping cart.'));
             Mage::logException($e);
         }
-        $this->_addQuoteMessagesToCheckoutSession('qty');
         $this->_goBack();
-    }
-
-    /**
-     * Add quote messages to checkout session
-     * It allows to display these messages after page redirect
-     *
-     * @param string $messageIndex
-     * 
-     * @return void
-     */
-    protected function _addQuoteMessagesToCheckoutSession($messageIndex = null)
-    {
-        $cart = $this->_getCart();
-        $messages = $cart->getQuote()->getMessages();
-
-        if (!is_null($messageIndex)) {
-            // Add some particular message only
-            if (is_array($messages) && isset($messages[$messageIndex])) {
-                $message = is_string($messages[$messageIndex]) ? $messages[$messageIndex] : $messages[$messageIndex]->getCode();
-                $this->_getSession()->addNotice($message);
-            }
-        } else {
-            // Add all messages
-            foreach ($messages as $messageIndex => $message) {
-                $message = is_string($message) ? $message : $message->getCode();
-                $this->_getSession()->addNotice($message);
-            }
-        }
-
-        $items = $cart->getQuote()->getAllItems();
-        // Add all quote items messages to checkout session
-        foreach ($items as $item) {
-            foreach ($item->getMessage(false) as $message) {
-                $message = Mage::getSingleton('core/message')->notice($message);
-                $this->_getSession()->addQuoteItemMessage($item->getId(), $message);
-            }
-        }
     }
 
     /**
