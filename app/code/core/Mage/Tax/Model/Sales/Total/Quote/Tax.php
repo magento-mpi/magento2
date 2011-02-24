@@ -626,6 +626,9 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         $process = count($previouslyAppliedTaxes);
 
         foreach ($applied as $row) {
+            if ($row['percent'] == 0) {
+                continue;
+            }
             if (!isset($previouslyAppliedTaxes[$row['id']])) {
                 $row['process']     = $process;
                 $row['amount']      = 0;
