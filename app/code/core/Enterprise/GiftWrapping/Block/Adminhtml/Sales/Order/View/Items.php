@@ -26,16 +26,17 @@
 
 
 /**
- * Gift Wrapping Adminhtml sales order view items
+ * Gift wrapping adminhtml sales order view items
  *
  * @category   Enterprise
  * @package    Enterprise_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Items extends Mage_Adminhtml_Block_Sales_Items_Abstract
+class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Items
+    extends Mage_Adminhtml_Block_Sales_Items_Abstract
 {
     /**
-     * Get Order Item
+     * Get order item from parent block
      *
      * @return Mage_Sales_Model_Order_Item
      */
@@ -43,7 +44,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Items extends Mag
     {
         return $this->getParentBlock()->getData('item');
     }
-
 
     /**
      * Prepare html output

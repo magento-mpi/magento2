@@ -225,6 +225,18 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Check ability to display prices excluding tax for gift wrapping in shopping cart
+     *
+     * @param Mage_Core_Model_Store|int $store
+     * @return bool
+     */
+    public function displayCartWrappingExcludeTaxPrice($store = null)
+    {
+        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
+        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+    }
+
+    /**
      * Check ability to display both prices for gift wrapping in shopping cart
      *
      * @param Mage_Core_Model_Store|int $store
@@ -270,6 +282,18 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
         return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH || $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX;
+    }
+
+    /**
+     * Check ability to display prices excluding tax for gift wrapping in backend sales
+     *
+     * @param Mage_Core_Model_Store|int $store
+     * @return bool
+     */
+    public function displaySalesWrappingExcludeTaxPrice($store = null)
+    {
+        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
+        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
@@ -322,7 +346,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
         $displayWrappingIncludeTaxPrice = false;
         $displayCardBothPrices = false;
         $displayCardIncludeTaxPrice = false;
- 
+
         if ($dataObject instanceof Mage_Sales_Model_Order
             || $dataObject instanceof Mage_Sales_Model_Order_Invoice
             || $dataObject instanceof Mage_Sales_Model_Order_Creditmemo) {

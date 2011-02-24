@@ -26,16 +26,17 @@
 
 
 /**
- * Gift Wrapping Adminhtml block for create order items
+ * Gift wrapping adminhtml block for create order items
  *
  * @category   Enterprise
  * @package    Enterprise_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Items extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
+class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Items
+    extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     /**
-     * Get Order Item
+     * Get order item from parent block
      *
      * @return Mage_Sales_Model_Order_Item
      */
@@ -43,7 +44,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Items extends M
     {
         return $this->getParentBlock()->getData('item');
     }
-
 
     /**
      * Prepare html output

@@ -23,21 +23,27 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
-/**
- * Sales Order View Items extra info template for gift message
- *
- * @see Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Items
- */
 ?>
 
 <?php $_item = $this->getItem() ?>
 <tr>
-    <td>
-        <?php echo $this->__('Gift Wrapping'); ?>
-    </td>
+    <td class="first"><?php echo $this->__('Gift Wrapping'); ?></td>
+    <td></td>
     <td class="price">
-        <?php echo $this->formatPrice($_item->getGwPrice());?>
+        <?php if ($this->helper('enterprise_giftwrapping')->displayCartWrappingBothPrices($this->getStore()) || $this->helper('enterprise_giftwrapping')->displayCartWrappingExcludeTaxPrice($this->getStore())): ?>
+            <?php if ($this->helper('enterprise_giftwrapping')->displayCartWrappingBothPrices($this->getStore())): ?>
+                <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
+            <?php endif; ?>
+            <?php echo $this->formatPrice($_item->getGwPrice());?>
+        <?php endif; ?>
+        <?php if ($this->helper('enterprise_giftwrapping')->displayCartWrappingBothPrices($this->getStore()) || $this->helper('enterprise_giftwrapping')->displayCartWrappingIncludeTaxPrice($this->getStore())): ?>
+            <?php if ($this->helper('enterprise_giftwrapping')->displayCartWrappingBothPrices($this->getStore())): ?>
+                <br />
+                <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
+            <?php endif; ?>
+            <?php echo $this->formatPrice($_item->getGwPrice() + $_item->getGwTaxAmount());?>
+        <?php endif; ?>
+
         <?php $_isCustomPrice = $this->hasCustomPrice($_item) ?>
         <div class="nobr">
         <input type="checkbox" id="item_use_custom_price_<?php echo $_item->getId() ?>"<?php if ($_isCustomPrice): ?> checked="checked"<?php endif; ?> onclick="order.toggleCustomPrice(this, 'item_gw_custom_price_<?php echo $_item->getId() ?>');"/>
@@ -45,9 +51,9 @@
         </div>
         <input id="item_gw_custom_price_<?php echo $_item->getId() ?>" name="item[<?php echo $_item->getId() ?>][gw_custom_price]" value="<?php echo sprintf("%.2f", $this->getCustomPrice($_item))?>"<?php if (!$_isCustomPrice): ?> style="display:none" disabled="disabled"<?php endif; ?> class="input-text item-price"/>
     </td>
-    <td>&nbsp;</td>
-    <td class="price">&nbsp;</td>
-    <td class="price">&nbsp;</td>
-    <td class="price">&nbsp;</td>
-    <td class="last">&nbsp;</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="last"></td>
 </tr>

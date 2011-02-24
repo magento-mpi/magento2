@@ -320,7 +320,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     }
 
     /**
-     * Get Order Item ExtraInfo block
+     * Get order item extra info block
      *
      * @param Mage_Sales_Model_Quote_Item $item
      * @return Mage_Core_Block_Abstract
