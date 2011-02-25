@@ -122,7 +122,9 @@ var giftWrappingOrder = {
         } else {
             $('card-price-box').addClassName('no-display');
         }
-        this.saveData();
+        if (event) {
+            this.saveData();
+        }
     },
 
     setDesign : function(value) {
@@ -159,7 +161,9 @@ var giftWrappingOrder = {
             $('wrapping-price-box').addClassName('no-display');
             $('wrapping-image-box').addClassName('no-display');
         }
-        this.saveData();
+        if (event) {
+            this.saveData();
+        }
     },
 
     saveData : function() {
