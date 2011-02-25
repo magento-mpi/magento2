@@ -138,10 +138,9 @@ var giftWrapping = {
     },
 
     insertOptions : function (element, data) {
-        var tmplBlock = $(this.templateOptions),
-            template  = null;
+        var tmplBlock = $(this.templateOptions);
         if (tmplBlock) {
-            template = new Template(tmplBlock.innerHTML, this.templateSyntax);
+            var template = new Template(tmplBlock.innerHTML, this.templateSyntax);
             element.update(template.evaluate(data));
             if (this.allowPrintedCard) {
                 Event.observe($('add-printed-card-'+data.id), 'change', this.showCardPrice.bind(this));
@@ -160,10 +159,9 @@ var giftWrapping = {
     },
 
     insertBlock : function (element, data) {
-        var tmplBlock = $(this.templateWrapping),
-            template  = null;
+        var tmplBlock = $(this.templateWrapping);
         if (tmplBlock) {
-            template = new Template(tmplBlock.innerHTML, this.templateSyntax);
+            var template = new Template(tmplBlock.innerHTML, this.templateSyntax);
             element.update(template.evaluate(data));
             Event.observe($('giftwrapping_'+data.id), 'change', this.setWrapping.bindAsEventListener(this, data.addrId));
         }
