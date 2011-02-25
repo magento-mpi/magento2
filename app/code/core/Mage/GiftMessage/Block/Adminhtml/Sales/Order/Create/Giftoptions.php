@@ -18,45 +18,28 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Enterprise
- * @package     Enterprise_GiftWrapping
+ * @category    Mage
+ * @package     Mage_GiftMessage
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Gift wrapping adminhtml block for view order items
+ * Adminhtml sales order create gift options block
  *
- * @category   Enterprise
- * @package    Enterprise_GiftWrapping
+ * @category   Mage
+ * @package    Mage_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Items
-    extends Mage_Adminhtml_Block_Sales_Items_Abstract
+class Mage_GiftMessage_Block_Adminhtml_Sales_Order_Create_Giftoptions extends Mage_Adminhtml_Block_Template
 {
     /**
-     * Get order item from parent block
+     * Get order item object from parent block
      *
      * @return Mage_Sales_Model_Order_Item
      */
     public function getItem()
     {
         return $this->getParentBlock()->getData('item');
-    }
-
-    /**
-     * Prepare html output
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $_item = $this->getItem();
-        if ($_item && $_item->getGwId()) {
-            return parent::_toHtml();
-        } else {
-            return false;
-        }
     }
 }

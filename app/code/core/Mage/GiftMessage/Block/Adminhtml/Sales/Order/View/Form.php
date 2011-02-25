@@ -18,45 +18,36 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Enterprise
- * @package     Enterprise_GiftWrapping
+ * @category    Mage
+ * @package     Mage_GiftMessage
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Gift wrapping adminhtml block for view order items
+ * Adminhtml sales order view gift message form
  *
- * @category   Enterprise
- * @package    Enterprise_GiftWrapping
+ * @category   Mage
+ * @package    Mage_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Items
-    extends Mage_Adminhtml_Block_Sales_Items_Abstract
+class Mage_GiftMessage_Block_Adminhtml_Sales_Order_View_Form extends Mage_Adminhtml_Block_Template
 {
     /**
-     * Get order item from parent block
+     * Indicates that block can display gift message form
      *
-     * @return Mage_Sales_Model_Order_Item
+     * @return bool
      */
-    public function getItem()
+    public function canDisplayGiftmessageForm()
     {
-        return $this->getParentBlock()->getData('item');
-    }
-
-    /**
-     * Prepare html output
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $_item = $this->getItem();
-        if ($_item && $_item->getGwId()) {
-            return parent::_toHtml();
-        } else {
-            return false;
+        $order = Mage::registry('current_order');
+        if ($order) {
+            foreach ($order->getAllItems() as $item) {
+                if ($item->getGiftMessageId()) {
+                    return true;
+                }
+            }
         }
+        return false;
     }
 }

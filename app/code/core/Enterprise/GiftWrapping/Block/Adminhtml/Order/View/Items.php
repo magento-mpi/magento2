@@ -70,6 +70,11 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Items
      */
     public function canDisplayGiftWrappingForItems()
     {
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForItems($this->getStoreId());
+        foreach ($this->getOrder()->getAllItems() as $item) {
+            if ($item->getGwId()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

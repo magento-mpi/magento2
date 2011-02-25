@@ -24,16 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Gift wrapping adminhtml block for view order items
+ * Gift wrapping adminhtml sales order view items
  *
  * @category   Enterprise
  * @package    Enterprise_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Items
-    extends Mage_Adminhtml_Block_Sales_Items_Abstract
+class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Link extends Mage_Adminhtml_Block_Template
 {
     /**
      * Get order item from parent block
@@ -42,21 +40,32 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Items
      */
     public function getItem()
     {
-        return $this->getParentBlock()->getData('item');
+        return $this->getParentBlock()->getItem();
     }
 
     /**
-     * Prepare html output
+     * Get gift wrapping design
      *
      * @return string
      */
-    protected function _toHtml()
+    public function getDesign()
     {
-        $_item = $this->getItem();
-        if ($_item && $_item->getGwId()) {
-            return parent::_toHtml();
-        } else {
-            return false;
+        if ($this->getItem()->getGwId()) {
+            $wrappingModel = Mage::getModel('enterprise_giftwrapping/wrapping')->load($this->getItem()->getGwId());
+            if ($wrappingModel->getId()) {
+                return $this->htmlEscape($wrappingModel->getDesign());
+            }
         }
+        return '';
+    }
+
+    /**
+     * Check ability to display gift wrapping for order items
+     *
+     * @return bool
+     */
+    public function canDisplayGiftWrappingForItems()
+    {
+        return $this->getItem()->getGwId() && $this->getDesign();
     }
 }
