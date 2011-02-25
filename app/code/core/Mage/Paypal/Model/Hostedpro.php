@@ -238,6 +238,6 @@ class Mage_Paypal_Model_Hostedpro extends Mage_Paypal_Model_Direct
     protected function _getUrl($path, $storeId)
     {
         return Mage::app()->getStore($storeId)
-            ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . $path;
+            ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK) . $path;
     }
 }
