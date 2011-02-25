@@ -1,0 +1,9 @@
+--- #Test data for store view
+# Create store view. Fill in all fields
+testcase                  : &TC-cSV-01
+  data:
+  - store_name            : Main Website Store
+    store_view_name       : Store View Name
+    store_view_code       : store_view_code
+    store_view_status     : Enabled
+    store_view_sort_order : 1
