@@ -155,10 +155,10 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
             $ext->setData($p);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {
-                if (in_array('2', $packageVersion)) {
+                if (in_array(Mage_Connect_Package::PACKAGE_VERSION_2X, $packageVersion)) {
                     $ext->createPackage();
                 }
-                if (in_array('1', $packageVersion)) {
+                if (in_array(Mage_Connect_Package::PACKAGE_VERSION_1X, $packageVersion)) {
                     $ext->createPackageV1x();
                 }
             }

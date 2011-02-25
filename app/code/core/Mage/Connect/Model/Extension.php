@@ -110,7 +110,7 @@ class Mage_Connect_Model_Extension extends Varien_Object
     {
         $this->getPackage()
             ->setDate(date('Y-m-d'))
-            ->setTime(date('Y-m-d'))
+            ->setTime(date('H:i:s'))
             ->setVersion($this->getData('version')?$this->getData('version'):$this->getData('release_version'))
             ->setStability($this->getData('stability'))
             ->setNotes($this->getData('notes'));

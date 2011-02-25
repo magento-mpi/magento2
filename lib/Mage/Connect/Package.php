@@ -33,6 +33,15 @@
  */
 class Mage_Connect_Package
 {
+    /*
+     * Current version of magento connect package format
+     */
+    const PACKAGE_VERSION_2X = '2';
+
+    /*
+     * Previous version of magento connect package format
+     */
+    const PACKAGE_VERSION_1X = '1';
 
     /**
      * Contain SimpleXMLElement for composing document.
@@ -274,90 +283,89 @@ END;
     {
         $newPackageXml = $this->_packageXml;
         $packageXmlV1xStub = <<<END
-<?xml version="1.0"?>
-<package>
-    <name />
-    <version>
-        <release />
-        <api />
-    </version>
-    <stability>
-        <release />
-        <api />
-    </stability>
-    <license />
-    <channel />
-    <summary />
-    <description />
-    <notes />
-    <date />
-    <time />
-    <contents>
-        <dir name="/" />
-    </contents>
-    <dependencies>
-        <required>
-            <pearinstaller>
-                <min>1.6.2</min>
-            </pearinstaller>
-        </required>
-    </dependencies>
-    <phprelease />
-</package>
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.1"
+version="2.0"
+xmlns="http://pear.php.net/dtd/package-2.0"
+xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd" />
 END;
         $packageXmlV1x = simplexml_load_string($packageXmlV1xStub);
-        $similarNodes = array('name', 'summary', 'description', 'notes', 'date', 'time');
-        foreach ($similarNodes as $node) {
-            $packageXmlV1x->$node = (string)$newPackageXml->$node;
-        }
-        // Import channel
-        $packageXmlV1x->channel = Mage::helper('connect')->convertChannelToV1x((string)$newPackageXml->channel);
-        // Import license
-        $packageXmlV1x->license = (string)$newPackageXml->license;
-        if ($newPackageXml->license['uri']) {
-            $packageXmlV1x->license->addAttribute('uri', (string)$newPackageXml->license['uri']);
-        }
-        // Import versions
-        $packageXmlV1x->version->api = (string)$newPackageXml->version;
-        $packageXmlV1x->version->release = (string)$newPackageXml->version;
-        // Import stability
-        $packageXmlV1x->stability->api = (string)$newPackageXml->stability;
-        $packageXmlV1x->stability->release = (string)$newPackageXml->stability;
+        // Note: The previous version of MCM requires precise node order in package.xml file
+        $packageXmlV1x->addChild('name', (string)$newPackageXml->name);
+        $packageXmlV1x->addChild('channel', Mage::helper('connect')->convertChannelToV1x((string)$newPackageXml->channel));
+        $packageXmlV1x->addChild('summary', (string)$newPackageXml->summary);
+        $packageXmlV1x->addChild('description', (string)$newPackageXml->description);
         // Import authors
         foreach ($newPackageXml->authors->author as $author) {
-            $lead = $packageXmlV1x->addChild('lead');
-            $lead->addChild('name', (string)$author->name);
-            $lead->addChild('user', (string)$author->user);
-            $lead->addChild('email', (string)$author->email);
-            $lead->addChild('active', 'yes');
+            $leadNode = $packageXmlV1x->addChild('lead');
+            $leadNode->addChild('name', (string)$author->name);
+            $leadNode->addChild('user', (string)$author->user);
+            $leadNode->addChild('email', (string)$author->email);
+            $leadNode->addChild('active', 'yes');
+        }
+        // Import date and time
+        $packageXmlV1x->addChild('date', (string)$newPackageXml->date);
+        $packageXmlV1x->addChild('time', (string)$newPackageXml->time);
+        // Import version
+        $versionNode = $packageXmlV1x->addChild('version');
+        $versionNode->addChild('release', (string)$newPackageXml->version);
+        $versionNode->addChild('api', (string)$newPackageXml->version);
+        // Import stability
+        $stabilityNode = $packageXmlV1x->addChild('stability');
+        $stabilityNode->addChild('release', (string)$newPackageXml->stability);
+        $stabilityNode->addChild('api', (string)$newPackageXml->stability);
+        // Import license
+        $licenseNode = $packageXmlV1x->addChild('license', (string)$newPackageXml->license);
+        if ($newPackageXml->license['uri']) {
+            $licenseNode->addAttribute('uri', (string)$newPackageXml->license['uri']);
+        }
+        $packageXmlV1x->addChild('notes', (string)$newPackageXml->notes);
+        // Import content
+        $conentsRootDirNode = $packageXmlV1x->addChild('contents')->addChild('dir');
+        $conentsRootDirNode->addAttribute('name', '/');
+        foreach ($newPackageXml->contents->target as $target) {
+            $role = (string)$target['name'];
+            $this->_mergeContentsToV1x($conentsRootDirNode, $target, $role);
         }
         // Import dependencies
-        $requiredDependenciesNode = $packageXmlV1x->dependencies->required;
-        foreach ($newPackageXml->dependencies->required->package as $package) {
-            $oldPackage = $requiredDependenciesNode->addChild('package');
-            $oldPackage->addChild('name', (string)$package->name);
-            // Convert channel to previous version format
-            $channel = (string)$package->channel;
-            $channel = Mage::helper('connect')->convertChannelToV1x($channel);
-            $oldPackage->addChild('channel', $channel);
-            $oldPackage->addChild('min', (string)$package->min);
-            $oldPackage->addChild('max', (string)$package->max);
-        }
-        foreach ($newPackageXml->dependencies->required->extension as $extension) {
-            $oldExtension = $requiredDependenciesNode->addChild('extension');
-            $oldExtension->addChild('name', (string)$extension->name);
-            $oldExtension->addChild('min', (string)$extension->min);
-            $oldExtension->addChild('max', (string)$extension->max);
-        }
+        $requiredDependenciesNode = $packageXmlV1x->addChild('dependencies')->addChild('required');
         $requiredDependenciesPhpNode = $requiredDependenciesNode->addChild('php');
         $requiredDependenciesPhpNode->addChild('min', (string)$newPackageXml->dependencies->required->php->min);
         $requiredDependenciesPhpNode->addChild('max', (string)$newPackageXml->dependencies->required->php->max);
-        // Import content
-        $conentsRootDir = $packageXmlV1x->contents->dir;
-        foreach ($newPackageXml->contents->target as $target) {
-            $role = (string)$target['name'];
-            $this->_mergeContentsToV1x($conentsRootDir, $target, $role);
+        $requiredDependenciesNode->addChild('pearinstaller')->addChild('min','1.6.2');
+        // Handle packages
+        foreach ($newPackageXml->dependencies->required->package as $package) {
+            $packageNode = $requiredDependenciesNode->addChild('package');
+            $packageNode->addChild('name', (string)$package->name);
+            // Convert channel to previous version format
+            $channel = (string)$package->channel;
+            $channel = Mage::helper('connect')->convertChannelToV1x($channel);
+            $packageNode->addChild('channel', $channel);
+            $minVersion = (string)$package->min;
+            if ($minVersion) {
+                $packageNode->addChild('min', $minVersion);
+            }
+            $maxVersion = (string)$package->max;
+            if ($maxVersion) {
+                $packageNode->addChild('max', $maxVersion);
+            }
         }
+        // Handle extensions
+        foreach ($newPackageXml->dependencies->required->extension as $extension) {
+            $extensionNode = $requiredDependenciesNode->addChild('extension');
+            $extensionNode->addChild('name', (string)$extension->name);
+            $minVersion = (string)$extension->min;
+            if ($minVersion) {
+                $extensionNode->addChild('min', $minVersion);
+            }
+            $maxVersion = (string)$extension->max;
+            if ($maxVersion) {
+                $extensionNode->addChild('max', $maxVersion);
+            }
+        }
+        $packageXmlV1x->addChild('phprelease');
 
         return $packageXmlV1x->asXML();
     }

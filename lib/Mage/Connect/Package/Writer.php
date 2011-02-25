@@ -148,16 +148,18 @@ class Mage_Connect_Package_Writer
         @mkdir(self::PATH_TO_TEMPORARY_DIRECTORY, 0777, true);
         $root = self::PATH_TO_TEMPORARY_DIRECTORY . basename($this->_namePackage);
         @mkdir($root, 0777, true);
+        $packageFilesDir = $root . DS . basename($this->_namePackage);
+        @mkdir($packageFilesDir, 0777, true);
         foreach ($this->_files as $index => $file) {
             $destinationFile = $destinationFiles[$index];
             if (is_dir($file) || is_file($file)) {
                 $fileName = basename($destinationFile);
                 $filePath = dirname($destinationFile);
-                @mkdir($root . DS . $filePath, 0777, true);
+                @mkdir($packageFilesDir . DS . $filePath, 0777, true);
                 if (is_file($file)) {
-                    copy($file, $root . DS . $filePath . DS . $fileName);
+                    copy($file, $packageFilesDir . DS . $filePath . DS . $fileName);
                 } else {
-                    @mkdir($root . DS . $filePath . $fileName, 0777);
+                    @mkdir($packageFilesDir . DS . $filePath . $fileName, 0777);
                 }
             }
         }
