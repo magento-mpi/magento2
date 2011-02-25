@@ -775,7 +775,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
          */
         if ($this->getRequest()->getPost('update_items')) {
             $items = $this->getRequest()->getPost('item', array());
-            $items = $this->_processFiles('update_items', $items);
+            $items = $this->_processFiles($items);
             $this->getCartModel()->updateQuoteItems($items);
         }
 
@@ -784,6 +784,8 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
          */
         $listTypes = $this->getRequest()->getPost('configure_complex_list_types');
         if ($listTypes) {
+            /* @var $productHelper Mage_Catalog_Helper_Product */
+            $productHelper = Mage::helper('catalog/product');
             $listTypes = array_filter(explode(',', $listTypes));
             $listItems = $this->getRequest()->getPost('list');
             foreach ($listTypes as $listType) {
@@ -795,6 +797,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 }
 
                 $items = $listItems[$listType]['item'];
+
                 foreach ($items as $itemId => $info) {
                     if (!is_array($info)) {
                         $info = array(); // For sure to filter incoming data
@@ -804,15 +807,21 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                     if (!$itemInfo) {
                         continue;
                     }
+
+                    $currentConfig = $itemInfo->getBuyRequest();
                     if (isset($info['_config_absent'])) {
                         // User added items without configuration (used multiple checkbox control) - try to use configs from list
-                        $buyRequest = $itemInfo->getBuyRequest();
                         if (isset($info['qty'])) {
-                            $buyRequest->setQty($info['qty']);
+                            $currentConfig->setQty($info['qty']);
                         }
-                        $config = $buyRequest->getData();
+                        $config = $currentConfig->getData();
                     } else {
-                        $config = $info;
+                        $params = array(
+                            'files_prefix' => 'list_' . $listType . '_item_' . $itemId . '_',
+                            'current_config' => $currentConfig
+                        );
+                        $config = $productHelper->addParamsToBuyRequest($info, $params)
+                            ->toArray();
                     }
                     $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
                 }
@@ -846,32 +855,21 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     /**
      * Process buyRequest file options of items
      *
-     * @param  string $method
      * @param  array $items
      * @return array
      */
-    protected function _processFiles($method, $items)
+    protected function _processFiles($items)
     {
+        /* @var $productHelper Mage_Catalog_Helper_Product */
         $productHelper = Mage::helper('catalog/product');
         foreach ($items as $id => $item) {
             $buyRequest = new Varien_Object($item);
-            switch ($method) {
-                case 'create_items':
-                    $buyRequest = $productHelper->processBuyRequestFiles($buyRequest, null, $id);
-                    break;
-                case 'update_items':
-                    $quoteItem = $this->getCartModel()->getQuote()->getItemById($id);
-                    if ($quoteItem instanceof Mage_Sales_Model_Quote_Item) {
-                        $itemBuyRequest = $quoteItem->getBuyRequest();
-                        $buyRequest = $productHelper->processBuyRequestFiles($buyRequest, $itemBuyRequest, $id);
-                    }
-                    break;
-            }
-            if ($buyRequest instanceof Varien_Object && $buyRequest->hasData()) {
+            $params = array('files_prefix' => 'item_' . $id . '_');
+            $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
+            if ($buyRequest->hasData()) {
                 $items[$id] = $buyRequest->toArray();
             }
         }
-
         return $items;
     }
 

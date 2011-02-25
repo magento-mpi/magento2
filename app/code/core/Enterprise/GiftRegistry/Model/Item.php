@@ -434,19 +434,13 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return Varien_Object|null
+     * @return Varien_Object
      */
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        if ($option) {
-            $buyRequest = new Varien_Object(unserialize($option->getValue()));
-            // Qty value that is stored in buyRequest can be out-of-date
-            $buyRequest->setQty($this->getQty()*1);
-        } else {
-            $buyRequest = null;
-        }
-
+        $buyRequest = new Varien_Object($option ? unserialize($option->getValue()) : null);
+        $buyRequest->setQty($this->getQty() * 1); // Qty value that is stored in buyRequest can be out-of-date
         return $buyRequest;
     }
 

@@ -720,7 +720,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function addProduct($product, array $config)
     {
         $config = new Varien_Object($config);
-        $qty = (float)$config->getQty();
         if (!($product instanceof Mage_Catalog_Model_Product)) {
             $productId = $product;
             $product = Mage::getModel('catalog/product')
@@ -734,36 +733,28 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             }
         }
 
-        if ($product->getStockItem()) {
-            if (!$product->getStockItem()->getIsQtyDecimal()) {
-                $qty = (int)$qty;
-            } else {
-                $product->setIsQtyDecimal(1);
-            }
+        $stockItem = $product->getStockItem();
+        if ($stockItem && $stockItem->getIsQtyDecimal()) {
+            $product->setIsQtyDecimal(1);
         }
-        $qty = $qty > 0 ? $qty : 1;
-        $item = $this->getQuote()->getItemByProduct($product);
-        if ($item) {
-            $item->setQty($item->getQty()+$qty);
-        } else {
-            $product->setCartQty($config->getQty());
-            $item = $this->getQuote()->addProductAdvanced(
+
+        $product->setCartQty($config->getQty());
+        $item = $this->getQuote()->addProductAdvanced(
+            $product,
+            $config,
+            Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
+        );
+        if (is_string($item)) {
+             $item = $this->getQuote()->addProductAdvanced(
                 $product,
                 $config,
-                Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
+                Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE
             );
             if (is_string($item)) {
-                 $item = $this->getQuote()->addProductAdvanced(
-                    $product,
-                    $config,
-                    Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE
-                );
-                if (is_string($item)) {
-                    Mage::throwException($item);
-                }
+                Mage::throwException($item);
             }
-            $item->checkData();
         }
+        $item->checkData();
 
         $this->setRecollect(true);
         return $this;

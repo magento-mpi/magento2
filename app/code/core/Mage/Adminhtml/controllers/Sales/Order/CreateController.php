@@ -179,11 +179,11 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
 
         /**
-         * Adding products to quote from special grid and
+         * Adding products to quote from special grid
          */
         if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items') && !($action == 'save')) {
             $items = $this->getRequest()->getPost('item');
-            $items = $this->_processFiles('create_items', $items);
+            $items = $this->_processFiles($items);
             $this->_getOrderCreateModel()->addProducts($items);
         }
 
@@ -192,7 +192,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
          */
         if ($this->getRequest()->getPost('update_items')) {
             $items = $this->getRequest()->getPost('item', array());
-            $items = $this->_processFiles('update_items', $items);
+            $items = $this->_processFiles($items);
             $this->_getOrderCreateModel()->updateQuoteItems($items);
         }
 
@@ -277,24 +277,15 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      * @param array $items
      * @return array
      */
-    protected function _processFiles($method, $items)
+    protected function _processFiles($items)
     {
+        /* @var $productHelper Mage_Catalog_Helper_Product */
         $productHelper = Mage::helper('catalog/product');
         foreach ($items as $id => $item) {
             $buyRequest = new Varien_Object($item);
-            switch ($method) {
-                case 'create_items':
-                    $buyRequest = $productHelper->processBuyRequestFiles($buyRequest, null, $id);
-                    break;
-                case 'update_items':
-                    $quoteItem = $this->_getQuote()->getItemById($id);
-                    if ($quoteItem instanceof Mage_Sales_Model_Quote_Item) {
-                        $itemBuyRequest = $quoteItem->getBuyRequest();
-                        $buyRequest = $productHelper->processBuyRequestFiles($buyRequest, $itemBuyRequest, $id);
-                    }
-                    break;
-            }
-            if ($buyRequest instanceof Varien_Object && $buyRequest->hasData()) {
+            $params = array('files_prefix' => 'item_' . $id . '_');
+            $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
+            if ($buyRequest->hasData()) {
                 $items[$id] = $buyRequest->toArray();
             }
         }

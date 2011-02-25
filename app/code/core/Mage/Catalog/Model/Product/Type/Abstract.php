@@ -341,6 +341,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         }
 
         $product->prepareCustomOptions();
+        $buyRequest->unsetData('_processing_params'); // One-time params only
         $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
 
         if ($options) {
@@ -952,7 +953,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
              * cloning product because prepareForCart() method will modify it
              */
             $productForCheck = clone $product;
-            $result = $this->prepareForCart($buyRequest, $productForCheck);
+            $buyRequestForCheck = clone $buyRequest;
+            $result = $this->prepareForCart($buyRequestForCheck, $productForCheck);
 
             if (is_string($result)) {
                $errors[] = $result;
