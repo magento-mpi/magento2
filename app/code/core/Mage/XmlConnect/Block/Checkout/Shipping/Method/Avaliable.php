@@ -58,7 +58,7 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Chec
                     if ($_rate->getErrorMessage()) {
                         $rateXmlObj->addChild('error_message', $methodsXmlObj->xmlentities(strip_tags($_rate->getErrorMessage())));
                     } else {
-                        $price = Mage::helper('tax')->getShippingPrice($_rate->getPrice(), false, $this->getAddress());
+                        $price = Mage::helper('tax')->getShippingPrice($_rate->getPrice(), Mage::helper('tax')->displayShippingPriceIncludingTax(), $this->getAddress());
                         $formattedPrice = $store->convertPrice($price, true, false);
                         $rateXmlObj->addAttribute('price', Mage::helper('xmlconnect')->formatPriceForXml($store->convertPrice($price, false, false)));
                         $rateXmlObj->addAttribute('formated_price', $formattedPrice);
