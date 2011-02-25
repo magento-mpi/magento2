@@ -86,7 +86,7 @@
                                         <?php endforeach;?>
                                     </select>
                                 </div>
-                                <button type="button" onclick="addProductToGiftregistry('<?php echo $product->getId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+                                <button type="button" onclick="addProductToGiftregistry('<?php echo $product->getId() ?>', '<?php echo $item->getId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
                             </div>
                             <?php endif;?>
                         </td>
@@ -124,20 +124,20 @@
     <?php endif ?>
     <form action="<?php echo $this->getAddUrl();?>" method="post" id="giftregistry-form">
         <div class="no-display">
-            <input type="hidden" name="product" value="" />
+            <input type="hidden" name="item" value="" />
             <input type="hidden" name="entity" value="" />
         </div>
     </form>
 
     <script type="text/javascript">
     //<![CDATA[
-    function addProductToGiftregistry(productId) {
+    function addProductToGiftregistry(productId, itemId) {
         giftregistryForm = $('giftregistry-form');
         var entity = $('giftregistry_entity_'+productId);
         entity.addClassName('required-entry');
         if (Validation.validate($('giftregistry_entity_'+productId))) {
             giftregistryForm.entity.value=entity.value;
-            giftregistryForm.product.value = productId;
+            giftregistryForm.item.value = itemId;
             giftregistryForm.submit();
         }
         entity.removeClassName('required-entry');

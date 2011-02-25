@@ -142,18 +142,19 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
      */
     public function wishlistAction()
     {
-        if ($item = $this->getRequest()->getParam('product')) {
+        $itemId = $this->getRequest()->getParam('item');
+        if ($itemId) {
             try {
                 $entity = $this->_initEntity('entity');
-                if ($entity && $entity->getId()) {
-                    $entity->addItem((int)$item);
-                    $this->_getSession()->addSuccess(
-                        Mage::helper('enterprise_giftregistry')->__('Wishlist item have been added to gift registry.')
-                    );
-                }
+                $wishlistItem = Mage::getModel('wishlist/item')
+                    ->loadWithOptions($itemId, 'info_buyRequest');
+                $entity->addItem($wishlistItem->getProductId(), $wishlistItem->getBuyRequest());
+                $this->_getSession()->addSuccess(
+                    Mage::helper('enterprise_giftregistry')->__('Wishlist item have been added to gift registry.')
+                );
             } catch (Mage_Core_Exception $e) {
                 if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                    $product = Mage::getModel('catalog/product')->load((int)$item);
+                    $product = Mage::getModel('catalog/product')->load((int)$wishlistItem->getProductId());
                     $query['options'] = Enterprise_GiftRegistry_Block_Product_View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
                     $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));
