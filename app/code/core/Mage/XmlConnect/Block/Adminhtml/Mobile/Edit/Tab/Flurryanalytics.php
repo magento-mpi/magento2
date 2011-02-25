@@ -47,7 +47,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
      */
     protected function _prepareForm()
     {
-
         $form = new Varien_Data_Form();
 
         $this->setForm($form);

@@ -67,32 +67,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             }
             foreach ($filesData as $filePath => $fileName) {
                 $target =& $data;
-                $this->_injectFieldToArray($target, $filePath, $fileName);
+                Mage::helper('xmlconnect')->_injectFieldToArray($target, $filePath, $fileName);
             }
         }
         return $data;
-    }
-
-    /**
-     * Set value into multidimensional array 'conf/native/navigationBar/icon'
-     *
-     * @param &array $target // pointer to target array
-     * @param string $fieldPath // 'conf/native/navigationBar/icon'
-     * @param mixed $fieldValue // 'Some Value' || 12345 || array(1=>3, 'aa'=>43)
-     * @param string $delimiter // path delimiter
-     * @return null
-     */
-    protected function _injectFieldToArray(&$target, $fieldPath, $fieldValue, $delimiter = '/')
-    {
-        $nameParts = explode($delimiter, $fieldPath);
-        foreach ($nameParts as $next) {
-            if (!isset($target[$next])) {
-                $target[$next] = array();
-            }
-            $target =& $target[$next];
-        }
-        $target = $fieldValue;
-        return null;
     }
 
     /**
@@ -734,7 +712,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             }
         }
         foreach ($this->_uploadedFiles as $fieldPath => $fileName) {
-            $this->_injectFieldToArray($data, $fieldPath, $fileName);
+            Mage::helper('xmlconnect')->_injectFieldToArray($data, $fieldPath, $fileName);
         }
         Mage::getSingleton('adminhtml/session')->setUploadedFilesFormData($this->_uploadedFiles);
         if ($restore === true) {

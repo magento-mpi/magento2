@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Enter description here ...
  *
@@ -56,25 +55,31 @@
  */
 class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 {
-
     /**
      * Application code cookie name
+     *
+     * @var string
      */
     const APP_CODE_COOKIE_NAME = 'app_code';
 
     /**
      * Device screen size name
+     *
+     * @var string
      */
     const APP_SCREEN_SIZE_NAME = 'screen_size';
 
-
     /**
      * Device screen size name
+     *
+     * @var string
      */
     const APP_SCREEN_SIZE_DEFAULT = '320x480';
 
     /**
      * Device screen size source name
+     *
+     * @var string
      */
     const APP_SCREEN_SOURCE_DEFAULT = 'default';
 
@@ -107,6 +112,41 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     protected $_imageIds = array('icon', 'loader_image', 'logo', 'big_logo');
 
     /**
+     * Last submitted data from history table
+     *
+     * @var null|array
+     */
+    protected $_lastParams;
+
+    /**
+     * Application submit info
+     *
+     * @var array
+     */
+    protected $submit_params = array();
+
+    /**
+     * Application submit action type
+     *
+     * @var bool
+     */
+    protected $is_resubmit_action = false;
+
+    /**
+     * Full application code
+     *
+     * @var null|string
+     */
+    protected $code;
+
+    /**
+     * Main configuration of current application
+     *
+     * @var null|array
+     */
+    protected $conf;
+
+    /**
      * Submission/Resubmission key max length
      *
      * @var int
@@ -114,17 +154,25 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const APP_MAX_KEY_LENGTH = 40;
 
     /**
-     * XML path to config with an email address for contact to receive credentials of Urban Airship notifications
+     * XML path to config with an email address
+     * for contact to receive credentials
+     * of Urban Airship notifications
+     *
+     * @var string
      */
-    const XML_CONTACT_CREDENTIALS_EMAIL = 'xmlconnect/mobile_application/urbanairship_credentials_email';
+    const XML_PATH_CONTACT_CREDENTIALS_EMAIL = 'xmlconnect/mobile_application/urbanairship_credentials_email';
 
     /**
      * XML path to config with Urban Airship Terms of Service URL
+     *
+     * @var string
      */
-    const XML_URBAN_AIRSHIP_TOS_URL = 'xmlconnect/mobile_application/urbanairship_terms_of_service_url';
+    const XML_PATH_URBAN_AIRSHIP_TOS_URL = 'xmlconnect/mobile_application/urbanairship_terms_of_service_url';
 
     /**
      * Initialize application
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -186,7 +234,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      * @param array $b
      * @return array
      */
-    protected function _configMerge (array $a, array $b)
+    protected function _configMerge(array $a, array $b)
     {
         $result = array();
         $keys = array_unique(array_merge(array_keys($a), array_keys($b)));
@@ -449,7 +497,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 $isConfigurationLoaded = true;
             }
         }
-
         return $this;
     }
 
@@ -593,7 +640,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 $strRules = array('max' => '200');
             }
             if (!Zend_Validate::is($params['title'], 'StringLength', $strRules)) {
-                $errors[] = Mage::helper('xmlconnect')->__(sprintf('"Title" is more than %d characters long', $strRules['max']));
+                $errors[] = Mage::helper('xmlconnect')->__('"Title" is more than %d characters long', $strRules['max']);
             }
         }
 
@@ -709,7 +756,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function prepareSubmitParams($data)
     {
-
         $params = array();
         if (isset($data['conf']) && is_array($data['conf'])) {
 
@@ -723,7 +769,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $params['url'] = Mage::app()
                                 ->setCurrentStore($this->getStoreId())
                                 ->getStore()
-                                ->getBaseUrl() . 'xmlconnect/configuration/index/app_code/' . $this->getCode();
+                                ->getBaseUrl()
+                                . 'xmlconnect/configuration/index/app_code/'
+                                . $this->getCode();
             $params['magentoversion'] = Mage::getVersion();
 
             if (isset($params['country']) && is_array($params['country'])) {
@@ -786,7 +834,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         if (isset($this->_data['conf']) && is_array($this->_data['conf']) &&
             isset($this->_data['conf']['submit_text']) && is_array($this->_data['conf']['submit_text']) &&
             isset($this->_data['conf']['submit_text']['key'])) {
-
             $key = $this->_data['conf']['submit_text']['key'];
         }
         return $key;
@@ -810,8 +857,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function getUserpwd()
     {
-        $this->loadConfiguration();
-        return $this->getAppKey() . ':' . $this->getAppMasterSecret();
+        return $this->loadConfiguration()->getAppKey() . ':' . $this->getAppMasterSecret();
     }
 
     /**
@@ -843,5 +889,4 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         return $this->getData('conf/native/notifications/applicationMasterSecret');
     }
-
 }

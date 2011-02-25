@@ -622,5 +622,4 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
             return null;
         }
     }
-
 }

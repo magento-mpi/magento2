@@ -27,6 +27,8 @@ class Mage_XmlConnect_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Constructor, setting table and index field
+     *
+     * @return void
      */
     protected function _construct()
     {

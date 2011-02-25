@@ -64,6 +64,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
     /**
      * Start MEP Checkout
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -82,6 +84,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
     /**
      * Save shipping address to current quote using onepage model
+     *
+     * @return void
      */
     public function saveShippingAddressAction()
     {
@@ -111,6 +115,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
     /**
      * Get shipping methods for current quote
+     *
+     * @return void
      */
     public function shippingMethodsAction()
     {
@@ -128,6 +134,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
     /**
      * Shipping method save action
+     *
+     * @return void
      */
     public function saveShippingMethodAction()
     {
@@ -167,6 +175,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
     /**
      * Shopping cart totals
+     *
+     * @return void
      */
     public function cartTotalsAction()
     {
@@ -185,6 +195,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
     /**
      * Submit the order
+     *
+     * @return void
      */
     public function saveOrderAction()
     {
@@ -237,6 +249,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
      * Instantiate quote and checkout
      *
      * @throws Mage_Core_Exception
+     * @return void
      */
     protected function _initCheckout()
     {

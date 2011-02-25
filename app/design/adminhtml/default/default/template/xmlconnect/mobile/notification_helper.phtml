@@ -1,13 +1,13 @@
 <?php
 /**
- * Magento Enterprise Edition
+ * Magento
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
+ * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     default_default
+ * @category    Mage
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
 <?php $_app = Mage::registry('current_app'); ?>
@@ -29,11 +29,12 @@
 <?php $_app->loadConfiguration(); ?>
 <?php if (!$_app->getAppKey()):?>
 <div class="notification-global notification-global-notice">
-    <strong><?php echo $this->helper('xmlconnect')->__('After submitting the App, please contact <a href="mailto:%1$s">%1$s</a> to receive the Application Key, Application Secret and Application Master Secret.
-<br />Upon receiving these credentials, please fill in the corresponding fields.
-<br />In addition, please accept Urban Airship\'s Terms of Service: <a href="%2$s" target="_blank">click here</a>.',
-        Mage::getStoreConfig(Mage_XmlConnect_Model_Application::XML_CONTACT_CREDENTIALS_EMAIL),
-        Mage::getStoreConfig(Mage_XmlConnect_Model_Application::XML_URBAN_AIRSHIP_TOS_URL)); ?></strong>
+<strong>
+<?php
+    $notification = 'After submitting the App, please contact <a href="mailto:%1$s">%1$s</a> to receive the Application Key, Application Secret and Application Master Secret.<br />Upon receiving these credentials, please fill in the corresponding fields.<br />In addition, please accept Urban Airship\'s Terms of Service: <a href="%2$s" target="_blank">click here</a>.';
+    echo $this->helper('xmlconnect')->__($notification, Mage::getStoreConfig(Mage_XmlConnect_Model_Application::XML_PATH_CONTACT_CREDENTIALS_EMAIL), Mage::getStoreConfig(Mage_XmlConnect_Model_Application::XML_PATH_URBAN_AIRSHIP_TOS_URL));
+?>
+</strong>
 </div>
 <br />
 <?php endif;?>

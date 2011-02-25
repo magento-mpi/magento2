@@ -34,7 +34,6 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends Mage_Adminhtml_Block_Widget_Grid
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-
     /**
      * Set order by column and order direction
      * Set grid ID

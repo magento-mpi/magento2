@@ -27,13 +27,14 @@
 /**
  * XmlConnect index controller
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author  Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Declare content type header
+     *
+     * @return void
      */
     public function preDispatch()
     {
@@ -44,6 +45,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
     /**
      * Initialize application
      *
+     * @throws Mage_Core_Exception
      * @return Mage_XmlConnect_Model_Application
      */
     protected function _initApp()
@@ -72,6 +74,8 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
 
     /**
      * Default action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -92,8 +96,8 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             foreach ($cookieToSetArray as $item) {
                 if (!isset($_COOKIE[$item['cookieName']]) ||
                     (isset($_COOKIE[$item['cookieName']]) &&
-                            ($_COOKIE[$item['cookieName']] != $this->getRequest()->getParam($item['paramName'])))
-                    ) {
+                        ($_COOKIE[$item['cookieName']] != $this->getRequest()->getParam($item['paramName']))
+                    )) {
                     /**
                      * @todo add management of cookie expire to application admin panel
                      */

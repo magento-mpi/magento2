@@ -29,10 +29,8 @@
  *
  * @author  Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Action
 {
-
     /**
      * Check if customer is logged in
      *
@@ -81,6 +79,8 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Display customer wishlist
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -91,6 +91,8 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Adding new item
+     *
+     * @return void
      */
     public function addAction()
     {
@@ -136,6 +138,8 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Remove item
+     *
+     * @return void
      */
     public function removeAction()
     {
@@ -162,6 +166,8 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Clear wishlist action
+     *
+     * @return void
      */
     public function clearAction()
     {
@@ -185,6 +191,8 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Update wishlist item comments
+     *
+     * @return void
      */
     public function updateAction()
     {
@@ -240,6 +248,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
      * If Product has required options - item removed from wishlist and redirect
      * to product view page with message about needed defined required options
      *
+     * @return void
      */
     public function cartAction()
     {
@@ -290,5 +299,4 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
         Mage::helper('wishlist')->calculate();
     }
-
 }

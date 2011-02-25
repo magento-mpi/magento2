@@ -26,21 +26,74 @@
 
 class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
 {
+    /**
+     * Status in queue identifier
+     *
+     * @var int
+     */
     const STATUS_IN_QUEUE   = 0;
+
+    /**
+     * Status cenceled identifier
+     *
+     * @var int
+     */
     const STATUS_CANCELED   = 1;
+
+    /**
+     * Status completed identifier
+     *
+     * @var int
+     */
     const STATUS_COMPLETED  = 2;
+
+    /**
+     * Status deleted identifier
+     *
+     * @var int
+     */
     const STATUS_DELETED    = 3;
 
+    /**
+     * Airmail message type
+     *
+     * @var string
+     */
     const MESSAGE_TYPE_AIRMAIL  = 'airmail';
+
+    /**
+     * Push notification message type
+     *
+     * @var string
+     */
     const MESSAGE_TYPE_PUSH     = 'push';
 
+    /**
+     * Notification type config path
+     *
+     * @var string
+     */
     const XML_PATH_NOTIFICATION_TYPE = 'xmlconnect/devices/%s/notification_type';
+
+    /**
+     * Count of message in queue for cron
+     * config path
+     *
+     * @var string
+     */
     const XML_PATH_CRON_MESSAGES_COUNT = 'xmlconnect/mobile_application/cron_send_messages_count';
 
+    /**
+     * Current application type
+     *
+     * @var null|string
+     */
     protected $_appType = null;
 
     /**
      * Initialize queue message
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -91,6 +144,7 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
 
     /**
      * Getter for application name
+     *
      * @return string
      */
     public function getAppName()
@@ -100,6 +154,7 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
 
     /**
      * Getter for template name
+     *
      * @return string
      */
     public function getTplName()
@@ -232,12 +287,10 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
         if (!$this->getIsSent() && $this->getStatus() == self::STATUS_IN_QUEUE) {
             try {
                 Mage::dispatchEvent('before_save_message_queue', array('queueMessage' => $this));
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::logException($e);
             }
         }
         return parent::save();
     }
-
 }

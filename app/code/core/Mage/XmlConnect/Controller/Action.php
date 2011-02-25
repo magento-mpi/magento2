@@ -24,19 +24,48 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Front_Action
 {
+    /**
+     * Message status `error`
+     *
+     * @var string
+     */
     const MESSAGE_STATUS_ERROR      = 'error';
+
+    /**
+     * Message status `warning`
+     *
+     * @var string
+     */
     const MESSAGE_STATUS_WARNING    = 'warning';
+
+    /**
+     * Message status `success`
+     *
+     * @var string
+     */
     const MESSAGE_STATUS_SUCCESS    = 'success';
 
+    /**
+     * Message type `alert`
+     *
+     * @var string
+     */
     const MESSAGE_TYPE_ALERT        = 'alert';
+
+    /**
+     * Message type `prompt`
+     *
+     * @var string
+     */
     const MESSAGE_TYPE_PROMPT       = 'prompt';
 
     /**
      * Declare content type header
      * Validate current application
+     *
+     * @return void
      */
     public function preDispatch()
     {
@@ -79,6 +108,8 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
 
     /**
      * Validate response body
+     *
+     * @return void
      */
     public function postDispatch()
     {
@@ -99,6 +130,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
      * @param string $status
      * @param string $type
      * @param string $action
+     * @return void
      */
     protected function _message($text, $status, $type='', $action='')
     {

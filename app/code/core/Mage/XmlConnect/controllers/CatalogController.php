@@ -27,13 +27,14 @@
 /**
  * XmlConnect catalog controller
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author  Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Action
 {
     /**
      * Category list
+     *
+     * @return void
      */
     public function categoryAction()
     {
@@ -43,6 +44,8 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Filter product list
+     *
+     * @return void
      */
     public function filtersAction()
     {
@@ -59,6 +62,8 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Product information
+     *
+     * @return void
      */
     public function productAction()
     {
@@ -76,6 +81,8 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Product options list
+     *
+     * @return void
      */
     public function productOptionsAction()
     {
@@ -83,9 +90,10 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         $this->renderLayout();
     }
 
-
     /**
      * Product gallery images list
+     *
+     * @return void
      */
     public function productGalleryAction()
     {
@@ -95,6 +103,8 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Product reviews list
+     *
+     * @return void
      */
     public function productReviewsAction()
     {
@@ -104,6 +114,8 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Add new review
+     *
+     * @return void
      */
     public function productReviewAction()
     {
@@ -113,6 +125,8 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Perform search products
+     *
+     * @return void
      */
     public function searchAction()
     {
@@ -160,6 +174,8 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Retrieve suggestions based on search query
+     *
+     * @return void
      */
     public function searchSuggestAction()
     {
@@ -222,7 +238,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 //            return $this;
         }
 
-        $data   = $this->getRequest()->getPost();
+        $data = $this->getRequest()->getPost();
 
         if (!$data) {
             $this->_message(Mage::helper('xmlconnect')->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);

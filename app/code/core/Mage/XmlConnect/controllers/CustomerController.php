@@ -27,9 +27,8 @@
 /**
  * XmlConnect customer controller
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author  Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Action
 {
     /**
@@ -81,6 +80,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer logout
      *
+     * @return void
      */
     public function logoutAction()
     {
@@ -517,6 +517,8 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Check if customer is loggined
+     *
+     * @return void
      */
     public function isLogginedAction()
     {

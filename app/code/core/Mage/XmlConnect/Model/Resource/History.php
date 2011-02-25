@@ -36,6 +36,8 @@ class Mage_XmlConnect_Model_Resource_History extends Mage_Core_Model_Resource_Db
 {
     /**
      * Constructor, setting table and index field
+     *
+     * @return void
      */
     protected function _construct()
     {

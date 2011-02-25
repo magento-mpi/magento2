@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Template resource collection
  *
@@ -37,6 +36,8 @@ class Mage_XmlConnect_Model_Mysql4_Template_Collection
 {
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

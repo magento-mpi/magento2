@@ -27,13 +27,14 @@
 /**
  * XmlConnect shopping cart controller
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author  Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
 {
     /**
      * Shopping cart display action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -67,6 +68,8 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
 
     /**
      * Update shoping cart data action
+     *
+     * @return void
      */
     public function updateAction()
     {
@@ -211,6 +214,8 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
 
     /**
      * Delete shoping cart item action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -229,6 +234,8 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
 
     /**
      * Initialize coupon
+     *
+     * @return void
      */
     public function couponAction()
     {
@@ -276,6 +283,8 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
 
     /**
      * Get shopping cart summary and flag is_virtual
+     *
+     * @return void
      */
     public function infoAction()
     {

@@ -36,6 +36,8 @@ class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resourc
 {
     /**
      * Constructor, setting table and index field
+     *
+     * @return void
      */
     protected function _construct()
     {

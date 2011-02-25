@@ -37,6 +37,8 @@ class Mage_XmlConnect_Model_Mysql4_Queue_Collection
 {
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -98,5 +100,4 @@ class Mage_XmlConnect_Model_Mysql4_Queue_Collection
 
         return $this;
     }
-
 }

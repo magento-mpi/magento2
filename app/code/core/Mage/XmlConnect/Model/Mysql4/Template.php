@@ -27,6 +27,8 @@ class Mage_XmlConnect_Model_Mysql4_Template extends Mage_Core_Model_Mysql4_Abstr
 {
     /**
      * Constructor, setting table and index field
+     *
+     * @return void
      */
     protected function _construct()
     {

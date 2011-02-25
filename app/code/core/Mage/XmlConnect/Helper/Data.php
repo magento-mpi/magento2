@@ -46,12 +46,14 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Application names array
+     *
      * @var array
      */
     protected $_appNames = array();
 
     /**
      * Template names array
+     *
      * @var array
      */
     protected $_tplNames = array();
@@ -61,7 +63,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @var string
      */
-    const XML_CONFIG_EXCLUDE_FROM_XML = 'xmlconnect/mobile_application/nodes_excluded_from_config_xml';
+    const XML_NODE_CONFIG_EXCLUDE_FROM_XML = 'xmlconnect/mobile_application/nodes_excluded_from_config_xml';
 
     /**
      * iPhone device identifier
@@ -428,11 +430,21 @@ EOT;
         return $options;
     }
 
+    /**
+     * Get push title length
+     *
+     * @return int
+     */
     public function getPushTitleLength()
     {
         return self::PUSH_TITLE_LENGTH;
     }
 
+    /**
+     * Get message title length
+     *
+     * @return int
+     */
     public function getMessageTitleLength()
     {
         return self::MESSAGE_TITLE_LENGTH;
@@ -457,6 +469,12 @@ EOT;
         return $options;
     }
 
+    /**
+     * Get applications array like `code` as `name`
+     *
+     * @staticvar array $apps
+     * @return array
+     */
     public function getApplications()
     {
         static $apps = array();
@@ -569,8 +587,7 @@ EOT;
                         $keys = '$data["' . implode('"]["', $keys) . '"]';
                         eval('if (isset(' . $keys . ')) unset(' . $keys . ');');
                     }
-                }
-                elseif (!empty($keyToExclude) && isset($data[$keyToExclude])) {
+                } elseif (!empty($keyToExclude) && isset($data[$keyToExclude])) {
                     unset($data[$keyToExclude]);
                 }
             }
@@ -585,7 +602,7 @@ EOT;
      */
     public function getExcludedXmlConfigKeys()
     {
-        $toExclude = Mage::getStoreConfig(self::XML_CONFIG_EXCLUDE_FROM_XML);
+        $toExclude = Mage::getStoreConfig(self::XML_NODE_CONFIG_EXCLUDE_FROM_XML);
         $nodes = array();
         foreach ($toExclude as $value) {
             $nodes[] = trim($value, '/');
@@ -608,8 +625,7 @@ EOT;
             $app = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
             if ($app->getId()) {
                 $this->_appNames[$appCode] = $app->getName();
-            }
-            else {
+            } else {
                 return '';
             }
         }
@@ -630,12 +646,32 @@ EOT;
             $template = Mage::getModel('xmlconnect/template')->load($templateId);
             if ($template->getId()) {
                 $this->_tplNames[$templateId] = $template->getName();
-            }
-            else {
+            } else {
                 return '';
             }
         }
         return $this->_tplNames[$templateId];
     }
 
+    /**
+     * Set value into multidimensional array 'conf/native/navigationBar/icon'
+     *
+     * @param &array $target // pointer to target array
+     * @param string $fieldPath // 'conf/native/navigationBar/icon'
+     * @param mixed $fieldValue // 'Some Value' || 12345 || array(1=>3, 'aa'=>43)
+     * @param string $delimiter // path delimiter
+     * @return null
+     */
+    public function _injectFieldToArray(&$target, $fieldPath, $fieldValue, $delimiter = '/')
+    {
+        $nameParts = explode($delimiter, $fieldPath);
+        foreach ($nameParts as $next) {
+            if (!isset($target[$next])) {
+                $target[$next] = array();
+            }
+            $target =& $target[$next];
+        }
+        $target = $fieldValue;
+        return null;
+    }
 }

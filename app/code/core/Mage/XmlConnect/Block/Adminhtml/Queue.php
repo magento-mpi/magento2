@@ -45,21 +45,4 @@
         parent::__construct();
         $this->removeButton('add');
     }
-
-    /**
-     * Prepare layout
-     * Add new button
-     *
-     * @return Mage_Adminhtml_Block_Widget_Grid_Container
-     */
-    //protected function _prepareLayout()
-    //{
-    //    $this->_addButton('add_new', array(
-    //        'label'   => Mage::helper('xmlconnect')->__('Add New Message'),
-    //        'onclick' => "setLocation('{$this->getUrl('*/*/newMessage')}')",
-    //        'class'   => 'add'
-    //    ));
-    //
-    //    return parent::_prepareLayout();
-    //}
  }
