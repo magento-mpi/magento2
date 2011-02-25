@@ -38,17 +38,18 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
 
         parent::__construct();
 
-        if (Mage::registry('current_giftwrapping_model')) {
-            $this->_addButton('save_and_continue_edit', array(
-                'class'   => 'save',
-                'label'   => Mage::helper('enterprise_giftwrapping')->__('Save and Continue Edit'),
-                'onclick' => 'editForm.submit(\'' . $this->getSaveUrl() . '\' + \'back/edit/\')',
-            ), 3);
+        $this->_addButton('save_and_continue_edit', array(
+            'class'   => 'save',
+            'label'   => Mage::helper('enterprise_giftwrapping')->__('Save and Continue Edit'),
+            'onclick' => 'editForm.submit(\'' . $this->getSaveUrl() . '\' + \'back/edit/\')',
+        ), 3);
 
+        if (Mage::registry('current_giftwrapping_model')->getId()) {
             $confirmMessage = Mage::helper('enterprise_giftwrapping')->__('Are you sure you want to delete this gift wrapping?');
             $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
+            $this->_removeButton('reset');
         }
 
         $this->_formScripts[] = '
