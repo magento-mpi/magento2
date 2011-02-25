@@ -43,7 +43,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection extends Mage_Cat
     public function clear()
     {
         foreach ($this->_items as $i => $item) {
-            $item->hasStockItem() && $item->unsStockItem();
+            if ($item->hasStockItem()) {
+                $item->unsStockItem();
+            }
             $item = $this->_items[$i] = null;
         }
 

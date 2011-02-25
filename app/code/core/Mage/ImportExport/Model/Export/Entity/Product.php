@@ -224,6 +224,12 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         return $this;
     }
 
+    /**
+     * Prepare products tier prices
+     *
+     * @param  array $productIds
+     * @return array
+     */
     protected function _prepareTierPrices(array $productIds)
     {
         $resource = Mage::getSingleton('core/resource');
@@ -248,6 +254,12 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         return $rowTierPrices;
     }
 
+    /**
+     * Prepare catalog inventory
+     *
+     * @param  array $productIds
+     * @return array
+     */
     protected function _prepareCatalogInventory(array $productIds)
     {
         $select = $this->_connection->select()
@@ -267,6 +279,12 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         return $stockItemRows;
     }
 
+    /**
+     * Prepare product links
+     *
+     * @param  array $productIds
+     * @return array
+     */
     protected function _prepareLinks(array $productIds)
     {
         $resource = Mage::getSingleton('core/resource');
@@ -279,7 +297,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 )
             )
             ->joinLeft(
-                array('cpe' => $resource->getTableName('catalog_product_entity')),
+                array('cpe' => $resource->getTableName('catalog/product')),
                 '(cpe.entity_id = cpl.linked_product_id)',
                 array()
             )
@@ -324,6 +342,12 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         return $linksRows;
     }
 
+    /**
+     * Prepare configurable product data
+     *
+     * @param  array $productIds
+     * @return array
+     */
     protected function _prepareConfigurableProductData(array $productIds)
     {
         $resource = Mage::getSingleton('core/resource');
@@ -333,7 +357,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 array('cpsl.parent_id', 'cpe.sku')
             )
             ->joinLeft(
-                array('cpe' => $resource->getTableName('catalog_product_entity')),
+                array('cpe' => $resource->getTableName('catalog/product')),
                 '(cpe.entity_id = cpsl.product_id)',
                 array()
             )
@@ -347,6 +371,12 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         return $configurableData;
     }
 
+    /**
+     * Prepare configurable product price
+     *
+     * @param  array $productIds
+     * @return array
+     */
     protected function _prepareConfigurableProductPrice(array $productIds)
     {
         $resource = Mage::getSingleton('core/resource');
