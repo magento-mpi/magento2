@@ -79,10 +79,9 @@ class Mage_ImportExport_Model_Export extends Varien_Object
                 try {
                     $this->_entityAdapter = Mage::getModel($validTypes[$this->getEntity()]['model']);
                 } catch (Exception $e) {
+                    Mage::logException($e);
                     Mage::throwException(
-                        Mage::getIsDeveloperMode()
-                        ? $e->getMessage()
-                        : Mage::helper('importexport')->__('Invalid entity model')
+                        Mage::helper('importexport')->__('Invalid entity model')
                     );
                 }
                 if (! $this->_entityAdapter instanceof Mage_ImportExport_Model_Export_Entity_Abstract) {
@@ -119,10 +118,9 @@ class Mage_ImportExport_Model_Export extends Varien_Object
                 try {
                     $this->_writer = Mage::getModel($validWriters[$this->getFileFormat()]['model']);
                 } catch (Exception $e) {
+                    Mage::logException($e);
                     Mage::throwException(
-                        Mage::getIsDeveloperMode()
-                        ? $e->getMessage()
-                        : Mage::helper('importexport')->__('Invalid entity model')
+                        Mage::helper('importexport')->__('Invalid entity model')
                     );
                 }
                 if (! $this->_writer instanceof Mage_ImportExport_Model_Export_Adapter_Abstract) {

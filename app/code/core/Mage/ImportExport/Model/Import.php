@@ -93,10 +93,9 @@ class Mage_ImportExport_Model_Import extends Varien_Object
                 try {
                     $this->_entityAdapter = Mage::getModel($validTypes[$this->getEntity()]['model']);
                 } catch (Exception $e) {
+                    Mage::logException($e);
                     Mage::throwException(
-                        Mage::getIsDeveloperMode()
-                        ? $e->getMessage()
-                        : Mage::helper('importexport')->__('Invalid entity model')
+                        Mage::helper('importexport')->__('Invalid entity model')
                     );
                 }
                 if (!($this->_entityAdapter instanceof Mage_ImportExport_Model_Import_Entity_Abstract)) {

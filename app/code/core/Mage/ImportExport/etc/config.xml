@@ -64,29 +64,29 @@
                 </setup>
             </importexport_setup>
         </resources>
-        <importexport translate="entity_label" module="importexport">
+        <importexport module="importexport">
             <import_entities>
-                <catalog_product>
+                <catalog_product translate="label">
                     <model_token>importexport/import_entity_product</model_token>
                     <label>Products</label>
                 </catalog_product>
-                <customer>
+                <customer translate="label">
                     <model_token>importexport/import_entity_customer</model_token>
                     <label>Customers</label>
                 </customer>
             </import_entities>
             <export_entities>
-                <catalog_product>
+                <catalog_product translate="label">
                     <model_token>importexport/export_entity_product</model_token>
                     <label>Products</label>
                 </catalog_product>
-                <customer>
+                <customer translate="label">
                     <model_token>importexport/export_entity_customer</model_token>
                     <label>Customers</label>
                 </customer>
             </export_entities>
             <export_file_formats>
-                <csv>
+                <csv translate="label">
                     <model_token>importexport/export_adapter_csv</model_token>
                     <label>CSV</label>
                 </csv>
