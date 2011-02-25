@@ -1446,7 +1446,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             }
         }
         foreach ($this->getOrder()->getInvoiceCollection() as $invoice) {
-            if ($invoice->getState() == 1 && $invoice->load($invoice->getId())) {
+            if ($invoice->getState() == Mage_Sales_Model_Order_Invoice::STATE_OPEN && $invoice->load($invoice->getId())) {
                 $invoice->setTransactionId($transactionId);
                 return $invoice;
             }
