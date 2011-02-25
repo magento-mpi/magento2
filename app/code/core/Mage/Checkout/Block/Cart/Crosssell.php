@@ -50,16 +50,12 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
         $items = $this->getData('items');
         if (is_null($items)) {
             $items = array();
-            if ($ninProductIds = $this->_getCartProductIds()) {
-                $filterProductIds = array();
+            $ninProductIds = $this->_getCartProductIds();
+            if ($ninProductIds) {
                 $lastAdded = (int) $this->_getLastAddedProductId();
                 if ($lastAdded) {
-                    $filterProductIds[] = $lastAdded;
-                }
-                $filterProductIds = array_merge($filterProductIds, $this->_getCartProductIdsRel());
-                if ($filterProductIds) {
                     $collection = $this->_getCollection()
-                        ->addProductFilter($filterProductIds);
+                        ->addProductFilter($lastAdded);
                     if (!empty($ninProductIds)) {
                         $collection->addExcludeProductFilter($ninProductIds);
                     }
@@ -72,8 +68,9 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
                 }
 
                 if (count($items) < $this->_maxItemCount) {
+                    $filterProductIds = array_merge($this->_getCartProductIds(), $this->_getCartProductIdsRel());
                     $collection = $this->_getCollection()
-                        ->addProductFilter($this->_getCartProductIds())
+                        ->addProductFilter($filterProductIds)
                         ->addExcludeProductFilter($ninProductIds)
                         ->setPageSize($this->_maxItemCount-count($items))
                         ->setGroupBy()
@@ -133,7 +130,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
             if ($productTypeOpt instanceof Mage_Sales_Model_Quote_Item_Option
-                && $productTypeOpt->getValue() == 'grouped'
+                && $productTypeOpt->getValue() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
