@@ -166,7 +166,6 @@ class Enterprise_GiftWrapping_Model_Observer
     {
         /** @var Mage_Paypal_Model_Cart $paypalCart */
         $paypalCart = $observer->getEvent()->getPaypalCart();
-        $totalTax = 0;
         $totalWrapping = 0;
         $totalCard = 0;
         if ($paypalCart) {
@@ -175,31 +174,25 @@ class Enterprise_GiftWrapping_Model_Observer
                 foreach ($salesEntity->getAllItems() as $_item) {
                     if (!$_item->getParentItem() && $_item->getGwId() && $_item->getGwBasePrice()) {
                         $totalWrapping += $_item->getGwBasePrice();
-                        $totalTax += $_item->getGwBaseTaxAmount();
                     }
                 }
                 if ($salesEntity->getGwId() && $salesEntity->getGwBasePrice()) {
                     $totalWrapping += $salesEntity->getGwBasePrice();
-                    $totalTax += $salesEntity->getGwBaseTaxAmount();
                 }
                 if ($salesEntity->getGwAddPrintedCard() && $salesEntity->getGwPrintedCardBasePrice()) {
                     $totalCard += $salesEntity->getGwPrintedCardBasePrice();
-                    $totalTax += $salesEntity->getGwBaseTaxAmount();
                 }
             } else {
                 foreach ($salesEntity->getAllItems() as $_item) {
                     if (!$_item->getParentItem() && $_item->getGwId() && $_item->getGwBasePrice()) {
                         $totalWrapping += $_item->getGwBasePrice();
-                        $totalTax += $_item->getGwBaseTaxAmount();
                     }
                 }
                 if ($salesEntity->getGwId() && $salesEntity->getGwBasePrice()) {
                     $totalWrapping += $salesEntity->getGwBasePrice();
-                    $totalTax += $salesEntity->getGwBaseTaxAmount();
                 }
                 if ($salesEntity->getGwAddPrintedCard() && $salesEntity->getGwPrintedCardBasePrice()) {
                     $totalCard += $salesEntity->getGwPrintedCardBasePrice();
-                    $totalTax += $salesEntity->getGwBaseTaxAmount();
                 }
             }
             if ($totalWrapping) {

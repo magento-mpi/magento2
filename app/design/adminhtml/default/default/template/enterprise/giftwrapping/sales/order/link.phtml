@@ -27,7 +27,9 @@
 
 <?php if ($this->canDisplayGiftWrappingForItems()): ?>
 <div class="gift-options-tooltip-content no-display">
-    <strong><?php echo $this->helper('enterprise_giftwrapping')->__('Gift Wrapping Design')?></strong>:
-    <?php echo $this->getDesign() ?>
+    <?php if ($this->getDesign()): ?>
+        <strong><?php echo $this->helper('enterprise_giftwrapping')->__('Gift Wrapping Design')?></strong>:
+        <?php echo $this->getDesign() ?>
+    <?php endif; ?>
 </div>
 <?php endif; ?>
