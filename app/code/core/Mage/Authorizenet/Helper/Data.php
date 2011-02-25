@@ -118,7 +118,7 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPlaceOrderAdminUrl()
     {
-        return $this->_getUrl('*/authorizenet_directpost_payment/place');
+        return $this->getAdminUrl('*/authorizenet_directpost_payment/place', array());
     }
 
     /**
