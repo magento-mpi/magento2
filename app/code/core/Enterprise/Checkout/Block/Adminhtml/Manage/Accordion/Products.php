@@ -198,7 +198,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
      *
      * return Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
      */
-    protected function _afterLoadCollection() {
+    protected function _afterLoadCollection()
+    {
         $this->getCollection()->addOptionsToResult();
         return parent::_afterLoadCollection();
     }

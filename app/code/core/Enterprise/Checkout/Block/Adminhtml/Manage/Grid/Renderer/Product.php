@@ -48,9 +48,13 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
         } else if (($row instanceof Mage_Wishlist_Model_Item) || ($row instanceof Mage_Sales_Model_Order_Item)) {
             $product = $row->getProduct();
         }
-        $isConfigurable = $product->canConfigure();
-        $style          = $isConfigurable ? '' : 'style="color: #CCC;"';
-        $prodAttributes = $isConfigurable ? sprintf('list_type = "%s" item_id = %s', $listType, $row->getId()) : 'disabled="disabled"';
+        if ($product->canConfigure()) {
+            $style = '';
+            $prodAttributes = sprintf('list_type = "%s" item_id = %s', $listType, $row->getId());
+        } else {
+            $style = 'style="color: #CCC;"';
+            $prodAttributes = 'disabled="disabled"';
+        }
         return sprintf('<a href="javascript:void(0)" %s class="f-right" %s>%s</a>',
             $style, $prodAttributes, Mage::helper('sales')->__('Configure')) . $rendered;
     }

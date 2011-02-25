@@ -156,8 +156,8 @@ ProductConfigure.prototype = {
     * @return bool 
     */
     itemConfigured: function (listType, itemId) {
-        var сonfirmedBlockId = this._getConfirmedBlockId(listType, itemId);
-        var itemBlock = $(сonfirmedBlockId);
+        var confirmedBlockId = this._getConfirmedBlockId(listType, itemId);
+        var itemBlock = $(confirmedBlockId);
         return !!(itemBlock && itemBlock.innerHTML);
     },
 

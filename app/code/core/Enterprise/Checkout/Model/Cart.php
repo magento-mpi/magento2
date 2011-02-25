@@ -196,10 +196,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      * In case of newer behaviour same product ids with different configs are added as separate quote items.
      *
      * @param   mixed $product
-     * @param   Varien_Object|array $config
+     * @param   Varien_Object|array|float $config
      * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
-    public function addProduct($product, $config)
+    public function addProduct($product, $config = 1)
     {
         if (is_array($config) || ($config instanceof Varien_Object)) {
             $config = is_array($config) ? new Varien_Object($config) : $config;

@@ -185,7 +185,19 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
 
     public function getOrderDataJson()
     {
+        $actionUrls = array(
+            'cart' => $this->getActionUrl('cart'),
+            'applyCoupon' => $this->getActionUrl('applyCoupon'),
+            'coupon' => $this->getActionUrl('coupon')
+        );
+
+        $messages = array(
+            'chooseProducts' => $this->__('Choose some products to add to shopping cart.')
+        );
+
         $data = array(
+            'action_urls' => $actionUrls,
+            'messages' => $messages,
             'customer_id' => $this->_getCustomer()->getId(),
             'store_id' => $this->_getStore()->getId()
         );

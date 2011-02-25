@@ -40,7 +40,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
      * @param   Varien_Object $row
      * @return  bool
      */
-    protected function _isInactive($row) {
+    protected function _isInactive($row)
+    {
         return $row->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
     }
 

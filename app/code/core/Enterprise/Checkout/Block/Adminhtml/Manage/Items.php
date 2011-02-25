@@ -183,14 +183,13 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
     public function getConfigureButtonHtml($item)
     {
         $product = $item->getProduct();
-        $isConfigurable = $product->canConfigure();
-        $class          = $isConfigurable ? '' : 'disabled';
-        $addAttributes  = $isConfigurable
-            ? sprintf(
-                'onClick="checkoutObj.showQuoteItemConfiguration(%s)"',
-                $item->getId())
-            : 'disabled="disabled"';
-
+        if ($product->canConfigure()) {
+            $class = '';
+            $addAttributes = sprintf('onclick="checkoutObj.showQuoteItemConfiguration(%s)"', $item->getId());
+        } else {
+            $class = 'disabled';
+            $addAttributes = 'disabled="disabled"';
+        }
         return sprintf('<button type="button" class="scalable %s" %s><span>%s</span></button>',
             $class, $addAttributes, Mage::helper('sales')->__('Configure'));
     }

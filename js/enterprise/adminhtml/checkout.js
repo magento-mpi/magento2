@@ -1,4 +1,3 @@
-<?php
 /**
  * Magento Enterprise Edition
  *
@@ -23,29 +22,35 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-?>
 
-<?php
-/**
- * @see Enterprise_Checkout_Block_Adminhtml_Manage
- */
-?>
-
-<script type="text/javascript">
 var AdminCheckout = new Class.create();
 AdminCheckout.prototype = {
-
-    initialize: function(data){
+    initialize: function(data)
+    {
         this.checkboxes     = $H({});
         this.loadBaseUrl    = false;
         this.gridProducts   = $H({});
+        this.quoteAddFields = {};
+        this.sourceGrids    = {};
+        
+        this.actionUrls     = data.action_urls ? data.action_urls : {};
+        this.messages       = data.messages ? data.messages : {};
         this.customerId     = data.customer_id ? data.customer_id : false;
         this.storeId        = data.store_id ? data.store_id : false;
-        this.quoteAddFields = {};
-        this.sourceGrids = {};
+    },
+    
+    getActionUrl: function (action) 
+    {
+        return this.actionUrls[action];
+    },
+    
+    getMessage: function (id) 
+    {
+        return this.messages[id];
     },
 
-    setLoadBaseUrl : function(url){
+    setLoadBaseUrl : function(url)
+    {
         this.loadBaseUrl = url;
     },
 
@@ -79,7 +84,7 @@ AdminCheckout.prototype = {
 
     reloadItems: function(container)
     {
-        new Ajax.Request('<?php echo $this->getActionUrl('cart') ?>',
+        new Ajax.Request(this.getActionUrl('cart'),
             {
                 onSuccess: function(transport) {
                     try {
@@ -113,7 +118,7 @@ AdminCheckout.prototype = {
     {
         if (ccode == undefined || !ccode.blank()) {
             ccode = ccode == undefined ? '' : ccode;
-            new Ajax.Request('<?php echo $this->getActionUrl('applyCoupon') ?>',
+            new Ajax.Request(this.getActionUrl('applyCoupon'),
                 {
                     parameters: {code: ccode},
                     onSuccess: function(transport) {
@@ -132,7 +137,7 @@ AdminCheckout.prototype = {
 
     reloadCoupon: function()
     {
-        new Ajax.Request('<?php echo $this->getActionUrl('coupon') ?>',
+        new Ajax.Request(this.getActionUrl('coupon'),
             {
                 onSuccess: function(transport) {
                     try {
@@ -340,7 +345,7 @@ AdminCheckout.prototype = {
             sources.set(sourceId, items);
         }
         if (!sources.values().length) {
-            alert('<?php echo Mage::helper('enterprise_checkout')->__('Choose some products to add to shopping cart.') ?>');
+            alert(this.getMessage('chooseProducts'));
             return;
         }
 
@@ -589,4 +594,3 @@ AdminCheckout.prototype = {
         }
     }
 }
-</script>

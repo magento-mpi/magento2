@@ -257,10 +257,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function displaySubtotalInclTax($item)
     {
-        $tax = ($item->getTaxBeforeDiscount())
-            ? $item->getTaxBeforeDiscount()
-            : ($item->getTaxAmount() ? $item->getTaxAmount() : 0);
-        return $this->formatPrice($item->getRowTotal()+$tax);
+        if ($item->getTaxBeforeDiscount()) {
+            $tax = $item->getTaxBeforeDiscount();
+        } else {
+            $tax = $item->getTaxAmount() ? $item->getTaxAmount() : 0;
+        }
+        return $this->formatPrice($item->getRowTotal() + $tax);
     }
 
     public function displayOriginalPriceInclTax($item)
