@@ -164,21 +164,6 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     }
 
     /**
-     * Initialize stores hash.
-     *
-     * @return Mage_ImportExport_Model_Export_Entity_Product
-     */
-    protected function _initStores()
-    {
-        foreach (Mage::app()->getStores(true) as $store) {
-            $this->_storeIdToCode[$store->getId()] = $store->getCode();
-        }
-        ksort($this->_storeIdToCode); // to ensure that 'admin' store (ID is zero) goes first
-
-        return $this;
-    }
-
-    /**
      * Initialize product type models.
      *
      * @throws Exception
@@ -192,7 +177,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 Mage::throwException("Entity type model '{$typeModel}' is not found");
             }
             if (! $model instanceof Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract) {
-                Mage::throwException(Mage::helper('importexport')->__('Entity type model must be an instance of Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract'));
+                Mage::throwException(
+                    Mage::helper('importexport')->__('Entity type model must be an instance of Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract')
+                );
             }
             if ($model->isSuitable()) {
                 $this->_productTypeModels[$type] = $model;
@@ -237,7 +224,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             ->from($resource->getTableName('catalog/product_attribute_tier_price'))
             ->where('entity_id IN(?)', $productIds);
 
-        $rowTierPrices   = array();
+        $rowTierPrices = array();
         $stmt = $this->_connection->query($select);
         while ($tierRow = $stmt->fetch()) {
             $rowTierPrices[$tierRow['entity_id']][] = array(
@@ -409,8 +396,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             $configurablePrice[$priceRow['product_id']][] = array(
                 '_super_attribute_code'       => $priceRow['attribute_code'],
                 '_super_attribute_option'     => $priceRow['value'],
-                '_super_attribute_price_corr' => $priceRow['pricing_value']
-                                              . ($priceRow['is_percent'] ? '%' : '')
+                '_super_attribute_price_corr' => $priceRow['pricing_value'] . ($priceRow['is_percent'] ? '%' : '')
             );
         }
         return $configurablePrice;
@@ -461,15 +447,16 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                             $attrValue = null;
                         }
                     }
-                    if (null === $attrValue // do not save value same as default or not existent
-                        || ($storeId != $defaultStoreId
+                    // do not save value same as default or not existent
+                    if ($storeId != $defaultStoreId
                         && isset($dataRows[$itemId][$defaultStoreId][$attrCode])
-                        && $dataRows[$itemId][$defaultStoreId][$attrCode] == $attrValue)) {
+                        && $dataRows[$itemId][$defaultStoreId][$attrCode] == $attrValue
+                    ) {
                         $attrValue = null;
                     }
                     if (is_scalar($attrValue)) {
                         $dataRows[$itemId][$storeId][$attrCode] = $attrValue;
-                        $rowIsEmpty = false; // mark row as not empty
+                        $rowIsEmptyz = false; // mark row as not empty
                     }
                 }
                 if ($rowIsEmpty) { // remove empty rows
