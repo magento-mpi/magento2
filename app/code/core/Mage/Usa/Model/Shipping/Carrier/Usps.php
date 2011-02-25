@@ -316,11 +316,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                             }
                             asort($priceArr);
                         }
-                    }
-                    /*
-                     * International Rates
-                     */
-                    else {
+                    } else {
+                        /*
+                         * International Rates
+                         */
                         if (is_object($xml->Package) && is_object($xml->Package->Service)) {
                             foreach ($xml->Package->Service as $service) {
                                 $serviceName = $this->_filterServiceName((string)$service->SvcDescription);
