@@ -175,7 +175,12 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
         } else {
             $taxClassId = new Zend_Db_Expr('0');
         }
-        $select->columns(array('tax_class_id' => $write->getCheckSql($taxClassId . ' IS NOT NULL', $taxClassId, 0)));
+
+        if ($priceType == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
+            $select->columns(array('tax_class_id' => new Zend_Db_Expr('0')));
+        } else {
+            $select->columns(array('tax_class_id' => $write->getCheckSql($taxClassId . ' IS NOT NULL', $taxClassId, 0)));
+        }
 
         $priceTypeCond = $write->quoteInto('=?', $priceType);
         $this->_addAttributeToSelect($select, 'price_type', 'e.entity_id', 'cs.store_id', $priceTypeCond);
