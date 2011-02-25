@@ -187,6 +187,9 @@ extends Mage_Connect_Command
         $this->cleanupParams($params);
         try {
             $packager = $this->getPackager();
+            $cache = null;
+            $config = null;
+            $ftpObj = null;
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
@@ -248,6 +251,9 @@ extends Mage_Connect_Command
         $this->cleanupParams($params);
         try {
             $packager = $this->getPackager();
+            $cache = null;
+            $config = null;
+            $ftpObj = null;
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
@@ -286,6 +292,7 @@ extends Mage_Connect_Command
                 closedir($dp);
             }
 
+            $package = new Mage_Connect_Package();
             foreach ($pkglist as $pkg) {
                 $pkgFilename = $pearStorage . DS . $pkg['channel'] . DS . $pkg['file'];
                 if (!file_exists($pkgFilename)) {
@@ -293,11 +300,59 @@ extends Mage_Connect_Command
                 }
                 $data = file_get_contents($pkgFilename);
                 $data = unserialize($data);
+
+                $package->importDataV1x($data);
+                $name = $package->getName();
+                $channel = $package->getChannel();
+                $version = $package->getVersion();
+                if (!$cache->isChannel($channel) && $channel == $config->root_channel) {
+                    $cache->addChannel($channel, $config->root_channel_uri);
+                }
+                if (!$cache->hasPackage($channel, $name, $version, $version)) {
+                    $cache->addPackage($package);
+
+                    if($ftp) {
+                        //$localXmlPath = rtrim($configObj->magento_root, "\\/") . DS .
+                        //        Mage_Connect_Package_Reader::PATH_TO_TEMPORARY_DIRECTORY;
+                        //@mkdir($localXmlPath, 0777, true);
+
+                        $localXml = tempnam(sys_get_temp_dir(),'package');
+                        @file_put_contents($localXml, $package->getPackageXml());
+                        
+                        if (is_file($localXml)) {
+                            $ftpDir = $ftp->getcwd();
+                            $remoteXmlPath = $ftpDir . '/' . Mage_Connect_Package::PACKAGE_XML_DIR;
+                            $remoteXml = $package->getReleaseFilename() . '.xml';
+                            $ftp->mkdirRecursive($remoteXmlPath);
+                            $ftp->upload($remoteXml, $localXml, 0777, 0666);
+                            $ftp->chdir($ftpDir);
+                        }
+                    } else {
+                        $destDir = rtrim($config->magento_root, "\\/") . DS . Mage_Connect_Package::PACKAGE_XML_DIR;
+                        $destFile = $package->getReleaseFilename() . '.xml';
+                        $dest = $destDir . DS . $destFile;
+
+                        @mkdir($destDir, 0777, true);
+                        @file_put_contents($dest, $package->getPackageXml());
+                        @chmod($dest, 0666);
+                    }
+
+                    $this->ui()->output("Successfully added: {$channel}/{$name}-{$version}");
+                }
+
             }
+
+            $config->sync_pear = false;
+            if($ftp) {
+                $packager->writeToRemoteCache($cache, $ftpObj);
+                @unlink($config->getFilename());
+            }
+
 
             return true;
 
         } catch (Exception $e) {
+            echo('catch error');
             $this->doError($command, $e->getMessage());
         }
     }
@@ -310,7 +365,7 @@ extends Mage_Connect_Command
      */
     protected function _checkPearData($config) {
         $pearStorage = $config->magento_root . DS . $config->downloader_path  . DS . self::PACKAGE_PEAR_DIR;
-        return file_exists($pearStorage) && is_dir($pearStorage);
+        return $config->sync_pear && file_exists($pearStorage) && is_dir($pearStorage);
     }
 
 }
