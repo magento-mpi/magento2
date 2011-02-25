@@ -79,9 +79,13 @@ var giftWrappingItem = {
     },
 
     setDesign : function(value) {
-        if (this.designsInfo[value].path) {
-            $('wrapping-item-image-box').src = this.designsInfo[value].path;
-            $('wrapping-item-image-box').removeClassName('no-display').up().removeClassName('no-display');
+        var imageBox = $('wrapping-item-image-box'),
+            path = this.designsInfo[value].path;
+        if (path) {
+            imageBox.src = this.designsInfo[value].path;
+            imageBox.removeClassName('no-display').up().removeClassName('no-display');
+        } else {
+            imageBox.addClassName('no-display');
         }
     },
 
