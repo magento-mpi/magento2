@@ -128,9 +128,13 @@ var giftWrappingOrder = {
     },
 
     setDesign : function(value) {
+        var imageBox = $('wrapping-image-box');
         if (this.designsInfo[value].path) {
-            $('wrapping-image-box').src = this.designsInfo[value].path;
-            $('wrapping-image-box').removeClassName('no-display');
+            imageBox.src = this.designsInfo[value].path;
+            imageBox.removeClassName('no-display');
+        } else {
+            imageBox.src = '';
+            imageBox.addClassName('no-display');
         }
     },
 
