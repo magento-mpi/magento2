@@ -75,8 +75,61 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
     }
 
-     /**
-     * Refund the amount with transaction id.
+    /**
+     * Send capture request to gateway
+     *
+     * @param Varien_Object $payment
+     * @param decimal $amount
+     * @return Mage_Authorizenet_Model_Directpost
+     * @throws Mage_Core_Exception
+     */
+    public function capture(Varien_Object $payment, $amount)
+    {
+        if ($amount <= 0) {
+            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for capture.'));
+        }
+
+        $payment->setAmount($amount);
+
+        if ($payment->getParentTransactionId()) {
+            $payment->setAnetTransType(self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE);
+            $payment->setXTransId($this->_getRealParentTransactionId($payment));
+        } else {
+            $payment->setAnetTransType(self::REQUEST_TYPE_AUTH_CAPTURE);
+        }
+
+        $request= $this->_buildRequest($payment);
+        $result = $this->_postRequest($request);
+
+        switch ($result->getResponseCode()) {
+            case self::RESPONSE_CODE_APPROVED:
+                if (!$payment->getParentTransactionId() || $result->getTransactionId() != $payment->getParentTransactionId()) {
+                    $payment->setTransactionId($result->getTransactionId());
+                }
+                $payment
+                    ->setIsTransactionClosed(0)
+                    ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
+                return $this;
+            case self::RESPONSE_CODE_DECLINED:
+            case self::RESPONSE_CODE_ERROR:
+                Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
+            default:
+                Mage::throwException(Mage::helper('paygate')->__('Payment capturing error.'));
+        }
+    }
+
+	/**
+     * Check refund availability
+     *
+     * @return bool
+     */
+    public function canRefund()
+    {
+        return $this->_canRefund;
+    }
+
+    /**
+     * Refund the amount
      * Need to decode Last 4 digits for request.
      *
      * @param Varien_Object $payment
@@ -89,13 +142,55 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $last4 = $payment->getCcLast4();
         $payment->setCcLast4($payment->decrypt($last4));
         try {
-            parent::refund($payment, $amount);
+            $this->_refund($payment, $amount);
         } catch (Exception $e) {
             $payment->setCcLast4($last4);
             throw $e;
         }
         $payment->setCcLast4($last4);
         return $this;
+    }
+
+	/**
+     * refund the amount with transaction id
+     *
+     * @param string $payment Varien_Object object
+     * @return Mage_Authorizenet_Model_Directpost
+     * @throws Mage_Core_Exception
+     */
+    protected function _refund(Varien_Object $payment, $amount)
+    {
+        if ($amount <= 0) {
+            Mage::throwException(Mage::helper('paygate')->__('Invalid amount for refund.'));
+        }
+
+        if (!$payment->getParentTransactionId()) {
+            Mage::throwException(Mage::helper('paygate')->__('Invalid transaction ID.'));
+        }
+
+        $payment->setAnetTransType(self::REQUEST_TYPE_CREDIT);
+        $payment->setAmount($amount);
+        $payment->setXTransId($this->_getRealParentTransactionId($payment));
+
+        $request = $this->_buildRequest($payment);
+        $result = $this->_postRequest($request);
+
+        switch ($result->getResponseCode()) {
+            case self::RESPONSE_CODE_APPROVED:
+                if ($result->getTransactionId() != $payment->getParentTransactionId()) {
+                    $payment->setTransactionId($result->getTransactionId());
+                }
+                $payment
+                     ->setIsTransactionClosed(1)
+                     ->setShouldCloseParentTransaction(1)
+                     ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
+                return $this;
+            case self::RESPONSE_CODE_DECLINED:
+            case self::RESPONSE_CODE_ERROR:
+                Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
+            default:
+                Mage::throwException(Mage::helper('paygate')->__('Payment refunding error.'));
+        }
     }
 
     /**
@@ -435,5 +530,17 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 //if we couldn't capture order, just leave it as NEW order.
             }
         }
+    }
+
+	/**
+     * Return additional information`s transaction_id value of parent transaction model
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return string
+     */
+    protected function _getRealParentTransactionId($payment)
+    {
+        $transaction = $payment->getTransaction($payment->getParentTransactionId());
+        return $transaction->getAdditionalInformation($this->_realTransactionIdKey);
     }
 }
