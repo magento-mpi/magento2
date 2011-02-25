@@ -427,18 +427,17 @@ $params = array(
     'store'     => $this->getStore()->getId()
 );
 ?>
-    funcAddItemsListType = function () {
-        productConfigure.addListType(
-            '<?php echo $listType ?>',
-            {
-                urlFetch:  '<?php echo $this->getUrl('*/checkout/configureQuoteItems', $params) ?>',
-                urlSubmit: ''
-            }
-        );
+    function funcAddItemsListType() {
+        productConfigure.addListType('<?php echo $listType ?>', {
+            urlFetch:  '<?php echo $this->getUrl('*/checkout/configureQuoteItems', $params) ?>',
+            urlSubmit: ''
+        });
     }
     if (typeof(productConfigure) != 'undefined') {
-        funcAddItemsListType();
+        funcAddItemsListType()
     } else {
-        Event.observe(window, 'load',  funcAddItemsListType);
+        Event.observe(window, 'load', function(){
+            setTimeout(funcAddItemsListType, 10);
+        })
     }
 </script>
