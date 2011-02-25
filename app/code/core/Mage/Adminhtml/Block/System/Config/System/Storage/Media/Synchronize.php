@@ -121,7 +121,7 @@ class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
         $flagData = $flag->getFlagData();
 
         if ($flag->getState == Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED
-            && is_array($flagData)
+                && is_array($flagData)
             && isset($flagData['destination_storage_type']) && !empty($flagData['destination_storage_type'])
             && isset($flagData['destination_connection_name']) && !empty($flagData['destination_connection_name'])
         ) {

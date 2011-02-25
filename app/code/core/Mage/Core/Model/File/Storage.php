@@ -129,7 +129,7 @@ class Mage_Core_Model_File_Storage extends Mage_Core_Model_Abstract
      */
     public function synchronize($storage)
     {
-        if (isset($storage['type'])) {
+        if (is_array($storage) && isset($storage['type'])) {
             $storageDest    = (int) $storage['type'];
             $connection     = (isset($storage['connection'])) ? $storage['connection'] : null;
             $helper         = Mage::helper('core/file_storage');
