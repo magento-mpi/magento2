@@ -811,7 +811,7 @@ class Mage_Paypal_Model_Config
     {
         return array(
             self::PAYMENT_ACTION_AUTH  => Mage::helper('paypal')->__('Authorization'),
-            // self::PAYMENT_ACTION_ORDER => Mage::helper('paypal')->__('Order'), // not supported yet
+            self::PAYMENT_ACTION_ORDER => Mage::helper('paypal')->__('Order'),
             self::PAYMENT_ACTION_SALE  => Mage::helper('paypal')->__('Sale'),
         );
     }
@@ -828,7 +828,7 @@ class Mage_Paypal_Model_Config
             case self::PAYMENT_ACTION_SALE:
                 return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
             case self::PAYMENT_ACTION_ORDER:
-                return;
+                return Mage_Payment_Model_Method_Abstract::ACTION_ORDER;
         }
     }
 
