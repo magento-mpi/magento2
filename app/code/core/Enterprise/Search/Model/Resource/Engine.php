@@ -348,11 +348,22 @@ class Enterprise_Search_Model_Resource_Engine
     /**
      * Define if Layered Navigation is allowed
      *
+     * @deprecated after 1.9.1 - use $this->isLayeredNavigationAllowed()
+     *
      * @return bool
      */
     public function isLeyeredNavigationAllowed()
     {
-        //return false;
+        $this->isLayeredNavigationAllowed();
+    }
+
+    /**
+     * Define if Layered Navigation is allowed
+     *
+     * @return bool
+     */
+    public function isLayeredNavigationAllowed()
+    {
         return true;
     }
 
@@ -376,11 +387,12 @@ class Enterprise_Search_Model_Resource_Engine
                 }
                 break;
         }
+
         return Mage::getSingleton($model);
     }
 
     /**
-     * Define if selected adapter is avaliable
+     * Define if selected adapter is available
      *
      * @return bool
      */
