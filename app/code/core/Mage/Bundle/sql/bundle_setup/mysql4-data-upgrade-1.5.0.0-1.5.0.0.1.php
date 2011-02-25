@@ -60,7 +60,7 @@ try {
         }
     }
 
-    // set "Requere Reindex" status for some indexes if attributes data has been modified
+    // set "Require Reindex" status for some indexes if attributes data has been modified
     if ($isDataChanged) {
         $indexerCodes = array(
             'catalog_product_attribute', 
