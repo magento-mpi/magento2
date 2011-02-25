@@ -291,6 +291,24 @@ class Mage_Connect_Model_Extension extends Varien_Object
     }
 
     /**
+    * Create package file compatible with previous version of Magento Connect Manager
+    *
+    * @return boolean
+    */
+    public function createPackageV1x()
+    {
+        $path = Mage::helper('connect')->getLocalPackagesPathV1x();
+        if (!Mage::getConfig()->createDirIfNotExists($path)) {
+            return false;
+        }
+        if (!$this->getPackageXml()) {
+            $this->generatePackageXml();
+        }
+        $this->getPackage()->saveV1x($path);
+        return true;
+    }
+
+    /**
     * Retrieve stability value and name for options
     *
     * @return array

@@ -153,7 +153,15 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
             $session->setCustomExtensionPackageFormData($p);
             $ext = Mage::getModel('connect/extension');
             $ext->setData($p);
-            $ext->createPackage();
+            $packageVersion = $this->getRequest()->getPost('version_ids');
+            if (is_array($packageVersion)) {
+                if (in_array('2', $packageVersion)) {
+                    $ext->createPackage();
+                }
+                if (in_array('1', $packageVersion)) {
+                    $ext->createPackageV1x();
+                }
+            }
             $this->_redirect('*/*');
         } catch(Mage_Core_Exception $e){
             $session->addError($e->getMessage());

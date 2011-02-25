@@ -75,6 +75,24 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
             'required'  => true,
         ));
 
+        $versionsInfo = array(
+            array(
+                'label' => Mage::helper('connect')->__('Version 2.x'),
+                'value' => '2'
+            ),
+            array(
+                'label' => Mage::helper('connect')->__('Version 1.x'),
+                'value' => '1'
+            )
+        );
+        $fieldset->addField('version_ids','multiselect',array(
+                'name'     => 'version_ids',
+                'required' => true,
+                'label'    => Mage::helper('connect')->__('Package Format'),
+                'style'    => 'height: 45px;',
+                'values'   => $versionsInfo
+        ));
+
         $fieldset->addField('summary', 'textarea', array(
             'name'      => 'summary',
             'label'     => Mage::helper('connect')->__('Summary'),
