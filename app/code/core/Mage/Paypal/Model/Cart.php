@@ -424,21 +424,29 @@ class Mage_Paypal_Model_Cart
     protected function _addRegularItem(Varien_Object $salesItem)
     {
         if ($this->_salesEntity instanceof Mage_Sales_Model_Order) {
-            $qty = $salesItem->getQtyOrdered();
-            $amount = $salesItem->getBasePrice();
+            $qty = (int) $salesItem->getQtyOrdered();
+            $amount = (float) $salesItem->getBasePrice();
             // TODO: nominal item for order
         } else {
-            $qty = $salesItem->getTotalQty();
-            $amount = $salesItem->isNominal() ? 0 : $salesItem->getBaseCalculationPrice();
+            $qty = (int) $salesItem->getTotalQty();
+            $amount = $salesItem->isNominal() ? 0 : (float) $salesItem->getBaseCalculationPrice();
         }
         // workaround in case if item subtotal precision is not compatible with PayPal (.2)
         $subAggregatedLabel = '';
-        if ((float)$amount - round((float)$amount, 2)) {
+        if ($amount - round($amount, 2)) {
             $amount = $amount * $qty;
             $subAggregatedLabel = ' x' . $qty;
             $qty = 1;
         }
-        return $this->addItem($salesItem->getName() . $subAggregatedLabel, $qty, (float)$amount, $salesItem->getSku());
+
+        // aggregate item price if item qty * price does not match row total
+        if (($amount * $qty) != $salesItem->getBaseRowTotal()) {
+            $amount = (float) $salesItem->getBaseRowTotal();
+            $subAggregatedLabel = ' x' . $qty;
+            $qty = 1;
+        }
+
+        return $this->addItem($salesItem->getName() . $subAggregatedLabel, $qty, $amount, $salesItem->getSku());
     }
 
     /**
