@@ -179,20 +179,20 @@ class Mage_Core_Model_Mysql4_File_Storage_File
         $ioFile = new Varien_Io_File();
         $ioFile->cd($path);
 
-        if ($ioFile->fileExists($filename)) {
-            if ($overwrite && !$ioFile->rm($filename)) {
-                $ioFile->streamOpen($filename);
-                $ioFile->streamLock(true);
-                $result = $ioFile->streamWrite($content);
-                $ioFile->streamUnlock();
-                $ioFile->streamClose();
+        if (!$ioFile->fileExists($filename) || ($overwrite && $ioFile->rm($filename))) {
+            $ioFile->streamOpen($filename);
+            $ioFile->streamLock(true);
+            $result = $ioFile->streamWrite($content);
+            $ioFile->streamUnlock();
+            $ioFile->streamClose();
 
-                if ($result) {
-                    return true;
-                }
+            if ($result) {
+                return true;
             }
+
+            Mage::throwException(Mage::helper('core')->__('Unable to save file: %s', $filePath));
         }
 
-        Mage::throwException(Mage::helper('core')->__('Unable to save file: %s', $filePath));
+        return false;
     }
 }
