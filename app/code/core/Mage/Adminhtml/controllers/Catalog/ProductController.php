@@ -697,7 +697,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     }
                 }
 
-                Mage::getModel('catalogrule/rule')->applyAll();
+                Mage::getModel('catalogrule/rule')->applyToProduct($productId);
 
                 $this->_getSession()->addSuccess($this->__('The product has been saved.'));
             }
