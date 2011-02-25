@@ -84,11 +84,17 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             $storeElement->setDisabled(true);
         }
 
-        $fieldset->addField('devtype', 'text', array(
-                'name'      => 'devtype',
+        $fieldset->addField('showdev', 'select', array(
+                'name'      => 'showdev',
                 'label'     => Mage::helper('xmlconnect')->__('Device Type'),
                 'title'     => Mage::helper('xmlconnect')->__('Device Type'),
-                'readonly'  => true,
+                'values'    => array($model->getType() => $model->getDevtype()),
+                'disabled'  => true,
+        ));
+
+        $fieldset->addField('devtype', 'hidden', array(
+                'name'      => 'devtype',
+                'value'     => $model->getDevtype(),
         ));
 
         $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
