@@ -168,10 +168,9 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                     if ($result->getTransactionId() != $payment->getParentTransactionId()) {
                         $payment->setTransactionId($result->getTransactionId());
                     }
-                    $shouldCloseCaptureTransaction = !(bool)$payment->getOrder()->canCreditmemo();
                     $payment
                         ->setIsTransactionClosed(1)
-                        ->setShouldCloseParentTransaction($shouldCloseCaptureTransaction)
+                        ->setShouldCloseParentTransaction(1)
                         ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
                     return $this;
                 }
@@ -259,9 +258,10 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                     if ($result->getTransactionId() != $payment->getParentTransactionId()) {
                         $payment->setTransactionId($result->getTransactionId());
                     }
+                    $shouldCloseCaptureTransaction = $payment->getOrder()->canCreditmemo() ? 0 : 1;
                     $payment
                          ->setIsTransactionClosed(1)
-                         ->setShouldCloseParentTransaction(1)
+                         ->setShouldCloseParentTransaction($shouldCloseCaptureTransaction)
                          ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
                     return $this;
                 }
