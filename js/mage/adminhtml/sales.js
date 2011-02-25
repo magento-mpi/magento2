@@ -468,7 +468,7 @@ AdminOrder.prototype = {
         var getPriceFields = function (elms) {
             var productPrice = 0;
             var getPrice = function (elm) {
-                if (elm.hasAttribute('price')) {
+                if (elm.hasAttribute('price') && !elm.disabled) {
                     if (elm.hasAttribute('qtyId') && $(elm.getAttribute('qtyId')).value) {
                         optQty = parseFloat($(elm.getAttribute('qtyId')).value);
                     }
