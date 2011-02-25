@@ -206,7 +206,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Get product type identifier
      *
-     * @return int
+     * @return string
      */
     public function getTypeId()
     {

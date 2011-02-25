@@ -1167,6 +1167,11 @@ a.minimal-price-link:hover { text-decoration:underline; }
 .price-including-tax .label { white-space:nowrap; }
 .price-including-tax .price { font-weight:bold; }
 
+/* Configured price */
+.configured-price {}
+.configured-price .price-label { font-weight:bold; white-space:nowrap; }
+.configured-price .price { font-weight:bold; }
+
 /* FPT */
 .weee { display:block; font-size:11px; }
 .weee .price { font-size:11px; font-weight:bold; }
