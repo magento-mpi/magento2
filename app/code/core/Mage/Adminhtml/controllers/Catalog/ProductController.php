@@ -77,7 +77,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $product->setData('_edit_mode', true);
         if ($productId) {
-            $product->load($productId);
+            try {
+                $product->load($productId);
+            } catch (Exception $e) {
+                $product->setTypeId(Mage_Catalog_Model_Product_Type::DEFAULT_TYPE);
+                Mage::logException($e);
+            }
         }
 
         $attributes = $this->getRequest()->getParam('attributes');
@@ -1043,5 +1048,4 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
     }
-
 }
