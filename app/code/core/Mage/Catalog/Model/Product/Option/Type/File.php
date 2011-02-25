@@ -162,7 +162,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      * Validate uploaded file
      *
      * @throws Mage_Core_Exception
-     * @return Mage_Catalog_Model_Product_Option_Type_Default
+     * @return Mage_Catalog_Model_Product_Option_Type_File
      */
     protected function _validateUploadedFile()
     {
@@ -304,7 +304,6 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         }
         return $this;
     }
-
 
     /**
      * Validate file

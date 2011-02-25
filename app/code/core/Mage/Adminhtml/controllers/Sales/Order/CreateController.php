@@ -273,7 +273,6 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
     /**
      * Process buyRequest file options of items
      *
-     * @param string $method
      * @param array $items
      * @return array
      */

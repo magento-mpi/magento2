@@ -712,14 +712,20 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
     /**
      * Add product to current order quote
+     * $product can be either product id or product model
+     * $config can be either buyRequest config, or just qty
      *
-     * @param   mixed $product
-     * @param   Varien_Object $config
+     * @param   int|Mage_Catalog_Model_Product $product
+     * @param   float|array|Varien_Object $config
      * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
-    public function addProduct($product, array $config)
+    public function addProduct($product, $config)
     {
+        if (!is_array($config) && !($config instanceof Varien_Object)) {
+            $config = array('qty' => $config);
+        }
         $config = new Varien_Object($config);
+
         if (!($product instanceof Mage_Catalog_Model_Product)) {
             $productId = $product;
             $product = Mage::getModel('catalog/product')
