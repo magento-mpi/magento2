@@ -118,7 +118,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     public function getRelayUrl($storeId = null)
     {
         return Mage::app()->getStore($storeId)
-            ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).
+            ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK).
             'authorizenet/directpost_payment/response';
     }
 
