@@ -112,8 +112,8 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         /**
          * Hard code to prevent Solr bug:
          * Bug #17009 Creating two SolrQuery objects leads to wrong query value
-         * @see http://pecl.php.net/bugs/bug.php?id=17009&edit=1
-         * @see http://svn.php.net/viewvc?view=revision&revision=293379
+         * @link http://pecl.php.net/bugs/bug.php?id=17009&edit=1
+         * @link http://svn.php.net/viewvc?view=revision&revision=293379
          */
         if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
             $this->_connect();
