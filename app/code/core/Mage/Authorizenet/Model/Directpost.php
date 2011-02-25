@@ -108,7 +108,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 }
                 $payment
                     ->setIsTransactionClosed(0)
-                    ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
+                    ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
                 return $this;
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
@@ -118,7 +118,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         }
     }
 
-	/**
+    /**
      * Check refund availability
      *
      * @return bool
@@ -126,6 +126,28 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     public function canRefund()
     {
         return $this->_canRefund;
+    }
+
+    /**
+     * Set capture transaction ID to invoice for informational purposes
+     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Payment_Model_Method_Abstract
+     */
+    public function processInvoice($invoice, $payment)
+    {
+        return Mage_Payment_Model_Method_Abstract::processInvoice($invoice, $payment);
+    }
+
+    /**
+     * Set transaction ID into creditmemo for informational purposes
+     * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Payment_Model_Method_Abstract
+     */
+    public function processCreditmemo($creditmemo, $payment)
+    {
+        return Mage_Payment_Model_Method_Abstract::processCreditmemo($creditmemo, $payment);
     }
 
     /**
@@ -151,7 +173,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         return $this;
     }
 
-	/**
+    /**
      * refund the amount with transaction id
      *
      * @param string $payment Varien_Object object
@@ -183,7 +205,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
                 $payment
                      ->setIsTransactionClosed(1)
                      ->setShouldCloseParentTransaction(1)
-                     ->setTransactionAdditionalInfo($this->_realTransactionIdKay, $result->getTransactionId());
+                     ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
                 return $this;
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
@@ -532,7 +554,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         }
     }
 
-	/**
+    /**
      * Return additional information`s transaction_id value of parent transaction model
      *
      * @param Mage_Sales_Model_Order_Payment $payment
