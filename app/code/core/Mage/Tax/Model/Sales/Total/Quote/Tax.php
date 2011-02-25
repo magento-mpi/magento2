@@ -235,18 +235,18 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 $discountAmount     = $address->getShippingDiscountAmount();
                 $baseDiscountAmount = $address->getBaseShippingDiscountAmount();
-                $tax        = $this->_calculator->calcTaxAmount($shipping - $discountAmount, $rate, $inclTax, false);
-                $baseTax    = $this->_calculator->calcTaxAmount($baseShipping - $baseDiscountAmount, $rate, $inclTax, false);
+                $tax        = $this->_calculator->calcTaxAmount($shipping - $discountAmount, $rate, $inclTax);
+                $baseTax    = $this->_calculator->calcTaxAmount($baseShipping - $baseDiscountAmount, $rate, $inclTax);
                 break;
         }
 
-        if ($this->_config->getAlgorithm($this->_store) == Mage_Tax_Model_Calculation::CALC_TOTAL_BASE) {
+        /*if ($this->_config->getAlgorithm($this->_store) == Mage_Tax_Model_Calculation::CALC_TOTAL_BASE) {
             $tax        = $this->_deltaRound($tax, $rate, $inclTax);
             $baseTax    = $this->_deltaRound($baseTax, $rate, $inclTax, 'base');
-        } else {
+        } else {*/
             $tax        = $this->_calculator->round($tax);
             $baseTax    = $this->_calculator->round($baseTax);
-        }
+        ///
 
         if ($inclTax && !empty($discountAmount)) {
             $hiddenTax      = $this->_calculator->calcTaxAmount($discountAmount, $rate, $inclTax, false);
@@ -511,7 +511,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             $totalTax = $this->_calculator->calcTaxAmount(array_sum($data['totals']), $rate, $inclTax, false);
             $baseTotalTax = $this->_calculator->calcTaxAmount(array_sum($data['base_totals']), $rate, $inclTax, false);
             $this->_addAmount($this->_deltaRound($totalTax, $rate, $inclTax));
-            $this->_addBaseAmount($this->_deltaRound($baseTotalTax, $rate, $inclTax));
+            $this->_addBaseAmount($this->_deltaRound($baseTotalTax, $rate, $inclTax, 'base'));
             $this->_saveAppliedTaxes($address, $data['applied_rates'], $totalTax, $baseTotalTax, $rate);
         }
         return $this;
