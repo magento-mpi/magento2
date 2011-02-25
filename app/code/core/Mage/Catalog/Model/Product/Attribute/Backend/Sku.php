@@ -57,6 +57,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Sku extends Mage_Eav_Model_En
                 Mage::helper('catalog')->__('SKU length should be %s characters maximum.', self::SKU_MAX_LENGTH)
             );
         }
-        return true;
+        return parent::validate($object);
     }
 }
