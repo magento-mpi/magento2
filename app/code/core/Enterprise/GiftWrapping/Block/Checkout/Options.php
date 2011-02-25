@@ -298,7 +298,16 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
             || $this->getAllowForItems()
             || $this->getAllowPrintedCard()
             || $this->getAllowGiftReceipt();
-        $count = count($this->getDesignCollection());
-        return $count && $canDisplay;
+        return $canDisplay;
+    }
+
+    /**
+     * Get design collection count
+     *
+     * @return int
+     */
+    public function getDesignCollectionCount()
+    {
+        return count($this->getDesignCollection());
     }
 }
