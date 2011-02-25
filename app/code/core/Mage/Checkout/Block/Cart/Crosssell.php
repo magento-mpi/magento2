@@ -51,9 +51,15 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
         if (is_null($items)) {
             $items = array();
             if ($ninProductIds = $this->_getCartProductIds()) {
-                if ($lastAdded = (int) $this->_getLastAddedProductId()) {
+                $filterProductIds = array();
+                $lastAdded = (int) $this->_getLastAddedProductId();
+                if ($lastAdded) {
+                    $filterProductIds[] = $lastAdded;
+                }
+                $filterProductIds = array_merge($filterProductIds, $this->_getCartProductIdsRel());
+                if ($filterProductIds) {
                     $collection = $this->_getCollection()
-                        ->addProductFilter($lastAdded);
+                        ->addProductFilter($filterProductIds);
                     if (!empty($ninProductIds)) {
                         $collection->addExcludeProductFilter($ninProductIds);
                     }
@@ -113,6 +119,28 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
             $this->setData('_cart_product_ids', $ids);
         }
         return $ids;
+    }
+
+    /**
+     * Retrieve Array of product ids which have special relation with products in Cart
+     * For example simple product as part of Grouped product
+     *
+     * @return array
+     */
+    protected function _getCartProductIdsRel()
+    {
+        $productIds = array();
+        foreach ($this->getQuote()->getAllItems() as $quoteItem) {
+            $productTypeOpt = $quoteItem->getOptionByCode('product_type');
+            if ($productTypeOpt instanceof Mage_Sales_Model_Quote_Item_Option
+                && $productTypeOpt->getValue() == 'grouped'
+                && $productTypeOpt->getProductId()
+            ) {
+                $productIds[] = $productTypeOpt->getProductId();
+            }
+        }
+
+        return $productIds;
     }
 
     /**
