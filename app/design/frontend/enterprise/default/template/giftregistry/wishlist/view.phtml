@@ -80,13 +80,13 @@
                             <?php if ($this->checkProductType($product)): ?>
                             <div class="btn-gift-registry">
                                 <div class="input-box">
-                                    <select id="giftregistry_entity_<?php echo $product->getId()?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
+                                    <select id="giftregistry_entity_<?php echo $item->getId() ?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
                                         <?php foreach ($entityValues as $_entity):?>
                                             <option value="<?php echo $_entity->getValue()?>" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->helper('core/string')->truncate($_entity->getTitle(), 40))?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
-                                <button type="button" onclick="addProductToGiftregistry('<?php echo $product->getId() ?>', '<?php echo $item->getId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+                                <button type="button" onclick="addProductToGiftregistry('<?php echo $item->getId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
                             </div>
                             <?php endif;?>
                         </td>
@@ -131,12 +131,12 @@
 
     <script type="text/javascript">
     //<![CDATA[
-    function addProductToGiftregistry(productId, itemId) {
+    function addProductToGiftregistry(itemId) {
         giftregistryForm = $('giftregistry-form');
-        var entity = $('giftregistry_entity_'+productId);
+        var entity = $('giftregistry_entity_' + itemId);
         entity.addClassName('required-entry');
-        if (Validation.validate($('giftregistry_entity_'+productId))) {
-            giftregistryForm.entity.value=entity.value;
+        if (Validation.validate($('giftregistry_entity_' + itemId))) {
+            giftregistryForm.entity.value = entity.value;
             giftregistryForm.item.value = itemId;
             giftregistryForm.submit();
         }
