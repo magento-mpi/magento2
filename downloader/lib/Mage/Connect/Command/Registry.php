@@ -312,10 +312,6 @@ extends Mage_Connect_Command
                     $cache->addPackage($package);
 
                     if($ftp) {
-                        //$localXmlPath = rtrim($configObj->magento_root, "\\/") . DS .
-                        //        Mage_Connect_Package_Reader::PATH_TO_TEMPORARY_DIRECTORY;
-                        //@mkdir($localXmlPath, 0777, true);
-
                         $localXml = tempnam(sys_get_temp_dir(),'package');
                         @file_put_contents($localXml, $package->getPackageXml());
                         
@@ -352,7 +348,6 @@ extends Mage_Connect_Command
             return true;
 
         } catch (Exception $e) {
-            echo('catch error');
             $this->doError($command, $e->getMessage());
         }
     }
