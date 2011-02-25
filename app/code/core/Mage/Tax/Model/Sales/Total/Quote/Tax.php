@@ -279,7 +279,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     {
         $items = $this->_getAddressItems($address);
         foreach ($items as $item) {
-            if ($item->getParentItemId()) {
+            if ($item->getParentItem()) {
                 continue;
             }
 
@@ -382,7 +382,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     {
         $items = $this->_getAddressItems($address);
         foreach ($items as $item) {
-            if ($item->getParentItemId()) {
+            if ($item->getParentItem()) {
                 continue;
             }
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
@@ -484,7 +484,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
 
         $inclTax = false;
         foreach ($items as $item) {
-            if ($item->getParentItemId()) {
+            if ($item->getParentItem()) {
                 continue;
             }
 
