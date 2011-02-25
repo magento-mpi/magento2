@@ -301,6 +301,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                         if ($this->_isUSCountry($r->getDestCountryId())) {
                             if (is_object($xml->Package) && is_object($xml->Package->Postage)) {
                                 foreach ($xml->Package->Postage as $postage) {
+                                    $postage->MailService = preg_replace('/<.+?>.*?<.+?>/', '', (string)html_entity_decode($postage->MailService));
                                     if (in_array((string)$postage->MailService, $allowedMethods)) {
                                         $costArr[(string)$postage->MailService] = (string)$postage->Rate;
                                         $priceArr[(string)$postage->MailService] = $this->getMethodPrice((string)$postage->Rate, (string)$postage->MailService);
@@ -314,6 +315,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                         } else {
                             if (is_object($xml->Package) && is_object($xml->Package->Service)) {
                                 foreach ($xml->Package->Service as $service) {
+                                    $service->SvcDescription = preg_replace('/<.+?>.*?<.+?>/', '', (string)html_entity_decode($postage->SvcDescription));
                                     if (in_array((string)$service->SvcDescription, $allowedMethods)) {
                                         $costArr[(string)$service->SvcDescription] = (string)$service->Postage;
                                         $priceArr[(string)$service->SvcDescription] = $this->getMethodPrice((string)$service->Postage, (string)$service->SvcDescription);
@@ -369,6 +371,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
             'service'=>array(
                 'FIRST CLASS' => Mage::helper('usa')->__('First-Class'),
+                'First-Class Mail International Package**'  => Mage::helper('usa')->__('First-Class Mail International Package**'),
                 'PRIORITY'    => Mage::helper('usa')->__('Priority Mail'),
                 'EXPRESS'     => Mage::helper('usa')->__('Express Mail'),
                 'BPM'         => Mage::helper('usa')->__('Bound Printed Matter'),
@@ -382,6 +385,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 'First-Class Mail International Large Envelope' => 'FIRST CLASS',
                 'First-Class Mail International Letters'        => 'FIRST CLASS',
                 'First-Class Mail International Package'        => 'FIRST CLASS',
+                'First-Class Mail International Package**'      => 'First-Class Mail International Package**',
                 'First-Class Mail'                 => 'FIRST CLASS',
                 'First-Class Mail Flat'            => 'FIRST CLASS',
                 'First-Class Mail International'   => 'FIRST CLASS',
