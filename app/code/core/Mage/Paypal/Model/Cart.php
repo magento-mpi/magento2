@@ -212,6 +212,23 @@ class Mage_Paypal_Model_Cart
     }
 
     /**
+     * Remove item from cart by identifier
+     * 
+     * @param string $identifier
+     * @return bool
+     */
+    public function removeItem($identifier)
+    {
+        foreach ($this->_items as $key => $item) {
+            if ($item->getId() == $identifier) {
+                unset($this->_items[$key]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Compound the specified amount with the specified total
      *
      * @param string $code
@@ -311,10 +328,17 @@ class Mage_Paypal_Model_Cart
                 $this->_renderTotalLineItemDescriptions(self::TOTAL_DISCOUNT)
             );
         }
+        $shippingItemId = $this->_renderTotalLineItemDescriptions(self::TOTAL_SHIPPING, $shippingDescription);
         if ($this->_isShippingAsItem && (float)$this->_totals[self::TOTAL_SHIPPING]) {
             $this->addItem(Mage::helper('paypal')->__('Shipping'), 1, (float)$this->_totals[self::TOTAL_SHIPPING],
-                $this->_renderTotalLineItemDescriptions(self::TOTAL_SHIPPING, $shippingDescription)
+                $shippingItemId
             );
+        }
+
+        $this->_validate();
+        // if cart items are invalid, prepare cart for transfer without line items
+        if (!$this->_areItemsValid) {
+            $this->removeItem($shippingItemId);
         }
 
         // compound non-regular items into subtotal
@@ -324,7 +348,6 @@ class Mage_Paypal_Model_Cart
             }
         }
 
-        $this->_validate();
         $this->_shouldRender = false;
     }
 
