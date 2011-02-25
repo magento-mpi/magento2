@@ -25,54 +25,40 @@
  */
 
 /**
- * Payflow Checkout Controller
+ * Hosted Pro Checkout Controller
  *
  * @category   Mage
  * @package    Mage_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
+class Mage_Paypal_HostedproController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * When a customer cancel payment from payflow gateway.
+     * When a customer return to website from gateway.
      */
-    public function cancelPaymentAction()
+    public function returnAction()
+    {
+        $session = $this->_getCheckout();
+        //TODO: some actions with order
+        if ($session->getLastRealOrderId()) {
+            $this->_redirect('checkout/onepage/success');
+        }
+    }
+
+	/**
+     * When a customer cancel payment from gateway.
+     */
+    public function cancelAction()
     {
         $gotoSection = $this->_cancelPayment();
         $redirectBlock = $this->_getIframeBlock()
             ->setGotoSection($gotoSection)
             ->setTemplate('paypal/hss/redirect.phtml');
+        //TODO: clarify return logic whether customer will be returned in iframe or in parent window
         $this->getResponse()->setBody($redirectBlock->toHtml());
     }
 
-    /**
-     * When a customer return to website from payflow gateway.
-     */
-    public function returnUrlAction()
-    {
-        $redirectBlock = $this->_getIframeBlock()
-            ->setTemplate('paypal/hss/redirect.phtml');
-
-        $session = $this->_getCheckout();
-        if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
-
-            if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
-                if ($order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING) {
-                    $session->unsLastRealOrderId();
-                    $redirectBlock->setGotoSuccessPage(true);
-                } else {
-                    $gotoSection = $this->_cancelPayment(strval($this->getRequest()->getParam('RESPMSG')));
-                    $redirectBlock->setGotoSection($gotoSection);
-                    $redirectBlock->setErrorMsg($this->__('Payment has been declined. Please try again.'));
-                }
-            }
-        }
-
-        $this->getResponse()->setBody($redirectBlock->toHtml());
-    }
-
-    /**
+	/**
      * Cancel order, return quote to customer
      *
      * @param string $errorMsg
@@ -108,32 +94,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
         return $gotoSection;
     }
 
-    /**
-     * Submit transaction to Payflow getaway into iframe
-     */
-    public function formAction()
-    {
-        $this->getResponse()
-            ->setBody($this->_getIframeBlock()->toHtml());
-    }
-
-    /**
-     * Get response from PayPal by silent post method
-     */
-    public function silentPostAction()
-    {
-        $data = $this->getRequest()->getPost();
-        if (isset($data['INVOICE'])) {
-            $paymentModel = Mage::getModel('paypal/payflowlink');
-            try {
-                $paymentModel->process($data);
-            } catch (Exception $e) {
-                Mage::logException($e);
-            }
-        }
-    }
-
-    /**
+	/**
      * Get frontend checkout session object
      *
      * @return Mage_Checkout_Model_Session
@@ -150,8 +111,8 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
      */
     protected function _getIframeBlock()
     {
-        $this->loadLayout('paypal_payflow_link_iframe');
+        $this->loadLayout('paypal_hosted_pro_iframe');
         return $this->getLayout()
-            ->getBlock('payflow.link.iframe');
+            ->getBlock('hosted.pro.iframe');
     }
 }

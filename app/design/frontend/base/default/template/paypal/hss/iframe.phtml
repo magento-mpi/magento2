@@ -24,12 +24,9 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
-/**
- * @see Mage_Paypal_Block_Payflow_Link_Iframe
- */
 ?>
-<div style="text-align:center;"><?php echo $this->__('Please do not refresh the page while the form loads.') ?></div>
-<iframe id="payflow-link-iframe" style="display:none;background:none repeat scroll 0 0 transparent;height:610px;width:99%;" frameborder="0" border="0" src="<?php echo $this->getFrameActionUrl() ?>"></iframe>
+<div style="text-align:center;display:none;" id="iframe-warning"><?php echo $this->__('Please do not refresh the page until you complete payment.') ?></div>
+<iframe id="payflow-link-iframe" style="display:none;background-color:transparent;height:610px;width:99%;" scrolling="no" frameborder="0" border="0" src="<?php echo $this->getFrameActionUrl() ?>"></iframe>
 <script type="text/javascript">
 //<![CDATA[
 var headers = $$('#' + checkout.accordion.container.readAttribute('id') + ' .section');
@@ -38,6 +35,7 @@ headers.each(function(header) {
 });
 $('payflow-link-iframe').observe('load', function(){
     $('payflow-link-iframe').show();
+    $('iframe-warning').show();
     checkout.loadWaiting = 'review';
     checkout.setLoadWaiting(false);
     if (checkout.accordion.currentSection == 'opc-review') {
