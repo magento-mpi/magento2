@@ -424,6 +424,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['isAllowedGuestCheckout'] = Mage::getSingleton('checkout/session')
             ->getQuote()->isAllowedGuestCheckout();
 
+        if (!Mage::getStoreConfigFlag('wishlist/general/active')) {
+            $result['general']['wishlistEnable'] = '0';
+        } else {
+            $result['general']['wishlistEnable'] = '1';
+        }
+
         /**
          * PayPal configuration
          */
