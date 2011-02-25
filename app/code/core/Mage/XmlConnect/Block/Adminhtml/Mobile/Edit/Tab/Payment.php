@@ -68,8 +68,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
         /**
          * PayPal MEP management
          */
-        $isExpressCheckoutAvaliable = Mage::getModel('xmlconnect/payment_method_paypal_mep')
-            ->isAvailable(null, $this->getApplication()->getStoreId());
+        $isExpressCheckoutAvaliable = Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable(null);
 
         $paypalActive = 0;
         if (isset($data['conf[native][paypal][isActive]'])) {

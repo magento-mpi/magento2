@@ -69,8 +69,19 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Paypal_Model_
      */
     public function isAvailable($quote = null)
     {
+        $storeId = false;
+        $model = Mage::registry('current_app');
+
+        if (($model instanceof Mage_XmlConnect_Model_Application)) {
+            $storeId = $model->getStoreId();
+        }
+
+        if (!$storeId) {
+            $storeId = $quote ? $quote->getStoreId() : Mage::app()->getStore()->getId();
+        }
+        
         return Mage::getModel('paypal/config')
-            ->setStoreId(($quote ? $quote->getStoreId() : Mage::app()->getStore()->getId()))
+            ->setStoreId($storeId)
             ->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
     }
 
