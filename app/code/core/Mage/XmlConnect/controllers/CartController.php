@@ -57,7 +57,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
         }
 
         /**
-         * if customer enteres shopping cart we should mark quote
+         * if customer enters shopping cart we should mark quote
          * as modified bc he can has checkout page in another window.
          */
         $this->_getSession()->setCartWasUpdated(true);
@@ -168,7 +168,8 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
                  * Hardcoded Configurable product default
                  * Set min required qty for a product if it's need
                  */
-                $requestedQty = ((isset($params['qty']) ? $params['qty'] : 0) > 1) ? $params['qty'] : 1;
+                $qty = isset($params['qty']) ? $params['qty'] : 0;
+                $requestedQty = ($qty > 1) ? $qty : 1;
                 $subProduct = $product->getTypeInstance(true)->getProductByAttributes($request->getSuperAttribute(), $product);
 
                 if ($requestedQty < ($requiredQty = $subProduct->getStockItem()->getMinSaleQty())) {

@@ -69,7 +69,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
         $flurryLink = $fieldset->addField('flurry_analytics_link', 'link', array(
             'title'     => Mage::helper('xmlconnect')->__('Flurry Analytics Site'),
             'label'     => Mage::helper('xmlconnect')->__('Flurry Analytics Site'),
-            'value'     => Mage::helper('xmlconnect')->__($flurryAnalyticsUrl),
+            'value'     => $flurryAnalyticsUrl,
             'href'      => $flurryAnalyticsUrl,
             'target'    => '__blank',
             'note'      => Mage::helper('xmlconnect')->__('You can watch statistics here.'),

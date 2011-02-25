@@ -46,24 +46,24 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Status extends Mage_Ad
         if (is_numeric($row->getStatus())) {
             switch ($row->getStatus()) {
                 case Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE:
-                    $str = 'In Queue';
+                    $str = Mage::helper('xmlconnect')->__('In Queue');
                     break;
                 case Mage_XmlConnect_Model_Queue::STATUS_CANCELED:
-                    $str = 'Cancelled';
+                    $str = Mage::helper('xmlconnect')->__('Cancelled');
                     break;
                 case Mage_XmlConnect_Model_Queue::STATUS_COMPLETED:
-                    $str = 'Completed';
+                    $str = Mage::helper('xmlconnect')->__('Completed');
                     break;
                 case Mage_XmlConnect_Model_Queue::STATUS_DELETED:
-                    $str = 'Deleted';
+                    $str = Mage::helper('xmlconnect')->__('Deleted');
                     break;
             }
         }
 
         if ($str === '') {
-            $str = 'Undefined';
+            $str = Mage::helper('xmlconnect')->__('Undefined');
         }
 
-        return htmlspecialchars(Mage::helper('xmlconnect')->__($str));
+        return htmlspecialchars($str);
      }
 }

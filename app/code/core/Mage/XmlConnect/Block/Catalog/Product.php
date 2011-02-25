@@ -66,10 +66,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
 
             $iconXml = $item->addChild('icon', $icon);
 
-            $baseUrl = Mage::getBaseUrl('media');
-            $path = str_replace($baseUrl, '', $icon);
-            $file = Mage::getBaseDir('media') . DS . str_replace('/', DS, $path);
-
+            $file = Mage::helper('xmlconnect')->urlToPath($icon);
             $iconXml->addAttribute('modification_time', filemtime($file));
 
             $item->addChild('in_stock', (int)$product->isSalable());

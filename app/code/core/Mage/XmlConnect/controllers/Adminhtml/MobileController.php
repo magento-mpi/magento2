@@ -632,7 +632,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('xmlconnect')->__('Temaplte has been deleted.')
+                    Mage::helper('xmlconnect')->__('Template has been deleted.')
                 );
 
                 // go to grid

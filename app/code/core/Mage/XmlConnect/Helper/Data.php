@@ -674,4 +674,19 @@ EOT;
         $target = $fieldValue;
         return null;
     }
+
+    /**
+     * Convert Url link to file path for images
+     * 
+     * @param string $icon
+     * @return string
+     */
+    public function urlToPath($icon)
+    {
+        $baseUrl = Mage::getBaseUrl('media');
+        $path = str_replace($baseUrl, '', $icon);
+        $filePath = Mage::getBaseDir('media') . DS . str_replace('/', DS, $path);
+        return $filePath;
+
+    }
 }
