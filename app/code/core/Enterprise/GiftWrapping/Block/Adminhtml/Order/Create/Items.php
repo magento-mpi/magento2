@@ -89,12 +89,15 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
     public function canDisplayGiftWrappingForItems()
     {
         $canDisplay = false;
-        foreach ($this->getQuote()->getAllItems() as $item) {
-            if ($item->getParentItem()) {
-                continue;
-            }
-            if ($this->getDisplayGiftWrappingForItem($item)) {
-                $canDisplay = true;
+        $count = count($this->getDesignCollection());
+        if ($count) {
+            foreach ($this->getQuote()->getAllItems() as $item) {
+                if ($item->getParentItem()) {
+                    continue;
+                }
+                if ($this->getDisplayGiftWrappingForItem($item)) {
+                    $canDisplay = true;
+                }
             }
         }
         return $canDisplay;

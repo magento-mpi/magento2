@@ -285,9 +285,11 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      */
     public function canDisplayGiftWrapping()
     {
-        return $this->getAllowForOrder()
+        $canDisplay = $this->getAllowForOrder()
             || $this->getAllowForItems()
             || $this->getAllowPrintedCard()
             || $this->getAllowGiftReceipt();
+        $count = count($this->getDesignCollection());
+        return $count && $canDisplay;
     }
 }
