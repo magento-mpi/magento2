@@ -268,16 +268,13 @@ class Enterprise_Customer_Block_Form extends Mage_Core_Block_Template
     public function getUserDefinedAttributes()
     {
         $attributes = array();
-        $formCode = $this->getForm()->getFormCode();
-
         foreach ($this->getForm()->getUserAttributes() as $attribute) {
             if ($this->getExcludeFileAttributes() && in_array($attribute->getFrontendInput(), array('image', 'file'))) {
                 continue;
             }
-            if ($attribute->getIsVisible() && array_search($formCode, $attribute->getUsedInForms())) {
+            if ($attribute->getIsVisible()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute;
             }
-
         }
         return $attributes;
     }
