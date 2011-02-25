@@ -719,7 +719,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      * @param   float|array|Varien_Object $config
      * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
-    public function addProduct($product, $config)
+    public function addProduct($product, $config = 1)
     {
         if (!is_array($config) && !($config instanceof Varien_Object)) {
             $config = array('qty' => $config);
