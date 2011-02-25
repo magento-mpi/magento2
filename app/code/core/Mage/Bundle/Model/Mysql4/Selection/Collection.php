@@ -34,4 +34,18 @@
  */
 class Mage_Bundle_Model_Mysql4_Selection_Collection extends Mage_Bundle_Model_Resource_Selection_Collection
 {
+
+    /**
+     * Set store id for each collection item when collection was loaded 
+     *
+     * @return void
+     */
+    public function _afterLoad()
+    {
+        if ($this->getStoreId()) {
+            foreach ($this->_items as $item) {
+                $item->setStoreId($this->getStoreId());
+            }
+        }
+    }
 }

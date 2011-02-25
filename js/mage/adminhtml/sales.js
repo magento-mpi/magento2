@@ -30,7 +30,7 @@ AdminOrder.prototype = {
         this.customerId     = data.customer_id ? data.customer_id : false;
         this.storeId        = data.store_id ? data.store_id : false;
         this.currencyId     = false;
-        this.currencySymbol = data.currency_symbol ? data.currency_symbol : false;
+        this.currencySymbol = data.currency_symbol ? data.currency_symbol : '';
         this.addresses      = data.addresses ? data.addresses : $H({});
         this.shippingAsBilling = data.shippingAsBilling ? data.shippingAsBilling : false;
         this.gridProducts   = $H({});
@@ -436,8 +436,8 @@ AdminOrder.prototype = {
                             qtyElement.value = confirmedCurrentQty.value;
                         }
                         // calc and set product price
-                        var productPrice = this._calcProductPrice();
-                        priceColl.innerHTML = this.currencySymbol + (productPrice + this.productPriceBase[productId]);
+                        var productPrice = parseFloat(this._calcProductPrice() + this.productPriceBase[productId]);
+                        priceColl.innerHTML = this.currencySymbol + productPrice.toFixed(2);
                         // and set checkbox checked
                         grid.setCheckboxChecked(checkbox, true);
                     }.bind(this));
@@ -493,10 +493,10 @@ AdminOrder.prototype = {
             }
             return productPrice;
         }.bind(this);
-        productPrice += getPriceFields($(productConfigure.сonfirmedCurrentId).getElementsByTagName('input'));
-        productPrice += getPriceFields($(productConfigure.сonfirmedCurrentId).getElementsByTagName('select'));
-        productPrice += getPriceFields($(productConfigure.сonfirmedCurrentId).getElementsByTagName('textarea'));
-        return Math.round(productPrice*100)/100;
+        productPrice += getPriceFields($(productConfigure.confirmedCurrentId).getElementsByTagName('input'));
+        productPrice += getPriceFields($(productConfigure.confirmedCurrentId).getElementsByTagName('select'));
+        productPrice += getPriceFields($(productConfigure.confirmedCurrentId).getElementsByTagName('textarea'));
+        return productPrice;
     },
 
     productGridCheckboxCheck : function(grid, element, checked){
@@ -845,7 +845,9 @@ AdminOrder.prototype = {
         else {
             new Ajax.Request(url, {parameters:params,loaderArea: indicator});
         }
-        productConfigure.clean();
+        if (typeof productConfigure != 'undefined') {
+            productConfigure.clean();
+        }
     },
 
     loadAreaResponseHandler : function (response){
