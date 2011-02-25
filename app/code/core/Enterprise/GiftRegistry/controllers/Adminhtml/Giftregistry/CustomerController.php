@@ -70,7 +70,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
                 'active_tab' => 'giftregistry'
             ));
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('Wrong gift registry entity requested.'));
+            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while editing gift registry.'));
             Mage::logException($e);
             $this->_redirect('*/customer/edit', array(
                 'id'         => $this->getRequest()->getParam('customer'),
