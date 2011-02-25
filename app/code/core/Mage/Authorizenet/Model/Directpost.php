@@ -103,13 +103,17 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 
         switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
-                if (!$payment->getParentTransactionId() || $result->getTransactionId() != $payment->getParentTransactionId()) {
-                    $payment->setTransactionId($result->getTransactionId());
+                if ($result->getResponseReasonCode() == self::RESPONSE_REASON_CODE_APPROVED) {
+                    if (!$payment->getParentTransactionId() ||
+                        $result->getTransactionId() != $payment->getParentTransactionId()) {
+                        $payment->setTransactionId($result->getTransactionId());
+                    }
+                    $payment
+                        ->setIsTransactionClosed(0)
+                        ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
+                    return $this;
                 }
-                $payment
-                    ->setIsTransactionClosed(0)
-                    ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
-                return $this;
+                Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
@@ -160,14 +164,17 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 
         switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
-                if ($result->getTransactionId() != $payment->getParentTransactionId()) {
-                    $payment->setTransactionId($result->getTransactionId());
+                if ($result->getResponseReasonCode() == self::RESPONSE_REASON_CODE_APPROVED) {
+                    if ($result->getTransactionId() != $payment->getParentTransactionId()) {
+                        $payment->setTransactionId($result->getTransactionId());
+                    }
+                    $payment
+                        ->setIsTransactionClosed(1)
+                        ->setShouldCloseParentTransaction(1)
+                        ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
+                    return $this;
                 }
-                $payment
-                    ->setIsTransactionClosed(1)
-                    ->setShouldCloseParentTransaction(1)
-                    ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
-                return $this;
+                Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
@@ -247,14 +254,17 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 
         switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
-                if ($result->getTransactionId() != $payment->getParentTransactionId()) {
-                    $payment->setTransactionId($result->getTransactionId());
+                if ($result->getResponseReasonCode() == self::RESPONSE_REASON_CODE_APPROVED) {
+                    if ($result->getTransactionId() != $payment->getParentTransactionId()) {
+                        $payment->setTransactionId($result->getTransactionId());
+                    }
+                    $payment
+                         ->setIsTransactionClosed(1)
+                         ->setShouldCloseParentTransaction(1)
+                         ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
+                    return $this;
                 }
-                $payment
-                     ->setIsTransactionClosed(1)
-                     ->setShouldCloseParentTransaction(1)
-                     ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
-                return $this;
+                Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
