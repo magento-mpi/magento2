@@ -70,7 +70,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     protected $_ignoreFields = array();
 
     /**
-     * @deprecated since 1.5.0.0
+     * @deprecated after 1.5.0.0-alpha2
      *
      * @var array
      */
