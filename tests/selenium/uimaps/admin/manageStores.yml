@@ -1,0 +1,18 @@
+--- #Manage Stores and related pages
+#'Manage Stores' page
+manage_stores:
+  buttons:
+    add_store_view        : //button[span='Create Store View']
+
+#'New Store View' page
+new_store_view:
+  elements:
+  inputs:
+    store_view_name       : //*[@id='store_name']
+    store_view_code       : //*[@id='store_code']
+    store_view_sort_order : //*[@id='store_sort_order']
+  selectors:
+    store_name            : //*[@id='store_group_id']
+    store_view_status     : //*[@id='store_is_active']
+  buttons:
+    save_store_view       : //button[span='Save Store View']
