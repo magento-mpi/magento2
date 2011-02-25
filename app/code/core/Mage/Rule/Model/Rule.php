@@ -80,7 +80,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
     /**
      * Retrieve Condition model
      *
-     * @return Mage_SalesRule_Model_Rule_Condition_Abstract
+     * @return Mage_SalesRule_Model_Rule_Condition_Combine
      */
     public function getConditions()
     {
