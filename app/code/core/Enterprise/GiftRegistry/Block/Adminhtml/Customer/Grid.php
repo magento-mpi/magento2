@@ -124,7 +124,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Mage_Adminht
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+        return $this->getUrl('*/*/edit', array(
+            'id'       => $row->getId(),
+            'customer' => $row->getCustomerId()
+        ));
     }
 
     /**
