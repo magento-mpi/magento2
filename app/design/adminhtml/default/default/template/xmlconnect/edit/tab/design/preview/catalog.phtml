@@ -83,55 +83,49 @@
     <div class="sort-block" style="background:<?php echo $this->getData('conf/body/primaryColor'); ?>;">
         <div class="sort-block-inner">
             <div class="sort-block-inner-txt" style="font:bold <?php echo $this->getData('conf/fonts/Title3/size'); ?>px <?php echo $this->getData('conf/fonts/Title3/name'); ?>; color: <?php echo $this->getData('conf/fonts/Title3/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__('SORT BY:'); ?></div>
-            <div style="float:left;">
-                <table class="sort-buttons" style="background:url('<?php echo $this->getPreviewImagesUrl('sort_buttons/buttons.png');?>') center center no-repeat;">
-                    <tr>
-                        <td style="background: url('<?php echo $this->getPreviewImagesUrl('grid.png');?>' center center repeat-x;" width="64px">
-                            <b><?php echo Mage::helper('xmlconnect')->__('Price'); ?></b>
-                        </td>
-                        <td><b><?php echo Mage::helper('xmlconnect')->__('Reviews'); ?></b></td>
-                        <td><b><?php echo Mage::helper('xmlconnect')->__('Popularity'); ?></b></td>
-                    </tr>
-                </table>
+            <div style="float:left; padding:5px 0 0 5px;">
+                <img src="<?php echo $this->getPreviewImagesUrl('sort_buttons/filters.png');?>" alt="Filter Settings" />
             </div>
         </div>
     </div>
     <div class="items-list" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>">
         <div class="item" style="background:<?php echo $this->getData('conf/body/primaryColor'); ?>;">
             <div class="gradient"></div>
-            <div class="lines-v" >&nbsp;</div>
             <div class="item-image"><img width="72" height="72" src="<?php echo $this->getPreviewImagesUrl('t-shirt.png'); ?>"/></div>
             <div class="item-info">
                 <div class="item-title" style="font: bold <?php echo $this->getData('conf/fonts/Title2/size'); ?>px <?php echo $this->getData('conf/fonts/Title2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Title2/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__('Product Name3 1'); ?></div>
                 <div class="item-price-block">
                     <span class="item-price" style="font: bold <?php echo $this->getData('conf/fonts/Title5/size'); ?>px <?php echo $this->getData('conf/fonts/Title5/name'); ?>; color: <?php echo $this->getData('conf/fonts/Title5/color'); ?>;">$39.99</span>
-                    <span class="item-status" style="font: bold <?php echo $this->getData('conf/fonts/Text2/size'); ?>px <?php echo $this->getData('conf/fonts/Text2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Text2/color'); ?>;">In Stock</span>
                 </div>
                 <div class="item-rate">
                     <img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-inactive.png'); ?>" width="13" height="13"/>
                     <span style="font: bold <?php echo $this->getData('conf/fonts/Text2/size'); ?>px <?php echo $this->getData('conf/fonts/Text2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Text2/color'); ?>;">(4)</span>
+                </div>
+                <div class="availability">
+                    <span class="item-status" style="font: bold <?php echo $this->getData('conf/fonts/Text2/size'); ?>px <?php echo $this->getData('conf/fonts/Text2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Text2/color'); ?>;">In Stock</span>
                 </div>
             </div>
             <div class="arrow">&nbsp;</div>
         </div>
         <div class="item" style="background:<?php echo $this->getData('conf/body/primaryColor'); ?>;">
             <div class="gradient"></div>
-            <div class="lines-v" >&nbsp;</div>
             <div class="item-image"><img width="72" height="72" src="<?php echo $this->getPreviewImagesUrl('t-shirt.png'); ?>"/></div>
             <div class="item-info">
                 <div class="item-title" style="font: bold <?php echo $this->getData('conf/fonts/Title2/size'); ?>px <?php echo $this->getData('conf/fonts/Title2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Title2/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__('Product Name3 2'); ?></div>
                 <div class="item-price-block">
                     <span class="item-price" style="font: bold <?php echo $this->getData('conf/fonts/Title5/size'); ?>px <?php echo $this->getData('conf/fonts/Title5/name'); ?>; color: <?php echo $this->getData('conf/fonts/Title5/color'); ?>;">$39.99</span>
-                    <span class="item-status" style="font: bold <?php echo $this->getData('conf/fonts/Text2/size'); ?>px <?php echo $this->getData('conf/fonts/Text2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Text2/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__('In Stock'); ?></span>
                 </div>
                 <div class="item-rate">
                     <img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-inactive.png'); ?>" width="13" height="13"/>
                     <span style="font: bold <?php echo $this->getData('conf/fonts/Text2/size'); ?>px <?php echo $this->getData('conf/fonts/Text2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Text2/color'); ?>;">(4)</span>
                 </div>
+                <div class="availability">
+                    <span class="item-status" style="font: bold <?php echo $this->getData('conf/fonts/Text2/size'); ?>px <?php echo $this->getData('conf/fonts/Text2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Text2/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__('In Stock'); ?></span>
+                </div>
             </div>
             <div class="arrow">&nbsp;</div>
         </div>
-        <div class="slider-item" style="display: table; width: 320px; height: 91px; background: <?php echo $this->getData('conf/body/secondaryColor'); ?>;">
+        <div class="slider-item" style="border-top:1px solid #ffaa00; border-bottom:1px solid #a16c00; display: table; width: 320px; height: 91px; background: <?php echo $this->getData('conf/body/secondaryColor'); ?>;">
             <div class="slider-item">
                 <img src="<?php echo $this->getPreviewImagesUrl('slider/viewGallery.png'); ?>" class="slider-image"/>
                 <div class="slider-item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title8/size'); ?>px <?php echo $this->getData('conf/fonts/Title8/name'); ?>; color: <?php echo $this->getData('conf/fonts/Title8/color'); ?>;" class="slider-item-text" >
@@ -166,17 +160,18 @@
         <div style="clear:both"></div>
         <div class="item" style="background: <?php echo $this->getData('conf/body/primaryColor'); ?>">
             <div class="gradient"></div>
-            <div class="lines-v" >&nbsp;</div>
             <div class="item-image"><img width="72" height="72" src="<?php echo $this->getPreviewImagesUrl('t-shirt.png'); ?>"  /></div>
             <div class="item-info">
                 <div class="item-title" style="font: bold <?php echo $this->getData('conf/fonts/Title2/size'); ?>px <?php echo $this->getData('conf/fonts/Title2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Title2/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__('Product Name3 '); ?></div>
                 <div class="item-price-block">
                     <span class="item-price" style="font: bold <?php echo $this->getData('conf/fonts/Title5/size'); ?>px <?php echo $this->getData('conf/fonts/Title5/name'); ?>; color: <?php echo $this->getData('conf/fonts/Title5/color'); ?>;">$39.99</span>
-                    <span class="item-status" style="font: bold <?php echo $this->getData('conf/fonts/Text2/size'); ?>px <?php echo $this->getData('conf/fonts/Text2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Text2/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__('In Stock'); ?></span>
                 </div>
                 <div class="item-rate">
                     <img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-active.png'); ?>" width="14" height="13"/><img src="<?php echo $this->getPreviewImagesUrl('star-inactive.png'); ?>" width="13" height="13"/>
                     <span style="font: bold <?php echo $this->getData('conf/fonts/Text2/size'); ?>px <?php echo $this->getData('conf/fonts/Text2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Text2/color'); ?>;">(4)</span>
+                </div>
+                <div class="availability">
+                    <span class="item-status" style="font: bold <?php echo $this->getData('conf/fonts/Text2/size'); ?>px <?php echo $this->getData('conf/fonts/Text2/name'); ?>; color: <?php echo $this->getData('conf/fonts/Text2/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__('In Stock'); ?></span>
                 </div>
             </div>
             <div class="arrow">&nbsp;</div>

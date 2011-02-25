@@ -249,11 +249,35 @@ body { margin:0; padding:0; }
 .bottom-button 
 {
 	height:26px;
+    vertical-align:top;
 }
-.bottom-button p 
+.bottom-button p
 {
 	text-align:center;
 	font:normal 10px/11px arial;
 	color:#9f9f9f;
-    margin-top:33px;
+    margin:0;
+    padding-top:33px;
+    position:relative;
+    z-index:100;
+}
+
+.bottom-button-active p
+{
+    color:#fff;
+    margin-top:-46px;
+    font-weight:bold;
+}
+
+.bottom-button-active .background
+{
+    background:#fff;
+    height:44px;
+    position:relative;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=14)";
+    filter:alpha(opacity=14);
+    opacity:0.14;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
 }

@@ -27,13 +27,18 @@
 <?php if (($buttons = $this->getTabItems()) && is_array($buttons) && ($buttonsCount = count($buttons))) :?>
 <div class="bottom-buttons">
     <div class="gradient">
-    <table style="width:100%"><tr>
-    <?php foreach ($buttons as $button) : ?>
-        <td class="bottom-button" style="width:<?php echo (100/$buttonsCount) ?>%;background:url('<?php echo isset($button['image']) ? $button['image'] : ''; ?>') center 3px no-repeat;">
-            <p><?php echo isset($button['label']) ? $button['label'] : '&nbsp;'; ?></p>
-        </td>
-    <?php endforeach; ?>
-    </tr></table>
+    <table width="100%">
+        <tbody>
+            <tr>
+            <?php foreach ($buttons as $button) : ?>
+                <td class="bottom-button" style="width:<?php echo (100/$buttonsCount) ?>%;background:url('<?php echo isset($button['image']) ? $button['image'] : ''; ?>') center 3px no-repeat;">
+                    <div class="background"></div>
+                    <p><?php echo isset($button['label']) ? $button['label'] : '&nbsp;'; ?></p>
+                </td>
+            <?php endforeach; ?>
+            </tr>
+        </tbody>
+    </table>
     </div>  
 </div>
 <?php endif; ?>
