@@ -150,7 +150,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         $collection = Mage::getResourceModel('catalog/category_collection')->addNameToResult();
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
         foreach ($collection as $category) {
-            $structure = explode('/', $category->getPath());
+            $structure = preg_split('#/+#', $category->getPath());
             $pathSize  = count($structure);
             if ($pathSize > 2) {
                 $path = array();
