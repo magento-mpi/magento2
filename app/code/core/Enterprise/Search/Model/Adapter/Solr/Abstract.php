@@ -33,7 +33,15 @@
  */
 abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_Search_Model_Adapter_Abstract
 {
-    CONST DEFAULT_SPELLCHECK_COUNT = 1;
+    /**
+     * Default number of rows to select
+     */
+    CONST DEFAULT_ROWS_LIMIT        = 9999;
+
+    /**
+     * Default suggestions count
+     */
+    CONST DEFAULT_SPELLCHECK_COUNT  = 1;
 
     /**
      * Define ping status

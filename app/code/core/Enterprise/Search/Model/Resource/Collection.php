@@ -278,7 +278,7 @@ class Enterprise_Search_Model_Resource_Collection
     }
 
     /**
-     * Prepare base parameters
+     * Prepare base parameters for search adapters
      *
      * @return array
      */
@@ -314,16 +314,18 @@ class Enterprise_Search_Model_Resource_Collection
             if ($this->_sortBy) {
                 $params['sort_by'] = $this->_sortBy;
             }
-            $page                  = ($this->_curPage  > 0) ? $this->_curPage  : 1;
-            $rowCount              = ($this->_pageSize > 0) ? $this->_pageSize : 1;
-            $params['offset']      = (int)$rowCount * ($page - 1);
-            $params['limit']       = (int)$rowCount;
+            if ($this->_pageSize !== false) {
+                $page              = ($this->_curPage  > 0) ? (int) $this->_curPage  : 1;
+                $rowCount          = ($this->_pageSize > 0) ? (int) $this->_pageSize : 1;
+                $params['offset']  = $rowCount * ($page - 1);
+                $params['limit']   = $rowCount;
+            }
 
             $params['solr_params']['facet'] = 'on';
             $params['facet'] = $this->_facetedConditions;
 
             $result = $this->_engine->getIdsByQuery($query, $params);
-            $ids    = (array)$result['ids'];
+            $ids    = (array) $result['ids'];
             $this->_facetedData = $result['facetedData'];
         }
 

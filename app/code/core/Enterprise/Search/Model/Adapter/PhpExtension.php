@@ -130,20 +130,20 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         }
 
         $offset = (isset($_params['offset'])) ? (int)$_params['offset'] : 0;
-        $limit  = (isset($_params['limit'])) ? (int)$_params['limit'] : 100;
+        $limit  = (isset($_params['limit']))
+            ? (int)$_params['limit']
+            : Enterprise_Search_Model_Adapter_Solr_Abstract::DEFAULT_ROWS_LIMIT;
 
         /**
          * Now supported search only in fulltext field
          * By default in Solr  set <defaultSearchField> is "fulltext"
          * When language fields need to be used, then perform search in appropriate field
          */
-        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+        $languageCode   = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         $solrQuery = new SolrQuery();
         $solrQuery->setStart($offset)->setRows($limit);
-
-
 
         $solrQuery->setQuery($searchConditions);
 
