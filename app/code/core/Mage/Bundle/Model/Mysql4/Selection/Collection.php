@@ -42,10 +42,12 @@ class Mage_Bundle_Model_Mysql4_Selection_Collection extends Mage_Bundle_Model_Re
      */
     public function _afterLoad()
     {
-        if ($this->getStoreId()) {
+        parent::_afterLoad();
+        if ($this->getStoreId() && $this->_items) {
             foreach ($this->_items as $item) {
                 $item->setStoreId($this->getStoreId());
             }
         }
+        return $this;
     }
 }
