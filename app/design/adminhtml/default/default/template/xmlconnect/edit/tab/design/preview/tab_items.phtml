@@ -31,7 +31,7 @@
         <tbody>
             <tr>
             <?php foreach ($buttons as $button) : ?>
-                <td class="bottom-button" style="width:<?php echo (100/$buttonsCount) ?>%;background:url('<?php echo isset($button['image']) ? $button['image'] : ''; ?>') center 3px no-repeat;">
+                <td class="bottom-button<?php echo $button['active'] ? ' active' : ''; ?>" style="width:<?php echo (100/$buttonsCount) ?>%;background:url('<?php echo isset($button['image']) ? $button['image'] : ''; ?>') center 3px no-repeat;">
                     <div class="background"></div>
                     <p><?php echo isset($button['label']) ? $button['label'] : '&nbsp;'; ?></p>
                 </td>

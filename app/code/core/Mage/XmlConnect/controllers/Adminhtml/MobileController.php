@@ -541,6 +541,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Preview Product Info action handler
+     */
+    public function previewProductinfoAction()
+    {
+        $this->_previewAction('preview_productinfo_content');
+    }
+
+    /**
      * Preview AirMail Queue Template action handler
      */
     public function previewQueueAction()
