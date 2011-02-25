@@ -128,6 +128,54 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         return $this->_canRefund;
     }
 
+	/**
+     * Check void availability
+     *
+     * @param   Varien_Object $invoicePayment
+     * @return  bool
+     */
+    public function canVoid(Varien_Object $payment)
+    {
+        return $this->_canVoid;
+    }
+
+	/**
+     * Void the payment through gateway
+     *
+     * @param Varien_Object $payment
+     * @return Mage_Authorizenet_Model_Directpost
+     * @throws Mage_Core_Exception
+     */
+    public function void(Varien_Object $payment)
+    {
+        if (!$payment->getParentTransactionId()) {
+            Mage::throwException(Mage::helper('paygate')->__('Invalid transaction ID.'));
+        }
+
+        $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
+        $payment->setXTransId($this->_getRealParentTransactionId($payment));
+
+        $request = $this->_buildRequest($payment);
+        $result = $this->_postRequest($request);
+
+        switch ($result->getResponseCode()) {
+            case self::RESPONSE_CODE_APPROVED:
+                if ($result->getTransactionId() != $payment->getParentTransactionId()) {
+                    $payment->setTransactionId($result->getTransactionId());
+                }
+                $payment
+                    ->setIsTransactionClosed(1)
+                    ->setShouldCloseParentTransaction(1)
+                    ->setTransactionAdditionalInfo($this->_realTransactionIdKey, $result->getTransactionId());
+                return $this;
+            case self::RESPONSE_CODE_DECLINED:
+            case self::RESPONSE_CODE_ERROR:
+                Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
+            default:
+                Mage::throwException(Mage::helper('paygate')->__('Payment voiding error.'));
+        }
+    }
+
     /**
      * Set capture transaction ID to invoice for informational purposes
      * @param Mage_Sales_Model_Order_Invoice $invoice
