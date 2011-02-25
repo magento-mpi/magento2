@@ -146,6 +146,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function canDisplayGiftWrapping()
     {
-        return $this->getOrder()->getGwId();
+        return $this->getOrder()->getGwId() || $this->getGiftReceipt() || $this->getPrintedCard();
     }
 }
