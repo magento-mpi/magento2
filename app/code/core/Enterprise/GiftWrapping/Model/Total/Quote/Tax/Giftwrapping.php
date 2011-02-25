@@ -204,7 +204,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Mage_Sa
         $billingAddress  = $address->getQuote()->getBillingAddress();
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
         $request = $this->_taxCalculationModel->getRateRequest($shippingAddress, $billingAddress, $custTaxClassId, $store);
-        $request->setProductClassId($this->_helper->getWrappingTaxClass());
+        $request->setProductClassId($this->_helper->getWrappingTaxClass($store));
         $this->_rate = $this->_taxCalculationModel->getRate($request);
         return $this;
     }
