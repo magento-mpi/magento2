@@ -23,9 +23,9 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
 
-class CreateFrontend extends PHPUnit_Extensions_SeleniumTestCase {//PHPUnit_Framework_TestCase {
+class CreateCustomer extends PHPUnit_Extensions_SeleniumTestCase {
 
     protected static $_data;
     protected static $_uimap;
@@ -33,38 +33,66 @@ class CreateFrontend extends PHPUnit_Extensions_SeleniumTestCase {//PHPUnit_Fram
     protected $screenshotPath = 'C:\wamp\www\screenshots';
     protected $screenshotUrl = 'http://localhost/screenshots';
 
+    /**
+     * Wait of appearance of html element with Xpath during timeforwait sec
+     *
+     * @param string $xpath
+     * @param int $timeforwait
+     * @return boolean
+     */
+    public function waitForElement($xpath, $timeforwait)
+    {
+
+        for ($second = 0;; $second++) {
+            if ($second >= $timeforwait) {
+                return false;
+            }
+            try {
+                if ($this->isElementPresent($xpath)) {
+                    return true;
+                }
+            } catch (Exception $e) {
+
+            }
+            sleep(1);
+        }
+        return false;
+    }
+
     protected function setUp()
     {
         self::$_data = array(
-            'first_name'        => 'first name',
-            'last_name'         => 'last name',
-            'email'             => 'test@magento.com',
-            'password'          => '123123q',
-            'confirm_password'  => '123123q',
-            'long_text'         => 'ThisIsVeryLongTextWithLength30ThisIsVeryLongTextWithLength60ThisIsVeryLongTextWithLength90ThisAVeryLongTextWithLength120ThisAVeryLongTextWithLength150ThisAVeryLongTextWithLength180ThisAVeryLongTextWithLength210ThisAVeryLongTextWithLength240ThisIsVeryLo255',
-            'long_email'        => 'ThisIsVeryLongTextWithLength30ThisIsVeryLongTextWithLengthThis64@ThisIsVeryLongTextWithLength30ThisIsVeryLongTextWithLength60mag.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.net'
+            'first_name'                => 'First Name',
+            'last_name'                 => 'Last Name',
+            'email'                     => 'test@magento.com',
+            'password'                  => '123123q',
+            'confirm_password'          => '123123q',
+            'wrong_confirm_password'    => 'qa123123',
+            'long_text'                 => 'ThisIsVeryLongTextWithLength30ThisIsVeryLongTextWithLength60ThisIsVeryLongTextWithLength90ThisAVeryLongTextWithLength120ThisAVeryLongTextWithLength150ThisAVeryLongTextWithLength180ThisAVeryLongTextWithLength210ThisAVeryLongTextWithLength240ThisIsVeryLo255',
+            'long_email'                => 'ThisIsVeryLongTextWithLength30ThisIsVeryLongTextWithLengthThis64@ThisIsVeryLongTextWithLength30ThisIsVeryLongTextWithLength60mag.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.ru.com.org.ua.net'
         );
         self::$_uimap = array(
             'frontend_logo'     => "//img[@alt='Magento Commerce']",
             'wrong_page'        => "//h3[text()='We are sorry, but the page you are looking for cannot be found.']",
-            'my_account'        => 'link=My Account',
-            'register'          => '//button[contains(span,"Register")]',
+            'my_account'        => "link=My Account",
+            'register'          => "//button[contains(span,'Register')]",
             'first_name'        => "//*[@id='firstname']",
             'last_name'         => "//*[@id='lastname']",
             'email'             => "//*[@id='email_address']",
             'password'          => "//*[@id='password']",
             'confirm_password'  => "//*[@id='confirmation']",
-            'submit'            => '//button[contains(span,"Submit")]',
+            'submit'            => "//button[contains(span,'Submit')]",
+            'empty_req_field'   => "//*[normalize-space(@class)='validation-advice' and not(normalize-space(@style)='display: none;')]",
             'success_message'   => "//li[normalize-space(@class)='success-msg']",
             'error_message'     => "//li[normalize-space(@class)='error-msg']"
         );
         $this->setBrowser("*chrome");
-        $this->setBrowserUrl("http://kd.varien.com/dev/alexandr.malyshenko/1.9.x/index.php/");
-        $this->start();
+        $this->setBrowserUrl("http://192.168.3.175/nightly/index.php/");
     }
 
     protected function assertPreConditions()
     {
+        $this->start();
         $this->open('');
         $this->waitForPageToLoad("60000");
         $this->assertTrue($this->isElementPresent(self::$_uimap['frontend_logo']));
@@ -72,28 +100,39 @@ class CreateFrontend extends PHPUnit_Extensions_SeleniumTestCase {//PHPUnit_Fram
     }
 
     /**
-     * dataProvider testData_Positive
+     * @dataProvider data_Positive
      */
-    public function testCreateStoreView_Positive()
+    public function testCreateCustomer_Positive($fName, $lName, $email)
     {
         $this->clickAndWait(self::$_uimap['my_account']);
         $this->clickAndWait(self::$_uimap['register']);
-        $this->type(self::$_uimap['first_name'], self::$_data['first_name']);
-        $this->type(self::$_uimap['last_name'], self::$_data['last_name']);
-        $this->type(self::$_uimap['email'], self::$_data['email']);
+        $this->type(self::$_uimap['first_name'], $fName);
+        $this->type(self::$_uimap['last_name'], $lName);
+        $this->type(self::$_uimap['email'], $email);
         $this->type(self::$_uimap['password'], self::$_data['password']);
         $this->type(self::$_uimap['confirm_password'], self::$_data['confirm_password']);
-        $this->clickAndWait(self::$_uimap['submit']);
+        $this->click(self::$_uimap['submit']);
+        if ($this->waitForElement(self::$_uimap['success_message'], 40)) {
+            $etext = $this->getText(self::$_uimap['success_message']);
+            echo "\n" . $etext;
+        } elseif ($this->isElementPresent(self::$_uimap['empty_req_field'])) {
+            $etext = $this->getText(self::$_uimap['empty_req_field']);
+            echo "\n" . $etext;
+        } elseif ($this->isElementPresent(self::$_uimap['error_message'])) {
+            $etext = $this->getText(self::$_uimap['error_message']);
+            echo "\n" . $etext;
+        }
         $this->assertTrue($this->isElementPresent(self::$_uimap['success_message']));
-        echo "\nTest is passed\n";
+        echo "\r\n" . 'Test is passed' . "\r\n";
     }
 
-    /*public function testData_Positive()
+    public function data_Positive()
     {
+        $this->setUp();
         return array(
             array(self::$_data['long_text'], self::$_data['long_text'], self::$_data['long_email']),
             array(self::$_data['first_name'], self::$_data['last_name'], self::$_data['email']),
         );
-    }*/
+    }
 
 }

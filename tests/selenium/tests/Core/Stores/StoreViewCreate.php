@@ -25,7 +25,7 @@
  */
 require_once 'PHPUnit/Framework/TestCase.php';
 
-class StoreViewCreate extends PHPUnit_Extensions_SeleniumTestCase {//PHPUnit_Framework_TestCase {
+class CreateStoreView extends PHPUnit_Extensions_SeleniumTestCase {
 
     protected static $_data;
     protected static $_uimap;
@@ -36,38 +36,54 @@ class StoreViewCreate extends PHPUnit_Extensions_SeleniumTestCase {//PHPUnit_Fra
     protected function setUp()
     {
         self::$_data = array(
-            'admin_name'            => 'admin',
-            'admin_password'        => '123123q',
-            'admin_path'            => 'System/Manage Stores',
-            'store_view_name'       => 'Test Store View Name',
-            'store_name'            => 'Main Website Store',
-            'store_view_status'     => 'Enabled',
-            'store_view_sort_order' => 1,
-            'success_message'       => 'The store view has been saved',
-            'error_message'         => 'Store with the same code already exists.',
+            'admin_name'                        => 'admin',
+            'admin_password'                    => '123123q',
+            'admin_path'                        => 'System/Manage Stores',
+            //etalon values
+            'store_name'                        => 'Main Website Store',
+            'store_view_name'                   => 'Test Store View Name',
+            'store_view_code'                   => 'store_view_code',
+            'store_view_status'                 => 'Enabled',
+            'store_view_sort_order'             => 1,
+            //Max value
+            'store_view_name_max_lenght'        => 'ThisIsVeryLongTextWithLength30ThisIsVeryLongTextWithLength60ThisIsVeryLongTextWithLength90ThisAVeryLongTextWithLength120ThisAVeryLongTextWithLength150ThisAVeryLongTextWithLength180ThisAVeryLongTextWithLength210ThisAVeryLongTextWithLength240ThisIsVeryLo255',
+            'store_view_code_max_lenght'        => 'this_is_very_long_code_lenght_32',
+            'store_view_sort_order_max_value'   => 65535,
+            //Invalid value for field 'Code'
+            'store_view_code_invalid_value_1'   => 'a!@#$%^&*()_+"№%?*-=:;.,/\|{}[]',
+            'store_view_code_invalid_value_2'   => 'store view code',
+            'store_view_code_invalid_value_3'   => 'Store_View_Code',
+            'store_view_code_invalid_value_4'   => '1_store_view_code',
         );
         self::$_uimap = array(
-            'admin_name'            => "//*[@id='username']",
-            'admin_password'        => "//*[@id='login']",
-            'login_button'          => "//input[@title='Login']",
-            'admin_logo'            => "//img[@class='logo']",
-            'add_store_view'        => '//button[span="Create Store View"]',
-            'save_store_view'       => '//button[span="Save Store View"]',
-            'store_name'            => "//*[@id='store_group_id']",
-            'store_view_name'       => "//*[@id='store_name']",
-            'store_view_code'       => "//*[@id='store_code']",
-            'store_view_status'     => "//*[@id='store_is_active']",
-            'store_view_sort_order' => "//*[@id='store_sort_order']",
-            'success_message'       => "//li[normalize-space(@class)='success-msg']",
-            'error_message'         => "//li[normalize-space(@class)='error-msg']"
+            //Login Page
+            'admin_name'                => "//*[@id='username']",
+            'admin_password'            => "//*[@id='login']",
+            'login_button'              => "//input[@title='Login']",
+            //Dashboard Page
+            'admin_logo'                => "//img[@class='logo']",
+            //Manage Stores Page
+            'search_store_view_name'    => "//*[@id='filter_store_title']",
+            'add_store_view'            => '//button[span="Create Store View"]',
+            'search_button'             => '//button[span="Search"]',
+            //Store View page
+            'store_name'                => "//*[@id='store_group_id']",
+            'store_view_name'           => "//*[@id='store_name']",
+            'store_view_code'           => "//*[@id='store_code']",
+            'store_view_status'         => "//*[@id='store_is_active']",
+            'store_view_sort_order'     => "//*[@id='store_sort_order']",
+            'save_store_view'           => '//button[span="Save Store View"]',
+            //Global
+            'success_message'           => "//li[normalize-space(@class)='success-msg']",
+            'error_message'             => "//li[normalize-space(@class)='error-msg']",
         );
         $this->setBrowser("*chrome");
-        $this->setBrowserUrl("http://kd.varien.com/dev/alexandr.malyshenko/1.9.x/index.php/");
-        $this->start();
+        $this->setBrowserUrl("http://192.168.3.175/nightly/index.php/");
     }
 
     protected function assertPreConditions()
     {
+        $this->start();
         $this->open('admin/');
         $this->waitForPageToLoad("60000");
         $this->type(self::$_uimap['admin_name'], self::$_data['admin_name']);
@@ -89,46 +105,54 @@ class StoreViewCreate extends PHPUnit_Extensions_SeleniumTestCase {//PHPUnit_Fra
         $this->clickAndWait($link);
         $pageName = end($nodes);
         $openedPageName = $this->getText("//*[@id='page:main-container']//h3");
-        if ($openedPageName === $pageName) {
-            $result = true;
-        }
-        $this->assertTrue($result);
+        $this->assertEquals($openedPageName, $pageName);
     }
 
     /**
-     * @dataProvider testData_Positive
+     * @dataProvider data_Positive
      */
-    public function testCreateStoreView_Positive($storeViewName, $storeViewCode)
+    public function testCreateStoreView_Positive($storeViewName, $storeViewCode, $storeSortOrder)
     {
         $this->clickAndWait(self::$_uimap['add_store_view']);
         $this->select(self::$_uimap['store_name'], self::$_data['store_name']);
         $this->type(self::$_uimap['store_view_name'], $storeViewName);
         $this->type(self::$_uimap['store_view_code'], $storeViewCode);
         $this->select(self::$_uimap['store_view_status'], self::$_data['store_view_status']);
-        $this->type(self::$_uimap['store_view_sort_order'], self::$_data['store_view_sort_order']);
+        $this->type(self::$_uimap['store_view_sort_order'], $storeSortOrder);
         $this->click(self::$_uimap['save_store_view']);
         $this->waitForPageToLoad("40000");
         $this->assertTrue($this->isElementPresent(self::$_uimap['success_message']));
-        $this->assertTrue($this->isTextPresent(self::$_data['success_message']));
-        echo "\nTest is passed\n";
+        echo 'Test is passed' . "\r\n";
     }
 
-    public function testData_Positive()
+    public function data_Positive()
     {
+        $this->setUp();
+        $stamp = 1;
         return array(
-            array('Test Store View Name', 'store_view_code'),
-            array('ThisIsVeryLongTextWithLength30ThisIsVeryLongTextWithLength60ThisIsVeryLongTextWithLength90ThisAVeryLongTextWithLength120ThisAVeryLongTextWithLength150ThisAVeryLongTextWithLength180ThisAVeryLongTextWithLength210ThisAVeryLongTextWithLength240ThisIsVeryLo255',
-                'this_is_very_long_code_lenght_32'),
-            array('1234567890!@#$%^&*()_"№;%:?*-.,/|', 'store_view_code_1'),
-            array('n', 'm'),
+            array(
+                self::$_data['store_view_name'],
+                self::$_data['store_view_code'],
+                self::$_data['store_view_sort_order']
+            ),
+            array(
+                self::$_data['store_view_name_max_lenght'],
+                self::$_data['store_view_code_max_lenght'],
+                self::$_data['store_view_sort_order_max_value']
+            ),
+            array(
+                self::$_data['store_view_code_invalid_value_1'],
+                self::$_data['store_view_code'] . $stamp,
+                self::$_data['store_view_sort_order']
+            ),
         );
     }
 
     /**
      * @depends testCreateStoreView_Positive
-     * @dataProvider testData_Negative
+     * @dataProvider data_invalidCode
      */
-    public function testCreateStoreView_Negative($storeViewCode)
+    public function testCreateStoreView_invalidCode($storeViewCode)
     {
         $this->clickAndWait(self::$_uimap['add_store_view']);
         $this->select(self::$_uimap['store_name'], self::$_data['store_name']);
@@ -139,17 +163,19 @@ class StoreViewCreate extends PHPUnit_Extensions_SeleniumTestCase {//PHPUnit_Fra
         $this->click(self::$_uimap['save_store_view']);
         $this->waitForPageToLoad("40000");
         $this->assertTrue($this->isElementPresent(self::$_uimap['error_message']));
-        echo "\nTest is passed\n";
+        echo 'Test is passed' . "\r\n";
     }
 
-    public function testData_Negative()
+    public function data_invalidCode()
     {
+        $this->setUp();
+        $invalidValue5 = self::$_data['store_view_code_max_lenght'] . 'abc';
         return array(
-            array('store_View_code'),
-            array('this_is_very_long_code_lenght_32_more'),
-            array('store view code'),
-            array('1store_view_code'),
-            array('!@#$%^&*()_"№;%:?*-.,/|')
+            array(self::$_data['store_view_code_invalid_value_1']),
+            array(self::$_data['store_view_code_invalid_value_2']),
+            array(self::$_data['store_view_code_invalid_value_3']),
+            array(self::$_data['store_view_code_invalid_value_4']),
+            array($invalidValue5)
         );
     }
 
