@@ -41,7 +41,12 @@
             <?php if (isset($_option['custom_view']) && $_option['custom_view']): ?>
                 <?php echo $this->getCustomizedOptionValue($_option); ?>
             <?php else: ?>
-                <?php echo Mage::helper('core/string')->truncate($_option['value'], 55, '', $_remainder);?>
+                <?php if ($_option['option_type'] == 'area'): ?>
+                    <?php echo nl2br($this->htmlEscape($_option['value'])); ?>
+                    <?php Mage::helper('core/string')->truncate($_option['value'], 55, '', $_remainder);?>
+                <?php else: ?>
+                    <?php echo Mage::helper('core/string')->truncate($_option['value'], 55, '', $_remainder);?>
+                <?php endif; ?>
                 <?php if ($_remainder):?>
                     ... <span id="<?php echo $_id = 'id' . uniqid()?>"><?php echo $_remainder ?></span>
                     <script type="text/javascript">
