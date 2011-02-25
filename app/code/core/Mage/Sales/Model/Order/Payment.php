@@ -1445,6 +1445,12 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 return $invoice;
             }
         }
+        foreach ($this->getOrder()->getInvoiceCollection() as $invoice) {
+            if ($invoice->getState() == 1 && $invoice->load($invoice->getId())) {
+                $invoice->setTransactionId($transactionId);
+                return $invoice;
+            }
+        }
         return false;
     }
 }
