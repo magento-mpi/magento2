@@ -89,11 +89,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
+        $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
         $collection = Mage::getModel('catalog/product')->getCollection()
             ->setStore($this->getStore())
-            ->addAttributeToSelect('name')
+            ->addAttributeToSelect($attributes)
             ->addAttributeToSelect('sku')
-            ->addAttributeToSelect('price')
             ->addMinimalPrice()
             ->addStoreFilter()
             ->addAttributeToFilter('type_id', array_keys(

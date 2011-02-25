@@ -99,11 +99,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
                 }
                 if ($productIds) {
                     // Load products collection
+                    $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
                     $products = Mage::getModel('catalog/product')->getCollection()
                         ->setStore($this->_getStore())
-                        ->addAttributeToSelect('name')
+                        ->addAttributeToSelect($attributes)
                         ->addAttributeToSelect('sku')
-                        ->addAttributeToSelect('price')
                         ->addAttributeToFilter('type_id',
                             array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray())
                         )

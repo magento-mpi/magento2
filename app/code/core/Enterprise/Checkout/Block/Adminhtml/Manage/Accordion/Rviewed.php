@@ -70,11 +70,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
 
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
+                $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
                 $productCollection = Mage::getModel('catalog/product')->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
-                    ->addAttributeToSelect('name')
-                    ->addAttributeToSelect('price')
+                    ->addAttributeToSelect($attributes)
                     ->addIdFilter($productIds)
                     ->load();
                 $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);

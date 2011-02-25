@@ -73,11 +73,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
             }
 
             // prepare products collection and apply visitors log to it
+            $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
             $productCollection = Mage::getModel('catalog/product')->getCollection()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price');
+                ->addAttributeToSelect($attributes);
             Mage::getResourceSingleton('reports/event')->applyLogToCollection(
                 $productCollection, Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->_getCustomer()->getId(), 0, $skipProducts
             );

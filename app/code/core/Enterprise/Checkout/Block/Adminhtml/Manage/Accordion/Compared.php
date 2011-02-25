@@ -57,14 +57,14 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
+            $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
             $collection = Mage::getModel('catalog/product_compare_list')
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->setCustomerId($this->_getCustomer()->getId())
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price');
+                ->addAttributeToSelect($attributes);
             $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
             $this->setData('items_collection', $collection);
