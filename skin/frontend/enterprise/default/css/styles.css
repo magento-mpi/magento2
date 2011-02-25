@@ -1343,7 +1343,7 @@ button.btn-cart span {}
 .bundle-summary .product .block-title h2 { color:#5a5a5a; font-weight:normal; padding-left:5px; }
 .bundle-summary .product-image { border:1px solid #d6d6d6; float:left; margin:0 -60px 0 0; }
 .bundle-summary .product-details {}
-.bundle-summary .product-details p.availability { font-weight:bold; font-size:11px; margin:28px 0 0; position:absolute; }
+.bundle-summary .product-details p.availability { font-weight:bold; font-size:11px; margin:28px 0 0; position:relative; }
 .bundle-summary .price-box { margin-bottom:35px; }
 .bundle-summary .price-box .price-as-configured .price { font-weight:normal; }
 .bundle-summary .price-box .price-as-configured .price-label { color:#010101; font-size:14px; font-weight:normal; margin-right:10px; }
@@ -1816,6 +1816,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .multiple-checkout .grand-total .price { font-weight:bold; }
 .multiple-checkout .sp-methods { font-size:12px; }
 .multiple-checkout .checkout-multishipping-payment-customerbalance { font-size:12px; margin-bottom:7px; }
+.multiple-checkout .fieldset label { font-size:11px; }
+.multiple-checkout .gift-item .fieldset { font-size:11px; width:380px; }
 
 /* Review Details */
 #checkout-step-review .data-table .btn-remove,
@@ -1879,11 +1881,24 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .gift-message-form .inner-box p { margin:10px 0; padding:0 20px; }
 .gift-message-form .gift-item { padding:5px 0 0; background:url(../images/bkg_dots.gif) repeat-x 0 100%; }
 .gift-message-form .gift-item .number { padding:5px 20px 5px; margin-bottom:0; background:url(../images/bkg_dots.gif) repeat-x 0 100%; color:#adadad; font-weight:bold; }
-.gift-message-form .gift-item .product-img-box { float:left; width:150px; margin-right:15px; }
+.gift-message-form .gift-item .product-img-box { background:url(../images/bkg_dots.gif) repeat-y 100% 0; float:left; width:150px; padding-right:15px; }
 .gift-message-form .gift-item .product-image { text-align:center; margin:20px; }
 .gift-message-form .gift-item .product-name { font-size:12px; margin:20px 0 5px; text-align:center; }
-.gift-message-form .gift-item .fieldset { float:left; background:url(../images/bkg_dots.gif) repeat-y 0 0; padding:20px 0 10px 10px; margin:0; }
+.gift-message-form .gift-item .fieldset { float:left; background:url(../images/bkg_dots.gif) repeat-y 0 0; padding:20px 0 10px 10px; margin:0 0 0 -2px; }
 .gift-message-form .gift-item .fieldset label { width:80px; }
+.gift-message-form .gift-item .gift-wrapping-form { padding:0 20px; }
+
+.gift-options-for-order { padding:0 40px; }
+.gift-options-for-order .fieldset { padding:0; }
+.gift-options-for-order .fieldset p { padding:0; }
+.gift-options-for-order .fieldset label { width:80px; }
+.gift-options-for-order .fieldset .input-text,
+.gift-options-for-order .fieldset textarea { width:340px; }
+
+.gift-wrapping-form { padding:0 0 10px; }
+.gift-wrapping-form img { border:1px solid #ccc; float:left; margin-right:10px; }
+.gift-wrapping-form label { margin-right:10px; vertical-align:middle; }
+.gift-wrapping-form .gift-wrapping-design { overflow:hidden; padding:10px 0 0; width:100%; }
 
 .gift-message-link { display:block; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; padding-left:20px; }
 .gift-message-link.expanded { background-position:0 -53px; }
