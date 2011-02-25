@@ -428,7 +428,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
             $delCondition['attribute_id IN(?)'] = $storeAttributes;
             $delCondition['store_id = ?']       = (int)$object->getStoreId();
 
-            $adapter->delete($table, $delCondition);;
+            $adapter->delete($table, $delCondition);
         }
 
         return $this;
@@ -460,6 +460,30 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     protected function _isAttributeValueEmpty(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $value)
     {
         return $value === false;
+    }
+
+    /**
+     * Return if attribute exists in original data array.
+     * Checks also attribute's store scope:
+     * We should insert on duplicate key update values if we unchecked 'STORE VIEW' checkbox in store view.
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param mixed $value New value of the attribute.
+     * @param array $origData
+     * @return bool
+     */
+    protected function _canUpdateAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $value, array &$origData)
+    {
+        $result = parent::_canUpdateAttribute($attribute, $value, $origData);
+        if ($result &&
+            ($attribute->isScopeStore() || $attribute->isScopeWebsite()) &&
+            !$this->_isAttributeValueEmpty($attribute, $value) &&
+            $value == $origData[$attribute->getAttributeCode()] &&
+            isset($origData['store_id']) && $origData['store_id'] != $this->getDefaultStoreId()
+        ) {
+            return false;
+        }
+        return $result;
     }
 
     /**
