@@ -262,25 +262,30 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $optionValue = $values[$option->getId()];
 
         /**
-         * @var $fileFullPath string
-         * @see Mage_Catalog_Model_Product_Option_Type_File::_validateUploadFile()  setUserValue set correct \n
-         * fileFullPath only for quote_path
+         * @see Mage_Catalog_Model_Product_Option_Type_File::_validateUploadFile() - there setUserValue() sets correct \n
+         * fileFullPath only for quote_path. So we must form both full paths manually and check them.
          */
-        $fileFullPath = '';
+        $checkPaths = array();
+        if (isset($optionValue['quote_path'])) {
+            $checkPaths[] = Mage::getBaseDir() . $optionValue['quote_path'];
+        }
         if (isset($optionValue['order_path']) && !$this->getUseQuotePath()) {
-            $fileFullPath = Mage::getBaseDir() . $optionValue['order_path'];
-        } else if (isset($optionValue['quote_path'])) {
-            $fileFullPath = Mage::getBaseDir() . $optionValue['quote_path'];
+            $checkPaths[] = Mage::getBaseDir() . $optionValue['order_path'];
         }
 
-        if (empty($fileFullPath)) {
-            return false;
-        }
-
-        if (!is_file($fileFullPath)) {
-            if (!Mage::helper('core/file_storage_database')->saveFileToFilesystem($fileFullPath)) {
-                return false;
+        $fileFullPath = null;
+        foreach ($checkPaths as $path) {
+            if (!is_file($path)) {
+                if (!Mage::helper('core/file_storage_database')->saveFileToFilesystem($fileFullPath)) {
+                    continue;
+                }
             }
+            $fileFullPath = $path;
+            break;
+        }
+
+        if ($fileFullPath === null) {
+            return false;
         }
 
         $validatorChain = new Zend_Validate();
