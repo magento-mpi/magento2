@@ -1710,20 +1710,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function reset()
     {
-        foreach ($this->_data as $data){
-            if (is_object($data) && method_exists($data, 'reset')){
-                $data->reset();
-            }
-        }
-
-        $this->setData(array());
-        $this->setOrigData();
-        $this->_customOptions       = array();
-        $this->_optionInstance      = null;
-        $this->_options             = array();
-        $this->_canAffectOptions    = false;
-        $this->_errors              = array();
-
+        $this->_clearData();
         return $this;
     }
 
@@ -1821,6 +1808,74 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Clearing references on product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _clearReferences()
+    {
+        $this->_clearStockItem();
+        $this->_clearOptionReferences();
+    }
+
+    /**
+     * Clearing product's data
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _clearData()
+    {
+        foreach ($this->_data as $data){
+            if (is_object($data) && method_exists($data, 'reset')){
+                $data->reset();
+            }
+        }
+
+        $this->setData(array());
+        $this->setOrigData();
+        $this->_customOptions       = array();
+        $this->_optionInstance      = null;
+        $this->_options             = array();
+        $this->_canAffectOptions    = false;
+        $this->_errors              = array();
+
+        return $this;
+    }
+
+    /**
+     * Clearing references to product from product's options
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _clearOptionReferences()
+    {
+        /**
+         * unload product options
+         */
+        if (!empty($this->_options)) {
+            foreach ($this->_options as $key => $option) {
+                $option->setProduct();
+                $option->clear();
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clearing references to product from product's stock item
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _clearStockItem()
+    {
+        if ($this->hasStockItem()){
+            $this->getStockItem()->reset();
+        }
         return $this;
     }
 }
