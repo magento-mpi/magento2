@@ -87,7 +87,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getDisplayCardBothPrices()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartCardBothPrices();
+        return Mage::helper('enterprise_giftwrapping')->displayCartCardBothPrices($this->getStoreId());
     }
 
     /**
@@ -97,7 +97,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getDisplayCardPriceInclTax()
     {
-        return Mage::helper('enterprise_giftwrapping')->displayCartCardIncludeTaxPrice();
+        return Mage::helper('enterprise_giftwrapping')->displayCartCardIncludeTaxPrice($this->getStoreId());
     }
 
     /**
@@ -130,7 +130,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
         return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId())
             || $this->getAllowPrintedCard()
             || $this->getAllowGiftReceipt();
-
     }
 
     /**
