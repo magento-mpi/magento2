@@ -152,8 +152,12 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
      */
     protected function _processHiddenTaxes()
     {
+        $this->_getAddress()->setTotalAmount('hidden_tax', 0);
+        $this->_getAddress()->setBaseTotalAmount('hidden_tax', 0);
+        $this->_getAddress()->setTotalAmount('shipping_hidden_tax', 0);
+        $this->_getAddress()->setBaseTotalAmount('shipping_hidden_tax', 0);
         foreach ($this->_hiddenTaxes as $taxInfoItem) {
-            if ($taxInfoItem['item']) {
+            if (isset($taxInfoItem['item'])) {
                 // Item hidden taxes
                 $item           = $taxInfoItem['item'];
                 $rateKey        = $taxInfoItem['rate_key'];
