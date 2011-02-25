@@ -99,6 +99,9 @@ class Enterprise_GiftWrapping_Model_Total_Creditmemo_Tax_Giftwrapping extends Ma
         $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() + $baseTaxAmount);
         $creditmemo->setGrandTotal($creditmemo->getGrandTotal() + $taxAmount);
 
+        $creditmemo->setBaseCustomerBalanceReturnMax($creditmemo->getBaseCustomerBalanceReturnMax() + $baseTaxAmount);
+        $creditmemo->setCustomerBalanceReturnMax($creditmemo->getCustomerBalanceReturnMax() + $taxAmount);
+
         return $this;
     }
 }

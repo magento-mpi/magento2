@@ -100,6 +100,20 @@ class Enterprise_GiftWrapping_Model_Total_Creditmemo_Giftwrapping extends Mage_S
             + $creditmemo->getGwPrice()
             + $creditmemo->getGwPrintedCardPrice()
         );
+
+        $creditmemo->setBaseCustomerBalanceReturnMax(
+            $creditmemo->getBaseCustomerBalanceReturnMax()
+            + $creditmemo->getGwPrintedCardBasePrice()
+            + $creditmemo->getGwBasePrice()
+            + $creditmemo->getGwItemsBasePrice()
+        );
+        $creditmemo->setCustomerBalanceReturnMax(
+            $creditmemo->getCustomerBalanceReturnMax()
+            + $creditmemo->getGwPrintedCardPrice()
+            + $creditmemo->getGwPrice()
+            + $creditmemo->getGwItemsPrice()
+        );
+
         return $this;
     }
 }
