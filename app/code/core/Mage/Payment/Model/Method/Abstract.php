@@ -398,6 +398,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * Authorize
      *
      * @param   Varien_Object $orderPayment
+     * @param float $amount
      * @return  Mage_Payment_Model_Abstract
      */
     public function authorize(Varien_Object $payment, $amount)
@@ -412,6 +413,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * Capture payment
      *
      * @param   Varien_Object $orderPayment
+     * @param float $amount
      * @return  Mage_Payment_Model_Abstract
      */
     public function capture(Varien_Object $payment, $amount)
@@ -454,6 +456,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * Refund money
      *
      * @param   Varien_Object $invoicePayment
+     * @param float $amount
      * @return  Mage_Payment_Model_Abstract
      */
     //public function refund(Varien_Object $payment, $amount)
