@@ -132,6 +132,18 @@
             </googlecheckout_checkout_before>
         </events>
         <fieldsets>
+            <sales_copy_order>
+                <gw_id><to_edit>*</to_edit></gw_id>
+                <gw_allow_gift_receipt><to_edit>*</to_edit></gw_allow_gift_receipt>
+                <gw_add_printed_card><to_edit>*</to_edit></gw_add_printed_card>
+            </sales_copy_order>
+            <sales_copy_order_item>
+                <gw_id><to_edit_item>*</to_edit_item></gw_id>
+                <gw_base_price><to_edit_item>*</to_edit_item></gw_base_price>
+                <gw_price><to_edit_item>*</to_edit_item></gw_price>
+                <gw_base_tax_amount><to_edit_item>*</to_edit_item></gw_base_tax_amount>
+                <gw_tax_amount><to_edit_item>*</to_edit_item></gw_tax_amount>
+            </sales_copy_order_item>
             <sales_convert_quote_item>
                 <gw_id><to_order_item>*</to_order_item></gw_id>
                 <gw_base_price><to_order_item>*</to_order_item></gw_base_price>

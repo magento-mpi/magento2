@@ -409,6 +409,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     )
                 ));
             }
+
+            Mage::helper('core')->copyFieldset(
+                'sales_copy_order_item',
+                'to_edit_item',
+                $orderItem,
+                $item
+            );
+
             Mage::dispatchEvent('sales_convert_order_item_to_quote_item', array(
                 'order_item' => $orderItem,
                 'quote_item' => $item
