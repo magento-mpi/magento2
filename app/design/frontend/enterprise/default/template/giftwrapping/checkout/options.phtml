@@ -27,7 +27,7 @@
 
 <?php if ($this->canDisplayGiftWrapping()): ?>
 <div class="no-display">
-    <?php if ($this->getAllowForOrder()): ?>
+    <?php if ($this->getAllowForOrder() || $this->getAllowForItems()): ?>
     <div id="gift-wrapping-container">
         <div class="gift-wrapping-form">
             <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
