@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Adminhtml_Block_Template
         $this->addData(array(
             'cache_lifetime' => self::CACHE_LIFETIME,
             'cache_tags'     => array(self::CACHE_TAG),
-            'cache_key'      => self::CACHE_KEY;
+            'cache_key'      => self::CACHE_KEY
         ));
     }
 
