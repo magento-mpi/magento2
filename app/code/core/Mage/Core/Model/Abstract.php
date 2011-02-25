@@ -562,7 +562,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      *
      * @return Mage_Core_Model_Abstract
      */
-    final public function clear()
+    final public function clearInstance()
     {
         $this->_clearReferences();
         Mage::dispatchEvent($this->_eventPrefix.'_clear', $this->_getEventData());
