@@ -107,6 +107,7 @@ var giftWrapping = {
         if (this.allowForOrder) {
             $$('.options-order-container').each(function(element){
                 data.id = element.id.sub('options-order-container-','');
+                data.addrId = false;
                 this.insertBlock(element, data);
                 toogleVisibility(['add-gift-options-'+data.id,'add-gift-options-for-order-'+data.id], true);
             }, this);
@@ -117,6 +118,7 @@ var giftWrapping = {
             var id = parts[1];
             if (this.itemsInfo[id]) {
                 data.id = id;
+                data.addrId = parts[0];
                 this.insertBlock(element, data);
                 toogleVisibility(['add-gift-options-'+parts[0],'add-gift-options-for-items-'+parts[0]], true);
             }
@@ -127,8 +129,8 @@ var giftWrapping = {
                 var id = element.id.sub('extra-options-container-','');
                 if (this.cardInfo) {
                     data.id = id;
-                    this.cardInfo.id = id;
-                    this.insertOptions(element, this.cardInfo);
+                    this.cardInfo[id].id = id;
+                    this.insertOptions(element, this.cardInfo[id]);
                     toogleVisibility(['add-gift-options-'+data.id], true);
                 }
             }, this);
@@ -156,7 +158,7 @@ var giftWrapping = {
     insertBlock : function (element, data) {
         var template = new Template($(this.templateWrapping).innerHTML, this.templateSyntax);
         element.update(template.evaluate(data));
-        Event.observe($('giftwrapping_'+data.id), 'change', this.setWrapping.bind(this));
+        Event.observe($('giftwrapping_'+data.id), 'change', this.setWrapping.bindAsEventListener(this, data.addrId));
     },
 
     setDesign : function(value, id) {
@@ -171,10 +173,11 @@ var giftWrapping = {
         imageBox.up().removeClassName('no-display');
     },
 
-    setPrice : function(value, id) {
-        var price = this.designsInfo[value].price
-        var priceInclTax = this.designsInfo[value].price_incl_tax;
-        var priceExclTax = this.designsInfo[value].price_excl_tax;
+    setPrice : function(value, id, addressId) {
+        var blockId = addressId ? addressId : id;
+        var price = this.designsInfo[value][blockId].price
+        var priceInclTax = this.designsInfo[value][blockId].price_incl_tax;
+        var priceExclTax = this.designsInfo[value][blockId].price_excl_tax;
 
         if (this.itemsInfo[id]) {
             if (this.itemsInfo[id].price) {
@@ -202,12 +205,12 @@ var giftWrapping = {
         }
     },
 
-    setWrapping : function(event) {
+    setWrapping : function(event, addressId) {
         var element = $(Event.findElement(event, 'select'));
         var id = element.id.sub('giftwrapping_','');
         if (element.value) {
             this.setDesign(element.value, id);
-            this.setPrice(element.value, id);
+            this.setPrice(element.value, id, addressId);
         } else {
             $('price-box-'+id).addClassName('no-display');
             $('image-box-'+id).addClassName('no-display').up().addClassName('no-display');

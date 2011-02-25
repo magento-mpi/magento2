@@ -84,12 +84,13 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      *
      * @param Varien_Object $item
      * @param mixed $basePrice
+     * @param Mage_Sales_Model_Quote_Address $shippingAddress
      * @param bool $includeTax
      * @return string
      */
-    public function calculatePrice($item, $basePrice, $includeTax = false)
+    public function calculatePrice($item, $basePrice, $shippingAddress, $includeTax = false)
     {
-        $shippingAddress = $this->_getQuote()->getShippingAddress();
+        //$shippingAddress = $this->_getQuote()->getShippingAddress();
         $billingAddress  = $this->_getQuote()->getBillingAddress();
 
         $taxClass = Mage::helper('enterprise_giftwrapping')->getWrappingTaxClass();
@@ -110,13 +111,17 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     {
         $data = array();
         foreach ($this->getDesignCollection()->getItems() as $item) {
-            if ($this->getDisplayWrappingBothPrices()) {
-                $temp['price_incl_tax'] = $this->calculatePrice($item, $item->getBasePrice(), true);
-                $temp['price_excl_tax'] = $this->calculatePrice($item, $item->getBasePrice());
-            } else {
-                $temp['price'] = $this->calculatePrice($item, $item->getBasePrice(),
-                    $this->getDisplayWrappingIncludeTaxPrice()
-                );
+            $temp = array();
+            foreach ($this->_getQuote()->getAllShippingAddresses() as $address) {
+                $entityId = $this->_getQuote()->getIsMultiShipping() ? $address->getId() : $this->_getQuote()->getId();
+                if ($this->getDisplayWrappingBothPrices()) {
+                    $temp[$entityId]['price_incl_tax'] = $this->calculatePrice($item, $item->getBasePrice(), $address, true);
+                    $temp[$entityId]['price_excl_tax'] = $this->calculatePrice($item, $item->getBasePrice(), $address);
+                } else {
+                    $temp[$entityId]['price'] = $this->calculatePrice($item, $item->getBasePrice(),
+                        $address, $this->getDisplayWrappingIncludeTaxPrice()
+                    );
+                }
             }
             $temp['path'] = $item->getImageUrl();
             $data[$item->getId()] = $temp;
@@ -134,10 +139,10 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
         $data = array();
         if ($this->_getQuote()->getIsMultiShipping()) {
             foreach ($this->_getQuote()->getAllShippingAddresses() as $address) {
-                $this->_processItems($address->getAllItems(), $data);
+                $this->_processItems($address->getAllItems(), $address, $data);
             }
         } else {
-            $this->_processItems($this->_getQuote()->getAllItems(), $data);
+            $this->_processItems($this->_getQuote()->getAllItems(), $this->_getQuote()->getShippingAddress(), $data);
         }
         return new Varien_Object($data);
     }
@@ -146,10 +151,11 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
      * Process items
      *
      * @param array $items
+     * @param Mage_Sales_Model_Quote_Address $shippingAddress
      * @param array $data
      * @return array
      */
-    protected function _processItems($items, &$data)
+    protected function _processItems($items, $shippingAddress, &$data)
     {
         foreach ($items as $item) {
             if ($item->getParentItem()) {
@@ -160,11 +166,11 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
                 $temp = array();
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
-                        $temp['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
-                        $temp['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
+                        $temp['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, $shippingAddress, true);
+                        $temp['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price, $shippingAddress);
                     } else {
                         $temp['price'] = $this->calculatePrice(new Varien_Object(), $price,
-                            $this->getDisplayWrappingIncludeTaxPrice()
+                            $shippingAddress, $this->getDisplayWrappingIncludeTaxPrice()
                         );
                     }
                 }
@@ -185,13 +191,16 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
         if ($this->getAllowPrintedCard()) {
             $price = Mage::helper('enterprise_giftwrapping')->getPrintedCardPrice();
             if ($price) {
-                 if ($this->getDisplayCardBothPrices()) {
-                     $data['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
-                     $data['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
-                 } else {
-                    $data['price'] = $this->calculatePrice(new Varien_Object(), $price,
-                        $this->getDisplayCardIncludeTaxPrice()
-                    );
+                foreach ($this->_getQuote()->getAllShippingAddresses() as $address) {
+                    $entityId = $this->_getQuote()->getIsMultiShipping() ? $address->getId() : $this->_getQuote()->getId();
+                    if ($this->getDisplayCardBothPrices()) {
+                        $data[$entityId]['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, $address, true);
+                        $data[$entityId]['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price, $address);
+                    } else {
+                       $data[$entityId]['price'] = $this->calculatePrice(new Varien_Object(), $price,
+                           $address, $this->getDisplayCardIncludeTaxPrice()
+                       );
+                    }
                 }
             }
         }

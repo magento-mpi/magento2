@@ -200,10 +200,9 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Mage_Sa
     protected function _initRate($address)
     {
         $store = $address->getQuote()->getStore();
-        $shippingAddress = $address->getQuote()->getShippingAddress();
         $billingAddress  = $address->getQuote()->getBillingAddress();
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
-        $request = $this->_taxCalculationModel->getRateRequest($shippingAddress, $billingAddress, $custTaxClassId, $store);
+        $request = $this->_taxCalculationModel->getRateRequest($address, $billingAddress, $custTaxClassId, $store);
         $request->setProductClassId($this->_helper->getWrappingTaxClass($store));
         $this->_rate = $this->_taxCalculationModel->getRate($request);
         return $this;
