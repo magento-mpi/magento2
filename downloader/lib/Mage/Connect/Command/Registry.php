@@ -27,6 +27,7 @@
 final class Mage_Connect_Command_Registry
 extends Mage_Connect_Command
 {
+    const PACKAGE_PEAR_DIR = 'pearlib/php/.registry';
 
     /**
      * List-installed callback
@@ -193,6 +194,9 @@ extends Mage_Connect_Command
                 $config = $this->config();
                 $cache = $this->getSconfig();
             }
+            if ($this->_checkPearData($config)) {
+                $this->doSyncPear($command, $options, $params);
+            }
 
             $packageDir = $config->magento_root . DS . Mage_Connect_Package::PACKAGE_XML_DIR;
             if (is_dir($packageDir)) {
@@ -231,4 +235,82 @@ extends Mage_Connect_Command
             $this->doError($command, $e->getMessage());
         }
     }
+
+    /**
+     * Synchronize packages installed earlier (by pear installer) with local cache
+     *
+     * @param string $command
+     * @param array $options
+     * @param array $params
+     */
+    public function doSyncPear($command, $options, $params)
+    {
+        $this->cleanupParams($params);
+        try {
+            $packager = $this->getPackager();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
+            if($ftp) {
+                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
+            } else {
+                $config = $this->config();
+                $cache = $this->getSconfig();
+            }
+
+            $pkglist = array();
+            if (!$this->_checkPearData($config)) {
+                return $pkglist;
+            }
+
+            $pearStorage = $config->magento_root . DS . $config->downloader_path . DS . self::PACKAGE_PEAR_DIR;
+            $channels = array(
+                '.channel.connect.magentocommerce.com_community',
+                '.channel.connect.magentocommerce.com_core'
+            );
+            foreach ($channels as $channel) {
+                $channelDirectory = $pearStorage . DS . $channel;
+                if (!file_exists($channelDirectory) || !is_dir($channelDirectory)) {
+                    continue;
+                }
+
+                $dp = opendir($channelDirectory);
+                if (!$dp) {
+                    continue;
+                }
+
+                while ($ent = readdir($dp)) {
+                    if ($ent{0} == '.' || substr($ent, -4) != '.reg') {
+                        continue;
+                    }
+                    $pkglist[] = array('file'=>$ent, 'channel'=>$channel);
+                }
+                closedir($dp);
+            }
+
+            foreach ($pkglist as $pkg) {
+                $pkgFilename = $pearStorage . DS . $pkg['channel'] . DS . $pkg['file'];
+                if (!file_exists($pkgFilename)) {
+                    continue;
+                }
+                $data = file_get_contents($pkgFilename);
+                $data = unserialize($data);
+            }
+
+            return true;
+
+        } catch (Exception $e) {
+            $this->doError($command, $e->getMessage());
+        }
+    }
+
+    /**
+     * Check is need to sync old pear data
+     * 
+     * @param Mage_Connect_Config $config
+     * @return boolean
+     */
+    protected function _checkPearData($config) {
+        $pearStorage = $config->magento_root . DS . $config->downloader_path  . DS . self::PACKAGE_PEAR_DIR;
+        return file_exists($pearStorage) && is_dir($pearStorage);
+    }
+
 }
