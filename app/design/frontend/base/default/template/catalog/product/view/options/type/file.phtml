@@ -82,8 +82,10 @@
         <a href="javascript:void(0)" class="label" onclick="opFile<?php echo $_rand; ?>.toggleFileChange($(this).next('.input-box'))">
             <?php echo Mage::helper('catalog')->__('Change') ?>
         </a>&nbsp;
-        <input type="checkbox" onclick="opFile<?php echo $_rand; ?>.toggleFileDelete($(this), $(this).next('.input-box'))" />
-        <span class="label"><?php echo Mage::helper('catalog')->__('Delete') ?></span>
+        <?php if (!$_option->getIsRequire()): ?>
+           <input type="checkbox" onclick="opFile<?php echo $_rand; ?>.toggleFileDelete($(this), $(this).next('.input-box'))" />
+           <span class="label"><?php echo Mage::helper('catalog')->__('Delete') ?></span>
+        <?php endif; ?>
     <?php endif; ?>
     <div class="input-box" <?php echo $_fileExists ? 'style="display:none"' : '' ?>>
         <input type="file" name="<?php echo $_fileName; ?>" class="product-custom-option<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" <?php echo $_fileExists ? 'disabled="disabled"' : '' ?> onchange="opConfig.reloadPrice()" />
