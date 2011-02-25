@@ -1048,4 +1048,23 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
     }
+
+    /**
+     * Show item update result from updateAction
+     * in Wishlist and Cart controllers.
+     *
+     */
+    public function showUpdateResultAction()
+    {
+        $session = Mage::getSingleton('adminhtml/session');
+        if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof Varien_Object){
+            /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
+            $helper = Mage::helper('adminhtml/catalog_product_composite');
+            $helper->renderUpdateResult($this, $session->getCompositeProductResult());
+            $session->unsCompositeProductResult();
+        } else {
+            $session->unsCompositeProductResult();
+            return false;
+        }
+    }
 }
