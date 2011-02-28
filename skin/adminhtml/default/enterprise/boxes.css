@@ -78,6 +78,7 @@
     z-index:501;
     }
 #loading-mask {
+    background:url(../images/blank.gif) repeat;
     position:absolute;
     color:#d85909;
     font-size:1.1em;
