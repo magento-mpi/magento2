@@ -1412,7 +1412,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function canConfigure()
     {
         $options = $this->getOptions();
-        return $this->isComposite() || !empty($options) || $this->getTypeInstance(true)->canConfigure($this);
+        return !empty($options) || $this->getTypeInstance(true)->canConfigure($this);
     }
 
     /**
