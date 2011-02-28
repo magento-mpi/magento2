@@ -80,8 +80,8 @@ var giftWrappingItem = {
     },
 
     setDesign : function(value) {
-        var imageBox = $('wrapping-item-image-box'),
-            path = this.designsInfo[value].path;
+        var imageBox = $('wrapping-item-image-box');
+        var path = this.designsInfo[value].path;
         if (path) {
             imageBox.src = this.designsInfo[value].path;
             imageBox.removeClassName('no-display').up().removeClassName('no-display');
@@ -116,7 +116,7 @@ var giftWrappingItem = {
         if ($('wrapping-item-price')) {
             $('wrapping-item-price').update(price);
         }
-        $('wrapping-item-price-box').removeClassName('no-display');
+        $('wrapping-item-price-box').removeClassName('no-display').up().removeClassName('no-display');
     },
 
     setData : function(event){
