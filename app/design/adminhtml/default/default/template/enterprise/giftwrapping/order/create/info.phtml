@@ -179,7 +179,7 @@ var giftWrappingOrder = {
 
     saveData : function() {
         var data = order.serializeData('wrapping-container');
-        order.loadArea(['totals'], true, data.toObject());
+        order.loadArea(['totals', 'billing_method'], true, data.toObject());
     },
 
     init : function() {
