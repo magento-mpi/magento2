@@ -345,7 +345,7 @@
         <part name="storeId" type="xsd:string"/>
     </message>
     <message name="shoppingCartInfoResponse">
-        <part name="result" type="types:shoppingCartInfoEntity"/>
+        <part name="result" type="typens:shoppingCartInfoEntity"/>
     </message>
     <message name="shoppingCartTotalsRequest">
         <part name="sessionId" type="xsd:string"/>
@@ -353,7 +353,7 @@
         <part name="storeId" type="xsd:string"/>
     </message>
     <message name="shoppingCartTotalsResponse">
-        <part name="result" type="types:shoppingCartTotalsEntityArray"/>
+        <part name="result" type="typens:shoppingCartTotalsEntityArray"/>
     </message>
     <message name="shoppingCartLicenseRequest">
         <part name="sessionId" type="xsd:string"/>
