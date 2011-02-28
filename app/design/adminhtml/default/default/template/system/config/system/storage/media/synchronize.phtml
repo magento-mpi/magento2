@@ -30,24 +30,63 @@
 <script type="text/javascript">
 //<![CDATA[
     Validation.add('required-synchronize', '<?php echo $this->__('Synchronization is required.') ?>', function(){
-        return allowedStorages.include($('system_media_storage_configuration_media_storage').value + '_' + $('system_media_storage_configuration_media_database').value);
+        storage = getConnectionName(
+            $('system_media_storage_configuration_media_storage').value,
+            $('system_media_storage_configuration_media_database').value
+        );
+
+        return allowedStorages.include(storage);
     });
 
     defaultValues   = [];
     defaultValues['system_media_storage_configuration_media_storage']   = $('system_media_storage_configuration_media_storage').value;
     defaultValues['system_media_storage_configuration_media_database']  = $('system_media_storage_configuration_media_database').value;
 
-    allowedStorages = [$('system_media_storage_configuration_media_storage').value + '_' + $('system_media_storage_configuration_media_database').value];
+    allowedStorages = [];
+    addAllowedStorage(
+        $('system_media_storage_configuration_media_storage').value,
+        $('system_media_storage_configuration_media_database').value
+    );
 
     <?php $syncStorageParams = $this->getSyncStorageParams() ?>
-    var lastSyncStorage = '<?php echo $syncStorageParams['storage_type'] . '_' . $syncStorageParams['connection_name'] ?>';
-    if (!allowedStorages.include(lastSyncStorage)) {
-        allowedStorages.push(lastSyncStorage);
+    addAllowedStorage(<?php echo $syncStorageParams['storage_type'] ?>, '<?php echo $syncStorageParams['connection_name'] ?>');
+
+    function getConnectionName(storageType, connection)
+    {
+        if (storageType == 0) {
+            connection = '';
+        } else if (connection != '') {
+            connection = '_' + connection;
+        } else {
+            return '';
+        }
+
+        return storageType + connection;
+    }
+
+    function addAllowedStorage(storageType, connection)
+    {
+        storage = getConnectionName(storageType, connection);
+
+        if (storage != '' && !allowedStorages.include(storage)) {
+            allowedStorages.push(storage);
+        }
     }
 
     function checkButtonState(event) {
         var element = Event.element(event);
-        if (element.value != defaultValues[element.id]) {
+
+        defaultStorage = getConnectionName(
+            defaultValues['system_media_storage_configuration_media_storage'],
+            defaultValues['system_media_storage_configuration_media_database']
+        );
+
+        storage = getConnectionName(
+            $('system_media_storage_configuration_media_storage').value,
+            $('system_media_storage_configuration_media_database').value
+        );
+
+        if (defaultStorage != storage) {
             enableSyncButton();
         } else {
             disableSyncButton();
@@ -84,9 +123,9 @@
 
     function checkStatus() {
         u = new Ajax.PeriodicalUpdater('', '<?php echo $this->getAjaxStatusUpdateUrl() ?>', {
-            method:         'get',
-            frequency:      5,
-            loaderArea:     false,
+            method:     'get',
+            frequency:  5,
+            loaderArea: false,
 
             onSuccess: function(transport) {
                 var response;
@@ -119,7 +158,10 @@
                             if (response.has_errors) {
                                 enableSyncButton();
                             } else {
-                                allowedStorages.push($('system_media_storage_configuration_media_storage').value + '_' + $('system_media_storage_configuration_media_database').value);
+                                addAllowedStorage(
+                                    $('system_media_storage_configuration_media_storage').value,
+                                    $('system_media_storage_configuration_media_database').value
+                                );
                             }
                         }
                     }
