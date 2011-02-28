@@ -412,7 +412,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     {
         $this->_joinProductNameTable();
         $this->getSelect()
-            ->where($this->getConnection()->quoteInto('INSTR(product_name_table.value, ?)', $productName));
+            ->where('INSTR(product_name_table.value, ?)', $productName);
 
         return $this;
     }
