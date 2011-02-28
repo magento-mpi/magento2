@@ -133,7 +133,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
      */
     public function createOrder($quoteId, $store = null, $agreements = null)
     {
-        if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreements()) {
+        if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds()) {
             if ($diff = array_diff($agreements, $requiredAgreements)) {
                 $this->_fault('required_agreements_are_not_all');
             }
@@ -151,6 +151,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
         $isNewCustomer = $customerResource->prepareCustomerForQuote($quote);
 
         try {
+            $quote->collectTotals();
             $service = Mage::getModel('sales/service_quote', $quote);
             $service->submitAll();
 
@@ -164,7 +165,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
             $order = $service->getOrder();
             if ($order) {
-                Mage::dispatchEvent('checkout_type_onepage_save_order_after', array('order'=>$order, 'quote'=>$this->getQuote()));
+                Mage::dispatchEvent('checkout_type_onepage_save_order_after', array('order'=>$order, 'quote'=>$quote));
                 
                 try {
                     $order->sendNewOrderEmail();
@@ -175,7 +176,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
             
             Mage::dispatchEvent(
                 'checkout_submit_all_after',
-                array('order' => $order, 'quote' => $this->getQuote())
+                array('order' => $order, 'quote' => $quote)
             );
         } catch( Mage_Core_Exception $e) {
             $this->_fault('create_order_fault', $e->getMessage());
