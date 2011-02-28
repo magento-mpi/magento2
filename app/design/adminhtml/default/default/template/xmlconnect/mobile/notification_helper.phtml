@@ -31,8 +31,7 @@
 <div class="notification-global notification-global-notice">
 <strong>
 <?php
-    $notification = 'After submitting the App, please contact <a href="mailto:%1$s">%1$s</a> to receive the Application Key, Application Secret and Application Master Secret.<br />Upon receiving these credentials, please fill in the corresponding fields.<br />In addition, please accept Urban Airship\'s Terms of Service: <a href="%2$s" target="_blank">click here</a>.';
-    echo $this->helper('xmlconnect')->__($notification, Mage::getStoreConfig(Mage_XmlConnect_Model_Application::XML_PATH_CONTACT_CREDENTIALS_EMAIL), Mage::getStoreConfig(Mage_XmlConnect_Model_Application::XML_PATH_URBAN_AIRSHIP_TOS_URL));
+    echo $this->helper('xmlconnect')->__('After submitting the App, please contact <a href="mailto:%1$s">%1$s</a> to receive the Application Key, Application Secret and Application Master Secret.<br />Upon receiving these credentials, please fill in the corresponding fields.<br />In addition, please accept Urban Airship\'s Terms of Service: <a href="%2$s" target="_blank">click here</a>.', Mage::getStoreConfig(Mage_XmlConnect_Model_Application::XML_PATH_CONTACT_CREDENTIALS_EMAIL), Mage::getStoreConfig(Mage_XmlConnect_Model_Application::XML_PATH_URBAN_AIRSHIP_TOS_URL));
 ?>
 </strong>
 </div>

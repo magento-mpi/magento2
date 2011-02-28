@@ -170,34 +170,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const XML_PATH_URBAN_AIRSHIP_TOS_URL = 'xmlconnect/mobile_application/urbanairship_terms_of_service_url';
 
     /**
-     * XML path to config with secure base url value
-     *
-     * @var string
-     */
-    const XML_PATH_WEB_SECURE_BASE_URL = 'web/secure/base_url';
-
-    /**
-     * XML path to config with sendfriend email status
-     *
-     * @var string
-     */
-    const XML_PATH_SENDFRIEND_EMAIL_ENABLED = 'sendfriend/email/enabled';
-
-    /**
-     * XML path to config with sendfriend email max recipients value
-     *
-     * @var string
-     */
-    const XML_PATH_SENDFRIEND_EMAIL_MAX_RECIPIENTS = 'sendfriend/email/max_recipients';
-
-    /**
-     * XML path to config sendfriend allow guest email sending
-     *
-     * @var string
-     */
-    const XML_PATH_SENDFRIEND_EMAIL_ALLOW_GUEST = 'sendfriend/email/allow_guest';
-
-    /**
      * XML path to config copyright data
      *
      * @var string
@@ -206,6 +178,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     /**
      * XML path to config restriction status
+     * (EE module)
      *
      * @var string
      */
@@ -213,6 +186,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     /**
      * XML path to config restriction mode
+     * (EE module)
      *
      * @var string
      */
@@ -407,12 +381,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['updateTimeUTC'] = strtotime($this->getUpdatedAt());
         $result['general']['browsingMode'] = $this->getBrowsingMode();
         $result['general']['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
-        $result['general']['secureBaseUrl'] = Mage::getStoreConfig(self::XML_PATH_WEB_SECURE_BASE_URL, $this->getStoreId());
+        $result['general']['secureBaseUrl'] = Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStoreId());
         $maxRecipients = 0;
         $allowGuest = 0;
-        if (Mage::getStoreConfig(self::XML_PATH_SENDFRIEND_EMAIL_ENABLED)) {
-            $maxRecipients = Mage::getStoreConfig(self::XML_PATH_SENDFRIEND_EMAIL_MAX_RECIPIENTS);
-            $allowGuest = Mage::getStoreConfig(self::XML_PATH_SENDFRIEND_EMAIL_ALLOW_GUEST);
+        if (Mage::getStoreConfig(Mage_Sendfriend_Helper_Data::XML_PATH_ENABLED)) {
+            $maxRecipients = Mage::getStoreConfig(Mage_Sendfriend_Helper_Data::XML_PATH_MAX_RECIPIENTS);
+            $allowGuest = Mage::getStoreConfig(Mage_Sendfriend_Helper_Data::XML_PATH_ALLOW_FOR_GUEST);
         }
         $result['general']['emailToFriendMaxRecepients'] = $maxRecipients;
         $result['general']['emailAllowGuest'] = $allowGuest;
@@ -822,12 +796,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $params['name'] = $this->getName();
             $params['code'] = $this->getCode();
             $params['type'] = $this->getType();
-            $params['url'] = Mage::app()
-                                ->setCurrentStore($this->getStoreId())
-                                ->getStore()
-                                ->getBaseUrl()
-                                . 'xmlconnect/configuration/index/app_code/'
-                                . $this->getCode();
+            $params['url'] = Mage::getUrl('xmlconnect/configuration/index', array(
+                '_store' => $this->getStoreId(),
+                '_nosid' => true,
+                'app_code' => $this->getCode()
+            ));
+
             $params['magentoversion'] = Mage::getVersion();
 
             if (isset($params['country']) && is_array($params['country'])) {
