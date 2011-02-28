@@ -100,15 +100,6 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
             } else {
                 $this->_address = Mage::getModel('sales/quote_address');
             }
-            $customer = $this->getQuote()->getCustomer();
-            if ($customer instanceof Varien_Object) {
-                if (!$this->_address->hasFirstname() && $customer->hasFirstname()) {
-                    $this->_address->setFirstname($customer->getFirstname());
-                }
-                if (!$this->_address->hasLastname()  && $customer->hasLastname()) {
-                    $this->_address->setLastname($customer->getLastname());
-                }
-            }
         }
 
         return $this->_address;
@@ -122,7 +113,11 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
      */
     public function getFirstname()
     {
-        return $this->getAddress()->getFirstname();
+        $firstname = $this->getAddress()->getFirstname();
+        if (empty($firstname) && $this->getQuote()->getCustomer()) {
+            return $this->getQuote()->getCustomer()->getFirstname();
+        }
+        return $firstname;
     }
 
     /**
@@ -133,7 +128,11 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
      */
     public function getLastname()
     {
-        return $this->getAddress()->getLastname();
+        $lastname = $this->getAddress()->getLastname();
+        if (empty($lastname) && $this->getQuote()->getCustomer()) {
+            return $this->getQuote()->getCustomer()->getLastname();
+        }
+        return $lastname;
     }
 
     /**
