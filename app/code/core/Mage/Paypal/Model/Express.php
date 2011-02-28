@@ -46,6 +46,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      * Availability options
      */
     protected $_isGateway                   = false;
+    protected $_canOrder                    = true;
     protected $_canAuthorize                = true;
     protected $_canCapture                  = true;
     protected $_canCapturePartial           = true;
