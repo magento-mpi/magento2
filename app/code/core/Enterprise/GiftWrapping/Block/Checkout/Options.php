@@ -213,32 +213,30 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
         $data = array();
         if ($this->getAllowPrintedCard()) {
             $price = Mage::helper('enterprise_giftwrapping')->getPrintedCardPrice();
-            if ($price) {
-                foreach ($this->_getQuote()->getAllShippingAddresses() as $address) {
-                    $entityId = $this->_getQuote()->getIsMultiShipping()
-                        ? $address->getId()
-                        : $this->_getQuote()->getId();
+            foreach ($this->_getQuote()->getAllShippingAddresses() as $address) {
+                $entityId = $this->_getQuote()->getIsMultiShipping()
+                    ? $address->getId()
+                    : $this->_getQuote()->getId();
 
-                    if ($this->getDisplayCardBothPrices()) {
-                        $data[$entityId]['price_incl_tax'] = $this->calculatePrice(
-                            new Varien_Object(),
-                            $price,
-                            $address,
-                            true
-                        );
-                        $data[$entityId]['price_excl_tax'] = $this->calculatePrice(
-                            new Varien_Object(),
-                            $price,
-                            $address
-                        );
-                    } else {
-                        $data[$entityId]['price'] = $this->calculatePrice(
-                            new Varien_Object(),
-                            $price,
-                            $address,
-                            $this->getDisplayCardIncludeTaxPrice()
-                        );
-                    }
+                if ($this->getDisplayCardBothPrices()) {
+                    $data[$entityId]['price_incl_tax'] = $this->calculatePrice(
+                        new Varien_Object(),
+                        $price,
+                        $address,
+                        true
+                    );
+                    $data[$entityId]['price_excl_tax'] = $this->calculatePrice(
+                        new Varien_Object(),
+                        $price,
+                        $address
+                    );
+                } else {
+                    $data[$entityId]['price'] = $this->calculatePrice(
+                        new Varien_Object(),
+                        $price,
+                        $address,
+                        $this->getDisplayCardIncludeTaxPrice()
+                    );
                 }
             }
         }

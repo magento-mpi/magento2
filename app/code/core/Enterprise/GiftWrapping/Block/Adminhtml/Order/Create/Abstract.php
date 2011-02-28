@@ -84,14 +84,12 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
         $data = array();
         if ($this->getAllowPrintedCard()) {
             $price = Mage::helper('enterprise_giftwrapping')->getPrintedCardPrice($this->getStoreId());
-            if ($price) {
-                 if ($this->getDisplayCardBothPrices()) {
-                     $data['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
-                     $data['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
-                 } else {
-                    $data['price'] = $this->calculatePrice(new Varien_Object(), $price, $this->getDisplayCardPriceInclTax());
-                 }
-            }
+             if ($this->getDisplayCardBothPrices()) {
+                 $data['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
+                 $data['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
+             } else {
+                $data['price'] = $this->calculatePrice(new Varien_Object(), $price, $this->getDisplayCardPriceInclTax());
+             }
         }
         return new Varien_Object($data);
     }
