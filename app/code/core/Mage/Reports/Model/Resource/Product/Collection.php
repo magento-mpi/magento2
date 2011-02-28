@@ -297,16 +297,19 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $this->getSelect()->reset()
             ->from(
                 array('order_items' => $this->getTable('sales/order_item')),
-                array('ordered_qty' => 'SUM(order_items.qty_ordered)'))
+                array(
+                    'ordered_qty' => 'SUM(order_items.qty_ordered)',
+                    'order_items_name' => 'order_items.name'
+                ))
             ->joinInner(
                 array('order' => $this->getTable('sales/order')),
                 implode(' AND ', $orderJoinCondition),
                 array())
-            ->joinInner(
+            ->joinLeft(
                 array('e' => $this->getProductEntityTableName()),
                 implode(' AND ', $productJoinCondition),
                 array('entity_id'))
-            ->group('e.entity_id')
+            ->group('order_items.product_id')
             ->having('SUM(order_items.qty_ordered) > ?', 0);
         return $this;
     }
