@@ -20,9 +20,12 @@ REM needs please refer to http://www.magentocommerce.com for more information.
 REM
 REM @category    tests
 REM @package     selenium
+REM @subpackage  runner
+REM @author      Magento Core Team <core@magentocommerce.com>
 REM @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
 REM @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 REM
+
 if "%PHPBIN%" == "" set PHPBIN=php.exe
 if not exist "%PHPBIN%" if "%PHP_PEAR_PHP_BIN%" neq "" set PHPBIN=%PHP_PEAR_PHP_BIN%
 set BASEDIR=%~dp0

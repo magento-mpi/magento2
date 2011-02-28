@@ -20,21 +20,41 @@
  *
  * @category    tests
  * @package     selenium
- * @subpackage  runner
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @subpackage  Mage_Selenium
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__)));
-define('SELENIUM_TESTS_LIBDIR', realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'));
+/**
+ * Simple autoloader implementation
+ *
+ * @package     selenium
+ * @subpackage  Mage_Selenium
+ * @author      Magento Core Team <core@magentocommerce.com>
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class Mage_Selenium_Autoloader
+{
 
-set_include_path(implode(PATH_SEPARATOR, array(
-    SELENIUM_TESTS_LIBDIR,
-    get_include_path(),
-)));
+    /**
+     * Registers the autoloader handler
+     */
+    public static function register()
+    {
+        spl_autoload_register(array(__CLASS__, 'autoload'));
+    }
 
-require_once 'Mage/Selenium/Autoloader.php';
-Mage_Selenium_Autoloader::register();
+    /**
+     * Autoload handler implementation
+     *
+     * @param string $className
+     * @return boolean
+     */
+    public static function autoload($className)
+    {
+        $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $className)));
+        $classFile = $classFile . '.php';
+        return include_once $classFile;
+    }
 
-Mage_Selenium_TestConfiguration::init();
+}

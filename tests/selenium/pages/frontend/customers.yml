@@ -19,18 +19,27 @@
 #
 # @category    tests
 # @package     selenium
-# @subpackage  test-data
+# @subpackage  pages
 # @author      Magento Core Team <core@magentocommerce.com>
 # @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
---- #Test data for store view
-datasets:
-  generic_store_view:
-    store_view_name       : Test Store View Name
-    store_name            : Main Website Store
-    store_view_status     : Enabled
-    store_view_sort_order : 1
-messages:
-  store_view_saved        : The store view has been saved
-  store_view_code_exists  : Store with the same code already exists.
+--- # Customer related pages
+customer_account_create:
+  mca: "customer/account/create"
+  title: "Create New Customer Account"
+  uimap:
+    form:
+      xpath: "form[@id='form-validate']"
+      fields:
+        firstname     : "input[@id='firstname']"
+        lastname      : "input[@id='lastname']"
+        email         : "input[@id='email_address']"
+        password      : "input[@id='password']"
+        confirmation  : "input[@id='confirmation']"
+      required: [firstname, lastname, email, password, confirmation]
+      buttons:
+        submit        : "button[@type='submit']"
+  messages:
+  links:
+    back: "customer/account/login"

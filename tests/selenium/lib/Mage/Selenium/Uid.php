@@ -20,21 +20,27 @@
  *
  * @category    tests
  * @package     selenium
- * @subpackage  runner
+ * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__)));
-define('SELENIUM_TESTS_LIBDIR', realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'));
+/**
+ * An extended test case implementation that add usefull helper methods
+ *
+ * @package     selenium
+ * @subpackage  Mage_Selenium
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class Mage_Selenium_Uid
+{
 
-set_include_path(implode(PATH_SEPARATOR, array(
-    SELENIUM_TESTS_LIBDIR,
-    get_include_path(),
-)));
+    public function __toString()
+    {
+        $result = microtime();
+        // @TODO
+        return $result;
+    }
 
-require_once 'Mage/Selenium/Autoloader.php';
-Mage_Selenium_Autoloader::register();
-
-Mage_Selenium_TestConfiguration::init();
+}
