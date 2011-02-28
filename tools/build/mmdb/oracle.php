@@ -142,8 +142,9 @@ SQL;
         $coreCacheTable = $this->_database . '.prfx_core_config_data';
         $buildName      = $this->getArg('build_name');
         $buildNumber    = $this->getArg('build_number');
-        $secure         = sprintf('http://kq.varien.com/builds/%s/%s/', $buildName, $buildNumber);
-        $unSecure       = sprintf('http://kq.varien.com/builds/%s/%s/', $buildName, $buildNumber);
+        $buildDomain    = $_ENV['TEAMCITY_BUILDAGENT_DOMAIN'];
+        $secure         = sprintf('http://%s/builds/%s/%s/', $buildDomain, $buildName, $buildNumber);
+        $unSecure       = sprintf('http://%s/builds/%s/%s/', $buildDomain, $buildName, $buildNumber);
 
         $query = "UPDATE {$coreCacheTable} SET \"VALUE\" = '{$unSecure}' WHERE \"PATH\" LIKE 'web/unsecure/base_url'";
         $stmt = oci_parse($this->_connect, $query);

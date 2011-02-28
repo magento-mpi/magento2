@@ -33,8 +33,8 @@ $PHP_BIN -f install.php -- --license_agreement_accepted yes \
 --use_rewrites yes \
 --admin_frontname "$MAGENTO_FRONTNAME" \
 --skip_url_validation yes \
---url "http://kq.varien.com/builds/$BUILD_NAME/$BUILD_NUMBER/" \
---secure_base_url "https://kq.varien.com/builds/$BUILD_NAME/$BUILD_NUMBER/" \
+--url "http://$TEAMCITY_BUILDAGENT_DOMAIN/builds/$BUILD_NAME/$BUILD_NUMBER/" \
+--secure_base_url "https://$TEAMCITY_BUILDAGENT_DOMAIN/builds/$BUILD_NAME/$BUILD_NUMBER/" \
 --use_secure yes --use_secure_admin yes \
 --admin_lastname "$MAGENTO_LASTNAME" --admin_firstname "$MAGENTO_FIRSTNAME" --admin_email "$MAGENTO_EMAIL" \
 --admin_username "$MAGENTO_USERNAME" --admin_password "$MAGENTO_PASSWORD" \

@@ -50,10 +50,10 @@ log() {
 
 ch_baseurl() {
     log "Updating unsecure base url..."
-    echo "USE $2; UPDATE prefix_core_config_data SET value = 'http://kq.varien.com/builds/$BUILD_NAME/$1/' WHERE path like 'web/unsecure/base_url';" | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS
+    echo "USE $2; UPDATE prefix_core_config_data SET value = 'http://$TEAMCITY_BUILDAGENT_DOMAIN/builds/$BUILD_NAME/$1/' WHERE path like 'web/unsecure/base_url';" | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS
     check_failure $?
     log "Updating secure base url..."
-    echo "USE $2; UPDATE prefix_core_config_data SET value = 'https://kq.varien.com/builds/$BUILD_NAME/$1/' WHERE path like 'web/secure/base_url';" | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS
+    echo "USE $2; UPDATE prefix_core_config_data SET value = 'https://$TEAMCITY_BUILDAGENT_DOMAIN/builds/$BUILD_NAME/$1/' WHERE path like 'web/secure/base_url';" | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS
     check_failure $?
 }
 
@@ -62,3 +62,7 @@ clean_cache() {
     rm -rf $1/var/cache/*
     check_failure $?
 }
+
+if [ "$TEAMCITY_BUILDAGENT_DOMAIN" == "" ]; then
+    failed "Teamcity Build Agent configured incorectly. Please define its domain name through build agent configuration!"
+fi
