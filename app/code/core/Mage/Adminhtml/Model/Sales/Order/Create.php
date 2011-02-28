@@ -591,7 +591,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 default:
                     break;
             }
-            $this->getQuote()->removeItem($item->getId());
+            if ($moveTo != 'order') {
+                $this->getQuote()->removeItem($item->getId());
+            }
             $this->setRecollect(true);
         }
         return $this;
