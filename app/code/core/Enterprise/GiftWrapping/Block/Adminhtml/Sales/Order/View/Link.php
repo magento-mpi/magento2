@@ -64,7 +64,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_View_Link extends Mage
      *
      * @return bool
      */
-    public function canDisplayGiftWrappingForItems()
+    public function canDisplayGiftWrappingForItem()
     {
         return $this->getItem()->getGwId() && $this->getDesign();
     }

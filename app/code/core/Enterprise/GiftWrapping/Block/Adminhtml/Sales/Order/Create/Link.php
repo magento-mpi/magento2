@@ -64,8 +64,10 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Ma
      *
      * @return bool
      */
-    public function canDisplayGiftWrappingForItems()
+    public function canDisplayGiftWrappingForItem()
     {
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForItems($this->getItem()->getStoreId());
+        $allowed = $this->getItem()->getProduct()->getGiftWrappingAvailable();
+        $storeId = $this->getItem()->getStoreId();
+        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed, $storeId);
     }
 }
