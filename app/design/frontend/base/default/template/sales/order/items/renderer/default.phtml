@@ -46,11 +46,7 @@
                 </dd>
             <?php else: ?>
                 <dd>
-                    <?php if ($_option['option_type'] == 'area'): ?>
-                        <?php echo nl2br($this->htmlEscape( (isset($_option['print_value']) ? $_option['print_value'] : $_option['value']) )) ?>
-                    <?php else: ?>
-                        <?php echo $this->htmlEscape( (isset($_option['print_value']) ? $_option['print_value'] : $_option['value']) ) ?>
-                    <?php endif; ?>
+                    <?php echo nl2br($this->htmlEscape( (isset($_option['print_value']) ? $_option['print_value'] : $_option['value']) )) ?>
                 </dd>
             <?php endif; ?>
         <?php endforeach; ?>
