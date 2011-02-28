@@ -237,4 +237,51 @@ class Enterprise_GiftWrapping_Model_Observer
         $quote->setGwAddPrintedCard(false);
         $quote->setGwId(false);
     }
+
+    /**
+     * Import giftwrapping data from order to quote
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftWrapping_Model_Observer
+     */
+    public function salesEventOrderToQuote($observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+        $storeId = $order->getStore()->getId();
+        // Do not import giftwrapping data if order is reordered or GW is not available for order
+        $giftWrappingHelper = Mage::helper('enterprise_giftwrapping');
+        if ($order->getReordered() || !$giftWrappingHelper->isGiftWrappingAvailableForOrder($storeId)) {
+            return $this;
+        }
+        $quote = $observer->getEvent()->getQuote();
+        $quote->setGwId($order->getGwId())
+            ->setGwAllowGiftReceipt($order->getGwAllowGiftReceipt())
+            ->setGwAddPrintedCard($order->getGwAddPrintedCard());
+        return $this;
+    }
+
+    /**
+     * Import giftwrapping data from order item to quote item
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftWrapping_Model_Observer
+     */
+    public function salesEventOrderItemToQuoteItem($observer)
+    {
+        // @var $orderItem Mage_Sales_Model_Order_Item
+        $orderItem = $observer->getEvent()->getOrderItem();
+        // Do not import giftwrapping data if order is reordered or GW is not available for items
+        $order = $orderItem->getOrder();
+        $giftWrappingHelper = Mage::helper('enterprise_giftwrapping');
+        if ($order && ($order->getReordered() || !$giftWrappingHelper->isGiftWrappingAvailableForItems($order->getStore()->getId()))) {
+            return $this;
+        }
+        $quoteItem = $observer->getEvent()->getQuoteItem();
+        $quoteItem->setGwId($orderItem->getGwId())
+            ->setGwBasePrice($orderItem->getGwBasePrice())
+            ->setGwPrice($orderItem->getGwPrice())
+            ->setGwBaseTaxAmount($orderItem->getGwBaseTaxAmount())
+            ->setGwTaxAmount($orderItem->getGwTaxAmount());
+        return $this;
+    }
 }
