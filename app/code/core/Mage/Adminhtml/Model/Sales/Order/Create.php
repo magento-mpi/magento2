@@ -822,32 +822,32 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                         $itemQty    = (float)$info['qty'];
                     }
 
-                    if ($item && $item->getProduct()->getStockItem()) {
-                        if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
-                            $itemQty = (int)$itemQty;
-                        } else {
-                            $item->setIsQtyDecimal(1);
+                    if ($item) {
+                        if ($item->getProduct()->getStockItem()) {
+                            if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
+                                $itemQty = (int)$itemQty;
+                            } else {
+                                $item->setIsQtyDecimal(1);
+                            }
                         }
-                    }
-                    $itemQty    = $itemQty > 0 ? $itemQty : 1;
-                    if (isset($info['custom_price'])) {
-                        $itemPrice  = $this->_parseCustomPrice($info['custom_price']);
-                    } else {
-                        $itemPrice = null;
-                    }
-                    $noDiscount = !isset($info['use_discount']);
+                        $itemQty    = $itemQty > 0 ? $itemQty : 1;
+                        if (isset($info['custom_price'])) {
+                            $itemPrice  = $this->_parseCustomPrice($info['custom_price']);
+                        } else {
+                            $itemPrice = null;
+                        }
+                        $noDiscount = !isset($info['use_discount']);
 
-                    if (empty($info['action']) || !empty($info['configured'])) {
-                        if ($item) {
+                        if (empty($info['action']) || !empty($info['configured'])) {
                             $item->setQty($itemQty);
                             $item->setCustomPrice($itemPrice);
                             $item->setOriginalCustomPrice($itemPrice);
                             $item->setNoDiscount($noDiscount);
                             $item->getProduct()->setIsSuperMode(true);
                             $item->checkData();
+                        } else {
+                            $this->moveQuoteItem($item->getId(), $info['action'], $itemQty);
                         }
-                    } else {
-                        $this->moveQuoteItem($item->getId(), $info['action'], $itemQty);
                     }
                 }
             } catch (Mage_Core_Exception $e) {
