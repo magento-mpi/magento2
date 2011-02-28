@@ -57,11 +57,12 @@
                     </div>
                     <?php endif; ?>
                 </div>
-                <div class="no-display">
-                    <input type="hidden" value="quote" name="giftwrapping[<?php echo $this->getEntityId() ?>][type]" />
-                </div>
             </div>
             <?php endif; ?>
+
+            <div class="no-display">
+                <input type="hidden" value="quote" name="giftwrapping[<?php echo $this->getEntityId() ?>][type]" />
+            </div>
 
             <?php if ($this->getAllowGiftReceipt()): ?>
             <p>
@@ -162,8 +163,14 @@ var giftWrappingOrder = {
             this.setDesign(design);
             this.setPrice(design);
         } else {
-            $('wrapping-price-box').addClassName('no-display');
-            $('wrapping-image-box').addClassName('no-display');
+            var priceBox = $('wrapping-price-box'),
+                imageBox = $('wrapping-image-box');
+            if (priceBox) {
+                priceBox.addClassName('no-display');
+            }
+            if (imageBox) {
+                imageBox.addClassName('no-display');
+            }
         }
         if (event) {
             this.saveData();
@@ -181,7 +188,7 @@ var giftWrappingOrder = {
             $('giftwrapping_design').value = <?php echo $this->getWrappingDesignValue() ?>;
         }
         if ($('add-printed-card')) {
-            Event.observe($('add-printed-card'), 'change', this.setCardPrice.bind(this));
+            Event.observe($('add-printed-card'), 'click', this.setCardPrice.bind(this));
             $('add-printed-card').checked = <?php echo $this->getWrappingPrintedCardValue() ?>;
         }
         if ($('allow-gift-receipt')) {
