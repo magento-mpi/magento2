@@ -211,7 +211,19 @@ ProductConfigure.prototype = {
                             this._showWindow();
                         }
                     } else if (response) {
+                        response = response + '';
                         this.blockFormFields.update(response);
+                        
+                        // Add special div to hold mage data, e.g. scripts to execute on every popup show
+                        var mageData = {};
+                        var scripts = response.extractScripts();
+                        mageData.scripts = scripts;
+                        
+                        var scriptHolder = new Element('div', {'style': 'display:none'});
+                        scriptHolder.mageData = mageData;
+                        this.blockFormFields.insert(scriptHolder);
+                        
+                        // Show window
                         this._showWindow();
                     }
                 }.bind(this)
@@ -588,8 +600,13 @@ ProductConfigure.prototype = {
                     this.blockFormFields.update();
 
                     // clone confirmed to form
+                    var mageData = null;
                     $(this.confirmedCurrentId).childElements().each(function(elm) {
                         var cloned = elm.cloneNode(true);
+                        if (elm.mageData) {
+                            cloned.mageData = elm.mageData;
+                            mageData = elm.mageData;
+                        }
                         this.blockFormFields.insert(cloned);
                     }.bind(this));
 
@@ -638,6 +655,17 @@ ProductConfigure.prototype = {
                     restoreConfirmedValues(this.blockFormFields.getElementsByTagName('input'));
                     restoreConfirmedValues(this.blockFormFields.getElementsByTagName('select'));
                     restoreConfirmedValues(this.blockFormFields.getElementsByTagName('textarea'));
+                    
+                    // Execute scripts
+                    if (mageData && mageData.scripts) {
+                        this.restorePhase = true;
+                        try {
+                            mageData.scripts.map(function(script) {
+                                return eval(script);
+                            });
+                        } catch (e) {}
+                        this.restorePhase = false;
+                    }
             break;
             case 'current_confirmed_to_form':
                     var allowedListTypes = {};
