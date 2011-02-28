@@ -67,7 +67,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * iPhone device identifier
-     * 
+     *
      * @var string
      */
     const DEVICE_TYPE_IPHONE = 'iphone';
@@ -89,11 +89,17 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get device helper
      *
+     * @param Mage_XmlConnect_Model_Application $application
      * @return Mage_Core_Helper_Abstract
      */
-    public function getDeviceHelper()
+    public function getDeviceHelper($application = null)
     {
-        $deviceType = (string)$this->getApplication()->getType();
+    	$deviceType = 'unknown';
+    	if (empty($application)) {
+            $deviceType = (string) $this->getApplication()->getType();
+    	} elseif ($application instanceof Mage_XmlConnect_Model_Application) {
+            $deviceType = (string) $application->getType();
+    	}
         switch ($deviceType) {
             case self::DEVICE_TYPE_IPHONE:
             case self::DEVICE_TYPE_IPAD:
@@ -457,14 +463,14 @@ EOT;
      */
     public function getApplicationOptions()
     {
-        $applications = Mage::helper('xmlconnect')->getApplications();
-
         $options = array();
-        if (count($applications) > 1) {
-            $options[] = array('value' => '', 'label' => Mage::helper('xmlconnect')->__('Please Select Application'));
+        foreach (Mage::getModel('xmlconnect/application')->getCollection() as $app) {
+        	if (self::isTemplateAllowedForApplication($app)) {
+                $options[] = array('value' => $app->getCode(), 'label' => $app->getName());
+        	}
         }
-        foreach ($applications as $code => $name) {
-            $options[] = array('value' => $code, 'label' => $name);
+        if (count($options) > 1) {
+            $options[] = array('value' => '', 'label' => Mage::helper('xmlconnect')->__('Please Select Application'));
         }
         return $options;
     }
@@ -472,6 +478,7 @@ EOT;
     /**
      * Get applications array like `code` as `name`
      *
+     * @param
      * @staticvar array $apps
      * @return array
      */
@@ -485,6 +492,19 @@ EOT;
             }
         }
         return $apps;
+    }
+
+    /**
+     * Check if creating AirMail template for the application is allowed
+     *
+     * @param Mage_XmlConnect_Model_Application $application
+     * @return boolean
+     */
+    public static function isTemplateAllowedForApplication($application = null)
+    {
+        return $application instanceof Mage_XmlConnect_Model_Application ?
+            in_array($application->getType(), array(self::DEVICE_TYPE_IPHONE)) :
+            false;
     }
 
     /**

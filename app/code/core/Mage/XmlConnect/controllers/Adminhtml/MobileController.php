@@ -1081,6 +1081,15 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     public function editTemplateAction()
     {
         $template = $this->_initTemplate();
+
+        $applicationsFound = Mage::helper('xmlconnect')->getApplicationOptions();
+        if (!$template->getId() && empty($applicationsFound)) {
+            $this->_getSession()->addError(Mage::helper('xmlconnect')
+                ->__('Template creation is allowed only for applications which have device type iPhone, but this kind of applications has not been found.'));
+            $this->_redirect('*/*/template');
+            return;
+        }
+
         $this->loadLayout();
         $this->_setActiveMenu('xmlconnect/templates');
         $this->renderLayout();
