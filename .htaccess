@@ -71,6 +71,13 @@
     SecFilterScanPOST Off
 </IfModule>
 
+<IfModule mod_security2.c>
+###########################################
+# the same for mod_security version 2
+
+    SecRuleEngine Off
+</IfModule>
+
 <IfModule mod_deflate.c>
 
 ############################################
