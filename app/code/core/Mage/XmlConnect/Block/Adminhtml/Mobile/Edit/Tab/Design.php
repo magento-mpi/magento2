@@ -84,7 +84,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
      */
     public function canShowPreview()
     {
-        $deviceType = Mage::helper('xmlconnect')->getApplication()->getType();
-        return $deviceType == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE; 
+        return true;
     }
 }

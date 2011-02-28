@@ -194,12 +194,13 @@
                         </tabBar>
                         <body>
                             <bannerImage> <width>320</width> <height>230</height> </bannerImage>
-                            <bannerImageLandscape> <width>320</width> <height>230</height> </bannerImageLandscape>
-                            <bannerImagePortret> <width>320</width> <height>230</height> </bannerImagePortret>
+                            <bannerImageIpad> <width>768</width> <height>294</height> </bannerImageIpad>
+                            <bannerImageAndroid> <width>320</width> <height>258</height> </bannerImageAndroid>
                             <itemBackgroundIcon> <width>90</width> <height>120</height> </itemBackgroundIcon>
                             <backgroundImage> <width>320</width> <height>367</height> </backgroundImage>
-                            <backgroundImageLandscape> <width>320</width> <height>367</height> </backgroundImageLandscape>
-                            <backgroundImagePortret> <width>320</width> <height>367</height> </backgroundImagePortret>
+                            <backgroundImageIpadLandscape> <width>1024</width> <height>704</height> </backgroundImageIpadLandscape>
+                            <backgroundImageIpadPortret> <width>768</width> <height>960</height> </backgroundImageIpadPortret>
+                            <backgroundImageAndroid> <width>320</width> <height>455</height> </backgroundImageAndroid>
                             <rowBackgroundIcon> <width>320</width> <height>90</height> </rowBackgroundIcon>
                             <rowAttributeIcon> <widthMax>30</widthMax> <heightMax>90</heightMax> </rowAttributeIcon>
                             <addToCartBackgroundIcon> <width>136</width> <height>28</height> </addToCartBackgroundIcon>

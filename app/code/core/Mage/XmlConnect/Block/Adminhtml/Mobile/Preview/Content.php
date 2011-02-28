@@ -33,6 +33,24 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     protected $categoryItemTintColor = '';
 
     /**
+     * Set path to template used for generating block's output.
+     *
+     * @param string $templateType
+     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content
+     */
+    public function setTemplate($templateType)
+    {
+        $deviceType = Mage::helper('xmlconnect')->getApplication()->getType();
+
+        if ($deviceType == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE) {
+            parent::setTemplate('xmlconnect/edit/tab/design/preview/' . $templateType . '.phtml');
+        } else {
+            parent::setTemplate('xmlconnect/edit/tab/design/preview/' . $templateType . '_' . $deviceType . '.phtml');
+        }
+        return $this;
+    }
+
+    /**
      * Prepare config data
      * Implement set "conf" data as magic method
      *

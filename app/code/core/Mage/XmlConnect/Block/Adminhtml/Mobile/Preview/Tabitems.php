@@ -38,7 +38,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('xmlconnect/edit/tab/design/preview/tab_items.phtml');
+
+        $deviceType = Mage::helper('xmlconnect')->getApplication()->getType();
+
+        if ($deviceType == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE) {
+            $this->setTemplate('xmlconnect/edit/tab/design/preview/tab_items.phtml');
+        } else {
+            $this->setTemplate('xmlconnect/edit/tab/design/preview/tab_items_' . $deviceType . '.phtml');
+        }
     }
 
     /**

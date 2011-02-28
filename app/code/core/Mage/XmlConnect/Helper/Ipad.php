@@ -39,22 +39,22 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
             $this->_tabs = array(
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Home'),
-                    'image' => 'tab_home_ipad.png',
+                    'image' => 'tab_home.png',
                     'action' => 'Home',
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Shop'),
-                    'image' => 'tab_shop_ipad.png',
+                    'image' => 'tab_shop.png',
                     'action' => 'Shop',
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Search'),
-                    'image' => 'tab_search_ipad.png',
+                    'image' => 'tab_search.png',
                     'action' => 'Search',
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Cart'),
-                    'image' => 'tab_cart_ipad.png',
+                    'image' => 'tab_cart.png',
                     'action' => 'Cart',
                 ),
                 array(
@@ -64,7 +64,7 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('More Info'),
-                    'image' => 'tab_page_ipad.png',
+                    'image' => 'tab_page.png',
                     'action' => 'AboutUs',
                 ),
             );

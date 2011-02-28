@@ -1084,8 +1084,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
         $applicationsFound = Mage::helper('xmlconnect')->getApplicationOptions();
         if (!$template->getId() && empty($applicationsFound)) {
-            $this->_getSession()->addError(Mage::helper('xmlconnect')
-                ->__('Template creation is allowed only for applications which have device type iPhone, but this kind of applications has not been found.'));
+            $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Template creation is allowed only for applications which have device type iPhone, but this kind of applications has not been found.'));
             $this->_redirect('*/*/template');
             return;
         }
@@ -1138,26 +1137,24 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     public function queueMessageAction()
     {
-        $this->loadLayout();
-
         $message = $this->_initMessage();
-
         if (!$message->getId()) {
             $template = $this->_initTemplate('template_id');
-
             if (!$template->getId()) {
                 $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Template for new AirMail Message does not exist.'));
                 $this->_redirect('*/*/template');
             }
         }
 
-        $title = $message->getId() ? 'Edit AirMail Message' : 'New AirMail Message';
+        $this->loadLayout();
+        $title = $message->getId() ? Mage::helper('xmlconnect')->__('Edit AirMail Message') : Mage::helper('xmlconnect')->__('New AirMail Message');
         $this->_addBreadcrumb(
             Mage::helper('xmlconnect')->__('AirMail Message Queue'),
             Mage::helper('xmlconnect')->__('AirMail Message Queue'),
             $this->getUrl('*/*/queue')
         );
         $this->_addBreadcrumb($title, $title);
+
         $this->_setActiveMenu('xmlconnect/queue');
         $this->renderLayout();
     }

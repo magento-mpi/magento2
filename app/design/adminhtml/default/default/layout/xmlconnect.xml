@@ -178,7 +178,8 @@
     </adminhtml_mobile_template_preview>
 
     <adminhtml_mobile_previewhome>
-        <block type="xmlconnect/adminhtml_mobile_preview_content" template="xmlconnect/edit/tab/design/preview/home.phtml" name="preview_home_content" output="toHtml">
+        <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_home_content" output="toHtml">
+            <action method="setTemplate"><templateType>home</templateType></action>
             <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">
                 <action method="setActiveTab"><tab>home</tab></action>
             </block>
@@ -186,7 +187,8 @@
     </adminhtml_mobile_previewhome>
 
     <adminhtml_mobile_previewcatalog>
-        <block type="xmlconnect/adminhtml_mobile_preview_content" template="xmlconnect/edit/tab/design/preview/catalog.phtml" name="preview_catalog_content" output="toHtml">
+        <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_catalog_content" output="toHtml">
+            <action method="setTemplate"><templateType>catalog</templateType></action>
             <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">
                 <action method="setActiveTab"><tab>shop</tab></action>
             </block>
@@ -194,7 +196,8 @@
     </adminhtml_mobile_previewcatalog>
 
     <adminhtml_mobile_previewproductinfo>
-        <block type="xmlconnect/adminhtml_mobile_preview_content" template="xmlconnect/edit/tab/design/preview/productinfo.phtml" name="preview_productinfo_content" output="toHtml">
+        <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_productinfo_content" output="toHtml">
+            <action method="setTemplate"><templateType>productinfo</templateType></action>
             <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">
                 <action method="setActiveTab"><tab>shop</tab></action>
             </block>

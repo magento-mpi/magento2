@@ -381,7 +381,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['updateTimeUTC'] = strtotime($this->getUpdatedAt());
         $result['general']['browsingMode'] = $this->getBrowsingMode();
         $result['general']['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
-        $result['general']['secureBaseUrl'] = Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStoreId());
+        $result['general']['secureBaseUrl'] = Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $this->getStoreId());
         $maxRecipients = 0;
         $allowGuest = 0;
         if (Mage::getStoreConfig(Mage_Sendfriend_Helper_Data::XML_PATH_ENABLED)) {
@@ -713,6 +713,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     /**
      * Check config for valid values
      *
+     * @throws Mage_Core_Exception
      * @return bool|array
      */
     protected function _validateConf()
@@ -728,48 +729,42 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
         }
 
-        if (Mage::helper('xmlconnect')->getApplication()->getType() == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD) {
-            if ( ($native === false)
-                || (!isset($native['body']) || !is_array($native['body'])
-                || !isset($native['body']['bannerImageLandscape'])
-                || !Zend_Validate::is($native['body']['bannerImageLandscape'], 'NotEmpty'))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen (landscape mode)" field from Design Tab.');
-            }
+        $deviceType = Mage::helper('xmlconnect')->getApplication()->getType();
+        switch ($deviceType) {
+            case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
+                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerImage', $native)) {
+                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
+                }
 
-            if ( ($native === false)
-                || (!isset($native['body']) || !is_array($native['body'])
-                || !isset($native['body']['bannerImagePortret'])
-                || !Zend_Validate::is($native['body']['bannerImagePortret'], 'NotEmpty'))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen (portret mode)" field from Design Tab.');
-            }
+                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundImage', $native)) {
+                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
+                }
+                break;
+            case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD:
+                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerImageIpad', $native)) {
+                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
+                }
 
-            if (($native === false)
-                || (!isset($native['body']) || !is_array($native['body'])
-                || !isset($native['body']['backgroundImageLandscape'])
-                || !Zend_Validate::is($native['body']['backgroundImageLandscape'], 'NotEmpty'))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (landscape mode)" field from Design Tab.');
-            }
+                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundImageIpadLandscape', $native)) {
+                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (landscape mode)" field from Design Tab.');
+                }
 
-            if (($native === false)
-                || (!isset($native['body']) || !is_array($native['body'])
-                || !isset($native['body']['backgroundImagePortret'])
-                || !Zend_Validate::is($native['body']['backgroundImagePortret'], 'NotEmpty'))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (portret mode)" field from Design Tab.');
-            }
-        } else {
-            if ( ($native === false)
-                || (!isset($native['body']) || !is_array($native['body'])
-                || !isset($native['body']['bannerImage'])
-                || !Zend_Validate::is($native['body']['bannerImage'], 'NotEmpty'))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
-            }
+                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundImageIpadPortret', $native)) {
+                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (portrait mode)" field from Design Tab.');
+                }
+                break;
+            case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_ANDROID:
+                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerImageAndroid', $native)) {
+                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
+                }
 
-            if (($native === false)
-                || (!isset($native['body']) || !is_array($native['body'])
-                || !isset($native['body']['backgroundImage'])
-                || !Zend_Validate::is($native['body']['backgroundImage'], 'NotEmpty'))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
-            }
+                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundImageAndroid', $native)) {
+                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
+                }
+                break;
+            default:
+                Mage::throwException(Mage::helper('xmlconnect')->__('Device doesn\'t recognized: "%s". Unable to load a helper.', $deviceType));
+                break;
         }
 
         if (empty($errors)) {

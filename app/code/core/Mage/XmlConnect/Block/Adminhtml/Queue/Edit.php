@@ -45,14 +45,29 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit extends Mage_Adminhtml_Block_Wi
             $this->_updateButton('save', 'onclick', 'if (editForm.submit()) {disableElements(\'save\')}');
         }
         $this->_removeButton('delete');
-        $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/*/queue') . '\')');
-     }
 
-     /**
-      * Get header text
-      *
-      * @return string
-      */
+        $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getBackUrl() . '\')');
+    }
+
+    /**
+     * Get URL for back (reset) button
+     *
+     * @return string
+     */
+    public function getBackUrl()
+    {
+        $template = Mage::registry('current_template');
+        $message  = Mage::registry('current_message');
+        return $message && !$message->getId() && $template && $template->getId()
+            ? $this->getUrl('*/*/template')
+            : $this->getUrl('*/*/queue');
+    }
+
+    /**
+     * Get header text
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         $message = Mage::registry('current_message');

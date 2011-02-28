@@ -31,7 +31,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Preview extends Mag
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('xmlconnect/edit/tab/design/preview.phtml');
+
+        $device = Mage::helper('xmlconnect')->getApplication()->getType();
+        if (array_key_exists($device, Mage::helper('xmlconnect')->getSupportedDevices())) {
+            $template = 'xmlconnect/edit/tab/design/preview_' . strtolower($device) . '.phtml';
+        } else {
+            Mage::throwException(Mage::helper('xmlconnect')->__('Device doesn\'t recognized. Unable to load a template.'));
+        }
+
+        $this->setTemplate($template);
     }
 
     /**

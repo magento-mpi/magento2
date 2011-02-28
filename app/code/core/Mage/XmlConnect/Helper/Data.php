@@ -89,6 +89,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get device helper
      *
+     * @throws Mage_Core_Exception
      * @param Mage_XmlConnect_Model_Application $application
      * @return Mage_Core_Helper_Abstract
      */
@@ -116,6 +117,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Getter for current loaded application model
      *
+     * @throws Mage_Core_Exception
      * @return Mage_XmlConnect_Model_Application
      */
     public function getApplication()
@@ -708,5 +710,23 @@ EOT;
         $filePath = Mage::getBaseDir('media') . DS . str_replace('/', DS, $path);
         return $filePath;
 
+    }
+
+    /**
+     * Validate config body field is not empty
+     *
+     * @param string $field
+     * @param array $native
+     * @return bool
+     */
+    public function validateConfFieldNotEmpty($field, $native)
+    {
+        if ( ($native === false)
+            || (!isset($native['body']) || !is_array($native['body'])
+            || !isset($native['body'][$field])
+            || !Zend_Validate::is($native['body'][$field], 'NotEmpty'))) {
+            return false;
+        }
+        return true;
     }
 }

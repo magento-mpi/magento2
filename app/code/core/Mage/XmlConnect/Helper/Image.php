@@ -201,7 +201,6 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
             $image->keepFrame(true);
             $image->keepAspectRatio(true);
             $image->backgroundColor(array(255, 255, 255));
-//            $image->keepAspectRatio(false);
             $image->resize($width, $height);
             $image->save(null, basename($file));
         }
@@ -344,6 +343,45 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         return $size;
     }
 
+    /**
+     * Retrieve thumbnail image url
+     *
+     * @param int $width
+     * @return string|null
+     */
+    public function getCustomSizeImageUrl($imagePath, $width = 100, $height = 100)
+    {
+        $customDirRoot = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'custom';
+        $screenSize = $width . 'x' . $height;
+        $customDir = $customDirRoot . DS . $screenSize;
+        $this->_verifyDirExist($customDir);
+        $file = Mage::helper('xmlconnect')->getApplication()->getData($imagePath);
+
+        if (!file_exists($customDir . basename($file))) {
+            $image = new Varien_Image($file);
+            $widthOriginal = $image->getOriginalWidth();
+            $heightOriginal = $image->getOriginalHeight();
+
+            if ($width != $widthOriginal) {
+                $widthOriginal = $width;
+            }
+
+            if ($height != $heightOriginal) {
+                $heightOriginal = $height;
+            }
+
+            if (($widthOriginal != $image->getOriginalWidth()) ||
+                ($heightOriginal != $image->getOriginalHeight()) ) {
+                $image->keepTransparency(true);
+                $image->keepFrame(true);
+                $image->keepAspectRatio(true);
+                $image->backgroundColor(array(255, 255, 255));
+                $image->resize($widthOriginal, $heightOriginal);
+                $image->save($customDir, basename($file));
+            }
+        }
+        return Mage::getBaseUrl('media') . "xmlconnect/custom/{$screenSize}/" . basename($file);
+    }
 
     /**
      * Ensure correct $screenSize value
@@ -379,7 +417,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         if (!empty($source)) {
             $screenSize = $resolution . (empty($version) ? '' : self::XMLCONNECT_GLUE.$version);
         } else {
-             $screenSize = Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_DEFAULT;
+            $screenSize = Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_DEFAULT;
         }
         return $screenSize;
     }
@@ -607,12 +645,13 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     {
         $paths = array (
             'conf/native/navigationBar/icon' => 'smallIcon_1_6.png',
-            'conf/native/body/bannerImageLandscape' => 'banner_1_2_l.png',
-            'conf/native/body/bannerImagePortret' => 'banner_1_2_p.png',
             'conf/native/body/bannerImage' => 'banner_1_2.png',
-            'conf/native/body/backgroundImageLandscape' => 'accordion_open_l.png',
-            'conf/native/body/backgroundImagePortret' => 'accordion_open_p.png',
+            'conf/native/body/bannerImageIpad' => 'banner_ipad.png',
+            'conf/native/body/bannerImageAndroid' => 'banner_android.png',
             'conf/native/body/backgroundImage' => 'accordion_open.png',
+            'conf/native/body/backgroundImageIpadLandscape' => 'accordion_open_ipad_l.png',
+            'conf/native/body/backgroundImageIpadPortret' => 'accordion_open_ipad_p.png',
+            'conf/native/body/backgroundImageAndroid' => 'accordion_open_android.png',
         );
         if ($imagePath == null) {
             return $paths;
