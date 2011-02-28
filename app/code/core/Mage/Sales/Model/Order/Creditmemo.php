@@ -400,6 +400,9 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
 
         if ($this->getInvoice()) {
             $this->getInvoice()->setIsUsedForRefund(true);
+            $this->getInvoice()->setBaseTotalRefunded(
+                $this->getInvoice()->getBaseTotalRefunded() + $this->getBaseGrandTotal()
+            );
             $this->setInvoiceId($this->getInvoice()->getId());
         }
 

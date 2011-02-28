@@ -327,13 +327,29 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Check invice cancel action availability
+     * Check invoice cancel action availability
      *
      * @return bool
      */
     public function canCancel()
     {
         return $this->getState() == self::STATE_OPEN;
+    }
+
+    /**
+     * Check invoice refund action availability
+     *
+     * @return bool
+     */
+    public function canRefund()
+    {
+        if ($this->getState() != self::STATE_PAID) {
+            return false;
+        }
+        if (abs($this->getBaseGrandTotal() - $this->getBaseTotalRefunded()) < .0001) {
+            return false;
+        }
+        return true;
     }
 
     /**
