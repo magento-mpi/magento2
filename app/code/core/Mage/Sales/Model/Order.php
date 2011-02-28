@@ -1252,8 +1252,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     /**
      * Send email with order update information
      *
-     * @param $notifyCustomer
-     * @param $comment
+     * @param boolean $notifyCustomer
+     * @param string $comment
      * @return Mage_Sales_Model_Order
      */
     public function sendOrderUpdateEmail($notifyCustomer = true, $comment = '')

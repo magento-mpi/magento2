@@ -28,8 +28,8 @@
  * Email information model
  * Email message may contain addresses in any of these three fields:
  *  -To:  Primary recipients
- *  -Cc:  Carbon copy to secondary recipients�other interested parties
- *  -Bcc: Blind carbon copy to tertiary recipients who receive the message 
+ *  -Cc:  Carbon copy to secondary recipients and other interested parties
+ *  -Bcc: Blind carbon copy to tertiary recipients who receive the message
  *        without anyone else (including the To, Cc, and Bcc recipients) seeing who the tertiary recipients are
  *
  * @category    Mage

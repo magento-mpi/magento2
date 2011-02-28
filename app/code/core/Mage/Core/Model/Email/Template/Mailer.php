@@ -70,13 +70,13 @@ class Mage_Core_Model_Email_Template_Mailer extends Varien_Object
             // Set required design parameters and delegate email sending to Mage_Core_Model_Email_Template
             $emailTemplate->setDesignConfig(array('area' => 'frontend', 'store' => $this->getStoreId()))
                 ->sendTransactional(
-                    $this->getTemplateId(),
-                    $this->getSender(),
-                    $emailInfo->getToEmails(),
-                    $emailInfo->getToNames(),
-                    $this->getTemplateParams(),
-                    $this->getStoreId()
-                );
+                $this->getTemplateId(),
+                $this->getSender(),
+                $emailInfo->getToEmails(),
+                $emailInfo->getToNames(),
+                $this->getTemplateParams(),
+                $this->getStoreId()
+            );
         }
         return $this;
     }
@@ -139,7 +139,8 @@ class Mage_Core_Model_Email_Template_Mailer extends Varien_Object
      *
      * @return int|null
      */
-    public function getTemplateId() {
+    public function getTemplateId()
+    {
         return $this->_getData('template_id');
     }
 

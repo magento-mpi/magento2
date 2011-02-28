@@ -653,8 +653,8 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     /**
      * Send email with creditmemo data
      *
-     * @param $notifyCustomer
-     * @param $comment
+     * @param boolean $notifyCustomer
+     * @param string $comment
      * @return Mage_Sales_Model_Order_Creditmemo
      */
     public function sendEmail($notifyCustomer = true, $comment = '')
@@ -743,8 +743,8 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     /**
      * Send email with creditmemo update information
      *
-     * @param $notifyCustomer
-     * @param $comment
+     * @param boolean $notifyCustomer
+     * @param string $comment
      * @return Mage_Sales_Model_Order_Creditmemo
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment = '')

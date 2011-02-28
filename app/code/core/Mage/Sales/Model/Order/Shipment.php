@@ -359,8 +359,8 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     /**
      * Send email with shipment data
      *
-     * @param $notifyCustomer
-     * @param $comment
+     * @param boolean $notifyCustomer
+     * @param string $comment
      * @return Mage_Sales_Model_Order_Shipment
      */
     public function sendEmail($notifyCustomer = true, $comment = '')
@@ -449,8 +449,8 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     /**
      * Send email with shipment update information
      *
-     * @param $notifyCustomer
-     * @param $comment
+     * @param boolean $notifyCustomer
+     * @param string $comment
      * @return Mage_Sales_Model_Order_Shipment
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment = '')

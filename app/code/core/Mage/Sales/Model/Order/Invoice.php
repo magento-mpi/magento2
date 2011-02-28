@@ -702,8 +702,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     /**
      * Send email with invoice data
      *
-     * @param $notifyCustomer
-     * @param $comment
+     * @param boolean $notifyCustomer
+     * @param string $comment
      * @return Mage_Sales_Model_Order_Invoice
      */
     public function sendEmail($notifyCustomer = true, $comment = '')
@@ -792,8 +792,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     /**
      * Send email with invoice update information
      *
-     * @param $notifyCustomer
-     * @param $comment
+     * @param boolean $notifyCustomer
+     * @param string $comment
      * @return Mage_Sales_Model_Order_Invoice
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment = '')
