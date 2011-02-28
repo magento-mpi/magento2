@@ -54,14 +54,12 @@
     function getConnectionName(storageType, connection)
     {
         if (storageType == 0) {
-            connection = '';
+            return storageType;
         } else if (connection != '') {
-            connection = '_' + connection;
-        } else {
-            return '';
+            return storageType + '_' + connection;
         }
 
-        return storageType + connection;
+        return '';
     }
 
     function addAllowedStorage(storageType, connection)
