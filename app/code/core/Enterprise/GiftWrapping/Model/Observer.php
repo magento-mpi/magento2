@@ -215,7 +215,8 @@ class Enterprise_GiftWrapping_Model_Observer
        $items = $observer->getEvent()->getItems();
        foreach ($items as $item) {
            $allowed = $item->getProduct()->getGiftWrappingAvailable();
-           if (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed)) {
+           if (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForProduct($allowed)
+               && !$item->getIsVirtual()) {
                $item->setIsGiftOptionsAvailable(true);
            }
        }

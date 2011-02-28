@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_GiftMessage>
-            <version>1.5.0.0.2</version>
+            <version>1.5.0.0.3</version>
         </Mage_GiftMessage>
     </modules>
     <global>
