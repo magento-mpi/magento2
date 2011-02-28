@@ -102,7 +102,13 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $cachedData = Mage::app()->loadCache($cacheKey);
         if (!$cachedData) {
             $stats = $this->getLayer()->getProductCollection()->getStats($this->_getFilterField());
-            $cachedData = (float)$stats[$this->_getFilterField()]['max'];
+
+            $max = $stats[$this->_getFilterField()]['max'];
+            if (!is_numeric($max)) {
+                $max = parent::getMaxPriceInt();
+            }
+
+            $cachedData = (float) $max;
             $tags = $this->getLayer()->getStateTags();
             $tags[] = self::CACHE_TAG;
             Mage::app()->saveCache($cachedData, $cacheKey, $tags);

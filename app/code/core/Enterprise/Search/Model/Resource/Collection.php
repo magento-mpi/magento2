@@ -171,6 +171,7 @@ class Enterprise_Search_Model_Resource_Collection
     public function addSearchFilter($query)
     {
         $this->_searchQueryText = $query;
+
         return $this;
     }
 
@@ -376,12 +377,12 @@ class Enterprise_Search_Model_Resource_Collection
                 $searchSuggestionsEnabled = $helper->getSolrConfigData('server_suggestion_enabled');
                 if ($searchSuggestionsEnabled) {
                     $params['solr_params']['spellcheck'] = 'true';
-                    $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');
+                    $searchSuggestionsCount = (int) $helper->getSolrConfigData('server_suggestion_count');
                     if ($searchSuggestionsCount < 1) {
                         $searchSuggestionsCount = 1;
                     }
                     $params['solr_params']['spellcheck.count'] = $searchSuggestionsCount;
-                    $params['spellcheck_result_counts'] = (bool)$helper->getSolrConfigData(
+                    $params['spellcheck_result_counts'] = (bool) $helper->getSolrConfigData(
                         'server_suggestion_count_results_enabled');
                 }
             }
@@ -397,7 +398,7 @@ class Enterprise_Search_Model_Resource_Collection
     /**
      * Collect stats per field
      *
-     * @param array $fields
+     * @param  array $fields
      * @return array
      */
     public function getStats($fields)
@@ -426,7 +427,7 @@ class Enterprise_Search_Model_Resource_Collection
      *
      * @deprecated after 1.9.0.0 - integrated into $this->getSize()
      *
-     * @param array $params
+     * @param  array $params
      * @return array
      */
     public function getFacets($params)
@@ -434,7 +435,7 @@ class Enterprise_Search_Model_Resource_Collection
         list($query, $params) = $this->_prepareBaseParams();
         $params['limit'] = 1;
 
-        return (array)$this->_engine->getFacetsByQuery($query, $params);
+        return (array) $this->_engine->getFacetsByQuery($query, $params);
     }
 
     /**
