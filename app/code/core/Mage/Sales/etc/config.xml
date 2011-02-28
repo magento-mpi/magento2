@@ -41,6 +41,8 @@
                     <to_edit>*</to_edit>
                 </customer_group_id>
             </sales_copy_order>
+            <sales_copy_order_giftoptions />
+            <sales_copy_order_item_giftoptions />
             <sales_copy_order_billing_address>
                 <prefix>
                     <to_order>*</to_order>
