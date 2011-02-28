@@ -362,6 +362,25 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     }
 
     /**
+     * Revert amount to gift card balance if order was not placed
+     *
+     * @param   float $amount
+     * @return  Enterprise_GiftCardAccount_Model_Giftcardaccount
+     */
+    public function revert($amount)
+    {
+        $amount = (float) $amount;
+
+        if ($amount > 0 && $this->isValid(true, true, false, false)) {
+            $this->setBalanceDelta($amount)
+                ->setBalance($this->getBalance() + $amount)
+                ->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_UPDATED);
+        }
+
+        return $this;
+    }
+
+    /**
      * Return Gift Card Account state as user-friendly label
      *
      * @deprecated after 1.3.2.3 use magic method instead
