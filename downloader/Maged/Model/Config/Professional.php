@@ -151,5 +151,26 @@ class Maged_Model_Config_Professional extends Maged_Model_Config_Abstract implem
                 'password' => $auth[1],
         );
     }
+    
+    /**
+     * Return channel label for channel name
+     *
+     * @param string $channel
+     * @return string
+     */
+    public function getChannelLabel($channel)
+    {
+        $channelLabel = '';
+        switch($channel)
+        {
+            case 'community':
+                $channelLabel = 'Magento Community Edition';
+                break;
+            case 'professional':
+                $channelLabel = 'Magento Professional Edition';
+                break;
+        }
+        return $channelLabel;
+    }
 }
 ?>
