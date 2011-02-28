@@ -975,7 +975,7 @@
                             <depends><centinel>1</centinel></depends>
                         </centinel_api_url>
                     </fields>
-                </wpp_pe>                
+                </wpp_pe>
 
                 <verisign translate="label">
                     <label>Payflow Pro Settings</label>
@@ -1451,7 +1451,7 @@
                         </paypal_payflowcolor>
                     </fields>
                 </style>
-                
+
                 <payflow_link translate="label">
                     <label>Payflow Link Settings</label>
                     <frontend_type>text</frontend_type>
@@ -1541,7 +1541,7 @@
                         <user translate="label">
                             <label>User</label>
                             <frontend_type>text</frontend_type>
-                            <config_path>payment/payflow_link/user</config_path>                            
+                            <config_path>payment/payflow_link/user</config_path>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1656,7 +1656,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <depends><allowspecific>1</allowspecific></depends>
-                        </specificcountry>                        
+                        </specificcountry>
                         <debug translate="label">
                             <label>Debug Mode</label>
                             <config_path>payment/hosted_pro/debug</config_path>
