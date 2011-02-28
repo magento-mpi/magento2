@@ -395,4 +395,16 @@
             <arg line="${dir.src} ${svn.user} ${svn.password} mmdb-resolver.php"/>
         </exec>
     </target>
+
+    <target name="sync-two-branches" description="Sync Two Branches (Ford - MMDB solver).">
+        <exec dir="${dir.src}" executable="svn" failonerror="true">
+            <arg line="co ${vcsroot.branch.url} --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache ."/>
+        </exec>
+        <exec dir="${dir.src}" executable="svn" failonerror="true">
+            <arg line="revert -R --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache ."/>
+        </exec>
+        <exec executable="./update-branch-twosources.php" failonerror="true">
+            <arg line="${dir.src} ${svn.user} ${svn.password} mmdb-resolver.php /projects/dev/ford /base/magento/branches/mmdb"/>
+        </exec>
+    </target>
 </project>
