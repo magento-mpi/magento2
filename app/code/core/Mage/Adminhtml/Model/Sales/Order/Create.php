@@ -844,6 +844,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                             $item->setOriginalCustomPrice($itemPrice);
                             $item->setNoDiscount($noDiscount);
                             $item->getProduct()->setIsSuperMode(true);
+                            $item->getProduct()->unsSkipCheckRequiredOption();
                             $item->checkData();
                         } else {
                             $this->moveQuoteItem($item->getId(), $info['action'], $itemQty);
