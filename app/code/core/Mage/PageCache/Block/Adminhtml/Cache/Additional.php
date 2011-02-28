@@ -31,7 +31,7 @@
  * @package     Mage_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PageCache_Block_Cache_Additional extends Mage_Adminhtml_Block_Template
+class Mage_PageCache_Block_Adminhtml_Cache_Additional extends Mage_Adminhtml_Block_Template
 {
     /**
      * Get clean cache url
@@ -40,7 +40,7 @@ class Mage_PageCache_Block_Cache_Additional extends Mage_Adminhtml_Block_Templat
      */
     public function getCleanExternalCacheUrl()
     {
-        return $this->getUrl('*/pagecache/clean');
+        return $this->getUrl('*/pageCache/clean');
     }
 
     /**
