@@ -29,12 +29,12 @@ $installer = $this;
 
 $installer->run("
 CREATE TABLE `{$this->getTable('enterprise_giftregistry/item_option')}` (
-	`option_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`item_id` INT(10) UNSIGNED NOT NULL,
-	`product_id` INT(10) UNSIGNED NOT NULL,
-	`code` VARCHAR(255) NOT NULL,
-	`value` TEXT NOT NULL,
-	PRIMARY KEY (`option_id`)
+    `option_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `item_id` INT(10) UNSIGNED NOT NULL,
+    `product_id` INT(10) UNSIGNED NOT NULL,
+    `code` VARCHAR(255) NOT NULL,
+    `value` TEXT NOT NULL,
+    PRIMARY KEY (`option_id`)
 ) COMMENT='Additional options for giftregistry item' ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 

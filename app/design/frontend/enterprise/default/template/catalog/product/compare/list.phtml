@@ -145,13 +145,13 @@
          */
         function removeItem(url)
         {
-        	new Ajax.Request(url, {
+            new Ajax.Request(url, {
                 parameters: {isAjax: 1, method: 'POST'},
                 onLoading: function(){$('compare-list-please-wait').show();},
                 onSuccess: function(transport) {
-                	$('compare-list-please-wait').hide();
-                	window.location.reload();
-                	window.opener.location.reload();
+                    $('compare-list-please-wait').hide();
+                    window.location.reload();
+                    window.opener.location.reload();
                 }
             });
         }

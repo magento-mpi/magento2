@@ -132,7 +132,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         return $this->_canRefund;
     }
 
-	/**
+    /**
      * Check void availability
      *
      * @param   Varien_Object $invoicePayment
@@ -143,7 +143,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         return $this->_canVoid;
     }
 
-	/**
+    /**
      * Void the payment through gateway
      *
      * @param Varien_Object $payment

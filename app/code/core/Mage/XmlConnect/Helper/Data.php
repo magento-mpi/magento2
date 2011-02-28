@@ -95,12 +95,12 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDeviceHelper($application = null)
     {
-    	$deviceType = 'unknown';
-    	if (empty($application)) {
+        $deviceType = 'unknown';
+        if (empty($application)) {
             $deviceType = (string) $this->getApplication()->getType();
-    	} elseif ($application instanceof Mage_XmlConnect_Model_Application) {
+        } elseif ($application instanceof Mage_XmlConnect_Model_Application) {
             $deviceType = (string) $application->getType();
-    	}
+        }
         switch ($deviceType) {
             case self::DEVICE_TYPE_IPHONE:
             case self::DEVICE_TYPE_IPAD:
@@ -467,9 +467,9 @@ EOT;
     {
         $options = array();
         foreach (Mage::getModel('xmlconnect/application')->getCollection() as $app) {
-        	if (self::isTemplateAllowedForApplication($app)) {
+            if (self::isTemplateAllowedForApplication($app)) {
                 $options[] = array('value' => $app->getCode(), 'label' => $app->getName());
-        	}
+            }
         }
         if (count($options) > 1) {
             $options[] = array('value' => '', 'label' => Mage::helper('xmlconnect')->__('Please Select Application'));
@@ -699,7 +699,7 @@ EOT;
 
     /**
      * Convert Url link to file path for images
-     * 
+     *
      * @param string $icon
      * @return string
      */
