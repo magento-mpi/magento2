@@ -37,7 +37,7 @@ class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resou
 
     protected function _preparePaymentData($data)
     {
-        if (!is_associative_array($data)) {
+        if (!(is_array($data) && is_null($data[0]))) {
             return array();
         }
 
@@ -150,17 +150,19 @@ class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resou
         } else {
             $quote->getShippingAddress()->setPaymentMethod(isset($paymentData['method']) ? $paymentData['method'] : null);
         }
+        
+        if (!$quote->isVirtual() && $quote->getShippingAddress()) {
+            $quote->getShippingAddress()->setCollectShippingRates(true);
+        }
 
         try {
             $payment = $quote->getPayment();
             $payment->importData($paymentData);
 
-            // shipping totals may be affected by payment method
-            if (!$quote->isVirtual() && $quote->getShippingAddress()) {
-                $quote->getShippingAddress()->setCollectShippingRates(true);
-                $quote->setTotalsCollectedFlag(false)->collectTotals();
-            }
-            $quote->save();
+
+            $quote->setTotalsCollectedFlag(false)
+                    ->collectTotals()
+                    ->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('payment_method_is_not_set', $e->getMessage());
         }

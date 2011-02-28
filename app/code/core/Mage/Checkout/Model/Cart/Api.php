@@ -85,12 +85,12 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
         }
 
         $result = $this->_getAttributes($quote, 'quote');
-        $result['customer'] = $this->_getAttributes($quote->getCustomer(), 'quote_customer');
         $result['shipping_address'] = $this->_getAttributes($quote->getShippingAddress(), 'quote_address');
         $result['billing_address']  = $this->_getAttributes($quote->getBillingAddress(), 'quote_address');
         $result['items'] = array();
 
         foreach ($quote->getAllItems() as $item) {
+
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
                     Mage::getSingleton('giftmessage/message')->load($item->getGiftMessageId())->getMessage()
@@ -101,7 +101,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
         }
 
         $result['payment'] = $this->_getAttributes($quote->getPayment(), 'quote_payment');
-
+        
         return $result;
     }
 
@@ -114,7 +114,16 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
     {
         $quote = $this->_getQuote($quoteId, $store);
 
-        return $quote->collectTotals()->getTotals();
+        $totals = $quote->getTotals();
+
+        $totalsResult = array();
+        foreach( $totals as $total) {
+            $totalsResult[] = array(
+                "title" => $total->getTitle(),
+                "amount" => $total->getValue()
+            );
+        }
+        return $totalsResult;
     }
 
     /**

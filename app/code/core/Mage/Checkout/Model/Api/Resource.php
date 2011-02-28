@@ -184,6 +184,10 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
         }
 
         foreach ($object->getData() as $attribute=>$value) {
+            if (is_object($value)) {
+                continue;
+            }
+
             if ($this->_isAllowedAttribute($attribute, $type, $attributes)) {
                 $result[$attribute] = $value;
             }

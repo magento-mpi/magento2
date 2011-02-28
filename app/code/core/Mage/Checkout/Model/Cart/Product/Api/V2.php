@@ -68,7 +68,13 @@ class Mage_Checkout_Model_Cart_Product_Api_V2 extends Mage_Checkout_Model_Cart_P
         if (isset($dataItem->bundle_options)) {
             $options = array();
             foreach($dataItem->bundle_options as $option) {
-                $options[$option->key] = $option->value;
+                if (is_object($option)) {
+                    $options[$option->key] = $option->value;
+                } else {
+                    foreach($option as $key=>$value) {
+                        $options[$key] = $value;
+                    }
+                }
             }
             $dataItem->bundle_options = $options;
         }
@@ -76,7 +82,13 @@ class Mage_Checkout_Model_Cart_Product_Api_V2 extends Mage_Checkout_Model_Cart_P
         if (isset($dataItem->bundle_options_qty)) {
             $options_qty = array();
             foreach($dataItem->bundle_options_qty as $option) {
-                $options_qty[$option->key] = $option->value;
+                if (is_object($option)) {
+                    $options[$option->key] = $option->value;
+                } else {
+                    foreach($option as $key=>$value) {
+                        $options[$key] = $value;
+                    }
+                }
             }
             $dataItem->bundle_options_qty = $options_qty;
         }
@@ -88,7 +100,14 @@ class Mage_Checkout_Model_Cart_Product_Api_V2 extends Mage_Checkout_Model_Cart_P
         if (isset($dataItem->options)) {
             $options = array();
             foreach($dataItem->options as $option) {
-                $options[$option->key] = $option->value;
+                if (is_object($option)) {
+                    $options[$option->key] = $option->value;
+                } else {
+                    foreach($option as $key=>$value) {
+                        $options[$key] = $value;
+                    }
+                }
+
             }
             $dataItem->options = $options;
         }

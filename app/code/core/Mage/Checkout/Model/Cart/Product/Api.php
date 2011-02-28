@@ -41,7 +41,7 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
         }
 
         $_data = array();
-        if (is_associative_array($data)) {
+        if (is_array($data) && is_null($data[0])) {
             $_data[] = $data;
         } else {
             $_data = $data;
@@ -94,7 +94,7 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
         }
 
         try {
-            $quote->save();
+            $quote->collectTotals()->save();
         } catch(Exception $e) {
             $this->_fault("add_product_fault", $e->getMessage());
         }
