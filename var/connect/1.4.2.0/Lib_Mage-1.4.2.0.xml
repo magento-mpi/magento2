@@ -1,0 +1,77 @@
+<_>
+   <form_key>Gyl0SUz4pGvPRdQl</form_key>
+   <name>Lib_Mage</name>
+   <channel>community</channel>
+   <summary>Mage Library</summary>
+   <description>Mage Library</description>
+   <license>OSL v3.0</license>
+   <license_uri>http://opensource.org/licenses/osl-3.0.php</license_uri>
+   <version>1.4.2.0</version>
+   <stability>stable</stability>
+   <notes>1.4.2.0</notes>
+   <authors>
+      <name>
+         <name>Magento Core Team</name>
+      </name>
+      <user>
+         <user>core</user>
+      </user>
+      <email>
+         <email>core@magentocommerce.com</email>
+      </email>
+   </authors>
+   <depends_php_min>5.2.0</depends_php_min>
+   <depends_php_max>6.0.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+         </name>
+         <channel>
+            <channel/>
+         </channel>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+         <files>
+            <files>     </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>PDO</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>magelib</target>
+      </target>
+      <path>
+         <path/>
+         <path>Mage</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore/>
+      </ignore>
+   </contents>
+</_>

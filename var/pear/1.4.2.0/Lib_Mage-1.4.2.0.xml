@@ -1,5 +1,5 @@
 <_>
-   <form_key>p4wr486d6F3JZRVr</form_key>
+   <form_key>EM5zo3RIbVcIPX8T</form_key>
    <name>Lib_Mage</name>
    <channel>connect.magentocommerce.com/core</channel>
    <summary>Mage Library</summary>
@@ -8,8 +8,8 @@
    <license_uri>http://opensource.org/licenses/osl-3.0.php</license_uri>
    <release_version>1.4.2.0</release_version>
    <api_version>1.4.2.0</api_version>
-   <release_stability>devel</release_stability>
-   <api_stability>devel</api_stability>
+   <release_stability>stable</release_stability>
+   <api_stability>stable</api_stability>
    <notes>1.4.2.0</notes>
    <maintainers>
       <role>
@@ -133,4 +133,8 @@
          <ignore/>
       </ignore>
    </contents>
+   <page>1</page>
+   <limit>200</limit>
+   <folder/>
+   <package/>
 </_>

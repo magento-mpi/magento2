@@ -1,5 +1,5 @@
 <_>
-   <form_key>c0XNtB0wryT80dsV</form_key>
+   <form_key>EM5zo3RIbVcIPX8T</form_key>
    <name>Mage_All_Latest</name>
    <channel>connect.magentocommerce.com/core</channel>
    <summary>Metapackage for latest Magento 1.4 release</summary>
@@ -76,7 +76,7 @@
             <min>1.4.2.0</min>
             <min>1.4.2.0</min>
             <min>1.2.3</min>
-            <min>1.0.3</min>
+            <min>1.0.7</min>
          </min>
          <max>
             <max/>
@@ -89,7 +89,7 @@
             <max>1.4.2.0</max>
             <max>1.4.2.0</max>
             <max>1.2.3</max>
-            <max>1.0.3</max>
+            <max>1.0.7</max>
          </max>
          <recommended>
             <recommended/>

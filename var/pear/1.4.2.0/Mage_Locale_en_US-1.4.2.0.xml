@@ -1,5 +1,5 @@
 <_>
-   <form_key>c0XNtB0wryT80dsV</form_key>
+   <form_key>j4qpdxt69R9aEF2k</form_key>
    <name>Mage_Locale_en_US</name>
    <channel>connect.magentocommerce.com/core</channel>
    <summary>en_US locale</summary>
@@ -124,7 +124,7 @@
       </include>
       <ignore>
          <ignore/>
-         <ignore>#Mage_Adminhtml|Mage_Compiler|Mage_Centinel|Phoenix_Moneybookers#</ignore>
+         <ignore>#Mage_Adminhtml|Mage_Compiler|Mage_Centinel|Phoenix_Moneybookers|Find_Feed#</ignore>
       </ignore>
    </contents>
 </_>

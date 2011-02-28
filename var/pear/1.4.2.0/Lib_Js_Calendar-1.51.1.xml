@@ -1,5 +1,5 @@
 <_>
-   <form_key>c0XNtB0wryT80dsV</form_key>
+   <form_key>EM5zo3RIbVcIPX8T</form_key>
    <name>Lib_Js_Calendar</name>
    <channel>connect.magentocommerce.com/core</channel>
    <summary>Javascript Calendar for Magento</summary>
@@ -134,4 +134,8 @@
          <ignore/>
       </ignore>
    </contents>
+   <page>1</page>
+   <limit>200</limit>
+   <folder/>
+   <package/>
 </_>
