@@ -2033,6 +2033,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 /* Wishlist */
 .my-wishlist textarea { width:99%; height:10em; }
+.my-wishlist .truncated .truncated_full_value .item-options dl { background-image:none; margin-rigth:0; padding-right:12px; }
 #wishlist-table .price-box { margin:3px 0; }
 #wishlist-table button.btn-cart { margin:3px 0; }
 
