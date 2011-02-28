@@ -57,7 +57,7 @@ function XmlconnectTabUpdate() {
             if(isActive) {
                 // Enabled tabs
                 if(tags[j].className.indexOf('mm_img')>0) {
-                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('xmlconnect/image')->getSkinImagesUrl(); ?>'+enabledTabs[i].image+'" alt="" />'
+                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('xmlconnect/image')->getSkinImagesUrl(); ?>'+firstTabItems[i].image+'" alt="" />'
                     tags[j].style.visibility = 'visible'
                 }
                 if(tags[j].className.indexOf('mm_name')>0) {
@@ -94,7 +94,7 @@ function XmlconnectTabUpdate() {
                 }
                 // Enabled tabs
                 if(tags[j].className.indexOf('mm_img')>0) {
-                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('xmlconnect/image')->getSkinImagesUrl(); ?>'+enabledTabs[i].image+'" alt="" />'
+                    tags[j].innerHTML = '<img src="<?php echo Mage::helper('xmlconnect/image')->getSkinImagesUrl(); ?>'+secondTabItems[i].image+'" alt="" />'
                     tags[j].style.visibility = 'visible'
                 }
                 if(tags[j].className.indexOf('mm_name')>0) {
@@ -253,7 +253,7 @@ function XmlconnectTabDisable(tabNumber, panelNamber) {
     id="<?php echo htmlspecialchars($this->getName()); ?>"
     value="<?php echo htmlspecialchars($this->getValue()); ?>" />
 
-<div class="mm-tabs-title"><?php echo Mage::helper('xmlconnect')->__('Title bar') ?></div>
+<div class="mm-tabs-title"><?php echo $this->__('Title bar') ?></div>
 <table border="0">
     <tr>
         <td width="20%" align="center" valign="bottom" class="mm1_tab0 mm_img"> </td>
@@ -272,11 +272,11 @@ function XmlconnectTabDisable(tabNumber, panelNamber) {
     </tr>
     <tr>
         <td><!-- Home tab == always active --></td>
-        <td align="center" class="mm1_tab1 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(1,1)"><?php echo Mage::helper('xmlconnect')->__('Make Inactive'); ?></a></td>
-        <td align="center" class="mm1_tab2 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(2,1)"><?php echo Mage::helper('xmlconnect')->__('Make Inactive'); ?></a></td>
+        <td align="center" class="mm1_tab1 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(1,1)"><?php echo $this->__('Make Inactive'); ?></a></td>
+        <td align="center" class="mm1_tab2 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(2,1)"><?php echo $this->__('Make Inactive'); ?></a></td>
     </tr>
 </table>
-<div class="mm-tabs-title"><?php echo Mage::helper('xmlconnect')->__('Options menu items') ?></div>
+<div class="mm-tabs-title"><?php echo $this->__('Options menu items') ?></div>
 <table border="0">
     <tr>
         <td width="20%" align="center" valign="bottom" class="mm2_tab0 mm_img"> </td>
@@ -290,23 +290,23 @@ function XmlconnectTabDisable(tabNumber, panelNamber) {
     </tr>
     <tr>
         <td align="center" valign="top" class="mm2_tab0 mm_ctrl">
-            <input type="button" class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMove(0,1)" />
+            <input type="button" class="m-arrows r-arrow full-arrow" value="&rarr;" onclick="XmlconnectTabMove(0,1)" style="margin-left:50px;" />
         </td>
         <td align="center" valign="top" class="mm2_tab1 mm_ctrl">
-            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMove(1,0)" />
+            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMove(1,0)" style="margin-left:20px;" />
             <input type="button" class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMove(1,2)" />
         </td>
         <td align="center" valign="top" class="mm2_tab2 mm_ctrl">
-            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMove(2,1)" />
+            <input type="button" class="m-arrows l-arrow full-arrow-left" value="&larr;" onclick="XmlconnectTabMove(2,1)" style="margin-left:50px;" />
         </td>
     </tr>
     <tr>
-        <td align="center" class="mm2_tab0 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(0,2)"><?php echo Mage::helper('xmlconnect')->__('Make Inactive'); ?></a></td>
-        <td align="center" class="mm2_tab1 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(1,2)"><?php echo Mage::helper('xmlconnect')->__('Make Inactive'); ?></a></td>
-        <td align="center" class="mm2_tab2 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(2,2)"><?php echo Mage::helper('xmlconnect')->__('Make Inactive'); ?></a></td>
+        <td align="center" class="mm2_tab0 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(0,2)"><?php echo $this->__('Make Inactive'); ?></a></td>
+        <td align="center" class="mm2_tab1 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(1,2)"><?php echo $this->__('Make Inactive'); ?></a></td>
+        <td align="center" class="mm2_tab2 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(2,2)"><?php echo $this->__('Make Inactive'); ?></a></td>
     </tr>
 </table>
-<div class="mm-tabs-title"><?php Mage::helper('xmlconnect')->__('Inactive Tabs'); ?></div>
+<div class="mm-tabs-title"><?php $this->__('Inactive Tabs'); ?></div>
 <table border="0">
     <tr>
         <td width="20%" align="center" valign="bottom" class="mmd_tab0 mm_img" style="opacity: .5"> </td>
@@ -323,11 +323,11 @@ function XmlconnectTabDisable(tabNumber, panelNamber) {
         <td align="center" class="mmd_tab4 mm_name"> </td>
     </tr>
     <tr>
-        <td align="center" class="mmd_tab0 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(0)"><?php echo Mage::helper('xmlconnect')->__('Activate'); ?></a></td>
-        <td align="center" class="mmd_tab1 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(1)"><?php echo Mage::helper('xmlconnect')->__('Activate'); ?></a></td>
-        <td align="center" class="mmd_tab2 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(2)"><?php echo Mage::helper('xmlconnect')->__('Activate'); ?></a></td>
-        <td align="center" class="mmd_tab3 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(3)"><?php echo Mage::helper('xmlconnect')->__('Activate'); ?></a></td>
-        <td align="center" class="mmd_tab4 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(4)"><?php echo Mage::helper('xmlconnect')->__('Activate'); ?></a></td>
+        <td align="center" class="mmd_tab0 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(0)"><?php echo $this->__('Activate'); ?></a></td>
+        <td align="center" class="mmd_tab1 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(1)"><?php echo $this->__('Activate'); ?></a></td>
+        <td align="center" class="mmd_tab2 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(2)"><?php echo $this->__('Activate'); ?></a></td>
+        <td align="center" class="mmd_tab3 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(3)"><?php echo $this->__('Activate'); ?></a></td>
+        <td align="center" class="mmd_tab4 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(4)"><?php echo $this->__('Activate'); ?></a></td>
     </tr>
 </table>
 

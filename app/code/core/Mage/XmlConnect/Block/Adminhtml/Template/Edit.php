@@ -39,7 +39,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit extends Mage_Adminhtml_Block
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''
             . Mage::helper('adminhtml')->__('Warning: All related AirMail messages will be deteted!\n Are you sure you want to do this?')
             .'\', \'' . $this->getDeleteUrl() . '\')');
-        $this->_updateButton('save', 'label', Mage::helper('xmlconnect')->__('Save'));
+        $this->_updateButton('save', 'label', $this->__('Save'));
         $this->_updateButton('save', 'onclick', 'if (editForm.submit()) {disableElements(\'save\')}');
         $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/*/template') . '\')');
     }
@@ -63,9 +63,9 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit extends Mage_Adminhtml_Block
     {
         $template = Mage::registry('current_template');
         if ($template && $template->getId()) {
-            return Mage::helper('xmlconnect')->__('Edit Template "%s"', $this->htmlEscape($template->getName()));
+            return $this->__('Edit Template "%s"', $this->htmlEscape($template->getName()));
         } else {
-            return Mage::helper('xmlconnect')->__('New Template');
+            return $this->__('New Template');
         }
     }
 }

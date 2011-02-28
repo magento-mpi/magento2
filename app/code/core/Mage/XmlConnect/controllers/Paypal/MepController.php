@@ -57,7 +57,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         if (!Mage::getSingleton('customer/session')->isLoggedIn()
                 && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->_message(Mage::helper('xmlconnect')->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
     }
@@ -72,12 +72,12 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         try {
             $this->_initCheckout();
             $reservedOrderId = $this->_checkout->initCheckout();
-            $this->_message(Mage::helper('xmlconnect')->__('Checkout has been initialized.'), self::MESSAGE_STATUS_SUCCESS);
+            $this->_message($this->__('Checkout has been initialized.'), self::MESSAGE_STATUS_SUCCESS);
             return;
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Unable to start MEP Checkout.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Unable to start MEP Checkout.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
     }
@@ -90,7 +90,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
     public function saveShippingAddressAction()
     {
         if (!$this->getRequest()->isPost()) {
-            $this->_message(Mage::helper('xmlconnect')->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
         try {
@@ -98,7 +98,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             $data = $this->getRequest()->getPost('shipping', array());
             $result = $this->_checkout->saveShipping($data);
             if (!isset($result['error'])) {
-                $this->_message(Mage::helper('xmlconnect')->__('Shipping address has been set.'), self::MESSAGE_STATUS_SUCCESS);
+                $this->_message($this->__('Shipping address has been set.'), self::MESSAGE_STATUS_SUCCESS);
             } else {
                 if (!is_array($result['message'])) {
                     $result['message'] = array($result['message']);
@@ -108,7 +108,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Unable to save shipping address.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Unable to save shipping address.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
     }
@@ -127,7 +127,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Unable to get shipping methods list.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Unable to get shipping methods list.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
     }
@@ -140,7 +140,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
     public function saveShippingMethodAction()
     {
         if (!$this->getRequest()->isPost()) {
-            $this->_message(Mage::helper('xmlconnect')->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
         try {
@@ -150,7 +150,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             if (!isset($result['error'])) {
                 $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
-                $message->addChild('text', Mage::helper('xmlconnect')->__('Shipping method has been set.'));
+                $message->addChild('text', $this->__('Shipping method has been set.'));
                 if ($this->_getQuote()->isVirtual()) {
                     $quoteAddress = $this->_getQuote()->getBillingAddress();
                 } else {
@@ -168,7 +168,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Unable to save shipping method.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Unable to save shipping method.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
     }
@@ -188,7 +188,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Unable to collect cart totals.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Unable to collect cart totals.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
     }
@@ -201,7 +201,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
     public function saveOrderAction()
     {
         if (!$this->getRequest()->isPost()) {
-            $this->_message(Mage::helper('xmlconnect')->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
         try {
@@ -229,9 +229,9 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
             $orderId = $this->_checkout->getLastOrderId();
 
-            $text = Mage::helper('xmlconnect')->__('Thank you for your purchase! ');
-            $text .= Mage::helper('xmlconnect')->__('Your order # is: %s. ', $orderId);
-            $text .= Mage::helper('xmlconnect')->__('You will receive an order confirmation email with details of your order and a link to track its progress.');
+            $text = $this->__('Thank you for your purchase! ');
+            $text .= $this->__('Your order # is: %s. ', $orderId);
+            $text .= $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.');
             $message->addChild('text', $text);
 
             $message->addChild('order_id', $orderId);
@@ -240,7 +240,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
-            $this->_message(Mage::helper('xmlconnect')->__('Unable to place the order.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message($this->__('Unable to place the order.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
     }
@@ -256,7 +256,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
 
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Unable to initialize MEP Checkout.'));
+            Mage::throwException($this->__('Unable to initialize MEP Checkout.'));
         }
         if (!$quote->validateMinimumAmount()) {
             $error = Mage::getStoreConfig('sales/minimum_order/error_message');

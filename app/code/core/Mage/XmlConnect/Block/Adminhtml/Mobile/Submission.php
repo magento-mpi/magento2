@@ -44,9 +44,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_B
 
         $app = Mage::registry('current_app');
         if ($app && $app->getIsResubmitAction()) {
-            $label = Mage::helper('xmlconnect')->__('Resubmit App');
+            $label = $this->__('Resubmit App');
         } else {
-            $label = Mage::helper('xmlconnect')->__('Submit App');
+            $label = $this->__('Submit App');
         }
 
         $this->_addButton('submission_post', array(
@@ -55,7 +55,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_B
             'onclick' => "submitApplication()",
         ));
 
-        $this->_updateButton('back', 'label', Mage::helper('xmlconnect')->__('Back to App Edit'));
+        $this->_updateButton('back', 'label', $this->__('Back to App Edit'));
         $this->_updateButton('back', 'onclick', 'setLocation(\''. $this->getUrl('*/*/edit',
             array('application_id' => Mage::registry('current_app')->getId())) . '\')');
     }
@@ -69,7 +69,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_B
     {
         $app = Mage::registry('current_app');
         if ($app && $app->getId()) {
-            return Mage::helper('xmlconnect')->__('Submit App "%s"', $this->htmlEscape($app->getName()));
+            return $this->__('Submit App "%s"', $this->htmlEscape($app->getName()));
         }
         return '';
     }

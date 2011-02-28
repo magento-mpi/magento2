@@ -138,7 +138,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             ->load($this->getRequest()->getParam('id', 0));
 
         if (!$product) {
-            throw new Mage_Core_Exception(Mage::helper('xmlconnect')->__('Selected product is unavailable.'));
+            throw new Mage_Core_Exception($this->__('Selected product is unavailable.'));
         } else {
             $this->setProduct($product);
             $productXmlObj = $this->productToXmlObject($product, 'product');

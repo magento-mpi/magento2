@@ -82,7 +82,7 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('More Info'),
-                    'image' => 'tab_page_android.png',
+                    'image' => 'tab_info_android.png',
                     'action' => 'AboutUs',
                     'menu' => self::TAGS_ID_FOR_OPTION_MENU,
                 ),

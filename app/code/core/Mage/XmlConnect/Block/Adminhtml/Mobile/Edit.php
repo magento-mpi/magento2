@@ -37,19 +37,19 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         $app = $this->getApplication();
 
         if ((bool)!Mage::getSingleton('adminhtml/session')->getNewApplication()) {
-            $this->_updateButton('save', 'label', Mage::helper('xmlconnect')->__('Save'));
+            $this->_updateButton('save', 'label', $this->__('Save'));
             $this->_updateButton('save', 'onclick', 'if (editForm.submit()) {disableElements(\'save\')}');
 
             $this->_addButton('save_and_continue', array(
-                'label'     => Mage::helper('xmlconnect')->__('Save and Continue Edit'),
+                'label'     => $this->__('Save and Continue Edit'),
                 'onclick'   => 'saveAndContinueEdit()',
                 'class'     => 'save',
             ), -5);
 
             if ($app->getId()) {
                 $this->_addButton('submit_application_button', array(
-                    'label'     =>  Mage::helper('xmlconnect')->__('Save and Submit App'),
-                    'onclick'   => 'saveAndSubmitApp()',
+                    'label' =>  $this->__('Save and Submit App'),
+                    'onclick'    => 'saveAndSubmitApp()',
                     'class'     => 'save'
                 ), -10);
             }
@@ -103,9 +103,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
     {
         $app = $this->getApplication();
         if ($app && $app->getId()) {
-            return Mage::helper('xmlconnect')->__('Edit App "%s"', $this->htmlEscape($app->getName()));
+            return $this->__('Edit App "%s"', $this->htmlEscape($app->getName()));
         } else {
-            return Mage::helper('xmlconnect')->__('New App');
+            return $this->__('New App');
         }
     }
 }

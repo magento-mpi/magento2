@@ -26,33 +26,43 @@
 ?>
 <?php
 $categoryItemTintColor = $this->getCategoryItemTintColor();
+$categoryItemBackgroundColor = $this->getData('conf/categoryItem/backgroundColor');
+$categoryItemTintColor = $this->getData('conf/categoryItem/tintColor');
+$title9size = $this->getConfigFontInfo('Title9/size');
+$productImage = $this->getPreviewImagesUrl('android/product_image.png');
+
+if ($this->getData('conf/body/bannerImageAndroid')) {
+    $bannerImageAndroid = Mage::getBaseUrl('media') . 'xmlconnect/' . $this->getData('conf/body/bannerImageAndroid');
+} else {
+    $bannerImageAndroid = $this->getDesignPreviewImageUrl($this->getInterfaceImagesPaths('conf/body/bannerImageAndroid'));
+}
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-android.css'); ?>" media="all" />
 
 <div class="main-frame main-frame-home" style="background-color:<?php echo $this->getData('conf/body/backgroundColor'); ?>;">
-    <div class="phone home-page" style="">            
+    <div class="phone home-page" style="">
         <div class="status-bar"></div>
         <div class="header-wrap" style="background-color:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>">
             <div class="header"></div>
         </div>
-        <div class="content" style="background-image:url(<?php echo $this->getData('conf/body/bannerImageAndroid') ? Mage::getBaseUrl('media') . 'xmlconnect/' . $this->getData('conf/body/bannerImageAndroid') : $this->getDesignPreviewImageUrl($this->getInterfaceImagesPaths('conf/body/bannerImageAndroid')); ?>)"></div>
+        <div class="content" style="background-image:url(<?php echo $bannerImageAndroid; ?>)"></div>
         <div class="items-list" style="background-color:<?php echo $this->getData('conf/body/scrollBackgroundColor'); ?>">
             <ul>
-                <li style="background-color:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                    <div class="product-image"><img src="<?php echo $this->getPreviewImagesUrl('android/product_image.png') ?>" alt="Chair" /></div>
-                    <span class="link"><a href="#" style="font-size:<?php echo $this->getData('conf/fonts/Title9/size'); ?>px; color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background-color:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>">Chairs</a></span>
+                <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
+                    <div class="product-image"><img src="<?php echo $productImage; ?>" alt="Chair" /></div>
+                    <span class="link"><a href="#" style="font-size:<?php echo $title9size; ?>px; color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background-color:<?php echo $categoryItemTintColor; ?>">Chairs</a></span>
                 </li>
-                <li style="background-color:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                    <div class="product-image"><img src="<?php echo $this->getPreviewImagesUrl('android/product_image.png') ?>" alt="Table" /></div>
-                    <span class="link"><a href="#" style="font-size:<?php echo $this->getData('conf/fonts/Title9/size'); ?>px; color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background-color:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>">Tables</a></span>
+                <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
+                    <div class="product-image"><img src="<?php echo $productImage; ?>" alt="Table" /></div>
+                    <span class="link"><a href="#" style="font-size:<?php echo $title9size; ?>px; color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background-color:<?php echo $categoryItemTintColor; ?>">Tables</a></span>
                 </li>
-                <li style="background-color:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                    <div class="product-image"><img src="<?php echo $this->getPreviewImagesUrl('android/product_image.png') ?>" alt="Sofa" /></div>
-                    <span class="link"><a href="#" style="font-size:<?php echo $this->getData('conf/fonts/Title9/size'); ?>px; color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background-color:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>">Sofas</a></span>
+                <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
+                    <div class="product-image"><img src="<?php echo $productImage; ?>" alt="Sofa" /></div>
+                    <span class="link"><a href="#" style="font-size:<?php echo $title9size; ?>px; color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background-color:<?php echo $categoryItemTintColor; ?>">Sofas</a></span>
                 </li>
-                <li style="background-color:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                    <div class="product-image"><img src="<?php echo $this->getPreviewImagesUrl('android/product_image.png') ?>" alt="Shelve" /></div>
-                    <span class="link"><a href="#" style="font-size:<?php echo $this->getData('conf/fonts/Title9/size'); ?>px; color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background-color:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>">Shelve</a></span>
+                <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
+                    <div class="product-image"><img src="<?php echo $productImage; ?>" alt="Shelve" /></div>
+                    <span class="link"><a href="#" style="font-size:<?php echo $title9size; ?>px; color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; background-color:<?php echo $categoryItemTintColor; ?>">Shelve</a></span>
                 </li>
             </ul>
         </div>

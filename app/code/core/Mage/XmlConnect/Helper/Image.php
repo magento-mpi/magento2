@@ -105,7 +105,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     protected function _getScreenSize()
     {
-        return Mage::registry('current_app')->getScreenSize(); 
+        return Mage::registry('current_app')->getScreenSize();
     }
 
     /**
@@ -282,11 +282,11 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
 
     /**
      * Return correct size for given $imageName and device screen_size
-     * 
+     *
      * @param string $imageName
      * @return int
      */
-    public function getImageSizeForContent($imageName) 
+    public function getImageSizeForContent($imageName)
     {
         $size = 0;
         if (!isset($this->_content)) {
@@ -302,13 +302,13 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
                 }
             }
         }
-        $size = isset($this->_content[$imageName]) ? (int) $this->_content[$imageName] : 0; 
+        $size = isset($this->_content[$imageName]) ? (int) $this->_content[$imageName] : 0;
         return $size;
     }
 
     /**
      * Return setting for interface images (image size limits)
-     * 
+     *
      * @return array
      */
     public function getInterfaceImageLimits()
@@ -391,7 +391,6 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function filterScreenSize($screenSize)
     {
-        
         $screenSize = preg_replace('/[^0-9A-z_]/', '', $screenSize);
         if (isset($this->_imageLimits[$screenSize])) {
             return $screenSize;
@@ -424,7 +423,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
 
     /**
      * Return correct size array for given device screen_size(320x480/640x960_a)
-     * 
+     *
      * @param string $screenSize
      * @return array
      */
@@ -511,13 +510,13 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
             $imageLimits = array();
         }
 
-        $this->_imageLimits[$screenSize] = $imageLimits; 
+        $this->_imageLimits[$screenSize] = $imageLimits;
         return $imageLimits;
     }
 
     /**
      * Return reference to the $path in $array
-     * 
+     *
      * @param array $array
      * @param string $path
      * @return &mixed    //(reference)
@@ -584,7 +583,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
 
     /**
      * Return originalSizeUploadDir path
-     * 
+     *
      * @return string
      */
     public function getOriginalSizeUploadDir()
@@ -596,7 +595,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
 
     /**
      * Return oldUpload dir path  (media/xmlconnect)
-     * 
+     *
      * @return string
      */
     public function getOldUploadDir()
@@ -608,7 +607,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
 
     /**
      * Return default size upload dir path
-     * 
+     *
      * @return string
      */
     public function getDefaultSizeUploadDir()

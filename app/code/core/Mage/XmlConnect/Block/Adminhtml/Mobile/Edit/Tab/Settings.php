@@ -50,12 +50,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Settings extends Mage_Admi
 
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('app_');
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => Mage::helper('xmlconnect')->__('Device Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => $this->__('Device Information')));
 
         $fieldset->addField('type', 'select', array(
                 'name'      => 'type',
-                'label'     => Mage::helper('xmlconnect')->__('Device Type'),
-                'title'     => Mage::helper('xmlconnect')->__('Device Type'),
+                'label'     => $this->__('Device Type'),
+                'title'     => $this->__('Device Type'),
                 'values'    => Mage::helper('xmlconnect')->getDeviceTypeOptions(),
                 'required'  => true
         ));
@@ -75,7 +75,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Settings extends Mage_Admi
      */
     public function getTabLabel()
     {
-        return Mage::helper('xmlconnect')->__('Settings');
+        return $this->__('Settings');
     }
 
     /**
@@ -85,7 +85,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Settings extends Mage_Admi
      */
     public function getTabTitle()
     {
-        return Mage::helper('xmlconnect')->__('Settings');
+        return $this->__('Settings');
     }
 
     /**

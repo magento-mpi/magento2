@@ -53,25 +53,25 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification extends Mage_
         $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('notifications', array(
-            'legend'    => Mage::helper('xmlconnect')->__('Urban Airship Push Notification'),
+            'legend'    => $this->__('Urban Airship Push Notification'),
         ));
 
         $notificationEnabled = $fieldset->addField('conf/native/notifisations/isActive', 'select', array(
-            'label'     => Mage::helper('xmlconnect')->__('Enable AirMail Message Push notification'),
+            'label'     => $this->__('Enable AirMail Message Push notification'),
             'name'      => 'conf[native][notifications][isActive]',
             'values'    => $yesNoValues,
             'value'     => (isset($data['conf[native][notifications][isActive]']) ? $data['conf[native][notifications][isActive]'] : '0'),
         ));
 
         $applicationKey = $fieldset->addField('conf/native/notifications/applicationKey', 'text', array(
-            'label'     => Mage::helper('xmlconnect')->__('Application Key'),
+            'label'     => $this->__('Application Key'),
             'name'      => 'conf[native][notifications][applicationKey]',
             'value'     => (isset($data['conf[native][notifications][applicationKey]']) ? $data['conf[native][notifications][applicationKey]'] : ''),
             'required'  => true
         ));
 
         $applicationSecret = $fieldset->addField('conf/native/notifications/applicationSecret', 'text', array(
-            'label'     => Mage::helper('xmlconnect')->__('Application Secret'),
+            'label'     => $this->__('Application Secret'),
             'name'      => 'conf[native][notifications][applicationSecret]',
             'value'     => (isset($data['conf[native][notifications][applicationSecret]']) ? $data['conf[native][notifications][applicationSecret]'] : ''),
             'required'  => true
@@ -79,18 +79,18 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification extends Mage_
 
 
         $applicationMasterSecret = $fieldset->addField('conf/native/notifications/applicationMasterSecret', 'text', array(
-            'label'     => Mage::helper('xmlconnect')->__('Application Master Secret'),
+            'label'     => $this->__('Application Master Secret'),
             'name'      => 'conf[native][notifications][applicationMasterSecret]',
             'value'     => (isset($data['conf[native][notifications][applicationMasterSecret]']) ? $data['conf[native][notifications][applicationMasterSecret]'] : ''),
             'required'  => true
         ));
 
         $mailboxTitle = $fieldset->addField('conf/native/notifications/mailboxTitle', 'text', array(
-            'label'     => Mage::helper('xmlconnect')->__('Mailbox title'),
+            'label'     => $this->__('Mailbox title'),
             'name'      => 'conf[native][notifications][mailboxTitle]',
             'value'     => (isset($data['conf[native][notifications][mailboxTitle]']) ? $data['conf[native][notifications][mailboxTitle]'] : ''),
             'required'  => true,
-            'note'      => Mage::helper('xmlconnect')->__('The Mailbox title will be shown in the More Info tab. To understand more about the title, please <a href="some link">click here</a>')
+            'note'      => $this->__('The Mailbox title will be shown in the More Info tab. To understand more about the title, please <a href="some link">click here</a>')
         ));
 
         // field dependencies
@@ -128,7 +128,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification extends Mage_
      */
     public function getTabLabel()
     {
-        return Mage::helper('xmlconnect')->__('Push Notification');
+        return $this->__('Push Notification');
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Notification extends Mage_
      */
     public function getTabTitle()
     {
-        return Mage::helper('xmlconnect')->__('Push Notification');
+        return $this->__('Push Notification');
     }
 
     /**

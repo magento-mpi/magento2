@@ -40,7 +40,7 @@
     {
         $this->_blockGroup = 'xmlconnect';
         $this->_controller = 'adminhtml_template';
-        $this->_headerText = Mage::helper('xmlconnect')->__('AirMail templates');
+        $this->_headerText = $this->__('AirMail templates');
 
         parent::__construct();
         $this->removeButton('add');
@@ -55,7 +55,7 @@
     protected function _prepareLayout()
     {
         $this->_addButton('add_new', array(
-            'label'   => Mage::helper('xmlconnect')->__('Add New Template'),
+            'label'   => $this->__('Add New Template'),
             'onclick' => "setLocation('{$this->getUrl('*/*/newTemplate')}')",
             'class'   => 'add'
         ));

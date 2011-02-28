@@ -68,34 +68,34 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => Mage::helper('xmlconnect')->__('ID'),
+            'header'    => $this->__('ID'),
             'align'     => 'center',
             'index'     => 'id',
             'width'     => '40px'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('xmlconnect')->__('Template Name'),
+            'header'    => $this->__('Template Name'),
             'align'     => 'left',
             'index'     => 'name'
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('xmlconnect')->__('Date Created'),
+            'header'    => $this->__('Date Created'),
             'align'     => 'left',
             'index'     => 'created_at',
             'type'      => 'datetime'
         ));
 
         $this->addColumn('modified_at', array(
-            'header'    => Mage::helper('xmlconnect')->__('Date Updated'),
+            'header'    => $this->__('Date Updated'),
             'align'     => 'left',
             'index'     => 'modified_at',
             'type'      => 'datetime'
         ));
 
         $this->addColumn('app_code', array(
-            'header'    => Mage::helper('xmlconnect')->__('Application'),
+            'header'    => $this->__('Application'),
             'index'     => 'app_code',
             'type'      => 'options',
             'align'     => 'left',
@@ -104,26 +104,26 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('push_title', array(
-            'header'    => Mage::helper('xmlconnect')->__('Push Title'),
+            'header'    => $this->__('Push Title'),
             'type'      => 'text',
             'align'     => 'left',
             'index'     => 'push_title'
         ));
 
         $this->addColumn('message_title', array(
-            'header'    => Mage::helper('xmlconnect')->__('Message Title'),
+            'header'    => $this->__('Message Title'),
             'type'      => 'text',
             'align'     => 'left',
             'index'     => 'message_title'
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('xmlconnect')->__('Action'),
+            'header'    => $this->__('Action'),
             'type'      => 'action',
             'getter'    => 'getId',
             'actions'   => array(
                 array(
-                    'caption'   => Mage::helper('xmlconnect')->__('Preview'),
+                    'caption'   => $this->__('Preview'),
                     'url'       => array(
                         'base'  => '*/*/previewTemplate'
                     ),
@@ -131,7 +131,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid extends Mage_Adminhtml_Block
                     'field'     => 'id'
                 ),
                 array(
-                    'caption'   => Mage::helper('xmlconnect')->__('Queue Message'),
+                    'caption'   => $this->__('Queue Message'),
                     'url'       => array(
                         'base'      => '*/*/queueMessage',
                     ),

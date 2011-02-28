@@ -153,7 +153,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
             $renderer->addPaymentFormToXmlObj($methodItemXmlObj);
         }
         if (!count($usedMethods)) {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Sorry, no payment options are available for this order at this time.'));
+            Mage::throwException($this->__('Sorry, no payment options are available for this order at this time.'));
         }
 
         return $methodsXmlObj->asNiceXml();

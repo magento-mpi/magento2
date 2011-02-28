@@ -97,6 +97,26 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     }
 
     /**
+     * Get font info from config
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getConfigFontInfo($path)
+    {
+        return $this->getData('conf/fonts/' . $path);
+    }
+
+    public function getLogoUrl()
+    {
+        if ($this->getData('conf/navigationBar/icon')) {
+            return $this->getData('conf/navigationBar/icon');
+        } else {
+            return $this->getDesignPreviewImageUrl($this->getInterfaceImagesPaths('conf/navigationBar/icon'));
+        }
+    }
+
+    /**
      * Expose function getInterfaceImagesPaths from xmlconnect/images
      * Converts Data path(conf/submision/zzzz) to config path (conf/native/submission/zzzzz)
      *

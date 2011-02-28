@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit extends Mage_Adminhtml_Block_Wi
             $this->_removeButton('reset');
             $this->_removeButton('save');
         } else {
-            $this->_updateButton('save', 'label', Mage::helper('xmlconnect')->__('Queue Message'));
+            $this->_updateButton('save', 'label', $this->__('Queue Message'));
             $this->_updateButton('save', 'onclick', 'if (editForm.submit()) {disableElements(\'save\')}');
         }
         $this->_removeButton('delete');
@@ -72,9 +72,9 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit extends Mage_Adminhtml_Block_Wi
     {
         $message = Mage::registry('current_message');
         if ($message && $message->getId()) {
-            return Mage::helper('xmlconnect')->__('Edit AirMail Message Queue #%s', $this->htmlEscape($message->getId()));
+            return $this->__('Edit AirMail Message Queue #%s', $this->htmlEscape($message->getId()));
         } else {
-            return Mage::helper('xmlconnect')->__('New AirMail Message Queue');
+            return $this->__('New AirMail Message Queue');
         }
     }
 }

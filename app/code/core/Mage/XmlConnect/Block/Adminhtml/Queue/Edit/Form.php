@@ -44,7 +44,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form extends Mage_XmlConnect_Bl
             $templateModel = Mage::getModel('xmlconnect/template')->load($model->getTemplateId());
         }
 
-        $fieldset = $this->getForm()->addFieldset("message_settings", array('legend' => Mage::helper('xmlconnect')->__('Message Settings')), '^');
+        $fieldset = $this->getForm()->addFieldset("message_settings", array('legend' => $this->__('Message Settings')), '^');
 
         if ($model->getId()) {
             $fieldset->addField('message_id', 'hidden', array(
@@ -59,8 +59,8 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form extends Mage_XmlConnect_Bl
         $sovereignField = $fieldset->addField('type', 'select', array(
             'name'      => 'type',
             'values'    => Mage::helper('xmlconnect')->getMessageTypeOptions(),
-            'label'     => Mage::helper('xmlconnect')->__('Message Type'),
-            'title'     => Mage::helper('xmlconnect')->__('Message Type'),
+            'label'     => $this->__('Message Type'),
+            'title'     => $this->__('Message Type'),
             'disabled'  => !$this->_fieldsEnabled,
             'required'  => true,
         ));
@@ -68,11 +68,11 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit_Form extends Mage_XmlConnect_Bl
         $fieldset->addField('exec_time', 'date', array(
             'name'      => 'exec_time',
             'format'    => Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
-            'label'     => Mage::helper('xmlconnect')->__('Start Date'),
+            'label'     => $this->__('Start Date'),
             'time'      => true,
-            'title'     => Mage::helper('xmlconnect')->__('Start Date'),
+            'title'     => $this->__('Start Date'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'note'      => Mage::helper('xmlconnect')->__('If leave this field empty, the message will be sent immediately'),
+            'note'      => $this->__('If leave this field empty, the message will be sent immediately'),
             'disabled'  => !$this->_fieldsEnabled,
             'required'  => false,
         ));

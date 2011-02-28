@@ -66,7 +66,7 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Chec
                 }
             }
         } else {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Sorry, no quotes are available for this order at this time.'));
+            Mage::throwException($this->__('Sorry, no quotes are available for this order at this time.'));
         }
         return $methodsXmlObj->asNiceXml();
     }

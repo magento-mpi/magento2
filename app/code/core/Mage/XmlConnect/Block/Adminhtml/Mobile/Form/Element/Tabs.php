@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs extends Varien_Da
         if (array_key_exists($device, Mage::helper('xmlconnect')->getSupportedDevices())) {
             $template = 'xmlconnect/form/element/app_tabs_' . strtolower($device) . '.phtml';
         } else {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Device doesn\'t recognized. Unable to load a template.'));
+            Mage::throwException($this->__('Device doesn\'t recognized. Unable to load a template.'));
         }
 
         $block->setTemplate($template);

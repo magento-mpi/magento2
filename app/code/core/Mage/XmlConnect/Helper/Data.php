@@ -66,6 +66,13 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_NODE_CONFIG_EXCLUDE_FROM_XML = 'xmlconnect/mobile_application/nodes_excluded_from_config_xml';
 
     /**
+     * Default device type
+     *
+     * @var string
+     */
+    const DEVICE_TYPE_DEFAULT = 'unknown';
+
+    /**
      * iPhone device identifier
      *
      * @var string
@@ -95,11 +102,14 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDeviceHelper($application = null)
     {
-        $deviceType = 'unknown';
+        $deviceType = null;
         if (empty($application)) {
             $deviceType = (string) $this->getApplication()->getType();
         } elseif ($application instanceof Mage_XmlConnect_Model_Application) {
             $deviceType = (string) $application->getType();
+        }
+        if (empty($deviceType)) {
+            $deviceType = self::DEVICE_TYPE_DEFAULT;
         }
         switch ($deviceType) {
             case self::DEVICE_TYPE_IPHONE:

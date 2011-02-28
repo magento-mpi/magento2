@@ -58,7 +58,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
      */
     public function getTabLabel()
     {
-        return Mage::helper('xmlconnect')->__('Submission History');
+        return $this->__('Submission History');
     }
 
     /**
@@ -68,7 +68,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
      */
     public function getTabTitle()
     {
-        return Mage::helper('xmlconnect')->__('Submission History');
+        return $this->__('Submission History');
     }
 
     /**
@@ -113,14 +113,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
     protected function _prepareColumns()
     {
         $this->addColumn('activation_key', array(
-            'header'    => Mage::helper('xmlconnect')->__('Activation Key'),
+            'header'    => $this->__('Activation Key'),
             'align'     => 'left',
             'index'     => 'activation_key',
             'type'      => 'text'
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('xmlconnect')->__('Date Submitted'),
+            'header'    => $this->__('Date Submitted'),
             'align'     => 'left',
             'index'     => 'created_at',
             'type'      => 'datetime'

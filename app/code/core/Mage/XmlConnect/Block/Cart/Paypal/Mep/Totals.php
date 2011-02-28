@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mep_Totals extends Mage_Checkout_Block_C
                 $totalsXmlObj->addChild($code, Mage::helper('xmlconnect')->formatPriceForXml($currencyAmount));
             }
         } else {
-           Mage::throwException(Mage::helper('xmlconnect')->__('Cart line items are not eligible for exporting to PayPal API'));
+           Mage::throwException($this->__('Cart line items are not eligible for exporting to PayPal API'));
         }
         return $totalsXmlObj->asNiceXml();
     }

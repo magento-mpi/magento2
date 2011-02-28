@@ -39,25 +39,33 @@ body {
 .ipad {
     height:467px;
     width:350px;
-    
-    position:absolute;
-    top:50%;
-    left:50%;
-    margin:-233px 0 0 -175px;
-}
+    }
+.ipad-horizontal {
+    height:350px;
+    width:467px;
+    }
     .ipad .status-bar {
         background:url(../images/xmlconnect/mobile_preview/ipad/bg_status_bar.png) no-repeat 0 0;
         height:9px;
         font-size:0;
         line-height:0;
         }
+    .ipad-horizontal .status-bar {
+        background-image:url(../images/xmlconnect/mobile_preview/ipad/bg_status_bar_hor.png);
+        }
     .ipad .header-wrap {
         background:url(../images/xmlconnect/mobile_preview/ipad/bg_header.png) no-repeat 0 0 #000;
         height:20px;
         }
+    .ipad-horizontal .header-wrap {
+        background-image:url(../images/xmlconnect/mobile_preview/ipad/bg_catalog_header_hor.png);
+        }
         .ipad .header .logo {
             margin-left:80px;
             margin-right:1px;
+            }
+        .ipad-horizontal .header .logo {
+            margin-left:130px;
             }
             .ipad .header .logo img {
                 vertical-align:middle;
@@ -71,6 +79,11 @@ body {
         background:url(../images/xmlconnect/mobile_preview/ipad/bg_filters_wrap.png) no-repeat 0 0 #c7c7c7;
         height:15px;
         position:relative;
+        }
+    .ipad-horizontal .filters-wrap {
+        float:left;
+        display:inline;
+        width:341px;
         }
         .ipad .filters h3 {
             color:#424242;
@@ -169,8 +182,16 @@ body {
                     }
     .ipad .content {
         background:url(../images/xmlconnect/mobile_preview/ipad/bg_content.jpg) no-repeat top;
+        float:left;
+        display:inline;
         padding:15px 0 0 15px;
         height:407px;
+        }
+    .ipad-horizontal .content {
+        background-image:url(../images/xmlconnect/mobile_preview/ipad/background_landscape_home.jpg);
+        padding:5px 0 0 10px;
+        height:300px;
+        width:331px;
         }
         .ipad .products-list {
             font-size:7px;
@@ -185,14 +206,8 @@ body {
                 }
                 .ipad .product-image img {
                     margin:0 0 5px;
-                    border:2px solid #fcfcfc;
+                    border:1px solid #fcfcfc;
                     vertical-align:bottom;
-                    -moz-border-radius:2px;
-                    -webkit-border-radius:2px;
-                    border-radius:2px;
-                    -moz-box-shadow:0 1px 2px #ccc;
-                    -webkit-box-shadow:0 1px 2px #ccc;
-                    border-radius:0 1px 2px #ccc;
                     }
                 .ipad .products-list h4 {
                     font-size:7px;
@@ -201,3 +216,32 @@ body {
                     .ipad .price-box span {
                         display:block;
                         }
+                .ipad .rating img {
+                    margin-right:4px;
+                    }
+    .ipad-horizontal .bg {
+        overflow:hidden;
+        width:100%;
+        }
+    .ipad-horizontal .sections {
+        background:url(../images/xmlconnect/mobile_preview/ipad/bg_sections.jpg) no-repeat  0 0;
+        border-right:1px solid #8c857f;
+        display:inline;
+        float:left;
+        height:321px;
+        width:125px;
+        }
+        .ipad-horizontal .sections li {
+            background:#fff;
+            border-bottom:1px solid #d1d1d1;
+            font-size:8px;
+            height:20px;
+            line-height:20px;
+            padding-left:5px;
+            }
+        .ipad-horizontal .sections .arrow {
+            background:url(../images/xmlconnect/mobile_preview/ipad/sections_arrow.png) no-repeat 115px 6px #fff;
+            }
+        .ipad-horizontal .sections .active {
+            background:#f2f2f2;
+            }

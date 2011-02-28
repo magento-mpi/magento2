@@ -40,7 +40,7 @@
     {
         $this->_blockGroup = 'xmlconnect';
         $this->_controller = 'adminhtml_queue';
-        $this->_headerText = Mage::helper('xmlconnect')->__('AirMail Messages Queue');
+        $this->_headerText = $this->__('AirMail Messages Queue');
 
         parent::__construct();
         $this->removeButton('add');

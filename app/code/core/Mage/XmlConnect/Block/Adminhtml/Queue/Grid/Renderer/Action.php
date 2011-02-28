@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Action extends Mage_Ad
     {
         $actions = array(
             array(
-                'caption'   => Mage::helper('xmlconnect')->__('Preview'),
+                'caption'   => $this->__('Preview'),
                 'url'       => $this->getUrl('*/*/previewQueue', array('id' => $row->getId())),
                 'popup'     => true,
             ),
@@ -51,20 +51,20 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Action extends Mage_Ad
 
         if ($row->getStatus() == Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE) {
             $actions[] = array(
-                'caption'   => Mage::helper('xmlconnect')->__('Edit'),
+                'caption'   => $this->__('Edit'),
                 'url'       => $this->getUrl('*/*/editQueue', array('id' => $row->getId())),
             );
             $actions[] = array(
-                'caption'   => Mage::helper('xmlconnect')->__('Cancel'),
+                'caption'   => $this->__('Cancel'),
                 'url'       => $this->getUrl('*/*/cancelQueue', array('id' => $row->getId())),
-                'confirm'   => Mage::helper('xmlconnect')->__('Are you sure you whant to cancel a message?')
+                'confirm'   => $this->__('Are you sure you whant to cancel a message?')
             );
         }
 
         $actions[] = array(
-            'caption'   => Mage::helper('xmlconnect')->__('Delete'),
+            'caption'   => $this->__('Delete'),
             'url'       => $this->getUrl('*/*/deleteQueue', array('id' => $row->getId())),
-            'confirm'   => Mage::helper('xmlconnect')->__('Are you sure you whant to delete a message?')
+            'confirm'   => $this->__('Are you sure you whant to delete a message?')
         );
 
         $this->getColumn()->setActions($actions);

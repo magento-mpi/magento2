@@ -54,29 +54,29 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
         $data = $this->getApplication()->getFormData();
         $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
 
-        $fieldset = $form->addFieldset('flurryAnalytics', array('legend' => Mage::helper('xmlconnect')->__('Flurry Analytics')));
+        $fieldset = $form->addFieldset('flurryAnalytics', array('legend' => $this->__('Flurry Analytics')));
 
         $enabled = $fieldset->addField('conf/native/merchantFlurryTracking/isActive', 'select', array(
-            'label'     => Mage::helper('xmlconnect')->__('Enable Flurry Analytics'),
+            'label'     => $this->__('Enable Flurry Analytics'),
             'name'      => 'conf[native][merchantFlurryTracking][isActive]',
             'values'    => $yesNoValues,
-            'note'      => Mage::helper('xmlconnect')->__('Enable Flurry Analytics for the merchant.'),
+            'note'      => $this->__('Enable Flurry Analytics for the merchant.'),
             'value'     => (isset($data['conf[native][merchantFlurryTracking][isActive]']) ? $data['conf[native][merchantFlurryTracking][isActive]'] : '0')
         ));
 
         $flurryAnalyticsUrl = $this->escapeHtml(Mage::getStoreConfig('xmlconnect/flurry_analytics/statistics_url'));
 
         $flurryLink = $fieldset->addField('flurry_analytics_link', 'link', array(
-            'title'     => Mage::helper('xmlconnect')->__('Flurry Analytics Site'),
-            'label'     => Mage::helper('xmlconnect')->__('Flurry Analytics Site'),
+            'title'     => $this->__('Flurry Analytics Site'),
+            'label'     => $this->__('Flurry Analytics Site'),
             'value'     => $flurryAnalyticsUrl,
             'href'      => $flurryAnalyticsUrl,
             'target'    => '__blank',
-            'note'      => Mage::helper('xmlconnect')->__('You can watch statistics here.'),
+            'note'      => $this->__('You can watch statistics here.'),
         ));
 
         $flurryApiCode = $fieldset->addField('conf/native/merchantFlurryTracking/accountId', 'text', array(
-            'label'     => Mage::helper('xmlconnect')->__('Flurry Api Code'),
+            'label'     => $this->__('Flurry Api Code'),
             'name'      => 'conf[native][merchantFlurryTracking][accountId]',
             'enabled'   => true,
             'required'  => true,
@@ -103,7 +103,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
      */
     public function getTabLabel()
     {
-        return Mage::helper('xmlconnect')->__('Analytics');
+        return $this->__('Analytics');
     }
 
     /**
@@ -113,7 +113,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
      */
     public function getTabTitle()
     {
-        return Mage::helper('xmlconnect')->__('Flurry Analytics');
+        return $this->__('Flurry Analytics');
     }
 
     /**

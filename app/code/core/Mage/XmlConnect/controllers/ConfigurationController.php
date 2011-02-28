@@ -62,11 +62,11 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             Mage::getSingleton('core/locale')->emulate($app->getStoreId());
             $app->setScreenSize($screenSize);
             if (!$app->getId()) {
-                Mage::throwException(Mage::helper('xmlconnect')->__('App with specified code does not exist.'));
+                Mage::throwException($this->__('App with specified code does not exist.'));
             }
             $app->loadConfiguration();
         } else {
-            Mage::throwException(Mage::helper('xmlconnect')->__('App code required.'));
+            Mage::throwException($this->__('App code required.'));
         }
         Mage::register('current_app', $app);
         return $app;
@@ -127,7 +127,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
         } catch (Exception $e) {
             $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
-            $message->addChild('text', Mage::helper('xmlconnect')->__('Can\'t show configuration.'));
+            $message->addChild('text', $this->__('Can\'t show configuration.'));
             Mage::logException($e);
             $this->getResponse()->setBody($message->asNiceXml());
         }

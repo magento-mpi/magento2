@@ -104,7 +104,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $app = $this->_initApp();
             if (!$app->getId()) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('App does not exist.'));
+                $this->_getSession()->addError($this->__('App does not exist.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -127,7 +127,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $this->_redirect('*/*/');
             }
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t open submission form.'));
+            $this->_getSession()->addException($e, $this->__('Can\'t open submission form.'));
             if (isset($app)) {
                 $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
             } else {
@@ -150,7 +150,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $app = $this->_initApp('application_id', $type);
 
             if (!$app->getId() && $id) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('App does not exist.'));
+                $this->_getSession()->addError($this->__('App does not exist.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -180,7 +180,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addError($e->getMessage());
             $redirectBack = true;
         } catch (Exception $e) {
-            $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Unable to load application form.'));
+            $this->_getSession()->addError($this->__('Unable to load application form.'));
             $redirectBack = true;
             Mage::logException($e);
         }
@@ -233,7 +233,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $history->save();
                 $app->getResource()->updateApplicationStatus($app->getId(),
                     Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS);
-                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('App has been submitted.'));
+                $this->_getSession()->addSuccess($this->__('App has been submitted.'));
                 $this->_clearSessionData();
                 $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
             } else {
@@ -249,7 +249,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $this->_redirect('*/*/');
             }
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t submit application.'));
+            $this->_getSession()->addException($e, $this->__('Can\'t submit application.'));
             Mage::logException($e);
             if (isset($app)) {
                 Mage::getSingleton('adminhtml/session')->setLoadSessionFlag(true);
@@ -336,7 +336,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 if (is_array($message)) {
                     $message = implode(' ,', $message);
                 }
-                Mage::throwException(Mage::helper('xmlconnect')->__('Submit App failure. %s', $message));
+                Mage::throwException($this->__('Submit App failure. %s', $message));
             }
         } catch (Exception $e) {
             throw $e;
@@ -361,13 +361,13 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     $devArray = Mage::helper('xmlconnect')->getSupportedDevices();
                     $devType = array_search($data['devtype'], $devArray);
                     if ($devType === false) {
-                        $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Wrong device type.'));
+                        $this->_getSession()->addError($this->__('Wrong device type.'));
                         $isError = true;
                     }
                 }
                 $app = $this->_initApp('application_id', $devType);
                 if (!$app->getId() && $id) {
-                    $this->_getSession()->addError(Mage::helper('xmlconnect')->__('App does not exist.'));
+                    $this->_getSession()->addError($this->__('App does not exist.'));
                     $this->_redirect('*/*/');
                     return;
                 }
@@ -384,14 +384,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 if (!$isError) {
                     $this->_saveThemeAction($data, 'current_theme');
                     $app->save();
-                    $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('App has been saved.'));
+                    $this->_getSession()->addSuccess($this->__('App has been saved.'));
                     $this->_clearSessionData();
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
                 $isError = true;
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to save app.'));
+                $this->_getSession()->addException($e, $this->__('Unable to save app.'));
                 $isError = true;
                 Mage::logException($e);
             }
@@ -430,19 +430,19 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                             if (isset($data['conf'])) {
                                 $convertedConf = $data['conf'];
                             } else {
-                                $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Cannot save theme "%s". Incorrect data received', $themeName));
+                                $response = array('error' => true, 'message' => $this->__('Cannot save theme "%s". Incorrect data received', $themeName));
                             }
                         }
                         $theme->importAndSaveData($convertedConf);
                         $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
                     } else {
-                        $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Cannot load theme "%s".', $themeName));
+                        $response = array('error' => true, 'message' => $this->__('Cannot load theme "%s".', $themeName));
                     }
                 } else {
                     $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
                 }
             } else {
-                $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Theme name is not set.'));
+                $response = array('error' => true, 'message' => $this->__('Theme name is not set.'));
             }
         } catch (Mage_Core_Exception $e) {
             $response = array(
@@ -452,7 +452,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
-                'message'   => Mage::helper('xmlconnect')->__('Can\'t save theme.')
+                'message'   => $this->__('Can\'t save theme.')
             );
         }
         if (is_array($response)) {
@@ -515,7 +515,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
-                'message'   => Mage::helper('xmlconnect')->__('Can\'t reset theme.')
+                'message'   => $this->__('Can\'t reset theme.')
             );
         }
         if (is_array($response)) {
@@ -533,11 +533,27 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Preview Home landscape mode action handler
+     */
+    public function previewHomeHorAction()
+    {
+        $this->_previewAction('preview_home_hor_content');
+    }
+
+    /**
      * Preview Catalog action handler
      */
     public function previewCatalogAction()
     {
         $this->_previewAction('preview_catalog_content');
+    }
+
+    /**
+     * Preview Catalog landscape mode action handler
+     */
+    public function previewCatalogHorAction()
+    {
+        $this->_previewAction('preview_catalog_hor_content');
     }
 
     /**
@@ -596,7 +612,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addException($e, $e->getMessage());
             $redirectBack = true;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to process preview.'));
+            $this->_getSession()->addException($e, $this->__('Unable to process preview.'));
             $redirectBack = true;
         }
         if (isset($app) && is_object($app) && $redirectBack) {
@@ -615,14 +631,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $app = $this->_initApp();
             if (!$app->getIsSubmitted()) {
                 $app->delete();
-                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('App has been deleted.'));
+                $this->_getSession()->addSuccess($this->__('App has been deleted.'));
             } else {
-                Mage::throwException(Mage::helper('xmlconnect')->__('It\'s not allowed to delete submitted application.'));
+                Mage::throwException($this->__('It\'s not allowed to delete submitted application.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to find an app to delete.'));
+            $this->_getSession()->addException($e, $this->__('Unable to find an app to delete.'));
         }
         $this->_redirect('*/*/');
     }
@@ -640,7 +656,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('xmlconnect')->__('Template has been deleted.')
+                    $this->__('Template has been deleted.')
                 );
 
                 // go to grid
@@ -658,7 +674,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
         // display error message
         Mage::getSingleton('adminhtml/session')->addError(
-            Mage::helper('xmlconnect')->__('Unable to find template to delete.')
+            $this->__('Unable to find template to delete.')
         );
     }
 
@@ -870,7 +886,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $id = $this->getRequest()->getParam('id');
             $message = $this->_initMessage();
             if (!$message->getId() && $id) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Queue does not exist.'));
+                $this->_getSession()->addError($this->__('Queue does not exist.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -879,7 +895,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to cancel queue.'));
+            $this->_getSession()->addException($e, $this->__('Unable to cancel queue.'));
             Mage::logException($e);
         }
 
@@ -897,7 +913,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $id = $this->getRequest()->getParam('id');
             $message = $this->_initMessage();
             if (!$message->getId() && $id) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Queue does not exist.'));
+                $this->_getSession()->addError($this->__('Queue does not exist.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -906,7 +922,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to delete queue.'));
+            $this->_getSession()->addException($e, $this->__('Unable to delete queue.'));
             Mage::logException($e);
         }
 
@@ -990,7 +1006,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $message = $this->_initMessage();
 
                 if (!$template->getId() && !$message->getTemplateId()) {
-                    $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Template for new AirMail Message does not exist.'));
+                    $this->_getSession()->addError(
+                        $this->__('Template for new AirMail Message does not exist.')
+                    );
                     $this->_redirect('*/*/queue');
                     return;
                 }
@@ -1007,7 +1025,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     // set status for new messages only
                     $message->setStatus(Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE);
                 } elseif ($message->getStatus() != Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE) {
-                    $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Message can not be edited when it\'s status NOT is "IN QUEUE".'));
+                    $this->_getSession()->addError(
+                        $this->__('Message can not be edited when it\'s status NOT is "IN QUEUE".')
+                    );
                     $this->_redirect('*/*/queue');
                     return;
                 }
@@ -1022,7 +1042,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                         $message->setData('type', Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_PUSH);
                         break;
                 }
-                $message->setExecTime($temporaryObject->getExecTime() ? Mage::getSingleton('core/date')->gmtDate(null, $temporaryObject->getExecTime()) : new Zend_Db_Expr('NULL'));
+                if ($temporaryObject->getExecTime()) {
+                    $message->setExecTime(Mage::getSingleton('core/date')->gmtDate(null, $temporaryObject->getExecTime()));
+                } else {
+                    $message->setExecTime(new Zend_Db_Expr('NULL'));
+                }
                 if ($template->getId()) {
                     $message->setAppCode($template->getAppCode());
                 }
@@ -1034,7 +1058,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $this->_getSession()->addException($e, $e->getMessage());
                 $isError = true;
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to save message.'));
+                $this->_getSession()->addException($e, $this->__('Unable to save message.'));
                 $isError = true;
                 Mage::logException($e);
             }
@@ -1084,7 +1108,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
         $applicationsFound = Mage::helper('xmlconnect')->getApplicationOptions();
         if (!$template->getId() && empty($applicationsFound)) {
-            $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Template creation is allowed only for applications which have device type iPhone, but this kind of applications has not been found.'));
+            $this->_getSession()->addError(
+                $this->__('Template creation is allowed only for applications which have device type iPhone, but this kind of applications has not been found.')
+            );
             $this->_redirect('*/*/template');
             return;
         }
@@ -1108,7 +1134,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $id = $this->getRequest()->getParam('id');
                 $template = $this->_initTemplate();
                 if (!$template->getId() && $id) {
-                    $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Template does not exist.'));
+                    $this->_getSession()->addError($this->__('Template does not exist.'));
                     $this->_redirect('*/*/');
                     return;
                 }
@@ -1118,7 +1144,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $this->_getSession()->addException($e, $e->getMessage());
                 $isError = true;
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to save template.'));
+                $this->_getSession()->addException($e, $this->__('Unable to save template.'));
                 $isError = true;
                 Mage::logException($e);
             }
@@ -1141,16 +1167,22 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if (!$message->getId()) {
             $template = $this->_initTemplate('template_id');
             if (!$template->getId()) {
-                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Template for new AirMail Message does not exist.'));
+                $this->_getSession()->addError(
+                    $this->__('Template for new AirMail Message does not exist.')
+                );
                 $this->_redirect('*/*/template');
             }
         }
 
         $this->loadLayout();
-        $title = $message->getId() ? Mage::helper('xmlconnect')->__('Edit AirMail Message') : Mage::helper('xmlconnect')->__('New AirMail Message');
+        if ($message->getId()) {
+            $title = $this->__('Edit AirMail Message');
+        } else {
+            $title = $this->__('New AirMail Message');
+        }
         $this->_addBreadcrumb(
-            Mage::helper('xmlconnect')->__('AirMail Message Queue'),
-            Mage::helper('xmlconnect')->__('AirMail Message Queue'),
+            $this->__('AirMail Message Queue'),
+            $this->__('AirMail Message Queue'),
             $this->getUrl('*/*/queue')
         );
         $this->_addBreadcrumb($title, $title);

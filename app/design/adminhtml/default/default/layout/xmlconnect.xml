@@ -186,6 +186,24 @@
         </block>
     </adminhtml_mobile_previewhome>
 
+    <adminhtml_mobile_previewhomehor>
+        <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_home_hor_content" output="toHtml">
+            <action method="setTemplate"><templateType>home_hor</templateType></action>
+            <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">
+                <action method="setActiveTab"><tab>home</tab></action>
+            </block>
+        </block>
+    </adminhtml_mobile_previewhomehor>
+
+    <adminhtml_mobile_previewcataloghor>
+        <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_catalog_hor_content" output="toHtml">
+            <action method="setTemplate"><templateType>catalog_hor</templateType></action>
+            <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items">
+                <action method="setActiveTab"><tab>shop</tab></action>
+            </block>
+        </block>
+    </adminhtml_mobile_previewcataloghor>
+
     <adminhtml_mobile_previewcatalog>
         <block type="xmlconnect/adminhtml_mobile_preview_content" name="preview_catalog_content" output="toHtml">
             <action method="setTemplate"><templateType>catalog</templateType></action>

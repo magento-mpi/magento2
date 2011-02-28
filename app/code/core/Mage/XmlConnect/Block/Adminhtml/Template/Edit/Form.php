@@ -57,7 +57,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit_Form extends Mage_XmlConnect
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $action, 'method' => 'post', 'enctype' => 'multipart/form-data'));
         $form->setHtmlIdPrefix('template_');
 
-        $fieldset = $form->addFieldset('edit_template', array('legend' => Mage::helper('xmlconnect')->__('Template')));
+        $fieldset = $form->addFieldset('edit_template', array('legend' => $this->__('Template')));
         $this->_addElementTypes($fieldset);
 
         if ($model->getId()) {
@@ -71,41 +71,41 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit_Form extends Mage_XmlConnect
 
         $fieldset->addField('app_code', 'select', array(
             'name'      => 'app_code',
-            'label'     => Mage::helper('xmlconnect')->__('Application'),
-            'title'     => Mage::helper('xmlconnect')->__('Application'),
+            'label'     => $this->__('Application'),
+            'title'     => $this->__('Application'),
             'disabled'  => $model->getId() || !$this->_fieldsEnabled ? true : false,
             'values'    => Mage::helper('xmlconnect')->getApplicationOptions(),
-            'note'      => Mage::helper('xmlconnect')->__('Creating a Template is allowed only for applications which have device type iPhone.'),
+            'note'      => $this->__('Creating a Template is allowed only for applications which have device type iPhone.'),
             'required'  => true,
         ));
 
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => Mage::helper('xmlconnect')->__('Template Name'),
-            'title'     => Mage::helper('xmlconnect')->__('Template Name'),
+            'label'     => $this->__('Template Name'),
+            'title'     => $this->__('Template Name'),
             'required'  => true,
             'disabled'  => $model->getId() || !$this->_fieldsEnabled ? true : false,
-            'note'      => Mage::helper('xmlconnect')->__('Maximum length is 255'),
+            'note'      => $this->__('Maximum length is 255'),
             'maxlength' => 255
         ));
 
         $fieldset->addField('push_title', 'text', array(
             'name'      => 'push_title',
-            'label'     => Mage::helper('xmlconnect')->__('Push Title'),
-            'title'     => Mage::helper('xmlconnect')->__('Push Title'),
+            'label'     => $this->__('Push Title'),
+            'title'     => $this->__('Push Title'),
             'required'  => true,
             'disabled'  => !$this->_fieldsEnabled ? true : false,
-            'note'      => Mage::helper('xmlconnect')->__('Maximum length is 140'),
+            'note'      => $this->__('Maximum length is 140'),
             'maxlength' => 140
         ));
 
         $this->_dependentFields['message_title'] = $fieldset->addField('message_title', 'text', array(
             'name'      => 'message_title',
-            'label'     => Mage::helper('xmlconnect')->__('Message Title'),
-            'title'     => Mage::helper('xmlconnect')->__('Message Title'),
+            'label'     => $this->__('Message Title'),
+            'title'     => $this->__('Message Title'),
             'required'  => true,
             'disabled'  => !$this->_fieldsEnabled ? true : false,
-            'note'      => Mage::helper('xmlconnect')->__('Maximum length is 255'),
+            'note'      => $this->__('Maximum length is 255'),
             'maxlength' => 255
         ));
 
@@ -117,8 +117,8 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit_Form extends Mage_XmlConnect
         ));
 
         $this->_dependentFields['content'] = $fieldset->addField('content', 'editor', array(
-            'label'     => Mage::helper('xmlconnect')->__('Template Content'),
-            'title'     => Mage::helper('xmlconnect')->__('Template Content'),
+            'label'     => $this->__('Template Content'),
+            'title'     => $this->__('Template Content'),
             'name'      => 'content',
             'style'     => 'height:30em;',
             'state'     => 'html',
