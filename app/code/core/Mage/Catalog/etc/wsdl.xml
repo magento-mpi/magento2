@@ -395,6 +395,7 @@
         <part name="set" type="xsd:string" />
         <part name="sku" type="xsd:string" />
         <part name="productData" type="typens:catalogProductCreateEntity" />
+        <part name="storeView" type="xsd:string" />
     </message>
     <message name="catalogProductCreateResponse">
         <part name="result" type="xsd:int" />

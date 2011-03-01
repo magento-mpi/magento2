@@ -398,6 +398,7 @@
                         <xsd:element minOccurs="1" maxOccurs="1" name="set" type="xsd:string" />
                         <xsd:element minOccurs="1" maxOccurs="1" name="sku" type="xsd:string" />
                         <xsd:element minOccurs="1" maxOccurs="1" name="productData" type="typens:catalogProductCreateEntity" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="store" type="xsd:string" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
