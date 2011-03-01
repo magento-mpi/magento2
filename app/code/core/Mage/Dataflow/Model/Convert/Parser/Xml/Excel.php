@@ -476,15 +476,15 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
             $this->_xmlElement->row = htmlspecialchars($value);
             $value = str_replace($xmlHeader, '', $this->_xmlElement->asXML());
             $value = preg_replace($xmlRegexp, '\\1', $value);
-            $dataType = "String";
             if (is_numeric($value)) {
-                $dataType = "Number";
+                $value = trim($value);
+                $dataType = 'Number';
+            } else {
+                $dataType = 'String';
             }
-            $value = str_replace("\r\n", '&#10;', $value);
-            $value = str_replace("\r", '&#10;', $value);
-            $value = str_replace("\n", '&#10;', $value);
+            $value = str_replace(array("\r\n", "\r", "\n"), '&#10;', $value);
 
-            $xmlData[] = '<Cell><Data ss:Type="'.$dataType.'">'.$value.'</Data></Cell>';
+            $xmlData[] = '<Cell><Data ss:Type="'. $dataType .'">'. $value .'</Data></Cell>';
         }
         $xmlData[] = '</Row>';
 
