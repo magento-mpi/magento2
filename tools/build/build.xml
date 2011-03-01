@@ -41,6 +41,18 @@
             <arg value="${teamcity.buildConfName}"/>
             <arg value="${build.number}"/>
         </exec>
+
+        <!-- XmlConnect -->
+        <mkdir dir="${dir.src}/app/code/local/Test"/>
+        <mkdir dir="${dir.src}/app/code/local/Test/XmlConnect"/>
+        <mkdir dir="${dir.src}/app/code/local/Test/XmlConnect/etc"/>
+
+        <copy file="modules/XmlConnect/config.xml"
+              tofile="${dir.src}/app/code/local/Test/XmlConnect/etc/config.xml"
+              failonerror="true"/>
+        <copy file="modules/XmlConnect/Test_XmlConnect.xml"
+              tofile="app/etc/modules/Test_XmlConnect.xml"
+              failonerror="true"/>
     </target>
 
     <target name="copy-previous-env" depends="prepare"
@@ -93,8 +105,7 @@
 
     <!-- targets to clean current checkout for specific build type -->
     <target name="prepare-trunk" description="Prepare trunk checkout.">
-        <copy file="XEnterprise_Enabler.xml" tofile="${dir.src}/app/etc/modules/XEnterprise_Enabler.xml"
-              failonerror="true"/>
+
     </target>
 
     <target name="prepare-enterprise" description="Prepare enterprise edution checkout.">

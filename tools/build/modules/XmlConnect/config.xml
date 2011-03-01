@@ -3,9 +3,9 @@
     <default>
         <xmlconnect>
             <mobile_application>
-                <magentocommerce_url>www.var-dev.varien.com/qa/store.magentocommerce.com/mobile/activate/</magentocommerce_url>
-                <activation_key_url>http://www.var-dev.varien.com/qa/store.magentocommerce.com/product/mobile</activation_key_url>
-                <resubmission_key_url>http://www.var-dev.varien.com/qa/store.magentocommerce.com/product/mobile#resubmission</resubmission_key_url>
+                <magentocommerce_url>http://www.var-dev.varien.com/qa/store.magentocommerce/mobile/activate/</magentocommerce_url>
+                <activation_key_url>http://www.var-dev.varien.com/qa/store.magentocommerce/product/mobile</activation_key_url>
+                <resubmission_key_url>http://www.var-dev.varien.com/qa/store.magentocommerce/product/mobile#resubmission</resubmission_key_url>
             </mobile_application>
         </xmlconnect>
     </default>
