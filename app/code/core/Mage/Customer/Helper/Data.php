@@ -131,7 +131,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (!$referer && !Mage::getStoreConfigFlag('customer/startup/redirect_dashboard')) {
             if (!Mage::getSingleton('customer/session')->getNoReferer()) {
-                $referer = Mage::getUrl('*/*/*', array('_current' => true));
+                $referer = Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
                 $referer = Mage::helper('core')->urlEncode($referer);
             }
         }
