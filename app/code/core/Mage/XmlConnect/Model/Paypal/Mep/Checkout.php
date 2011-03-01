@@ -123,24 +123,23 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         }
 
         $address = $this->_quote->getBillingAddress();
-        /**
-         * Start hard code data
-         *
-         * @todo remove this hard code
-         */
-        $data['country_id'] = 'US';
+
+        $this->_applyCountryWorkarounds($data);
+        if (!in_array($data['country_id'], Mage::getModel('paypal/config')->getSupportedBuyerCountryCodes())) {
+            return array(
+                'error' => 1,
+                'message' => Mage::helper('xmlconnect')->__('Buyer Country is not valid.')
+            );
+        }
+
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
             $customer = Mage::getSingleton('customer/session')->getCustomer();
             $data['firstname'] = $customer->getFirstname();
             $data['lastname'] = $customer->getLastname();
-
         } else {
             $data['firstname'] = Mage::helper('xmlconnect')->__('Guest');
             $data['lastname'] = Mage::helper('xmlconnect')->__('Guest');
         }
-        /**
-         * End hard code
-         */
 
         $address->addData($data);
 
@@ -305,5 +304,21 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
             ->setCustomerIsGuest(true)
             ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
         return $this;
+    }
+
+    /**
+     * Adopt specified request array from PayPal
+     *
+     * @param array $request
+     * @return void
+     */
+    protected function _applyCountryWorkarounds(&$request)
+    {
+        $request['country_id'] = isset($request['country_id']) ? trim($request['country_id']) : null;
+        if (empty($request['country_id'])) {
+            $request['country_id'] = strtoupper(Mage::getStoreConfig('general/country/default'));
+        } else {
+            $request['country_id'] = strtoupper($request['country_id']);
+        }
     }
 }
