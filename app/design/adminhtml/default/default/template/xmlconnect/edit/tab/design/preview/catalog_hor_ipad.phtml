@@ -33,12 +33,7 @@ $primaryColor = $this->getData('conf/body/primaryColor');
 $secondaryColor = $this->getData('conf/body/secondaryColor');
 
 $productImage = $this->getPreviewImagesUrl('ipad/bg_product_image.png');
-
-if ($this->getData('conf/body/backgroundImageIpadLandscape')) {
-    $backgroundImageIpadLandscape = Mage::helper('xmlconnect/image')->getCustomSizeImageUrl('conf/native/body/backgroundImageIpadLandscape', 467, 321);
-} else {
-    $backgroundImageIpadLandscape = $this->getPreviewImagesUrl('ipad/background_home_landscape.jpg');
-}
+$backgroundImageIpadLandscape = $this->getIpadBackgroundImage(Mage_XmlConnect_Helper_Ipad::ORIENTATION_LANDSCAPE);
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-ipad-catalog.css'); ?>" media="all" />
 
