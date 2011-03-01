@@ -370,7 +370,7 @@
                 </ipad>
                 <android>
                     <tab_limit>10</tab_limit>
-                    <notification_type>aps</notification_type>
+                    <notification_type>android</notification_type>
                 </android>
             </devices>
             <flurry_analytics>
