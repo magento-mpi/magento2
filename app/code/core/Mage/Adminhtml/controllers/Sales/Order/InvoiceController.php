@@ -111,6 +111,19 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     }
 
     /**
+     * Send email and set SendEmail flag to true
+     *
+     * @return void
+     */
+    public function emailAction()
+    {
+        parent::emailAction();
+        $invoice = $this->_initInvoice();
+        $invoice->setEmailSent(true);
+        $invoice->save();
+    }
+
+    /**
      * Prepare shipment
      *
      * @param Mage_Sales_Model_Order_Invoice $invoice
