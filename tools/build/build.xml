@@ -185,25 +185,25 @@
     <target name="clean-ce" depends="clean-unreleased" description="Clean checkout from specific stuff for CE."/>
 
     <target name="clean-ee" depends="clean-unreleased" description="Clean checkout from specific stuff for EE.">
-        <exec executable="svn" failonerror="true" dir="${dir.src}">
+        <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm app/design/frontend/pro"/>
         </exec>
-        <exec executable="svn" failonerror="true" dir="${dir.src}">
+        <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm app/design/install/default/pro"/>
         </exec>
-        <exec executable="svn" failonerror="true" dir="${dir.src}">
+        <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm skin/adminhtml/default/pro"/>
         </exec>
-        <exec executable="svn" failonerror="true" dir="${dir.src}">
+        <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm skin/frontend/pro"/>
         </exec>
-        <exec executable="svn" failonerror="true" dir="${dir.src}">
+        <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm skin/install/default/pro"/>
         </exec>
-        <exec executable="svn" failonerror="true" dir="${dir.src}">
+        <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm errors/pro"/>
         </exec>
-        <exec executable="svn" failonerror="true" dir="${dir.src}">
+        <exec executable="svn" failonerror="false" dir="${dir.src}">
             <arg line="rm downloader/template/professional"/>
         </exec>
     </target>
