@@ -1,10 +1,8 @@
 <_>
-   <form_key>0FdXeOvWAAMRGgJL</form_key>
+   <form_key>MyZQpGYe6lug9WcX</form_key>
+   <_create/>
    <name>Lib_ZF_Locale</name>
    <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
    <summary>Zend Framework Locale</summary>
    <description>Zend Framework Locale
 splitted from ZF to avoid memory overruns during installation and upgrades</description>
@@ -41,7 +39,7 @@ splitted from ZF to avoid memory overruns during installation and upgrades</desc
             <max/>
          </max>
          <files>
-            <files>      </files>
+            <files>     </files>
          </files>
       </package>
       <extension>

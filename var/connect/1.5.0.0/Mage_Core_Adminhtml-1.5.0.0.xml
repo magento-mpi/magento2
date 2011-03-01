@@ -1,10 +1,8 @@
 <_>
-   <form_key>0FdXeOvWAAMRGgJL</form_key>
+   <form_key>MyZQpGYe6lug9WcX</form_key>
+   <_create/>
    <name>Mage_Core_Adminhtml</name>
    <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
    <summary>Magento Administration Panel</summary>
    <description>Magento Administration Panel</description>
    <license>OSL v3.0</license>
@@ -60,12 +58,12 @@
             <max>3.3.8</max>
          </max>
          <files>
-            <files>         </files>
-            <files>         </files>
-            <files>         </files>
-            <files>         </files>
-            <files>         </files>
-            <files>         </files>
+            <files>        </files>
+            <files>        </files>
+            <files>        </files>
+            <files>        </files>
+            <files>        </files>
+            <files>        </files>
          </files>
       </package>
       <extension>

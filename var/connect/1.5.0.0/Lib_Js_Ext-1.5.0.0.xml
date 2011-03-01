@@ -1,10 +1,8 @@
 <_>
-   <form_key>0FdXeOvWAAMRGgJL</form_key>
+   <form_key>MyZQpGYe6lug9WcX</form_key>
+   <_create/>
    <name>Lib_Js_Ext</name>
    <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
    <summary>Extjs Javascript Libraries for Magento</summary>
    <description>Extjs Javascript Libraries for Magento</description>
    <license>Mixed</license>
@@ -40,7 +38,7 @@
             <max/>
          </max>
          <files>
-            <files>         </files>
+            <files>        </files>
          </files>
       </package>
       <extension>

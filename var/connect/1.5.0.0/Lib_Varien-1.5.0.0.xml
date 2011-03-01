@@ -1,10 +1,8 @@
 <_>
-   <form_key>0FdXeOvWAAMRGgJL</form_key>
+   <form_key>MyZQpGYe6lug9WcX</form_key>
+   <_create/>
    <name>Lib_Varien</name>
    <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
    <summary>Varien Library</summary>
    <description>Varien Library</description>
    <license>OSL v3.0</license>
@@ -44,8 +42,8 @@
             <max>1.12.0</max>
          </max>
          <files>
-            <files>     </files>
-            <files>     </files>
+            <files>    </files>
+            <files>    </files>
          </files>
       </package>
       <extension>

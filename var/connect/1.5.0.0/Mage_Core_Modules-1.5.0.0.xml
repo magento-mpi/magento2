@@ -1,10 +1,8 @@
 <_>
-   <form_key>0FdXeOvWAAMRGgJL</form_key>
+   <form_key>8L17GvrxGnDAuUWn</form_key>
+   <_create/>
    <name>Mage_Core_Modules</name>
    <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
    <summary>Collection of Magento Core Modules</summary>
    <description>Collection of Magento Core Modules</description>
    <license>OSL v3.0</license>
@@ -55,7 +53,7 @@
             <min>1.5.0.0</min>
             <min>1.51.1</min>
             <min>1.5.0.0</min>
-            <min>1.6.0.3.2</min>
+            <min>1.6.0.3.4</min>
             <min>1.5.0.0</min>
             <min>1.5.0.0</min>
             <min>1.5.0.0</min>
@@ -72,15 +70,15 @@
             <max>1.6.0.0</max>
          </max>
          <files>
-            <files>                </files>
-            <files>                </files>
-            <files>                </files>
-            <files>                </files>
-            <files>                </files>
-            <files>                </files>
-            <files>                </files>
-            <files>                </files>
-            <files>                </files>
+            <files>               </files>
+            <files>               </files>
+            <files>               </files>
+            <files>               </files>
+            <files>               </files>
+            <files>               </files>
+            <files>               </files>
+            <files>               </files>
+            <files>               </files>
          </files>
       </package>
       <extension>

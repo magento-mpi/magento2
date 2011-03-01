@@ -1,10 +1,8 @@
 <_>
-   <form_key>0FdXeOvWAAMRGgJL</form_key>
+   <form_key>8L17GvrxGnDAuUWn</form_key>
+   <_create/>
    <name>Interface_Adminhtml_Default</name>
    <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
    <summary>Default interface for Adminhtml</summary>
    <description>Default interface for Adminhtml</description>
    <license>AFL v3.0</license>
@@ -48,9 +46,9 @@
             <max>1.6.0.0</max>
          </max>
          <files>
-            <files>                 </files>
-            <files>                 </files>
-            <files>                 </files>
+            <files>               </files>
+            <files>               </files>
+            <files>               </files>
          </files>
       </package>
       <extension>
@@ -92,4 +90,8 @@
          <ignore>#images/moneybookers|xmlconnect|ogone#</ignore>
       </ignore>
    </contents>
+   <page>1</page>
+   <limit>200</limit>
+   <folder/>
+   <package/>
 </_>

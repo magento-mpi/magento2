@@ -1,10 +1,8 @@
 <_>
-   <form_key>0FdXeOvWAAMRGgJL</form_key>
+   <form_key>MyZQpGYe6lug9WcX</form_key>
+   <_create/>
    <name>Lib_Google_Checkout</name>
    <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
    <summary>Google Checkout Library</summary>
    <description>Google Checkout Library</description>
    <license>Apache License</license>
@@ -40,7 +38,7 @@
             <max/>
          </max>
          <files>
-            <files>      </files>
+            <files>     </files>
          </files>
       </package>
       <extension>

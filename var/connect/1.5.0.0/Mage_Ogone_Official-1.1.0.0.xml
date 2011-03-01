@@ -1,10 +1,8 @@
 <_>
-   <form_key>0FdXeOvWAAMRGgJL</form_key>
+   <form_key>Tvch3X1xrm2M1IUC</form_key>
+   <_create/>
    <name>Mage_Ogone_Official</name>
    <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
    <summary>Official Ogone Payment Services Integration Module</summary>
    <description>This extension provides Ogone payment services integration.</description>
    <license>Open Software License (OSL 3.0)</license>
@@ -44,8 +42,8 @@
             <max>1.5.1.0</max>
          </max>
          <files>
-            <files>        </files>
-            <files>        </files>
+            <files>       </files>
+            <files>       </files>
          </files>
       </package>
       <extension>

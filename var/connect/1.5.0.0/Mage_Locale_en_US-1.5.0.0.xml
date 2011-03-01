@@ -1,10 +1,8 @@
 <_>
-   <form_key>0FdXeOvWAAMRGgJL</form_key>
+   <form_key>8L17GvrxGnDAuUWn</form_key>
+   <_create/>
    <name>Mage_Locale_en_US</name>
    <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
    <summary>en_US locale</summary>
    <description>en_US locale</description>
    <license>OSL v3.0</license>
@@ -40,7 +38,7 @@
             <max/>
          </max>
          <files>
-            <files>         </files>
+            <files>        </files>
          </files>
       </package>
       <extension>
