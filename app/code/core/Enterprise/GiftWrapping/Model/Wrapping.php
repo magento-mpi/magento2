@@ -71,9 +71,11 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
             $baseImageName = $this->getTmpImage();
             $sourcePath = $this->_getTmpImageFolderAbsolutePath() . DS . $baseImageName;
             $destPath = $this->_getImageFolderAbsolutePath() . DS . $baseImageName;
-            copy($sourcePath, $destPath);
-            @unlink($sourcePath);
-            $this->setData('image', $baseImageName);
+            if (file_exists($sourcePath) && is_file($sourcePath)) {
+                copy($sourcePath, $destPath);
+                @unlink($sourcePath);
+                $this->setData('image', $baseImageName);
+            }
         }
         parent::_beforeSave();
     }
@@ -211,7 +213,9 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     {
         if ($this->hasTmpImage()) {
             $tmpImagePath =  $this->_getTmpImageFolderAbsolutePath() . DS . $this->getTmpImage();
-            @unlink($tmpImagePath);
+            if (file_exists($tmpImagePath) && is_file($tmpImagePath)) {
+                @unlink($tmpImagePath);
+            }
             $this->unsetData('tmp_image');
         }
         return $this;

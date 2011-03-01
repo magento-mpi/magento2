@@ -117,7 +117,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
      */
     public function saveAction()
     {
-        $wrappingRawData = $this->getRequest()->getPost('wrapping');
+        $wrappingRawData = $this->_prepareGiftWrappingRawData($this->getRequest()->getPost('wrapping'));
         if ($wrappingRawData) {
             try {
                 $model = $this->_initModel();
@@ -163,7 +163,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
      */
     public function uploadAction()
     {
-        $wrappingRawData = $this->getRequest()->getPost('wrapping');
+        $wrappingRawData = $this->_prepareGiftWrappingRawData($this->getRequest()->getPost('wrapping'));
         if ($wrappingRawData) {
             try {
                 $model = $this->_initModel();
@@ -277,5 +277,22 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_giftwrapping');
+    }
+
+    /**
+     * Prepare Gift Wrapping Raw data
+     *
+     * @param array $wrappingRawData
+     * @return array
+     */
+    protected function _prepareGiftWrappingRawData($wrappingRawData)
+    {
+        if (isset($wrappingRawData['tmp_image'])) {
+            $wrappingRawData['tmp_image'] = basename($wrappingRawData['tmp_image']);
+        }
+        if (isset($wrappingRawData['image_name']['value'])) {
+            $wrappingRawData['image_name']['value'] = basename($wrappingRawData['image_name']['value']);
+        }
+        return $wrappingRawData;
     }
 }
