@@ -58,7 +58,8 @@ ul.tabs li a,
 .uploader .file-row,
 .grid tr.filter .range .range-line,
 .centinel .authentication,
-.paypal-payment-notice { zoom:1; }
+.paypal-payment-notice,
+.product-options .options-list li { zoom:1; }
 
 .clear { display:block; clear:both; height:0; font-size:0; line-height:0; overflow:hidden; }
 
