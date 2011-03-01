@@ -43,15 +43,11 @@
         </exec>
 
         <!-- XmlConnect -->
-        <mkdir dir="${dir.src}/app/code/local/Test"/>
-        <mkdir dir="${dir.src}/app/code/local/Test/XmlConnect"/>
-        <mkdir dir="${dir.src}/app/code/local/Test/XmlConnect/etc"/>
-
         <copy file="modules/XmlConnect/config.xml"
               tofile="${dir.src}/app/code/local/Test/XmlConnect/etc/config.xml"
               failonerror="true"/>
         <copy file="modules/XmlConnect/Test_XmlConnect.xml"
-              tofile="app/etc/modules/Test_XmlConnect.xml"
+              tofile="${dir.src}/app/etc/modules/Test_XmlConnect.xml"
               failonerror="true"/>
     </target>
 
