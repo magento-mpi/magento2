@@ -142,7 +142,9 @@ class Mage_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
                 $message = Mage::helper('paygate')->__('Your order has not been placed, because contents of the shopping cart and/or address has been changed. Authorized amounts from your previous payment that were left pending are now released. Please go through the checkout process for your recent cart contents.');
                 break;
         }
-        $this->getMethod()->unsetPartialAuthorizationLastActionState();
+        if ($message) {
+            $this->getMethod()->unsetPartialAuthorizationLastActionState();
+        }
         return $message;
     }
 

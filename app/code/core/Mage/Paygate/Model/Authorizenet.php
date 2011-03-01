@@ -539,14 +539,14 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     protected function _partialAuthorization($payment, $amount, $requestType)
     {
         $payment->setAnetTransType($requestType);
-        $payment->setAmount($amount);
-        $request= $this->_buildRequest($payment);
 
         /*
          * Try to build checksum of first request and compare with current checksum 
          */
         if ($this->getConfigData('partial_authorization_checksum_checking')) {
-            $newChecksum = $this->_generateChecksum($request, $this->_partialAuthorizationChecksumDataKeys);
+            $payment->setAmount($amount);
+            $firstPlacingRequest= $this->_buildRequest($payment);
+            $newChecksum = $this->_generateChecksum($firstPlacingRequest, $this->_partialAuthorizationChecksumDataKeys);
             $previosChecksum = $this->_getSession()->getData($this->_partialAuthorizationChecksumSessionKey);
             if ($newChecksum != $previosChecksum) {
                 $quotePayment = $payment->getOrder()->getQuote()->getPayment();
@@ -565,6 +565,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             Mage::throwException(Mage::helper('paygate')->__('Invalid amount for partial authorization.'));
         }
         $payment->setAmount($amount);
+        $request = $this->_buildRequest($payment);
         $result = $this->_postRequest($request);
         $this->_processPartialAuthorizationResponse($result, $payment);
 
