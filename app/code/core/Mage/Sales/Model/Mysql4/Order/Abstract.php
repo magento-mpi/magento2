@@ -34,4 +34,19 @@
  */
 class Mage_Sales_Model_Mysql4_Order_Abstract extends Mage_Sales_Model_Resource_Order_Abstract
 {
+
+    /**
+     * Set flag sendEmail to true 
+     *
+     * @param  $entityId
+     * @return Mage_Sales_Model_Mysql4_Order_Abstract
+     */
+    public function setSendEmailFlag($entityId)
+    {
+        $adapter = $this->_getWriteAdapter();
+        $adapter->update($this->getMainTable(), array('email_sent' => 1),
+            sprintf('%s = %s', $this->getIdFieldName(), $entityId));
+        return $this;
+
+    }
 }

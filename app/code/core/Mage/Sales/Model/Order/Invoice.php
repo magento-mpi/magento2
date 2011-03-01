@@ -785,6 +785,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
             )
         );
         $mailer->send();
+        $this->getResource()->setSendEmailFlag($this->getEntityId());
 
         return $this;
     }
