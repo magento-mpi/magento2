@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <default>
+        <xmlconnect>
+            <mobile_application>
+                <magentocommerce_url>www.var-dev.varien.com/qa/store.magentocommerce.com/mobile/activate/</magentocommerce_url>
+                <activation_key_url>http://www.var-dev.varien.com/qa/store.magentocommerce.com/product/mobile</activation_key_url>
+                <resubmission_key_url>http://www.var-dev.varien.com/qa/store.magentocommerce.com/product/mobile#resubmission</resubmission_key_url>
+            </mobile_application>
+        </xmlconnect>
+    </default>
+</config>
