@@ -398,10 +398,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         }
         if (!$isError && is_object($app) && $app->getId() && $redirectSubmit) {
             $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
-        } else if ($isError && $app->getId()) {
+        } else if ($isError && is_object($app) && $app->getId()) {
             Mage::getSingleton('adminhtml/session')->setLoadSessionFlag(true);
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
-        } else if ($isError && !$app->getId() && $app->getType()) {
+        } else if ($isError && is_object($app) && !$app->getId() && $app->getType()) {
             $this->_redirect('*/*/edit', array('type' => $app->getType()));
         } else if ($this->getRequest()->getParam('back')) {
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
