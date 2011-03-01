@@ -398,11 +398,16 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $order->addItem($orderItem);
         }
 
+        /*
+         * Adding transaction for correct transaction information displaying on order view at back end.
+         * It has no influence on api interaction logic.
+         */
         $payment = Mage::getModel('sales/order_payment')
             ->setMethod('googlecheckout')
-            ->setTransactionId($this->getGoogleOrderNumber());
+            ->setTransactionId($this->getGoogleOrderNumber())
+            ->setIsTransactionClosed(false);
         $order->setPayment($payment);
-        $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_PAYMENT);
+        $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
         $order->setCanShipPartiallyItem(false);
 
         $emailAllowed = ($this->getData('root/buyer-marketing-preferences/email-allowed/VALUE') === 'true');
