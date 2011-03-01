@@ -403,7 +403,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } else if ($isError && is_object($app) && !$app->getId() && $app->getType()) {
             $this->_redirect('*/*/edit', array('type' => $app->getType()));
-        } else if ($this->getRequest()->getParam('back')) {
+        } else if ($this->getRequest()->getParam('back') && is_object($app)) {
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } else {
             $this->_redirect('*/*/');
