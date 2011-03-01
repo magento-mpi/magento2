@@ -68,7 +68,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 $itemXmlObj->addChild('entity_id', $item->getProductId());
                 $itemXmlObj->addChild('entity_type_id', $item->getTypeId());
                 $itemXmlObj->addChild('name', $wishlistXmlObj->xmlentities(strip_tags($item->getName())));
-                $itemXmlObj->addChild('in_stock', (int)$item->isSalable());
+                $itemXmlObj->addChild('in_stock', (int)$item->getProduct()->getIsSalable());
                 /**
                  * If product type is grouped than it has options as its grouped items
                  */
@@ -77,7 +77,12 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 }
                 $itemXmlObj->addChild('has_options', (int)$item->getHasOptions());
 
-                $icon = $this->helper('catalog/image')->init($item, 'small_image')
+                /* @var $product Mage_Catalog_Model_Product */
+                $product = Mage::getModel('catalog/product')
+                    ->setStoreId(Mage::helper('xmlconnect')->getApplication()->getStoreId())
+                    ->load($item->getProductId());
+
+                $icon = $this->helper('catalog/image')->init($product, 'small_image')
                     ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small'));
 
                 $iconXml = $itemXmlObj->addChild('icon', $icon);
@@ -90,7 +95,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 $itemXmlObj->addChild('added_date', $wishlistXmlObj->xmlentities($this->getFormatedDate($item->getAddedAt())));
 
                 if ($this->getChild('product_price')) {
-                    $this->getChild('product_price')->setProduct($item)
+                    $this->getChild('product_price')->setProduct($product)
                        ->setProductXmlObj($itemXmlObj)
                        ->collectProductPrices();
                 }

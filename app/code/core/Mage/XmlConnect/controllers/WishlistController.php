@@ -116,7 +116,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
         }
 
         try {
-            $item = $wishlist->addNewItem($product->getId());
+            $item = $wishlist->addNewItem($product);
             if (strlen(trim((string)$request->getParam('description')))) {
                 $item->setDescription($request->getParam('description'))
                    ->save();
