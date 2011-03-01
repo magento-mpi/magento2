@@ -86,6 +86,13 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     protected $_map = null;
 
+    /**
+     * Database's statement for fetch item one by one
+     *
+     * @var Zend_Db_Statement_Pdo
+     */
+    protected $_fetchStmt = null;
+
     public function __construct($conn=null)
     {
         parent::__construct();
@@ -516,6 +523,31 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $this->_setIsLoaded();
         $this->_afterLoad();
         return $this;
+    }
+
+    /**
+     * Returns a collection item that corresponds to the fetched row
+     * and moves the internal data pointer ahead
+     *
+     * return Varien_Object|bool
+     */
+    public function fetchItem()
+    {
+        if (null === $this->_fetchStmt) {
+            $this->_fetchStmt = $this->getConnection()
+                ->query($this->getSelect());
+        }
+        $data = $this->_fetchStmt->fetch();
+        if (!empty($data) && is_array($data)) {
+            $item = $this->getNewEmptyItem();
+            if ($this->getIdFieldName()) {
+                $item->setIdFieldName($this->getIdFieldName());
+            }
+            $item->setData($data);
+
+            return $item;
+        }
+        return false;
     }
 
     /**

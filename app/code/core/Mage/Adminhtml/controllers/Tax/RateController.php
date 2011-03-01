@@ -63,7 +63,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         $rateModel = Mage::getSingleton('tax/calculation_rate')
             ->load(null);
-        
+
         $this->_title($this->__('Sales'))
              ->_title($this->__('Tax'))
              ->_title($this->__('Manage Tax Zones and Rates'));
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         //This line substitutes in the form the previously entered by the user values, if any of them were wrong.
         $rateModel->setData(Mage::getSingleton('adminhtml/session')->getFormData(true));
-        
+
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('tax')->__('Manage Tax Rates'), Mage::helper('tax')->__('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
             ->_addBreadcrumb(Mage::helper('tax')->__('New Tax Rate'), Mage::helper('tax')->__('New Tax Rate'))
@@ -388,48 +388,17 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
      */
     public function exportPostAction()
     {
-        $storeTaxTitleTemplate       = array();
-        $taxCalculationRateTitleDict = array();
-
         /** start csv content and set template */
-        $content = '"'.Mage::helper('tax')->__('Code') . '","' . Mage::helper('tax')->__('Country') . '","'
-                 . Mage::helper('tax')->__('State') . '","' . Mage::helper('tax')->__('Zip/Post Code') . '","'
-                 . Mage::helper('tax')->__('Rate') . '"';
-
+        $headers = array(
+            'code'         => Mage::helper('tax')->__('Code'),
+            'country_name' => Mage::helper('tax')->__('Country'),
+            'region_name'  => Mage::helper('tax')->__('State'),
+            'tax_postcode' => Mage::helper('tax')->__('Zip/Post Code'),
+            'rate'         => Mage::helper('tax')->__('Rate')
+        );
         $template = '"{{code}}","{{country_name}}","{{region_name}}","{{tax_postcode}}","{{rate}}"';
 
-        foreach (Mage::getModel('core/store')->getCollection()->setLoadDefault(false) as $store) {
-            $storeTitle = 'title_' . $store->getId();
-            $content   .= ',"' . $store->getCode() . '"';
-            $template  .= ',"{{' . $storeTitle . '}}"';
-            $storeTaxTitleTemplate[$storeTitle] = null;
-        }
-
-        $content .= "\n";
-
-        foreach (Mage::getModel('tax/calculation_rate_title')->getCollection() as $title) {
-            $rateId = $title->getTaxCalculationRateId();
-
-            if (! array_key_exists($rateId, $taxCalculationRateTitleDict)) {
-                $taxCalculationRateTitleDict[$rateId] = $storeTaxTitleTemplate;
-            }
-
-            $taxCalculationRateTitleDict[$rateId]['title_' . $title->getStoreId()] = $title->getValue();
-        }
-
-        foreach (Mage::getModel('tax/calculation_rate')->getCollection()->joinCountryTable()->joinRegionTable() as $rate) {
-            if ($rate->getTaxRegionId() == 0) {
-                $rate->setRegionName('*');
-            }
-
-            if (array_key_exists($rate->getId(), $taxCalculationRateTitleDict)) {
-                $rate->addData($taxCalculationRateTitleDict[$rate->getId()]);
-            } else {
-                $rate->addData($storeTaxTitleTemplate);
-            }
-
-            $content .= $rate->toString($template) . "\n";
-        }
+        $content = Mage::getModel('tax/calculation_rate')->toCSV($template, $headers);
 
         $this->_prepareDownloadResponse('tax_rates.csv', $content);
     }

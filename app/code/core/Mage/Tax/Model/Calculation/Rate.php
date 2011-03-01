@@ -205,4 +205,53 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
         return $this->getResource()->isInRule($this->getId());
     }
 
+    public function toCSV($template, $headers = array())
+    {
+        $headers = new Varien_Object($headers);
+        $content = $headers->toString($template);
+
+        $storeTaxTitleTemplate       = array();
+        $taxCalculationRateTitleDict = array();
+
+        foreach (Mage::getModel('core/store')->getCollection()->setLoadDefault(false) as $store) {
+            $storeTitle = 'title_' . $store->getId();
+            $content   .= ',"' . $store->getCode() . '"';
+            $template  .= ',"{{' . $storeTitle . '}}"';
+            $storeTaxTitleTemplate[$storeTitle] = null;
+        }
+        unset($store);
+
+        $content .= "\n";
+
+        foreach (Mage::getModel('tax/calculation_rate_title')->getCollection() as $title) {
+            $rateId = $title->getTaxCalculationRateId();
+
+            if (! array_key_exists($rateId, $taxCalculationRateTitleDict)) {
+                $taxCalculationRateTitleDict[$rateId] = $storeTaxTitleTemplate;
+            }
+
+            $taxCalculationRateTitleDict[$rateId]['title_' . $title->getStoreId()] = $title->getValue();
+        }
+        unset($title);
+
+        $collection = $this->getCollection()
+            ->joinCountryTable()
+            ->joinRegionTable();
+
+        while ($rate = $collection->fetchItem()) {
+            if ($rate->getTaxRegionId() == 0) {
+                $rate->setRegionName('*');
+            }
+
+            if (array_key_exists($rate->getId(), $taxCalculationRateTitleDict)) {
+                $rate->addData($taxCalculationRateTitleDict[$rate->getId()]);
+            } else {
+                $rate->addData($storeTaxTitleTemplate);
+            }
+
+            $content .= $rate->toString($template) . "\n";
+        }
+
+        return $content;
+    }
 }
