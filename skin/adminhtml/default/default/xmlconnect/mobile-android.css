@@ -20,6 +20,14 @@
  * @copyright  Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+ 
+@font-face {
+    font-family: 'stars';
+    src: url('fonts/stars-webfont.eot');
+    src: local('O'), url('fonts/stars-webfont.woff') format('woff'), url('fonts/stars-webfont.ttf') format('truetype'), url('fonts/stars-webfont.svg#webfontyMStiDRV') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 * {
     background:transparent;
     margin:0;
@@ -51,7 +59,7 @@ body {
         .header-wrap .icon {
             float:right;
             height:48px;
-            width:49px;
+            width:48px;
             }
             .header-wrap .icon-home {
                 background:url(../images/xmlconnect/mobile_preview/android/ico_home.png) no-repeat 0 0;
@@ -223,9 +231,12 @@ body {
             .catalog-page .cat-list .col-1 .rating {
                 white-space:nowrap;
                 }
+                .catalog-page .cat-list .col-1 .rating .star {
+                    font-family:'stars';
+                    font-size:14px;
+                    }
                 .catalog-page .cat-list .col-1 .rating img,
                 .catalog-page .cat-list .col-1 .rating span {
-                    color:#d55000;
                     font-size:10px;
                     vertical-align:middle;
                     }

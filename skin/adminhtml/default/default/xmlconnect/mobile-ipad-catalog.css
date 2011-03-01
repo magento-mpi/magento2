@@ -20,6 +20,13 @@
  * @copyright  Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+ @font-face {
+    font-family: 'stars';
+    src: url('fonts/stars-webfont.eot');
+    src: local('O'), url('fonts/stars-webfont.woff') format('woff'), url('fonts/stars-webfont.ttf') format('truetype'), url('fonts/stars-webfont.svg#webfontyMStiDRV') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 * {
     margin:0; padding:0;
     }
@@ -245,6 +252,10 @@ body {
                     .ipad .price-box span {
                         display:block;
                         }
+                .ipad .rating .star {
+                    font-family:'stars';
+                    font-size:8px;
+                    }
                 .ipad .rating img {
                     margin-right:4px;
                     }
