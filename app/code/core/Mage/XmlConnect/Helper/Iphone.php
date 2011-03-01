@@ -84,7 +84,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
                 'Kenya' => 'KE',
                 'South Korea' => 'KR',
                 'Kuwait' => 'KW',
-                'Latvia' => 'LW',
+                'Latvia' => 'LV',
                 'Lebanon' => 'LB',
                 'Lithuania' => 'LT',
                 'Luxembourg' => 'LU',

@@ -263,7 +263,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
                 break;
         }
         return $backgroundImage;
-
     }
 
     /**

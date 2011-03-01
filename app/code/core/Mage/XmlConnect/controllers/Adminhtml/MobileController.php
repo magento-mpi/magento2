@@ -87,6 +87,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Create new app
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -98,6 +100,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Submission Action, loads application data
+     *
+     * @return void
      */
     public function submissionAction()
     {
@@ -192,6 +196,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Submit POST application action
+     *
+     * @return void
      */
     public function submissionPostAction()
     {
@@ -345,6 +351,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -491,6 +499,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Save Theme action
+     *
+     * @return void
      */
     public function saveThemeAction()
     {
@@ -500,6 +510,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Save Theme action
+     *
+     * @return void
      */
     public function resetThemeAction()
     {
@@ -526,6 +538,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Preview Home action handler
+     *
+     * @return void
      */
     public function previewHomeAction()
     {
@@ -542,6 +556,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Preview Catalog action handler
+     *
+     * @return void
      */
     public function previewCatalogAction()
     {
@@ -588,7 +604,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     /**
      * Preview action implementation
      *
-     * @param string    $block
+     * @param string $block
      */
     protected function _previewAction($block)
     {
@@ -601,18 +617,17 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if (!$this->getRequest()->getParam('submission_action')) {
                 $app->addData($this->_preparePostData($this->getRequest()->getPost()));
             }
-
-            // render base configuration of application
+            /** render base configuration of application */
             $appConf = $app->getRenderConf();
 
             try {
-                // try to upload files
+                /** try to upload files */
                 $dataUploaded = $this->_processUploadedFiles($app->getData());
                 $app->addData($dataUploaded);
-                // render configuration with just uploaded images
+                /** render configuration with just uploaded images */
                 $appConf = $app->getRenderConf();
             } catch (Exception $e) {
-                // when cannot upload - just tell user what is happen
+                /** when cannot upload - just tell user what is happen */
                 $jsErrorMessage = addslashes($e->getMessage());
             }
 
@@ -640,6 +655,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Delete app action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -716,6 +733,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Render apps grid
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -858,6 +877,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * List AirMail message queue grid
+     *
+     * @return void
      */
     public function queueAction()
     {
@@ -868,6 +889,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Edit message action
+     *
+     * @return void
      */
     public function editQueueAction()
     {
@@ -1009,6 +1032,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Save AirMail message action
+     *
+     * @return void
      */
     public function saveMessageAction()
     {
@@ -1042,7 +1067,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     $message->setStatus(Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE);
                 } elseif ($message->getStatus() != Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE) {
                     $this->_getSession()->addError(
-                        $this->__('Message can not be edited when it\'s status NOT is "IN QUEUE".')
+                        $this->__('Message can be edited when status of the message is "IN QUEUE" only.')
                     );
                     $this->_redirect('*/*/queue');
                     return;
@@ -1094,11 +1119,12 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         } else {
             $this->_redirect('*/*/queue');
         }
-
     }
 
     /**
      * Temlate grid
+     *
+     * @return void
      */
     public function templateAction()
     {
@@ -1109,6 +1135,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Create new template action
+     *
+     * @return void
      */
     public function newTemplateAction()
     {
@@ -1117,6 +1145,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Edit template action
+     *
+     * @return void
      */
     public function editTemplateAction()
     {
@@ -1138,6 +1168,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Save template action
+     *
+     * @return void
      */
     public function saveTemplateAction()
     {
@@ -1176,6 +1208,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Add message to queue action
+     *
+     * @return void
      */
     public function queueMessageAction()
     {
@@ -1209,11 +1243,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     /**
      * Edit queue message action
+     *
+     * @return void
      */
     public function editMessageAction()
     {
         $this->_forward('queueMessage');
     }
 }
-
-
