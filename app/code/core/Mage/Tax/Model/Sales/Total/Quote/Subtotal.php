@@ -316,8 +316,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
                 $baseTaxPrice   = $basePrice;
                 $taxSubtotal    = $subtotal;
                 $baseTaxSubtotal= $baseSubtotal;
-                $subtotal       = $subtotal - $rowTax;
-                $baseSubtotal   = $baseSubtotal - $baseRowTax;
+                $subtotal       = $this->_calculator->round($subtotal - $rowTax);
+                $baseSubtotal   = $this->_calculator->round($baseSubtotal - $baseRowTax);
                 $price          = $this->_calculator->round($subtotal/$qty);
                 $basePrice      = $this->_calculator->round($baseSubtotal/$qty);
                 if ($taxOnOrigPrice) {
