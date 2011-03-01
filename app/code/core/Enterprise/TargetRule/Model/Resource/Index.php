@@ -284,7 +284,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
             'flag'              => 1
         );
 
-        $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
+        $this->_getWriteAdapter()->insertOnDuplicate($this->getMainTable(), $data);
 
         return $this;
     }
