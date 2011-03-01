@@ -30,8 +30,8 @@ $installer->startSetup();
 $connection = $installer->getConnection();
 
 $paymentMethodCode = 'authorizenet';
-$transactionTable = $installer->getTable('sales_payment_transaction');
-$paymentTable = $installer->getTable('sales_flat_order_payment');
+$transactionTable = $installer->getTable('sales/payment_transaction');
+$paymentTable = $installer->getTable('sales/order_payment');
 
 /**
  * Update payments
