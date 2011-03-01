@@ -522,7 +522,6 @@ EOT;
     /**
      * Get applications array like `code` as `name`
      *
-     * @param
      * @staticvar array $apps
      * @return array
      */

@@ -319,7 +319,7 @@
                     </updates>
                 </default>
             </_640x960>
-            <_1024x768>
+            <_768x1024>
                 <default>
                     <source>default</source>
                     <updates>
@@ -345,7 +345,7 @@
                         </u4>
                     </updates>
                 </default>
-            </_1024x768>
+            </_768x1024>
         </screen_size>
         <xmlconnect>
             <mobile_application>
