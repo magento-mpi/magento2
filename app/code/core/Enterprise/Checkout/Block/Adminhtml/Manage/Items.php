@@ -193,4 +193,15 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
         return sprintf('<button type="button" class="scalable %s" %s><span>%s</span></button>',
             $class, $addAttributes, Mage::helper('sales')->__('Configure'));
     }
+
+    /**
+     * Returns whether moving to wishlist is allowed for this item
+     *
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @return bool
+     */
+    public function moveToWishlistAllowed($item)
+    {
+        return $item->getProduct()->isVisibleInSiteVisibility();
+    }
 }

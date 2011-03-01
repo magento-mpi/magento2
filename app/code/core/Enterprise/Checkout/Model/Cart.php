@@ -449,7 +449,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                     $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->getCustomer(), true)
                         ->setStore($this->getStore())
                         ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
-                    if ($wishlist->getId()) {
+                    if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {
                         $wishlistItem = $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
                         if (is_string($wishlistItem)) {
                             $this->_addResultError($wishlistItem);

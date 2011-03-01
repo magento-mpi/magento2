@@ -505,6 +505,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         $item = $this->_getQuoteItem($item);
         if ($item) {
+            $removeItem = false;
             switch ($moveTo) {
                 case 'order':
                     $info = $item->getBuyRequest();
@@ -554,11 +555,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                         }
                         $cartItem->setPrice($item->getProduct()->getPrice());
                         $this->_needCollectCart = true;
+                        $removeItem = true;
                     }
                     break;
                 case 'wishlist':
                     $wishlist = $this->getCustomerWishlist();
-                    if ($wishlist) {
+                    if ($wishlist && $item->getProduct()->isVisibleInSiteVisibility()) {
                         $info = $item->getOptionByCode('info_buyRequest');
                         if ($info) {
                             $info = new Varien_Object(
@@ -568,12 +570,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                             $info->setStoreId($this->getSession()->getStoreId());
                         }
                         $wishlist->addNewItem($item->getProduct(), $info);
+                        $removeItem = true;
                     }
                     break;
                 default:
                     break;
             }
-            if ($moveTo != 'order') {
+            if ($removeItem) {
                 $this->getQuote()->removeItem($item->getId());
             }
             $this->setRecollect(true);
