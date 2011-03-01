@@ -119,12 +119,18 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         );
 
         $allAttributes = array();
-        if (isset($attributes->attributes)) {
-            $allAttributes += array_merge($allAttributes, $attributes->attributes);
+        if (!empty($attributes->attributes)) {
+            $allAttributes = array_merge($allAttributes, $attributes->attributes);
+        } else {
+            foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
+                if ($this->_isAllowedAttribute($attribute, $attributes)) {
+                    $allAttributes[] = $attribute->getAttributeCode();
+                }
+            }
         }
 
         $_additionalAttributeCodes = array();
-        if (isset($attributes->additional_attributes)) {
+        if (!empty($attributes->additional_attributes)) {
             foreach ($attributes->additional_attributes as $k => $_attributeCode) {
                 $allAttributes[] = $_attributeCode;
                 $_additionalAttributeCodes[] = $_attributeCode;
