@@ -33,7 +33,7 @@ $primaryColor = $this->getData('conf/body/primaryColor');
 $secondaryColor = $this->getData('conf/body/secondaryColor');
 
 $productImage = $this->getPreviewImagesUrl('ipad/bg_product_image.png');
-$backgroundImageIpadLandscape = $this->getIpadBackgroundImage(Mage_XmlConnect_Helper_Ipad::ORIENTATION_LANDSCAPE);
+$backgroundIpadLandscapeImage = $this->getIpadBackgroundImage(Mage_XmlConnect_Helper_Ipad::ORIENTATION_LANDSCAPE);
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-ipad-catalog.css'); ?>" media="all" />
 
@@ -44,7 +44,7 @@ $backgroundImageIpadLandscape = $this->getIpadBackgroundImage(Mage_XmlConnect_He
             <?php echo $this->getChildHtml('tab_items'); ?>
         </div>
     </div>
-    <div class="bg" style="background-image:url(<?php echo $backgroundImageIpadLandscape; ?>)">
+    <div class="bg" style="background-image:url(<?php echo $backgroundIpadLandscapeImage; ?>)">
         <ul class="sections">
             <li class="arrow"><a href="#">Shirts</a></li>
             <li class="arrow"><a href="#">Sweatshirts</a></li>

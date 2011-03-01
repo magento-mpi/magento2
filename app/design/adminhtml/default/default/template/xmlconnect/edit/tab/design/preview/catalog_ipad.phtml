@@ -33,12 +33,7 @@ $primaryColor = $this->getData('conf/body/primaryColor');
 $secondaryColor = $this->getData('conf/body/secondaryColor');
 
 $productImage = $this->getPreviewImagesUrl('ipad/bg_product_image.png');
-
-if ($this->getData('conf/body/backgroundImageIpadPortret')) {
-    $backgroundImageIpadPortret = Mage::helper('xmlconnect/image')->getCustomSizeImageUrl('conf/native/body/backgroundImageIpadPortret', 350, 438);
-} else {
-    $backgroundImageIpadPortret = $this->getPreviewImagesUrl('ipad/background_portrait.jpg');
-}
+$backgroundIpadPortraitImage = $this->getIpadBackgroundImage(Mage_XmlConnect_Helper_Ipad::ORIENTATION_PORTRAIT);
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-ipad-catalog.css'); ?>" media="all" />
 
@@ -73,7 +68,7 @@ if ($this->getData('conf/body/backgroundImageIpadPortret')) {
             </ul>
         </div>
     </div>
-    <div class="content" style="background-image:url(<?php echo $backgroundImageIpadPortret; ?>)">
+    <div class="content" style="background-image:url(<?php echo $backgroundIpadPortraitImage; ?>)">
         <ol class="products-list">
             <li>
                 <div class="product-image"><img src="<?php echo $productImage ?>" alt="Product Title" height="101" width="101" /></div>

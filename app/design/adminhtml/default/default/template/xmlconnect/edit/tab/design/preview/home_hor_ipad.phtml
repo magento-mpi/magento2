@@ -30,7 +30,7 @@ $categoryItemTintColor = $this->getCategoryItemTintColor();
 $categoryItemBackgroundColor = $this->getData('conf/categoryItem/backgroundColor');
 
 $productImage = $this->getPreviewImagesUrl('ipad/product_image.jpg');
-$backgroundImageIpadLandscape = $this->getIpadBackgroundImage(Mage_XmlConnect_Helper_Ipad::ORIENTATION_LANDSCAPE);
+$backgroundIpadLandscapeImage = $this->getIpadBackgroundImage(Mage_XmlConnect_Helper_Ipad::ORIENTATION_LANDSCAPE);
 $bannerImageIpad = $this->getBannerImage();
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-ipad-home.css'); ?>" media="all" />
@@ -43,7 +43,7 @@ $bannerImageIpad = $this->getBannerImage();
         </div>
     </div>
     <div class="shadow"></div>
-    <div class="content" style="background:url(<?php echo $backgroundImageIpadLandscape; ?>) no-repeat center center;">
+    <div class="content" style="background:url(<?php echo $backgroundIpadLandscapeImage; ?>) no-repeat center center;">
         <div class="logo" style="background:url(<?php echo $bannerImageIpad; ?>) no-repeat center center"></div>
         <ul class="products-list">
             <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">

@@ -114,6 +114,44 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
         }
     }
 
+   /**
+    * Retrieve url for images in the skin folder
+    *
+    * @todo this method is a duplicate of a parent block method and have to be removed
+    * @param string $name - path to file name relative to the skin dir
+    * @return string
+    */
+    public function getDesignPreviewImageUrl($name)
+    {
+        return Mage::helper('xmlconnect/image')->getSkinImagesUrl('design_default/' . $name);
+    }
+
+    /**
+     * Expose function getInterfaceImagesPaths from xmlconnect/images
+     * Converts Data path(conf/submision/zzzz) to config path (conf/native/submission/zzzzz)
+     *
+     * @todo this method is a duplicate of a parent block method and have to be removed
+     * @param string $path
+     * @return array
+     */
+    public function getInterfaceImagesPaths($path)
+    {
+        $path = $this->_replaceConfig($path);
+        return Mage::helper('xmlconnect/image')->getInterfaceImagesPaths($path);
+    }
+
+    /**
+     * Converts Data path(conf/submision/zzzz) to config path (conf/native/submission/zzzzz)
+     *
+     * @todo this method is a duplicate of a parent block method and have to be removed
+     * @param string $configPath
+     * @return string
+     */
+    protected function _replaceConfig($configPath)
+    {
+        return $configPath = preg_replace('/^conf\/(.*)$/', 'conf/native/${1}', $configPath);
+    }
+
     /**
      * Set active tab
      *
