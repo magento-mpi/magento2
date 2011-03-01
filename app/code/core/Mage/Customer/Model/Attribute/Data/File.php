@@ -100,7 +100,7 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
      */
     protected function _validateByRules($value)
     {
-        $label  = $this->getAttribute()->getStoreLabel();
+        $label  = Mage::helper('customer')->__($this->getAttribute()->getStoreLabel());
         $rules  = $this->getAttribute()->getValidateRules();
         if (!empty($rules['file_extensions'])) {
             $extension  = pathinfo($value['name'], PATHINFO_EXTENSION);
@@ -142,7 +142,7 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
     {
         $errors     = array();
         $attribute  = $this->getAttribute();
-        $label      = $attribute->getStoreLabel();
+        $label      = Mage::helper('customer')->__($attribute->getStoreLabel());
 
         if (is_array($value)) {
             $toDelete   = !empty($value['delete']) ? true : false;

@@ -277,7 +277,7 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
             return true;
         }
 
-        $label         = $this->getAttribute()->getStoreLabel();
+        $label         = Mage::helper('customer')->__($this->getAttribute()->getStoreLabel());
         $validateRules = $this->getAttribute()->getValidateRules();
 
         if (!empty($validateRules['input_validation'])) {
