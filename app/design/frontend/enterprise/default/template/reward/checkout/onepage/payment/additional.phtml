@@ -52,7 +52,7 @@
             rewardPointsSubstracted = false;
             checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
         }
-        if ((checkQuoteBaseGrandTotal < 0.0001 || checkQuoteBaseGrandTotal > 0.0001) && quoteBaseGrandTotal == 0) {
+        if (((checkQuoteBaseGrandTotal < 0.0001 || checkQuoteBaseGrandTotal > 0.0001) && quoteBaseGrandTotal == 0) || (quoteBaseGrandTotal > checkQuoteBaseGrandTotal)) {
             quoteBaseGrandTotal = checkQuoteBaseGrandTotal;
         }
         if (quoteBaseGrandTotal < 0.0001) {
