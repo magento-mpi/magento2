@@ -423,7 +423,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         }
         unset($title);
 
-        $collection = Mage::getReourceModel('tax/calculation_rate_collection')
+        $collection = Mage::getResourceModel('tax/calculation_rate_collection')
             ->joinCountryTable()
             ->joinRegionTable();
 

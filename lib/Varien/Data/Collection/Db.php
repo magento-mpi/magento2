@@ -563,7 +563,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * @param   string $labelField
      * @return  array
      */
-    public function toOptionHashOptimized($valueField='id', $labelField='name')
+    protected function _toOptionHashOptimized($valueField='id', $labelField='name')
     {
         $result = array();
         while ($item = $this->fetchItem()) {
