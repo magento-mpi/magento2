@@ -1,25 +1,25 @@
 <_>
-   <form_key>C3szx4M9gDPAO3vA</form_key>
+   <form_key>qne5Bmi2qWRi6QjL</form_key>
    <name>Magento_Mobile</name>
-   <channel>http://connect20.magentocommerce.com/community</channel>
+   <channel>enterprise</channel>
+   <version_ids>
+      <version_ids>2</version_ids>
+   </version_ids>
    <summary>Magento Mobile Xml Interface</summary>
    <description>An integration Magento with mobile applications (e.g. iPhone, Android, iPad)</description>
    <license>mixed</license>
    <license_uri/>
    <version>1.10.0.0.16</version>
    <stability>stable</stability>
-   <notes>1.10.0.0.16 version of package</notes>
+   <notes>1.10.0.0.16</notes>
    <authors>
       <name>
-         <name/>
-         <name>Magento Core Team</name>
+         <name>Magento Enterprise Team</name>
       </name>
       <user>
-         <user/>
          <user>core</user>
       </user>
       <email>
-         <email/>
          <email>core@magentocommerce.com</email>
       </email>
    </authors>
@@ -33,7 +33,7 @@
          </name>
          <channel>
             <channel/>
-            <channel>http://connect20.magentocommerce.com/community</channel>
+            <channel>enterprise</channel>
          </channel>
          <min>
             <min/>
@@ -41,11 +41,11 @@
          </min>
          <max>
             <max/>
-            <max>1.10.0</max>
+            <max>1.10.1</max>
          </max>
          <files>
-            <files>    </files>
-            <files>    </files>
+            <files>     </files>
+            <files>     </files>
          </files>
       </package>
       <extension>
