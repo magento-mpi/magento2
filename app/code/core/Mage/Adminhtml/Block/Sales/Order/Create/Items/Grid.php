@@ -338,7 +338,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
      * @param Mage_Sales_Model_Quote_Item $item
      * @return bool
      */
-    public function moveToWishlistAllowed($item)
+    public function isMoveToWishlistAllowed($item)
     {
         return $item->getProduct()->isVisibleInSiteVisibility();
     }

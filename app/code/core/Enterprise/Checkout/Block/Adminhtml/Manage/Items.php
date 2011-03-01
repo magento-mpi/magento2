@@ -200,7 +200,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
      * @param Mage_Sales_Model_Quote_Item $item
      * @return bool
      */
-    public function moveToWishlistAllowed($item)
+    public function isMoveToWishlistAllowed($item)
     {
         return $item->getProduct()->isVisibleInSiteVisibility();
     }

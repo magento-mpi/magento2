@@ -397,7 +397,7 @@
                                 <option value="remove"><?php echo $this->helper('sales')->__('Remove') ?></option>
                                 <?php if($this->getCustomerId() && $this->getMoveToCustomerStorage()): ?>
                                     <option value="cart"><?php echo $this->helper('sales')->__('Move to Shopping Cart') ?></option>
-                                    <?php if ($this->moveToWishlistAllowed($_item)): ?>
+                                    <?php if ($this->isMoveToWishlistAllowed($_item)): ?>
                                         <option value="wishlist"><?php echo $this->helper('sales')->__('Move to Wishlist') ?></option>
                                     <?php endif; ?>
                                 <?php endif; ?>

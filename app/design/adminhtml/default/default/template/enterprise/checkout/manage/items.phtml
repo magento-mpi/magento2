@@ -370,7 +370,7 @@
                             <select name="item[<?php echo $_item->getId() ?>][action]" style="width:100px;">
                                 <option value=""></option>
                                 <option value="remove"><?php echo $this->helper('enterprise_checkout')->__('Remove') ?></option>
-                                <?php if ($this->moveToWishlistAllowed($_item)): ?>
+                                <?php if ($this->isMoveToWishlistAllowed($_item)): ?>
                                     <option value="wishlist"><?php echo $this->helper('enterprise_checkout')->__('Move to Wishlist') ?></option>
                                 <?php endif; ?>
                             </select>
