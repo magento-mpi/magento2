@@ -348,7 +348,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                     if ($cartRules[$rule->getId()] > 0) {
                         if ($this->_rulesItemTotals[$rule->getId()]['items_count'] <= 1) {
                             $quoteAmount = $quote->getStore()->convertPrice($cartRules[$rule->getId()]);
-
                             $baseDiscountAmount = min($baseItemPrice * $qty, $cartRules[$rule->getId()]);
                         } else {
                             $discountRate = $baseItemPrice * $qty / $this->_rulesItemTotals[$rule->getId()]['base_items_price'];
@@ -360,6 +359,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                         }
 
                         $discountAmount = min($itemPrice * $qty, $quoteAmount);
+                        $discountAmount = $quote->getStore()->roundPrice($discountAmount);
+                        $baseDiscountAmount = $quote->getStore()->roundPrice($baseDiscountAmount);
                         $cartRules[$rule->getId()] -= $baseDiscountAmount;
                     }
                     $address->setCartFixedRules($cartRules);
@@ -628,6 +629,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 );
             }
         }
+
         return $this;
     }
 
