@@ -28,6 +28,7 @@
 $categoryItemTintColor = $this->getCategoryItemTintColor();
 $categoryItemBackgroundColor = $this->getData('conf/categoryItem/backgroundColor');
 $categoryItemTintColor = $this->getData('conf/categoryItem/tintColor');
+$title1color = $this->getConfigFontInfo('Title1/color');
 $title9size = $this->getConfigFontInfo('Title9/size');
 $productImage = $this->getPreviewImagesUrl('android/product_image.png');
 
@@ -45,6 +46,7 @@ if ($this->getData('conf/body/bannerImageAndroid')) {
         <div class="header-wrap" style="background-color:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>">
             <div class="header">
                 <div class="icon icon-home"></div>
+                <?php //echo $this->getChildHtml('tab_items'); ?>
                 <div class="icon icon-account"></div>
                 <div class="icon icon-search"></div>
                 <div class="logo">

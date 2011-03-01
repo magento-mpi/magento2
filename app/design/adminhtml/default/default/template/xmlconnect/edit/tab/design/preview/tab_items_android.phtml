@@ -25,20 +25,12 @@
  */
 ?>
 <?php if (($buttons = $this->getTabItems()) && is_array($buttons) && ($buttonsCount = count($buttons))) :?>
-<div class="bottom-buttons">
-    <div class="gradient">
-    <table width="100%">
-        <tbody>
-            <tr>
             <?php foreach ($buttons as $button) : ?>
-                <td class="bottom-button<?php echo $button['active'] ? ' active' : ''; ?>" style="width:<?php echo (100/$buttonsCount) ?>%;background:url('<?php echo isset($button['image']) ? $button['image'] : ''; ?>') center 3px no-repeat;">
-                    <div class="background"></div>
-                    <p><?php echo isset($button['label']) ? $button['label'] : '&nbsp;'; ?></p>
-                </td>
+                <?php if ($button['action'] == 'Account') :?>
+                <div class="icon icon-account" style="<?php echo $button['active'] ? '' : 'display:none;'; ?>"></div>
+                <?php endif; ?>
+                <?php if ($button['action'] == 'Search') :?>
+                <div class="icon icon-search" style="<?php echo $button['active'] ? '' : 'display:none;'; ?>"></div>
+                <?php endif; ?>
             <?php endforeach; ?>
-            </tr>
-        </tbody>
-    </table>
-    </div>  
-</div>
 <?php endif; ?>

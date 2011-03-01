@@ -68,6 +68,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
             $items[] = array(
                 'label' => Mage::helper('xmlconnect')->getTabLabel($tab->action),
                 'image' => $tab->image,
+                'action' => $tab->action,
                 'active' => strtolower($tab->action) == strtolower($this->activeTab),
             );
         }

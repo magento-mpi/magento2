@@ -180,7 +180,7 @@
                 <interface>
                     <native>
                         <navigationBar>
-                            <icon> <widthMax>150</widthMax> <heightMax>35</heightMax> </icon>
+                            <icon> <widthMax>35</widthMax> <heightMax>35</heightMax> </icon>
                         </navigationBar>
                         <sortingBar>
                             <backgroundImage> <width>320</width> <height>40</height> </backgroundImage>
@@ -350,6 +350,14 @@
                     <tab_limit>5</tab_limit>
                     <notification_type>aps</notification_type>
                 </iphone>
+                <ipad>
+                    <tab_limit>5</tab_limit>
+                    <notification_type>aps</notification_type>
+                </ipad>
+                <android>
+                    <tab_limit>5</tab_limit>
+                    <notification_type>aps</notification_type>
+                </android>
             </devices>
             <flurry_analytics>
                 <statistics_url>http://www.flurry.com/product/analytics/index.html</statistics_url>
