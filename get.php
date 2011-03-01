@@ -35,6 +35,14 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);
 
+$mediaFolder = 'media';
+
+$forbiddenPathes = array(
+    '.htaccess',
+    'downloadable/',
+    '..'
+);
+
 $ds = DIRECTORY_SEPARATOR;
 $ps = PATH_SEPARATOR;
 $bp = dirname(__FILE__);
@@ -58,12 +66,23 @@ Varien_Autoload::register();
 
 $request = new Zend_Controller_Request_Http();
 
-$filePath = rtrim($bp, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . ltrim($request->getPathInfo(),
-    DIRECTORY_SEPARATOR);
+$pathInfo = ltrim($request->getPathInfo(), '/');
 
-$scriptFilename = basename(__FILE__);
+if (0 !== stripos($pathInfo, $mediaFolder . '/')) {
+    header('HTTP/1.0 404 Not Found');
+    exit;
+}
 
-$filename = str_replace('/media/', '', $request->getPathInfo());
+$filePath = str_replace('/', $ds, rtrim($bp, $ds) . $ds . $pathInfo);
+
+$filename = str_replace($mediaFolder . '/', '', $pathInfo);
+
+foreach ($forbiddenPathes as $forbiddenPath) {
+    if (false !== stripos($filePath, $forbiddenPath)) {
+        header('HTTP/1.0 404 Not Found');
+        exit;
+    }
+}
 
 if (file_exists($filePath) && is_readable($filePath)) {
     $transfer = new Varien_File_Transfer_Adapter_Http();
