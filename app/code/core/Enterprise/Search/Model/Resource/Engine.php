@@ -214,7 +214,7 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function cleanIndex($storeId = null, $entityId = null, $entityType = 'product')
     {
-        if ($storeId == 0) {
+        if ($storeId == Mage_Core_Model_App::ADMIN_STORE_ID) {
             foreach (Mage::app()->getStores(false) as $store) {
                 $this->cleanIndex($store->getId(), $entityId, $entityType);
             }
