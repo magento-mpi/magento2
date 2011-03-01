@@ -76,6 +76,9 @@ button.disabled:active { filter:alpha(opacity=80); }
 
 .message-popup .message-popup-content .message { _height:4.5em; }
 
+#popup-window-mask,
+.popup-window-mask { background:#efefef; filter:alpha(opacity=50); }
+
 /* Scalable Button Override */
 button, .form-button            { width:auto; margin-left:5px; overflow:visible; }
 .massaction button              { width:auto; height: 20px; margin-left:0; overflow:hidden; }
