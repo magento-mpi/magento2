@@ -105,7 +105,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     protected function _getScreenSize()
     {
-        return Mage::registry('current_app')->getScreenSize();
+        return Mage::helper('xmlconnect')->getApplication()->getScreenSize();
     }
 
     /**
@@ -290,16 +290,13 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     {
         $size = 0;
         if (!isset($this->_content)) {
-            $app = Mage::registry('current_app');
-            if (!$app) {
-                return 0;
+            /** @var $app Mage_XmlConnect_Model_Application */
+            $app = Mage::helper('xmlconnect')->getApplication();
+            $imageLimits = $this->getImageLimits($this->_getScreenSize());
+            if (($imageLimits['content']) && is_array($imageLimits['content'])) {
+                $this->_content = $imageLimits['content'];
             } else {
-                $imageLimits = $this->getImageLimits($this->_getScreenSize());
-                if (($imageLimits['content']) && is_array($imageLimits['content'])) {
-                    $this->_content = $imageLimits['content'];
-                } else {
-                    $this->_content = array();
-                }
+                $this->_content = array();
             }
         }
         $size = isset($this->_content[$imageName]) ? (int) $this->_content[$imageName] : 0;
@@ -330,7 +327,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     {
         $size = 0;
         if (!isset($this->_interfacePath[$imagePath])) {
-            $app = Mage::registry('current_app');
+            $app = Mage::helper('xmlconnect')->getApplication();
             if (!$app) {
                 return 0;
             } else {
@@ -411,7 +408,6 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         $sourcePath = empty($version) ? Mage_XmlConnect_Model_Application::APP_SCREEN_SOURCE_DEFAULT : $version;
         $xmlPath = 'screen_size/'.self::XMLCONNECT_GLUE.$resolution.'/'.$sourcePath.'/source';
 
-
         $source = Mage::getStoreConfig($xmlPath);
         if (!empty($source)) {
             $screenSize = $resolution . (empty($version) ? '' : self::XMLCONNECT_GLUE.$version);
@@ -433,9 +429,10 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         $defaultScreenSource = Mage_XmlConnect_Model_Application::APP_SCREEN_SOURCE_DEFAULT;
 
         $screenSize = preg_replace('/[^0-9A-z_]/', '', $screenSize);
-        if (isset($this->_imageLimits[$screenSize])) {
-            return $this->_imageLimits[$screenSize];
-        }
+//        if (isset($this->_imageLimits[$screenSize])) {
+//            return $this->_imageLimits[$screenSize];
+//        }
+
         $screenSizeExplodeArray = explode(self::XMLCONNECT_GLUE, $screenSize);
         $version = '';
         switch (count($screenSizeExplodeArray)) {
@@ -453,6 +450,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         $xmlPath = 'screen_size/'.self::XMLCONNECT_GLUE.$resolution.'/'.$sourcePath;
 
         $root = Mage::getStoreConfig($xmlPath);
+
         $updates = array();
         if (!empty($root)) {
             $screenSize = $resolution . (empty($version) ? '' : self::XMLCONNECT_GLUE.$version);
@@ -462,6 +460,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
             $screenSize = $defaultScreenSize;
             $source = $defaultScreenSource;
         }
+
         $imageLimits = Mage::getStoreConfig('screen_size/'.$source);
         if (!is_array($imageLimits)) {
             $imageLimits = Mage::getStoreConfig('screen_size/default');

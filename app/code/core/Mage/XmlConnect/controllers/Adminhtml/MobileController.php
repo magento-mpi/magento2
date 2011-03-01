@@ -302,7 +302,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     protected function _processPostRequest()
     {
         try {
-            $app = Mage::registry('current_app');
+            $app = Mage::helper('xmlconnect')->getApplication();
             $params = $app->getSubmitParams();
 
             $appConnectorUrl = Mage::getStoreConfig('xmlconnect/mobile_application/magentocommerce_url');

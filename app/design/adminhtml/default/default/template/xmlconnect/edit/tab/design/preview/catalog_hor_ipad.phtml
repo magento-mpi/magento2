@@ -40,7 +40,9 @@ $backgroundImageIpadLandscape = $this->getIpadBackgroundImage(Mage_XmlConnect_He
 <div class="ipad ipad-horizontal" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
     <div class="status-bar"></div>
     <div class="header-wrap" style="background-color:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>;">
-        <div class="header"><span class="logo"><img src="<?php echo $this->getLogoUrl(); ?>" height="14" width="12" alt="" /></span><span class="store-name" style="color:<?php echo $title1color; ?>;">Magento</span></div>
+        <div class="header">
+            <?php echo $this->getChildHtml('tab_items'); ?>
+        </div>
     </div>
     <div class="bg" style="background-image:url(<?php echo $backgroundImageIpadLandscape; ?>)">
         <ul class="sections">

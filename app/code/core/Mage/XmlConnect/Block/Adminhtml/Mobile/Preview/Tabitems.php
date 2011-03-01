@@ -56,7 +56,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
     public function getTabItems()
     {
         $items = array();
-        $model = Mage::registry('current_app');
+        $model = Mage::helper('xmlconnect')->getApplication();
         $tabs = $model->getEnabledTabsArray();
         $tabLimit = (int) Mage::getStoreConfig('xmlconnect/devices/'.strtolower($model->getType()).'/tab_limit');
         $showedTabs = 0;
@@ -64,7 +64,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
             if (++$showedTabs > $tabLimit) {
                 break;
             }
-            $items[] = array(
+            $items[$tab->action] = array(
                 'label' => Mage::helper('xmlconnect')->getTabLabel($tab->action),
                 'image' => $tab->image,
                 'action' => $tab->action,
@@ -72,6 +72,46 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
             );
         }
         return $items;
+    }
+
+    /**
+     * Check is exists a tab in a config array
+     *
+     * @param string $tabAction tab action name
+     * @return bool
+     */
+    public function isItemExists($tabAction)
+    {
+        $tabs = $this->getTabItems();
+        return (bool) isset($tabs[$tabAction]);
+    }
+
+   /**
+    * Get preview images url
+    *
+    * @todo this method is a duplicate of a parent block method and have to be removed
+    * @param string $name - file name
+    * @return string
+    */
+    public function getPreviewImagesUrl($name = '')
+    {
+        return  Mage::helper('xmlconnect/image')->getSkinImagesUrl('mobile_preview/' . $name);
+    }
+
+    /**
+     * Get icon logo url
+     *
+     * @todo this method is a duplicate of a parent block method and have to be removed
+     * @return string
+     */
+    public function getLogoUrl()
+    {
+        $configPath = 'conf/navigationBar/icon';
+        if ($this->getData($configPath)) {
+            return $this->getData($configPath);
+        } else {
+            return $this->getDesignPreviewImageUrl($this->getInterfaceImagesPaths($configPath));
+        }
     }
 
     /**

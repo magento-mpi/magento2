@@ -71,7 +71,31 @@ body {
             color:#fff;
             font-size:9px;
             line-height:20px;
+            margin-right:85px;
             vertical-align:middle;
+            }
+        .ipad-horizontal .header .store-name {
+            margin-right:210px;
+            }
+        .ipad .header img {
+            vertical-align:middle;
+            }
+        .ipad .header .search {
+            }
+        .ipad .header .info,
+        .ipad .header .login,
+        .ipad .header .cart {
+            font-size:6px;
+            display:inline;
+            float:right;
+            padding:5px 0 0;
+            }
+        .ipad .header .cart {
+            margin:0 5px 0 30px
+            }
+        .ipad .header .login {
+            margin:0 5px 0 18px;
+            padding:4px 0 0;
             }
     .ipad .shadow {
         background:url(../images/xmlconnect/mobile_preview/ipad/bg_home_shadow.png) no-repeat;

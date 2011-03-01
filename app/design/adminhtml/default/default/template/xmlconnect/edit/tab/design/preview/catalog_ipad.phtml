@@ -45,7 +45,9 @@ if ($this->getData('conf/body/backgroundImageIpadPortret')) {
 <div class="ipad" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
     <div class="status-bar"></div>
     <div class="header-wrap" style="background-color:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>;">
-        <div class="header"><span class="logo"><img src="<?php echo $this->getLogoUrl(); ?>" height="14" width="12" alt="" /></span><span class="store-name" style="color:<?php echo $title1color; ?>;">Magento</span></div>
+        <div class="header">
+            <?php echo $this->getChildHtml('tab_items'); ?>
+        </div>
     </div>
     <div class="filters-wrap" style="background-color:<?php echo $primaryColor; ?>;">
         <div class="filters">

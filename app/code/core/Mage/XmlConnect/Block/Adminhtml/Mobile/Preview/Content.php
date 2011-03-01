@@ -26,6 +26,13 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminhtml_Block_Template
 {
     /**
+     * Configuration tab items array
+     *
+     * @var array
+     */
+    protected $tabItems = array();
+
+    /**
      * Category item tint color styles
      *
      * @var string
@@ -53,6 +60,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     /**
      * Prepare config data
      * Implement set "conf" data as magic method
+     * Set config to 'tab_items' child block if exists
      *
      * @param array $conf
      */
@@ -69,6 +77,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
                 $conf['tabBar'][$tab['action']]['image'] =
                     Mage::helper('xmlconnect/image')->getSkinImagesUrl('mobile_preview/' . $tab['image']);
             }
+        }
+        $tabItemsBlock = $this->getChild('tab_items');
+        if ($tabItemsBlock !== false) {
+            $tabItemsBlock->setData('conf', $conf);
         }
         $this->setData('conf', $conf);
     }

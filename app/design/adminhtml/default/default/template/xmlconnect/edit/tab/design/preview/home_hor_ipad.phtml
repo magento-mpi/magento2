@@ -25,6 +25,7 @@
  */
 ?>
 <?php
+$title1color = $this->getConfigFontInfo('Title1/color');
 $categoryItemTintColor = $this->getCategoryItemTintColor();
 $categoryItemBackgroundColor = $this->getData('conf/categoryItem/backgroundColor');
 
@@ -38,7 +39,7 @@ $bannerImageIpad = $this->getBannerImage();
     <div class="status-bar"></div>
     <div class="header-wrap" style="background-color:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>;">
         <div class="header">
-            <span class="logo"><img src="<?php echo $this->getLogoUrl(); ?>" height="14" width="12" alt="" /></span><span class="store-name" style="color:<?php echo $this->getData('conf/fonts/Title1/color'); ?>;">Magento</span>
+            <?php echo $this->getChildHtml('tab_items'); ?>
         </div>
     </div>
     <div class="shadow"></div>

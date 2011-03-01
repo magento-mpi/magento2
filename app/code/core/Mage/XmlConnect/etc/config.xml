@@ -332,6 +332,33 @@
                     </updates>
                 </default>
             </_640x960>
+            <_1024x768>
+                <default>
+                    <source>default</source>
+                    <updates>
+                        <u1>
+                            <path>content/product_small</path>
+                            <function>update</function>
+                            <data>210</data>
+                        </u1>
+                        <u2>
+                            <path>content/product_big</path>
+                            <function>update</function>
+                            <data>400</data>
+                        </u2>
+                        <u3>
+                            <path>content/category</path>
+                            <function>update</function>
+                            <data>243</data>
+                        </u3>
+                        <u4>
+                            <path>content/product_gallery_big</path>
+                            <function>update</function>
+                            <data>644</data>
+                        </u4>
+                    </updates>
+                </default>
+            </_1024x768>
         </screen_size>
         <xmlconnect>
             <mobile_application>
