@@ -174,7 +174,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
         $backgroundImage = '';
         switch ($param) {
             case Mage_XmlConnect_Helper_Ipad::ORIENTATION_LANDSCAPE:
-                $configPath = 'conf/native/body/backgroundImageIpadLandscape';
+                $configPath = 'conf/body/backgroundImageIpadLandscape';
                 if ($this->getData($configPath)) {
                     $width = Mage_XmlConnect_Helper_Ipad::PREVIEW_LANDSCAPE_BACKGROUND_WIDTH;
                     $height = Mage_XmlConnect_Helper_Ipad::PREVIEW_LANDSCAPE_BACKGROUND_HEIGHT;
@@ -186,7 +186,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
                 }
             break;
             case Mage_XmlConnect_Helper_Ipad::ORIENTATION_PORTRAIT:
-                $configPath = 'conf/native/body/backgroundImageIpadPortret';
+                $configPath = 'conf/body/backgroundImageIpadPortret';
                 $width = Mage_XmlConnect_Helper_Ipad::PREVIEW_PORTRAIT_BACKGROUND_WIDTH;
                 $height = Mage_XmlConnect_Helper_Ipad::PREVIEW_PORTRAIT_BACKGROUND_HEIGHT;
                 if ($this->getData($configPath)) {

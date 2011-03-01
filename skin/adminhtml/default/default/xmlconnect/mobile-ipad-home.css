@@ -82,27 +82,26 @@ body {
         .ipad .header span span {
             vertical-align:middle;
             }
-        .ipad .header .info,
-        .ipad .header .login,
-        .ipad .header .cart,
         .ipad .header .search {
             font-size:6px;
             position:absolute;
-            top:5px;
-            }
-        .ipad .header .search {
             top:3px;
             right:105px;
             }
+        .ipad .header .info,
+        .ipad .header .login,
+        .ipad .header .cart {
+            float:right;
+            padding:5px 5px 0;
+            }
         .ipad .header .info {
-            top:6px;
-            right:88px;
+            padding-top:6px;
             }
         .ipad .header .login {
-            right:45px;
+            margin-left:20px;
             }
         .ipad .header .cart {
-            right:6px;
+            margin-left:20px;
             }
     .ipad .shadow {
         background:url(../images/xmlconnect/mobile_preview/ipad/bg_home_shadow.png) no-repeat;

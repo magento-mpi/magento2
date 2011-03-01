@@ -28,14 +28,13 @@
 $title1color = $this->getData('conf/fonts/Title1/color');
 ?>
 <?php if ($this->isItemExists('Cart')) :?>
-    <span class="cart" style="color:<?php echo $title1color; ?>;"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_cart.png') ?>" alt="" /> <span>Cart</span></span>
+    <span class="cart" style="color:<?php echo $title1color; ?>;"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_cart.png') ?>" alt="" /></span>
 <?php endif; ?>
 <?php if ($this->isItemExists('Account')) :?>
-    <span class="login" style="color:<?php echo $title1color; ?>;"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_login.png') ?>" alt="" /> <span>Log In</span></span>
+    <span class="login" style="color:<?php echo $title1color; ?>;"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_login.png') ?>" alt="" /></span>
 <?php endif; ?>
-<?php if ($this->isItemExists('AboutUs')) :?>
-    <span class="info"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_info.png') ?>" alt="" /></span>
-<?php endif; ?>
+
+<span class="info"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_info.png') ?>" alt="" /></span>
 
 <span class="logo"><img src="<?php echo $this->getLogoUrl(); ?>" height="14" width="12" alt="" /></span><span class="store-name" style="color:<?php echo $title1color; ?>;">Magento</span>
 <?php if ($this->isItemExists('Search')) :?>
