@@ -404,14 +404,15 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 Mage::logException($e);
             }
         }
-        if (!$isError && is_object($app) && $app->getId() && $redirectSubmit) {
+        $isApplication = $app instanceof Mage_XmlConnect_Model_Application;
+        if (!$isError && $isApplication && $app->getId() && $redirectSubmit) {
             $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
-        } else if ($isError && is_object($app) && $app->getId()) {
+        } else if ($isError && $isApplication && $app->getId()) {
             Mage::getSingleton('adminhtml/session')->setLoadSessionFlag(true);
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
-        } else if ($isError && is_object($app) && !$app->getId() && $app->getType()) {
+        } else if ($isError && $isApplication && !$app->getId() && $app->getType()) {
             $this->_redirect('*/*/edit', array('type' => $app->getType()));
-        } else if ($this->getRequest()->getParam('back') && is_object($app)) {
+        } else if ($this->getRequest()->getParam('back') && $isApplication) {
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } else {
             $this->_redirect('*/*/');
@@ -646,7 +647,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addException($e, $this->__('Unable to process preview.'));
             $redirectBack = true;
         }
-        if (isset($app) && is_object($app) && $redirectBack) {
+        if (isset($app) && $app instanceof Mage_XmlConnect_Model_Application && $redirectBack) {
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } else {
             $this->_redirect('*/*/');
@@ -790,23 +791,28 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     public function _preparePostData(array $arr)
     {
         unset($arr['code']);
-        if (isset($arr['conf']['new_pages']) && isset($arr['conf']['new_pages']['ids'])
-            && isset($arr['conf']['new_pages']['labels'])) {
-
-            $newPages = array();
-            foreach ($arr['conf']['new_pages']['ids'] as $key=>$value) {
-                $newPages[$key]['id'] = trim($value);
+        if (!empty($arr['conf']['native']['pages'])) {
+            // remove emptied pages
+            $pages = array();
+            foreach ($arr['conf']['native']['pages'] as $_page) {
+                if (!empty($_page['id']) && !empty($_page['label'])) {
+                    $pages[] = $_page;
+                }
             }
-            foreach ($arr['conf']['new_pages']['labels'] as $key=>$value) {
-                $newPages[$key]['label'] = trim($value);
+            $arr['conf']['native']['pages'] = $pages;
+        }
+        if (isset($arr['conf']['new_pages']['ids']) && isset($arr['conf']['new_pages']['labels'])) {
+            $newPages = array();
+            $cmsPages = &$arr['conf']['new_pages'];
+            $idx = 0;
+            foreach ($cmsPages['ids'] as $key => $value) {
+                if (!empty($value) && !empty($cmsPages['labels'][$key])) {
+                    $newPages[$idx]['id'] = trim($value);
+                    $newPages[$idx++]['label'] = trim($cmsPages['labels'][$key]);
+                }
             }
             if (!isset($arr['conf']['native']['pages'])) {
                 $arr['conf']['native']['pages'] = array();
-            }
-            foreach ($newPages as $key => $page) {
-                if (empty($page['id']) || empty($page['label'])) {
-                    unset($newPages[$key]);
-                }
             }
             if (!empty($newPages)) {
                 $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $newPages);
