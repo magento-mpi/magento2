@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://trunk.localhost/api/v2_soap/?wsdl" uri="xml-resources/web-service-references/WsClient/wsdl/trunk.localhost/api/v2_soap/.wsdl"/>
+</catalog>
