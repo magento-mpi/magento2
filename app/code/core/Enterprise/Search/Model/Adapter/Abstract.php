@@ -832,8 +832,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     /**
      * Convert facet results object to an array
      *
-     * @param object $object
-     * @return array
+     * @param   object|array $object
+     * @return  array
      */
     protected function _facetObjectToArray($object)
     {
@@ -846,9 +846,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         }
 
         $res = array();
-
         foreach ($object['facet_fields'] as $attr => $val) {
-            foreach ($val as $key => $value) {
+            foreach ((array)$val as $key => $value) {
                 $res[$attr][$key] = $value;
             }
         }
@@ -861,6 +860,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $res[$attrArray[0]][$attrArray[1]] = $val;
             }
         }
+
         return $res;
     }
 }
