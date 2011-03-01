@@ -214,6 +214,14 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function cleanIndex($storeId = null, $entityId = null, $entityType = 'product')
     {
+        if ($storeId == 0) {
+            foreach (Mage::app()->getStores(false) as $store) {
+                $this->cleanIndex($store->getId(), $entityId, $entityType);
+            }
+
+            return $this;
+        }
+
         if (is_null($storeId) && is_null($entityId)) {
             $this->_adapter->deleteDocs(array(), 'all');
         } elseif (is_null($storeId) && !is_null($entityId)) {
