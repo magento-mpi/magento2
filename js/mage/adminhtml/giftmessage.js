@@ -152,7 +152,7 @@ var GiftOptionsPopup = Class.create();
 GiftOptionsPopup.prototype = {
     giftOptionsWindowMask: null,
     giftOptionsWindow: null,
-    
+
     initialize: function() {
         $$('.action-link').each(function (el) {
             Event.observe(el, 'click', this.showItemGiftOptions.bind(this));
@@ -184,6 +184,9 @@ GiftOptionsPopup.prototype = {
         toggleSelectsUnderBlock(this.giftOptionsWindowMask, false);
         this.giftOptionsWindowMask = $('gift_options_window_mask');
         this.giftOptionsWindow = $('gift_options_configure');
+        this.giftOptionsWindow.select('select').each(function(el){
+            el.style.visibility = 'visible';
+        });
 
         this.giftOptionsWindowMask.setStyle({'height': $('html-body').getHeight() + 'px'}).show();
         this.giftOptionsWindow.setStyle({'marginTop': -this.giftOptionsWindow.getHeight()/2 + 'px', 'display': 'block'});
@@ -193,12 +196,12 @@ GiftOptionsPopup.prototype = {
         Event.observe($('gift_options_ok_button'), 'click', this.onOkButton.bind(this));
         Event.stop(event);
     },
-    
+
     setTitle : function (itemId) {
         var productTitle = $('order_item_' + itemId + '_title').innerHTML;
         $('gift_options_configure_title').update(productTitle);
     },
-    
+
     onOkButton : function() {
         var giftOptionsForm = new varienForm('gift_options_configuration_form');
         giftOptionsForm.canShowError = true;
@@ -209,11 +212,11 @@ GiftOptionsPopup.prototype = {
         this.closeWindow();
         return true;
     },
-    
+
     onCloseButton : function() {
         this.closeWindow();
     },
-    
+
     closeWindow : function() {
         toggleSelectsUnderBlock(this.giftOptionsWindowMask, true);
         this.giftOptionsWindowMask.style.display = 'none';
@@ -229,13 +232,13 @@ GiftMessageSet.prototype = {
     sourcePrefix: 'giftmessage_',
     fields: ['sender', 'recipient', 'message'],
     isObserved: false,
-    
+
     initialize: function() {
         $$('.action-link').each(function (el) {
             Event.observe(el, 'click', this.setData.bind(this));
         }, this);
     },
-    
+
     setData: function(event) {
         var element = Event.element(event).id;
         this.id = element.sub('gift_options_link_','');
@@ -256,7 +259,7 @@ GiftMessageSet.prototype = {
             this.isObserved = true;
         }
     },
-    
+
     saveData: function(event){
         this.fields.each(function(el) {
             if ($(this.sourcePrefix + this.id + '_' + el) && $(this.destPrefix + el)) {
