@@ -538,7 +538,13 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             $response->getXTransId()
         );
 
-        $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message, false)
+        $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
+        $orderStatus = $this->getConfigData('order_status');
+        if (!$orderStatus || $order->getIsVirtual()) {
+            $orderStatus = $order->getConfig()->getStateDefaultStatus($orderState);
+        }
+
+        $order->setState($orderState, $orderStatus ? $orderStatus : true, $message, false)
             ->save();
 
         //match amounts. should be equals for authorization.
