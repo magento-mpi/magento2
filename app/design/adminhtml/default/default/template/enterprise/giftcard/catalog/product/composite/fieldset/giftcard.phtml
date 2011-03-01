@@ -43,9 +43,11 @@ productConfigure.giftcardConfig = {};
 <?php if ($_product->isSaleable() && $this->isConfigured($_product)): ?>
     <?php if (!$this->isOpenAmountAvailable($_product) && (count($this->getAmounts($_product)) == 1)): ?>
         <?php $_amount = $this->getAmounts($_product); $_amount = array_shift($_amount); ?>
-        <div class="price-box">
+        <label><?php echo Mage::helper('enterprise_giftcard')->__('Amount'); ?></label>
+        <div class="input-box">
             <span class="regular-price">
                 <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+                    <input type="hidden" value="<?php echo $_amount ?>" price="<?php echo $_amount ?>" name="giftcard_amount" />
                     <?php echo Mage::helper('core')->currencyByStore($_amount, $_storeId, true, false); ?>
                 </span>
             </span>
