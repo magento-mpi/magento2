@@ -1085,7 +1085,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         if ($this->canCancel()) {
             $this->getPayment()->cancel();
             $this->registerCancellation();
+
+            Mage::dispatchEvent('order_cancel_after', array('order' => $this));
         }
+
         return $this;
     }
 
