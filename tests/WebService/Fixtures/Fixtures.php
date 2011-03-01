@@ -81,7 +81,7 @@ class WebService_Fixtures_Fixtures {
                     $filePath = self::$_fixturesDir . $module_conf['path'];
 
                     if(is_file($filePath)){
-                        $query = file_get_contents($filePath);
+                        $query = preg_replace('/\`(.+)?\`/i', '`'.Mage::app()->getConfig()->getTablePrefix().'$1`', file_get_contents($filePath) );
                         if(strlen($query)){
                             self::$_installer->run($query);
                             $appliedFixtures[] = $module_name;
