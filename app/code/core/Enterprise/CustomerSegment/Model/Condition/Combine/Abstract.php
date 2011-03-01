@@ -158,6 +158,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         /**
          * Process combine subfilters. Subfilters are part of base select which cah be affected by children.
          */
+        $subfilters = array();
         $subfilterMap = $this->_getSubfilterMap();
         if ($subfilterMap) {
             foreach ($this->getConditions() as $condition) {
@@ -165,14 +166,16 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
                 if (isset($subfilterMap[$subfilterType])) {
                     $subfilter = $condition->getSubfilterSql($subfilterMap[$subfilterType], $required, $website);
                     if ($subfilter) {
-                        $select->$whereFunction($subfilter);
+                        $subfilters[] = $subfilter;
                         $gotConditions = true;
                     }
                 }
             }
         }
 
-        if (!$gotConditions) {
+        if ($gotConditions) {
+            $select->where(implode(($this->getAggregator() == 'all') ? ' AND ' : ' OR ', $subfilters));
+        } else {
             $select->where('1=1');
         }
         return $select;
