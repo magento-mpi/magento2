@@ -25,7 +25,7 @@
  */
 
 /**
- * ${CLASS_DESCRIPTION}
+ * API Resource class for product
  */
 class Mage_Checkout_Model_Api_Resource_Product extends Mage_Checkout_Model_Api_Resource
 {
@@ -90,5 +90,50 @@ class Mage_Checkout_Model_Api_Resource_Product extends Mage_Checkout_Model_Api_R
             $request->setQty(1);
         }
         return $request;
+    }
+
+    /**
+     * Get QuoteItem by Product and request info
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @param Mage_Catalog_Model_Product $product
+     * @param Varien_Object $requestInfo
+     * @return Mage_Sales_Model_Quote_Item
+     * @throw Mage_Core_Exception
+     */
+    protected function _getQuoteItemByProduct(Mage_Sales_Model_Quote $quote, Mage_Catalog_Model_Product $product, Varien_Object $requestInfo)
+    {
+        $cartCandidates = $product->getTypeInstance(true)
+            ->prepareForCartAdvanced($requestInfo, $product, Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL);
+
+        /**
+         * Error message
+         */
+        if (is_string($cartCandidates)) {
+            throw Mage::throwException($cartCandidates);
+        }
+
+        /**
+         * If prepare process return one object
+         */
+        if (!is_array($cartCandidates)) {
+            $cartCandidates = array($cartCandidates);
+        }
+
+        /** @var $item Mage_Sales_Model_Quote_Item */
+        $item = null;
+        foreach ($cartCandidates as $candidate) {
+            if ($candidate->getParentProductId()) {
+                continue;
+            }
+
+            $item = $quote->getItemByProduct($candidate);
+        }
+        
+        if (is_null($item)) {
+            $item = Mage::getModel("sales/quote_item");
+        }
+        
+        return $item;
     }
 }

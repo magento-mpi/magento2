@@ -84,7 +84,7 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
                 if (is_string($result)) {
                     Mage::throwException($result);
                 }
-            } catch( Exception $e) {
+            } catch (Exception $e) {
                 $errors[] = $e->getMessage();
             }
         }
@@ -120,6 +120,7 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
             $this->_fault('invalid_product_data');
         }
 
+        $errors = array();
         foreach ($productsData as $productItem) {
             if (isset($productItem['product_id'])) {
                 $productByItem = $this->_getProduct($productItem['product_id'], $store, "id");
@@ -130,14 +131,18 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
             }
 
             /** @var $quoteItem Mage_Sales_Model_Quote_Item */
-            $quoteItem = $quote->getItemByProduct($productByItem);
-            if ($quoteItem === false) {
+            $quoteItem = $this->_getQuoteItemByProduct($quote, $productByItem, $this->_getProductRequest($productItem));
+            if (is_null($quoteItem->getId())) {
                 continue;
             }
 
             if ($productItem['qty'] > 0) {
                 $quoteItem->setQty($productItem['qty']);
             }
+        }
+
+        if (!empty($errors)) {
+            $this->_fault("update_product_fault", implode(PHP_EOL, $errors));
         }
 
         try {
@@ -177,11 +182,10 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
             }
 
             /** @var $quoteItem Mage_Sales_Model_Quote_Item */
-            $quoteItem = $quote->getItemByProduct($productByItem);
-            if ($quoteItem === false) {
+            $quoteItem = $this->_getQuoteItemByProduct($quote, $productByItem, $this->_getProductRequest($productItem));
+            if (is_null($quoteItem->getId())) {
                 continue;
             }
-
             $quote->removeItem($quoteItem->getId());
         }
 
@@ -270,7 +274,8 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
                 continue;
             }
 
-            $quoteItem = $quote->getItemByProduct($productByItem);
+            /** @var $quoteItem Mage_Sales_Model_Quote_Item */
+            $quoteItem = $this->_getQuoteItemByProduct($quote, $productByItem, $this->_getProductRequest($productItem));
             if($quoteItem->getId()){
                 $customerQuote->addItem($quoteItem);
                 $quote->removeItem($quoteItem->getId());
