@@ -42,6 +42,9 @@
             <arg value="${build.number}"/>
         </exec>
 
+    </target>
+
+    <target name="prepare-xml-connect" depends="clean" description="prepare basic (clean) ENV for instance.">
         <!-- XmlConnect -->
         <copy file="modules/XmlConnect/config.xml"
               tofile="${dir.src}/app/code/local/Test/XmlConnect/etc/config.xml"
