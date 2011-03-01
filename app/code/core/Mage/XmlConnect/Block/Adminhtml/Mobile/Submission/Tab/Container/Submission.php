@@ -131,17 +131,21 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
                 $titleLength = '12';
                 $descriptionLength = '500';
+                $descriptionNote = $this->__('Description that appears in the iTunes App Store. %s chars maximum. ', $descriptionLength);
                 break;
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD:
                 $titleLength = '200';
                 $descriptionLength = '500';
+                $descriptionNote = $this->__('Description that appears in the iTunes App Store. %s chars maximum. ', $descriptionLength);
                 break;
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_ANDROID:
                 $titleLength = '30';
                 $descriptionLength = '4000';
+                $descriptionNote = $this->__('Description that appears in Android Market. %s chars maximum. ', $descriptionLength);
                 break;
         }
-        $titleNote = $this->__('Name that appears beneath your app when users install it to their device. We recommend choosing a name that is 10-12 characters and that your customers will recognize.');
+
+        $titleNote = $this->__('Name that appears beneath your app when users install it to their device. We recommend choosing a name that is 10-12 characters and that your customers will recognize. %s chars max.', $titleLength);
 
         $fieldset->addField('conf/submit_text/title', 'text', array(
             'name'      => 'conf[submit_text][title]',
@@ -157,7 +161,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'label'     => $this->__('Description'),
             'maxlength' => $descriptionLength,
             'value'     => isset($formData['conf[submit_text][description]']) ? $formData['conf[submit_text][description]'] : null,
-            'note'      => $this->__('Description that appears in the iTunes App Store. %s chars maximum. ', $descriptionLength),
+            'note'      => $descriptionNote,
             'required'  => true,
         ));
         $field->setRows(15);
@@ -211,7 +215,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
                 'label'     => $this->__('Keywords'),
                 'maxlength' => '100',
                 'value'     => isset($formData['conf[submit_text][keywords]']) ? $formData['conf[submit_text][keywords]'] : null,
-                'note'      => $this->__('One or more keywords that describe your app. Keywords are matched to users` searches in the App Store and help return accurate search results. Separate multiple keywords with commas. 100 chars is maximum.'),
+                'note'      => $this->__('One or more keywords that describe your app. Keywords are matched to users\' searches in the App Store and help return accurate search results. Separate multiple keywords with commas. 100 chars is maximum.'),
             ));
         }
 
@@ -225,19 +229,19 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
                 $this->addImage($fieldset, 'conf/submit/loader_image', $this->__('Loader Splash Screen'),
                     $this->__('Image that appears on first screen while your app is loading. Required size: 320px x 460px.'), '', true);
 
-                $this->addImage($fieldset, 'conf/submit/loader_image_i4', $this->__('Loader Splash Screen <br/>(iPhone 4 retina)'),
+                $this->addImage($fieldset, 'conf/submit/loader_image_i4', $this->__('Loader Splash Screen <br />(iPhone 4 retina)'),
                     $this->__('Image that appears on first screen while your app is loading. Required size: 640px x 920px.'), '', false);
 
                 $this->addImage($fieldset, 'conf/submit/logo', $this->__('Custom App Icon'),
                     $this->__('Icon that will appear on the user’s phone after they download your app.  You do not need to apply a gradient or soft edges (this is done automatically by Apple).  Recommended size: 57px x 57px at 72 dpi.'), '', true);
 
-                $this->addImage($fieldset, 'conf/submit/logo_i4', $this->__('Custom App Icon <br/>(iPhone 4 retina)'),
+                $this->addImage($fieldset, 'conf/submit/logo_i4', $this->__('Custom App Icon <br />(iPhone 4 retina)'),
                     $this->__('Icon that will appear on the user\'s phone after they download your app. You do not need to apply a gradient or soft edges (this is done automatically by Apple). Recommended size: 114px x 114px.'), '', false);
 
                 $this->addImage($fieldset, 'conf/submit/big_logo', $this->__('Copyright Page Logo'),
                     $this->__('Store logo that is displayed on copyright page of app. Preferred size: 100px x 100px.'), '', true);
 
-                $this->addImage($fieldset, 'conf/submit/big_logo_i4', $this->__('Copyright Page Logo <br/>(iPhone 4 retina)'),
+                $this->addImage($fieldset, 'conf/submit/big_logo_i4', $this->__('Copyright Page Logo <br />(iPhone 4 retina)'),
                     $this->__('Store logo that is displayed on copyright page of app. Preferred size: 200px x 200px.'), '', false);
                 break;
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD:

@@ -225,7 +225,7 @@
                         </itemActions>
                     </native>
                     <submit>
-                        <!-- images that are the same for all tepw of devices -->
+                        <!-- images that are the same for all type of devices -->
                         <icon> <width>512</width> <height>512</height> </icon>
                         <big_logo> <width>100</width> <height>100</height> </big_logo>
 

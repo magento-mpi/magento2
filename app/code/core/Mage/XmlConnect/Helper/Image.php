@@ -75,9 +75,9 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         $uploadedFilename = '';
         $uploadDir = $this->getOriginalSizeUploadDir();
 
-        $this->_forcedConvertPng($field);
-
         try {
+            $this->_forcedConvertPng($field);
+    
             $uploader = new Varien_File_Uploader($field);
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
@@ -88,7 +88,9 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
             /**
              * Hard coded exception catch
              */
-            if ($e->getMessage() == 'Disallowed file type.') {
+            if (!strlen($_FILES[$field]['tmp_name'])) {
+                Mage::throwException(Mage::helper('xmlconnect')->__('File can\'t be uploaded.'));
+            } elseif ($e->getMessage() == 'Disallowed file type.') {
                 $filename = $_FILES[$field]['name'];
                 Mage::throwException(Mage::helper('xmlconnect')->__('Error while uploading file "%s". Disallowed file type. Only "jpg", "jpeg", "gif", "png" are allowed.', $filename));
             } else {
