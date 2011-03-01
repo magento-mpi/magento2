@@ -1,0 +1,77 @@
+<_>
+   <form_key>E0u2UTwarLWHRzAe</form_key>
+   <name>Lib_Js_Ext</name>
+   <channel>enterprise</channel>
+   <summary>Extjs Javascript Libraries for Magento</summary>
+   <description>Extjs Javascript Libraries for Magento</description>
+   <license>Mixed</license>
+   <license_uri/>
+   <version>1.10.0.0</version>
+   <stability>stable</stability>
+   <notes>1.10.0.0</notes>
+   <authors>
+      <name>
+         <name>Magento Enterprise Team</name>
+      </name>
+      <user>
+         <user>core</user>
+      </user>
+      <email>
+         <email>core@magentocommerce.com</email>
+      </email>
+   </authors>
+   <depends_php_min>5.2.0</depends_php_min>
+   <depends_php_max>6.0.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+         </name>
+         <channel>
+            <channel/>
+         </channel>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+         <files>
+            <files>     </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>Core</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>mageweb</target>
+      </target>
+      <path>
+         <path/>
+         <path>js/extjs</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore/>
+      </ignore>
+   </contents>
+</_>
