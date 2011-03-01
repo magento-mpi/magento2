@@ -115,11 +115,6 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
                     'action' => 'Home',
                 ),
                 array(
-                    'label' => Mage::helper('xmlconnect')->__('Shop'),
-                    'image' => 'tab_shop.png',
-                    'action' => 'Shop',
-                ),
-                array(
                     'label' => Mage::helper('xmlconnect')->__('Search'),
                     'image' => 'tab_search.png',
                     'action' => 'Search',
@@ -133,11 +128,6 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
                     'label' => Mage::helper('xmlconnect')->__('Account'),
                     'image' => 'tab_account_ipad.png',
                     'action' => 'Account',
-                ),
-                array(
-                    'label' => Mage::helper('xmlconnect')->__('More Info'),
-                    'image' => 'tab_page.png',
-                    'action' => 'AboutUs',
                 ),
             );
         }
