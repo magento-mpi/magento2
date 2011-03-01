@@ -611,10 +611,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $app->addData($dataUploaded);
                 // render configuration with just uploaded images
                 $appConf = $app->getRenderConf();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // when cannot upload - just tell user what is happen
-                $jsErrorMessage = $e->getMessage();
+                $jsErrorMessage = addslashes($e->getMessage());
             }
 
             $this->loadLayout(false);
