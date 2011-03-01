@@ -170,6 +170,9 @@ class Maged_Model_Config_Enterprise extends Maged_Model_Config_Abstract implemen
             case 'enterprise':
                 $channelLabel = 'Magento Enterprise Edition';
                 break;
+            default:
+                $channelLabel = $channel;
+                break;
         }
         return $channelLabel;
     }

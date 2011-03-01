@@ -169,6 +169,9 @@ class Maged_Model_Config_Professional extends Maged_Model_Config_Abstract implem
             case 'professional':
                 $channelLabel = 'Magento Professional Edition';
                 break;
+            default:
+                $channelLabel = $channel;
+                break;
         }
         return $channelLabel;
     }
