@@ -170,7 +170,7 @@ define('REPLACEMENT_SKIN', "{notice}\n\\2");
  * Replaces an existing notice of license in an XML-file
  * Not supposed to work without notice of license
  */
-define('REGEX_XML', '/^\<\?xml version\=\"1\.0\"( encoding="[a-zA-Z0-9\-]+")?\?\>\s+\<\!\-\-\s+(\/\*\*.+NOTICE OF LICENSE.+?\*\/\s?)?(.+)$/us');
+define('REGEX_XML', '/^\<\?xml version\=\"1\.0\"( encoding="[a-zA-Z0-9\-]+")?\?\>\s+\<\!\-\-\s+(\/\*\*.+?NOTICE OF LICENSE.+?\*\/\s?)?(.+)$/us');
 define('REPLACEMENT_XML', "<?xml version=\"1.0\"?" . ">\n<!--\n{notice}\n\\3");
 
 /**
