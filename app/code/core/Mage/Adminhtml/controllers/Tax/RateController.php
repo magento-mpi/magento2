@@ -389,16 +389,57 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function exportPostAction()
     {
         /** start csv content and set template */
-        $headers = array(
+        $headers = new Varien_Object(array(
             'code'         => Mage::helper('tax')->__('Code'),
             'country_name' => Mage::helper('tax')->__('Country'),
             'region_name'  => Mage::helper('tax')->__('State'),
             'tax_postcode' => Mage::helper('tax')->__('Zip/Post Code'),
             'rate'         => Mage::helper('tax')->__('Rate')
-        );
+        ));
         $template = '"{{code}}","{{country_name}}","{{region_name}}","{{tax_postcode}}","{{rate}}"';
+        $content = $headers->toString($template);
 
-        $content = Mage::getModel('tax/calculation_rate')->toCSV($template, $headers);
+        $storeTaxTitleTemplate       = array();
+        $taxCalculationRateTitleDict = array();
+
+        foreach (Mage::getModel('core/store')->getCollection()->setLoadDefault(false) as $store) {
+            $storeTitle = 'title_' . $store->getId();
+            $content   .= ',"' . $store->getCode() . '"';
+            $template  .= ',"{{' . $storeTitle . '}}"';
+            $storeTaxTitleTemplate[$storeTitle] = null;
+        }
+        unset($store);
+
+        $content .= "\n";
+
+        foreach (Mage::getModel('tax/calculation_rate_title')->getCollection() as $title) {
+            $rateId = $title->getTaxCalculationRateId();
+
+            if (! array_key_exists($rateId, $taxCalculationRateTitleDict)) {
+                $taxCalculationRateTitleDict[$rateId] = $storeTaxTitleTemplate;
+            }
+
+            $taxCalculationRateTitleDict[$rateId]['title_' . $title->getStoreId()] = $title->getValue();
+        }
+        unset($title);
+
+        $collection = Mage::getReourceModel('tax/calculation_rate_collection')
+            ->joinCountryTable()
+            ->joinRegionTable();
+
+        while ($rate = $collection->fetchItem()) {
+            if ($rate->getTaxRegionId() == 0) {
+                $rate->setRegionName('*');
+            }
+
+            if (array_key_exists($rate->getId(), $taxCalculationRateTitleDict)) {
+                $rate->addData($taxCalculationRateTitleDict[$rate->getId()]);
+            } else {
+                $rate->addData($storeTaxTitleTemplate);
+            }
+
+            $content .= $rate->toString($template) . "\n";
+        }
 
         $this->_prepareDownloadResponse('tax_rates.csv', $content);
     }

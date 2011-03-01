@@ -551,6 +551,28 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     }
 
     /**
+     * Convert items array to hash for select options
+     * unsing fetchItem method
+     *
+     * return items hash
+     * array($value => $label)
+     *
+     * @see     fetchItem()
+     *
+     * @param   string $valueField
+     * @param   string $labelField
+     * @return  array
+     */
+    public function toOptionHashOptimized($valueField='id', $labelField='name')
+    {
+        $result = array();
+        while ($item = $this->fetchItem()) {
+            $result[$item->getData($valueField)] = $item->getData($labelField);
+        }
+        return $result;
+    }
+
+    /**
      * Get all data array for collection
      *
      * @return array
