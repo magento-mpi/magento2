@@ -793,7 +793,7 @@ class Mage_Core_Model_Design_Package
     protected function _prepareUrl($uri)
     {
         // check absolute or relative url
-        if (!preg_match('/^[http|https]/i', $uri) && !preg_match('/^\//i', $uri)) {
+        if (!preg_match('/^https?:/i', $uri) && !preg_match('/^\//i', $uri)) {
             $fileDir = '';
             $pathParts = explode(DS, $uri);
             $fileDirParts = explode(DS, $this->_callbackFileDir);
