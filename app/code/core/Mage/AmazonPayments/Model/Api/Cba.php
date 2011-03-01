@@ -446,7 +446,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     {
         $customerGroup = $quote->getCustomerGroupId();
         if (!$customerGroup) {
-            $customerGroup = Mage::getStoreConfig('customer/create_account/default_group', $quote->getStoreId());
+            $customerGroup = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $quote->getStoreId());
         }
         return Mage::getModel('customer/group')->load($customerGroup)->getTaxClassId();
     }

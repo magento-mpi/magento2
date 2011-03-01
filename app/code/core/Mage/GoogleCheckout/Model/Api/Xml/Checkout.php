@@ -44,6 +44,11 @@ class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Mod
     const ITEM_SIZE_UNIT = 'IN';
 
     /**
+     * Google checkout namespace URI
+     */
+    const CHECKOUT_SHOPPING_CART_XMLNS = 'http://checkout.google.com/schema/2';
+
+    /**
      * @deprecated after 0.8.16100
      * 
      * @var string
@@ -108,8 +113,9 @@ class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Mod
             Mage::throwException('Invalid quote');
         }
 
+        $xmlns = self::CHECKOUT_SHOPPING_CART_XMLNS;
         $xml = <<<EOT
-<checkout-shopping-cart xmlns="http://checkout.google.com/schema/2">
+<checkout-shopping-cart xmlns="{$xmlns}">
     <shopping-cart>
 {$this->_getItemsXml()}
 {$this->_getMerchantPrivateDataXml()}
@@ -240,21 +246,20 @@ EOT;
         }
 
         $quoteId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag('google/checkout_shipping_virtual/active', $quoteId);
+        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $quoteId);
         if (!$active) {
             return '';
         }
 
-        $schedule = Mage::getStoreConfig('google/checkout_shipping_virtual/schedule', $quoteId);
-        $method   = Mage::getStoreConfig('google/checkout_shipping_virtual/method', $quoteId);
+        $schedule = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $quoteId);
+        $method   = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_VIRTUAL_METHOD, $quoteId);
 
         $xml = "<display-disposition>{$schedule}</display-disposition>";
 
-        /*
-         * $method can be email|key_url|description_based
-         */
         if ($method == 'email') {
             $xml .= '<email-delivery>true</email-delivery>';
+        } elseif ($method == 'key_url') {
+        } elseif ($method == 'description_based') {
         }
 
         $xml = "<digital-content>{$xml}</digital-content>";
@@ -332,7 +337,8 @@ EOT;
      */
     protected function _getRequestBuyerPhoneNumberXml()
     {
-        $requestPhone = Mage::getStoreConfig('google/checkout/request_phone', $this->getQuote()->getStoreId()) ? 'true' : 'false';
+        $requestPhone = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_REQUEST_PHONE, $this->getQuote()->getStoreId());
+        $requestPhone = $requestPhone ? 'true' : 'false';
         $xml = <<<EOT
             <request-buyer-phone-number>{$requestPhone}</request-buyer-phone-number>
 EOT;
@@ -403,7 +409,6 @@ EOT;
      */
     protected function _getCarrierCalculatedShippingXml()
     {
-        $xml = '';
         /*
          * Prevent sending more then one shipping option to Google
          */
@@ -412,25 +417,25 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag('google/checkout_shipping_carrier/active', $storeId);
-        $methods = Mage::getStoreConfig('google/checkout_shipping_carrier/methods', $storeId);
+        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
+        $methods = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_METHODS, $storeId);
 
         if (!$active || !$methods) {
             return '';
         }
 
-        $country    = Mage::getStoreConfig('shipping/origin/country_id', $storeId);
-        $region     = Mage::getStoreConfig('shipping/origin/region_id', $storeId);
-        $postcode   = Mage::getStoreConfig('shipping/origin/postcode', $storeId);
-        $city       = Mage::getStoreConfig('shipping/origin/city', $storeId);
+        $country    = Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_COUNTRY_ID, $storeId);
+        $region     = Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_REGION_ID, $storeId);
+        $postcode   = Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_POSTCODE, $storeId);
+        $city       = Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_CITY, $storeId);
 
-        $defPrice   = (float)Mage::getStoreConfig('google/checkout_shipping_carrier/default_price', $storeId);
-        $width      = Mage::getStoreConfig('google/checkout_shipping_carrier/default_width', $storeId);
-        $height     = Mage::getStoreConfig('google/checkout_shipping_carrier/default_height', $storeId);
-        $length     = Mage::getStoreConfig('google/checkout_shipping_carrier/default_length', $storeId);
+        $defPrice   = (float)Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_DEFAULT_PRICE, $storeId);
+        $width      = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_DEFAULT_WIDTH, $storeId);
+        $height     = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_DEFAULT_HEIGHT, $storeId);
+        $length     = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_DEFAULT_LENGTH, $storeId);
         $sizeUnit   = self::ITEM_SIZE_UNIT;
 
-        $addressCategory = Mage::getStoreConfig('google/checkout_shipping_carrier/address_category', $storeId);
+        $addressCategory = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY, $storeId);
         $defPrice = (float) Mage::helper('tax')->getShippingPrice($defPrice, false, false);
 
         $this->getQuote()->getShippingAddress()
@@ -475,6 +480,7 @@ EOT;
             }   
         }
 
+        $xml = '';
         $sendShipMethods = (bool)count($shippingMethodsList) > 0;
         if ($sendShipMethods) {
             $xml .= <<<EOT
@@ -510,7 +516,10 @@ EOT;
         }
 
         foreach ($freeMethodsList as $method) {
-            $xml .= "<flat-rate-shipping name=\"{$method['company']} {$method['type']}\"><price currency=\"USD\">0.00</price></flat-rate-shipping>";
+            $xml .= <<<EOT
+                    <flat-rate-shipping name="{$method['company']} {$method['type']}">
+                    <price currency="{$this->getCurrency()}">0.00</price></flat-rate-shipping>
+EOT;
         }
 
         $this->_shippingCalculated = true;
@@ -532,17 +541,20 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        if (!Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/active', $storeId)) {
+        if (!Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId)) {
             return '';
         }
 
         // If is set Tax Class for Shipping - create ability to manage shipping rates in MerchantCalculationCallback
-        $nodeName = $this->_getTaxClassForShipping($this->getQuote()) ? 'merchant-calculated-shipping' : 'flat-rate-shipping';
+        $nodeName = 'merchant-calculated-shipping';
+        if (!$this->_getTaxClassForShipping($this->getQuote())) {
+            $nodeName = 'flat-rate-shipping';
+        }
 
         $xml = '';
         for ($i = 1; $i <= 3; $i++) {
             $title              = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_' . $i, $storeId);
-            $price              = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
+            $price              = (float)Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
             $price              = number_format($price, 2, '.', '');
             $price              = (float)Mage::helper('tax')->getShippingPrice($price, false, false);
             $allowSpecific      = Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/sallowspecific_' . $i, $storeId);
@@ -609,8 +621,8 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag('google/checkout_shipping_merchant/active', $storeId);
-        $methods = Mage::getStoreConfig('google/checkout_shipping_merchant/allowed_methods', $storeId);
+        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_MERCHANT_ACTIVE, $storeId);
+        $methods = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_MERCHANT_ALLOWED_METHODS, $storeId);
 
         if (!$active || !$methods) {
             return '';
@@ -670,12 +682,12 @@ EOT;
     protected function _getPickupXml()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!Mage::getStoreConfig('google/checkout_shipping_pickup/active', $storeId)) {
+        if (!Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_PICKUP_ACTIVE, $storeId)) {
             return '';
         }
 
-        $title = Mage::getStoreConfig('google/checkout_shipping_pickup/title', $storeId);
-        $price = Mage::getStoreConfig('google/checkout_shipping_pickup/price', $storeId);
+        $title = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
+        $price = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
         $price = (float) Mage::helper('tax')->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
@@ -722,7 +734,7 @@ EOT;
                                         <tax-area>
 
 EOT;
-                        if ($rate['country'] === Mage_Shipping_Model_Carrier_Abstract::USA_COUNTRY_ID) {
+                        if ($rate['country'] === Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) {
                             if (!empty($rate['postcode']) && $rate['postcode'] !== '*') {
                                 $xml .= <<<EOT
                                             <us-zip-area>
@@ -822,7 +834,7 @@ EOT;
      */
     protected function _getAllTaxTablesXml()
     {
-        if (Mage::getStoreConfigFlag('google/checkout/disable_default_tax_tables', $this->getQuote()->getStoreId())) {
+        if (Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_DISABLE_DEFAULT_TAX_TABLES, $this->getQuote()->getStoreId())) {
             return '<tax-tables merchant-calculated="true" />';
         }
 
@@ -864,7 +876,7 @@ EOT;
     {
         $customerGroup = $this->getQuote()->getCustomerGroupId();
         if (!$customerGroup) {
-            $customerGroup = Mage::getStoreConfig('customer/create_account/default_group', $this->getQuote()->getStoreId());
+            $customerGroup = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $this->getQuote()->getStoreId());
         }
         return Mage::getModel('customer/group')->load($customerGroup)->getTaxClassId();
     }
