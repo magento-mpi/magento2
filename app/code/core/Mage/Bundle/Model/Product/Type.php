@@ -988,4 +988,18 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
         return $options;
     }
+
+    /**
+     * Check if product can be configured 
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function canConfigure($product = null)
+    {
+        return $product instanceof Mage_Catalog_Model_Product
+            && $product->isAvailable()
+            && parent::canConfigure();
+    }
+
 }
