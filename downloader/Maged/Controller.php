@@ -910,4 +910,35 @@ final class Maged_Controller
             }
         }
     }
+
+    /**
+     * Gets the current Magento Connect Manager (Downloader) version string
+     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
+     *
+     * @return string
+     */
+    public static function getVersion()
+    {
+        $i = self::getVersionInfo();
+        return trim("{$i['major']}.{$i['minor']}.{$i['revision']}" . ($i['patch'] != '' ? ".{$i['patch']}" : "") . "-{$i['stability']}{$i['number']}", '.-');
+    }
+
+    /**
+     * Gets the detailed Magento Connect Manager (Downloader) version information
+     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
+     *
+     * @return array
+     */
+    public static function getVersionInfo()
+    {
+        return array(
+            'major'     => '1',
+            'minor'     => '5',
+            'revision'  => '0',
+            'patch'     => '0',
+            'stability' => 'rc',
+            'number'    => '2',
+        );
+    }
+
 }
