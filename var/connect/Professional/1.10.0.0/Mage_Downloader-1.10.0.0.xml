@@ -1,21 +1,20 @@
 <_>
-   <form_key>m5G5n0Ao2fr6FPv8</form_key>
-   <_create/>
-   <name>Lib_Js_Mage</name>
-   <channel>enterprise</channel>
+   <form_key>fpg0ql1QG5Jn3D7r</form_key>
+   <name>Mage_Downloader</name>
+   <channel>professional</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
-   <summary>Javascript Libraries for Magento</summary>
-   <description>Javascript Libraries for Magento</description>
-   <license>Magento Enterprise Edition</license>
-   <license_uri>http://www.magentocommerce.com/license/enterprise-edition</license_uri>
+   <summary>Magento Downloader</summary>
+   <description>Magento Downloader</description>
+   <license>Magento Commercial Edition</license>
+   <license_uri>http://www.magentocommerce.com/license/commercial-edition</license_uri>
    <version>1.10.0.0</version>
    <stability>stable</stability>
    <notes>1.10.0.0</notes>
    <authors>
       <name>
-         <name>Magento Enterprise Team</name>
+         <name>Magento Professional Team</name>
       </name>
       <user>
          <user>core</user>
@@ -30,23 +29,18 @@
       <package>
          <name>
             <name/>
-            <name>Lib_Js_Prototype</name>
          </name>
          <channel>
             <channel/>
-            <channel>enterprise</channel>
          </channel>
          <min>
             <min/>
-            <min>1.6.0.3.4</min>
          </min>
          <max>
             <max/>
-            <max>1.6.1</max>
          </max>
          <files>
-            <files>      </files>
-            <files>      </files>
+            <files>                                                                   </files>
          </files>
       </package>
       <extension>
@@ -64,35 +58,55 @@
    <contents>
       <target>
          <target>magelocal</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
+         <target>mage</target>
       </target>
       <path>
          <path/>
-         <path>js/lib</path>
-         <path>js/mage</path>
-         <path>js/varien</path>
-         <path>js/blank.html</path>
-         <path>js/index.php</path>
-         <path>js/spacer.gif</path>
-         <path>js/flash</path>
+         <path>downloader/js</path>
+         <path>downloader/Maged</path>
+         <path>downloader/skin</path>
+         <path>downloader/template</path>
+         <path>downloader/index.php</path>
+         <path>.htaccess</path>
+         <path>index.php</path>
+         <path>downloader/lib</path>
+         <path>downloader/config.ini</path>
+         <path>downloader/.htaccess</path>
+         <path>downloader/mage.php</path>
+         <path>mage</path>
       </path>
       <type>
          <type>file</type>
          <type>dir</type>
          <type>dir</type>
          <type>dir</type>
+         <type>dir</type>
          <type>file</type>
          <type>file</type>
          <type>file</type>
          <type>dir</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
       </type>
       <include>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
          <include/>
          <include/>
          <include/>
@@ -105,7 +119,12 @@
       <ignore>
          <ignore/>
          <ignore/>
-         <ignore>#(adminhtml/sales/centinel.js|adminhtml/moneybookers.js)#</ignore>
+         <ignore>#(Model/Config/Community.php|Model/Config/Enterprise.php)#</ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
          <ignore/>
          <ignore/>
          <ignore/>

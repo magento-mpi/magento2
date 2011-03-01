@@ -1,18 +1,18 @@
 <_>
    <form_key>m5G5n0Ao2fr6FPv8</form_key>
    <_create/>
-   <name>Lib_Js_Mage</name>
+   <name>Lib_Js_Prototype</name>
    <channel>enterprise</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
-   <summary>Javascript Libraries for Magento</summary>
-   <description>Javascript Libraries for Magento</description>
-   <license>Magento Enterprise Edition</license>
-   <license_uri>http://www.magentocommerce.com/license/enterprise-edition</license_uri>
-   <version>1.10.0.0</version>
+   <summary>Prototype and Scriptaculous Javascript Libraries for Magento</summary>
+   <description>Prototype and Scriptaculous Javascript Libraries for Magento</description>
+   <license>Mixed</license>
+   <license_uri/>
+   <version>1.6.0.3.4</version>
    <stability>stable</stability>
-   <notes>1.10.0.0</notes>
+   <notes>1.6.0.3.4</notes>
    <authors>
       <name>
          <name>Magento Enterprise Team</name>
@@ -30,23 +30,18 @@
       <package>
          <name>
             <name/>
-            <name>Lib_Js_Prototype</name>
          </name>
          <channel>
             <channel/>
-            <channel>enterprise</channel>
          </channel>
          <min>
             <min/>
-            <min>1.6.0.3.4</min>
          </min>
          <max>
             <max/>
-            <max>1.6.1</max>
          </max>
          <files>
-            <files>      </files>
-            <files>      </files>
+            <files>         </files>
          </files>
       </package>
       <extension>
@@ -66,48 +61,23 @@
          <target>magelocal</target>
          <target>mageweb</target>
          <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
       </target>
       <path>
          <path/>
-         <path>js/lib</path>
-         <path>js/mage</path>
-         <path>js/varien</path>
-         <path>js/blank.html</path>
-         <path>js/index.php</path>
-         <path>js/spacer.gif</path>
-         <path>js/flash</path>
+         <path>js/prototype</path>
+         <path>js/scriptaculous</path>
       </path>
       <type>
          <type>file</type>
          <type>dir</type>
-         <type>dir</type>
-         <type>dir</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
          <type>dir</type>
       </type>
       <include>
          <include/>
          <include/>
          <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
       </include>
       <ignore>
-         <ignore/>
-         <ignore/>
-         <ignore>#(adminhtml/sales/centinel.js|adminhtml/moneybookers.js)#</ignore>
-         <ignore/>
-         <ignore/>
          <ignore/>
          <ignore/>
          <ignore/>

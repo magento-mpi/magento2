@@ -1,18 +1,20 @@
 <_>
-   <form_key>DVhO57nLSpZrymVs</form_key>
-   <_create/>
-   <name>Lib_Js_Prototype</name>
-   <channel>enterprise</channel>
-   <summary>Prototype and Scriptaculous Javascript Libraries for Magento</summary>
-   <description>Prototype and Scriptaculous Javascript Libraries for Magento</description>
-   <license>Mixed</license>
-   <license_uri/>
-   <version>1.6.0.3.2</version>
+   <form_key>QEsQP4ApVPC28xbm</form_key>
+   <name>Interface_Frontend_Professional</name>
+   <channel>professional</channel>
+   <version_ids>
+      <version_ids>2</version_ids>
+   </version_ids>
+   <summary>Professional interface for Frontend</summary>
+   <description>Professional interface for Frontend</description>
+   <license>Magento Commercial Edition</license>
+   <license_uri>http://www.magentocommerce.com/license/commercial-edition</license_uri>
+   <version>1.10.0.0</version>
    <stability>stable</stability>
-   <notes>1.6.0.3.2</notes>
+   <notes>1.10.0.0</notes>
    <authors>
       <name>
-         <name>Magento Enterprise Team</name>
+         <name>Magento Professional Team</name>
       </name>
       <user>
          <user>core</user>
@@ -27,18 +29,23 @@
       <package>
          <name>
             <name/>
+            <name>Mage_Core_Modules</name>
          </name>
          <channel>
             <channel/>
+            <channel>professional</channel>
          </channel>
          <min>
             <min/>
+            <min>1.10.0.0</min>
          </min>
          <max>
             <max/>
+            <max>1.10.1</max>
          </max>
          <files>
-            <files>     </files>
+            <files>            </files>
+            <files>            </files>
          </files>
       </package>
       <extension>
@@ -56,13 +63,13 @@
    <contents>
       <target>
          <target>magelocal</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
+         <target>magedesign</target>
+         <target>mageskin</target>
       </target>
       <path>
          <path/>
-         <path>js/prototype</path>
-         <path>js/scriptaculous</path>
+         <path>frontend/pro/default</path>
+         <path>frontend/pro/default</path>
       </path>
       <type>
          <type>file</type>

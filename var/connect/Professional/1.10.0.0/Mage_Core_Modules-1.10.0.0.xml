@@ -1,20 +1,20 @@
 <_>
-   <form_key>fZLHC97bdLcEA2z8</form_key>
+   <form_key>aFZiS693HLeqGI8L</form_key>
    <name>Mage_Core_Modules</name>
-   <channel>enterprise</channel>
+   <channel>professional</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
    <summary>Collection of Magento Core Modules</summary>
    <description>Collection of Magento Core Modules</description>
-   <license>Magento Enterprise Edition</license>
-   <license_uri>http://www.magentocommerce.com/license/enterprise-edition</license_uri>
+   <license>Magento Commercial Edition</license>
+   <license_uri>http://www.magentocommerce.com/license/commercial-edition</license_uri>
    <version>1.10.0.0</version>
    <stability>stable</stability>
    <notes>1.10.0.0</notes>
    <authors>
       <name>
-         <name>Magento Enterprise Team</name>
+         <name>Magento Professional Team</name>
       </name>
       <user>
          <user>core</user>
@@ -43,17 +43,17 @@
          </name>
          <channel>
             <channel/>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
-            <channel>enterprise</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
+            <channel>professional</channel>
          </channel>
          <min>
             <min/>
@@ -84,18 +84,18 @@
             <max>1.10.1</max>
          </max>
          <files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
-            <files>                      </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
+            <files>                 </files>
          </files>
       </package>
       <extension>
@@ -180,13 +180,13 @@
          <path>errors/.htaccess</path>
          <path>lib/.htaccess</path>
          <path>media/.htaccess</path>
-         <path>LICENSE_EE.txt</path>
-         <path>LICENSE_EE.html</path>
+         <path>LICENSE_PRO.txt</path>
+         <path>LICENSE_PRO.html</path>
          <path>RELEASE_NOTES.txt</path>
          <path>favicon.ico</path>
          <path>modules/Mage_Connect.xml</path>
-         <path>modules/Mage_Authorizenet.xml</path>
          <path>modules/Mage_ImportExport.xml</path>
+         <path>modules/Mage_Authorizenet.xml</path>
          <path>get.php</path>
       </path>
       <type>

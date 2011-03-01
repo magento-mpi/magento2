@@ -1,21 +1,21 @@
 <_>
-   <form_key>m5G5n0Ao2fr6FPv8</form_key>
+   <form_key>QEsQP4ApVPC28xbm</form_key>
    <_create/>
-   <name>Lib_Js_Mage</name>
-   <channel>enterprise</channel>
+   <name>Find_Feed</name>
+   <channel>professional</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
-   <summary>Javascript Libraries for Magento</summary>
-   <description>Javascript Libraries for Magento</description>
-   <license>Magento Enterprise Edition</license>
-   <license_uri>http://www.magentocommerce.com/license/enterprise-edition</license_uri>
-   <version>1.10.0.0</version>
+   <summary>Integration with TheFind shopping engine</summary>
+   <description>Current integration includes managing product feeds from Magento store to TheFind, mapping of Magento Attributes to TheFind structure.</description>
+   <license>Magento Commercial Edition</license>
+   <license_uri>http://www.magentocommerce.com/license/commercial-edition</license_uri>
+   <version>1.0.8</version>
    <stability>stable</stability>
-   <notes>1.10.0.0</notes>
+   <notes>1.0.8</notes>
    <authors>
       <name>
-         <name>Magento Enterprise Team</name>
+         <name>Magento Professional Team</name>
       </name>
       <user>
          <user>core</user>
@@ -30,23 +30,23 @@
       <package>
          <name>
             <name/>
-            <name>Lib_Js_Prototype</name>
+            <name>Mage_Core_Modules</name>
          </name>
          <channel>
             <channel/>
-            <channel>enterprise</channel>
+            <channel>professional</channel>
          </channel>
          <min>
             <min/>
-            <min>1.6.0.3.4</min>
+            <min>1.10.0.0</min>
          </min>
          <max>
             <max/>
-            <max>1.6.1</max>
+            <max>1.10.1</max>
          </max>
          <files>
-            <files>      </files>
-            <files>      </files>
+            <files>                </files>
+            <files>                </files>
          </files>
       </package>
       <extension>
@@ -64,37 +64,29 @@
    <contents>
       <target>
          <target>magelocal</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
+         <target>magecommunity</target>
+         <target>mageetc</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
+         <target>magelocale</target>
       </target>
       <path>
          <path/>
-         <path>js/lib</path>
-         <path>js/mage</path>
-         <path>js/varien</path>
-         <path>js/blank.html</path>
-         <path>js/index.php</path>
-         <path>js/spacer.gif</path>
-         <path>js/flash</path>
+         <path>Find/Feed</path>
+         <path>modules/Find_Feed.xml</path>
+         <path>adminhtml/default/find/template/</path>
+         <path>adminhtml/default/find/layout/feed.xml</path>
+         <path>en_US/Find_Feed.csv</path>
       </path>
       <type>
          <type>file</type>
          <type>dir</type>
-         <type>dir</type>
+         <type>file</type>
          <type>dir</type>
          <type>file</type>
          <type>file</type>
-         <type>file</type>
-         <type>dir</type>
       </type>
       <include>
-         <include/>
-         <include/>
          <include/>
          <include/>
          <include/>
@@ -104,8 +96,6 @@
       </include>
       <ignore>
          <ignore/>
-         <ignore/>
-         <ignore>#(adminhtml/sales/centinel.js|adminhtml/moneybookers.js)#</ignore>
          <ignore/>
          <ignore/>
          <ignore/>
