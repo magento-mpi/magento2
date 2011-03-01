@@ -212,7 +212,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
         }
 
-        if (false && Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
             $options = unserialize($cache);
         } else {
             if (isset($itunesCountries)) {

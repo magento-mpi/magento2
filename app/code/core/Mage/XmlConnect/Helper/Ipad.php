@@ -83,6 +83,23 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
     const PREVIEW_PORTRAIT_BACKGROUND_HEIGHT = 438;
 
     /**
+     * Submit images that are stored in "params" field of history table
+     *
+     * @var array
+     */
+    protected $_imageIds = array('icon', 'ipad_loader_image', 'ipad_logo', 'big_logo');
+
+    /**
+     * Get submit images that are required for application submit
+     *
+     * @return array
+     */
+    public function getSubmitImages()
+    {
+        return $this->_imageIds;
+    }
+
+    /**
      * Get default application tabs
      *
      * @param string

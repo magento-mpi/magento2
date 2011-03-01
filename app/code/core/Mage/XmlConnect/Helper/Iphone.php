@@ -27,6 +27,13 @@
 class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
 {
     /**
+     * Submit images that are stored in "params" field of history table
+     *
+     * @var array
+     */
+    protected $_imageIds = array('icon', 'loader_image', 'loader_image_i4', 'logo', 'logo_i4', 'big_logo', 'big_logo_i4');
+
+    /**
      * List of coutries that allowed in Ituens by Apple Store
      *
      * array(
@@ -127,6 +134,16 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
                 'Venezuela' => 'VE',
                 'Vietnam' => 'VN',
         );
+
+    /**
+     * Get submit images that are required for application submit
+     *
+     * @return array
+     */
+    public function getSubmitImages()
+    {
+        return $this->_imageIds;
+    }
 
     /**
      * Get default application tabs

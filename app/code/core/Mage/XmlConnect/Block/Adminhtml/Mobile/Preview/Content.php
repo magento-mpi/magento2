@@ -47,7 +47,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
      */
     public function setTemplate($templateType)
     {
-        $deviceType = Mage::helper('xmlconnect')->getApplication()->getType();
+        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
 
         if ($deviceType == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE) {
             parent::setTemplate('xmlconnect/edit/tab/design/preview/' . $templateType . '.phtml');
@@ -116,7 +116,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
      */
     public function getBannerImage()
     {
-        $deviceType = Mage::helper('xmlconnect')->getApplication()->getType();
+        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
 
@@ -172,7 +172,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     public function getBackgroundImage($orientation = '')
     {
         $backgroundImage = '';
-        $deviceType = Mage::helper('xmlconnect')->getApplication()->getType();
+        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
                 $configPath = 'conf/body/backgroundImage';

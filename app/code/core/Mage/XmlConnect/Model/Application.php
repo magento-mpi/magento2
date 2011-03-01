@@ -105,13 +105,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const APP_PREFIX_CUT_LENGTH = 3;
 
     /**
-     * Images in "Params" history table
-     *
-     * @var array
-     */
-    protected $_imageIds = array('icon', 'loader_image', 'logo', 'big_logo');
-
-    /**
      * Last submitted data from history table
      *
      * @var null|array
@@ -562,7 +555,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                     $conf['submit_restore'] = array();
                 }
                 foreach ($params as $id => $value) {
-                    if (!in_array($id, $this->_imageIds)) {
+                    $deviceImages = Mage::helper('xmlconnect')
+                        ->getDeviceHelper()
+                        ->getSubmitImages();
+
+                    if (!in_array($id, $deviceImages)) {
                         $conf['submit_text'][$id] = $value;
                     } else {
                         $conf['submit_restore'][$id] = $value;
@@ -584,8 +581,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         $images = array();
         $params = $this->getLastParams();
+        $deviceImages = Mage::helper('xmlconnect')
+            ->getDeviceHelper()
+            ->getSubmitImages();
 
-        foreach ($this->_imageIds as $id) {
+        foreach ($deviceImages as $id) {
             $path = $this->getData('conf/submit/'.$id);
             $basename = null;
             if (!empty($path)) {
@@ -729,7 +729,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
         }
 
-        $deviceType = Mage::helper('xmlconnect')->getApplication()->getType();
+        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
                 if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerImage', $native)) {
@@ -827,7 +827,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 $submitRestore = $this->_data['conf']['submit_restore'];
             }
 
-            foreach ($this->_imageIds as $id) {
+            $deviceImages = Mage::helper('xmlconnect')
+                ->getDeviceHelper()
+                ->getSubmitImages();
+
+            foreach ($deviceImages as $id) {
                 if (isset($submit[$id])) {
                     $params[$id] = '@' . $submit[$id];
                 } else if (isset($submitRestore[$id])) {

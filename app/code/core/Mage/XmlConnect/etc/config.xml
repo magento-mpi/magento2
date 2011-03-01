@@ -225,10 +225,24 @@
                         </itemActions>
                     </native>
                     <submit>
+                        <!-- images that are the same for all tepw of devices -->
                         <icon> <width>512</width> <height>512</height> </icon>
-                        <loader_image> <width>320</width> <height>460</height> </loader_image>
-                        <logo> <width>57</width> <height>57</height> </logo>
                         <big_logo> <width>100</width> <height>100</height> </big_logo>
+
+                        <!-- iphone images -->
+                        <loader_image> <width>320</width> <height>460</height> </loader_image>
+                        <loader_image_i4> <width>640</width> <height>920</height> </loader_image_i4>
+                        <logo> <width>57</width> <height>57</height> </logo>
+                        <logo_i4> <width>114</width> <height>114</height> </logo_i4>
+                        <big_logo_i4> <width>200</width> <height>200</height> </big_logo_i4>
+
+                        <!-- ipad images -->
+                        <ipad_loader_image> <width>768</width> <height>1004</height> </ipad_loader_image>
+                        <ipad_logo> <width>72</width> <height>72</height> </ipad_logo>
+
+                        <!-- andriod images -->
+                        <android_loader_image> <width>320</width> <height>455</height> </android_loader_image>
+                        <android_logo> <width>48</width> <height>48</height> </android_logo>
                     </submit>
                 </interface>
             </default>
@@ -266,34 +280,6 @@
                             <function>zoom</function>
                             <data>2.05714</data>
                         </u1>
-<!-- example rules
-                        <u2>
-                            <path>interface/native/body</path>
-                            <function>delete</function>
-                            <data>rowBackgroundIcon</data>
-                        </u2>
-                        <u3>
-                            <path>interface/native/body</path>
-                            <function>delete</function>
-                            <data>rowAttributeIcon</data>
-                        </u3>
-                        <u4>
-                            <path>interface/native/navigationBar</path>
-                            <function>insert</function>
-                            <data>
-                                <big_icon><widthMax>20</widthMax> <heightMax>20</heightMax></big_icon>
-                                <big_icon2><widthMax>20</widthMax> <heightMax>20</heightMax></big_icon2>
-                                <big_icon3><widthMax>20</widthMax> <heightMax>20</heightMax></big_icon3>
-                            </data>
-                        </u4>
-                        <u5>
-                            <path>interface/native/itemActions/viewDetailsIcon</path>
-                            <function>update</function>
-                            <data>
-                                <widthMax>333</widthMax> <heightMax>333</heightMax>
-                            </data>
-                        </u5>
--->
                     </updates>
                 </c>
             </_320x480>

@@ -97,6 +97,23 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
     const TAGS_ID_FOR_OPTION_MENU = 2;
 
     /**
+     * Submit images that are stored in "params" field of history table
+     *
+     * @var array
+     */
+    protected $_imageIds = array('icon', 'android_loader_image', 'android_logo', 'big_logo');
+
+    /**
+     * Get submit images that are required for application submit
+     *
+     * @return array
+     */
+    public function getSubmitImages()
+    {
+        return $this->_imageIds;
+    }
+
+    /**
      * Get default application tabs
      *
      * @param string
