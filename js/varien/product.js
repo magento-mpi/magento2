@@ -128,7 +128,7 @@ Product.Zoom.prototype = {
     scale: function (v) {
         var centerX  = (this.containerDim.width*(1-this.imageZoom)/2-this.imageX)/this.imageZoom;
         var centerY  = (this.containerDim.height*(1-this.imageZoom)/2-this.imageY)/this.imageZoom;
-        var overSize = (this.imageDim.width > this.containerDim.width && this.imageDim.height > this.containerDim.height);
+        var overSize = (this.imageDim.width > this.containerDim.width || this.imageDim.height > this.containerDim.height);
 
         this.imageZoom = this.floorZoom+(v*(this.ceilingZoom-this.floorZoom));
 
