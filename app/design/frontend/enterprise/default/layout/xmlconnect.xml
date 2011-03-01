@@ -64,6 +64,14 @@
             </block>
 
             <block type="xmlconnect/catalog_product_attributes" name="xmlconnect.catalog.product.attributes" as="additional_info" output="" />
+
+            <block type="xmlconnect/catalog_product_options" name="xmlconnect.catalog.product.options" output="">
+                <action method="addRenderer"><type>simple</type><renderer>xmlconnect/catalog_product_options_simple</renderer></action>
+                <action method="addRenderer"><type>virtual</type><renderer>xmlconnect/catalog_product_options_virtual</renderer></action>
+                <action method="addRenderer"><type>configurable</type><renderer>xmlconnect/catalog_product_options_configurable</renderer></action>
+                <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_options_bundle</renderer></action>
+                <action method="addRenderer"><type>grouped</type><renderer>xmlconnect/catalog_product_options_grouped</renderer></action>
+            </block>
         </block>
     </xmlconnect_catalog_product>
 
@@ -199,6 +207,7 @@
         <block type="xmlconnect/checkout_payment_method_list" name="xmlconnect.checkout.payment.method.list" output="toHtml">
             <block type="xmlconnect/checkout_payment_method_ccsave" name="xmlconnect.checkout.method.ccsave" as="payment_ccsave" output=""/>
             <block type="xmlconnect/checkout_payment_method_checkmo" name="xmlconnect.checkout.method.checkmo" as="payment_checkmo" output=""/>
+            <block type="xmlconnect/checkout_payment_method_purchaseorder" name="xmlconnect.checkout.method.purchaseorder" as="payment_purchaseorder" output=""/>
             <block type="xmlconnect/checkout_payment_method_paypal_payflow" name="xmlconnect.checkout.method.paypal.payflow" as="payment_paypal_payflow" output=""/>
             <block type="xmlconnect/checkout_payment_method_paypal_direct" name="xmlconnect.checkout.method.paypal.direct" as="payment_paypal_direct" output=""/>
             <block type="xmlconnect/checkout_payment_method_authorizenet" name="xmlconnect.checkout.method.authorizenet" as="payment_authorizenet" output=""/>
