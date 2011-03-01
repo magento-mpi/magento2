@@ -35,13 +35,13 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
     }
 
     /**
-     * Create object with customer name information
+     * Set address to object with customer name information
      *
      * @param   Mage_Customer_Model_Address $address
      * @param   Mage_Customer_Model_Customer $customer
      * @return  Mage_Customer_Block_Widget_Name
      */
-    public function createObject($address, $customer)
+    public function initObject(Mage_Customer_Model_Address $address, Mage_Customer_Model_Customer $customer)
     {
         $this->setObject($address);
 

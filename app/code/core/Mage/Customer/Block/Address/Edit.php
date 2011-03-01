@@ -67,7 +67,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     {
         $nameBlock = $this->getLayout()
             ->createBlock('customer/widget_name')
-            ->createObject($this->getAddress(), $this->getCustomer());
+            ->initObject($this->getAddress(), $this->getCustomer());
 
         return $nameBlock->toHtml();
     }
