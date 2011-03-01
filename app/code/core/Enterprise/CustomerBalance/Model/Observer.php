@@ -174,6 +174,10 @@ class Enterprise_CustomerBalance_Model_Observer
      */
     protected function _revertStoreCreditForOrder(Mage_Sales_Model_Order $order)
     {
+        if (!$order->getCustomerId() || !$order->getBaseCustomerBalanceAmount()) {
+            return $this;
+        }
+
         Mage::getModel('enterprise_customerbalance/balance')
             ->setCustomerId($order->getCustomerId())
             ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
