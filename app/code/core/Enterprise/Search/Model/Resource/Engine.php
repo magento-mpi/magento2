@@ -226,7 +226,7 @@ class Enterprise_Search_Model_Resource_Engine
                 $entityId = array($entityId);
             }
             foreach ($entityId as $id) {
-                $idsQuery[] = $this->_adapter->getUniqueKey() . ':' . $id;
+                $idsQuery[] = $this->_adapter->getUniqueKey() . ':' . $id . '|' . $storeId;
             }
             $this->_adapter->deleteDocs(array(), array('store_id:' . $storeId . ' AND (' . implode(' OR ', $idsQuery) . ')'));
         }
