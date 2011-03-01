@@ -196,7 +196,6 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      * @param bool $isItunes
      * @return array
      */
-
     public function getCountryOptionsArray($isItunes = false)
     {
         Varien_Profiler::start('TEST: '.__METHOD__);

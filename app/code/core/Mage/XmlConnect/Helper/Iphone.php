@@ -42,7 +42,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      *
      * @var array
      */
-    protected $_allowedCourties = array(
+    protected $_allowedCounrties = array(
                 'Argentina' => 'AR',
                 'Armenia' => 'AM',
                 'Australia' => 'AU',
@@ -515,6 +515,6 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      */
     public function getItunesCountriesArray()
     {
-        return $this->_allowedCourties;
+        return $this->_allowedCounrties;
     }
 }
