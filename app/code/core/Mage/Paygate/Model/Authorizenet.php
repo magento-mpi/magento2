@@ -48,7 +48,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     const ECHECK_TRANS_TYPE_TEL = 'TEL';
     const ECHECK_TRANS_TYPE_WEB = 'WEB';
 
-    const RESPONSE_DELIM_CHAR = ',';
+    const RESPONSE_DELIM_CHAR = '(~)';
 
     const RESPONSE_CODE_APPROVED = 1;
     const RESPONSE_CODE_DECLINED = 2;
@@ -990,7 +990,6 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         $request = Mage::getModel('paygate/authorizenet_request')
             ->setXVersion(3.1)
             ->setXDelimData('True')
-            ->setXDelimChar(self::RESPONSE_DELIM_CHAR)
             ->setXRelayResponse('False')
             ->setXTestRequest($this->getConfigData('test') ? 'TRUE' : 'FALSE')
             ->setXLogin($this->getConfigData('login'))
@@ -1130,6 +1129,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             'timeout'=>30,
             //'ssltransport' => 'tcp',
         ));
+        foreach ($request->getData() as $key => $value) {
+            $request->setData($key, str_replace(self::RESPONSE_DELIM_CHAR, '', $value));
+        }
+        $request->setXDelimChar(self::RESPONSE_DELIM_CHAR);
+
         $client->setParameterPost($request->getData());
         $client->setMethod(Zend_Http_Client::POST);
 
