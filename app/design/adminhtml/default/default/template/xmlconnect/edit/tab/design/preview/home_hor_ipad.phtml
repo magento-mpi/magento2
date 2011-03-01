@@ -60,3 +60,8 @@ $bannerImageIpad = $this->getBannerImage();
         </ul>
     </div>
 </div>
+<?php if ($this->getJsErrorMessage()) : ?>
+<script type="text/javascript">
+    alert('<?php echo $this->getJsErrorMessage(); ?>');
+</script>
+<?php endif; ?>

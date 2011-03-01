@@ -601,11 +601,28 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if (!$this->getRequest()->getParam('submission_action')) {
                 $app->addData($this->_preparePostData($this->getRequest()->getPost()));
             }
-            $app->addData($this->_processUploadedFiles($app->getData()));
+
+            // render base configuration of application
+            $appConf = $app->getRenderConf();
+
+            try {
+                // try to upload files
+                $dataUploaded = $this->_processUploadedFiles($app->getData());
+                $app->addData($dataUploaded);
+                // render configuration with just uploaded images
+                $appConf = $app->getRenderConf();
+            }
+            catch (Exception $e) {
+                // when cannot upload - just tell user what is happen
+                $jsErrorMessage = $e->getMessage();
+            }
 
             $this->loadLayout(false);
             $preview = $this->getLayout()->getBlock($block);
-            $preview->setConf($app->getRenderConf());
+            if (isset($jsErrorMessage)) {
+                $preview->setJsErrorMessage($jsErrorMessage);
+            }
+            $preview->setConf($appConf);
             $this->renderLayout();
             return;
         } catch (Mage_Core_Exception $e) {
