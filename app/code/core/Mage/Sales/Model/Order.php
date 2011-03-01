@@ -1090,7 +1090,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Prepare order totlas to cancellation
+     * Prepare order totals to cancellation
      * @param string $comment
      * @param bool $graceful
      * @return Mage_Sales_Model_Order
