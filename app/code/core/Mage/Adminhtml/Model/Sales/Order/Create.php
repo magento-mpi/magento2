@@ -573,6 +573,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                         $removeItem = true;
                     }
                     break;
+                case 'remove':
+                    $removeItem = true;
+                    break;
                 default:
                     break;
             }
