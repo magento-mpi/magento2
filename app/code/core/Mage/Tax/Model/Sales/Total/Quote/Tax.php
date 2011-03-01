@@ -118,9 +118,9 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             $this->_store
         );
 
-        if ($this->_config->priceIncludesTax($store)) {
+        if ($this->_config->priceIncludesTax($this->_store)) {
             $this->_areTaxRequestsSimilar = $this->_calculator->compareRequests(
-                $this->_calculator->getRateOriginRequest($address->getQuote()->getStore()),
+                $this->_calculator->getRateOriginRequest($this->_store),
                 $request
             );
         }
