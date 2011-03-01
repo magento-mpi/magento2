@@ -678,7 +678,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $value = implode($this->_separator, $value);
         }
 
-        return preg_replace("#\s+#si", ' ', trim(strip_tags($value)));
+        return preg_replace("#\s+#siu", ' ', trim(strip_tags($value)));
     }
 
     /**
