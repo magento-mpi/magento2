@@ -1586,7 +1586,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      *
      * @param mixed $table The table to insert data into.
      * @param array $data Column-value pairs or array of column-value pairs.
-     * @param arrat $fields update fields pairs or values
+     * @param array $fields update fields pairs or values
      * @return int The number of affected rows.
      * @throws Zend_Db_Exception
      */
@@ -1595,7 +1595,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         // extract and quote col names from the array keys
         $row    = reset($data); // get first element from data array
         $bind   = array(); // SQL bind array
-        $cols   = array();
         $values = array();
 
         if (is_array($row)) { // Array of column-value pairs

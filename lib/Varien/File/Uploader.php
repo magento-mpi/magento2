@@ -229,7 +229,7 @@ class Varien_File_Uploader
 
         //is file extension allowed
         $fileExtension = substr($fileName, strrpos($fileName, '.')+1);
-        if( !$this->chechAllowedExtension($fileExtension) ) {
+        if(!$this->checkAllowedExtension($fileExtension)) {
             throw new Exception('Disallowed file type.');
         }
         //run validate callbacks
@@ -400,15 +400,30 @@ class Varien_File_Uploader
         return $this;
     }
 
+    /**
+     * Check if specified extension is allowed
+     *
+     * @param string $extension
+     * @return boolean
+     */
+    public function checkAllowedExtension($extension)
+    {
+        if (!is_array($this->_allowedExtensions) || empty($this->_allowedExtensions)) {
+            return true;
+        }
+
+        return in_array(strtolower($extension), $this->_allowedExtensions);
+    }
+
+    /**
+     * @deprecated after 1.5.0.0-beta2
+     *
+     * @param string $extension
+     * @return boolean
+     */
     public function chechAllowedExtension($extension)
     {
-        if (is_null($this->_allowedExtensions)) {
-            return true;
-        }
-        elseif (in_array(strtolower($extension), $this->_allowedExtensions)) {
-            return true;
-        }
-        return false;
+        return $this->checkAllowedExtension($extension);
     }
 
     private function _getMimeType()
