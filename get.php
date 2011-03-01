@@ -35,17 +35,17 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);
 
+$ds = DIRECTORY_SEPARATOR;
+$ps = PATH_SEPARATOR;
+$bp = dirname(__FILE__);
+
 $mediaFolder = 'media';
 
 $forbiddenPathes = array(
     '.htaccess',
-    'downloadable/',
+    'downloadable' . $ds,
     '..'
 );
-
-$ds = DIRECTORY_SEPARATOR;
-$ps = PATH_SEPARATOR;
-$bp = dirname(__FILE__);
 
 /**
  * Set include path
