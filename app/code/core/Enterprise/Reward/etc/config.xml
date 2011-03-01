@@ -383,14 +383,14 @@
                     </enterprise_reward>
                 </observers>
             </salesrule_rule_save_after>
-            <orderCancelAfter>
+            <order_cancel_after>
                 <observers>
                     <enterprise_reward>
                         <class>enterprise_reward/observer</class>
                         <method>returnRewardPoints</method>
                     </enterprise_reward>
                 </observers>
-            </orderCancelAfter>
+            </order_cancel_after>
         </events>
     </adminhtml>
     <frontend>

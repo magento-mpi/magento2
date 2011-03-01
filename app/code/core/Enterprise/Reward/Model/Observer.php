@@ -944,7 +944,7 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
-     * Return funds to store credit
+     * Return reward points
      *
      * @param   Varien_Event_Observer $observer
      * @return  Enterprise_Reward_Model_Observer

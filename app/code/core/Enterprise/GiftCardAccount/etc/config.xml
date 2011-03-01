@@ -371,14 +371,14 @@
         </translate>
 
         <events>
-            <orderCancelAfter>
+            <order_cancel_after>
                 <observers>
                     <enterprise_giftcardaccount>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>returnFundsToStoreCredit</method>
                     </enterprise_giftcardaccount>
                 </observers>
-            </orderCancelAfter>
+            </order_cancel_after>
         </events>
     </adminhtml>
     <default>
