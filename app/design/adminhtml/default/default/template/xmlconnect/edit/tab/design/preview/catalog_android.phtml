@@ -42,7 +42,12 @@ $emptyStarImage = $this->getPreviewImagesUrl('android/bg_star_empty.png');
         <div class="status-bar"></div>
         <div class="header-wrap" style="background-color:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>;">
             <div class="header">
-                <h2 style="color:<?php echo $title1color; ?>;">Chairs</h2>
+                <div class="icon icon-home"></div>
+                <div class="icon icon-account"></div>
+                <div class="icon icon-search"></div>
+                <div class="logo">
+                    <img src="<?php echo $this->getLogoUrl(); ?>" alt="logo" /><span style="color:<?php echo $title1color; ?>;"><?php echo $this->__("Chairs"); ?></span>
+                </div>
             </div>
         </div>
         <div class="filters-wrap">

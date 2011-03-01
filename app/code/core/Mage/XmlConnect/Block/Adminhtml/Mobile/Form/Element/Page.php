@@ -72,7 +72,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
      * Getter for Label field
      * fetching first element as label
      *
-     * @param string $idSuffix 
+     * @param string $idSuffix
      * @return string
      */
     public function getLabelHtml($idSuffix = '')
@@ -92,6 +92,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
         list($label, $element) = $this->getElements();
         return $element->toHtml() . '</td><td class="label" style="width: 5em">'
             . '<button class=" scalable save onclick_button" value="&minus;"><span>'
-            . $this->__('Delete') . '</span></button>';
+            . Mage::helper('xmlconnect')->__('Delete') . '</span></button>';
     }
 }

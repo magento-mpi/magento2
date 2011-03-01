@@ -43,7 +43,14 @@ if ($this->getData('conf/body/bannerImageAndroid')) {
     <div class="phone home-page" style="">
         <div class="status-bar"></div>
         <div class="header-wrap" style="background-color:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>">
-            <div class="header"></div>
+            <div class="header">
+                <div class="icon icon-home"></div>
+                <div class="icon icon-account"></div>
+                <div class="icon icon-search"></div>
+                <div class="logo">
+                    <img src="<?php echo $this->getLogoUrl(); ?>" alt="logo" /><span style="color:<?php echo $title1color; ?>;"><?php echo $this->__("Home"); ?></span>
+                </div>
+            </div>
         </div>
         <div class="content" style="background-image:url(<?php echo $bannerImageAndroid; ?>)"></div>
         <div class="items-list" style="background-color:<?php echo $this->getData('conf/body/scrollBackgroundColor'); ?>">

@@ -46,14 +46,35 @@ body {
     background:url(../images/xmlconnect/mobile_preview/android/bg_header.png) repeat-x center #333;
     }
     .header-wrap .header {
-        height:50px;
+        height:48px;
         }
-        .home-page .header-wrap .header {
-            background:url(../images/xmlconnect/mobile_preview/android/bg_header_home.png) no-repeat 0 0;
+        .header-wrap .icon {
+            float:right;
+            height:48px;
+            width:49px;
             }
-        .catalog-page .header-wrap .header {
-            background:url(../images/xmlconnect/mobile_preview/android/bg_header_catalog.png) no-repeat 0 0;
+            .header-wrap .icon-home {
+                background:url(../images/xmlconnect/mobile_preview/android/ico_home.png) no-repeat 0 0;
+                float:left;
+                }
+            .header-wrap .icon-search {
+                background:url(../images/xmlconnect/mobile_preview/android/ico_search.png) no-repeat 0 0;
+                }
+            .header-wrap .icon-account {
+                background:url(../images/xmlconnect/mobile_preview/android/ico_account.png) no-repeat 0 0;
+                }
+        .header-wrap .logo {
+            color:#fff;
+            float:left;
+            font-size:13px;
+            font-weight:bold;
+            padding:12px 0 0 45px;
+            text-shadow:0 0 5px #333;
             }
+            .header-wrap .logo img {
+                margin-right:10px;
+                vertical-align:middle;
+                }
 .home-page .content {
     background:url(../images/xmlconnect/mobile_preview/android/bg_logo.png) no-repeat center;
     height:265px;
@@ -107,12 +128,7 @@ body {
                 text-shadow:0 -1px 1px #d13b00;
                 text-decoration:none;
                 }
-.catalog-page .header h2 {
-    color:#fff;
-    font-size:13px;
-    padding:18px 0px 0px 65px;
-    text-shadow:0 0 5px #333;
-}
+
 .catalog-page .filters-wrap {
     background:url(../images/xmlconnect/mobile_preview/android/bg_catalog_filters_shadow.png) repeat-x;
     height:50px;
@@ -126,6 +142,7 @@ body {
         .catalog-page .filters-wrap .buttons {
             display:inline-table;
             white-space:nowrap;
+            word-spacing:-1em;
             width:100%;
             }
             .catalog-page .filters-wrap .filters .button {
@@ -144,6 +161,7 @@ body {
                 -moz-border-radius:5px;
                 -webkit-border-radius:5px;
                 border-radius:5px;
+                word-spacing:0;
                 }
                 .catalog-page .filters-wrap .filters .button-filter {
                     margin-right:5px;
@@ -161,10 +179,10 @@ body {
                     font-size:14px;
                     font-weight:bold;
                     margin-right:10px;
-                    letter-spacing:-1px;
                     position:relative;
                     top:2px;
                     text-shadow:0 0 10px rgba(0,0,0,0.3);
+                    word-spacing:0;
                     }
                 .catalog-page .filters-wrap .filters .button-sort-name {
                     margin-right:5px;
