@@ -30,10 +30,10 @@ class Mage_Shipping_Model_Config extends Varien_Object
     /**
      * Shipping origin settings
      */
-    const CONFIG_XML_PATH_ORIGIN_COUNTRY_ID = 'shipping/origin/country_id';
-    const CONFIG_XML_PATH_ORIGIN_REGION_ID  = 'shipping/origin/region_id';
-    const CONFIG_XML_PATH_ORIGIN_CITY       = 'shipping/origin/city';
-    const CONFIG_XML_PATH_ORIGIN_POSTCODE   = 'shipping/origin/postcode';
+    const XML_PATH_ORIGIN_COUNTRY_ID = 'shipping/origin/country_id';
+    const XML_PATH_ORIGIN_REGION_ID  = 'shipping/origin/region_id';
+    const XML_PATH_ORIGIN_CITY       = 'shipping/origin/city';
+    const XML_PATH_ORIGIN_POSTCODE   = 'shipping/origin/postcode';
 
     protected static $_carriers;
 

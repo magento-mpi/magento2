@@ -246,13 +246,13 @@ EOT;
         }
 
         $quoteId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $quoteId);
+        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $quoteId);
         if (!$active) {
             return '';
         }
 
-        $schedule = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $quoteId);
-        $method   = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_VIRTUAL_METHOD, $quoteId);
+        $schedule = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $quoteId);
+        $method   = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_METHOD, $quoteId);
 
         $xml = "<display-disposition>{$schedule}</display-disposition>";
 
@@ -337,7 +337,7 @@ EOT;
      */
     protected function _getRequestBuyerPhoneNumberXml()
     {
-        $requestPhone = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_REQUEST_PHONE, $this->getQuote()->getStoreId());
+        $requestPhone = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_REQUEST_PHONE, $this->getQuote()->getStoreId());
         $requestPhone = $requestPhone ? 'true' : 'false';
         $xml = <<<EOT
             <request-buyer-phone-number>{$requestPhone}</request-buyer-phone-number>
@@ -417,25 +417,25 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
-        $methods = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_METHODS, $storeId);
+        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
+        $methods = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_METHODS, $storeId);
 
         if (!$active || !$methods) {
             return '';
         }
 
-        $country    = Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_COUNTRY_ID, $storeId);
-        $region     = Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_REGION_ID, $storeId);
-        $postcode   = Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_POSTCODE, $storeId);
-        $city       = Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_CITY, $storeId);
+        $country    = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId);
+        $region     = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId);
+        $postcode   = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId);
+        $city       = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId);
 
-        $defPrice   = (float)Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_DEFAULT_PRICE, $storeId);
-        $width      = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_DEFAULT_WIDTH, $storeId);
-        $height     = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_DEFAULT_HEIGHT, $storeId);
-        $length     = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_DEFAULT_LENGTH, $storeId);
+        $defPrice   = (float)Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_PRICE, $storeId);
+        $width      = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_WIDTH, $storeId);
+        $height     = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_HEIGHT, $storeId);
+        $length     = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_LENGTH, $storeId);
         $sizeUnit   = self::ITEM_SIZE_UNIT;
 
-        $addressCategory = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY, $storeId);
+        $addressCategory = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY, $storeId);
         $defPrice = (float) Mage::helper('tax')->getShippingPrice($defPrice, false, false);
 
         $this->getQuote()->getShippingAddress()
@@ -541,7 +541,7 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        if (!Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId)) {
+        if (!Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId)) {
             return '';
         }
 
@@ -621,8 +621,8 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_MERCHANT_ACTIVE, $storeId);
-        $methods = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_MERCHANT_ALLOWED_METHODS, $storeId);
+        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_MERCHANT_ACTIVE, $storeId);
+        $methods = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_MERCHANT_ALLOWED_METHODS, $storeId);
 
         if (!$active || !$methods) {
             return '';
@@ -682,12 +682,12 @@ EOT;
     protected function _getPickupXml()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_PICKUP_ACTIVE, $storeId)) {
+        if (!Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_ACTIVE, $storeId)) {
             return '';
         }
 
-        $title = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
-        $price = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
+        $title = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
+        $price = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
         $price = (float) Mage::helper('tax')->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
@@ -834,7 +834,7 @@ EOT;
      */
     protected function _getAllTaxTablesXml()
     {
-        if (Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::CONFIG_XML_PATH_DISABLE_DEFAULT_TAX_TABLES, $this->getQuote()->getStoreId())) {
+        if (Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_DISABLE_DEFAULT_TAX_TABLES, $this->getQuote()->getStoreId())) {
             return '<tax-tables merchant-calculated="true" />';
         }
 

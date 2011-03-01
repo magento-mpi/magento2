@@ -94,10 +94,10 @@ class Mage_Shipping_Model_Shipping
         $storeId = $request->getStoreId();
         if (!$request->getOrig()) {
             $request
-                ->setCountryId(Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_COUNTRY_ID, $storeId))
-                ->setRegionId(Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_REGION_ID, $storeId))
-                ->setCity(Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_CITY, $storeId))
-                ->setPostcode(Mage::getStoreConfig(Mage_Shipping_Model_Config::CONFIG_XML_PATH_ORIGIN_POSTCODE, $storeId));
+                ->setCountryId(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId))
+                ->setRegionId(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId))
+                ->setCity(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId))
+                ->setPostcode(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId));
         }
 
         $limitCarrier = $request->getLimitCarrier();
