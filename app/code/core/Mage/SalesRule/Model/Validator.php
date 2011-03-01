@@ -250,7 +250,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
             $address->getQuote()->setAppliedRuleIds('');
             $this->_isFirstTimeResetRun = false;
         }
-        
+
         return $this;
     }
 
@@ -608,8 +608,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 $validItemsCount = 0;
 
                 foreach ($items as $item) {
-                    // For complex product handle only its child items
-                    if ($item->getHasChildren()) {
+                    //Skipping child items to avoid double calculations
+                    if ($item->getParentItemId()) {
                         continue;
                     }
                     if (!$rule->getActions()->validate($item)) {
