@@ -56,6 +56,7 @@ body {
     .ipad .header-wrap {
         background:url(../images/xmlconnect/mobile_preview/ipad/bg_home_header.png) no-repeat 0 0 #000;
         height:20px;
+        position:relative;
         }
     .ipad-horizontal .header-wrap {
         background-image:url(../images/xmlconnect/mobile_preview/ipad/bg_home_header_hor.png);
@@ -77,25 +78,31 @@ body {
         .ipad-horizontal .header .store-name {
             margin-right:210px;
             }
-        .ipad .header img {
+        .ipad .header img,
+        .ipad .header span span {
             vertical-align:middle;
-            }
-        .ipad .header .search {
             }
         .ipad .header .info,
         .ipad .header .login,
-        .ipad .header .cart {
+        .ipad .header .cart,
+        .ipad .header .search {
             font-size:6px;
-            display:inline;
-            float:right;
-            padding:5px 0 0;
+            position:absolute;
+            top:5px;
             }
-        .ipad .header .cart {
-            margin:0 5px 0 30px
+        .ipad .header .search {
+            top:3px;
+            right:105px;
+            }
+        .ipad .header .info {
+            top:6px;
+            right:88px;
             }
         .ipad .header .login {
-            margin:0 5px 0 18px;
-            padding:4px 0 0;
+            right:45px;
+            }
+        .ipad .header .cart {
+            right:6px;
             }
     .ipad .shadow {
         background:url(../images/xmlconnect/mobile_preview/ipad/bg_home_shadow.png) no-repeat;

@@ -28,10 +28,10 @@
 $title1color = $this->getData('conf/fonts/Title1/color');
 ?>
 <?php if ($this->isItemExists('Cart')) :?>
-    <span class="cart" style="color:<?php echo $title1color; ?>;"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_cart.png') ?>" alt="" /> Cart</span>
+    <span class="cart" style="color:<?php echo $title1color; ?>;"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_cart.png') ?>" alt="" /> <span>Cart</span></span>
 <?php endif; ?>
 <?php if ($this->isItemExists('Account')) :?>
-    <span class="login"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_login.png') ?>" alt="" /></span>
+    <span class="login" style="color:<?php echo $title1color; ?>;"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_login.png') ?>" alt="" /> <span>Log In</span></span>
 <?php endif; ?>
 <?php if ($this->isItemExists('AboutUs')) :?>
     <span class="info"><img src="<?php echo $this->getPreviewImagesUrl('ipad/i_info.png') ?>" alt="" /></span>
