@@ -42,6 +42,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      */
     protected $_customer;
 
+    /**
+     * @var Mage_Customer_Model_Customer
+     */
+    protected $_resultErrors = array();
 
     /**
      * Setter for $_customer
@@ -308,7 +312,46 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     }
 
     /**
-     * Add multiple products to current order quote
+     * Adds error of operation either to internal array or directly to session (if set)
+     *
+     * @param string $message
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function _addResultError($message)
+    {
+        $session = $this->getSession();
+        if ($session) {
+            $session->addError($message);
+        } else {
+            $this->_resultErrors[] = $message;
+        }
+        return $this;
+    }
+
+    /**
+     * Returns array of errors encountered during previous operations
+     *
+     * @return array
+     */
+    protected function getResultErrors()
+    {
+        return $this->_resultErrors;
+    }
+
+    /**
+     * Clears array of operation errors, so caller will get only errors related to last operation
+     *
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    protected function clearResultErrors()
+    {
+        $this->_resultErrors = array();
+        return $this;
+    }
+
+    /**
+     * Add multiple products to current order quote.
+     * Errors can be received via getResultErrors() or directly into session if it was set via setSession().
      *
      * @param   array $products
      * @return  Enterprise_Checkout_Model_Cart|Exception
@@ -320,7 +363,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             try {
                 $this->addProduct($productId, $config);
             } catch (Mage_Core_Exception $e) {
-                $this->getSession()->addError($e->getMessage());
+                $this->_addResultError($e->getMessage());
             } catch (Exception $e) {
                 return $e;
             }
@@ -344,10 +387,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         foreach ($data as $itemId => $info) {
             if (!empty($info['configured'])) {
                 $item = $this->getQuote()->updateItem($itemId, new Varien_Object($info));
-                $itemQty = (float)$item->getQty();
+                $itemQty = (float) $item->getQty();
             } else {
                 $item = $this->getQuote()->getItemById($itemId);
-                $itemQty = (float)$info['qty'];
+                $itemQty = (float) $info['qty'];
             }
 
             if ($item && $item->getProduct()->getStockItem()) {
@@ -390,7 +433,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     }
 
     /**
-     * Move quote item to wishlist
+     * Move quote item to wishlist.
+     * Errors can be received via getResultErrors() or directly into session if it was set via setSession().
      *
      * @param Mage_Sales_Model_Quote_Item|int $item
      * @param string $moveTo Destination storage
@@ -406,8 +450,10 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                         ->setStore($this->getStore())
                         ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
                     if ($wishlist->getId()) {
-                        $wishlistItem = $wishlist->addNewItem($item->getProduct()->getId(), $item->getBuyRequest());
-                        if ($wishlistItem->getId()) {
+                        $wishlistItem = $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
+                        if (is_string($wishlistItem)) {
+                            $this->_addResultError($wishlistItem);
+                        } else if ($wishlistItem->getId()) {
                             $this->getQuote()->removeItem($item->getId());
                         }
                     }

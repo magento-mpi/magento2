@@ -48,7 +48,8 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     public function getCartModel()
     {
-        return Mage::getSingleton('enterprise_checkout/cart');
+        return Mage::getSingleton('enterprise_checkout/cart')
+            ->setSession(Mage::getSingleton('adminhtml/session'));
     }
 
     /**
