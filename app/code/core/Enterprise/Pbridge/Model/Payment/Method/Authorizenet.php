@@ -256,4 +256,16 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     {
          return $this->_canRefund;
     }
+
+    /**
+     * Set capture transaction ID to invoice for informational purposes
+     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Payment_Model_Method_Abstract
+     */
+    public function processInvoice($invoice, $payment)
+    {
+        $invoice->setTransactionId($payment->getLastTransId());
+        return $this;
+    }
 }
