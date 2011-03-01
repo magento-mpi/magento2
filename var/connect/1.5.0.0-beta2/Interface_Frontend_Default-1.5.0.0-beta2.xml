@@ -1,0 +1,88 @@
+<_>
+   <form_key>MyZQpGYe6lug9WcX</form_key>
+   <_create/>
+   <name>Interface_Frontend_Default</name>
+   <channel>community</channel>
+   <summary>Default interface for Frontend</summary>
+   <description>Default interface for Frontend</description>
+   <license>AFL v3.0</license>
+   <license_uri>http://opensource.org/licenses/afl-3.0.php</license_uri>
+   <version>1.5.0.0-beta2</version>
+   <stability>beta</stability>
+   <notes>1.5.0.0-beta2</notes>
+   <authors>
+      <name>
+         <name>Magento Core Team</name>
+      </name>
+      <user>
+         <user>core</user>
+      </user>
+      <email>
+         <email>core@magentocommerce.com</email>
+      </email>
+   </authors>
+   <depends_php_min>5.2.0</depends_php_min>
+   <depends_php_max>6.0.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+            <name>Mage_Core_Modules</name>
+         </name>
+         <channel>
+            <channel/>
+            <channel>community</channel>
+         </channel>
+         <min>
+            <min/>
+            <min>1.5.0.0-beta2</min>
+         </min>
+         <max>
+            <max/>
+            <max>1.6.0.0</max>
+         </max>
+         <files>
+            <files>      </files>
+            <files>      </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>PDO</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>magedesign</target>
+         <target>mageskin</target>
+      </target>
+      <path>
+         <path/>
+         <path>frontend/default/default</path>
+         <path>frontend/default/default</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+         <type>dir</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+      </ignore>
+   </contents>
+</_>

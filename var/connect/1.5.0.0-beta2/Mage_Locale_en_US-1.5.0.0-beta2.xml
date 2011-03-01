@@ -1,0 +1,78 @@
+<_>
+   <form_key>8L17GvrxGnDAuUWn</form_key>
+   <_create/>
+   <name>Mage_Locale_en_US</name>
+   <channel>community</channel>
+   <summary>en_US locale</summary>
+   <description>en_US locale</description>
+   <license>OSL v3.0</license>
+   <license_uri>http://opensource.org/licenses/osl-3.0.php</license_uri>
+   <version>1.5.0.0-beta2</version>
+   <stability>beta</stability>
+   <notes>1.5.0.0-beta2</notes>
+   <authors>
+      <name>
+         <name>Magento Core Team</name>
+      </name>
+      <user>
+         <user>core</user>
+      </user>
+      <email>
+         <email>core@magentocommerce.com</email>
+      </email>
+   </authors>
+   <depends_php_min>5.2.0</depends_php_min>
+   <depends_php_max>6.0.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+         </name>
+         <channel>
+            <channel/>
+         </channel>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+         <files>
+            <files>        </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>PDO</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>magelocale</target>
+      </target>
+      <path>
+         <path/>
+         <path>en_US</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore>#Mage_Adminhtml|Mage_Compiler|Mage_Centinel|oneybookers|Find_Feed|XmlConnect|Ogone#</ignore>
+      </ignore>
+   </contents>
+</_>
