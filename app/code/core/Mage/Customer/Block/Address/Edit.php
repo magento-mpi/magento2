@@ -58,6 +58,20 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
         }
     }
 
+    /**
+     * Generate name block html
+     *
+     * @return string
+     */
+    public function getNameBlockHtml()
+    {
+        $nameBlock = $this->getLayout()
+            ->createBlock('customer/widget_name')
+            ->createObject($this->getAddress(), $this->getCustomer());
+
+        return $nameBlock->toHtml();
+    }
+
     public function getTitle()
     {
         if ($title = $this->getData('title')) {
@@ -145,7 +159,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     }
 
     public function getBackButtonUrl()
-    {//echo '=>'.$this->getCustomerAddressCount();die();
+    {
         if ($this->getCustomerAddressCount()) {
             return $this->getUrl('customer/address');
         } else {
