@@ -15,10 +15,13 @@ import MWSAPI.*;
 public class Catalog {
 
     Catalog(boolean isLog){
-        
-        create(isLog, 2);
-        update(isLog);
-        level(isLog);
+        int parentCategoryId = 2;
+
+        create(isLog, parentCategoryId);
+        update(isLog, createdCategoryId);
+        level(isLog, parentCategoryId);
+        tree(isLog, parentCategoryId);
+        info(isLog, createdCategoryId);
     }
 
     private static int createdCategoryId;
@@ -59,7 +62,7 @@ public class Catalog {
         return createdCategoryId;
     }
 
-    public static boolean update(boolean isLog){
+    public static boolean update(boolean isLog, int createdCategoryId){
 
         ArrayOfString asb = new ArrayOfString();
         asb.getComplexObjectArray().add("price");
@@ -93,44 +96,55 @@ public class Catalog {
         return respons.isResult();
     }
 
-    public static void level(boolean isLog){
-
-//        ArrayOfString asb = new ArrayOfString();
-//        asb.getComplexObjectArray().add("price");
-////        asb.getComplexObjectArray().add("name");
-//
-//        CatalogCategoryEntityCreate ccec = new CatalogCategoryEntityCreate();
-//        ccec.setAvailableSortBy(asb);
-//        ccec.setDefaultSortBy("price");
-//        ccec.setDescription("Catalog description");
-//        ccec.setIncludeInMenu(1);
-//        ccec.setIsActive(1);
-//        ccec.setName("Java updated");
-//        ccec.setMetaDescription("Meta description from Java");
-//        ccec.setMetaKeywords("java, app");
-//        ccec.setMetaTitle("Java meta title");
-//
-//        CatalogCategoryUpdateRequestParam cccup = new CatalogCategoryUpdateRequestParam();
-//        cccup.setSessionId(wsi.Main.sessionId);
-//        cccup.setStore("");
-//        cccup.setCategoryData(ccec);
-//        cccup.setCategoryId(createdCategoryId);
-//
-//        CatalogCategoryUpdateResponseParam respons = wsi.Main.proxy.catalogCategoryUpdate(cccup);
+    public static int level(boolean isLog, int categoryId){
 
         CatalogCategoryLevelRequestParam cclrp = new CatalogCategoryLevelRequestParam();
         cclrp.setSessionId(wsi.Main.sessionId);
-        String cId = java.lang.Integer.toString(createdCategoryId);
+        String cId = java.lang.Integer.toString(categoryId);
         cclrp.setCategoryId(cId);
 
         CatalogCategoryLevelResponseParam respons = wsi.Main.proxy.catalogCategoryLevel(cclrp);
 
         if(isLog){
             System.out.println("__________________________________________________");
-            System.out.println("Was Category (" + createdCategoryId + ") updated:");
-            System.out.println(respons.getResult());
+            System.out.println("Category (" + categoryId + ") level:");
+            System.out.println(respons.getResult().getComplexObjectArray().size());
             System.out.println("__________________________________________________");
         }
+        return respons.getResult().getComplexObjectArray().size();
+    }
+
+    public static int tree(boolean isLog, int categoryId){
+
+        CatalogCategoryTreeRequestParam cctrp = new CatalogCategoryTreeRequestParam();
+        cctrp.setSessionId(wsi.Main.sessionId);
+        String cId = java.lang.Integer.toString(categoryId);
+        cctrp.setParentId(cId);
+        CatalogCategoryTreeResponseParam respons = wsi.Main.proxy.catalogCategoryTree(cctrp);
+
+        if(isLog){
+            System.out.println("__________________________________________________");
+            System.out.println("Category (" + categoryId + ") tree:");
+            System.out.println(respons.getResult().getChildren().getComplexObjectArray().size());
+            System.out.println("__________________________________________________");
+        }
+        return respons.getResult().getChildren().getComplexObjectArray().size();
+    }
+
+    public static String info(boolean isLog, int categoryId){
+
+        CatalogCategoryInfoRequestParam cctrp = new CatalogCategoryInfoRequestParam();
+        cctrp.setSessionId(wsi.Main.sessionId);
+        cctrp.setCategoryId(categoryId);
+        CatalogCategoryInfoResponseParam respons = wsi.Main.proxy.catalogCategoryInfo(cctrp);
+
+        if(isLog){
+            System.out.println("__________________________________________________");
+            System.out.println("Category (" + categoryId + ") tree:");
+            System.out.println(respons.getResult().getCategoryId());
+            System.out.println("__________________________________________________");
+        }
+        return respons.getResult().getCategoryId();
     }
 
 }

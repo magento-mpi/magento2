@@ -23,7 +23,8 @@ public class Main {
     public static void main(String[] args) {
         login(true);
 
-        Catalog catalog = new Catalog(true);
+//        Catalog catalog = new Catalog(true);
+        GiftMessage giftMessage = new GiftMessage(true);
     }
 
     public static void login(boolean isLog){
