@@ -109,6 +109,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->addColumn('price', array(
             'header'    => Mage::helper('enterprise_checkout')->__('Price'),
             'type'      => 'currency',
+            'column_css_class' => 'price',
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',

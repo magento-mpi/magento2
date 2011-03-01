@@ -37,6 +37,8 @@ AdminCheckout.prototype = {
         this.messages       = data.messages ? data.messages : {};
         this.customerId     = data.customer_id ? data.customer_id : false;
         this.storeId        = data.store_id ? data.store_id : false;
+        this.currencySymbol = data.currency_symbol ? data.currency_symbol : '';
+        this.productPriceBase = {};
     },
     
     getActionUrl: function (action) 
@@ -52,6 +54,10 @@ AdminCheckout.prototype = {
     setLoadBaseUrl : function(url)
     {
         this.loadBaseUrl = url;
+    },
+
+    setCurrencySymbol : function(symbol){
+        this.currencySymbol = symbol;
     },
 
     onAjaxSuccess: function(transport)
@@ -389,6 +395,7 @@ AdminCheckout.prototype = {
         if (trElement && !isInputQty) {
             var checkbox = Element.select(trElement, 'input[type="checkbox"]')[0];
             var confLink = Element.select(trElement, 'a')[0];
+            var priceColl = Element.select(trElement, '.price')[0];
             if (checkbox) {
                 // processing non composite product
                 if (confLink.readAttribute('disabled')) {
@@ -404,12 +411,23 @@ AdminCheckout.prototype = {
                     if (!itemId) {
                         itemId = confLink.readAttribute('product_id');
                     }
+                    if (typeof this.productPriceBase[itemId] == 'undefined') {
+                        var priceBase = priceColl.innerHTML.match(/.*?([0-9\.,]+)/);
+                        if (!priceBase) {
+                            this.productPriceBase[itemId] = 0;
+                        } else {
+                            this.productPriceBase[itemId] = parseFloat(priceBase[1].replace(/,/g,''));
+                        }
+                    }
                     productConfigure.setConfirmCallback(listType, function() {
                         // sync qty of popup and qty of grid
                         var confirmedCurrentQty = productConfigure.getCurrentConfirmedQtyElement();
                         if (qtyElement && confirmedCurrentQty && !isNaN(confirmedCurrentQty.value)) {
                             qtyElement.value = confirmedCurrentQty.value;
                         }
+                        // calc and set product price
+                        var productPrice = parseFloat(this._calcProductPrice() + this.productPriceBase[itemId]);
+                        priceColl.innerHTML = this.currencySymbol + productPrice.toFixed(2);
                         // and set checkbox checked
                         grid.setCheckboxChecked(checkbox, true);
                     }.bind(this));
@@ -433,6 +451,51 @@ AdminCheckout.prototype = {
                 }
             }
         }
+    },
+
+    /**
+     * Calc product price through its options
+     */
+    _calcProductPrice: function () {
+        var productPrice = 0;
+        var optQty = 1;
+        var getPriceFields = function (elms) {
+            var productPrice = 0;
+            var getPrice = function (elm) {
+                var optQty = 1;
+                if (elm.hasAttribute('qtyId')) {
+                    if (!$(elm.getAttribute('qtyId')).value) {
+                        return 0;
+                    } else {
+                        optQty = parseFloat($(elm.getAttribute('qtyId')).value);
+                    }
+                }
+                if (elm.hasAttribute('price') && !elm.disabled) {
+                    return parseFloat(elm.readAttribute('price')) * optQty;
+                }
+                return 0;
+            };
+            for(var i = 0; i < elms.length; i++) {
+                if (elms[i].type == 'select-one' || elms[i].type == 'select-multiple') {
+                    for(var ii = 0; ii < elms[i].options.length; ii++) {
+                        if (elms[i].options[ii].selected) {
+                            productPrice += getPrice(elms[i].options[ii]);
+                        }
+                    }
+                }
+                else if (((elms[i].type == 'checkbox' || elms[i].type == 'radio') && elms[i].checked)
+                        || ((elms[i].type == 'file' || elms[i].type == 'text' || elms[i].type == 'textarea' || elms[i].type == 'hidden')
+                            && Form.Element.getValue(elms[i]))
+                ) {
+                    productPrice += getPrice(elms[i]);
+                }
+            }
+            return productPrice;
+        }.bind(this);
+        productPrice += getPriceFields($(productConfigure.confirmedCurrentId).getElementsByTagName('input'));
+        productPrice += getPriceFields($(productConfigure.confirmedCurrentId).getElementsByTagName('select'));
+        productPrice += getPriceFields($(productConfigure.confirmedCurrentId).getElementsByTagName('textarea'));
+        return productPrice;
     },
 
     productGridRowInit : function(grid, row){

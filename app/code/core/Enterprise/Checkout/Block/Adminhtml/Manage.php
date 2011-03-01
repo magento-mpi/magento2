@@ -204,4 +204,26 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
 
         return Mage::helper('core')->jsonEncode($data);
     }
+
+    /**
+     * Retrieve curency name by code
+     *
+     * @param   string $code
+     * @return  string
+     */
+    public function getCurrencySymbol($code)
+    {
+        $currency = Mage::app()->getLocale()->currency($code);
+        return $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
+    }
+
+    /**
+     * Retrieve current order currency code
+     *
+     * @return string
+     */
+    public function getCurrentCurrencyCode()
+    {
+        return $this->_getStore()->getCurrentCurrencyCode();
+    }
 }
