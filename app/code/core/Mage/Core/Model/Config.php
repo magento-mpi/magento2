@@ -957,7 +957,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
                 $baseUrl = $scheme.$host.$port.rtrim($path, '/').'/';
             } else {
-                $baseUrl = 'http://localhost/';
+                require_once(Mage::getBaseDir() . DS . 'errors' . DS . '404.php');
+                die();
             }
 
             $options = $this->getOptions();
