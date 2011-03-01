@@ -34,7 +34,8 @@ class Enterprise_PageCache_Model_Validator
         'Mage_Review_Model_Review',
         'Enterprise_Cms_Model_Hierarchy_Node',
         'Enterprise_Banner_Model_Banner',
-        'Mage_Core_Config_Backend_Design_Exception'
+        'Mage_Core_Config_Backend_Design_Exception',
+        'Mage_Core_Model_Store_Group'
     );
     protected $_dataDeleteDependency = array(
         'Mage_Catalog_Model_Category',
@@ -89,29 +90,7 @@ class Enterprise_PageCache_Model_Validator
             $this->_invelidateCache();
         }
 
-        if ($object->getOrigData() && $object->getData()) {
-            $intersect = array_udiff_assoc($object->getOrigData(), $object->getData(), array($this, '_compareData'));
-            if (!empty($intersect)) {
-                $this->_invelidateCache();
-            }
-        }
-
         return $this;
-    }
-
-    /*
-     * Compare data callback function
-     *
-     * @param mixed $value1
-     * @param mixed $value2
-     * @return int
-     */
-    protected function _compareData($value1, $value2)
-    {
-        if ($value1 === $value2) {
-            return 0;
-        }
-        return ($value1 > $value2) ? 1 : -1;
     }
 
     /**
