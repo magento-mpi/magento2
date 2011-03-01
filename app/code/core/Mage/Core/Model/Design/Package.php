@@ -798,7 +798,11 @@ class Mage_Core_Model_Design_Package
             $pathParts = explode(DS, $uri);
             $fileDirParts = explode(DS, $this->_callbackFileDir);
             $store = $this->getStore();
-            $secure = $store->isAdmin() ? $store->isAdminUrlSecure() : $store->isFrontUrlSecure();
+            if ($store->isAdmin()) {
+                $secure = $store->isAdminUrlSecure();
+            } else {
+                $secure = $store->isFrontUrlSecure() && Mage::app()->getRequest()->isSecure();
+            }
 
             if ('skin' == $fileDirParts[0]) {
                 $baseUrl = Mage::getBaseUrl('skin', $secure);
