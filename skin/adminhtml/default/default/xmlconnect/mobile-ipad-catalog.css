@@ -70,7 +70,6 @@ body {
         height:20px;
         }
         .ipad .header .logo {
-            display:none;
             margin-left:80px;
             margin-right:1px;
             }
@@ -81,17 +80,18 @@ body {
                 vertical-align:middle;
                 }
         .ipad .header .store-name {
-            display:none;
             color:#fff;
             font-size:9px;
             line-height:20px;
             margin-right:10px;
+            vertical-align:middle;
             }
         .ipad-horizontal .header .store-name {
             margin-right:80px;
             }
-        .ipad .header img {
-            vertical-align:middle;
+        .ipad .header img,
+        .ipad .header span span {
+            vertical-align:top;
             }
         .ipad .header .search {
             font-size:6px;
@@ -103,10 +103,12 @@ body {
         .ipad .header .login,
         .ipad .header .cart {
             float:right;
-            padding:5px 5px 0;
+            position:relative;
+            padding:0 5px;
+            top:5px;
             }
         .ipad .header .info {
-            padding-top:6px;
+            top:6px;
             }
         .ipad .header .login {
             margin-left:20px;
