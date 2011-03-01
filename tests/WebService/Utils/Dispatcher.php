@@ -9,20 +9,20 @@ class WebService_Utils_Dispatcher
         self::$_modelName = $modelName;
     }
     
-    public static function dispatch($methodName, $type = null)
+    public static function dispatch($methodName, $suite = null)
     {
-        if( $type === null ) {
-            $type = WebService_Helper_Data::get('Suite');
+        if( $suite === null ) {
+            $suite = WebService_Helper_Data::get('Suite');
         }
         
-        $path = WebService_Helper_Data::get('pathToImplementation').'/'.$type.'/'.self::$_modelName;
+        $path = WebService_Helper_Data::get('pathToImplementation').'/'.$suite.'/'.self::$_modelName;
         $className = WebService_Helper_Data::transformToClass($path);
-        $method = new ReflectionMethod($className, $methodName);
-        $params = array(
-            "xmlPath" => WebService_Helper_Data::get('pathToConfig').'/'.self::$_modelName.'/'.ucfirst($methodName).'.xml'
-        );
-        $result = $method->invokeArgs(new $className(), $params);
-        return $result;
+        $class = new $className();
+        $xmlPath = WebService_Helper_Data::transformPath(WebService_Helper_Data::get('pathToConfig').DS.self::$_modelName.DS.ucfirst($methodName).'.xml');
+        if (!is_file($xmlPath)) {
+            $xmlPath = null;
+        }
+        return call_user_func(array($class, $methodName), $xmlPath );
     }
 }
 ?>

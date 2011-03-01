@@ -5,46 +5,35 @@ require_once 'PHPUnit/Framework/TestSuite.php';
 
 require_once 'Mage.php';
 
-class UnitTestSuite extends Mage_TestSuite
+class UnitTestSuite extends WebService_Utils_TestSuite_Abstract
 {
-    protected static $_configFilePath = null;
+    protected $_suite = "Unit";
+    
+    public function __construct($theClass = '', $name = '')
+    {
+        parent::__construct($theClass, $name);
+
+        $this->_dirClassPath = dirname(__FILE__);
+        $this->_configFilePath = $this->_dirClassPath.'/etc/config.xml';
+        
+        $this->_initSuite();
+    }
+
 
     protected function setUp()
     {
-        if ( !WebService_Fixtures_Fixtures::run() ) {
-            $this->markTestSuiteSkipped(WebService_Fixtures_Fixtures::getErrorMessage());
-        }
         Mage::app('admin');
-        WebService_Helper_Data::set('Suite', 'Unit');
-
-        WebService_Helper_Data::set(
-            'pathToImplementation',
-            'WebService/'.WebService_Helper_Xml::getValueByPath( self::$_configFilePath, '//root/path/implementation')
-        );
-        WebService_Helper_Data::set(
-            'pathToConfig',
-            dirname(__FILE__).'/'.WebService_Helper_Xml::getValueByPath( self::$_configFilePath, '//root/path/config')
-        );
+        
+        parent::setUp();
     }
 
     protected function tearDown()
     {
+        parent::tearDown();
     }
 
     public static function suite()
     {
-        self::$_configFilePath = dirname(__FILE__).'/etc/config.xml';
-
-        $moduleList = WebService_Helper_Xml::getModuleList( self::$_configFilePath );
-
-        $suite = new UnitTestSuite();
-        $testPath = 'WebService/'.WebService_Helper_Xml::getValueByPath( self::$_configFilePath, '//root/path/test');
-        foreach($moduleList as $moduleName) {
-            $modelPath = WebService_Helper_Xml::getValueByPath( self::$_configFilePath, '//root/modules/'.$moduleName.'/model');
-            $modulePath = $testPath.'/'.$modelPath.'TestCase';
-            $suite->addTestSuite( WebService_Helper_Data::transformToClass($modulePath) );
-        }
-
-        return $suite;
+        return new self();
     }
 }

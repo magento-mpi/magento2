@@ -5,49 +5,34 @@ require_once 'PHPUnit/Framework/TestSuite.php';
 
 require_once 'Mage.php';
 
-class SoapV2TestSuite extends Mage_TestSuite
+class SoapV2TestSuite extends WebService_Utils_TestSuite_Abstract
 {
-    protected static $_configFilePath = null;
+    protected $_suite = "Api/SoapV2";
+
+    public function __construct($theClass = '', $name = '')
+    {
+        parent::__construct($theClass, $name);
+
+        $this->_dirClassPath = dirname(__FILE__);
+        $this->_configFilePath = $this->_dirClassPath.'/etc/config.xml';
+
+        $this->_initSuite();
+    }
+
 
     protected function setUp()
     {
-        if ( !WebService_Fixtures_Fixtures::run() ) {
-            var_dump('Applying fixtures to DB: ' . WebService_Fixtures_Fixtures::getDbName());
-            var_dump(WebService_Fixtures_Fixtures::getErrorMessage());
-            $this->markTestSuiteSkipped(WebService_Fixtures_Fixtures::getErrorMessage());
-        }
-        WebService_Helper_Data::set('Suite', 'Api/SoapV2');
-
-        WebService_Helper_Data::set(
-            'pathToImplementation',
-            'WebService/'.WebService_Helper_Xml::getValueByPath( self::$_configFilePath, '//root/path/implementation')
-        );
-        WebService_Helper_Data::set(
-            'pathToConfig',
-            dirname(__FILE__).'/'.WebService_Helper_Xml::getValueByPath( self::$_configFilePath, '//root/path/config')
-        );
+        parent::setUp();
     }
 
     protected function tearDown()
     {
         WebService_Connector_Provider::disconnect('SoapV2');
+        parent::tearDown();
     }
 
     public static function suite()
     {
-        self::$_configFilePath = dirname(__FILE__).'/etc/config.xml';
-
-        $moduleList = WebService_Helper_Xml::getModuleList( self::$_configFilePath );
-
-        $suite = new SoapV2TestSuite();
-
-        $testPath = 'WebService/'.WebService_Helper_Xml::getValueByPath( self::$_configFilePath, '//root/path/test');
-        foreach($moduleList as $moduleName) {
-            $modelPath = WebService_Helper_Xml::getValueByPath( self::$_configFilePath, '//root/modules/'.$moduleName.'/model');
-            $modulePath = $testPath.'/'.$modelPath.'TestCase';
-            $suite->addTestSuite( WebService_Helper_Data::transformToClass($modulePath) );
-        }
-
-        return $suite;
+        return new self();
     }
 }
