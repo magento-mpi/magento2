@@ -34,6 +34,14 @@
  */
 class Mage_Tax_Model_Mysql4_Calculation_Rate_Collection extends Mage_Tax_Model_Resource_Calculation_Rate_Collection
 {
+    /**
+     * Convert items array to hash for select options
+     * unsing fetchItem method
+     *
+     * @see     _toOptionHashOptimized()
+     *
+     * @return  array
+     */
     public function toOptionHashOptimized()
     {
         return $this->_toOptionHashOptimized('tax_calculation_rate_id', 'code');

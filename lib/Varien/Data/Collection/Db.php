@@ -554,6 +554,8 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * Convert items array to hash for select options
      * unsing fetchItem method
      *
+     * The difference between _toOptionHash() and this one is that this
+     * method fetch items one by one and does not load all collection items at once
      * return items hash
      * array($value => $label)
      *
