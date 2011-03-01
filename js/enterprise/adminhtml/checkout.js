@@ -395,7 +395,7 @@ AdminCheckout.prototype = {
         if (trElement && !isInputQty) {
             var checkbox = Element.select(trElement, 'input[type="checkbox"]')[0];
             var confLink = Element.select(trElement, 'a')[0];
-            var priceColl = Element.select(trElement, '.price')[0];
+            var priceCol = Element.select(trElement, '.price')[0];
             if (checkbox) {
                 // processing non composite product
                 if (confLink.readAttribute('disabled')) {
@@ -412,11 +412,16 @@ AdminCheckout.prototype = {
                         itemId = confLink.readAttribute('product_id');
                     }
                     if (typeof this.productPriceBase[itemId] == 'undefined') {
-                        var priceBase = priceColl.innerHTML.match(/.*?([0-9\.,]+)/);
+                        var priceBase = priceCol.innerHTML.match(/.*?([0-9\.,]+)/);
+                        if (priceBase && (priceBase.length >= 1)) {
+                            priceBase = priceBase[1].replace(/,/g, '');
+                        } else {
+                            priceBase = 0;
+                        }
                         if (!priceBase) {
                             this.productPriceBase[itemId] = 0;
                         } else {
-                            this.productPriceBase[itemId] = parseFloat(priceBase[1].replace(/,/g,''));
+                            this.productPriceBase[itemId] = parseFloat(priceBase);
                         }
                     }
                     productConfigure.setConfirmCallback(listType, function() {
@@ -427,12 +432,12 @@ AdminCheckout.prototype = {
                         }
                         // calc and set product price
                         var productPrice = parseFloat(this._calcProductPrice() + this.productPriceBase[itemId]);
-                        priceColl.innerHTML = this.currencySymbol + productPrice.toFixed(2);
+                        priceCol.innerHTML = this.currencySymbol + productPrice.toFixed(2);
                         // and set checkbox checked
                         grid.setCheckboxChecked(checkbox, true);
                     }.bind(this));
                     productConfigure.setCancelCallback(listType, function() {
-                        if (!$(productConfigure.сonfirmedCurrentId) || !$(productConfigure.сonfirmedCurrentId).innerHTML) {
+                        if (!$(productConfigure.confirmedCurrentId) || !$(productConfigure.confirmedCurrentId).innerHTML) {
                             grid.setCheckboxChecked(checkbox, false);
                         }
                     });

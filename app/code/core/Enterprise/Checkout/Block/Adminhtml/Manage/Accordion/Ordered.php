@@ -64,6 +64,16 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
     }
 
     /**
+     * Returns custom last ordered products renderer for price column content
+     *
+     * @return null|string
+     */
+    protected function _getPriceRenderer()
+    {
+        return 'enterprise_checkout/adminhtml_manage_grid_renderer_ordered_price';
+    }
+
+    /**
      * Prepare customer wishlist product collection
      *
      * @return Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist

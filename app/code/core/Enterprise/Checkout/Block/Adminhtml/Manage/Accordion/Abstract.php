@@ -107,6 +107,16 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     }
 
     /**
+     * Returns special renderer for price column content
+     *
+     * @return null|string
+     */
+    protected function _getPriceRenderer()
+    {
+        return null;
+    }
+
+    /**
      * Prepare Grid columns
      *
      * @return Mage_Adminhtml_Block_Widget_Grid
@@ -122,8 +132,10 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
 
         $this->addColumn('price', array(
             'header'    => Mage::helper('enterprise_checkout')->__('Price'),
+            'renderer'  => $this->_getPriceRenderer(),
             'align'     => 'right',
             'type'      => 'currency',
+            'column_css_class' => 'price',
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
