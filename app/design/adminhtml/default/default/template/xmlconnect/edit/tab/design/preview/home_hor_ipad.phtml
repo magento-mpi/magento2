@@ -43,22 +43,24 @@ $bannerImageIpad = $this->getBannerImage();
         </div>
     </div>
     <div class="shadow"></div>
-    <div class="content" style="background:url(<?php echo $backgroundIpadLandscapeImage; ?>) no-repeat center center;">
-        <div class="logo" style="background:url(<?php echo $bannerImageIpad; ?>) no-repeat center center"></div>
-        <ul class="products-list">
-            <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
-                <div class="product-image"><img src="<?php echo $productImage; ?>" alt="" /></div>
-                <h4>CLOTHING</h4>
-            </li>
-            <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
-                <div class="product-image"><img src="<?php echo $productImage; ?>" alt="" /></div>
-                <h4>CLOTHING</h4>
-            </li>
-            <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
-                <div class="product-image"><img src="<?php echo $productImage; ?>" alt="" /></div>
-                <h4>CLOTHING</h4>
-            </li>
-        </ul>
+    <div class="content" style="background-image:url(<?php echo $backgroundIpadLandscapeImage; ?>)">
+        <div class="logo" style="background-image:url(<?php echo $bannerImageIpad; ?>)"></div>
+        <div class="products-list-wrap">
+            <ul class="products-list">
+                <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
+                    <div class="product-image"><img src="<?php echo $productImage; ?>" alt="" /></div>
+                    <h4>CLOTHING</h4>
+                </li>
+                <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
+                    <div class="product-image"><img src="<?php echo $productImage; ?>" alt="" /></div>
+                    <h4>CLOTHING</h4>
+                </li>
+                <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">
+                    <div class="product-image"><img src="<?php echo $productImage; ?>" alt="" /></div>
+                    <h4>CLOTHING</h4>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 <?php if ($this->getJsErrorMessage()) : ?>
