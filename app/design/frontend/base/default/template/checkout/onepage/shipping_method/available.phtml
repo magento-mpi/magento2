@@ -27,7 +27,7 @@
 <?php if (!($_shippingRateGroups = $this->getShippingRates())): ?>
     <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
 <?php else: ?>
-<dl class="sp-methods">
+<dl class="sp-methods" id="sp-methods">
     <?php $shippingMe = array(); ?>
     <?php $_sole = count($_shippingRateGroups) == 1; foreach ($_shippingRateGroups as $code => $_rates): ?>
         <dt><?php echo $this->getCarrierName($code) ?></dt>
@@ -42,7 +42,7 @@
                         <?php if ($_sole) : ?>
                         <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
                         <?php else: ?>
-                        <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" onchange="return includingShipping('<?php echo $_rate->getCode();?>');"/>
+                        <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio"/>
 
                         <script type="text/javascript">
                         //<![CDATA[
@@ -74,23 +74,27 @@
         var shippingMe = {<?php echo implode(',',$shippingMe); ?>};
     <?php endif; ?>
 
-    function includingShipping(getShippingCode)
-    {
-        <?php if (!empty($shippingMe)): ?>
-            var newPrice = shippingMe[getShippingCode];
-            if (!lastPrice) {
-                lastPrice = newPrice;
-                quoteBaseGrandTotal += newPrice;
-            }
-            if (newPrice != lastPrice) {
-                quoteBaseGrandTotal += (newPrice-lastPrice);
-                lastPrice = newPrice;
+    $$('input[type="radio"][name="shipping_method"]').each(function(el){
+        Event.observe(el, 'click', function(){
+           if (el.checked == true) {
+              var getShippingCode = el.getValue();
+              <?php if (!empty($shippingMe)): ?>
+                var newPrice = shippingMe[getShippingCode];
+                if (!lastPrice) {
+                    lastPrice = newPrice;
+                    quoteBaseGrandTotal += newPrice;
+                }
+                if (newPrice != lastPrice) {
+                    quoteBaseGrandTotal += (newPrice-lastPrice);
+                    lastPrice = newPrice;
 
-            }
-        <?php endif; ?>
-        checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
-        return false;
-    }
+                }
+            <?php endif; ?>
+            checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
+            return false;
+          }
+       });
+    });
 //]]>
 </script>
 <?php endif; ?>
