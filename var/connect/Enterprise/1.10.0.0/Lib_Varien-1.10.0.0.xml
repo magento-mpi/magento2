@@ -1,7 +1,10 @@
 <_>
-   <form_key>zMbgRf1GQgg5Kvpc</form_key>
+   <form_key>m6oHzRuhjwK7aGWM</form_key>
    <name>Lib_Varien</name>
    <channel>enterprise</channel>
+   <version_ids>
+      <version_ids>2</version_ids>
+   </version_ids>
    <summary>Varien Library</summary>
    <description>Varien Library</description>
    <license>Magento Enterprise Edition</license>
@@ -34,15 +37,15 @@
          </channel>
          <min>
             <min/>
-            <min>1.10.8.0</min>
+            <min>1.10.11.1</min>
          </min>
          <max>
             <max/>
-            <max>1.10.9</max>
+            <max>1.10.12</max>
          </max>
          <files>
-            <files>        </files>
-            <files>        </files>
+            <files>          </files>
+            <files>          </files>
          </files>
       </package>
       <extension>
