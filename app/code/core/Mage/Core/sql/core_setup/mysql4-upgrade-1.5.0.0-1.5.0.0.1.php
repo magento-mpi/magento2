@@ -29,5 +29,7 @@ $installer = $this;
 
 $tagsTableName = $installer->getTable('core/cache_tag');
 $installer->getConnection()->truncate($tagsTableName);
+$installer->getConnection()->modifyColumn($tagsTableName, 'tag', 'VARCHAR(100)');
+$installer->getConnection()->modifyColumn($tagsTableName, 'cache_id', 'VARCHAR(200)');
 $installer->getConnection()->addKey($tagsTableName, '', array('tag', 'cache_id'), 'PRIMARY');
 $installer->getConnection()->dropKey($tagsTableName, 'IDX_TAG');
