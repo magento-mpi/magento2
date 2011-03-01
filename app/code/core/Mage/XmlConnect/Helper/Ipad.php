@@ -26,6 +26,61 @@
 
 class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Ipad landscape orientation identificator
+     *
+     * @var string
+     */
+    const ORIENTATION_LANDSCAPE = 'landscape';
+
+    /**
+     * Ipad portrait orientation identificator
+     *
+     * @var string
+     */
+    const ORIENTATION_PORTRAIT = 'portrait';
+
+    /**
+     * Ipad preview banner widht
+     *
+     * @var int
+     */
+    const PREVIEW_BANNER_WIDTH = 350;
+
+    /**
+     * Ipad preview banner image height
+     *
+     * @var int
+     */
+    const PREVIEW_BANNER_HEIGHT = 135;
+
+    /**
+     * Ipad landscape orientation preview image widht
+     *
+     * @var int
+     */
+    const PREVIEW_LANDSCAPE_BACKGROUND_WIDTH = 467;
+
+    /**
+     * Ipad landscape orientation preview image height
+     *
+     * @var int
+     */
+    const PREVIEW_LANDSCAPE_BACKGROUND_HEIGHT = 321;
+
+    /**
+     * Ipad portrait orientation preview image widht
+     *
+     * @var int
+     */
+    const PREVIEW_PORTRAIT_BACKGROUND_WIDTH = 350;
+
+    /**
+     * Ipad portrait orientation preview image height
+     *
+     * @var int
+     */
+    const PREVIEW_PORTRAIT_BACKGROUND_HEIGHT = 438;
 
     /**
      * Get default application tabs

@@ -29,18 +29,8 @@ $categoryItemTintColor = $this->getCategoryItemTintColor();
 $categoryItemBackgroundColor = $this->getData('conf/categoryItem/backgroundColor');
 
 $productImage = $this->getPreviewImagesUrl('ipad/product_image.jpg');
-
-if ($this->getData('conf/body/backgroundImageIpadPortret')) {
-    $backgroundImageIpadPortret = Mage::helper('xmlconnect/image')->getCustomSizeImageUrl('conf/native/body/backgroundImageIpadPortret', 350, 438);
-} else {
-    $backgroundImageIpadPortret = $this->getPreviewImagesUrl('ipad/background_portrait.jpg');
-}
-
-if ($this->getData('conf/body/bannerImageIpad')) {
-    $bannerImageIpad = Mage::helper('xmlconnect/image')->getCustomSizeImageUrl('conf/native/body/bannerImageIpad', 350, 135);
-} else {
-    $bannerImageIpad = $this->getPreviewImagesUrl('ipad/banner_image.png');
-}
+$backgroundImageIpadPortret = $this->getIpadBackgroundImage(Mage_XmlConnect_Helper_Ipad::ORIENTATION_PORTRAIT);
+$bannerImageIpad = $this->getBannerImage();
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-ipad-home.css'); ?>" media="all" />
 

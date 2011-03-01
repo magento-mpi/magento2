@@ -27,10 +27,10 @@
 <?php if (($buttons = $this->getTabItems()) && is_array($buttons) && ($buttonsCount = count($buttons))) :?>
             <?php foreach ($buttons as $button) : ?>
                 <?php if ($button['action'] == 'Account') :?>
-                <div class="icon icon-account" style="<?php echo $button['active'] ? '' : 'display:none;'; ?>"></div>
+                <div class="icon icon-account"></div>
                 <?php endif; ?>
                 <?php if ($button['action'] == 'Search') :?>
-                <div class="icon icon-search" style="<?php echo $button['active'] ? '' : 'display:none;'; ?>"></div>
+                <div class="icon icon-search"></div>
                 <?php endif; ?>
             <?php endforeach; ?>
 <?php endif; ?>

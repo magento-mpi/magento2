@@ -37,14 +37,8 @@ $title9size = $this->getConfigFontInfo('Title9/size');
 $title9color = $this->getConfigFontInfo('Title9/color');
 
 $backgroundColor = $this->getData('conf/body/backgroundColor');
-
 $menImage = $this->getPreviewImagesUrl('men.png');
-
-if ($this->getData('conf/body/bannerImage')) {
-    $bannerImage = $this->getData('conf/body/bannerImage');
-} else {
-    $bannerImage = $this->getDesignPreviewImageUrl($this->getInterfaceImagesPaths('conf/body/bannerImage'));
-}
+$bannerImage = $this->getBannerImage();
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-home.css'); ?>" media="all" />
 <div class="main-frame">

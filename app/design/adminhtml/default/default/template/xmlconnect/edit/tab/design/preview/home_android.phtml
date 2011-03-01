@@ -31,12 +31,7 @@ $categoryItemTintColor = $this->getData('conf/categoryItem/tintColor');
 $title1color = $this->getConfigFontInfo('Title1/color');
 $title9size = $this->getConfigFontInfo('Title9/size');
 $productImage = $this->getPreviewImagesUrl('android/product_image.png');
-
-if ($this->getData('conf/body/bannerImageAndroid')) {
-    $bannerImageAndroid = Mage::getBaseUrl('media') . 'xmlconnect/' . $this->getData('conf/body/bannerImageAndroid');
-} else {
-    $bannerImageAndroid = $this->getDesignPreviewImageUrl($this->getInterfaceImagesPaths('conf/body/bannerImageAndroid'));
-}
+$bannerImageAndroid = $this->getBannerImage();
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-android.css'); ?>" media="all" />
 
@@ -46,9 +41,7 @@ if ($this->getData('conf/body/bannerImageAndroid')) {
         <div class="header-wrap" style="background-color:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>">
             <div class="header">
                 <div class="icon icon-home"></div>
-                <?php //echo $this->getChildHtml('tab_items'); ?>
-                <div class="icon icon-account"></div>
-                <div class="icon icon-search"></div>
+                <?php echo $this->getChildHtml('tab_items'); ?>
                 <div class="logo">
                     <img src="<?php echo $this->getLogoUrl(); ?>" alt="logo" /><span style="color:<?php echo $title1color; ?>;"><?php echo $this->__("Home"); ?></span>
                 </div>

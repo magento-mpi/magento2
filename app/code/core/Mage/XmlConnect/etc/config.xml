@@ -351,11 +351,11 @@
                     <notification_type>aps</notification_type>
                 </iphone>
                 <ipad>
-                    <tab_limit>5</tab_limit>
+                    <tab_limit>10</tab_limit>
                     <notification_type>aps</notification_type>
                 </ipad>
                 <android>
-                    <tab_limit>5</tab_limit>
+                    <tab_limit>10</tab_limit>
                     <notification_type>aps</notification_type>
                 </android>
             </devices>

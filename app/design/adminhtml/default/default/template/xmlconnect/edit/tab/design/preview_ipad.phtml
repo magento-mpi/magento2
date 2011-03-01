@@ -56,47 +56,42 @@
     </ul>
 </div>
 <script type="text/javascript">
+mmPreviewPage = '<?php echo $homeAction; ?>';
+mmPreviewFlag = '<?php echo $homeFlag ?>';
+previewFrame = $('XmlconnectThemePreviewIframe');
+ipadTabOrientn = $('ipad-tab-orientation');
 function changeOrientation() {
     $('mmPager').toggle();
     $('mmPager2').toggle();
 
     if (mmPreviewFlag == '<?php echo $homeFlag ?>') {
-        $('XmlconnectThemePreviewIframe').removeClassName('ipad-portrait');
-        $('XmlconnectThemePreviewIframe').addClassName('ipad-horizontal');
-        $('ipad-tab-orientation').removeClassName('ipad-tab-portrait');
-        $('ipad-tab-orientation').addClassName('ipad-tab-horizontal');
+        flagOrient = true;
         mmPreviewPage = '<?php echo $homeHorAction; ?>';
         mmPreviewFlag = '<?php echo $homeHorFlag ?>';
     } else if (mmPreviewFlag == '<?php echo $catalogFlag ?>') {
-        $('XmlconnectThemePreviewIframe').removeClassName('ipad-portrait');
-        $('XmlconnectThemePreviewIframe').addClassName('ipad-horizontal');
-        $('ipad-tab-orientation').removeClassName('ipad-tab-portrait');
-        $('ipad-tab-orientation').addClassName('ipad-tab-horizontal');
+        flagOrient = true;
         mmPreviewPage = '<?php echo $catalogHorAction; ?>';
         mmPreviewFlag = '<?php echo $catalogHorFlag ?>';
     } else if (mmPreviewFlag == '<?php echo $homeHorFlag ?>') {
-        $('XmlconnectThemePreviewIframe').removeClassName('ipad-horizontal');
-        $('XmlconnectThemePreviewIframe').addClassName('ipad-portrait');
-        $('ipad-tab-orientation').removeClassName('ipad-tab-horizontal');
-        $('ipad-tab-orientation').addClassName('ipad-tab-portrait');
+        flagOrient = false;
         mmPreviewPage = '<?php echo $homeAction; ?>';
         mmPreviewFlag = '<?php echo $homeFlag ?>';
     } else if (mmPreviewFlag == '<?php echo $catalogHorFlag ?>') {
-        $('XmlconnectThemePreviewIframe').removeClassName('ipad-horizontal');
-        $('XmlconnectThemePreviewIframe').addClassName('ipad-portrait');
-        $('ipad-tab-orientation').removeClassName('ipad-tab-horizontal');
-        $('ipad-tab-orientation').addClassName('ipad-tab-portrait');
+        flagOrient = false;
         mmPreviewPage = '<?php echo $catalogAction; ?>';
         mmPreviewFlag = '<?php echo $catalogFlag ?>';
     }
+
+        previewFrame.removeClassName((flagOrient ? 'ipad-portrait' : 'ipad-horizontal'))
+            .addClassName((flagOrient ? 'ipad-horizontal' : 'ipad-portrait'));
+        ipadTabOrientn.removeClassName((flagOrient ? 'ipad-tab-portrait' : 'ipad-tab-horizontal'))
+            .addClassName((flagOrient ? 'ipad-tab-horizontal' : 'ipad-tab-portrait'));
 
     resetPager();
     $(mmPreviewFlag).addClassName('active');
     updatePreview();
 }
 
-mmPreviewPage = '<?php echo $homeAction; ?>';
-mmPreviewFlag = '<?php echo $homeFlag ?>';
 function updatePreview(someAction) {
     saveAction = $('edit_form').action;
     $('edit_form').action = mmPreviewPage + (someAction ? someAction : '');
