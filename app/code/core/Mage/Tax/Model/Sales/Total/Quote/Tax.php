@@ -169,8 +169,13 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 $inclTax        = $taxInfoItem['incl_tax'];
                 $qty            = $taxInfoItem['qty'];
 
-                $hiddenTax      = $this->_deltaRound($hiddenTax, $rateKey, $inclTax);
-                $baseHiddenTax  = $this->_deltaRound($baseHiddenTax, $rateKey, $inclTax, 'base');
+                if ($this->_config->getAlgorithm($this->_store) == Mage_Tax_Model_Calculation::CALC_TOTAL_BASE) {
+                    $hiddenTax      = $this->_deltaRound($hiddenTax, $rateKey, $inclTax);
+                    $baseHiddenTax  = $this->_deltaRound($baseHiddenTax, $rateKey, $inclTax, 'base');
+                } else {
+                    $hiddenTax      = $this->_calculator->round($hiddenTax);
+                    $baseHiddenTax  = $this->_calculator->round($baseHiddenTax);
+                }
 
                 $item->setHiddenTaxAmount(max(0, $qty * $hiddenTax));
                 $item->setBaseHiddenTaxAmount(max(0, $qty * $baseHiddenTax));
