@@ -168,13 +168,20 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     protected function _getProduct($productInfo)
     {
+        $product = null;
         if ($productInfo instanceof Mage_Catalog_Model_Product) {
             $product = $productInfo;
         } elseif (is_int($productInfo) || is_string($productInfo)) {
             $product = Mage::getModel('catalog/product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productInfo);
-        } else {
+        }
+        $currentWebSiteId = Mage::app()->getStore()->getWebsiteId();
+        if (!$product
+            || !$product->getId()
+            || !is_array($product->getWebsiteIds())
+            || !in_array($currentWebSiteId, $product->getWebsiteIds())
+        ) {
             Mage::throwException(Mage::helper('checkout')->__('The product could not be found.'));
         }
         return $product;
@@ -276,9 +283,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 if (!$productId) {
                     continue;
                 }
-                $product = Mage::getModel('catalog/product')
-                    ->setStoreId(Mage::app()->getStore()->getId())
-                    ->load($productId);
+                $product = $this->_getProduct($productId);
                 if ($product->getId() && $product->isVisibleInCatalog()) {
                     try {
                         $this->getQuote()->addProduct($product);
