@@ -36,11 +36,61 @@
 class Mage_Selenium_Uid
 {
 
+    /**
+     * Last generated value
+     *
+     * @var string
+     */
+    protected $_lastValue = null;
+
+    /**
+     * Prefix for generated identifiers
+     *
+     * @var string
+     */
+    protected $_prefix = null;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        // Initialize value
+        $this->generate();
+    }
+
+    /**
+     * Generates unique identifier
+     *
+     * @param string|null $prefix
+     * @return string
+     */
+    public function generate()
+    {
+        $this->_lastValue = uniqid($this->_prefix, true);
+        return $this->_lastValue;
+    }
+
+    /**
+     * Sets prefix for generated identifiers
+     *
+     * @param string $prefix
+     * @return Mage_Selenium_Uid
+     */
+    public function setPrefix($prefix)
+    {
+        $this->_prefix = $prefix;
+        return $this;
+    }
+
+    /**
+     * Returns new unique identifier
+     *
+     * @return string
+     */
     public function __toString()
     {
-        $result = microtime();
-        // @TODO
-        return $result;
+        return $this->generate();
     }
 
 }
