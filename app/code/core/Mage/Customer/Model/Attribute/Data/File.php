@@ -35,6 +35,56 @@
 class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attribute_Data_Abstract
 {
     /**
+     * PHP file type
+     */
+    const PROTECTED_FILE_TYPE_PHP      = 'php';
+
+    /**
+     * File type of configuration of an Apache Web server
+     */
+    const PROTECTED_FILE_TYPE_HTACCESS = 'htaccess';
+
+    /**
+     * Pearl file type
+     */
+    const PROTECTED_FILE_TYPE_PEARL    = 'pl';
+
+    /**
+     * UNIX command prompt file type
+     */
+    const PROTECTED_FILE_TYPE_PYTHON   = 'py';
+
+    /**
+     * C Sharp file type
+     */
+    const PROTECTED_FILE_TYPE_ASP      = 'asp';
+
+    /**
+     * UNIX command prompt file type
+     */
+    const PROTECTED_FILE_TYPE_SH       = 'sh';
+
+    /**
+     * Common Gateway Interface Script file type
+     */
+    const PROTECTED_FILE_TYPE_CGI       = 'cgi';
+
+    /**
+     * Protected file types
+     *
+     * @var array
+     */
+    protected $_protectedFileTypes = array(
+        self::PROTECTED_FILE_TYPE_HTACCESS,
+        self::PROTECTED_FILE_TYPE_PHP,
+        self::PROTECTED_FILE_TYPE_PEARL,
+        self::PROTECTED_FILE_TYPE_PYTHON,
+        self::PROTECTED_FILE_TYPE_ASP,
+        self::PROTECTED_FILE_TYPE_SH,
+        self::PROTECTED_FILE_TYPE_CGI,
+    );
+
+    /**
      * Extract data from request and return value
      *
      * @param Zend_Controller_Request_Http $request
@@ -147,19 +197,28 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
         if (is_array($value)) {
             $toDelete   = !empty($value['delete']) ? true : false;
             $toUpload   = !empty($value['tmp_name']) ? true : false;
-        
+
             if (!$toUpload && !$toDelete && $this->getEntity()->getData($attribute->getAttributeCode())) {
                 return true;
             }
-        
+
             if (!$attribute->getIsRequired() && !$toUpload) {
                 return true;
             }
-        
+
+            /**
+             * Check protected file type
+             * Add error if type is match
+             */
+            if ($toUpload && $this->_isProtectedFileType($value['name'])) {
+                $pathInfo = pathinfo($value['name']);
+                $errors[] = Mage::helper('customer')->__('Unable upload file with type "%s".', $pathInfo['extension']);
+            }
+
             if ($attribute->getIsRequired() && !$toUpload) {
                 $errors[] = Mage::helper('customer')->__('"%s" is a required value.', $label);
             }
-        
+
             if ($toUpload) {
                 $errors = array_merge($errors, $this->_validateByRules($value));
             }
@@ -169,12 +228,24 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
                 $errors[] = Mage::helper('customer')->__('"%s" is a required value.', $label);
             }
         }
-        
+
         if (count($errors) == 0) {
             return true;
         }
 
         return $errors;
+    }
+
+    /**
+     * Check protected file type
+     *
+     * @param string $file
+     * @return bool
+     */
+    protected function _isProtectedFileType($file)
+    {
+        $info = pathinfo($file);
+        return in_array(strtolower($info['extension']), $this->_protectedFileTypes);
     }
 
     /**
