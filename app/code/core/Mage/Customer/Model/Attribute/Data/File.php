@@ -35,7 +35,7 @@
 class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attribute_Data_Abstract
 {
     /**
-     * PHP file type
+     * PHP script file type
      */
     const PROTECTED_FILE_TYPE_PHP      = 'php';
 
@@ -45,17 +45,17 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
     const PROTECTED_FILE_TYPE_HTACCESS = 'htaccess';
 
     /**
-     * Pearl file type
+     * Pearl script file type
      */
     const PROTECTED_FILE_TYPE_PEARL    = 'pl';
 
     /**
-     * UNIX command prompt file type
+     * Python script file type
      */
     const PROTECTED_FILE_TYPE_PYTHON   = 'py';
 
     /**
-     * C Sharp file type
+     * C Sharp script file type
      */
     const PROTECTED_FILE_TYPE_ASP      = 'asp';
 
@@ -65,9 +65,23 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
     const PROTECTED_FILE_TYPE_SH       = 'sh';
 
     /**
-     * Common Gateway Interface Script file type
+     * Common Gateway Interface script file type
      */
     const PROTECTED_FILE_TYPE_CGI       = 'cgi';
+
+    /**
+     * Java script file type
+     */
+    const PROTECTED_FILE_TYPE_JAVA      = 'jsp';
+
+    /**#@+
+     * HTML script file type
+     */
+    const PROTECTED_FILE_TYPE_HTML      = 'html';
+    const PROTECTED_FILE_TYPE_HTM       = 'htm';
+    const PROTECTED_FILE_TYPE_PHTML     = 'phtml';
+    const PROTECTED_FILE_TYPE_SHTML     = 'shtml';
+    /**#@-*/
 
     /**
      * Protected file types
@@ -82,6 +96,10 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
         self::PROTECTED_FILE_TYPE_ASP,
         self::PROTECTED_FILE_TYPE_SH,
         self::PROTECTED_FILE_TYPE_CGI,
+        self::PROTECTED_FILE_TYPE_JAVA,
+        self::PROTECTED_FILE_TYPE_HTML,
+        self::PROTECTED_FILE_TYPE_SHTML,
+        self::PROTECTED_FILE_TYPE_PHTML,
     );
 
     /**
