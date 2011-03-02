@@ -32,8 +32,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource {
-    public function __construct() {
+class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
+{
+    public function __construct()
+    {
         $this->_storeIdSessionField = "cart_store_id";
         $this->_attributesMap['quote'] = array('quote_id' => 'entity_id');
         $this->_attributesMap['quote_customer'] = array('customer_id' => 'entity_id');
@@ -47,7 +49,8 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource {
      * @param int|string $store
      * @return int
      */
-    public function create($store = null) {
+    public function create($store = null)
+    {
         $storeId = $this->_getStoreId($store);
 
         try {
@@ -70,7 +73,8 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource {
      * @param  $store
      * @return array
      */
-    public function info($quoteId, $store = null) {
+    public function info($quoteId, $store = null)
+    {
         $quote = $this->_getQuote($quoteId, $store);
 
         if ($quote->getGiftMessageId() > 0) {
@@ -104,7 +108,8 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource {
      * @param  $store
      * @return void
      */
-    public function totals($quoteId, $store = null) {
+    public function totals($quoteId, $store = null)
+    {
         $quote = $this->_getQuote($quoteId, $store);
 
         $totals = $quote->getTotals();
@@ -127,7 +132,8 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource {
      * @param  $agreements array
      * @return string
      */
-    public function createOrder($quoteId, $store = null, $agreements = null) {
+    public function createOrder($quoteId, $store = null, $agreements = null)
+    {
         $requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
         if (!empty($requiredAgreements)) {
             $diff = array_diff($agreements, $requiredAgreements);
@@ -191,7 +197,8 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource {
      * @param  $store
      * @return array
      */
-    public function licenseAgreement($quoteId, $store = null) {
+    public function licenseAgreement($quoteId, $store = null)
+    {
         $quote = $this->_getQuote($quoteId, $store);
         $storeId = $quote->getStoreId();
 
