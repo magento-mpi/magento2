@@ -479,6 +479,11 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         return $this;
     }
 
+    /**
+     * Get invoice items collection
+     *
+     * @return Mage_Sales_Model_Mysql4_Order_Invoice_Item_Collection
+     */
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
@@ -686,7 +691,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
                 ->setInvoiceFilter($this->getId())
                 ->setCreatedAtOrder();
             /**
-             * When invoice created with adding comment, comments collection must be loaded before we added this comment.
+             * When invoice created with adding comment, comments collection
+             * must be loaded before we added this comment.
              */
             $this->_comments->load();
 
