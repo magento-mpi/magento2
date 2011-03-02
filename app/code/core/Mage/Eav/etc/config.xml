@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Eav>
-            <version>1.5.0.0</version>
+            <version>1.5.0.0.1</version>
         </Mage_Eav>
     </modules>
     <global>
@@ -112,7 +112,6 @@
         <eav_frontendclasses>
         </eav_frontendclasses>
         <eav_attributes>
-            
         </eav_attributes>
     </global>
     <adminhtml>
