@@ -80,7 +80,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     {
         $adapter = $this->_getReadAdapter();
 
-        if (is_object($product)) {
+        if ($product instanceof Mage_Catalog_Model_Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;
@@ -91,6 +91,22 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             ->where('product_id = ?', (int)$productId);
 
         return $adapter->fetchCol($select);
+    }
+
+    /**
+     * Retrieve product website identifiers by product identifiers
+     *
+     * @param   array $productIds
+     * @return  array
+     */
+    public function getWebsiteIdsByProductIds($productIds)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_productWebsiteTable, array('product_id', 'website_ids' =>'GROUP_CONCAT(website_id)'))
+            ->where('product_id IN (?)', $productIds)
+            ->group('product_id');
+
+        return $this->_getWriteAdapter()->fetchAll($select);
     }
 
     /**

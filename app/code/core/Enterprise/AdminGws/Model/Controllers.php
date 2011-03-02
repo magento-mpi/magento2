@@ -884,11 +884,14 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $productExclusiveIds    = array();
 
         $resource = Mage::getResourceModel('catalog/product');
-        foreach ($productIds as $productId) {
-            if (!$this->_role->hasExclusiveAccess($resource->getWebsiteIds($productId))) {
-                $productNotExclusiveIds[]  = $productId;
+
+        $productsWebsites = $resource->getWebsiteIdsByProductIds($productIds);
+
+        foreach ($productsWebsites as $productWebsites) {
+            if (!$this->_role->hasExclusiveAccess(explode(',', $productWebsites['website_ids']))) {
+                $productNotExclusiveIds[]  = $productWebsites['product_id'];
             } else {
-                $productExclusiveIds[]     = $productId;
+                $productExclusiveIds[]     = $productWebsites['product_id'];
             }
         }
 
