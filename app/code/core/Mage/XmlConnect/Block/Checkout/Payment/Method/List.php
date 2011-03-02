@@ -65,13 +65,14 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     {
         $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<payment_methods></payment_methods>');
 
-        $methodBlocks         = $this->getChild();
-        $methodArray = array (
-            'payment_ccsave' => 'Mage_Payment_Model_Method_Cc',
-            'payment_checkmo' => 'Mage_Payment_Model_Method_Checkmo',
-            'payment_purchaseorder' => 'Mage_Payment_Model_Method_Purchaseorder');
-        $usedMethods          = $sortedAvailableMethodCodes = $usedCodes = array();
-        $allAvailableMethods  = Mage::helper('payment')->getStoreMethods(Mage::app()->getStore(), $this->getQuote());
+        $methodBlocks           = $this->getChild();
+        $methodArray            = array (
+            'payment_ccsave'        => 'Mage_Payment_Model_Method_Cc',
+            'payment_checkmo'       => 'Mage_Payment_Model_Method_Checkmo',
+            'payment_purchaseorder' => 'Mage_Payment_Model_Method_Purchaseorder'
+        );
+        $usedMethods            = $sortedAvailableMethodCodes = $usedCodes = array();
+        $allAvailableMethods    = Mage::helper('payment')->getStoreMethods(Mage::app()->getStore(), $this->getQuote());
 
         foreach ($allAvailableMethods as $method) {
             $sortedAvailableMethodCodes[] = $method->getCode();
@@ -80,18 +81,20 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         /**
          * Collect directly supported by xmlconnect methods
          */
-        foreach ($methodBlocks as $block) {
-            if (!$block) {
-                continue;
-            }
+        if (is_array($methodBlocks) && !empty($methodBlocks)) {
+            foreach ($methodBlocks as $block) {
+                if (!$block) {
+                    continue;
+                }
 
-            $method = $block->getMethod();
-            if (!$this->_canUseMethod($method) || in_array($method->getCode(), $usedCodes)) {
-                continue;
+                $method = $block->getMethod();
+                if (!$this->_canUseMethod($method) || in_array($method->getCode(), $usedCodes)) {
+                    continue;
+                }
+                $this->_assignMethod($method);
+                $usedCodes[] = $method->getCode();
+                $usedMethods[$method->getCode()] = array('renderer' => $block, 'method' => $method);
             }
-            $this->_assignMethod($method);
-            $usedCodes[] = $method->getCode();
-            $usedMethods[$method->getCode()] = array('renderer' => $block, 'method' => $method);
         }
 
         /**
@@ -99,7 +102,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
          */
         foreach ($methodArray as $methodName => $methodModelClassName) {
             $methodRenderer = $this->getChild($methodName);
-            if (!is_null($methodRenderer)) {
+            if (!empty($methodRenderer)) {
                 foreach ($sortedAvailableMethodCodes as $methodCode) {
                     /**
                      * Skip used methods
@@ -167,7 +170,10 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
      */
     protected function _canUseMethod($method)
     {
-        if (!$method || !$method->canUseCheckout() || !$method->canUseForMultishipping() || !$method->isAvailable($this->getQuote())) {
+        if (!($method instanceof Mage_Payment_Model_Method_Abstract)
+            || !$method->canUseCheckout()
+            || !$method->isAvailable($this->getQuote())
+        ) {
             return false;
         }
         return parent::_canUseMethod($method);
