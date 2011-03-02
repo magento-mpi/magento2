@@ -48,7 +48,7 @@ class CustomerRegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->clickButton('register'), 'There is no "Register" button on the page');
         $this->assertTrue($this->navigated('customer_account_create'), 'Wrong page is displayed');
         $this->assertTrue($this->navigate('customer_account_create'), 'Wrong page is displayed when accessing direct URL');
-        $this->assertTrue($this->linkIsPresent('back'), 'There is no "Back" link on the page');
+        $this->assertTrue($this->controlIsPresent('link','back'), 'There is no "Back" link on the page');
     }
 
     public function testRegistration_Smoke()

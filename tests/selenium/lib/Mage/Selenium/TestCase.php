@@ -122,7 +122,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
         return $this;
     }
 
-    public function linkIsPresent($link)
+    /**
+     * Search specified control on the page
+     *
+     * @param string $controlType
+     * @param string $controlName
+     * @return mixed
+     */
+
+    public function controlIsPresent($controlType, $controlName)
     {
         // @TODO
         return $this;
