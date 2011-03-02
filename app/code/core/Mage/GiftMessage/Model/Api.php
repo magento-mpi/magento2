@@ -39,8 +39,9 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
      * @param Array $obj
      * @return Array
      */
-    protected function _prepareData($arr){
-        if(is_array($arr)){
+    protected function _prepareData($arr)
+    {
+        if (is_array($arr)) {
             return $arr;
         }
         return array();
@@ -54,7 +55,8 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
      * @param Mage_Sales_Model_Quote $quote
      * @return AssociativeArray
      */
-    protected function _setGiftMessage($entityId, $request, $quote){
+    protected function _setGiftMessage($entityId, $request, $quote)
+    {
 
         /**
          * Below code will catch exceptions only in DeveloperMode
@@ -62,10 +64,13 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
          * And result of Mage::dispatchEvent will always return an Object of Mage_Core_Model_App.
          */
         try {
-            Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request'=>$request, 'quote'=>$quote));
-            return array('entityId'=>$entityId, 'result'=>true, 'error'=>'');
+            Mage::dispatchEvent(
+                'checkout_controller_onepage_save_shipping_method',
+                array('request' => $request, 'quote' => $quote)
+            );
+            return array('entityId' => $entityId, 'result' => true, 'error' => '');
         } catch (Exception $e) {
-            return array('entityId'=>$entityId, 'result'=>false, 'error'=>$e->getMessage());
+            return array('entityId' => $entityId, 'result' => false, 'error' => $e->getMessage());
         }
     }
 
@@ -77,22 +82,25 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
      * @param String $store
      * @return AssociativeArray
      */
-    public function setForQuote($quoteId, $giftMessage, $store = null) {
-
-        $giftMessage = $this->_prepareData($giftMessage);
-        $giftMessage['type'] = 'quote';
-
-        $giftMessages = array($quoteId=>$giftMessage);
-        $request = new Mage_Core_Controller_Request_Http();
-        $request->setParam("giftmessage", $giftMessages);
-
+    public function setForQuote($quoteId, $giftMessage, $store = null)
+    {
         /** @var $quote Mage_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
+
+        $giftMessage = $this->_prepareData($giftMessage);
+        if (empty($giftMessage)) {
+            $this->_fault('giftmessage_invalid_data');
+        }
+
+        $giftMessage['type'] = 'quote';
+        $giftMessages = array($quoteId => $giftMessage);
+        $request = new Mage_Core_Controller_Request_Http();
+        $request->setParam("giftmessage", $giftMessages);
 
         return $this->_setGiftMessage($quote->getId(), $request, $quote);
     }
 
- /**
+    /**
      * Set a GiftMessage to QuoteItem by product
      *
      * @param String $quoteId
@@ -100,13 +108,19 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
      * @param String $store
      * @return array
      */
-    public function setForQuoteProduct($quoteId, $productsAndMessages, $store = null){
+    public function setForQuoteProduct($quoteId, $productsAndMessages, $store = null)
+    {
         /** @var $quote Mage_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
         $productsAndMessages = $this->_prepareData($productsAndMessages);
+        if (empty($productsAndMessages)) {
+            $this->_fault('invalid_data');
+        }
 
-        if(count($productsAndMessages) == 2 && isset($productsAndMessages['product']) && isset($productsAndMessages['message'])){
+        if (count($productsAndMessages) == 2
+                && isset($productsAndMessages['product'])
+                && isset($productsAndMessages['message'])) {
             $productsAndMessages = array($productsAndMessages);
         }
 
@@ -114,11 +128,17 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
         foreach ($productsAndMessages as $productAndMessage) {
             if (isset($productAndMessage['product']) && isset($productAndMessage['message'])) {
                 $product = $this->_prepareData($productAndMessage['product']);
+                if (empty($product)) {
+                    $this->_fault('product_invalid_data');
+                }
                 $message = $this->_prepareData($productAndMessage['message']);
+                if (empty($message)) {
+                    $this->_fault('giftmessage_invalid_data');
+                }
 
                 if (isset($product['product_id'])) {
                     $productByItem = $this->_getProduct($product['product_id'], $store, "id");
-                } else if (isset($productItem['sku'])) {
+                } elseif (isset($product['sku'])) {
                     $productByItem = $this->_getProduct($product['sku'], $store, "sku");
                 } else {
                     continue;
@@ -145,19 +165,21 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
     {
         /** @var $quote Mage_Sales_Model_Quote_Item */
         $quoteItem = Mage::getModel('sales/quote_item')->load($quoteItemId);
-
-        $giftMessage = $this->_prepareData($giftMessage);
-        $giftMessage['type'] = 'quote_item';
-
-        $giftMessages = array($quoteItem->getId()=>$giftMessage);
-
-        $request = new Mage_Core_Controller_Request_Http();
-        $request->setParam("giftmessage", $giftMessages);
+        if (is_null($quoteItem->getId())) {
+            $this->_fault("quote_item_not_exists");
+        }
 
         /** @var $quote Mage_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteItem->getQuoteId(), $store);
 
+        $giftMessage = $this->_prepareData($giftMessage);
+        $giftMessage['type'] = 'quote_item';
+
+        $giftMessages = array($quoteItem->getId() => $giftMessage);
+
+        $request = new Mage_Core_Controller_Request_Http();
+        $request->setParam("giftmessage", $giftMessages);
+
         return $this->_setGiftMessage($quoteItemId, $request, $quote);
     }
 }
-?>
