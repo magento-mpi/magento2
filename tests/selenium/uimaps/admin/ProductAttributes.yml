@@ -27,14 +27,6 @@
 ---
 # Manage Attributes and related pages
 
-# Messages
-messages :
-  success_saved_attribute : li[normalize-space(@class)='success-msg']//span[text()='The product attribute has been saved.']
-  error_exists_attribute_code : li[normalize-space(@class)='error-msg']//span[text()='Attribute with the same code already exists']
-  error_empty_attribute_code : div[normalize-space(@id)='advice-required-entry-attribute_code'][text()='This is a required field.']
-  error_empty_attribute_title : div[normalize-space(@id)='advice-required-option-frontend_label[0]'][text()='Failed']
-  error_invalid_attribute_code : div[normalize-space(@id)='advice-validate-code-attribute_code'][text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.']
-
 # Manage Product Attributes page
 manage_attributes:
  mca : catalog_product_attribute/index
@@ -43,6 +35,9 @@ manage_attributes:
   form : &searchProductAttributeGrid
    buttons :
     add_new_attribute : button[span='Add New Attribute']
+# Messages
+ messages :
+  success_saved_attribute : li[normalize-space(@class)='success-msg']//span[text()='The product attribute has been saved.']
 
 # Add New Product Attribute page
 new_product_attribute:
@@ -107,3 +102,10 @@ new_product_attribute:
     reset : button[span='Reset']
     save_attribute : button[span='Save Attribute']
     save_and_continue_edit : button[span='Save and Continue Edit']
+ # Messages
+ messages :
+  success_saved_attribute : li[normalize-space(@class)='success-msg']//span[text()='The product attribute has been saved.']
+  error_exists_attribute_code : li[normalize-space(@class)='error-msg']//span[text()='Attribute with the same code already exists']
+  error_empty_attribute_code : div[normalize-space(@id)='advice-required-entry-attribute_code'][text()='This is a required field.']
+  error_empty_attribute_title : div[normalize-space(@id)='advice-required-option-frontend_label[0]'][text()='Failed']
+  error_invalid_attribute_code : div[normalize-space(@id)='advice-validate-code-attribute_code'][text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.']
