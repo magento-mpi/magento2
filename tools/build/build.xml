@@ -290,15 +290,50 @@
 
     <target name="phpdoc" description="Generate phpDoc files.">
         <property name="phpdoc" value="${teamcity.buildConfName}-${build.number}-phpdoc"/>
+        <property name="mageTitle" value="Magento Documentation (phpdoc)"/>
+        <property name="libTitle" value="Varien Lib Documentation (phpdoc)"/>
 
         <exec dir="${dir.src}" executable="phpdoc" failonerror="true">
-            <arg line="-d lib/Varien -t ${dir.docs}/phpdoc/Varien -o HTML:frames:default -ti 'Varien Lib Documentation (phpdoc)' -q"/>
+            <arg line="-d lib/Varien -t ${dir.docs}/phpdoc/Varien -o HTML:frames:default -ti '${libTitle}' -q"/>
         </exec>
         <exec dir="${dir.src}" executable="phpdoc" failonerror="true">
-            <arg line="-d app/code/core/Mage,app/code/core/Enterprise -t ${dir.docs}/phpdoc/ -o HTML:frames:default -ti 'Magento Documentation (phpdoc)' -q"/>
+            <arg line="-d app/code/core/Mage -t ${dir.docs}/phpdoc/ -o HTML:frames:default -ti '${mageTitle}' -q"/>
         </exec>
-        <exec executable="./phpdocfix.php" failonerror="true">
-            <arg line="${dir.docs}/phpdoc/ ce"/>
+
+        <!-- Fix version -->
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line=". -name '*.html' | xargs sed -i 's~#MAGE_VERSION#~1.5.0.1~g'"/>
+        </exec>
+
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line="./Varien -name '*.html' | xargs sed -i 's~#MAGE_TITLE#~${libTitle}~g'"/>
+        </exec>
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line="./Varien -name '*.html' | xargs sed -i 's~#MAGE_LINK_TITLE#~${mageTitle}~g'"/>
+        </exec>
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line="./Varien -name '*.html' | xargs sed -i 's~#MAGE_LINK_TEXT#~${mageTitle}~g'"/>
+        </exec>
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line=". -path './Varien/*/*' -prune -name '*.html' | xargs sed -i 's~#MAGE_LINK_HREF#~../../index.html~g'"/>
+        </exec>
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line=". -path './Varien/*' -prune -name '*.html' | xargs sed -i 's~#MAGE_LINK_HREF#~../index.html~g'"/>
+        </exec>
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line=". -name '*.html' | grep -v '/Varien/' | xargs sed -i 's~#MAGE_TITLE#~${mageTitle}~g'"/>
+        </exec>
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line=". -name '*.html' | grep -v '/Varien/' | xargs sed -i 's~#MAGE_LINK_TITLE#~${libTitle}~g'"/>
+        </exec>
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line=". -name '*.html' | grep -v '/Varien/' | xargs sed -i 's~#MAGE_LINK_TEXT#~${libTitle}~g'"/>
+        </exec>
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line=". -path './*/*' -prune -name '*.html' | xargs sed -i 's~#MAGE_LINK_HREF#~../Varien/index.html~g'"/>
+        </exec>
+        <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
+            <arg line=". -path './*' -prune -name '*.html' | xargs sed -i 's~#MAGE_LINK_HREF#~Varien/index.html~g'"/>
         </exec>
 
         <tar destfile="${dir.docs}/${phpdoc}.tar" basedir="${dir.docs}/phpdoc"/>
