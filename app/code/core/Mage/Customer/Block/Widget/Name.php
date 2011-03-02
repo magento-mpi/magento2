@@ -78,52 +78,71 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
         return (bool)$this->_getAttribute('prefix')->getIsVisible();
     }
 
+    /**
+     * Define if prefix attribute is required
+     *
+     * @return bool
+     */
     public function isPrefixRequired()
     {
         return (bool)$this->_getAttribute('prefix')->getIsRequired();
     }
 
+    /**
+     * Retrieve name prefix dropdown options
+     *
+     * @return array|bool
+     */
     public function getPrefixOptions()
     {
-        $options = trim($this->getConfig('prefix_options'));
-        if (!$options) {
-            return false;
-        }
-        $options = explode(';', $options);
-        foreach ($options as &$v) {
-            $v = $this->htmlEscape(trim($v));
-        }
-        return $options;
+        return $this->helper('customer')->getNamePrefixOptions();
     }
 
+    /**
+     * Define if middle name attribute can be shown
+     *
+     * @return bool
+     */
     public function showMiddlename()
     {
         return (bool)$this->_getAttribute('middlename')->getIsVisible();
     }
 
+    /**
+     * Define if suffix attribute can be shown
+     *
+     * @return bool
+     */
     public function showSuffix()
     {
         return (bool)$this->_getAttribute('suffix')->getIsVisible();
     }
 
+    /**
+     * Define if suffix attribute is required
+     *
+     * @return bool
+     */
     public function isSuffixRequired()
     {
         return (bool)$this->_getAttribute('suffix')->getIsRequired();
     }
 
+    /**
+     * Retrieve name suffix dropdown options
+     *
+     * @return array|bool
+     */
     public function getSuffixOptions()
     {
-        $options = trim($this->getConfig('suffix_options'));
-        if (!$options) {
-            return false;
-        }
-        $options = explode(';', $options);
-        foreach ($options as &$v) {
-            $v = $this->htmlEscape(trim($v));
-        }
-        return $options;
+        return $this->helper('customer')->getNameSuffixOptions();
     }
 
+    /**
+     * Class name getter
+     *
+     * @return string
+     */
     public function getClassName()
     {
         if (!$this->hasData('class_name')) {
@@ -132,6 +151,11 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
         return $this->getData('class_name');
     }
 
+    /**
+     * Container class name getter
+     *
+     * @return string
+     */
     public function getContainerClassName()
     {
         $class = $this->getClassName();

@@ -151,7 +151,9 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $params = array();
         if ($this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME)) {
-            $params = array(self::REFERER_QUERY_PARAM_NAME => $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME));
+            $params = array(
+                self::REFERER_QUERY_PARAM_NAME => $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME)
+            );
         }
         return $this->_getUrl('customer/account/loginPost', $params);
     }
@@ -267,5 +269,46 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         $result = new Varien_Object(array('is_allowed' => true));
         Mage::dispatchEvent('customer_registration_is_allowed', array('result' => $result));
         return $result->getIsAllowed();
+    }
+
+    /**
+     * Retrieve name prefix dropdown options
+     *
+     * @return array|bool
+     */
+    public function getNamePrefixOptions()
+    {
+        return $this->_prepareNamePrefixSuffixOptions(Mage::helper('customer/address')->getConfig('prefix_options'));
+    }
+
+    /**
+     * Retrieve name suffix dropdown options
+     *
+     * @return array|bool
+     */
+    public function getNameSuffixOptions()
+    {
+        return $this->_prepareNamePrefixSuffixOptions(Mage::helper('customer/address')->getConfig('suffix_options'));
+    }
+
+    /**
+     * Unserialize and clear name prefix or suffix options
+     *
+     * @param string $options
+     * @return array|bool
+     */
+    protected function _prepareNamePrefixSuffixOptions($options)
+    {
+        $options = trim($options);
+        if (empty($options)) {
+            return false;
+        }
+        $result = array();
+        $options = explode(';', $options);
+        foreach ($options as $value) {
+            $value = $this->escapeHtml(trim($value));
+            $result[$value] = $value;
+        }
+        return $result;
     }
 }
