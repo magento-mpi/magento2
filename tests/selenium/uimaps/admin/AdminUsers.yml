@@ -26,17 +26,6 @@
 ---
 #Manage Users and related pages
 
-messages :
- success_save_user : div[@id='messages']//li[span='The user has been saved.']
- success_delete_user : div[@id='messages']//li[span='The user has been deleted.']
- success_save_role : div[@id='messages']//li[span='The role has been successfully saved.']
- success_delete_role : div[@id='messages']//li[span='The role has been deleted.']
- error_required_field :  %fieldXpath%/following-sibling::*[text()='This is a required field.']
- error_invalid_mail : div[@id='advice-validate-email-user_email']
- error_password_unmatch : div[@id='advice-validate-cpassword-user_confirmation']
- error_password_invalid : div[@id='advice-validate-admin-password-user_password']
- error_repeating_name_email: div[@id='messages']//li[span='A user with the same user name or email aleady exists.']
- error_email_exists : div[@id='messages']//li[span='Email already exists.']
 # 'Users' page
 manage_users:
  mca : permissions_user/
