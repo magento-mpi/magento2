@@ -63,33 +63,6 @@ class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Mod
     protected $_shippingCalculated = false;
 
     /**
-     * Native carriers to Google carriers map
-     *
-     * @var array
-     */
-    protected $_carriersToGoogleMap = array(
-        'ups' => array(
-            'googleCarrierCompany' => 'UPS',
-            'methods' => array(
-                'GND' => 'Ground',
-                '1DA' => 'Next Day Air',
-                '1DM' => 'Next Day Air Early AM',
-                '1DP' => 'Next Day Air Saver',
-                '2DA' => '2nd Day Air',
-                '2DM' => '2nd Day Air AM',
-                '3DS' => '3 Day Select',
-                '03'  => 'Ground',
-                '01'  => 'Next Day Air',
-                '14'  => 'Next Day Air Early AM',
-                '13'  => 'Next Day Air Saver',
-                '02'  => '2nd Day Air',
-                '59'  => '2nd Day Air AM',
-                '12'  => '3 Day Select'
-            )
-        )
-    );
-
-    /**
      * API URL getter
      *
      * @return string
@@ -245,14 +218,14 @@ EOT;
             return '';
         }
 
-        $quoteId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $quoteId);
+        $storeId = $this->getQuote()->getStoreId();
+        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId);
         if (!$active) {
             return '';
         }
 
-        $schedule = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $quoteId);
-        $method   = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_METHOD, $quoteId);
+        $schedule = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $storeId);
+        $method   = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_METHOD, $storeId);
 
         $xml = "<display-disposition>{$schedule}</display-disposition>";
 
@@ -456,7 +429,7 @@ EOT;
         }
 
         $freeMethodsList = array();
-        foreach ($this->_carriersToGoogleMap as $mageCode => $map) {
+        foreach ($this->_getGoogleCarriersMap() as $mageCode => $map) {
             if (!isset($shipments[$mageCode])) {
                 continue;
             }
@@ -475,7 +448,7 @@ EOT;
                 if (empty($shippingMethodsList[$methodName])) {
                     continue;
                 }
-                $freeMethodsList[$methodName] = array('company' => $map['googleCarrierCompany'], 'type' => $googleRateCode );
+                $freeMethodsList[$methodName] = array('company' => $map['googleCarrierCompany'], 'type' => $googleRateCode);
                 unset($shippingMethodsList[$methodName]);
             }   
         }
@@ -1064,5 +1037,48 @@ EOT;
             }
         }
         return true;
+    }
+
+   /**
+    * Retrieve native carriers to Google carriers map
+    *
+    * @return array
+    */
+    protected function _getGoogleCarriersMap() {
+        return array(
+            'ups' => array(
+                'googleCarrierCompany' => 'UPS',
+                'methods' => array(
+                    'GND' => Mage::helper('usa')->__('Ground'),
+                    '1DA' => Mage::helper('usa')->__('Next Day Air'),
+                    '1DM' => Mage::helper('usa')->__('Next Day Air Early AM'),
+                    '1DP' => Mage::helper('usa')->__('Next Day Air Saver'),
+                    '2DA' => Mage::helper('usa')->__('2nd Day Air'),
+                    '2DM' => Mage::helper('usa')->__('2nd Day Air AM'),
+                    '3DS' => Mage::helper('usa')->__('3 Day Select')
+                )
+            ),
+            'usps' => array(
+                'googleCarrierCompany' => 'USPS',
+                'methods' => array(
+                    'Express Mail'  => Mage::helper('usa')->__('Express Mail'),
+                    'Priority Mail' => Mage::helper('usa')->__('Priority Mail'),
+                    'Parcel Post'   => Mage::helper('usa')->__('Parcel Post'),
+                    'Media Mail'    => Mage::helper('usa')->__('Media Mail')
+                )
+            ),
+            'fedex' => array(
+                'googleCarrierCompany' => 'FedEx',
+                'methods' => array(
+                    'FEDEXGROUND'        => Mage::helper('usa')->__('Ground'),
+                    'GROUNDHOMEDELIVERY' => Mage::helper('usa')->__('Home Delivery'),
+                    'FEDEXEXPRESSSAVER'  => Mage::helper('usa')->__('Express Saver'),
+                    'FIRSTOVERNIGHT'     => Mage::helper('usa')->__('First Overnight'),
+                    'PRIORITYOVERNIGHT'  => Mage::helper('usa')->__('Priority Overnight'),
+                    'STANDARDOVERNIGHT'  => Mage::helper('usa')->__('Standard Overnight'),
+                    'FEDEX2DAY'          => Mage::helper('usa')->__('2Day')
+                )
+            )
+        );
     }
 }
