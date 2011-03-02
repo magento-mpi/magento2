@@ -203,7 +203,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
             foreach ($this->getNode('states')->children() as $state) {
                 $name = $state->getName();
                 $this->_states['all'][] = $name;
-                if ($state->visible_on_front){
+                if ((int)(string)$state->visible_on_front) {
                     $this->_states['visible'][] = $name;
                 }
                 else {
