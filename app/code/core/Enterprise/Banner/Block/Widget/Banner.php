@@ -66,10 +66,16 @@ class Enterprise_Banner_Block_Widget_Banner
     const BANNER_WIDGET_RORATE_RANDOM = 'random';
 
     /**
-     * Rotation mode "shuffle" flag: same as "series" but firstly randomize banenrs scope
+     * Rotation mode "shuffle" flag: same as "series" but firstly randomize banners scope
      *
      */
     const BANNER_WIDGET_RORATE_SHUFFLE = 'shuffle';
+
+    /**
+     * No rotation: show all banners at once
+     *
+     */
+    const BANNER_WIDGET_RORATE_NONE = '';
 
     /**
      * Store Banner resource instance
@@ -190,7 +196,8 @@ class Enterprise_Banner_Block_Widget_Banner
 
             case self::BANNER_WIDGET_DISPLAY_SALESRULE:
                 if (Mage::getSingleton('checkout/session')->getQuoteId()) {
-                    $aplliedRules = explode(',', Mage::getSingleton('checkout/session')->getQuote()->getAppliedRuleIds());
+                    $quote = Mage::getSingleton('checkout/session')->getQuote();
+                    $aplliedRules = explode(',', $quote->getAppliedRuleIds());
                 }
                 $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds($segmentIds, $aplliedRules);
                 $bannersContent = $this->_getBannersContent($bannerIds);
@@ -221,6 +228,7 @@ class Enterprise_Banner_Block_Widget_Banner
         foreach ($bannersContent as $bannerId => $content) {
             $bannersContent[$bannerId] = $processor->filter($content);
         }
+
         return $bannersContent;
     }
 
@@ -234,6 +242,7 @@ class Enterprise_Banner_Block_Widget_Banner
      */
     protected function _getBannersContent($bannerIds, $segmentIds = array())
     {
+        $bannerResource = $this->_bannerResource;
         $bannersSequence = $content = array();
         if (!empty($bannerIds)) {
 
@@ -242,7 +251,7 @@ class Enterprise_Banner_Block_Widget_Banner
 
                 case self::BANNER_WIDGET_RORATE_RANDOM :
                     $bannerId = $bannerIds[array_rand($bannerIds, 1)];
-                    $_content = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId, $segmentIds);
+                    $_content = $bannerResource->getStoreContent($bannerId, $this->_currentStoreId, $segmentIds);
                     if (!empty($_content)) {
                         $content[$bannerId] = $_content;
                     }
@@ -267,17 +276,39 @@ class Enterprise_Banner_Block_Widget_Banner
                         }
                         $this->_sessionInstance->setData($this->getUniqueId(), $bannersSequence);
                     }
-                    $_content = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId, $segmentIds);
+                    $_content = $bannerResource->getStoreContent($bannerId, $this->_currentStoreId, $segmentIds);
                     if (!empty($_content)) {
                         $content[$bannerId] = $_content;
                     }
                     break;
 
                 default:
-                    $content = $this->_bannerResource->getBannersContent($bannerIds, $this->_currentStoreId, $segmentIds);
+                    $content = $bannerResource->getBannersContent($bannerIds, $this->_currentStoreId, $segmentIds);
                     break;
             }
         }
         return $content;
+    }
+
+    /**
+     * Get cache key informative items that must be preserved in cache placeholders
+     * for block to be rerendered by placeholder
+     *
+     * @return array
+     */
+    public function getCacheKeyInfo()
+    {
+        $items = array(
+            'name' => $this->getNameInLayout(),
+            'types' => $this->getTypes(),
+            'display_mode' => $this->getDisplayMode(),
+            'rotate' => (string) $this->getRotate(),
+            'banner_ids' => implode(',', $this->getBannerIds()),
+            'unique_id' => $this->getUniqueId()
+        );
+
+        $items = parent::getCacheKeyInfo() + $items;
+
+        return $items;
     }
 }
