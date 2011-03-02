@@ -384,8 +384,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->_isCaptureFinal($paidWorkaround);
 
         if (!$this->getParentTransactionId()) {
-            $orderType = Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER;
-            $orderingTransaction = $this->_lookupTransaction(false, $orderType);
+            $orderingTransaction = $this->_lookupTransaction(
+                false,
+                Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
+            );
             if ($orderingTransaction) {
                 $this->setParentTransactionId($orderingTransaction->getTxnId());
             }
@@ -399,12 +401,12 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         Mage::dispatchEvent('sales_order_payment_capture', array('payment' => $this, 'invoice' => $invoice));
 
         /**
-         * Fetch an update about existing transaction.
-         * It can determine whether the transaction can be paid
+         * Fetch an update about existing transaction. It can determine whether the transaction can be paid
          * Capture attempt will happen only when invoice is not yet paid and the transaction can be paid
          */
         if ($invoice->getTransactionId()) {
-            $this->getMethodInstance()->setStore($order->getStoreId())
+            $this->getMethodInstance()
+                ->setStore($order->getStoreId())
                 ->fetchTransactionInfo($this, $invoice->getTransactionId());
         }
         $status = true;
@@ -711,7 +713,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function registerRefundNotification($amount)
     {
-        $requestedRefundAmount = $amount;
         $this->_generateTransactionId(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
             $this->_lookupTransaction($this->getParentTransactionId())
         );
@@ -733,41 +734,32 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $adjustment = array('adjustment_negative' => $baseGrandTotal - $amount);
         }
 
-        $creditmemo = false;
-        $status = true;
-        if ($this->_isRefundFinal($requestedRefundAmount)) {
-            $serviceModel = Mage::getModel('sales/service_order', $order);
-            if ($invoice) {
-                $creditmemo = $serviceModel->prepareInvoiceCreditmemo($invoice, $adjustment);
-            } else {
-                $creditmemo = $serviceModel->prepareCreditmemo($adjustment);
-            }
-
-            $creditmemo->setPaymentRefundDisallowed(true)
-                ->setAutomaticallyCreated(true)
-                ->register()
-                ->addComment(Mage::helper('sales')->__('Credit memo has been created automatically'))
-                ->save();
-
-            $this->_updateTotals(array(
-                'amount_refunded' => $creditmemo->getGrandTotal(),
-                'base_amount_refunded_online' => $amount
-            ));
-
-            $this->setCreatedCreditmemo($creditmemo);
-            // update transactions and order state
-            $message = $this->_prependMessage(
-                Mage::helper('sales')->__('Registered notification about refunded amount of %s.', $this->_formatPrice($amount))
-            );
+        $serviceModel = Mage::getModel('sales/service_order', $order);
+        if ($invoice) {
+            $creditmemo = $serviceModel->prepareInvoiceCreditmemo($invoice, $adjustment);
         } else {
-            $message = $this->_prependMessage(
-                Mage::helper('sales')->__('Refund is suspended as its amount %s is suspected to be fraudulent.', $this->_formatPrice($requestedRefundAmount))
-            );
-            $status = Mage_Sales_Model_Order::STATUS_FRAUD;
+            $creditmemo = $serviceModel->prepareCreditmemo($adjustment);
         }
+
+        $creditmemo->setPaymentRefundDisallowed(true)
+            ->setAutomaticallyCreated(true)
+            ->register()
+            ->addComment(Mage::helper('sales')->__('Credit memo has been created automatically'))
+            ->save();
+
+        $this->_updateTotals(array(
+            'amount_refunded' => $creditmemo->getGrandTotal(),
+            'base_amount_refunded_online' => $amount
+        ));
+
+        $this->setCreatedCreditmemo($creditmemo);
+        // update transactions and order state
         $transaction = $this->_addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo);
+        $message = $this->_prependMessage(
+            Mage::helper('sales')->__('Registered notification about refunded amount of %s.', $this->_formatPrice($amount))
+        );
         $message = $this->_appendTransactionToMessage($transaction, $message);
-        $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, $status, $message);
+        $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
         return $this;
     }
 
@@ -1111,9 +1103,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 //    }
 
     /**
-     * Create transaction, prepare its insertion into hierarchy and add its information to payment and comments
+     * Create transaction, 
+     * prepare its insertion into hierarchy and add its information to payment and comments
      *
-     * To add transactions and related information,
+     * To add transactions and related information, 
      * the following information should be set to payment before processing:
      * - transaction_id
      * - is_transaction_closed (optional) - whether transaction should be closed or open (closed by default)
@@ -1441,23 +1434,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         $orderGrandTotal = sprintf('%.4F', $this->getOrder()->getBaseGrandTotal());
         if ($orderGrandTotal == sprintf('%.4F', ($this->getBaseAmountPaid() + $amountToCapture))) {
-            if (false !== $this->getShouldCloseParentTransaction()) {
-                $this->setShouldCloseParentTransaction(true);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Decide whether authorization transaction may close (if the amount to refund will cover entire order)
-     * @param float $amountToRefund
-     * @return bool
-     */
-    protected function _isRefundFinal($amountToRefund)
-    {
-        $orderGrandTotal = sprintf('%.4F', $this->getOrder()->getBaseGrandTotal());
-        if ($orderGrandTotal == sprintf('%.4F', ($this->getBaseAmountRefunded() + $amountToRefund))) {
             if (false !== $this->getShouldCloseParentTransaction()) {
                 $this->setShouldCloseParentTransaction(true);
             }
