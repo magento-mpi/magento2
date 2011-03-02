@@ -308,7 +308,17 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             ->joinLeft(
                 array('e' => $this->getProductEntityTableName()),
                 implode(' AND ', $productJoinCondition),
-                array('entity_id'))
+                array(
+                    'entity_id' => 'order_items.product_id',
+                    'entity_type_id' => 'e.entity_type_id',
+                    'attribute_set_id' => 'e.attribute_set_id',
+                    'type_id' => 'e.type_id',
+                    'sku' => 'e.sku',
+                    'has_options' => 'e.has_options',
+                    'required_options' => 'e.required_options',
+                    'created_at' => 'e.created_at',
+                    'updated_at' => 'e.updated_at'
+                ))
             ->group('order_items.product_id')
             ->having('SUM(order_items.qty_ordered) > ?', 0);
         return $this;
