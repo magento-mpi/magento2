@@ -28,7 +28,7 @@
 #Manage Stores and related pages
 # 'Manage Stores' page
 manage_store:
-  mca  :
+  mca  : "system_store/"
   title: "Stores / System / Magento Admin"
   uimap:
     form        : &searchStoreGrid
@@ -47,17 +47,18 @@ manage_store:
 
 # 'New Store View' Page
 new_store_view:
-  mca  :
+  mca  : "system_store/newStore/"
   title: "New Store View / Stores / System / Magento Admin"
   uimap:
     form        : &storeViewForm
       xpath       : //form[@id='edit_form']
       fields:
-        store_name            : //select[@id='store_group_id']
         store_view_name       : //input[@id='store_name']
         store_view_code       : //input[@id='store_code']
-        store_view_status     : //select[@id='store_is_active']
         store_view_sort_order : //input[@id='store_sort_order']
+      dropdowns:
+        store_name            : //select[@id='store_group_id']
+        store_view_status     : //select[@id='store_is_active']
       required    : [store_name, store_view_name, store_view_code, store_view_status]
       unique      : [store_view_code]
     page_buttons:
@@ -67,7 +68,7 @@ new_store_view:
 
 # 'Edit Store View' Page
 edit_store_view:
-  mca  :
+  mca  : "system_store/editStore/store_id/%s/"
   title: "%s / Stores / System / Magento Admin"
   uimap:
     form        : *storeViewForm
