@@ -1,0 +1,218 @@
+## YAML Template.
+---
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Manage Customers and related pages
+# 'Manage Customers' page
+manage_customers:
+  mca  : "customer/"
+  title: "Manage Customers / Customers / Magento Admin"
+  uimap:
+    form    : &searchCustomerGrid
+      xpath   : *[@id='customerGrid']
+      fields:
+        id_from : input[@id='filter_entity_id_from']
+        id_to   : input[@id='filter_entity_id_to']
+        name    : input[@id='filter_name']
+        email   : input[@id='filter_email']
+      buttons:
+        reset_filter : button[span='Reset Filter']
+        search       : button[span='Search']
+    page_buttons:
+      add_new_customer  : button[span='Add New Customer']
+    messages:
+      success_msg : "div[@id='messages']//li[span='The customer has been saved.']"
+
+# 'New Customer' Page
+new_customer:
+  mca  :  "customer/new/"
+  title: "New Customer / Manage Customers / Customers / Magento Admin"
+  uimap:
+  - form        : &newCustomerForm
+      xpath       : div[@id='page:main-container']
+      - tab_account_information : a[@id='customer_info_tabs_account']
+        - fieldset_account_info : div[@id='_accountbase_fieldset']
+          checkbox :  
+            send_welcome_email    : input[@id='_accountsendemail']
+          dropdown :
+            associate_to_website  : select[@id='_accountwebsite_id']
+            group                 : select[@id='_accountgroup_id']
+            gender                : select[@id='_accountgender']
+            send_from             : select[@id='_accountsendemail_store_id']
+          fields :
+            prefix                : input[@id='_accountprefix']
+            first_name            : input[@id='_accountfirstname']
+            middle_name_initial   : input[@id='_accountmiddlename']
+            last_name             : input[@id='_accountlastname']
+            suffix                : input[@id='_accountsuffix']
+            email                 : input[@id='_accountemail']
+            date_of_birth         : input[@id='_accountdob']
+            tax_vat_number        : input[@id='_accounttaxvat']
+          required : [associate_to_website, group, first_name, last_name, email]
+          unique    : [email]
+        - fieldset_password     : div[@id='_accountpassword_fieldset']
+          checkbox :  
+            auto_generated_password      : input[@id='account-send-pass']
+          fields :
+            password                     : input[@id='_accountpassword']
+          required : [password]
+      - tab_addresses           : a[@id='customer_info_tabs_addresses']
+        - fieldset_customer_addresses  : div[@id='_item%address_number%address_fieldset']
+          buttons :
+            add_new_address              : button[span='Add New Address']
+            delete_address               : img[@id='delete_button%address_number%1']
+            edit_address                 : img[@id='select_button_%address_number%']
+          radiobuttons :
+            default_billing_address      : input[@id='address_item_billing_item%address_number%']
+            default_shipping_address     : input[@id='address_item_shipping_item%address_number%']
+        - fieldset_edit_address : div[@id='_item%address_number%address_fieldset']
+          dropdown :
+            country               : select[@id='_item%address_number%country_id']
+            state_province        : select[@id='_item%address_number%region_id']
+          fields :
+            prefix                : input[@id='_item%address_number%prefix']
+            first_name            : input[@id='_item%address_number%firstname']
+            middle_name_initial   : input[@id='_item%address_number%middlename']
+            last_name             : input[@id='_item%address_number%lastname']
+            suffix                : input[@id='_item%address_number%suffix']
+            company               : input[@id='_item%address_number%company']
+            street_address_line_1 : input[@id='_item%address_number%street0']
+            street_address_line_2 : input[@id='_item%address_number%street1']
+            city                  : input[@id='_item%address_number%city']
+            state_province        : input[@id='_item%address_number%region']
+            zip_postal_code       : input[@id='_item%address_number%postcode']
+            telephone             : input[@id='_item%address_number%telephone']
+            fax                   : input[@id='_item%address_number%fax']
+        required : [first_name, last_name, street_address_line_1, city, country, zip_postal_code, telephone]
+    page_buttons:
+      back                        : button[span='Back']
+      reset                       : button[span='Reset']
+      save_customer               : button[span='Save Customer']
+      save_and_continue_edit      : button[span='Save and Continue Edit']
+    messages:
+      success_msg                 : div[@id='messages']//li[span='The customer has been saved.']
+
+
+ # 'Edit Customer' Page
+ # на данный момент описаны элементы только accaunt info и addresses табов
+ #
+edit_customer:
+  mca  :  "edit/id/%customers_id%"
+  title: "%customers_id% / Manage Customers / Customers / Magento Admin"
+  uimap:
+    form        : &editCustomerForm
+      xpath       : div[@id='page:main-container']
+      - tab_customer_view:        //a[@id='customer_info_tabs_customer_edit_tab_view']   #нужна ли эта таба или ну ее к чертям?
+        # тут есть есть доусрачки филдсетов, но они нахрен не нужны
+      - tab_account_information:  //a[@id='customer_info_tabs_account']
+        - fieldset_account_info : div[@id='_accountbase_fieldset']
+          dropdown :
+            # associate_to_website  : select[@id='_accountwebsite_id']   тк он не активный
+            group                 : select[@id='_accountgroup_id']
+            gender                : select[@id='_accountgender']
+            send_from             : select[@id='_accountsendemail_store_id']
+          fields :
+            prefix                : input[@id='_accountprefix']
+            first_name            : input[@id='_accountfirstname']
+            middle_name_initial   : input[@id='_accountmiddlename']
+            last_name             : input[@id='_accountlastname']
+            suffix                : input[@id='_accountsuffix']
+            email                 : input[@id='_accountemail']
+            date_of_birth         : input[@id='_accountdob']
+            tax_vat_number        : input[@id='_accounttaxvat']
+          required : [group, first_name, last_name, email]
+          unique    : [email]
+        - fieldset_password     : div[@id='_accountpassword_fieldset']
+          checkbox :  
+            auto_generated_password      : input[@id='account-send-pass']
+          fields :
+            new_password                     : input[@id='_accountnew_password']
+          required : [password]
+      - tab_addresses:            //a[@id='customer_info_tabs_addresses']
+        - fieldset_customer_addresses  : div[@id='_item%address_number%address_fieldset']
+          buttons :
+            add_new_address              : button[span='Add New Address']
+            delete_address               : img[@id='delete_button%address_number%1']
+            edit_address                 : img[@id='select_button_%address_number%']
+          radiobuttons :
+            default_billing_address      : input[@id='address_item_billing_item%address_number%']
+            default_shipping_address     : input[@id='address_item_shipping_item%address_number%']
+        - fieldset_edit_address : div[@id='_item%address_number%address_fieldset']
+          dropdown :
+            country               : select[@id='_item%address_number%country_id']
+            state_province        : select[@id='_item%address_number%region_id']
+          fields :
+            prefix                : input[@id='_item%address_number%prefix']
+            first_name            : input[@id='_item%address_number%firstname']
+            middle_name_initial   : input[@id='_item%address_number%middlename']
+            last_name             : input[@id='_item%address_number%lastname']
+            suffix                : input[@id='_item%address_number%suffix']
+            company               : input[@id='_item%address_number%company']
+            street_address_line_1 : input[@id='_item%address_number%street0']
+            street_address_line_2 : input[@id='_item%address_number%street1']
+            city                  : input[@id='_item%address_number%city']
+            state_province        : input[@id='_item%address_number%region']
+            zip_postal_code       : input[@id='_item%address_number%postcode']
+            telephone             : input[@id='_item%address_number%telephone']
+            fax                   : input[@id='_item%address_number%fax']
+        required : [first_name, last_name, street_address_line_1, city, country, zip_postal_code, telephone]
+      - tab_orders:            a[@id='customer_info_tabs_orders']
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_billing_agremnts:  a[@id='customer_info_tabs_customer_edit_tab_agreements']
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_recuring_profiles: a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']   #судя по всему эта таба также не особо нужна...
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_shopping_cart:     a[@id='customer_info_tabs_cart']
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_wishlist:          a[@id='customer_info_tabs_wishlist']
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_newsletters:       a[@id='customer_info_tabs_newsletter']
+        #1
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_product_review:    a[@id='customer_info_tabs_reviews']
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_product_tags:      a[@id='customer_info_tabs_tags']
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_store_credit:      a[@id='customer_info_tabs_customerbalance']
+        #1
+        #2
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_gift_registry:     a[@id='customer_info_tabs_giftregistry']
+        #тут надо описывать поисковую форму, пока хз как именно
+      - tab_reward_points:     a[@id='customer_info_tabs_customer_edit_tab_reward']
+        #1
+        #2
+        #3
+        #4
+    page_buttons:
+      back                   : button[span='Back']
+      reset                  : button[span='Reset']
+      create_order           : button[span='Create Order']
+      delete_customer        : button[span='Delete Customer']
+      save_customer          : button[span='Save Customer']
+      save_and_continue_edit : button[span='Save and Continue Edit']
