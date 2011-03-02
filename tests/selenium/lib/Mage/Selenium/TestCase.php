@@ -196,4 +196,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
         // @TODO
     }
 
+
+    /**
+     * Get node from data configuration by path
+     * 
+     * @param string $path
+     * @return array|string
+     */
+    protected function _getData($path)
+    {
+        return Mage_Selenium_TestConfiguration::getData($path);
+    }
+
+    /**
+     * Get node from uimap data configuration by path
+     *
+     * @param string $path
+     * @return array|string
+     */
+    protected function _getUimapData($path)
+    {
+        return Mage_Selenium_TestConfiguration::getUimapData($path);
+    }
+
 }

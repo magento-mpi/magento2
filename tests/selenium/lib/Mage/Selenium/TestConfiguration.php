@@ -33,6 +33,8 @@
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+require_once('SymfonyComponents/YAML/sfYaml.php');
+
 class Mage_Selenium_TestConfiguration
 {
 
@@ -64,6 +66,27 @@ class Mage_Selenium_TestConfiguration
     public static $browser = null;
 
     /**
+     * Data configuration
+     * 
+     * @var array
+     */
+    protected static $_data = array();
+
+    /**
+     * Uimap data configuration
+     *
+     * @var array
+     */
+    protected static $_uimapData = array();
+
+    /**
+     * Loaded configuration files
+     *
+     * @var array[filename]Mage_Selenium_YamlConfig
+     */
+    protected static $_configs = array();
+
+    /**
      * Initializes test configuration
      */
     public static function init()
@@ -84,6 +107,137 @@ class Mage_Selenium_TestConfiguration
 
         // @TODO implement interations outside
         self::$browser = self::$_browsers[0];
+
+        //var_dump(self::getConfig('browsers', 'browsers/firefox36/browser'));
+        //var_dump($this->_getData('product_attribute_textfield/attribute_code'));
+        //var_dump($this->_getUimapData('frontend/customer_account_create/title'));
+
     }
 
+    /**
+     * Retrieve value from configuration
+     *
+     * @param string $file - filename without an extension (.yml is the default filename extension)
+     * @param string $path - xpath-like path to config value
+     * @return array
+     */
+    public static function getConfig($file, $path = '')
+    {
+        if (!isset(self::$_configs[$file])) {
+            $filename = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $file . '.yml';
+
+            if ($file && file_exists($filename)) {
+                $config = self::$_configs[$file] = sfYaml::load($filename);
+            } else {
+                return false;
+            }
+        } else {
+            $config = self::$_configs[$file];
+        }
+
+        return self::_descend($config, $path);
+    }
+
+    /**
+     * Get node|value by path
+     *
+     * @param array $config
+     * @param string $path
+     * @return array|string
+     */
+    protected static function _descend($config, $path)
+    {
+        $pathArr = (!empty($path)) ? explode('/', $path) : '';
+
+        $currNode = $config;
+        if (!empty($pathArr)) {
+            foreach ($pathArr as $node) {
+                if (isset($currNode[$node])) {
+                    $currNode = $currNode[$node];
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return $currNode;
+    }
+
+    /**
+     * Retrieve value from data configuration by path
+     * 
+     * @param string $path
+     * @return array|string
+     */
+    public static function getData($path = '')
+    {
+        if (empty(self::$_data)) {
+            self::_loadData();
+        }
+        
+        return self::_descend(self::$_data, $path);
+    }
+
+    /**
+     * Load and merge data files
+     */
+    protected static function _loadData()
+    {
+        $dataDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data';
+        $data = array();
+        
+        $files = glob($dataDir . DIRECTORY_SEPARATOR . '*.yml');
+
+        if (!empty($files)) {
+            foreach ($files as $file) {
+                if (is_readable($file)) {
+                    $fileData = sfYaml::load($file);
+                    $data = array_merge_recursive($data, $fileData);
+                }
+            }
+        }
+
+        self::$_data = $data;
+    }
+
+
+    /**
+     * Retrieve value from uimap data configuration by path
+     *
+     * @param string $path
+     * @return array|string
+     */
+    public static function getUimapData($path = '')
+    {
+        if (empty(self::$_uimapData)) {
+            self::_loadUimapData('admin');
+            self::_loadUimapData('frontend');
+        }
+
+        return self::_descend(self::$_uimapData, $path);
+    }
+
+    /**
+     * Load and merge data files
+     *
+     * @param string $area 'admin'|'frontend'
+     */
+    protected static function _loadUimapData($area)
+    {
+        $dataDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'uimaps' . DIRECTORY_SEPARATOR . $area;
+        $uimapsData[$area] = array();
+
+        $files = glob($dataDir . DIRECTORY_SEPARATOR . '*.yml');
+
+        if (!empty($files)) {
+            foreach ($files as $file) {
+                if (is_readable($file)) {
+                    $fileData = sfYaml::load($file);
+                    $uimapsData[$area] = array_merge_recursive($uimapsData[$area], $fileData);
+                }
+            }
+        }
+
+        self::$_uimapData[$area] = $uimapsData[$area];
+    }
 }
