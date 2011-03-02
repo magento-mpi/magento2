@@ -29,65 +29,72 @@
 
 # Manage Product Attributes page
 manage_attributes:
-  mca     : "catalog_product_attribute/index"
-  title   : "Manage Attributes / Attributes / Catalog / Magento Admin"
+  mca     : catalog_product_attribute/index
+  title   : Manage Attributes / Attributes / Catalog / Magento Admin
   uimap   :
     form      :
-      xpath   : "div[@id='page:main-container']"
+      xpath   : div[@id='page:main-container']
     buttons :
-      add_new_attribute: "button[span='Add New Attribute']"
+      add_new_attribute: button[span='Add New Attribute']
     messages:
-      success_msg : "div[@id='messages']//li[span='The product attribute has been saved.']"
-    links   :
+      success_msg : div[@id='messages']//li[span='The product attribute has been saved.']
 
 # Add New Product Attribute page
 new_product_attribute:
-  mca     : "catalog_product_attribute/new"
-  title   : "New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin"
+  mca     : catalog_product_attribute/new
+  title   : New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
   uimap   :
     form  :
-      xpath   : "div[@id='page:main-container']"
-      fields  :
-        attribute_code: "input[@id='attribute_code']"
-        default_value : "input[@id='default_value_text']"
-        position      : "input[@id='position']"
-        manage_titles:
-        # ?  admin : ""
-        manage_options:
-        # ?  admin : ""
-        # ?  position  : ""
-        # ?  is_default  : ""
-      dropdowns:
-        scope           : "select[@id='is_global']"
-        catalog_input_type_for_store_owner  : "select[@id='frontend_input']"
-        unique_value    : "select[@id='is_unique']"
-        values_required : "select[@id='is_required']"
-        input_validation_for_store_owner    : "select[@id='frontend_class']"
-        # ? apply_to      : ""
-        use_in_quick_search       : "select[@id='is_searchable']"
-        use_in_advanced_search    : "select[@id='is_visible_in_advanced_search']"
-        comparable_on_frontend    : "select[@id='is_comparable']"
-        use_in_layered_navigation : "select[@id='is_filterable']"
-        use_in_search_results_layered_navigation  : "select[@id='is_filterable_in_search']"
-        use_for_promo_rule_conditions : "select[@id='is_used_for_promo_rules']"
-        enable_wysiwyg  : "select[@id='is_wysiwyg_enabled']"
-        allow_html_tags_on_frontend   : "select[@id='is_html_allowed_on_front']"
-        visible_on_product_view_page_on_frontend  : "select[@id='is_visible_on_front']"
-        used_in_product_listing       : "select[@id='used_in_product_listing']"
-        used_for_sorting_in_product_listing : "select[@id='used_for_sort_by']"
-      multiselect:
-        apply_to  : "select[@id='apply_to']"
-      tabs:
-        properties  : "a[@id='product_attribute_tabs_main']"
-        manage_label_options  : "a[@id='product_attribute_tabs_labels']"
-      required  : [attribute_code, apply_to, admin_title, admin_option]
-    buttons :
-      back  : "button[span='Back']"
-      reset : "button[span='Reset']"
-      save_attribute  : "button[span='Save Attribute']"
-      save_and_continue_edit  : "button[span='Save and Continue Edit']"
-      manage_options  :
-        add_option  : "button[@id='add_new_option_button']"
-      # ?  delete_option : ""
-    messages:
-    links   :
+      xpath   : div[@id='page:main-container']
+      - tab_properties  : a[@id='product_attribute_tabs_main']
+        - fieldset_attribute_properties : #?????
+          dropdowns:
+            catalog_input_type_for_store_owner  : select[@id='frontend_input']
+            unique_value                        : select[@id='is_unique']
+            scope                               : select[@id='is_global']
+            values_required                     : select[@id='is_required']
+            input_validation_for_store_owner    : select[@id='frontend_class']
+            # ? apply_to      : ""
+          fields  :
+            attribute_code  : input[@id='attribute_code']
+            default_value   : input[@id='default_value_text']
+          multiselect :
+            apply_to        : select[@id='apply_to']
+          required  : [attribute_code, apply_to]
+        - fieldset_frontend_properties	: #?????
+          dropdowns:
+            use_in_quick_search       : select[@id='is_searchable']
+            use_in_advanced_search    : select[@id='is_visible_in_advanced_search']
+            comparable_on_frontend    : select[@id='is_comparable']
+            use_in_layered_navigation : select[@id='is_filterable']
+            enable_wysiwyg            : select[@id='is_wysiwyg_enabled']
+            used_in_product_listing       : select[@id='used_in_product_listing']
+            allow_html_tags_on_frontend   : select[@id='is_html_allowed_on_front']
+            use_for_promo_rule_conditions : select[@id='is_used_for_promo_rules']
+            used_for_sorting_in_product_listing       : select[@id='used_for_sort_by']
+            use_in_search_results_layered_navigation  : select[@id='is_filterable_in_search']
+            visible_on_product_view_page_on_frontend  : select[@id='is_visible_on_front']
+          fields  :
+            position      : input[@id='position']
+      - tab_manage_lables_options : a[@id='product_attribute_tabs_labels']
+        - fieldset_manage_titles	: #?????
+          fields:
+            admin_title : input[@name='frontend_label[0]']
+            storeview_title : input[@name='frontend_label[%storeId%]']
+            required  : [admin_title]
+        - fieldset_manage_options	: #?????
+          buttons :
+            add_option  : button[@id='add_new_option_button']
+            delete_option : #???????
+          checkbox  :
+            is_default  : input[@name='default[]' and @value='option_%defaultOptionId%']
+          fields  :
+            option_position   : input[@name='option[order][option_%optionId%]']
+            admin_option      : input[@name='option[value][option_0][0]']
+            storeview_option  : input[@name='option[value][option_%optionId%][%storeId%]']
+            required  : [admin_option]
+      buttons :
+        back  : button[span='Back']
+        reset : button[span='Reset']
+        save_attribute          : button[span='Save Attribute']
+        save_and_continue_edit  : button[span='Save and Continue Edit']
