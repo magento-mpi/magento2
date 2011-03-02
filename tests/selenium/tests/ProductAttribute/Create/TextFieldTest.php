@@ -36,14 +36,48 @@
 class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
 {
 
-    /**
-     * @TODO
+    /*
+     * Preconditions
+     * Admin user should be logged in.
+     * Should stays on the Admin Dashboard page after login
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->assertTrue($this->loginAdminUser());
+        $this->assertTrue($this->admin('dashboard'));
     }
 
+    public function test_Navigation()
+    {
+        $this->assertTrue($this->navigate('manage_attributes'));
+        $this->assertTrue($this->clickButton('add_new_attribute'),
+                'There is no "Add New Attribute" button on the page');
+        $this->assertTrue($this->navigated('new_product_attribute'),
+                'Wrong page is displayed');
+        $this->assertTrue($this->navigate('new_product_attribute'),
+                'Wrong page is displayed when accessing direct URL');
+        $this->assertTrue($this->controlIsPresent('field','attribute_code'),
+                'There is no "Attribute Code" field on the page');
+        $this->assertTrue($this->controlIsPresent('field','apply_to'),
+                'There is no "Apply To" dropdown on the page');
+        $this->assertTrue($this->controlIsPresent('field','admin_title'),
+                'There is no "Admin Title" field on the page');
+    }
+
+    /**
+     * Create new Text Field type Product Attribute by using required fields only
+     */
+    public function test_WithRequiredFieldsOnly()
+    {
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->data('product_attribute_textfield', null, 'attribute_code'));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+    }
 
     /**
      * @TODO
@@ -94,10 +128,10 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * DONE
      */
     public function test_OnProductPage_WithRequiredFieldsOnly()
     {
-        // @TODO
+       //   @TODO
     }
 }

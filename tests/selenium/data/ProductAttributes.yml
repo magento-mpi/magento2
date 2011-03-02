@@ -25,38 +25,189 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-# Test Dataset for Add New Product Attribute
-new_product_attribute:
-  properties:
-    attribute_code  : 'attribute_code'
-    scope           : 'Global'
-    catalog_input_type_for_store_owner  : 'Text Field'
-    default_value:
-      text          : 'Default Value'
-      textarea      : 'Default Value'
-      date          : '11/11/11'
-      yesno         : 'Yes'
-      price         : '00.0'
-    unique_value  : 'No'
-    values_required : 'no'
-    input_validation_for_store_owner  : 'None'
-    apply_to      : 'All Product Types'
-    use_in_quick_search       : 'No'
-    use_in_advanced_search    : 'No'
-    comparable_on_frontend    : 'No'
-    use_in_layered_navigation : 'No'
-    use_in_search_results_layered_navigation  : 'No'
-    use_for_promo_rule_conditions : 'No'
-    position      : '1'
-    enable_wysiwyg  : 'No'
-    allow_html_tags_on_frontend   : 'No'
-    visible_on_product_view_page_on_frontend  : 'No'
-    used_in_product_listing       : 'No'
-    used_for_sorting_in_product_listing : 'No'
-  manage_label_options:
-    manage_titles:
-      admin : 'Product Attribute Title'
-    manage_options:
-      admin : 'Option'
-      position  : '1'
-      is_default  : ''
+# Test Datasets for Add New Product Attribute for each types
+# Current limitations:
+# - 'Scope' for all test is 'Global'
+# - 'Apply To' is 'All Product Types'
+# - Attributes will not assigned for using in Layered Navigation
+
+# Test Datasets for Add New TextField type Product Attribute
+product_attribute_textfield:
+  # Unique code for the new attribute
+  attribute_code  : attribute_textfield_code
+  # Ccope of attribute's using
+  scope           : Global
+  # Type of new attribute
+  catalog_input_type_for_store_owner  : Text Field
+  # Default value of new attribute (not for all types)
+  default_value : Text Field Default Value
+  # Value of this attribute should be unique ?
+  unique_value  : No
+  # Value for this attribute should be required ?
+  values_required : No
+  # Validation is needed ?
+  input_validation_for_store_owner  : None
+  # What kind of product's type may use this attribute ?
+  apply_to      : All Product Types
+  # Front-end properties
+  use_in_quick_search       : No
+  use_in_advanced_search    : No
+  comparable_on_frontend    : No    
+  use_for_promo_rule_conditions : No
+  allow_html_tags_on_frontend   : No
+  visible_on_product_view_page_on_frontend  : No
+  used_in_product_listing       : No
+  used_for_sorting_in_product_listing : No
+  manage_titles:
+  - admin : Text Field Product Attribute Title
+
+# Test Datasets for Add New TextArea type Product Attribute
+product_attribute_textarea:
+  scope           : Global
+  apply_to        : All Product Types
+  default_value   : Text Area Default Value
+  attribute_code  : attribute_textarea_code
+  unique_value    : No
+  values_required : No
+  enable_wysiwyg  : No
+  use_in_quick_search           : No
+  use_in_advanced_search        : No
+  comparable_on_frontend        : No
+  used_in_product_listing       : No
+  allow_html_tags_on_frontend   : No
+  use_for_promo_rule_conditions : No
+  catalog_input_type_for_store_owner        : Text Area
+  visible_on_product_view_page_on_frontend  : No
+  manage_titles:
+  - admin : Text Area Product Attribute Title
+
+# Test Datasets for Add New Date type Product Attribute
+product_attribute_date:
+  attribute_code  : attribute_date_code
+  scope           : Global
+  catalog_input_type_for_store_owner  : Date
+  default_value: 11/11/11
+  unique_value  : No
+  values_required : No
+  apply_to      : All Product Types
+  use_in_quick_search       : No
+  use_in_advanced_search    : No
+  comparable_on_frontend    : No
+  use_for_promo_rule_conditions : No
+  visible_on_product_view_page_on_frontend  : No
+  used_in_product_listing       : No
+  used_for_sorting_in_product_listing : No
+  manage_titles:
+  - admin : Date Product Attribute Title
+
+# Test Datasets for Add New Yes/No type Product Attribute
+product_attribute_yesno:
+  attribute_code  : attribute_yesno_code
+  scope           : Global
+  catalog_input_type_for_store_owner  : Yes/No
+  default_value : Yes
+  unique_value  : No
+  values_required : no
+  apply_to      : All Product Types
+  use_in_quick_search       : No
+  use_in_advanced_search    : No
+  comparable_on_frontend    : No
+  use_for_promo_rule_conditions : No
+  visible_on_product_view_page_on_frontend  : No
+  used_in_product_listing       : No
+  used_for_sorting_in_product_listing : No
+  manage_titles:
+  - admin : Yes/No Product Attribute Title
+
+# Test Datasets for Add New MultipleSelect type Product Attribute
+product_attribute_multiselect:
+  attribute_code  : attribute_multiselect_code
+  scope           : Global
+  catalog_input_type_for_store_owner  : Multiple Select
+  unique_value  : No
+  values_required : no
+  apply_to      : All Product Types
+  use_in_quick_search       : No
+  use_in_advanced_search    : No
+  comparable_on_frontend    : No
+  use_in_layered_navigation : No
+  use_in_search_results_layered_naigation  : No
+  use_for_promo_rule_conditions : No
+#  position      : 1
+  visible_on_product_view_page_on_frontend  : No
+  used_in_product_listing       : No
+#  used_for_sorting_in_product_listing : No
+  manage_titles:
+  - admin : Multiple Select Product Attribute Title
+  manage_options:
+  - admin : Multiple Select Option
+    - position    : 0
+      is_default  : 1
+
+# Test Datasets for Add New Dropdown type Product Attribute
+product_attribute_dropdown:
+  attribute_code  : attribute_dropdown_code
+  scope           : Global
+  catalog_input_type_for_store_owner  : Dropdown
+  unique_value  : No
+  values_required : no
+  apply_to      : All Product Types
+  # 'Use To Create Configurable Product' is Dropdown specific parameter
+  use_to_create_configurable_product  : No
+  use_in_quick_search       : No
+  use_in_advanced_search    : No
+  comparable_on_frontend    : No
+  use_in_layered_navigation : No
+  use_in_search_results_layered_naigation  : No
+  use_for_promo_rule_conditions : No
+#  position      : 1
+  visible_on_product_view_page_on_frontend  : No
+  used_in_product_listing       : No
+  used_for_sorting_in_product_listing : No
+  manage_titles:
+  - admin : Dropdown Product Attribute Title
+  manage_options:
+  - admin : Dropdown Option
+    - position    : 0
+      is_default  : 1
+
+# Test Datasets for Add New Price type Product Attribute
+product_attribute_price:
+  attribute_code  : attribute_price_code
+  scope           : Global
+  catalog_input_type_for_store_owner  : Price
+  default_value : 00.00
+  unique_value  : No
+  values_required : no
+  apply_to      : All Product Types
+  use_in_quick_search       : No
+  use_in_advanced_search    : No
+  comparable_on_frontend    : No
+  use_in_layered_navigation : No
+  use_in_search_results_layered_naigation  : No
+  use_for_promo_rule_conditions : No
+#  position      : 1
+  visible_on_product_view_page_on_frontend  : No
+  used_in_product_listing       : No
+  used_for_sorting_in_product_listing : No
+  manage_titles:
+  - admin : Price Product Attribute Title
+
+# Test Datasets for Add New MediaImage type Product Attribute
+product_attribute_mediaimage:
+  scope           : Global
+  apply_to        : All Product Types
+  attribute_code  : attribute_mediaimage_code
+  catalog_input_type_for_store_owner  : Media Image
+  manage_titles:
+  - admin : Media Image Product Attribute Title
+
+# Test Datasets for Add New FixedProductTax type Product Attribute
+product_attribute_fpt:
+  attribute_code  : attribute_fpt_code
+    # FTP type attribute works without 'Scope'
+      #  scope  : Global
+  catalog_input_type_for_store_owner  : Fixed Product Tax
+  apply_to      : All Product Types
+  manage_titles:
+  - admin : Fixed Product Tax Product Attribute Title

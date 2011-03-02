@@ -37,7 +37,7 @@ manage_attributes:
     buttons :
       add_new_attribute: button[span='Add New Attribute']
     messages:
-      success_msg : div[@id='messages']//li[span='The product attribute has been saved.']
+      success : div[@id='messages']//li[span='The product attribute has been saved.']
 
 # Add New Product Attribute page
 new_product_attribute:
@@ -47,21 +47,22 @@ new_product_attribute:
     form  : &newProductAttributeForm
       xpath   : div[@id='page:main-container']
       - tab_properties  : a[@id='product_attribute_tabs_main']
-        - fieldset_attribute_properties : #?????
+        - fieldset_attribute_properties : #? TO DO ?
           dropdowns:
             catalog_input_type_for_store_owner  : select[@id='frontend_input']
             unique_value                        : select[@id='is_unique']
             scope                               : select[@id='is_global']
-            apply_to                            : #?????
+            apply_to                            : #? TO DO ?
             values_required                     : select[@id='is_required']
             input_validation_for_store_owner    : select[@id='frontend_class']
+            use_to_create_configurable_product  : #? TO DO ?
           fields  :
             attribute_code  : input[@id='attribute_code']
             default_value   : input[@id='default_value_text']
           multiselect :
             apply_to        : select[@id='apply_to']
           required  : [attribute_code, apply_to]
-        - fieldset_frontend_properties	: #?????
+        - fieldset_frontend_properties	: #? TO DO ?
           dropdowns:
             use_in_quick_search       : select[@id='is_searchable']
             use_in_advanced_search    : select[@id='is_visible_in_advanced_search']
@@ -77,15 +78,15 @@ new_product_attribute:
           fields  :
             position      : input[@id='position']
       - tab_manage_lables_options : a[@id='product_attribute_tabs_labels']
-        - fieldset_manage_titles	: #?????
+        - fieldset_manage_titles	: #? TO DO ?
           fields:
             admin_title : input[@name='frontend_label[0]']
             storeview_title : input[@name='frontend_label[%storeId%]']
             required  : [admin_title]
-        - fieldset_manage_options	: #?????
+        - fieldset_manage_options	: #? TO DO ?
           buttons :
             add_option  : button[@id='add_new_option_button']
-            delete_option : #???????
+            delete_option : #? TO DO ?
           checkbox  :
             is_default  : input[@name='default[]' and @value='option_%defaultOptionId%']
           fields  :
