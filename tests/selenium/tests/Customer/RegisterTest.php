@@ -27,7 +27,7 @@
  */
 
 /**
- * @TODO
+ * Customer registration tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -74,7 +74,10 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->navigate('my_account'));
         $this->assertTrue($this->clickButton('register'), 'There is no "Register" button on the page');
         $this->assertTrue($this->navigated('customer_account_create'), 'Wrong page is displayed');
-        $this->assertTrue($this->navigate('customer_account_create'), 'Wrong page is displayed when accessing direct URL');
+        $this->assertTrue(
+            $this->navigate('customer_account_create'),
+            'Wrong page is displayed when accessing direct URL'
+        );
         $this->assertTrue($this->controlIsPresent('link','back'), 'There is no "Back" link on the page');
     }
 
@@ -88,7 +91,10 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->clickButton('submit');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
-        $this->assertTrue($this->navigated('customer_account_index'), 'After succesfull registration customer should be redirected to account dashboard');
+        $this->assertTrue(
+            $this->navigated('customer_account_index'),
+            'After succesfull registration customer should be redirected to account dashboard'
+        );
     }
 
     public function testLongValues()
@@ -102,7 +108,10 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->clickButton('submit');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
-        $this->assertTrue($this->navigated('customer_account_index'), 'After succesfull registration customer should be redirected to account dashboard');
+        $this->assertTrue(
+            $this->navigated('customer_account_index'),
+            'After succesfull registration customer should be redirected to account dashboard'
+        );
     }
     
 }

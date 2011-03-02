@@ -51,7 +51,7 @@ class Mage_Selenium_Uid
     protected $_prefix = null;
 
     /**
-     * Constructor
+     * Constructor, initializes the instance with generated value
      */
     public function __construct()
     {
@@ -62,7 +62,6 @@ class Mage_Selenium_Uid
     /**
      * Generates unique identifier
      *
-     * @param string|null $prefix
      * @return string
      */
     public function generate()
