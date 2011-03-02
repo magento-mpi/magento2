@@ -26,7 +26,7 @@
 
 /**
  * Google Checkout XML API processing model
- * 
+ *
  * @category    Mage
  * @package     Mage_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -50,7 +50,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Mod
 
     /**
      * @deprecated after 0.8.16100
-     * 
+     *
      * @var string
      */
     protected $_currency;
@@ -75,7 +75,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Checkout extends Mage_GoogleCheckout_Mod
     }
 
     /**
-     * Send checkout data to google 
+     * Send checkout data to google
      *
      * @return Mage_GoogleCheckout_Model_Api_Xml_Checkout
      */
@@ -219,7 +219,7 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId);
+        $active = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId);
         if (!$active) {
             return '';
         }
@@ -248,7 +248,11 @@ EOT;
      */
     protected function _getMerchantPrivateItemDataXml($item)
     {
-        $xml = "<merchant-private-item-data><quote-item-id>{$item->getId()}</quote-item-id></merchant-private-item-data>";
+        $xml = <<<EOT
+            <merchant-private-item-data>
+                <quote-item-id>{$item->getId()}</quote-item-id>
+            </merchant-private-item-data>
+EOT;
         return $xml;
     }
 
@@ -270,7 +274,7 @@ EOT;
 
     /**
      * Retrieve quote expiration XML
-     * 
+     *
      * @return string
      */
     protected function _getCartExpirationXml()
@@ -310,7 +314,10 @@ EOT;
      */
     protected function _getRequestBuyerPhoneNumberXml()
     {
-        $requestPhone = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_REQUEST_PHONE, $this->getQuote()->getStoreId());
+        $requestPhone = Mage::getStoreConfig(
+            Mage_GoogleCheckout_Helper_Data::XML_PATH_REQUEST_PHONE,
+            $this->getQuote()->getStoreId()
+        );
         $requestPhone = $requestPhone ? 'true' : 'false';
         $xml = <<<EOT
             <request-buyer-phone-number>{$requestPhone}</request-buyer-phone-number>
@@ -390,25 +397,40 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
+        $active = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
         $methods = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_METHODS, $storeId);
 
         if (!$active || !$methods) {
             return '';
         }
 
-        $country    = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId);
-        $region     = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId);
-        $postcode   = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId);
-        $city       = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId);
+        $country  = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId);
+        $region   = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId);
+        $postcode = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId);
+        $city     = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId);
 
-        $defPrice   = (float)Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_PRICE, $storeId);
-        $width      = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_WIDTH, $storeId);
-        $height     = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_HEIGHT, $storeId);
-        $length     = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_LENGTH, $storeId);
-        $sizeUnit   = self::ITEM_SIZE_UNIT;
+        $defPrice = (float)Mage::getStoreConfig(
+            Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_PRICE,
+            $storeId
+        );
+        $width = Mage::getStoreConfig(
+            Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_WIDTH,
+            $storeId
+        );
+        $height = Mage::getStoreConfig(
+            Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_HEIGHT,
+            $storeId
+        );
+        $length = Mage::getStoreConfig(
+            Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_LENGTH,
+            $storeId
+        );
+        $sizeUnit = self::ITEM_SIZE_UNIT;
 
-        $addressCategory = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY, $storeId);
+        $addressCategory = Mage::getStoreConfig(
+            Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY,
+            $storeId
+        );
         $defPrice = (float) Mage::helper('tax')->getShippingPrice($defPrice, false, false);
 
         $this->getQuote()->getShippingAddress()
@@ -448,9 +470,12 @@ EOT;
                 if (empty($shippingMethodsList[$methodName])) {
                     continue;
                 }
-                $freeMethodsList[$methodName] = array('company' => $map['googleCarrierCompany'], 'type' => $googleRateCode);
+                $freeMethodsList[$methodName] = array(
+                    'company' => $map['googleCarrierCompany'],
+                    'type' => $googleRateCode
+                );
                 unset($shippingMethodsList[$methodName]);
-            }   
+            }
         }
 
         $xml = '';
@@ -501,7 +526,7 @@ EOT;
 
     /**
      * Generate flat rate shipping XML
-     * 
+     *
      * @return string
      */
     protected function _getFlatRateShippingXml()
@@ -526,13 +551,19 @@ EOT;
 
         $xml = '';
         for ($i = 1; $i <= 3; $i++) {
-            $title              = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_' . $i, $storeId);
-            $price              = (float)Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
-            $price              = number_format($price, 2, '.', '');
-            $price              = (float)Mage::helper('tax')->getShippingPrice($price, false, false);
-            $allowSpecific      = Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/sallowspecific_' . $i, $storeId);
-            $specificCountries  = Mage::getStoreConfig('google/checkout_shipping_flatrate/specificcountry_' . $i, $storeId);
-            $allowedAreasXml    = $this->_getAllowedCountries($allowSpecific, $specificCountries);
+            $title         = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_' . $i, $storeId);
+            $price         = (float)Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
+            $price         = number_format($price, 2, '.', '');
+            $price         = (float)Mage::helper('tax')->getShippingPrice($price, false, false);
+            $allowSpecific = Mage::getStoreConfigFlag(
+                'google/checkout_shipping_flatrate/sallowspecific_' . $i,
+                $storeId
+            );
+            $specificCountries = Mage::getStoreConfig(
+                'google/checkout_shipping_flatrate/specificcountry_' . $i,
+                $storeId
+            );
+            $allowedAreasXml = $this->_getAllowedCountries($allowSpecific, $specificCountries);
 
             if (empty($title) || $price <= 0) {
                 continue;
@@ -594,8 +625,14 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active  = Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_MERCHANT_ACTIVE, $storeId);
-        $methods = Mage::getStoreConfig(Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_MERCHANT_ALLOWED_METHODS, $storeId);
+        $active = Mage::getStoreConfigFlag(
+            Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_MERCHANT_ACTIVE,
+            $storeId
+        );
+        $methods = Mage::getStoreConfig(
+            Mage_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_MERCHANT_ALLOWED_METHODS,
+            $storeId
+        );
 
         if (!$active || !$methods) {
             return '';
@@ -643,13 +680,13 @@ EOT;
             }
         }
         $this->_shippingCalculated = true;
-        
+
         return $xml;
     }
 
     /**
      * Retrieve pickup XML
-     * 
+     *
      * @return string
      */
     protected function _getPickupXml()
@@ -807,7 +844,11 @@ EOT;
      */
     protected function _getAllTaxTablesXml()
     {
-        if (Mage::getStoreConfigFlag(Mage_GoogleCheckout_Helper_Data::XML_PATH_DISABLE_DEFAULT_TAX_TABLES, $this->getQuote()->getStoreId())) {
+        $isDefaultTaxTablesDisabled = Mage::getStoreConfigFlag(
+            Mage_GoogleCheckout_Helper_Data::XML_PATH_DISABLE_DEFAULT_TAX_TABLES,
+            $this->getQuote()->getStoreId()
+        );
+        if ($isDefaultTaxTablesDisabled) {
             return '<tax-tables merchant-calculated="true" />';
         }
 
@@ -849,7 +890,10 @@ EOT;
     {
         $customerGroup = $this->getQuote()->getCustomerGroupId();
         if (!$customerGroup) {
-            $customerGroup = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID, $this->getQuote()->getStoreId());
+            $customerGroup = Mage::getStoreConfig(
+                Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID,
+                $this->getQuote()->getStoreId()
+            );
         }
         return Mage::getModel('customer/group')->load($customerGroup)->getTaxClassId();
     }
@@ -1055,7 +1099,14 @@ EOT;
                     '1DP' => Mage::helper('usa')->__('Next Day Air Saver'),
                     '2DA' => Mage::helper('usa')->__('2nd Day Air'),
                     '2DM' => Mage::helper('usa')->__('2nd Day Air AM'),
-                    '3DS' => Mage::helper('usa')->__('3 Day Select')
+                    '3DS' => Mage::helper('usa')->__('3 Day Select'),
+                    '03'  => Mage::helper('usa')->__('Ground'),
+                    '01'  => Mage::helper('usa')->__('Next Day Air'),
+                    '14'  => Mage::helper('usa')->__('Next Day Air Early AM'),
+                    '13'  => Mage::helper('usa')->__('Next Day Air Saver'),
+                    '02'  => Mage::helper('usa')->__('2nd Day Air'),
+                    '59'  => Mage::helper('usa')->__('2nd Day Air AM'),
+                    '12'  => Mage::helper('usa')->__('3 Day Select')
                 )
             ),
             'usps' => array(
