@@ -145,6 +145,13 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     protected $_couponTypes;
 
+    /**
+     * Array of already validated addresses and validation results
+     *
+     * @var array
+     */
+    protected $_validatedAddresses = array();
+
     protected function _construct()
     {
         parent::_construct();
@@ -370,7 +377,10 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
                 Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON => Mage::helper('salesrule')->__('No Coupon'),
                 Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC  => Mage::helper('salesrule')->__('Specific Coupon'),
             );
-            $transport = new Varien_Object(array('coupon_types' => $this->_couponTypes, 'is_coupon_type_auto_visible' => false));
+            $transport = new Varien_Object(array(
+                    'coupon_types' => $this->_couponTypes,
+                    'is_coupon_type_auto_visible' => false
+            ));
             Mage::dispatchEvent('salesrule_rule_get_coupon_types', array('transport' => $transport));
             $this->_couponTypes = $transport->getCouponTypes();
             if ($transport->getIsCouponTypeAutoVisible()) {
@@ -415,7 +425,11 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
                     if ($e instanceof Mage_Core_Exception || $coupon->getId()) {
                         throw $e;
                     }
-                    $coupon->setCode($couponCode . self::getCouponCodeGenerator()->getDelimiter() . sprintf('%04u', rand(0, 9999)));
+                    $coupon->setCode(
+                        $couponCode .
+                        self::getCouponCodeGenerator()->getDelimiter() .
+                        sprintf('%04u', rand(0, 9999))
+                    );
                     continue;
                 }
                 $ok = true;
@@ -445,5 +459,58 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
             }
         }
         return $result;
+    }
+
+    /**
+     * Check cached validation result for specific address
+     *
+     * @param   Mage_Sales_Model_Quote_Address $address
+     * @return  bool
+     */
+    public function hasIsValidForAddress($address)
+    {
+        if($address instanceof Mage_Sales_Model_Quote_Address)
+        {
+            $addressId = $address->getId();
+        } else {
+            $addressId = $address;
+        }
+        return isset($this->_validatedAddresses[$addressId]) ? true : false;
+    }
+
+    /**
+     * Set validation result for specific address to results cache
+     *
+     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   bool $validationResult
+     * @return  Mage_SalesRule_Model_Rule
+     */
+    public function setIsValidForAddress($address, $validationResult)
+    {
+        if($address instanceof Mage_Sales_Model_Quote_Address)
+        {
+            $addressId = $address->getId();
+        } else {
+            $addressId = $address;
+        }
+        $this->_validatedAddresses[$addressId] = $validationResult;
+        return $this;
+    }
+
+    /**
+     * Get cached validation result for specific address
+     *
+     * @param   Mage_Sales_Model_Quote_Address $address
+     * @return  bool
+     */
+    public function getIsValidForAddress($address)
+    {
+        if($address instanceof Mage_Sales_Model_Quote_Address)
+        {
+            $addressId = $address->getId();
+        } else {
+            $addressId = $address;
+        }
+        return isset($this->_validatedAddresses[$addressId]) ? $this->_validatedAddresses[$addressId] : false;
     }
 }
