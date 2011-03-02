@@ -27,7 +27,7 @@
  */
 
 /**
- * @TODO
+ * Creating Admin User
  *
  * @package     selenium
  * @subpackage  tests
@@ -35,10 +35,6 @@
  */
 class AdminUser_CreateTest extends Mage_Selenium_TestCase
 {
-
-    /**
-     * @TODO
-     */
     protected function assertPreConditions()
     {
         $this->assertTrue($this->loginAdminUser());
@@ -54,7 +50,13 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * Create User(all required fields are filled)
+     * Steps:
+     * 1.Go to System-Permissions-Users
+     * 2.Press "Add New User" button
+     * 3.Fill all required fields
+     * 4.Press "Save User" button
+     * Expected result: new user successfully saved.Message "The user has been saved." is displayed
      */
     public function test_WithRequiredFieldsOnly()
     {
@@ -69,7 +71,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * Create User (Empty "User Name" field)
+     * Steps:
+     * 1.Go to System-Permissions-Users
+     * 2.Press "Add New User" button
+     * 3.Fill all required fields
+     * 4.Leave "User Name" field empty
+     * 4.Press "Save User" button
+     * Expected result: new user is not saved. Message "This is a required field." is displayed
      */
     public function test_WithRequiredFieldsEmpty_EmptyUserName()
     {
@@ -79,12 +88,19 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         );
         $this->fillForm($this->loadData('new_user_create', array('user_name' => '') , null));
         $this->clickButton('save_user');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->errorMessage(), $this->messages);
+        $this->assertFalse($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * @TODO
+     * Create User (Empty "First Name" field)
+     * Steps:
+     * 1.Go to System-Permissions-Users
+     * 2.Press "Add New User" button
+     * 3.Fill all required fields
+     * 4.Leave "First Name" field empty
+     * 4.Press "Save User" button
+     * Expected result: new user is not saved. Message "This is a required field." is displayed
      */
     public function test_WithRequiredFieldsEmpty_EmptyFirstName()
     {
@@ -94,12 +110,19 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         );
         $this->fillForm($this->loadData('new_user_create', array('first_name' => '') , null));
         $this->clickButton('save_user');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->errorMessage(), $this->messages);
+        $this->assertFalse($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * @TODO
+     * Create User (Empty "Last Name" field)
+     * Steps:
+     * 1.Go to System-Permissions-Users
+     * 2.Press "Add New User" button
+     * 3.Fill all required fields
+     * 4.Leave "Last Name" field empty
+     * 4.Press "Save User" button
+     * Expected result: new user is not saved. Message "This is a required field." is displayed
      */
     public function test_WithRequiredFieldsEmpty_EmptyLastName()
     {
@@ -109,12 +132,19 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         );
         $this->fillForm($this->loadData('new_user_create', array('last_name' => '') , null));
         $this->clickButton('save_user');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->errorMessage(), $this->messages);
+        $this->assertFalse($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * @TODO
+     * Create User (Empty "Email" field)
+     * Steps:
+     * 1.Go to System-Permissions-Users
+     * 2.Press "Add New User" button
+     * 3.Fill all required fields
+     * 4.Leave "Email" field empty
+     * 4.Press "Save User" button
+     * Expected result: new user is not saved. Message "This is a required field." is displayed
      */
     public function test_WithRequiredFieldsEmpty_EmptyEmail()
     {
@@ -124,12 +154,19 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         );
         $this->fillForm($this->loadData('new_user_create', array('email' => '') , null));
         $this->clickButton('save_user');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->errorMessage(), $this->messages);
+        $this->assertFalse($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * @TODO
+     * Create User (Empty "Password" field)
+     * Steps:
+     * 1.Go to System-Permissions-Users
+     * 2.Press "Add New User" button
+     * 3.Fill all required fields
+     * 4.Leave "Password" field empty
+     * 4.Press "Save User" button
+     * Expected result: new user is not saved. Message "This is a required field." is displayed
      */
     public function test_WithRequiredFieldsEmpty_EmptyPassword()
     {
@@ -139,12 +176,19 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         );
         $this->fillForm($this->loadData('new_user_create', array('password' => '') , null));
         $this->clickButton('save_user');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->errorMessage(), $this->messages);
+        $this->assertFalse($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * @TODO
+     * Create User (Empty "Password Confirmation" field)
+     * Steps:
+     * 1.Go to System-Permissions-Users
+     * 2.Press "Add New User" button
+     * 3.Fill all required fields
+     * 4.Leave "Password Confirmation" field empty
+     * 4.Press "Save User" button
+     * Expected result: new user is not saved. Message "This is a required field." is displayed
      */
     public function test_WithRequiredFieldsEmpty_EmptyPasswordConfirmation()
     {
@@ -154,8 +198,8 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         );
         $this->fillForm($this->loadData('new_user_create', array('password_confirmation' => '') , null));
         $this->clickButton('save_user');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->errorMessage(), $this->messages);
+        $this->assertFalse($this->successMessage(), 'No success message is displayed');
     }
 
     /**
