@@ -1,0 +1,62 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# Test Dataset for Add New Product Attribute
+new_product_attribute:
+  properties:
+    attribute_code  : 'attribute_code'
+    scope           : 'Global'
+    catalog_input_type_for_store_owner  : 'Text Field'
+    default_value:
+      text          : 'Default Value'
+      textarea      : 'Default Value'
+      date          : '11/11/11'
+      yesno         : 'Yes'
+      price         : '00.0'
+    unique_value  : 'No'
+    values_required : 'no'
+    input_validation_for_store_owner  : 'None'
+    apply_to      : 'All Product Types'
+    use_in_quick_search       : 'No'
+    use_in_advanced_search    : 'No'
+    comparable_on_frontend    : 'No'
+    use_in_layered_navigation : 'No'
+    use_in_search_results_layered_navigation  : 'No'
+    use_for_promo_rule_conditions : 'No'
+    position      : '1'
+    enable_wysiwyg  : 'No'
+    allow_html_tags_on_frontend   : 'No'
+    visible_on_product_view_page_on_frontend  : 'No'
+    used_in_product_listing       : 'No'
+    used_for_sorting_in_product_listing : 'No'
+  manage_label_options:
+    manage_titles:
+      admin : 'Product Attribute Title'
+    manage_options:
+      admin : 'Option'
+      position  : '1'
+      is_default  : ''

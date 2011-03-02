@@ -30,7 +30,7 @@
 class CreateTest extends Mage_Selenium_TestCase {
 
     public static function setUpBeforeClass() {
-        $this->assertTrue($this->adminLogin());
+        $this->assertTrue($this->loginAdminUser());
         $this->assertTrue($this->admin('dashboard'));
         $this->assertTrue($this->navigate('manage_stores'));
     }

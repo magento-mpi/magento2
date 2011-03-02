@@ -156,6 +156,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
         return $this;
     }
 
+    public function loginAdminUser()
+    {
+        // @TODO
+        return $this;
+    }
     /**
      * Selenium driver helper methods
      */
