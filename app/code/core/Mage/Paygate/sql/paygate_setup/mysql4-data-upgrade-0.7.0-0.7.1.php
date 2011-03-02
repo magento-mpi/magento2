@@ -73,6 +73,9 @@ try{
             'refunded_amount' => $payment['base_amount_refunded_online']
         );
         $additionalInformation = unserialize($payment['additional_information']);
+        if (isset ($additionalInformation['authorize_cards'])) {
+            continue;
+        }
         $additionalInformation['authorize_cards'] = array(
             (string) md5(microtime(1)) => $card
         );
