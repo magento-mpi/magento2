@@ -228,9 +228,11 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
              * Check protected file type
              * Add error if type is match
              */
-            if ($toUpload && $this->_isProtectedFileType($value['name'])) {
+            if ($toUpload) {
                 $pathInfo = pathinfo($value['name']);
-                $errors[] = Mage::helper('customer')->__('Unable upload file with type "%s".', $pathInfo['extension']);
+                if (in_array(strtolower($pathInfo['extension']), $this->_protectedFileTypes)) {
+                    $errors[] = Mage::helper('customer')->__('Unable upload file with type "%s".', $pathInfo['extension']);
+                }
             }
 
             if ($attribute->getIsRequired() && !$toUpload) {
@@ -252,18 +254,6 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
         }
 
         return $errors;
-    }
-
-    /**
-     * Check protected file type
-     *
-     * @param string $file
-     * @return bool
-     */
-    protected function _isProtectedFileType($file)
-    {
-        $info = pathinfo($file);
-        return in_array(strtolower($info['extension']), $this->_protectedFileTypes);
     }
 
     /**
