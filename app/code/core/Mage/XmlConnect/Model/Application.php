@@ -185,6 +185,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     const XML_PATH_GENERAL_RESTRICTION_MODE = 'general/restriction/mode';
 
+    /**
+     * XML path to config for business account
+     *
+     * @var string
+     */
+    const XML_PATH_PAYPAL_BUSINESS_ACCOUNT = 'paypal/general/business_account';
 
     /**
      * Initialize application
@@ -376,7 +382,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['browsingMode'] = $this->getBrowsingMode();
         $result['general']['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
         $result['general']['secureBaseUrl'] = Mage::getStoreConfig(
-            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
+            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL,
             $this->getStoreId()
         );
         $maxRecipients = 0;

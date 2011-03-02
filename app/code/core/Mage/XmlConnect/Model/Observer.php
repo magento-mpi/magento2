@@ -37,7 +37,7 @@ class Mage_XmlConnect_Model_Observer
      * @var array
      */
     protected $_appDependOnConfigFieldPathes = array(
-        'paypal/general/business_account',
+        Mage_XmlConnect_Model_Application::XML_PATH_PAYPAL_BUSINESS_ACCOUNT,
         'sendfriend/email/max_recipients',
         'sendfriend/email/allow_guest',
         'general/locale/code',

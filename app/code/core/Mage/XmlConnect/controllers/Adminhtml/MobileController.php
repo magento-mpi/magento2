@@ -639,7 +639,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
             $this->loadLayout(false);
             $preview = $this->getLayout()->getBlock($block);
-            //die(var_dump(get_class($preview)));
+
             if (isset($jsErrorMessage)) {
                 $preview->setJsErrorMessage($jsErrorMessage);
             }
