@@ -507,6 +507,7 @@
                     <adminhtml__catalog_product_attribute__delete>validateCatalogProductAttributeActions</adminhtml__catalog_product_attribute__delete>
                     <adminhtml__catalog_product_attribute__save>validateCatalogProductAttributeActions</adminhtml__catalog_product_attribute__save>
                     <adminhtml__catalog_product_attribute__edit>validateCatalogProductAttributeCreateAction</adminhtml__catalog_product_attribute__edit>
+                    <adminhtml__catalog_product__massDelete>catalogProductMassDeleteAction</adminhtml__catalog_product__massDelete>
                     <adminhtml__catalog_product_set__add>validateAttributeSetActions</adminhtml__catalog_product_set__add>
                     <adminhtml__catalog_product_set__save>validateAttributeSetActions</adminhtml__catalog_product_set__save>
                     <adminhtml__catalog_product_set__delete>validateAttributeSetActions</adminhtml__catalog_product_set__delete>
@@ -557,6 +558,7 @@
                     <adminhtml__catalog_category_edit_form>widgetCatalogEventCategoryEditButtons</adminhtml__catalog_category_edit_form>
                     <adminhtml__newsletter_queue_edit_form>setIsRequiredSubscribersFromFieldForNewsletterQueueForm</adminhtml__newsletter_queue_edit_form>
                     <adminhtml__catalog_product_edit_action_attribute_tab_websites>catalogProductMassUpdateWebsites</adminhtml__catalog_product_edit_action_attribute_tab_websites>
+                    <adminhtml__catalog_product_grid__preparemassaction>catalogProductPrepareMassaction</adminhtml__catalog_product_grid__preparemassaction>
                     <adminhtml__promo_catalog>removePromoCatalogButtons</adminhtml__promo_catalog>
                     <adminhtml__promo_quote>removePromoQuoteButtons</adminhtml__promo_quote>
                     <adminhtml__cms_page_edit>removeCmsPageButtons</adminhtml__cms_page_edit>

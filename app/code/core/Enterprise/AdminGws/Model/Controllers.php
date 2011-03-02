@@ -80,12 +80,14 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         // redirect to first allowed website or store scope
         if ($this->_role->getWebsiteIds()) {
-            return $this->_redirect($controller, Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_config/edit',
-                array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode()))
+            return $this->_redirect($controller, Mage::getSingleton('adminhtml/url')
+                ->getUrl('adminhtml/system_config/edit',
+                     array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode()))
             );
         }
         $this->_redirect($controller, Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_config/edit',
-            array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode(), 'store' => Mage::app()->getAnyStoreView()->getCode()))
+            array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode(),
+            'store' => Mage::app()->getAnyStoreView()->getCode()))
         );
     }
 
@@ -299,7 +301,10 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         // redirect from disallowed store scope
         if ($this->_isDisallowedStoreInRequest()) {
-            return $this->_redirect($controller, array('*/*/*', 'store' => Mage::app()->getAnyStoreView()->getId(), 'id' => $catalogEvent->getId()));
+            return $this->_redirect(
+                $controller,
+                array('*/*/*', 'store' => Mage::app()->getAnyStoreView()->getId(), 'id' => $catalogEvent->getId())
+            );
         }
     }
 
@@ -330,13 +335,15 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      * @param string $idFieldName
      * @return bool
      */
-    public function validateNoWebsiteGeneric($controller = null, $denyActions = array('new', 'delete'), $saveAction = 'save', $idFieldName = 'id')
+    public function validateNoWebsiteGeneric(
+        $controller = null, $denyActions = array('new', 'delete'), $saveAction = 'save', $idFieldName = 'id'
+    )
     {
         if (!is_array($denyActions)) {
             $denyActions = array($denyActions);
         }
         if ((!$this->_role->getWebsiteIds()) && (in_array($this->_request->getActionName(), $denyActions)
-                || ($saveAction === $this->_request->getActionName() && 0 == $this->_request->getParam($idFieldName)))) {
+            || ($saveAction === $this->_request->getActionName() && 0 == $this->_request->getParam($idFieldName)))) {
             $this->_forward();
             return false;
         }
@@ -353,9 +360,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         // due to design of the original controller, need to run this check only once, on the first dispatch
         if (Mage::registry('enterprise_admingws_system_store_matched')) {
             return;
-        }
-        elseif (in_array($this->_request->getActionName(), array('save', 'newWebsite', 'newGroup', 'newStore', 'editWebsite', 'editGroup', 'editStore',
-            'deleteWebsite', 'deleteWebsitePost', 'deleteGroup', 'deleteGroupPost', 'deleteStore', 'deleteStorePost'
+        } elseif (in_array($this->_request->getActionName(), array('save', 'newWebsite', 'newGroup', 'newStore',
+            'editWebsite', 'editGroup', 'editStore', 'deleteWebsite', 'deleteWebsitePost', 'deleteGroup',
+            'deleteGroupPost', 'deleteStore', 'deleteStorePost'
             ))) {
             Mage::register('enterprise_admingws_system_store_matched', true, true);
         }
@@ -865,6 +872,36 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Products in Catalog Product MassDelete Action
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function catalogProductMassDeleteAction($controller)
+    {
+        $productIds             = $this->_request->getParam('product');
+        $productNotExclusiveIds = array();
+        $productExclusiveIds    = array();
+
+        $resource = Mage::getResourceModel('catalog/product');
+        foreach ($productIds as $productId) {
+            if (!$this->_role->hasExclusiveAccess($resource->getWebsiteIds($productId))) {
+                $productNotExclusiveIds[]  = $productId;
+            } else {
+                $productExclusiveIds[]     = $productId;
+            }
+        }
+
+        if (!empty($productNotExclusiveIds)) {
+            $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
+            $helper = Mage::helper('enterprise_admingws');
+            $message = $helper->__('Not enough permissions to delete this item(s): %s.', $productNotExclusiveIds);
+            Mage::getSingleton('adminhtml/session')->addError($message);
+        }
+
+        $this->_request->setParam('product', $productExclusiveIds);
+    }
+
 
     /**
      * Validate Attribute set creation, deletion and saving actions
@@ -891,7 +928,8 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
              * user has exclusive access to root category
              * so we can allow user to add sub category
              */
-            if ($this->_isCategoryAllowed($category) && $this->_role->hasExclusiveCategoryAccess($category->getPath())) {
+            if ($this->_isCategoryAllowed($category)
+                && $this->_role->hasExclusiveCategoryAccess($category->getPath())) {
                 return true;
             }
         }

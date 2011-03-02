@@ -73,16 +73,22 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     /**
      * Retrieve product website identifiers
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Catalog_Model_Product|int $product
      * @return array
      */
     public function getWebsiteIds($product)
     {
         $adapter = $this->_getReadAdapter();
 
+        if (is_object($product)) {
+            $productId = $product->getId();
+        } else {
+            $productId = $product;
+        }
+
         $select = $adapter->select()
             ->from($this->_productWebsiteTable, 'website_id')
-            ->where('product_id = ?', (int)$product->getId());
+            ->where('product_id = ?', (int)$productId);
 
         return $adapter->fetchCol($select);
     }
