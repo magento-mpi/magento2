@@ -32,10 +32,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
-{
-    public function __construct()
-    {
+class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource {
+    public function __construct() {
         $this->_storeIdSessionField = "cart_store_id";
         $this->_attributesMap['quote'] = array('quote_id' => 'entity_id');
         $this->_attributesMap['quote_customer'] = array('customer_id' => 'entity_id');
@@ -49,17 +47,16 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
      * @param int|string $store
      * @return int
      */
-    public function create($store = null)
-    {
+    public function create($store = null) {
         $storeId = $this->_getStoreId($store);
 
         try {
             /*@var $quote Mage_Sales_Model_Quote*/
             $quote = Mage::getModel('sales/quote');
             $quote->setStoreId($storeId)
-                ->setIsActive(false)
-                ->setIsMultiShipping(false)
-                ->save();
+                    ->setIsActive(false)
+                    ->setIsMultiShipping(false)
+                    ->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('create_quote_fault', $e->getMessage());
         }
@@ -73,8 +70,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
      * @param  $store
      * @return array
      */
-    public function info($quoteId, $store = null)
-    {
+    public function info($quoteId, $store = null) {
         $quote = $this->_getQuote($quoteId, $store);
 
         if ($quote->getGiftMessageId() > 0) {
@@ -85,11 +81,10 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
         $result = $this->_getAttributes($quote, 'quote');
         $result['shipping_address'] = $this->_getAttributes($quote->getShippingAddress(), 'quote_address');
-        $result['billing_address']  = $this->_getAttributes($quote->getBillingAddress(), 'quote_address');
+        $result['billing_address'] = $this->_getAttributes($quote->getBillingAddress(), 'quote_address');
         $result['items'] = array();
 
         foreach ($quote->getAllItems() as $item) {
-
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
                     Mage::getSingleton('giftmessage/message')->load($item->getGiftMessageId())->getMessage()
@@ -100,7 +95,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
         }
 
         $result['payment'] = $this->_getAttributes($quote->getPayment(), 'quote_payment');
-        
+
         return $result;
     }
 
@@ -109,14 +104,13 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
      * @param  $store
      * @return void
      */
-    public function totals($quoteId, $store = null)
-    {
+    public function totals($quoteId, $store = null) {
         $quote = $this->_getQuote($quoteId, $store);
 
         $totals = $quote->getTotals();
 
         $totalsResult = array();
-        foreach( $totals as $total) {
+        foreach ($totals as $total) {
             $totalsResult[] = array(
                 "title" => $total->getTitle(),
                 "amount" => $total->getValue()
@@ -126,14 +120,18 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
     }
 
     /**
+     * Create an order from the shopping cart (quote)
+     *
      * @param  $quoteId
      * @param  $store
-     * @return void
+     * @param  $agreements array
+     * @return string
      */
-    public function createOrder($quoteId, $store = null, $agreements = null)
-    {
-        if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds()) {
-            if ($diff = array_diff($agreements, $requiredAgreements)) {
+    public function createOrder($quoteId, $store = null, $agreements = null) {
+        $requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
+        if (!empty($requiredAgreements)) {
+            $diff = array_diff($agreements, $requiredAgreements);
+            if (!empty($diff)) {
                 $this->_fault('required_agreements_are_not_all');
             }
         }
@@ -142,7 +140,8 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
         if ($quote->getIsMultiShipping()) {
             $this->_fault('invalid_checkout_type');
         }
-        if ($quote->getCheckoutMethod() == Mage_Checkout_Model_Api_Resource_Customer::MODE_GUEST && !Mage::helper('checkout')->isAllowedGuestCheckout($quote, $quote->getStoreId())) {
+        if ($quote->getCheckoutMethod() == Mage_Checkout_Model_Api_Resource_Customer::MODE_GUEST
+                && !Mage::helper('checkout')->isAllowedGuestCheckout($quote, $quote->getStoreId())) {
             $this->_fault('guest_checkout_is_not_enabled');
         }
 
@@ -152,6 +151,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
         try {
             $quote->collectTotals();
+            /** @var $service Mage_Sales_Model_Service_Quote */
             $service = Mage::getModel('sales/service_quote', $quote);
             $service->submitAll();
 
@@ -165,24 +165,25 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 
             $order = $service->getOrder();
             if ($order) {
-                Mage::dispatchEvent('checkout_type_onepage_save_order_after', array('order'=>$order, 'quote'=>$quote));
-                
+                Mage::dispatchEvent('checkout_type_onepage_save_order_after',
+                    array('order' => $order, 'quote' => $quote));
+
                 try {
                     $order->sendNewOrderEmail();
                 } catch (Exception $e) {
                     Mage::logException($e);
                 }
             }
-            
+
             Mage::dispatchEvent(
                 'checkout_submit_all_after',
                 array('order' => $order, 'quote' => $quote)
             );
-        } catch( Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_fault('create_order_fault', $e->getMessage());
         }
 
-        return true;
+        return $order->getIncrementId();
     }
 
     /**
@@ -190,16 +191,15 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
      * @param  $store
      * @return array
      */
-    public function licenseAgreement($quoteId, $store = null)
-    {
+    public function licenseAgreement($quoteId, $store = null) {
         $quote = $this->_getQuote($quoteId, $store);
         $storeId = $quote->getStoreId();
 
         $agreements = array();
         if (Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
             $agreementsCollection = Mage::getModel('checkout/agreement')->getCollection()
-                ->addStoreFilter($storeId)
-                ->addFieldToFilter('is_active', 1);
+                    ->addStoreFilter($storeId)
+                    ->addFieldToFilter('is_active', 1);
 
             foreach ($agreementsCollection as $_a) {
                 /** @var $_a  Mage_Checkout_Model_Agreement */

@@ -337,7 +337,7 @@
         <part name="licenses" type="typens:ArrayOfString"/>
     </message>
     <message name="shoppingCartOrderResponse">
-        <part name="result" type="xsd:boolean"/>
+        <part name="result" type="xsd:string"/>
     </message>
     <message name="shoppingCartInfoRequest">
         <part name="sessionId" type="xsd:string"/>

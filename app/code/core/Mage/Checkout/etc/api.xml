@@ -219,7 +219,7 @@
                     </customer_not_exists>
                     <customer_not_created>
                         <code>1043</code>
-                        <message>customer_not_created</message>
+                        <message>Customer could not be created. </message>
                     </customer_not_created>
                     <customer_data_invalid>
                         <code>1044</code>

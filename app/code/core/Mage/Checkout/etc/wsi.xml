@@ -337,7 +337,7 @@
             <xsd:element name="shoppingCartOrderResponseParam">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:boolean" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:string" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
