@@ -25,17 +25,6 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-# Messages
-messages:
- success_save_customer : div[@id='messages']//li[span='The customer has been saved.']
- success_delete_customer : div[@id='messages']//li[span='The customer has been deleted.']
- error_email_exist : div[@id='messages']//li[span='Customer with the same email already exists.']
- error_invalid_email : div[@id='messages']//li[span='"Email" is not a valid email address.']
- error_password_too_short : #div[text()='Please enter 6 or more characters. Leading or trailing spaces will be ignored.' and normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]
- error_empty_value : #*[normalize-space(text())='%fieldName%']/parent::*/following-sibling::*/div[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]
-
- # Attention! error_empty_value xpath is commented!!
-
 #Manage Customers and related pages
 # 'Manage Customers' page
 manage_customers:
@@ -54,6 +43,9 @@ manage_customers:
      search : button[span='Search']
    buttons :
     add_new_customer : button[span='Add New Customer']
+   messages:
+    success_save_customer : div[@id='messages']//li[span='The customer has been saved.']
+    success_delete_customer : div[@id='messages']//li[span='The customer has been deleted.']
 
 # 'New Customer' Page
 create_customer:
@@ -127,10 +119,15 @@ create_customer:
     reset : button[span='Reset']
     save_customer : button[span='Save Customer']
     save_and_continue_edit : button[span='Save and Continue Edit']
+   messages:
+    success_save_customer : div[@id='messages']//li[span='The customer has been saved.']
+    error_email_exist : div[@id='messages']//li[span='Customer with the same email already exists.']
+    error_invalid_email : div[@id='messages']//li[span='"Email" is not a valid email address.']
+    error_password_too_short : div[text()='Please enter 6 or more characters. Leading or trailing spaces will be ignored.' and normalize-space(@class)='validation-advice' and not(contains(@style,'display":" none;'))]
+    error_empty_value : *[normalize-space(text())='%fieldName%']/parent::*/following-sibling::*/div[normalize-space(@class)='validation-advice' and not(contains(@style,'display":" none;'))]
 
 
  # 'Edit Customer' Page
- # need to edit
 edit_customer:
  mca   : edit/id/%customers_id%
  title : %customers_id% / Manage Customers / Customers / Magento Admin
@@ -264,3 +261,9 @@ edit_customer:
     manage_shopping_cart : button[span='Manage Shopping Cart']
     save_customer : button[span='Save Customer']
     save_and_continue_edit : button[span='Save and Continue Edit']
+   messages:
+    success_save_customer : div[@id='messages']//li[span='The customer has been saved.']
+    error_email_exist : div[@id='messages']//li[span='Customer with the same email already exists.']
+    error_invalid_email : div[@id='messages']//li[span='"Email" is not a valid email address.']
+    error_password_too_short : div[text()='Please enter 6 or more characters. Leading or trailing spaces will be ignored.' and normalize-space(@class)='validation-advice' and not(contains(@style,'display":" none;'))]
+    error_empty_value : *[normalize-space(text())='%fieldName%']/parent::*/following-sibling::*/div[normalize-space(@class)='validation-advice' and not(contains(@style,'display":" none;'))]
