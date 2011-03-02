@@ -128,7 +128,7 @@ class Mage_Directory_Model_Resource_Region_Collection extends Mage_Core_Model_Re
             if (is_array($regionCode)) {
                 $this->addFieldToFilter('main_table.code', array('in' => $regionCode));
             } else {
-                 $this->addFieldToFilter('main_table.code', $regionCode);
+                $this->addFieldToFilter('main_table.code', $regionCode);
             }
         }
         return $this;
