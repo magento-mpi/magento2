@@ -294,10 +294,10 @@
         <property name="libTitle" value="Varien Lib Documentation (phpdoc)"/>
 
         <exec dir="${dir.src}" executable="phpdoc" failonerror="true">
-            <arg line="-d lib/Varien -t ${dir.docs}/phpdoc/Varien -o HTML:frames:default -ti '${libTitle}' -q"/>
+            <arg line="-d lib/Varien -t ${dir.docs}/phpdoc/Varien -o HTML:Smarty:Magento -ti '${libTitle}' -q"/>
         </exec>
         <exec dir="${dir.src}" executable="phpdoc" failonerror="true">
-            <arg line="-d app/code/core/Mage -t ${dir.docs}/phpdoc/ -o HTML:frames:default -ti '${mageTitle}' -q"/>
+            <arg line="-d app/code/core/Mage -t ${dir.docs}/phpdoc/ -o HTML:Smarty:Magento -ti '${mageTitle}' -q"/>
         </exec>
 
         <!-- Fix version -->
