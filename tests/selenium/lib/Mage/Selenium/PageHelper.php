@@ -35,6 +35,19 @@
  */
 class Mage_Selenium_PageHelper extends Mage_Selenium_AbstractHelper
 {
+    /**
+     * Last validation result
+     *
+     * @var boolean
+     */
+    protected $_validationFailed = false;
+
+    /**
+     * SUT helper instance
+     *
+     * @var Mage_Selenium_SutHelper
+     */
+    protected $_sutHelper = null;
 
     /**
      * Validates current page properties
@@ -44,8 +57,49 @@ class Mage_Selenium_PageHelper extends Mage_Selenium_AbstractHelper
      */
     public function validateCurrentPage()
     {
-        // @TODO
+        $this->_validationFailed = false;
+        // @TODO check for no fatal errors, notices, warning
+        // @TODO check title
         return $this;
+    }
+
+    /**
+     * Returns true if the last page validation failed
+     *
+     * @return boolean
+     */
+    public function validationFailed()
+    {
+        return $this->_validationFailed;
+    }
+
+    /**
+     * Set SUT helper instance to access application info
+     *
+     * @param Mage_Selenium_SutHelper $sutHelper
+     * @return Mage_Selenium_AbstractHelper
+     */
+    public function setSutHelper(Mage_Selenium_SutHelper $sutHelper)
+    {
+        $this->_sutHelper = $sutHelper;
+        return $this;
+    }
+
+    /**
+     * Return URL of a specified page
+     *
+     * @param string $page Page in MCA format
+     * @return string
+     */
+    public function getPageUrl($page)
+    {
+        $pageData = $this->_config->getUimapValue($this->_sutHelper->getArea(), $page);
+        if ((false === $pageData) || (!isset($pageData['mca'])) || empty($pageData['mca'])) {
+            var_dump($page);
+            die('Page mca is not defined');
+        }
+        $url = $this->_sutHelper->getBaseUrl() . $pageData['mca'];
+        return $url;
     }
 
 }

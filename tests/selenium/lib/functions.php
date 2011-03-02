@@ -20,23 +20,32 @@
  *
  * @category    tests
  * @package     selenium
- * @subpackage  runner
+ * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__)));
-define('SELENIUM_TESTS_LIBDIR', realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'));
-
-set_include_path(implode(PATH_SEPARATOR, array(
-    SELENIUM_TESTS_LIBDIR,
-    get_include_path(),
-)));
-
-require_once 'Mage/Selenium/Autoloader.php';
-Mage_Selenium_Autoloader::register();
-
-require_once 'functions.php';
-
-Mage_Selenium_TestConfiguration::initInstance();
+if (!function_exists('array_replace_recursive')) {
+    function array_replace_recursive() {
+        $result = null;
+        $args = func_get_args();
+        if (isset($args[0]) && is_array($args[0])) {
+            $result = $args[0];
+            for ($i = 1; $i < func_num_args(); $i++) {
+                if (is_array($args[$i])) {
+                    foreach ($args[$i] as $key => $value) {
+                        if (!isset($args[$i][$key]) || (isset($args[$i][$key]) && !is_array($args[$i][$key]))) {
+                            $args[$i][$key] = array();
+                        }
+                        if (is_array($value)) {
+                            $value = array_replace_recursive($args[$i][$key], $value);
+                        }
+                        $result[$key] = $value;
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+}

@@ -1,6 +1,6 @@
 <?php
 $tests = array(
-    array('path'=>'ClickThrough', 'file'=>'FrontTest.php', 'class'=>'ClickThrough_FrontTest', 'method'=>'test_All()'),
+    array('path'=>'ClickThrough', 'file'=>'FrontendTest.php', 'class'=>'ClickThrough_FrontendTest', 'method'=>'test_All()'),
     array('path'=>'ClickThrough', 'file'=>'AdminTest.php', 'class'=>'ClickThrough_AdminTest', 'method'=>'test_All()'),
     array('path'=>'AdminUser', 'file'=>'CreateTest.php', 'class'=>'AdminUser_CreateTest', 'method'=>'test_WithRequiredFieldsOnly()'),
     array('path'=>'AdminUser', 'file'=>'CreateTest.php', 'class'=>'AdminUser_CreateTest', 'method'=>'test_WithRequiredFieldsEmpty_EmptyUserName()'),

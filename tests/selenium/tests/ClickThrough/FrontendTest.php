@@ -20,63 +20,36 @@
  *
  * @category    tests
  * @package     selenium
- * @subpackage  Mage_Selenium
+ * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Selenium driver
+ * @TODO
  *
  * @package     selenium
- * @subpackage  Mage_Selenium
+ * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
+class ClickThrough_FrontendTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * If the flag is set true browser connection is not restarted after each test
-     * @var boolean
+     * @TODO
      */
-    protected $_contiguousSession = false;
-
-    /**
-     * Set the flag to not restart browser connection after each test (if set value is true)
-     *
-     * @param boolean $flag
-     * @return Mage_Selenium_Driver
-     */
-    public function setContiguousSession($flag)
+    protected function assertPreConditions()
     {
-        $this->_contiguousSession = $flag;
-        return $this;
+        // @TODO
     }
 
-    /**
-     * Start browser connection
-     *
-     * @return string
-     */
-    public function start()
-    {
-        return parent::start();
-    }
 
     /**
-     * Stop browser connection
+     * @TODO
      */
-    public function stop()
+    public function test_All()
     {
-        if (!isset($this->sessionId)) {
-            return;
-        }
-        if ($this->_contiguousSession) {
-            return;
-        }
-        $this->doCommand('testComplete');
-        $this->sessionId = NULL;
+        // @TODO
     }
-
 }

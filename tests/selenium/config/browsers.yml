@@ -26,15 +26,23 @@
 #
 ---
 browsers:
-  firefox36:
+  firefox36: &firefox36
     browser : '*chrome'
     host    : '127.0.0.1'
     port    : 5555
-  ie8:
+  ie8: &ie8
     browser : '*chrome'
     host    : '127.0.0.1'
     port    : 5555
-  gc9:
+  gc9: &gc9
     browser : '*chrome'
     host    : '127.0.0.1'
     port    : 5555
+  default: *firefox36
+applications:
+  magento-ce: &magento-ce
+    frontendUrl : 'http://www.localhost.com/magento-trunk/'
+    adminUrl    : 'http://www.localhost.com/magento-trunk/control/'
+    adminLogin  : michael
+    adminPassword : 123123q
+  default: *magento-ce

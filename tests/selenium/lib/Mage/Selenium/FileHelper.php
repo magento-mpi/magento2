@@ -20,36 +20,58 @@
  *
  * @category    tests
  * @package     selenium
- * @subpackage  tests
+ * @subpackage  Mage_Selenium
  * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+require_once('SymfonyComponents/YAML/sfYaml.php');
+
 /**
- * @TODO
+ * File helper class
  *
  * @package     selenium
- * @subpackage  tests
+ * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ClickThrough_FrontTest extends Mage_Selenium_TestCase
+class Mage_Selenium_FileHelper extends Mage_Selenium_AbstractHelper
 {
 
     /**
-     * @TODO
+     * Loads YAML file and returns parsed data
+     *
+     * @param string $fullFileName Full file name (including path)
+     * @return array|false
      */
-    protected function assertPreConditions()
+    public function loadYamlFile($fullFileName)
     {
-        // @TODO
+        $data = false;
+        if ($fullFileName && file_exists($fullFileName)) {
+            $data = sfYaml::load($fullFileName);
+        }
+        return $data;
     }
-
 
     /**
-     * @TODO
+     * Load multiple YAML files and return merged data
+     *
+     * @param string $globExpr Filenames glob pattern
+     * @return array
      */
-    public function test_All()
+    public function loadYamlFiles($globExpr)
     {
-        // @TODO
+        $data = array();
+        $files = glob($globExpr);
+        if (!empty($files)) {
+            foreach ($files as $file) {
+                $fileData = $this->loadYamlFile($file);
+                if ($fileData) {
+                    $data = array_replace_recursive($data, $fileData);
+                }
+            }
+        }
+        return $data;
     }
+
 }

@@ -42,7 +42,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->front('home'));
+        $this->assertTrue($this->frontend('home'));
     }
 
     /**
@@ -71,7 +71,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
 
     public function testNavigation()
     {
-        $this->assertTrue($this->navigate('my_account'));
+        $this->assertTrue($this->navigate('customer_account'));
         $this->assertTrue($this->clickButton('register'), 'There is no "Register" button on the page');
         $this->assertTrue($this->navigated('customer_account_create'), 'Wrong page is displayed');
         $this->assertTrue(
@@ -84,7 +84,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     public function testRegistration_Smoke()
     {
         $this->assertTrue(
-            $this->navigate('my_account')->clickButton('register')->navigated('customer_account_create'),
+            $this->navigate('customer_account')->clickButton('register')->navigated('customer_account_create'),
             'Wrong page is displayed'
         );
         $this->fillForm($this->loadData('customer_account_create', null, 'email'));
@@ -92,7 +92,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
         $this->assertTrue(
-            $this->navigated('customer_account_index'),
+            $this->navigated('customer_account'),
             'After succesfull registration customer should be redirected to account dashboard'
         );
     }
@@ -109,7 +109,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
         $this->assertTrue(
-            $this->navigated('customer_account_index'),
+            $this->navigated('customer_account'),
             'After succesfull registration customer should be redirected to account dashboard'
         );
     }

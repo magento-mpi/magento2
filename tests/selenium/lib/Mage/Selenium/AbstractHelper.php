@@ -36,7 +36,18 @@
 class Mage_Selenium_AbstractHelper
 {
 
+    /**
+     * Current test case
+     *
+     * @var Mage_Selenium_TestCase
+     */
     protected $_testCase = null;
+
+    /**
+     * Test configuration object
+     *
+     * @var Mage_Selenium_TestConfiguration
+     */
     protected $_config = null;
 
     /**
@@ -47,6 +58,17 @@ class Mage_Selenium_AbstractHelper
     public function  __construct(Mage_Selenium_TestConfiguration $config)
     {
         $this->_config = $config;
+        $this->_init();
+    }
+
+    /**
+     * Initialize object
+     *
+     * @return Mage_Selenium_AbstractHelper
+     */
+    protected function _init()
+    {
+        return $this;
     }
 
     /**

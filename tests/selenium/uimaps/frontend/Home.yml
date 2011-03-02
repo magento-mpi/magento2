@@ -25,28 +25,9 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-# Customer related pages
-customer_account:
-  mca : customer/account
-  title :
+home:
+  mca : home
+  title : "Home page"
   uimap:
   messages:
   links:
-customer_account_create:
-  mca : customer/account/create
-  title : Create New Customer Account
-  uimap:
-    form:
-      xpath : form[@id='form-validate']
-      fields:
-        firstname     : input[@id='firstname']
-        lastname      : input[@id='lastname']
-        email         : input[@id='email_address']
-        password      : input[@id='password']
-        confirmation  : input[@id='confirmation']
-      required : [firstname, lastname, email, password, confirmation]
-      buttons:
-        submit : button[@type='submit']
-  messages:
-  links:
-    back : customer/account/login

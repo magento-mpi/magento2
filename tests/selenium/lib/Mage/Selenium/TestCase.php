@@ -36,18 +36,65 @@
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
 
+    /**
+     * Data helper instance
+     *
+     * @var Mage_Selenium_DataHelper
+     */
     protected $_dataHelper = null;
-    protected $_dataGenerator = null;
-    protected $_uid = null;
-
-    protected $_pageHelper = null;
-
-    public $messages = null;
-
-    protected $_baseUrl = '';
-    protected $_isAdmin = false;
 
     /**
+     * Data generator helper instance
+     *
+     * @var Mage_Selenium_DataGenerator
+     */
+    protected $_dataGenerator = null;
+
+    /**
+     * SUT helper instance
+     *
+     * @var Mage_Selenium_SutHelper
+     */
+    protected $_sutHelper = null;
+
+    /**
+     * Uid helper instance
+     *
+     * @var Mage_Selenium_Uid
+     */
+    protected $_uid = null;
+
+    /**
+     * Page helper instance
+     *
+     * @var Mage_Selenium_PageHelper
+     */
+    protected $_pageHelper = null;
+
+    /**
+     * @TODO
+     *
+     * @var array
+     */
+    public $messages = null;
+
+    /**
+     * Current application area
+     *
+     * @var string
+     */
+    protected $_area = '';
+
+    /**
+     * Configuration object instance
+     *
+     * @var Mage_Selenium_TestConfiguration
+     */
+    protected $_testConfig = null;
+
+    /**
+     * Constructor
+     *
      * @param  string $name
      * @param  array  $data
      * @param  string $dataName
@@ -55,15 +102,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @throws InvalidArgumentException
      */
     public function __construct($name = NULL, array $data = array(), $dataName = '', array $browser = array()) {
+        $this->_testConfig = Mage_Selenium_TestConfiguration::initInstance();
+        $this->_dataHelper = $this->_testConfig->getDataHelper();
+        $this->_dataGenerator = $this->_testConfig->getDataGenerator();
+        $this->_sutHelper = $this->_testConfig->getSutHelper();
+        $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_sutHelper);
+        $this->_uid = $this->_testConfig->getUidHelper();
         parent::__construct($name, $data, $dataName, $browser);
-        $this->_dataHelper = Mage_Selenium_TestConfiguration::$instance->dataHelper;
-        $this->_dataGenerator = Mage_Selenium_TestConfiguration::$instance->dataGenerator;
-        $this->_pageHelper = Mage_Selenium_TestConfiguration::$instance->getPageHelper($this);
-        $this->_uid = new Mage_Selenium_Uid();
-        // @TODO
-        $this->_baseUrl = 'http://www.localhost.com/magento-trunk/';
-        $this->_isAdmin = false;
-        $this->setBrowserUrl($this->_baseUrl);
+        $this->setArea('frontend');
     }
 
     /**
@@ -72,9 +118,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function getDriver(array $browser)
     {
-        $driver = Mage_Selenium_TestConfiguration::$instance->driver;
+        $driver = $this->_testConfig->driver;
         $driver->setTestCase($this);
         $driver->setTestId($this->testId);
+        // @TODO we need separate driver connections if admin url
+        // doesn't start with frontend url
+        $driver->setBrowserUrl($this->_sutHelper->getBaseUrl());
         $this->drivers[] = $driver;
         return $driver;
     }
@@ -104,14 +153,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $data;
     }
 
-
     /**
-     * Generate some value
+     * Generates some random value
      *
-     * @param string $type
-     * @param int $length
-     * @param mixed $modifier
-     * @param string $prefix
+     * @param string $type Available types are 'string', 'text', 'email'
+     * @param int $length Generated value length
+     * @param string|array|null $modifier Value modifier, e.g. PCRE class
+     * @param string|null $prefix Prefix to prepend the generated value
      * @return mixed
      */
     public function generate($type='string', $length=100, $modifier=null, $prefix=null)
@@ -124,33 +172,48 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Navigation methods
      */
 
-    public function front($page='home')
+    /**
+     * Navigate to a specified frontend page
+     *
+     * @param string $page Page in MCA format
+     * @return Mage_Selenium_TestCase
+     */
+    public function frontend($page='home')
     {
-        // @TODO
-        return $this;
-    }
-
-    public function admin($page='dashboard')
-    {
-        // @TODO
+        $this->setArea('frontend');
+        $this->navigate($page);
         return $this;
     }
 
     /**
-     * Navigates to a specified page
+     * Navigate to a specified admin page
+     *
+     * @param string $page Page in MCA format
+     * @return Mage_Selenium_TestCase
+     */
+    public function admin($page='dashboard')
+    {
+        $this->setArea('admin');
+        $this->navigate($page);
+        return $this;
+    }
+
+    /**
+     * Navigates to a specified page in the current area
      *
      * @param string $page Page in MCA format
      * @return Mage_Selenium_TestCase
      */
     public function navigate($page)
     {
-//        $this->open($this->getPageUrl($page));
+        $this->open($this->getPageUrl($page));
         $this->_pageHelper->validateCurrentPage();
         return $this;
     }
 
     /**
-     * Navigates to the specified page and stops current testcase execution if navigation failed
+     * Navigates to the specified page in the current area
+     * and stops current testcase execution if navigation failed
      *
      * @param string $page Page in MCA format
      * @return Mage_Selenium_TestCase
@@ -158,7 +221,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function navigated($page)
     {
         $this->navigate($page);
-        // @TODO extra validation to make sure we successfully navigated or stop further execution of the current test
+        if ($this->_pageHelper->validationFailed()) {
+            // @TODO stop further execution of the current test
+        }
         return $this;
     }
 
@@ -170,9 +235,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getPageUrl($page)
     {
-        // @TODO
-        $url = $this->_baseUrl . $page;
-        return $url;
+        return $this->_pageHelper->getPageUrl($page);
+    }
+
+    /**
+     * Set current area
+     *
+     * @param string $area Area: 'admin' or 'frontend'
+     * @return Mage_Selenium_TestCase
+     */
+    public function setArea($area)
+    {
+        $this->_area = $area;
+        $this->_sutHelper->setArea($area);
+        return $this;
     }
 
     public function clickButton($button)
@@ -202,25 +278,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Fill for with data
-     * 
+     * Fill form with data
+     *
      * @param array $data
      * @return Mage_Selenium_TestCase
      */
     public function fillForm($data)
     {
-        $url = trim(preg_replace('~' . $this->_baseUrl . '~', '', $this->getLocation(), 1), '/');
+        // string(62) "http://www.localhost.com/magento-trunk/customer/account/create"
+        $url = trim(preg_replace('~' . $this->_sutHelper->getBaseUrl() . '~', '', $this->getLocation(), 1), '/');
         $formData = $this->_getFormData($url);
-
         if (isset($formData['fields'])) {
             $baseXpath = (isset($formData['xpath'])) ? '//' . $formData['xpath'] : '';
-
             foreach ($data as $field => $value) {
                 if (isset($formData['fields'][$field]))
                 $this->type($baseXpath . '//' . $formData['fields'][$field], $value);
             }
         }
-
         return $this;
     }
 
@@ -255,7 +329,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     public function loginAdminUser()
     {
-        // @TODO
+        $this->admin('dashboard');
+        if ("Dashboard / Magento Admin" !== $this->getTitle()) {
+            $this->type('username', $this->_sutHelper->getDefaultAdminUsername());
+            $this->type('login', $this->_sutHelper->getDefaultAdminPassword());
+            $this->clickAndWait("//input[@value='Login']", 3000);
+        }
         return $this;
     }
 
@@ -307,13 +386,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Get node from data configuration by path
-     * 
+     *
      * @param string $path
      * @return array|string
      */
-    protected function _getData($path)
+    protected function _getData($path='')
     {
-        return Mage_Selenium_TestConfiguration::getData($path);
+        return $this->_testConfig->getDataValue($path);
     }
 
     /**
@@ -322,9 +401,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $path
      * @return array|string
      */
-    protected function _getUimapData($path)
+    protected function _getUimapData($path='')
     {
-        return Mage_Selenium_TestConfiguration::getUimapData($path);
+        return $this->_testConfig->getUimapValue($this->_area, $path);
     }
 
     /**
@@ -334,16 +413,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _getFormData($mca)
     {
-        $uimap = $this->_getUimapData(($this->_isAdmin) ? 'admin' : 'frontend');
-
+        $uimap = $this->_getUimapData();
         foreach ($uimap as $key => $page) {
-            if (isset($page['mca']) 
+            if (isset($page['mca'])
                     && trim($page['mca'], '/') == $mca
                     && isset($page['uimap'], $page['uimap']['form'])) {
                 return $page['uimap']['form'];
             }
         }
-
         return false;
     }
 

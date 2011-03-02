@@ -33,8 +33,6 @@
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-require_once('SymfonyComponents/YAML/sfYaml.php');
-
 class Mage_Selenium_TestConfiguration
 {
 
@@ -43,16 +41,41 @@ class Mage_Selenium_TestConfiguration
      *
      * @var Mage_Selenium_DataHelper
      */
-    public $dataHelper = null;
+    protected $_dataHelper = null;
 
     /**
-     * Data generator instance
+     * Data generator helper instance
      *
      * @var Mage_Selenium_DataGenerator
      */
-    public $dataGenerator = null;
+    protected $_dataGenerator = null;
 
-    public $pageHelper = null;
+    /**
+     * Page helper instance
+     *
+     * @var Mage_Selenium_PageHelper
+     */
+    protected $_pageHelper = null;
+
+    /**
+     * File helper instance
+     *
+     * @var Mage_Selenium_FileHelper
+     */
+    protected $_fileHelper = null;
+
+    /**
+     * SUT helper instance
+     *
+     * @var Mage_Selenium_SutHelper
+     */
+    protected $_sutHelper = null;
+    /**
+     * Uid helper instance
+     *
+     * @var Mage_Selenium_Uid
+     */
+    protected $_uidHelper = null;
 
     /**
      * Initialized browsers connections
@@ -68,10 +91,32 @@ class Mage_Selenium_TestConfiguration
     public $driver = null;
 
     /**
-     * Configuration obejct instance
+     * Confiration object instance
+     *
      * @var Mage_Selenium_TestConfiguration
      */
     public static $instance = null;
+
+    /**
+     * Test data
+     *
+     * @var array
+     */
+    protected $_testData = array();
+
+    /**
+     * Uimap data
+     *
+     * @var array
+     */
+    protected $_uimapData = array();
+
+    /**
+     * Configuration data
+     *
+     * @var array
+     */
+    protected $_configData = array();
 
     /**
      * Constructor defined private to implement singleton
@@ -81,65 +126,172 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Data configuration
-     * 
-     * @var array
-     */
-    protected static $_data = array();
-
-    /**
-     * Uimap data configuration
-     *
-     * @var array
-     */
-    protected static $_uimapData = array();
-
-    /**
-     * Loaded configuration files
-     *
-     * @var array[filename]Mage_Selenium_YamlConfig
-     */
-    protected static $_configs = array();
-
-    /**
      * Initializes test configuration
      */
-    public static function init()
+    public static function initInstance()
     {
-        $instance = new self();
-        self::$instance = $instance;
-        $instance->dataHelper = new Mage_Selenium_DataHelper($instance);
-        $instance->dataGenerator = new Mage_Selenium_DataGenerator($instance);
-        $instance->pageHelper = new Mage_Selenium_PageHelper($instance);
-
-        // @TODO load from configuration
-        $connectionConfig = array(
-            'browser'   => '*chrome',
-            'host'      => '127.0.0.1',
-            'port'      => 5555,
-        );
-        $instance->initDriver($connectionConfig);
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+            self::$instance->init();
+        }
+        return self::$instance;
     }
 
     /**
-     * Get page helper instance
+     * Initializes test configuration instance
+     *
+     * @return Mage_Selenium_TestConfiguration
+     */
+    public function init()
+    {
+        $this->_initConfig();
+        $this->_initTestData();
+        $this->_initUimaps();
+        $this->_initDrivers();
+        return $this;
+    }
+
+    /**
+     * Retrieve file helper instance
+     *
+     * @return Mage_Selenium_FileHelper
+     */
+    public function getFileHelper()
+    {
+        if (is_null($this->_fileHelper)) {
+            $this->_fileHelper = new Mage_Selenium_FileHelper($this);
+        }
+        return $this->_fileHelper;
+    }
+
+    /**
+     * Retrieve page helper instance
      *
      * @param Mage_Selenium_TestCase $testCase
+     * @param Mage_Selenium_SutHelper $sutHelper
      * @return Mage_Selenium_PageHelper
      */
-    public function getPageHelper(Mage_Selenium_TestCase $testCase)
+    public function getPageHelper(Mage_Selenium_TestCase $testCase=null, Mage_Selenium_SutHelper $sutHelper=null)
     {
-        $this->pageHelper->setTestCase($testCase);
-        return $this->pageHelper;
+        if (is_null($this->_pageHelper)) {
+            $this->_pageHelper = new Mage_Selenium_PageHelper($this);
+        }
+        if (!is_null($testCase)) {
+            $this->_pageHelper->setTestCase($testCase);
+        }
+        if (!is_null($sutHelper)) {
+            $this->_pageHelper->setSutHelper($sutHelper);
+        }
+        return $this->_pageHelper;
     }
 
     /**
-     *  Initialize new driver connection
+     * Retrieve data generator helper instance
+     *
+     * @return Mage_Selenium_DataGenerator
+     */
+    public function getDataGenerator()
+    {
+        if (is_null($this->_dataGenerator)) {
+            $this->_dataGenerator = new Mage_Selenium_DataGenerator($this);
+        }
+        return $this->_dataGenerator;
+    }
+
+    /**
+     * Retrive data helper instance
+     *
+     * @return Mage_Selenium_DataHelper
+     */
+    public function getDataHelper()
+    {
+        if (is_null($this->_dataHelper)) {
+            $this->_dataHelper = new Mage_Selenium_DataHelper($this);
+        }
+        return $this->_dataHelper;
+    }
+
+    /**
+     * Retrive SUT helper instance
+     *
+     * @return Mage_Selenium_FileHelper
+     */
+    public function getSutHelper()
+    {
+        if (is_null($this->_sutHelper)) {
+            $this->_sutHelper = new Mage_Selenium_SutHelper($this);
+        }
+        return $this->_sutHelper;
+    }
+
+    /**
+     * Retrive uid helper instance
+     *
+     * @return Mage_Selenium_Uid
+     */
+    public function getUidHelper()
+    {
+        if (is_null($this->_uidHelper)) {
+            $this->_uidHelper = new Mage_Selenium_Uid($this);
+        }
+        return $this->_uidHelper;
+    }
+
+    /**
+     * Initializes configuration
+     *
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _initConfig()
+    {
+        $this->_loadConfigData();
+        return $this;
+    }
+
+    /**
+     * Initializes test data from default location
+     *
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _initTestData()
+    {
+        $this->_loadTestData();
+        return $this;
+    }
+
+    /**
+     * Initializes uimaps
+     *
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _initUimaps()
+    {
+        $this->_loadUimapData('admin');
+        $this->_loadUimapData('frontend');
+        return $this;
+    }
+
+    /**
+     * Initializes all driver connections from configuration
+     *
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _initDrivers()
+    {
+        $connections = $this->getConfigValue('browsers');
+        foreach ($connections as $connection => $config) {
+            $this->_addDriverConnection($config);
+        }
+        return $this;
+    }
+
+    /**
+     * Initializes new driver connection
      *
      * @param array $connectionConfig
      * @return Mage_Selenium_TestConfiguration
      */
-    public function initDriver(array $connectionConfig)
+    protected function _addDriverConnection(array $connectionConfig)
     {
         $driver = new Mage_Selenium_Driver();
         $driver->setBrowser($connectionConfig['browser']);
@@ -150,34 +302,40 @@ class Mage_Selenium_TestConfiguration
         // @TODO implement interations outside
         $this->driver = $this->_drivers[0];
         return $this;
-        //var_dump(self::getConfig('browsers', 'browsers/firefox36/browser'));
-        //var_dump(self::getData('product_attribute_textfield/attribute_code'));
-        //var_dump(self::getUimapData('frontend/customer_account_create/title'));
-
     }
 
     /**
      * Retrieve value from configuration
      *
-     * @param string $file - filename without an extension (.yml is the default filename extension)
      * @param string $path - xpath-like path to config value
      * @return array
      */
-    public static function getConfig($file, $path = '')
+    public function getConfigValue($path = '')
     {
-        if (!isset(self::$_configs[$file])) {
-            $filename = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $file . '.yml';
+        return $this->_descend($this->_configData, $path);
+    }
 
-            if ($file && file_exists($filename)) {
-                $config = self::$_configs[$file] = sfYaml::load($filename);
-            } else {
-                return false;
-            }
-        } else {
-            $config = self::$_configs[$file];
-        }
+    /**
+     * Retrieve value from data configuration by path
+     *
+     * @param string $path
+     * @return array|string
+     */
+    public function getDataValue($path = '')
+    {
+        return $this->_descend($this->_testData, $path);
+    }
 
-        return self::_descend($config, $path);
+    /**
+     * Retrieve value from uimap data configuration by path
+     *
+     * @param string $area Application area ('frontend'|'admin')
+     * @param string $path
+     * @return array|string
+     */
+    public function getUimapValue($area, $path = '')
+    {
+        return $this->_descend($this->_uimapData[$area], $path);
     }
 
     /**
@@ -187,11 +345,10 @@ class Mage_Selenium_TestConfiguration
      * @param string $path
      * @return array|string
      */
-    protected static function _descend($config, $path)
+    protected function _descend($data, $path)
     {
         $pathArr = (!empty($path)) ? explode('/', $path) : '';
-
-        $currNode = $config;
+        $currNode = $data;
         if (!empty($pathArr)) {
             foreach ($pathArr as $node) {
                 if (isset($currNode[$node])) {
@@ -201,141 +358,55 @@ class Mage_Selenium_TestConfiguration
                 }
             }
         }
-
         return $currNode;
     }
 
     /**
-     * Retrieve value from data configuration by path
-     * 
-     * @param string $path
-     * @return array|string
-     */
-    public static function getData($path = '')
-    {
-        if (empty(self::$_data)) {
-            self::_loadData();
-        }
-        
-        return self::_descend(self::$_data, $path);
-    }
-
-    /**
      * Load and merge data files
-     */
-    protected static function _loadData()
-    {
-        $dataDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data';
-        $data = array();
-        
-        $files = glob($dataDir . DIRECTORY_SEPARATOR . '*.yml');
-
-        if (!empty($files)) {
-            foreach ($files as $file) {
-                if (is_readable($file)) {
-                    $fileData = sfYaml::load($file);
-                    if (is_array($fileData)) {
-                        $data = self::arrayMerging($data, $fileData);
-                    }
-                }
-            }
-        }
-
-        self::$_data = $data;
-    }
-
-
-    /**
-     * Retrieve value from uimap data configuration by path
      *
-     * @param string $path
-     * @return array|string
+     * @return Mage_Selenium_TestConfiguration
      */
-    public static function getUimapData($path = '')
+    protected function _loadTestData()
     {
-        if (empty(self::$_uimapData)) {
-            self::_loadUimapData('admin');
-            self::_loadUimapData('frontend');
-        }
-
-        return self::_descend(self::$_uimapData, $path);
+        $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data'
+                . DIRECTORY_SEPARATOR . '*.yml';
+        $this->_testData = $this->getFileHelper()->loadYamlFiles($files);
+        return $this;
     }
 
     /**
      * Load and merge data files
      *
      * @param string $area 'admin'|'frontend'
+     * @return Mage_Selenium_TestConfiguration
      */
-    protected static function _loadUimapData($area)
+    protected function _loadUimapData($area)
     {
-        $dataDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'uimaps' . DIRECTORY_SEPARATOR . $area;
-        $uimapsData[$area] = array();
-
-        $files = glob($dataDir . DIRECTORY_SEPARATOR . '*.yml');
-
-        if (!empty($files)) {
-            foreach ($files as $file) {
-                if (is_readable($file)) {
-                    $fileData = sfYaml::load($file);
-                    $uimapsData[$area] = self::arrayMerging($uimapsData[$area], $fileData);
-                }
-            }
-        }
-
-        self::$_uimapData[$area] = $uimapsData[$area];
+        $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'uimaps'
+                . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . '*.yml';
+        $this->_uimapData[$area] = $this->getFileHelper()->loadYamlFiles($files);
+        return $this;
     }
 
     /**
-     * Merge configuration arrays
-     * 
-     * @return array
-     */
-    protected static function arrayMerging()
-    {
-        if (function_exists('array_replace_recursive')) {
-            // native function is used (version >= 5.3.0)
-            $array = call_user_func_array('array_replace_recursive', func_get_args());
-        } else {
-            // own merging function is used
-            $args = func_get_args();
-            if (isset($args[0]) && is_array($args[0])) {
-                $array = $args[0];
-                
-                for ($i = 1; $i < func_num_args(); $i++) {
-                    if (is_array($args[$i])) $array = self::_arrayReplaceRecursive($array, $args[$i]);
-                }
-            } else {
-                $array = false;
-            }
-        }
-        
-        return $array;
-    }
-
-    
-    /**
-     * Merge two arrays, array_replace_recursive implementation
+     * Load configuration data
      *
-     * @param array $array
-     * @param array $array1
-     * @return array
+     * @return Mage_Selenium_TestConfiguration
      */
-    protected static function _arrayReplaceRecursive($array, $array1)
+    protected function _loadConfigData()
     {
-        if (!empty($array1) && is_array($array1)) {
-            foreach ($array1 as $key => $value) {
-                if (!isset($array[$key]) || (isset($array[$key]) && !is_array($array[$key]))) {
-                    $array[$key] = array();
-                }
-
-                if (is_array($value)) { 
-                    $value = self::_arrayReplaceRecursive($array[$key], $value);
-                }
-                
-                $array[$key] = $value;
+        $files = array(
+            'browsers.yml',
+            'local.yml'
+        );
+        $configDir = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+        foreach ($files as $file) {
+            $fileData = $this->getFileHelper()->loadYamlFile($configDir . $file);
+            if ($fileData) {
+                $this->_configData = array_replace_recursive($this->_configData, $fileData);
             }
         }
-        
-        return $array;
+        return $this;
     }
+
 }
