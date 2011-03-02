@@ -80,7 +80,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * Checking validation for 'Attribute Code field is EMPTY'
      */
     public function test_WithRequiredFieldsEmpty_EmptyAttributeCode()
     {
@@ -96,27 +96,51 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * Checking validation for 'Admin title field is EMPTY'
      */
     public function test_WithRequiredFieldsEmpty_EmptyAdminTitle()
     {
-        // @TODO
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_dropdown', array(
+            'admin_title' => '')));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * @TODO
+     * Checking validation for 'Admin Option field is EMPTY'
      */
     public function test_WithRequiredFieldsEmpty_EmptyAdminOptionTitle()
     {
-        // @TODO
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_dropdown', array(
+            'admin_option' => '')));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * @TODO
+     * Checking validation for valid data in the 'Attribute Code' field
      */
     public function test_WithInvalidAttributeCode()
     {
-        // @TODO
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_dropdown', array(
+            'attribute_code' => '111')));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**

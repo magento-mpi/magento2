@@ -113,11 +113,11 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
                 'There is no "Create Store View" button on the page');
         $this->assertTrue($this->navigated('new_store_view'),
                 'Wrong page is displayed');
-        $this->assertTrue($this->buttonIsPresent('back'),
+        $this->assertTrue($this->controlIsPresent('button', 'back'),
                 'There is no "Back" button on the page');
-        $this->assertTrue($this->buttonIsPresent('save_store_view'),
+        $this->assertTrue($this->controlIsPresent('button', 'save_store_view'),
                 'There is no "Save" button on the page');
-        $this->assertTrue($this->buttonIsPresent('reset'),
+        $this->assertTrue($this->controlIsPresent('button', 'reset'),
                 'There is no "Reset" button on the page');
     }
 
