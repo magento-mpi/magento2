@@ -420,14 +420,16 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         $subtotal       = $taxSubtotal      = $item->getRowTotal();
         $baseSubtotal   = $baseTaxSubtotal  = $item->getBaseRowTotal();
         $taxOnOrigPrice = !$this->_helper->applyTaxOnCustomPrice($this->_store) && $item->hasCustomPrice();
+        $calculationSubtotal = $subtotal;
         if ($taxOnOrigPrice) {
             $origSubtotal       = $item->getOriginalPrice() * $qty;
             $baseOrigSubtotal   = $item->getBaseOriginalPrice() * $qty;
+            $calculationSubtotal = $origSubtotal;
         }
         $item->setTaxPercent($rate);
         if ($this->_config->priceIncludesTax($this->_store)) {
             if ($this->_sameRateAsStore($request)) {
-                $rowTax         = $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, true, false), $rate, true);
+                $rowTax         = $this->_deltaRound($calc->calcTaxAmount($calculationSubtotal, $rate, true, false), $rate, true);
                 $baseRowTax     = $this->_deltaRound($calc->calcTaxAmount($baseSubtotal, $rate, true, false), $rate, true, 'base');
                 $taxPrice       = $price;
                 $baseTaxPrice   = $basePrice;
@@ -454,7 +456,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
                 $price          = $calc->round($subtotal/$qty);
                 $basePrice      = $calc->round($baseSubtotal/$qty);
 
-                $rowTax         = $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, false, false), $rate, true);
+                $rowTax         = $this->_deltaRound($calc->calcTaxAmount($calculationSubtotal, $rate, false, false), $rate, true);
                 $baseRowTax     = $this->_deltaRound($calc->calcTaxAmount($baseSubtotal, $rate, false, false), $rate, true, 'base');
                 $taxSubtotal    = $subtotal + $rowTax;
                 $baseTaxSubtotal= $baseSubtotal + $baseRowTax;
@@ -470,7 +472,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
                 $isPriceInclTax = false;
             }
         } else {
-            $rowTax         = $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, false, false), $rate, true);
+            $rowTax         = $this->_deltaRound($calc->calcTaxAmount($calculationSubtotal, $rate, false, false), $rate, true);
             $baseRowTax     = $this->_deltaRound($calc->calcTaxAmount($baseSubtotal, $rate, false, false), $rate, true, 'base');
             $taxSubtotal    = $subtotal + $rowTax;
             $baseTaxSubtotal= $baseSubtotal + $baseRowTax;
