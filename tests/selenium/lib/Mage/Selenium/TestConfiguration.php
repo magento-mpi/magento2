@@ -68,7 +68,7 @@ class Mage_Selenium_TestConfiguration
     public $driver = null;
 
     /**
-     * Confiration obejct instance
+     * Configuration obejct instance
      * @var Mage_Selenium_TestConfiguration
      */
     public static $instance = null;
@@ -235,7 +235,7 @@ class Mage_Selenium_TestConfiguration
                 if (is_readable($file)) {
                     $fileData = sfYaml::load($file);
                     if (is_array($fileData)) {
-                        $data = array_merge_recursive($data, $fileData);
+                        $data = self::arrayMerging($data, $fileData);
                     }
                 }
             }
@@ -277,11 +277,65 @@ class Mage_Selenium_TestConfiguration
             foreach ($files as $file) {
                 if (is_readable($file)) {
                     $fileData = sfYaml::load($file);
-                    $uimapsData[$area] = array_merge_recursive($uimapsData[$area], $fileData);
+                    $uimapsData[$area] = self::arrayMerging($uimapsData[$area], $fileData);
                 }
             }
         }
 
         self::$_uimapData[$area] = $uimapsData[$area];
+    }
+
+    /**
+     * Merge configuration arrays
+     * 
+     * @return array
+     */
+    protected static function arrayMerging()
+    {
+        if (function_exists('array_replace_recursive')) {
+            // native function is used (version >= 5.3.0)
+            $array = call_user_func_array('array_replace_recursive', func_get_args());
+        } else {
+            // own merging function is used
+            $args = func_get_args();
+            if (isset($args[0]) && is_array($args[0])) {
+                $array = $args[0];
+                
+                for ($i = 1; $i < func_num_args(); $i++) {
+                    if (is_array($args[$i])) $array = self::_arrayReplaceRecursive($array, $args[$i]);
+                }
+            } else {
+                $array = false;
+            }
+        }
+        
+        return $array;
+    }
+
+    
+    /**
+     * Merge two arrays, array_replace_recursive implementation
+     *
+     * @param array $array
+     * @param array $array1
+     * @return array
+     */
+    protected static function _arrayReplaceRecursive($array, $array1)
+    {
+        if (!empty($array1) && is_array($array1)) {
+            foreach ($array1 as $key => $value) {
+                if (!isset($array[$key]) || (isset($array[$key]) && !is_array($array[$key]))) {
+                    $array[$key] = array();
+                }
+
+                if (is_array($value)) { 
+                    $value = self::_arrayReplaceRecursive($array[$key], $value);
+                }
+                
+                $array[$key] = $value;
+            }
+        }
+        
+        return $array;
     }
 }
