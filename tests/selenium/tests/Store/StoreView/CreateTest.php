@@ -41,7 +41,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      */
     protected function assertPreConditions()
     {
-        $this->assertTrue($this->adminLogin());
+        $this->assertTrue($this->loginAdminUser());
         $this->assertTrue($this->admin('dashboard'));
         $this->assertTrue($this->navigated('manage_stores'));
     }
@@ -101,7 +101,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($this->loadData('generic_store_view',
                         array(
                             'store_view_name' => $this->generate('string', 255, ':alnum:'),
-                            'store_view_code' => $this->generate('string', 32, ':alnum:')
+                            'store_view_code' => $this->generate('string', 32, array(':lower:', ':digit:'))
                         ),
                         'store_view_code'));
         $this->clickButton('save_store_view');
@@ -116,7 +116,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         $this->clickButton('create_store_view');
         $longValues = array(
             'store_view_name' => $this->generate('string', 256, ':alnum:'),
-            'store_view_code' => $this->generate('string', 33, ':alnum:'),
+            'store_view_code' => $this->generate('string', 33, array(':lower:', ':digit:')),
         );
         $this->fillForm($this->loadData('generic_store_view', $longValues, 'store_view_code'));
         $this->clickButton('save_store_view');
@@ -125,15 +125,17 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->navigated('manage_stores'),
                 'After successful creation store view should be redirected to Manage Stores page');
         $this->searchAndOpen($longValues);
-        $this->assertEquals(strlen($this->getValue('store_view_name')), 255);
-        $this->assertEquals(strlen($this->getValue('store_view_code')), 32);
+        $xpathName = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset_store_view_info/fields/store_view_name');
+        $xpathCode = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset_store_view_info/fields/store_view_name');
+        $this->assertEquals(strlen($this->getValue($xpathName)), 255);
+        $this->assertEquals(strlen($this->getValue($xpathCode)), 32);
     }
 
     public function test_WithSpecialCharacters_InName()
     {
         $this->clickButton('create_store_view');
         $this->fillForm($this->loadData('generic_store_view',
-                        array('store_view_name' => $this->generate('string', 256, ':alnum:')),
+                        array('store_view_name' => $this->generate('string', 255, ':punct:')),
                         'store_view_code'));
         $this->clickButton('save_store_view');
         $this->assertFalse($this->errorMessage(), $this->messages);
@@ -146,7 +148,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
     {
         $this->clickButton('create_store_view');
         $this->fillForm($this->loadData('generic_store_view',
-                        array('store_view_name' => $this->generate('string', 256, ':alnum:')), NULL));
+                        array('store_view_name' => $this->generate('string', 32, ':punct:')), NULL));
         $this->clickButton('save_store_view');
         $this->assertTrue($this->errorMessage(), 'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
@@ -157,7 +159,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
     /**
      * @dataProvider data_InvalidCode
      */
-    public function test_WithInvalidCode()
+    public function test_WithInvalidCode($invalidCode)
     {
         $this->clickButton('create_store_view');
         $this->fillForm($this->loadData('generic_store_view', $invalidCode, null));
