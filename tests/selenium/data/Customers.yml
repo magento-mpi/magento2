@@ -32,7 +32,7 @@ customer_account_create:
   password          : '123123q'
   confirm_password  : '123123q'
 
-creting_new_customer:
+crete_customer:
   associate_to_website      : 'Main Website'
   group                     : 'General'
   first_name                : 'First Name'
