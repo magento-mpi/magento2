@@ -302,7 +302,7 @@
 
         <!-- Fix version -->
         <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
-            <arg line=". -name '*.html' | xargs sed -i 's~#MAGE_VERSION#~1.5.0.1~g'"/>
+            <arg line=". -name '*.html' | xargs sed -i 's~#MAGE_VERSION#~${build.number}~g'"/>
         </exec>
 
         <exec dir="${dir.docs}/phpdoc/" executable="find" failonerror="true">
