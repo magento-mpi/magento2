@@ -41,16 +41,31 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->assertTrue($this->loginAdminUser());
+        $this->assertTrue($this->admin('dashboard'));
     }
 
+    public function testNavigation()
+    {
+        $this->assertTrue($this->navigate('manage_users'));
+        $this->assertTrue($this->clickButton('add_new_user'), 'There is no "Add New User Button" button on the page');
+        $this->assertTrue($this->navigated('new_user'), 'Wrong page is displayed');
+        $this->assertTrue($this->navigate('new_user'), 'Wrong page is displayed when accessing direct URL');
+    }
 
     /**
      * @TODO
      */
     public function test_WithRequiredFieldsOnly()
     {
-        // @TODO
+        $this->assertTrue(
+            $this->navigate('manage_users')->clickButton('add_new_user')->navigated('new_user'),
+            'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('new_user_create', null, null));
+        $this->clickButton('save_user');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
@@ -58,7 +73,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyUserName()
     {
-        // @TODO
+        $this->assertTrue(
+            $this->navigate('manage_users')->clickButton('add_new_user')->navigated('new_user'),
+            'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('new_user_create', array('user_name' => '') , null));
+        $this->clickButton('save_user');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
@@ -66,7 +88,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyFirstName()
     {
-        // @TODO
+        $this->assertTrue(
+            $this->navigate('manage_users')->clickButton('add_new_user')->navigated('new_user'),
+            'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('new_user_create', array('first_name' => '') , null));
+        $this->clickButton('save_user');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
@@ -74,7 +103,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyLastName()
     {
-        // @TODO
+        $this->assertTrue(
+            $this->navigate('manage_users')->clickButton('add_new_user')->navigated('new_user'),
+            'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('new_user_create', array('last_name' => '') , null));
+        $this->clickButton('save_user');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
@@ -82,7 +118,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyEmail()
     {
-        // @TODO
+        $this->assertTrue(
+            $this->navigate('manage_users')->clickButton('add_new_user')->navigated('new_user'),
+            'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('new_user_create', array('email' => '') , null));
+        $this->clickButton('save_user');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
@@ -90,7 +133,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyPassword()
     {
-        // @TODO
+        $this->assertTrue(
+            $this->navigate('manage_users')->clickButton('add_new_user')->navigated('new_user'),
+            'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('new_user_create', array('password' => '') , null));
+        $this->clickButton('save_user');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
@@ -98,7 +148,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyPasswordConfirmation()
     {
-        // @TODO
+        $this->assertTrue(
+            $this->navigate('manage_users')->clickButton('add_new_user')->navigated('new_user'),
+            'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('new_user_create', array('password_confirmation' => '') , null));
+        $this->clickButton('save_user');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
