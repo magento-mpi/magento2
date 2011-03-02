@@ -51,10 +51,12 @@
 
     if (customerBalanceSubstracted) {
         quoteBaseGrandTotal += <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>;
+        checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
         customerBalanceSubstracted = false;
     }
 
     Payment.prototype.switchCustomerBalanceCheckbox = function() {
+
         if (!customerBalanceSubstracted && $('use_customer_balance').checked) {
             quoteBaseGrandTotal -= <?php echo (float)$this->getBalance(); ?>;
             customerBalanceSubstracted = true;
