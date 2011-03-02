@@ -268,8 +268,10 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         $quote      = $item->getQuote();
         $address    = $this->_getAddress($item);
 
-        $itemPrice  = $this->_getItemPrice($item);
-        $baseItemPrice = $this->_getItemBasePrice($item);
+        $itemPrice              = $this->_getItemPrice($item);
+        $baseItemPrice          = $this->_getItemBasePrice($item);
+        $itemOriginalPrice      = $item->getOriginalPrice();
+        $baseItemOriginalPrice  = $item->getBaseOriginalPrice();
 
         if ($itemPrice <= 0) {
             return $this;
@@ -291,10 +293,14 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
             $discountAmount = 0;
             $baseDiscountAmount = 0;
+            //discount for original price
+            $originalDiscountAmount = 0;
+            $baseOriginalDiscountAmount = 0;
+
             switch ($rule->getSimpleAction()) {
                 case Mage_SalesRule_Model_Rule::TO_PERCENT_ACTION:
                     $rulePercent = max(0, 100-$rule->getDiscountAmount());
-                    //no break;
+                //no break;
                 case Mage_SalesRule_Model_Rule::BY_PERCENT_ACTION:
                     $step = $rule->getDiscountStep();
                     if ($step) {
@@ -302,6 +308,9 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                     }
                     $discountAmount    = ($qty*$itemPrice - $item->getDiscountAmount()) * $rulePercent/100;
                     $baseDiscountAmount= ($qty*$baseItemPrice - $item->getBaseDiscountAmount()) * $rulePercent/100;
+                    //get discount for original price
+                    $originalDiscountAmount    = ($qty*$itemOriginalPrice - $item->getDiscountAmount()) * $rulePercent/100;
+                    $baseOriginalDiscountAmount= ($qty*$baseItemOriginalPrice - $item->getDiscountAmount()) * $rulePercent/100;
 
                     if (!$rule->getDiscountQty() || $rule->getDiscountQty()>$qty) {
                         $discountPercent = min(100, $item->getDiscountPercent()+$rulePercent);
@@ -312,6 +321,9 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                     $quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
                     $discountAmount    = $qty*($itemPrice-$quoteAmount);
                     $baseDiscountAmount= $qty*($baseItemPrice-$rule->getDiscountAmount());
+                    //get discount for original price
+                    $originalDiscountAmount    = $qty*($itemOriginalPrice-$quoteAmount);
+                    $baseOriginalDiscountAmount= $qty*($baseItemOriginalPrice-$rule->getDiscountAmount());
                     break;
 
                 case Mage_SalesRule_Model_Rule::BY_FIXED_ACTION:
@@ -361,6 +373,12 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                         $discountAmount = min($itemPrice * $qty, $quoteAmount);
                         $discountAmount = $quote->getStore()->roundPrice($discountAmount);
                         $baseDiscountAmount = $quote->getStore()->roundPrice($baseDiscountAmount);
+
+                        //get discount for original price
+                        $originalDiscountAmount = min($itemOriginalPrice * $qty, $quoteAmount);
+                        $baseOriginalDiscountAmount = $quote->getStore()->roundPrice($originalDiscountAmount);
+                        $baseOriginalDiscountAmount = $quote->getStore()->roundPrice($baseItemOriginalPrice);
+
                         $cartRules[$rule->getId()] -= $baseDiscountAmount;
                     }
                     $address->setCartFixedRules($cartRules);
@@ -380,11 +398,14 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
                     $discountQty = $fullRuleQtyPeriod * $y;
                     if ($freeQty > $x) {
-                         $discountQty += $freeQty - $x;
+                        $discountQty += $freeQty - $x;
                     }
 
                     $discountAmount    = $discountQty * $itemPrice;
                     $baseDiscountAmount= $discountQty * $baseItemPrice;
+                    //get discount for original price
+                    $originalDiscountAmount    = $discountQty * $itemOriginalPrice;
+                    $baseOriginalDiscountAmount= $discountQty * $baseItemOriginalPrice;
                     break;
             }
 
@@ -427,11 +448,18 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
              * We can't use row total here because row total not include tax
              * Discount can be applied on price included tax
              */
-            $discountAmount     = min($item->getDiscountAmount()+$discountAmount, $itemPrice*$qty);
-            $baseDiscountAmount = min($item->getBaseDiscountAmount()+$baseDiscountAmount, $baseItemPrice*$qty);
+
+            $itemDiscountAmount = $item->getDiscountAmount();
+            $itemBaseDiscountAmount = $item->getBaseDiscountAmount();
+
+            $discountAmount     = min($itemDiscountAmount + $discountAmount, $itemPrice * $qty);
+            $baseDiscountAmount = min($itemBaseDiscountAmount + $baseDiscountAmount, $baseItemPrice * $qty);
 
             $item->setDiscountAmount($discountAmount);
             $item->setBaseDiscountAmount($baseDiscountAmount);
+
+            $item->setOriginalDiscountAmount($originalDiscountAmount);
+            $item->setBaseOriginalDiscountAmount($baseOriginalDiscountAmount);
 
             $appliedRuleIds[$rule->getRuleId()] = $rule->getRuleId();
 
@@ -680,6 +708,19 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      * @return float
      */
     protected function _getItemPrice($item)
+    {
+        $price = $item->getDiscountCalculationPrice();
+        $calcPrice = $item->getCalculationPrice();
+        return ($price !== null) ? $price : $calcPrice;
+    }
+
+    /**
+     * Return item original price
+     *
+     * @param Mage_Sales_Model_Quote_Item_Abstract $item
+     * @return float
+     */
+    protected function _getItemOriginalPrice($item)
     {
         $price = $item->getDiscountCalculationPrice();
         return ($price !== null) ? $price : $item->getCalculationPrice();

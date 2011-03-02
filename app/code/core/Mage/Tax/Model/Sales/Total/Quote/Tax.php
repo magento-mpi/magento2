@@ -556,8 +556,14 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 break;
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
-                $discount           = $item->getDiscountAmount();
-                $baseDiscount       = $item->getBaseDiscountAmount();
+                if ($this->_helper->applyTaxOnOriginalPrice($this->_store)) {
+                    $discount           = $item->getOriginalDiscountAmount();
+                    $baseDiscount       = $item->getBaseOriginalDiscountAmount();
+                } else {
+                    $discount           = $item->getDiscountAmount();
+                    $baseDiscount       = $item->getBaseDiscountAmount();
+                }
+
                 $taxSubtotal        = max($subtotal - $discount, 0);
                 $baseTaxSubtotal    = max($baseSubtotal - $baseDiscount, 0);
                 $rowTax             = $this->_calculator->calcTaxAmount($taxSubtotal, $rate, $inclTax, false);
