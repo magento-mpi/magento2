@@ -63,10 +63,13 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
         if (!stristr($id, 'http://')) {
             $id = self::ITEMS_LOCATION . '/' . $id;
         }
+        if (!strstr($id, '?')) {
+            $id = $id . '?content=attributes,meta';
+        } elseif (!stristr($id, 'content=')) {
+            $id = $id . '&content=attributes,meta';
+        }
         try {
-            $service = $this->getService($storeId);
-            $service->getHttpClient()->setParameterGet('content', 'attributes,meta');
-            $entry = $service->getGbaseItemEntry($id);
+            $entry = $this->getService($storeId)->getGbaseItemEntry($id);
             return $this->_getEntryStats($entry);
         } catch (Exception $e) {
             return null;
@@ -95,14 +98,32 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
                                     ->gBaseDate2DateTime($expirationDate[0]->getText());
         }
 
-        $allAttributes = $entry->getGbaseAttributes();
-        for ($i = 0; $i < count($allAttributes); $i++) {
-            $baseAttribute = $allAttributes[$i];
-            if ($baseAttribute->rootNamespaceURI == $entry->lookupNamespace('gm')) {
-                $result[(string)$baseAttribute->rootElement] = $baseAttribute[0]->getText();
+        $allAttributes = $entry->getExtensionElements();
+        $elementsCount = count($allAttributes);
+        if($elementsCount) {
+            $statsElement = '';
+            for ($i = 0; $i < $elementsCount; $i++) {
+                /**
+                 * @var $extAttribute Zend_Gdata_App_Extension_Element
+                 */
+                $extAttribute = $allAttributes[$i];
+                if ((string)$extAttribute->rootElement == 'stats') {
+                    $statsElement = $extAttribute;
+                    break;
+                }
+            }
+            $_stats = $statsElement->getExtensionElements();
+            for ($i = 0; $i < count($_stats); $i++) {
+                /**
+                 * @var $_currentElement Zend_Gdata_App_Extension_Element
+                 */
+                $_currentElement = $_stats[$i];
+                $_currentAttributes = $_currentElement->getExtensionAttributes();
+                if (isset($_currentAttributes['total']) && isset($_currentAttributes['total']['value'])) {
+                    $result[(string)$_currentElement->rootElement] = $_currentAttributes['total']['value'];
+                }
             }
         }
-
         return $result;
     }
 
