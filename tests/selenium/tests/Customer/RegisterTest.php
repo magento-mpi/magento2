@@ -103,7 +103,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->fillForm($this->loadData('customer_account_create', array(
             'firstname' => $this->generate('string', 260, ':alnum:'),
             'lastname'  => $this->generate('string', 260, ':alnum:'),
-            'email'     => $this->generate('email', 260, 'valid', $this->uid),
+            'email'     => $this->generate('email', 260, 'valid', $this->_uid),
         )));
         $this->clickButton('submit');
         $this->assertFalse($this->errorMessage(), $this->messages);
