@@ -109,8 +109,8 @@ class Mage_Selenium_TestConfiguration
         self::$browser = self::$_browsers[0];
 
         //var_dump(self::getConfig('browsers', 'browsers/firefox36/browser'));
-        //var_dump($this->_getData('product_attribute_textfield/attribute_code'));
-        //var_dump($this->_getUimapData('frontend/customer_account_create/title'));
+        //var_dump(self::getData('product_attribute_textfield/attribute_code'));
+        //var_dump(self::getUimapData('frontend/customer_account_create/title'));
 
     }
 
