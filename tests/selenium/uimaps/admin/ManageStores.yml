@@ -24,10 +24,9 @@
 # @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
----
-#Manage Stores and related pages
+--- #Manage Stores and related pages
 
-#Messages
+# Messages
 messages:
   success_saved_store: li[normalize-space(@class)='success-msg']//span[text()='The store has been saved.']
   success_saved_store_view: li[normalize-space(@class)='success-msg']//span[text()='The store view has been saved']
@@ -40,85 +39,84 @@ messages:
 
 # 'Manage Stores' page
 manage_store:
-  mca  : system_store/
+  mca: system_store/
   title: Stores / System / Magento Admin
   uimap:
-    form : &manageStores
-      xpath     : div[@id='storeGrid']
-      - fieldset_manage_stores:
+    form:
+      fieldset_manage_stores:
+        xpath: div[@id='storeGrid']
         buttons:
-          reset_filter    : button[span='Reset Filter']
-          search          : button[span='Search']
+          reset_filter: button[span='Reset Filter']
+          search: button[span='Search']
         links:
-
+          select_store_view: td[normalize-space(@class)='a-left last']/a[text()='%NAME%']
         fields:
-          website_name    : input[@id='filter_website_title']
-          store_name      : input[@id='filter_group_title']
-          store_view_name : input[@id='filter_store_title']
+          website_name: input[@id='filter_website_title']
+          store_name: input[@id='filter_group_title']
+          store_view_name: input[@id='filter_store_title']
     page_buttons:
-      create_website    : button[span='Create Website']
-      create_store      : button[span='Create Store']
-      create_store_view : button[span='Create Store View']
+      create_website: button[span='Create Website']
+      create_store: button[span='Create Store']
+      create_store_view: button[span='Create Store View']
 
 # 'New Store View' Page
 new_store_view:
-  mca  : system_store/newStore/
+  mca: system_store/newStore/
   title: New Store View / Stores / System / Magento Admin
   uimap:
-    form: &newStoreView
-      xpath     : div[@id='page:main-container']
-      - fieldset_store_view_info: form[@id='edit_form']
+    form:
+      fieldset_store_view_info:
+        xpath: form[@id='edit_form']
         dropdowns:
-          store_name            : select[@id='store_group_id']
-          store_view_status     : select[@id='store_is_active']
+          store_name: select[@id='store_group_id']
+          store_view_status: select[@id='store_is_active']
         fields:
-          store_view_name       : input[@id='store_name']
-          store_view_code       : input[@id='store_code']
-          store_view_sort_order : input[@id='store_sort_order']
-        required  : [store_name, store_view_name, store_view_code, store_view_status]
-        unique    : [store_view_code]
+          store_view_name: input[@id='store_name']
+          store_view_code: input[@id='store_code']
+          store_view_sort_order: input[@id='store_sort_order']
+        required: [store_name, store_view_name, store_view_code, store_view_status]
     page_buttons:
-      back            : button[span='Back']
-      reset           : button[span='Reset']
-      save_store_view : button[span='Save Store View']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      save_store_view: button[span='Save Store View']
 
 # 'Edit Store View' Page
 edit_store_view:
-  mca  : system_store/editStore/store_id/%ID%/
+  mca: system_store/editStore/store_id/%ID%/
   title: %storeViewName% / Stores / System / Magento Admin
   uimap:
-    form: &editStoreView
-      xpath     : div[@id='page:main-container']
-      - fieldset_store_view_info: form[@id='edit_form']
+    form:
+      fieldset_store_view_info:
+        xpath: form[@id='edit_form']
         dropdowns:
-          store_name            : select[@id='store_group_id']
-          store_view_status     : select[@id='store_is_active']
+          store_name: select[@id='store_group_id']
+          store_view_status: select[@id='store_is_active']
         fields:
-          store_view_name       : input[@id='store_name']
-          store_view_code       : input[@id='store_code']
-          store_view_sort_order : input[@id='store_sort_order']
-        required  : [store_name, store_view_name, store_view_code, store_view_status]
-        unique    : [store_view_code]
+          store_view_name: input[@id='store_name']
+          store_view_code: input[@id='store_code']
+          store_view_sort_order: input[@id='store_sort_order']
+        required: [store_name, store_view_name, store_view_code, store_view_status]
+        unique: [store_view_code]
     page_buttons:
-      back              : button[span='Back']
-      reset             : button[span='Reset']
-      delete_store_view : button[span='Delete Store View']
-      save_store_view   : button[span='Save Store View']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      delete_store_view: button[span='Delete Store View']
+      save_store_view: button[span='Save Store View']
 
 # 'New Website' Page
 new_website:
-  mca  : system_store/newWebsite/
+  mca: system_store/newWebsite/
   title: New Website / Stores / System / Magento Admin
   uimap:
-    form: &newWebsite
-      xpath     : div[@id='page:main-container']
-      - fieldset_website_info: form[@id='edit_form']
+    form:
+      fieldset_website_info:
+        xpath: form[@id='edit_form']
         fields:
-          website_name       : input[@id='website_name']
-          website_code       : input[@id='website_code']
-          website_sort_order : input[@id='website_sort_order']
-        required  : [website_name, website_code]
-        unique    : [website_code]
+          website_name: input[@id='website_name']
+          website_code: input[@id='website_code']
+          website_sort_order: input[@id='website_sort_order']
+        required: [website_name, website_code]
+        unique: [website_code]
     page_buttons:
       back          : button[span='Back']
       reset         : button[span='Reset']
@@ -126,112 +124,112 @@ new_website:
 
 # 'Edit Website' Page
 edit_website:
-  mca  : system_store/editWebsite/website_id/%ID%/
+  mca: system_store/editWebsite/website_id/%ID%/
   title: %websiteName% / Stores / System / Magento Admin
   uimap:
-    form: &editWebsite
-      xpath     : div[@id='page:main-container']
-      - fieldset_website_info: form[@id='edit_form']
+    form:
+      fieldset_website_info:
+        xpath: form[@id='edit_form']
         checkboxes:
-          set_default        : input[@id='is_default']
+          set_default: input[@id='is_default']
         dropdowns:
-          default_store      : select[@id='website_default_group_id']
+          default_store: select[@id='website_default_group_id']
         fields:
-          website_name       : input[@id='website_name']
-          website_code       : input[@id='website_code']
-          website_sort_order : input[@id='website_sort_order']
-        required  : [website_name, website_code]
-        unique    : [website_code]
+          website_name: input[@id='website_name']
+          website_code: input[@id='website_code']
+          website_sort_order: input[@id='website_sort_order']
+        required: [website_name, website_code]
+        unique: [website_code]
     page_buttons:
-      back            : button[span='Back']
-      reset           : button[span='Reset']
-      delete_website  : button[span='Delete Website']
-      save_website    : button[span='Save Website']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      delete_website: button[span='Delete Website']
+      save_website: button[span='Save Website']
 
 # 'New Store' Page
 new_store:
-  mca  : system_store/newGroup/
+  mca: system_store/newGroup/
   title: New Store / Stores / System / Magento Admin
   uimap:
-    form: &newStore
-      xpath     : div[@id='page:main-container']
-      - fieldset_store_info: form[@id='edit_form']
+    form:
+      fieldset_store_info:
+        xpath: form[@id='edit_form']
         dropdowns:
-          website       : select[@id='group_website_id']
-          root_category :  select[@id='group_root_category_id']
+          website: select[@id='group_website_id']
+          root_category:  select[@id='group_root_category_id']
         fields:
-          store_name    : input[@id='group_name']
-        required  : [website, store_name, root_category]
+          store_name: input[@id='group_name']
+        required: [website, store_name, root_category]
     page_buttons:
-      back          : button[span='Back']
-      reset         : button[span='Reset']
-      save_store  : button[span='Save Store']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      save_store: button[span='Save Store']
 
 # 'Edit Store' Page
 edit_store:
-  mca  : system_store/editGroup/group_id/%ID%/
+  mca: system_store/editGroup/group_id/%ID%/
   title: %storeName% / Stores / System / Magento Admin
   uimap:
-    form: &editStore
-      xpath   : div[@id='page:main-container']
-      - fieldset_store_info: form[@id='edit_form']
+    form:
+      fieldset_store_info:
+        xpath: form[@id='edit_form']
         dropdowns:
-          website       : select[@id='group_website_id']
-          root_category :  select[@id='group_root_category_id']
-          default_store_view  : select[@id='group_default_store_id']
+          website: select[@id='group_website_id']
+          root_category:  select[@id='group_root_category_id']
+          default_store_view: select[@id='group_default_store_id']
         fields:
-          store_name    : input[@id='group_name']
-        required : [website, store_name, root_category]
+          store_name: input[@id='group_name']
+        required: [website, store_name, root_category]
     page_buttons:
-      back         : button[span='Back']
-      reset        : button[span='Reset']
-      delete_store : button[span='Delete Store']
-      save_store   : button[span='Save Store']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      delete_store: button[span='Delete Store']
+      save_store: button[span='Save Store']
 
 # 'Delete Store' Page
 detele_store:
    mca: system_store/deleteGroup/item_id/%ID%/
    title: Delete Store / Stores / System / Magento Admin
    uimap:
-    form: &deleteStore
-      xpath : div[@id='page:main-container']
-      - fieldset_backup_options: form[@id='edit_form']
+    form:
+      fieldset_backup_options:
+        xpath: form[@id='edit_form']
         dropdowns:
           create_backup: select[@id='store_create_backup']
         buttons:
-          reset        : button[span='Cancel']
-          delete_store : button[span='Delete Store']
+          reset: button[span='Cancel']
+          delete_store: button[span='Delete Store']
     page_buttons:
-      back  : button[span='Back']
+      back: button[span='Back']
 
 # 'Delete Website' Page
 detele_website:
    mca: system_store/deleteWebsite/item_id/%ID%/
    title: Delete Website / Stores / System / Magento Admin
    uimap:
-    form: &deleteWebsite
-      xpath : div[@id='page:main-container']
-      - fieldset_backup_options: form[@id='edit_form']
+    form:
+      fieldset_backup_options:
+        xpath: form[@id='edit_form']
         dropdowns:
           create_backup: select[@id='store_create_backup']
         buttons:
-          reset        : button[span='Cancel']
-          delete_website : button[span='Delete Website']
+          reset: button[span='Cancel']
+          delete_website: button[span='Delete Website']
     page_buttons:
-      back  : button[span='Back']
+      back: button[span='Back']
 
 # 'Delete Store View' Page
 detele_store_view:
    mca: system_store/deleteStore/item_id/%ID%/
    title: Delete Store View / Stores / System / Magento Admin
    uimap:
-    form: &deleteStoreView
-      xpath : div[@id='page:main-container']
-      - fieldset_backup_options: form[@id='edit_form']
+    form:
+      fieldset_backup_options:
+        xpath : form[@id='edit_form']
         dropdowns:
           create_backup: select[@id='store_create_backup']
         buttons:
-          reset        : button[span='Cancel']
-          delete_website : button[span='Delete Store View']
+          reset: button[span='Cancel']
+          delete_website: button[span='Delete Store View']
     page_buttons:
-      back  : button[span='Back']
+      back: button[span='Back']
