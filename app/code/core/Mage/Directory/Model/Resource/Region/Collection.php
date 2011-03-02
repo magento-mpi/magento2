@@ -105,13 +105,12 @@ class Mage_Directory_Model_Resource_Region_Collection extends Mage_Core_Model_Re
      */
     public function addCountryCodeFilter($countryCode)
     {
-        $this->addBindParam(':iso3_code', $countryCode);
         $this->getSelect()
             ->joinLeft(
                 array('country' => $this->_countryTable),
                 'main_table.country_id = country.country_id'
                 )
-            ->where('country.iso3_code = :iso3_code');
+            ->where('country.iso3_code = ?', $countryCode);
 
         return $this;
     }
