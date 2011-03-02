@@ -34,7 +34,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class ProductAttributesCreateTest extends Mage_Selenium_TestCase
+class ProductAttributesDeleteTest extends Mage_Selenium_TestCase
 {
     /*
      * Preconditions

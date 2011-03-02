@@ -27,19 +27,46 @@
  */
 
 /**
- * Test Customer Registration
+ * @TODO
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CustomerRegisterTest extends Mage_Selenium_TestCase
+class Customer_RegisterTest extends Mage_Selenium_TestCase
 {
 
+    /**
+     * Make sure that customer is not logged in, and navigate to homepage
+     */
     protected function assertPreConditions()
     {
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->front('home'));
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_FromCreateAccountPage()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_FromOnePageCheckoutPage()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_FromMultipleCheckoutPage()
+    {
+        // @TODO
     }
 
     public function testNavigation()
@@ -77,5 +104,5 @@ class CustomerRegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
         $this->assertTrue($this->navigated('customer_account_index'), 'After succesfull registration customer should be redirected to account dashboard');
     }
-
+    
 }

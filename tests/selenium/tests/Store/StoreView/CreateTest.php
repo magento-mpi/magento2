@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -19,27 +18,95 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
+ * @category    tests
+ * @package     selenium
+ * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Test Customer Registration
+ * @TODO
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CreateTest extends Mage_Selenium_TestCase {
+class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
+{
 
-    public static function setUpBeforeClass() {
+    /**
+     * Navigate to System -> Manage Stores
+     */
+    protected function assertPreConditions()
+    {
+        $this->assertTrue($this->navigated('manage_stores'));
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithRequiredFieldsOnly()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithRequiredFieldsEmpty_EmptyName()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithRequiredFieldsEmpty_EmptyCode()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithLongValues()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithSpecialCharacters()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithInvalidCode()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithCodeThatAlreadyExists()
+    {
+        // @TODO
+    }
+    
+/**
+    public function setUpBeforeClass() {
         $this->assertTrue($this->adminLogin());
         $this->assertTrue($this->admin('dashboard'));
         $this->assertTrue($this->navigate('manage_stores'));
     }
-
-    protected function assertPreConditions() {
-        if (!$this->assertTrue($this->navigated('manage_stores'))) {
-            $this->navigate('manage_stores');
-        }
-    }
+*/
 
     public function testNavigation() {
         $this->assertTrue($this->clickButton('create_store_view'),
@@ -161,5 +228,5 @@ class CreateTest extends Mage_Selenium_TestCase {
             array('store_view_code' => '2invalid_code2')
         );
     }
-
+    
 }
