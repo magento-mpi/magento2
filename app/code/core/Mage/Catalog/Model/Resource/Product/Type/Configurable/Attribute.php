@@ -176,7 +176,8 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
                 $old[$key] = $row;
             } else {
                 // delete invalid (duplicate row)
-                $write->delete($this->_priceTable, array('value_id = ?' => $row['value_id']));
+                $where = $write->quoteInto('value_id = ?', $row['value_id']);
+                $write->delete($this->_priceTable, $where);
             }
         }
 
