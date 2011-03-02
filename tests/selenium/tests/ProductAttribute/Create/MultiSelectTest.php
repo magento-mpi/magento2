@@ -84,7 +84,15 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyAttributeCode()
     {
-        // @TODO
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_multiselect', array(
+            'attribute_code' => '')));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
