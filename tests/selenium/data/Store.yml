@@ -24,15 +24,17 @@
 # @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
---- #Test data for Store
-datasets:
-  generic_store:
-    website       : Main Website
-    store_name    : Test Store
-    root_category : Default Category
+---
+#Test data for Store
+
+generic_store:
+  website       : Main Website
+  store_name    : Test Store
+  root_category : Default Category
+
 # @TODO
-#  edit_store:
-#    store_name:
-#    root_category:
-#    default_store_view:
+#edit_store:
+#  store_name:
+#  root_category:
+#  default_store_view:
 

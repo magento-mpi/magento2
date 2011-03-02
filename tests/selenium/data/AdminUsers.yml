@@ -24,21 +24,20 @@
 # @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
-
 ---
-datasets: &generic_admin_role
-new_role_create:
- role_name       : 'Jon Black Admin'
- role_scopes     : 'All'
- resource_access : 'All'
+#Test data for Admin User and Admin Role
 
-datasets: &generic_admin_user
-new_user_create:
- user_name : 'Jon Black'
- first_name : 'Jon'
- last_name : 'Black'
- email : 'jon_black@magento.com'
- password : '123123q'
- password_confirmation : '123123q'
- this_acount_is : 'Active'
- select_by_role_name : 'Administrators '
+generic_admin_role:
+  role_name: TestRole
+  role_scopes: All
+  resource_access: All
+
+generic_admin_user:
+  user_name: testuser
+  first_name: John
+  last_name: Doe
+  email: johndoe@magento.com
+  password: 123123q
+  password_confirmation: 123123q
+  this_acount_is: Active
+  select_by_role_name: Administrators

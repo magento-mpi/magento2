@@ -24,19 +24,22 @@
 # @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
---- #Test data for Website
-datasets:
-  generic_website:
-    website_name        : Test Website
-    website_code        : test_website_code
-  all_fields_website:
-    website_name        : Test Website 2
-    website_code        : test_website_code_2
-    website_sort_order  : 10
+---
+#Test data for Website
+
+generic_website:
+  website_name: Test Website
+  website_code: test_website_code
+
+all_fields_website:
+  website_name: Test Website 2
+  website_code: test_website_code_2
+  website_sort_order: 10
+
 # @TODO
-#  edit_website:
-#    website_name:
-#    website_code:
-#    website_sort_order:
-#    default_store:
-#    set_default:
+#edit_website:
+#  website_name:
+#  website_code:
+#  website_sort_order:
+#  default_store:
+#  set_default:
