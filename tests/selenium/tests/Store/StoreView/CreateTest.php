@@ -30,21 +30,28 @@
 class CreateTest extends Mage_Selenium_TestCase {
 
     public static function setUpBeforeClass() {
-        $this->assertTrue($this->loginAdminUser());
+        $this->assertTrue($this->adminLogin());
         $this->assertTrue($this->admin('dashboard'));
         $this->assertTrue($this->navigate('manage_stores'));
     }
 
     protected function assertPreConditions() {
-        $this->assertTrue($this->navigated('manage_stores'));
+        if (!$this->assertTrue($this->navigated('manage_stores'))) {
+            $this->navigate('manage_stores');
+        }
     }
 
     public function testNavigation() {
-        $this->assertTrue($this->clickButton('create_store_view'), 'There is no "Create Store View" button on the page');
-        $this->assertTrue($this->navigated('new_store_view'), 'Wrong page is displayed');
-        $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
-        $this->assertTrue($this->buttonIsPresent('save_store_view'), 'There is no "Save" button on the page');
-        $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
+        $this->assertTrue($this->clickButton('create_store_view'),
+                'There is no "Create Store View" button on the page');
+        $this->assertTrue($this->navigated('new_store_view'),
+                'Wrong page is displayed');
+        $this->assertTrue($this->buttonIsPresent('back'),
+                'There is no "Back" button on the page');
+        $this->assertTrue($this->buttonIsPresent('save_store_view'),
+                'There is no "Save" button on the page');
+        $this->assertTrue($this->buttonIsPresent('reset'),
+                'There is no "Reset" button on the page');
     }
 
     /**
@@ -52,26 +59,107 @@ class CreateTest extends Mage_Selenium_TestCase {
      */
     public function testStoreViewCreate_WithRequiredFieldsOnly() {
         $this->clickButton('create_store_view');
-        $this->fillForm($this->data('generic_store_view', null, 'store_view_code'));
+        $this->fillForm($this->data('generic_store_view',
+                        array('store_view_sort_order' => null), 'store_view_code'));
         $this->clickButton('save_store_view');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
-        $this->assertTrue($this->navigated('manage_stores'), 'After successful creation store view should be redirected to Manage Stores page');
+        $this->assertTrue($this->navigated('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
+    }
+
+    /**
+     * @depends testNavigation
+     * @depends testStoreViewCreate_WithRequiredFieldsOnly
+     */
+    public function testStoreViewCreate_WithCodeThatAlreadyExists() {
+        $this->clickButton('create_store_view');
+        $this->fillForm($this->data('generic_store_view', NULL, NULL));
+        $this->clickButton('save_store_view');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigated('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
+    }
+
+    /**
+     * @depends testNavigation
+     * @dataProvider data_EmptyFields
+     */
+    public function testStoreViewCreate_WithRequiredFieldsEmpty($emptyField) {
+        $this->clickButton('create_store_view');
+        $this->fillForm($this->data('generic_store_view', $emptyField, 'store_view_code'));
+        $this->clickButton('save_store_view');
+        $this->assertTrue($this->errorMessage(), 'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertFalse($this->navigated('manage_stores'),
+                "After unsuccessful creation store view doesn't have to be redirected to Manage Stores page");
+    }
+
+    public function data_EmptyFields() {
+        return array(
+            array('store_view_name' => null),
+            array('store_view_code' => null)
+        );
     }
 
     /**
      * @depends testNavigation
      */
-    public function testStoreViewCreate_WithLongValues() {
+    public function testStoreViewCreate_WithLongValuesMax() {
         $this->clickButton('create_store_view');
-        $this->fillForm($this->data('generic_store_view', array(
-                    'store_view_name' => $this->generate('string', 255, ':alnum:'),
-                    'store_view_code' => $this->generate('string', 32, ':alnum:'),
+        $this->fillForm($this->data('generic_store_view',
+                        array(
+                            'store_view_name' => $this->generate('string', 255, ':alnum:'),
+                            'store_view_code' => $this->generate('string', 32, ':alnum:')
                         ), 'store_view_code'));
         $this->clickButton('save_store_view');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
-        $this->assertTrue($this->navigated('manage_stores'), 'After successful creation store view should be redirected to Manage Stores page');
+        $this->assertTrue($this->navigated('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
+    }
+
+    /**
+     * @depends testNavigation
+     */
+    public function testStoreViewCreate_WithLongValuesMoreThanMax() {
+        $this->clickButton('create_store_view');
+        $longValues = array(
+            'store_view_name' => $this->generate('string', 256, ':alnum:'),
+            'store_view_code' => $this->generate('string', 33, ':alnum:'),
+        );
+        $this->fillForm($this->data('generic_store_view', $longValues, 'store_view_code'));
+        $this->clickButton('save_store_view');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigated('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
+        $this->searchAndOpen($longValues);
+        $this->assertEquals($this->lenghtValue('store_view_name'), 255);
+        $this->assertEquals($this->lenghtValue('store_view_code'), 32);
+    }
+
+    /**
+     * @depends testNavigation
+     * @dataProvider data_InvalidCode
+     */
+    public function testStoreViewCreate_WithInvalidCode($invalidCode) {
+        $this->clickButton('create_store_view');
+        $this->fillForm($this->data('generic_store_view', $invalidCode, 'store_view_code'));
+        $this->clickButton('save_store_view');
+        $this->assertTrue($this->errorMessage(), 'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertFalse($this->navigated('manage_stores'),
+                "After unsuccessful creation store view doesn't have to be redirected to Manage Stores page");
+    }
+
+    public function data_InvalidCode() {
+        return array(
+            array('store_view_code' => 'invalid code'),
+            array('store_view_code' => 'Invalid_code2'),
+            array('store_view_code' => '2invalid_code2')
+        );
     }
 
 }
