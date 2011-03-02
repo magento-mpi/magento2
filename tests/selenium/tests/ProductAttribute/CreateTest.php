@@ -27,19 +27,19 @@
  */
 
 /**
- * @TODO
+ * Test Product Attribute Creation
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
-{
 
+class ProductAttributesCreateTest extends Mage_Selenium_TestCase
+{
     /*
      * Preconditions
      * Admin user should be logged in.
-     * Should stay on the Admin Dashboard page after login
+     * Should stays on the Admin Dashboard page after login
      */
     protected function assertPreConditions()
     {
@@ -47,54 +47,26 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->admin('dashboard'));
     }
 
-    /**
-     * @TODO
-     */
-    public function test_Deletable()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_ThatCannotBeDeleted_SystemAttribute()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_ThatCannotBeDeleted_DropdownAttributeUsedInConfigurableProduct()
-    {
-        // @TODO
-    }
-    
     public function testNavigation()
     {
         $this->assertTrue($this->navigate('manage_attributes'));
-        /*
         $this->assertTrue($this->clickButton('add_new_attribute'), 'There is no "Add New Attribute" button on the page');
         $this->assertTrue($this->navigated('new_product_attribute'), 'Wrong page is displayed');
-        $this->assertTrue($this->navigate('new_product_attribute'), 'Wrong page is displayed when accessing direct URL');
-        $this->assertTrue($this->fieldIsPresent('attribute_code'), 'There is no "Attribute Code" field on the page');
-        $this->assertTrue($this->fieldIsPresent('apply_to'), 'There is no "Apply To" dropdown on the page');
-        $this->assertTrue($this->fieldIsPresent('admin_title'), 'There is no "Admin Title" field on the page');
-         */
+        $this->assertTrue($this->navigate('new_product_attribute'), 'Wrong page is displayed when accessing direct URL');        
+        $this->assertTrue($this->controlIsPresent('field','attribute_code'), 'There is no "Attribute Code" field on the page');
+        $this->assertTrue($this->controlIsPresent('field','apply_to'), 'There is no "Apply To" dropdown on the page');
+        $this->assertTrue($this->controlIsPresent('field','admin_title'), 'There is no "Admin Title" field on the page');
     }
 
-    public function testDeleteProductAttribute_Smoke()
+    public function testAddNewProductAttribute_Smoke()
     {
-        /*
         $this->assertTrue(
             $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
             'Wrong page is displayed'
         );
+        $this->fillForm($this->data('new_product_attribute', null, 'attribute_code'));
         $this->clickButton('save_attribute');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
-         */
     }
-    
 }
