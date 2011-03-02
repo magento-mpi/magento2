@@ -274,10 +274,6 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
                     $item->setImpr($stats['impressions']);
                 }
 
-                if (isset($stats['page views'])) {
-                    $item->setViews($stats['page views']);
-                }
-
                 if (isset($stats['expires'])) {
                     $item->setExpires($stats['expires']);
                 }
