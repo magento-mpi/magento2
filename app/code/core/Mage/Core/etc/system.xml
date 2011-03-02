@@ -868,10 +868,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>When changing media storage or selecting another media database,
-                                use the Synchronize function to transfer media to the selected
-                                storage. After synchronization is completed, all new media will be
-                                automatically placed to the selected media storage.</comment>
+                            <comment>After selecting a new media storage location, press the Synchronize button
+                                to transfer all media to that location. Media will not be available in the new
+                                location until the synchronization process is complete.</comment>
                         </synchronize>
                     </fields>
                 </media_storage_configuration> -->
