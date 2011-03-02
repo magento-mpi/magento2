@@ -136,6 +136,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
         return $this;
     }
 
+    public function buttonIsPresent($button)
+    {
+        // @TODO
+        return $this;
+    }
+
     public function fillForm($data)
     {
         // @TODO
@@ -158,6 +164,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
     /**
      * Magento helper methods
      */
+
     public function logoutCustomer()
     {
         // @TODO
@@ -169,6 +176,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
         // @TODO
         return $this;
     }
+
     /**
      * Selenium driver helper methods
      */
@@ -179,6 +187,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
 
     public static function assertTrue($condition, $message='')
     {
+//        parent::assertTrue(false);
         // @TODO
     }
 
