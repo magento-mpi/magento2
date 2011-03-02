@@ -111,7 +111,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         $this->getQuote()->setCheckoutMethod('');
 
         /**
-         * If user try do checkout, reset shipiing and payment data
+         * If user try do checkout, reset shipping and payment data
          */
         if ($this->getCheckoutSession()->getCheckoutState() !== Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
             $this->getQuote()
@@ -548,7 +548,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             Mage::throwException($result);
         }
 
-        Mage::dispatchEvent('checkout_cart_product_update_after', array('quote_item' => $result, 'product' => $product));
+        Mage::dispatchEvent('checkout_cart_product_update_after', array(
+            'quote_item' => $result,
+            'product' => $product
+        ));
         $this->getCheckoutSession()->setLastAddedProductId($productId);
         return $result;
     }
