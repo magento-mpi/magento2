@@ -426,13 +426,12 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
     public function userExists(Mage_Core_Model_Abstract $user)
     {
         $adapter = $this->_getReadAdapter();
-
         $select = $adapter->select();
 
         $binds = array(
             'username' => $user->getUsername(),
             'email'    => $user->getEmail(),
-            'user_id'  => $user->getId(),
+            'user_id'  => (int) $user->getId(),
         );
 
         $select->from($this->getMainTable())

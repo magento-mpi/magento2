@@ -429,7 +429,7 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         $select = $adapter->select()
             ->from($usersTable)
             ->where(implode(' OR ', $condition))
-            ->where($usersTable.'.user_id != ?', $user->getId());
+            ->where($usersTable.'.user_id != ?', (int) $user->getId());
         return $adapter->fetchRow($select);
     }
 }
