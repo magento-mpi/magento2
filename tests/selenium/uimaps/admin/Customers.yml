@@ -36,78 +36,78 @@ manage_customers:
     form    : &searchCustomerGrid
       xpath   : *[@id='customerGrid']
       fields:
-        id_from : input[@id='filter_entity_id_from']
-        id_to   : input[@id='filter_entity_id_to']
-        name    : input[@id='filter_name']
-        email   : input[@id='filter_email']
+        id_from      : input[@id='filter_entity_id_from']
+        id_to        : input[@id='filter_entity_id_to']
+        name         : input[@id='filter_name']
+        email        : input[@id='filter_email']
       buttons:
         reset_filter : button[span='Reset Filter']
         search       : button[span='Search']
     page_buttons:
       add_new_customer  : button[span='Add New Customer']
     messages:
-      success_msg : div[@id='messages']//li[span='The customer has been saved.']
+      success           : div[@id='messages']//li[span='The customer has been saved.']
 
 # 'New Customer' Page
-new_customer:
+creting_new_customer:
   mca  : customer/new/
   title: New Customer / Manage Customers / Customers / Magento Admin
   uimap:
-  - form        : &newCustomerForm
-      xpath       : div[@id='page:main-container']
+    form  : &newCustomerForm
+      xpath  : div[@id='page:main-container']
       - tab_account_information : a[@id='customer_info_tabs_account']
-        - fieldset_account_info : div[@id='_accountbase_fieldset']
-          checkbox :  
-            send_welcome_email    : input[@id='_accountsendemail']
-          dropdown :
-            associate_to_website  : select[@id='_accountwebsite_id']
-            group                 : select[@id='_accountgroup_id']
-            gender                : select[@id='_accountgender']
-            send_from             : select[@id='_accountsendemail_store_id']
+        - fieldset_account_info       : div[@id='_accountbase_fieldset']
+          checkboxes :
+            send_welcome_email           : input[@id='_accountsendemail']
+          dropdowns :
+            associate_to_website         : select[@id='_accountwebsite_id']
+            group                        : select[@id='_accountgroup_id']
+            gender                       : select[@id='_accountgender']
+            send_from                    : select[@id='_accountsendemail_store_id']
           fields :
-            prefix                : input[@id='_accountprefix']
-            first_name            : input[@id='_accountfirstname']
-            middle_name_initial   : input[@id='_accountmiddlename']
-            last_name             : input[@id='_accountlastname']
-            suffix                : input[@id='_accountsuffix']
-            email                 : input[@id='_accountemail']
-            date_of_birth         : input[@id='_accountdob']
-            tax_vat_number        : input[@id='_accounttaxvat']
+            prefix                       : input[@id='_accountprefix']
+            first_name                   : input[@id='_accountfirstname']
+            middle_name_initial          : input[@id='_accountmiddlename']
+            last_name                    : input[@id='_accountlastname']
+            suffix                       : input[@id='_accountsuffix']
+            email                        : input[@id='_accountemail']
+            date_of_birth                : input[@id='_accountdob']
+            tax_vat_number               : input[@id='_accounttaxvat']
           required  : [associate_to_website, group, first_name, last_name, email]
           unique    : [email]
-        - fieldset_password       : div[@id='_accountpassword_fieldset']
+        - fieldset_password            : div[@id='_accountpassword_fieldset']
           checkbox :  
-            auto_generated_password : input[@id='account-send-pass']
+            auto_generated_password      : input[@id='account-send-pass']
           fields :
-            password                : input[@id='_accountpassword']
+            password                     : input[@id='_accountpassword']
           required : [password]
-      - tab_addresses               : a[@id='customer_info_tabs_addresses']
-        - fieldset_customer_addresses  : div[@id='_item%address_number%address_fieldset']
+      - tab_addresses           : a[@id='customer_info_tabs_addresses']
+        - fieldset_customer_addresses : div[@id='_item%address_number%address_fieldset']
           buttons :
             add_new_address              : button[span='Add New Address']
             delete_address               : img[@id='delete_button%address_number%1']
             edit_address                 : img[@id='select_button_%address_number%']
           radiobuttons :
-            default_billing_address      : input[@id='address_item_billing_item%address_number%']
-            default_shipping_address     : input[@id='address_item_shipping_item%address_number%']
-        - fieldset_edit_address   : div[@id='_item%address_number%address_fieldset']
-          dropdown :
-            country               : select[@id='_item%address_number%country_id']
-            state_province        : select[@id='_item%address_number%region_id']
+            default_billing_address     : input[@id='address_item_billing_item%address_number%']
+            default_shipping_address    : input[@id='address_item_shipping_item%address_number%']
+        - fieldset_edit_address       : div[@id='_item%address_number%address_fieldset']
+          dropdowns :
+            country                     : select[@id='_item%address_number%country_id']
+            state_province              : select[@id='_item%address_number%region_id']
           fields :
-            prefix                : input[@id='_item%address_number%prefix']
-            first_name            : input[@id='_item%address_number%firstname']
-            middle_name_initial   : input[@id='_item%address_number%middlename']
-            last_name             : input[@id='_item%address_number%lastname']
-            suffix                : input[@id='_item%address_number%suffix']
-            company               : input[@id='_item%address_number%company']
-            street_address_line_1 : input[@id='_item%address_number%street0']
-            street_address_line_2 : input[@id='_item%address_number%street1']
-            city                  : input[@id='_item%address_number%city']
-            state_province        : input[@id='_item%address_number%region']
-            zip_postal_code       : input[@id='_item%address_number%postcode']
-            telephone             : input[@id='_item%address_number%telephone']
-            fax                   : input[@id='_item%address_number%fax']
+            prefix                      : input[@id='_item%address_number%prefix']
+            first_name                  : input[@id='_item%address_number%firstname']
+            middle_name_initial         : input[@id='_item%address_number%middlename']
+            last_name                   : input[@id='_item%address_number%lastname']
+            suffix                      : input[@id='_item%address_number%suffix']
+            company                     : input[@id='_item%address_number%company']
+            street_address_line_1       : input[@id='_item%address_number%street0']
+            street_address_line_2       : input[@id='_item%address_number%street1']
+            city                        : input[@id='_item%address_number%city']
+            state_province              : input[@id='_item%address_number%region']
+            zip_postal_code             : input[@id='_item%address_number%postcode']
+            telephone                   : input[@id='_item%address_number%telephone']
+            fax                         : input[@id='_item%address_number%fax']
         required : [first_name, last_name, street_address_line_1, city, country, zip_postal_code, telephone]
     page_buttons:
       back                        : button[span='Back']
@@ -119,42 +119,40 @@ new_customer:
 
 
  # 'Edit Customer' Page
- # на данный момент описаны элементы только accaunt info и addresses табов
- #
+ # need to edit
 edit_customer:
   mca   : edit/id/%customers_id%
   title : %customers_id% / Manage Customers / Customers / Magento Admin
   uimap :
     form        : &editCustomerForm
       xpath       : div[@id='page:main-container']
-      - tab_customer_view:        a[@id='customer_info_tabs_customer_edit_tab_view']   #нужна ли эта таба или ну ее к чертям?
-        # тут есть есть доусрачки филдсетов, но они нахрен не нужны
-      - tab_account_information:  a[@id='customer_info_tabs_account']
-        - fieldset_account_info : div[@id='_accountbase_fieldset']
-          dropdown :
-            # associate_to_website  : select[@id='_accountwebsite_id']   тк он не активный
-            group                 : select[@id='_accountgroup_id']
-            gender                : select[@id='_accountgender']
-            send_from             : select[@id='_accountsendemail_store_id']
+      - tab_customer_view       : a[@id='customer_info_tabs_customer_edit_tab_view']   #нужна ли эта таба или ну ее к чертям?
+      - tab_account_information : a[@id='customer_info_tabs_account']
+        - fieldset_account_info               : div[@id='_accountbase_fieldset']
+          dropdowns :
+            # associate_to_website  : select[@id='_accountwebsite_id']
+            group                        : select[@id='_accountgroup_id']
+            gender                       : select[@id='_accountgender']
+            send_from                    : select[@id='_accountsendemail_store_id']
           fields :
-            prefix                : input[@id='_accountprefix']
-            first_name            : input[@id='_accountfirstname']
-            middle_name_initial   : input[@id='_accountmiddlename']
-            last_name             : input[@id='_accountlastname']
-            suffix                : input[@id='_accountsuffix']
-            email                 : input[@id='_accountemail']
-            date_of_birth         : input[@id='_accountdob']
-            tax_vat_number        : input[@id='_accounttaxvat']
+            prefix                       : input[@id='_accountprefix']
+            first_name                   : input[@id='_accountfirstname']
+            middle_name_initial          : input[@id='_accountmiddlename']
+            last_name                    : input[@id='_accountlastname']
+            suffix                       : input[@id='_accountsuffix']
+            email                        : input[@id='_accountemail']
+            date_of_birth                : input[@id='_accountdob']
+            tax_vat_number               : input[@id='_accounttaxvat']
           required : [group, first_name, last_name, email]
           unique   : [email]
-        - fieldset_password     : div[@id='_accountpassword_fieldset']
-          checkbox :  
+        - fieldset_password                   : div[@id='_accountpassword_fieldset']
+          checkboxes :
             auto_generated_password      : input[@id='account-send-pass']
           fields :
-            new_password  : input[@id='_accountnew_password']
+            new_password                 : input[@id='_accountnew_password']
           required : [password]
-      - tab_addresses :  a[@id='customer_info_tabs_addresses']
-        - fieldset_customer_addresses  : div[@id='_item%address_number%address_fieldset']
+      - tab_addresses           : a[@id='customer_info_tabs_addresses']
+        - fieldset_customer_addresses         : div[@id='_item%address_number%address_fieldset']
           buttons :
             add_new_address              : button[span='Add New Address']
             delete_address               : img[@id='delete_button%address_number%1']
@@ -162,52 +160,64 @@ edit_customer:
           radiobuttons :
             default_billing_address      : input[@id='address_item_billing_item%address_number%']
             default_shipping_address     : input[@id='address_item_shipping_item%address_number%']
-        - fieldset_edit_address : div[@id='_item%address_number%address_fieldset']
-          dropdown :
-            country               : select[@id='_item%address_number%country_id']
-            state_province        : select[@id='_item%address_number%region_id']
+        - fieldset_edit_address               : div[@id='_item%address_number%address_fieldset']
+          dropdowns :
+            country                      : select[@id='_item%address_number%country_id']
+            state_province               : select[@id='_item%address_number%region_id']
           fields :
-            prefix                : input[@id='_item%address_number%prefix']
-            first_name            : input[@id='_item%address_number%firstname']
-            middle_name_initial   : input[@id='_item%address_number%middlename']
-            last_name             : input[@id='_item%address_number%lastname']
-            suffix                : input[@id='_item%address_number%suffix']
-            company               : input[@id='_item%address_number%company']
-            street_address_line_1 : input[@id='_item%address_number%street0']
-            street_address_line_2 : input[@id='_item%address_number%street1']
-            city                  : input[@id='_item%address_number%city']
-            state_province        : input[@id='_item%address_number%region']
-            zip_postal_code       : input[@id='_item%address_number%postcode']
-            telephone             : input[@id='_item%address_number%telephone']
-            fax                   : input[@id='_item%address_number%fax']
+            prefix                       : input[@id='_item%address_number%prefix']
+            first_name                   : input[@id='_item%address_number%firstname']
+            middle_name_initial          : input[@id='_item%address_number%middlename']
+            last_name                    : input[@id='_item%address_number%lastname']
+            suffix                       : input[@id='_item%address_number%suffix']
+            company                      : input[@id='_item%address_number%company']
+            street_address_line_1        : input[@id='_item%address_number%street0']
+            street_address_line_2        : input[@id='_item%address_number%street1']
+            city                         : input[@id='_item%address_number%city']
+            state_province               : input[@id='_item%address_number%region']
+            zip_postal_code              : input[@id='_item%address_number%postcode']
+            telephone                    : input[@id='_item%address_number%telephone']
+            fax                          : input[@id='_item%address_number%fax']
         required : [first_name, last_name, street_address_line_1, city, country, zip_postal_code, telephone]
-      - tab_orders:            a[@id='customer_info_tabs_orders']
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_billing_agremnts:  a[@id='customer_info_tabs_customer_edit_tab_agreements']
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_recuring_profiles: a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']   #судя по всему эта таба также не особо нужна...
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_shopping_cart:     a[@id='customer_info_tabs_cart']
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_wishlist:          a[@id='customer_info_tabs_wishlist']
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_newsletters:       a[@id='customer_info_tabs_newsletter']
+      - tab_orders              : a[@id='customer_info_tabs_orders']
+        # need to edit
+      - tab_billing_agremnts    : a[@id='customer_info_tabs_customer_edit_tab_agreements']
+        # need to edit
+      - tab_recuring_profiles   : a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']
+        # need to edit
+      - tab_shopping_cart       : a[@id='customer_info_tabs_cart']
+        # need to edit
+      - tab_wishlist            : a[@id='customer_info_tabs_wishlist']
+        # need to edit
+      - tab_newsletters         : a[@i  d='customer_info_tabs_newsletter']
+        - fieldset_newsletter_info            : div[@id='_newsletterbase_fieldset']
+          checkboxes                       : input[@id='_newslettersubscription']
+        # need to edit
+      - tab_product_review      : a[@id='customer_info_tabs_reviews']
+        # need to edit
+      - tab_product_tags        : a[@id='customer_info_tabs_tags']
+        # need to edit
+      - tab_store_credit        : a[@id='customer_info_tabs_customerbalance']
+        - fieldset_store_credit_balance       : div[@id='_customerbalancestorecreidt_fieldset']
+        - fieldset_update_balance             : div[@id='_customerbalancestorecreidt_fieldset']
+          checkboxes :
+            notify_by_email              : input[@id='_customerbalancenotify_by_email']
+          dropdowns :
+            website                      : select[@id='_customerbalancewebsite_id']
+            email_form_website           : select[@id='_customerbalancestore_id']
+          fields :
+            update_balance               : input[@id='_customerbalanceamount_delta']
+            comment                      : input[@id='_customerbalancecomment']
+        # need to edit
+      - tab_gift_registry       : a[@id='customer_info_tabs_giftregistry']
+        # need to edit
+      - tab_reward_points       : a[@id='customer_info_tabs_customer_edit_tab_reward']
         #1
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_product_review:    a[@id='customer_info_tabs_reviews']
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_product_tags:      a[@id='customer_info_tabs_tags']
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_store_credit:      a[@id='customer_info_tabs_customerbalance']
-        #1
-        #2
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_gift_registry:     a[@id='customer_info_tabs_giftregistry']
-        #тут надо описывать поисковую форму, пока хз как именно
-      - tab_reward_points:     a[@id='customer_info_tabs_customer_edit_tab_reward']
-        #1
-        #2
-        #3
+        - fieldset_update_reward_points       : div[@id='reward_update_fieldset']
+        - fieldset_reward_points_notifictions : div[@id='reward_notification_fieldset']
+          checkboxes :
+            subscribe_for_updates        : input[@id='reward_update_notification']
+            subscribe_for_notifications  : input[@id='reward_warning_notification']
         #4
     page_buttons:
       back                   : button[span='Back']
