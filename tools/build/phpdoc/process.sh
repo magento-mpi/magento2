@@ -1,11 +1,5 @@
 #!/bin/sh
 
-if [ ! $1 ] || [ ! $2 ] || [ ! $3 ] || [ ! $4 ];
-then
-echo "Script usage: ./process.sh VERSION VARIEN_LIB_TITLE MAGE_TITLE DIR"
-exit 1
-fi
-
 cd $4
 
 #Fix file in all version

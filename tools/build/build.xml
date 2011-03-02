@@ -301,7 +301,7 @@
         </exec>
 
         <exec executable="sh" failonerror="true">
-            <arg line="phpdoc/process.sh ${build.number} ${libTitle} ${mageTitle} ${dir.docs}/phpdoc"/>
+            <arg line="phpdoc/process.sh '${build.number}' '${libTitle}' '${mageTitle}' '${dir.docs}/phpdoc'"/>
         </exec>
 
         <tar destfile="${dir.docs}/${phpdoc}.tar" basedir="${dir.docs}/phpdoc"/>
