@@ -358,6 +358,10 @@ class Mage_ImportExport_Model_Import extends Varien_Object
         }
         $sourceFile .= '.' . $extension;
 
+        if (file_exists($sourceFile)) {
+            unlink($sourceFile);
+        }
+
         if (!@rename($result['path'] . $result['file'], $sourceFile)) {
             Mage::throwException(Mage::helper('importexport')->__('Source file moving failed'));
         }
