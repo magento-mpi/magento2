@@ -88,7 +88,7 @@ class Mage_Selenium_PageHelper extends Mage_Selenium_AbstractHelper
     /**
      * Return URL of a specified page
      *
-     * @param string $page Page in MCA format
+     * @param string $page Page identifier
      * @return string
      */
     public function getPageUrl($page)

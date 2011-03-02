@@ -124,6 +124,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         // @TODO we need separate driver connections if admin url
         // doesn't start with frontend url
         $driver->setBrowserUrl($this->_sutHelper->getBaseUrl());
+        $driver->start();
         $this->drivers[] = $driver;
         return $driver;
     }
@@ -175,7 +176,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Navigate to a specified frontend page
      *
-     * @param string $page Page in MCA format
+     * @param string $page Page identifier
      * @return Mage_Selenium_TestCase
      */
     public function frontend($page='home')
@@ -188,7 +189,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Navigate to a specified admin page
      *
-     * @param string $page Page in MCA format
+     * @param string $page Page identifier
      * @return Mage_Selenium_TestCase
      */
     public function admin($page='dashboard')
@@ -201,7 +202,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Navigates to a specified page in the current area
      *
-     * @param string $page Page in MCA format
+     * @param string $page Page identifier
      * @return Mage_Selenium_TestCase
      */
     public function navigate($page)
@@ -215,7 +216,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Navigates to the specified page in the current area
      * and stops current testcase execution if navigation failed
      *
-     * @param string $page Page in MCA format
+     * @param string $page Page identifier
      * @return Mage_Selenium_TestCase
      */
     public function navigated($page)
@@ -230,7 +231,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Return URL of a specified page
      *
-     * @param string $page Page in MCA format
+     * @param string $page Page identifier
      * @return string
      */
     public function getPageUrl($page)
