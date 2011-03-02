@@ -68,6 +68,7 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-    new Varien.DateElement('id', '<?php echo $this->getHtmlId('')?>', <?php echo ($this->isRequired() ? 'true' : 'false'); ?>, '<?php echo $this->getDateFormat() ?>');
+    var dateRange = new Varien.dateRangeDate('id', '<?php echo $this->getHtmlId('')?>', <?php echo ($this->isRequired() ? 'true' : 'false'); ?>, '<?php echo $this->getDateFormat() ?>');
+    dateRange.setDateRange(<?php echo $this->getMinDateRange()?>, <?php echo $this->getMaxDateRange()?>);
 //]]>
 </script>
