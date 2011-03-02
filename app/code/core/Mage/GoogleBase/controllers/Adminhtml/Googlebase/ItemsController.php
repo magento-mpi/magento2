@@ -267,7 +267,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
                 }
 
                 if (isset($stats['clicks'])) {
-                    $item->setСlicks($stats['clicks']);
+                    $item->setClicks($stats['clicks']);
                 }
 
                 if (isset($stats['impressions'])) {
