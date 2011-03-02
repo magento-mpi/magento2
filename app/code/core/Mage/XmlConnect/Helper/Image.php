@@ -62,6 +62,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      * @var array|null
      */
     protected $_confPaths = null;
+
     /**
      * Process uploaded file
      * setup filenames to the configuration
@@ -343,6 +344,68 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Return the filesystem path to XmlConnect media files
+     *
+     * @param string $path Right part of the path
+     * @return string
+     */
+    public function getMediaPath($path = '')
+    {
+        $path = trim($path);
+        $result = Mage::getBaseDir('media') . DS . 'xmlconnect';
+
+        if (!empty($path)) {
+            if (strpos($path, DS) === 0) {
+                $path = substr($path, 1);
+            }
+            $result .= DS . $path;
+        }
+        return $result;
+    }
+
+    /**
+     * Return Url for media image
+     *
+     * @param string $image
+     * @return string
+     */
+    public function getMediaUrl($image = '')
+    {
+        $image = trim($image);
+        $result = Mage::getBaseUrl('media') . 'xmlconnect';
+
+        if (!empty($image)) {
+            if (strpos($image, '/') === 0) {
+                $image = substr($image, 1);
+            }
+            $result .= '/' . $image;
+        }
+        return $result;
+    }
+
+    /**
+     * Return URL for default design image
+     *
+     * @param string $image
+     * @return string
+     */
+    public function getDefaultDesignUrl($image = '')
+    {
+        return $this->getMediaUrl($this->getDefaultDesignSuffixAsUrl($image));
+    }
+
+    /**
+     * Return suffix as URL for default design image
+     *
+     * @param string $image
+     * @return string
+     */
+    public function getDefaultDesignSuffixAsUrl($image = '')
+    {
+        return 'design_default/' . trim(ltrim($image, '/'));
+    }
+
+    /**
      * Retrieve thumbnail image url
      *
      * @param int $width
@@ -350,15 +413,13 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function getCustomSizeImageUrl($imageUrl, $width = 100, $height = 100)
     {
-        $customDirRoot = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'custom';
         $screenSize = $width . 'x' . $height;
-        $customDir = $customDirRoot . DS . $screenSize;
+        $customDir = $this->getMediaPath('custom' . DS . $screenSize);
         $this->_verifyDirExist($customDir);
         $imageUrl = explode('/', $imageUrl);
         $file = $imageUrl[count($imageUrl)-1];
         $filePath = $this->getDefaultSizeUploadDir() . DS . $file;
-
-        if (!file_exists($customDir . $file)) {
+        if (!file_exists($customDir . DS . $file)) {
             $image = new Varien_Image($filePath);
             $widthOriginal = $image->getOriginalWidth();
             $heightOriginal = $image->getOriginalHeight();
@@ -381,7 +442,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
                 $image->save($customDir, basename($file));
             }
         }
-        return Mage::getBaseUrl('media') . "xmlconnect/custom/{$screenSize}/" . basename($file);
+        return $this->getMediaUrl("custom/{$screenSize}/" . basename($file));
     }
 
     /**
@@ -577,9 +638,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     public function getCustomSizeUploadDir($screenSize)
     {
         $screenSize = $this->filterScreenSize($screenSize);
-        $customDirRoot = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'custom';
-        $this->_verifyDirExist($customDirRoot);
-        $customDir = $customDirRoot . DS .$screenSize;
+        $customDir = $this->getMediaPath('custom' . DS .$screenSize);
         $this->_verifyDirExist($customDir);
         return $customDir;
     }
@@ -591,7 +650,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function getOriginalSizeUploadDir()
     {
-        $dir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'original';
+        $dir = $this->getMediaPath('original');
         $this->_verifyDirExist($dir);
         return $dir;
     }
@@ -603,7 +662,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function getOldUploadDir()
     {
-        $dir = Mage::getBaseDir('media') . DS . 'xmlconnect';
+        $dir = $this->getMediaPath();
         $this->_verifyDirExist($dir);
         return $dir;
     }

@@ -355,8 +355,8 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 }
             }
         }
+        /** @var $helperImage Mage_XmlConnect_Helper_Image */
         $helperImage = Mage::helper('xmlconnect/image');
-        $screenSize = $this->getScreenSize();
         $paths = $helperImage->getInterfaceImagesPathsConf();
         foreach ($paths as $confPath => $dataPath) {
             $imageNodeValue =& $helperImage->findPath($result, $dataPath);
@@ -365,6 +365,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                  * Creating file ending (some_inner/some_dir/filename.png) For url
                  */
                 $imageNodeValue = $helperImage->getFileCustomDirSuffixAsUrl($confPath, $imageNodeValue);
+            } else {
+                /**
+                 * Set default image file ending when an image is not set
+                 */
+                $imageNodeValue = $helperImage->getDefaultDesignSuffixAsUrl(
+                    $helperImage->getInterfaceImagesPaths($confPath)
+                );
             }
         }
         $result = $this->_absPath($result);
@@ -374,7 +381,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['updateTimeUTC'] = strtotime($this->getUpdatedAt());
         $result['general']['browsingMode'] = $this->getBrowsingMode();
         $result['general']['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
-        $result['general']['secureBaseUrl'] = Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $this->getStoreId());
+        $result['general']['secureBaseUrl'] = Mage::getStoreConfig(
+            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
+            $this->getStoreId()
+        );
         $maxRecipients = 0;
         $allowGuest = 0;
         if (Mage::getStoreConfig(Mage_Sendfriend_Helper_Data::XML_PATH_ENABLED)) {

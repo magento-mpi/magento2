@@ -110,7 +110,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
         if ($this->getData($configPath)) {
             return $this->getData($configPath);
         } else {
-            return $this->getDesignPreviewImageUrl($this->getInterfaceImagesPaths($configPath));
+            return $this->getDesignPreviewImageUrl($configPath);
         }
     }
 
@@ -123,7 +123,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
     */
     public function getDesignPreviewImageUrl($name)
     {
-        return Mage::helper('xmlconnect/image')->getSkinImagesUrl('design_default/' . $name);
+        $name = $this->getInterfaceImagesPaths($name);
+        return Mage::helper('xmlconnect/image')->getDefaultDesignUrl($name);
     }
 
     /**

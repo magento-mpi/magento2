@@ -74,8 +74,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
             foreach ($tabs->getEnabledTabs() as $tab) {
                 $tab = (array) $tab;
                 $conf['tabBar'][$tab['action']]['label'] = $tab['label'];
-                $conf['tabBar'][$tab['action']]['image'] =
-                    Mage::helper('xmlconnect/image')->getSkinImagesUrl('mobile_preview/' . $tab['image']);
+                $conf['tabBar'][$tab['action']]['image'] = $this->getPreviewImagesUrl($tab['image']);
             }
         }
         $tabItemsBlock = $this->getChild('tab_items');
@@ -105,7 +104,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     */
     public function getDesignPreviewImageUrl($name)
     {
-        return Mage::helper('xmlconnect/image')->getSkinImagesUrl('design_default/' . $name);
+        $name = $this->getInterfaceImagesPaths($name);
+        return Mage::helper('xmlconnect/image')->getDefaultDesignUrl($name);
     }
 
     /**
@@ -120,12 +120,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
 
-                if ($this->getData('conf/body/bannerImage')) {
-                    $bannerImage = $this->getData('conf/body/bannerImage');
+                $configPath = 'conf/body/bannerImage';
+                if ($this->getData($configPath)) {
+                    $bannerImage = $this->getData($configPath);
                 } else {
-                    $bannerImage = $this->getDesignPreviewImageUrl(
-                        $this->getInterfaceImagesPaths('conf/body/bannerImage')
-                    );
+                    $bannerImage = $this->getDesignPreviewImageUrl($configPath);
                 }
                 break;
 
@@ -133,7 +132,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
 
                 $configPath = 'conf/body/bannerIpadImage';
                 $imageUrlOrig = $this->getData($configPath);
-                if ($imageUrlOrig) {
+                $imageUrlDefault = $this->getDesignPreviewImageUrl($configPath);
+                if ($imageUrlOrig && $imageUrlOrig != $imageUrlDefault) {
                     $width = Mage_XmlConnect_Helper_Ipad::PREVIEW_BANNER_WIDTH;
                     $height = Mage_XmlConnect_Helper_Ipad::PREVIEW_BANNER_HEIGHT;
                     $bannerImage = Mage::helper('xmlconnect/image')
@@ -149,9 +149,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
                 if ($this->getData($configPath)) {
                     $bannerImage = $this->getData($configPath);
                 } else {
-                    $bannerImage = $this->getDesignPreviewImageUrl(
-                        $this->getInterfaceImagesPaths($configPath)
-                    );
+                    $bannerImage = $this->getDesignPreviewImageUrl($configPath);
                 }
                 break;
 
@@ -173,6 +171,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     {
         $backgroundImage = '';
         $deviceType = Mage::helper('xmlconnect')->getDeviceType();
+        /** @var $helperImage Mage_XmlConnect_Helper_Image */
+        $helperImage = Mage::helper('xmlconnect/image');
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
                 $configPath = 'conf/body/backgroundImage';
@@ -180,9 +180,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
                 if ($imageUrlOrig) {
                     $backgroundImage = $imageUrlOrig;
                 } else {
-                    $backgroundImage = $this->getDesignPreviewImageUrl(
-                        $this->getInterfaceImagesPaths($configPath)
-                    );
+                    $backgroundImage = $this->getDesignPreviewImageUrl($configPath);
                 }
                 break;
 
@@ -191,32 +189,30 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
                     case Mage_XmlConnect_Helper_Ipad::ORIENTATION_LANDSCAPE:
                         $configPath = 'conf/body/backgroundIpadLandscapeImage';
                         $imageUrlOrig = $this->getData($configPath);
-                        if ($imageUrlOrig) {
+                        $imageUrlDefault = $this->getDesignPreviewImageUrl($configPath);
+                        if ($imageUrlOrig && $imageUrlOrig != $imageUrlDefault) {
                             $width = Mage_XmlConnect_Helper_Ipad::PREVIEW_LANDSCAPE_BACKGROUND_WIDTH;
                             $height = Mage_XmlConnect_Helper_Ipad::PREVIEW_LANDSCAPE_BACKGROUND_HEIGHT;
-                            $backgroundImage = Mage::helper('xmlconnect/image')
-                                ->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
+                            $backgroundImage = $helperImage->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
                         } else {
-                            $backgroundImage =
-                                $this->getPreviewImagesUrl('ipad/background_home_landscape.jpg');
+                            $backgroundImage = $this->getPreviewImagesUrl('ipad/background_home_landscape.jpg');
                         }
                     break;
                     case Mage_XmlConnect_Helper_Ipad::ORIENTATION_PORTRAIT:
                         $configPath = 'conf/body/backgroundIpadPortraitImage';
                         $imageUrlOrig = $this->getData($configPath);
-                        if ($imageUrlOrig) {
+                        $imageUrlDefault = $this->getDesignPreviewImageUrl($configPath);
+                        if ($imageUrlOrig && $imageUrlOrig != $imageUrlDefault) {
                             $width = Mage_XmlConnect_Helper_Ipad::PREVIEW_PORTRAIT_BACKGROUND_WIDTH;
                             $height = Mage_XmlConnect_Helper_Ipad::PREVIEW_PORTRAIT_BACKGROUND_HEIGHT;
-                            $backgroundImage = Mage::helper('xmlconnect/image')
-                                ->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
+                            $backgroundImage = $helperImage->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
                         } else {
-                            $backgroundImage =
-                                $this->getPreviewImagesUrl('ipad/background_portrait.jpg');
+                            $backgroundImage = $this->getPreviewImagesUrl('ipad/background_portrait.jpg');
                         }
-                    break;
+                        break;
                     default:
                         Mage::throwException(
-                            $this->__('Wrong Ipad background image orientation has been specified: "%s".', $param)
+                            $this->__('Wrong Ipad background image orientation has been specified: "%s".', $orientation)
                         );
                 }
                 break;
@@ -229,11 +225,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
                         if ($imageUrlOrig) {
                             $width = Mage_XmlConnect_Helper_Android::PREVIEW_LANDSCAPE_BACKGROUND_WIDTH;
                             $height = Mage_XmlConnect_Helper_Android::PREVIEW_LANDSCAPE_BACKGROUND_HEIGHT;
-                            $backgroundImage = Mage::helper('xmlconnect/image')
-                                ->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
+                            $backgroundImage = $helperImage->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
                         } else {
-                            $backgroundImage =
-                                $this->getPreviewImagesUrl('android/background_home_landscape.jpg');
+                            $backgroundImage = $this->getPreviewImagesUrl('android/background_home_landscape.jpg');
                         }
                     break;
                     case Mage_XmlConnect_Helper_Android::ORIENTATION_PORTRAIT:
@@ -242,11 +236,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
                         if ($imageUrlOrig) {
                             $width = Mage_XmlConnect_Helper_Android::PREVIEW_PORTRAIT_BACKGROUND_WIDTH;
                             $height = Mage_XmlConnect_Helper_Android::PREVIEW_PORTRAIT_BACKGROUND_HEIGHT;
-                            $backgroundImage = Mage::helper('xmlconnect/image')
-                                ->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
+                            $backgroundImage = $helperImage->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
                         } else {
-                            $backgroundImage =
-                                $this->getPreviewImagesUrl('android/background_portrait.jpg');
+                            $backgroundImage = $this->getPreviewImagesUrl('android/background_portrait.jpg');
                         }
                     break;
                     default:
@@ -287,7 +279,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
         if ($this->getData($configPath)) {
             return $this->getData($configPath);
         } else {
-            return $this->getDesignPreviewImageUrl($this->getInterfaceImagesPaths($configPath));
+            return $this->getDesignPreviewImageUrl($configPath);
         }
     }
 
