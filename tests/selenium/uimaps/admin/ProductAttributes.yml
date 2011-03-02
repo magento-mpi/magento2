@@ -33,11 +33,11 @@ manage_attributes:
   title   : "Manage Attributes / Attributes / Catalog / Magento Admin"
   uimap   :
     form      :
-      xpath   :
-      fields  :
-      required:
-    buttons :  
+      xpath   : "div[@id='page:main-container']"
+    buttons :
+      add_new_attribute: "button[span='Add New Attribute']"
     messages:
+      success_msg : "div[@id='messages']//li[span='The product attribute has been saved.']"
     links   :
 
 # Add New Product Attribute page
@@ -46,10 +46,48 @@ new_product_attribute:
   title   : "New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin"
   uimap   :
     form  :
-      xpath   : "form[@id='page:main-container']"
+      xpath   : "div[@id='page:main-container']"
       fields  :
-      required:
+        attribute_code: "input[@id='attribute_code']"
+        default_value : "input[@id='default_value_text']"
+        position      : "input[@id='position']"
+        manage_titles:
+        # ?  admin : ""
+        manage_options:
+        # ?  admin : ""
+        # ?  position  : ""
+        # ?  is_default  : ""
+      dropdowns:
+        scope           : "select[@id='is_global']"
+        catalog_input_type_for_store_owner  : "select[@id='frontend_input']"
+        unique_value    : "select[@id='is_unique']"
+        values_required : "select[@id='is_required']"
+        input_validation_for_store_owner    : "select[@id='frontend_class']"
+        # ? apply_to      : ""
+        use_in_quick_search       : "select[@id='is_searchable']"
+        use_in_advanced_search    : "select[@id='is_visible_in_advanced_search']"
+        comparable_on_frontend    : "select[@id='is_comparable']"
+        use_in_layered_navigation : "select[@id='is_filterable']"
+        use_in_search_results_layered_navigation  : "select[@id='is_filterable_in_search']"
+        use_for_promo_rule_conditions : "select[@id='is_used_for_promo_rules']"
+        enable_wysiwyg  : "select[@id='is_wysiwyg_enabled']"
+        allow_html_tags_on_frontend   : "select[@id='is_html_allowed_on_front']"
+        visible_on_product_view_page_on_frontend  : "select[@id='is_visible_on_front']"
+        used_in_product_listing       : "select[@id='used_in_product_listing']"
+        used_for_sorting_in_product_listing : "select[@id='used_for_sort_by']"
+      multiselect:
+        apply_to  : "select[@id='apply_to']"
+      tabs:
+        properties  : "a[@id='product_attribute_tabs_main']"
+        manage_label_options  : "a[@id='product_attribute_tabs_labels']"
+      required  : [attribute_code, apply_to, admin_title, admin_option]
     buttons :
-      add_new_attribute: "button[span='Add New Attribute']"
+      back  : "button[span='Back']"
+      reset : "button[span='Reset']"
+      save_attribute  : "button[span='Save Attribute']"
+      save_and_continue_edit  : "button[span='Save and Continue Edit']"
+      manage_options  :
+        add_option  : "button[@id='add_new_option_button']"
+      # ?  delete_option : ""
     messages:
     links   :

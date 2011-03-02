@@ -52,12 +52,10 @@ class ProductAttributesCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->navigate('manage_attributes'));
         $this->assertTrue($this->clickButton('add_new_attribute'), 'There is no "Add New Attribute" button on the page');
         $this->assertTrue($this->navigated('new_product_attribute'), 'Wrong page is displayed');
-        $this->assertTrue($this->navigate('new_product_attribute'), 'Wrong page is displayed when accessing direct URL');
-        // @TODO
-        /*
-         * Add asserts for checking of controls on the page
-         */
-        //$this->assertTrue($this->fieldIsPresent('back'), 'There is no "Back" link on the page');
+        $this->assertTrue($this->navigate('new_product_attribute'), 'Wrong page is displayed when accessing direct URL');        
+        $this->assertTrue($this->fieldIsPresent('attribute_code'), 'There is no "Attribute Code" field on the page');
+        $this->assertTrue($this->fieldIsPresent('apply_to'), 'There is no "Apply To" dropdown on the page');
+        $this->assertTrue($this->fieldIsPresent('admin_title'), 'There is no "Admin Title" field on the page');
     }
 
     public function testAddNewProductAttribute_Smoke()
@@ -66,11 +64,9 @@ class ProductAttributesCreateTest extends Mage_Selenium_TestCase
             $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
             'Wrong page is displayed'
         );
-        $this->fillForm($this->data('customer_account_create', null, 'email'));
+        $this->fillForm($this->data('new_product_attribute', null, 'attribute_code'));
         $this->clickButton('save_attribute');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 }
-
-?>
