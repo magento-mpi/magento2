@@ -168,6 +168,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     protected function _getProduct($productInfo)
     {
+      Mage::log(123);
         $product = null;
         if ($productInfo instanceof Mage_Catalog_Model_Product) {
             $product = $productInfo;
@@ -176,11 +177,11 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productInfo);
         }
-        $currentWebSiteId = Mage::app()->getStore()->getWebsiteId();
+        $currentWebsiteId = Mage::app()->getStore()->getWebsiteId();
         if (!$product
             || !$product->getId()
             || !is_array($product->getWebsiteIds())
-            || !in_array($currentWebSiteId, $product->getWebsiteIds())
+            || !in_array($currentWebsiteId, $product->getWebsiteIds())
         ) {
             Mage::throwException(Mage::helper('checkout')->__('The product could not be found.'));
         }
