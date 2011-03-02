@@ -60,7 +60,7 @@ product_attribute_textfield:
  used_for_sorting_in_product_listing : No
  manage_titles:
   admin : Text Field Product Attribute Title
----
+
 # Test Datasets for Add New TextArea type Product Attribute
 product_attribute_textarea:
  scope : Global
@@ -80,7 +80,7 @@ product_attribute_textarea:
  visible_on_product_view_page_on_frontend : No
  manage_titles:
   admin : Text Area Product Attribute Title
----
+
 # Test Datasets for Add New Date type Product Attribute
 product_attribute_date:
  attribute_code : attribute_date_code
@@ -99,7 +99,7 @@ product_attribute_date:
  used_for_sorting_in_product_listing : No
  manage_titles:
   admin : Date Product Attribute Title
----
+
 # Test Datasets for Add New Yes/No type Product Attribute
 product_attribute_yesno:
  attribute_code : attribute_yesno_code
@@ -118,7 +118,7 @@ product_attribute_yesno:
  used_for_sorting_in_product_listing : No
  manage_titles:
   admin : Yes/No Product Attribute Title
----
+
 # Test Datasets for Add New MultipleSelect type Product Attribute
 product_attribute_multiselect:
  attribute_code : attribute_multiselect_code
@@ -140,10 +140,10 @@ product_attribute_multiselect:
  manage_titles:
   admin : Multiple Select Product Attribute Title
  manage_options:
- - admin : Multiple Select Option
+  admin : #Multiple Select Option
    position : 0
    is_default : 1
----
+
 # Test Datasets for Add New Dropdown type Product Attribute
 product_attribute_dropdown:
  attribute_code : attribute_dropdown_code
@@ -167,10 +167,10 @@ product_attribute_dropdown:
  manage_titles:
   admin : Dropdown Product Attribute Title
  manage_options:
- - admin : Dropdown Option
+  admin : #Dropdown Option
    position : 0
    is_default : 1
----
+
 # Test Datasets for Add New Price type Product Attribute
 product_attribute_price:
  attribute_code : attribute_price_code
@@ -192,7 +192,7 @@ product_attribute_price:
  used_for_sorting_in_product_listing : No
  manage_titles:
   admin : Price Product Attribute Title
----
+
 # Test Datasets for Add New MediaImage type Product Attribute
 product_attribute_mediaimage:
  scope : Global
@@ -201,7 +201,7 @@ product_attribute_mediaimage:
  catalog_input_type_for_store_owner : Media Image
  manage_titles:
   admin : Media Image Product Attribute Title
----
+
 # Test Datasets for Add New FixedProductTax type Product Attribute
 product_attribute_fpt:
  attribute_code : attribute_fpt_code
