@@ -33,24 +33,50 @@
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
+class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
 
     protected $_dataHelper = null;
     protected $_dataGenerator = null;
-    protected $uid = null;
+    protected $_uid = null;
 
-    protected $browser = null;
-    protected $_pageObject = null;
+    protected $_pageHelper = null;
 
     public $messages = null;
 
-    public function __construct($name = NULL, array $data = array(), $dataName = '') {
-        parent::__construct($name, $data, $dataName);
-        $this->_dataHelper = Mage_Selenium_TestConfiguration::$dataHelper;
-        $this->_dataGenerator = Mage_Selenium_TestConfiguration::$dataGenerator;
-        $this->browser = Mage_Selenium_TestConfiguration::$browser;
-        $this->uid = new Mage_Selenium_Uid();
+    protected $_baseUrl = '';
+    protected $_isAdmin = false;
+
+    /**
+     * @param  string $name
+     * @param  array  $data
+     * @param  string $dataName
+     * @param  array  $browser
+     * @throws InvalidArgumentException
+     */
+    public function __construct($name = NULL, array $data = array(), $dataName = '', array $browser = array()) {
+        parent::__construct($name, $data, $dataName, $browser);
+        $this->_dataHelper = Mage_Selenium_TestConfiguration::$instance->dataHelper;
+        $this->_dataGenerator = Mage_Selenium_TestConfiguration::$instance->dataGenerator;
+        $this->_pageHelper = Mage_Selenium_TestConfiguration::$instance->getPageHelper($this);
+        $this->_uid = new Mage_Selenium_Uid();
+        // @TODO
+        $this->_baseUrl = 'http://www.localhost.com/magento-trunk/';
+        $this->_isAdmin = false;
+        $this->setBrowserUrl($this->_baseUrl);
+    }
+
+    /**
+     * @param  array $browser
+     * @return PHPUnit_Extensions_SeleniumTestCase_Driver
+     */
+    protected function getDriver(array $browser)
+    {
+        $driver = Mage_Selenium_TestConfiguration::$instance->driver;
+        $driver->setTestCase($this);
+        $driver->setTestId($this->testId);
+        $this->drivers[] = $driver;
+        return $driver;
     }
 
     /**
@@ -58,13 +84,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
      */
 
     /**
+     * Load test data
      *
-     * @param string|array $dataSource
-     * @param array|null $override
-     * @param string|array|null $randomize
+     * @param string|array $dataSource Data source (e.g. filename in ../data without .yml extension)
+     * @param array|null $override Value to override in original data from data source
+     * @param string|array|null $randomize Value to randomize
      * @return array
      */
-    public function data($dataSource, $override=null, $randomize=null)
+    public function loadData($dataSource, $override=null, $randomize=null)
     {
         $data = null;
         // @TODO
@@ -84,12 +111,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
     public function generate($type='string', $length=100, $modifier=null, $prefix=null)
     {
         $result = $this->_dataGenerator->generate($type, $length, $modifier,$prefix);
-
         return $result;
     }
 
     /**
-     * Page helper methods
+     * Navigation methods
      */
 
     public function front($page='home')
@@ -104,19 +130,46 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
         return $this;
     }
 
+    /**
+     * Navigates to a specified page
+     *
+     * @param string $page Page in MCA format
+     * @return Mage_Selenium_TestCase
+     */
     public function navigate($page)
     {
-        // @TODO
+//        $this->open($this->getPageUrl($page));
+        $this->_pageHelper->validateCurrentPage();
         return $this;
+    }
+
+    /**
+     * Navigates to the specified page and stops current testcase execution if navigation failed
+     *
+     * @param string $page Page in MCA format
+     * @return Mage_Selenium_TestCase
+     */
+    public function navigated($page)
+    {
+        $this->navigate($page);
+        // @TODO extra validation to make sure we successfully navigated or stop further execution of the current test
+        return $this;
+    }
+
+    /**
+     * Return URL of a specified page
+     *
+     * @param string $page Page in MCA format
+     * @return string
+     */
+    public function getPageUrl($page)
+    {
+        // @TODO
+        $url = $this->_baseUrl . $page;
+        return $url;
     }
 
     public function clickButton($button)
-    {
-        // @TODO
-        return $this;
-    }
-
-    public function navigated($page)
     {
         // @TODO
         return $this;
@@ -143,6 +196,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
     }
 
     public function fillForm($data)
+    {
+        // @TODO
+        return $this;
+    }
+
+    public function searchAndOpen($something)
     {
         // @TODO
         return $this;
@@ -185,16 +244,42 @@ class Mage_Selenium_TestCase extends PHPUnit_Framework_TestCase
      * PHPUnit helper methods
      */
 
-    public static function assertTrue($condition, $message='')
+    /**
+     * Asserts that a condition is true.
+     *
+     * @param  boolean $condition
+     * @param  string  $message
+     * @throws PHPUnit_Framework_AssertionFailedError
+     */
+    public static function assertTrue($condition, $message = '')
     {
-//        parent::assertTrue(false);
         // @TODO
+        self::assertThat(true, self::isTrue(), $message);
+//        self::assertThat((boolean)$condition, self::isTrue(), $message);
+//        self::assertThat($condition, self::isTrue(), $message);
+        if (isset($this)) {
+            return $this;
+        }
     }
 
-    public static function assertFalse($condition, $message='')
+    /**
+     * Asserts that a condition is false.
+     *
+     * @param  boolean $condition
+     * @param  string  $message
+     * @throws PHPUnit_Framework_AssertionFailedError
+     */
+    public static function assertFalse($condition, $message = '')
     {
         // @TODO
+        self::assertThat(false, self::isFalse(), $message);
+//        self::assertThat((boolean)$condition, self::isFalse(), $message);
+//        self::assertThat($condition, self::isTrue(), $message);
+        if (isset($this)) {
+            return $this;
+        }
     }
+
 
 
     /**

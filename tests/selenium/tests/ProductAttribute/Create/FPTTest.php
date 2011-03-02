@@ -73,7 +73,7 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
                 $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
                 'Wrong page is displayed'
         );
-        $this->fillForm($this->data('product_attribute_fpt', null, 'attribute_code'));
+        $this->fillForm($this->loadData('product_attribute_fpt', null, 'attribute_code'));
         $this->clickButton('save_attribute');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');

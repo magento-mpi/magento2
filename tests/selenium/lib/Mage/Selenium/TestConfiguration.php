@@ -43,27 +43,42 @@ class Mage_Selenium_TestConfiguration
      *
      * @var Mage_Selenium_DataHelper
      */
-    public static $dataHelper = null;
+    public $dataHelper = null;
 
     /**
      * Data generator instance
      *
      * @var Mage_Selenium_DataGenerator
      */
-    public static $dataGenerator = null;
+    public $dataGenerator = null;
+
+    public $pageHelper = null;
 
     /**
      * Initialized browsers connections
      * @var array[int]PHPUnit_Extensions_SeleniumTestCase_Driver
      */
-    protected static $_browsers = array();
+    protected $_drivers = array();
 
     /**
      * Current browser connection
      *
      * @var PHPUnit_Extensions_SeleniumTestCase_Driver
      */
-    public static $browser = null;
+    public $driver = null;
+
+    /**
+     * Confiration obejct instance
+     * @var Mage_Selenium_TestConfiguration
+     */
+    public static $instance = null;
+
+    /**
+     * Constructor defined private to implement singleton
+     */
+    private function __construct()
+    {
+    }
 
     /**
      * Data configuration
@@ -91,23 +106,50 @@ class Mage_Selenium_TestConfiguration
      */
     public static function init()
     {
-        self::$dataHelper = new Mage_Selenium_DataHelper();
-        self::$dataGenerator = new Mage_Selenium_DataGenerator();
+        $instance = new self();
+        self::$instance = $instance;
+        $instance->dataHelper = new Mage_Selenium_DataHelper($instance);
+        $instance->dataGenerator = new Mage_Selenium_DataGenerator($instance);
+        $instance->pageHelper = new Mage_Selenium_PageHelper($instance);
 
         // @TODO load from configuration
-        $browser = '*chrome';
-        $host = '127.0.0.1';
-        $port = 5555;
+        $connectionConfig = array(
+            'browser'   => '*chrome',
+            'host'      => '127.0.0.1',
+            'port'      => 5555,
+        );
+        $instance->initDriver($connectionConfig);
+    }
 
-        $connection = new PHPUnit_Extensions_SeleniumTestCase_Driver();
-        $connection->setBrowser($browser);
-        $connection->setHost($host);
-        $connection->setPort($port);
-        self::$_browsers[] = $connection;
+    /**
+     * Get page helper instance
+     *
+     * @param Mage_Selenium_TestCase $testCase
+     * @return Mage_Selenium_PageHelper
+     */
+    public function getPageHelper(Mage_Selenium_TestCase $testCase)
+    {
+        $this->pageHelper->setTestCase($testCase);
+        return $this->pageHelper;
+    }
 
+    /**
+     *  Initialize new driver connection
+     *
+     * @param array $connectionConfig
+     * @return Mage_Selenium_TestConfiguration
+     */
+    public function initDriver(array $connectionConfig)
+    {
+        $driver = new Mage_Selenium_Driver();
+        $driver->setBrowser($connectionConfig['browser']);
+        $driver->setHost($connectionConfig['host']);
+        $driver->setPort($connectionConfig['port']);
+        $driver->setContiguousSession(true);
+        $this->_drivers[] = $driver;
         // @TODO implement interations outside
-        self::$browser = self::$_browsers[0];
-
+        $this->driver = $this->_drivers[0];
+        return $this;
         //var_dump(self::getConfig('browsers', 'browsers/firefox36/browser'));
         //var_dump(self::getData('product_attribute_textfield/attribute_code'));
         //var_dump(self::getUimapData('frontend/customer_account_create/title'));

@@ -21,40 +21,62 @@
  * @category    tests
  * @package     selenium
  * @subpackage  Mage_Selenium
+ * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Simple autoloader implementation
+ * Selenium driver
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
- * @author      Magento Core Team <core@magentocommerce.com>
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_Autoloader
+class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
 {
 
     /**
-     * Registers the autoloader handler
+     * @TODO
+     * @var boolean
      */
-    public static function register()
+    protected $_contiguousSession = false;
+
+    /**
+     * @TODO
+     *
+     * @param boolean $flag
+     * @return Mage_Selenium_Driver
+     */
+    public function setContiguousSession($flag)
     {
-        spl_autoload_register(array(__CLASS__, 'autoload'));
+        $this->_contiguousSession = $flag;
+        return $this;
     }
 
     /**
-     * Autoload handler implementation
-     *
-     * @param string $className Class name to be loaded, e.g. Mage_Selenium_TestCase
-     * @return boolean
+     * @return string
      */
-    public static function autoload($className)
+    public function start()
     {
-        $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $className)));
-        $classFile = $classFile . '.php';
-        return include_once $classFile;
+        return parent::start();
+    }
+
+    /**
+     */
+    public function stop()
+    {
+        if (!isset($this->sessionId)) {
+            return;
+        }
+
+        if ($this->_contiguousSession) {
+            return;
+        }
+
+        $this->doCommand('testComplete');
+
+        $this->sessionId = NULL;
     }
 
 }

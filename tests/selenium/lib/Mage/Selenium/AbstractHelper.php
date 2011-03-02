@@ -21,40 +21,44 @@
  * @category    tests
  * @package     selenium
  * @subpackage  Mage_Selenium
+ * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Simple autoloader implementation
+ * Abstract helper object
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
- * @author      Magento Core Team <core@magentocommerce.com>
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_Autoloader
+class Mage_Selenium_AbstractHelper
 {
 
+    protected $_testCase = null;
+    protected $_config = null;
+
     /**
-     * Registers the autoloader handler
+     * Constructor, expects global test configuration object
+     *
+     * @param Mage_Selenium_TestConfiguration $config
      */
-    public static function register()
+    public function  __construct(Mage_Selenium_TestConfiguration $config)
     {
-        spl_autoload_register(array(__CLASS__, 'autoload'));
+        $this->_config = $config;
     }
 
     /**
-     * Autoload handler implementation
+     * Set current testcase object to allow callbacks
      *
-     * @param string $className Class name to be loaded, e.g. Mage_Selenium_TestCase
-     * @return boolean
+     * @param Mage_Selenium_TestCase $testCase
+     * @return Mage_Selenium_AbstractHelper
      */
-    public static function autoload($className)
+    public function setTestCase(Mage_Selenium_TestCase $testCase)
     {
-        $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $className)));
-        $classFile = $classFile . '.php';
-        return include_once $classFile;
+        $this->_testCase = $testCase;
+        return $this;
     }
 
 }

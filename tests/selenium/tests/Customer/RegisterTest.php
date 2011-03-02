@@ -87,7 +87,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
             $this->navigate('my_account')->clickButton('register')->navigated('customer_account_create'),
             'Wrong page is displayed'
         );
-        $this->fillForm($this->data('customer_account_create', null, 'email'));
+        $this->fillForm($this->loadData('customer_account_create', null, 'email'));
         $this->clickButton('submit');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
@@ -100,7 +100,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     public function testLongValues()
     {
         $this->assertTrue($this->navigate('customer_account_create'));
-        $this->fillForm($this->data('customer_account_create', array(
+        $this->fillForm($this->loadData('customer_account_create', array(
             'firstname' => $this->generate('string', 260, ':alnum:'),
             'lastname'  => $this->generate('string', 260, ':alnum:'),
             'email'     => $this->generate('email', 260, 'valid', $this->uid),
