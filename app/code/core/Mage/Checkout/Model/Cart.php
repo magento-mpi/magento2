@@ -168,7 +168,6 @@ class Mage_Checkout_Model_Cart extends Varien_Object
      */
     protected function _getProduct($productInfo)
     {
-      Mage::log(123);
         $product = null;
         if ($productInfo instanceof Mage_Catalog_Model_Product) {
             $product = $productInfo;
