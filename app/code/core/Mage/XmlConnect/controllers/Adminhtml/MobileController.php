@@ -114,7 +114,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             }
             $app->loadSubmit();
             if ((bool) Mage::getSingleton('adminhtml/session')->getLoadSessionFlag(true)) {
-                $data = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormSubmissionData(true));
+                $data = $this->_restoreSessionFilesFormData(
+                    Mage::getSingleton('adminhtml/session')->getFormSubmissionData(true)
+                );
                 if (!empty($data)) {
                     $app->setData(Mage::helper('xmlconnect')->arrayMergeRecursive($app->getData(), $data));
                 }
@@ -159,7 +161,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 return;
             }
 
-            $newAppData = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormData(true));
+            $newAppData = $this->_restoreSessionFilesFormData(
+                Mage::getSingleton('adminhtml/session')->getFormData(true)
+            );
+
             if (!empty($newAppData)) {
                 $app->setData(Mage::helper('xmlconnect')->arrayMergeRecursive($app->getData(), $newAppData));
             }
@@ -634,10 +639,12 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
             $this->loadLayout(false);
             $preview = $this->getLayout()->getBlock($block);
+            //die(var_dump(get_class($preview)));
             if (isset($jsErrorMessage)) {
                 $preview->setJsErrorMessage($jsErrorMessage);
             }
             $preview->setConf($appConf);
+            Mage::helper('xmlconnect')->getPreviewModel()->setConf($appConf);
             $this->renderLayout();
             return;
         } catch (Mage_Core_Exception $e) {
@@ -1090,7 +1097,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                         break;
                 }
                 if ($temporaryObject->getExecTime()) {
-                    $message->setExecTime(Mage::getSingleton('core/date')->gmtDate(null, $temporaryObject->getExecTime()));
+                    $message->setExecTime(
+                        Mage::getSingleton('core/date')->gmtDate(null, $temporaryObject->getExecTime())
+                    );
                 } else {
                     $message->setExecTime(new Zend_Db_Expr('NULL'));
                 }

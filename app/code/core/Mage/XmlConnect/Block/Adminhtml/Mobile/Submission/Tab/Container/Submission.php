@@ -109,12 +109,19 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
 
         if ($isResubmit) {
             $url = Mage::getStoreConfig('xmlconnect/mobile_application/resubmission_key_url');
-            $afterElementHtml = $this->__('In order to resubmit your app, you need to first purchase a <a href="%s" target="_blank">%s</a> from MagentoCommerce', $url, $this->__('Resubmission Key'));
+            $rsText = $this->__('Resubmission Key');
+            $afterElementHtml = $this->__('In order to resubmit your app, you need to first purchase a <a href="%s" target="_blank">%s</a> from MagentoCommerce', $url, $rsText);
+
+            if (isset($formData['conf[submit_text][resubmission_activation_key]'])) {
+                $rsKeyVal = $formData['conf[submit_text][resubmission_activation_key]'];
+            } else {
+                $rsKeyVal = null;
+            }
 
             $fieldset->addField('conf[submit_text][resubmission_activation_key]', 'text', array(
                 'name'     => 'conf[submit_text][resubmission_activation_key]',
                 'label'    => $this->__('Resubmission Key'),
-                'value'    => isset($formData['conf[submit_text][resubmission_activation_key]']) ? $formData['conf[submit_text][resubmission_activation_key]'] : null,
+                'value'    => $rsKeyVal,
                 'required' => true,
                 'after_element_html' => $afterElementHtml,
             ));
@@ -129,18 +136,18 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
 
         switch ($deviceType) {
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
-                $titleLength = '12';
-                $descriptionLength = '500';
+                $titleLength = Mage_XmlConnect_Helper_Iphone::SUBMISSION_TITLE_LENGTH;
+                $descriptionLength = Mage_XmlConnect_Helper_Iphone::SUBMISSION_DESCRIPTION_LENGTH;
                 $descriptionNote = $this->__('Description that appears in the iTunes App Store. %s chars maximum. ', $descriptionLength);
                 break;
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD:
-                $titleLength = '200';
-                $descriptionLength = '500';
+                $titleLength = Mage_XmlConnect_Helper_Ipad::SUBMISSION_TITLE_LENGTH;
+                $descriptionLength = Mage_XmlConnect_Helper_Ipad::SUBMISSION_DESCRIPTION_LENGTH;
                 $descriptionNote = $this->__('Description that appears in the iTunes App Store. %s chars maximum. ', $descriptionLength);
                 break;
             case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_ANDROID:
-                $titleLength = '30';
-                $descriptionLength = '4000';
+                $titleLength = Mage_XmlConnect_Helper_Android::SUBMISSION_TITLE_LENGTH;
+                $descriptionLength = Mage_XmlConnect_Helper_Android::SUBMISSION_DESCRIPTION_LENGTH;
                 $descriptionNote = $this->__('Description that appears in Android Market. %s chars maximum. ', $descriptionLength);
                 break;
         }
@@ -156,11 +163,17 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'required'  => true,
         ));
 
+        if (isset($formData['conf[submit_text][description]'])) {
+            $descrVal = $formData['conf[submit_text][description]'];
+        } else {
+            $descrVal = null;
+        }
+
         $field = $fieldset->addField('conf/submit_text/description', 'textarea', array(
             'name'      => 'conf[submit_text][description]',
             'label'     => $this->__('Description'),
             'maxlength' => $descriptionLength,
-            'value'     => isset($formData['conf[submit_text][description]']) ? $formData['conf[submit_text][description]'] : null,
+            'value'     => $descrVal,
             'note'      => $descriptionNote,
             'required'  => true,
         ));
@@ -190,7 +203,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'value'     => '1',
         ));
 
-        $selected = isset($formData['conf[submit_text][country]']) ? explode(',', $formData['conf[submit_text][country]']) : null;
+        if (isset($formData['conf[submit_text][country]'])) {
+            $selected = explode(',', $formData['conf[submit_text][country]']);
+        } else {
+            $selected = null;
+        }
+
         $fieldset->addField('conf/submit_text/country', 'multiselect', array(
             'name'      => 'conf[submit_text][country][]',
             'label'     => $this->__('Country'),
@@ -200,21 +218,34 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'required'  => true,
         ));
 
+        if (isset($formData['conf[submit_text][copyright]'])) {
+            $copyVal = $formData['conf[submit_text][copyright]'];
+        } else {
+            $copyVal = null;
+        }
+
         $fieldset->addField('conf/submit_text/copyright', 'text', array(
             'name'      => 'conf[submit_text][copyright]',
             'label'     => $this->__('Copyright'),
             'maxlength' => '200',
-            'value'     => isset($formData['conf[submit_text][copyright]']) ? $formData['conf[submit_text][copyright]'] : null,
+            'value'     => $copyVal,
             'note'      => $this->__('Appears in the info section of your app (example:  Copyright 2010 – Your Company, Inc.)'),
             'required'  => true,
         ));
 
         if ($deviceType !== Mage_XmlConnect_Helper_Data::DEVICE_TYPE_ANDROID) {
+
+            if (isset($formData['conf[submit_text][keywords]'])) {
+                $keyWordsVal = $formData['conf[submit_text][keywords]'];
+            } else {
+                $keyWordsVal = null;
+            }
+
             $fieldset->addField('conf/submit_text/keywords', 'text', array(
                 'name'      => 'conf[submit_text][keywords]',
                 'label'     => $this->__('Keywords'),
                 'maxlength' => '100',
-                'value'     => isset($formData['conf[submit_text][keywords]']) ? $formData['conf[submit_text][keywords]'] : null,
+                'value'     => $keyWordsVal,
                 'note'      => $this->__('One or more keywords that describe your app. Keywords are matched to users\' searches in the App Store and help return accurate search results. Separate multiple keywords with commas. 100 chars is maximum.'),
             ));
         }

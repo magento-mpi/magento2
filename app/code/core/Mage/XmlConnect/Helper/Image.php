@@ -391,7 +391,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function getDefaultDesignUrl($image = '')
     {
-        return $this->getMediaUrl($this->getDefaultDesignSuffixAsUrl($image));
+        return $this->getSkinImagesUrl($this->getDefaultDesignSuffixAsUrl($image));
     }
 
     /**

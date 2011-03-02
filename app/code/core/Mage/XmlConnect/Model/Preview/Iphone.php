@@ -25,27 +25,46 @@
  */
 
 /**
- * PayPal MEP Shopping cart totals xml renderer
+ * Iphone preview model
  *
  * @category    Mage
- * @package     Mage_Cart
+ * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Cart_Paypal_Mep_Totals extends Mage_Checkout_Block_Cart_Totals
+class Mage_XmlConnect_Model_Preview_Iphone extends Mage_XmlConnect_Model_Preview_Abstract
 {
     /**
-     * Render cart totals xml
+     * Get application banner image url
+     *
+     * @throws Mage_Core_Exception
+     * @return string
+     */
+    public function getBannerImage()
+    {
+        $configPath = 'conf/body/bannerImage';
+        if ($this->getData($configPath)) {
+            $bannerImage = $this->getData($configPath);
+        } else {
+            $bannerImage = $this->getPreviewImagesUrl('banner.png');
+        }
+        return $bannerImage;
+    }
+
+    /**
+     * Get background image url according device type
      *
      * @return string
      */
-    protected function _toHtml()
+    public function getBackgroundImage()
     {
-        $paypalCart = Mage::getModel('paypal/cart', array($this->getQuote()));
-        $totalsXmlObj  = new Mage_XmlConnect_Model_Simplexml_Element('<cart_totals></cart_totals>');
-        foreach ($paypalCart->getTotals(true) as $code => $amount) {
-            $currencyAmount = $this->helper('core')->currency($amount, false, false);
-            $totalsXmlObj->addChild($code, sprintf('%01.2F', $currencyAmount));
+        $backgroundImage = '';
+        $configPath = 'conf/body/backgroundImage';
+        $imageUrlOrig = $this->getData($configPath);
+        if ($imageUrlOrig) {
+            $backgroundImage = $imageUrlOrig;
+        } else {
+            $backgroundImage = $this->getPreviewImagesUrl('banner.png');
         }
-        return $totalsXmlObj->asNiceXml();
+        return $backgroundImage;
     }
 }

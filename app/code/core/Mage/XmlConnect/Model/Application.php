@@ -365,16 +365,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                  * Creating file ending (some_inner/some_dir/filename.png) For url
                  */
                 $imageNodeValue = $helperImage->getFileCustomDirSuffixAsUrl($confPath, $imageNodeValue);
-            } else {
-                /**
-                 * Set default image file ending when an image is not set
-                 */
-                $imageNodeValue = $helperImage->getDefaultDesignSuffixAsUrl(
-                    $helperImage->getInterfaceImagesPaths($confPath)
-                );
             }
         }
         $result = $this->_absPath($result);
+
         /**
          * General configuration
          */
@@ -396,7 +390,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['primaryStoreLang'] = Mage::app()
             ->getStore($this->getStoreId())->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         $result['general']['magentoVersion'] = Mage::getVersion();
-        $result['general']['copyright'] = Mage::getStoreConfig(self::XML_PATH_DESIGN_FOOTER_COPYRIGHT, $this->getStoreId());
+        $result['general']['copyright'] = Mage::getStoreConfig(
+            self::XML_PATH_DESIGN_FOOTER_COPYRIGHT,
+            $this->getStoreId()
+        );
 
         $result['general']['isAllowedGuestCheckout'] = Mage::getSingleton('checkout/session')
             ->getQuote()->isAllowedGuestCheckout();
@@ -408,6 +405,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
 
         /**
+         * "Use Secure URLs in Frontend" flag
+         */
+        $result['general']['useSecureURLInFrontend'] = (int)Mage::getStoreConfigFlag(
+            Mage_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND
+        );
+
+        /**
          * PayPal configuration
          */
         $result['paypal']['businessAccount'] = Mage::getModel('paypal/config')->businessAccount;
@@ -415,12 +419,15 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
         $isActive = 0;
         if (isset($result['paypal']) && isset($result['paypal']['isActive'])) {
-            $isActive = (int)($result['paypal']['isActive'] && Mage::getModel('xmlconnect/payment_method_paypal_mep')->isAvailable(null));
+            $paypalMep = Mage::getModel('xmlconnect/payment_method_paypal_mep');
+            $isActive = (int)($result['paypal']['isActive'] && $paypalMep->isAvailable(null));
         }
         $result['paypal']['isActive'] = $isActive;
 
         if ((int)Mage::getStoreConfig(self::XML_PATH_GENERAL_RESTRICTION_IS_ACTIVE)) {
-            $result['website_restrictions']['mode'] = (int) Mage::getStoreConfig(self::XML_PATH_GENERAL_RESTRICTION_MODE);
+            $result['website_restrictions']['mode'] = (int)Mage::getStoreConfig(
+                self::XML_PATH_GENERAL_RESTRICTION_MODE
+            );
         }
 
         return $result;
@@ -607,9 +614,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                /**
                 * Fetching data from submission history table record
                 *
-                * converting :  "@\var\somedir\media\xmlconnect\form_icon_6.png" to "\var\somedir\media\xmlconnect\forn_icon_6.png"
+                * converting :  "@\var\somedir\media\xmlconnect\form_icon_6.png"
+                * to "\var\somedir\media\xmlconnect\forn_icon_6.png"
                 */
-//                $path = substr($params[$id], 1);
                 $basename = basename($params[$id]);
             }
             if (!empty($basename)) {
@@ -669,51 +676,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         if ($validateConf !== true) {
             $errors = $validateConf;
         }
-        if (!Zend_Validate::is(isset($params['title']) ? $params['title'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Title.');
-        }
 
-        if (isset($params['title'])) {
-            if ($this->getType() == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE) {
-                $strRules = array('max' => '12');
-            } else {
-                $strRules = array('max' => '200');
-            }
-            if (!Zend_Validate::is($params['title'], 'StringLength', $strRules)) {
-                $errors[] = Mage::helper('xmlconnect')->__('"Title" is more than %d characters long', $strRules['max']);
-            }
-        }
+        $submitErrors = Mage::helper('xmlconnect')->getDeviceHelper($this)->validateSubmit($params);
 
-        if (!Zend_Validate::is(isset($params['copyright']) ? $params['copyright'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Copyright.');
+        if (count($submitErrors)) {
+            $errors = array_merge($errors, $submitErrors);
         }
-
-        if (empty($params['price_free'])) {
-            if (!Zend_Validate::is(isset($params['price']) ? $params['price'] : null, 'NotEmpty')) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Price.');
-            }
-        }
-
-        if (!Zend_Validate::is(isset($params['country']) ? $params['country'] : null, 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please select at least one country.');
-        }
-
-        if ($this->getIsResubmitAction()) {
-            $resubmissionKey = isset($params['resubmission_activation_key']) ? $params['resubmission_activation_key'] : null;
-            if (!Zend_Validate::is($resubmissionKey, 'NotEmpty')) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Resubmission Key.');
-            } else if (!Zend_Validate::is($resubmissionKey, 'StringLength', array(1, self::APP_MAX_KEY_LENGTH))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Submit App failure. Invalid activation key provided');
-            }
-        } else {
-            $key = isset($params['key']) ? $params['key'] : null;
-            if (!Zend_Validate::is($key, 'NotEmpty')) {
-                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Activation Key.');
-            } else if (!Zend_Validate::is($key, 'StringLength', array(1, self::APP_MAX_KEY_LENGTH))) {
-                $errors[] = Mage::helper('xmlconnect')->__('Submit App failure. Invalid activation key provided');
-            }
-        }
-
         if (empty($errors)) {
             return true;
         }
@@ -723,63 +691,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     /**
      * Check config for valid values
      *
-     * @throws Mage_Core_Exception
      * @return bool|array
      */
     protected function _validateConf()
     {
-        $errors = array();
         $conf = $this->getConf();
         $native = isset($conf['native']) && is_array($conf['native']) ? $conf['native'] : false;
-
-        if ( ($native === false)
-            || (!isset($native['navigationBar']) || !is_array($native['navigationBar'])
-            || !isset($native['navigationBar']['icon'])
-            || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty'))) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
-        }
-
-        $deviceType = Mage::helper('xmlconnect')->getDeviceType();
-        switch ($deviceType) {
-            case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPHONE:
-                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerImage', $native)) {
-                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
-                }
-
-                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundImage', $native)) {
-                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
-                }
-                break;
-            case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_IPAD:
-                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerIpadImage', $native)) {
-                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
-                }
-
-                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundIpadLandscapeImage', $native)) {
-                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (landscape mode)" field from Design Tab.');
-                }
-
-                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundIpadPortraitImage', $native)) {
-                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (portrait mode)" field from Design Tab.');
-                }
-                break;
-            case Mage_XmlConnect_Helper_Data::DEVICE_TYPE_ANDROID:
-                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerAndroidImage', $native)) {
-                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
-                }
-
-                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundAndroidLandscapeImage', $native)) {
-                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (landscape mode)" field from Design Tab.');
-                }
-
-                if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundAndroidPortraitImage', $native)) {
-                    $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (portrait mode)" field from Design Tab.');
-                }
-                break;
-            default:
-                Mage::throwException(Mage::helper('xmlconnect')->__('Device doesn\'t recognized: "%s". Unable to load a helper.', $deviceType));
-                break;
-        }
+        $errors = Mage::helper('xmlconnect')->getDeviceHelper($this)->validateConfig($native);
 
         if (empty($errors)) {
             return true;

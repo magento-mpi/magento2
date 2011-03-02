@@ -24,7 +24,12 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php if (($buttons = $this->getTabItems()) && is_array($buttons) && ($buttonsCount = count($buttons))) :?>
+<?php
+    /** @var $previewModel Mage_XmlConnect_Model_Preview_Iphone */
+    $previewModel = Mage::helper('xmlconnect')->getPreviewModel();
+?>
+<?php if (($buttons = $previewModel->getTabItems()) && is_array($buttons) && ($buttonsCount = count($buttons))) :?>
+
 <div class="bottom-buttons">
     <div class="gradient">
     <table width="100%">
@@ -39,6 +44,6 @@
             </tr>
         </tbody>
     </table>
-    </div>  
+    </div>
 </div>
 <?php endif; ?>

@@ -27,16 +27,21 @@
 /**
  * Wrapper that performs Paypal MEP and Checkout communication
  *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Model_Paypal_Mep_Checkout
 {
-    /**
+    /**#@+
      * Keys for passthrough variables in sales/quote_payment and sales/order_payment
      * Uses additional_information as storage
+     *
      * @var string
      */
     const PAYMENT_INFO_PAYER_EMAIL = 'paypal_payer_email';
     const PAYMENT_INFO_TRANSACTION_ID = 'paypal_mep_checkout_transaction_id';
+    /**#@-*/
 
     /**
      * Payment method type
@@ -46,16 +51,22 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     protected $_methodType = Mage_XmlConnect_Model_Payment_Method_Paypal_Mep::MEP_METHOD_CODE;
 
     /**
+     * Quote model
+     *
      * @var Mage_Sales_Model_Quote
      */
     protected $_quote = null;
 
     /**
+     * Checkout session model
+     *
      * @var Mage_Checkout_Model_Session
      */
     protected $_checkoutSession;
 
     /**
+     * XmlConnect default helper
+     *
      * @var Mage_XmlConnect_Helper_Data
      */
     protected $_helper;
@@ -79,7 +90,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
 
     /**
      * Prepare quote, reserve order ID for specified quote
-     * 
+     *
      * @return string
      */
     public function initCheckout()
@@ -132,13 +143,15 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
             );
         }
 
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
-            $data['firstname'] = $customer->getFirstname();
-            $data['lastname'] = $customer->getLastname();
-        } else {
-            $data['firstname'] = Mage::helper('xmlconnect')->__('Guest');
-            $data['lastname'] = Mage::helper('xmlconnect')->__('Guest');
+        if (empty($data['firstname']) && empty($data['lastname'])) {
+            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+                $customer = Mage::getSingleton('customer/session')->getCustomer();
+                $data['firstname'] = $customer->getFirstname();
+                $data['lastname'] = $customer->getLastname();
+            } else {
+                $data['firstname'] = Mage::helper('xmlconnect')->__('Guest');
+                $data['lastname'] = Mage::helper('xmlconnect')->__('Guest');
+            }
         }
 
         $address->addData($data);
@@ -210,7 +223,10 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
 
         $email = isset($data['payer']) ? $data['payer'] : null;
         $payment->setAdditionalInformation(self::PAYMENT_INFO_PAYER_EMAIL, $email);
-        $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSACTION_ID, isset($data['transaction_id']) ? $data['transaction_id'] : null);
+        $payment->setAdditionalInformation(
+            self::PAYMENT_INFO_TRANSACTION_ID,
+            isset($data['transaction_id']) ? $data['transaction_id'] : null
+        );
         $this->_quote->setCustomerEmail($email);
 
         $this->_quote->collectTotals()->save();

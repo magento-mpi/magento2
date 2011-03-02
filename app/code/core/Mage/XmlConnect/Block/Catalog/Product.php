@@ -51,7 +51,8 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $item->addChild('name', $item->xmlentities(strip_tags($product->getName())));
             $item->addChild('entity_type', $product->getTypeId());
             $item->addChild('short_description', $item->xmlentities(strip_tags($product->getShortDescription())));
-            $item->addChild('description', Mage::helper('xmlconnect')->htmlize($item->xmlentities($product->getDescription())));
+            $description = Mage::helper('xmlconnect')->htmlize($item->xmlentities($product->getDescription()));
+            $item->addChild('description', $description);
 
             if ($itemNodeName == 'item') {
                 $imageToResize = Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small');
@@ -69,7 +70,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $file = Mage::helper('xmlconnect')->urlToPath($icon);
             $iconXml->addAttribute('modification_time', filemtime($file));
 
-            $item->addChild('in_stock', (int)$product->isSalable());
+            $item->addChild('in_stock', (int)$product->isInStock());
             $item->addChild('is_salable', (int)$product->isSalable());
             /**
              * By default all products has gallery (because of collection not load gallery attribute)
@@ -122,7 +123,9 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
     protected function _getMinimalQty($product)
     {
         if ($stockItem = $product->getStockItem()) {
-            return ($stockItem->getMinSaleQty() && $stockItem->getMinSaleQty() > 0 ? $stockItem->getMinSaleQty() * 1 : null);
+            if ($stockItem->getMinSaleQty() && $stockItem->getMinSaleQty() > 0) {
+                return ($stockItem->getMinSaleQty() * 1);
+            }
         }
         return null;
     }

@@ -23,7 +23,8 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images
+    extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
 {
     /**
      * Getter for accordion item title
@@ -71,16 +72,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images ex
                 $this->addImage($fieldset,
                     'conf[native][body][bannerImage]',
                     $this->__('Banner on Home Screen'),
-                    $this->__('Recommended size 320px x 230px. Note: Image size affects the performance of your app.'
-                        . ' Keep your image size below 50 KB for optimal performance.'),
+                    $this->__('Recommended size 320px x 230px. Note: Image size affects the performance of your app. Keep your image size below 50 KB for optimal performance.'),
                     $this->_getDesignPreviewImageUrl('conf/native/body/bannerImage'),
                     true
                 );
                 $this->addImage($fieldset,
                     'conf[native][body][backgroundImage]',
                     $this->__('App Background'),
-                    $this->__('Recommended size 320px x 367px. Note: Image size affects the performance of your app.'
-                        . ' Keep your image size below 75 KB for optimal performance.'),
+                    $this->__('Recommended size 320px x 367px. Note: Image size affects the performance of your app. Keep your image size below 75 KB for optimal performance.'),
                     $this->_getDesignPreviewImageUrl('conf/native/body/backgroundImage'),
                     true
                 );
@@ -112,30 +111,29 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images ex
                 $this->addImage($fieldset,
                     'conf[native][body][bannerAndroidImage]',
                     $this->__('Banner on Home Screen'),
-                    $this->__('Recommended size 320px x 258px. Note: Image size affects the performance of your app.'
-                        . ' Keep your image size below 50 KB for optimal performance.'),
+                    $this->__('Recommended size 320px x 258px. Note: Image size affects the performance of your app. Keep your image size below 50 KB for optimal performance.'),
                     $this->_getDesignPreviewImageUrl('conf/native/body/bannerAndroidImage'),
                     true
                 );
                 $this->addImage($fieldset,
                     'conf[native][body][backgroundAndroidLandscapeImage]',
                     $this->__('App Background <br />(landscape mode)'),
-                    $this->__('Recommended size 480px x 250px. Note: Image size affects the performance of your app.'
-                        . ' Keep your image size below 75 KB for optimal performance.'),
+                    $this->__('Recommended size 480px x 250px. Note: Image size affects the performance of your app. Keep your image size below 75 KB for optimal performance.'),
                     $this->_getDesignPreviewImageUrl('conf/native/body/backgroundAndroidLandscapeImage'),
                     true
                 );
                 $this->addImage($fieldset,
                     'conf[native][body][backgroundAndroidPortraitImage]',
                     $this->__('App Background <br />(portrait mode)'),
-                    $this->__('Recommended size 320px x 410px. Note: Image size affects the performance of your app.'
-                        . ' Keep your image size below 75 KB for optimal performance.'),
+                    $this->__('Recommended size 320px x 410px. Note: Image size affects the performance of your app. Keep your image size below 75 KB for optimal performance.'),
                     $this->_getDesignPreviewImageUrl('conf/native/body/backgroundAndroidPortraitImage'),
                     true
                 );
                 break;
             default:
-                Mage::throwException($this->__('Device doesn\'t recognized: "%s". Unable to load a helper.', $deviceType));
+                Mage::throwException(
+                    $this->__('Device doesn\'t recognized: "%s". Unable to load a helper.', $deviceType)
+                );
                 break;
         }
 
