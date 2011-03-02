@@ -1,0 +1,250 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Manage Users and related pages
+
+messages :
+ success_new_user : div[@id='messages']//li[span='The user has been saved.']
+ success_edit_user : div[@id='messages']//li[span='The user has been saved.']
+ success_delere_user : div[@id='messages']//li[span='The user has been deleted.']
+ success_new_role : div[@id='messages']//li[span='The role has been successfully saved.']
+ success_edit_role : div[@id='messages']//li[span='The role has been successfully saved.']
+ success_delete_role : div[@id='messages']//li[span='The role has been deleted.']
+ error_required_field : div[@id='%fieldName%']
+ error_mail : div[@id='advice-validate-email-user_email']
+ error_password_unmatch : div[@id='advice-validate-cpassword-user_confirmation']
+
+# 'Users' page
+manage_users:
+ mca : permissions_user/
+ title : Users / Permissions / System / Magento Admin
+ uimap:
+  form : &permissionsUserForm
+  buttons :
+   reset_filter : button[span='Reset Filter']
+   search : button[span='Search']
+   dropdowns :
+   status : select[@id='filter_is_active']
+  fields :
+   id : input[@id='filter_user_id']
+   user_name : input[@id='filter_username']
+   first_name : input[@id='filter_firstname']
+   last_name : input[@id='filter_lastname']
+   email : input[@id='filter_email']
+  links :
+   select_by_user_name : table[@id="permissionsUserGrid_table"]//td[normalize-space(text())="%userName%"]
+ page_buttons :
+  add_new_user : button[span='Add New User']
+
+# 'New User' page
+add_new_user:
+ mca : permissions_user/new/
+ title : New Users / Users / Permissions / System / Magento Admin
+ uimap :
+  form : &newUserForm
+   tab_user_info :
+    xpath : a[@id='page_tabs_main_section']
+    fieldset_account_information :
+     xpath : div[@id='user_base_fieldset']
+     dropdowns :
+      this_acount_is : select[@id='user_is_active']
+     fields :
+      user_name : input[@id='user_username']
+      first_name : input[@id='user_firstname']
+      last_name : input[@id='user_lastname']
+      email : input[@id='user_email']
+      password : input[@id='user_password']
+      password_confirmation : input[@id='user_confirmation']
+     required : [user_name, first_name, last_name, email, password, password_confirmation]
+     unique : [email]
+   tab_user_role :
+    xpath : a[@id='page_tabs_roles_section']
+    fieldset_permissions_user_roles :
+     xpath : div[@id='permissionsUserRolesGrid']
+     buttons :
+      reset_filter : button[span="Reset Filter"]
+      search : button[span="Search"]
+     checkboxes :
+     #must be implemented
+     dropdowns :
+      assigned : input[@id='filter_assigned_user_role']
+     fields :
+      role_name : input[@id='filter_role_name']
+     radiobuttons :
+      select_by_role_name : td[normalize-space(text())='%roleName%']/ancestor::tr//input[@class='radio']
+  buttons :
+   back : button[span='Back']
+   reset : button[span='Reset']
+   save_user : button[span='Save User']
+
+# 'Edit User' page
+edit_user:
+ mca : permissions_user/edit/user_id/%user_id%/
+ title : %userName% / Users / Permissions / System / Magento Admin
+ uimap :
+  form : &editUserForm
+   tab_user_info :
+    xpath : a[@id='page_tabs_main_section']
+    fieldset_account_information  :
+     xpath : div[@id='user_base_fieldset']
+     dropdowns :
+      this_acount_is : select[@id='user_is_active']
+     fields :
+      user_name : input[@id='user_username']
+      first_name : input[@id='user_firstname']
+      last_name : input[@id='user_lastname']
+      email : input[@id='user_email']
+      password : input[@id='user_password']
+      password_confirmation : input[@id='user_confirmation']
+     required : [user_name, first_name, last_name, email, password, password_confirmation]
+     unique : [email]
+   tab_user_role :
+    xpath : a[@id='page_tabs_roles_section']
+    fieldset_permissions_user_roles :
+     xpath : div[@id='permissionsUserRolesGrid']
+     buttons :
+      reset_filter : button[span="Reset Filter"]
+      search : button[span="Search"]
+     checkboxes :
+     #must be implemented
+     dropdowns :
+      assigned : input[@id='filter_assigned_user_role']
+     fields :
+      role_name : input[@id='filter_role_name']
+     radiobuttons :
+      select_by_role_name : td[normalize-space(text())='%roleName%']/ancestor::tr//input[@class='radio']
+  buttons :
+   back : button[span='Back']
+   reset : button[span='Reset']
+   delete_user : button[span='Delete User']
+   save_user : button[span='Save User']
+
+# 'Roles' page
+manage_roles:
+ mca : permissions_role/
+ title : Roles / Permissions / System / Magento Admin
+ uimap :
+  form : &manageRolesForm
+   fieldset_role_list :
+    xpath : div[@id='roleGrid']
+    buttons :
+     reset_filter : button[span='Reset Filter']
+     search : button[span='Search']
+    fields :
+     id : input[@id='filter_role_id']
+     role_name : input[@id='filter_role_name']
+    links :
+     select_by_role_name : table[@id="roleGrid_table"]//td[normalize-space(text())="%roleName%"]
+  buttons :
+   add_new_role : button[span='Add New Role']
+
+# 'Add New Role' page
+add_new_role:
+ mca : permissions_role/editrole/
+ title : New Role / Roles / Permissions / System / Magento Admin
+ uimap :
+  form : &newRoleForm
+   tab_role_info :
+    xpath : a[@id='role_info_tabs_info']
+    fieldset_role_information :
+     xpath : div[@id='base_fieldset']
+     fields :
+      role_name : input[@id='role_name']
+   tab_role_resources :
+    xpath : a[@id='role_info_tabs_account']
+    fieldset_role_scopes :
+     xpath : input[@id='role_resources']
+     dropdowns :
+      role_scopes : select[@id='gws_is_all']
+    feildset_role_resources :
+     xpath : fieldset[@id='role_resources']
+     checkboxes :
+     #need to implement for "custom" selection
+     dropdowns :
+      resource_access : select[@id='all']       
+  buttons :
+   back : button[span='Back']
+   reset : button[span='Reset']
+   save_role : button[span='Save Role']
+  
+# 'Edit Role' page
+edit_role :
+ mca : permissions_role/editrole/rid/%role_id%/
+ title : %roleName% / Roles / Permissions / System / Magento Admin
+ uimap :
+  form : &editRoleForm
+   tab_role_info :
+    xpath : a[@id='role_info_tabs_info']
+    fieldset_role_information :
+     xpath : div[@id='base_fieldset']
+     fields :
+      role_name : input[@id='role_name']
+   tab_role_resources :
+    xpath : a[@id='role_info_tabs_account']
+    fieldset_role_scopes :
+     xpath : input[@id='role_resources']
+     dropdowns :
+      role_scopes : select[@id='gws_is_all']
+    feildset_role_resources :
+     xpath : fieldset[@id='role_resources']
+     checkboxes :
+     #need to implement for "custom" selection
+     dropdowns :
+      resource_access : select[@id='all']
+   tab_role_users :
+    xpath : a[@id='role_info_tabs_roles']
+    fieldset_role_users :
+     xpath : div[@id='role_info_tabs_roles_content']
+     buttons :
+      reset_filter : button[span='Reset Filter']
+      search : button[span='Search']
+     dropdowns :
+      filter_in_role_users : select[@id='filter_in_role_users']
+      status : select[@id='filter_role_user_is_active']
+     checkboxes :
+      select_by_user_name : td[normalize-space(text())='%userName%']/ancestor::tr//input[@class='checkbox']
+     fields :
+      user_id : input[@id='filter_role_user_id']
+      user_name : input[@id='filter_role_user_username']
+      first_name : input[@id='filter_role_user_firstname']
+      last_name : input[@id='filter_role_user_lastname']
+      email : input[@id='filter_role_user_email']
+  buttons :
+   back : button[span='Back']
+   reset : button[span='Reset']
+   delete_role : button[span='Delete Role']
+   save_role : button[span='Save Role']
+ 
+
+
+
+
+
+
+
+
+
+
