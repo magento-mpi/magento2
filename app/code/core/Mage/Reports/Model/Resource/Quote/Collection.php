@@ -106,10 +106,10 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
     {
         $productEntity          = Mage::getResourceSingleton('catalog/product_collection');
         $productAttrName        = $productEntity->getAttribute('name');
-        $productAttrNameId      = $productAttrName->getAttributeId();
+        $productAttrNameId      = (int) $productAttrName->getAttributeId();
         $productAttrNameTable   = $productAttrName->getBackend()->getTable();
         $productAttrPrice       = $productEntity->getAttribute('price');
-        $productAttrPriceId     = $productAttrPrice->getAttributeId();
+        $productAttrPriceId     = (int) $productAttrPrice->getAttributeId();
         $productAttrPriceTable  = $productAttrPrice->getBackend()->getTable();
 
         $ordersSubSelect = clone $this->getSelect();
@@ -174,14 +174,14 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
      */
     public function addCustomerData($filter = null)
     {
-        $customerEntity  = Mage::getResourceSingleton('customer/customer');
-        $attrFirstname   = $customerEntity->getAttribute('firstname');
-        $attrFirstnameId = $attrFirstname->getAttributeId();
+        $customerEntity         = Mage::getResourceSingleton('customer/customer');
+        $attrFirstname          = $customerEntity->getAttribute('firstname');
+        $attrFirstnameId        = (int) $attrFirstname->getAttributeId();
         $attrFirstnameTableName = $attrFirstname->getBackend()->getTable();
 
-        $attrLastname    = $customerEntity->getAttribute('lastname');
-        $attrLastnameId  = $attrLastname->getAttributeId();
-        $attrLastnameTableName = $attrLastname->getBackend()->getTable();
+        $attrLastname           = $customerEntity->getAttribute('lastname');
+        $attrLastnameId         = (int) $attrLastname->getAttributeId();
+        $attrLastnameTableName  = $attrLastname->getBackend()->getTable();
 
         $attrEmail       = $customerEntity->getAttribute('email');
         $attrEmailTableName = $attrEmail->getBackend()->getTable();
@@ -253,10 +253,16 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
 
         if ($filter && is_array($filter) && isset($filter['subtotal'])) {
             if (isset($filter['subtotal']['from'])) {
-                $this->getSelect()->where($this->_joinedFields['subtotal'] . ' >= ' . $filter['subtotal']['from']);
+                $this->getSelect()->where(
+                    $this->_joinedFields['subtotal'] . ' >= ?',
+                    $filter['subtotal']['from'], Zend_Db::FLOAT_TYPE
+                );
             }
             if (isset($filter['subtotal']['to'])) {
-                $this->getSelect()->where($this->_joinedFields['subtotal'] . ' <= ' . $filter['subtotal']['to']);
+                $this->getSelect()->where(
+                    $this->_joinedFields['subtotal'] . ' <= ?',
+                    $filter['subtotal']['to'], Zend_Db::FLOAT_TYPE
+                );
             }
         }
 
