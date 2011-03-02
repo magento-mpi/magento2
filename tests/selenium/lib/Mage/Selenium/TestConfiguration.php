@@ -234,7 +234,9 @@ class Mage_Selenium_TestConfiguration
             foreach ($files as $file) {
                 if (is_readable($file)) {
                     $fileData = sfYaml::load($file);
-                    $data = array_merge_recursive($data, $fileData);
+                    if (is_array($fileData)) {
+                        $data = array_merge_recursive($data, $fileData);
+                    }
                 }
             }
         }

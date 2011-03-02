@@ -93,8 +93,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function loadData($dataSource, $override=null, $randomize=null)
     {
-        $data = null;
-        // @TODO
+        $data = $this->_getData($dataSource);
+
+        if (!empty($override) && is_array($override)) {
+            foreach ($override as $field => $value) {
+                $data[$field] = $value;
+            }
+        }
+
         return $data;
     }
 
@@ -195,9 +201,26 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this;
     }
 
+    /**
+     * Fill for with data
+     * 
+     * @param array $data
+     * @return Mage_Selenium_TestCase
+     */
     public function fillForm($data)
     {
-        // @TODO
+        $url = trim(preg_replace('~' . $this->_baseUrl . '~', '', $this->getLocation(), 1), '/');
+        $formData = $this->_getFormData($url);
+
+        if (isset($formData['fields'])) {
+            $baseXpath = (isset($formData['xpath'])) ? '//' . $formData['xpath'] : '';
+
+            foreach ($data as $field => $value) {
+                if (isset($formData['fields'][$field]))
+                $this->type($baseXpath . '//' . $formData['fields'][$field], $value);
+            }
+        }
+
         return $this;
     }
 
@@ -302,6 +325,26 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _getUimapData($path)
     {
         return Mage_Selenium_TestConfiguration::getUimapData($path);
+    }
+
+    /**
+     * Get information about form from uimap by mca
+     *
+     * @param string $mca
+     */
+    protected function _getFormData($mca)
+    {
+        $uimap = $this->_getUimapData(($this->_isAdmin) ? 'admin' : 'frontend');
+
+        foreach ($uimap as $key => $page) {
+            if (isset($page['mca']) 
+                    && trim($page['mca'], '/') == $mca
+                    && isset($page['uimap'], $page['uimap']['form'])) {
+                return $page['uimap']['form'];
+            }
+        }
+
+        return false;
     }
 
 }
