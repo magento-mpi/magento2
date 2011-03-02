@@ -26,8 +26,8 @@
 #
 ---
 customer_account_create:
-  firstname         : First name
-  lastname          : Last name
-  email             : test@magento.com
-  password          : 123123q
-  confirm_password  : 123123q
+ firstname : First name
+ lastname : Last name
+ email : test@magento.com
+ password : 123123q
+ confirm_password : 123123q
