@@ -681,6 +681,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         if (!$comment->getId()) {
             $this->getCommentsCollection()->addItem($comment);
         }
+        $this->_hasDataChanges = true;
         return $this;
     }
 
