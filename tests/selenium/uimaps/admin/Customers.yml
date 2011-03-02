@@ -28,37 +28,40 @@
 # Messages
 messages:
  success_save_customer : div[@id='messages']//li[span='The customer has been saved.']
+ success_delete_customer : div[@id='messages']//li[span='The customer has been deleted.']
  error_email_exist : div[@id='messages']//li[span='Customer with the same email already exists.']
  error_invalid_email : div[@id='messages']//li[span='"Email" is not a valid email address.']
+ error_password_too_short : #div[text()='Please enter 6 or more characters. Leading or trailing spaces will be ignored.' and normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]
  error_empty_value : #*[normalize-space(text())='%fieldName%']/parent::*/following-sibling::*/div[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]
+
  # Attention! error_empty_value xpath is commented!!
 
 #Manage Customers and related pages
 # 'Manage Customers' page
 manage_customers:
- mca  : "customer/"
- title: "Manage Customers / Customers / Magento Admin"
- uimap:
-  form    : &searchCustomerGrid
+ mca : customer/
+ title : Manage Customers / Customers / Magento Admin
+ uimap :
+  form : &searchCustomerGrid
    fieldset_customers_grid :
-    fields:
-     id_from      : input[@id='filter_entity_id_from']
-     id_to        : input[@id='filter_entity_id_to']
-     name         : input[@id='filter_name']
-     email        : input[@id='filter_email']
-    buttons:
+    fields :
+     id_from : input[@id='filter_entity_id_from']
+     id_to : input[@id='filter_entity_id_to']
+     name : input[@id='filter_name']
+     email : input[@id='filter_email']
+    buttons :
      reset_filter : button[span='Reset Filter']
-     search       : button[span='Search']
-   buttons:
-    add_new_customer  : button[span='Add New Customer']
+     search : button[span='Search']
+   buttons :
+    add_new_customer : button[span='Add New Customer']
 
 # 'New Customer' Page
-creting_new_customer:
- mca  : customer/new/
+create_customer:
+ mca : customer/new/
  title: New Customer / Manage Customers / Customers / Magento Admin
  uimap:
-  form  : &newCustomerForm
-   xpath  : div[@id='page:main-container']
+  form : &newCustomerForm
+   xpath : div[@id='page:main-container']
    tab_account_information :
     xpath : a[@id='customer_info_tabs_account']
     fieldset_account_info       :
@@ -132,8 +135,8 @@ edit_customer:
  mca   : edit/id/%customers_id%
  title : %customers_id% / Manage Customers / Customers / Magento Admin
  uimap :
-  form        : &editCustomerForm
-   xpath       : div[@id='page:main-container']
+  form : &editCustomerForm
+   xpath : div[@id='page:main-container']
    tab_customer_view :
     xpath : a[@id='customer_info_tabs_customer_edit_tab_view']
    tab_account_information :
