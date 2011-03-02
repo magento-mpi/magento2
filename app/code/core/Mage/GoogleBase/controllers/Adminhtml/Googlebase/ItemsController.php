@@ -67,8 +67,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         if (!$this->_getConfig()->isValidBaseCurrencyCode($this->_getStore()->getId())) {
             $_countryInfo = $this->_getConfig()->getTargetCountryInfo($this->_getStore()->getId());
             $this->_getSession()->addNotice(
-                $this->__(
-                    "Base Currency should be set to %s for %s in system configuration. Otherwise item prices won't be correct in Google Base.",
+                $this->__("Base Currency should be set to %s for %s in system configuration. Otherwise item prices won't be correct in Google Base.",
                     $_countryInfo['currency_name'],
                     $_countryInfo['name']
                 )
@@ -268,6 +267,18 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
 
                 if ($stats['draft'] != $item->getIsHidden()) {
                     $item->setIsHidden($stats['draft']);
+                }
+
+                if (isset($stats['clicks'])) {
+                    $item->setСlicks($stats['clicks']);
+                }
+
+                if (isset($stats['impressions'])) {
+                    $item->setImpr($stats['impressions']);
+                }
+
+                if (isset($stats['page views'])) {
+                    $item->setViews($stats['page views']);
                 }
 
                 if (isset($stats['expires'])) {

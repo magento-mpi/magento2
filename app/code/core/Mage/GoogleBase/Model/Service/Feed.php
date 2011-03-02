@@ -64,7 +64,9 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
             $id = self::ITEMS_LOCATION . '/' . $id;
         }
         try {
-            $entry = $this->getService($storeId)->getGbaseItemEntry($id);
+            $service = $this->getService($storeId);
+            $service->getHttpClient()->setParameterGet('content', 'attributes,meta');
+            $entry = $service->getGbaseItemEntry($id);
             return $this->_getEntryStats($entry);
         } catch (Exception $e) {
             return null;
@@ -89,7 +91,16 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
 
         $expirationDate = $entry->getGbaseAttribute('expiration_date');
         if (isset($expirationDate[0]) && is_object($expirationDate[0])) {
-            $result['expires'] = Mage::getSingleton('googlebase/service_item')->gBaseDate2DateTime($expirationDate[0]->getText());
+            $result['expires'] = Mage::getSingleton('googlebase/service_item')
+                                    ->gBaseDate2DateTime($expirationDate[0]->getText());
+        }
+
+        $allAttributes = $entry->getGbaseAttributes();
+        for ($i = 0; $i < count($allAttributes); $i++) {
+            $baseAttribute = $allAttributes[$i];
+            if ($baseAttribute->rootNamespaceURI == $entry->lookupNamespace('gm')) {
+                $result[(string)$baseAttribute->rootElement] = $baseAttribute[0]->getText();
+            }
         }
 
         return $result;
