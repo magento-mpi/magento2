@@ -282,7 +282,9 @@ abstract class Mage_Core_Controller_Varien_Action
 
         // load theme handle
         $package = Mage::getSingleton('core/design_package');
-        $update->addHandle('THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme('layout'));
+        $update->addHandle(
+            'THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme('layout')
+        );
 
         // load action handle
         $update->addHandle(strtolower($this->getFullActionName()));
@@ -490,19 +492,10 @@ abstract class Mage_Core_Controller_Varien_Action
 
         Mage::app()->loadArea($this->getLayout()->getArea());
 
-        if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT) && Mage::getStoreConfig('web/browser_capabilities/cookies')) {
-            if ($this->getRequest()->getParam('noCookie', false)) {
-                $this->_forward('noCookies', 'index', 'core');
-            } else {
-                $backUrl = ltrim($this->getRequest()->getPathInfo(),'/');
-                $this->_redirect($backUrl, array('noCookie' => 1, 'backUrl' => base64_encode($backUrl)));
-            }
+        if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
+            && Mage::getStoreConfig('web/browser_capabilities/cookies')) {
+            $this->_forward('noCookies', 'index', 'core');
             return;
-        }
-
-        if ($this->getRequest()->getParam('noCookie', false)) {
-            $backUrl = base64_decode($this->getRequest()->getParam('backUrl'));
-            $this->_redirect($backUrl);
         }
 
         if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {
@@ -770,7 +763,8 @@ abstract class Mage_Core_Controller_Varien_Action
              * Url must start from base secure or base unsecure url
              */
             if ((strpos($url, Mage::app()->getStore()->getBaseUrl()) === 0)
-                || (strpos($url, Mage::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)) === 0)) {
+                || (strpos($url, Mage::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)) === 0)
+            ) {
                 return true;
             }
         }
@@ -997,7 +991,11 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
      * @return Mage_Core_Controller_Varien_Action
      */
-    protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
+    protected function _prepareDownloadResponse(
+        $fileName,
+        $content,
+        $contentType = 'application/octet-stream',
+        $contentLength = null)
     {
         $session = Mage::getSingleton('admin/session');
         if ($session->isFirstPageAfterLogin()) {
