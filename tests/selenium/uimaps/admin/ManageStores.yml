@@ -28,52 +28,52 @@
 #Manage Stores and related pages
 # 'Manage Stores' page
 manage_store:
-  mca  : "system_store/"
-  title: "Stores / System / Magento Admin"
+  mca  : system_store/
+  title: Stores / System / Magento Admin
   uimap:
     form        : &searchStoreGrid
-      xpath       : //*[@id='storeGrid']
+      xpath       : *[@id='storeGrid']
       fields:
-        website_name    : //input[@id='filter_website_title']
-        store_name      : //input[@id='filter_group_title']
-        store_view_name : //input[@id='filter_store_title']
+        website_name    : input[@id='filter_website_title']
+        store_name      : input[@id='filter_group_title']
+        store_view_name : input[@id='filter_store_title']
       form_buttons:
-        reset_filter    : //button[span='Reset Filter']
-        search          : //button[span='Search']
+        reset_filter    : button[span='Reset Filter']
+        search          : button[span='Search']
     page_buttons:
-      create_website    : //button[span='Create Website']
-      create_store      : //button[span='Create Store']
-      create_store_view : //button[span='Create Store View']
+      create_website    : button[span='Create Website']
+      create_store      : button[span='Create Store']
+      create_store_view : button[span='Create Store View']
 
 # 'New Store View' Page
 new_store_view:
-  mca  : "system_store/newStore/"
-  title: "New Store View / Stores / System / Magento Admin"
+  mca  : system_store/newStore/
+  title: New Store View / Stores / System / Magento Admin
   uimap:
     form        : &storeViewForm
-      xpath       : //form[@id='edit_form']
+      xpath       : form[@id='edit_form']
       fields:
-        store_view_name       : //input[@id='store_name']
-        store_view_code       : //input[@id='store_code']
-        store_view_sort_order : //input[@id='store_sort_order']
+        store_view_name       : input[@id='store_name']
+        store_view_code       : input[@id='store_code']
+        store_view_sort_order : input[@id='store_sort_order']
       dropdowns:
-        store_name            : //select[@id='store_group_id']
-        store_view_status     : //select[@id='store_is_active']
+        store_name            : select[@id='store_group_id']
+        store_view_status     : select[@id='store_is_active']
       required    : [store_name, store_view_name, store_view_code, store_view_status]
       unique      : [store_view_code]
     page_buttons:
-      back                    : //button[span='Back']
-      reset                   : //button[span='Reset']
-      save_store_view         : //button[span='Save Store View']
+      back                    : button[span='Back']
+      reset                   : button[span='Reset']
+      save_store_view         : button[span='Save Store View']
 
 # 'Edit Store View' Page
 edit_store_view:
-  mca  : "system_store/editStore/store_id/%s/"
-  title: "%s / Stores / System / Magento Admin"
+  mca  : system_store/editStore/store_id/%s/
+  title: %s / Stores / System / Magento Admin
   uimap:
     form        : *storeViewForm
     page_buttons:
-      back              : //button[span='Back']
-      reset             : //button[span='Reset']
-      delete_store_view : //button[span='Delete Store View']
-      save_store_view   : //button[span='Save Store View']
+      back              : button[span='Back']
+      reset             : button[span='Reset']
+      delete_store_view : button[span='Delete Store View']
+      save_store_view   : button[span='Save Store View']

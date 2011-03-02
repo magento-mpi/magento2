@@ -46,12 +46,12 @@ manage_customers:
     page_buttons:
       add_new_customer  : button[span='Add New Customer']
     messages:
-      success_msg : "div[@id='messages']//li[span='The customer has been saved.']"
+      success_msg : div[@id='messages']//li[span='The customer has been saved.']
 
 # 'New Customer' Page
 new_customer:
-  mca  :  "customer/new/"
-  title: "New Customer / Manage Customers / Customers / Magento Admin"
+  mca  : customer/new/
+  title: New Customer / Manage Customers / Customers / Magento Admin
   uimap:
   - form        : &newCustomerForm
       xpath       : div[@id='page:main-container']
@@ -73,15 +73,15 @@ new_customer:
             email                 : input[@id='_accountemail']
             date_of_birth         : input[@id='_accountdob']
             tax_vat_number        : input[@id='_accounttaxvat']
-          required : [associate_to_website, group, first_name, last_name, email]
+          required  : [associate_to_website, group, first_name, last_name, email]
           unique    : [email]
-        - fieldset_password     : div[@id='_accountpassword_fieldset']
+        - fieldset_password       : div[@id='_accountpassword_fieldset']
           checkbox :  
-            auto_generated_password      : input[@id='account-send-pass']
+            auto_generated_password : input[@id='account-send-pass']
           fields :
-            password                     : input[@id='_accountpassword']
+            password                : input[@id='_accountpassword']
           required : [password]
-      - tab_addresses           : a[@id='customer_info_tabs_addresses']
+      - tab_addresses               : a[@id='customer_info_tabs_addresses']
         - fieldset_customer_addresses  : div[@id='_item%address_number%address_fieldset']
           buttons :
             add_new_address              : button[span='Add New Address']
@@ -90,7 +90,7 @@ new_customer:
           radiobuttons :
             default_billing_address      : input[@id='address_item_billing_item%address_number%']
             default_shipping_address     : input[@id='address_item_shipping_item%address_number%']
-        - fieldset_edit_address : div[@id='_item%address_number%address_fieldset']
+        - fieldset_edit_address   : div[@id='_item%address_number%address_fieldset']
           dropdown :
             country               : select[@id='_item%address_number%country_id']
             state_province        : select[@id='_item%address_number%region_id']
@@ -122,14 +122,14 @@ new_customer:
  # на данный момент описаны элементы только accaunt info и addresses табов
  #
 edit_customer:
-  mca  :  "edit/id/%customers_id%"
-  title: "%customers_id% / Manage Customers / Customers / Magento Admin"
-  uimap:
+  mca   : edit/id/%customers_id%
+  title : %customers_id% / Manage Customers / Customers / Magento Admin
+  uimap :
     form        : &editCustomerForm
       xpath       : div[@id='page:main-container']
-      - tab_customer_view:        //a[@id='customer_info_tabs_customer_edit_tab_view']   #нужна ли эта таба или ну ее к чертям?
+      - tab_customer_view:        a[@id='customer_info_tabs_customer_edit_tab_view']   #нужна ли эта таба или ну ее к чертям?
         # тут есть есть доусрачки филдсетов, но они нахрен не нужны
-      - tab_account_information:  //a[@id='customer_info_tabs_account']
+      - tab_account_information:  a[@id='customer_info_tabs_account']
         - fieldset_account_info : div[@id='_accountbase_fieldset']
           dropdown :
             # associate_to_website  : select[@id='_accountwebsite_id']   тк он не активный
@@ -146,14 +146,14 @@ edit_customer:
             date_of_birth         : input[@id='_accountdob']
             tax_vat_number        : input[@id='_accounttaxvat']
           required : [group, first_name, last_name, email]
-          unique    : [email]
+          unique   : [email]
         - fieldset_password     : div[@id='_accountpassword_fieldset']
           checkbox :  
             auto_generated_password      : input[@id='account-send-pass']
           fields :
-            new_password                     : input[@id='_accountnew_password']
+            new_password  : input[@id='_accountnew_password']
           required : [password]
-      - tab_addresses:            //a[@id='customer_info_tabs_addresses']
+      - tab_addresses :  a[@id='customer_info_tabs_addresses']
         - fieldset_customer_addresses  : div[@id='_item%address_number%address_fieldset']
           buttons :
             add_new_address              : button[span='Add New Address']

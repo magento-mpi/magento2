@@ -32,7 +32,7 @@ manage_attributes:
   mca     : catalog_product_attribute/index
   title   : Manage Attributes / Attributes / Catalog / Magento Admin
   uimap   :
-    form      :
+    form      : &searchProductAttributeGrid
       xpath   : div[@id='page:main-container']
     buttons :
       add_new_attribute: button[span='Add New Attribute']
@@ -44,7 +44,7 @@ new_product_attribute:
   mca     : catalog_product_attribute/new
   title   : New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
   uimap   :
-    form  :
+    form  : &newProductAttributeForm
       xpath   : div[@id='page:main-container']
       - tab_properties  : a[@id='product_attribute_tabs_main']
         - fieldset_attribute_properties : #?????
@@ -52,9 +52,9 @@ new_product_attribute:
             catalog_input_type_for_store_owner  : select[@id='frontend_input']
             unique_value                        : select[@id='is_unique']
             scope                               : select[@id='is_global']
+            apply_to                            : #?????
             values_required                     : select[@id='is_required']
             input_validation_for_store_owner    : select[@id='frontend_class']
-            # ? apply_to      : ""
           fields  :
             attribute_code  : input[@id='attribute_code']
             default_value   : input[@id='default_value_text']
