@@ -35,6 +35,11 @@
 class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_Resource_Entity_Attribute_Collection
 {
     /**
+     * code of password hash in customer's EAV tables
+     */
+    const EAV_CODE_PASSWORD_HASH = 'password_hash';
+
+    /**
      * Current website scope instance
      *
      * @var Mage_Core_Model_Website
@@ -200,6 +205,19 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
     {
         $field = '(CASE WHEN additional_table.is_system = 1 AND additional_table.is_visible = 0 THEN 1 ELSE 0 END)';
         return $this->addFieldToFilter($field, 0);
+    }
+
+    /**
+     * Exclude system hidden attributes but include password hash
+     *
+     * @return Mage_Customer_Model_Entity_Attribute_Collection
+     */
+    public function addSystemHiddenFilterWithPasswordHash()
+    {
+        $field = '(CASE WHEN additional_table.is_system = 1 AND additional_table.is_visible = 0
+            AND main_table.attribute_code != "' . self::EAV_CODE_PASSWORD_HASH . '" THEN 1 ELSE 0 END)';
+        $this->addFieldToFilter($field, 0);
+        return $this;
     }
 
     /**
