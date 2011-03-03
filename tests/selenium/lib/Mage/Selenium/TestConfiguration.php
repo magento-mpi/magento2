@@ -70,12 +70,20 @@ class Mage_Selenium_TestConfiguration
      * @var Mage_Selenium_SutHelper
      */
     protected $_sutHelper = null;
+
     /**
      * Uid helper instance
      *
      * @var Mage_Selenium_Uid
      */
     protected $_uidHelper = null;
+
+    /**
+     * Uimap helper instance
+     *
+     * @var Mage_Selenium_UimapHelper
+     */
+    protected $_uimapHelper = null;
 
     /**
      * Initialized browsers connections
@@ -199,7 +207,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrive data helper instance
+     * Retrieve data helper instance
      *
      * @return Mage_Selenium_DataHelper
      */
@@ -212,7 +220,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrive SUT helper instance
+     * Retrieve SUT helper instance
      *
      * @return Mage_Selenium_FileHelper
      */
@@ -225,7 +233,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrive uid helper instance
+     * Retrieve uid helper instance
      *
      * @return Mage_Selenium_Uid
      */
@@ -235,6 +243,19 @@ class Mage_Selenium_TestConfiguration
             $this->_uidHelper = new Mage_Selenium_Uid($this);
         }
         return $this->_uidHelper;
+    }
+
+    /**
+     * Retrieve uimap helper instance
+     *
+     * @return Mage_Selenium_UimapHelper
+     */
+    public function getUimapHelper()
+    {
+        if (is_null($this->_uimapHelper)) {
+            $this->_uimapHelper = new Mage_Selenium_UimapHelper($this);
+        }
+        return $this->_uimapHelper;
     }
 
     /**
