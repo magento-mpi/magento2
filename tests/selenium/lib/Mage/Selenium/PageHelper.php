@@ -93,10 +93,13 @@ class Mage_Selenium_PageHelper extends Mage_Selenium_AbstractHelper
      */
     public function getPageUrl($page)
     {
+        if( !$this->_sutHelper )
+            throw new Mage_Selenium_Exception("SutHelper hasn't inited yet");
+
         $pageData = $this->_config->getUimapValue($this->_sutHelper->getArea(), $page);
         if ((false === $pageData) || (!isset($pageData['mca'])) || empty($pageData['mca'])) {
             var_dump($page);
-            die('Page mca is not defined');
+            throw new Mage_Selenium_Exception('Page mca is not defined');
         }
         $url = $this->_sutHelper->getBaseUrl() . $pageData['mca'];
         return $url;
