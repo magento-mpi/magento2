@@ -28,8 +28,12 @@
 
 define('SELENIUM_UNIT_TESTS_BASEDIR', realpath(dirname(__FILE__)));
 
+define('SELENIUM_TESTS_BASEDIR', realpath(SELENIUM_UNIT_TESTS_BASEDIR . DIRECTORY_SEPARATOR . '..'));
+define('SELENIUM_TESTS_LIBDIR', realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'));
+
 set_include_path(implode(PATH_SEPARATOR, array(
     SELENIUM_UNIT_TESTS_BASEDIR,
+    SELENIUM_TESTS_LIBDIR,
     get_include_path(),
 )));
 

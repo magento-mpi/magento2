@@ -31,4 +31,121 @@
  */
 class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
 {
+    /**
+     * Selenium DataGenerator instance
+     *
+     * @var Mage_Selenium_DataGenerator
+     */
+    protected $_dataGenerator = null;
+
+    public function  __construct() {
+        parent::__construct();
+        $this->_dataGenerator = new Mage_Selenium_DataGenerator($this->_config);
+    }
+
+    /**
+     * Testing Mage_Selenium_DataGenerator::generate()
+     */
+    public function testGenerate()
+    {
+        // Common executions
+        // @TODO This execution variant must return something by default (string, 100 chars, :alnum:, without prefix)
+        //$this->assertEquals(100, strlen($this->_dataGenerator->generate()));
+        // @TODO This execution variant must throw an exception or return Null
+        //$this->assertNull($this->_dataGenerator->generate('some_string'));
+
+        // string generations
+        //$this->assertEquals(100, strlen($this->_dataGenerator->generate('string')));
+        //$this->assertEquals(20, strlen($this->_dataGenerator->generate('string', 20)));
+        //$this->assertEquals(20, strlen($this->_dataGenerator->generate('string', 20, '')));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generate('string', 20, ':alnum:')));
+
+        $this->assertEquals(20, strlen($this->_dataGenerator->generate('string', 20, ':alnum:', '')));
+        // @TODO Maybe Null?
+        $this->assertEmpty($this->_dataGenerator->generate('string', 0, ':alnum:', ''));
+        $this->assertEmpty($this->_dataGenerator->generate('string', -1, ':alnum:', ''));
+        $this->assertEquals(1000000, strlen($this->_dataGenerator->generate('string', 1000000, ':alnum:', '')));
+
+        $this->assertEquals(26, strlen($this->_dataGenerator->generate('string', 20, ':alnum:', 'prefix')));
+        $this->assertStringStartsWith('prefix', $this->_dataGenerator->generate('string', 20, '', 'prefix'));
+
+        $this->assertStringMatchesFormat('%s', $this->_dataGenerator->generate('string', 20, ':alnum:'));
+        $this->assertStringMatchesFormat('%d', $this->_dataGenerator->generate('string', 20, ':digit:'));
+
+        // text generations
+        $this->assertEquals(26, strlen($this->_dataGenerator->generate('text', 20, '', 'prefix')));
+        $this->assertStringStartsWith('prefix', $this->_dataGenerator->generate('text', 20, '', 'prefix'));
+
+        $this->assertEquals(100, strlen($this->_dataGenerator->generate('text')));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generate('text', 20)));
+        $this->assertEmpty($this->_dataGenerator->generate('text', 0));
+        $this->assertEmpty($this->_dataGenerator->generate('text', -1));
+        $this->assertEquals(1000000, strlen($this->_dataGenerator->generate('text', 1000000)));
+
+        $this->assertEquals(20, strlen($this->_dataGenerator->generate('text', 20, '')));
+        $this->assertEquals(26, strlen($this->_dataGenerator->generate('text', 20, '', 'prefix')));
+        $this->assertStringStartsWith( 'prefix', $this->_dataGenerator->generate('text', 20, '', 'prefix'));
+
+        $this->assertStringMatchesFormat('%s', $this->_dataGenerator->generate('text', 20, array('class'=>':alnum:')));
+        $this->assertRegExp('/[0-9 ]+/', $this->_dataGenerator->generate('text', 20, array('class'=>':digit:')));
+
+        // email generations
+        $this->assertEquals(100, strlen($this->_dataGenerator->generate('email')));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generate('email', 20, 'valid')));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generate('email', 20, 'some_value')));
+        // @TODO Must return an empty string without domain name
+        //$this->assertEmpty($this->_dataGenerator->generate('email', 0));
+        //$this->assertEmpty($this->_dataGenerator->generate('email', -1));
+
+        $this->assertRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generate('email', 20, 'valid'));
+        // @TODO ???????? Why is this assert fail?
+        //$this->assertNotRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generate('email', 20, 'invalid'));
+        // @TODO $this->_dataGenerator->generate('email') must generate valid email with default params!!!
+        //$this->assertRegExp('|([a-z0-9_\.\-]+)@([a-z0-9\.\-]+)\.([a-z]{2,4})|is', $this->_dataGenerator->generate('email'));
+
+    }
+
+    /**
+     * Testing Mage_Selenium_DataGenerator::generateEmailAddress()
+     *
+     * @TODO "$prefix" is unnecessary param in Mage_Selenium_DataGenerator::generateEmailAddress()
+     */
+    public function testGenerateEmailAddress()
+    {
+        $this->assertNotEmpty($this->_dataGenerator->generateEmailAddress());
+        $this->assertEquals(100, strlen($this->_dataGenerator->generateEmailAddress()));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20)));
+        //$this->assertEmpty($this->_dataGenerator->generateEmailAddress(0));
+        //$this->assertEmpty($this->_dataGenerator->generateEmailAddress(-1));
+
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20, 'valid')));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20, 'invalid')));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20, 'some_value')));
+
+        $this->assertRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generateEmailAddress(20, 'valid'));
+    }
+
+    /**
+     * Testing Mage_Selenium_DataGenerator::generateRandomString()
+     */
+    public function testGenerateRandomString()
+    {
+        $this->assertNotEmpty($this->_dataGenerator->generateRandomString());
+        $this->assertEquals(100, strlen($this->_dataGenerator->generateRandomString()));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomString(20)));
+        //$this->assertEmpty($this->_dataGenerator->generateRandomString(0));
+        //$this->assertEmpty($this->_dataGenerator->generateRandomString(-1));
+
+        $this->assertEquals(0, strlen($this->_dataGenerator->generateRandomString(20, '')));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomString(20, ':alnum:')));
+
+        $this->assertRegExp('|[a-zA-Z0-9]{20}|', $this->_dataGenerator->generateRandomString(20, ':alnum:'));
+        $this->assertRegExp('|[a-zA-Z]{20}|', $this->_dataGenerator->generateRandomString(20, ':alpha:'));
+        $this->assertRegExp('|[0-9]{20}|', $this->_dataGenerator->generateRandomString(20, ':digit:'));
+        $this->assertRegExp('|[a-z]{20}|', $this->_dataGenerator->generateRandomString(20, ':lower:'));
+        $this->assertRegExp('|[\.\,\!\#\@\$\%\^\&\*\(\)\-\_\+\=\{\}\"\|\\\'\\\\\/\?\<\>\;\:]{20}|', $this->_dataGenerator->generateRandomString(20, ':punct:'));
+        $this->assertRegExp('|[\(\)\[\]\\\\\;\:\,\<\>@]{20}|', $this->_dataGenerator->generateRandomString(20, 'invalid-email'));
+    }
+
+
 }

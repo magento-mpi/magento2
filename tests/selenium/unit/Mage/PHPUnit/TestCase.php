@@ -30,5 +30,17 @@
  */
 class Mage_PHPUnit_TestCase extends PHPUnit_Framework_TestCase
 {
-    
+
+    /**
+     * Selenium Test Configuration instance
+     *
+     * @var Mage_Selenium_TestConfiguration
+     */
+    protected $_config = null;
+
+    public function __construct()
+    {
+        $this->_config = Mage_Selenium_TestConfiguration::initInstance();
+    }
+
 }
