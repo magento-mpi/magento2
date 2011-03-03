@@ -27,7 +27,7 @@
 #Manage Users and related pages
 
 # 'Users' page
-manage_users:
+manage_admin_users:
   mca: permissions_user/
   title: Users / Permissions / System / Magento Admin
   uimap:
@@ -50,12 +50,12 @@ manage_users:
             links:
               select_by_user_name: table[@id="permissionsUserGrid_table"]//td[normalize-space(text())="%userName%"]
     buttons:
-      add_new_user: button[span='Add New User']
+      add_new_admin_user: button[span='Add New User']
     messages:
       success_delete_user: div[@id='messages']//li[span='The user has been deleted.']
 
 # 'New User' page
-new_user:
+new_admin_user:
   mca: permissions_user/new/
   title: New Users / Users / Permissions / System / Magento Admin
   uimap:
@@ -99,7 +99,7 @@ new_user:
     buttons:
       back: button[span='Back']
       reset: button[span='Reset']
-      save_user: button[span='Save User']
+      save_admin_user: button[span='Save User']
     messages:
       success_save_user: div[@id='messages']//li[span='The user has been saved.']
       error_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
@@ -110,7 +110,7 @@ new_user:
       error_email_exists: div[@id='messages']//li[span='Email already exists.']
 
 # 'Edit User' page
-edit_user:
+edit_admin_user:
   mca: permissions_user/edit/user_id/%user_id%/
   title: %userName% / Users / Permissions / System / Magento Admin
   uimap:
@@ -155,7 +155,7 @@ edit_user:
      back: button[span='Back']
      reset: button[span='Reset']
      delete_user: button[span='Delete User']
-     save_user: button[span='Save User']
+     save_admin_user: button[span='Save User']
     messages:
      success_save_user: div[@id='messages']//li[span='The user has been saved.']
      error_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']

@@ -125,10 +125,10 @@ product_attribute_multiselect:
   use_in_quick_search : No
   use_in_advanced_search : No
   comparable_on_frontend : No
-  use_in_layered_navigation : No
+  use_in_layered_navigation : Yes
   use_in_search_results_layered_naigation : No
   use_for_promo_rule_conditions : No
-  # position : 1
+  position : 10
   visible_on_product_view_page_on_frontend : No
   used_in_product_listing : No
   # used_for_sorting_in_product_listing : No
@@ -155,10 +155,10 @@ product_attribute_dropdown:
   use_in_quick_search : No
   use_in_advanced_search : No
   comparable_on_frontend : No
-  use_in_layered_navigation : No
+  use_in_layered_navigation : Yes
   use_in_search_results_layered_naigation : No
   use_for_promo_rule_conditions : No
-  # position : 1
+  position : 10
   visible_on_product_view_page_on_frontend : No
   used_in_product_listing : No
   used_for_sorting_in_product_listing : No
@@ -184,10 +184,10 @@ product_attribute_price:
   use_in_quick_search : No
   use_in_advanced_search : No
   comparable_on_frontend : No
-  use_in_layered_navigation : No
+  use_in_layered_navigation : Yes
   use_in_search_results_layered_naigation : No
   use_for_promo_rule_conditions : No
-  # position : 1
+  position : 10
   visible_on_product_view_page_on_frontend : No
   used_in_product_listing : No
   used_for_sorting_in_product_listing : No

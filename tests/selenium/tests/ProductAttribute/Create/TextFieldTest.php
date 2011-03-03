@@ -27,7 +27,7 @@
  */
 
 /**
- * @TODO
+ * Create new product attribute. Type: Text Field
  *
  * @package     selenium
  * @subpackage  tests
@@ -219,10 +219,21 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * DONE
+     * Checking of attributes creation functionality during product createion process
      */
     public function test_OnProductPage_WithRequiredFieldsOnly()
     {
-       //   @TODO
+        $this->assertTrue(
+                $this->navigate('manage_products')->clickButton('add_new_product')->navigated('new_product'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm('product_create_settings_simple',NULL,NULL);
+        $this->clickButton('continue_button');
+        $this->clickButton('fieldset_general/create_new_attribute_button');
+        $this->waitForPopUp('new_attribute','30000');
+        $this->fillForm($this->loadData('product_attribute_textfield', NULL, 'attribute_code'));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 }

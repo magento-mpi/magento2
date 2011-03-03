@@ -27,7 +27,7 @@
  */
 
 /**
- * @TODO
+ * Create new product attribute. Type: Price
  *
  * @package     selenium
  * @subpackage  tests
@@ -219,18 +219,37 @@ class ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * Checking validation for valid data in the 'Position' field
      */
     public function test_WithInvalidPosition()
     {
-        // @TODO
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_price', array(
+            'position' => 'abcdefg')));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * @TODO
+     * Checking of attributes creation functionality during product createion process
      */
     public function test_OnProductPage_WithRequiredFieldsOnly()
     {
-        //  @TODO
+        $this->assertTrue(
+                $this->navigate('manage_products')->clickButton('add_new_product')->navigated('new_product'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm('product_create_settings_simple',NULL,NULL);
+        $this->clickButton('continue_button');
+        $this->clickButton('fieldset_general/create_new_attribute_button');
+        $this->waitForPopUp('new_attribute','30000');
+        $this->fillForm($this->loadData('product_attribute_price', NULL, 'attribute_code'));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 }

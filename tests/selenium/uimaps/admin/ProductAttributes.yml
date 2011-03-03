@@ -29,7 +29,7 @@
 
 # Manage Product Attributes page
 manage_attributes:
-  mca : catalog_product_attribute/index
+  mca : catalog_product_attribute/index/
   title : Manage Attributes / Attributes / Catalog / Magento Admin
   uimap :
     form : &searchProductAttributeGrid
@@ -41,62 +41,68 @@ manage_attributes:
 
 # Add New Product Attribute page
 new_product_attribute:
-  mca : catalog_product_attribute/new
+  mca : catalog_product_attribute/new/
   title : New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
   uimap :
     form : &newProductAttributeForm
-      tab_properties :
-        xpath : a[@id='product_attribute_tabs_main']
-        fieldset_attribute_properties :
-          xpath : div[@id='base_fieldset']
-          dropdowns :
-            catalog_input_type_for_store_owner : select[@id='frontend_input']
-            unique_value : select[@id='is_unique']
-            scope : select[@id='is_global']
-            apply_to : td[normalize-space(@class)='label']//label[@for='apply_to']/ancestor::td/following-sibling::td/descendant::select[@onchange='toggleApplyVisibility(this)']
-            values_required : select[@id='is_required']
-            input_validation_for_store_owner : select[@id='frontend_class']
-            use_to_create_configurable_product : select[@id='is_configurable']
-          fields :
-            attribute_code : input[@id='attribute_code']
-            default_value : input[@id='default_value_text']
-          multiselect :
-            apply_to : select[@id='apply_to']
-          required : [attribute_code, apply_to]
-        fieldset_frontend_properties :
-          xpath : div[@id='front_fieldset']
-          dropdowns :
-            use_in_quick_search : select[@id='is_searchable']
-            use_in_advanced_search : select[@id='is_visible_in_advanced_search']
-            comparable_on_frontend : select[@id='is_comparable']
-            use_in_layered_navigation : select[@id='is_filterable']
-            enable_wysiwyg : select[@id='is_wysiwyg_enabled']
-            used_in_product_listing : select[@id='used_in_product_listing']
-            allow_html_tags_on_frontend : select[@id='is_html_allowed_on_front']
-            use_for_promo_rule_conditions : select[@id='is_used_for_promo_rules']
-            used_for_sorting_in_product_listing : select[@id='used_for_sort_by']
-            use_in_search_results_layered_navigation : select[@id='is_filterable_in_search']
-            visible_on_product_view_page_on_frontend : select[@id='is_visible_on_front']
-          fields :
-            position : input[@id='position']
-      tab_manage_lables_options :
-        xpath : a[@id='product_attribute_tabs_labels']
-        fieldset_manage_titles :
-          fields :
-            admin_title : input[@name='frontend_label[0]']
-            storeview_title : input[@name='frontend_label[1]']
-          required : [admin_title]
-        fieldset_manage_options :
-          buttons :
-            add_option : button[@id='add_new_option_button']
-            delete_option : #---------------------------------------------------------
-          checkbox :
-            is_default : input[@name='default[]' and @value='option_0']
-          fields :
-            option_position : input[@name='option[order][option_0]']
-            admin_option : input[@name='option[value][option_0][0]']
-            storeview_option : input[@name='option[value][option_0][1]']
-          required : [admin_option]
+      tabs :
+        -
+          properties :
+            xpath : a[@id='product_attribute_tabs_main']
+            fieldsets :
+            -              
+              attribute_properties :
+                xpath : div[@id='base_fieldset']
+                dropdowns :
+                  catalog_input_type_for_store_owner : select[@id='frontend_input']
+                  unique_value : select[@id='is_unique']
+                  scope : select[@id='is_global']
+                  apply_to : td[normalize-space(@class)='label']//label[@for='apply_to']/ancestor::td/following-sibling::td/descendant::select[@onchange='toggleApplyVisibility(this)']
+                  values_required : select[@id='is_required']
+                  input_validation_for_store_owner : select[@id='frontend_class']
+                  use_to_create_configurable_product : select[@id='is_configurable']
+                fields :
+                  attribute_code : input[@id='attribute_code']
+                  default_value : input[@id='default_value_text']
+                multiselect :
+                  apply_to : select[@id='apply_to']
+                required : [attribute_code, apply_to]
+              frontend_properties :
+                xpath : div[@id='front_fieldset']
+                dropdowns :
+                  use_in_quick_search : select[@id='is_searchable']
+                  use_in_advanced_search : select[@id='is_visible_in_advanced_search']
+                  comparable_on_frontend : select[@id='is_comparable']
+                  use_in_layered_navigation : select[@id='is_filterable']
+                  enable_wysiwyg : select[@id='is_wysiwyg_enabled']
+                  used_in_product_listing : select[@id='used_in_product_listing']
+                  allow_html_tags_on_frontend : select[@id='is_html_allowed_on_front']
+                  use_for_promo_rule_conditions : select[@id='is_used_for_promo_rules']
+                  used_for_sorting_in_product_listing : select[@id='used_for_sort_by']
+                  use_in_search_results_layered_navigation : select[@id='is_filterable_in_search']
+                  visible_on_product_view_page_on_frontend : select[@id='is_visible_on_front']
+                fields :
+                  position : input[@id='position']
+          manage_lables_options :
+            xpath : a[@id='product_attribute_tabs_labels']
+            fieldsets :
+            -
+              manage_titles :
+                fields :
+                  admin_title : input[@name='frontend_label[0]']
+                  storeview_title : input[@name='frontend_label[1]']
+                required : [admin_title]
+              manage_options :
+                buttons :
+                  add_option : button[@id='add_new_option_button']
+                  delete_option : #---------------------------------------------------------
+                checkbox :
+                  is_default : input[@name='default[]' and @value='option_0']
+                fields :
+                  option_position : input[@name='option[order][option_0]']
+                  admin_option : input[@name='option[value][option_0][0]']
+                  storeview_option : input[@name='option[value][option_0][1]']
+                required : [admin_option]
       buttons :
         back : button[span='Back']
         reset : button[span='Reset']
@@ -109,3 +115,4 @@ new_product_attribute:
         error_empty_attribute_code : div[normalize-space(@id)='advice-required-entry-attribute_code'][text()='This is a required field.']
         error_empty_attribute_title : div[normalize-space(@id)='advice-required-option-frontend_label[0]'][text()='Failed']
         error_invalid_attribute_code : div[normalize-space(@id)='advice-validate-code-attribute_code'][text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.']
+        error_invalid_position : div[normalize-space(@id)='advice-validate-digits-position'][text()='Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.']
