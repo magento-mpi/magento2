@@ -133,6 +133,12 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
             Mage::dispatchEvent('cms_page_prepare_save', array('page' => $model, 'request' => $this->getRequest()));
 
+            //validating
+            if (!$this->_validatePostData($data)) {
+                $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current' => true));
+                return;
+            }
+
             // try to save it
             try {
                 // save the data
@@ -232,5 +238,27 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     {
         $data = $this->_filterDates($data, array('custom_theme_from', 'custom_theme_to'));
         return $data;
+    }
+
+    /**
+     * Validate post data
+     *
+     * @param array $data
+     * @return bool     Return FALSE if someone item is invalid
+     */
+    protected function _validatePostData($data)
+    {
+        $errorNo = true;
+        if (!empty($data['layout_update_xml']) || !empty($data['custom_layout_update_xml'])) {
+            /** @var $validatorCustomLayout Mage_Adminhtml_Model_Layoutupdate_Validator_Layoutupdate */
+            $validatorCustomLayout = Mage::getModel('adminhtml/layoutupdate_validator_layoutupdate');
+            if (!empty($data['layout_update_xml']) && !$validatorCustomLayout->isValid($data['layout_update_xml'])) {
+                $errorNo = false;
+            }
+            foreach ($validatorCustomLayout->getMessages() as $message) {
+                $this->_getSession()->addError($message);
+            }
+        }
+        return $errorNo;
     }
 }

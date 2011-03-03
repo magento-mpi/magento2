@@ -762,4 +762,19 @@ XML;
     {
         return Mage::getStoreConfig(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, $store);
     }
+
+    /**
+     * Check LFI protection
+     *
+     * @throws Mage_Core_Exception
+     * @param string $name
+     * @return bool
+     */
+    public function checkLfiProtection($name)
+    {
+        if (preg_match('#\.\.[\\\/]#', $name)) {
+            throw new Mage_Core_Exception($this->__('Requested file may not include parent directory traversal ("../", "..\\" notation)'));
+        }
+        return true;
+    }
 }
