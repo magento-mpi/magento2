@@ -49,7 +49,12 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->loginAdminUser());
         $this->assertNotNull($_testCaseInst->admin('dashboard'));
         $this->assertNotNull($_testCaseInst->navigate('manage_customers')->clickButton('add_new_customer')->navigated('create_customer'));
-        $this->assertNotNull($_testCaseInst->fillForm($_testCaseInst->loadData('newCustomerForm', array('email'=>'bla-bla-bla@magento.com'))));
+
+        $_formData = $_testCaseInst->loadData('customer_account_register');
+        $this->assertNotEmpty($_formData);
+        $this->assertInternalType('array', $_formData);
+
+        $this->assertNotNull($_testCaseInst->fillForm($_formData));
     }
 
 }

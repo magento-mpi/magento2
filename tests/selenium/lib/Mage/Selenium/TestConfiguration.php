@@ -356,7 +356,7 @@ class Mage_Selenium_TestConfiguration
      */
     public function getUimapValue($area, $path = '')
     {
-        if(!isset($this->_uimapData[$area])) throw new OutOfRangeException();
+        if(!array_key_exists($area, $this->_uimapData)) throw new OutOfRangeException();
         return $this->_descend($this->_uimapData[$area], $path);
     }
 
