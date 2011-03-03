@@ -133,8 +133,8 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
         $this->assertNotEmpty($this->_dataGenerator->generateRandomString());
         $this->assertEquals(100, strlen($this->_dataGenerator->generateRandomString()));
         $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomString(20)));
-        //$this->assertEmpty($this->_dataGenerator->generateRandomString(0));
-        //$this->assertEmpty($this->_dataGenerator->generateRandomString(-1));
+        $this->assertEmpty($this->_dataGenerator->generateRandomString(0));
+        $this->assertEmpty($this->_dataGenerator->generateRandomString(-1));
 
         $this->assertEquals(0, strlen($this->_dataGenerator->generateRandomString(20, '')));
         $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomString(20, ':alnum:')));
@@ -147,5 +147,30 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
         $this->assertRegExp('|[\(\)\[\]\\\\\;\:\,\<\>@]{20}|', $this->_dataGenerator->generateRandomString(20, 'invalid-email'));
     }
 
+    /**
+     * Testing Mage_Selenium_DataGenerator::generateRandomString()
+     */
+    public function testGenerateRandomText()
+    {
+        $this->assertNotEmpty($this->_dataGenerator->generateRandomText());
+        $this->assertEquals(100, strlen($this->_dataGenerator->generateRandomText()));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomText(20)));
+        $this->assertEmpty($this->_dataGenerator->generateRandomText(0));
+        $this->assertEmpty($this->_dataGenerator->generateRandomText(-1));
+
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomText(20, '')));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomText(20, array('class'=>':alnum:', 'para'=>3))));
+        $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomText(20, array('para'=>0))));
+
+        $randomText = $this->_dataGenerator->generateRandomText(50, array('para'=>5));
+        $this->assertEquals(5, count(explode("\n", $randomText)));
+
+        $this->assertRegExp('|[a-zA-Z0-9 ]{20}|', $this->_dataGenerator->generateRandomText(20, array('class'=>':alnum:')));
+        $this->assertRegExp('|[a-zA-Z ]{20}|', $this->_dataGenerator->generateRandomText(20, array('class'=>':alpha:')));
+        $this->assertRegExp('|[0-9 ]{20}|', $this->_dataGenerator->generateRandomText(20, array('class'=>':digit:')));
+        $this->assertRegExp('|[a-z ]{20}|', $this->_dataGenerator->generateRandomText(20, array('class'=>':lower:')));
+        $this->assertRegExp('|[\.\,\!\#\@\$\%\^\&\*\(\)\-\_\+\=\{\}\"\|\\\'\\\\\/\?\<\>\;\: ]{20}|', $this->_dataGenerator->generateRandomText(20, array('class'=>':punct:')));
+
+    }
 
 }
