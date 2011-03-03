@@ -561,7 +561,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     {
         // validate alias
         if (isset($this->_joinAttributes[$alias])) {
-            throw Mage::exception('Mage_Eav',
+            throw Mage::exception(
+                'Mage_Eav',
                 Mage::helper('eav')->__('Invalid alias, already exists in joint attributes')
             );
         }
@@ -634,7 +635,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
      * Join regular table field and use an attribute as fk
      *
      * Examples:
-     * ('country_name', 'directory/country_name', 'name', 'country_id=shipping_country', "{{table}}.language_code='en'", 'left')
+     * ('country_name', 'directory/country_name', 'name', 'country_id=shipping_country',
+     *      "{{table}}.language_code='en'", 'left')
      *
      * @param string $alias 'country_name'
      * @param string $table 'directory/country_name'
@@ -648,7 +650,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     {
         // validate alias
         if (isset($this->_joinFields[$alias])) {
-            throw Mage::exception('Mage_Eav',
+            throw Mage::exception(
+                'Mage_Eav',
                 Mage::helper('eav')->__('Joined field with this alias is already declared')
             );
         }
@@ -661,7 +664,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
 
         // validate bind
         list($pk, $fk) = explode('=', $bind);
-        $bindCond = $tableAlias.'.'.trim($pk).'='.$this->_getAttributeFieldName(trim($fk));
+        $pk = $this->getSelect()->getAdapter()->quoteColumnAs(trim($pk), null);
+        $bindCond = $tableAlias . '.' . $pk . '=' . $this->_getAttributeFieldName($fk);
 
         // process join type
         switch ($joinType) {
@@ -684,7 +688,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
                 $condArr[] = str_replace('{{table}}', $tableAlias, $cond);
             }
         }
-        $cond = '('.implode(') AND (', $condArr).')';
+        $cond = '(' . implode(') AND (', $condArr) . ')';
 
         // join table
         $this->getSelect()
@@ -692,8 +696,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
 
         // save joined attribute
         $this->_joinFields[$alias] = array(
-            'table'=>$tableAlias,
-            'field'=>$field,
+            'table' => $tableAlias,
+            'field' => $field,
         );
 
         return $this;
@@ -732,7 +736,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         }
         foreach ($fields as $alias=>$field) {
             if (isset($this->_joinFields[$alias])) {
-                throw Mage::exception('Mage_Eav',
+                throw Mage::exception(
+                    'Mage_Eav',
                     Mage::helper('eav')->__('A joint field with this alias (%s) is already declared', $alias)
                 );
             }
