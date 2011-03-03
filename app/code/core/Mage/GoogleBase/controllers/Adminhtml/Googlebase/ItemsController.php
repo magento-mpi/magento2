@@ -179,11 +179,13 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
         $totalPublished = 0;
 
         try {
-            foreach ($itemIds as $itemId) {
-                $item = Mage::getModel('googlebase/item')->load($itemId);
-                if ($item->getId()) {
-                    $item->activateItem();
-                    $totalPublished++;
+            if (!empty($itemIds) && is_array($itemIds)) {
+                foreach ($itemIds as $itemId) {
+                    $item = Mage::getModel('googlebase/item')->load($itemId);
+                    if ($item->getId()) {
+                        $item->activateItem();
+                        $totalPublished++;
+                    }
                 }
             }
             if ($totalPublished > 0) {
@@ -283,7 +285,11 @@ class Mage_GoogleBase_Adminhtml_Googlebase_ItemsController extends Mage_Adminhtm
             }
 
             $this->_getSession()->addSuccess(
-                $this->__('Total of %d items(s) have been deleted; total of %d items(s) have been updated.', $totalDeleted, $totalUpdated)
+                $this->__(
+                    'Total of %d items(s) have been deleted; total of %d items(s) have been updated.',
+                    $totalDeleted,
+                    $totalUpdated
+                )
             );
 
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {

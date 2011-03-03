@@ -84,7 +84,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
      */
     protected function _getEntryStats($entry)
     {
-        $result = array();
+        $result = $_stats = array();
 
         $draft = 'no';
         if (is_object($entry->getControl()) && is_object($entry->getControl()->getDraft())) {
@@ -101,7 +101,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
         $allAttributes = $entry->getExtensionElements();
         $elementsCount = count($allAttributes);
         if($elementsCount) {
-            $statsElement = '';
+            $statsElement = null;
             for ($i = 0; $i < $elementsCount; $i++) {
                 /**
                  * @var $extAttribute Zend_Gdata_App_Extension_Element
@@ -112,8 +112,11 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
                     break;
                 }
             }
-            $_stats = $statsElement->getExtensionElements();
-            for ($i = 0; $i < count($_stats); $i++) {
+            if ($statsElement) {
+                $_stats = $statsElement->getExtensionElements();
+            }
+            $statsCount = count($_stats);
+            for ($i = 0; $i < $statsCount; $i++) {
                 /**
                  * @var $_currentElement Zend_Gdata_App_Extension_Element
                  */
