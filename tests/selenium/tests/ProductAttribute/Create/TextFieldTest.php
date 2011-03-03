@@ -73,7 +73,7 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
                 $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
                 'Wrong page is displayed'
         );
-        $this->fillForm($this->loadData('product_attribute_textfield', null, 'attribute_code'));
+        $this->fillForm($this->loadData('product_attribute_textfield', NULL, NULL));
         $this->clickButton('save_attribute');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
@@ -128,11 +128,18 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * Checking of verification for duplicate of Product Attributes with similar code
      */
     public function test_WithAttributeCodeThatAlreadyExists()
     {
-        // @TODO
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_textfield', NULL, NULL));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**

@@ -1,0 +1,124 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# Product creation page and related pages
+
+# Manage Product page
+manage_products:
+ mca : catalog_product
+ title : Manage Products / Catalog / Magento Admin
+ uimap :
+  form : &searchProductGrid
+   buttons :
+    add_new_attribute : button[span='Add Product']
+# Messages
+ messages :
+
+# Add New Product page
+new_product:
+ mca : catalog_product/new
+ title : NNew Product / Manage Products / Catalog / Magento Admin
+ uimap :
+  form : &newProductSettingsForm
+   fieldset_product_settings :
+     xpath : div[@id='settings']
+     dropdowns :
+      attribute_set : select[@id='attribute_set_id']
+      product_type : select[@id='product_type']
+     buttons :
+      continue_button : button[span='Continue']
+  form : &newProductCreationForm
+    tab_general :
+      xpath : a[@title='General']
+      fieldset_general :
+        xpath : div[h4='General']
+        buttons :
+          create_new_attribute_button : button[span='Create New Attribute']
+    tab_price :
+      xpath : a[@title='Prices']
+      fieldset_price :
+        xpath : div[h4='Prices']
+        buttons :
+          create_new_attribute_button : button[span='Create New Attribute']
+    tab_meta_information :
+      xpath : a[@title='Meta Information']
+      fieldset_meta_information :
+        xpath : div[h4='Meta Information']
+        buttons :
+          create_new_attribute_button : button[span='Create New Attribute']
+    tab_images :
+      xpath : a[@title='Images']
+      fieldset_images :
+        xpath : div[h4='Images']
+    tab_description :
+      xpath : a[@title='Description']
+      fieldset_description :
+        xpath : div[h4='Description']
+        buttons :
+          create_new_attribute_button : button[span='Create New Attribute']
+    tab_design :
+      xpath : a[@title='Design']
+      fieldset_design :
+        xpath : div[h4='Design']
+        buttons :
+          create_new_attribute_button : button[span='Create New Attribute']
+    tab_recurring_profile :
+      xpath : a[@title='Recurring Profile']
+      fieldset_recurring_profil :
+        xpath : div[h4='Recurring Profile']
+        buttons :
+          create_new_attribute_button : button[span='Create New Attribute']
+    tab_gift_options :
+      xpath : a[@title='Gift Options']
+      fieldset_gift_options :
+        xpath : div[h4='Gift Options']
+        buttons :
+          create_new_attribute_button : button[span='Create New Attribute']
+    tab_inventory :
+      xpath : a[@title='Inventory']
+      fieldset_inventory :
+        xpath : div[h4='Inventory']
+    tab_websites :
+      xpath : a[@title='Websites']
+      fieldset_websites :
+        xpath : div[h4='Product In Websites']
+    tab_categories :
+      xpath : a[@title='Categories']
+      fieldset_categories :
+        xpath : div[h4='Product Categories']
+    tab_related_products :
+      xpath : a[@title='Related Products']
+    tab_up_sells :
+      xpath : a[@title='Up-sells']
+    tab_cross_sells :
+      xpath : a[@title='Cross-sells']
+    tab_custom_options :
+      xpath : a[@title='Custom Options']
+      fieldset_custom_options :
+        xpath : div[h4='Custom Options']
+        buttons :
+          create_new_attribute_button : button[span='Add New Option']
