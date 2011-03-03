@@ -47,7 +47,7 @@ class Mage_Selenium_DataGenerator extends Mage_Selenium_AbstractHelper
         ':digit:' => '0123456789',
         ':lower:' => 'abcdefghijklmnopqrstuvwxyz',
         ':upper:' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-        ':punct:' => '.,!#@$%^&*()-_+={}"|\'\\/?<>;:',
+        ':punct:' => '.,!#@$%^&*()-_+={}"|\'/?<>;:',
         'invalid-email' => '()[]\\;:,<>@'
     );
 
@@ -76,6 +76,7 @@ class Mage_Selenium_DataGenerator extends Mage_Selenium_AbstractHelper
      */
     public function generate($type='string', $length=100, $modifier=null, $prefix=null)
     {
+        $result = null;
         switch ($type) {
             case 'string':
                 $result = $this->generateRandomString($length, $modifier, $prefix);
@@ -87,7 +88,7 @@ class Mage_Selenium_DataGenerator extends Mage_Selenium_AbstractHelper
                 $result = $this->generateEmailAddress($length, $modifier, $prefix);
                 break;
             default:
-                // @TODO throw error
+                throw new Exception('Undefined type of generation');
                 break;
         }
         return $result;
@@ -137,7 +138,10 @@ class Mage_Selenium_DataGenerator extends Mage_Selenium_AbstractHelper
                 break;
         }
 
-        $email .= '@' . $this->_emailDomain;
+        if (!empty($email)) {
+            $email .= '@' . $this->_emailDomain;
+        }
+
         return $email;
 
     }
