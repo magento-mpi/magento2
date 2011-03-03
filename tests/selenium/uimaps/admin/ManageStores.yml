@@ -28,13 +28,9 @@
 
 # Messages
 messages:
-  success_saved_store: li[normalize-space(@class)='success-msg']//span[text()='The store has been saved.']
-  success_saved_store_view: li[normalize-space(@class)='success-msg']//span[text()='The store view has been saved']
-  success_saved_website: li[normalize-space(@class)='success-msg']//span[text()='The website has been saved.']
-  success_deleted_store: li[normalize-space(@class)='success-msg']//span[text()='The store has been deleted.']
-  success_deleted_store_view: li[normalize-space(@class)='success-msg']//span[text()='The store view has been deleted.']
-  success_deleted_website: li[normalize-space(@class)='success-msg']//span[text()='The website has been deleted.']
-  wrong_website_code: li[normalize-space(@class)='error-msg']//span[text()='Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
+
+
+
   wrong_store_view_code: li[normalize-space(@class)='error-msg']//span[text()='The store view code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
 
 # 'Manage Stores' page
@@ -43,21 +39,30 @@ manage_stores:
   title: Stores / System / Magento Admin
   uimap:
     form:
-      fieldset_manage_stores:
-        xpath: div[@id='storeGrid']
-        buttons:
-          reset_filter: button[span='Reset Filter']
-          search: button[span='Search']
-        links:
-          select_store_view: td[normalize-space(@class)='a-left last']/a[text()='%NAME%']
-        fields:
-          website_name: input[@id='filter_website_title']
-          store_name: input[@id='filter_group_title']
-          store_view_name: input[@id='filter_store_title']
-    page_buttons:
+      fieldsets:
+        -
+          manage_stores:
+            xpath: div[@id='storeGrid']
+            buttons:
+              reset_filter: button[span='Reset Filter']
+              search: button[span='Search']
+            links:
+              select_store_view: td[normalize-space(@class)='a-left last']/a[text()='%NAME%']
+            fields:
+              website_name: input[@id='filter_website_title']
+              store_name: input[@id='filter_group_title']
+              store_view_name: input[@id='filter_store_title']
+    buttons:
       create_website: button[span='Create Website']
       create_store: button[span='Create Store']
       create_store_view: button[span='Create Store View']
+    messages:
+      success_saved_store: li[normalize-space(@class)='success-msg']//span[text()='The store has been saved.']
+      success_saved_store_view: li[normalize-space(@class)='success-msg']//span[text()='The store view has been saved']
+      success_saved_website: li[normalize-space(@class)='success-msg']//span[text()='The website has been saved.']
+      success_deleted_store: li[normalize-space(@class)='success-msg']//span[text()='The store has been deleted.']
+      success_deleted_store_view: li[normalize-space(@class)='success-msg']//span[text()='The store view has been deleted.']
+      success_deleted_website: li[normalize-space(@class)='success-msg']//span[text()='The website has been deleted.']
 
 # 'New Store View' Page
 new_store_view:
@@ -65,20 +70,26 @@ new_store_view:
   title: New Store View / Stores / System / Magento Admin
   uimap:
     form:
-      fieldset_store_view_info:
-        xpath: form[@id='edit_form']
-        dropdowns:
-          store_name: select[@id='store_group_id']
-          store_view_status: select[@id='store_is_active']
-        fields:
-          store_view_name: input[@id='store_name']
-          store_view_code: input[@id='store_code']
-          store_view_sort_order: input[@id='store_sort_order']
-        required: [store_name, store_view_name, store_view_code, store_view_status]
-    page_buttons:
+      fieldsets:
+        -
+          store_view_info:
+            xpath: form[@id='edit_form']
+            dropdowns:
+              store_name: select[@id='store_group_id']
+              store_view_status: select[@id='store_is_active']
+            fields:
+              store_view_name: input[@id='store_name']
+              store_view_code: input[@id='store_code']
+              store_view_sort_order: input[@id='store_sort_order']
+            required: [store_name, store_view_name, store_view_code, store_view_status]
+    buttons:
       back: button[span='Back']
       reset: button[span='Reset']
       save_store_view: button[span='Save Store View']
+    messages:
+      wrong_store_view_code: li[normalize-space(@class)='error-msg']//span[text()='The store view code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
+      store_view_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Store view with the same code already exists.']
+      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Edit Store View' Page
 edit_store_view:
@@ -86,22 +97,27 @@ edit_store_view:
   title: %storeViewName% / Stores / System / Magento Admin
   uimap:
     form:
-      fieldset_store_view_info:
-        xpath: form[@id='edit_form']
-        dropdowns:
-          store_name: select[@id='store_group_id']
-          store_view_status: select[@id='store_is_active']
-        fields:
-          store_view_name: input[@id='store_name']
-          store_view_code: input[@id='store_code']
-          store_view_sort_order: input[@id='store_sort_order']
-        required: [store_name, store_view_name, store_view_code, store_view_status]
-        unique: [store_view_code]
-    page_buttons:
+      fieldset:
+        -
+          store_view_info:
+            xpath: form[@id='edit_form']
+            dropdowns:
+              store_name: select[@id='store_group_id']
+              store_view_status: select[@id='store_is_active']
+            fields:
+              store_view_name: input[@id='store_name']
+              store_view_code: input[@id='store_code']
+              store_view_sort_order: input[@id='store_sort_order']
+            required: [store_name, store_view_name, store_view_code, store_view_status]
+    buttons:
       back: button[span='Back']
       reset: button[span='Reset']
       delete_store_view: button[span='Delete Store View']
       save_store_view: button[span='Save Store View']
+    messages:
+      wrong_store_view_code: li[normalize-space(@class)='error-msg']//span[text()='The store view code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
+      store_view_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Store view with the same code already exists.']
+      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'New Website' Page
 new_website:
@@ -109,18 +125,23 @@ new_website:
   title: New Website / Stores / System / Magento Admin
   uimap:
     form:
-      fieldset_website_info:
-        xpath: form[@id='edit_form']
-        fields:
-          website_name: input[@id='website_name']
-          website_code: input[@id='website_code']
-          website_sort_order: input[@id='website_sort_order']
-        required: [website_name, website_code]
-        unique: [website_code]
-    page_buttons:
-      back          : button[span='Back']
-      reset         : button[span='Reset']
-      save_website  : button[span='Save Website']
+      fieldsets:
+        -
+          website_info:
+            xpath: form[@id='edit_form']
+            fields:
+              website_name: input[@id='website_name']
+              website_code: input[@id='website_code']
+              website_sort_order: input[@id='website_sort_order']
+            required: [website_name, website_code]
+    buttons:
+      back: button[span='Back']
+      reset: button[span='Reset']
+      save_website: button[span='Save Website']
+    messages:
+      wrong_website_code: li[normalize-space(@class)='error-msg']//span[text()='Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
+      website_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Website with the same code already exists.']
+      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Edit Website' Page
 edit_website:
@@ -128,23 +149,28 @@ edit_website:
   title: %websiteName% / Stores / System / Magento Admin
   uimap:
     form:
-      fieldset_website_info:
-        xpath: form[@id='edit_form']
-        checkboxes:
-          set_default: input[@id='is_default']
-        dropdowns:
-          default_store: select[@id='website_default_group_id']
-        fields:
-          website_name: input[@id='website_name']
-          website_code: input[@id='website_code']
-          website_sort_order: input[@id='website_sort_order']
-        required: [website_name, website_code]
-        unique: [website_code]
-    page_buttons:
+      fieldsets:
+        -
+          website_info:
+            xpath: form[@id='edit_form']
+            checkboxes:
+              set_default: input[@id='is_default']
+            dropdowns:
+              default_store: select[@id='website_default_group_id']
+            fields:
+              website_name: input[@id='website_name']
+              website_code: input[@id='website_code']
+              website_sort_order: input[@id='website_sort_order']
+            required: [website_name, website_code]
+    buttons:
       back: button[span='Back']
       reset: button[span='Reset']
       delete_website: button[span='Delete Website']
       save_website: button[span='Save Website']
+    messages:
+      wrong_website_code: li[normalize-space(@class)='error-msg']//span[text()='Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
+      website_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Website with the same code already exists.']
+      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'New Store' Page
 new_store:
@@ -152,18 +178,22 @@ new_store:
   title: New Store / Stores / System / Magento Admin
   uimap:
     form:
-      fieldset_store_info:
-        xpath: form[@id='edit_form']
-        dropdowns:
-          website: select[@id='group_website_id']
-          root_category:  select[@id='group_root_category_id']
-        fields:
-          store_name: input[@id='group_name']
-        required: [website, store_name, root_category]
-    page_buttons:
+      fieldsets:
+        -
+          store_info:
+            xpath: form[@id='edit_form']
+            dropdowns:
+              website: select[@id='group_website_id']
+              root_category:  select[@id='group_root_category_id']
+            fields:
+              store_name: input[@id='group_name']
+            required: [website, store_name, root_category]
+    buttons:
       back: button[span='Back']
       reset: button[span='Reset']
       save_store: button[span='Save Store']
+    messages:
+      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Edit Store' Page
 edit_store:
@@ -171,20 +201,24 @@ edit_store:
   title: %storeName% / Stores / System / Magento Admin
   uimap:
     form:
-      fieldset_store_info:
-        xpath: form[@id='edit_form']
-        dropdowns:
-          website: select[@id='group_website_id']
-          root_category:  select[@id='group_root_category_id']
-          default_store_view: select[@id='group_default_store_id']
-        fields:
-          store_name: input[@id='group_name']
-        required: [website, store_name, root_category]
-    page_buttons:
+      fieldsets:
+        -
+          store_info:
+            xpath: form[@id='edit_form']
+            dropdowns:
+              website: select[@id='group_website_id']
+              root_category:  select[@id='group_root_category_id']
+              default_store_view: select[@id='group_default_store_id']
+            fields:
+              store_name: input[@id='group_name']
+            required: [website, store_name, root_category]
+    buttons:
       back: button[span='Back']
       reset: button[span='Reset']
       delete_store: button[span='Delete Store']
       save_store: button[span='Save Store']
+    messages:
+      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Delete Store' Page
 detele_store:
@@ -192,14 +226,16 @@ detele_store:
    title: Delete Store / Stores / System / Magento Admin
    uimap:
     form:
-      fieldset_backup_options:
-        xpath: form[@id='edit_form']
-        dropdowns:
-          create_backup: select[@id='store_create_backup']
-        buttons:
-          reset: button[span='Cancel']
-          delete_store: button[span='Delete Store']
-    page_buttons:
+      fieldsets:
+        -
+          backup_options:
+            xpath: form[@id='edit_form']
+            dropdowns:
+              create_backup: select[@id='store_create_backup']
+            buttons:
+              reset: button[span='Cancel']
+              delete_store: button[span='Delete Store']
+    buttons:
       back: button[span='Back']
 
 # 'Delete Website' Page
@@ -208,14 +244,16 @@ detele_website:
    title: Delete Website / Stores / System / Magento Admin
    uimap:
     form:
-      fieldset_backup_options:
-        xpath: form[@id='edit_form']
-        dropdowns:
-          create_backup: select[@id='store_create_backup']
-        buttons:
-          reset: button[span='Cancel']
-          delete_website: button[span='Delete Website']
-    page_buttons:
+      fieldsets:
+        -
+          backup_options:
+            xpath: form[@id='edit_form']
+            dropdowns:
+              create_backup: select[@id='store_create_backup']
+            buttons:
+              reset: button[span='Cancel']
+              delete_website: button[span='Delete Website']
+    buttons:
       back: button[span='Back']
 
 # 'Delete Store View' Page
@@ -224,12 +262,14 @@ detele_store_view:
    title: Delete Store View / Stores / System / Magento Admin
    uimap:
     form:
-      fieldset_backup_options:
-        xpath : form[@id='edit_form']
-        dropdowns:
-          create_backup: select[@id='store_create_backup']
-        buttons:
-          reset: button[span='Cancel']
-          delete_website: button[span='Delete Store View']
-    page_buttons:
+      fieldsets:
+        -
+          backup_options:
+            xpath : form[@id='edit_form']
+            dropdowns:
+              create_backup: select[@id='store_create_backup']
+            buttons:
+              reset: button[span='Cancel']
+              delete_website: button[span='Delete Store View']
+    buttons:
       back: button[span='Back']
