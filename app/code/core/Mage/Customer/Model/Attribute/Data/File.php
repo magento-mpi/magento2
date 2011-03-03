@@ -35,72 +35,11 @@
 class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attribute_Data_Abstract
 {
     /**
-     * PHP script file type
-     */
-    const PROTECTED_FILE_TYPE_PHP      = 'php';
-
-    /**
-     * File type of configuration of an Apache Web server
-     */
-    const PROTECTED_FILE_TYPE_HTACCESS = 'htaccess';
-
-    /**
-     * Pearl script file type
-     */
-    const PROTECTED_FILE_TYPE_PEARL    = 'pl';
-
-    /**
-     * Python script file type
-     */
-    const PROTECTED_FILE_TYPE_PYTHON   = 'py';
-
-    /**
-     * C Sharp script file type
-     */
-    const PROTECTED_FILE_TYPE_ASP      = 'asp';
-
-    /**
-     * UNIX command prompt file type
-     */
-    const PROTECTED_FILE_TYPE_SH       = 'sh';
-
-    /**
-     * Common Gateway Interface script file type
-     */
-    const PROTECTED_FILE_TYPE_CGI       = 'cgi';
-
-    /**
-     * Java script file type
-     */
-    const PROTECTED_FILE_TYPE_JAVA      = 'jsp';
-
-    /**#@+
-     * HTML script file type
-     */
-    const PROTECTED_FILE_TYPE_HTML      = 'html';
-    const PROTECTED_FILE_TYPE_HTM       = 'htm';
-    const PROTECTED_FILE_TYPE_PHTML     = 'phtml';
-    const PROTECTED_FILE_TYPE_SHTML     = 'shtml';
-    /**#@-*/
-
-    /**
-     * Protected file types
+     * Validator for check not protected extensions
      *
-     * @var array
+     * @var Mage_Core_Model_File_Validator_Extension_Notprotected
      */
-    protected $_protectedFileTypes = array(
-        self::PROTECTED_FILE_TYPE_HTACCESS,
-        self::PROTECTED_FILE_TYPE_PHP,
-        self::PROTECTED_FILE_TYPE_PEARL,
-        self::PROTECTED_FILE_TYPE_PYTHON,
-        self::PROTECTED_FILE_TYPE_ASP,
-        self::PROTECTED_FILE_TYPE_SH,
-        self::PROTECTED_FILE_TYPE_CGI,
-        self::PROTECTED_FILE_TYPE_JAVA,
-        self::PROTECTED_FILE_TYPE_HTML,
-        self::PROTECTED_FILE_TYPE_SHTML,
-        self::PROTECTED_FILE_TYPE_PHTML,
-    );
+    protected $_validatorNotProtectedExtensions;
 
     /**
      * Extract data from request and return value
@@ -170,8 +109,9 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
     {
         $label  = Mage::helper('customer')->__($this->getAttribute()->getStoreLabel());
         $rules  = $this->getAttribute()->getValidateRules();
+        $extension  = pathinfo($value['name'], PATHINFO_EXTENSION);
+
         if (!empty($rules['file_extensions'])) {
-            $extension  = pathinfo($value['name'], PATHINFO_EXTENSION);
             $extensions = explode(',', $rules['file_extensions']);
             $extensions = array_map('trim', $extensions);
             if (!in_array($extension, $extensions)) {
@@ -179,6 +119,14 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
                     Mage::helper('customer')->__('"%s" is not a valid file extension.', $label)
                 );
             }
+        }
+
+        /**
+         * Check protected file extension
+         */
+        $validator = $this->_getValidatorNotProtectedExtensions();
+        if (!$validator->isValid($extension)) {
+            return $validator->getMessages();
         }
 
         if (!is_uploaded_file($value['tmp_name'])) {
@@ -222,17 +170,6 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
 
             if (!$attribute->getIsRequired() && !$toUpload) {
                 return true;
-            }
-
-            /**
-             * Check protected file type
-             * Add error if type is match
-             */
-            if ($toUpload) {
-                $pathInfo = pathinfo($value['name']);
-                if (in_array(strtolower($pathInfo['extension']), $this->_protectedFileTypes)) {
-                    $errors[] = Mage::helper('customer')->__('Unable upload file with type "%s".', $pathInfo['extension']);
-                }
             }
 
             if ($attribute->getIsRequired() && !$toUpload) {
@@ -343,5 +280,18 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
         }
 
         return $output;
+    }
+
+    /**
+     * Get validator for check not protected extension
+     *
+     * @return Mage_Core_Model_File_Validator_Extension_Notprotected
+     */
+    protected function _getValidatorNotProtectedExtensions()
+    {
+        if (null === $this->_validatorNotProtectedExtensions) {
+            $this->_validatorNotProtectedExtensions = Mage::getModel('core/file_validator_notprotected');
+        }
+        return $this->_validatorNotProtectedExtensions;
     }
 }
