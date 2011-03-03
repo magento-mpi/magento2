@@ -134,6 +134,20 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
+     * Destructor
+     */
+    function  __destruct() {
+        if($this->_drivers)
+        {
+            foreach($this->_drivers as $driver)
+            {
+                $driver->setContiguousSession(false);
+                $driver->stop();
+            }
+        }
+    }
+
+    /**
      * Initializes test configuration
      */
     public static function initInstance()
