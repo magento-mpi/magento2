@@ -74,4 +74,19 @@ class Mage_Selenium_FileHelperTest extends Mage_PHPUnit_TestCase
         $this->assertFalse($this->_fileHelper->loadYamlFile(SELENIUM_TESTS_BASEDIR.DIRECTORY_SEPARATOR.'phpunit.xml'));
     }
 
+    /**
+     * Testing Mage_Selenium_FileHelper::loadYamlFiles()
+     */
+    public function test_loadYamlFiles()
+    {
+        $all_yml_data = $this->_fileHelper->loadYamlFiles(SELENIUM_TESTS_BASEDIR.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'*.yml');
+
+        $this->assertInternalType('array', $all_yml_data);
+        $this->assertNotEmpty($all_yml_data);
+        $this->assertGreaterThanOrEqual(25, count($all_yml_data));
+
+        $this->assertEmpty($this->_fileHelper->loadYamlFiles(''));
+        $this->assertEmpty($this->_fileHelper->loadYamlFiles('*.yml'));
+    }
+
 }
