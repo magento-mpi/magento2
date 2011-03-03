@@ -39,35 +39,35 @@ class Mage_Selenium_TestConfiguration
     /**
      * Data helper instance
      *
-     * @var Mage_Selenium_DataHelper
+     * @var Mage_Selenium_Helper_Data
      */
     protected $_dataHelper = null;
 
     /**
      * Data generator helper instance
      *
-     * @var Mage_Selenium_DataGenerator
+     * @var Mage_Selenium_Helper_DataGenerator
      */
     protected $_dataGenerator = null;
 
     /**
      * Page helper instance
      *
-     * @var Mage_Selenium_PageHelper
+     * @var Mage_Selenium_Helper_Page
      */
     protected $_pageHelper = null;
 
     /**
      * File helper instance
      *
-     * @var Mage_Selenium_FileHelper
+     * @var Mage_Selenium_Helper_File
      */
     protected $_fileHelper = null;
 
     /**
      * SUT helper instance
      *
-     * @var Mage_Selenium_SutHelper
+     * @var Mage_Selenium_Helper_Sut
      */
     protected $_sutHelper = null;
 
@@ -81,7 +81,7 @@ class Mage_Selenium_TestConfiguration
     /**
      * Uimap helper instance
      *
-     * @var Mage_Selenium_UimapHelper
+     * @var Mage_Selenium_Helper_Uimap
      */
     protected $_uimapHelper = null;
 
@@ -176,12 +176,12 @@ class Mage_Selenium_TestConfiguration
     /**
      * Retrieve file helper instance
      *
-     * @return Mage_Selenium_FileHelper
+     * @return Mage_Selenium_Helper_File
      */
     public function getFileHelper()
     {
         if (is_null($this->_fileHelper)) {
-            $this->_fileHelper = new Mage_Selenium_FileHelper($this);
+            $this->_fileHelper = new Mage_Selenium_Helper_File($this);
         }
         return $this->_fileHelper;
     }
@@ -190,13 +190,13 @@ class Mage_Selenium_TestConfiguration
      * Retrieve page helper instance
      *
      * @param Mage_Selenium_TestCase $testCase
-     * @param Mage_Selenium_SutHelper $sutHelper
-     * @return Mage_Selenium_PageHelper
+     * @param Mage_Selenium_Helper_Sut $sutHelper
+     * @return Mage_Selenium_Helper_Page
      */
-    public function getPageHelper(Mage_Selenium_TestCase $testCase=null, Mage_Selenium_SutHelper $sutHelper=null)
+    public function getPageHelper(Mage_Selenium_TestCase $testCase=null, Mage_Selenium_Helper_Sut $sutHelper=null)
     {
         if (is_null($this->_pageHelper)) {
-            $this->_pageHelper = new Mage_Selenium_PageHelper($this);
+            $this->_pageHelper = new Mage_Selenium_Helper_Page($this);
         }
         if (!is_null($testCase)) {
             $this->_pageHelper->setTestCase($testCase);
@@ -210,12 +210,12 @@ class Mage_Selenium_TestConfiguration
     /**
      * Retrieve data generator helper instance
      *
-     * @return Mage_Selenium_DataGenerator
+     * @return Mage_Selenium_Helper_DataGenerator
      */
     public function getDataGenerator()
     {
         if (is_null($this->_dataGenerator)) {
-            $this->_dataGenerator = new Mage_Selenium_DataGenerator($this);
+            $this->_dataGenerator = new Mage_Selenium_Helper_DataGenerator($this);
         }
         return $this->_dataGenerator;
     }
@@ -223,12 +223,12 @@ class Mage_Selenium_TestConfiguration
     /**
      * Retrieve data helper instance
      *
-     * @return Mage_Selenium_DataHelper
+     * @return Mage_Selenium_Helper_Data
      */
     public function getDataHelper()
     {
         if (is_null($this->_dataHelper)) {
-            $this->_dataHelper = new Mage_Selenium_DataHelper($this);
+            $this->_dataHelper = new Mage_Selenium_Helper_Data($this);
         }
         return $this->_dataHelper;
     }
@@ -236,12 +236,12 @@ class Mage_Selenium_TestConfiguration
     /**
      * Retrieve SUT helper instance
      *
-     * @return Mage_Selenium_FileHelper
+     * @return Mage_Selenium_Helper_File
      */
     public function getSutHelper()
     {
         if (is_null($this->_sutHelper)) {
-            $this->_sutHelper = new Mage_Selenium_SutHelper($this);
+            $this->_sutHelper = new Mage_Selenium_Helper_Sut($this);
         }
         return $this->_sutHelper;
     }
@@ -262,12 +262,12 @@ class Mage_Selenium_TestConfiguration
     /**
      * Retrieve uimap helper instance
      *
-     * @return Mage_Selenium_UimapHelper
+     * @return Mage_Selenium_Helper_Uimap
      */
     public function getUimapHelper()
     {
         if (is_null($this->_uimapHelper)) {
-            $this->_uimapHelper = new Mage_Selenium_UimapHelper($this);
+            $this->_uimapHelper = new Mage_Selenium_Helper_Uimap($this);
         }
         return $this->_uimapHelper;
     }

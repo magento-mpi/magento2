@@ -45,7 +45,7 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
      */
     public function testGetFileHelper()
     {
-        $this->assertInstanceOf('Mage_Selenium_FileHelper', $this->_config->getFileHelper());
+        $this->assertInstanceOf('Mage_Selenium_Helper_File', $this->_config->getFileHelper());
     }
 
     /**
@@ -53,10 +53,10 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
      */
     public function testGetPageHelper()
     {
-        $this->assertInstanceOf('Mage_Selenium_PageHelper', $this->_config->getPageHelper());
-        $this->assertInstanceOf('Mage_Selenium_PageHelper', $this->_config->getPageHelper(new Mage_Selenium_TestCase()));
-        $this->assertInstanceOf('Mage_Selenium_PageHelper', $this->_config->getPageHelper(null, new Mage_Selenium_SutHelper($this->_config)));
-        $this->assertInstanceOf('Mage_Selenium_PageHelper', $this->_config->getPageHelper(new Mage_Selenium_TestCase(), new Mage_Selenium_SutHelper($this->_config)));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Page', $this->_config->getPageHelper());
+        $this->assertInstanceOf('Mage_Selenium_Helper_Page', $this->_config->getPageHelper(new Mage_Selenium_TestCase()));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Page', $this->_config->getPageHelper(null, new Mage_Selenium_Helper_Sut($this->_config)));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Page', $this->_config->getPageHelper(new Mage_Selenium_TestCase(), new Mage_Selenium_Helper_Sut($this->_config)));
     }
 
     /**
@@ -64,7 +64,7 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
      */
     public function testGetDataGenerator()
     {
-        $this->assertInstanceOf('Mage_Selenium_DataGenerator', $this->_config->getDataGenerator());
+        $this->assertInstanceOf('Mage_Selenium_Helper_DataGenerator', $this->_config->getDataGenerator());
     }
 
     /**
@@ -72,7 +72,7 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
      */
     public function testGetDataHelper()
     {
-        $this->assertInstanceOf('Mage_Selenium_DataHelper', $this->_config->getDataHelper());
+        $this->assertInstanceOf('Mage_Selenium_Helper_Data', $this->_config->getDataHelper());
     }
 
     /**
@@ -80,7 +80,7 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
      */
     public function testGetSutHelper()
     {
-        $this->assertInstanceOf('Mage_Selenium_SutHelper', $this->_config->getSutHelper());
+        $this->assertInstanceOf('Mage_Selenium_Helper_Sut', $this->_config->getSutHelper());
     }
 
     /**

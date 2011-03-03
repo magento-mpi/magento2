@@ -33,7 +33,7 @@
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_DataGenerator extends Mage_Selenium_AbstractHelper
+class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_AbstractHelper
 {
 
     /**
@@ -188,7 +188,7 @@ class Mage_Selenium_DataGenerator extends Mage_Selenium_AbstractHelper
      * @param int $length Generated string length (number of characters)
      * @param array $modifier   Allows to specify multiple properties of the generated text, e.g.:
      *                          'class' => string - PCRE class(es) to use for generation, see
-     *                                  {@link Mage_Selenium_DataGenerator::generateRandomString()}
+     *                                  {@link Mage_Selenium_Helper_DataGenerator::generateRandomString()}
      *                                  if no class is specified, only alphanumeric characters are used by default
      *                          'para'  => int - number of paragraphs
      * @param string $prefix Prefix to prepend the generated value

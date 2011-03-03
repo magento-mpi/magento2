@@ -33,7 +33,7 @@
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_PageHelper extends Mage_Selenium_AbstractHelper
+class Mage_Selenium_Helper_Page extends Mage_Selenium_AbstractHelper
 {
     /**
      * Last validation result
@@ -45,14 +45,14 @@ class Mage_Selenium_PageHelper extends Mage_Selenium_AbstractHelper
     /**
      * SUT helper instance
      *
-     * @var Mage_Selenium_SutHelper
+     * @var Mage_Selenium_Helper_Sut
      */
     protected $_sutHelper = null;
 
     /**
      * Validates current page properties
      *
-     * @return Mage_Selenium_PageHelper
+     * @return Mage_Selenium_Helper_Page
      * @throws @TODO
      */
     public function validateCurrentPage()
@@ -76,10 +76,10 @@ class Mage_Selenium_PageHelper extends Mage_Selenium_AbstractHelper
     /**
      * Set SUT helper instance to access application info
      *
-     * @param Mage_Selenium_SutHelper $sutHelper
+     * @param Mage_Selenium_Helper_Sut $sutHelper
      * @return Mage_Selenium_AbstractHelper
      */
-    public function setSutHelper(Mage_Selenium_SutHelper $sutHelper)
+    public function setSutHelper(Mage_Selenium_Helper_Sut $sutHelper)
     {
         $this->_sutHelper = $sutHelper;
         return $this;

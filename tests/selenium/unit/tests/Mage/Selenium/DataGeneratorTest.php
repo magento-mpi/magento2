@@ -29,22 +29,22 @@
 /**
  * Unit test for Data generator helper
  */
-class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
+class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Selenium DataGenerator instance
      *
-     * @var Mage_Selenium_DataGenerator
+     * @var Mage_Selenium_Helper_DataGenerator
      */
     protected $_dataGenerator = null;
 
     public function  __construct() {
         parent::__construct();
-        $this->_dataGenerator = new Mage_Selenium_DataGenerator($this->_config);
+        $this->_dataGenerator = new Mage_Selenium_Helper_DataGenerator($this->_config);
     }
 
     /**
-     * Testing Mage_Selenium_DataGenerator::generate()
+     * Testing Mage_Selenium_Helper_DataGenerator::generate()
      */
     public function testGenerate()
     {
@@ -100,7 +100,7 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_DataGenerator::generateEmailAddress()
+     * Testing Mage_Selenium_Helper_DataGenerator::generateEmailAddress()
      */
     public function testGenerateEmailAddress()
     {
@@ -121,7 +121,7 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_DataGenerator::generateRandomString()
+     * Testing Mage_Selenium_Helper_DataGenerator::generateRandomString()
      */
     public function testGenerateRandomString()
     {
@@ -143,7 +143,7 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_DataGenerator::generateRandomString()
+     * Testing Mage_Selenium_Helper_DataGenerator::generateRandomString()
      */
     public function testGenerateRandomText()
     {
@@ -169,7 +169,7 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test Mage_Selenium_DataGenerator::generate() wrong generation type
+     * Test Mage_Selenium_Helper_DataGenerator::generate() wrong generation type
      *
      * @expectedException Mage_Selenium_Exception
      */

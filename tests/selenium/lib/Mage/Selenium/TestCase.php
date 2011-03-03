@@ -39,21 +39,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Data helper instance
      *
-     * @var Mage_Selenium_DataHelper
+     * @var Mage_Selenium_Helper_Data
      */
     protected $_dataHelper = null;
 
     /**
      * Data generator helper instance
      *
-     * @var Mage_Selenium_DataGenerator
+     * @var Mage_Selenium_Helper_DataGenerator
      */
     protected $_dataGenerator = null;
 
     /**
      * SUT helper instance
      *
-     * @var Mage_Selenium_SutHelper
+     * @var Mage_Selenium_Helper_Sut
      */
     protected $_sutHelper = null;
 
@@ -67,7 +67,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Page helper instance
      *
-     * @var Mage_Selenium_PageHelper
+     * @var Mage_Selenium_Helper_Page
      */
     protected $_pageHelper = null;
 

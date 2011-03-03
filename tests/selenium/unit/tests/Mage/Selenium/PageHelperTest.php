@@ -29,44 +29,44 @@
 /**
  * Unit test for Page helper
  */
-class Mage_Selenium_PageHelperTest extends Mage_PHPUnit_TestCase
+class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
 {
     /**
-     * Testing Mage_Selenium_PageHelper::validateCurrentPage()
+     * Testing Mage_Selenium_Helper_Page::validateCurrentPage()
      */
     public function test_validateCurrentPage()
     {
-        $_pageHelper = new Mage_Selenium_PageHelper($this->_config);
-        $this->assertInstanceOf('Mage_Selenium_PageHelper', $_pageHelper->validateCurrentPage());
+        $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
+        $this->assertInstanceOf('Mage_Selenium_Helper_Page', $_pageHelper->validateCurrentPage());
     }
 
     /**
-     * Testing Mage_Selenium_PageHelper::validationFailed()
+     * Testing Mage_Selenium_Helper_Page::validationFailed()
      */
     public function test_validationFailed()
     {
-        $_pageHelper = new Mage_Selenium_PageHelper($this->_config);
+        $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $_pageHelper->validateCurrentPage();
         $this->assertFalse($_pageHelper->validationFailed());
     }
 
     /**
-     * Testing Mage_Selenium_PageHelper::setSutHelper()
+     * Testing Mage_Selenium_Helper_Page::setSutHelper()
      */
     public function test_setSutHelper()
     {
-        $_pageHelper = new Mage_Selenium_PageHelper($this->_config);
-        $_suitHelper = new Mage_Selenium_SutHelper($this->_config);
-        $this->assertInstanceOf('Mage_Selenium_PageHelper', $_pageHelper->setSutHelper($_suitHelper));
+        $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
+        $_suitHelper = new Mage_Selenium_Helper_Sut($this->_config);
+        $this->assertInstanceOf('Mage_Selenium_Helper_Page', $_pageHelper->setSutHelper($_suitHelper));
     }
 
     /**
-     * Testing Mage_Selenium_PageHelper::getPageUrl()
+     * Testing Mage_Selenium_Helper_Page::getPageUrl()
      */
     public function test_getPageUrl()
     {
-        $_pageHelper = new Mage_Selenium_PageHelper($this->_config);
-        $_suitHelper = new Mage_Selenium_SutHelper($this->_config);
+        $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
+        $_suitHelper = new Mage_Selenium_Helper_Sut($this->_config);
         $_suitHelper->setArea('admin');
         $_pageHelper->setSutHelper($_suitHelper);
 
@@ -75,25 +75,25 @@ class Mage_Selenium_PageHelperTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test Mage_Selenium_PageHelper::getPageUrl() on uninitialized object
+     * Test Mage_Selenium_Helper_Page::getPageUrl() on uninitialized object
      *
      * @expectedException Mage_Selenium_Exception
      */
     public function test_getPageUrlUninitializedException()
     {
-        $_pageHelper = new Mage_Selenium_PageHelper($this->_config);
+        $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
         $this->assertStringEndsWith('/control/permissions_user/', $_pageHelper->getPageUrl('manage_users'));
     }
 
     /**
-     * Test Mage_Selenium_PageHelper::getPageUrl() wrong Area
+     * Test Mage_Selenium_Helper_Page::getPageUrl() wrong Area
      *
      * @expectedException OutOfRangeException
      */
     public function test_getPageUrlWrongAreaException()
     {
-        $_pageHelper = new Mage_Selenium_PageHelper($this->_config);
-        $_suitHelper = new Mage_Selenium_SutHelper($this->_config);
+        $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
+        $_suitHelper = new Mage_Selenium_Helper_Sut($this->_config);
         $_suitHelper->setArea('admin-bla-bla-bla');
         $_pageHelper->setSutHelper($_suitHelper);
 
@@ -101,14 +101,14 @@ class Mage_Selenium_PageHelperTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test Mage_Selenium_PageHelper::getPageUrl() wrong url
+     * Test Mage_Selenium_Helper_Page::getPageUrl() wrong url
      *
      * @expectedException Mage_Selenium_Exception
      */
     public function test_getPageUrlWrongUrlException()
     {
-        $_pageHelper = new Mage_Selenium_PageHelper($this->_config);
-        $_suitHelper = new Mage_Selenium_SutHelper($this->_config);
+        $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
+        $_suitHelper = new Mage_Selenium_Helper_Sut($this->_config);
         $_suitHelper->setArea('admin');
         $_pageHelper->setSutHelper($_suitHelper);
 

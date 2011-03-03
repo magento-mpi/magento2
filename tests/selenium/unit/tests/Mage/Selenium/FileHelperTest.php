@@ -29,22 +29,22 @@
 /**
  * Unit test for File helper
  */
-class Mage_Selenium_FileHelperTest extends Mage_PHPUnit_TestCase
+class Mage_Selenium_Helper_FileTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Selenium FileHelper instance
      *
-     * @var Mage_Selenium_FileHelper
+     * @var Mage_Selenium_Helper_File
      */
     protected $_fileHelper = null;
 
     public function  __construct() {
         parent::__construct();
-        $this->_fileHelper = new Mage_Selenium_FileHelper($this->_config);
+        $this->_fileHelper = new Mage_Selenium_Helper_File($this->_config);
     }
 
     /**
-     * Testing Mage_Selenium_FileHelper::loadYamlFile()
+     * Testing Mage_Selenium_Helper_File::loadYamlFile()
      */
     public function test_loadYamlFile()
     {
@@ -65,7 +65,7 @@ class Mage_Selenium_FileHelperTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test Mage_Selenium_FileHelper::loadYamlFile() wrong file's type loading
+     * Test Mage_Selenium_Helper_File::loadYamlFile() wrong file's type loading
      * 
      * @expectedException InvalidArgumentException
      */
@@ -75,7 +75,7 @@ class Mage_Selenium_FileHelperTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_FileHelper::loadYamlFiles()
+     * Testing Mage_Selenium_Helper_File::loadYamlFiles()
      */
     public function test_loadYamlFiles()
     {

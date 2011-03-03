@@ -33,7 +33,7 @@
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_SutHelper extends Mage_Selenium_AbstractHelper
+class Mage_Selenium_Helper_Sut extends Mage_Selenium_AbstractHelper
 {
 
     /**
@@ -60,7 +60,7 @@ class Mage_Selenium_SutHelper extends Mage_Selenium_AbstractHelper
      * Set current application area
      *
      * @param string $area Possible values are 'frontend' and 'admin'
-     * @return Mage_Selenium_SutHelper
+     * @return Mage_Selenium_Helper_Sut
      */
     public function setArea($area)
     {
@@ -95,7 +95,7 @@ class Mage_Selenium_SutHelper extends Mage_Selenium_AbstractHelper
     /**
      * Initializes SUT information
      *
-     * @return Mage_Selenium_SutHelper
+     * @return Mage_Selenium_Helper_Sut
      */
     protected function _init()
     {

@@ -29,32 +29,32 @@
 /**
  * Unit test for SutHelper
  */
-class Mage_Selenium_SutHelperTest extends Mage_PHPUnit_TestCase
+class Mage_Selenium_Helper_SutTest extends Mage_PHPUnit_TestCase
 {
 
     /**
      * Selenium SutHelper instance
      *
-     * @var Mage_Selenium_SutHelper
+     * @var Mage_Selenium_Helper_Sut
      */
     protected $_sutHelper = null;
 
     public function  __construct() {
         parent::__construct();
-        $this->_sutHelper = new Mage_Selenium_SutHelper($this->_config);
+        $this->_sutHelper = new Mage_Selenium_Helper_Sut($this->_config);
     }
 
     /**
-     * Testing Mage_Selenium_SutHelper::setArea()
+     * Testing Mage_Selenium_Helper_Sut::setArea()
      */
     public function testSetArea()
     {
-        $this->assertInstanceOf('Mage_Selenium_SutHelper', $this->_sutHelper->setArea('frontend'));
-        $this->assertInstanceOf('Mage_Selenium_SutHelper', $this->_sutHelper->setArea('admin'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Sut', $this->_sutHelper->setArea('frontend'));
+        $this->assertInstanceOf('Mage_Selenium_Helper_Sut', $this->_sutHelper->setArea('admin'));
     }
 
     /**
-     * Testing exception throwing in Mage_Selenium_SutHelper::setArea()
+     * Testing exception throwing in Mage_Selenium_Helper_Sut::setArea()
      */
     public function testSetAreaException()
     {
@@ -64,7 +64,7 @@ class Mage_Selenium_SutHelperTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_SutHelper::getArea()
+     * Testing Mage_Selenium_Helper_Sut::getArea()
      */
     public function testGetArea()
     {
@@ -76,7 +76,7 @@ class Mage_Selenium_SutHelperTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_SutHelper::getBaseUrl()
+     * Testing Mage_Selenium_Helper_Sut::getBaseUrl()
      */
     public function testGetBaseUrl()
     {
@@ -92,7 +92,7 @@ class Mage_Selenium_SutHelperTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_SutHelper::isAdmin()
+     * Testing Mage_Selenium_Helper_Sut::isAdmin()
      */
     public function testIsAdmin()
     {
@@ -104,7 +104,7 @@ class Mage_Selenium_SutHelperTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_SutHelper::getDefaultAdminUsername()
+     * Testing Mage_Selenium_Helper_Sut::getDefaultAdminUsername()
      */
     public function testGetDefaultAdminUsername()
     {
@@ -113,7 +113,7 @@ class Mage_Selenium_SutHelperTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_SutHelper::getDefaultAdminPassword()
+     * Testing Mage_Selenium_Helper_Sut::getDefaultAdminPassword()
      */
     public function testGetDefaultAdminPassword()
     {
