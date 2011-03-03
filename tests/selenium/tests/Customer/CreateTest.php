@@ -75,7 +75,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
             $this->navigate('manage_customers')->clickButton('add_new_customer')->navigated('create_customer'),
             'Wrong page is displayed'
         );
-        $this->fillForm($this->data('newCustomerForm', array('email'=>'test@magento.com')));
+        $this->fillForm($this->loadData('newCustomerForm', array('email'=>'test@magento.com')));
         $this->clickButton('save_customer');
         $this->assertTrue($this->errorMessage(), '"Customer with the same email already exists." message should appear');
     }
@@ -88,7 +88,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty_EmptyFirstName()
     {
         $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->data('create_customer', array('first_name' => '')));
+        $this->fillForm($this->loadData('create_customer', array('first_name' => '')));
         $this->clickButton('save_customer');
         $this->assertTrue($this->errorMessage(), '"This is a required field" message should appear under "First Name" field');
     }
@@ -101,7 +101,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty_EmptyLastName()
     {
         $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->data('create_customer', array('last_name' => '')));
+        $this->fillForm($this->loadData('create_customer', array('last_name' => '')));
         $this->clickButton('save_customer');
         $this->assertTrue($this->errorMessage(), '"This is a required field" message should appear under "Last Name" field');
     }
@@ -114,7 +114,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty_EmptyEmail()
     {
         $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->data('create_customer', array('email' => '')));
+        $this->fillForm($this->loadData('create_customer', array('email' => '')));
         $this->clickButton('save_customer');
         $this->assertTrue($this->errorMessage(), '"This is a required field" message should appear under "Email" field');
     }
@@ -127,7 +127,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty_EmptyPassword()
     {
         $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->data('create_customer', array('password' => '')));
+        $this->fillForm($this->loadData('create_customer', array('password' => '')));
         $this->clickButton('save_customer');
         $this->assertTrue($this->errorMessage(), '"This is a required field" message should appear under "Password" field');
     }
@@ -156,7 +156,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidEmail()
     {
         $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->data('create_customer', array('email' => '123123')));
+        $this->fillForm($this->loadData('create_customer', array('email' => '123123')));
         $this->clickButton('save_customer');
         $this->assertTrue($this->errorMessage(), 'Invalid email message should appear');
     }
@@ -169,7 +169,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidPassword()
     {
         $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->data('create_customer', array('password' => '1')));
+        $this->fillForm($this->loadData('create_customer', array('password' => '1')));
         $this->clickButton('save_customer');
         $this->assertTrue($this->errorMessage(), 'Invalid password message should appear');
     }
