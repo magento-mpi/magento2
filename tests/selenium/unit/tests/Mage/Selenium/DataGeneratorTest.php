@@ -98,17 +98,12 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
         //$this->assertEmpty($this->_dataGenerator->generate('email', -1));
 
         $this->assertRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generate('email', 20, 'valid'));
-        // @TODO ???????? Why is this assert fail?
-        //$this->assertNotRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generate('email', 20, 'invalid'));
         // @TODO $this->_dataGenerator->generate('email') must generate valid email with default params!!!
         //$this->assertRegExp('|([a-z0-9_\.\-]+)@([a-z0-9\.\-]+)\.([a-z]{2,4})|is', $this->_dataGenerator->generate('email'));
-
     }
 
     /**
      * Testing Mage_Selenium_DataGenerator::generateEmailAddress()
-     *
-     * @TODO "$prefix" is unnecessary param in Mage_Selenium_DataGenerator::generateEmailAddress()
      */
     public function testGenerateEmailAddress()
     {
@@ -123,6 +118,7 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
         $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20, 'some_value')));
 
         $this->assertRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generateEmailAddress(20, 'valid'));
+        //$this->assertNotRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generate('email', 20, 'invalid'));
     }
 
     /**
