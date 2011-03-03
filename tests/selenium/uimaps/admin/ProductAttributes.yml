@@ -84,7 +84,7 @@ new_product_attribute:
      fieldset_manage_titles :
       fields :
        admin_title : input[@name='frontend_label[0]']
-       storeview_title : input[@name='frontend_label[0]']
+       storeview_title : input[@name='frontend_label[1]']
       required : [admin_title]
      fieldset_manage_options :
       buttons :
@@ -95,7 +95,7 @@ new_product_attribute:
       fields :
        option_position : input[@name='option[order][option_0]']
        admin_option : input[@name='option[value][option_0][0]']
-       storeview_option : input[@name='option[value][option_0][0]']
+       storeview_option : input[@name='option[value][option_0][1]']
       required : [admin_option]
   buttons :
     back : button[span='Back']

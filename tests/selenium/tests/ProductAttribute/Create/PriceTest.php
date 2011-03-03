@@ -136,19 +136,79 @@ class ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * Checking of correct validate of submitting form by using special characters for all fields filling
      */
     public function test_WithSpecialCharacters()
     {
-        // @TODO
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_price', array(
+            'attribute_code' => $this->generate('string', 13, ':punct:'),
+            'default_value'  => $this->generate('string', 13, ':punct:'),
+            'admin_title'  => $this->generate('string', 13, ':punct:'),
+            'storeview_title'  => $this->generate('string', 13, ':punct:'))));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * @TODO
+     * Checking of correct validate of submitting form by using special characters for fields filling exclude attr_code
+     */
+    public function test_WithSpecialCharactersExclAttributeCode()
+    {
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_price', array(
+            'attribute_code' => $this->generate('string', 11, ':alnum:'),
+            'default_value'  => $this->generate('string', 11, ':punct:'),
+            'admin_title'  => $this->generate('string', 11, ':punct:'),
+            'storeview_title'  => $this->generate('string', 11, ':punct:'))));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+    }
+
+    /**
+     * Checking of correct validate of submitting form by using special characters for fields filling exclude def_value
+     */
+    public function test_WithSpecialCharactersExclDefaultValue()
+    {
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_price', array(
+            'attribute_code' => $this->generate('string', 12, ':alnum:'),
+            'default_value'  => $this->generate('string', 12, ':digit:'),
+            'admin_title'  => $this->generate('string', 12, ':punct:'),
+            'storeview_title'  => $this->generate('string', 12, ':punct:'))));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+    }
+
+    /**
+     * Checking of correct work of submitting form by using long values for fields filling
      */
     public function test_WithLongValues()
     {
-        // @TODO
+        $this->assertTrue(
+                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
+                'Wrong page is displayed'
+        );
+        $this->fillForm($this->loadData('product_attribute_price', array(
+            'attribute_code' => $this->generate('string', 260, ':alnum:'),
+            'default_value'  => $this->generate('string', 260, ':digit:'),
+            'admin_title'  => $this->generate('string', 260, ':alnum:'),
+            'storeview_title'  => $this->generate('string', 260, ':alnum:'))));
+        $this->clickButton('save_attribute');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
