@@ -469,8 +469,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function hasIsValidForAddress($address)
     {
-        if($address instanceof Mage_Sales_Model_Quote_Address)
-        {
+        if($address instanceof Mage_Sales_Model_Quote_Address) {
             $addressId = $address->getId();
         } else {
             $addressId = $address;
@@ -487,8 +486,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function setIsValidForAddress($address, $validationResult)
     {
-        if($address instanceof Mage_Sales_Model_Quote_Address)
-        {
+        if($address instanceof Mage_Sales_Model_Quote_Address) {
             $addressId = $address->getId();
         } else {
             $addressId = $address;
@@ -505,8 +503,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function getIsValidForAddress($address)
     {
-        if($address instanceof Mage_Sales_Model_Quote_Address)
-        {
+        if($address instanceof Mage_Sales_Model_Quote_Address) {
             $addressId = $address->getId();
         } else {
             $addressId = $address;

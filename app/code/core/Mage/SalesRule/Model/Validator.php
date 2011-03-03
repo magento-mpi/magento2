@@ -139,9 +139,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     protected function _canProcessRule($rule, $address)
     {
-        /**
-         * @TODO: Ask for solution
-         */
         if (!$rule->hasIsValidForAddress($address)) {
             /**
              * check per coupon usage limit
