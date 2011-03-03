@@ -137,14 +137,20 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         $this->assertInternalType('array', $this->_config->getUimapValue('admin'));
         $this->assertNotEmpty($this->_config->getUimapValue('admin'));
 
-        // @TODO Must return false?
-        //$this->assertFalse($this->_config->getUimapValue('invalid-area'));
-
         $this->assertFalse($this->_config->getUimapValue('frontend', 'invalid-path'));
         $this->assertFalse($this->_config->getUimapValue('admin', 'invalid-path'));
 
         $this->assertInternalType('string', $this->_config->getUimapValue('admin', 'manage_users/mca'));
         $this->assertInternalType('string', $this->_config->getUimapValue('frontend', 'customer_account/mca'));
+    }
+
+    /**
+     * Testing exception throwing in Mage_Selenium_TestConfiguration::getUimapValue()
+     */
+    public function testGetUimapValueOutOfRangeException()
+    {
+        $this->setExpectedException('OutOfRangeException');
+        $this->_config->getUimapValue('invalid-area');
     }
 
 }
