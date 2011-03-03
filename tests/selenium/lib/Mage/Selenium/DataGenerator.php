@@ -88,7 +88,7 @@ class Mage_Selenium_DataGenerator extends Mage_Selenium_AbstractHelper
                 $result = $this->generateEmailAddress($length, $modifier, $prefix);
                 break;
             default:
-                throw new Exception('Undefined type of generation');
+                throw new Mage_Selenium_Exception('Undefined type of generation');
                 break;
         }
         return $result;

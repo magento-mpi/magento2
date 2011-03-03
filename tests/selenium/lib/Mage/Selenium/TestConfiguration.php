@@ -136,7 +136,7 @@ class Mage_Selenium_TestConfiguration
     /**
      * Destructor
      */
-    function  __destruct() {
+    public function  __destruct() {
         if($this->_drivers)
         {
             foreach($this->_drivers as $driver)

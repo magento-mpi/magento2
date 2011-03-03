@@ -51,8 +51,6 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
         // Common executions
         // @TODO This execution variant must return something by default (string, 100 chars, :alnum:, without prefix)
         //$this->assertEquals(100, strlen($this->_dataGenerator->generate()));
-        // @TODO This execution variant must throw an exception or return Null
-        //$this->assertNull($this->_dataGenerator->generate('some_string'));
 
         // string generations
         //$this->assertEquals(100, strlen($this->_dataGenerator->generate('string')));
@@ -61,7 +59,6 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
         $this->assertEquals(20, strlen($this->_dataGenerator->generate('string', 20, ':alnum:')));
 
         $this->assertEquals(20, strlen($this->_dataGenerator->generate('string', 20, ':alnum:', '')));
-        // @TODO Maybe Null?
         $this->assertEmpty($this->_dataGenerator->generate('string', 0, ':alnum:', ''));
         $this->assertEmpty($this->_dataGenerator->generate('string', -1, ':alnum:', ''));
         $this->assertEquals(1000000, strlen($this->_dataGenerator->generate('string', 1000000, ':alnum:', '')));
@@ -93,11 +90,11 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
         $this->assertEquals(100, strlen($this->_dataGenerator->generate('email')));
         $this->assertEquals(20, strlen($this->_dataGenerator->generate('email', 20, 'valid')));
         $this->assertEquals(20, strlen($this->_dataGenerator->generate('email', 20, 'some_value')));
-        // @TODO Must return an empty string without domain name
-        //$this->assertEmpty($this->_dataGenerator->generate('email', 0));
-        //$this->assertEmpty($this->_dataGenerator->generate('email', -1));
+        $this->assertEmpty($this->_dataGenerator->generate('email', 0));
+        $this->assertEmpty($this->_dataGenerator->generate('email', -1));
 
-        $this->assertRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generate('email', 20, 'valid'));
+        $this->assertRegExp("/^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+)*@([a-z0-9-])+(\.([a-z0-9-])+)*\.(([a-z]){2,})$/i",
+                $this->_dataGenerator->generate('email', 20, 'valid'));
         // @TODO $this->_dataGenerator->generate('email') must generate valid email with default params!!!
         //$this->assertRegExp('|([a-z0-9_\.\-]+)@([a-z0-9\.\-]+)\.([a-z]{2,4})|is', $this->_dataGenerator->generate('email'));
     }
@@ -110,15 +107,17 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
         $this->assertNotEmpty($this->_dataGenerator->generateEmailAddress());
         $this->assertEquals(100, strlen($this->_dataGenerator->generateEmailAddress()));
         $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20)));
-        //$this->assertEmpty($this->_dataGenerator->generateEmailAddress(0));
-        //$this->assertEmpty($this->_dataGenerator->generateEmailAddress(-1));
+        $this->assertEmpty($this->_dataGenerator->generateEmailAddress(0));
+        $this->assertEmpty($this->_dataGenerator->generateEmailAddress(-1));
 
         $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20, 'valid')));
         $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20, 'invalid')));
         $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20, 'some_value')));
 
-        $this->assertRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generateEmailAddress(20, 'valid'));
-        //$this->assertNotRegExp('|([a-z0-9_\.\-]{8})@([a-z0-9\.\-]{11})|is', $this->_dataGenerator->generate('email', 20, 'invalid'));
+        $this->assertRegExp("/^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+)*@([a-z0-9-])+(\.([a-z0-9-])+)*\.(([a-z]){2,})$/i",
+            $this->_dataGenerator->generateEmailAddress(20, 'valid'));
+        $this->assertNotRegExp("/^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+)*@([a-z0-9-])+(\.([a-z0-9-])+)*\.(([a-z]){2,})$/i",
+            $this->_dataGenerator->generateEmailAddress(20, 'invalid'));
     }
 
     /**
@@ -167,6 +166,16 @@ class Mage_Selenium_DataGeneratorTest extends Mage_PHPUnit_TestCase
         $this->assertRegExp('|[a-z ]{20}|', $this->_dataGenerator->generateRandomText(20, array('class'=>':lower:')));
         $this->assertRegExp('|[\.\,\!\#\@\$\%\^\&\*\(\)\-\_\+\=\{\}\"\|\\\'\\\\\/\?\<\>\;\: ]{20}|', $this->_dataGenerator->generateRandomText(20, array('class'=>':punct:')));
 
+    }
+
+    /**
+     * Test Mage_Selenium_DataGenerator::generate() wrong generation type
+     *
+     * @expectedException Mage_Selenium_Exception
+     */
+    public function testGenerateException()
+    {
+        $this->assertNull($this->_dataGenerator->generate('some_string'));
     }
 
 }
