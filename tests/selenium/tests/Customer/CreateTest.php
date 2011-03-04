@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -27,167 +28,211 @@
  */
 
 /**
- * @TODO
+ * Test creation customer from Backend
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Customer_CreateTest extends Mage_Selenium_TestCase
-{
+class Customer_CreateTest extends Mage_Selenium_TestCase {
 
     /**
-     * Assert if Admin Dashboard is loaded.
+     * Log in to Admin and Navigate to Manage Customers.
      */
-   protected function assertPreConditions()
+    protected function assertPreConditions()
     {
         $this->assertTrue($this->loginAdminUser());
-        $this->assertTrue($this->admin('dashboard'));
+        $this->assertTrue($this->navigate('manage_customers'));
     }
 
-
     /**
-     * Test creating customer filling only required fields
+     * Create customer by filling in only required fields
      * Expected result:
      * Redirect to manage customers page, sucsess massage appeared
      */
     public function test_WithRequiredFieldsOnly()
     {
-        $this->assertTrue(
-            $this->navigate('manage_customers')->clickButton('add_new_customer')->navigated('create_customer'),
-            'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('newCustomerForm', null, null));
+        $this->clickButton('add_new_customer');
+        $this->fillForm($this->loadData('generic_customer_account', null, null));
         $this->clickButton('save_customer');
         $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
-        $this->assertTrue($this->navigated('manage_customers'), 'After creating customer admin should be redirected to manage customers page');
+        $this->assertTrue($this->navigated('manage_customers'),
+                'After creating customer admin should be redirected to manage customers page');
+        $this->assertTrue($this->successMessage('success_save_customer'),
+                'No success message is displayed');
     }
 
     /**
-     * Test create customer using email that alreadi exist
+     * Create customer. Use email that alreadi exist
      * Expected result:
      * 'Customer with the same email already exists.' message appeared
      */
     public function test_WithEmailThatAlreadyExists()
     {
-        $this->assertTrue(
-            $this->navigate('manage_customers')->clickButton('add_new_customer')->navigated('create_customer'),
-            'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('newCustomerForm', array('email'=>'test@magento.com')));
+        $this->clickButton('add_new_customer');
+        $this->fillForm($this->loadData('generic_customer_account', null, null));
         $this->clickButton('save_customer');
-        $this->assertTrue($this->errorMessage(), '"Customer with the same email already exists." message should appear');
+        $this->assertTrue($this->errorMessage('error_email_exist'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
     }
 
     /**
-     * Test create customer with empty reqired 'First Name' field
+     * Ceate customer with empty reqired 'First Name' field
      * Expected result:
      * 'This is a required field' message appeared under 'First Name' field
      */
     public function test_WithRequiredFieldsEmpty_EmptyFirstName()
     {
-        $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->loadData('create_customer', array('first_name' => '')));
+        $this->clickButton('add_new_customer');
+        $this->fillForm($this->loadData('generic_customer_account',
+                        array('first_name' => null), null));
         $this->clickButton('save_customer');
-        $this->assertTrue($this->errorMessage(), '"This is a required field" message should appear under "First Name" field');
+        $this->assertTrue($this->errorMessage('error_empty_value'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
     }
 
     /**
-     * Test create customer with empty reqired 'Last Name' field
+     * Create customer with empty reqired 'Last Name' field
      * Expected result:
      * 'This is a required field' message appeared under 'Last Name' field
      */
     public function test_WithRequiredFieldsEmpty_EmptyLastName()
     {
-        $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->loadData('create_customer', array('last_name' => '')));
+        $this->clickButton('add_new_customer');
+        $this->fillForm($this->loadData('generic_customer_account',
+                        array('last_name' => NULL), 'email'));
         $this->clickButton('save_customer');
-        $this->assertTrue($this->errorMessage(), '"This is a required field" message should appear under "Last Name" field');
+        $this->assertTrue($this->errorMessage('error_empty_value'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
     }
 
     /**
-     * Test create customer with empty reqired 'Email' field
+     * Create customer with empty reqired 'Email' field
      * Expected result:
      * 'This is a required field' message appeared under 'Email' field
      */
     public function test_WithRequiredFieldsEmpty_EmptyEmail()
     {
-        $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->loadData('create_customer', array('email' => '')));
+        $this->clickButton('add_new_customer');
+        $this->fillForm($this->loadData('generic_customer_account',
+                        array('email' => NULL), NULL));
         $this->clickButton('save_customer');
-        $this->assertTrue($this->errorMessage(), '"This is a required field" message should appear under "Email" field');
+        $this->assertTrue($this->errorMessage('error_empty_value'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
     }
 
     /**
-     * Test create customer with empty reqired 'Password' field
+     * Create customer with empty reqired 'Password' field
      * Expected result:
      * 'This is a required field' message appeared under 'Password' field
      */
     public function test_WithRequiredFieldsEmpty_EmptyPassword()
     {
-        $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->loadData('create_customer', array('password' => '')));
+        $this->clickButton('add_new_customer');
+        $this->fillForm($this->loadData('generic_customer_account',
+                        array('password' => NULL), 'email'));
         $this->clickButton('save_customer');
-        $this->assertTrue($this->errorMessage(), '"This is a required field" message should appear under "Password" field');
+        $this->assertTrue($this->errorMessage('error_empty_value'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
     }
 
     /**
-     * @TODO
+     * Create customer. Fill in all reqired fields by
+     * using using special characters(except the field "email").
      */
     public function test_WithSpecialCharacters()
     {
-       // @TODO
+        $this->clickButton('add_new_customer');
+        $longValues = array(
+            'firs_name' => $this->generate('string', 255, ':punct:'),
+            'last_name' => $this->generate('string', 255, ':punct:'),
+            'password' => $this->generate('string', 255, ':punct:'),
+        );
+        $this->fillForm($this->loadData('generic_customer_account', $longValues, NULL));
+        $this->clickButton('save_customer');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->navigated('manage_customers'),
+                'After successful creation store should be redirected to Manage Stores page');
+        $this->assertTrue($this->successMessage('success_saved_store'),
+                'No success message is displayed');
     }
 
     /**
-     * @TODO
+     *  Create Customer. Fill in only reqired fields. Use max long values for fields
      */
     public function test_WithLongValues()
     {
+        $this->clickButton('add_new_customer');
+        $longValues = array(
+            'firs_name' => $this->generate('string', 255, ':alnum:'),
+            'last_name' => $this->generate('string', 255, ':alnum:'),
+            'password' => $this->generate('string', 255, ':alnum:'),
+            'email' => $this->generate('email', 255, ':alnum:'),
+        );
+        $this->fillForm($this->loadData('generic_customer_account', $longValues, NULL));
+        $this->clickButton('save_customer');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->assertTrue($this->navigated('manage_customers'),
+                'After successful creation store should be redirected to Manage Stores page');
+        $this->assertTrue($this->successMessage('success_saved_store'),
+                'No success message is displayed');
         // @TODO
+        //$this->searchAndOpen($longValues);
+        //$xpathName = $this->_getUimapData('');
+        //$this->assertEquals(strlen($this->getValue($xpathName)), 255);
     }
 
     /**
-     * Test create customer with invalid 'Email' field
+     * Create customer with invalid 'Email' field
      * Expected result:
      * '"Email" is not a valid email address.' message appeared under 'Email' field
      */
     public function test_WithInvalidEmail()
     {
-        $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->loadData('create_customer', array('email' => '123123')));
+        $this->clickButton('add_new_customer');
+        $this->fillForm($this->loadData('generic_customer_account',
+                        array('email' => 'mail@domain'), NULL));
         $this->clickButton('save_customer');
-        $this->assertTrue($this->errorMessage(), 'Invalid email message should appear');
+        $this->assertTrue($this->errorMessage('error_invalid_email'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
     }
 
     /**
-     * Test create customer with invalid 'Password' field
+     * Create customer with invalid 'Password' field
      * Expected result:
-     * 'Please enter 6 or more characters. Leading or trailing spaces will be ignored.' message appeared under 'Password' field
+     * 'Please enter 6 or more characters. Leading or trailing spaces will be ignored.'
+     * message appeared under 'Password' field
      */
     public function test_WithInvalidPassword()
     {
-        $this->assertTrue($this->navigate('create_customer'));
-        $this->fillForm($this->loadData('create_customer', array('password' => '1')));
+        $this->clickButton('add_new_customer');
+        $this->fillForm($this->loadData('create_customer',
+                        array('password' => '12345'), 'email'));
         $this->clickButton('save_customer');
-        $this->assertTrue($this->errorMessage(), 'Invalid password message should appear');
+        $this->assertTrue($this->errorMessage('error_password_too_short'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
     }
 
     /**
-     * @TODO
+     * Create customer with address
      */
     public function test_WithAddress()
     {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithoutAddress()
-    {
-        // @TODO
+        $this->clickButton('add_new_customer');
+        $this->fillForm($this->loadData('all_fields_customer_account', NULL, NULL));
+        $this->clickButton('add_new_address');
+        $this->fillForm($this->loadData('all_fields_address', NULL, NULL));
+        $this->clickButton('save_customer');
+        $this->assertTrue($this->errorMessage('error_empty_value'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
     }
 
     /**
@@ -205,4 +250,5 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     {
         // @TODO
     }
+
 }
