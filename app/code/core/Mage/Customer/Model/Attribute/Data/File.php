@@ -290,7 +290,7 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
     protected function _getValidatorNotProtectedExtensions()
     {
         if (null === $this->_validatorNotProtectedExtensions) {
-            $this->_validatorNotProtectedExtensions = Mage::getModel('core/file_validator_notprotected');
+            $this->_validatorNotProtectedExtensions = Mage::getModel('core/file_validator_extension_notprotected');
         }
         return $this->_validatorNotProtectedExtensions;
     }
