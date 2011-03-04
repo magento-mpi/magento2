@@ -44,8 +44,8 @@ manage_stores:
           manage_stores:
             xpath: div[@id='storeGrid']
             buttons:
-              reset_filter: //button[span='Reset Filter']
-              search: //button[span='Search']
+              reset_filter: button[span='Reset Filter']
+              search: button[span='Search']
             links:
               select_store_view: td[normalize-space(@class)='a-left last']/a[text()='%NAME%']
             fields:
@@ -53,9 +53,9 @@ manage_stores:
               store_name: input[@id='filter_group_title']
               store_view_name: input[@id='filter_store_title']
     buttons:
-      create_website: //button[span='Create Website']
-      create_store: //button[span='Create Store']
-      create_store_view: //button[span='Create Store View']
+      create_website: button[span='Create Website']
+      create_store: button[span='Create Store']
+      create_store_view: button[span='Create Store View']
     messages:
       success_saved_store: li[normalize-space(@class)='success-msg']//span[text()='The store has been saved.']
       success_saved_store_view: li[normalize-space(@class)='success-msg']//span[text()='The store view has been saved']
@@ -83,9 +83,9 @@ new_store_view:
               store_view_sort_order: input[@id='store_sort_order']
             required: [store_name, store_view_name, store_view_code, store_view_status]
     buttons:
-      back: //button[span='Back']
-      reset: //button[span='Reset']
-      save_store_view: //button[span='Save Store View']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      save_store_view: button[span='Save Store View']
     messages:
       wrong_store_view_code: li[normalize-space(@class)='error-msg']//span[text()='The store view code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
       store_view_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Store view with the same code already exists.']
@@ -110,10 +110,10 @@ edit_store_view:
               store_view_sort_order: input[@id='store_sort_order']
             required: [store_name, store_view_name, store_view_code, store_view_status]
     buttons:
-      back: //button[span='Back']
-      reset: //button[span='Reset']
-      delete_store_view: //button[span='Delete Store View']
-      save_store_view: //button[span='Save Store View']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      delete_store_view: button[span='Delete Store View']
+      save_store_view: button[span='Save Store View']
     messages:
       wrong_store_view_code: li[normalize-space(@class)='error-msg']//span[text()='The store view code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
       store_view_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Store view with the same code already exists.']
@@ -135,9 +135,9 @@ new_website:
               website_sort_order: input[@id='website_sort_order']
             required: [website_name, website_code]
     buttons:
-      back: //button[span='Back']
-      reset: //button[span='Reset']
-      save_website: //button[span='Save Website']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      save_website: button[span='Save Website']
     messages:
       wrong_website_code: li[normalize-space(@class)='error-msg']//span[text()='Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
       website_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Website with the same code already exists.']
@@ -163,10 +163,10 @@ edit_website:
               website_sort_order: input[@id='website_sort_order']
             required: [website_name, website_code]
     buttons:
-      back: //button[span='Back']
-      reset: //button[span='Reset']
-      delete_website: //button[span='Delete Website']
-      save_website: //button[span='Save Website']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      delete_website: button[span='Delete Website']
+      save_website: button[span='Save Website']
     messages:
       wrong_website_code: li[normalize-space(@class)='error-msg']//span[text()='Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
       website_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Website with the same code already exists.']
@@ -189,9 +189,9 @@ new_store:
               store_name: input[@id='group_name']
             required: [website, store_name, root_category]
     buttons:
-      back: //button[span='Back']
-      reset: //button[span='Reset']
-      save_store: //button[span='Save Store']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      save_store: button[span='Save Store']
     messages:
       empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
@@ -213,10 +213,10 @@ edit_store:
               store_name: input[@id='group_name']
             required: [website, store_name, root_category]
     buttons:
-      back: //button[span='Back']
-      reset: //button[span='Reset']
-      delete_store: //button[span='Delete Store']
-      save_store: //button[span='Save Store']
+      back: button[span='Back']
+      reset: button[span='Reset']
+      delete_store: button[span='Delete Store']
+      save_store: button[span='Save Store']
     messages:
       empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
@@ -233,10 +233,10 @@ detele_store:
             dropdowns:
               create_backup: select[@id='store_create_backup']
             buttons:
-              reset: //button[span='Cancel']
-              delete_store: //button[span='Delete Store']
+              reset: button[span='Cancel']
+              delete_store: button[span='Delete Store']
     buttons:
-      back: //button[span='Back']
+      back: button[span='Back']
 
 # 'Delete Website' Page
 detele_website:
@@ -251,10 +251,10 @@ detele_website:
             dropdowns:
               create_backup: select[@id='store_create_backup']
             buttons:
-              reset: //button[span='Cancel']
-              delete_website: //button[span='Delete Website']
+              reset: button[span='Cancel']
+              delete_website: button[span='Delete Website']
     buttons:
-      back: //button[span='Back']
+      back: button[span='Back']
 
 # 'Delete Store View' Page
 detele_store_view:
@@ -269,7 +269,7 @@ detele_store_view:
             dropdowns:
               create_backup: select[@id='store_create_backup']
             buttons:
-              reset: //button[span='Cancel']
-              delete_website: //button[span='Delete Store View']
+              reset: button[span='Cancel']
+              delete_website: button[span='Delete Store View']
     buttons:
-      back: //button[span='Back']
+      back: button[span='Back']
