@@ -41,31 +41,15 @@ class Mage_Checkout_Model_Api_Resource_Product extends Mage_Checkout_Model_Api_R
      *
      * @param  int|string $productId (SKU or ID)
      * @param  int|string $store
+     * @param  string $identifierType
      * @return Mage_Catalog_Model_Product
      */
     protected function _getProduct($productId, $store = null, $identifierType = null)
     {
-        $loadByIdOnFalse = false;
-        if ($identifierType == null) {
-            $identifierType = 'sku';
-            $loadByIdOnFalse = true;
-        }
-        $product = Mage::getModel('catalog/product');
-        if ($store !== null) {
-            $product->setStoreId($this->_getStoreId($store));
-        }
-        /* @var $product Mage_Catalog_Model_Product */
-        if ($identifierType == 'sku') {
-            $idBySku = $product->getIdBySku($productId);
-            if ($idBySku) {
-                $productId = $idBySku;
-            }
-            if ($idBySku || $loadByIdOnFalse) {
-                $product->load($productId);
-            }
-        } elseif ($identifierType == 'id') {
-            $product->load($productId);
-        }
+        $product = Mage::helper('catalog/product')->getProduct($productId,
+                        $this->_getStoreId($store),
+                        $identifierType
+        );
         return $product;
     }
 
@@ -101,10 +85,15 @@ class Mage_Checkout_Model_Api_Resource_Product extends Mage_Checkout_Model_Api_R
      * @return Mage_Sales_Model_Quote_Item
      * @throw Mage_Core_Exception
      */
-    protected function _getQuoteItemByProduct(Mage_Sales_Model_Quote $quote, Mage_Catalog_Model_Product $product, Varien_Object $requestInfo)
+    protected function _getQuoteItemByProduct(Mage_Sales_Model_Quote $quote,
+                            Mage_Catalog_Model_Product $product,
+                            Varien_Object $requestInfo)
     {
         $cartCandidates = $product->getTypeInstance(true)
-            ->prepareForCartAdvanced($requestInfo, $product, Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL);
+                        ->prepareForCartAdvanced($requestInfo,
+                                $product,
+                                Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
+        );
 
         /**
          * Error message
@@ -129,11 +118,11 @@ class Mage_Checkout_Model_Api_Resource_Product extends Mage_Checkout_Model_Api_R
 
             $item = $quote->getItemByProduct($candidate);
         }
-        
+
         if (is_null($item)) {
             $item = Mage::getModel("sales/quote_item");
         }
-        
+
         return $item;
     }
 }
