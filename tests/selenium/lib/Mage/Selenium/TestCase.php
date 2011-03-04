@@ -289,9 +289,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function clickButton($button, $waitForPageToLoad = true)
     {
         $buttonLocator = $this->_testConfig->getUimapValue($this->_area, $this->_currentPage.'/uimap/buttons/'.$button);
-        if($buttonLocator !== false)
+        if(!empty($buttonLocator))
         {
-            $this->click($buttonLocator);
+            $this->click('//'.$buttonLocator);
             if($waitForPageToLoad) $this->waitForPageToLoad(self::timeoutPeriod);
         }
         return $this;
