@@ -65,6 +65,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_uid = null;
 
     /**
+     * Uimap helper instance
+     *
+     * @var Mage_Selenium_UimapHelper
+     */
+    protected $_uimapHelper = null;
+
+    /**
      * Page helper instance
      *
      * @var Mage_Selenium_Helper_Page
@@ -108,6 +115,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_sutHelper = $this->_testConfig->getSutHelper();
         $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_sutHelper);
         $this->_uid = $this->_testConfig->getUidHelper();
+        $this->_uimapHelper = $this->_testConfig->getUimapHelper();
         parent::__construct($name, $data, $dataName, $browser);
         $this->setArea('frontend');
     }
@@ -291,6 +299,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $formData = $this->_getFormData($url);
         if (isset($formData['fields'])) {
             $baseXpath = (isset($formData['xpath'])) ? '//' . $formData['xpath'] : '';
+            if (!is_array($data)) {
+                // @TODO throw some exception
+                return $this;
+            }
             foreach ($data as $field => $value) {
                 if (isset($formData['fields'][$field]))
                 $this->type($baseXpath . '//' . $formData['fields'][$field], $value);
