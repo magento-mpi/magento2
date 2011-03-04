@@ -1,0 +1,1107 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Mage_Selenium_TestConfiguration</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Mage_Selenium_TestConfiguration</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Test run configuration</p>
+	<ul class="tags">
+				<li><span class="field">license:</span> <a href="http://opensource.org/licenses/osl-3.0.php">Open Software License (OSL 3.0)</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_lib---Mage---Selenium---TestConfiguration.php.html">/lib/Mage/Selenium/TestConfiguration.php</a> (line <span class="field">36</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																				<div class="var-title">
+					static <span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+					<a href="#$instance" title="details" class="var-name">$instance</a>
+				</div>
+																																																																																																												<div class="var-title">
+					<span class="var-type">PHPUnit_Extensions_SeleniumTestCase_Driver</span>
+					<a href="#$driver" title="details" class="var-name">$driver</a>
+				</div>
+																								<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$_configData" title="details" class="var-name">$_configData</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_DataGenerator.html">Mage_Selenium_DataGenerator</a></span>
+					<a href="#$_dataGenerator" title="details" class="var-name">$_dataGenerator</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_DataHelper.html">Mage_Selenium_DataHelper</a></span>
+					<a href="#$_dataHelper" title="details" class="var-name">$_dataHelper</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array[int]PHPUnit_Extensions_SeleniumTestCase_Driver</span>
+					<a href="#$_drivers" title="details" class="var-name">$_drivers</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_FileHelper.html">Mage_Selenium_FileHelper</a></span>
+					<a href="#$_fileHelper" title="details" class="var-name">$_fileHelper</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_PageHelper.html">Mage_Selenium_PageHelper</a></span>
+					<a href="#$_pageHelper" title="details" class="var-name">$_pageHelper</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_SutHelper.html">Mage_Selenium_SutHelper</a></span>
+					<a href="#$_sutHelper" title="details" class="var-name">$_sutHelper</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$_testData" title="details" class="var-name">$_testData</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_Uid.html">Mage_Selenium_Uid</a></span>
+					<a href="#$_uidHelper" title="details" class="var-name">$_uidHelper</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$_uimapData" title="details" class="var-name">$_uimapData</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_UimapHelper.html">Mage_Selenium_UimapHelper</a></span>
+					<a href="#$_uimapHelper" title="details" class="var-name">$_uimapHelper</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																				<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#initInstance" title="details" class="method-name">initInstance</a>
+										()
+									</div>
+																																																																																
+												<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getConfigValue" title="details" class="method-name">getConfigValue</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span> = <span class="var-default">''</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_DataGenerator.html">Mage_Selenium_DataGenerator</a></span>
+										<a href="#getDataGenerator" title="details" class="method-name">getDataGenerator</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_DataHelper.html">Mage_Selenium_DataHelper</a></span>
+										<a href="#getDataHelper" title="details" class="method-name">getDataHelper</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array|string</span>
+										<a href="#getDataValue" title="details" class="method-name">getDataValue</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span> = <span class="var-default">''</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_FileHelper.html">Mage_Selenium_FileHelper</a></span>
+										<a href="#getFileHelper" title="details" class="method-name">getFileHelper</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_PageHelper.html">Mage_Selenium_PageHelper</a></span>
+										<a href="#getPageHelper" title="details" class="method-name">getPageHelper</a>
+											([<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestCase.html">Mage_Selenium_TestCase</a></span>&nbsp;<span class="var-name">$testCase</span> = <span class="var-default">null</span>], [<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_SutHelper.html">Mage_Selenium_SutHelper</a></span>&nbsp;<span class="var-name">$sutHelper</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_FileHelper.html">Mage_Selenium_FileHelper</a></span>
+										<a href="#getSutHelper" title="details" class="method-name">getSutHelper</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_Uid.html">Mage_Selenium_Uid</a></span>
+										<a href="#getUidHelper" title="details" class="method-name">getUidHelper</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_UimapHelper.html">Mage_Selenium_UimapHelper</a></span>
+										<a href="#getUimapHelper" title="details" class="method-name">getUimapHelper</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array|string</span>
+										<a href="#getUimapValue" title="details" class="method-name">getUimapValue</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$area</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span> = <span class="var-default">''</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+										<a href="#init" title="details" class="method-name">init</a>
+										()
+									</div>
+																								<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+										<a href="#_addDriverConnection" title="details" class="method-name">_addDriverConnection</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$connectionConfig</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array|string</span>
+										<a href="#_descend" title="details" class="method-name">_descend</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$config</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+										<a href="#_initConfig" title="details" class="method-name">_initConfig</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+										<a href="#_initDrivers" title="details" class="method-name">_initDrivers</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+										<a href="#_initTestData" title="details" class="method-name">_initTestData</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+										<a href="#_initUimaps" title="details" class="method-name">_initUimaps</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+										<a href="#_loadConfigData" title="details" class="method-name">_loadConfigData</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+										<a href="#_loadTestData" title="details" class="method-name">_loadTestData</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+										<a href="#_loadUimapData" title="details" class="method-name">_loadUimapData</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$area</span>)
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$instance" id="$instance"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			static <span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+			<span class="var-name">$instance</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">106</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Confiration object instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$driver" id="$driver"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">PHPUnit_Extensions_SeleniumTestCase_Driver</span>
+			<span class="var-name">$driver</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">99</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Current browser connection</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_configData" id="$_configData"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$_configData</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">127</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Configuration data</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_dataGenerator" id="$_dataGenerator"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_DataGenerator.html">Mage_Selenium_DataGenerator</a></span>
+			<span class="var-name">$_dataGenerator</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">51</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Data generator helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_dataHelper" id="$_dataHelper"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_DataHelper.html">Mage_Selenium_DataHelper</a></span>
+			<span class="var-name">$_dataHelper</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">44</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Data helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_drivers" id="$_drivers"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array[int]PHPUnit_Extensions_SeleniumTestCase_Driver</span>
+			<span class="var-name">$_drivers</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">92</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initialized browsers connections</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_fileHelper" id="$_fileHelper"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_FileHelper.html">Mage_Selenium_FileHelper</a></span>
+			<span class="var-name">$_fileHelper</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">65</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">File helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_pageHelper" id="$_pageHelper"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_PageHelper.html">Mage_Selenium_PageHelper</a></span>
+			<span class="var-name">$_pageHelper</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">58</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Page helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_sutHelper" id="$_sutHelper"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_SutHelper.html">Mage_Selenium_SutHelper</a></span>
+			<span class="var-name">$_sutHelper</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">72</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">SUT helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_testData" id="$_testData"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$_testData</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">113</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Test data</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_uidHelper" id="$_uidHelper"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_Uid.html">Mage_Selenium_Uid</a></span>
+			<span class="var-name">$_uidHelper</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">79</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Uid helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_uimapData" id="$_uimapData"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$_uimapData</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">120</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Uimap data</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_uimapHelper" id="$_uimapHelper"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_UimapHelper.html">Mage_Selenium_UimapHelper</a></span>
+			<span class="var-name">$_uimapHelper</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">86</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Uimap helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodinitInstance" id="initInstance"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method initInstance</span> (line <span class="line-number">139</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initializes test configuration</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">void</span>
+		<span class="method-name">
+			initInstance
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+
+<a name="methodgetConfigValue" id="getConfigValue"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getConfigValue</span> (line <span class="line-number">334</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve value from configuration</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getConfigValue
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span> = <span class="var-default">''</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$path</span><span class="var-description">: - xpath-like path to config value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDataGenerator" id="getDataGenerator"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDataGenerator</span> (line <span class="line-number">201</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve data generator helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_DataGenerator.html">Mage_Selenium_DataGenerator</a></span>
+		<span class="method-name">
+			getDataGenerator
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetDataHelper" id="getDataHelper"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDataHelper</span> (line <span class="line-number">214</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve data helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_DataHelper.html">Mage_Selenium_DataHelper</a></span>
+		<span class="method-name">
+			getDataHelper
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetDataValue" id="getDataValue"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDataValue</span> (line <span class="line-number">345</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve value from data configuration by path</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array|string</span>
+		<span class="method-name">
+			getDataValue
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span> = <span class="var-default">''</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$path</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetFileHelper" id="getFileHelper"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getFileHelper</span> (line <span class="line-number">167</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve file helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_FileHelper.html">Mage_Selenium_FileHelper</a></span>
+		<span class="method-name">
+			getFileHelper
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetPageHelper" id="getPageHelper"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPageHelper</span> (line <span class="line-number">182</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve page helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_PageHelper.html">Mage_Selenium_PageHelper</a></span>
+		<span class="method-name">
+			getPageHelper
+		</span>
+					([<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestCase.html">Mage_Selenium_TestCase</a></span>&nbsp;<span class="var-name">$testCase</span> = <span class="var-default">null</span>], [<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_SutHelper.html">Mage_Selenium_SutHelper</a></span>&nbsp;<span class="var-name">$sutHelper</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestCase.html">Mage_Selenium_TestCase</a></span>
+				<span class="var-name">$testCase</span>			</li>
+					<li>
+				<span class="var-type"><a href="../../selenium/Mage_Selenium/Mage_Selenium_SutHelper.html">Mage_Selenium_SutHelper</a></span>
+				<span class="var-name">$sutHelper</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSutHelper" id="getSutHelper"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSutHelper</span> (line <span class="line-number">227</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve SUT helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_FileHelper.html">Mage_Selenium_FileHelper</a></span>
+		<span class="method-name">
+			getSutHelper
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetUidHelper" id="getUidHelper"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getUidHelper</span> (line <span class="line-number">240</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve uid helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_Uid.html">Mage_Selenium_Uid</a></span>
+		<span class="method-name">
+			getUidHelper
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetUimapHelper" id="getUimapHelper"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getUimapHelper</span> (line <span class="line-number">253</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve uimap helper instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_UimapHelper.html">Mage_Selenium_UimapHelper</a></span>
+		<span class="method-name">
+			getUimapHelper
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetUimapValue" id="getUimapValue"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getUimapValue</span> (line <span class="line-number">357</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retrieve value from uimap data configuration by path</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array|string</span>
+		<span class="method-name">
+			getUimapValue
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$area</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span> = <span class="var-default">''</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$area</span><span class="var-description">: Application area ('frontend'|'admin')</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$path</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodinit" id="init"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">init</span> (line <span class="line-number">153</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initializes test configuration instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+		<span class="method-name">
+			init
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_addDriverConnection" id="_addDriverConnection"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_addDriverConnection</span> (line <span class="line-number">315</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initializes new driver connection</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+		<span class="method-name">
+			_addDriverConnection
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$connectionConfig</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$connectionConfig</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_descend" id="_descend"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_descend</span> (line <span class="line-number">370</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get node|value by path</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array|string</span>
+		<span class="method-name">
+			_descend
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$config</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$config</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$path</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$data</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_initConfig" id="_initConfig"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_initConfig</span> (line <span class="line-number">266</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initializes configuration</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+		<span class="method-name">
+			_initConfig
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_initDrivers" id="_initDrivers"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_initDrivers</span> (line <span class="line-number">300</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initializes all driver connections from configuration</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+		<span class="method-name">
+			_initDrivers
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_initTestData" id="_initTestData"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_initTestData</span> (line <span class="line-number">277</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initializes test data from default location</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+		<span class="method-name">
+			_initTestData
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_initUimaps" id="_initUimaps"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_initUimaps</span> (line <span class="line-number">288</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initializes uimaps</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+		<span class="method-name">
+			_initUimaps
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_loadConfigData" id="_loadConfigData"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_loadConfigData</span> (line <span class="line-number">418</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Load configuration data</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+		<span class="method-name">
+			_loadConfigData
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_loadTestData" id="_loadTestData"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_loadTestData</span> (line <span class="line-number">391</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Load and merge data files</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+		<span class="method-name">
+			_loadTestData
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_loadUimapData" id="_loadUimapData"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_loadUimapData</span> (line <span class="line-number">405</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Load and merge data files</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../../selenium/Mage_Selenium/Mage_Selenium_TestConfiguration.html">Mage_Selenium_TestConfiguration</a></span>
+		<span class="method-name">
+			_loadUimapData
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$area</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$area</span><span class="var-description">: 'admin'|'frontend'</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 03 Mar 2011 20:33:04 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
