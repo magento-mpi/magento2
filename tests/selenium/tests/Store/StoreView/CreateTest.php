@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Test creation new store view
  *
  * @package     selenium
  * @subpackage  tests
@@ -37,13 +37,12 @@
 class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
 
     /**
-     * Navigate to System -> Manage Stores
+     * Log in to Backend and Navigate to System -> Manage Stores
      */
     protected function assertPreConditions()
     {
         $this->assertTrue($this->loginAdminUser());
-        $this->assertTrue($this->admin('dashboard'));
-        $this->assertTrue($this->navigated('manage_stores'));
+        $this->assertTrue($this->navigate('manage_stores'));
     }
 
     public function test_Navigation()
@@ -60,103 +59,143 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
                 'There is no "Reset" button on the page');
     }
 
+    /**
+     * Create Store View. Fill in only reqired fields.
+     * 1. Click 'Add Store View'
+     * 2. Fill in reqired fields.
+     * 3. Click 'Save'.
+     * Expected result:
+     * Store View is created. Success Message is displayed
+     */
     public function test_WithRequiredFieldsOnly()
     {
         $this->clickButton('create_store_view');
-        $this->fillForm($this->loadData('generic_store_view', null, 'store_view_code'));
+        $this->fillForm($this->loadData('generic_store_view', NULL, NULL));
         $this->clickButton('save_store_view');
         $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
         $this->assertTrue($this->navigated('manage_stores'),
                 'After successful creation store view should be redirected to Manage Stores page');
+        $this->assertTrue($this->successMessage('success_saved_store_view'),
+                'No success message is displayed');
     }
 
+    /**
+     * Create Store View. Fill in all reqired fields except the field "Name" .
+     * 1. Click 'Add Store View'
+     * 2. Fill in fields.
+     * 3. Click 'Save'.
+     * Expected result:
+     * Store View is not created. Error Message is displayed
+     */
     public function test_WithRequiredFieldsEmpty_EmptyName()
     {
         $this->clickButton('create_store_view');
         $this->fillForm($this->loadData('generic_store_view',
                         array('store_view_name' => null), 'store_view_code'));
         $this->clickButton('save_store_view');
-        $this->assertTrue($this->errorMessage(), 'No error message is displayed');
+        $this->assertTrue($this->errorMessage('empty_reqired_field'),
+                'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
-        $this->assertFalse($this->navigated('manage_stores'),
-                "After unsuccessful creation store view doesn't have to be redirected to Manage Stores page");
     }
 
+    /**
+     * Create Store View. Fill in all reqired fields  except the field "Code".
+     * 1. Click 'Add Store View'
+     * 2. Fill in fields.
+     * 3. Click 'Save'.
+     * Expected result:
+     * Store View is not created. Error Message is displayed
+     */
     public function test_WithRequiredFieldsEmpty_EmptyCode()
     {
         $this->clickButton('create_store_view');
         $this->fillForm($this->loadData('generic_store_view',
-                        array('store_view_code' => null), 'store_view_code'));
+                        array('store_view_code' => null), NULL));
         $this->clickButton('save_store_view');
-        $this->assertTrue($this->errorMessage(), 'No error message is displayed');
+        $this->assertTrue($this->errorMessage('empty_reqired_field'),
+                'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
-        $this->assertFalse($this->navigated('manage_stores'),
-                "After unsuccessful creation store view doesn't have to be redirected to Manage Stores page");
     }
 
+    /**
+     * Create Store View. Fill in only reqired fields. Use max long values for fields 'Name' and 'Code'
+     * 1. Click 'Add Store View'
+     * 2. Fill in fields.
+     * 3. Click 'Save'.
+     * Expected result:
+     * Store View is created. Success Message is displayed
+     */
     public function test_WithLongValues()
     {
         $this->clickButton('create_store_view');
-        $this->fillForm($this->loadData('generic_store_view',
-                        array(
-                            'store_view_name' => $this->generate('string', 255, ':alnum:'),
-                            'store_view_code' => $this->generate('string', 32, array(':lower:', ':digit:'))
-                        ),
-                        'store_view_code'));
-        $this->clickButton('save_store_view');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
-        $this->assertTrue($this->navigated('manage_stores'),
-                'After successful creation store view should be redirected to Manage Stores page');
-    }
-
-    public function test_WithLongValues_MoreThanMax()
-    {
-        $this->clickButton('create_store_view');
         $longValues = array(
-            'store_view_name' => $this->generate('string', 256, ':alnum:'),
-            'store_view_code' => $this->generate('string', 33, array(':lower:', ':digit:')),
+            'store_view_name' => $this->generate('string', 255, ':alnum:'),
+            'store_view_code' => $this->generate('string', 32, array(':lower:', ':digit:'))
         );
-        $this->fillForm($this->loadData('generic_store_view', $longValues, 'store_view_code'));
+        $this->fillForm($this->loadData('generic_store_view', $longValues, NULL));
         $this->clickButton('save_store_view');
         $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
         $this->assertTrue($this->navigated('manage_stores'),
                 'After successful creation store view should be redirected to Manage Stores page');
-        $this->searchAndOpen($longValues);
-        $xpathName = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset/store_view_info/fields/store_view_name');
-        $xpathCode = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset/store_view_info/fields/store_view_name');
-        $this->assertEquals(strlen($this->getValue($xpathName)), 255);
-        $this->assertEquals(strlen($this->getValue($xpathCode)), 32);
+        $this->assertTrue($this->successMessage('success_saved_store_view'),
+                'No success message is displayed');
+        // @TODO
+        //$this->searchAndOpen($longValues);
+        //$xpathName = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset_store_view_info/fields/store_view_name');
+        //$xpathCode = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset_store_view_info/fields/store_view_code');
+        //$this->assertEquals(strlen($this->getValue($xpathName)), 255);
+        //$this->assertEquals(strlen($this->getValue($xpathCode)), 32);
     }
 
+    /**
+     * Create Store View. Fill in field 'Name' by using special characters.
+     * 1. Click 'Add Store View'
+     * 2. Fill in fields.
+     * 3. Click 'Save'.
+     * Expected result:
+     * Store View is created. Success Message is displayed
+     */
     public function test_WithSpecialCharacters_InName()
     {
         $this->clickButton('create_store_view');
         $this->fillForm($this->loadData('generic_store_view',
-                        array('store_view_name' => $this->generate('string', 255, ':punct:')),
+                        array('store_view_name' => $this->generate('string', 32, ':punct:')),
                         'store_view_code'));
         $this->clickButton('save_store_view');
         $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_store_view'),
+                'No success message is displayed');
         $this->assertTrue($this->navigated('manage_stores'),
                 'After successful creation store view should be redirected to Manage Stores page');
     }
 
+    /**
+     * Create Store View.  Fill in field 'Code' by using special characters.
+     * 1. Click 'Add Store View'
+     * 2. Fill in fields.
+     * 3. Click 'Save'.
+     * Expected result:
+     * Store View is not created. Error Message is displayed
+     */
     public function test_WithSpecialCharacters_InCode()
     {
         $this->clickButton('create_store_view');
         $this->fillForm($this->loadData('generic_store_view',
                         array('store_view_name' => $this->generate('string', 32, ':punct:')), NULL));
         $this->clickButton('save_store_view');
-        $this->assertTrue($this->errorMessage(), 'No error message is displayed');
+        $this->assertTrue($this->errorMessage('wrong_store_view_code'),
+                'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
-        $this->assertFalse($this->navigated('manage_stores'),
-                "After unsuccessful creation store view doesn't have to be redirected to Manage Stores page");
     }
 
     /**
+     * Create Store View.  Fill in field 'Code' by using wrong values.
+     * 1. Click 'Add Store View'
+     * 2. Fill in fields.
+     * 3. Click 'Save'.
+     * Expected result:
+     * Store View is not created. Error Message is displayed
+     *
      * @dataProvider data_InvalidCode
      */
     public function test_WithInvalidCode($invalidCode)
@@ -164,10 +203,9 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         $this->clickButton('create_store_view');
         $this->fillForm($this->loadData('generic_store_view', $invalidCode, null));
         $this->clickButton('save_store_view');
-        $this->assertTrue($this->errorMessage(), 'No error message is displayed');
+        $this->assertTrue($this->errorMessage('wrong_store_view_code'),
+                'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
-        $this->assertFalse($this->navigated('manage_stores'),
-                "After unsuccessful creation store view doesn't have to be redirected to Manage Stores page");
     }
 
     public function data_InvalidCode()
@@ -180,6 +218,13 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
     }
 
     /**
+     * Create Store View.  Fill in field 'Code' by using code that already exist.
+     * 1. Click 'Add Store View'
+     * 2. Fill in fields.
+     * 3. Click 'Save'.
+     * Expected result:
+     * Store View is not created. Error Message is displayed
+     *
      * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithCodeThatAlreadyExists()
@@ -187,10 +232,9 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         $this->clickButton('create_store_view');
         $this->fillForm($this->loadData('generic_store_view', NULL, NULL));
         $this->clickButton('save_store_view');
-        $this->assertTrue($this->errorMessage(), 'No error message is displayed');
+        $this->assertTrue($this->errorMessage('store_view_code_exist'),
+                'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
-        $this->assertFalse($this->navigated('manage_stores'),
-                "After unsuccessful creation store view doesn't have to be redirected to Manage Stores page");
     }
 
 }
