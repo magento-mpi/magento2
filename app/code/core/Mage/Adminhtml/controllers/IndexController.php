@@ -47,7 +47,8 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     {
         $session = Mage::getSingleton('admin/session');
         $url = $session->getUser()->getStartupPageUrl();
-        if ($session->isFirstPageAfterLogin()) { // retain the "first page after login" value in session (before redirect)
+        if ($session->isFirstPageAfterLogin()) {
+            // retain the "first page after login" value in session (before redirect)
             $session->setIsFirstPageAfterLogin(true);
         }
         $this->_redirect($url);
@@ -118,7 +119,11 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                         continue;
                     }
                     $searchInstance = new $className();
-                    $results = $searchInstance->setStart($start)->setLimit($limit)->setQuery($query)->load()->getResults();
+                    $results = $searchInstance->setStart($start)
+                                    ->setLimit($limit)
+                                    ->setQuery($query)
+                                    ->load()
+                                    ->getResults();
                     $items = array_merge_recursive($items, $results);
                 }
                 $totalCount = sizeof($items);
@@ -190,7 +195,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                 foreach ($collection as $item) {
                     $user = Mage::getModel('admin/user')->load($item->getId());
                     if ($user->getId()) {
-                        $pass = substr(md5(uniqid(rand(), true)), 0, 7);
+                        $pass = Mage::helper('core')->getRandomString(7);
                         $user->setPassword($pass);
                         $user->save();
                         $user->setPlainPassword($pass);

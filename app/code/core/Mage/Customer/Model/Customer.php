@@ -335,7 +335,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function generatePassword($length = 6)
     {
-        return substr(md5(uniqid(rand(), true)), 0, $length);
+        return Mage::helper('core')->getRandomString($length);
     }
 
     /**
