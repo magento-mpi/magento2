@@ -125,8 +125,8 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->navigated('manage_stores'),
                 'After successful creation store view should be redirected to Manage Stores page');
         $this->searchAndOpen($longValues);
-        $xpathName = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset_store_view_info/fields/store_view_name');
-        $xpathCode = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset_store_view_info/fields/store_view_name');
+        $xpathName = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset/store_view_info/fields/store_view_name');
+        $xpathCode = $this->_getUimapData('admin/edit_store_view/uimap/form/fieldset/store_view_info/fields/store_view_name');
         $this->assertEquals(strlen($this->getValue($xpathName)), 255);
         $this->assertEquals(strlen($this->getValue($xpathCode)), 32);
     }

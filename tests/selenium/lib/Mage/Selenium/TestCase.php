@@ -93,11 +93,25 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_area = '';
 
     /**
+     * Current page
+     *
+     * @var string
+     */
+    protected $_currentPage = '';
+
+    /**
      * Configuration object instance
      *
      * @var Mage_Selenium_TestConfiguration
      */
     protected $_testConfig = null;
+
+    /**
+     * Timeout const
+     *
+     * @var int
+     */
+    const timeoutPeriod = 30000;
 
     /**
      * Constructor
@@ -217,6 +231,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->open($this->getPageUrl($page));
         $this->_pageHelper->validateCurrentPage();
+        $this->_currentPage = $page;
         return $this;
     }
 
@@ -248,6 +263,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Return ID of current page
+     *
+     * @param string $page Page identifier
+     * @return string
+     */
+    public function getCurrentPage($page)
+    {
+        return $this->_currentPage;
+    }
+
+    /**
      * Set current area
      *
      * @param string $area Area: 'admin' or 'frontend'
@@ -260,9 +286,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this;
     }
 
-    public function clickButton($button)
+    public function clickButton($button, $waitForPageToLoad = true)
     {
-        // @TODO
+        $buttonLocator = $this->_testConfig->getUimapValue($this->_area, $this->_currentPage.'/uimap/buttons/'.$button);
+        if($buttonLocator !== false)
+        {
+            $this->click($buttonLocator);
+            if($waitForPageToLoad) $this->waitForPageToLoad(self::timeoutPeriod);
+        }
         return $this;
     }
 
@@ -1054,7 +1085,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $url the URL to open; may be relative or absolute
      */
-    public function open($url)
+    protected function open($url)
     {
         parent::open($url);
     }
@@ -1074,7 +1105,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $url the URL to open, which can be blank
      * @param string $windowID the JavaScript window ID of the window to select
      */
-    public function openWindow($url, $windowID)
+    protected function openWindow($url, $windowID)
     {
         parent::openWindow($url, $windowID);
     }

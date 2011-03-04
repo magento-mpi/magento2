@@ -30,5 +30,6 @@
 <phpunit bootstrap="./bootstrap.php" colors="true" syntaxCheck="true">
     <testsuite name="Mage Selenium Unit Tests">
         <directory>./tests</directory>
+	<!--<directory suffix="DataGeneratorTest.php">./tests/Mage/Selenium</directory>-->
     </testsuite>
 </phpunit>

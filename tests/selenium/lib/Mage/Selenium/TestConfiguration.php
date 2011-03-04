@@ -137,7 +137,7 @@ class Mage_Selenium_TestConfiguration
      * Destructor
      */
     public function  __destruct() {
-        if($this->_drivers)
+        if($this->getConfigValue('browsers/default/doNotKillBrowsers') != 'true' && $this->_drivers)
         {
             foreach($this->_drivers as $driver)
             {
