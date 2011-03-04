@@ -51,20 +51,6 @@ class Mage_Core_Model_File_Validator_Extension_Notprotected extends Zend_Validat
     protected $_protectedFileExtensions = array();
 
     /**
-     * Helper
-     *
-     * @var Mage_Catalog_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * Helper class path
-     *
-     * @var string
-     */
-    protected $_helperClassPath = 'core';
-
-    /**
      * Construct
      */
     public function __construct()
@@ -81,9 +67,11 @@ class Mage_Core_Model_File_Validator_Extension_Notprotected extends Zend_Validat
     protected function _initErrorMessages()
     {
         if (!$this->_messageTemplates) {
+            /** @var $helper Mage_Core_Helper_Data */
+            $helper = Mage::helper('core');
             $this->_messageTemplates = array(
                 self::PROTECTED_EXTENSION =>
-                    $this->_getHelper()->__('File with an extension "%value%" is protected and cannot be uploaded'),
+                    $helper->__('File with an extension "%value%" is protected and cannot be uploaded'),
             );
         }
         return $this;
@@ -97,7 +85,9 @@ class Mage_Core_Model_File_Validator_Extension_Notprotected extends Zend_Validat
     protected function _initProtectedFileExtensions()
     {
         if (!$this->_protectedFileExtensions) {
-            $extensions = $this->_getHelper()->getProtectedFileExtensions();
+            /** @var $helper Mage_Core_Helper_Data */
+            $helper = Mage::helper('core');
+            $extensions = $helper->getProtectedFileExtensions();
             if (is_string($extensions)) {
                 $extensions = explode(',', $extensions);
             }
@@ -128,18 +118,5 @@ class Mage_Core_Model_File_Validator_Extension_Notprotected extends Zend_Validat
         }
 
         return true;
-    }
-
-    /**
-     * Get helper
-     *
-     * @return Mage_Core_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        if (null === $this->_helper) {
-            $this->_helper = Mage::helper($this->_helperClassPath);
-        }
-        return $this->_helper;
     }
 }

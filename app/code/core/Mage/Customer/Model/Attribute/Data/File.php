@@ -124,7 +124,8 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
         /**
          * Check protected file extension
          */
-        $validator = $this->_getValidatorNotProtectedExtensions();
+        /** @var $validator Mage_Core_Model_File_Validator_Extension_Notprotected */
+        $validator = Mage::getSingleton('core/file_validator_extension_notprotected');
         if (!$validator->isValid($extension)) {
             return $validator->getMessages();
         }
@@ -280,18 +281,5 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
         }
 
         return $output;
-    }
-
-    /**
-     * Get validator for check not protected extension
-     *
-     * @return Mage_Core_Model_File_Validator_Extension_Notprotected
-     */
-    protected function _getValidatorNotProtectedExtensions()
-    {
-        if (null === $this->_validatorNotProtectedExtensions) {
-            $this->_validatorNotProtectedExtensions = Mage::getModel('core/file_validator_extension_notprotected');
-        }
-        return $this->_validatorNotProtectedExtensions;
     }
 }

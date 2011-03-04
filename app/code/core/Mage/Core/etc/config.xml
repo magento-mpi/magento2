@@ -373,11 +373,11 @@
                     <htaccess>php</htaccess>
                     <!-- Java script file extension -->
                     <jsp>jsp</jsp>
-                    <!-- Pearl script file extension -->
+                    <!-- Perl script file extension -->
                     <pl>pl</pl>
                     <!-- Python script file extension -->
                     <py>py</py>
-                    <!-- C Sharp script file extension -->
+                    <!-- Active Server Page script file extension -->
                     <asp>asp</asp>
                     <!-- UNIX command prompt file extension -->
                     <sh>sh</sh>
