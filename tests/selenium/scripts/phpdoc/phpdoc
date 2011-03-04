@@ -1,0 +1,29 @@
+#!/bin/sh
+if [ -z "$PHP" ]; then
+   PHP=`which php`
+fi
+(exec $PHP -C -q -d output_buffering=1 "$0" "$@") 2>/dev/null
+if [ "$?" -ne "0" ]; then
+	echo "FAILED:  Bad environment variable \$PHP (set to \"$PHP\")"
+	exit 1
+fi
+exit 0
+<?php
+@ob_end_clean(); // make output from autofind php code disapear
+
+$GLOBALS['_phpDocumentor_install_dir'] = dirname(__FILE__);
+$phpDocumentor_dir = dirname(__FILE__) . '/PhpDocumentor/phpDocumentor';
+$classes_dir       = dirname(__FILE__) . '/classes';
+
+require_once($phpDocumentor_dir . "/Setup.inc.php");
+require_once($classes_dir . '/phpDocumentor_setup_custom.php');
+require_once($classes_dir . '/customParserTag.php');
+
+$phpdoc = new phpDocumentor_setup_custom($classes_dir . '\tags');
+
+$GLOBALS['_phpDocumentor_install_dir'] = dirname(__FILE__) . '/PhpDocumentor';
+
+$phpdoc->readCommandLineSettings();
+$phpdoc->setupConverters();
+$phpdoc->createDocs();
+?>
