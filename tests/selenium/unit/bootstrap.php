@@ -37,5 +37,6 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+require_once '../lib/functions.php';
 require_once './Mage/Autoloader.php';
 Mage_Autoloader::register();
