@@ -70,7 +70,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
         $_suitHelper->setArea('admin');
         $_pageHelper->setSutHelper($_suitHelper);
 
-        $this->assertStringEndsWith('/control/permissions_user/', $_pageHelper->getPageUrl('manage_users'));
+        $this->assertStringEndsWith('/control/permissions_user/', $_pageHelper->getPageUrl('manage_admin_users'));
         //$this->assertFalse($_pageHelper->getPageUrl(''));
     }
 
@@ -82,7 +82,7 @@ class Mage_Selenium_Helper_PageTest extends Mage_PHPUnit_TestCase
     public function test_getPageUrlUninitializedException()
     {
         $_pageHelper = new Mage_Selenium_Helper_Page($this->_config);
-        $this->assertStringEndsWith('/control/permissions_user/', $_pageHelper->getPageUrl('manage_users'));
+        $this->assertStringEndsWith('/control/permissions_user/', $_pageHelper->getPageUrl('manage_admin_users'));
     }
 
     /**
