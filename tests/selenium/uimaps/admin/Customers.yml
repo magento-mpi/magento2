@@ -44,7 +44,7 @@ manage_customers:
               reset_filter: button[span='Reset Filter']
               search: button[span='Search']
     buttons:
-      add_new_customer: //button[span='Add New Customer']
+      add_new_customer: button[span='Add New Customer']
     messages:
       success_save_customer: div[@id='messages']//li[span='The customer has been saved.']
       success_delete_customer: div[@id='messages']//li[span='The customer has been deleted.']

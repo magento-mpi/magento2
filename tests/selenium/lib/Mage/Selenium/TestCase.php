@@ -265,12 +265,50 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Return ID of current page
      *
-     * @param string $page Page identifier
      * @return string
      */
-    public function getCurrentPage($page)
+    public function getCurrentPage()
     {
         return $this->_currentPage;
+    }
+
+    /**
+     * Find PageId in UIMap in current area using full page URL
+     * @param string Full URL to page
+     * @return string|boolean
+     */
+    protected function findCurrentPageFromUrl($url)
+    {
+        $pageId = false;
+        $baseUrl = $this->_sutHelper->getBaseUrl();
+        $url = $this->clearPageUrl($url);
+
+        if(strpos($url, $baseUrl) !== false) {
+            $mca_url = substr($url, strlen($baseUrl));
+            $pageId = $this->_pageHelper->getPageByMca($mca_url);
+        }
+
+        return $pageId;
+    }
+
+    /**
+     * Clear page URL
+     * @param string PageURL
+     * @return string
+     */
+    protected function clearPageUrl($url)
+    {
+        return str_replace('/index.php', '/', str_replace('index.php/', '', $url));
+    }
+
+    /**
+     * Get current area
+     *
+     * @return string
+     */
+    public function getArea()
+    {
+        return $this->_area;
     }
 
     /**
@@ -286,13 +324,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this;
     }
 
-    public function clickButton($button, $waitForPageToLoad = true)
+    /**
+     * Click on button
+     * @param string $button
+     * @param boolean $willChangePage
+     * @return Mage_Selenium_TestCase
+     */
+    public function clickButton($button, $willChangePage = true)
     {
-        $buttonLocator = $this->_testConfig->getUimapValue($this->_area, $this->_currentPage.'/uimap/buttons/'.$button);
+        $buttonLocator = $this->_getUimapData($this->_currentPage.'/uimap/buttons/'.$button);
         if(!empty($buttonLocator))
         {
             $this->click('//'.$buttonLocator);
-            if($waitForPageToLoad) $this->waitForPageToLoad(self::timeoutPeriod);
+            if($willChangePage)
+            {
+                $this->waitForPageToLoad(self::timeoutPeriod);
+                $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
+            }
         }
         return $this;
     }
@@ -326,8 +374,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function fillForm($data)
     {
         // string(62) "http://www.localhost.com/magento-trunk/customer/account/create"
-        $url = trim(preg_replace('~' . $this->_sutHelper->getBaseUrl() . '~', '', $this->getLocation(), 1), '/');
-        $formData = $this->_getFormData($url);
+        $location = $this->clearPageUrl($this->getLocation());
+        $mca = trim(preg_replace('~' . $this->_sutHelper->getBaseUrl() . '~', '', $location, 1), "/");
+
+        $formData = $this->_getFormData($mca);
+
         if (isset($formData['fields'])) {
             $baseXpath = (isset($formData['xpath'])) ? '//' . $formData['xpath'] : '';
             if (!is_array($data)) {
@@ -335,10 +386,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 return $this;
             }
             foreach ($data as $field => $value) {
-                if (isset($formData['fields'][$field]))
-                $this->type($baseXpath . '//' . $formData['fields'][$field], $value);
+                if (isset($formData['fields'][$field])){
+                    $this->type($baseXpath . '//' . $formData['fields'][$field], $value);
+                    echo "\n\n".$baseXpath . '//' . $formData['fields'][$field];
+                }
             }
         }
+
         return $this;
     }
 

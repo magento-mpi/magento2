@@ -105,4 +105,25 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_AbstractHelper
         return $url;
     }
 
+    /**
+     * Convert page MCA to page ID
+     *
+     * @param string page mca
+     * @return string Page identifier
+     */
+    public function getPageByMca($mca)
+    {
+        if( !$this->_sutHelper )
+            throw new Mage_Selenium_Exception("SutHelper hasn't inited yet");
+
+        $pageData = $this->_config->getUimapValue($this->_sutHelper->getArea());
+        foreach($pageData as $pageId => $pageData) {
+            if(isset($pageData['mca']) && $pageData['mca'] == $mca ) {
+                return $pageId;
+            }
+        }
+
+        return false;
+    }
+
 }
