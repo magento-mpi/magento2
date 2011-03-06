@@ -18,7 +18,7 @@ class parserIssueTag extends customParserTag
         $this->value = new parserStringWithInlineTags();
         $this->value->add($id);
 
-        $base_url = rtrim($this->getSettings('issue','issue-baseurl'), '/');
+        $base_url = rtrim($this->getSettings('issue-baseurl'), '/');
 
         if ($base_url) {
             if (false === strpos($base_url, 'http://')) {

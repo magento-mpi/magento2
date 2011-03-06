@@ -18,7 +18,7 @@ class phpDocumentor_setup_custom extends phpDocumentor_setup
         }
 
         $this->setup = new Io;
-        $this->loadCustomTags();
+        $this->_loadCustomTags();
 
         if (!isset($interface) && !isset($_GET['interface']) && !isset($_phpDocumentor_setting))
         {
@@ -77,7 +77,62 @@ class phpDocumentor_setup_custom extends phpDocumentor_setup
         }
     }
 
-    function loadCustomTags()
+    /**
+     * Parse configuration file phpDocumentor.ini
+     */
+    function parseIni()
+    {
+        phpDocumentor_out("Parsing configuration file phpDocumentor.ini...\n");
+        flush();
+        if ('@DATA-DIR@' != '@'.'DATA-DIR@')
+        {
+            $options = phpDocumentor_parse_ini_file(str_replace('\\','/', '@DATA-DIR@/PhpDocumentor') . PATH_DELIMITER . 'phpDocumentor.ini',true);
+            phpDocumentor_out("   (found in " . '@DATA-DIR@/PhpDocumentor' . PATH_DELIMITER . ")...\n");
+        } else {
+            $options = phpDocumentor_parse_ini_file(str_replace('\\','/',$GLOBALS['_phpDocumentor_install_dir']) . PATH_DELIMITER . 'phpDocumentor.ini',true);
+            phpDocumentor_out("   (found in " . $GLOBALS['_phpDocumentor_install_dir'] . PATH_DELIMITER . ")...\n");
+        }
+
+        if (!$options)
+        {
+            print "ERROR: cannot open phpDocumentor.ini in directory " . $GLOBALS['_phpDocumentor_install_dir']."\n";
+            print "-Is phpdoc in either the path or include_path in your php.ini file?";
+            exit;
+        }
+        
+        foreach($options as $var => $values)
+        {
+            if ($var != 'DEBUG')
+            {
+                $GLOBALS[$var] = $values;
+            }
+        }
+
+        phpDocumentor_out("\ndone\n");
+        flush();
+        /** Debug Constant */
+        if (!defined('PHPDOCUMENTOR_DEBUG')) define("PHPDOCUMENTOR_DEBUG",$options['DEBUG']['PHPDOCUMENTOR_DEBUG']);
+        if (!defined('PHPDOCUMENTOR_KILL_WHITESPACE')) define("PHPDOCUMENTOR_KILL_WHITESPACE",$options['DEBUG']['PHPDOCUMENTOR_KILL_WHITESPACE']);
+        $GLOBALS['_phpDocumentor_cvsphpfile_exts'] = $GLOBALS['_phpDocumentor_phpfile_exts'];
+        foreach($GLOBALS['_phpDocumentor_cvsphpfile_exts'] as $key => $val)
+        {
+            $GLOBALS['_phpDocumentor_cvsphpfile_exts'][$key] = "$val,v";
+        }
+        // none of this stuff is used anymore
+        if (isset($GLOBALS['_phpDocumentor_html_allowed']))
+        {
+            $___htmltemp = array_flip($GLOBALS['_phpDocumentor_html_allowed']);
+            $___html1 = array();
+            foreach($___htmltemp as $tag => $trans)
+            {
+                $___html1['<'.$tag.'>'] = htmlentities('<'.$tag.'>');
+                $___html1['</'.$tag.'>'] = htmlentities('</'.$tag.'>');
+            }
+            $GLOBALS['phpDocumentor___html'] = array_flip($___html1);
+        }
+    }
+
+    private function _loadCustomTags()
     {
         if (empty($this->tagsPath)) return;
 
