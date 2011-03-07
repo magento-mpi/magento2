@@ -9,18 +9,29 @@ if [ "$?" -ne "0" ]; then
 fi
 exit 0
 <?php
+/**
+ * @package phpDocumentorCustom
+ */
+
 @ob_end_clean(); // make output from autofind php code disapear
 
+// Redefine $_phpDocumentor_install_dir
+// so we can load phpDocumentor.ini from current folder
 $GLOBALS['_phpDocumentor_install_dir'] = dirname(__FILE__);
+
 $phpDocumentor_dir = dirname(__FILE__) . '/PhpDocumentor/phpDocumentor';
 $classes_dir       = dirname(__FILE__) . '/classes';
 
+// Load custom classes
 require_once($phpDocumentor_dir . "/Setup.inc.php");
-require_once($classes_dir . '/phpDocumentor_setup_custom.php');
-require_once($classes_dir . '/customParserTag.php');
+require_once($classes_dir . '/phpDocumentor_setupCustom.php');
+require_once($classes_dir . '/parserTagCustom.php');
 
-$phpdoc = new phpDocumentor_setup_custom($classes_dir . '\tags');
+// Load settings
+$phpdoc = new phpDocumentor_setupCustom($classes_dir . '\tags');
 
+// Point $_phpDocumentor_install_dir to phpDocumentor subfolder
+// for correct loading of converters
 $GLOBALS['_phpDocumentor_install_dir'] = dirname(__FILE__) . '/PhpDocumentor';
 
 $phpdoc->readCommandLineSettings();

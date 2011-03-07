@@ -1,10 +1,23 @@
 <?php
-
-class phpDocumentor_setup_custom extends phpDocumentor_setup
+/**
+ * Extended Setup class
+ * 
+ * @package phpDocumentorCustom
+ */
+class phpDocumentor_setupCustom extends phpDocumentor_setup
 {
-
+    /**
+     * Path to custom tags classes
+     * @var string
+     */
     private $tagsPath = '';
 
+    /**
+     * Setup constructor
+     * 
+     * @see phpDocumentor_setup::phpDocumentor_setup()
+     * @param string $tags_path Path to custom tags classes
+     */
     function __construct($tags_path = '')
     {
         global $_phpDocumentor_cvsphpfile_exts, $_phpDocumentor_setting;
@@ -17,6 +30,8 @@ class phpDocumentor_setup_custom extends phpDocumentor_setup
             exit;
         }
 
+        // Added:
+        // Load custom tags
         $this->setup = new Io;
         $this->_loadCustomTags();
 
@@ -102,6 +117,8 @@ class phpDocumentor_setup_custom extends phpDocumentor_setup
         
         foreach($options as $var => $values)
         {
+            // Deleted:
+            // Hardcoded config section filter
             if ($var != 'DEBUG')
             {
                 $GLOBALS[$var] = $values;
@@ -132,23 +149,30 @@ class phpDocumentor_setup_custom extends phpDocumentor_setup
         }
     }
 
+    /**
+     * Custom tags loader
+     */
     private function _loadCustomTags()
     {
         if (empty($this->tagsPath)) return;
 
+        // Load all custom tags files
         foreach (glob($this->tagsPath . '/*.php') as $tag_file) {
             require_once($tag_file);
 
             $tag = basename($tag_file, '.php');
             
             if (class_exists($tag)) {
-                $tag_class = new $tag(null, new parserStringWithInlineTags());
+                // Get phpDocOptions array
+                $tag_vars = get_class_vars($tag);
 
-                if (is_array($tag_class->phpDocOptions)) {
+
+                // Merge phpDocOptions with command line parameters array
+                if (is_array($tag_vars['phpDocOptions'])) {
                     $this->setup->phpDocOptions = array_merge(
-                                array_slice($this->setup->phpDocOptions, 0 , count($this->setup->phpDocOptions) - 1),
-                                $tag_class->phpDocOptions,
-                                array_slice($this->setup->phpDocOptions, count($this->setup->phpDocOptions) - 1, 1)
+                                array_slice($this->setup->phpDocOptions, 0, count($this->setup->phpDocOptions) - 1),
+                                $tag_vars['phpDocOptions'],
+                                array_slice($this->setup->phpDocOptions, -1, 1)
                             );
                 }
                 

@@ -1,25 +1,25 @@
 <?php
 /**
- * Issue tag
+ * Testcase tag
  *
  * @package phpDocumentorCustom
  */
-class parserIssueTag extends parserTagCustom
+class parserTestcaseTag extends parserTagCustom
 {
     /**
      * Tag keyword
      * @var string
      */
-    public $keyword = 'issue';
+    public $keyword = 'testcase';
 
     /**
      * Command line options array
      * @var array
      */
     public $phpDocOptions = array(
-        'issue-baseurl' => array(
-            'tag'  => array('--issue-baseurl'),
-            'desc' => 'base url for links generated from @issue tag',
+        'testcase-baseurl' => array(
+            'tag'  => array('--testcase-baseurl'),
+            'desc' => 'base url for links generated from @testcase tag',
             'type' => 'value',
         ),
     );
@@ -30,8 +30,8 @@ class parserIssueTag extends parserTagCustom
      * @param string $keyword
      * @param mixed $value
      */
-    function parserIssueTag($keyword, $value)
+    function parserTestcaseTag($keyword, $value)
     {
-        $this->generateUrl($keyword, $value, 'issue-baseurl');
+        $this->generateUrl($keyword, $value, 'testcase-baseurl');
     }
 }
