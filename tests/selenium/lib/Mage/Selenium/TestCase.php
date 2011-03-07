@@ -35,6 +35,12 @@
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
+    /**
+     * Array of parameters for xpath
+     *
+     * @var array
+     */
+    protected $_parameters = array();
 
     /**
      * Data helper instance
@@ -475,6 +481,57 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this;
     }
 
+     /**
+     * Xpath parameters methods
+     */
+
+    /**
+     * Set Xpath parameter
+     *
+     * @param string $name   Parameter name
+     * @param string $value  Parameter value (null to unset)
+     */
+    public function setParameter($name = null, $value = null)
+    {
+        if (!$name) return false;
+        $key = '%' . $name . '%';
+
+        if (!$value) {
+            unset($this->_parameters[$key]);
+        }
+
+        $this->_parameters[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get Xpath parameter
+     *
+     * @param string $name   Parameter name
+     * @return string
+     */
+     public function getParameter($name = null)
+     {
+        if (!$name) return false;
+        $key = '%' . $name . '%';
+
+        return (!isset($this->_parameters[$key])) ? false : $this->_parameters[$key];
+     }
+
+    /**
+     * Populate string with parameter values
+     *
+     * @param string $string
+     * @return string
+     */
+     public function replaceParameters($string = null)
+     {
+        if (!$string) return false;
+
+        return str_replace(array_keys($this->_parameters), array_values($this->_parameters), $string);
+     }
+     
     /**
      * Selenium driver helper methods
      */
