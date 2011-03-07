@@ -312,6 +312,37 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
+ * Create table 'enterprise_giftregistry/item_option'
+ */
+$table = $installer->getConnection()
+    ->newTable($installer->getTable('enterprise_giftregistry/item_option'))
+    ->addColumn('option_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'identity'  => true,
+        'unsigned'  => true,
+        'nullable'  => false,
+        'primary'   => true,
+        ), 'Option Id')
+    ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        ), 'Item Id')
+    ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        ), 'Product Id')
+    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable'  => false,
+        ), 'Code')
+    ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+        'nullable'  => false,
+        ), 'Value')
+    ->addForeignKey($installer->getFkName('enterprise_giftregistry/item_option', 'item_id', 'enterprise_giftregistry/item', 'item_id'),
+        'item_id', $installer->getTable('enterprise_giftregistry/item'), 'item_id',
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+    ->setComment('Enterprise Gift Registry Item Option Table');
+$installer->getConnection()->createTable($table);
+
+/**
  * Add attributes
  */
 $installer->addAttribute(
