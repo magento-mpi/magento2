@@ -421,16 +421,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $baseXpath = isset($fs['xpath']) ? '//' . $fs['xpath'] : '';
                 foreach ($data as $field => $value) {
                     if (isset($fs['fields'][$field])){
-                        $this->type($baseXpath . '//' . $fs['fields'][$field], $value);
+                        $this->type($this->replaceParameters($baseXpath . '//' . $fs['fields'][$field]), $value);
                         //echo "\n".$baseXpath . '//' . $fs['fields'][$field];
                     } elseif (isset($fs['dropdowns'][$field])){
-                        $this->select($baseXpath . '//' . $fs['dropdowns'][$field], 'regexp:'.$value);
+                        $this->select($this->replaceParameters($baseXpath . '//' . $fs['dropdowns'][$field]), 'regexp:'.$value);
                         //echo "\n".$baseXpath . '//' . $fs['dropdowns'][$field];
                     } elseif (isset($fs['checkboxes'][$field])){
                         if(strtolower($value) == 'yes') {
-                            $this->check($baseXpath . '//' . $fs['checkboxes'][$field]);
+                            $this->check($this->replaceParameters($baseXpath . '//' . $fs['checkboxes'][$field]));
                         } else {
-                            $this->uncheck($baseXpath . '//' . $fs['checkboxes'][$field]);
+                            $this->uncheck($this->replaceParameters($baseXpath . '//' . $fs['checkboxes'][$field]));
                         }
                         //echo "\n".$baseXpath . '//' . $fs['checkboxes'][$field];
                     }
@@ -522,14 +522,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Populate string with parameter values
      *
-     * @param string $string
+     * @param s $string
      * @return string
      */
-     public function replaceParameters($string = null)
+     public function replaceParameters($s = null)
      {
-        if (!$string) return false;
+        if (!$s) return false;
 
-        return str_replace(array_keys($this->_parameters), array_values($this->_parameters), $string);
+        if (empty($this->_parameters)) {
+            return $s;
+        } else {
+            return str_replace(array_keys($this->_parameters), array_values($this->_parameters), $s);
+        }
      }
      
     /**
