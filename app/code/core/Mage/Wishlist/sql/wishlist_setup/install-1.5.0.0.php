@@ -93,6 +93,9 @@ $table = $installer->getConnection()
         ), 'Add date and time')
     ->addColumn('description', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Short description of wish list item')
+    ->addColumn('qty', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
+        'nullable'  => false,
+        ), 'Qty')
     ->addIndex($installer->getIdxName('wishlist/item', 'wishlist_id'), 'wishlist_id')
     ->addForeignKey($installer->getFkName('wishlist/item', 'wishlist_id', 'wishlist/wishlist', 'wishlist_id'),
         'wishlist_id', $installer->getTable('wishlist/wishlist'), 'wishlist_id',
@@ -106,6 +109,37 @@ $table = $installer->getConnection()
         'store_id', $installer->getTable('core/store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Wishlist items');
+$installer->getConnection()->createTable($table);
+
+/**
+ * Create table 'wishlist/item_option'
+ */
+$table = $installer->getConnection()
+    ->newTable($installer->getTable('wishlist/item_option'))
+    ->addColumn('option_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'identity'  => true,
+        'unsigned'  => true,
+        'nullable'  => false,
+        'primary'   => true,
+        ), 'Option Id')
+    ->addColumn('wishlist_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        ), 'Wishlist Item Id')
+    ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        ), 'Product Id')
+    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable'  => false,
+        ), 'Code')
+    ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+        'nullable'  => false,
+        ), 'Value')
+    ->addForeignKey($installer->getFkName('wishlist/item_option', 'wishlist_item_id', 'wishlist/item', 'wishlist_item_id'),
+        'wishlist_item_id', $installer->getTable('wishlist/item'), 'wishlist_item_id',
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+    ->setComment('Wishlist Item Option Table');
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

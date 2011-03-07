@@ -29,10 +29,18 @@
 $installer = $this;
 
 $installer->startSetup();
-$conn = $installer->getConnection();
+$connection = $installer->getConnection();
 foreach (array('datetime', 'decimal', 'int', 'text', 'varchar') as $type) {
-    $tableName = $installer->getTable('eav_entity_' . $type);
-    $conn->addKey($tableName, 'UNQ_ATTRIBUTE_VALUE', array('entity_id','attribute_id','store_id'), 'unique');
+    $connection->addIndex(
+        $installer->getTable(array('eav/entity_value_prefix', $type)),
+        $installer->getIdxName(
+            array('eav/entity_value_prefix', $type),
+            array('entity_id', 'attribute_id', 'store_id'),
+            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+        ),
+        array('entity_id', 'attribute_id', 'store_id'),
+        Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+    );
 }
 
 $installer->endSetup();

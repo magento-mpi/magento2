@@ -19,33 +19,16 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Wishlist
+ * @package     Mage_Catalog
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* @var $installer Mage_Core_Model_Resource_Setup */
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 $installer = $this;
-$installer->startSetup();
-$installer->getConnection()->addColumn($this->getTable('wishlist/item'), 'qty', 'DECIMAL( 12, 4 ) NOT NULL');
 
-$installer->run("
-CREATE TABLE `{$this->getTable('wishlist/item_option')}` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `wishlist_item_id` int(10) unsigned NOT NULL,
-  `product_id` int(10) unsigned NOT NULL,
-  `code` varchar(255) NOT NULL,
-  `value` text NOT NULL,
-  PRIMARY KEY (`option_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Additional options for wishlist item';
-");
+$entityTypeId = $installer->getEntityTypeId('catalog_product');
+$installer->updateAttribute($entityTypeId, 'custom_layout_update', 'backend_model', 'catalog/attribute_backend_customlayoutupdate');
 
-$installer->getConnection()->addConstraint(
-    'FK_WISHLIST_ITEM_OPTION_ITEM_ID',
-    $this->getTable('wishlist/item_option'),
-    'wishlist_item_id',
-    $this->getTable('wishlist/item'),
-    'wishlist_item_id'
-);
-
-$installer->endSetup();
+$entityTypeId = $installer->getEntityTypeId('catalog_category');
+$installer->updateAttribute($entityTypeId, 'custom_layout_update', 'backend_model', 'catalog/attribute_backend_customlayoutupdate');

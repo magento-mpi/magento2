@@ -1215,7 +1215,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'default'   => '0',
         ), 'Is Percent')
-    ->addColumn('pricing_value', Varien_Db_Ddl_Table::TYPE_DECIMAL, '10,4', array(
+    ->addColumn('pricing_value', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Pricing Value')
     ->addColumn('website_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,

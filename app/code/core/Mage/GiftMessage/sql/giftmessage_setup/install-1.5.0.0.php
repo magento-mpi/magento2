@@ -28,7 +28,6 @@
 /** @var $installer Mage_GiftMessage_Model_Resource_Setup */
 
 $installer = $this;
-
 $installer->startSetup();
 
 /**
@@ -57,29 +56,47 @@ $table = $installer->getConnection()
 
 $installer->getConnection()->createTable($table);
 
-$installer->addAttribute('quote',  'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('quote_address',      'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('quote_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('quote_address_item', 'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('order',              'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('order_item',         'gift_message_id', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute('order_item',         'gift_message_available', array('type' => 'int', 'visible' => false, 'required' => false))
-    ->addAttribute(Mage_Catalog_Model_Product::ENTITY,    'gift_message_available', array(
-        'backend'       => 'giftmessage/entity_attribute_backend_boolean_config',
+/**
+ * Add 'gift_message_id' attributes for entities
+ */
+$entities = array(
+    'quote',
+    'quote_address',
+    'quote_item',
+    'quote_address_item',
+    'order',
+    'order_item'
+);
+$options = array(
+    'type'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
+    'visible'  => false,
+    'required' => false
+);
+foreach ($entities as $entity) {
+    $installer->addAttribute($entity, 'gift_message_id', $options);
+}
+
+/**
+ * Add 'gift_message_available' attributes for entities
+ */
+$installer->addAttribute('order_item', 'gift_message_available', $options)
+    ->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_message_available', array(
+        'group'         => 'Gift Options',
+        'backend'       => 'catalog/product_attribute_backend_boolean',
         'frontend'      => '',
         'label'         => 'Allow Gift Message',
         'input'         => 'select',
         'class'         => '',
-        'source'        => 'giftmessage/entity_attribute_source_boolean_config',
+        'source'        => 'eav/entity_attribute_source_boolean',
         'global'        => true,
         'visible'       => true,
         'required'      => false,
         'user_defined'  => false,
-        'default'       => '2',
+        'default'       => '',
+        'apply_to'      => '',
+        'input_renderer'   => 'giftmessage/adminhtml_product_helper_form_config',
         'is_configurable'  => 0,
         'visible_on_front' => false
-    ))
-    ->removeAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_message_aviable')
-    ->setConfigData('sales/gift_messages/allow', 1);
+    ));
 
 $installer->endSetup();

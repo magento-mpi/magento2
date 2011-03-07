@@ -535,14 +535,14 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core/cache_tag'))
-    ->addColumn('tag', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('tag', Varien_Db_Ddl_Table::TYPE_TEXT, 100, array(
         'nullable'  => false,
+        'primary'   => true,
         ), 'Tag')
-    ->addColumn('cache_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('cache_id', Varien_Db_Ddl_Table::TYPE_TEXT, 200, array(
         'nullable'  => false,
+        'primary'   => true,
         ), 'Cache Id')
-    ->addIndex($installer->getIdxName('core/cache_tag', array('tag')),
-        array('tag'))
     ->addIndex($installer->getIdxName('core/cache_tag', array('cache_id')),
         array('cache_id'))
     ->addForeignKey($installer->getFkName('core/cache_tag', 'cache_id', 'core/cache', 'id'),

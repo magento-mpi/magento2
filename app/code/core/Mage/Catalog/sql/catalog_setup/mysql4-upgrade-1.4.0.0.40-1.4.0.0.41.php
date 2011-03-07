@@ -19,12 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
+ * @package     Mage_Catalog
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-/* @var $installer Mage_Sales_Model_Entity_Setup */
+
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 $installer = $this;
 
-$installer->getConnection()->addColumn($installer->getTable('sales_flat_invoice'),
-    'base_total_refunded', 'decimal(12,4) default NULL');
+$installer->startSetup();
+
+$installer->run("
+    ALTER TABLE {$installer->getTable('catalog/product_super_attribute_pricing')}
+    CHANGE `pricing_value` `pricing_value` DECIMAL(20,4) NULL"
+);
+
+$installer->endSetup();

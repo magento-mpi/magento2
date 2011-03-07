@@ -227,8 +227,8 @@ $table = $installer->getConnection()
         ), 'Orders Count')
     ->addColumn('tax_base_amount_sum', Varien_Db_Ddl_Table::TYPE_FLOAT, null, array(
         ), 'Tax Base Amount Sum')
-    ->addIndex($installer->getIdxName('tax/tax_order_aggregated_created', array('period', 'store_id', 'code', 'order_status'), true),
-        array('period', 'store_id', 'code', 'order_status'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('tax/tax_order_aggregated_created', array('period', 'store_id', 'code', 'percent', 'order_status'), true),
+        array('period', 'store_id', 'code', 'percent', 'order_status'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('tax/tax_order_aggregated_created', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('tax/tax_order_aggregated_created', 'store_id', 'core/store', 'store_id'),

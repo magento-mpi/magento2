@@ -24,11 +24,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+/* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-$entityTypeId = $installer->getEntityTypeId('catalog_product');
-$installer->updateAttribute($entityTypeId, 'custom_layout_update', 'backend_model', 'catalog/attribute_backend_customlayoutupdate');
-
-$entityTypeId = $installer->getEntityTypeId('catalog_category');
-$installer->updateAttribute($entityTypeId, 'custom_layout_update', 'backend_model', 'catalog/attribute_backend_customlayoutupdate');
+$connection = $installer->getConnection();
+$table      = $installer->getTable('catalog/category_product_indexer_idx');
+$connection->addKey($table, 'IDX_PRODUCT_CATEGORY_STORE', array('product_id', 'category_id', 'store_id'));
