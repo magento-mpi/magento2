@@ -38,8 +38,8 @@ manage_products:
 # Messages
  messages :
 
-# Add New Product page
-new_product:
+# Settings for New Product creation
+new_product_settings:
   mca : catalog_product/new/
   title : New Product / Manage Products / Catalog / Magento Admin
   uimap :
@@ -53,6 +53,12 @@ new_product:
             product_type : select[@id='product_type']
           buttons :
             continue_button : button[span='Continue']
+
+# Add New Product page
+new_product:
+  mca : 
+  title : New Product / Manage Products / Catalog / Magento Admin
+  uimap :
     form : &newProductCreationForm
       tabs :
       -
