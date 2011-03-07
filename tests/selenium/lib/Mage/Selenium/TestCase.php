@@ -365,17 +365,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $controlName
      * @return mixed
      */
-
     public function controlIsPresent($controlType, $controlName)
     {
         // @TODO
         return $this;
     }
 
+    /**
+     * Search specified button on the page
+     *
+     * @param string $button
+     * @return mixed
+     */
     public function buttonIsPresent($button)
     {
-        // @TODO
-        return $this;
+        return $this->controlIsPresent('button', $button);
     }
 
 
