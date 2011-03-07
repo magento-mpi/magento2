@@ -65,7 +65,17 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create new Multiple Selection type Product Attribute by using required fields only
+     * Create "Multiple Select" type Product Attribute (required fields only)
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Fill all required fields
+     * 5.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] successfully created.
+     *                  Success message: 'The product attribute has been saved.' is displayed.
      */
     public function test_WithRequiredFieldsOnly()
     {
@@ -73,14 +83,25 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
                 $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
                 'Wrong page is displayed'
         );
-        $this->fillForm($this->loadData('product_attribute_multiselect', NULL, NULL));
+        $this->fillForm($this->loadData('product_attribute_multiselect', null, null));
         $this->clickButton('save_attribute');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * Checking validation for 'Attribute Code field is EMPTY'
+     * Checking validation for 'Attribute Code' field is EMPTY
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Skip filling of 'Attribute Code' field and fill other required fields.
+     * 5.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] shouldn't be created.
+     *                  Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
+     *                                            this field, first character should be a letter.' is displayed.
      */
     public function test_WithRequiredFieldsEmpty_EmptyAttributeCode()
     {
@@ -97,6 +118,17 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
 
     /**
      * Checking validation for 'Admin title field is EMPTY'
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Skip filling of 'Admin' field in the 'Manage Titles' fields set under the 'Manage Label / Options' tab
+     *      and fill other required fields.
+     * 5.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] shouldn't be created.
+     *                  Error JS message: 'Failed' is displayed below 'Admin' field.
      */
     public function test_WithRequiredFieldsEmpty_EmptyAdminTitle()
     {
@@ -112,7 +144,18 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking validation for 'Admin Option field is EMPTY'
+     * Checking validation for 'Admin Option title field is EMPTY'
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Skip filling of 'Admin' field in the 'Manage Options' fields set under the 'Manage Label / Options' tab
+     *      and fill other required fields.
+     * 5.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] shouldn't be created.
+     *                  Error JS message: 'Failed' is displayed below 'Admin' field.
      */
     public function test_WithRequiredFieldsEmpty_EmptyAdminOptionTitle()
     {
@@ -129,6 +172,18 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
 
     /**
      * Checking validation for valid data in the 'Attribute Code' field
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Fill 'Attribute Code' field by invalid data [Examples: '0xxx'/'_xxx'/'111']
+     * 5.Fill other required fields by regular data.
+     * 6.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] shouldn't be created.
+     *                  Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
+     *                                            this field, first character should be a letter.' is displayed.
      */
     public function test_WithInvalidAttributeCode()
     {
@@ -143,8 +198,20 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
-    /**
+     /**
      * Checking of verification for duplicate of Product Attributes with similar code
+     * Creation of new attribute with existing code.
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Fill 'Attribute Code' field by code used in test before.
+     * 5.Fill other required fields by regular data.
+     * 6.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] shouldn't be created.
+     *                  Error message: 'Attribute with the same code already exists' is displayed.
      */
     public function test_WithAttributeCodeThatAlreadyExists()
     {
@@ -152,14 +219,26 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
                 $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
                 'Wrong page is displayed'
         );
-        $this->fillForm($this->loadData('product_attribute_multiselect', NULL, NULL));
+        $this->fillForm($this->loadData('product_attribute_multiselect', null, null));
         $this->clickButton('save_attribute');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
     }
 
     /**
-     * Checking of correct validate of submitting form by using special characters for all fields filling
+     * Checking of correct validate of submitting form by using special characters for 'Attribute Code' field filling.
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Fill 'Attribute Code' field by special characters.
+     * 5.Fill other required fields by regular data.
+     * 6.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] shouldn't be created.
+     *                  Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
+     *                                            this field, first character should be a letter.' is displayed.
      */
     public function test_WithSpecialCharacters()
     {
@@ -181,7 +260,20 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking of correct validate of submitting form by using special characters for fields filling exclude attr_code
+     * Checking of correct validate of submitting form by using special characters for all fields
+     *          exclude 'Attribute Code' field.
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Fill 'Attribute Code' field by regular data.
+     * 5.Fill other required fields by special characters.
+     * 6.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] shouldn't be created.
+     *                  Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
+     *                                            this field, first character should be a letter.' is displayed.
      */
     public function test_WithSpecialCharactersExclAttributeCode()
     {
@@ -204,6 +296,16 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
 
     /**
      * Checking of correct work of submitting form by using long values for fields filling
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Fill all required fields by long value alpha-numeric data.
+     * 5.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] successfully created.
+     *                  Success message: 'The product attribute has been saved.' is displayed.
      */
     public function test_WithLongValues()
     {
@@ -224,7 +326,19 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking validation for valid data in the 'Position' field
+     * Checking validation for data in the 'Position' field
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Fill 'Position' field by invalid data [Examples: 'aaaa'/'_xxx'/'q1a2z3']
+     * 5.Fill other required fields by regular data.
+     * 6.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] shouldn't be created.
+     *                  Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
+     *                                            this field, first character should be a letter.' is displayed.
      */
     public function test_WithInvalidPosition()
     {
@@ -241,6 +355,22 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
 
     /**
      * Checking of attributes creation functionality during product createion process
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Products
+     * 2.Click on "Add Product" button
+     * 3.Specify settings for product creation
+     * 3.1.Select "Attribute Set"
+     * 3.2.Select "Product Type"
+     * 4.Click on "Continue" button
+     * 5.Click on "Create New Attribute" button in the top of "General" fieldset under "General" tab
+     * 6.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' dropdown
+     * 7.Fill all required fields.
+     * 8.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Multiple Select" type] successfully created.
+     *                  Success message: 'The product attribute has been saved.' is displayed.
+     *                  Pop-up window is closed automatically
      */
     public function test_OnProductPage_WithRequiredFieldsOnly()
     {
@@ -248,11 +378,11 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
                 $this->navigate('manage_products')->clickButton('add_new_product')->navigated('new_product'),
                 'Wrong page is displayed'
         );
-        $this->fillForm('product_create_settings_simple',NULL,NULL);
+        $this->fillForm('product_create_settings_simple',null,null);
         $this->clickButton('continue_button');
         $this->clickButton('fieldset_general/create_new_attribute_multiselect');
         $this->waitForPopUp('new_attribute','30000');
-        $this->fillForm($this->loadData('product_attribute_date', NULL, 'attribute_code'));
+        $this->fillForm($this->loadData('product_attribute_date', null, 'attribute_code'));
         $this->clickButton('save_attribute');
         $this->assertFalse($this->errorMessage(), $this->messages);
         $this->assertTrue($this->successMessage(), 'No success message is displayed');
