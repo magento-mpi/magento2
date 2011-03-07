@@ -116,6 +116,17 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
                     break;
             }
 
+            $accessible_folders = array(
+                'import' => Mage::getConfig()->getOptions()->getVarDir() . DS . "import",
+                'export' => Mage::getConfig()->getOptions()->getExportDir()
+            );
+
+            if (!in_array($ioConfig['path'], $accessible_folders)) {
+                $message = Mage::helper('dataflow')->__('Could not open directory: "%s". Allowed directories: "%s".', $ioConfig['path'], implode('", "', $accessible_folders));
+                Mage::throwException($message);
+                return false;
+            }
+
             if ($isError) {
                 return false;
             }
