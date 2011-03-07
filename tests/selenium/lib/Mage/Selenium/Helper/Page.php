@@ -118,7 +118,7 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_AbstractHelper
 
         $pageData = $this->_config->getUimapValue($this->_sutHelper->getArea());
         foreach($pageData as $pageId => $pageData) {
-            if(isset($pageData['mca']) && $pageData['mca'] == $mca ) {
+            if(isset($pageData['mca']) && trim($pageData['mca'], '/') == $mca ) {
                 return $pageId;
             }
         }

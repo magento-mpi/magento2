@@ -54,7 +54,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->clickButton('add_new_customer'));
         $this->assertEquals($this->_config->getUimapValue($_testCaseInst->getArea(), $_testCaseInst->getCurrentPage().'/title'), $_testCaseInst->getTitle());
 
-        $_formData = $_testCaseInst->loadData('customer_account_register');
+        $_formData = $_testCaseInst->loadData('all_fields_customer_account');
         $this->assertNotEmpty($_formData);
         $this->assertInternalType('array', $_formData);
 

@@ -281,24 +281,31 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $pageId = false;
         $baseUrl = $this->_sutHelper->getBaseUrl();
-        $url = $this->clearPageUrl($url);
 
-        if(strpos($url, $baseUrl) !== false) {
-            $mca_url = substr($url, strlen($baseUrl));
-            $pageId = $this->_pageHelper->getPageByMca($mca_url);
-        }
+        $mca = Mage_Selenium_TestCase::getMca($baseUrl, $url);
+        $pageId = $this->_pageHelper->getPageByMca($mca);
 
         return $pageId;
     }
 
     /**
-     * Clear page URL
-     * @param string PageURL
+     * Get MCA-part of page URL
+     * @param string Base URL
+     * @param string Current URL
      * @return string
      */
-    protected function clearPageUrl($url)
+    protected static function getMca($baseUrl, $currentUrl)
     {
-        return str_replace('/index.php', '/', str_replace('index.php/', '', $url));
+        $mca = '';
+
+        $currentUrl = preg_replace('|^http([s]{0,1})://|', '', str_replace('/index.php', '/', str_replace('index.php/', '', $currentUrl)));
+        $baseUrl = preg_replace('|^http([s]{0,1})://|', '', $baseUrl);
+
+        if(strpos($currentUrl, $baseUrl) !== false) {
+            $mca = trim(substr($currentUrl, strlen($baseUrl)), "/");
+        }
+
+        return $mca;
     }
 
     /**
@@ -365,6 +372,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this;
     }
 
+
+    protected function _extractFields(&$formData, &$fields)
+    {
+        foreach($formData as $formDataKey=>&$formDataVal) {
+            if($formDataKey === 'fieldsets') {
+                foreach($formDataVal as &$fieldset) {
+                    foreach($fieldset as $fieldsetName=>$fieldsetArr) {
+                        $fields[$fieldsetName] = $fieldsetArr;
+                    }
+                }
+            } else {
+                if( is_array($formDataVal) ) {
+                    $this->_extractFields($formDataVal, $fields);
+                }
+            }
+        }
+    }
+
     /**
      * Fill form with data
      *
@@ -373,22 +398,36 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function fillForm($data)
     {
-        // string(62) "http://www.localhost.com/magento-trunk/customer/account/create"
-        $location = $this->clearPageUrl($this->getLocation());
-        $mca = trim(preg_replace('~' . $this->_sutHelper->getBaseUrl() . '~', '', $location, 1), "/");
+        if (!is_array($data)) {
+            throw new InvalidArgumentException('FillForm argument "$data" must be an array!!!');
+            return $this;
+        }
 
+        $mca = Mage_Selenium_TestCase::getMca($this->_sutHelper->getBaseUrl(), $this->getLocation());
         $formData = $this->_getFormData($mca);
 
-        if (isset($formData['fields'])) {
-            $baseXpath = (isset($formData['xpath'])) ? '//' . $formData['xpath'] : '';
-            if (!is_array($data)) {
-                // @TODO throw some exception
-                return $this;
-            }
-            foreach ($data as $field => $value) {
-                if (isset($formData['fields'][$field])){
-                    $this->type($baseXpath . '//' . $formData['fields'][$field], $value);
-                    echo "\n\n".$baseXpath . '//' . $formData['fields'][$field];
+        $fields = array();
+        $this->_extractFields($formData, $fields);
+        //var_dump($fields);
+
+        if(!empty($fields)) {
+            foreach($fields as $fs) {
+                $baseXpath = isset($fs['xpath']) ? '//' . $fs['xpath'] : '';
+                foreach ($data as $field => $value) {
+                    if (isset($fs['fields'][$field])){
+                        $this->type($baseXpath . '//' . $fs['fields'][$field], $value);
+                        //echo "\n".$baseXpath . '//' . $fs['fields'][$field];
+                    } elseif (isset($fs['dropdowns'][$field])){
+                        $this->select($baseXpath . '//' . $fs['dropdowns'][$field], 'regexp:'.$value);
+                        //echo "\n".$baseXpath . '//' . $fs['dropdowns'][$field];
+                    } elseif (isset($fs['checkboxes'][$field])){
+                        if(strtolower($value) == 'yes') {
+                            $this->check($baseXpath . '//' . $fs['checkboxes'][$field]);
+                        } else {
+                            $this->uncheck($baseXpath . '//' . $fs['checkboxes'][$field]);
+                        }
+                        //echo "\n".$baseXpath . '//' . $fs['checkboxes'][$field];
+                    }
                 }
             }
         }

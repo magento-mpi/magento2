@@ -137,7 +137,7 @@ create_customer:
 
 # 'Edit Customer' Page
 edit_customer:
-  mca: edit/id/%customers_id%
+  mca: edit/id/%customers_id%/
   title: %customers_id% / Manage Customers / Customers / Magento Admin
   uimap:
     form: &editCustomerForm
