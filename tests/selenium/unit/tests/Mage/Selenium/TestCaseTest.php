@@ -65,4 +65,17 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->fillForm($_formData));
     }
 
+    public function testControlIsPresent()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+        $this->assertNotNull($_testCaseInst);
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $this->assertTrue($_testCaseInst->controlIsPresent('button', 'save_customer'));
+        $this->assertTrue($_testCaseInst->controlIsPresent('field', 'prefix'));
+        //$this->assertFalse($_testCaseInst->controlIsPresent('field', 'invalid-field'));
+    }
+
 }

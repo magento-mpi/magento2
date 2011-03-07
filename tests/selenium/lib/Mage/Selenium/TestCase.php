@@ -368,7 +368,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function controlIsPresent($controlType, $controlName)
     {
         // @TODO
-        return $this;
+
+
+        return true;
     }
 
     /**
