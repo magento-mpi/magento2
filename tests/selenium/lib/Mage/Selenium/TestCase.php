@@ -183,7 +183,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
 
             foreach ($randomize as $field) {
-                $data[$field] .= $this->generate('string', 5);
+                $data[$field] .= $this->generate('string', 5, ':lower:');
             }
         }
 
@@ -201,7 +201,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function generate($type='string', $length=100, $modifier=null, $prefix=null)
     {
-        $result = $this->_dataGenerator->generate($type, $length, $modifier,$prefix);
+        $result = $this->_dataGenerator->generate($type, $length, $modifier, $prefix);
         return $result;
     }
 
