@@ -59,4 +59,22 @@ class Mage_Core_Model_File_Uploader extends Varien_File_Uploader
 
         return $this;
     }
+
+    /**
+     * Check protected/allowed extension
+     *
+     * @param string $extension
+     * @return boolean
+     */
+    public function checkAllowedExtension($extension)
+    {
+        //validate with protected file types
+        /** @var $validator Mage_Core_Model_File_Validator_Extension_NotProtected */
+        $validator = Mage::getSingleton('core/file_validator_extension_notProtected');
+        if (!$validator->isValid($extension)) {
+            return false;
+        }
+
+        return parent::checkAllowedExtension($extension);
+    }
 }

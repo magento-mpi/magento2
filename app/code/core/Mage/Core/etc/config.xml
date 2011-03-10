@@ -371,7 +371,7 @@
                     <!-- PHP script file extension -->
                     <php>php</php>
                     <!-- File extension of configuration of an Apache Web server -->
-                    <htaccess>php</htaccess>
+                    <htaccess>htaccess</htaccess>
                     <!-- Java script file extension -->
                     <jsp>jsp</jsp>
                     <!-- Perl script file extension -->
