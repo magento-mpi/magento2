@@ -332,7 +332,7 @@ PaypalConfig.prototype = {
             return false;
         }
 
-        var isMethodEnable = true;
+        var isMethodEnable = false;
         var enableForCountries = config.get('enable_for_countries');
         var disableForCountries = config.get('disable_for_countries');
         var labels = config.get('labels');
