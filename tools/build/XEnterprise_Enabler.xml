@@ -40,6 +40,9 @@
         <Enterprise_GiftRegistry>
             <active>true</active>
         </Enterprise_GiftRegistry>
+        <Enterprise_GiftWrapping>
+            <active>true</active>
+        </Enterprise_GiftWrapping>
         <Enterprise_Invitation>
             <active>true</active>
         </Enterprise_Invitation>
