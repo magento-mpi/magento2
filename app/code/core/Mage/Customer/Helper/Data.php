@@ -276,9 +276,11 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return array|bool
      */
-    public function getNamePrefixOptions()
+    public function getNamePrefixOptions($store = null)
     {
-        return $this->_prepareNamePrefixSuffixOptions(Mage::helper('customer/address')->getConfig('prefix_options'));
+        return $this->_prepareNamePrefixSuffixOptions(
+            Mage::helper('customer/address')->getConfig('prefix_options', $store)
+        );
     }
 
     /**
@@ -286,9 +288,11 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return array|bool
      */
-    public function getNameSuffixOptions()
+    public function getNameSuffixOptions($store = null)
     {
-        return $this->_prepareNamePrefixSuffixOptions(Mage::helper('customer/address')->getConfig('suffix_options'));
+        return $this->_prepareNamePrefixSuffixOptions(
+            Mage::helper('customer/address')->getConfig('suffix_options', $store)
+        );
     }
 
     /**

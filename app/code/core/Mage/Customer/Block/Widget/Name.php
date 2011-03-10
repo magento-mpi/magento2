@@ -95,7 +95,12 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
      */
     public function getPrefixOptions()
     {
-        return $this->helper('customer')->getNamePrefixOptions();
+        $prefixOptions = $this->helper('customer')->getNamePrefixOptions();
+        if ($this->getObject() && !empty($prefixOptions)) {
+            $oldPrefix = $this->escapeHtml(trim($this->getObject()->getPrefix()));
+            $prefixOptions[$oldPrefix] = $oldPrefix;
+        }
+        return $prefixOptions;
     }
 
     /**
@@ -135,7 +140,12 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
      */
     public function getSuffixOptions()
     {
-        return $this->helper('customer')->getNameSuffixOptions();
+        $suffixOptions = $this->helper('customer')->getNameSuffixOptions();
+        if ($this->getObject() && !empty($suffixOptions)) {
+            $oldSuffix = $this->escapeHtml(trim($this->getObject()->getSuffix()));
+            $suffixOptions[$oldSuffix] = $oldSuffix;
+        }
+        return $suffixOptions;
     }
 
     /**
