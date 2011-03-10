@@ -131,7 +131,7 @@ class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Apdate roel users
+     * Update role users
      *
      * @param Mage_Api_Model_Roles $role
      * @return boolean
@@ -144,7 +144,7 @@ class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
             $rowsCount = $this->_getWriteAdapter()->update(
                 $this->_usersTable,
                 array('reload_acl_flag' => 1),
-                array('user_id IN(?)', $users));
+                array('user_id IN(?)' => $users));
         }
         return ($rowsCount > 0) ? true : false;
     }
