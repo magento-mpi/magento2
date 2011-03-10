@@ -525,18 +525,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkMessage($xpath)
     {
-        if (empty($xpath)) {
-            return false;
-        }
+        $_messages[self::xpathSuccessMessage] = $this->getMessages(self::xpathSuccessMessage);
+        $_messages[self::xpathErrorMessage] = $this->getMessages(self::xpathErrorMessage);
 
-        if ($this->getXpathCount('//' . $xpath) > 0) {
+        $this->messages = array_merge($_messages[self::xpathSuccessMessage], $_messages[self::xpathErrorMessage]);
+
+        if (is_array($_messages[$xpath]) && count($_messages[$xpath]) > 0) {
             return true;
         }
-
-        $this->messages = array_merge(
-            $this->getMessages(self::xpathSuccessMessage),
-            $this->getMessages(self::xpathErrorMessage)
-        );
 
         return false;
     }
