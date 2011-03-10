@@ -184,7 +184,7 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
     }
 
     /**
-     * Save result to destionation file from temporary
+     * Save result to destination file from temporary
      *
      * @return Mage_Dataflow_Model_Convert_Adapter_Io
      */
@@ -199,9 +199,6 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
         $dataFile = $batchModel->getIoAdapter()->getFile(true);
 
         $filename = $this->getVar('filename');
-        wwwClass($this->getResource());
-        www1($dataFile);
-        www1($filename);
 
         $result   = $this->getResource()->write($filename, $dataFile, 0777);
 
