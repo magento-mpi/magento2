@@ -41,7 +41,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     /**
      * Testing Mage_Selenium_TestCase::fillForm()
      */
-    public function test_fillForm()
+    public function testFillForm()
     {
         $_testCaseInst = new Mage_Selenium_TestCase();
         $this->assertNotNull($_testCaseInst);
@@ -65,6 +65,9 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->fillForm($_formData));
     }
 
+    /**
+     * Testing Mage_Selenium_TestCase::сontrolIsPresent()
+     */
     public function testControlIsPresent()
     {
         $_testCaseInst = new Mage_Selenium_TestCase();
@@ -76,6 +79,26 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertTrue($_testCaseInst->controlIsPresent('button', 'save_customer'));
         $this->assertTrue($_testCaseInst->controlIsPresent('field', 'prefix'));
         //$this->assertFalse($_testCaseInst->controlIsPresent('field', 'invalid-field'));
+    }
+
+    /**
+     * Testing Mage_Selenium_TestCase::loadData()
+     */
+    public function testLoadData()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+        $this->assertNotNull($_testCaseInst);
+
+        $_formData = $_testCaseInst->loadData('all_fields_customer_account', null, 'associate_to_website');
+//        var_dump($_formData);
+
+        $_formData = $_testCaseInst->loadData('all_fields_customer_account', null, array('first_name', 'middle_name_initial', 'last_name'));
+//        var_dump($_formData);
+
+        $this->assertNotEmpty($_formData);
+        $this->assertInternalType('array', $_formData);
+
+        
     }
 
 }

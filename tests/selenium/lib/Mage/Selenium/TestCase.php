@@ -179,6 +179,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
         }
 
+        if (!empty($randomize)) {
+            $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
+
+            foreach ($randomize as $field) {
+                $data[$field] .= $this->generate('string', 5);
+            }
+        }
+
         return $data;
     }
 

@@ -157,6 +157,10 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_AbstractHelper
      */
     public function generateRandomString($length=100, $class=':alnum:', $prefix='')
     {
+        if (!$class) {
+            $class = ':alnum:';
+        }
+
         if (!is_array($class)) {
             $class = explode(',', $class);
         }
