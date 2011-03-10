@@ -36,20 +36,20 @@
 class Mage_Selenium_Uimap_Abstract
 {
     /**
-     *
+     * XPath string
      * @var string
      */
     protected $xPath = '';
 
     /**
-     *
+     * UIMap elements
      * @var array
      */
     protected $_elements = array();
 
     /**
-     *
-     * @var Mage_Selenium_Uimap_ElementsCollection
+     * UIMap elements cache for recursive operations
+     * @var array
      */
     protected $_elements_cache = array();
 
@@ -60,11 +60,11 @@ class Mage_Selenium_Uimap_Abstract
      */
     public function getXpath()
     {
-        return $xPath;
+        return $this->xPath;
     }
 
     /**
-     *
+     * Retrieve all elements on current level
      * @return array
      */
     public function &getElements()
@@ -73,7 +73,7 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-     *
+     * Parser from native UIMap array to UIMap class hierarchy
      * @param array Array with UIMap
      */
     protected function parseContainerArray(array &$container)
@@ -98,23 +98,23 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-     *
-     * @param <type> $elementType
-     * @param <type> $container
-     * @param <type> $cache
-     * @return <type>
+     * Internal recursive function
+     * @param string UIMap elements collection name
+     * @param Mage_Selenium_Uimap_ElementsCollection|Mage_Selenium_Uimap_Abstract UIMap container
+     * @param array Array with search results
+     * @return array
      */
-    protected function getElementsRecursive($elementType, &$container, &$cache)
+    protected function __getElementsRecursive($elementsCollectionName, &$container, &$cache)
     {
         foreach($container as $elKey=>&$elValue) {
             if($elValue instanceof ArrayObject) {
-                if($elKey==$elementType && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection) {
+                if($elKey==$elementsCollectionName && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection) {
                     $cache = array_merge($cache, $elValue->getArrayCopy());
                 } else {
-                    $this->getElementsRecursive($elementType, $elValue, $cache);
+                    $this->__getElementsRecursive($elementsCollectionName, $elValue, $cache);
                 }
             } elseif($elValue instanceof Mage_Selenium_Uimap_Abstract) {
-                $this->getElementsRecursive($elementType, $elValue->getElements(), $cache);
+                $this->__getElementsRecursive($elementsCollectionName, $elValue->getElements(), $cache);
             }
         }
 
@@ -122,28 +122,30 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-     *
-     * @param <type> $elementType
-     * @return <type>
+     * Search UIMap element by name on any level from current and deeper
+     * This method uses a cache to save search results
+     * @param string UIMap elements collection name
+     * @return array
      */
-    public function getAllElements($elementType)
+    public function getAllElements($elementsCollectionName)
     {
-        if(empty($this->_elements_cache[$elementType])) {
+        if(empty($this->_elements_cache[$elementsCollectionName])) {
             $cache = array();
-            $this->_elements_cache[$elementType] = new Mage_Selenium_Uimap_ElementsCollection($elementType,
-                    $this->getElementsRecursive($elementType, $this->_elements, $cache));
+            $this->_elements_cache[$elementsCollectionName] = new Mage_Selenium_Uimap_ElementsCollection($elementsCollectionName,
+                    $this->__getElementsRecursive($elementsCollectionName, $this->_elements, $cache));
         }
 
-        return $this->_elements_cache[$elementType];
+        return $this->_elements_cache[$elementsCollectionName];
     }
 
     /**
-     *
-     * @param <type> $name
-     * @param <type> $arguments
-     * @return <type>
+     * Magic method to call an accessor methods
+     * @param string Format: call "get"+"UIMap properties collection name"() to get UIMap elements collection by name from current level
+     *                    or "getAll"+"UIMap properties collection name"() to get UIMap elements collection by name on any level from current and deeper
+     *                    or "find"+"UIMap element type"(element name) to get UIMap element by name on any level from current and deeper
+     * @return Mage_Selenium_Uimap_ElementsCollection|array|Null
      */
-    public function __call($name,  $arguments) {
+    public function __call($name, $arguments) {
         if(preg_match('|^getAll(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 6));
             if(!empty($elementName)) {
@@ -153,6 +155,12 @@ class Mage_Selenium_Uimap_Abstract
             $elementName = strtolower(substr($name, 3));
             if(!empty($elementName) && isset($this->_elements[$elementName])) {
                 return $this->_elements[$elementName];
+            }
+        }elseif(preg_match('|^find(\w+)$|', $name)) {
+            $elementsCollectionName = strtolower(substr($name, 4)) . 's';
+            if(!empty($elementsCollectionName) && !empty($arguments)) {
+                $elemetsColl = $this->getAllElements($elementsCollectionName);
+                return $elemetsColl->get($arguments[0]);
             }
         }
 

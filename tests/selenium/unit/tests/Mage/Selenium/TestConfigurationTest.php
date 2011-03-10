@@ -160,9 +160,10 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
     {
         $data = $this->_config->getUimapValue('admin');
         $uipage = new Mage_Selenium_Uimap_Page('create_customer', $data['create_customer']);
-        //var_dump($uipage->getMainForm()->getTabs()->getTab('account_information'));
+        //var_dump($uipage); die;
         var_dump($uipage->getAllButtons());
         var_dump($uipage->getMainForm()->getAllButtons());
+        var_dump($uipage->getMainForm()->getTabs()->getTab('addresses'));
         var_dump($uipage->getMainForm()->getTabs()->getTab('addresses')->getAllElements('buttons'));
         var_dump($uipage->getMainForm()->getTab('account_information'));
         var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info'));
@@ -172,7 +173,10 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info')->getAllElements('required'));
         var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info')->getAllRequired());
         var_dump($uipage->getMessage('success_save_customer'));
-        //var_dump($uipage);
+
+        var_dump($uipage->getMainForm()->findField('first_name'));
+        var_dump($uipage->getMainForm()->getTab('account_information')->findField('first_name'));
+        var_dump($uipage->findMessage('success_save_customer'));
     }
 
 }

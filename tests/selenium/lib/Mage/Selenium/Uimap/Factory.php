@@ -70,6 +70,9 @@ class Mage_Selenium_Uimap_Factory
             case 'messages':
                 $elements = new Mage_Selenium_Uimap_ElementsCollection('messages', $elemValue);
                 break;
+            case 'links':
+                $elements = new Mage_Selenium_Uimap_ElementsCollection('links', $elemValue);
+                break;
             case 'fields':
                 $elements = new Mage_Selenium_Uimap_ElementsCollection('fields', $elemValue);
                 break;

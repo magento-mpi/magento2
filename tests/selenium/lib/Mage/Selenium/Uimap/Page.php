@@ -102,31 +102,4 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
         return $this->_elements['form']; // Stub
     }
 
-    /**
-     *
-     * @param <type> $id
-     * @return string
-     */
-    public function getMessage($id)
-    {
-        return isset($this->_elements['messages'])?$this->_elements['messages']->get($id):'';
-    }
-
-    /**
-     * Get all buttons defined on the current form, as well as on its tabs and fieldsets
-     *
-     * @return array
-     */
-    public function getAllButtons()
-    {
-        if(empty($this->_elements_cache['buttons'])) {
-            $cache = array();
-            $this->getElementsRecursive('buttons', $this->_elements, $cache);
-
-            $this->_elements_cache['buttons'] = new Mage_Selenium_Uimap_ElementsCollection('buttons',
-                    $this->getElementsRecursive('buttons', $this->_elements, $cache));
-        }
-        return $this->_elements_cache['buttons'];
-    }
-
 }
