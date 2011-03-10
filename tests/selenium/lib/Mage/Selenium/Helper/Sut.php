@@ -33,7 +33,7 @@
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_Helper_Sut extends Mage_Selenium_AbstractHelper
+class Mage_Selenium_Helper_Sut extends Mage_Selenium_Helper_Abstract
 {
 
     /**

@@ -298,6 +298,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->navigate($page);
         if ($this->_pageHelper->validationFailed()) {
             // @TODO stop further execution of the current test
+            $this->_error = true;
         }
         return $this;
     }
@@ -395,12 +396,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if(!empty($buttonLocator))
         {
-            $this->click('//'.$buttonLocator);
-            if($willChangePage)
-            {
-                $this->waitForPageToLoad(self::timeoutPeriod);
-                $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
+            try {
+                $this->click('//'.$buttonLocator);
+
+                if($willChangePage)
+                {
+                    $this->waitForPageToLoad(self::timeoutPeriod);
+                    $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
+                }
+            } catch (PHPUnit_Framework_Exception $e) {
+                $this->_error = true;
             }
+
         }
         return $this;
     }
@@ -583,19 +590,40 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Magento helper methods
      */
 
+    /**
+     * Log out customer
+     *
+     * @return Mage_Selenium_TestCase
+     */
     public function logoutCustomer()
     {
-        // @TODO
+//        try {
+            $this->frontend('customer_account');
+            if ("My Account" == $this->getTitle()) {
+                $this->clickAndWait("//a[@title='Log Out']", 3000);
+            }
+//        } catch (PHPUnit_Framework_Exception $e) {
+//            $this->_error = true;
+//        }
         return $this;
     }
 
+    /**
+     * Log in admin
+     *
+     * @return Mage_Selenium_TestCase
+     */
     public function loginAdminUser()
     {
-        $this->admin('dashboard');
-        if ("Dashboard / Magento Admin" !== $this->getTitle()) {
-            $this->type('username', $this->_sutHelper->getDefaultAdminUsername());
-            $this->type('login', $this->_sutHelper->getDefaultAdminPassword());
-            $this->clickAndWait("//input[@value='Login']", 3000);
+        try {
+            $this->admin('dashboard');
+            if ("Dashboard / Magento Admin" !== $this->getTitle()) {
+                $this->type('username', $this->_sutHelper->getDefaultAdminUsername());
+                $this->type('login', $this->_sutHelper->getDefaultAdminPassword());
+                $this->clickAndWait("//input[@value='Login']", 3000);
+            }
+        } catch (PHPUnit_Framework_Exception $e) {
+            $this->_error = true;
         }
         return $this;
     }
