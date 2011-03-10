@@ -28,7 +28,7 @@
  */
 
 /**
- * Test creation store.
+ * Test creation new Store.
  *
  * @package     selenium
  * @subpackage  tests
@@ -37,21 +37,35 @@
 class Store_Store_CreateTest extends Mage_Selenium_TestCase {
 
     /**
-     * Log in to Backend and Navigate to System -> Manage Stores
+     * Preconditions:
+     *
+     * Log in to Backend.
+     *
+     * Navigate to System -> Manage Stores
      */
     protected function assertPreConditions()
     {
         $this->assertTrue($this->loginAdminUser());
+        $this->assertTrue($this->admin());
         $this->assertTrue($this->navigate('manage_stores'));
     }
 
     /**
      * Create Store. Fill in only reqired fields.
-     * 1. Click 'Add Store'
+     *
+     * Steps:
+     *
+     * 1. Click 'Create Store' button.
+     *
      * 2. Fill in reqired fields.
-     * 3. Click 'Save'.
+     *
+     * 3. Click 'Save Store' button.
+     *
      * Expected result:
-     * Store is created. Success Message is displayed
+     *
+     * Store is created.
+     *
+     * Success Message is displayed
      */
     public function test_WithRequiredFieldsOnly()
     {
@@ -67,11 +81,20 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
 
     /**
      * Create Store. Fill in all reqired fields except the field "Name" .
-     * 1. Click 'Add Store'
-     * 2. Fill in fields.
-     * 3. Click 'Save'.
+     *
+     * Steps:
+     *
+     * 1. Click 'Create Store' button.
+     *
+     * 2. Fill in fields except the field "Name"
+     *
+     * 3. Click 'Save Store' button.
+     *
      * Expected result:
-     * Store is not created. Error Message is displayed
+     *
+     * Store is not created.
+     *
+     * Error Message is displayed for field "Name".
      */
     public function test_WithRequiredFieldsEmpty_EmptyName()
     {
@@ -85,12 +108,21 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
     }
 
     /**
-     * Create Store. Fill in all reqired fields except the field "Root Category" .
-     * 1. Click 'Add Store'
-     * 2. Fill in fields.
-     * 3. Click 'Save'.
+     * Create Store. Fill in all reqired fields except the field "Root Category".
+     *
+     * Steps:
+     *
+     * 1. Click 'Create Store' button.
+     *
+     * 2. Fill in fields except the field "Root Category"
+     *
+     * 3. Click 'Save Store' button.
+     *
      * Expected result:
-     * Store is not created. Error Message is displayed
+     *
+     * Store is not created.
+     *
+     * Error Message is displayed for field "Root Category".
      */
     public function test_WithRequiredFieldsEmpty_EmptyRootCategory()
     {
@@ -105,11 +137,20 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
 
     /**
      * Create Store. Fill in only reqired fields. Use max long values for field 'Name'
-     * 1. Click 'Add Store'
-     * 2. Fill in fields.
-     * 3. Click 'Save'.
+     *
+     * Steps:
+     *
+     * 1. Click 'Create Store' button.
+     *
+     * 2. Fill in required fields by long value alpha-numeric data.
+     *
+     * 3. Click 'Save Store' button.
+     *
      * Expected result:
-     * Store is created. Success Message is displayed
+     *
+     * Store is created. Success Message is displayed.
+     *
+     * Length of field "Name" is 255 characters.
      */
     public function test_WithLongValues()
     {
@@ -132,11 +173,22 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
 
     /**
      * Create Store. Fill in field 'Name' by using special characters.
-     * 1. Click 'Add Store'
-     * 2. Fill in fields.
-     * 3. Click 'Save'.
+     *
+     * Steps:
+     *
+     * 1. Click 'Create Store' button.
+     *
+     * 2. Fill in 'Name' field by special characters.
+     *
+     * 3. Fill other required fields by regular data.
+     *
+     * 4. Click 'Save Store' button.
+     *
      * Expected result:
-     * Store is created. Success Message is displayed
+     *
+     * Store is created.
+     *
+     * Success Message is displayed
      */
     public function test_WithSpecialCharacters_InName()
     {
