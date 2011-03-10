@@ -35,8 +35,17 @@
  */
 class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
 {
+    /**
+     * Tab Id
+     * @var string
+     */
     protected $tabId = '';
 
+    /**
+     *
+     * @param <type> $tabId
+     * @param array $tabContainer 
+     */
     public function  __construct($tabId, array &$tabContainer) {
         $this->tabId = $tabId;
         $this->xPath = isset($tabContainer['xpath'])?$tabContainer['xpath']:'';
@@ -54,6 +63,11 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
         return $this->tabId;
     }
 
+    /**
+     *
+     * @param <type> $id
+     * @return <type>
+     */
     public function getFieldset($id)
     {
         return isset($this->_elements['fieldsets'])?$this->_elements['fieldsets']->getFieldset($id):null;

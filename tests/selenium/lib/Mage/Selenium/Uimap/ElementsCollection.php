@@ -27,7 +27,7 @@
  */
 
 /**
- * Page uimap class
+ * UIMap Atomic Elements collection class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -35,19 +35,37 @@
  */
 class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
 {
-    protected $_type;
+    /**
+     * Type of element
+     * @var string
+     */
+    protected $_type = '';
 
+    /**
+     * Constructor
+     * @param string Type of element
+     * @param array Elements array
+     */
     public function __construct($type, $objects)
     {
         $this->_type = $type;
         parent::__construct($objects);
     }
 
+    /**
+     * Get type of element
+     * @return string
+     */
     public function getType()
     {
         return $_type;
     }
 
+    /**
+     * Get eement by Id
+     * @param string Id of element
+     * @return string
+     */
     public function get($id)
     {
         return isset($this[$id])?$this[$id]:null;

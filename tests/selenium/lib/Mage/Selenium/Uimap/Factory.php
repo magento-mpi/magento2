@@ -35,6 +35,12 @@
  */
 class Mage_Selenium_Uimap_Factory
 {
+    /**
+     *
+     * @param <type> $elemKey
+     * @param <type> $elemValue
+     * @return <type> 
+     */
     public static function createUimapElement($elemKey, &$elemValue) {
         $elements = null;
         switch($elemKey)

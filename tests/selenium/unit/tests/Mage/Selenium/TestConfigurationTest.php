@@ -171,6 +171,7 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info')->getFields()->get('first_name'));
         var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info')->getAllElements('required'));
         var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info')->getAllRequired());
+        var_dump($uipage->getMessage('success_save_customer'));
         //var_dump($uipage);
     }
 

@@ -27,7 +27,7 @@
  */
 
 /**
- * Page uimap class
+ * UIMap Tabs collection class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -35,13 +35,11 @@
  */
 class Mage_Selenium_Uimap_TabsCollection extends ArrayObject
 {
-    /*
-    public function __construct(&$tabs) {
-        
-        //parent::__construct($tabs);
-    }
-    */
-
+    /**
+     * Get Tab structure by name
+     * @param string Tab name
+     * @return Mage_Selenium_Uimap_Tab
+     */
     public function getTab($name) {
         return isset($this[$name])?$this[$name]:null;
     }

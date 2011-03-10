@@ -35,8 +35,17 @@
  */
 class Mage_Selenium_Uimap_Fieldset extends Mage_Selenium_Uimap_Abstract
 {
+    /**
+     *
+     * @var string
+     */
     protected $fieldsetId = '';
 
+    /**
+     *
+     * @param <type> $fieldsetId
+     * @param array $fieldsetContainer 
+     */
     public function  __construct($fieldsetId, array &$fieldsetContainer) {
         $this->fieldsetId = $fieldsetId;
         $this->xPath = isset($fieldsetContainer['xpath'])?$fieldsetContainer['xpath']:'';

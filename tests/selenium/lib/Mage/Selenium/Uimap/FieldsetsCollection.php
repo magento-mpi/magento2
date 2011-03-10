@@ -27,7 +27,7 @@
  */
 
 /**
- * Page uimap class
+ * UIMap Fieldsets collection class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -35,12 +35,11 @@
  */
 class Mage_Selenium_Uimap_FieldsetsCollection extends ArrayObject
 {
-    /*
-    public function  __construct(array &$tabs) {
-        parent::__construct($tabs);
-    }
-    */
-
+    /**
+     * Get Fieldset structure by name
+     * @param string Fieldset name
+     * @return Mage_Selenium_Uimap_Fieldset
+     */
     public function getFieldset($name) {
         return isset($this[$name])?$this[$name]:null;
     }

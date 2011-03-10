@@ -35,6 +35,10 @@
  */
 class Mage_Selenium_Uimap_Form extends Mage_Selenium_Uimap_Abstract
 {
+    /**
+     *
+     * @param array $formContainer
+     */
     public function  __construct(array &$formContainer) {
         $this->parseContainerArray($formContainer);
     }

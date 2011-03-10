@@ -35,8 +35,22 @@
  */
 class Mage_Selenium_Uimap_Abstract
 {
+    /**
+     *
+     * @var string
+     */
     protected $xPath = '';
+
+    /**
+     *
+     * @var array
+     */
     protected $_elements = array();
+
+    /**
+     *
+     * @var Mage_Selenium_Uimap_ElementsCollection
+     */
     protected $_elements_cache = array();
 
     /**
@@ -49,11 +63,19 @@ class Mage_Selenium_Uimap_Abstract
         return $xPath;
     }
 
+    /**
+     *
+     * @return array
+     */
     public function &getElements()
     {
         return $this->_elements;
     }
 
+    /**
+     *
+     * @param array Array with UIMap
+     */
     protected function parseContainerArray(array &$container)
     {
         foreach($container as $formElemKey=>&$formElemValue) {
@@ -75,6 +97,13 @@ class Mage_Selenium_Uimap_Abstract
         }
     }
 
+    /**
+     *
+     * @param <type> $elementType
+     * @param <type> $container
+     * @param <type> $cache
+     * @return <type>
+     */
     protected function getElementsRecursive($elementType, &$container, &$cache)
     {
         foreach($container as $elKey=>&$elValue) {
@@ -92,6 +121,11 @@ class Mage_Selenium_Uimap_Abstract
         return $cache;
     }
 
+    /**
+     *
+     * @param <type> $elementType
+     * @return <type>
+     */
     public function getAllElements($elementType)
     {
         if(empty($this->_elements_cache[$elementType])) {
@@ -103,6 +137,12 @@ class Mage_Selenium_Uimap_Abstract
         return $this->_elements_cache[$elementType];
     }
 
+    /**
+     *
+     * @param <type> $name
+     * @param <type> $arguments
+     * @return <type>
+     */
     public function __call($name,  $arguments) {
         if(preg_match('|^getAll(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 6));

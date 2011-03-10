@@ -35,10 +35,29 @@
  */
 class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
 {
+    /**
+     *
+     * @var <type>
+     */
     protected $pageId = '';
+
+    /**
+     *
+     * @var <type>
+     */
     protected $mca = '';
+
+    /**
+     *
+     * @var <type>
+     */
     protected $title = '';
 
+    /**
+     *
+     * @param <type> $pageId
+     * @param array $pageContainer
+     */
     public function  __construct($pageId, array &$pageContainer) {
         $this->pageId = $pageId;
         if(isset($pageContainer['mca'])) $this->mca = $pageContainer['mca'];
@@ -83,9 +102,14 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
         return $this->_elements['form']; // Stub
     }
 
+    /**
+     *
+     * @param <type> $id
+     * @return string
+     */
     public function getMessage($id)
     {
-        return isset($this->_elements['messages'][$id])?$this->_elements['messages'][$id]:'';
+        return isset($this->_elements['messages'])?$this->_elements['messages']->get($id):'';
     }
 
     /**
