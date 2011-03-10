@@ -34,7 +34,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_Layoutupdate_Validator_Layoutupdate extends Zend_Validate_Abstract
+class Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected extends Zend_Validate_Abstract
 {
     const XML_INVALID                             = 'invalidXml';
     const PROTECTED_ATTR_HELPER_IN_TAG_ACTION_VAR = 'protectedAttrHelperInActionVar';
@@ -56,39 +56,25 @@ class Mage_Adminhtml_Model_Layoutupdate_Validator_Layoutupdate extends Zend_Vali
     );
 
     /**
-     * Helper
-     *
-     * @var Mage_Catalog_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * Helper class path
-     *
-     * @var string
-     */
-    protected $_helperClassPath = 'core';
-
-    /**
      * Construct
      */
     public function __construct()
     {
-        $this->_initErrorMessages();
+        $this->_initMessageTemplates();
     }
 
     /**
-     * Initialize error messages with translating
+     * Initialize messages templates with translating
      *
-     * @return Mage_Adminhtml_Model_Layoutupdate_Validator_Layoutupdate
+     * @return Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected
      */
-    protected function _initErrorMessages()
+    protected function _initMessageTemplates()
     {
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
                 self::PROTECTED_ATTR_HELPER_IN_TAG_ACTION_VAR =>
-                    $this->_getHelper()->__('In XML data, the "action" tag cannot contain the "helper" attribute.'),
-                self::XML_INVALID => $this->_getHelper()->__('XML data is invalid.'),
+                    Mage::helper('adminhtml')->__('Helper attributes should not be used in custom layout updates.'),
+                self::XML_INVALID => Mage::helper('adminhtml')->__('XML data is invalid.'),
             );
         }
         return $this;
@@ -112,8 +98,8 @@ class Mage_Adminhtml_Model_Layoutupdate_Validator_Layoutupdate extends Zend_Vali
                 return false;
             }
         } elseif (!($value instanceof Varien_Simplexml_Element)) {
-            throw new Mage_Core_Exception(
-                $this->_getHelper()->__('XML object is not instance of "Varien_Simplexml_Element".'));
+            throw new Exception(
+                Mage::helper('adminhtml')->__('XML object is not instance of "Varien_Simplexml_Element".'));
         }
 
         $this->_setValue($value);
@@ -125,18 +111,5 @@ class Mage_Adminhtml_Model_Layoutupdate_Validator_Layoutupdate extends Zend_Vali
             }
         }
         return true;
-    }
-
-    /**
-     * Get helper
-     *
-     * @return Mage_Core_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        if (null === $this->_helper) {
-            $this->_helper = Mage::helper($this->_helperClassPath);
-        }
-        return $this->_helper;
     }
 }
