@@ -147,8 +147,5 @@ $installer->addAttribute('quote', 'use_customer_balance', array('type'=>'integer
 $installer->addAttribute('creditmemo', 'bs_customer_bal_total_refunded', array('type'=>'decimal'));
 $installer->addAttribute('creditmemo', 'customer_bal_total_refunded', array('type'=>'decimal'));
 
-
 $installer->addAttribute('order', 'bs_customer_bal_total_refunded', array('type'=>'decimal'));
 $installer->addAttribute('order', 'customer_bal_total_refunded', array('type'=>'decimal'));
-
-

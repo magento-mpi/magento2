@@ -31,7 +31,6 @@ $installer->startSetup();
 /*
  * Creating initial versions and revisions
  */
-
 $attributes = array(
     'root_template',
     'meta_keywords',

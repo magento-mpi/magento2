@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Customer>
-            <version>1.10.0.0</version>
+            <version>1.11.0.0</version>
         </Enterprise_Customer>
     </modules>
     <global>

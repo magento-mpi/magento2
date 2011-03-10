@@ -25,12 +25,19 @@
  */
 
 /**
- * Gift registry item option mysql4 resource model
+ * Gift registry item option resource model
  *
  * @category    Enterprise
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Mysql4_Item_Option extends Enterprise_GiftRegistry_Model_Resource_Item_Option
+class Enterprise_GiftRegistry_Model_Resource_Item_Option extends Mage_Core_Model_Resource_Db_Abstract
 {
+    /**
+     * Internal constructor
+     */
+    protected function _construct()
+    {
+        $this->_init('enterprise_giftregistry/item_option', 'option_id');
+    }
 }

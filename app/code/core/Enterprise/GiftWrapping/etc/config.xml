@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_GiftWrapping>
-             <version>1.10.0.0.8</version>
+             <version>1.11.0.0</version>
         </Enterprise_GiftWrapping>
     </modules>
 
@@ -39,7 +39,7 @@
                 <resourceModel>enterprise_giftwrapping_resource</resourceModel>
             </enterprise_giftwrapping>
             <enterprise_giftwrapping_resource>
-                <class>Enterprise_GiftWrapping_Model_Resource_Mysql4</class>
+                <class>Enterprise_GiftWrapping_Model_Resource</class>
                 <entities>
                     <wrapping><table>enterprise_giftwrapping</table></wrapping>
                     <attribute><table>enterprise_giftwrapping_store_attributes</table></attribute>

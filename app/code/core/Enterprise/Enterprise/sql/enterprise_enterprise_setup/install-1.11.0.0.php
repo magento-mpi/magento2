@@ -19,18 +19,12 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_GiftRegistry
+ * @package     Enterprise_Enterprise
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Gift registry item option mysql4 resource model
- *
- * @category    Enterprise
- * @package     Enterprise_GiftRegistry
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_GiftRegistry_Model_Mysql4_Item_Option extends Enterprise_GiftRegistry_Model_Resource_Item_Option
-{
-}
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer = $this;
+
+$installer->getConnection()->truncateTable($installer->getTable('adminnotification/inbox'));
