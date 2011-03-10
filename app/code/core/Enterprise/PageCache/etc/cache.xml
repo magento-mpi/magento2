@@ -79,7 +79,7 @@
         <widget_enterprise_banner>
             <block>enterprise_banner/widget_banner</block>
             <placeholder>WIDGET_ENTERPRISE_BANNER</placeholder>
-            <container>Enterprise_PageCache_Model_Container_Widget_Enterprise_Banner</container>
+            <container>Enterprise_PageCache_Model_Container_Banner</container>
             <cache_lifetime>86400</cache_lifetime>
         </widget_enterprise_banner>
     </placeholders>
