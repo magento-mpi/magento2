@@ -13,7 +13,7 @@
 ::       E.g. for PHP 4.2 C:\phpdev\php-4.2-Win32\php-cli.exe
 ::            for PHP 4.3 C:\phpdev\php-4.3-Win32\cli\php.exe
   
-  SET phpCli=D:\wamp\bin\php\php5.3.0\php.exe
+  SET phpCli=%PHPBIN%
 
 
 

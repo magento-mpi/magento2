@@ -19,7 +19,7 @@ exit 0
 // so we can load phpDocumentor.ini from current folder
 $GLOBALS['_phpDocumentor_install_dir'] = dirname(__FILE__);
 
-$phpDocumentor_dir = dirname(__FILE__) . '/PhpDocumentor/phpDocumentor';
+$phpDocumentor_dir = 'PhpDocumentor/phpDocumentor';
 $classes_dir       = dirname(__FILE__) . '/classes';
 
 // Load custom classes
@@ -30,9 +30,9 @@ require_once($classes_dir . '/parserTagCustom.php');
 // Load settings
 $phpdoc = new phpDocumentor_setupCustom($classes_dir . '\tags');
 
-// Point $_phpDocumentor_install_dir to phpDocumentor subfolder
+// Point $_phpDocumentor_install_dir to phpDocumentor 
 // for correct loading of converters
-$GLOBALS['_phpDocumentor_install_dir'] = dirname(__FILE__) . '/PhpDocumentor';
+$GLOBALS['_phpDocumentor_install_dir'] = 'PhpDocumentor/phpDocumentor';
 
 $phpdoc->readCommandLineSettings();
 $phpdoc->setupConverters();
