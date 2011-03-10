@@ -101,4 +101,102 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         
     }
 
+    /**
+     * Testing Mage_Selenium_TestCase::errorMessage()
+     */
+    public function testErrorMessage()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $_formData = $_testCaseInst->loadData('generic_customer_account');
+        $_testCaseInst->click('//*[@id="add_address_button"]');
+        $_testCaseInst->setParameter('address_number', 1);
+        $this->assertNotNull($_testCaseInst->fillForm($_formData));
+        $_testCaseInst->click('//*[@id="delete_button21"]');
+        $_testCaseInst->getConfirmation();
+        $_testCaseInst->clickButton('save_customer', false);
+
+        sleep(5);
+
+        $this->assertFalse($_testCaseInst->successMessage());
+        $this->assertTrue($_testCaseInst->errorMessage());
+    }
+
+    /**
+     * Testing Mage_Selenium_TestCase::successMessage()
+     */
+    public function testSuccessMessage()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $_formData = $_testCaseInst->loadData('generic_customer_account');
+        $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
+
+        $_testCaseInst->click('//*[@id="add_address_button"]');
+        $_testCaseInst->setParameter('address_number', 1);
+        $this->assertNotNull($_testCaseInst->fillForm($_formData));
+        $_testCaseInst->click('//*[@id="delete_button21"]');
+        $_testCaseInst->getConfirmation();
+        $_testCaseInst->clickButton('save_customer');
+
+        $this->assertTrue($_testCaseInst->successMessage());
+        $this->assertFalse($_testCaseInst->errorMessage());
+    }
+
+    /**
+     * Testing Mage_Selenium_TestCase::checkMessage()
+     */
+    public function testCheckMessage()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $_formData = $_testCaseInst->loadData('generic_customer_account');
+        $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
+
+        $_message = $this->_config->getUimapValue('admin', 'create_customer/uimap/messages/success_save_customer');
+
+        $_testCaseInst->click('//*[@id="add_address_button"]');
+        $_testCaseInst->setParameter('address_number', 1);
+        $this->assertNotNull($_testCaseInst->fillForm($_formData));
+        $_testCaseInst->click('//*[@id="delete_button21"]');
+        $_testCaseInst->getConfirmation();
+        $_testCaseInst->clickButton('save_customer');
+
+        $this->assertTrue($_testCaseInst->checkMessage($_message));
+    }
+
+    /**
+     * Testing Mage_Selenium_TestCase::getMessages()
+     */
+    public function testGetMessages()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $_formData = $_testCaseInst->loadData('generic_customer_account', null, 'email');
+        $_testCaseInst->click('//*[@id="add_address_button"]');
+        $_testCaseInst->setParameter('address_number', 1);
+        $this->assertNotNull($_testCaseInst->fillForm($_formData));
+        $_testCaseInst->click('//*[@id="delete_button21"]');
+        $_testCaseInst->getConfirmation();
+        $_testCaseInst->clickButton('save_customer', false);
+
+        sleep(5);
+
+        $this->assertInternalType('array', $_testCaseInst->getMessages(Mage_Selenium_TestCase::xpathSuccessMessage));
+        $this->assertInternalType('array', $_testCaseInst->getMessages(Mage_Selenium_TestCase::xpathErrorMessage));
+        $this->assertNotEmpty($_testCaseInst->getMessages(Mage_Selenium_TestCase::xpathErrorMessage));
+    }
+
 }

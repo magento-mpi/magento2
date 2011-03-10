@@ -120,6 +120,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const timeoutPeriod = 30000;
 
     /**
+     * Success message Xpath
+     *
+     * @var string
+     */
+    const xpathSuccessMessage = "li[normalize-space(@class)='success-msg']/ul/li";
+
+    /**
+     * Error message Xpath
+     *
+     * @var string
+     */
+    const xpathErrorMessage = "li[normalize-space(@class)='error-msg']/ul/li";
+
+    /**
      * Constructor
      *
      * @param  string $name
@@ -461,18 +475,78 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this;
     }
 
+    /**
+     * Messages helper methods
+     */
+
+    /**
+     * Check if message exists on page
+     *
+     * @param string $xpath
+     * @return boolean
+     */
+    public function checkMessage($xpath = null)
+    {
+        if (empty($xpath)) {
+            return false;
+        }
+
+        if ($this->getXpathCount('//' . $xpath) > 0) {
+            return true;
+        }
+
+        $this->messages = array_merge(
+            $this->getMessages(self::xpathSuccessMessage),
+            $this->getMessages(self::xpathErrorMessage)
+        );
+
+        return false;
+    }
+
+    /**
+     * Check if any error message exists on page
+     *
+     * @return boolean
+     */
     public function errorMessage()
     {
-        // @TODO
-        return $this;
+        return $this->checkMessage(self::xpathErrorMessage);
     }
 
+    /**
+     * Check if any success message exists on page
+     *
+     * @return boolean
+     */
     public function successMessage()
     {
-        // @TODO
-        return $this;
+        return $this->checkMessage(self::xpathSuccessMessage);
     }
 
+    /**
+     * Get all messages by xpath
+     *
+     * @param string $xpath
+     * @return boolean
+     */
+    public function getMessages($xpath = null)
+    {
+        $messages = array();
+
+        if (!empty($xpath)) {
+            $totalElements = $this->getXpathCount('//' . $xpath);
+
+            for ($i = 1; $i < $totalElements + 1; $i++) {
+                $message = $this->getText('//' . $xpath . '[' . $i . ']');
+
+                if (!empty($message)) {
+                    $messages[] = $message;
+                }
+            }
+        }
+
+        return $messages;
+    }
 
     /**
      * Magento helper methods
@@ -567,6 +641,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function assertTrue($condition, $message = '')
     {
+        if (is_array($message)) {
+            $message =  implode("\n", $message);
+        }
+
         // @TODO
         self::assertThat(true, self::isTrue(), $message);
 //        self::assertThat((boolean)$condition, self::isTrue(), $message);
@@ -585,6 +663,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public static function assertFalse($condition, $message = '')
     {
+        if (is_array($message)) {
+            $message =  implode("\n", $message);
+        }
+
         // @TODO
         self::assertThat(false, self::isFalse(), $message);
 //        self::assertThat((boolean)$condition, self::isFalse(), $message);
