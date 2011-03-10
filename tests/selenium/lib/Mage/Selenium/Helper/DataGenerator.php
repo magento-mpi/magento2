@@ -106,6 +106,10 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_AbstractHelper
      */
     public function generateEmailAddress($length=100, $validity='valid', $prefix='')
     {
+        if (!$validity) {
+            $validity = 'valid';
+        }
+        
         $email = $prefix;
 
         $length -= strlen($this->_emailDomain)+1;

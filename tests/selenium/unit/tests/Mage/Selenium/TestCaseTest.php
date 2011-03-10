@@ -58,7 +58,6 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotEmpty($_formData);
         $this->assertInternalType('array', $_formData);
 
-        //@TODO Replace with $_testCaseInst->clickButton
         $_testCaseInst->click('//*[@id="add_address_button"]');
 
         $_testCaseInst->setParameter('address_number', 1);

@@ -65,7 +65,7 @@ class Mage_Selenium_Helper_Sut extends Mage_Selenium_AbstractHelper
     public function setArea($area)
     {
         if (!in_array($area, array('admin', 'frontend'))) {
-            // @TODO throw an exception
+            throw new OutOfRangeException();
         }
         $this->_area = $area;
         return $this;

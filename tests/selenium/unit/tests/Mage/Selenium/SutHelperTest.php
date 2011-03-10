@@ -54,12 +54,11 @@ class Mage_Selenium_Helper_SutTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing exception throwing in Mage_Selenium_Helper_Sut::setArea()
+     * Testing OutOfRangeException throwing in Mage_Selenium_Helper_Sut::setArea()
      */
-    public function testSetAreaException()
+    public function testSetAreaOutOfRangeException()
     {
-        // @TODO: Set Exception name
-        //$this->setExpectedException('Exception');
+        $this->setExpectedException('OutOfRangeException');
         $this->_sutHelper->setArea('invalid-area');
     }
 
