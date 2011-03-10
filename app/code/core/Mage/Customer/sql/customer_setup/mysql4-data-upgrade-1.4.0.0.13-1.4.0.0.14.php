@@ -26,7 +26,6 @@
 
 /* @var $installer Mage_Customer_Model_Entity_Setup */
 $installer = $this;
-$store     = Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 /* @var $eavConfig Mage_Eav_Model_Config */
 $eavConfig = Mage::getSingleton('eav/config');
 
