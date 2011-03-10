@@ -367,7 +367,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function clickButton($button, $willChangePage = true)
     {
-        $buttonLocator = $this->_getUimapData($this->_currentPage.'/uimap/buttons/'.$button);
+        $buttonLocator = $this->_getUimapPage()->findButton($button);
+
         if(!empty($buttonLocator))
         {
             $this->click('//'.$buttonLocator);
@@ -389,9 +390,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function controlIsPresent($controlType, $controlName)
     {
-        $data = $this->_testConfig->getUimapValue($this->_area);
-
-        $uipage = new Mage_Selenium_Uimap_Page($this->_currentPage, $data[$this->_currentPage]);
+        $uipage = $this->_getUimapPage();
 
         $method = 'find' . ucfirst(strtolower($controlType));
         $xpath = call_user_func(array($uipage, $method), $controlName);
@@ -685,6 +684,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
 
+    /**
+     * Get Uimap_Page object for current page
+     *
+     * @return Mage_Selenium_Uimap_Page
+     */
+    protected function _getUimapPage()
+    {
+        $data = $this->_testConfig->getUimapValue($this->_area);
+        $uipage = new Mage_Selenium_Uimap_Page($this->_currentPage, $data[$this->_currentPage]);
+
+        return $uipage;
+    }
 
     /**
      * Get node from data configuration by path
