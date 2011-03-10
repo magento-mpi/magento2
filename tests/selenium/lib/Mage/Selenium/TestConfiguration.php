@@ -421,6 +421,9 @@ class Mage_Selenium_TestConfiguration
         $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'uimaps'
                 . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . '*.yml';
         $this->_uimapData[$area] = $this->getFileHelper()->loadYamlFiles($files);
+
+        //$this->_uimapData[$area]
+
         return $this;
     }
 

@@ -35,41 +35,28 @@
  */
 class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
 {
+    protected $tabId = '';
 
-    /**
-     * Get fieldsets defined on the current tab
-     *
-     * @return array
-     */
-    public function getFieldsets()
-    {
-        $fieldsets = array();
-        // @TODO
-        return $fieldsets;
+    public function  __construct($tabId, array &$tabContainer) {
+        $this->tabId = $tabId;
+        $this->xPath = isset($tabContainer['xpath'])?$tabContainer['xpath']:'';
+
+        $this->parseContainerArray($tabContainer);
+        //var_dump( $this->_fieldsets );
     }
 
     /**
-     * Get buttons defined on the current tab
-     *
-     * @return array
+     * Get page ID
+     * @return string
      */
-    public function getButtons()
+    public function getTabId()
     {
-        $buttons = array();
-        // @TODO
-        return $buttons;
+        return $this->tabId;
     }
 
-    /**
-     * Get all fields on the current tab, as well as on all fieldsets of this tab
-     *
-     * @return array
-     */
-    public function getAllFields()
+    public function getFieldset($id)
     {
-        $fields = array();
-        // @TODO
-        return $fields;
+        return isset($this->_elements['fieldsets'])?$this->_elements['fieldsets']->getFieldset($id):null;
     }
 
 }

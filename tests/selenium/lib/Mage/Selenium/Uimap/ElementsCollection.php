@@ -27,21 +27,30 @@
  */
 
 /**
- * Fieldset uimap class
+ * Page uimap class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Selenium_Uimap_Fieldset extends Mage_Selenium_Uimap_Abstract
+class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
 {
-    protected $fieldsetId = '';
+    protected $_type;
 
-    public function  __construct($fieldsetId, array &$fieldsetContainer) {
-        $this->fieldsetId = $fieldsetId;
-        $this->xPath = isset($fieldsetContainer['xpath'])?$fieldsetContainer['xpath']:'';
-
-        $this->parseContainerArray($fieldsetContainer);
+    public function __construct($type, $objects)
+    {
+        $this->_type = $type;
+        parent::__construct($objects);
     }
 
+    public function getType()
+    {
+        return $_type;
+    }
+
+    public function get($id)
+    {
+        return isset($this[$id])?$this[$id]:null;
+    }
+    
 }
