@@ -389,7 +389,9 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     {
         $response = $this->getResponse();
         //md5 check
-        if (!$response->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))) {
+        if (!$this->getConfigData('trans_md5') || !$this->getConfigData('login') ||
+            !$response->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))
+        ) {
             Mage::throwException(
                 Mage::helper('authorizenet')->__('Response hash validation failed. Transaction declined.')
             );
