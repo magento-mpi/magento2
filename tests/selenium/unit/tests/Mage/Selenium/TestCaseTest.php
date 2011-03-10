@@ -66,7 +66,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_TestCase::сontrolIsPresent()
+     * Testing Mage_Selenium_TestCase::controlIsPresent()
      */
     public function testControlIsPresent()
     {
@@ -77,8 +77,9 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->navigate('create_customer'));
 
         $this->assertTrue($_testCaseInst->controlIsPresent('button', 'save_customer'));
+        //@TODO use setParameter for %address_number%
         $this->assertTrue($_testCaseInst->controlIsPresent('field', 'prefix'));
-        //$this->assertFalse($_testCaseInst->controlIsPresent('field', 'invalid-field'));
+        $this->assertFalse($_testCaseInst->controlIsPresent('field', 'invalid-field'));
     }
 
     /**
@@ -162,7 +163,9 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $_formData = $_testCaseInst->loadData('generic_customer_account');
         $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
 
-        $_message = $this->_config->getUimapValue('admin', 'create_customer/uimap/messages/success_save_customer');
+        $data = $this->_config->getUimapValue('admin');
+        $uipage = new Mage_Selenium_Uimap_Page('create_customer', $data['create_customer']);
+        $_message = $uipage->getMessage('success_save_customer');
 
         $_testCaseInst->click('//*[@id="add_address_button"]');
         $_testCaseInst->setParameter('address_number', 1);

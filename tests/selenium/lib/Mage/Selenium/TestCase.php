@@ -85,7 +85,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_pageHelper = null;
 
     /**
-     * @TODO
+     * Success and error messages on current page
      *
      * @var array
      */
@@ -389,10 +389,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function controlIsPresent($controlType, $controlName)
     {
-        // @TODO
+        $data = $this->_testConfig->getUimapValue($this->_area);
 
+        $uipage = new Mage_Selenium_Uimap_Page($this->_currentPage, $data[$this->_currentPage]);
 
-        return true;
+        $method = 'find' . ucfirst(strtolower($controlType));
+        $xpath = call_user_func(array($uipage, $method), $controlName);
+
+        if ($xpath && $this->getXpathCount('//' . $xpath) > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -485,7 +493,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $xpath
      * @return boolean
      */
-    public function checkMessage($xpath = null)
+    public function checkMessage($xpath)
     {
         if (empty($xpath)) {
             return false;
