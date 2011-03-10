@@ -144,6 +144,37 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         $this->getResponse()->setBody($response->toJson());
     }
 
+    /**
+     * Filter post data
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function _filterPostData($data)
+    {
+        if ($data) {
+            /** @var $helperCatalog Mage_Catalog_Helper_Data */
+            $helperCatalog = Mage::helper('catalog');
+            //labels
+            foreach ($data['frontend_label'] as & $value) {
+                if ($value) {
+                    $value = $helperCatalog->stripTags($value);
+                }
+            }
+            //option values
+            if (!empty($data['option']['value'])) {
+                foreach ($data['option']['value'] as & $optionValues) {
+                    foreach ($optionValues as & $value) {
+                        if ($value) {
+                            $value = $helperCatalog->stripTags($value);
+                        }
+                    }
+                }
+            }
+        }
+        return $data;
+    }
+
     public function saveAction()
     {
         $data = $this->getRequest()->getPost();
@@ -207,14 +238,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $data['apply_to'] = array();
             }
 
-            /**
-             * Filtering
-             */
-            /** @var $helperCore Mage_Catalog_Helper_Data */
-            $helperCore = Mage::helper('core');
-            foreach ($data['frontend_label'] as & $value) {
-                $value = $helperCore->stripTags($value);
-            }
+            //filtering
+            $data = $this->_filterPostData($data);
 
             $model->addData($data);
 
