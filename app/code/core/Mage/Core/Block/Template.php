@@ -34,6 +34,9 @@
  */
 class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 {
+    const XML_PATH_DEBUG_TEMPLATE_HINTS         = 'dev/debug/template_hints';
+    const XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS  = 'dev/debug/template_hints_blocks';
+    const XML_PATH_TEMPLATE_ALLOW_SYMLINK       = 'dev/template/allow_symlink';
 
     /**
      * View scripts directory
@@ -183,9 +186,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function getShowTemplateHints()
     {
         if (is_null(self::$_showTemplateHints)) {
-            self::$_showTemplateHints = Mage::getStoreConfig('dev/debug/template_hints')
+            self::$_showTemplateHints = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
                 && Mage::helper('core')->isDevAllowed();
-            self::$_showTemplateHintsBlocks = Mage::getStoreConfig('dev/debug/template_hints_blocks')
+            self::$_showTemplateHintsBlocks = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
                 && Mage::helper('core')->isDevAllowed();
         }
         return self::$_showTemplateHints;
@@ -342,7 +345,7 @@ HTML;
     protected function _getAllowSymlinks()
     {
         if (is_null($this->_allowSymlinks)) {
-            $this->_allowSymlinks = Mage::getStoreConfigFlag('dev/template/allow_symlink');
+            $this->_allowSymlinks = Mage::getStoreConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
         }
         return $this->_allowSymlinks;
     }
