@@ -250,8 +250,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     {
         $errorNo = true;
         if (!empty($data['layout_update_xml']) || !empty($data['custom_layout_update_xml'])) {
-            /** @var $validatorCustomLayout Mage_Adminhtml_Model_Layoutupdate_Validator_Layoutupdate */
-            $validatorCustomLayout = Mage::getModel('adminhtml/layoutupdate_validator_layoutupdate');
+            /** @var $validatorCustomLayout Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected */
+            $validatorCustomLayout = Mage::getModel('adminhtml/layoutUpdate_validator_notProtected');
             if (!empty($data['layout_update_xml']) && !$validatorCustomLayout->isValid($data['layout_update_xml'])) {
                 $errorNo = false;
             }

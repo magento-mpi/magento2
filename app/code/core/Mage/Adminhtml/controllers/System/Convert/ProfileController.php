@@ -45,7 +45,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         if ($profileId) {
             $profile->load($profileId);
             if (!$profile->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError('The profile you are trying to save no longer exists');
+                Mage::getSingleton('adminhtml/session')->addError(
+                    $this->__('The profile you are trying to save no longer exists'));
                 $this->_redirect('*/*');
                 return false;
             }
@@ -86,15 +87,21 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Import/Export'), Mage::helper('adminhtml')->__('Import/Export Advanced'));
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Advanced Profiles'), Mage::helper('adminhtml')->__('Advanced Profiles'));
+        $this->_addBreadcrumb(
+            Mage::helper('adminhtml')->__('Import/Export'),
+            Mage::helper('adminhtml')->__('Import/Export Advanced'));
+        $this->_addBreadcrumb(
+            Mage::helper('adminhtml')->__('Advanced Profiles'),
+            Mage::helper('adminhtml')->__('Advanced Profiles'));
 
         $this->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_convert_profile_grid')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/system_convert_profile_grid')->toHtml()
+        );
     }
 
     /**
@@ -148,7 +155,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         if ($profile->getId()) {
             try {
                 $profile->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('The profile has been deleted.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('adminhtml')->__('The profile has been deleted.'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -168,6 +176,24 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             }
             $profile = Mage::registry('current_convert_profile');
 
+            //validate export path
+            if (!empty($data['gui_data']['file']) && $data['gui_data']['file']['type'] == 'file') {
+                $path = rtrim($data['gui_data']['file']['path'], '\\/')
+                      . DS . $data['gui_data']['file']['filename'];
+                /** @var $validator Mage_Core_Model_File_Validator_SavePath_Available */
+                $validator = Mage::getModel('core/file_validator_savePath_available');
+                /** @var $helper Mage_ImportExport_Helper_Data */
+                $helper = Mage::helper('importexport');
+                $validator->setPaths($helper->getLocalExportValidPaths());
+                if (!$validator->isValid($path)) {
+                    foreach ($validator->getMessages() as $message) {
+                        Mage::getSingleton('adminhtml/session')->addError($message);
+                    }
+                    $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id' => $profile->getId())));
+                    return;
+                }
+            }
+
             // Prepare profile saving data
             if (isset($data)) {
                 $profile->addData($data);
@@ -176,7 +202,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             try {
                 $profile->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('The profile has been saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('adminhtml')->__('The profile has been saved.'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -191,7 +218,9 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             }
         }
         else {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('Invalid POST data (please check post_max_size and upload_max_filesize settings in your php.ini file).'));
+            Mage::getSingleton('adminhtml/session')->addError(
+                $this->__('Invalid POST data (please check post_max_size and upload_max_filesize settings in your php.ini file).')
+            );
             $this->_redirect('*/*');
         }
     }
@@ -209,8 +238,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             $batchId = $this->getRequest()->getPost('batch_id',0);
             $rowIds  = $this->getRequest()->getPost('rows');
 
-            $batchModel = Mage::getModel('dataflow/batch')->load($batchId);
             /* @var $batchModel Mage_Dataflow_Model_Batch */
+            $batchModel = Mage::getModel('dataflow/batch')->load($batchId);
 
             if (!$batchModel->getId()) {
                 //exit
@@ -289,7 +318,9 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
      */
     public function historyAction() {
         $this->_initProfile();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_history')->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/system_convert_profile_edit_tab_history')->toHtml()
+        );
     }
 
     protected function _isAllowed()

@@ -83,7 +83,8 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected extends Zend_Vali
     /**
      * Check on the validity
      *
-     * @throws Mage_Core_Exception  Throw exception when xml object is not instance of Varien_Simplexml_Element
+     * @throws Mage_Core_Exception  Throw exception when xml object is not
+     *                              instance of Varien_Simplexml_Element
      * @param Varien_Simplexml_Element|string $value
      * @return bool
      */
@@ -92,8 +93,10 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected extends Zend_Vali
         if (is_string($value)) {
             $value = trim($value);
             try {
-                $value = new Varien_Simplexml_Element($value);
-            } catch(Exception $e) {
+                //wrap XML value in the "config" tag because config cannot
+                //contain multiple root tags
+                $value = new Varien_Simplexml_Element('<config>' . $value . '</config>');
+            } catch (Exception $e) {
                 $this->_error(self::XML_INVALID);
                 return false;
             }

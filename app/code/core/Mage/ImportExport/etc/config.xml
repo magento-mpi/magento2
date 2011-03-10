@@ -125,4 +125,15 @@
             </updates>
         </layout>
     </adminhtml>
+    <default>
+        <general>
+            <file>
+                <importexport_local_export_valid_paths>
+                    <available>
+                        <export>var/export/*/*</export>
+                    </available>
+                </importexport_local_export_valid_paths>
+            </file>
+        </general>
+    </default>
 </config>
