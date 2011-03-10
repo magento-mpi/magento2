@@ -391,6 +391,13 @@
                     <shtml>shtml</shtml>
                     <!-- EOF HTML file extensions -->
                 </protected_extensions>
+
+                <!-- Valid Paths to make public files -->
+                <public_files_valid_paths>
+                    <protected>
+                        <app>/app/*/*</app>
+                    </protected>
+                </public_files_valid_paths>
             </file>
         </general>
     </default>

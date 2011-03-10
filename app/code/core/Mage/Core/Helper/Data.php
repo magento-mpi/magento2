@@ -31,8 +31,9 @@
  */
 class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_DEFAULT_COUNTRY           = 'general/country/default';
-    const XML_PATH_PROTECTED_FILE_EXTENSIONS = 'general/file/protected_extensions';
+    const XML_PATH_DEFAULT_COUNTRY              = 'general/country/default';
+    const XML_PATH_PROTECTED_FILE_EXTENSIONS    = 'general/file/protected_extensions';
+    const XML_PATH_PUBLIC_FILES_VALID_PATHS     = 'general/file/public_files_valid_paths';
 
     /**
      * @var Mage_Core_Model_Encryption
@@ -761,6 +762,16 @@ XML;
     public function getProtectedFileExtensions($store = null)
     {
         return Mage::getStoreConfig(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, $store);
+    }
+
+    /**
+     * Return list with public files valid paths
+     *
+     * @return array
+     */
+    public function getPublicFilesValidPath()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
     }
 
     /**

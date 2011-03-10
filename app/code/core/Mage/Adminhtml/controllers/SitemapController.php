@@ -119,6 +119,27 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             // init model and set data
             $model = Mage::getModel('sitemap/sitemap');
 
+            //validate path to generate
+            if (!empty($data['sitemap_filename']) && !empty($data['sitemap_path'])) {
+                $path = rtrim($data['sitemap_path'], '\\/')
+                      . DS . $data['sitemap_filename'];
+                /** @var $validator Mage_Core_Model_File_Validator_SavePath_Available */
+                $validator = Mage::getModel('core/file_validator_savePath_available');
+                /** @var $helper Mage_Adminhtml_Helper_Catalog */
+                $helper = Mage::helper('adminhtml/catalog');
+                $validator->setPaths($helper->getSitemapValidPaths());
+                if (!$validator->isValid($path)) {
+                    foreach ($validator->getMessages() as $message) {
+                        Mage::getSingleton('adminhtml/session')->addError($message);
+                    }
+                    // save data in session
+                    Mage::getSingleton('adminhtml/session')->setFormData($data);
+                    // redirect to edit form
+                    $this->_redirect('*/*/edit', array('sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
+                    return;
+                }
+            }
+
             if ($this->getRequest()->getParam('sitemap_id')) {
                 $model ->load($this->getRequest()->getParam('sitemap_id'));
 
@@ -126,7 +147,6 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                     unlink($model->getPreparedFilename());
                 }
             }
-
 
             $model->setData($data);
 
