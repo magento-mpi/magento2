@@ -60,7 +60,6 @@ class Mage_Core_Helper_File_Storage_Database extends Mage_Core_Helper_Abstract
      */
     public function checkDbUsage()
     {
-        return false;
         if (is_null($this->_useDb)) {
             $currentStorage = (int) Mage::app()
                 ->getConfig()->getNode(Mage_Core_Model_File_Storage::XML_PATH_STORAGE_MEDIA);
@@ -192,7 +191,8 @@ class Mage_Core_Helper_File_Storage_Database extends Mage_Core_Helper_Abstract
      */
     public function saveFileToFilesystem($filename) {
         if ($this->checkDbUsage()) {
-            $file = Mage::getModel('core/file_storage_database')->loadByFilename($this->_removeAbsPathFromFileName($filename));
+            $file = Mage::getModel('core/file_storage_database')->
+                loadByFilename($this->_removeAbsPathFromFileName($filename));
             if (!$file->getId()) {
                 return false;
             }

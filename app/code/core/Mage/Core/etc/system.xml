@@ -852,7 +852,6 @@
                         </return_path_email>
                     </fields>
                 </smtp>
-                <!-- DISABLED AS NOT COMPLETED FEATURE. DO NOT ENABLE IT
                 <media_storage_configuration translate="label" module="core">
                     <label>Storage Configuration for Media</label>
                     <frontend_type>text</frontend_type>
@@ -892,8 +891,16 @@
                                 to transfer all media to that location. Media will not be available in the new
                                 location until the synchronization process is complete.</comment>
                         </synchronize>
+                        <configuration_update_time translate="label">
+                            <label>Environment Update Time</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </configuration_update_time>
                     </fields>
-                </media_storage_configuration> -->
+                </media_storage_configuration>
             </groups>
         </system>
         <admin translate="label" module="core">
