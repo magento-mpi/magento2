@@ -421,7 +421,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getCurrentUimapPage()
     {
-        return $this->_uimapHelper->getUimapPage($this->getArea(), $this->_currentPage);
+        return $this->getUimapPage($this->getArea(), $this->_currentPage);
     }
 
     /**

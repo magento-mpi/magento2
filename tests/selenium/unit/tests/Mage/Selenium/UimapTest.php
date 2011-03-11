@@ -91,8 +91,20 @@ class Mage_Selenium_UimapTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($tabs);
         $this->assertInstanceOf('Mage_Selenium_Uimap_Tab', $tab);
 
-        var_dump($uipage->findFieldset('account_info')->getXPath());
 
+        $button = $uipage->getAllButtons()->get('save_customer');
+        $this->assertNotNull($button);
+        $this->assertInternalType('string', $button);
+
+
+        $field = $uipage->findField('first_name');
+        $this->assertNotNull($field);
+        $this->assertInternalType('string', $field);
+
+
+        $message = $uipage->findMessage('success_saved_customer');
+        $this->assertNotNull($message);
+        $this->assertInternalType('string', $message);
 
         /* Please, don't remove this code for future debugging
         //var_dump($uipage); die;
@@ -113,7 +125,7 @@ class Mage_Selenium_UimapTest extends Mage_PHPUnit_TestCase
 
         var_dump($uipage->getMainForm()->findField('first_name'));
         var_dump($uipage->getMainForm()->getTab('account_information')->findField('first_name'));
-        var_dump($uipage->findMessage('success_save_customer'));
+        var_dump($uipage->findMessage('success_saved_customer'));
         */
     }
 
