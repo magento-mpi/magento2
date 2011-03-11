@@ -449,7 +449,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $method = 'find' . ucfirst(strtolower($controlType));
 
         $xpath = $uipage->$method($controlName);
-        if (!is_string($xpath)) {
+
+        if (is_object($xpath) && method_exists($xpath, 'getXPath')) {
             $xpath = $xpath->getXPath();
         }
 
