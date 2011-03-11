@@ -48,6 +48,7 @@ class Mage_Core_Model_File_Uploader extends Varien_File_Uploader
             return $this;
         }
 
+        /** @var $helper Mage_Core_Helper_File_Storage */
         $helper = Mage::helper('core/file_storage');
 
         if ($helper->isInternalStorage()) {
@@ -69,8 +70,8 @@ class Mage_Core_Model_File_Uploader extends Varien_File_Uploader
     public function checkAllowedExtension($extension)
     {
         //validate with protected file types
-        /** @var $validator Mage_Core_Model_File_Validator_Extension_NotProtected */
-        $validator = Mage::getSingleton('core/file_validator_extension_notProtected');
+        /** @var $validator Mage_Core_Model_File_Validator_NotProtectedExtension */
+        $validator = Mage::getSingleton('core/file_validator_notProtectedExtension');
         if (!$validator->isValid($extension)) {
             return false;
         }

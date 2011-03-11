@@ -34,7 +34,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected extends Zend_Validate_Abstract
+class Mage_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
 {
     const XML_INVALID                             = 'invalidXml';
     const PROTECTED_ATTR_HELPER_IN_TAG_ACTION_VAR = 'protectedAttrHelperInActionVar';
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected extends Zend_Vali
     /**
      * Initialize messages templates with translating
      *
-     * @return Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected
+     * @return Mage_Adminhtml_Model_LayoutUpdate_Validator
      */
     protected function _initMessageTemplates()
     {
@@ -81,9 +81,13 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected extends Zend_Vali
     }
 
     /**
-     * Check on the validity
+     * Returns true if and only if $value meets the validation requirements
      *
-     * @throws Mage_Core_Exception  Throw exception when xml object is not
+     * If $value fails validation, then this method returns false, and
+     * getMessages() will return an array of messages that explain why the
+     * validation failed.
+     *
+     * @throws Exception            Throw exception when xml object is not
      *                              instance of Varien_Simplexml_Element
      * @param Varien_Simplexml_Element|string $value
      * @return bool

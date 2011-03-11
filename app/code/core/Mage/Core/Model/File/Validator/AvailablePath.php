@@ -35,17 +35,19 @@
  * Mask symbols from filename:
  * "*" - something symbols in file name
  * Example:
+ * <code>
  * //set available path
  * $validator->setAvailablePath(array('/path/to/?/*fileMask.xml'));
  * $validator->isValid('/path/to/MyDir/Some-fileMask.xml'); //return true
  * $validator->setAvailablePath(array('/path/to/{@*}*.xml'));
  * $validator->isValid('/path/to/my.xml'); //return true, because directory structure can't exist
+ * </code>
  *
  * @category   Mage
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Abstract
+class Mage_Core_Model_File_Validator_AvailablePath extends Zend_Validate_Abstract
 {
     const PROTECTED_PATH     = 'protectedPath';
     const NOT_AVAILABLE_PATH = 'notAvailablePath';
@@ -108,9 +110,9 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
     }
 
     /**
-     * Set paths
+     * Set paths masks
      *
-     * @param array $paths  All paths types.
+     * @param array $paths  All paths masks types.
      *                      E.g.: array('available' => array(...), 'protected' => array(...))
      * @return Mage_Adminhtml_Model_Core_File_Validator_SavePath_Available
      */
@@ -126,7 +128,7 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
     }
 
     /**
-     * Set protected paths
+     * Set protected paths masks
      *
      * @param array $paths
      * @return Mage_Adminhtml_Model_Core_File_Validator_SavePath_Available
@@ -138,7 +140,7 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
     }
 
     /**
-     * Add protected paths
+     * Add protected paths masks
      *
      * @param string|array $path
      * @return Mage_Adminhtml_Model_Core_File_Validator_SavePath_Available
@@ -154,7 +156,7 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
     }
 
     /**
-     * Get protected paths
+     * Get protected paths masks
      *
      * @return array
      */
@@ -164,7 +166,7 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
     }
 
     /**
-     * Set available paths
+     * Set available paths masks
      *
      * @param array $paths
      * @return Mage_Adminhtml_Model_Core_File_Validator_SavePath_Available
@@ -176,7 +178,7 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
     }
 
     /**
-     * Add available paths
+     * Add available paths mask
      *
      * @param string|array $path
      * @return Mage_Adminhtml_Model_Core_File_Validator_SavePath_Available
@@ -192,7 +194,7 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
     }
 
     /**
-     * Get available paths
+     * Get available paths masks
      *
      * @return array
      */
@@ -203,10 +205,14 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
 
 
     /**
-     * Check on the validity
+     * Returns true if and only if $value meets the validation requirements
      *
-     * @throws Mage_Core_Exception  Throw exception when xml object is not instance of Varien_Simplexml_Element
-     * @param string $value         Extension of file
+     * If $value fails validation, then this method returns false, and
+     * getMessages() will return an array of messages that explain why the
+     * validation failed.
+     *
+     * @throws Exception        Throw exception on empty both paths masks types
+     * @param string $value     File/dir path
      * @return bool
      */
     public function isValid($value)
@@ -215,7 +221,7 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
         $this->_setValue($value);
 
         if (!$this->_availablePaths && !$this->_protectedPaths) {
-            throw new Exception(Mage::helper('core')->__('Please set available and/or protected paths list(s)'));
+            throw new Exception(Mage::helper('core')->__('Please set available and/or protected paths list(s) before validation.'));
         }
 
         if (preg_match('#\.\.[\\\/]#', $this->_value)) {
@@ -246,8 +252,8 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
      * Validate value by path masks
      *
      * @param array $valuePathInfo  Path info from value path
-     * @param array $paths
-     * @param bool $protected
+     * @param array $paths          Protected/available paths masks
+     * @param bool $protected       Paths masks is protected?
      * @return bool
      */
     protected function _isValidByPaths($valuePathInfo, $paths, $protected)
@@ -303,7 +309,7 @@ class Mage_Core_Model_File_Validator_SavePath_Available extends Zend_Validate_Ab
 
             if ($protected && ($resultDir && $resultFile)) {
                 return false;
-            } elseif ((!$protected && ($resultDir && $resultFile))) {
+            } elseif (!$protected && ($resultDir && $resultFile)) {
                 //return true because one match with available path mask
                 return true;
             }

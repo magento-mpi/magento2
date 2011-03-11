@@ -180,16 +180,17 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             if (!empty($data['gui_data']['file']) && $data['gui_data']['file']['type'] == 'file') {
                 $path = rtrim($data['gui_data']['file']['path'], '\\/')
                       . DS . $data['gui_data']['file']['filename'];
-                /** @var $validator Mage_Core_Model_File_Validator_SavePath_Available */
-                $validator = Mage::getModel('core/file_validator_savePath_available');
+                /** @var $validator Mage_Core_Model_File_Validator_AvailablePath */
+                $validator = Mage::getModel('core/file_validator_availablePath');
                 /** @var $helper Mage_ImportExport_Helper_Data */
-                $helper = Mage::helper('importexport');
-                $validator->setPaths($helper->getLocalExportValidPaths());
+                $helperImportExport = Mage::helper('importexport');
+                $validator->setPaths($helperImportExport->getLocalExportValidPaths());
                 if (!$validator->isValid($path)) {
                     foreach ($validator->getMessages() as $message) {
                         Mage::getSingleton('adminhtml/session')->addError($message);
                     }
-                    $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id' => $profile->getId())));
+                    $this->getResponse()->setRedirect(
+                        $this->getUrl('*/*/edit', array('id' => $profile->getId())));
                     return;
                 }
             }

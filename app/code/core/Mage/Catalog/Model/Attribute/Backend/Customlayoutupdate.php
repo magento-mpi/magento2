@@ -51,8 +51,8 @@ class Mage_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Mage_Eav_M
             return true;
         }
 
-        /** @var $validator Mage_Adminhtml_Model_LayoutUpdate_Validator_NotProtected */
-        $validator = Mage::getModel('adminhtml/layoutUpdate_validator_notProtected');
+        /** @var $validator Mage_Adminhtml_Model_LayoutUpdate_Validator */
+        $validator = Mage::getModel('adminhtml/layoutUpdate_validator');
         if (!$validator->isValid($xml)) {
             $messages = $validator->getMessages();
             //Add first message to exception

@@ -32,7 +32,7 @@
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_File_Validator_Extension_NotProtected extends Zend_Validate_Abstract
+class Mage_Core_Model_File_Validator_NotProtectedExtension extends Zend_Validate_Abstract
 {
     const PROTECTED_EXTENSION = 'protectedExtension';
 
@@ -62,7 +62,7 @@ class Mage_Core_Model_File_Validator_Extension_NotProtected extends Zend_Validat
     /**
      * Initialize message templates with translating
      *
-     * @return Mage_Core_Model_File_Validator_Extension_NotProtected
+     * @return Mage_Core_Model_File_Validator_NotProtectedExtension
      */
     protected function _initMessageTemplates()
     {
@@ -80,7 +80,7 @@ class Mage_Core_Model_File_Validator_Extension_NotProtected extends Zend_Validat
     /**
      * Initialize protected file extensions
      *
-     * @return Mage_Core_Model_File_Validator_Extension_NotProtected
+     * @return Mage_Core_Model_File_Validator_NotProtectedExtension
      */
     protected function _initProtectedFileExtensions()
     {
@@ -101,9 +101,12 @@ class Mage_Core_Model_File_Validator_Extension_NotProtected extends Zend_Validat
 
 
     /**
-     * Check on the validity
+     * Returns true if and only if $value meets the validation requirements
      *
-     * @throws Mage_Core_Exception  Throw exception when xml object is not instance of Varien_Simplexml_Element
+     * If $value fails validation, then this method returns false, and
+     * getMessages() will return an array of messages that explain why the
+     * validation failed.
+     *
      * @param string $value         Extension of file
      * @return bool
      */
