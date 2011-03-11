@@ -436,18 +436,46 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Click on button
-     * @param string $button
+     * Get Xpath of controller
+     *
+     * @param string $controlType
+     * @param string $controlName
+     * @return string
+     */
+    protected function _getControlXpath($controlType, $controlName)
+    {
+        $uipage = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage());
+
+        $method = 'find' . ucfirst(strtolower($controlType));
+
+        $xpath = $uipage->$method($controlName);
+        if (!is_string($xpath)) {
+            $xpath = $xpath->getXPath();
+        }
+
+        if ($xpath && $this->_paramsHelper) {
+            $xpath = $this->_paramsHelper->replaceParameters($xpath);
+        }
+
+        return $xpath;
+    }
+
+    /**
+     * Click on control
+     *
+     * @param string $controlType
+     * @param string $controlName
      * @param boolean $willChangePage
      * @return Mage_Selenium_TestCase
      */
-    public function clickButton($button, $willChangePage = true)
+    public function clickControl($controlType, $controlName, $willChangePage = true)
     {
-        $buttonLocator = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage())->findButton($button);
-        if(!empty($buttonLocator))
+        $xpath = $this->_getControlXpath($controlType, $controlName);
+
+        if(!empty($xpath))
         {
             try {
-                $this->click('//'.$buttonLocator);
+                $this->click('//'.$xpath);
 
                 if($willChangePage)
                 {
@@ -462,6 +490,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Click on button
+     *
+     * @param string $button
+     * @param boolean $willChangePage
+     * @return Mage_Selenium_TestCase
+     */
+    public function clickButton($button, $willChangePage = true)
+    {
+        $this->clickControl('button', $button, $willChangePage);
+
+        return $this;
+    }
+
+    /**
      * Search specified control on the page
      *
      * @param string $controlType
@@ -470,19 +512,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function controlIsPresent($controlType, $controlName)
     {
-        $uipage = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage());
+        $xpath = $this->_getControlXpath($controlType, $controlName);
 
-        $method = 'find' . ucfirst(strtolower($controlType));
-        $xpath = $uipage->$method($controlName);
-
-        if ($xpath) {
-            if($this->_paramsHelper) {
-                $xpath = $this->_paramsHelper->replaceParameters($xpath);
-            }
-
-            if ($this->getXpathCount('//' . $xpath) > 0) {
-                return true;
-            }
+        if ($xpath && $this->getXpathCount('//' . $xpath) > 0) {
+            return true;
         }
 
         return false;

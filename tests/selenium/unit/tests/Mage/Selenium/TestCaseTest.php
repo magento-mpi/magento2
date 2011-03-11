@@ -88,6 +88,22 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * Testing Mage_Selenium_TestCase::clickControl()
+     */
+    public function testClickControl()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+        $this->assertNotNull($_testCaseInst);
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $this->assertNotNull($_testCaseInst->clickControl('button', 'save_customer', false));
+        $this->assertNotNull($_testCaseInst->clickControl('tab', 'addresses', false));
+
+    }
+
+    /**
      * Testing Mage_Selenium_TestCase::loadData()
      */
     public function testLoadData()
