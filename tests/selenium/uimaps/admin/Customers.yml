@@ -46,8 +46,8 @@ manage_customers:
     buttons:
       add_new_customer: button[span='Add New Customer']
     messages:
-      success_save_customer: div[@id='messages']//li[span='The customer has been saved.']
-      success_delete_customer: div[@id='messages']//li[span='The customer has been deleted.']
+      success_saved_customer: div[@id='messages']//li[span='The customer has been saved.']
+      success_deleted_customer: div[@id='messages']//li[span='The customer has been deleted.']
 
 # 'New Customer' Page
 create_customer:
@@ -129,11 +129,12 @@ create_customer:
       save_customer: button[span='Save Customer']
       save_and_continue_edit: button[span='Save and Continue Edit']
     messages:
-      success_save_customer: div[@id='messages']//li[span='The customer has been saved.']
-      error_email_exist: div[@id='messages']//li[span='Customer with the same email already exists.']
-      error_invalid_email: div[@id='messages']//li[span='"Email" is not a valid email address.']
-      error_password_too_short: div[text()='Please enter 6 or more characters. Leading or trailing spaces will be ignored.' and normalize-space(@class)='validation-advice' and not(contains(@style,'display":" none;'))]
-      error_empty_value: "*[normalize-space(text())='%fieldName%']/parent::*/following-sibling::*/div[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]"
+      success_saved_customer: div[@id='messages']//li[span='The customer has been saved.']
+      customer_email_exist: div[@id='messages']//li[span='Customer with the same email already exists.']
+      customer_invalid_email: div[@id='messages']//li[span='"Email" is not a valid email address.' or contains(span,'"Email" is not a valid hostname.')]
+      wrong_data_of_birth: div[@id='messages']//li[span='"Date Of Birth" does not fit the entered date format.']
+      password_too_short: div[@id='advice-validate-password-_accountpassword']
+      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Edit Customer' Page
 edit_customer:
@@ -297,8 +298,4 @@ edit_customer:
       save_customer: button[span='Save Customer']
       save_and_continue_edit: button[span='Save and Continue Edit']
     messages:
-      success_save_customer: div[@id='messages']//li[span='The customer has been saved.']
-      error_email_exist: div[@id='messages']//li[span='Customer with the same email already exists.']
-      error_invalid_email: div[@id='messages']//li[span='"Email" is not a valid email address.']
-      error_password_too_short: div[text()='Please enter 6 or more characters. Leading or trailing spaces will be ignored.' and normalize-space(@class)='validation-advice' and not(contains(@style,'display":" none;'))]
-      error_empty_value: "*[normalize-space(text())='%fieldName%']/parent::*/following-sibling::*/div[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]"
+      success_saved_customer: div[@id='messages']//li[span='The customer has been saved.']
