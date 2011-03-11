@@ -42,6 +42,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         // @TODO
+        $this->markTestIncomplete('TODO');
     }
 
 

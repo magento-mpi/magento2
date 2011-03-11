@@ -37,8 +37,11 @@
     verbose="false"
     strict="true">
     <testsuites>
-        <testsuite name="All Tests">
-            <directory suffix="Test.php">tests</directory>
+        <testsuite name="All Tests">            
+            <directory suffix="CreateTest.php">tests/Store</directory>        
+            <directory suffix="CreateTest.php">tests/AdminUser</directory>
+            <directory suffix="Test.php">tests/ProductAttribute/Create</directory>
+            <directory suffix="Test.php">tests/Customer</directory>
         </testsuite>
     </testsuites>
 </phpunit>
