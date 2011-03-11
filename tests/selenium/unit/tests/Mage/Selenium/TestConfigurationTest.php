@@ -137,8 +137,8 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         $this->assertInternalType('array', $this->_config->getUimapHelper()->getUimap('admin'));
         $this->assertNotEmpty($this->_config->getUimapHelper()->getUimap('admin'));
 
-        $this->assertFalse($this->_config->getUimapHelper()->getUimapPage('frontend', 'invalid-path'));
-        $this->assertFalse($this->_config->getUimapHelper()->getUimapPage('admin', 'invalid-path'));
+        $this->assertNull($this->_config->getUimapHelper()->getUimapPage('frontend', 'invalid-path'));
+        $this->assertNull($this->_config->getUimapHelper()->getUimapPage('admin', 'invalid-path'));
 
         $this->assertInternalType('string', $this->_config->getUimapHelper()->getUimapPage('admin', 'manage_admin_users')->getMca());
         $this->assertInternalType('string', $this->_config->getUimapHelper()->getUimapPage('frontend', 'customer_account')->getMca());
