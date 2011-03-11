@@ -77,7 +77,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         /** @var $adminSession Mage_Admin_Model_Session */
         $adminSession = Mage::getSingleton('admin/session');
         $adminSession->unsetAll();
-        $this->getCookie()->delete($adminSession->getSessionName());
+        $adminSession->getCookie()->delete($adminSession->getSessionName());
         $adminSession->addSuccess(Mage::helper('adminhtml')->__('You have logged out.'));
 
         $this->_redirect('*');
