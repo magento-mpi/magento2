@@ -299,7 +299,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     private function _setOrder($field, $direction, $unshift = false)
     {
-        $field = $this->_getMappedField($field);
+        $field = (string)$this->_getMappedField($field);
         $direction = (strtoupper($direction) == self::SORT_ORDER_ASC) ? self::SORT_ORDER_ASC : self::SORT_ORDER_DESC;
         // emulate associative unshift
         if ($unshift) {
