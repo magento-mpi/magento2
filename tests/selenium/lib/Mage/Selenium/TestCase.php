@@ -35,6 +35,12 @@
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
+    /**
+     * Testcase error
+     *
+     * @var boolean
+     */
+    protected $_error = false;
 
     /**
      * Data helper instance
@@ -189,6 +195,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Checks if there was error during last operations
+     *
+     * @return boolean
+     */
+    public function hasError()
+    {
+        return $this->_error;
+    }
+
+    /**
      * Data helper methods
      */
 
@@ -274,9 +290,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function navigate($page)
     {
-        $this->open($this->getPageUrl($page));
-        $this->_pageHelper->validateCurrentPage();
-        $this->_currentPage = $page;
+        try {
+            $this->open($this->getPageUrl($page));
+            $this->_pageHelper->validateCurrentPage();
+            $this->_currentPage = $page;
+        } catch (PHPUnit_Framework_Exception $e) {
+            $this->_error = true;
+        }
+
         return $this;
     }
 
@@ -292,6 +313,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->navigate($page);
         if ($this->_pageHelper->validationFailed()) {
             // @TODO stop further execution of the current test
+            $this->_error = true;
         }
         return $this;
     }
@@ -411,11 +433,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $buttonLocator = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage())->findButton($button);
         if(!empty($buttonLocator))
         {
-            $this->click('//'.$buttonLocator);
-            if($willChangePage)
-            {
-                $this->waitForPageToLoad(self::timeoutPeriod);
-                $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
+            try {
+                $this->click('//'.$buttonLocator);
+
+                if($willChangePage)
+                {
+                    $this->waitForPageToLoad(self::timeoutPeriod);
+                    $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
+                }
+            } catch (PHPUnit_Framework_Exception $e) {
+                $this->_error = true;
             }
         }
         return $this;
@@ -430,10 +457,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function controlIsPresent($controlType, $controlName)
     {
-        // @TODO
+        $uipage = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage());
 
+        $method = 'find' . ucfirst(strtolower($controlType));
+        $xpath = call_user_func(array($uipage, $method), $controlName);
 
-        return true;
+        if ($xpath && $this->getXpathCount('//' . $xpath) > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -706,24 +739,45 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Magento helper methods
      */
 
+    /**
+     * Log out customer
+     *
+     * @return Mage_Selenium_TestCase
+     */
     public function logoutCustomer()
     {
-        // @TODO
-        return $this;
-    }
-
-    public function loginAdminUser()
-    {
-        $this->admin('dashboard');
-        if ("Dashboard / Magento Admin" !== $this->getTitle()) {
-            $this->type('username', $this->_sutHelper->getDefaultAdminUsername());
-            $this->type('login', $this->_sutHelper->getDefaultAdminPassword());
-            $this->clickAndWait("//input[@value='Login']", 3000);
+        try {
+            $this->frontend('customer_account');
+            if ("My Account" == $this->getTitle()) {
+                $this->clickAndWait("//a[@title='Log Out']", 3000);
+            }
+        } catch (PHPUnit_Framework_Exception $e) {
+            $this->_error = true;
         }
         return $this;
     }
 
     /**
+     * Log in admin
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function loginAdminUser()
+    {
+        try {
+            $this->admin('dashboard');
+            if ("Dashboard / Magento Admin" !== $this->getTitle()) {
+                $this->type('username', $this->_sutHelper->getDefaultAdminUsername());
+                $this->type('login', $this->_sutHelper->getDefaultAdminPassword());
+                $this->clickAndWait("//input[@value='Login']", 3000);
+            }
+        } catch (PHPUnit_Framework_Exception $e) {
+            $this->_error = true;
+        }
+        return $this;
+    }
+
+     /**
      * Asserts that a condition is true.
      *
      * @param  boolean $condition
@@ -733,13 +787,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public static function assertTrue($condition, $message = '')
     {
         if (is_array($message)) {
-            $message =  implode("\n", call_user_func_array('array_merge', $message));
+            $message =  implode("\n", $message);
         }
 
-        // @TODO
-        self::assertThat(true, self::isTrue(), $message);
-//        self::assertThat((boolean)$condition, self::isTrue(), $message);
-//        self::assertThat($condition, self::isTrue(), $message);
+        if (is_object($condition)) {
+            $condition = (false === $condition->hasError());
+        }
+
+        self::assertThat($condition, self::isTrue(), $message);
+
         if (isset($this)) {
             return $this;
         }
@@ -755,19 +811,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public static function assertFalse($condition, $message = '')
     {
         if (is_array($message)) {
-            $message =  implode("\n", call_user_func_array('array_merge', $message));
+            $message =  implode("\n", $message);
         }
 
-        // @TODO
-        self::assertThat(false, self::isFalse(), $message);
-//        self::assertThat((boolean)$condition, self::isFalse(), $message);
-//        self::assertThat($condition, self::isTrue(), $message);
+        if (is_object($condition)) {
+            $condition = (false === $condition->hasError());
+        }
+
+        self::assertThat($condition, self::isFalse(), $message);
+
         if (isset($this)) {
             return $this;
         }
     }
-
-
 
     /**
      * Get node from data configuration by path
