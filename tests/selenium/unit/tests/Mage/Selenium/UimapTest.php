@@ -64,7 +64,7 @@ class Mage_Selenium_UimapTest extends Mage_PHPUnit_TestCase
      */
     public function testUimapClasses()
     {
-        $uipage = $this->_config->getUimapHelper()->getUimapPage('admin', 'create_customer');
+        $uipage = $this->getUimapPage('admin', 'create_customer');
         $this->assertNotNull($uipage);
         $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
 
