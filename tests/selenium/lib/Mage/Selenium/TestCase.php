@@ -462,8 +462,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $method = 'find' . ucfirst(strtolower($controlType));
         $xpath = call_user_func(array($uipage, $method), $controlName);
 
-        if ($xpath && $this->getXpathCount('//' . $xpath) > 0) {
-            return true;
+        if ($xpath) {
+            if($this->_paramsHelper) {
+                $xpath = $this->_paramsHelper->replaceParameters($xpath);
+            }
+
+            if ($this->getXpathCount('//' . $xpath) > 0) {
+                return true;
+            }
         }
 
         return false;

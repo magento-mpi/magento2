@@ -201,7 +201,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $_testCaseInst->getConfirmation();
         $_testCaseInst->clickButton('save_customer');
 
-        $this->assertTrue($_testCaseInst->checkMessage('success_save_customer'));
+        $this->assertTrue($_testCaseInst->checkMessage('success_saved_customer'));
         $this->assertFalse($_testCaseInst->checkMessage('invalid-message'));
     }
 
@@ -219,7 +219,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $_formData = $_testCaseInst->loadData('generic_customer_account');
         $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
 
-        $_message = $this->_config->getUimapHelper()->getUimapPage($_testCaseInst->getArea(), 'create_customer')->findMessage('success_save_customer');
+        $_message = $this->_config->getUimapHelper()->getUimapPage($_testCaseInst->getArea(), 'create_customer')->findMessage('success_saved_customer');
 
         $_testCaseInst->click('//*[@id="add_address_button"]');
 
