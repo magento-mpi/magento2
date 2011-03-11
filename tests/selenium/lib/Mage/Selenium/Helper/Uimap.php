@@ -85,7 +85,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Retrieve value from uimap data configuration by path
+     * Retrieve array with uimap data
      *
      * @param string $area Application area ('frontend'|'admin')
      * @return array
@@ -97,7 +97,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Retrieve value from uimap data configuration by path
+     * Retrieve Page from uimap data configuration by path
      *
      * @param string $area Application area ('frontend'|'admin')
      * @param string $pageKey UIMap page key
@@ -109,7 +109,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     }
 
     /**
-     * Retrieve value from uimap data configuration by MCA
+     * Retrieve Page from uimap data configuration by MCA
      *
      * @param string $area Application area ('frontend'|'admin')
      * @param string $pageKey UIMap page key

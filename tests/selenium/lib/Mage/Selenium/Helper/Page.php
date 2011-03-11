@@ -97,7 +97,7 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
             throw new Mage_Selenium_Exception("SutHelper hasn't inited yet");
 
         $pageData = $this->_config->getUimapHelper()->getUimapPage($this->_sutHelper->getArea(), $page);
-        if(false === $pageData || !$pageData->getMca()) {
+        if(empty($pageData) || !$pageData->getMca()) {
             //var_dump($page);
             throw new Mage_Selenium_Exception('Page mca is not defined');
         }

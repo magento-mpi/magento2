@@ -373,6 +373,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Retrieve Page from uimap data configuration by path
+     *
+     * @return Mage_Selenium_Uimap_Page|Null
+     */
+    public function getCurrentUimapPage()
+    {
+        return $this->_uimapHelper->getUimapPageByMca($this->getArea(), $this->_currentPage);
+    }
+
+    /**
+     * Retrieve Page from uimap data configuration by path
+     *
+     * @return Mage_Selenium_Uimap_Page|Null
+     */
+    public function getCurrentLocationUimapPage()
+    {
+        $mca = Mage_Selenium_TestCase::getMcaFromCurrentUrl($this->_sutHelper->getBaseUrl(), $this->getLocation());
+        return $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca);
+    }
+
+    /**
      * Click on button
      * @param string $button
      * @param boolean $willChangePage
@@ -419,24 +440,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this->controlIsPresent('button', $button);
     }
 
-
-    protected function _extractFields(&$formData, &$fields)
-    {
-        foreach($formData as $formDataKey=>&$formDataVal) {
-            if($formDataKey === 'fieldsets') {
-                foreach($formDataVal as &$fieldset) {
-                    foreach($fieldset as $fieldsetName=>$fieldsetArr) {
-                        $fields[$fieldsetName] = $fieldsetArr;
-                    }
-                }
-            } else {
-                if( is_array($formDataVal) ) {
-                    $this->_extractFields($formDataVal, $fields);
-                }
-            }
-        }
-    }
-
     /**
      * Fill form with data
      *
@@ -449,8 +452,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             throw new InvalidArgumentException('FillForm argument "$data" must be an array!!!');
         }
 
-        $mca = Mage_Selenium_TestCase::getMcaFromCurrentUrl($this->_sutHelper->getBaseUrl(), $this->getLocation());
-        $page = $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca);
+        $page = $this->getCurrentLocationUimapPage();
         if(!$page) {
             throw new OutOfRangeException("Can't find specified form in UIMap array with mca['{$mca}'], area['".$this->getArea()."']");
         }
