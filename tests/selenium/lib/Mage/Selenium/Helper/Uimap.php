@@ -36,6 +36,97 @@
 class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 {
 
-    // @TODO all the uimap work should be moved here from Mage_Selenium_TestConfiguration
+    /**
+     * File helper instance
+     *
+     * @var Mage_Selenium_Helper_File
+     */
+    protected $_fileHelper = null;
+
+    /**
+     * Uimap data
+     *
+     * @var array
+     */
+    protected $_uimapData = array();
+
+
+    /**
+     * Class constructor
+     * @param Mage_Selenium_TestConfiguration $config
+     */
+    public function  __construct(Mage_Selenium_TestConfiguration $config) {
+        parent::__construct($config);
+
+        $this->_fileHelper = new Mage_Selenium_Helper_File($this->_config);
+        $this->_loadUimapData('admin');
+        $this->_loadUimapData('frontend');
+    }
+
+    /**
+     * Load and merge data files
+     *
+     * @param string $area 'admin'|'frontend'
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _loadUimapData($area)
+    {
+        $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'uimaps'
+                . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . '*.yml';
+
+        $pages = $this->_fileHelper->loadYamlFiles($files);
+        foreach($pages as $pageKey => $pageContent) {
+            if(!empty($pageContent)) {
+                $this->_uimapData[$area][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $pageContent);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve value from uimap data configuration by path
+     *
+     * @param string $area Application area ('frontend'|'admin')
+     * @return array
+     */
+    public function &getUimap($area)
+    {
+        if(!array_key_exists($area, $this->_uimapData)) throw new OutOfRangeException();
+        return $this->_uimapData[$area];
+    }
+
+    /**
+     * Retrieve value from uimap data configuration by path
+     *
+     * @param string $area Application area ('frontend'|'admin')
+     * @param string $pageKey UIMap page key
+     * @return Mage_Selenium_Uimap_Page
+     */
+    public function getUimapPage($area, $pageKey)
+    {
+        return isset($this->_uimapData[$area][$pageKey]) ? $this->_uimapData[$area][$pageKey] : null;
+    }
+
+    /**
+     * Retrieve value from uimap data configuration by MCA
+     *
+     * @param string $area Application area ('frontend'|'admin')
+     * @param string $pageKey UIMap page key
+     * @return Mage_Selenium_Uimap_Page
+     */
+    public function getUimapPageByMca($area, $mca)
+    {
+        $mca = trim($mca, ' /\\');
+        if(isset($this->_uimapData[$area])) {
+            foreach($this->_uimapData[$area] as &$page) {
+                if(trim($page->getMca(), ' /\\') == $mca) {
+                    return $page;
+                }
+            }
+        }
+
+        return null;
+    }
 
 }

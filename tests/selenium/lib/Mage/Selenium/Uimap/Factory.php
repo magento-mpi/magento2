@@ -33,8 +33,21 @@
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 class Mage_Selenium_Uimap_Factory
 {
+    /**
+     * Array with allowed element names
+     * @var array
+     */
+    protected static $allowedElementNames = array('buttons', 'messages', 'links', 'fields', 'dropdowns', 'checkboxes', 'radiobuttons', 'required');
+
+    /**
+     * Class constructor
+     */
+    protected function  __construct() {
+    }
+
     /**
      *
      * @param <type> $elemKey
@@ -64,30 +77,10 @@ class Mage_Selenium_Uimap_Factory
                     }
                 }
                 break;
-            case 'buttons':
-                $elements = new Mage_Selenium_Uimap_ElementsCollection('buttons', $elemValue);
-                break;
-            case 'messages':
-                $elements = new Mage_Selenium_Uimap_ElementsCollection('messages', $elemValue);
-                break;
-            case 'links':
-                $elements = new Mage_Selenium_Uimap_ElementsCollection('links', $elemValue);
-                break;
-            case 'fields':
-                $elements = new Mage_Selenium_Uimap_ElementsCollection('fields', $elemValue);
-                break;
-            case 'dropdowns':
-                $elements = new Mage_Selenium_Uimap_ElementsCollection('dropdowns', $elemValue);
-                break;
-            case 'checkboxes':
-                $elements = new Mage_Selenium_Uimap_ElementsCollection('checkboxes', $elemValue);
-                break;
-            case 'radiobuttons':
-                $elements = new Mage_Selenium_Uimap_ElementsCollection('radiobuttons', $elemValue);
-                break;
-            case 'required':
-                $elements = new Mage_Selenium_Uimap_ElementsCollection('required', $elemValue);
-                break;
+            default:
+                if(in_array($elemKey, self::$allowedElementNames)) {
+                    $elements = new Mage_Selenium_Uimap_ElementsCollection($elemKey, $elemValue);
+                }
         }
 
         return $elements;

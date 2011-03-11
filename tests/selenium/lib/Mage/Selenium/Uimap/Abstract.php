@@ -58,7 +58,7 @@ class Mage_Selenium_Uimap_Abstract
      *
      * @return string|null
      */
-    public function getXpath()
+    public function getXPath()
     {
         return $this->xPath;
     }
@@ -79,18 +79,20 @@ class Mage_Selenium_Uimap_Abstract
     protected function parseContainerArray(array &$container)
     {
         foreach($container as $formElemKey=>&$formElemValue) {
-            $newElement = Mage_Selenium_Uimap_Factory::createUimapElement($formElemKey, $formElemValue);
-            if(!empty($newElement)) {
-                if(!isset($this->_elements[$formElemKey])) {
-                    $this->_elements[$formElemKey] = $newElement;
-                } else {
-                    if($this->_elements[$formElemKey] instanceof ArrayObject) {
-                        $this->_elements[$formElemKey].append($newElement);
+            if(!empty($formElemValue)) {
+                $newElement = Mage_Selenium_Uimap_Factory::createUimapElement($formElemKey, $formElemValue);
+                if(!empty($newElement)) {
+                    if(!isset($this->_elements[$formElemKey])) {
+                        $this->_elements[$formElemKey] = $newElement;
                     } else {
-                        //var_dump($formElemKey);
-                        //var_dump($formElemValue);
-                        // @TODO Some reaction?
-                        //die;
+                        if($this->_elements[$formElemKey] instanceof ArrayObject) {
+                            $this->_elements[$formElemKey].append($newElement);
+                        } else {
+                            //var_dump($formElemKey);
+                            //var_dump($formElemValue);
+                            // @TODO Some reaction?
+                            //die;
+                        }
                     }
                 }
             }
@@ -108,7 +110,9 @@ class Mage_Selenium_Uimap_Abstract
     {
         foreach($container as $elKey=>&$elValue) {
             if($elValue instanceof ArrayObject) {
-                if($elKey==$elementsCollectionName && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection) {
+                if( ($elementsCollectionName == 'tabs' && $elementsCollectionName == $elKey && $elValue instanceof Mage_Selenium_Uimap_TabsCollection) ||
+                    ($elementsCollectionName == 'fieldsets' && $elementsCollectionName == $elKey && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection) ||
+                    $elKey==$elementsCollectionName && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection) {
                     $cache = array_merge($cache, $elValue->getArrayCopy());
                 } else {
                     $this->__getElementsRecursive($elementsCollectionName, $elValue, $cache);

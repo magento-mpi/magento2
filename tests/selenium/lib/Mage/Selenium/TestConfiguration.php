@@ -113,13 +113,6 @@ class Mage_Selenium_TestConfiguration
     protected $_testData = array();
 
     /**
-     * Uimap data
-     *
-     * @var array
-     */
-    protected $_uimapData = array();
-
-    /**
      * Configuration data
      *
      * @var array
@@ -168,7 +161,7 @@ class Mage_Selenium_TestConfiguration
     {
         $this->_initConfig();
         $this->_initTestData();
-        $this->_initUimaps();
+        $this->getUimapHelper();
         $this->_initDrivers();
         return $this;
     }
@@ -295,18 +288,6 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Initializes uimaps
-     *
-     * @return Mage_Selenium_TestConfiguration
-     */
-    protected function _initUimaps()
-    {
-        $this->_loadUimapData('admin');
-        $this->_loadUimapData('frontend');
-        return $this;
-    }
-
-    /**
      * Initializes all driver connections from configuration
      *
      * @return Mage_Selenium_TestConfiguration
@@ -362,19 +343,6 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrieve value from uimap data configuration by path
-     *
-     * @param string $area Application area ('frontend'|'admin')
-     * @param string $path
-     * @return array|string
-     */
-    public function getUimapValue($area, $path = '')
-    {
-        if(!array_key_exists($area, $this->_uimapData)) throw new OutOfRangeException();
-        return $this->_descend($this->_uimapData[$area], $path);
-    }
-
-    /**
      * Get node|value by path
      *
      * @param array $config
@@ -407,23 +375,6 @@ class Mage_Selenium_TestConfiguration
         $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data'
                 . DIRECTORY_SEPARATOR . '*.yml';
         $this->_testData = $this->getFileHelper()->loadYamlFiles($files);
-        return $this;
-    }
-
-    /**
-     * Load and merge data files
-     *
-     * @param string $area 'admin'|'frontend'
-     * @return Mage_Selenium_TestConfiguration
-     */
-    protected function _loadUimapData($area)
-    {
-        $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'uimaps'
-                . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . '*.yml';
-        $this->_uimapData[$area] = $this->getFileHelper()->loadYamlFiles($files);
-
-        //$this->_uimapData[$area]
-
         return $this;
     }
 

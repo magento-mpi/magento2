@@ -131,17 +131,17 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
      */
     public function testGetUimapValue()
     {
-        $this->assertInternalType('array', $this->_config->getUimapValue('frontend'));
-        $this->assertNotEmpty($this->_config->getUimapValue('frontend'));
+        $this->assertInternalType('array', $this->_config->getUimapHelper()->getUimap('frontend'));
+        $this->assertNotEmpty($this->_config->getUimapHelper()->getUimap('frontend'));
 
-        $this->assertInternalType('array', $this->_config->getUimapValue('admin'));
-        $this->assertNotEmpty($this->_config->getUimapValue('admin'));
+        $this->assertInternalType('array', $this->_config->getUimapHelper()->getUimap('admin'));
+        $this->assertNotEmpty($this->_config->getUimapHelper()->getUimap('admin'));
 
-        $this->assertFalse($this->_config->getUimapValue('frontend', 'invalid-path'));
-        $this->assertFalse($this->_config->getUimapValue('admin', 'invalid-path'));
+        $this->assertFalse($this->_config->getUimapHelper()->getUimapPage('frontend', 'invalid-path'));
+        $this->assertFalse($this->_config->getUimapHelper()->getUimapPage('admin', 'invalid-path'));
 
-        $this->assertInternalType('string', $this->_config->getUimapValue('admin', 'manage_admin_users/mca'));
-        $this->assertInternalType('string', $this->_config->getUimapValue('frontend', 'customer_account/mca'));
+        $this->assertInternalType('string', $this->_config->getUimapHelper()->getUimapPage('admin', 'manage_admin_users')->getMca());
+        $this->assertInternalType('string', $this->_config->getUimapHelper()->getUimapPage('frontend', 'customer_account')->getMca());
     }
 
     /**
@@ -150,33 +150,7 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
     public function testGetUimapValueOutOfRangeException()
     {
         $this->setExpectedException('OutOfRangeException');
-        $this->_config->getUimapValue('invalid-area');
-    }
-
-    /**
-     * Testing
-     */
-    public function testUimapClasses()
-    {
-        $data = $this->_config->getUimapValue('admin');
-        $uipage = new Mage_Selenium_Uimap_Page('create_customer', $data['create_customer']);
-        //var_dump($uipage); die;
-        var_dump($uipage->getAllButtons());
-        var_dump($uipage->getMainForm()->getAllButtons());
-        var_dump($uipage->getMainForm()->getTabs()->getTab('addresses'));
-        var_dump($uipage->getMainForm()->getTabs()->getTab('addresses')->getAllElements('buttons'));
-        var_dump($uipage->getMainForm()->getTab('account_information'));
-        var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info'));
-        var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('password')->getFields());
-        var_dump($uipage->getAllButtons()->get('save_customer'));
-        var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info')->getFields()->get('first_name'));
-        var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info')->getAllElements('required'));
-        var_dump($uipage->getMainForm()->getTab('account_information')->getFieldset('account_info')->getAllRequired());
-        var_dump($uipage->getMessage('success_save_customer'));
-
-        var_dump($uipage->getMainForm()->findField('first_name'));
-        var_dump($uipage->getMainForm()->getTab('account_information')->findField('first_name'));
-        var_dump($uipage->findMessage('success_save_customer'));
+        $this->_config->getUimapHelper()->getUimap('invalid-area');
     }
 
 }

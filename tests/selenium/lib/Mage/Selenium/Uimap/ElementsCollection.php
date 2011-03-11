@@ -43,8 +43,8 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
 
     /**
      * Constructor
-     * @param string Type of element
-     * @param array Elements array
+     * @param string $type Type of element
+     * @param array $objects Elements array
      */
     public function __construct($type, $objects)
     {
@@ -58,17 +58,25 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
      */
     public function getType()
     {
-        return $_type;
+        return $this->_type;
     }
 
     /**
-     * Get eement by Id
-     * @param string Id of element
-     * @return string
+     * Get element by Id
+     * @param string $id Id of element
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+     * @return string|Null
      */
-    public function get($id)
+    public function get($id, $paramsDecorator = null)
     {
-        return isset($this[$id])?$this[$id]:null;
+        $val = null;
+        if(isset($this[$id])) {
+            $val = $this[$id];
+            if($paramsDecorator != null && $paramsDecorator instanceof Mage_Selenium_Helper_Params) {
+                $val = $paramsDecorator->replaceParameters($val);
+            }
+        }
+        return $val;
     }
     
 }

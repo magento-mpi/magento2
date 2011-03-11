@@ -96,12 +96,12 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
         if( !$this->_sutHelper )
             throw new Mage_Selenium_Exception("SutHelper hasn't inited yet");
 
-        $pageData = $this->_config->getUimapValue($this->_sutHelper->getArea(), $page);
-        if ((false === $pageData) || (!isset($pageData['mca'])) || empty($pageData['mca'])) {
-            var_dump($page);
+        $pageData = $this->_config->getUimapHelper()->getUimapPage($this->_sutHelper->getArea(), $page);
+        if(false === $pageData || !$pageData->getMca()) {
+            //var_dump($page);
             throw new Mage_Selenium_Exception('Page mca is not defined');
         }
-        $url = $this->_sutHelper->getBaseUrl() . $pageData['mca'];
+        $url = $this->_sutHelper->getBaseUrl() . $pageData->getMca();
         return $url;
     }
 
@@ -116,14 +116,7 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
         if( !$this->_sutHelper )
             throw new Mage_Selenium_Exception("SutHelper hasn't inited yet");
 
-        $pageData = $this->_config->getUimapValue($this->_sutHelper->getArea());
-        foreach($pageData as $pageId => $pageData) {
-            if(isset($pageData['mca']) && trim($pageData['mca'], '/') == $mca ) {
-                return $pageId;
-            }
-        }
-
-        return false;
+        return $this->_config->getUimapHelper()->getUimapPageByMca($this->_sutHelper->getArea(), $mca);
     }
 
 }

@@ -36,27 +36,27 @@
 class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
 {
     /**
-     *
-     * @var <type>
+     * Page ID
+     * @var string
      */
     protected $pageId = '';
 
     /**
-     *
-     * @var <type>
+     * Page MCA
+     * @var string
      */
     protected $mca = '';
 
     /**
-     *
-     * @var <type>
+     * Page title
+     * @var string
      */
     protected $title = '';
 
     /**
-     *
-     * @param <type> $pageId
-     * @param array $pageContainer
+     * Page class constructor
+     * @param string $pageId Page ID
+     * @param array $pageContainer YML-generated array
      */
     public function  __construct($pageId, array &$pageContainer) {
         $this->pageId = $pageId;
