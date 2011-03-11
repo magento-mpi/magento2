@@ -79,9 +79,12 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->navigate('create_customer'));
 
         $this->assertTrue($_testCaseInst->controlIsPresent('button', 'save_customer'));
-        //@TODO use setParameter for %address_number%
-        //$this->assertTrue($_testCaseInst->controlIsPresent('field', 'prefix'));
-        //$this->assertFalse($_testCaseInst->controlIsPresent('field', 'invalid-field'));
+
+        $_testCaseInst->click('//*[@id="add_address_button"]');
+        $_testCaseInst->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number'=>1)));
+
+        $this->assertTrue($_testCaseInst->controlIsPresent('field', 'prefix'));
+        $this->assertFalse($_testCaseInst->controlIsPresent('field', 'invalid-field'));
     }
 
     /**
@@ -189,9 +192,10 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $_formData = $_testCaseInst->loadData('generic_customer_account');
         $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
 
-        $_message = $this->_config->getUimapHelper()->getUimapPage($_testCaseInst->getArea(), 'create_customer')->getMessage('success_save_customer');
         $_testCaseInst->click('//*[@id="add_address_button"]');
-        $_testCaseInst->setParameter('address_number', 1);
+
+        $_testCaseInst->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number'=>1)));
+
         $this->assertNotNull($_testCaseInst->fillForm($_formData));
         $_testCaseInst->click('//*[@id="delete_button21"]');
         $_testCaseInst->getConfirmation();
@@ -215,9 +219,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $_formData = $_testCaseInst->loadData('generic_customer_account');
         $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
 
-        $data = $this->_config->getUimapValue('admin');
-        $uipage = new Mage_Selenium_Uimap_Page('create_customer', $data['create_customer']);
-        $_message = $uipage->findMessage('success_save_customer');
+        $_message = $this->_config->getUimapHelper()->getUimapPage($_testCaseInst->getArea(), 'create_customer')->findMessage('success_save_customer');
 
         $_testCaseInst->click('//*[@id="add_address_button"]');
 
@@ -226,12 +228,11 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->fillForm($_formData));
         $_testCaseInst->click('//*[@id="delete_button21"]');
         $_testCaseInst->getConfirmation();
-/*
+
         $_testCaseInst->clickButton('save_customer');
 
         $this->assertTrue($_testCaseInst->checkMessageByXpath($_message));
         $this->assertFalse($_testCaseInst->checkMessageByXpath('invalid-xpath'));
-*/
     }
 
     /**
@@ -248,7 +249,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
 
         $_testCaseInst->click('//*[@id="add_address_button"]');
-        $_testCaseInst->setParameter('address_number', 1);
+        $_testCaseInst->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number'=>1)));
         $this->assertNotNull($_testCaseInst->fillForm($_formData));
         $_testCaseInst->click('//*[@id="delete_button21"]');
         $_testCaseInst->getConfirmation();

@@ -85,7 +85,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_pageHelper = null;
 
     /**
-     * @TODO
+     * Error and success messages on page
      *
      * @var array
      */
@@ -578,7 +578,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkMessage($message)
     {
-        $messageLocator = $this->_getUimapPage()->findMessage($message);
+        $messageLocator = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage())->findMessage($message);
 
         return $this->checkMessageByXpath($messageLocator);
     }
@@ -596,11 +596,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($xpath && $this->getXpathCount('//' . $xpath) > 0) {
             return true;
         }
-
-        $this->messages = array_merge(
-            $this->getMessages(self::xpathSuccessMessage),
-            $this->getMessages(self::xpathErrorMessage)
-        );
 
         return false;
     }
