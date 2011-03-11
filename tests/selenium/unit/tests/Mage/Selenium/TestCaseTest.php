@@ -159,6 +159,24 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     }
 
     /**
+     * Testing Mage_Selenium_TestCase::validationMessage()
+     */
+    public function testValidationMessage()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $_testCaseInst->clickButton('save_customer', false);
+
+        $this->assertTrue($_testCaseInst->validationMessage());
+        $this->assertFalse($_testCaseInst->successMessage());
+        $this->assertFalse($_testCaseInst->errorMessage());
+    }
+
+
+    /**
      * Testing Mage_Selenium_TestCase::checkMessage()
      */
     public function testCheckMessage()
@@ -172,6 +190,34 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
 
         $_message = $this->_config->getUimapHelper()->getUimapPage($_testCaseInst->getArea(), 'create_customer')->getMessage('success_save_customer');
+        $_testCaseInst->click('//*[@id="add_address_button"]');
+        $_testCaseInst->setParameter('address_number', 1);
+        $this->assertNotNull($_testCaseInst->fillForm($_formData));
+        $_testCaseInst->click('//*[@id="delete_button21"]');
+        $_testCaseInst->getConfirmation();
+        $_testCaseInst->clickButton('save_customer');
+
+        $this->assertTrue($_testCaseInst->checkMessage('success_save_customer'));
+        $this->assertFalse($_testCaseInst->checkMessage('invalid-message'));
+    }
+
+
+    /**
+     * Testing Mage_Selenium_TestCase::checkMessageByXpath()
+     */
+    public function testCheckMessageByXpath()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $_formData = $_testCaseInst->loadData('generic_customer_account');
+        $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
+
+        $data = $this->_config->getUimapValue('admin');
+        $uipage = new Mage_Selenium_Uimap_Page('create_customer', $data['create_customer']);
+        $_message = $uipage->findMessage('success_save_customer');
 
         $_testCaseInst->click('//*[@id="add_address_button"]');
 
@@ -183,14 +229,40 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 /*
         $_testCaseInst->clickButton('save_customer');
 
-        $this->assertTrue($_testCaseInst->checkMessage($_message));
+        $this->assertTrue($_testCaseInst->checkMessageByXpath($_message));
+        $this->assertFalse($_testCaseInst->checkMessageByXpath('invalid-xpath'));
 */
     }
 
     /**
-     * Testing Mage_Selenium_TestCase::getMessages()
+     * Testing Mage_Selenium_TestCase::getSuccessMessages()
      */
-    public function testGetMessages()
+    public function testGetSuccessMessages()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $_formData = $_testCaseInst->loadData('generic_customer_account');
+        $_formData['email'] = $_testCaseInst->generate('email', 20, 'valid');
+
+        $_testCaseInst->click('//*[@id="add_address_button"]');
+        $_testCaseInst->setParameter('address_number', 1);
+        $this->assertNotNull($_testCaseInst->fillForm($_formData));
+        $_testCaseInst->click('//*[@id="delete_button21"]');
+        $_testCaseInst->getConfirmation();
+        $_testCaseInst->clickButton('save_customer');
+
+        $this->assertInternalType('array', $_testCaseInst->getSuccessMessages());
+        $this->assertNotEmpty($_testCaseInst->getSuccessMessages());
+        $this->assertEmpty($_testCaseInst->getErrorMessages());
+    }
+
+    /**
+     * Testing Mage_Selenium_TestCase::getErrorMessages()
+     */
+    public function testGetErrorMessages()
     {
         $_testCaseInst = new Mage_Selenium_TestCase();
 
@@ -209,9 +281,28 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
 
         sleep(5);
 
-        $this->assertInternalType('array', $_testCaseInst->getMessages(Mage_Selenium_TestCase::xpathSuccessMessage));
-        $this->assertInternalType('array', $_testCaseInst->getMessages(Mage_Selenium_TestCase::xpathErrorMessage));
-        $this->assertNotEmpty($_testCaseInst->getMessages(Mage_Selenium_TestCase::xpathErrorMessage));
+        $this->assertInternalType('array', $_testCaseInst->getErrorMessages());
+        $this->assertNotEmpty($_testCaseInst->getErrorMessages());
+        $this->assertEmpty($_testCaseInst->getSuccessMessages());
     }
+
+    /**
+     * Testing Mage_Selenium_TestCase::getValidationMessages()
+     */
+    public function testGetValidationMessages()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $this->assertNotNull($_testCaseInst->navigate('create_customer'));
+
+        $_testCaseInst->clickButton('save_customer', false);
+
+        $this->assertInternalType('array', $_testCaseInst->getValidationMessages());
+        $this->assertNotEmpty($_testCaseInst->getValidationMessages());
+        $this->assertEmpty($_testCaseInst->getSuccessMessages());
+        $this->assertEmpty($_testCaseInst->getErrorMessages());
+    }
+
 
 }

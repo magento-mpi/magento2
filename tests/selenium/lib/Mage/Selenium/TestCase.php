@@ -135,6 +135,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathErrorMessage = "li[normalize-space(@class)='error-msg']/ul/li";
 
     /**
+     * Error message Xpath
+     *
+     * @var string
+     */
+    const xpathValidationMessage = "form/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]";
+
+    /**
      * Constructor
      *
      * @param  string $name
@@ -533,16 +540,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Check if message exists on page
      *
+     * @param string $message  Message Id from UIMap
+     * @return boolean
+     */
+    public function checkMessage($message)
+    {
+        $messageLocator = $this->_getUimapPage()->findMessage($message);
+
+        return $this->checkMessageByXpath($messageLocator);
+    }
+
+    /**
+     * Check if message with given xpath exists on page
+     *
      * @param string $xpath
      * @return boolean
      */
-    public function checkMessage($xpath = null)
+    public function checkMessageByXpath($xpath)
     {
-        if (empty($xpath)) {
-            return false;
-        }
+        $this->_parseMessages();
 
-        if ($this->getXpathCount('//' . $xpath) > 0) {
+        if ($xpath && $this->getXpathCount('//' . $xpath) > 0) {
             return true;
         }
 
@@ -554,6 +572,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return false;
     }
 
+
     /**
      * Check if any error message exists on page
      *
@@ -561,7 +580,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function errorMessage()
     {
-        return $this->checkMessage(self::xpathErrorMessage);
+        return $this->checkMessageByXpath(self::xpathErrorMessage);
+    }
+
+    /**
+     * Return all error messages on page
+     * 
+     * @return array 
+     */
+    public function getErrorMessages()
+    {
+        $this->_parseMessages();
+        
+        return $this->messages['error'];
     }
 
     /**
@@ -571,33 +602,105 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function successMessage()
     {
-        return $this->checkMessage(self::xpathSuccessMessage);
+        return $this->checkMessageByXpath(self::xpathSuccessMessage);
     }
 
     /**
-     * Get all messages by xpath
+     * Return all success messages on page
      *
-     * @param string $xpath
+     * @return array
+     */
+    public function getSuccessMessages()
+    {
+        $this->_parseMessages();
+
+        return $this->messages['success'];
+    }
+
+    /**
+     * Check if any validation message exists on page
+     *
      * @return boolean
      */
-    public function getMessages($xpath = null)
+    public function validationMessage()
     {
-        $messages = array();
+        return $this->checkMessageByXpath(self::xpathValidationMessage);
+    }
+
+    /**
+     * Return all error messages on page
+     *
+     * @return array
+     */
+    public function getValidationMessages()
+    {
+        $this->_parseMessages();
+
+        return $this->messages['validation'];
+    }
+
+    /**
+     * Get all messages on page
+     */
+    protected function _parseMessages()
+    {
+        $this->messages['success']    = $this->getElementsByXpath(self::xpathSuccessMessage);
+        $this->messages['error']      = $this->getElementsByXpath(self::xpathErrorMessage);
+        $this->messages['validation'] = $this->getElementsByXpath(self::xpathValidationMessage);
+    }
+
+    /**
+     * Get elements by Xpath
+     * 
+     * @param string $xpath
+     * @param string $get    What to get. Available choices are 'text', 'value'
+     * @return array
+     */
+    public function getElementsByXpath($xpath, $get = 'text')
+    {
+        $elements = array();
 
         if (!empty($xpath)) {
-            $totalElements = $this->getXpathCount('//' . $xpath);
+            if ('/' !== substr($xpath, 0, 1)) {
+                $xpath = '//' . $xpath;
+            }
+
+            $totalElements = $this->getXpathCount($xpath);
 
             for ($i = 1; $i < $totalElements + 1; $i++) {
-                $message = $this->getText('//' . $xpath . '[' . $i . ']');
+                $x = $xpath . '[' . $i . ']';
+                
+                switch ($get) {
+                    case 'value' :
+                        $element = $this->getValue($x);
+                        break;
+                    case 'text' :
+                    default :
+                        $element = $this->getText($x);
+                        break;
+                }
 
-                if (!empty($message)) {
-                    $messages[] = $message;
+                if (!empty($element)) {
+                    $elements[] = $element;
                 }
             }
         }
 
-        return $messages;
+        return $elements;
     }
+
+    /**
+     * Get element by Xpath
+     *
+     * @param string $xpath
+     * @param string $get    What to get. Available choices are 'text', 'value'
+     * @return array
+     */
+    public function getElementByXpath($xpath, $get = 'text')
+    {
+        return array_shift($this->getElementsByXpath($xpath, $get));
+    }
+
 
     /**
      * Magento helper methods
@@ -630,7 +733,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public static function assertTrue($condition, $message = '')
     {
         if (is_array($message)) {
-            $message =  implode("\n", $message);
+            $message =  implode("\n", call_user_func_array('array_merge', $message));
         }
 
         // @TODO
@@ -652,7 +755,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public static function assertFalse($condition, $message = '')
     {
         if (is_array($message)) {
-            $message =  implode("\n", $message);
+            $message =  implode("\n", call_user_func_array('array_merge', $message));
         }
 
         // @TODO
