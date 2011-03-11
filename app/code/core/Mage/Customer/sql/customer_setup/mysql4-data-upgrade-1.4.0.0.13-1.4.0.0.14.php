@@ -31,8 +31,23 @@ $eavConfig = Mage::getSingleton('eav/config');
 
 // update customer system attributes used_in_forms data
 $attributes = array(
-    'confirmation', 'default_billing', 'default_shipping', 'password_hash', 'website_id', 'created_in', 'store_id',
-    'group_id', 'prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'email', 'dob', 'taxvat', 'gender'
+    'confirmation'      => array(),
+    'default_billing'   => array(),
+    'default_shipping'  => array(),
+    'password_hash'     => array(),
+    'website_id'        => array('adminhtml_only' => 1),
+    'created_in'        => array('adminhtml_only' => 1),
+    'store_id'          => array(),
+    'group_id'          => array('adminhtml_only' => 1, 'admin_checkout' => 1),
+    'prefix'            => array(),
+    'firstname'         => array(),
+    'middlename'        => array(),
+    'lastname'          => array(),
+    'suffix'            => array(),
+    'email'             => array('admin_checkout' => 1),
+    'dob'               => array('admin_checkout' => 1),
+    'taxvat'            => array('admin_checkout' => 1),
+    'gender'            => array('admin_checkout' => 1),
 );
 
 $defaultUsedInForms = array(
@@ -41,21 +56,19 @@ $defaultUsedInForms = array(
     'checkout_register',
 );
 
-foreach ($attributes as $attributeCode) {
+foreach ($attributes as $attributeCode => $data) {
     $attribute = $eavConfig->getAttribute('customer', $attributeCode);
     if (!$attribute) {
         continue;
     }
     if (false === ($attribute->getData('is_system') == 1 && $attribute->getData('is_visible') == 0)) {
         $usedInForms = $defaultUsedInForms;
-        $adminHtmlOnly = $attribute->getData('adminhtml_only');
-        $adminCheckout = $attribute->getData('admin_checkout');
-        if (!empty($adminHtmlOnly)) {
+        if (!empty($data['adminhtml_only'])) {
             $usedInForms = array('adminhtml_customer');
         } else {
             $usedInForms[] = 'adminhtml_customer';
         }
-        if (!empty($adminCheckout)) {
+        if (!empty($data['admin_checkout'])) {
             $usedInForms[] = 'adminhtml_checkout';
         }
         $attribute->setData('used_in_forms', $usedInForms);
@@ -67,10 +80,6 @@ foreach ($attributes as $attributeCode) {
 $attributes = array(
     'prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'company', 'street', 'city', 'country_id',
     'region', 'region_id', 'postcode', 'telephone', 'fax'
-);
-
-$nameAttributes = array(
-    'prefix', 'firstname', 'middlename', 'lastname', 'suffix'
 );
 
 $defaultUsedInForms = array(
