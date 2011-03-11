@@ -175,6 +175,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function appendParamsDecorator($paramsHelperObject)
     {
         $this->_paramsHelper = $paramsHelperObject;
+        var_dump($this->_paramsHelper);
     }
 
     /**
@@ -404,11 +405,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Retrieve Page from uimap data configuration by path
      *
+     * @param string $area Application area ('frontend'|'admin')
+     * @param string $pageKey UIMap page key
+     * @return Mage_Selenium_Uimap_Page
+     */
+    public function getUimapPage($area, $pageKey)
+    {
+        return $this->_uimapHelper->getUimapPage($area, $pageKey);
+    }
+
+    /**
+     * Retrieve current Page from uimap data configuration
+     *
      * @return Mage_Selenium_Uimap_Page|Null
      */
     public function getCurrentUimapPage()
     {
-        return $this->_uimapHelper->getUimapPageByMca($this->getArea(), $this->_currentPage);
+        return $this->_uimapHelper->getUimapPage($this->getArea(), $this->_currentPage);
     }
 
     /**
@@ -460,7 +473,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $uipage = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage());
 
         $method = 'find' . ucfirst(strtolower($controlType));
-        $xpath = call_user_func(array($uipage, $method), $controlName);
+        $xpath = $uipage->$method($controlName);
 
         if ($xpath) {
             if($this->_paramsHelper) {
@@ -522,7 +535,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 if(!empty($fields)) {
                     foreach($fields as $fieldKey => $fieldXPath) {
                         if(isset($data[$fieldKey])) {
-                            if($this->_paramsHelper) {
+                            if($this->_paramsHelper != null) {
                                 $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
                                 $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
                             }

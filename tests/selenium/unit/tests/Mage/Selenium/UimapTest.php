@@ -82,6 +82,18 @@ class Mage_Selenium_UimapTest extends Mage_PHPUnit_TestCase
             $this->assertNotEmpty($buttonXPath);
         }
 
+        $tabs = $uipage->getMainForm()->getTabs();
+        $this->assertNotNull($tabs);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_TabsCollection', $tabs);
+        $this->assertGreaterThanOrEqual(1, count($tabs));
+
+        $tab = $tabs->getTab('addresses');
+        $this->assertNotNull($tabs);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Tab', $tab);
+
+        var_dump($uipage->findFieldset('account_info')->getXPath());
+
+
         /* Please, don't remove this code for future debugging
         //var_dump($uipage); die;
         var_dump($uipage->getMainForm()->getAllFieldsets());
