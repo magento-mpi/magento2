@@ -41,9 +41,9 @@ class Mage_FunctionsTest extends Mage_PHPUnit_TestCase
         $array2 = array('browser' => array('default'=> array('browser' => 'firefox'), 'firefox'));
         $result = array('browser' => array('default'=> array('browser' => 'firefox'), 'firefox'), 'applications' => array('magento-ce'));
 
-        $this->assertEquals($result, array_replace_recursive($array, $array2));
-        $this->assertNull(array_replace_recursive('string'));
-        $this->assertNull(array_replace_recursive('string', $array));
-        $this->assertEquals($array, array_replace_recursive($array, 'string'));
+        $this->assertEquals($result, @array_replace_recursive($array, $array2));
+        $this->assertNull(@array_replace_recursive('string'));
+        $this->assertNull(@array_replace_recursive('string', $array));
+        $this->assertNull(@array_replace_recursive($array, 'string'));
     }
 }

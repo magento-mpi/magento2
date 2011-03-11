@@ -530,7 +530,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $this->messages = array_merge($_messages[self::xpathSuccessMessage], $_messages[self::xpathErrorMessage]);
 
-        if (is_array($_messages[$xpath]) && count($_messages[$xpath]) > 0) {
+        if ($this->getXpathCount('//' . $xpath) > 0) {
             return true;
         }
 
@@ -738,6 +738,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Get Uimap_Page object for current page
      *
+     * @TODO Move to Uimap helper?
      * @return Mage_Selenium_Uimap_Page
      */
     protected function _getUimapPage()
