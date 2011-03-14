@@ -321,5 +321,25 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertEmpty($_testCaseInst->getErrorMessages());
     }
 
+    /**
+     * Testing Mage_Selenium_TestCase::searchAndOpen()
+     */
+    public function testSearchAndOpen()
+    {
+        $_testCaseInst = new Mage_Selenium_TestCase();
+
+        $this->assertNotNull($_testCaseInst->loginAdminUser());
+        $_testCaseInst->navigate('manage_customers');
+
+        $data = array(
+            'email' => 'magento.com'
+        );
+
+        $data = array(
+            'email' => 'testst@magento.com'
+        );
+
+        $this->assertNotNull($_testCaseInst->searchAndOpen($data));
+    }
 
 }

@@ -148,6 +148,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathValidationMessage = "form/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]";
 
     /**
+     * Edit link Xpath
+     *
+     * @var string
+     */
+    const xpathEditLink = "table/descendant::*[normalize-space(@class)='last'][1]/a[.='Edit']";
+
+    /**
      * Constructor
      *
      * @param  string $name
@@ -643,9 +650,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this;
     }
 
-    public function searchAndOpen($something)
+    /**
+     * Perform search and open first result
+     * 
+     * @param array $data
+     * @return Mage_Selenium_TestCase 
+     */
+    public function searchAndOpen($data = array())
     {
-        // @TODO
+        $this->fillForm($data);
+        $this->clickButton('search');
+
+        try {
+            $this->clickAndWait('//' . self::xpathEditLink, self::timeoutPeriod);
+        } catch (PHPUnit_Framework_Exception $e) {
+            $this->_error = true;
+        }
+
         return $this;
     }
 
