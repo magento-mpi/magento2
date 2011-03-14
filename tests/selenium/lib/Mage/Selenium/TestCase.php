@@ -578,6 +578,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     }
                 }
                 // ----------------------------------------------------
+                $fields = $fieldset->getAllMultiselects();
+                if(!empty($fields)) {
+                    foreach($fields as $fieldKey => $fieldXPath) {
+                        if(isset($data[$fieldKey])) {
+                            if($this->_paramsHelper) {
+                                $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
+                                $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
+                            }
+                            $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
+                        }
+                    }
+                }
+                // ----------------------------------------------------
                 $fields = $fieldset->getAllDropdowns();
                 if(!empty($fields)) {
                     foreach($fields as $fieldKey => $fieldXPath) {
@@ -592,6 +605,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
                 // ----------------------------------------------------
                 $fields = $fieldset->getAllCheckboxes();
+                if(!empty($fields)) {
+                    foreach($fields as $fieldKey => $fieldXPath) {
+                        if(isset($data[$fieldKey])) {
+                            if($this->_paramsHelper) {
+                                $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
+                                $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
+                            }
+                            if(strtolower($data[$fieldKey]) == 'yes') {
+                                $this->check($baseXpath . '//' . $fieldXPath);
+                            } else {
+                                $this->uncheck($baseXpath . '//' . $fieldXPath);
+                            }
+                        }
+                    }
+                }
+                // ----------------------------------------------------
+                $fields = $fieldset->getAllRadiobuttons();
                 if(!empty($fields)) {
                     foreach($fields as $fieldKey => $fieldXPath) {
                         if(isset($data[$fieldKey])) {
