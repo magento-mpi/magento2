@@ -844,7 +844,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             // Handling billing address
             $billingAddress = $this->getPrimaryBillingAddress();
             if (!$billingAddress  instanceof Mage_Customer_Model_Address) {
-                $billingAddress = new Mage_Customer_Model_Address();
+                $billingAddress = Mage::getModel('customer/address');
             }
 
             $regions->addRegionNameFilter($row['billing_region'])->load();
