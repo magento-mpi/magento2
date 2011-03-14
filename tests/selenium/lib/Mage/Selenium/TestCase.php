@@ -566,85 +566,89 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $fieldsets = $formData->getAllFieldsets();
         }
 
-        if(!empty($fieldsets)) {
-            foreach($fieldsets as $fieldsetName => $fieldset) {
-                $baseXpath = $fieldset->getXPath();
-                $baseXpath = !empty($baseXpath) ? '//' . $baseXpath : '';
+        try {
+            if(!empty($fieldsets)) {
+                foreach($fieldsets as $fieldsetName => $fieldset) {
+                    $baseXpath = $fieldset->getXPath();
+                    $baseXpath = !empty($baseXpath) ? '//' . $baseXpath : '';
 
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllFields();
-                if(!empty($fields)) {
-                    foreach($fields as $fieldKey => $fieldXPath) {
-                        if(isset($data[$fieldKey])) {
-                            if($this->_paramsHelper != null) {
-                                $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
-                            }
-                            $this->type($baseXpath . '//' . $fieldXPath, $data[$fieldKey]);
-                        }
-                    }
-                }
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllMultiselects();
-                if(!empty($fields)) {
-                    foreach($fields as $fieldKey => $fieldXPath) {
-                        if(isset($data[$fieldKey])) {
-                            if($this->_paramsHelper) {
-                                $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
-                            }
-                            $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
-                        }
-                    }
-                }
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllDropdowns();
-                if(!empty($fields)) {
-                    foreach($fields as $fieldKey => $fieldXPath) {
-                        if(isset($data[$fieldKey])) {
-                            if($this->_paramsHelper) {
-                                $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
-                            }
-                            $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
-                        }
-                    }
-                }
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllCheckboxes();
-                if(!empty($fields)) {
-                    foreach($fields as $fieldKey => $fieldXPath) {
-                        if(isset($data[$fieldKey])) {
-                            if($this->_paramsHelper) {
-                                $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
-                            }
-                            if(strtolower($data[$fieldKey]) == 'yes') {
-                                $this->check($baseXpath . '//' . $fieldXPath);
-                            } else {
-                                $this->uncheck($baseXpath . '//' . $fieldXPath);
+                    // ----------------------------------------------------
+                    $fields = $fieldset->getAllFields();
+                    if(!empty($fields)) {
+                        foreach($fields as $fieldKey => $fieldXPath) {
+                            if(isset($data[$fieldKey])) {
+                                if($this->_paramsHelper != null) {
+                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
+                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
+                                }
+                                $this->type($baseXpath . '//' . $fieldXPath, $data[$fieldKey]);
                             }
                         }
                     }
-                }
-                // ----------------------------------------------------
-                $fields = $fieldset->getAllRadiobuttons();
-                if(!empty($fields)) {
-                    foreach($fields as $fieldKey => $fieldXPath) {
-                        if(isset($data[$fieldKey])) {
-                            if($this->_paramsHelper) {
-                                $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
+                    // ----------------------------------------------------
+                    $fields = $fieldset->getAllMultiselects();
+                    if(!empty($fields)) {
+                        foreach($fields as $fieldKey => $fieldXPath) {
+                            if(isset($data[$fieldKey])) {
+                                if($this->_paramsHelper) {
+                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
+                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
+                                }
+                                $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
                             }
-                            if(strtolower($data[$fieldKey]) == 'yes') {
-                                $this->check($baseXpath . '//' . $fieldXPath);
-                            } else {
-                                $this->uncheck($baseXpath . '//' . $fieldXPath);
+                        }
+                    }
+                    // ----------------------------------------------------
+                    $fields = $fieldset->getAllDropdowns();
+                    if(!empty($fields)) {
+                        foreach($fields as $fieldKey => $fieldXPath) {
+                            if(isset($data[$fieldKey])) {
+                                if($this->_paramsHelper) {
+                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
+                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
+                                }
+                                $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
+                            }
+                        }
+                    }
+                    // ----------------------------------------------------
+                    $fields = $fieldset->getAllCheckboxes();
+                    if(!empty($fields)) {
+                        foreach($fields as $fieldKey => $fieldXPath) {
+                            if(isset($data[$fieldKey])) {
+                                if($this->_paramsHelper) {
+                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
+                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
+                                }
+                                if(strtolower($data[$fieldKey]) == 'yes') {
+                                    $this->check($baseXpath . '//' . $fieldXPath);
+                                } else {
+                                    $this->uncheck($baseXpath . '//' . $fieldXPath);
+                                }
+                            }
+                        }
+                    }
+                    // ----------------------------------------------------
+                    $fields = $fieldset->getAllRadiobuttons();
+                    if(!empty($fields)) {
+                        foreach($fields as $fieldKey => $fieldXPath) {
+                            if(isset($data[$fieldKey])) {
+                                if($this->_paramsHelper) {
+                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
+                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
+                                }
+                                if(strtolower($data[$fieldKey]) == 'yes') {
+                                    $this->check($baseXpath . '//' . $fieldXPath);
+                                } else {
+                                    $this->uncheck($baseXpath . '//' . $fieldXPath);
+                                }
                             }
                         }
                     }
                 }
             }
+        } catch (PHPUnit_Framework_Exception $e) {
+            $this->_error = true;
         }
 
         return $this;
@@ -710,9 +714,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return boolean
      */
-    public function errorMessage()
+    public function errorMessage($xpath = null)
     {
-        return $this->checkMessageByXpath(self::xpathErrorMessage);
+        if (empty($xpath)) {
+            $xpath = self::xpathErrorMessage;
+        }
+        return $this->checkMessageByXpath($xpath);
     }
 
     /**
@@ -734,7 +741,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function successMessage()
     {
-        return $this->checkMessageByXpath(self::xpathSuccessMessage);
+        if (empty($xpath)) {
+            $xpath = self::xpathSuccessMessage;
+        }
+        return $this->checkMessageByXpath($xpath);
     }
 
     /**
@@ -756,7 +766,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function validationMessage()
     {
-        return $this->checkMessageByXpath(self::xpathValidationMessage);
+        if (empty($xpath)) {
+            $xpath = self::xpathValidationMessage;
+        }
+       return $this->checkMessageByXpath($xpath);
     }
 
     /**
@@ -848,7 +861,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         try {
             $this->frontend('customer_account');
             if ("My Account" == $this->getTitle()) {
-                $this->clickAndWait("//a[@title='Log Out']", 3000);
+                $this->clickAndWait("//a[@title='Log Out']", self::timeoutPeriod);
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->_error = true;
@@ -868,7 +881,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if ("Dashboard / Magento Admin" !== $this->getTitle()) {
                 $this->type('username', $this->_sutHelper->getDefaultAdminUsername());
                 $this->type('login', $this->_sutHelper->getDefaultAdminPassword());
-                $this->clickAndWait("//input[@value='Login']", 3000);
+                $this->clickAndWait("//input[@value='Login']", self::timeoutPeriod);
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->_error = true;
