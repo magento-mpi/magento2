@@ -166,8 +166,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
                 $order->cancel();
                 $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer was rejected by iDEAL.'));
                 $this->getCheckout()->setIdealErrorMessage(
-                    Mage::helper('ideal')->__('An error occurred while processing your iDEAL transaction. Please contact the web shop or try
-again later. Transaction number is %s.', $order->getIncrementId())
+                    Mage::helper('ideal')->__('An error occurred while processing your iDEAL transaction. Please contact the web shop or try again later. Transaction number is %s.', $order->getIncrementId())
                 );
 
                 $this->_redirect('*/*/failure');

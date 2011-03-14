@@ -34,7 +34,13 @@
 
 class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
 {
-    protected $_code  = 'ideal_basic';
+    /**
+     * Payment method code
+     * @var string
+     */
+    const METHOD_CODE = 'ideal_basic';
+
+    protected $_code  = self::METHOD_CODE;
     protected $_formBlockType = 'ideal/basic_form';
     protected $_allowCurrencyCode = array('EUR', 'GBP', 'USD', 'CAD', 'SHR', 'NOK', 'SEK', 'DKK');
 

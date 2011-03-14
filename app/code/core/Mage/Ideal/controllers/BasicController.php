@@ -36,9 +36,9 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
 {
 
     /**
-     *  Return order instance for last real order ID (stored in session)
+     * Return order instance for last real order ID (stored in session)
      *
-     *  @return	  Mage_Sales_Model_Entity_Order object
+     * @return  Mage_Sales_Model_Entity_Order object
      */
     protected function _getOrder ()
     {
@@ -199,7 +199,9 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
         $order = Mage::getModel('sales/order')
             ->loadByIncrementId((int)$xmlObj->purchaseID);
 
-        if (!$order->getId()) {
+        if (!$order->getId()
+            || Mage_Ideal_Model_Basic::METHOD_CODE != $order->getPayment()->getMethodInstance()->getCode()
+        ) {
             return;
         }
 
@@ -225,10 +227,10 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     *  Save invoice for order
+     * Save invoice for order
      *
-     *  @param    Mage_Sales_Model_Order $order
-     *  @return	  boolean Can save invoice or not
+     * @param   Mage_Sales_Model_Order $order
+     * @return  boolean Can save invoice or not
      */
     protected function _saveInvoice(Mage_Sales_Model_Order $order)
     {
