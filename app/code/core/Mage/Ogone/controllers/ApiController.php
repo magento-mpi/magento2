@@ -209,6 +209,9 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     {
         $params = $this->getRequest()->getParams();
         $order = $this->_getOrder();
+        if (!$this->_isOrderValid($order)) {
+            return;
+        }
 
         $this->_getCheckout()->setLastSuccessQuoteId($order->getQuoteId());
 
@@ -351,6 +354,9 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     {
         $params = $this->getRequest()->getParams();
         $order = $this->_getOrder();
+        if (!$this->_isOrderValid($order)) {
+            return;
+        }
 
         $exception = '';
         switch($params['STATUS']) {
@@ -372,7 +378,10 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                 //to send new order email only when state is pending payment
                 if ($order->getState()==Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     $order->sendNewOrderEmail();
-                    $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, Mage_Ogone_Model_Api::PROCESSING_OGONE_STATUS, $exception);
+                    $order->setState(
+                        Mage_Sales_Model_Order::STATE_PROCESSING, Mage_Ogone_Model_Api::PROCESSING_OGONE_STATUS,
+                        $exception
+                    );
                 } else {
                     $order->addStatusToHistory(Mage_Ogone_Model_Api::PROCESSING_OGONE_STATUS, $exception);
                 }
@@ -454,6 +463,10 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     protected function _cancelOrder($status, $comment='')
     {
         $order = $this->_getOrder();
+        if (!$this->_isOrderValid($order)) {
+            return;
+        }
+
         try{
             $order->cancel();
             $order->setState(Mage_Sales_Model_Order::STATE_CANCELED, $status, $comment);
@@ -464,6 +477,17 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
 
         $this->_redirect('checkout/cart');
         return $this;
+    }
+
+    /**
+     * Check order payment method
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return bool
+     */
+    protected function _isOrderValid($order)
+    {
+        return Mage_Ogone_Model_Api::PAYMENT_CODE == $order->getPayment()->getMethodInstance()->getCode();
     }
 
     /**
