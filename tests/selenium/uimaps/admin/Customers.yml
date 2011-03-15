@@ -93,8 +93,8 @@ create_customer:
             xpath: a[@id='customer_info_tabs_addresses']
             fieldsets:
               -
-                fieldset_customer_addresses:
-                  xpath: div[@id='_item%address_number%address_fieldset']
+                customer_addresses:
+                  xpath: "*[@id='new_item%address_number%']"
                   buttons:
                     add_new_address: button[span='Add New Address']
                     delete_address: img[@id='delete_button%address_number%1']
