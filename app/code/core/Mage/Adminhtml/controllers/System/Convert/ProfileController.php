@@ -176,25 +176,6 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
             }
             $profile = Mage::registry('current_convert_profile');
 
-            //validate export path
-            if (!empty($data['gui_data']['file']) && $data['gui_data']['file']['type'] == 'file') {
-                $path = rtrim($data['gui_data']['file']['path'], '\\/')
-                      . DS . $data['gui_data']['file']['filename'];
-                /** @var $validator Mage_Core_Model_File_Validator_AvailablePath */
-                $validator = Mage::getModel('core/file_validator_availablePath');
-                /** @var $helper Mage_ImportExport_Helper_Data */
-                $helperImportExport = Mage::helper('importexport');
-                $validator->setPaths($helperImportExport->getLocalExportValidPaths());
-                if (!$validator->isValid($path)) {
-                    foreach ($validator->getMessages() as $message) {
-                        Mage::getSingleton('adminhtml/session')->addError($message);
-                    }
-                    $this->getResponse()->setRedirect(
-                        $this->getUrl('*/*/edit', array('id' => $profile->getId())));
-                    return;
-                }
-            }
-
             // Prepare profile saving data
             if (isset($data)) {
                 $profile->addData($data);

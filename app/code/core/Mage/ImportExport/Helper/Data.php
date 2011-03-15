@@ -33,7 +33,7 @@
  */
 class Mage_ImportExport_Helper_Data extends Mage_Core_Helper_Data
 {
-    const XML_PATH_EXPORT_LOCAL_VALID_PATH = 'general/file/importexport_local_export_valid_paths';
+    const XML_PATH_EXPORT_LOCAL_VALID_PATH = 'general/file/importexport_local_valid_paths';
 
     /**
      * Maximum size of uploaded files.
@@ -46,12 +46,11 @@ class Mage_ImportExport_Helper_Data extends Mage_Core_Helper_Data
     }
 
     /**
-     * Return list with protected paths for saving a sitemap XML file
+     * Get valid path masks to files for importing/exporting
      *
-     * @param Mage_Core_Model_Store|string|int $store
      * @return array
      */
-    public function getLocalExportValidPaths()
+    public function getLocalValidPaths()
     {
         $paths = Mage::getStoreConfig(self::XML_PATH_EXPORT_LOCAL_VALID_PATH);
         return $paths;
