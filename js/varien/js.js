@@ -407,7 +407,7 @@ Varien.DateElement.prototype = {
             this.month  = $(content + 'month');
             this.year   = $(content + 'year');
             this.full   = $(content + 'full');
-            this.advice = $(content + 'advice');
+            this.advice = $(content + 'date-advice');
         } else if (type == 'container') {
             // content must be container with data
             this.day    = content.day;
