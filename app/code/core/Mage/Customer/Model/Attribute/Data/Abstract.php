@@ -387,6 +387,38 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
                         Mage::helper('customer')->__('"%s" exceeds the allowed length.', $label),
                         Zend_Validate_EmailAddress::LENGTH_EXCEEDED
                     );
+                    $validator->setMessage(
+                        Mage::helper('customer')->__("'%value%' appears to be an IP address, but IP addresses are not allowed"),
+                        Zend_Validate_Hostname::IP_ADDRESS_NOT_ALLOWED
+                    );
+                    $validator->setMessage(
+                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but cannot match TLD against known list"),
+                        Zend_Validate_Hostname::UNKNOWN_TLD
+                    );
+                    $validator->setMessage(
+                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but contains a dash in an invalid position"),
+                        Zend_Validate_Hostname::INVALID_DASH
+                    );
+                    $validator->setMessage(
+                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"),
+                        Zend_Validate_Hostname::INVALID_HOSTNAME_SCHEMA
+                    );
+                    $validator->setMessage(
+                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but cannot extract TLD part"),
+                        Zend_Validate_Hostname::UNDECIPHERABLE_TLD
+                    );
+                    $validator->setMessage(
+                        Mage::helper('customer')->__("'%value%' does not appear to be a valid local network name"),
+                        Zend_Validate_Hostname::INVALID_LOCAL_NAME
+                    );
+                    $validator->setMessage(
+                        Mage::helper('customer')->__("'%value%' appears to be a local network name but local network names are not allowed"),
+                        Zend_Validate_Hostname::LOCAL_NAME_NOT_ALLOWED
+                    );
+                    $validator->setMessage(
+                        Mage::helper('customer')->__("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"),
+                        Zend_Validate_Hostname::CANNOT_DECODE_PUNYCODE
+                    );
                     if (!$validator->isValid($value)) {
                         return array_unique($validator->getMessages());
                     }
