@@ -31,10 +31,6 @@
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Model_Mysql4_Item_Option extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Wishlist_Model_Mysql4_Item_Option extends Mage_Wishlist_Model_Resource_Item_Option
 {
-    protected function _construct()
-    {
-        $this->_init('wishlist/item_option', 'option_id');
-    }
 }

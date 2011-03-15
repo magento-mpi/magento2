@@ -34,17 +34,4 @@
  */
 class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Shipping_Model_Resource_Carrier_Tablerate
 {
-
-    /**
-     * Parse and validate positive decimal value
-     *
-     * @see Mage_Shipping_Model_Mysql4_Carrier_Tablerate::_parseDecimalValue()
-     * @deprecated since 1.4.1.0
-     * @param string $value
-     * @return bool|float
-     */
-    protected function _isPositiveDecimalNumber($value)
-    {
-        return $this->_parseDecimalValue($value);
-    }
 }

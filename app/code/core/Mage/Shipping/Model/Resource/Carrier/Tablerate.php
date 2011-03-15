@@ -450,4 +450,17 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         }
         return $value;
     }
+
+    /**
+     * Parse and validate positive decimal value
+     *
+     * @see self::_parseDecimalValue()
+     * @deprecated since 1.4.1.0
+     * @param string $value
+     * @return bool|float
+     */
+    protected function _isPositiveDecimalNumber($value)
+    {
+        return $this->_parseDecimalValue($value);
+    }
 }

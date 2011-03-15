@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Phoenix_Moneybookers>
-            <version>1.2.0.1</version>
+            <version>1.6.0.0</version>
         </Phoenix_Moneybookers>
     </modules>
     <global>

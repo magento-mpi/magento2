@@ -53,6 +53,22 @@ class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model
     }
 
     /**
+     * Set store id for each collection item when collection was loaded
+     *
+     * @return void
+     */
+    public function _afterLoad()
+    {
+        parent::_afterLoad();
+        if ($this->getStoreId() && $this->_items) {
+            foreach ($this->_items as $item) {
+                $item->setStoreId($this->getStoreId());
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Initialize collection select
      *
      */

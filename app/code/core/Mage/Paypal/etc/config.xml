@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Paypal>
-            <version>1.5.0.0</version>
+            <version>1.6.0.0</version>
         </Mage_Paypal>
     </modules>
     <global>
@@ -50,6 +50,9 @@
                     <settlement_report_row>
                         <table>paypal_settlement_report_row</table>
                     </settlement_report_row>
+                    <cert>
+                        <table>paypal_cert</table>
+                    </cert>
                 </entities>
             </paypal_resource>
         </models>

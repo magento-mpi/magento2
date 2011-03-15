@@ -19,8 +19,8 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    
- * @package     _home
+ * @category    Find
+ * @package     Find_Feed
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
@@ -28,29 +28,29 @@
 <config>
     <modules>
         <Find_Feed>
-            <version>1.5.0.0</version>
+            <version>1.6.0.0</version>
         </Find_Feed>
     </modules>
     <global>
         <models>
             <find_feed>
                 <class>Find_Feed_Model</class>
-                <resourceModel>find_feed_mysql4</resourceModel>
+                <resourceModel>find_feed_resource</resourceModel>
             </find_feed>
-            <find_feed_mysql4>
-                <class>Find_Feed_Model_Mysql4</class>
+            <find_feed_resource>
+                <class>Find_Feed_Model_Resource</class>
                 <entities>
                     <feed_import_codes>
                         <table>find_feed_import_codes</table>
                     </feed_import_codes>
                 </entities>
-            </find_feed_mysql4>
+            </find_feed_resource>
         </models>
         <resources>
             <find_feed_setup>
                 <setup>
                     <module>Find_Feed</module>
-                    <class>Find_Feed_Model_Mysql4_Setup</class>
+                    <class>Find_Feed_Model_Resource_Setup</class>
                 </setup>
             </find_feed_setup>
         </resources>

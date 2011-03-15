@@ -70,7 +70,7 @@
             <active>true</active>
         </Mage_Checkout>
         <Mage_Chronopay>
-            <active>true</active>
+            <active>false</active>
         </Mage_Chronopay>
         <Mage_Cms>
             <active>true</active>
@@ -94,10 +94,10 @@
             <active>true</active>
         </Mage_Customer>
         <Mage_Cybermut>
-            <active>true</active>
+            <active>false</active>
         </Mage_Cybermut>
         <Mage_Cybersource>
-            <active>true</active>
+            <active>false</active>
         </Mage_Cybersource>
         <Mage_Dataflow>
             <active>true</active>
@@ -112,10 +112,10 @@
             <active>true</active>
         </Mage_Eav>
         <Mage_Eway>
-            <active>true</active>
+            <active>false</active>
         </Mage_Eway>
         <Mage_Flo2Cash>
-            <active>true</active>
+            <active>false</active>
         </Mage_Flo2Cash>
         <Mage_GiftMessage>
             <active>true</active>
@@ -133,7 +133,7 @@
             <active>true</active>
         </Mage_GoogleOptimizer>
         <Mage_Ideal>
-            <active>true</active>
+            <active>false</active>
         </Mage_Ideal>
         <Mage_Index>
             <active>true</active>
@@ -154,13 +154,13 @@
             <active>true</active>
         </Mage_Ogone>
         <Mage_Oscommerce>
-            <active>true</active>
+            <active>false</active>
         </Mage_Oscommerce>
         <Mage_Page>
             <active>true</active>
         </Mage_Page>
         <Mage_Paybox>
-            <active>true</active>
+            <active>false</active>
         </Mage_Paybox>
         <Mage_Paygate>
             <active>true</active>
@@ -181,7 +181,7 @@
             <active>true</active>
         </Mage_ProductAlert>
         <Mage_Protx>
-            <active>true</active>
+            <active>false</active>
         </Mage_Protx>
         <Mage_Rating>
             <active>true</active>
@@ -214,7 +214,7 @@
             <active>true</active>
         </Mage_Sitemap>
         <Mage_Strikeiron>
-            <active>true</active>
+            <active>false</active>
         </Mage_Strikeiron>
         <Mage_Tag>
             <active>true</active>
@@ -276,6 +276,9 @@
         <Enterprise_GiftRegistry>
             <active>true</active>
         </Enterprise_GiftRegistry>
+        <Enterprise_GiftWrapping>
+            <active>true</active>
+        </Enterprise_GiftWrapping>
         <Enterprise_Invitation>
             <active>true</active>
         </Enterprise_Invitation>

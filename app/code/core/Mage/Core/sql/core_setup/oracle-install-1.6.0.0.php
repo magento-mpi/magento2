@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -316,7 +316,7 @@ CREATE OR REPLACE FUNCTION group_concat (
   AGGREGATE USING typ_group_concat;
 ");
 
-$installFile = dirname(__FILE__) . DS . 'install-1.5.0.0.php';
+$installFile = dirname(__FILE__) . DS . 'install-1.6.0.0.php';
 if (file_exists($installFile)) {
     include $installFile;
 }

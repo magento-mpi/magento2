@@ -24,7 +24,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * @deprecated after 1.5.0.1
+ */
 class Mage_Catalog_Model_Mysql4_Convert
 {
     protected $_productsBySku;

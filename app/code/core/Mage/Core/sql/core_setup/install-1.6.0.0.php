@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -513,7 +513,7 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core/cache'))
-    ->addColumn('id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('id', Varien_Db_Ddl_Table::TYPE_TEXT, 200, array(
         'nullable'  => false,
         'primary'   => true,
         ), 'Cache Id')

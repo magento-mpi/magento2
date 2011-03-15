@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Varien
- * @package    Mage_Backup
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Backup
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Oracle
@@ -103,12 +103,12 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
             $fkScript = $adapter->fetchOne($selFkDdl,array('table_name' => $tableName));
         }
 
-        return $fkScript; 
+        return $fkScript;
     }
 
     /**
      * Retrieve table ddl script
-     * 
+     *
      * @param string $tableName
      * @return string
      */
@@ -213,7 +213,7 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
         }
 
         return $script;
-    }    
+    }
 
 
     /**
@@ -266,7 +266,7 @@ class Mage_Backup_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_
 
     /**
      * Return insert query
-     * 
+     *
      * @param  $tableName
      * @return string
      */

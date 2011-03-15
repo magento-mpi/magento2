@@ -46,7 +46,6 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Base Price')
     ->addColumn('image', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
         ), 'Image')
     ->addIndex($installer->getIdxName('enterprise_giftwrapping/wrapping', array('status')),
         array('status'))

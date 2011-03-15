@@ -18,16 +18,16 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Varien
- * @package    Mage_Backup
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Backup
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Mysql4
 {
     /**
-     * tables Foreign key data array
+     * Tables foreign key data array
      * [tbl_name] = array(create foreign key strings)
      *
      * @var array
@@ -88,7 +88,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
         $script .= isset($data['Create Table']) ? $data['Create Table'].";\n" : '';
 
         return $script;
-    }  
+    }
     /**
      * Retrieve SQL fragment for create table
      *
@@ -183,7 +183,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
 
         return $footer;
     }
-    
+
     /**
      * Retrieve before insert data SQL fragment
      *
@@ -212,7 +212,7 @@ class Mage_Backup_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_
         return "/*!40000 ALTER TABLE {$quotedTableName} ENABLE KEYS */;\n"
             . "UNLOCK TABLES;\n";
     }
-    
+
     /**
      * Return table part data SQL insert
      *

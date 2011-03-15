@@ -129,7 +129,7 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
      *
      * @param   Mage_Core_Model_Url_Rewrite $object
      * @param   array|string $path
-     * @return  Mage_Core_Model_Mysql4_Url_Rewrite
+     * @return  Mage_Core_Model_Resource_Url_Rewrite
      */
     public function loadByRequestPath(Mage_Core_Model_Url_Rewrite $object, $path)
     {
@@ -137,14 +137,18 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
             $path = array($path);
         }
 
+        $pathBind = array();
+        foreach ($path as $key => $url) {
+            $pathBind['path' . $key] = $url;
+        }
         // Form select
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable())
-            ->where('request_path IN (?)', $path)
-            ->where('store_id IN(?)', array(Mage_Core_Model_App::ADMIN_STORE_ID, $object->getStoreId()));
+            ->where('request_path IN (:' . implode(', :', array_flip($pathBind)) . ')')
+            ->where('store_id IN(?)', array(Mage_Core_Model_App::ADMIN_STORE_ID, (int)$object->getStoreId()));
 
-        $items = $adapter->fetchAll($select);
+        $items = $adapter->fetchAll($select, $pathBind);
 
         // Go through all found records and choose one with lowest penalty - earlier path in array, concrete store
         $mapPenalty = array_flip(array_values($path)); // we got mapping array(path => index), lower index - better
@@ -166,6 +170,8 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
             $object->setData($foundItem);
         }
 
+        // Finish
+        $this->unserializeFields($object);
         $this->_afterLoad($object);
 
         return $this;

@@ -1795,7 +1795,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      *
      * @param string $comparisonFormat - expression for sprintf()
      * @param array $fields - list of fields
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      * @throws Exception
      */
     public function addPriceDataFieldFilter($comparisonFormat, $fields)
@@ -1813,5 +1813,29 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
         $this->_priceDataFieldFilters[] = array_merge(array($comparisonFormat), $fields);
         return $this;
+    }
+
+    /**
+     * Clear collection
+     *
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    public function clear()
+    {
+        foreach ($this->_items as $i => $item) {
+            if ($item->hasStockItem()) {
+                $item->unsStockItem();
+            }
+            $item = $this->_items[$i] = null;
+        }
+
+        foreach ($this->_itemsById as $i => $item) {
+            $item = $this->_itemsById[$i] = null;
+        }
+
+        unset($this->_items, $this->_data, $this->_itemsById);
+        $this->_data = array();
+        $this->_itemsById = array();
+        return parent::clear();
     }
 }

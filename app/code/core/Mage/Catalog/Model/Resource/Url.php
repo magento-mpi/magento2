@@ -1263,4 +1263,56 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
 
         return $result;
     }
+
+    /**
+     * Find and return final id path by request path
+     * Needed for permanent redirect old URLs.
+     *
+     * @param string $requestPath
+     * @param int $storeId
+     * @param array $_checkedPaths internal varible to prevent infinite loops.
+     * @return string | bool
+     */
+    public function findFinalTargetPath($requestPath, $storeId, &$_checkedPaths = array())
+    {
+        if (in_array($requestPath, $_checkedPaths)) {
+            return false;
+        }
+
+        $_checkedPaths[] = $requestPath;
+
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getMainTable(), array('target_path', 'id_path'))
+            ->where('store_id = ?', $storeId)
+            ->where('request_path = ?', $requestPath);
+
+        if ($row = $this->_getWriteAdapter()->fetchRow($select)) {
+            $idPath = $this->findFinalTargetPath($row['target_path'], $storeId, $_checkedPaths);
+            if (!$idPath) {
+                return $row['id_path'];
+            } else {
+                return $idPath;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Delete rewrite path record from the database.
+     *
+     * @param string $requestPath
+     * @param int $storeId
+     * @return void
+     */
+    public function deleteRewrite($requestPath, $storeId)
+    {
+        $this->_getWriteAdapter()->delete(
+            $this->getMainTable(),
+            array(
+                'store_id = ?' => $store_id,
+                'request_path = ?' => $requestPath
+            )
+        );
+    }
 }

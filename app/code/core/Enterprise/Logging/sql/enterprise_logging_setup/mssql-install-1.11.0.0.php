@@ -42,7 +42,7 @@ BEGIN
 END;
 ");
 
-$installFile = dirname(__FILE__) . DS . 'install-1.10.0.0.php';
+$installFile = dirname(__FILE__) . DS . 'install-1.11.0.0.php';
 if (file_exists($installFile)) {
     include $installFile;
 }

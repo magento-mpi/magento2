@@ -18,19 +18,21 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Varien
- * @package    Mage_Backup
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Backup
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Mssql {
 
     protected $_dateTypeMap  = array(
         'NUMBER'    => array(
-            'tinyint', 'smallint', 'int', 'smalldatetime', 'real', 'money', 'float', 'bit', 'decimal', 'numeric', 'smallmoney'),
+            'tinyint', 'smallint', 'int', 'smalldatetime', 'real',
+            'money', 'float', 'bit', 'decimal', 'numeric', 'smallmoney'),
         'STRING'    => array(
-            'text', 'ntext', 'varchar', 'char', 'nvarchar', 'nchar', 'sysname', 'sql_variant'),
+            'text', 'ntext', 'varchar', 'char', 'nvarchar',
+            'nchar', 'sysname', 'sql_variant'),
         'DATETIME'  => array(
             'date', 'time', 'datetime2', 'datetimeoffset', 'timestamp', 'datetime')
     );
@@ -63,17 +65,15 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
      */
     public function getTableForeignKeysSql($tableName)
     {
-        return $this->_getReadAdapter()->fetchOne(
-            'exec dbo.get_table_fk @objectName = ?',array($tableName));
-
+        return $this->_getReadAdapter()->fetchOne('exec dbo.get_table_fk @objectName = ?',array($tableName));
     }
 
      /**
-     *  get Table create script
+     *  Get table create script
      *
-     * @param unknown_type $tableName
-     * @param unknown_type $addDropIfExists
-     * @return unknown
+     * @param string $tableName
+     * @param bool $addDropIfExists
+     * @return string
      */
     public function getTableCreateScript($tableName, $addDropIfExists=false)
     {
@@ -113,17 +113,16 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
         return $script;
     }
 
-
     /**
      * Returns SQL header data, move from original resource model
      *
-     * @return unknown
+     * @return string
      */
     public function getHeader()
     {
         $conf = $this->_getReadAdapter()->getConfig();
         $header = sprintf(
-            "IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'%s')\nDROP DATABASE [%s]\n".
+            "IF EXISTS (SELECT name FROM sys.databases WHERE name = N'%s')\nDROP DATABASE [%s]\n".
             "CREATE DATABASE %s\nUSE %s\nSET LANGUAGE English\n",
             $conf['dbname'], $conf['dbname'], $conf['dbname'], $conf['dbname']);
         return $header;
@@ -132,7 +131,7 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
     /**
      * Returns SQL footer data, move from original resource model
      *
-     * @return unknown
+     * @return string
      */
     public function getFooter()
     {
@@ -161,6 +160,12 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
         return '';
     }
 
+    /**
+     * Retrieve insert SQL fragment
+     *
+     * @param string $tableName
+     * @return string
+     */
     public function getInsertSql($tableName)
     {
         $adapter = $this->_getReadAdapter();
@@ -182,7 +187,7 @@ class Mage_Backup_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_H
                 } else {
                     if (in_array($columns[$key]['DATA_TYPE'], $this->_dateTypeMap['STRING'])) {
                         $insRowData[$key] = sprintf("'%s'", str_replace("'","''",$value) );
-                    } elseif (!(array_search($columns[$key]['DATA_TYPE'], $this->_dateTypeMap['DATETIME']) === false) ) {
+                    } elseif (!(array_search($columns[$key]['DATA_TYPE'], $this->_dateTypeMap['DATETIME']) === false)) {
                         $insRowData[$key] = sprintf("CAST('%s' AS %s)", $value, $columns[$key]['DATA_TYPE']);
                     } else {
                         $insRowData[$key] = $value;

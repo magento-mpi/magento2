@@ -28,12 +28,12 @@
 $installer = $this;
 
 
-$installFile = dirname(__FILE__) . DS . 'install-1.5.0.0.php';
+$installFile = dirname(__FILE__) . DS . 'install-1.6.0.0.php';
 if (file_exists($installFile)) {
     include $installFile;
 
     /**
-     * Unique indexes for reports/viewed_product_index 
+     * Unique indexes for reports/viewed_product_index
      */
     $installer->getConnection()->addIndex(
         $installer->getTable('reports/viewed_product_index'),

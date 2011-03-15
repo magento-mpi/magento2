@@ -19,14 +19,22 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Wishlist
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* @var $installer Mage_Core_Model_Resource_Setup */
-$installer = $this;
-
-$connection = $installer->getConnection();
-$table      = $installer->getTable('catalog/category_product_indexer_idx');
-$connection->addKey($table, 'IDX_PRODUCT_CATEGORY_STORE', array('product_id', 'category_id', 'store_id'));
+/**
+ * Wishlist item option resource model
+ *
+ * @category    Mage
+ * @package     Mage_Wishlist
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Wishlist_Model_Resource_Item_Option extends Mage_Core_Model_Resource_Db_Abstract
+{
+    protected function _construct()
+    {
+        $this->_init('wishlist/item_option', 'option_id');
+    }
+}

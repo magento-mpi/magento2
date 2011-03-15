@@ -28,21 +28,21 @@
 <config>
     <modules>
         <Mage_Ogone>
-            <version>0.0.1</version>
+            <version>1.6.0.0</version>
         </Mage_Ogone>
     </modules>
     <global>
         <models>
             <ogone>
                 <class>Mage_Ogone_Model</class>
-                <resourceModel>ogone_mysql4</resourceModel>
+                <resourceModel>ogone_resource</resourceModel>
             </ogone>
-            <ogone_mysql4>
-                <class>Mage_Ogone_Model_Mysql4</class>
+            <ogone_resource>
+                <class>Mage_Ogone_Model_Resource</class>
                 <entities>
                     <api_debug><table>ogone_api_debug</table></api_debug>
                 </entities>
-            </ogone_mysql4>
+            </ogone_resource>
         </models>
         <resources>
            <ogone_setup>

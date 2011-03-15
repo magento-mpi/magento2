@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Design package collection
  *
  * @category    Mage
  * @package     Mage_Core

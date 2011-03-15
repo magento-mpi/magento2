@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -363,7 +363,7 @@ select @ddl = @drop + char(13) + char(13) + 'CREATE TABLE ' + @table + ' ('+ cha
 select @ddl as ddl_script
 end");
 
-$installFile = dirname(__FILE__) . DS . 'install-1.5.0.0.php';
+$installFile = dirname(__FILE__) . DS . 'install-1.6.0.0.php';
 if (file_exists($installFile)) {
     include $installFile;
 }
