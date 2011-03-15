@@ -899,7 +899,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public static function assertTrue($condition, $message = '')
     {
         if (is_array($message)) {
-            $message =  implode("\n", $message);
+             $message =  implode("\n", call_user_func_array('array_merge', $message));
         }
 
         if (is_object($condition)) {
@@ -923,7 +923,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public static function assertFalse($condition, $message = '')
     {
         if (is_array($message)) {
-            $message =  implode("\n", $message);
+             $message =  implode("\n", call_user_func_array('array_merge', $message));
         }
 
         if (is_object($condition)) {
