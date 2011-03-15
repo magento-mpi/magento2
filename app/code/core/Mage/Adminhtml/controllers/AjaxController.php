@@ -42,10 +42,8 @@ class Mage_Adminhtml_AjaxController extends Mage_Adminhtml_Controller_Action
         $translation = $this->getRequest()->getPost('translate');
         $area = $this->getRequest()->getPost('area');
 
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('core');
         foreach ($translation as &$item) {
-            $item['custom'] = $helper->stripTags($item['custom']);
+            $item['custom'] = preg_replace('/(<\/?script.*?\>)/', '', $item['custom']);
         }
 
         echo Mage::helper('core/translate')->apply($translation, $area);
